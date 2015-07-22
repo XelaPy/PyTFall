@@ -1,0 +1,217 @@
+label witches_hut:
+    
+    # Music related:
+    if not "shops" in ilists.world_music:
+        $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
+    if not global_flags.has_flag("keep_playing_music"):
+        play world choice(ilists.world_music["shops"]) fadein 1.5
+    
+    hide screen pyt_forest_entrance
+    
+    scene bg witches_hut
+    with dissolve
+    
+    show npc witch_assistant
+    with dissolve
+    
+    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    
+    if global_flags.flag("talk_to_witch"):
+        $ global_flags.del_flag("talk_to_witch")
+        call witch_menu from _call_witch_menu
+        if global_flags.flag("jump_forest_entrance"):
+            $ global_flags.del_flag("jump_forest_entrance")
+            jump forest_entrance
+    elif global_flags.flag('visited_witches_hut'):
+        w "Welcome Back!"
+    else:
+        $ w = Character("???", color=orange, what_color=yellow, show_two_window=True)
+        $ global_flags.set_flag('visited_witches_hut')
+        w "New Customer!"
+        extend " Welcome to my Potion Shop!"
+        w "I am Abby, the Witch, both Cool and Wicked."
+        w "You'll never know what you run into here!"
+        w "Oh! And I also know a few decent Fire and Air spells if you're interested!"
+        w "Check out the best home brew in the realm"
+        extend " and some other great items in stock!"
+    
+    $ pytfall.world_quests.run_quests("auto")
+    $ pytfall.world_events.run_events("auto") 
+    $ jump('witches_hut_shopping')
+    
+label witches_hut_shopping:
+
+    python:
+        focus = False
+        item_price = 0
+        filter = "all"
+        amount = 1
+        shop = pytfall.witches_hut
+        shop.inventory.apply_filter(filter)
+        chr = hero
+        chr.inventory.set_page_size(18)
+        chr.inventory.apply_filter(filter)
+
+    show screen pyt_shopping(left_ref=hero, right_ref=shop)
+    show screen pyt_witches_hut_shopping
+    with dissolve
+    
+    #$ pytfall.world_quests.run_quests("auto") # Shouldn't be needed, as all events in same location
+    $ pytfall.world_events.run_events("auto") 
+    
+    call shop_control from _call_shop_control_1
+                    
+    $ global_flags.del_flag("keep_playing_music")
+    hide screen pyt_shopping
+    hide screen pyt_witches_hut_shopping
+    with dissolve
+    jump forest_entrance
+
+label witch_menu:
+    
+    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    
+    $ witch_fire_spells = {"Fire 1": [3000], "Fire 2": [6000], "Fire 3": [10000], "Fire Arrow": [30000], "Fire Ball Z": [50000]}
+    $ witch_air_spells = {"Windwhirl": [6000], "Spring Thunder": [50000]}
+    
+    $ loop = True
+    while loop:
+        menu:
+            w "What do you want?"
+            "Ask her to teach magic spells!":
+                if len(hero.team) > 1:
+                    w "Who will it be?"
+                    call screen character_pick_screen
+                    $ chr = _return
+                else:
+                    $ chr = hero
+                    
+                call screen magic_purchase_screen(witch_fire_spells, orange, witch_air_spells, blue)
+                $ spell = _return
+                
+                if spell == "Nothing":
+                    w "Got anything else in mind?"
+                else:
+                    if hero.take_money(spell[1][0], reason="Spells"):
+                        w "Sweet!!"
+                        extend " Just stand back and relax."
+                        
+                        hide npc
+                        play sound "content/sfx/sound/events/go_for_it.mp3" fadein 1.0
+                        show expression im.Twocolor("content/gfx/images/magic.png", crimson, crimson) as magic:
+                            yalign .5 subpixel True
+                    
+                            parallel:
+                                xalign .5
+                                linear 3.0 xalign .75
+                                linear 6.0 xalign .25
+                                linear 3.0 xalign .5
+                                repeat
+                    
+                            parallel:
+                                alpha 1.0 zoom 1.0
+                                linear .75 alpha .5 zoom .9
+                                linear .75 alpha 1.0 zoom 1.0
+                                repeat
+                    
+                            parallel:
+                                rotate 0
+                                linear 5 rotate 360
+                                repeat
+                    
+                        with dissolve
+                        $ renpy.pause(3.0, hard=True)
+                        hide magic
+                        
+                        show npc witch_assistant
+                        with dissolve
+                        
+                        $ spell = spell[0]
+                        $ chr.magic_skills[spell] = 1
+                        
+                        w "Congrats on your new skillz!"
+                        
+                        "[chr.nickname] learned [spell]!!!"
+                        
+                    else:
+                        w "Not enought cash I fear... we've all been there."
+                        
+            "Ask her to train you!":
+                if len(hero.team) > 1:
+                    w "Who gets a lesson from a wicked witch today?"
+                    call screen character_pick_screen
+                    $ chr = _return
+                else:
+                    $ chr = hero
+                    
+                if not global_flags.has_flag("witches_training_explained"):    
+                    w "I will train magic, intelligence and restore some MP."
+                    w "I can also guarantee you agility will go up if you pay attention in class!"
+                    extend " That however does not often happen for reasons unknown..."
+                    w "It will cost you 1000 (+1000 per 5 levels) Gold per training session"
+                    extend " and the effects will be instantenious!"
+                    w "Yeap! I am That good!"
+                    $ global_flags.set_flag("witches_training_explained")
+                else:
+                    w "You know the deal!"
+                    
+                $ training_price = chr.get_training_price()    
+                menu:
+                    "Pay [training_price] Gold" if hero.AP > 0:
+                        if hero.take_money(training_price, "Training"):
+                            $ hero.AP -= 1
+                            $ hero.auto_training("train_with_witch")
+                            w "All done! Be sure to use your new powers only on wicked stuff! :)"
+                        else:
+                            w "Errr, you can't really pay me, can you?"
+                            w "Maybe next time then?"
+                        
+                    "Maybe next time...":
+                        $ pass
+                $ del training_price
+
+            "Schedule training sessions":
+                if not global_flags.has_flag("training_sessions_explained"):
+                    "Here you can arrange for daily training sessions at cost of 1AP and 1000 (+1000 per 5 levels) Gold per day."
+                    "This will be automatically terminated if you lack the gold to continue."
+                    "Sessions can be arranged with multiple trainers at the same day"
+                    extend " however you'd be running a risk of not leaving AP to do anything else!"
+                    $ global_flags.set_flag("training_sessions_explained")
+                
+                if len(hero.team) > 1:
+                    "Pick a character!"
+                    call screen character_pick_screen
+                    $ chr = _return
+                else:
+                    $ chr = hero
+                    
+                menu:
+                    "Setup sessions" if not chr.has_flag("train_with_witch"):
+                        $ chr.set_flag("train_with_witch")
+                    "Cancel sessions" if chr.flag("train_with_witch"):
+                        $ chr.del_flag("train_with_witch")
+                    "Do Nothing...":
+                        $ pass
+                        
+            "Back to shopping please.":
+                $ loop = False
+                
+            "Thanks and goodbye!":
+                $ loop = False
+                $ global_flags.set_flag("jump_forest_entrance")
+            
+    return
+    
+    
+
+screen pyt_witches_hut_shopping:
+    vbox:
+        style_group "basic"
+        xfill True
+        maximum (500, 400)
+        align(0.5, 0.99)
+        textbutton "Talk to the witch":
+            align (0.5, 1.0)
+            action [Execute(global_flags.set_flag, "talk_to_witch"), Hide("pyt_shopping", transition=dissolve), Hide("pyt_witches_hut_shopping", transition=dissolve),
+                       Jump("witches_hut")]
+

@@ -1,0 +1,28 @@
+[
+{
+"name": "Forest Plains",
+"id": "forest_1",
+
+"hostile": true,
+"bskills": ["FistAttack"],
+"mskills": ["Fire 1", "Water 1"],
+"enemy_enounters": 0,
+"battle_bg": "bg battle_nature_1",
+"max_enemy_enounters": 5,
+"enemy_stats": {"name": "Random ForestEnemy 1", "speed": 25, "attack": 25, "defence": 25, "magic": 25, "mp": 25},
+"force_enemy_party_count": false,
+"enemy_sprite": "bandit",
+"encounter_track": "content/sfx/music/be/battle_2.mp3",
+
+
+"blocked": false,
+"fow": true,
+"bg": "content/gfx/bg/locations/forest_bg_1.jpg"
+},
+{
+"name": "Blocked Tile",
+"id": "blocked",
+
+"blocked": true
+}
+]

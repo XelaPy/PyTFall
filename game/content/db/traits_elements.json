@@ -1,0 +1,168 @@
+[
+    {
+    "id": "Fire",
+    "desc": "The wildest of all elements bringing a change that can never be undone. In a blink of an eye, it can turn any obstacle to dust leaving nothing but scorched earth in its path. In unskilled hands, it can be more dangerous to its wielders than to their enemies…",
+    "icon": "content/gfx/interface/images/elements/fire.png",
+    "elemental": true,
+    "el_damage": {"fire": 0.5, "ice": -0.5},
+    "el_defence": {"fire": 0.2, "wind": 0.3, "water": -0.6},
+    "font_color": "orangered"
+    },
+    {
+    "id": "Water",
+    "desc": "The most mysterious among the elements. Hiding it twisted and destructive nature under the calm surface. Leaving behind only rumble and bodies as proof of it fatal capabilities. ",
+    "icon": "content/gfx/interface/images/elements/water.png",
+    "elemental": true,
+    "el_damage": {"electricity": -0.5, "water": 0.5},
+    "el_defence": {"water": 0.2, "fire": 0.3, "ice": -0.6},
+    "font_color": "blue"
+    },
+    {
+    "id": "Air",
+    "desc": "The most agile of the elements. Utilizing its transparency and omnipresence to maximum. Being able to strike swiftly and undetected, in capable hands this element does not give opponents much time to defend themselves.",
+    "icon": "content/gfx/interface/images/elements/air.png",
+    "elemental": true,
+    "el_damage": {"air": 0.5, "earth": -0.5},
+    "el_defence": {"air": 0.2, "electricity": 0.3, "fire": -0.6},
+    "font_color": "lightgreen"
+    },
+    {
+    "id": "Earth",
+    "desc": "The slowest and sturdiest among the elements. Known for sacrificing speed in exchange for overwhelming destructive power. Unlike other elements that leaves evidence of their devastating acts, earth is capable of literally burying the truth.",
+    "icon": "content/gfx/interface/images/elements/earth.png",
+    "elemental": true,
+    "el_damage": {"earth": 0.5, "air": -0.5},
+    "el_defence": {"earth": 0.2, "ice": 0.3, "electricity": -0.6},
+    "font_color": "tan"
+    },
+    {
+    "id": "Darkness",
+    "desc": "One of the two elements born from men desires, thoughts and deeds. Fuelling itself from anger, impure thoughts and evil acts. Dwelling deep in everyone’s soul, patiently expanding, slowly consuming ones soul.",
+    "icon": "content/gfx/interface/images/elements/darkness.png",
+    "elemental": true,
+    "el_damage": {"light": -0.5, "darkness": 0.5},
+    "el_defence": {"light": -0.8, "darkness": 0.4, "water": 0.25, "earth": 0.25, "ice": 0.25},
+    "font_color": "darkviolet"
+    },
+    {
+    "id": "Light",
+    "desc": "One of the two elements born from men desires, thoughts and deeds. light nests itself inside everyone souls. Gaining its force from good acts and pure thoughts.",
+    "icon": "content/gfx/interface/images/elements/light.png",
+    "elemental": true,
+    "el_damage": {"light": 0.5, "darkness": -0.5},
+    "el_defence": {"darkness": -0.8, "light": 0.3, "fire": 0.25, "air": 0.25, "electricity": 0.25},
+    "font_color": "lightyellow"
+    },
+    {
+    "id": "Electricity",
+    "desc": "The most unstable and transient among the elements. Has control over magnetic and particle-based fields and beams that are deadly but cannot exist for a long time.",
+    "icon": "content/gfx/interface/images/elements/electricity.png",
+    "elemental": true,
+    "el_damage": {"electricity": 0.5, "water": -0.5},
+    "el_defence": {"electricity": 0.2, "earth": 0.3, "air": -0.6},
+    "font_color": "yellow"
+    },
+    {
+    "id": "Ice",
+    "desc": "The most solid and unchangeable among the elements. Can absorbe energy from the environment, strengthening itself and creating ice formations out of nowhere.",
+    "icon": "content/gfx/interface/images/elements/ice.png",
+    "elemental": true,
+    "el_damage": {"ice": 0.5, "fire": -0.5},
+    "el_defence": {"ice": 0.2, "water": 0.3, "earth": -0.6},
+    "font_color": "lightblue"
+    },
+    {
+    "id": "Neutral",
+    "desc": "Neutral alignment is the most popular option among warriors that do not rely on use of magic. It will ensure good degree of resistance from anything some silly mage may throw at its wielder. On other hand, this is possibly the worst choice for any magic user.",
+    "icon": "content/gfx/interface/images/elements/neutral.png",
+    "elemental": true,
+    "el_damage": {"fire": -0.1, "water": -0.1, "earth": -0.1, "air": -0.1, "ice": -0.1, "electricity": -0.1, "darkness": -0.2, "light": -0.2},
+    "el_defence": {"fire": -0.1, "water": -0.1, "earth": -0.1, "air": -0.1, "ice": -0.1, "electricity": -0.1, "darkness": -0.2, "light": -0.2}
+    },
+    {
+    "id": "Fire Immunity",
+    "desc": "Fire element is useless here.",
+    "resist": ["fire"]
+    },
+    {
+    "id": "Water Immunity",
+    "desc": "Water element is useless here.",
+    "resist": ["water"]
+    },
+    {
+    "id": "Air Immunity",
+    "desc": "Air element is useless here.",
+    "icon": "content/gfx/interface/images/elements/air.png",
+    "resist": ["air"]
+    },
+    {
+    "id": "Earth Immunity",
+    "desc": "Earth element is useless here.",
+    "resist": ["earth"]
+    },
+    {
+    "id": "Darkness Immunity",
+    "desc": "Darkness element is useless here.",
+    "resist": ["darkness"]
+    },
+    {
+    "id": "Light Immunity",
+    "desc": "Light element is useless here.",
+    "resist": ["light"]
+    },
+    {
+    "id": "Electricity Immunity",
+    "desc": "Electricity element is useless here.",
+    "resist": ["electricity"]
+    },
+    {
+    "id": "Ice Immunity",
+    "desc": "Ice element is useless here.",
+    "resist": ["ice"]
+    },
+    {
+    "id": "Magic Immunity",
+    "desc": "Any magic is useless here.",
+    "resist": ["ice", "Water", "Fire", "Air", "Earth", "Electricity", "Light", "Darkness", "Healing"]
+    },
+    {
+    "id": "Fire Absorption",
+    "desc": "Fire only makes it stronger.",
+    "el_absorbs": {"fire": 0.3}
+    },
+    {
+    "id": "Water Absorption",
+    "desc": "Water only makes it stronger.",
+    "el_absorbs": {"water": 0.3}
+    },
+    {
+    "id": "Air Absorption",
+    "desc": "Air only makes it stronger.",
+    "el_absorbs": {"air": 0.3}
+    },
+    {
+    "id": "Earth Absorption",
+    "desc": "Earth only makes it stronger.",
+    "el_absorbs": {"earth": 0.3}
+    },
+    {
+    "id": "Darkness Absorption",
+    "desc": "Darkness only makes it stronger.",
+    "el_absorbs": {"darkness": 0.3}
+    },
+    {
+    "id": "Light Absorption",
+    "desc": "Light only makes it stronger.",
+    "el_absorbs": {"light": 0.3}
+    },
+    {
+    "id": "Electricity Absorption",
+    "desc": "Electricity only makes it stronger.",
+    "el_absorbs": {"electricity": 0.3}
+    },
+    {
+    "id": "Ice Absorption",
+    "desc": "Ice only makes it stronger.",
+    "el_absorbs": {"ice": 0.3}
+    }
+    ]

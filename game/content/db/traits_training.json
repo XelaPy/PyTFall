@@ -1,0 +1,30 @@
+[
+	{
+	"id": "Broken",
+	"desc": "Her spirit was broken during obedience training.",
+	"max": {"character": -50}
+	},
+	{
+	"id": "Obedient",
+	"desc": "She has been very obedient during her training lately."
+	},
+	{
+	"id": "Disobedient",
+	"desc": "She has been very disobedient during her training lately."
+	},
+	{
+	"id": "Restrained",
+	"desc": "She has been restrained to prevent her from running away.",
+	"trEffMax": 5
+	},
+	{
+	"id": "Easy to Reward",
+	"desc": "She is carrying equipment that makes it easier to reward her.",
+	"trEffMax": 5
+	},
+	{
+	"id": "Easy to Punish",
+	"desc": "She is carrying equipment that makes it easier to punish her.",
+	"trEffMax": 5
+	}
+]

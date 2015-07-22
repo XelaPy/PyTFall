@@ -1,0 +1,101 @@
+[
+	{
+	"id": "Horde of Goblins",
+	"level": 10,
+	"mobs": ["Goblin", "Goblin Archer", "Goblin Shaman"],
+	"boss": "Goblin Warrior",
+	"boss_name": "The Great One",
+	"multiplier": [2.3, 0.1, 0.3],
+	"reward": {"Cons_common": 3}
+	},
+	{
+	"id": "Amazon Tribe",
+	"level": 20,
+	"mobs": ["Amazon Thief", "Amazon Archer", "Amazon Warrior"],
+	"boss": "Lamia",
+	"boss_name": "Amazon Princess",
+	"multiplier": [1.5, 0.1, 0.5],
+	"reward": {"Sex": 2, "Cons_common": 2}
+	},
+	{
+	"id": "Abominations",
+	"level": 30,
+	"mobs": ["Secateuris", "Cetus", "Crawler", "Chimera"],
+	"boss": "Giant Spider",
+	"boss_name": "Master of Web",
+	"multiplier": [1.8, 0.3, 0.7],
+	"reward": {"Armor": 2, "Cons_common": 1}
+	},
+	{
+	"id": "Waterfest",
+	"level": 40,
+	"mobs": ["Undine", "Dark Undine", "Energized Undine"],
+	"boss": "Frozen Undine",
+	"boss_name": "Ice Queen",
+	"multiplier": [1.8, 0.1, 2.1],
+	"reward": {"Weapon": 2, "Cons_common": 1}
+	},
+	{
+	"id": "Air Raid",
+	"level": 50,
+	"mobs": ["Bats", "Vampire Bats", "Vixen", "Hag", "Harpy"],
+	"boss": "Gargoyle",
+	"boss_name": "Shooting Star",
+	"multiplier": [2, 0.2, 1],
+	"reward": {"Ench_gear": 1, "Cons_common": 2}
+	},
+	{
+	"id": "Earthlings",
+	"level": 60,
+	"mobs": ["Mud Elemental", "Earth Elemental", "Lava Elemental"],
+	"boss": "Stone Eater",
+	"boss_name": "Diamond",
+	"multiplier": [2.2, 0.2, 1.2],
+	"reward": {"Mage_gear": 1, "Cons_common": 2}
+	},
+	{
+	"id": "Elf Eaters",
+	"level": 70,
+	"mobs": ["Orc", "Werecat", "Ogre", "Cyclop"],
+	"boss": "Undead Werecat",
+	"boss_name": "Tireless Hunter",
+	"multiplier": [2.5, 0.3, 1.5],
+	"reward": {"Elven_gear": 1, "Cons_common": 3}
+	},
+	{
+	"id": "Rogue Shinobi",
+	"level": 80,
+	"mobs": ["Warrior", "Archer", "Soldier", "Barbarian", "Assassin"],
+	"boss": "Samurai",
+	"boss_name": "The Shadow of A Shadow",
+	"multiplier": [2.5, 0.3, 1.7],
+	"reward": {"Ninja_gear": 1, "Cons_common": 3}
+	},
+	{
+	"id": "Divine Champions",
+	"level": 90,
+	"mobs": ["Angel", "Heaven Guardian", "Archangel", "Flaming Fox"],
+	"boss": "Spectre",
+	"boss_name": "Holy Spirit",
+	"multiplier": [2.8, 0.3, 2],
+	"reward": {"Angel_gear": 1, "Faerie_gear": 2, "Cons_common": 3}
+	},
+	{
+	"id": "Envoys of the Lust",
+	"level": 100,
+	"mobs": ["Succubus", "Mare", "Lilith", "Horny Succubus"],
+	"boss": "Night Mare",
+	"boss_name": "The Lust",
+	"multiplier": [3, 0.3, 2],
+	"reward": {"Demon_gear": 1, "Faerie_gear": 2, "Sex": 4}
+	},
+	{
+	"id": "Slime Time",
+	"level": 120,
+	"mobs": ["Slime", "Alkaline Slime", "Seductive Slime", "Acid Slime", "Treasure Slime"],
+	"boss": "King Slime",
+	"boss_name": "His Highness Viciousness",
+	"multiplier": [3.5, 0.4, 2.2],
+	"reward": {"Legendary_gear": 1, "Male_armor": 1, "Cons_common": 6}
+	}
+]

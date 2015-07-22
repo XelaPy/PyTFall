@@ -1,0 +1,851 @@
+[
+    {
+        "id": "Prostitute",
+        "occupations": [
+            "SIW"
+        ],
+        "desc": "She will love anyone no matter who they are or what they look like as long as they have something in return.",
+        "basetrait": true,
+        "mod": {
+            "charisma": 60
+        },
+        "max": {
+            "charisma": 60
+        },
+        "mod_skills": {
+            "vaginal": [
+                0.04,
+                0.04,
+                0.04
+            ],
+            "anal": [
+                0.04,
+                0.04,
+                0.04
+            ],
+            "oral": [
+                0.04,
+                0.04,
+                0.04
+            ],
+            "sex": [
+                0.1,
+                0.1,
+                0.1
+            ],
+            "group": [
+                0.04,
+                0.04,
+                0.04
+            ],
+            "bdsm": [
+                0.04,
+                0.04,
+                0.04
+            ]
+        },
+        "init_lvlmax": {
+            "charisma": 60
+        },
+        "init_max": {
+            "charisma": 30
+        },
+        "init_mod": {
+            "charisma": 20
+        },
+        "init_skills": {
+            "vaginal": [
+                10,
+                40
+            ],
+            "anal": [
+                10,
+                40
+            ],
+            "oral": [
+                10,
+                40
+            ]
+        },
+        "leveling_stats": {
+            "charisma": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Anal Prostitute",
+        "occupations": [
+            "SIW"
+        ],
+        "desc": "She specializes in anal sex.",
+        "higher_tiers": ["Prostitute"],
+        "basetrait": true,
+        "mod_skills": {
+            "anal": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "anal": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Oral Prostitute",
+        "occupations": [
+            "SIW"
+        ],
+        "desc": "She specializes in oral sex.",
+        "higher_tiers": ["Prostitute"],
+        "basetrait": true,
+        "mod_skills": {
+            "oral": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "oral": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Stright Prostitute",
+        "occupations": [
+            "SIW"
+        ],
+        "blocks": ["Virgin"],
+        "desc": "She specializes in vaginal sex.",
+        "higher_tiers": ["Prostitute"],
+        "basetrait": true,
+        "mod_skills": {
+            "vaginal": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "vaginal": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Group Prostitute",
+        "occupations": [
+            "SIW"
+        ],
+        "blocks": ["Virgin"],
+        "desc": "She specializes in group sex.",
+        "higher_tiers": ["Prostitute"],
+        "basetrait": true,
+        "mod_skills": {
+            "group": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "group": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Mistress",
+        "occupations": [
+            "SIW"
+        ],
+        "desc": "She specializes in bdsm sex.",
+        "higher_tiers": ["Prostitute"],
+        "basetrait": true,
+        "mod_skills": {
+            "bdsm": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "bdsm": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Entertainer",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She knows how to capture the attention of the public and not to let it get bored.",
+        "basetrait": true,
+        "mod": {
+            "charisma": 30,
+            "agility": 15
+        },
+        "max": {
+            "charisma": 30,
+            "agility": 15
+        },
+        "mod_skills": {
+            "strip": [
+                0.05,
+                0.05,
+                0.05
+            ],
+            "dancing": [
+                0.05,
+                0.05,
+                0.05
+            ],
+            "refinement": [
+                0.01,
+                0.01,
+                0.01
+            ]
+        },
+        "init_lvlmax": {
+            "charisma": 5,
+            "agility": 5,
+            "character": 25
+        },
+        "init_max": {
+            "charisma": 10,
+            "agility": 10,
+            "character": 15
+        },
+        "init_mod": {
+            "charisma": 5,
+            "agility": 10,
+            "character": 10
+        },
+        "init_skills": {
+            "strip": [
+                20,
+                50
+            ],
+            "dancing": [
+                20,
+                50
+            ]
+        },
+        "leveling_stats": {
+            "character": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Dancer",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She specializes in dancing.",
+        "higher_tiers": ["Entertainer"],
+        "basetrait": true,
+        "mod_skills": {
+            "dancing": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "dancing": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Stripper",
+        "occupations": [
+            "Server", "SIW"
+        ],
+        "desc": "She specializes in striptease.",
+        "higher_tiers": ["Entertainer"],
+        "basetrait": true,
+        "mod_skills": {
+            "strip": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "strip": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Maid",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She is ready to serve customers in any possible decorous way.",
+        "basetrait": true,
+        "mod": {
+            "constitution": 40,
+            "agility": 15
+        },
+        "max": {
+            "constitution": 40,
+            "agility": 15
+        },
+        "mod_skills": {
+            "waiting": [
+                0.03,
+                0.03,
+                0.03
+            ],
+            "service": [
+                0.1,
+                0.1,
+                0.1
+            ],
+            "bartending": [
+                0.03,
+                0.03,
+                0.03
+            ],
+            "cleaning": [
+                0.03,
+                0.03,
+                0.03
+            ]
+        },
+        "init_lvlmax": {
+            "agility": 20,
+            "constitution": 35
+        },
+        "init_max": {
+            "agility": 10,
+            "constitution": 25
+        },
+        "init_mod": {
+            "agility": 5,
+            "constitution": 25
+        },
+        "init_skills": {
+            "cleaning": [
+                10,
+                30
+            ],
+            "bartending": [
+                10,
+                20
+            ],
+            "waiting": [
+                10,
+                20
+            ],
+            "service": [
+                20,
+                60
+            ]
+        },
+        "leveling_stats": {
+            "constitution": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Cleaner",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She specializes in striptease.",
+        "higher_tiers": ["Maid"],
+        "basetrait": true,
+        "mod_skills": {
+            "cleaning": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "cleaning": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Waitress",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She specializes in waiting.",
+        "higher_tiers": ["Maid"],
+        "basetrait": true,
+        "mod_skills": {
+            "waiting": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "waiting": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Bartender",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She specializes in bartending.",
+        "higher_tiers": ["Maid"],
+        "basetrait": true,
+        "mod_skills": {
+            "bartending": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "init_skills": {
+            "bartending": [
+                40,
+                80
+            ]
+        }
+    },
+    {
+        "id": "Manager",
+        "occupations": [
+            "Specialist"
+        ],
+        "desc": "She knows how to manage people and resolve conflicts.",
+        "basetrait": true,
+        "mod": {
+            "character": 45,
+            "intelligence": 30
+        },
+        "max": {
+            "character": 45,
+            "intelligence": 30
+        },
+        "mod_skills": {
+            "management": [
+                0.08,
+                0.08,
+                0.08
+            ],
+            "teaching": [
+                0.02,
+                0.02,
+                0.02
+            ],
+            "refinement": [
+                0.01,
+                0.01,
+                0.01
+            ]
+        },
+        "init_lvlmax": {
+            "character": 15,
+            "intelligence": 20
+        },
+        "init_max": {
+           "character": 10,
+            "intelligence": 15
+        },
+        "init_mod": {
+           "character": 5,
+            "intelligence": 20
+        },
+        "init_skills": {
+            "refinement": [
+                10,
+                30
+            ],
+            "management": [
+                20,
+                60
+            ]
+        },
+        "leveling_stats": {
+            "intelligence": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Mage",
+        "occupations": [
+            "Warrior", "Caster"
+        ],
+        "desc": "There is a little spark of magic within her soul giving her ability to manipulate arcane energies.",
+        "basetrait": true,
+        "mod": {
+            "magic": 100,
+            "upkeep": 5,
+            "intelligence": 10
+        },
+        "max": {
+            "magic": 50,
+            "intelligence": 5
+        },
+        "init_lvlmax": {
+            "magic": 100,
+            "mp": 100
+        },
+        "init_max": {
+            "magic": 100,
+            "mp": 100
+        },
+        "init_mod": {
+            "magic": 50
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                -5,
+                -1
+            ],
+            "defence": [
+                -5,
+                -1
+            ],
+            "magic": [
+                0,
+                1
+            ],
+            "mp": [
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "id": "Battle Mage",
+        "occupations": [
+            "Warrior", "Caster"
+        ],
+        "desc": "She specializes in battle magic.",
+        "basetrait": true,
+        "higher_tiers": ["Mage"],
+        "el_damage": {"fire": 0.1, "ice": 0.1, "water": 0.1, "air": 0.1, "earth": 0.1, "darkness": 0.1, "light": 0.1, "electricity": 0.1},
+        "mod": {
+            "magic": 50,
+            "upkeep": 5,
+            "intelligence": 5
+        },
+        "max": {
+            "magic": 25
+        },
+        "init_lvlmax": {
+            "magic": 50,
+            "mp": 50
+        },
+        "init_max": {
+            "magic": 50,
+            "mp": 50
+        },
+        "init_mod": {
+            "magic": 25
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                -2,
+                -1
+            ],
+            "defence": [
+                -2,
+                -1
+            ],
+            "magic": [
+                0,
+                1
+            ],
+            "mp": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Healer",
+        "occupations": [
+           "Caster"
+        ],
+        "desc": "She specializes in healing.",
+        "basetrait": true,
+        "higher_tiers": ["Mage"],
+        "el_damage": {"healing": 1.0},
+        "mod": {
+            "magic": 30,
+            "upkeep": 5,
+            "intelligence": 5
+        },
+        "max": {
+            "magic": 15
+        },
+        "init_lvlmax": {
+            "magic": 30,
+            "mp": 50
+        },
+        "init_max": {
+            "magic": 30,
+            "mp": 50
+        },
+        "init_mod": {
+            "magic": 25
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                -2,
+                -1
+            ],
+            "defence": [
+                -2,
+                -1
+            ],
+            "magic": [
+                0,
+                1
+            ],
+            "mp": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Warrior",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "She has been trained to fight with a weapon of some sort.",
+        "basetrait": true,
+        "mod": {
+            "attack": 100,
+            "defence": 100
+        },
+        "max": {
+            "attack": 50,
+            "defence": 50
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "attack": 100,
+            "defence": 50,
+            "health": 100
+        },
+        "init_max": {
+            "attack": 100,
+            "defence": 50,
+            "health": 100
+        },
+        "init_mod": {
+            "attack": 50,
+            "defence": 25
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                1
+            ],
+            "defence": [
+                0,
+                1
+            ],
+            "health": [
+                0,
+                2
+            ],
+            "magic": [
+                -5,
+                -1
+            ],
+            "mp": [
+                -5,
+                -1
+            ]
+        }
+    },
+    {
+        "id": "Defender",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "She specializes in close combat.",
+        "higher_tiers": ["Warrior"],
+        "basetrait": true,
+        "mod": {
+            "attack": 30,
+            "defence": 100
+        },
+        "max": {
+            "attack": 10,
+            "defence": 50
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "defence": 50,
+            "health": 100
+        },
+        "init_max": {
+            "defence": 50,
+            "health": 100
+        },
+        "init_mod": {
+            "defence": 25
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "defence": [
+                0,
+                1
+            ],
+            "health": [
+                0,
+                1
+            ],
+            "magic": [
+                -5,
+                -1
+            ],
+            "mp": [
+                -5,
+                -1
+            ]
+        }
+    },
+    {
+        "id": "Shooter",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "She specializes in ranged combat.",
+        "higher_tiers": ["Warrior"],
+        "basetrait": true,
+        "mod": {
+            "attack": 100,
+            "defence": 10
+        },
+        "max": {
+            "attack": 50,
+            "defence": 10
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "attack": 30,
+            "health": 20
+        },
+        "init_max": {
+            "attack": 30,
+            "health": 20
+        },
+        "init_mod": {
+            "attack": 20
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                1
+            ],
+            "health": [
+                0,
+                1
+            ],
+            "magic": [
+                -5,
+                -1
+            ],
+            "mp": [
+                -5,
+                -1
+            ]
+        }
+    },
+    {
+        "id": "Assassin",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "This girl has had training to kill - just name a price.",
+        "higher_tiers": ["Warrior"],
+        "basetrait": true,
+        "mod": {
+            "attack": 30,
+            "defence": 30,
+            "agility": 30
+        },
+        "max": {
+            "attack": 15,
+            "defence": 15,
+            "agility": 15
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "attack": 30,
+            "defence": 20,
+            "health": 20,
+            "agility": 30
+        },
+        "init_max": {
+            "attack": 30,
+            "defence": 30,
+            "health": 20,
+            "agility": 30
+        },
+        "init_mod": {
+            "attack": 20,
+            "defence": 10,
+            "agility": 15
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                2
+            ],
+            "defence": [
+                0,
+                1
+            ],
+            "health": [
+                0,
+                1
+            ],
+            "magic": [
+                -5,
+                -1
+            ],
+            "mp": [
+                -5,
+                -1
+            ]
+        }
+    }
+]

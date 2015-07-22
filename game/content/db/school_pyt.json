@@ -1,0 +1,331 @@
+[
+    {
+        "id": "-PyTFall Educators-",
+        "image": "content/schools/school.jpg",
+        "primary": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            0
+        ],
+        "secondary": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+        ],
+        "skillPrimary": [
+            1,
+            7
+        ],
+        "skillSecondary": [
+            0,
+            4
+        ],
+        "options": {
+            "Beauty": {
+                "desc": "This course focuses on training charsima. May also improve refinement.",
+                "image": "Beauty/",
+                "imageTags": [
+                    "beauty",
+                    "studying"
+                ],
+                "primary": [
+                    "charisma"
+                ],
+                "secondary": [
+                    "refinement"
+                ]
+            },
+            "Combat": {
+                "desc": "This course focuses on training attack and defence. May also improve agility.",
+                "image": "Combat/",
+                "imageMode": "normal",
+                "imageTags": [
+                    "sfw",
+                    "battle",
+                    "armor",
+                    "ninja"
+                ],
+                "primary": [
+                    "defence",
+                    "attack"
+                ],
+                "secondary": [
+                    "agility"
+                ]
+            },
+            "Leadership": {
+                "desc": "This course focuses on training management and character. May also improve teaching.",
+                "image": "Leader/",
+                "imageMode": "normal",
+                "imageTags": [
+                    "sfw",
+                    "profile",
+                    "confident",
+                    "defiant"
+                ],
+                "noImageTags": [
+                    "rest"
+                ],
+                "primary": [
+                    "character",
+                    "management"
+                ],
+                "secondary": [
+                    "teaching"
+                ]
+            },
+            "BDSM": {
+                "desc": "This course focuses on training bdsm skill. May also improve other sex skills.",
+                "image": "BDSM/",
+                "imageTags": [
+                    "bdsm",
+                    "restrained"
+                ],
+                "noImageTags": [
+                    "group"
+                ],
+                "primary": [
+                    "bdsm"
+                ],
+                "secondary": [
+                    "anal",
+                    "oral",
+                    "vaginal"
+                ]
+            },
+            "Self-defence": {
+                "desc": "This course focuses on training defence. May also improve constitution and intelligence.",
+                "image": "Combat/",
+                "imageTags": [
+                    "battle",
+                    "armor",
+                    "ninja"
+                ],
+                "noImageTags": [
+                    "sex",
+                    "nude",
+                    "rest"
+                ],
+                "primary": [
+                    "defence"
+                ],
+                "secondary": [
+                    "constitution",
+                    "intelligence"
+                ]
+            },
+            "Kunoichi": {
+                "desc": "This course focuses on training attack and agility. May also improve explorations skill.",
+                "image": "Kunoichi/",
+                "imageTags": [
+                    "ninja",
+                    "battle",
+                    "exercising"
+                ],
+                "primary": [
+                    "attack",
+                    "agility"
+                ],
+                "secondary": [
+                    "exploration"
+                ]
+            },
+            "Dance": {
+                "desc": "This course focuses on training dancing skill. May also improve agility and striptease.",
+                "image": "Dance/",
+                "imageTags": [
+                    "dancing"
+                ],
+                "primary": [
+                    "dancing"
+                ],
+                "secondary": [
+                    "agility",
+                    "strip"
+                ]
+            },
+            "Striptease": {
+                "desc": "This course focuses on training striptease skill. May also improve agility and dancing.",
+                "image": "Strip/",
+                "imageTags": [
+                    "stripping"
+                ],
+                "primary": [
+                    "strip"
+                ],
+                "secondary": [
+                    "agility",
+                    "dancing"
+                ]
+            },
+            "Etiquette": {
+                "desc": "This course focuses on refinement. May also improve service and intelligence.",
+                "image": "Etiquette/",
+                "imageTags": [
+                    "etiquette",
+                    "studying"
+                ],
+                "primary": [
+                    "refinement"
+                ],
+                "secondary": [
+                    "service",
+                    "intelligence"
+                ]
+            },
+            "Maid": {
+                "desc": "This course focuses on service and cleanings kills. May also improve waiting.",
+                "image": "Service/",
+                "imageTags": [
+                    "sfw",
+                    "maid",
+                    "cleaning",
+                    "bunny"
+                ],
+                "primary": [
+                    "service",
+                    "cleaning"
+                ],
+                "secondary": [
+                    "waiting"
+                ]
+            },
+            "Oral Sex": {
+                "desc": "This course focuses on training oral sex skills. May also improve group.",
+                "image": "Oral/",
+                "imageMode": "any",
+                "imageTags": [
+                    "bcblowjob",
+                    "bclickanus",
+                    "bclickpussy",
+                    "2clickpussy",
+                    "2clickanus"
+                ],
+                "noImageTags": [
+                    "rape"
+                ],
+                "primary": [
+                    "oral"
+                ],
+                "secondary": [
+                    "group"
+                ]
+            },
+            "Anal Sex": {
+                "desc": "This course focuses on training anal sex skills.May also improve group.",
+                "image": "Anal/",
+                "imageMode": "any",
+                "imageTags": [
+                    "2canalfingering",
+                    "2canaltoy",
+                    "2canal",
+                    "bcanalfootjob",
+                    "bcanalhandjob",
+                    "bctoyanal",
+                    "bcanal"
+                ],
+                "noImageTags": [
+                    "rape"
+                ],
+                "primary": [
+                    "anal"
+                ],
+                "secondary": [
+                    "group"
+                ]
+            },
+            "Vaginal Sex": {
+                "desc": "This course focuses on training vaginal sex skills. May also improve group.",
+                "image": "Vaginal/",
+                "imageMode": "any",
+                "imageTags": [
+                    "2clickpussy",
+                    "2cvaginaltoy",
+                    "2cvaginal",
+                    "2cvaginalfingering",
+                    "bcvaginalfootjob",
+                    "bcvaginalhandjob",
+                    "bctoypussy",
+                    "bcvaginal"
+                ],
+                "noImageTags": [
+                    "rape"
+                ],
+                "primary": [
+                    "vaginal"
+                ],
+                "secondary": [
+                    "group"
+                ]
+            },
+            "Waitress": {
+                "desc": "This course focuses on training waiting and bartending skills. May also improve service.",
+                "image": "Service/",
+                "imageTags": [
+                    "sfw",
+                    "maid",
+                    "bunny",
+                    "waitress"
+                ],
+                "primary": [
+                    "waiting",
+                    "bartending"
+                ],
+                "secondary": [
+                    "service"
+                ]
+            },
+            "Group Sex": {
+                "desc": "This course focuses on training all sex skills at once except BDSM.",
+                "image": "Group/",
+                "imageMode": "any",
+                "imageTags": [
+                    "group"
+                ],
+                "noImageTags": [
+                    "bdsm",
+                    "grouprape",
+                    "rape"
+                ],
+                "primary": [
+                    "group"
+                ],
+                "secondary": [
+                    "anal",
+                    "oral",
+                    "vaginal"
+                ]
+            }
+        }
+    }
+]

@@ -1,0 +1,167 @@
+[
+  {
+    "id": 1,
+    "name": "Old Shack",
+    "desc": "Small, rundown building on the very outskirts of town.",
+    "price": 5000,
+    "rooms": 1,
+    "maxrooms": 2,
+    "fame": 0,
+    "maxfame": 100,
+    "rep": 0,
+    "maxrep": 100,
+    "maxrank": 2,
+    "mod": 1,
+    "sq_meters": 100, 
+    
+    "upgrade_slots": 2,
+    "garden": 2,
+    
+    "img": "content/buildings/oldshack.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Small house on Outskirts",
+    "desc": "Small house away from the city. Might not look like much, but it's not likely to scare away costumers.",
+    "price": 15000,
+    "rooms": 1,
+    "maxrooms": 5,
+    "fame": 0,
+    "maxfame": 150,
+    "rep": 0,
+    "maxrep": 120,
+    "maxrank": 3,
+    "mod": 1.2,
+    "sq_meters": 200, 
+    
+    "upgrade_slots": 2,
+    "garden": 2,
+    "mainhall": 1,
+    
+    "img": "content/buildings/smallhouse.jpg"
+  },
+  {
+    "id": 3,
+    "name": "House on Outskirts",
+    "desc": "A nice building away from the city. Costumer traffic is not very good though.",
+    "price": 25000,
+    "rooms": 2,
+    "maxrooms": 5,
+    "fame": 0,
+    "maxfame": 150,
+    "rep": 0,
+    "maxrep": 150,
+    "maxrank": 4,
+    "mod": 1.4,
+    "sq_meters": 350, 
+    
+    "upgrade_slots": 3,
+    "bar": 1,
+    "garden": 2,
+    "room_upgrades": 1,
+    "mainhall": 1,
+    
+    "img": "content/buildings/house1.jpg"
+  },
+  {
+    "id": 4,
+    "name": "House in the City",
+    "desc": "A Beautiful house inside city limits",
+    "price": 75000,
+    "rooms": 4,
+    "maxrooms": 10,
+    "fame": 0,
+    "maxfame": 200,
+    "rep": 0,
+    "maxrep": 150,
+    "maxrank": 5,
+    "mod": 1.6,
+    "sq_meters": 500,
+    
+    "upgrade_slots": 4,
+    "garden": 1,
+    "bar": 2,
+    "stripclub": 1,
+    "room_upgrades": 1,
+    "mainhall": 2,
+    
+    "img": "content/buildings/house2.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Mansion on the Main Road",
+    "desc": "Large mansion in the City Center",
+    "price": 175000,
+    "rooms": 3,
+    "maxrooms": 25,
+    "fame": 50,
+    "maxfame": 300,
+    "rep": 0,
+    "maxrep": 300,
+    "maxrank": 6,
+    "mod": 2,
+    "sq_meters": 1000,
+    
+    "upgrade_slots": 8,
+    "garden": 2,
+    "bar": 3,
+    "stripclub": 2,
+    "room_upgrades": 2,
+    "mainhall": 2,
+    "guards": 1,
+    
+    
+    "img": "content/buildings/mansion.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Palace on the Main Road",
+    "desc": "It is a freaking Palace!!!",
+    "price": 500000,
+    "rooms": 5,
+    "maxrooms": 45,
+    "fame": 100,
+    "maxfame": 500,
+    "rep": 0,
+    "maxrep": 500,
+    "maxrank": 7,
+    "mod": 3,
+    "sq_meters": 1800,
+    
+    "upgrade_slots": 10,
+    "garden": 3,
+    "bar": 3,
+    "stripclub": 2,
+    "room_upgrades": 3,
+    "mainhall": 2,
+    "guards": 2,
+    
+    
+    "img": "content/buildings/palace.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Central Palace",
+    "desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far!",
+    "price": 1000000,
+    "rooms": 7,
+    "maxrooms": 100,
+    "fame": 200,
+    "maxfame": 1000,
+    "rep": 0,
+    "maxrep": 1000,
+    "maxrank": 8,
+    "mod": 5,
+    "sq_meters": 4000,
+    
+    "upgrade_slots": 18,
+    "garden": 3,
+    "bar": 3,
+    "stripclub": 3,
+    "room_upgrades": 3,
+    "mainhall": 3,
+    "guards": 3,
+    
+    "img": "content/buildings/centralpalace.jpg"
+  }
+]

@@ -1,0 +1,151 @@
+[
+    {
+    "id": "Abnormally Large Boobs",
+    "desc": "One wonders how she keeps her balance. Those things are like miniature moons...",
+    "block_traits": ["Big Boobs", "Average Boobs", "Small Boobs"],
+    "mod": {"charisma": 30, "agility": -80},
+    "min": {"charisma": 10},
+    "max": {"charisma": 100, "agility": -80},
+    "mod_skills": {"strip": [-0.08, 0, 0.1], "dance": [-0.1, 0, -0.1]},
+    "type": "permanent",
+    "breasts": true
+    },
+    {
+    "id": "Big Boobs",
+    "desc": "This girl really has knockers.",
+    "block_traits": ["Abnormally Large Boobs", "Average Boobs", "Small Boobs"],
+    "mod": {"charisma": 20, "agility": -50},
+    "min": {"charisma": 5},
+    "max": {"charisma": 70, "agility": -50},
+    "mod_skills": {"strip": [-0.04, 0, 0.05]},
+    "type": "permanent",
+    "breasts": true
+    },
+    {
+    "id": "Average Boobs",
+    "desc": "Her boobs are somewhere in the B-C cup range. Any classy guy will say that this is the ideal size.",
+    "block_traits": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
+    "mod": {"charisma": 10},
+    "type": "permanent",
+    "breasts": true
+    },
+    {
+    "id": "Small Boobs",
+    "desc": "Her boobs may be small, but some people like that.",
+    "block_traits": ["Abnormally Large Boobs", "Average Boobs", "Big Boobs"],
+    "mod": {"charisma": -30, "agility": 20},
+    "min": {"agility": 5},
+    "max": {"charisma": -30, "agility": 30},
+    "mod_skills": {"strip": [-0.1, 0, -0.1], "dancing": [0.03, 0, 0.02]},
+    "type": "permanent",
+    "breasts": true
+    },
+    {
+    "id": "Not Human",
+    "desc": "This girl doesn't look like a normal human being.",
+    "mod": {"upkeep": 20},
+    "type": "permanent"
+    },
+   {
+    "id": "Long Legs",
+    "desc": "The legs on this girl go all the way to heaven.",
+    "mod": {"charisma": 10, "agility": 15},
+    "min": {"charisma": 5, "agility": 5},
+    "max": {"charisma": 50, "agility": 35},
+    "mod_skills": {"strip": [0, 0, 0.02], "dancing": [0, 0, 0.01]},
+    "type": "permanent"
+    },
+   {
+    "id": "Great Arse",
+    "desc": "She has a really nice arse.",
+    "mod": {"charisma": 10},
+    "max": {"charisma": 5},
+    "mod_skills": {"strip": [0, 0, 0.02], "anal": [0.01, 0, 0.01]},
+    "type": "permanent"
+    },
+   {
+    "id": "Strange Eyes",
+    "desc": "Her eyes are unusual in some way.",
+    "mod": {"charisma": -20},
+    "max": {"charisma": 10},
+    "type": "permanent"
+    },
+    {
+    "id": "Lolita",
+    "desc": "This girl looks very young and small.",
+    "block_traits": ["Slim", "Chubby", "Athletic", "Manly"],
+    "mod": {"constitution": -50, "agility": 50},
+    "mod_skills": {"cleaning": [-0.01, 0, -0.03], "exploration": [0.01, 0, 0]},
+    "type": "permanent",
+    "body": true
+    },
+    {
+    "id": "Slim",
+    "desc": "This girl has a slender, slim figure.",
+    "block_traits": ["Lolita", "Chubby", "Athletic", "Manly"],
+    "mod": {"constitution": -20, "agility": 20},
+    "mod_skills": {"dancing": [0.01, 0, 0.01]},
+    "type": "permanent",
+    "body": true
+    },
+    {
+    "id": "Chubby",
+    "block_traits": ["Lolita", "Slim", "Athletic", "Manly"],
+    "desc": "This girl has plump, slightly round figure.",
+    "mod": {"constitution": 20, "agility": -20},
+    "mod_skills": {"exploration": [-0.03, 0, -0.04]},
+    "type": "permanent",
+    "body": true
+    },
+    {
+    "id": "Athletic",
+    "block_traits": ["Lolita", "Slim", "Chubby", "Athletic", "Manly"],
+    "desc": "This girl is tough and has trained a lot. Her body is in great shape.",
+    "mod": {"constitution": 50, "defence": 10, "attack": 10},
+    "min": {"constitution": 5},
+    "max": {"constitution": 25, "defence": 10, "health": 30, "vitality": 20, "charisma": 5},
+    "mod_skills": {"exploration": [0.01, 0, 0.01]},
+    "type": "permanent",
+    "body": true
+    },
+   {
+    "id": "Manly",
+    "block_traits": ["Lolita", "Slim", "Chubby", "Athletic"],
+    "desc": "This girl is very muscular. Perhaps even too muscular.",
+    "mod": {"constitution": 100, "charisma": -150, "attack": 20, "defence": 20},
+    "max": {"attack": 5, "constitution": 30, "vitality": 40, "charisma": -15},
+    "mod_skills": {"exploration": [0.02, 0, 0.02], "service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
+    "type": "permanent",
+    "body": true
+    },
+    {
+    "id": "Artificial Body",
+    "desc": "This girl's body is not alive or real, it is a machine or has been created with magic.",
+    "mod": {"constitution": 30, "defence": 10, "upkeep": 40, "attack": 10, "agility": 10},
+    "min": {"constitution": 5, "agility": 5, "defence": 5},
+    "max": {"constitution": 35, "defence": 10, "health": 20, "vitality": 30, "attack": 5, "defence": 5},
+    "type": "permanent"
+    },
+    {
+    "id": "Scars",
+    "desc": "This poor girl has some scars.",
+    "mod": {"charisma": -30, "upkeep": 5, "constitution": 5},
+    "max": {"constitution": 5, "charisma": -5},
+    "mod_skills": {"strip": [0, 0, -0.09]},
+    "type": "permanent"
+    },
+    {
+    "id": "Half-Sister",
+    "desc": "This girl has one parent in common with you",
+    "effect": "Sibling",
+    "type": "permanent"
+    },
+   {
+    "id": "Alien",
+    "desc": "This girl has come from a distant dimension with absolutely other laws of physics, magic and society.",
+    "mod": {"magic": -100, "attack": -50, "defence": -50, "constitution": -50, "upkeep": 30},
+    "max": {"magic": 50, "attack": 20, "defence": 20, "constitution": 10},
+    "mod_skills": {"refinement": [-0.01, -0.06, -0.02], "service": [0, -0.03, -0.01]},
+    "type": "permanent"
+    }
+]

@@ -1,0 +1,112 @@
+[
+    {
+    "id": "Old Coins",
+    "desc": "A handful of coins. Coinage is weird, but gold is gold.",
+    "icon": "content/items/loot/coins.png",
+    "price": 50,
+    "chance": 90,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Old Purse",
+    "desc": "A purse of coins. Coinage is weird, but gold is gold.",
+    "icon": "content/items/loot/purse.png",
+    "price": 100,
+    "chance": 80,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Old Bag",
+    "desc": "A bag of coins. Coinage is weird, but gold is gold.",
+    "icon": "content/items/loot/bag.png",
+    "price": 150,
+    "chance": 70,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Old Chest",
+    "desc": "A chest of coins. Coinage is weird, but gold is gold.",
+    "icon": "content/items/loot/chest.png",
+    "price": 200,
+    "chance": 60,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Amethyst",
+    "desc": "A purple variety of quartz suitable for use in jewelry.",
+    "icon": "content/items/loot/amethyst.png",
+    "price": 300,
+    "chance": 50,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Topaz",
+    "desc": "A yellow silicate mineral. It's colorless and transparent in pure form but usually tinted by impurities.",
+    "icon": "content/items/loot/topaz.png",
+    "price": 400,
+    "chance": 45,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Apatite",
+    "desc": "Infrequently used as a gemstone, apatites are still quite valuable.",
+    "icon": "content/items/loot/apatite.png",
+    "price": 500,
+    "chance": 40,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Sapphire",
+    "desc": "A commonly used in jewelry deep blue gemstone.",
+    "icon": "content/items/loot/sapphire.png",
+    "price": 600,
+    "chance": 35,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Emerald",
+    "desc": "A fragile green gemstone.",
+    "icon": "content/items/loot/emerald.png",
+    "price": 700,
+    "chance": 30,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Ruby",
+    "desc": "A very hard and beautiful red gemstone.",
+    "icon": "content/items/loot/ruby.png",
+    "price": 800,
+    "chance": 25,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Diamond",
+    "desc": "A one of the best-known and most sought-after gemstones with uperlative physical qualities.",
+    "icon": "content/items/loot/diamond.png",
+    "price": 1000,
+    "chance": 20,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    }
+  ]

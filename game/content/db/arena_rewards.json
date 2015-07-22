@@ -1,0 +1,54 @@
+[
+	{
+	"id": "Legendary_gear",
+	"items": {"Excalibur": 10, "Scythe of Death": 20, "Devil Arms": 25, "Draconic Leather Armor": 30, "Draconic Leather Boots": 34, "Draconic Leather Gloves": 35, "Rogue's Ring": 40, "Godward Shell": 45, "Mithril Armor": 60, "Mithril Boots": 64, "Mithril Gloves": 65, "Ring of Recklessness": 20, "Rune Staff": 55, "Boots of Mercury": 70, "Starlit Robes": 90, "Spirit-Defender": 100}
+	},
+	{
+	"id": "Male_armor",
+	"items": {"Mercenary Clothes": 25, "Artisan Outfit": 65, "Casual Clothes": 100}
+	},
+	{
+	"id": "Armor",
+	"items": {"Ring of Health": 12, "Ring of Protection": 20, "Armor of the Battlemaiden": 30, "Gloves of Swordplay": 45, "Mail Armor": 40, "Mail Boots": 43, "Mail Gloves": 50, "Bracer of Toughness": 50, "Wristbands of Power": 40, "Chainmail Bikini": 100}
+	},
+	{
+	"id": "Weapon",
+	"items": {"Assassin Dagger": 30, "Foldable Crossbow": 35, "Balanced Claws": 40, "Ceremonial Sabre": 45, "Ornate Gladius": 50, "Spiked Brass Knuckles": 65, "Jeweled Poignard": 77, "Magic Bow": 78, "Enchanted Dagger": 80, "Throwing Knives": 100}
+	},
+	{
+	"id": "Demon_gear",
+	"items": {"Succubus'Wardress": 10, "Demonic Cloak": 20, "Demonic Blade": 50, "Demonic Bow": 70}
+	},
+	{
+	"id": "Angel_gear",
+	"items": {"Angelic Blade": 70, "Angelic Bow": 75}
+	},
+   {
+    "id": "Elven_gear",
+    "items": {"Elven Sage Armor": 20, "Elven Sage Boots": 24, "Elven Sage Armbands": 25, "Elven Ranger Armor": 30, "Elven Ranger Boots": 34, "Elven Ranger Armbands": 35, "Elven Armor": 60, "Elven Boots": 64, "Elven Gloves": 65, "Elven Rapier": 75, "Elven Bow": 80, "Elven Cape": 100}
+   },
+	{
+	"id": "Ninja_gear",
+	"items": {"Short Kimono": 55, "Kunoichi Suit": 35, "Chain Scythe": 40, "Kunoichi Outfit": 45, "Ninja Boots": 55, "Ninja Gloves": 60, "Shuriken": 65, "Ninja Cloak": 70, "Training Suit": 85, "Kung Fu Shoes": 90, "Kunai": 100}
+	},
+	{
+	"id": "Mage_gear",
+	"items": {"Mantle of the Keeper": 4, "Witch's Ring": 15, "Magician Handbag": 25, "Ring of Magic Energy": 30, "Ring of Clear Thought": 40, "Witch's Cloak": 55, "Archmage Staff": 60, "Wizard Robes": 65, "Mage Mantle": 70, "Mantle of the Priest": 65, "Battle Cape": 70, "Mage Robe": 75, "Wand of Concentration": 77, "Gloves of Concentration": 83, "Cloak of Invisibility": 100}
+	},
+	{
+	"id": "Ench_gear",
+	"items": {"Ring of Pleasure": 18, "Ring of Physique": 20, "Ring of Luck": 25, "Glass Shoes": 30, "Minor Ring of Physique": 40, "Victory Charm": 42, "Bestial Ring": 50, "Rainbow Ring": 57, "Reflector": 60, "Bimbo Ring": 76, "Minor Reflector": 85, "Health Charm": 88, "Mana Charm": 88, "Good Luck Charm": 100}
+	},
+	{
+	"id": "Faerie_gear",
+	"items": {"Faerie Gown": 25, "Necklace of Pain Reversal": 30, "Faerie Boots": 50, "Faerie Bracers": 60, "Faerie Cloak": 79, "Spray with Acid": 100}
+	},
+	{
+	"id": "Sex",
+	"items": {"Aromatic Pendant": 15, "Ring of the Horndog": 20, "Garem Charm": 30, "Bracer of Seduction": 40, "Minor Ring of the Horndog": 45, "Pet Collar": 50, "Mistress Boots": 55, "Cat O'Nine Tails": 57, "Spiked Collar": 60, "Enlarger": 70, "Bullwhip": 74, "Leash": 80}
+	},
+	{
+	"id": "Cons_common",
+	"items": {"Ultimate Mana Potion": 5, "Ultimate Healing Potion": 5, "Potion of Barkskin": 40, "Potion of Lightning Speed": 40, "Healing Mist": 50, "Mana Powder": 50, "Aromatic Dust": 53, "Great Mana Potion": 60, "Great Healing Potion": 60, "Great Potion of Serenity": 65, "Mana Potion": 80, "Healing Potion": 80, "Potion of Serenity": 83, "Small Healing Potion": 90, "Small Mana Potion": 90, "Small Potion of Serenity": 92, "Antidote": 100}
+	}
+]

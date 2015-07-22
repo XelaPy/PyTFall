@@ -1,0 +1,179 @@
+[
+    {
+    "id": "Nerd",
+    "desc": "Bookish and sometimes unsocial, but overly intellectual.",
+    "mod": {"intelligence": 10, "magic": 10, "character": -30, "upkeep": 6, "constitution": -30},
+    "max": {"intelligence": 25, "magic": 5, "character": -10, "constitution": -10},
+    "mod_skills": {"refinement": [-0.04, 0.04, -0.01]}
+    },
+    {
+    "id": "Psychic",
+    "desc": "This girl always seems to know what people want.",
+    "mod": {"intelligence": 10, "magic": 5, "upkeep": -10},
+    "min": {"luck": 5},
+    "max": {"intelligence": 5, "refinement": 10, "luck": 5},
+    "mod_skills": {"refinement": [0.02, 0, 0.02], "service": [0.01, 0, 0.01], "vaginal": [0, 0, 0.01], "anal": [0, 0, 0.01], "oral": [0, 0, 0.01], "strip": [0, 0, 0.01], "management": [0.02, 0.01, 0.02], "teaching": [0.01, 0, 0.01]}
+    },
+    {
+    "id": "Courageous",
+    "desc": "She is brave and valiant in the face of danger.",
+    "block_traits": ["Coward"],
+    "mod": {"character": 10},
+    "max": {"character": 15},
+    "mod_skills": {"bdsm": [0.01, 0, 0.03], "exploration": [0.05, 0, 0.06]}
+    },
+    {
+    "id": "Coward",
+    "desc": "This girl is very cowardly and jumpy.",
+    "block_traits": ["Courageous"],
+    "mod": {"character": -10},
+    "max": {"character": -15},
+    "mod_skills": {"bdsm": [-0.01, 0, -0.03], "exploration": [-0.05, 0, -0.06]}
+    },
+    {
+    "id": "Shy",
+    "desc": "She is nervous and afraid to speak her mind sometimes.",
+    "mod": {"character": -40},
+    "max": {"character": -20},
+    "mod_skills": {"service": [-0.02, 0, 0.03], "refinement": [-0.01, 0, 0], "management": [-0.01, 0, -0.04], "strip": [-0.01, -0.01, -0.01]}
+    },
+    {
+    "id": "Aggressive",
+    "desc": "She never hesitates to pick a fight.",
+    "mod": {"character": 40},
+    "max": {"character": 20},
+    "mod_skills": {"service": [0.02, 0, -0.03], "refinement": [0.01, 0, 0], "management": [0.01, 0, 0.04], "strip": [0.01, 0.01, 0]}
+    },
+    {
+    "id": "Optimist",
+    "desc": "She is very cheerful and is rarely in a bad mood. She enjoys what she does, a lot.",
+    "block_traits": ["Pessimist"],
+    "max": {"character": -4, "joy": 10},
+    "effect": "Optimist"
+    },
+    {
+    "id": "Pessimist",
+    "desc": "All it takes is one thing to send her mood down into the pits of the abyss.",
+    "block_traits": ["Optimist"],
+    "max": {"character": 4},
+    "effect": "Pessimist"
+    },
+    {
+    "id": "Serious",
+    "desc": "This girl doesn't joke around.",
+    "max": {"character": 5},
+    "mod_skills": {"management": [0.01, 0, 0.01], "bartending": [0, 0, -0.01]},
+    "effect": "Composure"
+    },
+    {
+    "id": "Extremely Jealous",
+    "desc": "She is very possessive and can't stand the thought of any competition.",
+    "max": {"character": 5},
+    "mod_skills": {"refinement": [0, 0, -0.06]}
+    },
+    {
+    "id": "Vicious",
+    "desc": "If there is a way to do harm to someone, she will find it.",
+    "block_traits": ["Virtuous"],
+    "max": {"character": 15},
+    "mod_skills": {"oral": [-0.1, -0.05, 0], "service": [-0.02, 0, -0.03], "bdsm": [0.02, 0, 0.03]}
+    },
+    {
+    "id": "Virtuous",
+    "desc": "She is happy as long as she is able to help to anyone.",
+    "block_traits": ["Vicious"],
+    "max": {"character": -15},
+    "mod_skills": {"oral": [0.1, 0.05, 0], "service": [0.02, 0, 0.03], "bdsm": [-0.02, 0, -0.03]}
+    },
+    {
+    "id": "Sadist",
+    "desc": "She enjoys inflicting pain, or watching it inflicted.",
+    "mod": {"attack": 25, "character": 10},
+    "max": {"attack": 5, "character": 5},
+    "mod_skills": {"bdsm": [0.15, 0.1, 0.15]}
+    },
+    {
+    "id": "Masochist",
+    "desc": "She gets sexual gratification from pain, deprivation, degradation, etc.",
+    "mod": {"attack": -25, "character": -10},
+    "max": {"defence": -5, "character": -5},
+    "mod_skills": {"bdsm": [0.15, 0.1, 0.15]}
+    },
+    {
+    "id": "Lesbian",
+    "desc": "This girl prefers women to men.",
+    "block_traits": ["Bisexual"]
+    },
+    {
+    "id": "Nymphomaniac",
+    "desc": "This girl just loves the sex.",
+    "block_traits": ["Frigid"],
+    "mod": {"upkeep": 10},
+    "mod_skills": {"bdsm": [0.03, 0.01, 0.02], "vaginal": [0.05, 0.02, 0.08], "anal": [0.05, 0.02, 0.08], "oral": [0.03, 0.01, 0.02], "teaching": [-0.05, 0, -0.1]}
+    },
+    {
+    "id": "Frigid",
+    "desc": "She mostly doesn't care about sex. It is waste of time, isn't it?",
+    "block_traits": ["Nymphomaniac"],
+    "mod": {"upkeep": -10},
+    "mod_skills": {"bdsm": [-0.03, -0.01, -0.02], "vaginal": [-0.05, -0.02, -0.08], "anal": [-0.05, -0.02, -0.08], "oral": [-0.03, -0.01, -0.02], "teaching": [0.05, 0, 0.1]}
+    },
+    {
+    "id": "Bisexual",
+    "desc": "This girl considers herself a bisexual.",
+    "block_traits": ["Lesbian"]},
+    {
+    "id": "Exhibitionnist",
+    "desc": "She doesn't hide anything. At least physically.",
+    "mod_skills": {"strip": [0.1, 0.1, 0.1], "management": [0, 0, -0.15], "teaching": [0, 0, -0.15]}
+    },
+    {
+    "id": "Sexy Air",
+    "desc": "Something about this girl is just so sexy. Everything she does is hot.",
+    "max": {"character": 5, "charisma": 5},
+    "mod_skills": {"strip": [0, 0, 0.01], "dancing": [0, 0, 0.01], "teaching": [0, 0, -0.05], "waiting": [0, 0, 0.01], "bartending": [0, 0, 0.01], "service": [0, 0, 0.01]}
+    },
+    {
+    "id": "Energetic",
+    "block_traits": ["Dawdler"],
+    "desc": "This girl is very active and vigorous.",
+    "mod": {"agility": 10, "upkeep": 5},
+    "min": {"agility": 5},
+    "max": {"agility": 20},
+    "mod_skills": {"strip": [0, 0, -0.06], "waiting": [-0.02, 0, 0.01]}
+    },
+    {
+    "id": "Dawdler",
+    "block_traits": ["Energetic"],
+    "desc": "This girl is certainly takes her time.",
+    "mod": {"agility": -10, "upkeep": -10},
+    "max": {"agility": -20},
+    "mod_skills": {"strip": [0, 0, 0.06], "waiting": [-0.01, 0, -0.01]}
+    },
+    {
+    "id": "Elegant",
+    "block_traits": ["Clumsy"],
+    "desc": "She's got style and flair, every single movement of her perfectly gracious.",
+    "max": {"agility": 10},
+    "mod_skills": {"strip": [0, 0, 0.04], "waiting": [0.01, 0, 0.02], "dancing": [0.02, 0, 0.05], "refinement": [0, 0, 0.01]}
+    },
+    {
+    "id": "Clumsy",
+    "block_traits": ["Elegant"],
+    "desc": "This girl often makes mistakes. Maybe she will learn in time.",
+    "max": {"agility": -10},
+    "mod_skills": {"strip": [0, 0, -0.04], "waiting": [-0.01, 0, -0.02], "dancing": [-0.02, 0, -0.05], "refinement": [0, 0, -0.01]}
+    },
+    {
+    "id": "Virgin",
+    "desc": "This girl has never had sex before.",
+    "block_traits": ["MILF"],
+    "max": {"character": -3},
+    "mod_skills": {"vaginal": [-0.4, 0.05, -0.5]}
+    },
+    {
+    "id": "MILF",
+    "desc": "This woman has had children before.",
+    "block_traits": ["Virgin"],
+    "mod_skills": {"vaginal": [0.01, 0, 0.01]}
+    }]

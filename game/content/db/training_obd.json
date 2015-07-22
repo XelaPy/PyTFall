@@ -1,0 +1,194 @@
+[
+     {
+     "id": "Debug",
+     "desc": "Super special debugging actions.",
+     "options": {
+                 "Obey": {
+                 "desc": "Set max obedience points.",
+                 "primary": {"flags": {"obey": 10}},
+                 "heroAP": 0,
+                 "duration": 999,
+                 "doNum": 1
+                 },
+                 "Disobey": {
+                 "desc": "Set max disobedience points.",
+                 "primary": {"flags": {"disobey": 10}},
+                 "heroAP": 0,
+                 "duration": 999,
+                 "doNum": 1
+                 },
+                 "Success": {
+                 "desc": "Guaranteed success state.",
+                 "succeed": [["obey", true, "%s listened very attentively today."]],
+                 "heroAP": 0,
+                 "duration": 999,
+                 "doNum": 1
+                 },
+                 "Failure": {
+                 "desc": "Guaranteed failure state.",
+                 "succeed": [["disobey", true, "%s refused to co-operate today."]],
+                 "heroAP": 0,
+                 "duration": 999,
+                 "doNum": 1
+                 },
+                 "Stop": {
+                 "desc": "Guaranteed stop state.",
+                 "succeed": [["stop", true, "%s refused to have anything to do with this training."]],
+                 "heroAP": 0,
+                 "duration": 999,
+                 "doNum": 1
+                 },
+                 "Runaway": {
+                 "desc": "Guaranteed runaway state.",
+                 "succeed": [["runaway", true, "%s decided to try and escape the dungeon!"]],
+                 "heroAP": 0,
+                 "duration": 999,
+                 "doNum": 1
+                 }
+                }
+     },
+    {
+    "id": "Obedience",
+    "image": "Obedience/",
+    "desc": "Training to make the girl more obedient.",
+    "jobs": ["Prostitute"],
+    "status": ["slave"],
+    "succeed": [["runaway", {"flags": {"ge": {"disobey": 5}}, "noTraits": ["Broken"]}, "%s decided to try and escape the dungeon!"],
+                ["obey", {"mod": {"ge": {"disposition": 750}}}, "%s listened very attentively today."],
+                ["disobey", {"mod": {"le": {"disposition": 250}}, "noTraits": ["Broken"]}, "%s refused to co-operate today."]
+               ],
+    "options": {
+                "Talk": {
+                "desc": "Talk the girl through exactly what you want and how you're going to do it.",
+                "reqs": {"noTraits": ["Broken"]},
+                "primary": {"mod": {"character": [-1, -1, -2], "disposition": 20}},
+                "duration": 5,
+                "skill": ["intelligence"],
+                "knowledge": ["intelligence"]
+                },
+                "Practice": {
+                "desc": "Have the girl practice being obedient by following simple commands.",
+                "reqs": [{
+                         "mod": { "lt": {"character": 50}, "gt": {"character": 30} },
+                         "noTraits": ["Broken"]
+                         },
+                         {"traits": ["Broken"]}
+                        ],
+                "primary": {"mod": {"character": [-1, -2, -2], "disposition": 30}},
+                "duration": 5,
+                "skill": ["TEACHING"],
+                "knowledge": ["TEACHING"]
+                },
+                "Break": {
+                "desc": "The girl is close to her breaking point. One more push should do it.",
+                "reqs": {
+                        "mod": {"le": {"character": 30}},
+                        "noTraits": ["Broken"]
+                        },
+                "primary": {"traits": ["Broken"],
+                            "mod": {"disposition": 200}
+                           },
+                "heroAP": 2,
+                 "doNum": 1
+                },
+                "Chore": {
+                "desc": "Have the girl do various chores to test their obedience.",
+                "reqs": {"traits": ["Broken"]},
+                "primary": {"mod": {"character": [-2, -2, -3], "disposition": 50}},
+                "duration": 5,
+                "skill": ["TEACHING"],
+                "knowledge": ["TEACHING"]
+                }
+               }
+    },
+    {
+    "id": "Reward",
+    "image": "schools/Obedience/ob (22).jpg",
+    "desc": "Reward the girl for good behaviour.",
+    "status": ["slave"],
+    "options": {
+                "Praise": {
+                "image": "schools/Beauty/bc (13).jpg",
+                "desc": "Inform the girl about how well she has been behaving.",
+                "scale": "posTill",
+                "check": {"traits": ["Broken"]},
+                "based": ["character"],
+                "primary": {"mod": {"joy": [1, 1, 2], "disposition": 20},
+                            "flags": {"obey": -1}
+                            },
+                "AP": 1,
+                "labels": {"normal": "training_reward_praise"}
+                },
+                "Treat": {
+                "image": "schools/Obedience/ob (24).jpg",
+                "desc": "Treat the girl to a gift or other luxury.",
+                "scale": "pos",
+                "based": ["character"],
+                "reqs": {"flags": {"ge": {"obey": 1}}},
+                "primary": {"mod": {"joy": [1, 2, 2], "disposition": 20},
+                            "flags": {"obey": -1}
+                            },
+                "AP": 1,
+                "labels": {"normal": "training_reward_treat"}
+                },
+                "Pleasure": {
+                "desc": "Sexually pleasure the girl.",
+                "scale": "pos",
+                "based": ["character"],
+                "reqs": [{"flags": {"ge": {"obey": 2}}},
+                         {"traits": ["Broken"]}
+                        ],
+                "primary": {"mod": {"joy": [2, 2, 3], "disposition": 20, "normalsex": [0, 0, 0, 1]},
+                            "flags": {"obey": -2}
+                           },
+                "AP": 1,
+                "labels": {"normal": "training_reward_pleasure"}
+                }
+               }
+    },
+    {
+    "id": "Punishment",
+    "image": "schools/Obedience/ob (30).jpg",
+    "desc": "Punish the girl for bad behaviour.",
+    "status": ["slave"],
+    "options": {
+                "Scold": {
+                "image": "schools/XXX/xxx (16).jpg",
+                "desc": "Scold the girl about her bad behaviour.",
+                "scale": "neg",
+                "based": ["character"],
+                "primary": {"mod": {"joy": [-1, -1, -2], "disposition": -20},
+                            "flags": {"disobey": -1}
+                           },
+                "AP": 1,
+                "labels": {"normal": "training_punishment_scold"}
+                },
+                "Beat": {
+                "image": "schools/Obedience/ob (25).jpg",
+                "desc": "Give the girl a beating.",
+                "scale": "neg",
+                "based": ["character"],
+                "reqs": {"flags": {"ge": {"disobey": 1}}},
+                "primary": {"mod": {"joy": [-1, -2, -2], "disposition": -20},
+                            "flags": {"disobey": -1}
+                           },
+                "AP": 1,
+                "labels": {"normal": "training_punishment_beat"}
+                },
+                "Rape": {
+                "desc": "Force the girl to commit sexual acts.",
+                "scale": "negTill",
+                "check": {"traits": ["Broken"]},
+                "based": ["character"],
+                "reqs": [{"flags": {"ge": {"disobey": 2}}},
+                         {"traits": ["Broken"]}
+                        ],
+                "primary": {"mod": {"joy": [-2, -2, -3], "disposition": -20, "normalsex": [0, 0, 0, -1]},
+                            "flags": {"disobey": -2}
+                           },
+                "AP": 1,
+                "labels": {"normal": "training_punishment_rape"}
+                }
+               }
+    }
+]

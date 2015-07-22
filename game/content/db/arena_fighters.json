@@ -1,0 +1,91 @@
+[
+{
+"name": "Uesugi Kenshin",
+"exp": 10000,
+"stats": {"attack": 120, "defence": 100, "magic": 20, "agility": 60, "luck": 10},
+"attack_skills": {"SwordAttack": 1},
+"unique": true
+},
+{
+"name": "Uesugi Torako",
+"exp": 10000,
+"stats": {"attack": 50, "defence": 60, "magic": 80, "agility": 50, "luck": 10},
+"attack_skills": {"FistAttack": 1},
+"magic_skills": {"Fire 1": 1},
+"unique": true
+},
+{
+"name": "Uesugi Katsuko",
+"exp": 10000,
+"stats": {"attack": 75, "defence": 70, "magic": 20, "agility": 55, "luck": -10},
+"attack_skills": {"SwordAttack": 1},
+"unique": true
+},
+{
+"name": "Masou Shizuka",
+"exp": 10000,
+"stats": {"attack": 60, "defence": 70, "magic": 100, "agility": 60, "luck": 0},
+"attack_skills": {"KnifeAttack": 1},
+"magic_skills": {"Fire 1": 1, "Fire 2": 2, "Fire 3": 1},
+"unique": true
+},
+{
+"name": "Maria Custard",
+"exp": 10000,
+"stats": {"attack": 80, "defence": 50, "magic": 50, "agility": 50, "luck": 10},
+"attack_skills": {"CannonAttack": 1},
+"unique": true
+},
+{
+"name": "EVA-Beatrice",
+"exp": 10000,
+"stats": {"attack": 50, "defence": 60, "magic": 90, "agility": 50, "luck": 10},
+"attack_skills": {"RodAttack": 1},
+"magic_skills": {"Windwhirl": 2, "Fire 2": 1, "Fire 3": 1, "Earth 2": 1, "Earth 3": 1},
+"unique": true
+},
+{
+"name": "Siesta 410",
+"exp": 10000,
+"stats": {"attack": 40, "defence": 50, "magic": 60, "agility": 60, "luck": 20},
+"attack_skills": {"FistAttack": 1},
+"magic_skills": {"Fire Arrow": 1},
+"unique": true
+},
+{
+"name": "Siesta 45",
+"exp": 10000,
+"stats": {"attack": 30, "defence": 45, "magic": 60, "agility": 60, "luck": 30},
+"attack_skills": {"FistAttack": 1},
+"magic_skills": {"Fire Arrow": 1},
+"unique": true
+},
+{
+"name": "Shishio Makoto",
+"exp": 10000,
+"stats": {"attack": 135, "defence": 100, "magic": 30, "agility": 70, "luck": 50},
+"attack_skills": {"SwordAttack": 1},
+"unique": true
+},
+{
+"name": "Sion Eltnam Atlasia",
+"exp": 10000,
+"stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
+"attack_skills": {"SwordAttack": 1},
+"unique": true
+},
+{
+"name": "Yumizuka Satsuki",
+"exp": 10000,
+"stats": {"attack": 50, "defence": 30, "magic": 20, "agility": 55, "luck": -15},
+"attack_skills": {"SwordAttack": 1},
+"unique": true
+},
+{
+"name": "Riesbyfe Stridberg",
+"exp": 10000,
+"stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
+"attack_skills": {"SwordAttack": 1},
+"unique": true
+}
+]

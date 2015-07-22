@@ -1,0 +1,3620 @@
+[
+    {
+        "name": "King Slime",
+        "desc": "This slime became big enough to have rudiments of intelligence.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/a.png",
+        "portrait": "content/npc/mobs/a1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Juggernaut", "Mage"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence": 50,
+            "magic": 30,
+            "agility": 40,
+            "luck": 10,
+            "charisma": 40
+        },
+        "skills": {},
+        "traits": ["Water", "Slime"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+            "Watera",
+            "Waterga"
+        ]
+    },
+    {
+        "name": "Alkaline Slime",
+        "desc": "A liquid form of life based on organic alkalis.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/b.png",
+        "portrait": "content/npc/mobs/b1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence": 30,
+            "magic": 10,
+            "agility": 15,
+            "luck": -15,
+            "charisma": 5
+        },
+        "skills": {},
+        "traits": ["Water", "Slime"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+            "Water"
+        ]
+    },
+    {
+        "name": "Slime",
+        "desc": "A simple liquid form of life.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/c.png",
+        "portrait": "content/npc/mobs/c1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 1,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 5,
+            "defence": 20,
+            "magic": 0,
+            "agility": 5,
+            "luck": -50,
+            "charisma": 0
+        },
+        "skills": {},
+        "traits": ["Water", "Slime"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Seductive Slime",
+        "desc": "A humanoid liquid form of life, finding food for itself by seducing unwary travelers.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/d.png",
+        "portrait": "content/npc/mobs/d1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 15,
+        "basetraits": [
+            "Healer"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence": 20,
+            "magic": 30,
+            "agility": 10,
+            "luck": -20,
+            "charisma": 50
+        },
+        "skills": {},
+        "traits": ["Water", "Slime"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+            "Water", "Light Heal"
+        ]
+    },
+    {
+        "name": "Treasure Slime",
+        "desc": "A liquid form of life, tending to build a basic endoskeleton from gems and precious metals.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/e.png",
+        "portrait": "content/npc/mobs/e1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 5,
+            "defence": 80,
+            "magic": 0,
+            "agility": 20,
+            "luck": 0,
+            "charisma": 40
+        },
+        "skills": {},
+        "traits": ["Water", "Slime"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+            "Darkga"
+        ]
+    },
+    {
+        "name": "Acid Slime",
+        "desc": "A liquid form of life based on organic acids.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/f.png",
+        "portrait": "content/npc/mobs/f1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 15,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence": 35,
+            "magic": 10,
+            "agility": 20,
+            "luck": -45,
+            "charisma": 20
+        },
+        "skills": {},
+        "traits": ["Water", "Slime"],
+        "attack_skills": [
+            "SprayAttack", "FistAttack"
+        ],
+        "magic_skills": [
+            "Waterga", "Water"
+        ]
+    },
+    {
+        "name": "Samurai",
+        "desc": "A fast and agile swordsman.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/g.png",
+        "portrait": "content/npc/mobs/g1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Assassin", "Warrior"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence": 15,
+            "magic": 15,
+            "agility": 25,
+            "luck": 15,
+            "charisma": 15
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Warrior",
+        "desc": "A common warrior, quite skilled in close combat.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/h.png",
+        "portrait": "content/npc/mobs/h1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence": 20,
+            "magic": 0,
+            "agility": 15,
+            "luck": -10,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Archer",
+        "desc": "A common archer, quite skilled in ranged combat.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/i.png",
+        "portrait": "content/npc/mobs/i1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 35,
+            "defence": 8,
+            "magic": 2,
+            "agility": 20,
+            "luck": -6,
+            "charisma": 12
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "BowAttack", "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Soldier",
+        "desc": "A trained, battle-seasoned soldier.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/j.png",
+        "portrait": "content/npc/mobs/j1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence": 25,
+            "magic": 0,
+            "agility": 20,
+            "luck": -8,
+            "charisma": 17
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Barbarian",
+        "desc": "A wild nomad, cruel and merciless.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/k.png",
+        "portrait": "content/npc/mobs/k1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 15,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence": 17,
+            "magic": 0,
+            "agility": 25,
+            "luck": 16,
+            "charisma": 0
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Orc",
+        "desc": "An ugly, fat, green monster. Barely has enough intelligence to use basic weapon and armor.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/l.png",
+        "portrait": "content/npc/mobs/l1.png",
+        "race": "Orc",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Berserker", "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence": 15,
+            "magic": 0,
+            "agility": 20,
+            "luck": -40,
+            "charisma": 0
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Amazon Thief",
+        "desc": "Amazons Thieves steal newborn girls to raise more amazons.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/m.png",
+        "portrait": "content/npc/mobs/m1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Assassin", "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence": 20,
+            "magic": 15,
+            "agility": 35,
+            "luck": 20,
+            "charisma": 55
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "KnifeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Amazon Warrior",
+        "desc": "Amazons Warriors protect amazon tribes from unwanted guests, also known as men.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/n.png",
+        "portrait": "content/npc/mobs/n1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence": 25,
+            "magic": 10,
+            "agility": 30,
+            "luck": -20,
+            "charisma": 40
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Amazon Archer",
+        "desc": "Amazons Archers provide fresh male animals as a food for amazon tribes.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/o.png",
+        "portrait": "content/npc/mobs/o1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence": 16,
+            "magic": 4,
+            "agility": 40,
+            "luck": 12,
+            "charisma": 35
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "BowAttack", "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Assassin",
+        "desc": "A master of surprise attacks and stealthy kills.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/p.png",
+        "portrait": "content/npc/mobs/p1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Assassin"
+        ],
+        "stats": {
+            "attack": 45,
+            "defence": 25,
+            "magic": 20,
+            "agility": 30,
+            "luck": 35,
+            "charisma": 25
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Lamia",
+        "desc": "A half-woman, half-snake.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/q.png",
+        "portrait": "content/npc/mobs/q1.png",
+        "race": "Lamia",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence": 55,
+            "magic": 40,
+            "agility": 30,
+            "luck": -10,
+            "charisma": 30
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Werecat",
+        "desc": "Another victim of the infamous wereanimal curse.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/r.png",
+        "portrait": "content/npc/mobs/r1.png",
+        "race": "Werewolf",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Berserker", "Warrior"
+        ],
+        "stats": {
+            "attack": 38,
+            "defence": 28,
+            "magic": 10,
+            "agility": 34,
+            "luck": -20,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Darkness", "Monster"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Dark"
+        ]
+    },
+    {
+        "name": "Undead Werecat",
+        "desc": "A victim of two curses at once.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/s.png",
+        "portrait": "content/npc/mobs/s1.png",
+        "race": "Werewolf",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Berserker", "Warrior"
+        ],
+        "stats": {
+            "attack": 52,
+            "defence": 39,
+            "magic": 10,
+            "agility": 34,
+            "luck": -25,
+            "charisma": 20
+        },
+        "skills": {},
+        "traits": ["Darkness", "Undead", "Darkness Immunity"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra"
+        ]
+    },
+    {
+        "name": "Harpy",
+        "desc": "Harpies are known for their love to seduce travelers in order to breed, and protected by the law in many countries unless they attack first.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/t.png",
+        "portrait": "content/npc/mobs/t1.png",
+        "race": "Harpy",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence": 25,
+            "magic": 32,
+            "agility": 25,
+            "luck": 0,
+            "charisma": 25
+        },
+        "skills": {},
+        "traits": ["Furry", "Air"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Aero", "Aerora"
+        ]
+    },
+    {
+        "name": "Vixen",
+        "desc": "Vixens kidnap men from villages and small towns in order to breed, and protected by the law in some countries where the presence of women in politics is low.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/u.png",
+        "portrait": "content/npc/mobs/u1.png",
+        "race": "Harpy",
+        "locations": [],
+        "min_lvl": 38,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":35,
+            "magic": 40,
+            "agility": 30,
+            "luck": 0,
+            "charisma": 30
+        },
+        "skills": {},
+        "traits": ["Furry", "Air"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Aero", "Aerora", "Aeroga"
+        ]
+    },
+    {
+        "name": "Hag",
+        "desc": "Hags attack men in big cities and rape them on the spot in order to breed. In some cities they replace brothels and have to pay brothel taxes every year.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/v.png",
+        "portrait": "content/npc/mobs/v1.png",
+        "race": "Harpy",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Battle Mage", "Mage"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":45,
+            "magic": 61,
+            "agility": 35,
+            "luck": 0,
+            "charisma": 35
+        },
+        "skills": {},
+        "traits": ["Furry", "Air"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja"
+        ]
+    },
+    {
+        "name": "Goblin",
+        "desc": "A small carnivore creature with razor sharp teeth.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/w.png",
+        "portrait": "content/npc/mobs/w1.png",
+        "race": "Goblin",
+        "locations": [],
+        "min_lvl": 1,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 7,
+            "defence":4,
+            "magic": 0,
+            "agility": 6,
+            "luck": -50,
+            "charisma": 0
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Goblin Archer",
+        "desc": "A small carnivore creature with a primitive bow.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/x.png",
+        "portrait": "content/npc/mobs/x1.png",
+        "race": "Goblin",
+        "locations": [],
+        "min_lvl": 2,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 13,
+            "defence":1,
+            "magic": 0,
+            "agility": 9,
+            "luck": -48,
+            "charisma": 0
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "BowAttack", "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Goblin Warrior",
+        "desc": "A small carnivore creature with a primitive axe.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/y.png",
+        "portrait": "content/npc/mobs/y1.png",
+        "race": "Goblin",
+        "locations": [],
+        "min_lvl": 3,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 11,
+            "defence":7,
+            "magic": 0,
+            "agility": 7,
+            "luck": -49,
+            "charisma": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Goblin Shaman",
+        "desc": "A small carnivore creature familiar with some basic magic.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/z.png",
+        "portrait": "content/npc/mobs/z1.png",
+        "race": "Goblin",
+        "locations": [],
+        "min_lvl": 4,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 6,
+            "defence":6,
+            "magic": 10,
+            "agility": 8,
+            "luck": -46,
+            "charisma": 8
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": ["Fire"
+        ]
+    },
+    {
+        "name": "Ogre",
+        "desc": "A massive muscular creature. Its main diet are goblins, however his vision is too poor to distinguish them from humans.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/aa.png",
+        "portrait": "content/npc/mobs/aa1.png",
+        "race": "Ogre",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":34,
+            "magic": 0,
+            "agility": 19,
+            "luck": -10,
+            "charisma": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Cyclop",
+        "desc": "A massive muscular creature. They say his eye can shoot deadly laser beams, but there is no reliable evidence.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ab.png",
+        "portrait": "content/npc/mobs/ab1.png",
+        "race": "Ogre",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 68,
+            "defence":46,
+            "magic": 0,
+            "agility": 31,
+            "luck": -5,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Undine",
+        "desc": "A water based lifeform consisting entirely of females. Ponds with non-aggressive undines are equally popular among men and lesbians.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ac.png",
+        "portrait": "content/npc/mobs/ac1.png",
+        "race": "Undine",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Healer"
+        ],
+        "stats": {
+            "attack": 68,
+            "defence":46,
+            "magic": 40,
+            "agility": 31,
+            "luck": -5,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Slime", "Water", "Water Immunity"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Water", "Light Heal"
+        ]
+    },
+    {
+        "name": "Dark Undine",
+        "desc": "A predacious undine corrupted by water pollution.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ad.png",
+        "portrait": "content/npc/mobs/ad1.png",
+        "race": "Undine",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 21,
+            "defence":32,
+            "magic": 50,
+            "agility": 30,
+            "luck": 0,
+            "charisma": 30
+        },
+        "skills": {},
+        "traits": ["Slime", "Water", "Darkness", "Water Immunity"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Water", "Watera", "Waterga", "Dark", "Darkra"
+        ]
+    },
+    {
+        "name": "Energized Undine",
+        "desc": "A subspecies of undine with ability to accumulate electric charge thanks to its unusual chemical composition.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ae.png",
+        "portrait": "content/npc/mobs/ae1.png",
+        "race": "Undine",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":20,
+            "magic": 70,
+            "agility": 65,
+            "luck": 0,
+            "charisma": 30
+        },
+        "skills": {},
+        "traits": ["Slime", "Water", "Electricity", "Water Immunity", "Electricity Absorption"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Water", "Watera", "Thunder", "Thundara"
+        ]
+    },
+    {
+        "name": "Frozen Undine",
+        "desc": "After particularly cold winters some undines forever remain frozen.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/af.png",
+        "portrait": "content/npc/mobs/af1.png",
+        "race": "Undine",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 65,
+            "defence":65,
+            "magic": 30,
+            "agility": 25,
+            "luck": -15,
+            "charisma": 35
+        },
+        "skills": {},
+        "traits": ["Monster", "Water", "Ice", "Ice Immunity"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": ["Blizzard", "Blizzara"
+        ]
+    },
+    {
+        "name": "Mud Elemental",
+        "desc": "A moving pile of mud without any self-consciousness.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ag.png",
+        "portrait": "content/npc/mobs/ag1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":30,
+            "magic": 20,
+            "agility": 25,
+            "luck": -45,
+            "charisma": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Stone"
+        ]
+    },
+    {
+        "name": "Earth Elemental",
+        "desc": "A wild and dangerous incarnation of the earth element.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ah.png",
+        "portrait": "content/npc/mobs/ah1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Defender", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":35,
+            "magic": 30,
+            "agility": 35,
+            "luck": -35,
+            "charisma": 15
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Earth Immunity"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Stone", "Stonera"
+        ]
+    },
+    {
+        "name": "Lava Elemental",
+        "desc": "A wild and dangerous incarnation of the earth and fire elements.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ai.png",
+        "portrait": "content/npc/mobs/ai1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Defender", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 33,
+            "defence":33,
+            "magic": 20,
+            "agility": 30,
+            "luck": -25,
+            "charisma": 15
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Stone", "Stonera", "Stonega", "Fira"
+        ]
+    },
+    {
+        "name": "Spectre",
+        "desc": "A ghost born from the soul of a dead paladin. Unlike normal ghosts, it uses light to harm its victims.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/aj.png",
+        "portrait": "content/npc/mobs/aj1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Mage", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":40,
+            "magic": 50,
+            "agility": 25,
+            "luck": -35,
+            "charisma": 25
+        },
+        "skills": {},
+        "traits": ["Undead", "Light", "Light Immunity"],
+        "attack_skills": [
+            
+        ],
+        "magic_skills": ["Holy"
+        ]
+    },
+    {
+        "name": "Stone Eater",
+        "desc": "A rare eating stones creature with stone skin and diamond teeth.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ak.png",
+        "portrait": "content/npc/mobs/ak1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":70,
+            "magic": 40,
+            "agility": 8,
+            "luck": -50,
+            "charisma": 15
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Earth Absorption"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Stoneja"
+        ]
+    },
+    {
+        "name": "Angel",
+        "desc": "A messenger of the heavens. They are usually peaceful, however they attack you if you violate one of the sacred rules known only to angels themselves.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/al.png",
+        "portrait": "content/npc/mobs/al1.png",
+        "race": "Angel",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 33,
+            "defence":33,
+            "magic": 33,
+            "agility": 33,
+            "luck": 33,
+            "charisma": 33
+        },
+        "skills": {},
+        "traits": ["Divine Creature", "Light", "Light Immunity"],
+        "attack_skills": [
+            "ThrowAttack"
+        ],
+        "magic_skills": ["Holy", "Holyra"
+        ]
+    },
+    {
+        "name": "Archangel",
+        "desc": "A high-ranked messenger of the heavens. They coordinate the actions of the angels and personally involved only in very important battles.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/am.png",
+        "portrait": "content/npc/mobs/am1.png",
+        "race": "Angel",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Defender", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":50,
+            "magic": 50,
+            "agility": 50,
+            "luck": 33,
+            "charisma": 50
+        },
+        "skills": {},
+        "traits": ["Divine Creature", "Light", "Light Absorption"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": ["Holy", "Holyra", "Holyda"
+        ]
+    },
+    {
+        "name": "Heaven Guardian",
+        "desc": "Guardians protect the heavens and their outposts. Usually from mortals, since demons prefer the hell anyway.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/an.png",
+        "portrait": "content/npc/mobs/an1.png",
+        "race": "Angel",
+        "locations": [],
+        "min_lvl": 70,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 17,
+            "defence":33,
+            "magic": 72,
+            "agility": 42,
+            "luck": 33,
+            "charisma": 80
+        },
+        "skills": {},
+        "traits": ["Divine Creature", "Light", "Light Absorption"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Light Heal"
+        ]
+    },
+    {
+        "name": "Gargoyle",
+        "desc": "An ugly statue animated by ancient wild magic.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ao.png",
+        "portrait": "content/npc/mobs/ao1.png",
+        "race": "Gargoyle",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Trickster", "Defender"
+        ],
+        "stats": {
+            "attack": 35,
+            "defence":35,
+            "magic": 10,
+            "agility": 30,
+            "luck":-30,
+            "charisma": 20
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth Immunity", "Neutral"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Chimera",
+        "desc": "A monstrous creature with parts from multiple animals.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ap.png",
+        "portrait": "content/npc/mobs/ap1.png",
+        "race": "Chimera",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 45,
+            "defence":40,
+            "magic": 30,
+            "agility": 35,
+            "luck":-10,
+            "charisma": 40
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Fireball"
+        ]
+    },
+    {
+        "name": "Bats",
+        "desc": "A flock of rabid bats.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/aq.png",
+        "portrait": "content/npc/mobs/aq1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 5,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 5,
+            "defence":0,
+            "magic": 0,
+            "agility": 40,
+            "luck":20,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Vampire Bats",
+        "desc": "A predatory flock of carnivorous bats.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ar.png",
+        "portrait": "content/npc/mobs/ar1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":10,
+            "magic": 0,
+            "agility": 80,
+            "luck":45,
+            "charisma": 30
+        },
+        "skills": {},
+        "traits": ["Monster", "Darkness"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Dark"
+        ]
+    },
+    {
+        "name": "Secateuris",
+        "desc": "A hideous flesh-eating insect. Even seasoned warriors cannot look at it without flinching.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/as.png",
+        "portrait": "content/npc/mobs/as1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":35,
+            "magic": 0,
+            "agility": 80,
+            "luck":10,
+            "charisma": 20
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Giant Spider",
+        "desc": "A giant poisonous spider. They say his poison can kill a small city.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/at.png",
+        "portrait": "content/npc/mobs/at1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":30,
+            "magic": 0,
+            "agility": 60,
+            "luck":0,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Poison"
+        ]
+    },
+    {
+        "name": "Cetus",
+        "desc": "A carnivorous amphibian inhabiting non-navigable rivers.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/au.png",
+        "portrait": "content/npc/mobs/au1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":10,
+            "magic": 0,
+            "agility": 20,
+            "luck":-10,
+            "charisma": 20
+        },
+        "skills": {},
+        "traits": ["Monster", "Water"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Waterga"
+        ]
+    },
+    {
+        "name": "Flaming Fox",
+        "desc": "A legendary fiery beast from the Fire elemental dimension.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/av.png",
+        "portrait": "content/npc/mobs/av1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 70,
+        "basetraits": [
+            "Magical Creature", "Warrior"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":40,
+            "magic": 50,
+            "agility": 40,
+            "luck":-20,
+            "charisma": 30
+        },
+        "skills": {},
+        "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Firaga", "Firaja", "Fireball", "Solar Flash"
+        ]
+    },
+    {
+        "name": "Crawler",
+        "desc": "A subterranean predator. It prefers moles, but a small part of a human body is not a problem for his stomach too.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/aw.png",
+        "portrait": "content/npc/mobs/aw1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":40,
+            "magic": 0,
+            "agility": 2,
+            "luck":-30,
+            "charisma": 10
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Succubus",
+        "desc": "A lower demon of lust. Those who cannot defend themselves from her will be raped for days, regardless of gender and age.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ax.png",
+        "portrait": "content/npc/mobs/ax1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":20,
+            "magic": 30,
+            "agility": 25,
+            "luck":0,
+            "charisma": 50
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra"
+        ]
+    },
+    {
+        "name": "Mare",
+        "desc": "A demon of lust. They are actually reasonable enough to try and seduce victim for a start. But they still attack if rejected.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ay.png",
+        "portrait": "content/npc/mobs/ay1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":35,
+            "magic": 40,
+            "agility": 40,
+            "luck":20,
+            "charisma": 65
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness", "Darkness Immunity"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga"
+        ]
+    },
+    {
+        "name": "Lilith",
+        "desc": "A high demon of lust. Smart, seductive and treacherous, they are rarely engage in combat.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/az.png",
+        "portrait": "content/npc/mobs/az1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 80,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":50,
+            "magic": 50,
+            "agility": 40,
+            "luck":30,
+            "charisma": 80
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja"
+        ]
+    },
+    {
+        "name": "Horny Succubus",
+        "desc": "When a demon of lust is unable to satisfy herself for a long time, she dies. But before that she turns into a death machine, tearing to pieces and raping everything she sees.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ba.png",
+        "portrait": "content/npc/mobs/ba1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 90,
+        "basetraits": [
+            "Berserker", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 66,
+            "defence":66,
+            "magic": 66,
+            "agility": 66,
+            "luck":50,
+            "charisma":66
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja", "Eternal Gluttony"
+        ]
+    },
+    {
+        "name": "Night Mare",
+        "desc": "A demon of lust that can only feed on hardcore bdsm actions. Very powerful and very popular in certain circles.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bb.png",
+        "portrait": "content/npc/mobs/bb1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 100,
+        "basetraits": [
+            "Demigod"
+        ],
+        "stats": {
+            "attack": 66,
+            "defence":66,
+            "magic": 66,
+            "agility": 66,
+            "luck":50,
+            "charisma":100
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "WhipAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja", "Eternal Gluttony", "Black Hole"
+        ]
+    },
+    {
+        "name": "Wolf",
+        "desc": "Wolves might not have magic or special training, but they are predators and excellent instinctive hunters.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bc.png",
+        "portrait": "content/npc/mobs/bc1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":10,
+            "magic": 0,
+            "agility": 10,
+            "luck":-50,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Furry", "Neutral"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Black Wolf",
+        "desc": "Black Wolves are bigger, angrier and stronger than usual ones.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bd.png",
+        "portrait": "content/npc/mobs/bd1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 15,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":15,
+            "magic": 0,
+            "agility": 20,
+            "luck":-40,
+            "charisma":5
+        },
+        "skills": {},
+        "traits": ["Furry", "Neutral"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Bear",
+        "desc": "Bears are too big and bad-tempered to form big hunting packs. It won't help you though if you meet one of them in a bad mood.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/be.png",
+        "portrait": "content/npc/mobs/be1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":20,
+            "magic": 0,
+            "agility": 15,
+            "luck":-35,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Furry", "Neutral"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Werewolf",
+        "desc": "A typical cursed shapeshifter.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bf.png",
+        "portrait": "content/npc/mobs/bf1.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":20,
+            "magic": 5,
+            "agility": 35,
+            "luck":-30,
+            "charisma":15
+        },
+        "skills": {},
+        "traits": ["Monster", "Darkness"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Feonix",
+        "desc": "A subspecies of wolf with considerable magic powers.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bg.png",
+        "portrait": "content/npc/mobs/bg1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":15,
+            "magic": 15,
+            "agility": 15,
+            "luck":-20,
+            "charisma":15
+        },
+        "skills": {},
+        "traits": ["Furry", "Fire", "Earth"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Fira", "Stonera"
+        ]
+    },
+    {
+        "name": "Link Wolf",
+        "desc": "A rare intelligent subspecies of wolf with basic healing abilities.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bh.png",
+        "portrait": "content/npc/mobs/bh1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Healer"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":10,
+            "magic": 25,
+            "agility": 15,
+            "luck":0,
+            "charisma":10
+        },
+        "skills": {},
+        "traits": ["Furry", "Earth"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Light Heal"
+        ]
+    },
+    {
+        "name": "Wild Dryad",
+        "desc": "Often confused with wild elves, dryads do not care about anything but the forest itself.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bi.png",
+        "portrait": "content/npc/mobs/bi1.png",
+        "race": "Dryad",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Healer", "Mage"
+        ],
+        "stats": {
+            "attack": 7,
+            "defence":30,
+            "magic": 25,
+            "agility": 15,
+            "luck":0,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Elf", "Earth", "Earth Immunity", "Water Absorption"],
+        "attack_skills": [
+            "WhipAttack"
+        ],
+        "magic_skills": ["Light Heal", "Stonera", "Stonega"
+        ]
+    },
+    {
+        "name": "Druid",
+        "desc": "A crazy old hermit. Noone can keep the sanity and healthy stomach eating only mushrooms and berries.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bj.png",
+        "portrait": "content/npc/mobs/bj1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 7,
+            "defence":40,
+            "magic": 35,
+            "agility": 15,
+            "luck":-10,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Human", "Earth", "Water", "Air"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": ["Waterga", "Stonega", "Aeroga"
+        ]
+    },
+    {
+        "name": "Shadowman",
+        "desc": "He gave everything he had to the darkness. So now darkness is everything he has.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bk.png",
+        "portrait": "content/npc/mobs/bk1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":20,
+            "magic": 45,
+            "agility": 15,
+            "luck":-30,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Darkra", "Darkga", "Darkja"
+        ]
+    },
+    {
+        "name": "Skeleton",
+        "desc": "A mindless, quite fragile pile of bones animated by dark magic.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bl.png",
+        "portrait": "content/npc/mobs/bl1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":5,
+            "magic": 0,
+            "agility": 75,
+            "luck":-40,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness Immunity"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Skeleton Warrior",
+        "desc": "A dead warrior animated by dark magic. His bones still remember how to fight.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bm.png",
+        "portrait": "content/npc/mobs/bm1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":25,
+            "magic": 0,
+            "agility": 65,
+            "luck":-40,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness Immunity"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Phantasm",
+        "desc": "Wandering without a purpose remnants of someone's soul.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bn.png",
+        "portrait": "content/npc/mobs/bn1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":20,
+            "magic": 60,
+            "agility": 35,
+            "luck":-40,
+            "charisma":15
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness", "Darkness Immunity"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Black Hole", "Darkja"
+        ]
+    },
+    {
+        "name": "Polar Bear",
+        "desc": "Just like a normal bear, but bigger, whiter and angrier.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bo.png",
+        "portrait": "content/npc/mobs/bo1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 35,
+            "defence":20,
+            "magic": 0,
+            "agility": 25,
+            "luck":-40,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Furry", "Ice"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Tundra Wolf",
+        "desc": "Life in tundra is harsh. Tundra wolves are smarter and bigger than forest ones.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bp.png",
+        "portrait": "content/npc/mobs/bp1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":20,
+            "magic": 0,
+            "agility": 25,
+            "luck":-40,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Furry", "Ice"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Wikkawak",
+        "desc": "A strange creature from an ancient primitive tribe with an unpronounceable name.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bq.png",
+        "portrait": "content/npc/mobs/bq1.png",
+        "race": "Snow Creature",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":25,
+            "magic": 0,
+            "agility": 15,
+            "luck":-40,
+            "charisma":15
+        },
+        "skills": {},
+        "traits": ["Monster", "Ice Immunity"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Yeti",
+        "desc": "A goat-like massive herbivorous creature. It won't attack you in order to eat, but it has a territory to protect.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/br.png",
+        "portrait": "content/npc/mobs/br1.png",
+        "race": "Snow Creature",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":25,
+            "magic": 0,
+            "agility": 15,
+            "luck":-30,
+            "charisma":15
+        },
+        "skills": {},
+        "traits": ["Monster", "Ice Immunity"],
+        "attack_skills": [
+            "ClawAttack", "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Frost Giant",
+        "desc": "A huge ancient hermit. Giants have lost the ability to reproduce for an unknown reason many centuries ago.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bs.png",
+        "portrait": "content/npc/mobs/bs1.png",
+        "race": "Snow Creature",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":25,
+            "magic": 0,
+            "agility": 5,
+            "luck":-30,
+            "charisma":15
+        },
+        "skills": {},
+        "traits": ["Monster", "Ice Immunity"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Ice Maiden",
+        "desc": "A mysterious female creature from the dimension of Ice. She may look hot, but her touch can freeze you on spot.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bt.png",
+        "portrait": "content/npc/mobs/bt1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":10,
+            "magic": 40,
+            "agility": 15,
+            "luck":-10,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Human", "Ice Absorption", "Ice"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Blizzard", "Blizzara", "Blizzarga"
+        ]
+    },
+    {
+        "name": "Ice Golem",
+        "desc": "An animated by magic humanoid mass of ice.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bu.png",
+        "portrait": "content/npc/mobs/bu1.png",
+        "race": "Snow Creature",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":55,
+            "magic": 0,
+            "agility": 5,
+            "luck":-20,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Monster", "Ice Absorption", "Ice"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Frozen Heart",
+        "desc": "A mage who came too close to the essence of the Ice in arcane studies.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/bv.png",
+        "portrait": "content/npc/mobs/bv1.png",
+        "race": "Snow Creature",
+        "locations": [],
+        "min_lvl": 70,
+        "basetraits": [
+            "Magical Creature", "Shooter"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":65,
+            "magic": 70,
+            "agility": 35,
+            "luck":10,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Monster", "Ice Absorption", "Ice"],
+        "attack_skills": [
+            
+        ],
+        "magic_skills": ["Blizzard", "Blizzara", "Blizzarga", "Blizzarja"
+        ]
+    },
+    {
+        "name": "Devil Rat",
+        "desc": "As long as there is a food, rats can survive almost anywhere. Even in the Hell.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bz.png",
+        "portrait": "content/npc/mobs/bz1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":15,
+            "magic": 15,
+            "agility": 85,
+            "luck":30,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Weregirl",
+        "desc": "An unusual, rare shapeshifter: a wild cat that transforms into a hot girl.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ca.png",
+        "portrait": "content/npc/mobs/ca1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Trickster", "Warrior"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":25,
+            "magic": 5,
+            "agility": 70,
+            "luck":0,
+            "charisma":70
+        },
+        "skills": {},
+        "traits": ["Furry", "Darkness"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Horny Medusa",
+        "desc": "Medusas often stay next to human settlements. Once a year, they looking for a new victim as a partner for mating, because even petrified partners are not eternal.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cb.png",
+        "portrait": "content/npc/mobs/cb1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Mage", "Shooter"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":25,
+            "magic": 25,
+            "agility": 30,
+            "luck":0,
+            "charisma":40
+        },
+        "skills": {},
+        "traits": ["Furry", "Earth"],
+        "attack_skills": [
+            "BowAttack", "FistAttack"
+        ],
+        "magic_skills": ["Stonera", "Stoneja"
+        ]
+    },
+    {
+        "name": "Minotauress",
+        "desc": "A female Minotaur. Tall and muscular, yet sexy enough to find a partner for mating, often without the use of force.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cc.png",
+        "portrait": "content/npc/mobs/cc1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":55,
+            "magic": 5,
+            "agility": 30,
+            "luck":-5,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Furry", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Thunderous Cloud",
+        "desc": "A hostile cloud of magical mist.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cd.png",
+        "portrait": "content/npc/mobs/cd1.png",
+        "race": "???",
+        "locations": [],
+        "min_lvl": 80,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":90,
+            "magic": 85,
+            "agility": 40,
+            "luck":-25,
+            "charisma":40
+        },
+        "skills": {},
+        "traits": ["Unknown", "Electricity", "Electricity Absorption"],
+        "attack_skills": [
+          
+        ],
+        "magic_skills": ["Thunder", "Thundara", "Thundaga", "Thundaja", "Thunderstorm"
+        ]
+    },
+    {
+        "name": "Steam Cloud",
+        "desc": "A hostile cloud of magical mist.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ce.png",
+        "portrait": "content/npc/mobs/ce1.png",
+        "race": "???",
+        "locations": [],
+        "min_lvl": 80,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":90,
+            "magic": 85,
+            "agility": 40,
+            "luck":-25,
+            "charisma":40
+        },
+        "skills": {},
+        "traits": ["Unknown", "Water", "Fire", "Water Absorption"],
+        "attack_skills": [
+         
+        ],
+        "magic_skills": ["Waterja", "Geyser", "Firaja"
+        ]
+    },
+    {
+        "name": "Mimic",
+        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travelers and drag them inside for mating.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cf.png",
+        "portrait": "content/npc/mobs/cf1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Trickster", "Assassin"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":100,
+            "magic": 15,
+            "agility": 40,
+            "luck":-5,
+            "charisma":50
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Stoner",
+        "desc": "A small and kinda cuit creature from the elemental dimension of Earth.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cg.png",
+        "portrait": "content/npc/mobs/cg1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":90,
+            "magic": 5,
+            "agility": 10,
+            "luck":5,
+            "charisma":10
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Earth Immunity"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Seeker",
+        "desc": "Seekers spend their lives looking for rare items. They never steal or trade though, so usually people just ignore them.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ch.png",
+        "portrait": "content/npc/mobs/ch1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Trickster", "Shooter"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":80,
+            "magic": 45,
+            "agility": 70,
+            "luck":25,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Neutral"],
+        "attack_skills": [
+            "ThrowAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Barbarian Maiden",
+        "desc": "A wild nomad, hot and merciless.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ci.png",
+        "portrait": "content/npc/mobs/ci1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":40,
+            "magic": 0,
+            "agility": 50,
+            "luck":-25,
+            "charisma":40
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Seraph",
+        "desc": "A high-ranked archangel, master of the Light magic and seasoned spearman.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cj.png",
+        "portrait": "content/npc/mobs/cj1.png",
+        "race": "Angel",
+        "locations": [],
+        "min_lvl": 100,
+        "basetraits": [
+            "Demigod"
+        ],
+        "stats": {
+            "attack": 77,
+            "defence":77,
+            "magic": 77,
+            "agility": 77,
+            "luck":50,
+            "charisma":77
+        },
+        "skills": {},
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity"],
+        "attack_skills": [
+            "ThrowAttack"
+        ],
+        "magic_skills": ["Holyda", "Holyja", "Light Heal", "Light Mass Heal", "Photon Blade", "Star Light"
+        ]
+    },
+    {
+        "name": "Malicious Stone",
+        "desc": "It's just a stone. But for some reason you cannot move on until you break it into small pieces.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ck.png",
+        "portrait": "content/npc/mobs/ck1.png",
+        "race": "???",
+        "locations": [],
+        "min_lvl": 1,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":100,
+            "magic": 100,
+            "agility": 0,
+            "luck":50,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Unknown", "Neutral"],
+        "attack_skills": [
+           
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Ogress",
+        "desc": "A massive muscular creature unfamiliar with the concept of bra.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cl.png",
+        "portrait": "content/npc/mobs/cl1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 45,
+            "defence":50,
+            "magic": 0,
+            "agility": 30,
+            "luck":-30,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Satyress",
+        "desc": "A goat-like creature, frisky and playful. They often abuse alcohol and drugs, attacking people in a deranged state.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cm.png",
+        "portrait": "content/npc/mobs/cm1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 75,
+            "defence":40,
+            "magic": 0,
+            "agility": 100,
+            "luck":-20,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Chaos",
+        "desc": "An embodiment of rage. It used to be an ordinary elemental from the dimension of Fire before connecting itself to the Darkness.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cn.png",
+        "portrait": "content/npc/mobs/cn1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 85,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 75,
+            "defence":30,
+            "magic": 80,
+            "agility": 80,
+            "luck":0,
+            "charisma":60
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Fire Absorption", "Darkness", "Darkness Immunity", "Air Immunity"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Fireball", "Solar Flash", "Eternal Gluttony", "Darkja"
+        ]
+    },
+    {
+        "name": "Boros",
+        "desc": "A hulking, clumsy beast inhabiting warmer regions.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/co.png",
+        "portrait": "content/npc/mobs/co1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":60,
+            "magic": 10,
+            "agility": 10,
+            "luck":-40,
+            "charisma":10
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Fire Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Griffin",
+        "desc": "A flying predator feeding cattle. Unwelcomed by farmers, species is on the verge of destruction.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cp.png",
+        "portrait": "content/npc/mobs/cp1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 65,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":60,
+            "magic": 10,
+            "agility": 10,
+            "luck":-40,
+            "charisma":10
+        },
+        "skills": {},
+        "traits": ["Monster", "Wind"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Aero"
+        ]
+    },
+    {
+        "name": "Royal Knight",
+        "desc": "A proud member of the royal Guard.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cq.png",
+        "portrait": "content/npc/mobs/cq1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":60,
+            "magic": 0,
+            "agility": 20,
+            "luck":-40,
+            "charisma":10
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Knightess",
+        "desc": "Another younger daughter from a noble family.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cr.png",
+        "portrait": "content/npc/mobs/cr1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 15,
+        "basetraits": [
+            "Defender"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":30,
+            "magic": 0,
+            "agility": 60,
+            "luck":-30,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Alarmer",
+        "desc": "An ancient stand-alone security device.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cs.png",
+        "portrait": "content/npc/mobs/cs1.png",
+        "race": "Droid",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":50,
+            "magic": 0,
+            "agility": 30,
+            "luck":-50,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Android", "Neutral", "Electricity Immunity"],
+        "attack_skills": [
+            "ThrowAttack"
+        ],
+        "magic_skills": ["Thunder"
+        ]
+    },
+    {
+        "name": "Infantryman",
+        "desc": "A soldier of the regular army.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ct.png",
+        "portrait": "content/npc/mobs/ct1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":60,
+            "magic": 20,
+            "agility": 35,
+            "luck":-40,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Undead Cemetry",
+        "desc": "Woven together remains of multiple once living beings.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cu.png",
+        "portrait": "content/npc/mobs/cu1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":60,
+            "magic": 20,
+            "agility": 35,
+            "luck":-40,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness Immunity", "Darkness"],
+        "attack_skills": [
+            "ClawAttack", "BiteAttack"
+        ],
+        "magic_skills": ["Eternal Gluttony", "Darkra", "Darkga"
+        ]
+    },
+    {
+        "name": "Quick Silver",
+        "desc": "A moving mixture of several elements, immune to almost any magic.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cv.png",
+        "portrait": "content/npc/mobs/cv1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":60,
+            "magic": 20,
+            "agility": 35,
+            "luck":-40,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Slime", "Magic Immunity"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Poison"
+        ]
+    },
+    {
+        "name": "Woolman",
+        "desc": "Woolmen are known for their ability to generate static electricity as a defense against predators.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cw.png",
+        "portrait": "content/npc/mobs/cw1.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":40,
+            "magic": 40,
+            "agility": 35,
+            "luck":-40,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Monster", "Electricity"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Thundara", "Thundaja"
+        ]
+    },
+    {
+        "name": "Mercenary",
+        "desc": "A professional soldier providing his services to anyone for a fee.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cx.png",
+        "portrait": "content/npc/mobs/cx1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":80,
+            "magic": 10,
+            "agility": 55,
+            "luck":-10,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Vortex",
+        "desc": "An aggressive clot of negative energy.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cy.png",
+        "portrait": "content/npc/mobs/cy1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":90,
+            "magic": 80,
+            "agility": 65,
+            "luck":-40,
+            "charisma":40
+        },
+        "skills": {},
+        "traits": ["Monster", "Darkness Absorption", "Darkness"],
+        "attack_skills": [
+            
+        ],
+        "magic_skills": ["Black Hole", "Darkra"
+        ]
+    },
+    {
+        "name": "Fiery Shadow",
+        "desc": "The shadow of a former magician who killed himself while using fire magic against someone.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/cz.png",
+        "portrait": "content/npc/mobs/cz1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Magical Creature", "Warrior"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":40,
+            "magic": 70,
+            "agility": 45,
+            "luck":-40,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Slime", "Fire", "Darkness"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Fireball", "Fira", "Fire", "Darkra", "Dark"
+        ]
+    },
+    {
+        "name": "Thunderous Shadow",
+        "desc": "The shadow of a former magician who killed himself while using electricity magic against someone.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/da.png",
+        "portrait": "content/npc/mobs/da1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Magical Creature", "Warrior"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":40,
+            "magic": 70,
+            "agility": 45,
+            "luck":-40,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Slime", "Electricity", "Darkness"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Thunderstorm", "Thundara", "Thunder", "Darkra", "Dark"
+        ]
+    },
+    {
+        "name": "Flame Spirit",
+        "desc": "The living embodiment of the element of Fire.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/db.png",
+        "portrait": "content/npc/mobs/db1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":40,
+            "magic": 80,
+            "agility": 35,
+            "luck":-30,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Fire Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Fire", "Fira"
+        ]
+    },
+    {
+        "name": "Thunder Spirit",
+        "desc": "The living embodiment of the element of Electricity.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dc.png",
+        "portrait": "content/npc/mobs/dc1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":40,
+            "magic": 80,
+            "agility": 35,
+            "luck":-30,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Monster", "Electricity", "Electricity Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Thunder", "Thundara"
+        ]
+    },
+    {
+        "name": "Dark Spirit",
+        "desc": "The living embodiment of the element of Darkness.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dd.png",
+        "portrait": "content/npc/mobs/dd1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":40,
+            "magic": 80,
+            "agility": 35,
+            "luck":-30,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Monster", "Darkness", "Darkness Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra"
+        ]
+    },
+    {
+        "name": "Aqueous Spirit",
+        "desc": "The living embodiment of the element of Water.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/de.png",
+        "portrait": "content/npc/mobs/de1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":40,
+            "magic": 80,
+            "agility": 35,
+            "luck":-30,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Monster", "Water", "Water Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Water", "Watera"
+        ]
+    },
+    {
+        "name": "Storm Spirit",
+        "desc": "The living embodiment of the element of Air.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/df.png",
+        "portrait": "content/npc/mobs/df1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":40,
+            "magic": 80,
+            "agility": 35,
+            "luck":-30,
+            "charisma":25
+        },
+        "skills": {},
+        "traits": ["Monster", "Air", "Air Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Aero", "Aerora"
+        ]
+    },
+    {
+        "name": "Naga Archer",
+        "desc": "A half-snake, half-woman. Because of the unusual structure of the body they are experiencing certain difficulties during mating.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dg.png",
+        "portrait": "content/npc/mobs/dg1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 80,
+            "defence":40,
+            "magic": 20,
+            "agility": 60,
+            "luck":-20,
+            "charisma":35
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "BowAttack", "FistAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Black Butterfly",
+        "desc": "A widespread scavenger. Silent, fast and voracious, they almost completely replaced other scavenger like crows.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dh.png",
+        "portrait": "content/npc/mobs/dh1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":40,
+            "magic": 10,
+            "agility": 100,
+            "luck":-10,
+            "charisma":5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": ["Poison"
+        ]
+    },
+    {
+        "name": "Gluttony",
+        "desc": "An artificially created omnivore. It can eat and digest absolutely anything.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/di.png",
+        "portrait": "content/npc/mobs/di1.png",
+        "race": "Homunculus",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 100,
+            "defence":60,
+            "magic": 40,
+            "agility": 70,
+            "luck":-10,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Lust",
+        "desc": "An artificially created succubus. She doesn't need to eat and breath, but sex is mandatory for her survival.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dj.png",
+        "portrait": "content/npc/mobs/dj1.png",
+        "race": "Homunculus",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 100,
+            "defence":80,
+            "magic": 20,
+            "agility": 90,
+            "luck":-10,
+            "charisma":60
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ClawAttack", "FistAttack"
+        ],
+        "magic_skills": ["Dark"
+        ]
+    },
+    {
+        "name": "Horny Mummy",
+        "desc": "The ancients knew how to protect the body from decay. Over time, the process only intensified, and eventually brought them back to life.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dk.png",
+        "portrait": "content/npc/mobs/dk1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":100,
+            "magic": 20,
+            "agility": 30,
+            "luck":-30,
+            "charisma":50
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Darkra", "Darkga", "Black Hole"
+        ]
+    },
+    {
+        "name": "Blast Beetle",
+        "desc": "A fire-spitting insect. Its unusual abilities help it to survive even in coldest areas.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dl.png",
+        "portrait": "content/npc/mobs/dl1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Mage", "Assassin"
+        ],
+        "stats": {
+            "attack": 80,
+            "defence":60,
+            "magic": 70,
+            "agility": 50,
+            "luck":-40,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Ice Immunity"],
+        "attack_skills": [
+            "CannonAttack", "ClawAttack"
+        ],
+        "magic_skills": ["Fireball", "Firaga"
+        ]
+    },
+    {
+        "name": "Titan",
+        "desc": "They say some ancients turned themselves into these creatures in order to survive upcoming climate change.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dm.png",
+        "portrait": "content/npc/mobs/dm1.png",
+        "race": "Titan",
+        "locations": [],
+        "min_lvl": 80,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 90,
+            "defence":70,
+            "magic": 10,
+            "agility": 20,
+            "luck":-30,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire Immunity", "Ice Immunity"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Wadding",
+        "desc": "A cute and fluffy small animal. There have been numerous attempts to tame them, but they all failed.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dn.png",
+        "portrait": "content/npc/mobs/dn1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":20,
+            "magic": 40,
+            "agility": 70,
+            "luck":0,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Furry", "Air Immunity", "Ice Immunity"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Shy Rabber",
+        "desc": "Anything that once lived and died can be raised as undead. Uncontrolled growth of the population of these creatures led to a ban on condoms.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/do.png",
+        "portrait": "content/npc/mobs/do1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Trickster", "Shooter"
+        ],
+        "stats": {
+            "attack": 100,
+            "defence":100,
+            "magic": 100,
+            "agility": 100,
+            "luck":50,
+            "charisma":100
+        },
+        "skills": {},
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity"],
+        "attack_skills": [
+            "ThrowAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Angry Rabber",
+        "desc": "Anything that once lived and died can be raised as undead. Uncontrolled growth of the population of these creatures led to a ban on condoms.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dp.png",
+        "portrait": "content/npc/mobs/dp1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Trickster", "Defender"
+        ],
+        "stats": {
+            "attack": 100,
+            "defence":100,
+            "magic": 100,
+            "agility": 100,
+            "luck":50,
+            "charisma":100
+        },
+        "skills": {},
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Dark Elf Archer",
+        "desc": "A scout from the Underground Empire of Dark Elves.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dq.png",
+        "portrait": "content/npc/mobs/dq1.png",
+        "race": "Dark Elf",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Shooter", "Battle Mage"
+        ],
+        "stats": {
+            "attack": 80,
+            "defence":50,
+            "magic": 30,
+            "agility": 60,
+            "luck":10,
+            "charisma":70
+        },
+        "skills": {},
+        "traits": ["Elf", "Darkness"],
+        "attack_skills": [
+            "BowAttack", "FistAttack"
+        ],
+        "magic_skills": ["Darkga", "Dark"
+        ]
+    },
+    {
+        "name": "Harpy Queen",
+        "desc": "The most powerful and sexy harpy becomes the queen of a flock.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dr.png",
+        "portrait": "content/npc/mobs/dr1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 90,
+        "basetraits": [
+            "Defender", "Battle Mage"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":80,
+            "magic": 80,
+            "agility": 60,
+            "luck":-10,
+            "charisma":70
+        },
+        "skills": {},
+        "traits": ["Furry", "Air"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Air Pressure", "Air Blast", "Aeroja"
+        ]
+    },
+    {
+        "name": "Beargirl",
+        "desc": "Most beargirls do not realize that they are not average bears, and behave accordingly.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ds.png",
+        "portrait": "content/npc/mobs/ds1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Defender", "Berserker"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":80,
+            "magic": 10,
+            "agility": 40,
+            "luck":-30,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Furry", "Neutral"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Skyfish",
+        "desc": "Flying predators whose bodies are lighter than air due to hydrogen bubbles inside.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dt.png",
+        "portrait": "content/npc/mobs/dt1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Berserker"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":30,
+            "magic": 60,
+            "agility": 70,
+            "luck":-30,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Monster", "Water", "Air"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Cannon Turtle",
+        "desc": "This creature able to shoot large stones from a cavity in its shell.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/du.png",
+        "portrait": "content/npc/mobs/du1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 90,
+            "defence":70,
+            "magic": 20,
+            "agility": 10,
+            "luck":-40,
+            "charisma":10
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire"],
+        "attack_skills": [
+            "CannonAttack", "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Electrificator",
+        "desc": "An ancient defensive mechanism.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dv.png",
+        "portrait": "content/npc/mobs/dv1.png",
+        "race": "Droid",
+        "locations": [],
+        "min_lvl": 45,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":70,
+            "magic": 40,
+            "agility": 90,
+            "luck":-50,
+            "charisma":0
+        },
+        "skills": {},
+        "traits": ["Android", "Electricity"],
+        "attack_skills": [
+            
+        ],
+        "magic_skills": ["Ion Storm", "Electromagnetism", "Thunderstorm"
+        ]
+    },
+    {
+        "name": "Naiad",
+        "desc": "Naiads tend to settle on the ocean floor, surfacing every few years only for mating.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dw.png",
+        "portrait": "content/npc/mobs/dw1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Battle Mage"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":60,
+            "magic": 70,
+            "agility": 50,
+            "luck":-20,
+            "charisma":30
+        },
+        "skills": {},
+        "traits": ["Monster", "Water"],
+        "attack_skills": [
+            "GunAttack"
+        ],
+        "magic_skills": ["Waterga", "Watera"
+        ]
+    },
+    {
+        "name": "Technomancer",
+        "desc": "Those who study and use in battle ancient devices left by long-vanished empires are called technomancers.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dx.png",
+        "portrait": "content/npc/mobs/dx1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Battle Mage", "Defender"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":50,
+            "magic": 30,
+            "agility": 30,
+            "luck":-10,
+            "charisma":20
+        },
+        "skills": {},
+        "traits": ["Human", "Electricity"],
+        "attack_skills": [
+            "CannonAttack", "FistAttack"
+        ],
+        "magic_skills": ["Electromagnetism", "Thunderstorm", "Thundaga"
+        ]
+    },
+    {
+        "name": "Headhunter",
+        "desc": "Headhunters are legitimate assassins who work for the government.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dy.png",
+        "portrait": "content/npc/mobs/dy1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 65,
+        "basetraits": [
+            "Warrior", "Assassin"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":30,
+            "magic": 30,
+            "agility": 80,
+            "luck":10,
+            "charisma":50
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": ["Poison"
+        ]
+    },
+    {
+        "name": "Syringer",
+        "desc": "Syringers work for the government, specializing in kidnapping.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/dz.png",
+        "portrait": "content/npc/mobs/dz1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 65,
+        "basetraits": [
+            "Shooter", "Assassin"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":30,
+            "magic": 30,
+            "agility": 80,
+            "luck":10,
+            "charisma":50
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SprayAttack"
+        ],
+        "magic_skills": ["Poison"
+        ]
+    },
+    {
+        "name": "Duelist",
+        "desc": "An elite swordsman working for the government.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ea.png",
+        "portrait": "content/npc/mobs/ea1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 75,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 80,
+            "defence":70,
+            "magic": 10,
+            "agility": 80,
+            "luck":20,
+            "charisma":50
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Fencer",
+        "desc": "An elite swordswoman working for the government.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/eb.png",
+        "portrait": "content/npc/mobs/eb1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 75,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 100,
+            "defence":50,
+            "magic": 10,
+            "agility": 80,
+            "luck":20,
+            "charisma":60
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    }
+]

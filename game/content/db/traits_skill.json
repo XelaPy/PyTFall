@@ -1,0 +1,79 @@
+[
+    {
+    "id": "Curious",
+    "desc": "This girl is very inquisitive.",
+    "block_traits": ["Indifferent"],
+    "effect": "Fast Learner"
+    },
+    {
+    "id": "Indifferent",
+    "desc": "This girl doesn't care much about the world around as long as it doesn't concern her.",
+    "block_traits": ["Curious"],
+    "effect": "Slow Learner"
+    },
+    {
+    "id": "Adventurer",
+    "desc": "This girl loves adventures.",
+    "block_traits": ["Homebody"],
+    "mod_skills": {"exploration": [0.05, 0.05, 0.05]}
+    },
+    {
+    "id": "Homebody",
+    "desc": "Who needs adventures when you have a warm house, a tasty food and a good book?.",
+    "block_traits": ["Adventurer"],
+    "mod_skills": {"exploration": [-0.05, -0.05, -0.05]}
+    },
+    {
+    "id": "Kleptomaniac",
+    "desc": "She cannot resist taking a souvenir from every new place she visits.",
+    "effect": "Kleptomaniac"
+    },
+   {
+    "id": "Neat",
+    "desc": "Dirt and disorder don't stand a chance against her.",
+    "block_traits": ["Messy"],
+    "mod_skills": {"cleaning": [0.06, 0.03, 0.1], "anal": [-0.06, -0.03, -0.1]}
+    },
+    {
+    "id": "Messy",
+    "desc": "Everything inevitably becomes dirty over time. Why bother with cleaning?",
+    "block_traits": ["Neat"],
+    "mod_skills": {"cleaning": [-0.06, -0.03, -0.1], "anal": [0.06, 0.03, 0.1]}
+    },
+   {
+    "id": "Natural Leader",
+    "desc": "She can easily lead other people.",
+    "block_traits": ["Natural Follower"],
+    "mod_skills": {"management": [0.07, 0.04, 0.1], "teaching": [0.03, 0.01, 0.05], "service": [-0.08, -0.05, -0.1], "bdsm": [0, 0, -0.05]}
+    },
+   {
+    "id": "Natural Follower",
+    "desc": "She prefers to follow orders rather than make her own decisions.",
+    "block_traits": ["Natural Leader"],
+    "mod_skills": {"management": [-0.07, -0.04, -0.1], "teaching": [-0.03, -0.01, -0.05], "service": [0.08, 0.05, 0.1], "bdsm": [0, 0, 0.05]}
+    },
+    {
+    "id": "Heavy Drinker",
+    "desc": "She just can't hold her liquor.",
+    "mod": {"upkeep": 15},
+    "mod_skills": {"refinement": [0, 0, -0.01]}
+    },
+    {
+    "id": "Always Hungry",
+    "desc": "There is never enough for this girl's appetite.",
+    "mod": {"upkeep": 10, "constitution": 10},
+    "mod_skills": {"refinement": [0, 0, -0.04]}
+    },
+    {
+    "id": "Well-mannered",
+    "desc": "This girl is polite, courteous and respectful to others under most circumstances",
+    "block_traits": ["Ill-mannered"],
+    "mod_skills": {"refinement": [0.2, 0.1, 0.08], "bdsm": [-0.07, -0.02, -0.06]}
+    },
+    {
+    "id": "Ill-mannered",
+    "desc": "This girl is rude, insolent and uncivil under most circumstances.",
+    "block_traits": ["Well-mannered"],
+    "mod_skills": {"refinement": [-0.2, -0.1, -0.08], "bdsm": [0.07, 0.02, 0.06]}
+    }
+    ]

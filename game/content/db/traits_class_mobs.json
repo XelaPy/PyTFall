@@ -1,0 +1,331 @@
+[
+    {
+        "id": "Berserker",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "Berserker attacks no matter the cost.",
+        "basetrait": true,
+        "mob_only": true,
+        "mod": {
+            "attack": 300,
+            "defence": 80,
+            "agility": 20
+        },
+        "max": {
+            "attack": 150,
+            "defence": 40,
+            "agility": 20
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "attack": 300,
+            "defence": 40,
+            "health": 70,
+            "agility": 20
+        },
+        "init_max": {
+            "attack": 200,
+            "defence": 50,
+            "health": 100,
+            "agility": 20
+        },
+        "init_mod": {
+            "attack": 150,
+            "defence": 25,
+            "agility": 20
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                3
+            ],
+            "defence": [
+                0,
+                1
+            ],
+            "agility": [
+                0,
+                1
+            ],
+            "health": [
+                0,
+                1
+            ],
+            "magic": [
+                -2,
+                -1
+            ],
+            "mp": [
+                -2,
+                -1
+            ]
+        }
+    },
+    {
+        "id": "Juggernaut",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "Juggernauts may be slow, but very difficult to kill.",
+        "basetrait": true,
+        "mob_only": true,
+        "mod": {
+            "attack": 100,
+            "defence": 300,
+            "constitution": 30,
+            "agility": -50
+        },
+        "max": {
+            "attack": 90,
+            "defence": 150,
+            "constitution": 30,
+            "agility": -50
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "defence": 300,
+            "attack": 50,
+            "health": 70,
+            "constitution": 30,
+            "agility": -50
+        },
+        "init_max": {
+            "attack": 50,
+            "defence": 200,
+            "health": 100,
+            "agility": -20
+        },
+        "init_mod": {
+            "attack": 50,
+            "defence": 150,
+            "agility": -20,
+            "constitution": 30
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                1
+            ],
+            "defence": [
+                0,
+                3
+            ],
+            "agility": [
+                -2,
+                -1
+            ],
+            "health": [
+                2,
+                5
+            ],
+            "magic": [
+                -2,
+                -1
+            ],
+            "mp": [
+                -2,
+                -1
+            ]
+        }
+    },
+    {
+        "id": "Magical Creature",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "This creature has magic in it's blood, flesh and soul.",
+        "basetrait": true,
+        "mob_only": true,
+        "mod": {
+            "magic": 100,
+            "upkeep": 5,
+            "intelligence": 10,
+            "attack": 50,
+            "defence": 50
+        },
+        "max": {
+            "magic": 50,
+            "intelligence": 5,
+            "attack": 25,
+            "defence": 25
+        },
+        "init_lvlmax": {
+            "magic": 100,
+            "mp": 100,
+            "attack": 50,
+            "defence": 25,
+            "health": 50
+        },
+        "init_max": {
+            "magic": 100,
+            "mp": 100,
+            "attack": 50,
+            "defence": 25,
+            "health": 50
+        },
+        "init_mod": {
+            "magic": 50,
+            "attack": 25,
+            "defence": 10
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                1
+            ],
+            "defence": [
+                0,
+                1
+            ],
+            "magic": [
+                0,
+                1
+            ],
+            "mp": [
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "id": "Trickster",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "This creature is not too strong, but extremely agile and fast.",
+        "basetrait": true,
+        "mob_only": true,
+        "mod": {
+            "attack": 10,
+            "defence": 10,
+            "agility": 90,
+            "luck": 10
+        },
+        "max": {
+            "attack": 5,
+            "defence": 5,
+            "agility": 90
+        },
+        "mod_skills": {},
+        "init_lvlmax": {
+            "attack": 20,
+            "defence": 20,
+            "agility": 90
+        },
+        "init_max": {
+            "attack": 30,
+            "defence": 30,
+            "health": 20,
+            "agility": 30
+        },
+        "init_mod": {
+            "attack": 10,
+            "defence": 5,
+            "agility": 90
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                0,
+                1
+            ],
+            "defence": [
+                0,
+                1
+            ],
+            "agility": [
+                0,
+                2
+            ],
+            "magic": [
+                -5,
+                -1
+            ],
+            "mp": [
+                -5,
+                -1
+            ]
+        }
+    },
+    {
+        "id": "Demigod",
+        "occupations": [
+            "Warrior"
+        ],
+        "desc": "This creature does not have any weaknesses.",
+        "basetrait": true,
+        "mob_only": true,
+        "mod": {
+            "magic": 100,
+            "upkeep": 5,
+            "intelligence": 10,
+            "attack": 100,
+            "defence": 100
+        },
+        "max": {
+            "magic": 50,
+            "intelligence": 5,
+            "attack": 50,
+            "defence": 50,
+            "agility": 40
+        },
+        "init_lvlmax": {
+            "magic": 100,
+            "mp": 100,
+            "attack": 100,
+            "defence": 50,
+            "health": 200,
+            "agility": 40
+        },
+        "init_max": {
+            "magic": 100,
+            "mp": 100,
+            "attack": 100,
+            "defence": 50,
+            "health": 100
+        },
+        "init_mod": {
+            "magic": 50,
+            "attack": 50,
+            "defence": 25
+        },
+        "init_skills": {},
+        "leveling_stats": {
+            "attack": [
+                1,
+                3
+            ],
+            "defence": [
+                1,
+                3
+            ],
+            "magic": [
+                1,
+                3
+            ],
+            "mp": [
+                0,
+                5
+            ],
+            "attack": [
+                1,
+                3
+            ],
+            "defence": [
+                1,
+                3
+            ],
+            "agility": [
+                0,
+                2
+            ],
+            "health": [
+                1,
+                3]
+        }
+    }
+]

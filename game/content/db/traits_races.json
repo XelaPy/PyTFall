@@ -1,0 +1,82 @@
+[
+    {
+    "id": "Elf",
+    "max": {"charisma": 10, "constitution": -10, "agility": 5},
+    "type": "race",
+    "icon": "content/races/elf.png",
+    "el_damage": {"earth": 0.1},
+    "race": true
+    },
+    {
+    "id": "Undead",
+    "max": {"charisma": -10, "constitution": 10},
+    "type": "race",
+    "icon": "content/races/undead.png",
+    "el_damage": {"darkness": 0.1},
+    "el_defence": {"healing": 0.5, "darkness": 0.5},
+    "race": true
+    },
+    {
+    "id": "Furry",
+    "max": {"agility": 10, "intelligence": -10},
+    "type": "race",
+    "icon": "content/races/furry.png",
+    "race": true
+    },
+    {
+    "id": "Android",
+    "max": {"charisma": -15, "constitution": 15, "agility": 5},
+    "type": "race",
+    "icon": "content/races/android.png",
+    "el_damage": {"electricity": 0.1},
+    "el_defence": {"healing": 0.5, "ice": 0.1, "air": 0.1, "darkness": 0.1, "light": 0.1},
+    "race": true
+    },
+   {
+    "id": "Divine Creature",
+    "max": {"charisma": 10, "magic": 5, "constitution": -15},
+    "type": "race",
+    "icon": "content/races/angel.png",
+    "el_damage": {"light": 0.1},
+    "el_defence": {"light": 0.1},
+    "race": true
+    },
+   {
+    "id": "Demonic Creature",
+    "max": {"charisma": -25, "magic": 10, "constitution": 15},
+    "type": "race",
+    "icon": "content/races/demon.png",
+    "el_damage": {"fire": 0.1},
+    "el_defence": {"fire": 0.1},
+    "race": true
+    },
+   {
+    "id": "Human",
+    "max": {"constitution": 5},
+    "type": "race",
+    "icon": "content/races/human.png",
+    "race": true
+    },
+   {
+    "id": "Monster",
+    "max": {"attack": 10, "charisma": -10, "defence": 10},
+    "type": "race",
+    "icon": "content/races/monster.png",
+    "race": true
+    },
+   {
+    "id": "Slime",
+    "max": {"defence": 30, "charisma": -30},
+    "type": "race",
+    "icon": "content/races/slime.png",
+    "el_damage": {"water": 0.1},
+    "race": true
+    },
+   {
+    "id": "Unknown",
+    "max": {"constitution": 10},
+    "type": "race",
+    "icon": "content/races/unknown.png",
+    "race": true
+    }
+]
