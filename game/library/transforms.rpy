@@ -181,3 +181,15 @@ init -1: # Transforms:
         linear t clockwise circles 1
         repeat
 
+    transform mm_clouds(start, end, t):
+        additive 1.0
+        xpos start
+        linear t xpos end
+        repeat
+    
+    transform mm_fire(yps, ype, ast, ae, t):
+        additive 0.9
+        ypos yps
+        alpha ast
+        linear t ypos ype alpha ae
+        repeat
