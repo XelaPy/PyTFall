@@ -6,8 +6,39 @@
 #  3 - proposition - hire
 
 ###### j1
-label interactions_friends:
-    if chr.disposition > 500:
+label interactions_friends: #if char["Hinata"] in char["Sakura"].friends:
+    "You proposing to become friends."
+    if char[chr] in hero.friends:
+        "But you already are!"
+        python:
+            chr.AP += 1
+            hero.AP += 1
+        jump girl_interactions
+    if ct("Shy"):  
+        $ fr_ch = -10
+    else:
+        $ fr_ch = 0
+    if ct("Impersonal"):
+        $ fr_ch += 50
+    elif ct("Kuudere"):  
+        $ fr_ch += 30
+    elif ct("Dandere"):
+        $ fr_ch += 20
+    elif ct("Tsundere"):
+        $ fr_ch += 40
+    elif ct("Imouto"):
+        $ fr_ch += 80
+    elif ct("Bokukko"):
+        $ fr_ch += 70
+    elif ct("Ane"):
+        $ fr_ch += 90
+    elif ct("Kamidere"):  
+        $ fr_ch += 60
+    elif ct("Yandere"):  
+        $ fr_ch += 50
+    else:
+        $ fr_ch += 70
+    if chr.disposition >= (250 - fr_ch) and dice(round((fr_ch + chr.disposition)*0.25))):
         if ct("Impersonal"):
             $rc("Very well.", "Alright.")
         elif ct("Shy") and dice(30):  
@@ -30,6 +61,8 @@ label interactions_friends:
             $rc("You know, I'd be totally up for sex friend status.♪", "Well, we get along fine...")
         else:
            $rc("Mm, alright.", "Okay!", "I have the feeling I could get along with you.", "Hehehe, it's great to be friends～♪", "Of course. Let's get along♪")
+#        $ chr.friends.add(hero)
+#        $ hero.friends.add(chr)
     else:
         if ct("Impersonal"):  
             $rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
@@ -59,7 +92,46 @@ label interactions_friends:
 
 ###### j2    
 label interactions_girlfriend:
-    if chr.disposition > 800:
+    "You proposing to become lovers."
+    if ct("Lesbian"):  
+        $rc("I'm terribly sorry, but... I can't do that with a man.", "Men for me are...well...", "Sorry. I'm weird, so... I'm not into guys.", "Men are...no.")
+        "Maybe you can find a way to change her orientation. There is nothing you can do for now."
+        jump girl_interactions
+    $ l_ch = 0
+    if ct("Shy"):  
+        $ l_ch -= 10
+    if ct("Virgin"):  
+        $ l_ch -= 10
+    elif ct("MILF"):  
+        $ l_ch += 10
+    if ct("Nymphomaniac"):
+        $ l_ch += 30
+    if ct("Frigid"):
+        $ l_ch -= 30
+    if ct("Lesbian"):
+        $ l_ch -= 50
+    if ct("Impersonal"):
+        $ l_ch += 50
+    elif ct("Kuudere"):  
+        $ l_ch += 30
+    elif ct("Dandere"):
+        $ l_ch += 20
+    elif ct("Tsundere"):
+        $ l_ch += 40
+    elif ct("Imouto"):
+        $ l_ch += 60
+    elif ct("Bokukko"):
+        $ l_ch += 70
+    elif ct("Ane"):
+        $ l_ch += 50
+    elif ct("Kamidere"):  
+        $ l_ch += 60
+    elif ct("Yandere"):  
+        $ l_ch += 80
+    else:
+        $ l_ch += 70
+    
+    if 1>0:# chr.disposition >= (500 - l_ch) and dice(round((l_ch + chr.disposition)*0.15))):
         if ct("Impersonal") in  chr.traits:
             $rc("You want me to have an affair with you. Understood.", "As you wish. I'm yours.", "I understand. I suppose we're now lovers.")
         elif ct("Shy") and dice(20):  
@@ -82,11 +154,11 @@ label interactions_girlfriend:
             $rc("Of course! Now no one can keep us apart! Hehe♪", "We're sweethearts now?　Finally!♪", "I want to be yours as well♪", "Huhu, I'm not responsible if you regret it...", "You wanna do something dirty with me, right? You'd better!")
         else:
             $rc("Yes... I'll be by your side forever... Hehehe♪", "Gosh. Fine...", "O-Okay... Ahaha, this is kinda embarrassing...", "I guess I'm your girlfriend now.")
+#        $ chr.lovers.add(hero)
+#        $ hero.lovers.add(chr)
     else:
         if ct("Impersonal"):
             $rc("Unable to process.", "I'm sorry, but I must refuse you.")
-        elif ct("Lesbian") and dice(50):  
-            $rc("I'm terribly sorry, but... I can't do that with a man!", "Men for me are...well...", "Sorry. I'm weird, so... I'm not into guys.", "Men are...no.")
         elif ct("Shy") and dice(30):  
             $rc("Sorry... I'm... still not ready to go that far...", "Ah... Eh... Aah! This is a joke... Right?")
         elif ct("Imouto"):

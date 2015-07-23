@@ -94,11 +94,14 @@ label girl_interactions:
             # CHAT
             m = 0
             pytfall.world_actions.menu(m, "Chat")
-            pytfall.world_actions.gm_choice("General", mode="girl_interactions", index=(m, 0))
-            pytfall.world_actions.gm_choice("About Her", index=(m, 1))
-            pytfall.world_actions.gm_choice("Interests", index=(m, 2))
-            pytfall.world_actions.gm_choice("Hang Outs", mode="girl_meets", index=(m, 3))
-            pytfall.world_actions.gm_choice("Romance", mode="girl_meets", index=(m, 4))
+            pytfall.world_actions.gm_choice("General", index=(m, 0))
+            pytfall.world_actions.gm_choice("About Job", mode="girl_interactions", index=(m, 1))
+            pytfall.world_actions.gm_choice("How She Feels", mode="girl_interactions", index=(m, 2))
+            pytfall.world_actions.gm_choice("About Her", index=(m, 3))
+            pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
+            pytfall.world_actions.gm_choice("Interests", mode="girl_interactions", index=(m, 5))
+            pytfall.world_actions.gm_choice("Romance", index=(m, 6))
+            pytfall.world_actions.gm_choice("Fuck", index=(m, 7))
             
             # TRAINING
             m = 1
@@ -296,7 +299,7 @@ label girl_interactions:
         pytfall.gm.end()
     
 
-screen pyt_girl_interactions():
+screen pyt_girl_interactions:
     
     # BG
     add "content/gfx/images/bg_gradient.png" yalign 0.2
@@ -318,6 +321,7 @@ screen pyt_girl_interactions():
             # Trying to invert the values (bar seems messed up with negative once):
             if pytfall.gm.chr.disposition < 0:
                 inverted_disposition = pytfall.gm.chr.disposition * -1
+            
             else:
                 inverted_disposition = 0
         
@@ -386,111 +390,112 @@ screen pyt_girl_interactions():
     use pyt_top_stripe(False)
     
 
-# screen pyt_girl_interactions_old:
-    # # Controls
-    # frame:
-        # pos (860, 50)
-        # xysize (420, 560)
-        # background "content/gfx/frame/frame12.png"
-        # style_group "interactions"
-          
-        # text "TALK" xalign 0.49 ypos 130 size 22 color white
-          
-        # text "SEX" xalign 0.49 ypos 260 size 22 color white
-          
-        # text "GO OUT" xalign 0.49 ypos 380 size 22 color white
-          
-        # hbox:
-            # xalign 0.47
-            # ypos 150
-            # button:
-                # xysize (78, 30)
-                # action gi_action("chat")
-                # text "Chat"
-              
-            # null width 65
-              
-            # button:
-                # xysize (78, 30)
-                # action gi_action("praise")
-                # text "Praise"
-          
-        # button:
-            # xalign 0.48
-            # ypos 192
-            # xysize (78, 30)
-            # action gi_action("scold")
-            # text "Scold"
-          
-        # button:
-            # xalign 0.195
-            # ypos 285
-            # xysize (78, 30)
-            # action gi_action("fuck")
-            # text "Fuck"
-          
-        # button:
-            # xalign 0.493
-            # ypos 285
-            # xysize (110, 30)
-            # action gi_action("blowjob")
-            # text "Blowjob"
-          
-        # button:
-            # xalign 0.79
-            # ypos 285
-            # xysize (78, 30)
-            # action gi_action("anal")
-            # text "Anal"
-          
-        # button:
-            # xalign 0.488
-            # ypos 325
-            # xysize (160, 30)
-            # action gi_action("lesbo")
-            # text "Lesbo Action"
-          
-        # button:
-            # xalign 0.193
-            # ypos 394
-            # xysize (78, 30)
-            # action gi_action("date")
-            # text "Date"
-          
-        # button:
-            # xalign 0.493
-            # ypos 394
-            # xysize (110, 30)
-            # action gi_action("shopping")
-            # text "Shopping"
-          
-        # button:
-            # xalign 0.79
-            # ypos 394
-            # xysize (78, 30)
-            # action gi_action("other")
-            # text "Other"
-          
-        # button:
-            # xalign 0.484
-            # ypos 435
-            # xysize (170, 30)
-            # action gi_action("entertainment")
-            # text "Entertainment"
-      
-    # # Move to General GM
-    # if config.developer:
-        # textbutton "Test GM":
-            # align (0.5, 0.1)
-            # action Return(['test_gm'])
-      
-    # # Girl image
-    # frame:
-        # background Frame("content/gfx/frame/FrameGP.png", 40, 40)
-        # xanchor 0
-        # xpos 0.05
-        # yalign 0.2
-        # add ProportionalScale(pytfall.gm.img, 900, 530)
+screen pyt_girl_interactions_old:
+    
+    # Controls
+    frame:
+        pos (860, 50)
+        xysize (420, 560)
+        background "content/gfx/frame/frame12.png"
+        style_group "interactions"
+         
+        text "TALK" xalign 0.49 ypos 130 size 22 color white
+         
+        text "SEX" xalign 0.49 ypos 260 size 22 color white
+         
+        text "GO OUT" xalign 0.49 ypos 380 size 22 color white
+         
+        hbox:
+            xalign 0.47
+            ypos 150
+            button:
+                xysize (78, 30)
+                action gi_action("chat")
+                text "Chat"
+             
+            null width 65
+             
+            button:
+                xysize (78, 30)
+                action gi_action("praise")
+                text "Praise"
+         
+        button:
+            xalign 0.48
+            ypos 192
+            xysize (78, 30)
+            action gi_action("scold")
+            text "Scold"
+         
+        button:
+            xalign 0.195
+            ypos 285
+            xysize (78, 30)
+            action gi_action("fuck")
+            text "Fuck"
+         
+        button:
+            xalign 0.493
+            ypos 285
+            xysize (110, 30)
+            action gi_action("blowjob")
+            text "Blowjob"
+         
+        button:
+            xalign 0.79
+            ypos 285
+            xysize (78, 30)
+            action gi_action("anal")
+            text "Anal"
+         
+        button:
+            xalign 0.488
+            ypos 325
+            xysize (160, 30)
+            action gi_action("lesbo")
+            text "Lesbo Action"
+         
+        button:
+            xalign 0.193
+            ypos 394
+            xysize (78, 30)
+            action gi_action("date")
+            text "Date"
+         
+        button:
+            xalign 0.493
+            ypos 394
+            xysize (110, 30)
+            action gi_action("shopping")
+            text "Shopping"
+         
+        button:
+            xalign 0.79
+            ypos 394
+            xysize (78, 30)
+            action gi_action("other")
+            text "Other"
+         
+        button:
+            xalign 0.484
+            ypos 435
+            xysize (170, 30)
+            action gi_action("entertainment")
+            text "Entertainment"
      
-    # use pyt_top_stripe(True)
+    # Move to General GM
+    if config.developer:
+        textbutton "Test GM":
+            align (0.5, 0.1)
+            action Return(['test_gm'])
+     
+    # Girl image
+    frame:
+        background Frame("content/gfx/frame/FrameGP.png", 40, 40)
+        xanchor 0
+        xpos 0.05
+        yalign 0.2
+        add ProportionalScale(pytfall.gm.img, 900, 530)
+    
+    use pyt_top_stripe(True)
     

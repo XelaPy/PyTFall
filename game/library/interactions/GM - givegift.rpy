@@ -89,7 +89,7 @@ label interactions_perfectgift:
     if chr.disposition > 500 and ct("Nymphomaniac") and dice(40):
         g "I think you deserve a reward."
         $pytfall.gm.img_generate("blowjob", "partner hidden", type="first_default")
-        $ g("Hehe, did you like it?")
+        $ g("Did you like it? ♥")
     
     jump girl_interactions
     

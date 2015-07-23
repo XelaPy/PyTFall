@@ -11,71 +11,91 @@
 #  8 - chat - occupation - GI
 
 ###### j1
+label FoodP: #bathroom awaits, no time to talk
+    $pytfall.gm.img_generate("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
+    $narrator(choice(["But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts."]))
+    $ chr.disposition -= 2
+    jump girl_interactions
+
+label Tired: #very-very tired, vitality close to zero
+    $pytfall.gm.img_generate("sad", "tired", "angry", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+    $narrator(choice(["But she was too tired to even to talk.", "She was not very happy that you interrupted her rest."]))
+    $ chr.disposition -= 5
+    $ chr.vitality -= 2
+    jump girl_interactions
+    
+label Hurted: #very low health
+    $pytfall.gm.img_generate("in pain", "sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+    $narrator(choice(["But she is too wounded to talk."]))
+    $ chr.disposition -= 5
+    $ chr.vitality -= 2
+    jump girl_interactions
 label interactions_general:
-
     "You had a conversation with [chr.nickname]."
-
-    #if she is tired
-    if chr.vitality < 25:
-        # if chr.has_image("profile","tired"):
-            # $pytfall.gm.img_generate("profile", "tired", exclude=["nude","swimsuit","revealing","beach"])
-
-        $narrator(choice(["But she was simply too tired to pay any serious attention to you.","But she fell asleep in the middle of it."]))
+    if chr.effects["Food Poisoning"]['active']: #nope
+        jump FoodP
         
-        $ chr.disposition += 1
+    if chr.health < 15:
+        jump Hurted
+    
+    if chr.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
+        $pytfall.gm.img_generate("tired", "sad", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        if dice(50):
+            $narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
+            $ chr.disposition += 5
+            $ chr.joy += randint(3, 6)
+        else:
+            $narrator(choice(["She is not feeling well today and not in the mood to talk."]))
+            jump girl_interactions
+    
+    #if she is very tired
+    if chr.vitality < 9:
+        jump Tired
+        
+    if chr.health < 10:
+        jump Hurted
+        
+    #if she is tired
+    if chr.vitality < 35:
+        $pytfall.gm.img_generate("rest", exclude=["nude", "swimsuit", "revealing", "beach", "pool"])
+        $narrator(choice(["But she was simply too tired to pay any serious attention to you.", "But she fell asleep in the middle of it."]))
+        $ chr.disposition += randint(0, 1)
         $ chr.vitality -= 2
         jump girl_interactions
-    
+
     #additional part with chance
-    if chr.joy < 15 and dice(25):
-        # if chr.has_image("profile","happy"):
-            # $ pytfall.gm.img_generate("profile", "happy", exclude=["nude","swimsuit","revealing","beach"])
-        
-        $ narrator(choice(["Her mood lightened up a little.","You were able to ease some of her unhappiness."]))
-       
-        $ chr.joy += 5
+    if chr.joy < 15 and dice(30):
+        $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
+        $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
+        $ chr.joy += randint(3, 6)
     
-    elif dice(15):
-        # if chr.has_image("profile","happy"):
-            # $ pytfall.gm.img_generate("profile", "happy", exclude=["nude","swimsuit","revealing","beach"])
-        
+    if dice(15):
+        $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
         if chr.disposition > 0:
             $ narrator(choice(["You feel especially close today."]))
+            $ chr.disposition += randint(2, 4)
         else:
             $ narrator(choice(["She was much more approachable today."]))
-            
-        $ chr.disposition += 5
+            $ chr.disposition += randint(1, 3)
 
     #main part      
     if chr.disposition > 150:
-        # if chr.has_image("profile","happy") and dice(40):
-            # $ pytfall.gm.img_generate("profile", "happy", exclude=["nude","swimsuit","revealing","beach"])
-        # else:    
-            # $ pytfall.gm.img_generate("profile", exclude=["angry","defiant","provocative","sad","scared","shy","tired","uncertain","nude","swimsuit","revealing","beach"])
-        
-        $ narrator(choice(["It was quite a friendly chat.","You gossiped like close friends.","She welcomed the chance to spend time with you.","She is visibly at ease when talking to you.","You both have enjoyed the visit."]))
-    
-    elif chr.disposition > -100:
-        # if chr.has_image("profile","uncertain") and dice(70):
-            # $ pytfall.gm.img_generate("profile", "uncertain", exclude=["nude","swimsuit","revealing","beach"])
-        # else:
-            # $ pytfall.gm.img_generate("profile", exclude=["angry","confident","defiant","ecstatic","shy","happy","provocative","scared","tired","nude","bikini","swimsuit","revealing","beach"])        
-        
-        if "Impersonal" in chr.traits or "Dandere" in chr.traits or "Kuudere" in chr.traits:
-            $ narrator(choice(["But there was a lot of awkward silence.","But you had to do most of the talking.","There is no sign of her opening up to you yet.","But it was kind of one-sided."]))      
+        if dice(40):
+            $ pytfall.gm.img_generate("happy", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        else:    
+            $ pytfall.gm.img_generate("confident", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+            $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
         else:
-            $ narrator(choice(["It's all still a little bit stiff.","There's still some reservation though…","It's still hard to find common ground.","But it was somewhat forced."]))
-    
+            $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
+    elif chr.disposition > -100:
+        $ pytfall.gm.img_generate("uncertain", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+            $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
+        else:
+            $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though…", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
-        # if chr.has_image("profile","defiant") and dice(80):
-            # $ pytfall.gm.img_generate("profile", "defiant", exclude=["nude","swimsuit","revealing","beach"])
-        # elif chr.has_image("profile","angry"):
-            # $ pytfall.gm.img_generate("profile", "angry", exclude=["nude","swimsuit","revealing","beach"])
-        # else:
-            # $ pytfall.gm.img_generate("profile", exclude=["confident","ecstatic","happy","provocative","shy","tired","nude","swimsuit","revealing","beach"])        
-        
-        $ narrator(choice(["There's still a good amount of mistrust between you." ,"But it was difficult for both of you.","She was not very pleased to see you.","It was clearly uncomfortable for her to speak to you.","She was suspicious of you the entire time and never let her guard down."]))
-    
+        $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
     $ chr.disposition += (randint(1, 5))
     $ chr.joy += (randint(0, 3))
     
@@ -83,139 +103,241 @@ label interactions_general:
     
 
 ###### j2
-label interactions_abouther:
-    
-    if chr.disposition < -400:
+label girl_interactions_aboutjob:
+    "You asking about her job."
+    if chr.effects["Food Poisoning"]['active']: #nope
+        jump FoodP
+    if chr.health < 15:
+        jump Hurted
+    if chr.disposition < -350:
         if chr.status != "slave":
-            $ pytfall.gm.img_generate('profile', 'sad')
-            $ rc("You're a shitty employer; I have no idea why I'm still working here!", "A crazy axe-murderer would be a better employer than you!")
-        
+            $ pytfall.gm.img_generate("angry", "sad", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                $ rc("... <She doesn't want to talk>", "I don't think I'll linger here for a long time.", "I do not wish to about it. Leave me alone.")
+            elif ct("Shy"):
+                $ rc("Um... I-I don't think this job is for me...", "I... I'm looking for another job... Sorry.")
+            else:
+                $ rc("You're a terrible employer; I have no idea why I'm still working here...", "Maybe I should try to beg in the streets instead of this 'job'...")
         else:
-            $ pytfall.gm.img_generate('profile', 'sad')
-            $ rc("I wish that I the resolve to kill myself...", "My life in your service is awful.")
-        
-        $ chr.disposition += 5
-        
-        if dice(int(round(hero.charisma*0.5))):
-            $ chr.refinement += 1
+            $ pytfall.gm.img_generate("sad", "angry", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+                $ rc("...I don't want to live.", "My life is awful. I want to end this...", "... <She looks extremely depressed>")
+            else:
+                $ rc("I wish that I the resolve to kill myself...", "My life in your service is awful.", "Just sell me off to someone. To anyone!")
+        $ chr.disposition += 1
+        if dice(int(round(hero.charisma*0.2))): #the less disposition will be, the more charisma you will need to pass the check for additional goods
             $ chr.joy += 3
-            $ chr.disposition += 1
-        
-        $ hero.exp += adjust_exp(hero, randint(5, 10))
-        $ chr.exp += adjust_exp(chr, randint(5, 10))
-    
+            $ chr.disposition += 2
+
     elif chr.mech_relay["daysemployed"] < 10:
         # Less than 10 days in service:
+        $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if chr.status != "slave":
-            $ pytfall.gm.img_generate('profile', 'indifferent')
             $ rc("I'm still adjusting to the new position.", "Trying to find my bearings with this new career.")
-        
         else:
-            $ pytfall.gm.img_generate('profile', 'indifferent')
             $ rc("I want to serve you better, master.", "A new master takes a while to get used to...")
-        
-        $ chr.disposition += 5
-        $ chr.joy += 3
-        
-        if dice(int(round(hero.charisma*0.5))):
-            $ chr.refinement += 1
+        $ chr.disposition += 1
+        $ chr.joy += 1
+        if dice(int(round(hero.charisma*0.3))):
             $ chr.joy += 3
-            $ chr.disposition += 1
-        
-        $ hero.exp += adjust_exp(hero, randint(5, 10))
-        $ chr.exp += adjust_exp(chr, randint(5, 10))
-    
+            $ chr.disposition += 2
+            $ hero.exp += adjust_exp(hero, randint(1, 5))
+            $ chr.exp += adjust_exp(chr, randint(1, 5))
+
     elif chr.disposition < 0:
         if chr.status != "slave":
             if chr.joy >= 50:
-                $ pytfall.gm.img_generate('profile', 'indifferent')
-                $ rc("I'm fine, but I just wish you weren't such a terrible employer!", "As good as can be expected under the circumstances, 'boss'...")
-            
+                $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ rc("I don't like my job.", "You are a bad employer.")
+                elif ct("Shy"):
+                    $ rc("I-I'm fine. J-just wish I had a better job... No, nevermind.", "I'm fine, I think... I-I mean it's not such a bad job, there are much worse ones!")
+                else:
+                    $ rc("I'm fine, but I just wish you weren't such a terrible employer.", "As good as can be expected under the circumstances, 'boss'...")
             else:
-                $ pytfall.gm.img_generate('profile', 'sad')
-                $ rc("I'm sad and you suck... what else do you want me to say?", "I'm looking for new employment opportunities; that's how I'm feeling!")
-        
+                $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ rc("I hate my job.", "I'm not in the mood. Why? Because of my job, obviously.")
+                elif ct("Shy"):
+                    $ rc("I wish I had a better job... S-sorry.", "I-I don't particularly like my job. M-maybe I should try something else...")
+                else:
+                    $ rc("I'm sad and you are the worst... what else do you want me to say?", "I'm looking for new employment opportunities; that's how I'm feeling...")
         else:
             if chr.joy >= 50:
-                $ pytfall.gm.img_generate('profile', 'indifferent')
-                $ rc("I am 'ok'. Just wish I had a better owner...")
-            
+                $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ rc("I suppose a slave like me doesn't have much of a choice.", "I follow your orders. That's all.")
+                elif ct("Shy"):
+                    $ rc("Um, I do my best. Even though my master is... Nevermind, sorry.", "M-master, please be nice to me... I'll work harder, I promise.")
+                else:
+                    $ rc("I am 'ok'. Just wish I had a better owner...", "I guess it is better than the slave market. A bit.")
             else:
-                $ pytfall.gm.img_generate('profile', 'sad')
-                $ rc("There isn't much to say... I'm sad and you're mean...", "I feel like it would be better if you sold me off at the next auction!")
-        
-        $ chr.disposition += 5
-        $ chr.joy += 3
-        
-        if dice(int(round(hero.charisma*0.5))):
+                $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ rc("...I want another owner.", "I wish I had a better life as a slave.")
+                elif ct("Shy"):
+                    $ rc("...Yes, master. I'm fine. <you notice tears in her eyes>")
+                else:
+                    $ rc("There isn't much to say... I'm sad and you're mean...", "I feel like it would be better if you sold me off at the next auction.")
+        $ chr.disposition += 2
+        $ chr.joy += 1
+        if dice(int(round(hero.charisma*0.4))):
             $ chr.refinement += 1
             $ chr.joy += 3
             $ chr.disposition += 1
-        
-        $ hero.exp += adjust_exp(hero, randint(5, 10))
-        $ chr.exp += adjust_exp(chr, randint(5, 10))
-    
-    # elif chr.disposition < 400:
+            $ hero.exp += adjust_exp(hero, randint(1, 5))
+            $ chr.exp += adjust_exp(chr, randint(1, 5))
+
     else:
         if chr.status != "slave":
             if chr.joy >= 50:
-                $ pytfall.gm.img_generate('profile', 'happy')
-                $ rc("I'm happy and this job definitly doesn't suck!", "I'm comfortable and content with this arrangement.")
-            
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I like my job. Nothing more to say.", "No complaints.")
+                elif ct("Shy"):
+                    $ pytfall.gm.img_generate("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I-I like my job. T-thank you.", "I-I'm perfectly fine! <shyly smiling>")
+                else:
+                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I'm happy and this job is not so bad.", "I'm comfortable and content with this arrangement.")
             else:
-                $ pytfall.gm.img_generate('profile', 'sad')
-                $ rc("Not very chipper but I expect things to get better soon!", "Bit sad, if truth be told.")
-        
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I like my job. I think.", "Not bad. It's not perfect, but...")
+                elif ct("Shy"):
+                    $ pytfall.gm.img_generate("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I'm just a bit sad today, b-but my job is nice.", "Um, I'm ok, I think. You can't be happy all the time, r-right?")
+                else:
+                    $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("Not very chipper but I hope things become better soon.", "Bit sad, if truth be told. Don't want to complain though.")
         else:
-            $ pytfall.gm.img_generate('profile', 'happy')
-            
             if chr.joy >= 50:
-                $ rc("Very well, thank you Master!", "I am satisfied with my life as a slave!")
-            
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I'm satisfied with everything, master.", "I am at your service, master. My life is my job.")
+                elif ct("Shy"):
+                    $ pytfall.gm.img_generate("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("E-everything is well, master! <shyly smiling>", "It's fine. Thanks for asking, master. <blushes>")
+                else:
+                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I'm very well, thank you Master!", "I am satisfied with my life and job as a slave.")
             else:
-                $ pytfall.gm.img_generate('profile', 'sad')
-                $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
-        
-        $ chr.disposition += 5
+                if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+                    $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("Nothing to worry about, Master.", "Good enough.")
+                elif ct("Shy"):
+                    $ pytfall.gm.img_generate("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("Y-yes, Master. I can do it, I know I can!", "It's normal, I suppose...")
+                else:
+                    $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
+        if chr.disposition < 50: #because it's stupid to rise it forever
+            $ chr.disposition += 2
         $ chr.joy += 3
-        
         if dice(int(round(hero.charisma*0.5))):
             $ chr.refinement += 1
             $ chr.joy += 3
-            $ chr.disposition += 1
-        
-        $ hero.exp += adjust_exp(hero, randint(5, 10))
-        $ chr.exp += adjust_exp(chr, randint(5, 10))
-    
+            $ hero.exp += adjust_exp(hero, randint(5, 10))
+            $ chr.exp += adjust_exp(chr, randint(5, 10))
+
     jump girl_interactions
-    
+########
+label interactions_howshefeels:
+    "You asking how she feels today."
+    if chr.effects["Food Poisoning"]['active']: #at least no penalty to disposition, unlike other cases with food poisoning
+        $pytfall.gm.img_generate("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        $ rc("I ate something wrong. Ow-ow-ow.", "Ouh. I think I need to use bathroom again...")
+        jump girl_interactions
+
+    if chr.effects["Down with Cold"]['active'] or chr.vitality < 9 or chr.health < 40: #we select one suitable image in the very beginning
+        $pytfall.gm.img_generate("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+    elif chr.joy<30:
+        if ct("Shy"):
+            $ pytfall.gm.img_generate("profile", "sad", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        else:
+            $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+    elif chr.joy>70:
+        if ct("Shy"):
+            $ pytfall.gm.img_generate("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        else:
+            $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+    elif chr.vitality < 35:
+        $pytfall.gm.img_generate("tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+    else:
+        if ct("Shy"):
+            $ pytfall.gm.img_generate("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
+        else:
+            $ pytfall.gm.img_generate("profile", "confident", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
+            
+    if chr.effects["Down with Cold"]['active']: #illness
+        $ rc("I think I caught a cold...", "I'm not feeling well today *sneezes*.", "I have a fever... <She looks pale>")
+        
+    if chr.joy<30: #begin joy checks
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+            $ rc("I'm not in the mood.", "I'm just a bit sad. That's all.")
+        elif ct("Shy"):
+            $ rc("I'm kinda sad...", "I-I cried a bit some time ago. Why? Because I felt like it...")
+        else:
+            $ rc("I'm depressed. Don't wanna talk about it.", "I'm sad. Isn't it obvious to you?")
+    elif chr.joy>70:
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+            $ rc("I'm pretty happy. I think.", "I'm fine. <barely smiling>")
+        elif ct("Shy"):
+            $ rc("I think I'm... happy.", "<shyly smiling> I'm so happy...")
+        else:
+            $ rc("I'm quite happy.", "Feeling great!")
+    else:
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+            $ rc("I'm perfectly calm.", "Don't concern yourself about me, I'm fine.")
+        elif ct("Shy"):
+            $ rc("Um, I suppose I'm ok.", "N-nothing to worry about, I'm mostly fine. <blushes>")
+        else:
+            $ rc("I'm ok, I guess.", "Everything is as usual.")
+            
+    if chr.vitality < 35: #body checks
+        $ rc("My body a bit tired.", "I could use some rest, I need to recover my strength.")
+    elif chr.vitality >= chr.get_max("vitality"):
+        $ rc("I'm full of strength and energy.", "My body rested very well lately.")
+    elif chr.vitality < 9:
+        $ rc("I want to sleep so badly... <yawns>", "I'm very tired lately... <yawns>")
+    if chr.health < 40:
+        $ rc("My whole body hurts. I think I need a doctor.", "My body is not feeling very well lately...")
+    elif chr.health >= chr.get_max("health") and not(chr.effects["Food Poisoning"]['active']) and not(chr.effects["Down with Cold"]['active']):
+        $ rc("My body is in top condition.", "My health is pretty good lately.")
+    if cgo("Caster"):
+        if chr.mp < 5 and chr.get_max("mp")>9:
+            $ rc("I feel drained.", "My mind is tired. Perhaps I should use magic less frequently.")
+        elif chr.mp >= chr.get_max("mp"):
+            $ rc("I feel like magic overflows me.", "I'm filled with magic energy.")
+    jump girl_interactions
 ###### j3
-label girl_meets_abouther:
+label interactions_abouther:
+    "You trying to learn a bit about her."
     $ gm_abouther_list = []
     
-    if chr.disposition > 500:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.4
+    if chr.disposition > 200:
+        $ gm_dice = 100
+        $ gm_disp_mult = 0.1
     
-    elif chr.disposition > 50:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.8
+    elif chr.disposition > 150:
+        $ gm_dice = 90
+        $ gm_disp_mult = 0.5
     
-    elif chr.disposition > 20:
-        $ gm_dice = 95
-        $ gm_disp_mult = 1
+    elif chr.disposition > 100:
+        $ gm_dice = 80
+        $ gm_disp_mult = 0.75
     
     elif chr.disposition > -20:
-        $ gm_dice = 90
+        $ gm_dice = 70
         $ gm_disp_mult = 1
     
     elif chr.disposition > -300:
-        $ gm_dice = 75
+        $ gm_dice = 60
         $ gm_disp_mult = 1
     
     else:
         $ gm_dice = 25
-        $ gm_disp_mult = 1.8
+        $ gm_disp_mult = 1.5
     
     if ct("Half-Sister") and dice(35):
         if ct("Yandere"):
@@ -240,44 +362,136 @@ label girl_meets_abouther:
             $rc("We used to bathe together a lot when we were little.♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little.")
     
     if ct("Lesbian"): 
-        $ gm_disp_mult = ((gm_disp_mult)*1.3)
+        $ gm_disp_mult = ((gm_disp_mult)*0.8)
     
     if dice(gm_dice):
-        $ chr.disposition += (randint(6, 12)*(gm_disp_mult))
+    #if dice(100):
+        $ chr.disposition += (randint(5, 10)*(gm_disp_mult))
         $ pytfall.gm.abouther_count = 0
         
-        if chr.disposition > 600:
-            if dice(50):
-                $ gm_abouther_list.append(choice(["I think you're intresting."])) 
-        
         if ct("Big Boobs", "Abnormally Large Boobs"):
-            if dice(50):
+            if dice(90):
                 $gm_abouther_list.append(choice(["I notice men, everyone of them, staring at nothing but my boobs.", "I've outgrown yet another bra... I wish something could be done about this...", "Hey, [hero.name], do you know what my charms are? Ufu, shall I show you? I'm pretty sure I can make your heart skip a beat♪", "[hero.name], my charms are the best, aren't they?", "All the men just keep staring at my breasts. Are such big ones really that fascinating?", "The reason you're interested in me is my big breasts, right?", "They say that big breasts are the best, but truth be told they're heavy and make the shoulders stiff, not good at all."]))
         
         if ct("Small Boobs"):
-            if dice(50):
+            if dice(90):
                 $gm_abouther_list.append(choice(["I read lately that the hunt is on for small breasts. Who cares about big tits!", "It's better without large breasts. They'd only get in the way... Probably...", "Small breasts have their good points as well, don't you think? You do think so, right?"]))     
         
         if ct("Lesbian"):
             $gm_abouther_list.append(choice(["I am REALLY interested in female's bodycurves.", "I would like to go to an all girls' school. Imagine, only girls, everywhere... That would be great...", "Have you ever brought a girl home? I want to try that.", "I'd like to bring a cute girl home.", "Isn't it normal to be attracted to charming girls? I think it's totally proper♪", "Something I like? Hmm~ Maybe watching cute girls?", "Girls look really cute, don't they? I just want to eat one up.", "I like cute things. Like girls, for example.", "If I were a boy, I sure would explore every inch of the girl I was dating…"]))
         
         if ct("Bisexual"):
-            $gm_abouther_list.append(choice(["In love, gender makes no difference..."]))
-        
-        if co("Warrior"):
+            $gm_abouther_list.append(choice(["In love, gender makes no difference...", "I like boys and girls alike ♫"]))
+            
+        if ct("Fire"):
+            $gm_abouther_list.append(choice(["I'm pretty good with fire magic."]))
+        if ct("Water"):
+            $gm_abouther_list.append(choice(["I'm pretty good with water magic."]))
+        if ct("Air"):
+            $gm_abouther_list.append(choice(["I'm pretty good with air magic."]))
+        if ct("Earth"):
+            $gm_abouther_list.append(choice(["I'm pretty good with earth magic."]))
+        if ct("Darkness"):
+            $gm_abouther_list.append(choice(["I'm pretty good with dark magic."]))
+        if ct("Light"):
+            $gm_abouther_list.append(choice(["I'm pretty good with light magic."]))
+        if ct("Electricity"):
+            $gm_abouther_list.append(choice(["I'm pretty good with electricity magic."]))
+        if ct("Ice"):
+            $gm_abouther_list.append(choice(["I'm pretty good with ice magic."]))
+        if ct("Neutral"):
+            $gm_abouther_list.append(choice(["They say some people have no talent for magic. I'm one of them, it seems."]))
+            
+        if ct("Slim"):
+            $gm_abouther_list.append(choice(["I have a great figure, don't you think?", "No matter how much I eat, I never get fat. I'm so lucky with my body! ♫"]))
+            
+        if ct("Chubby"):
+            $gm_abouther_list.append(choice(["I may be a bit chubby, but men like it.", "I thought about a diet, but I just can't resist fresh cupcakes! ♫"]))
+            
+        if ct("Scars"):
+            $gm_abouther_list.append(choice(["I tried many doctors, but they all said that my scars cannot be healed. *sigh*"]))
+            
+        if ct("Energetic"):
+            $gm_abouther_list.append(choice(["I always was a good runner. I'm good at moving fast.", "I hate waiting, and I hate when people have to wait me."]))
+            
+        if ct("Optimist"):
+            $gm_abouther_list.append(choice(["They say I'm always cheerful. I just enjoy my life, that's all.", "Hey, do you know this one? <tells you an anecdote> A good one, eh?"]))
+            
+        if ct("Pessimist"):
+            $gm_abouther_list.append(choice(["It's not like I dislike jokes... I just don't find most of them funny enough.", "The world is cruel and unforgiving... You can't hide this truth behind jokes."]))
+            
+        if ct("Aggressive"):
+            $gm_abouther_list.append(choice(["They say I'm too hot-headed. But it's not my fault when they try to pick a fight with me!", "I smacked that rude shopkeeper the other day right in the face. Will teach him a lesson how to talk with customers."]))
+            
+        if ct("Courageous"):
+            $gm_abouther_list.append(choice(["Some my friends afraid of darkness, can you imagine that? Even as a child I was not afraid of it, or anything else.", "Don't move, you have a spider on your shoulder. <calmly removes it> Here."]))
+
+        if ct("Coward"):
+            $gm_abouther_list.append(choice(["The other day I noticed a bug under my bed. I had to spend the night at a neighbor... <shudders>", "I dislike dark places. And night. Why? Because... because it's so dark that I cannot see a thing!"]))
+            
+        if ct("Nerd"):
+            $gm_abouther_list.append(choice(["As a child I liked to to read books more than to play with peers, so they teased me a lot. Nothing changed since then..."]))
+            
+        if ct("Strange Eyes"):
+            $gm_abouther_list.append(choice(["People often say that my eyes are unusual. What do you think of them?", "Do you like my eyes? As a child I was often teased because of them."]))
+            
+        if ct("Manly"):
+            $gm_abouther_list.append(choice(["Do you like my muscles? It took a while to build them.", "Every girl should build herself some muscles for self-protection, don't you think?"]))
+            
+        if ct("Lolita"):
+            $gm_abouther_list.append(choice(["My body is so small, everyone think I'm still a child.", "Maybe I should drink more milk to grow up... What do you think?"]))
+            
+        if ct("Alien"):
+            $gm_abouther_list.append(choice(["This place is so strange. I don't think I'll ever get used to it completely.", "Everything was very different where I used to live. But... I like it here too."]))
+            
+        if ct("Great Arse"):
+            $gm_abouther_list.append(choice(["I notice men often staring at my ass. What's wrong with them?", "The other day I dropped my purse and bent down to pick it up. All the men in the street started to applaud me. It was sooo embarrassing!"]))
+            
+        if ct("Not Human"):
+            $gm_abouther_list.append(choice(["Some humans don't like my appearance. But I don't care.", "The other day they refused to serve me in that fancy cafe because I'm not human enough. Can you imagine that?!"]))
+            
+        if cgo("Warrior"):
             if ct("Shy") or ct("Coward"):
                 $gm_abouther_list.append(choice(["I have been trained in combat, but I really dislike violence.", "I know a lot about self-defense… but I really hope that I wouldn’t ever need to use it.", "I know how to use a weapon… but it still scares me a bit.", "I can do well in combat training, but in practice…", "They say that I may have the skill, but not the spirit of a warrior…", "I carry a weapon, but I don’t think I would have the heart to hurt someone."]))
-            
             elif ct("Virtuous"): 
                 $gm_abouther_list.append(choice(["I know how to pacify someone without hurting them. That’s the right way to do it.", "I learned how to fight so I can protect others."]))
-
             elif ct("Adventurer"): 
                 $gm_abouther_list.append(choice(["I like to sharpen my battle skills.", "I enjoy exploring catacombs.", "A duel sounds interesting, do you mind?"]))
             else:
                 $gm_abouther_list.append(choice(["I have been trained in combat. So you better not be trying anything funny <grins>", "I may not look like it, but I can handle my weapons really well.", "Some creeps tried to ambush me once. I gave them plenty of time to repent at the infirmary.", "Sometimes I watch the matches in the arena to get inspiration to improve my own technique.", "It's better to know how to defend yourself in this town. You never know what may happen, especially if you are a woman."]))
-        
+
+        if ct("Homebody"):
+            $gm_abouther_list.append(choice(["I like my home a lot. I don't understand all those travellers and adventurers.", "I think living every day as an ordinary girl is the ultimate happiness.", "I enjoy reading in the bath. It's nice to do in such a confined space."]))
+            
+        if ct("Natural Follower"):
+            $gm_abouther_list.append(choice(["I'm not a leader, I never wanted to be one. Too much responsibility."]))
+            
+        if ct("Natural Leader"):
+            $gm_abouther_list.append(choice(["People say I'm quite charismatic. I bet I'd be a good leader, don't you thing? <smiles>"]))
+            
+        if ct("Well-mannered"):
+            $gm_abouther_list.append(choice(["They say nothing costs so cheap and valued so much as courtesy. I always keep that in mind."]))
+            
+        if ct("Ill-mannered"):
+            $gm_abouther_list.append(choice(["People often tell me that I lack politeness. Fucking hypocrites! I just say what I really think, nothing more."]))
+            
+        if ct("Half-Sister"):
+            $gm_abouther_list.append(choice(["Do you miss our father? ...Yes, I miss him too.", "We should chat more often. We are family after all."])) 
+            
+        if not(cgo("Warrior")) and ct("Adventurer"):
+            $gm_abouther_list.append(choice(["I always dreamed about my own adventures. But I never had a combat training, so... <sigh>"]))
+            
+        if cgo("Caster"):
+            $gm_abouther_list.append(choice(["I like to study magic.", "Arcane arts are passion of mine", "Magic is so fascinating, I can't live without it!"]))
+            
+        if cgo("Server"):
+            $gm_abouther_list.append(choice(["I'm just an ordinary worker, I guess.", "I work where I can. You can't be picky if you want to pay your bills."]))
+            
+        if cgo("SIW"):
+            $gm_abouther_list.append(choice(["I enjoy sex, thus I enjoy my job <grins>", "I think there is nothing wrong with selling your body as long as you having fun and it's well paid."]))
+            
         if ct("Dawdler"):
-            $gm_abouther_list.append(choice(["Hey, have you heard the saying, “Good things come to those who sleep?” … Uh, and wait?", "I aways get sleepy after a meal~ It's just natural providence.", "Yearning for the bed is part of being human.", "Fuwa~ This season sure makes me sleepy~", "It's fine to skip a bath if you don't reek of sweat.", "I can't get rid of this sleepiness...", "No matter how much I sleep I can't get enough of it....", "*Yawn* You know lack of sleep is damaging to the skin.", "I'm sick of being sleepy. I don't think it's from a lack of sleep though.", "Unlike most days, today I got up early… *Yaaawn~*…", "I'm not really a morning person…  Ah, It's not because I'm too busy at night, though…", "There are days when I just don't feel like doing anything... a lot of them, actually."]))
+            $gm_abouther_list.append(choice(["Hey, have you heard the saying, “Good things come to those who sleep?” … Uh, and wait?", "I aways get sleepy after a meal~ It's just natural providence.", "Yearning for the bed is part of being human.", "Fuwa~ This season sure makes me sleepy~", "I can't get rid of this sleepiness...", "No matter how much I sleep I can't get enough of it....", "*Yawn* You know lack of sleep is damaging to the skin.", "I'm sick of being sleepy. I don't think it's from a lack of sleep though.", "Unlike most days, today I got up early… *Yaaawn~*…", "I'm not really a morning person…  Ah, It's not because I'm too busy at night, though…", "There are days when I just don't feel like doing anything... a lot of them, actually."]))
                        
         if ct("Frigid"):
             $gm_abouther_list.append(choice(["Why does everyone get so excited about underwear? It's just fabric…", "Relations should be clean and wholesome, an example to others."]))
@@ -286,7 +500,7 @@ label girl_meets_abouther:
             $gm_abouther_list.append(choice(["I just love attention...", "Have you ever thought of doing it in public? Just imagine all those eyes…", "It would be a waste not to show some skin when the weather is nice.", "It arouses me when strangers are staring... Stripping me with their eyes..."]))
         
         if ct("Clumsy"):
-            $gm_abouther_list.append(choice(["It's commonplace to spill all the contents when opening a bag of candy, isn't it?", "I broke another plate. How many has it been now..? I wish I could do something about this."]))
+            $gm_abouther_list.append(choice(["It's common place to spill all the contents when opening a bag of candy, isn't it?", "I broke another plate. How many has it been now..? I wish I could do something about this."]))
         
         if ct("Sexy Air"):
             $gm_abouther_list.append(choice(["Everyone keeps saying that the way I lick my lips is incredibly erotic.", "I like to use my tongue to play around with candy in my mouth. Don't you?", "Aah, I wanna eat something sour..."]))
@@ -296,7 +510,10 @@ label girl_meets_abouther:
         
         if ct("Virtuous"):
             $gm_abouther_list.append(choice(["It would be great if people would be nicer to each other…", "I did some volunteer work the other day, it was a pleasant experience.", "It really pains me when I see someone suffering.", "It’s the most elevating feeling when you can help someone, isn’t it?"]))
-        
+
+        if ct("Vicious"):
+            $gm_abouther_list.append(choice(["Those disgusting beggars... If you want money, go and earn them! What's the problem?", "The other day a man tried to steal my purse. He won't bother anyone anymore. <ominously grins>"]))
+
         if ct("Sadist"):
             $gm_abouther_list.append(choice(["I want to violate a guy with a strap-on. You game?", "It makes me so wet when my lover gets a scared look on his face.", "Huhu, discipline is lovely, isn't it..."]))
         
@@ -317,16 +534,22 @@ label girl_meets_abouther:
         
         if ct("Neat"):
             $gm_abouther_list.append(choice(["It's a good day for doing laundry.", "When you don't diligently clean wet areas of the house you can get an outbreak of mold and various bacteria.", "For some reason, the dust on the windowsill really bothers me.", "Looks like I might really like cleaning... What's with those suspicious eyes?", "I have training in providing good customer service.", "Most people don't like them, but chores are an important job, too.", "You can make any place clean and cozy with thorough work.", "Chores take much less time when properly organized.", "Pleasant service is the foundation of any successful business. Nothing can drive off customers faster than rudeness.", "Cleanliness is next to godliness. Don't you agree?"]))
-        
+            
+        if ct("Messy"):
+            $gm_abouther_list.append(choice(["It's fine to skip a bath if you don't reek of sweat.", "Do you think I'm sweaty? Some perv in the alley told me he likes sweaty ones. Yuicks.", "My room might look like it's in a mess, but I always know where to find anything there."]))
+       
         if ct("Heavy Drinker"):
             $gm_abouther_list.append(choice(["You wanna have a drinking contest? Hehe, I won't lose to you.", "Whenever I drink alcohol I want to tear all my clothes off... Hehe.", "I say, there's always a reason to drink."]))
         
         if ct("Curious"):
-            $gm_abouther_list.append(choice(["Experiencing new things is loads of fun, isn't it?", "The truth always comes up at the very end... No, it's nothing.", "Hey, I totally found 100 money on the ground earlier today. Isn't that crazy?!", "I found some more money -oh wait, it's just a shiny rock. Boo =/", "Want to see the shells I picked up at the beach?", "I spent a long time chasing a really cute cat I saw."]))
+            $gm_abouther_list.append(choice(["Experiencing new things is loads of fun, isn't it?", "The truth always comes up at the very end... No, it's nothing.", "Hey, I totally found 100 money on the ground earlier today. Isn't that crazy?!", "I found some more money -oh wait, it's just a shiny rock. Boo =/", "Want to see the shells I picked up at the beach?", "I spent a long time chasing a really cute cat I saw.", "In order to keep up with the latest fads, intelligence gathering is essential.", "Strolling through town is a nice change of pace."]))
         
         if ct("Shy"):
             $gm_abouther_list.append(choice(["It would be good... if I could just be a bit more confident... I think...", "I'm no good with public speaking...", "I don't like being competitive...", "Umm, I'm... not really good with standing out...", "I don't like making eye contact...", "...Appearing in front of people... I'm reluctant...", "I'm not fond of... talking to people..."]))
-        
+            
+        if ct("Elf"):
+            $gm_abouther_list.append(choice(["Gardening is so much fun, you know?", "Sometimes I feed forest animals next to the city."]))
+
         if ct("Always Hungry"):
             $gm_abouther_list.append(choice(["I'm still hungry, no matter how much I eat.", "I can eat nonstop, is there something wrong with that?", "No matter how much I devour, my stomach is still empty. Am I still growing or something?", "I'm feeling hungry...", "There's so much delicious food at this time of year... It's dangerous!", "You'll get heat fatigue if you don't eat properly.", "I wonder why I'm always so hungry. I'm not gaining much weight, so it's fine, but...", "I really do eat too much but I still manage to keep in shape, so....", "Have I gained some weight? No, that's just my imagination....", "I've got a craving for sweets just now...", "I've had a huge appetite lately. If this continues then I might gain weight... This has to stop."]))
         
@@ -341,78 +564,220 @@ label girl_meets_abouther:
     $ g(choice(gm_abouther_list))
     $ gm_abouther_list = None
     jump girl_interactions
-
+######
+label interactions_aboutoccupation:
+    "You asking about her occupation."
+    if chr.disposition > 200:
+        $ gm_dice = 100
+    
+    elif chr.disposition > 100:
+        $ gm_dice = 90
+    
+    elif chr.disposition > 50:
+        $ gm_dice = 80
+    
+    elif chr.disposition > 0:
+        $ gm_dice = 70
+    
+    elif chr.disposition > -50:
+        $ gm_dice = 60
+    else:
+        $ gm_dice = 30
+        
+    if dice(gm_dice):
+        if cgo("Warrior") and not(cgo("Caster")):
+            $rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
+            if co("Defender"):
+                $rc("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
+            if co("Shooter"):
+                $rc("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")
+            if co("Assassin"):
+                $rc("I was taught the art of stealthy assassination.", "They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
+        if cgo("Caster"):
+            $rc("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
+            if co("Battle Mage"):
+                $rc("I prefer battle magic, myself.", "I have plenty experience in combat magic.", "And I know how to effectively use my gift on the battlefield.")
+            if co("Healer"):
+                $rc("I know a lot about healing magic.", "My job is to heal wounds.", "I'm a healer, my magic helps other people.")
+        if cgo("SIW"):
+            $rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
+            if co("Anal Prostitute"):
+                $rc("Anal sex is my strong point.", "Anal is my specialty.", "I'm the best in anal sex.")
+            if co("Oral Prostitute"):
+                $rc("Oral sex is my strong point.", "Oral is my specialty.", "I'm the best in oral sex.")
+            if co("Stright Prostitute"):
+                $rc("Vaginal sex is my strong point.", "Vaginal is my specialty.", "I'm the best in vaginal sex.")
+            if co("BDSM Prostitute"):
+                $rc("I prefer S&M, myself. Wanna try sometime? ♪", "BDSM is my specialty.", "I'm the best in S&M.")
+            if co("Stripper"):
+                $rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
+        if cgo("Server") and not(co("Stripper")):
+            $rc("I specialize in service industry.", "I'm a service girl.")
+            if co("Entertainer"):
+                $rc("I entertain the public.", "I don't allow customers to get bored.")
+            if co("Dancer"):
+                $rc("I specialize in art of dancing.", "I'm a pretty good dancer.")
+            if co("Maid"):
+                $rc("I perform menial tasks around the household.", "And I'm a professional maid.")
+            if co("Cleaner"):
+                $rc("I specialize in cleaning.", "I'm especially good in cleaning.")
+            if co("Waitress"):
+                $rc("I have some experience in serving customers in a restaurant.", "I think I'm a pretty good waitress.")
+            if co("Bartender"):
+                $rc("Also I know how to serve customers behind the bar.", "I'm a bartender. It's a rare profession, I know.")
+        if co("Manager"):
+            $rc("I know a thing or two about managing.", "I know how to manage people.")
+        if not(cgo("Server") or cgo("SIW") or cgo("Warrior") or cgo("Caster") or co("Manager")): #you never know
+            $rc("I don't really have a profession...")
+    else:
+        $ chr.disposition -= randint(1, 5)
+        jump interactions_refused
+    jump girl_interactions
 ###### j4
 label interactions_interests:
-    if ct("Exhibitionnist") and dice(15):
-        $rc("Showing off my 'goods' to the crowd,", "Just being one with nature, if you catch my meaning.")
-        
-        if d(80) and chr.flag("gm_stripped_today") != day:
-            menu:
-                g "Would you like to see me naked?"
-                
-                "Hell Yeah":
-                    g "You're weird... but I'm weird too ;)"
-                    $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
-                    g "So, what do you think?"
-                    $pytfall.gm.restore_img()
-                    $chr.disposition += 10
-                    $chr.set_flag("gm_stripped_today", value=day)
-                
-                "Yes!":
-                    $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
-                    g "You like?"
-                    $pytfall.gm.restore_img()
-                    $chr.disposition += 5
-                    $chr.set_flag("gm_stripped_today", value=day)
-                
-                "No":
-                    g "Well, screw you then!"
-                    $chr.disposition -= 20
-    
+    "You asking about her interests."
+    if chr.effects["Food Poisoning"]['active']: #nope
+        jump FoodP
+    if chr.vitality < 15:
+        jump Tired
+#    if ct("Exhibitionnist") and dice(35):
+#        $rc("Showing off my 'goods' to the crowd,", "Just being one with nature, if you catch my meaning.")
+#        if d(80) and chr.flag("gm_stripped_today") != day:
+#            menu:
+#               g "Would you like to see me naked?"
+#                
+#                "Strongly agree":
+#                    g "You're weird... but I'm weird too ;)"
+#                    $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    g "So, what do you think?"
+#                    $pytfall.gm.restore_img()
+#                    $chr.disposition += 10
+#                    $chr.set_flag("gm_stripped_today", value=day)
+#                
+#                "Agree":
+#                    $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    g "You like?"
+#                    $pytfall.gm.restore_img()
+#                    $chr.disposition += 5
+#                    $chr.set_flag("gm_stripped_today", value=day)
+#                
+#                "Disagree":
+#                    g "Well, screw you then..."
+#                    $chr.disposition -= 20
+    if chr.disposition > 2:
+        $ gm_dice = (round(chr.disposition/2))
     else:
-        $ line = rts(chr, {"Dandere": ["I sleep on my days off. ...Is that bad?"], "Athletic": ["Working out.", "Exercising", "Running laps"], "Dawdler": ["I spend my days just lying around. Isn't there anything to do around here?", "I like beach sports, y'know?　Just watching, though."],
-                            "Curious": ["In order to keep up with the latest fads, intelligence gathering is essential.", "Strolling through town is a nice change of pace."], "Ane": ["I think living every day as an ordinary girl is the ultimate happiness.", "Reading in the bath. It's nice to do in such a confined space."],
-                            "Well-mannered": ["Etiquette classes at PyTFalls Educators", "Proper manners.", "Style and grace."], "Imouto": ["Gardening is so much fun, you know...?"], "co('Caster')": ["The study of magic.", "Arcane Arts.", "Shooting lightning and fireballs at things."],
-                            "Adventurer": ["Treasure hunting!", "Adventuring!", "Exploring dungeons!"], "Kuudere": ["I'm not really in the mood right now...", "Leave me alone."], "Tsundere": ["I-It's not like I find small animals and children and that stuff charming!"], "Yandere": ["Mmmbfrs?", "What's up there?", "Spinning", "Do you know who I am? I am... I am forgot..."],
-                            "co('Warrior')": ["I like to sharpen my battle skills.", "I rather enjoy exploring catacombs.", "A duel sounds interesting; do you mind?"], "co('SIW')": ["Finding the best ways to please others.", "Trying to find someone who'd try interesting positions, if you know what I mean."], "Dancer": ["Exotic dancing!", "Admiration from people.", "Dancing, poles, you know... the usual stuff.", "Searching for new moves on the podium.", "Perfecting my dance moves."],
-                            "co('Server')": ["Best way to get the wine stains out. Do you know any?", "Chatting with strange customers at the bar.", "Keeping the bar running."], "default": ["Nothing special, really."]})
-        
-        g "[line]"
-    
-    $ chr.disposition += randint(1, 4)
-    jump girl_interactions
-
-###### j5
-label interactions_hangouts:
-    if chr.disposition < 200:
         jump interactions_refused
-    
+    if dice(gm_dice):
+        $ line = rts(chr, {
+        "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beach to pools because it's free."],
+        "Manly": ["She gives you a lection how to build your muscles properly. You feel a bit offended, but keep your cool.", "She casually remarks that you should exercise more often, and gives you some advices."],
+        "Chubby": ["You have a lively discussion about your favorite local bakeries and pastry shops.", "Your conversation turns toward cooking, and she shares some of her recipes. They are all pretty high in calories..."],
+        "Slim": ["You do a compliment to her figure, and the conversation quickly turns toward healthy lifestyle. Ugh.", "She brags about her metabolism, allowing her to eat sweets and don't get fat. You envy."],
+        "Alien": ["She talks about her homeland. You are listening with big interest.", "You discuss local events she witnessed. She doesn't understand the meaning of some of them, and you spend some of your time to explain."],
+        "Half-Sister": ["You discuss your common father. The sad discussion quickly turns into a sarcastic one, when you try to count all his lovers and daughters.", "She tells you about her mother. You listen in silence, trying to imagine your.", "Together you reminiscing about fun and embarrassing moments from your childhood."],
+        "Scars": ["She complains about how her scars cause inconvenience. You comforting her."], 
+        "Artificial Body": ["Tempted by curiosity, you ask about her artificial body. Her explanations are very long and confusing.", "You discuss the regular maintenance required by her body. It's a pretty complex, but piquant conversation."],
+        "Lolita": ["She complains about how hard to find adult clothes for her figure. You're trying to take her away from this sensitive topic.", "She tells you funny stories about disappointed (and imprisoned) pedophiles confused by her body size. What a strange topic."], 
+        "Strange Eyes": ["She notices how you look at her unusual eyes. Embarrassed, she refuses to look at you or discuss something."], 
+        "Great Arse": ["You try to keep small talk, trying not to think about her gorgeous butt and what would you do if you were behind her."], 
+        "Long Legs": ["During your small conversation you can't help but glance at her long feet. Looks like she got used to it and doesn't care much."], 
+        "Abnormally Large Boobs": ["You vaguely remember your conversation, paying most attention to her amazing chest.", "She complains about high costs for the purchase of new bra. It appears that the fabric is not strong enough to withstand such loads. Without knowing what reaction she expected, you keep your poker face."], 
+        "Big Boobs": ["She complains how big chest spoils the posture. You sympathize her, very convincingly and almost sincerely."], 
+        "Small Boobs": ["She starts a conversation about irrelevance of chest size. You carefully assent, trying to not piss her off."], 
+        "Fire": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of fire."], 
+        "Water": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of water."], 
+        "Air": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of air."], 
+        "Earth": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of earth."], 
+        "Ice": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of ice."], 
+        "Electricity": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of electricity."], 
+        "Light": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of light."], 
+        "Darkness": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of darkness."], 
+        "Nerd": ["You discuss new books in local stores and libraries.", "Somehow your conversation comes to board games, and she enthusiastically explains to you the intricate rules of one of them."], 
+        "Psychic": ["It's difficult to participate in the conversation when your interlocutor knows your words in advance. She seems to enjoy teasing you, however.", "She complains about headaches, dizziness and other neural disorders that are common for psychics."],
+        "Optimist": ["Looks like she is in a good mood. Laughing and joking during your conversation, she quickly turns it into a humorous one.", "You exchange freshest anecdotes."],
+        "Pessimist": ["Looks like she's not in the mood. Your conversation is pretty gloomy, though you managed to cheer her up a bit."],
+        "Serious": ["You have a very serious conversation about local politics and taxes. You feel squeezed like a lemon.", "She gives you a lecture about the importance of planning for the future. You heroically holding back a yawn."],
+        "Extremely Jealous": ["She inquires to your relationships with other girls. You carefully dispel her concern, trying not to make definitive statements."],
+        "Virtuous": ["She tells about her volunteer work. It's nice, but a bit boring."], 
+        "Vicious": ["She gossips with obvious pleasure about her acquaintances misfortunes."], 
+        "Dawdler": ["You have a lazy, indolent discussion. Looks like she's half asleep.", "She pensively tells about her recent dreams. You beginning to feel drowsy."],
+        "Clumsy": ["You talk about misfortunes caused by her clumsiness. You heroically holding back a smile and comforting her."],
+        "Nymphomaniac": ["An innocent conversation turns into the discussion about sexual positions. She's really into this stuff.", "She passionately talks about her recent sexual adventures. Wow."], 
+        "Heavy Drinker": ["You discuss various types of alcohol, sharing your drinking experience."],
+        "Always Hungry": ["You talk about food for some time. Looks like she can do it for hours, so you carefully interrupt the conversation."],
+        "Curious": ["You exchange the latest news and gossips. She really knows alot about it."],
+        "cgo('Warrior')": ["You discuss the recent fights at the arena and their participants.", "You discuss a variety of fighting styles."], 
+        "cgo('Caster')": ["She enthusiastically talks about mysteries of arcane arts.", "You discuss her magical studies."], 
+        "cgo('SIW')": ["You gossiping about the strangeness of some of her customers."], 
+        "cgo('Server')": ["She recounts rumors that she heard from customers lately. People tend to not notice service workers when they are not needed."], 
+        "default": ["You chat for some time."]
+        })
+        
+        "[line]"
+        if chr.joy < 40 and dice(40):
+            $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
+            $ chr.joy += randint(2, 5)
+        if chr.joy > 70:
+            if dice (chr.joy):
+                "You had a very lively and enjoyable conversation."
+                $ gm_joy = 100
+                $ chr.joy += randint(0, 2)
+                $ chr.disposition += randint(1, 2)
+            else:
+                "You had a pretty lively conversation."
+                $ gm_joy = 75
+                $ chr.disposition += 1
+        elif chr.joy > 30:
+            if dice (chr.joy + 30):
+                "You had a fairly normal conversation."
+                $ gm_joy = 50
+                $ chr.disposition += randint(0, 1)
+            else: 
+                "You had a bit short conversation."
+                $ gm_joy = 25
+        else:
+            "It was a short and not very pleasant conversation."
+            $ gm_joy = 0
+        if dice(round(gm_joy*100/chr.disposition)):
+            $ chr.disposition += randint(2, 5)
+            "You feel like two became closer."
+        jump girl_interactions
     else:
-        if ct("Nymphomaniac") and dice(40):
-            $rc("Wherever there is something or someone I can shag.", "At the sex-club, oh no--I've said too much...#1 rule...Never talk about the sex club! WTF was I thinking?")
-        elif ct("Nerd"):
-            $rc("Library, where do {color=[red]}you{/color} go for fun?", "I cozy under a tree with a good book.")
-        elif co("Warrior"):
-            $rc("The Arena, where else?", "Window shopping at the blacksmith's!")
-        elif co("SIW"):
-            $rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Brothel...Don't look at me like that!")
-        elif ct("Dancer"):
-            $rc("Exotic Dancing academy", "Close to a pole and not any of the two you're thinking.", "Strip Club.")
-        elif co("Server"):
-            $rc("At the bar, tending to it.", "I love broom and dustbins exhibits.", "Wherever cleaning is required.")
-    
-    jump girl_interactions
+        jump interactions_refused
+###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
+#label interactions_hangouts:
+#    if chr.disposition < 200:
+#        jump interactions_refused
+#    
+#    else:
+#        if ct("Nymphomaniac") and dice(40):
+#            $rc("Wherever there is something or someone I can shag.", "At the sex-club, oh no--I've said too much...#1 rule...Never talk about the sex club! WTF was I thinking?")
+#        elif ct("Nerd"):
+#            $rc("Library, where do {color=[red]}you{/color} go for fun?", "I cozy under a tree with a good book.")
+#        elif cgo("Warrior"):
+#            $rc("The Arena, where else?", "Window shopping at the blacksmith's!")
+#        elif cgo("SIW"):
+#            $rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Brothel...Don't look at me like that!")
+#        elif ct("Dancer"):
+#            $rc("Exotic Dancing academy", "Close to a pole and not any of the two you're thinking.", "Strip Club.")
+#        elif cgo("Server"):
+#            $rc("At the bar, tending to it.", "I love broom and dustbins exhibits.", "Wherever cleaning is required.")
+#    
+#    jump girl_interactions
 
 ###### j6
 label interactions_romance:
-    if chr.disposition < 500:
+    "You asking her about love and romantic stuff."
+    if chr.disposition < 250:
         jump interactions_refused
-    
     else:
+        $ gm_dice = (round(chr.disposition * 0.4))
+    
+    if dice(gm_dice):
         if ct("Impersonal"):
             $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.")
-        elif ct("Shy") and dice(30):
+        elif ct("Shy") and dice(40):
             $rc("Lovers... Th-they're supposed to...hold hands, after all... Right?", "Wh-what comes after a k-kiss is... It's... Awawa...", "If it's the person you love, just having them turn around and smile... Is enough to make you happy...")
         elif ct("Nymphomaniac") and dice(20):
             $rc("*sigh* I always have such a high libido...", "Um... Love can start from lust... right?", "If you are in love, having sex is totally normal, right?", "People are no more than animals, so it's only natural to copulate...right?", "Well, doing perverted stuff is proof that you're healthy.", "Me thinking about sex? Not at all... Great. Now that you brought it up...")
@@ -437,7 +802,7 @@ label interactions_romance:
         else:
             $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love～...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Love... sure is a good thing...", "Everyone wants to fall in love.")
 
-    $ chr.disposition += randint(10, 20)
+    $ chr.disposition += round(dice (11, 20) - (chr.disposition * 0.01) + (chr.joy * 0.1))
     jump girl_interactions
 
 ###### j7
@@ -455,7 +820,7 @@ label interactions_refused:
     elif ct("Imouto"):
         $rc("Uhuhu♪ I won't tell you~ ♪ ","I'm not going to tell you~ ","It's a secret!", "Umm, is it bad if I don't answer...?")
     elif ct("Yandere"):
-        $rc("Shut up, leave me alone...", "Conversation... What a pain...", "<She is not listening>", "You talk too much.")
+        $rc("Shut up, leave me alone...", "<She is not listening>", "You talk too much.")
     elif ct("Kamidere"):
         $rc("Ahhh, geez, just shut up already!", "And what will hearing that do for you?", "And what good would knowing that do you?")
     elif ct("Ane"):

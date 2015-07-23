@@ -9,6 +9,699 @@
 
 ###### j1
 label interactions_fuck:
+    $chr.set_flag("forced", value="false")
+    if chr.disposition >= 650 or ct("Nymphomaniac"): #will need to add lover as well!!!
+        menu:
+            "Where would you like to do it?"
+            
+            "Beach":
+                show bg city_beach with fade
+                $chr.set_flag("s_bg", value="beach")
+            "Park":
+                show bg city_park with fade
+                $chr.set_flag("s_bg", value="park")
+            "Room":
+                show bg girl_room with fade
+                $chr.set_flag("s_bg", value="room")
+    elif (chr.status == "slave") and (ct("Shy") or ct("Dandere")):
+        "She is too shy to it anywhere. You can force her nevertheless, but the prefers her room."
+        menu:
+            "Where would you like to do it?"
+            
+            "Beach":
+                show bg city_beach with fade
+                $chr.set_flag("s_bg", value="beach")
+                $chr.set_flag("forced", value="true")
+            "Park":
+                show bg city_park with fade
+                $chr.set_flag("s_bg", value="park")
+                $chr.set_flag("forced", value="true")
+            "Room":
+                show bg girl_room with fade
+                $chr.set_flag("s_bg", value="room")
+    elif chr.status == "slave":
+        "She is not comfortable with doing it outdoors. You can force her nevertheless, but the prefers her room."
+        menu:
+            "Where would you like to do it?"
+            
+            "Beach":
+                show bg city_beach with fade
+                $chr.set_flag("s_bg", value="beach")
+                $chr.set_flag("forced", value="true")
+            "Park":
+                show bg city_park with fade
+                $chr.set_flag("s_bg", value="park")
+                $chr.set_flag("forced", value="true")
+            "Room":
+                show bg girl_room with fade
+                $chr.set_flag("s_bg", value="room")
+    elif ct("Shy") or ct("Dandere"):
+        "She's too shy to do it anywhere. You go into her room."
+        show bg girl_room with fade
+        $chr.set_flag("s_bg", value="room")
+    elif ct("Homebody"):
+        "She doesn't want to do it outdoors, so you go into her room."
+        show bg girl_room with fade
+        $chr.set_flag("s_bg", value="room")
+    else:
+        "She wants to do it in her room."
+        show bg girl_room with fade
+        $chr.set_flag("s_bg", value="room")
+
+    if chr.flag("s_bg") == "beach":
+        if dice(50):
+            $ pytfall.gm.img_generate("beach", "nude", "swimsuit", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
+        else:
+            $ pytfall.gm.img_generate("swimsuit", "nude", "simple bg",  exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
+    elif chr.flag("s_bg") == "park":
+        if dice(50):
+            $ pytfall.gm.img_generate("nature", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
+        else:
+            $ pytfall.gm.img_generate("nude", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
+    else:
+        if dice(30):
+            $ pytfall.gm.img_generate("living", "nude", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+        elif dice(30):
+            $ pytfall.gm.img_generate("living", "no clothes", exclude=["sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+        else:
+            $ pytfall.gm.img_generate("nude", "no clothes", "simple bg", exclude=["sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+    $ sex_count = 0
+    $ guy_count = 0
+    $ girl_count = 0
+    $ together_count = 0
+    $ cum_count = 0
+    if ct("Nymphomaniac"): #will need to add lover as well!!!
+        $libido = 140
+    elif ct("Frigid"):
+        $libido = 60
+    else:
+        $libido = 100
+    if ct ("Messy"):
+        $libido += 10
+    if chr.flag("forced") == "true" and ct("Masochist"):
+        $libido += 20
+    elif chr.flag("forced") == "true":
+        $libido -= 20
+        $chr.joy -= 15
+    if cgo("SIW"):
+        $libido += 20
+    else:
+        $libido -= 20
+label choice:
+    menu:
+        "What would you like to do now?"
+        
+        "Ask for striptease" if chr.flag("s_bg") == "beach" and (chr.has_image("stripping", "beach", type="first_default") or chr.has_image("stripping", "simple bg", exclude=["stage"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("stripping", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
+            else:
+                $ pytfall.gm.img_generate("stripping", "simple bg", exclude=["stage"], type="first_default")
+            jump stripte
+        "Ask for striptease" if chr.flag("s_bg") == "park" and (chr.has_image("stripping", "nature", type="first_default") or chr.has_image("stripping", "simple bg", exclude=["stage"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("stripping", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+            else:
+                $ pytfall.gm.img_generate("stripping", "simple bg", exclude=["stage"], type="first_default")
+            jump stripte
+        "Ask for striptease" if chr.flag("s_bg") == "room" and (chr.has_image("stripping", "living", type="first_default") or chr.has_image("stripping", "simple bg", exclude=["stage"], type="first_default") or chr.has_image("stripping", "indoors", type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("stripping", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+            else:
+                $ pytfall.gm.img_generate("stripping", "simple bg", exclude=["stage"], type="first_default")
+            jump stripte
+        "Ask to masturbate" if chr.flag("s_bg") == "beach" and (chr.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or chr.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("masturbation", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
+            else:
+                $ pytfall.gm.img_generate("masturbation", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
+            jump mast
+        "Ask to masturbate" if chr.flag("s_bg") == "park" and (chr.has_image("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or chr.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+            else:
+                $ pytfall.gm.img_generate("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+            jump mast
+        "Ask to masturbate" if chr.flag("s_bg") == "room" and (chr.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or chr.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or chr.has_image("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+            else:
+                $ pytfall.gm.img_generate("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+            jump mast
+        "Ask for blowjob" if chr.flag("s_bg") == "beach" and (chr.has_image("bc blowjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc blowjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump bj
+        "Ask for blowjob" if chr.flag("s_bg") == "park" and (chr.has_image("bc blowjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc blowjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump bj
+        "Ask for blowjob" if chr.flag("s_bg") == "room" and (chr.has_image("bc blowjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc blowjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc blowjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump bj
+        "Ask for titsjob" if chr.flag("s_bg") == "beach" and (chr.has_image("bc titsjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc titsjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump tj
+        "Ask for titsjob" if chr.flag("s_bg") == "park" and (chr.has_image("bc titsjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc titsjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump tj
+        "Ask for titsjob" if chr.flag("s_bg") == "room" and (chr.has_image("bc titsjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc titsjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc titsjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump tj
+        "Ask for handjob" if chr.flag("s_bg") == "beach" and (chr.has_image("bc handjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc handjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump hj
+        "Ask for handjob" if chr.flag("s_bg") == "park" and (chr.has_image("bc handjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc handjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump hj
+        "Ask for handjob" if chr.flag("s_bg") == "room" and (chr.has_image("bc handjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")or chr.has_image("bc handjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc handjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump hj
+        "Ask for footjob" if chr.flag("s_bg") == "beach" and (chr.has_image("bc footjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc footjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump fj
+        "Ask for footjob" if chr.flag("s_bg") == "park" and (chr.has_image("bc footjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc footjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump fj
+        "Ask for footjob" if chr.flag("s_bg") == "room" and (chr.has_image("bc footjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")or chr.has_image("bc footjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("bc footjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump fj
+        "Ask for vaginal sex" if chr.flag("s_bg") == "beach" and (chr.has_image("2c vaginal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("2c vaginal", "partnerhidden", "swimsuit", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("2c vaginal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump vag_sex
+        "Ask for vaginal sex" if chr.flag("s_bg") == "park" and (chr.has_image("2c vaginal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("2c vaginal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump vag_sex
+        "Ask for vaginal sex" if chr.flag("s_bg") == "room" and (chr.has_image("2c vaginal", "partnerhidden", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")or chr.has_image("2c vaginal", "partnerhidden", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("2c vaginal", "partnerhidden", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump vag_sex
+        "Ask for anal sex" if chr.flag("s_bg") == "beach" and (chr.has_image("2c anal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("2c anal", "partnerhidden", "swimsuit", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("2c anal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump anal_sex
+        "Ask for anal sex" if chr.flag("s_bg") == "park" and (chr.has_image("2c anal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("2c anal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump anal_sex
+        "Ask for anal sex" if chr.flag("s_bg") == "room" and (chr.has_image("2c anal", "partnerhidden", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c anal", "partnerhidden", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or chr.has_image("2c anal", "partnerhidden", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
+            if dice(50):
+                $ pytfall.gm.img_generate("2c anal", "partnerhidden", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            else:
+                $ pytfall.gm.img_generate("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
+            jump anal_sex
+        "That's all.":
+            "You decided to finish."   
+    #$ sex_count = 0
+    #$ guy_count = 0
+    #$ girl_count = 0
+    #$ together_count = 0
+    #$ cum_count = 0
+            if together_count > 0 and sex_count >=3:
+                "Placeholder for come together lines from AA"
+            if cum_count >= 3:
+                "Placeholder for cum lines from AA"
+            elif sex_count < 1 and guy_count < 1 and girl_count < 1:
+                if chr.status == "slave":
+                    "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
+                else:
+                    "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
+                $ chr.disposition -= radint(40, 70)
+                $ chr.joy -= radint(20, 50)
+                $ chr.vitality -= 25
+            elif girl_count > 0 and sex_count < 1:
+                "She did nothing but masturbated in front of you. Probably better than nothing, but be prepared for rumors about your impotence or orientation."
+                $ chr.disposition -= radint(30, 50)
+                $ chr.joy -= radint(15, 25)
+                $ chr.vitality -= 20
+            elif girl_count > 0 and guy_count > 0 and sex_count < 3:
+                "Placeholder for small amount of sex lines from AA"
+            
+            
+            jump girl_interactions 
+
+    label bj:
+        "She licks and sucks your dick until you come."
+        if chr.oral < 50:
+            "She clearly needs more training, so it took some time. But at least she learned something new."
+            $ chr.oral += randint (3, 5)
+            $ hero.oral += randint (0, 1)
+            $ chr.vitality -= 15
+            $ libido += 5
+        elif chr.oral < 300:
+            "It was pretty good."
+            $ chr.oral += randint (2, 4)
+            $ hero.oral += randint (0, 2)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 5
+        elif chr.oral < 1000:
+            "It was very good."
+            $ chr.oral += randint (1, 3)
+            $ hero.oral += randint (1, 3)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 8
+        else:
+            "She was so good that you came after a few seconds. Wow."
+            $ chr.oral += randint (0, 2)
+            $ hero.oral += randint (1, 4)
+            $ chr.vitality -= 4
+            $ chr.joy += 2
+            $ libido += 10
+            $ sex_count += 1
+            $ guy_count +=1
+        if (chr.oral - hero.oral) > 200:
+            "You learned something new about oral as well. A pleasure to deal with professionals."
+            $ hero.oral += 2
+        elif (hero.oral - chr.oral) > 200:
+            "You were able to show her some new tricks."
+            $ chr.oral += 2
+        $ sex_count += 1
+        $ guy_count +=1
+        $ cum_count += 1
+        jump choice
+            
+    label tj:
+        "She stimulates your dick with her soft breasts until you come."
+        if chr.oral < 50 or chr.sex < 50:
+            "She clearly needs more training, so it took some time. But at least she learned something new."
+            $ chr.oral += randint (1, 4)
+            $ chr.sex += randint (1, 4)
+            $ hero.sex += randint (0, 1)
+            $ chr.vitality -= 15
+            $ libido += 5
+        elif chr.oral < 300 or  chr.sex < 300:
+            "It was pretty good."
+            $ chr.oral += randint (1, 3)
+            $ chr.sex += randint (1, 3)
+            $ hero.sex += randint (0, 1)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 5
+        elif chr.oral < 1000 or chr.sex < 1000:
+            "It was very good."
+            $ chr.oral += randint (1, 2)
+            $ chr.sex += randint (1, 2)
+            $ hero.sex += randint (1, 2)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 8
+        else:
+            "She was so good that you came after a few seconds. Wow."
+            $ chr.oral += randint (0, 2)
+            $ chr.sex += randint (0, 2)
+            $ hero.sex += randint (1, 3)
+            $ chr.vitality -= 4
+            $ chr.joy += 2
+            $ libido += 10
+        if (chr.oral - hero.oral) > 200 or (chr.sex - hero.sex) > 200:
+            "You learned something new about titsjob as well. A pleasure to deal with professionals."
+            $ hero.oral += 1
+            $ hero.sex += 1
+        elif (hero.oral - chr.oral) > 200:
+            "You were able to show her some new tricks."
+            $ chr.oral += 1
+            $ chr.sex += 1
+        $ sex_count += 1
+        $ guy_count +=1
+        $ cum_count += 1
+        jump choice
+    label hj:
+        "She stimulates your dick with her hands until you come."
+        if chr.sex < 50:
+            "She clearly needs more training, so it took some time. But at least she learned something new."
+            $ chr.sex += randint (3, 5)
+            $ hero.sex += randint (0, 1)
+            $ chr.vitality -= 15
+            $ libido += 5
+        elif chr.sex < 300:
+            "It was pretty good."
+            $ chr.sex += randint (2, 4)
+            $ hero.sex += randint (0, 2)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 5
+        elif chr.sex < 1000:
+            "It was very good."
+            $ chr.sex += randint (1, 3)
+            $ hero.sex += randint (1, 2)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 8
+        else:
+            "She was so good that you came after a few seconds. Wow."
+            $ chr.sex += randint (0, 2)
+            $ hero.sex += randint (1, 3)
+            $ chr.vitality -= 4
+            $ chr.joy += 2
+            $ libido += 10
+        if (chr.sex - hero.sex) > 200:
+            "You learned something new about handjob as well. A pleasure to deal with professionals."
+            $ hero.sex += 2
+        elif (hero.sex - chr.sex) > 200:
+            "You were able to show her some new tricks."
+            $ chr.sex += 2
+        $ sex_count += 1
+        $ guy_count +=1
+        $ cum_count += 1
+        jump choice
+    label fj:
+        "She stimulates your dick with her feet until you come."
+        if chr.sex < 50:
+            "She clearly needs more training, so it took some time. But at least she learned something new."
+            $ chr.sex += randint (3, 5)
+            $ hero.sex += randint (0, 1)
+            $ chr.vitality -= 15
+            $ libido += 5
+        elif chr.sex < 300:
+            "It was pretty good."
+            $ chr.sex += randint (2, 4)
+            $ hero.sex += randint (0, 2)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 5
+        elif chr.sex < 1000:
+            "It was very good."
+            $ chr.sex += randint (1, 3)
+            $ hero.sex += randint (1, 2)
+            $ chr.vitality -= 5
+            $ chr.joy += 1
+            $ libido += 8
+        else:
+            "She was so good that you came after a few seconds. Wow."
+            $ chr.sex += randint (0, 2)
+            $ hero.sex += randint (1, 3)
+            $ chr.vitality -= 4
+            $ chr.joy += 2
+            $ libido += 10
+        if (chr.sex - hero.sex) > 200:
+            "You learned something new about footjob as well. A pleasure to deal with professionals."
+            $ hero.sex += 2
+        elif (hero.sex - chr.sex) > 200:
+            "You were able to show her some new tricks."
+            $ chr.sex += 2
+        $ sex_count += 1
+        $ guy_count +=1
+        $ cum_count += 1
+        jump choice
+    label mast:
+        "She masturbates in front of you. Although it cannot be considered as a sexual act, you both are more aroused now."
+        if libido <= 30:
+            $ libido += 10
+        else:
+            $ libido += 5
+        $ chr.vitality -= 10
+        $ girl_count +=1
+        jump choice
+    label vag_sex:
+        if chr.vaginal < 50 and hero.vaginal >= 50:
+            "You fuck her pussy until she comes. She's still too inexperienced, so you were unable to come properly. Oh well, at least she learned something new."
+            $ chr.vaginal += randint (3, 5)
+            $ hero.vaginal += randint (0, 1)
+            $ chr.vitality -= 20
+            $ libido -= 10
+            $ sex_count += 1
+            $ girl_count +=1
+        elif chr.vaginal >= 50 and hero.vaginal < 50:
+            "You fuck her pussy until you come. Unfortunately you didn't have enough skill to make her come as well. She looks disappointed."
+            $ hero.vaginal += randint (1, 2)
+            $ chr.vitality -= 20
+            $ chr.joy -= 10
+            $ libido += 5
+            $ sex_count += 1
+            $ guy_count +=1
+        elif chr.vaginal < 50 and hero.vaginal < 50:
+            "You fuck her pussy for some time until you both realized that you are not skillful enough to make each other properly come. It would be funny if it wasn't so sad."
+            $ chr.vaginal += randint (0, 1)
+            $ hero.vaginal += randint (0, 1)
+            $ chr.vitality -= 10
+            $ libido += 5
+            $ chr.joy -= 10
+            $ sex_count += 1
+        elif chr.vaginal < 500 and hero.vaginal < 500:
+            "You fuck her wet pussy until you both come. It was pretty good."
+            $ chr.vaginal += randint (2, 4)
+            $ hero.vaginal += randint (0, 2)
+            $ chr.vitality -= 10
+            $ chr.joy += 5
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        elif chr.vaginal >= 500 and hero.vaginal < 500:
+            "You fuck her wet pussy until you both come. You did it much earlier, and noticed a light self-confident smile on her face."
+            $ chr.vaginal += randint (1, 4)
+            $ hero.vaginal += randint (1, 2)
+            $ chr.vitality -= 10
+            $ chr.joy += 5
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        elif chr.vaginal < 500 and hero.vaginal =< 500:
+            "You fuck her wet pussy until you both come. She did it much earlier, looks like she enjoyed it a lot."
+            $ chr.vaginal += randint (1, 4)
+            $ hero.vaginal += randint (1, 2)
+            $ chr.vitality -= 10
+            $ chr.joy += 10
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        elif chr.vaginal < 1000 or hero.vaginal < 1000:
+            "You fuck her wet pussy until you both come. It was very good."
+            if dice (round((chr.vaginal + hero.vaginal)* 0.05)):
+                "You managed to come simultaneously!"
+                $ chr.joy += 5
+                $ chr.vaginal += randint (0, 1)
+                $ hero.vaginal += randint (0, 1)
+                $ together_count += 1
+            $ chr.vaginal += randint (1, 3)
+            $ hero.vaginal += randint (1, 3)
+            $ chr.vitality -= 10
+            $ chr.joy += 10
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        else:
+            "You fuck her wet pussy until you both simultaneously come multiple times. It was fabulous."
+            $ chr.vaginal += randint (1, 2)
+            $ hero.vaginal += randint (1, 3)
+            $ together_count += 1
+            $ chr.vitality -= 10
+            $ chr.joy += 15
+            $ libido += -20
+            $ sex_count += 1
+            $ guy_count +=2
+            $ girl_count +=2
+        if (chr.vaginal - hero.vaginal) > 300:
+            "You learned something new about vagianl sex as well. A pleasure to deal with professionals."
+            $ hero.vaginal += 2
+        elif (hero.vaginal - chr.vaginal) > 300:
+            "You were able to show her some new tricks."
+            $ chr.vaginal += 2
+        jump choice
+    label anal_sex:
+        if chr.anal < 50 and hero.anal >= 50:
+            "You fuck her ass until she comes. She's still too inexperienced, so you were unable to come properly, and it was quite painful for her. Oh well, at least she learned something new."
+            $ chr.anal += randint (3, 5)
+            $ hero.anal += randint (0, 1)
+            $ chr.vitality -= 25
+            $ chr.joy -=10
+            if chr.health > 30:
+                $ chr.health -= 5
+            $ libido -= 5
+            $ sex_count += 1
+            $ girl_count +=1
+        elif chr.anal >= 50 and hero.anal < 50:
+            "You fuck her ass until you come. Unfortunately you didn't have enough skill to make her come, and it was quite painful for her. She looks disappointed."
+            $ hero.anal += randint (1, 2)
+            $ chr.vitality -= 20
+            $ chr.joy -= 20
+            $ libido += 5
+            if chr.health > 30:
+                $ chr.health -= 5
+            $ sex_count += 1
+            $ guy_count +=1
+        elif chr.anal < 50 and hero.anal < 50:
+            "You fuck her ass for some time until you both realized that you are not skillful enough to make each other properly come. It was an unpleasant and painful experience for both of you."
+            $ chr.anal += randint (1, 3)
+            $ hero.anal += randint (1, 3)
+            $ chr.vitality -= 25
+            $ libido += 5
+            $ chr.joy -= 25
+            $ sex_count += 1
+            if chr.health > 35:
+                $ chr.health -= 10
+        elif chr.anal < 500 and hero.anal < 500:
+            "You fuck her tight ass until you both come. It was pretty good."
+            $ chr.anal += randint (2, 4)
+            $ hero.anal += randint (0, 2)
+            $ chr.vitality -= 15
+            $ chr.joy += 5
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        elif chr.anal >= 500 and hero.anal < 500:
+            "You fuck her tight ass until you both come. You did it much earlier, and noticed a small self-confident smile on her face."
+            $ chr.anal += randint (1, 4)
+            $ hero.anal += randint (1, 2)
+            $ chr.vitality -= 15
+            $ chr.joy += 5
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        elif chr.anal < 500 and hero.anal =< 500:
+            "You fuck her tight ass until you both come. She did it much earlier, looks like she enjoyed it a lot."
+            $ chr.anal += randint (1, 4)
+            $ hero.anal += randint (1, 2)
+            $ chr.vitality -= 15
+            $ chr.joy += 10
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        elif chr.anal < 1000 or hero.anal < 1000:
+            "You fuck her tight ass until you both come. It was very good."
+            if dice (round((chr.anal + hero.anal)* 0.05)):
+                "You managed to come simultaneously!"
+                $ chr.joy += 5
+                $ chr.anal += randint (0, 1)
+                $ hero.anal += randint (0, 1)
+                $ together_count += 1
+            $ chr.anal += randint (1, 3)
+            $ hero.anal += randint (1, 3)
+            $ chr.vitality -= 15
+            $ chr.joy += 10
+            $ libido -= 10
+            $ sex_count += 1
+            $ guy_count +=1
+            $ girl_count +=1
+        else:
+            "You fuck her tight ass until you both simultaneously come multiple times. It was fabulous."
+            $ chr.anal += randint (1, 2)
+            $ hero.anal += randint (1, 3)
+            $ together_count += 1
+            $ chr.vitality -= 15
+            $ chr.joy += 15
+            $ libido += -10
+            $ sex_count += 1
+            $ guy_count +=2
+            $ girl_count +=2
+        if (chr.anal - hero.anal) > 300:
+            "You learned something new about anal sex as well. A pleasure to deal with professionals."
+            $ hero.anal += 2
+        elif (hero.anal - chr.anal) > 300:
+            "You were able to show her some new tricks."
+            $ chr.anal += 2
+        jump choice
+    label stripte:
+        "You ask her to show you striptease."
+        if chr.strip < 50:
+            "She tried her best, but the moves were clumsy and unnatural. At least she learned something new though."
+            $ chr.strip += randint (3, 5)
+            $ chr.joy -= 10
+            $ chr.vitality -= 10
+            $ libido -= 15
+        elif chr.strip < 300:
+            "It's nice to look at her graceful and elegant moves."
+            $ chr.strip += randint (1, 3)
+            $ hero.strip += randint (0, 1)
+            $ chr.vitality -= 10
+            $ libido += 5
+        elif chr.strip < 1000:
+            "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
+            $ chr.strip += randint (1, 2)
+            $ hero.strip += randint (1, 2)
+            $ chr.vitality -= 10
+            $ chr.joy += 10
+            $ libido += 5
+        else:
+            "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in the eyes."
+            $ chr.strip += randint (0, 1)
+            $ hero.strip += randint (1, 4)
+            $ chr.vitality -= 10
+            $ chr.joy += 15
+            $ libido += 10
+            $ guy_count +=1
+        if (chr.strip - hero.strip) > 200:
+            "You learned something new about striptease as well. A pleasure to deal with professionals."
+            $ hero.strip += 2
+        elif (hero.strip - chr.strip) > 200:
+            "You were able to show her some new tricks."
+            $ chr.strip += 2
+        jump choice
+ #   "Where would you like to do it?"
+ #   menu:
+ #       "Beach":
+ #           python:
+ #               renpy.scene()
+ #               hs()
+ #          
+ #       "Park":
+ #           python:
+ #               renpy.scene()
+ #               hs()
+ #           show bg city_park with fade
+ #       if chr.has_image("straight", "beach", type="first_default"):
+ #   $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=["sex", "sleeping", "bathing", "cooking", "reading", "pool", "lingerie"]))
+    jump girl_interactions
+#label interactions_fuck:
+    show bg girl_room with fade
+    if dice(50):
+        $ pytfall.gm.img_generate("nude", "lingerie", exclude=["stripping", "sleeping", "angry", "in pain"])
+    else:
+        $ pytfall.gm.img_generate("nude", "no clothes", exclude=["stripping", "sleeping"])
+    jump girl_interactions
     if chr.status != "slave":
         if co("SIW") and chr.disposition < 400 - hero.charisma/2:
             

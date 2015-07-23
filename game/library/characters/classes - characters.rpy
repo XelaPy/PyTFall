@@ -940,7 +940,7 @@ init -9 python:
     ###### Character Classes ######
     class PytCharacter(_object):
         STATS = set()
-        SKILLS = set(["vaginal", "anal", "oral", "strip", "service", "refinement", "group", "bdsm", "dancing",
+        SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
                                "bartending", "cleaning", "waiting", "management", "exploration", "teaching"])
         PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"])
         CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"])
