@@ -537,12 +537,12 @@ label choice:
             $ together_count += 1
             $ chr.vitality -= 10
             $ chr.joy += 15
-            $ libido += -20
+            $ libido -= 20
             $ sex_count += 1
             $ guy_count +=2
             $ girl_count +=2
         if (chr.vaginal - hero.vaginal) > 300:
-            "You learned something new about vagianl sex as well. A pleasure to deal with professionals."
+            "You learned something new about vaginal sex as well. A pleasure to deal with professionals."
             $ hero.vaginal += 2
         elif (hero.vaginal - chr.vaginal) > 300:
             "You were able to show her some new tricks."
