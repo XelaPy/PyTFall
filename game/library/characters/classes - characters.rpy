@@ -3877,10 +3877,10 @@ init -9 python:
             # For now, Girls will simply remove MC from their sets:
             if self.disposition < -100 and hero in self.friends:
                 txt += "\n {} is no longer friends with you...".format(self.nickname)
-                self.friends.remove(hero)
+                end_friends(self, hero)
             if self.disposition < -500 and hero in self.lovers:
                 txt += "\n {} and you are no longer lovers...".format(self.nickname)
-                self.lovers.remove(hero)
+                end_lovers(self, hero)
                 
             txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
             

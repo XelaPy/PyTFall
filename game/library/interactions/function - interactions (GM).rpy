@@ -82,8 +82,42 @@ init -11 python:
         return chr.disposition >= value
         
     # Relationships:
-    def check_friends(chr1, chr2):
-        return chr1 in chr2.friends and chr2 in chr1.friends
+    def check_friends(*args):
+        friends = list()
+        for i in args:
+            for z in args:
+                if i != z:
+                    friends.append(i.is_friend(z))
+        return all(friends)
         
-    def check_lovers(chr1, chr2):
-        return chr1 in chr2.lovers and chr2 in chr1.lovers
+    def set_friends(*args):
+        for i in args:
+            for z in args:
+                if i != z:
+                    i.friends.add(z)
+
+    def end_friends(*args):
+        for i in args:
+            for z in args:
+                if i != z and z in i.friends:
+                    i.friends.remove(z)
+        
+    def check_lovers(*args):
+        lovers = list()
+        for i in args:
+            for z in args:
+                if i != z:
+                    lovers.append(i.is_lover(z))
+        return all(lovers)
+
+    def set_lovers(*args):
+        for i in args:
+            for z in args:
+                if i != z:
+                    i.lovers.add(z)
+
+    def end_lovers(*args):
+        for i in args:
+            for z in args:
+                if i != z and z in i.lovers:
+                    i.lovers.remove(z)
