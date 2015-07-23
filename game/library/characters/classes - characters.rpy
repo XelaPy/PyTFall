@@ -975,6 +975,10 @@ init -9 python:
             self.traits = Traits(self)
             self.resist = SmartTracker(self, be_skill=False)  # A set of any effects this character resists. Usually it's stuff like poison and other status effects.
             
+            # Relationships:
+            self.friends = set()
+            self.lovers = set()
+            
             # Arena relared:
             if arena:
                 self.fighting_days = list() # Days of fights taking place
@@ -1105,7 +1109,8 @@ init -9 python:
 
         def flag(self, par):
             return self.flags.flag(par)
-                
+           
+        # Money:
         def take_money(self, amount, reason="Other"):
             if amount < self.gold:
                 self.gold -= amount
@@ -2144,7 +2149,14 @@ init -9 python:
 
                     self.miscitems[key] = items[key].mtemp
 
-
+        # Relationships:
+        def is_friend(self, chr):
+            return chr in self.friends
+            
+        def is_lover(self, chr):
+            return chr in self.lovers
+                    
+        # Post init and ND.
         def init(self):
             # Normalize character
             if not self.fullname:
@@ -2776,7 +2788,7 @@ init -9 python:
             self.desc = ""
             if dice(80):
                 self.occupation = "Prostitute"
-            else:    
+            else:
                 self.occupation = choice(["Stripper", "ServiceGirl"])
             self.status = "slave"
             self._location = "slavemarket"
@@ -3860,6 +3872,16 @@ init -9 python:
                 flag_red = True
                 txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
             
+            # TODO:
+            # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
+            # For now, Girls will simply remove MC from their sets:
+            if self.disposition < -100 and hero in self.friends:
+                txt += "\n {} is no longer friends with you...".format(self.nickname)
+                self.friends.remove(hero)
+            if self.disposition < -500 and hero in self.lovers:
+                txt += "\n {} and you are no longer lovers...".format(self.nickname)
+                self.lovers.remove(hero)
+                
             txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
             
             # Create the event:
@@ -3876,7 +3898,6 @@ init -9 python:
             self.fin.next_day()
             
             # Resets and Counters:
-            self.log_stats()
             self.restore_ap()
             self.reservedAP = 0
             # self.rt_trait(traits)
@@ -3900,6 +3921,9 @@ init -9 python:
             # Reset relays that use the RelayProxy.
             for p in pytRelayProxyStore:
                 p.reset(self)
+                
+            # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
+            super(Girl, self).next_day()
         
     
     class rGirl(Girl):

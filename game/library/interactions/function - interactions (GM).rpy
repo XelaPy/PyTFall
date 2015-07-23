@@ -80,3 +80,10 @@ init -11 python:
         Checks if disposition of the girl is any higher that value.
         """
         return chr.disposition >= value
+        
+    # Relationships:
+    def check_friends(chr1, chr2):
+        return chr1 in chr2.friends and chr2 in chr1.friends
+        
+    def check_lovers(chr1, chr2):
+        return chr1 in chr2.lovers and chr2 in chr1.lovers
