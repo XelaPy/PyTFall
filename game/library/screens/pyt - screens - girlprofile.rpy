@@ -171,7 +171,7 @@ screen pyt_girl_profile:
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                     add ProportionalScale(img, 600, 514) align(0.5, 0.5)
                 
-                action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), Execute(pytfall.gm.start_int_or_tr, chr)], false=NullAction())
+                action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), Execute(gm.start_int_or_tr, chr)], false=NullAction())
                 
                 hovered tt.action("Interact with [chr.nickname]!")
             

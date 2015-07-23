@@ -127,7 +127,7 @@ label start:
         tl.timer("Loading: Generating Random girls")
 
         tl.timer("Loading: GirlsMeets")
-        pytfall.gm = GirlsMeets()
+        gm = GirlsMeets()
         tl.timer("Loading: GirlsMeets")
         
         tl.timer("Loading: Populating SlaveMarket")

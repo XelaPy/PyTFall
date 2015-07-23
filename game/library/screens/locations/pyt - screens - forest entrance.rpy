@@ -1,5 +1,5 @@
 label forest_entrance:
-    $ pytfall.gm.enter_location(goodtraits=["Not Human", "Adventurer", "Alien"], badtraits=["Kleptomaniac", "Edgy", "Noble"])
+    $ gm.enter_location(goodtraits=["Not Human", "Adventurer", "Alien"], badtraits=["Kleptomaniac", "Edgy", "Noble"])
 
     # Music related:
     if not "forest_entrance" in ilists.world_music:
@@ -28,7 +28,7 @@ label forest_entrance:
         while True:
             result = ui.interact()
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             if result[0] == 'control':
                 if result[1] == 'return':
                     break
@@ -47,7 +47,7 @@ screen pyt_forest_entrance:
     
     use location_actions("forest_entrance")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -55,7 +55,7 @@ screen pyt_forest_entrance:
             align(0.5,0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("forest_entrance_tags") or entry.flag("forest_entrance_tags")[0] < day:
                         # $forest_entrance_tags_list = []

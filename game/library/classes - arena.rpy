@@ -147,7 +147,7 @@ init -9 python:
             Returns a list of all charachters availible/willing to fight in the Arena.
             Excludes all girls participating in girl_meets to avoid them being at multiple locations (this needs better handling)
             '''
-            gm_girls = pytfall.gm.get_all_girls()
+            gm_girls = gm.get_all_girls()
             arena_candidates = []
             
             # First pass, unique girls...

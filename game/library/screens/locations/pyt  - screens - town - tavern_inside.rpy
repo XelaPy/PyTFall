@@ -82,7 +82,7 @@ label tavern_inside:
             result = ui.interact()
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             if result[0] == 'control':
                 if result[1] == 'return':
                     break                 

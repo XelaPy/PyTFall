@@ -1,5 +1,5 @@
 label city_beach_cafe:
-    $ pytfall.gm.enter_location()
+    $ gm.enter_location()
     
     $ global_flags.set_flag("keep_playing_music")
     
@@ -24,7 +24,7 @@ label city_beach_cafe:
             result = ui.interact()
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             
             if result[0] == 'control':
                 if result[1] == 'return':
@@ -47,7 +47,7 @@ screen pyt_city_beach_cafe:
     
     use location_actions("city_beach_cafe")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -55,7 +55,7 @@ screen pyt_city_beach_cafe:
             align(0.5, 0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("beach_cafe_tags") or entry.flag("beach_cafe_tags")[0] < day:
                         # $beach_cafe_tags_list = []  

@@ -61,8 +61,8 @@ label interactions_friends: #if char["Hinata"] in char["Sakura"].friends:
             $rc("You know, I'd be totally up for sex friend status.♪", "Well, we get along fine...")
         else:
            $rc("Mm, alright.", "Okay!", "I have the feeling I could get along with you.", "Hehehe, it's great to be friends～♪", "Of course. Let's get along♪")
-#        $ chr.friends.add(hero)
-#        $ hero.friends.add(chr)
+       # $ chr.friends.add(hero)
+       # $ hero.friends.add(chr)
     else:
         if ct("Impersonal"):  
             $rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
@@ -280,13 +280,13 @@ label interactions_hire:
         
         menu:
             "Hire her as [chr.occupation].":
-                $pytfall.gm.remove_girl(chr)
+                $gm.remove_girl(chr)
                 $hero.add_girl(chr)
                 hide screen pyt_girl_interactions
                 
-                $ pytfall.gm.see_greeting = True
+                $ gm.see_greeting = True
                 
-                jump expression pytfall.gm.label_cache
+                jump expression gm.label_cache
             
             "Maybe later." :
                 jump girl_interactions

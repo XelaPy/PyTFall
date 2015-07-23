@@ -1,5 +1,5 @@
 label city_beach:
-    $ pytfall.gm.enter_location(goodtraits=["Athletic", "Tomboy", "Not Human", "Exhibitionnist"], badtraits=['Old Scars', "Shy", "Sensitive"])
+    $ gm.enter_location(goodtraits=["Athletic", "Tomboy", "Not Human", "Exhibitionnist"], badtraits=['Old Scars', "Shy", "Sensitive"])
     
     # Music related:
     if not "beach_main" in ilists.world_music:
@@ -33,7 +33,7 @@ label city_beach:
             result = ui.interact()
             
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             
             if result[0] == 'control':
                 if result[1] == 'return':
@@ -65,7 +65,7 @@ screen pyt_city_beach:
     
     use location_actions("city_beach")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -73,7 +73,7 @@ screen pyt_city_beach:
             align(0.5, 0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("beach_tags") or entry.flag("beach_tags")[0] < day:
                         # $citybeach_tags_list = [] 

@@ -1,5 +1,5 @@
 label city_park:
-    $ pytfall.gm.enter_location(goodtraits=["Psychic", "Impersonal"], badtraits=["Energetic", "Aggressive"])
+    $ gm.enter_location(goodtraits=["Psychic", "Impersonal"], badtraits=["Energetic", "Aggressive"])
     
     python:
         # Build the actions
@@ -23,7 +23,7 @@ label city_park:
             result = ui.interact()
             
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             
             if result[0] == 'control':
                 if result[1] == 'jumpgates':
@@ -56,7 +56,7 @@ screen pyt_city_park:
     
     use location_actions("city_park")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -64,7 +64,7 @@ screen pyt_city_park:
             align(0.5,0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("city_park_tags") or entry.flag("city_park_tags")[0] < day:
                         # $city_park_tags_list = [] 

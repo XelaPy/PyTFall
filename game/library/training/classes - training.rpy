@@ -959,8 +959,8 @@ init -9 python:
                     gm_job = OneOffTrainingJob(chr, chr.location, self.lesson, hero)
                     
                     # Report
-                    pytfall.gm.show_menu = False
-                    pytfall.gm.jump_cache = gm_job.label
+                    gm.show_menu = False
+                    gm.jump_cache = gm_job.label
                     
                     # Jump
                     renpy.jump(gm_job.label)

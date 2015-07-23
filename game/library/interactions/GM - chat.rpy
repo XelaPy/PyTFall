@@ -12,24 +12,25 @@
 
 ###### j1
 label FoodP: #bathroom awaits, no time to talk
-    $pytfall.gm.img_generate("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
+    $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
     $narrator(choice(["But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts."]))
     $ chr.disposition -= 2
     jump girl_interactions
 
 label Tired: #very-very tired, vitality close to zero
-    $pytfall.gm.img_generate("sad", "tired", "angry", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+    $gm.generate_img("sad", "tired", "angry", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     $narrator(choice(["But she was too tired to even to talk.", "She was not very happy that you interrupted her rest."]))
     $ chr.disposition -= 5
     $ chr.vitality -= 2
     jump girl_interactions
     
 label Hurted: #very low health
-    $pytfall.gm.img_generate("in pain", "sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+    $gm.generate_img("in pain", "sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     $narrator(choice(["But she is too wounded to talk."]))
     $ chr.disposition -= 5
     $ chr.vitality -= 2
     jump girl_interactions
+    
 label interactions_general:
     "You had a conversation with [chr.nickname]."
     if chr.effects["Food Poisoning"]['active']: #nope
@@ -39,7 +40,7 @@ label interactions_general:
         jump Hurted
     
     if chr.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
-        $pytfall.gm.img_generate("tired", "sad", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        $gm.generate_img("tired", "sad", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
         if dice(50):
             $narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
             $ chr.disposition += 5
@@ -57,7 +58,7 @@ label interactions_general:
         
     #if she is tired
     if chr.vitality < 35:
-        $pytfall.gm.img_generate("rest", exclude=["nude", "swimsuit", "revealing", "beach", "pool"])
+        $gm.generate_img("rest", exclude=["nude", "swimsuit", "revealing", "beach", "pool"])
         $narrator(choice(["But she was simply too tired to pay any serious attention to you.", "But she fell asleep in the middle of it."]))
         $ chr.disposition += randint(0, 1)
         $ chr.vitality -= 2
@@ -65,12 +66,12 @@ label interactions_general:
 
     #additional part with chance
     if chr.joy < 15 and dice(30):
-        $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
+        $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
         $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
         $ chr.joy += randint(3, 6)
     
     if dice(15):
-        $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
+        $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
         if chr.disposition > 0:
             $ narrator(choice(["You feel especially close today."]))
             $ chr.disposition += randint(2, 4)
@@ -81,15 +82,15 @@ label interactions_general:
     #main part      
     if chr.disposition > 150:
         if dice(40):
-            $ pytfall.gm.img_generate("happy", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("happy", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         else:    
-            $ pytfall.gm.img_generate("confident", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("confident", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
         else:
             $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
     elif chr.disposition > -100:
-        $ pytfall.gm.img_generate("uncertain", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        $ gm.generate_img("uncertain", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
         else:
@@ -111,7 +112,7 @@ label girl_interactions_aboutjob:
         jump Hurted
     if chr.disposition < -350:
         if chr.status != "slave":
-            $ pytfall.gm.img_generate("angry", "sad", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("angry", "sad", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
             if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                 $ rc("... <She doesn't want to talk>", "I don't think I'll linger here for a long time.", "I do not wish to about it. Leave me alone.")
             elif ct("Shy"):
@@ -119,7 +120,7 @@ label girl_interactions_aboutjob:
             else:
                 $ rc("You're a terrible employer; I have no idea why I'm still working here...", "Maybe I should try to beg in the streets instead of this 'job'...")
         else:
-            $ pytfall.gm.img_generate("sad", "angry", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("sad", "angry", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
             if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
                 $ rc("...I don't want to live.", "My life is awful. I want to end this...", "... <She looks extremely depressed>")
             else:
@@ -131,7 +132,7 @@ label girl_interactions_aboutjob:
 
     elif chr.mech_relay["daysemployed"] < 10:
         # Less than 10 days in service:
-        $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if chr.status != "slave":
             $ rc("I'm still adjusting to the new position.", "Trying to find my bearings with this new career.")
         else:
@@ -147,7 +148,7 @@ label girl_interactions_aboutjob:
     elif chr.disposition < 0:
         if chr.status != "slave":
             if chr.joy >= 50:
-                $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I don't like my job.", "You are a bad employer.")
                 elif ct("Shy"):
@@ -155,7 +156,7 @@ label girl_interactions_aboutjob:
                 else:
                     $ rc("I'm fine, but I just wish you weren't such a terrible employer.", "As good as can be expected under the circumstances, 'boss'...")
             else:
-                $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I hate my job.", "I'm not in the mood. Why? Because of my job, obviously.")
                 elif ct("Shy"):
@@ -164,7 +165,7 @@ label girl_interactions_aboutjob:
                     $ rc("I'm sad and you are the worst... what else do you want me to say?", "I'm looking for new employment opportunities; that's how I'm feeling...")
         else:
             if chr.joy >= 50:
-                $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I suppose a slave like me doesn't have much of a choice.", "I follow your orders. That's all.")
                 elif ct("Shy"):
@@ -172,7 +173,7 @@ label girl_interactions_aboutjob:
                 else:
                     $ rc("I am 'ok'. Just wish I had a better owner...", "I guess it is better than the slave market. A bit.")
             else:
-                $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("...I want another owner.", "I wish I had a better life as a slave.")
                 elif ct("Shy"):
@@ -192,44 +193,44 @@ label girl_interactions_aboutjob:
         if chr.status != "slave":
             if chr.joy >= 50:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I like my job. Nothing more to say.", "No complaints.")
                 elif ct("Shy"):
-                    $ pytfall.gm.img_generate("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I-I like my job. T-thank you.", "I-I'm perfectly fine! <shyly smiling>")
                 else:
-                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm happy and this job is not so bad.", "I'm comfortable and content with this arrangement.")
             else:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I like my job. I think.", "Not bad. It's not perfect, but...")
                 elif ct("Shy"):
-                    $ pytfall.gm.img_generate("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm just a bit sad today, b-but my job is nice.", "Um, I'm ok, I think. You can't be happy all the time, r-right?")
                 else:
-                    $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Not very chipper but I hope things become better soon.", "Bit sad, if truth be told. Don't want to complain though.")
         else:
             if chr.joy >= 50:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm satisfied with everything, master.", "I am at your service, master. My life is my job.")
                 elif ct("Shy"):
-                    $ pytfall.gm.img_generate("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("E-everything is well, master! <shyly smiling>", "It's fine. Thanks for asking, master. <blushes>")
                 else:
-                    $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm very well, thank you Master!", "I am satisfied with my life and job as a slave.")
             else:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ pytfall.gm.img_generate("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Nothing to worry about, Master.", "Good enough.")
                 elif ct("Shy"):
-                    $ pytfall.gm.img_generate("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Y-yes, Master. I can do it, I know I can!", "It's normal, I suppose...")
                 else:
-                    $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+                    $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
         if chr.disposition < 50: #because it's stupid to rise it forever
             $ chr.disposition += 2
@@ -245,29 +246,29 @@ label girl_interactions_aboutjob:
 label interactions_howshefeels:
     "You asking how she feels today."
     if chr.effects["Food Poisoning"]['active']: #at least no penalty to disposition, unlike other cases with food poisoning
-        $pytfall.gm.img_generate("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
         $ rc("I ate something wrong. Ow-ow-ow.", "Ouh. I think I need to use bathroom again...")
         jump girl_interactions
 
     if chr.effects["Down with Cold"]['active'] or chr.vitality < 9 or chr.health < 40: #we select one suitable image in the very beginning
-        $pytfall.gm.img_generate("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     elif chr.joy<30:
         if ct("Shy"):
-            $ pytfall.gm.img_generate("profile", "sad", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("profile", "sad", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         else:
-            $ pytfall.gm.img_generate("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
     elif chr.joy>70:
         if ct("Shy"):
-            $ pytfall.gm.img_generate("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         else:
-            $ pytfall.gm.img_generate("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
     elif chr.vitality < 35:
-        $pytfall.gm.img_generate("tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        $gm.generate_img("tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     else:
         if ct("Shy"):
-            $ pytfall.gm.img_generate("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
+            $ gm.generate_img("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
         else:
-            $ pytfall.gm.img_generate("profile", "confident", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
+            $ gm.generate_img("profile", "confident", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
             
     if chr.effects["Down with Cold"]['active']: #illness
         $ rc("I think I caught a cold...", "I'm not feeling well today *sneezes*.", "I have a fever... <She looks pale>")
@@ -367,7 +368,7 @@ label interactions_abouther:
     if dice(gm_dice):
     #if dice(100):
         $ chr.disposition += (randint(5, 10)*(gm_disp_mult))
-        $ pytfall.gm.abouther_count = 0
+        $ gm.abouther_count = 0
         
         if ct("Big Boobs", "Abnormally Large Boobs"):
             if dice(90):
@@ -648,16 +649,16 @@ label interactions_interests:
 #                
 #                "Strongly agree":
 #                    g "You're weird... but I'm weird too ;)"
-#                    $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    $gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
 #                    g "So, what do you think?"
-#                    $pytfall.gm.restore_img()
+#                    $gm.restore_img()
 #                    $chr.disposition += 10
 #                    $chr.set_flag("gm_stripped_today", value=day)
 #                
 #                "Agree":
-#                    $pytfall.gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    $gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
 #                    g "You like?"
-#                    $pytfall.gm.restore_img()
+#                    $gm.restore_img()
 #                    $chr.disposition += 5
 #                    $chr.set_flag("gm_stripped_today", value=day)
 #                
