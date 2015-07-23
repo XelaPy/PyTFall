@@ -271,13 +271,13 @@ label choice:
                     "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
                 else:
                     "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
-                $ chr.disposition -= radint(40, 70)
-                $ chr.joy -= radint(20, 50)
+                $ chr.disposition -= randint(40, 70)
+                $ chr.joy -= randint(20, 50)
                 $ chr.vitality -= 25
             elif girl_count > 0 and sex_count < 1:
                 "She did nothing but masturbated in front of you. Probably better than nothing, but be prepared for rumors about your impotence or orientation."
-                $ chr.disposition -= radint(30, 50)
-                $ chr.joy -= radint(15, 25)
+                $ chr.disposition -= randint(30, 50)
+                $ chr.joy -= randint(15, 25)
                 $ chr.vitality -= 20
             elif girl_count > 0 and guy_count > 0 and sex_count < 3:
                 "Placeholder for small amount of sex lines from AA"
@@ -703,7 +703,7 @@ label choice:
         $ pytfall.gm.img_generate("nude", "no clothes", exclude=["stripping", "sleeping"])
     jump girl_interactions
     if chr.status != "slave":
-        if co("SIW") and chr.disposition < 400 - hero.charisma/2:
+        if cgo("SIW") and chr.disposition < 400 - hero.charisma/2:
             
             $ pytfall.gm.img_generate("profile", "angry", exclude=["nude", "swimsuit", "beach"])
             $ rc("Not a chance!", "No freebies!", "And why would I want to do that?")
@@ -775,7 +775,7 @@ label choice:
 label interactions_blowjob:
     # Take care of rejections first? Maybe put this on a separate label and use for all acts???
     if chr.status != "slave":
-        if co("SIW") and chr.disposition < 300  - hero.charisma/2:
+        if cgo("SIW") and chr.disposition < 300  - hero.charisma/2:
             $ pytfall.gm.img_generate("profile", "angry", exclude=["nude", "bikini", "swimsuit", "exposed", "beach"])
             $ rc("Not a chance!", "No freebies!", "And why would I want to do that?")
             if dice(50):
@@ -838,7 +838,7 @@ label interactions_blowjob:
 label interactions_anal:
     # Take care of rejections first? Maybe put this on a separate label and use for all acts???
     if chr.status != "slave":
-        if co("SIW") and chr.disposition < 500 - hero.charisma/2:
+        if cgo("SIW") and chr.disposition < 500 - hero.charisma/2:
             $ pytfall.gm.img_generate("profile", "angry", exclude=["nude", "bikini", "swimsuit", "exposed", "beach"])
             $ rc("Not a chance!", "No freebies!", "And why would I want to do that?")
             if dice(50):
@@ -900,7 +900,7 @@ label interactions_anal:
 label interactions_lesbo:
     # Take care of rejections first? Maybe put this on a separate label and use for all acts???
     if chr.status != "slave":
-        if co("SIW") and chr.disposition < 300:
+        if cgo("SIW") and chr.disposition < 300:
             $ pytfall.gm.img_generate("profile", "angry", exclude=["nude", "bikini", "swimsuit", "exposed", "beach"])
             $ rc("Not a chance!", "And why would I want to do that?")
             if dice(50):

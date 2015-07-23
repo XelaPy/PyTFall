@@ -185,7 +185,7 @@ label interactions_girlfriend:
 ##### j3    
 label interactions_hire:
     
-    if co("Warrior"):
+    if cgo("Warrior"):
         python:
             # get skills relevant to occupation:
             heroskillz = 0
@@ -213,7 +213,7 @@ label interactions_hire:
             
             if mod_chance > 500: mod_chance = 500
     
-    elif co("Server"):
+    elif cgo("Server"):
         python:
             # get skills relevant to occupation:
             heroskillz = hero.charisma * 3
@@ -228,7 +228,7 @@ label interactions_hire:
             
             if mod_chance > 200: mod_chance = 200
     
-    elif co("Specialist"):
+    elif cgo("Specialist"):
         python:
             # get skills relevant to occupation:
             heroskillz = hero.character * 4
@@ -243,7 +243,7 @@ label interactions_hire:
             
             if mod_chance > 400: mod_chance = 400
     
-    elif co("SIW"):
+    elif cgo("SIW"):
         python:
             # get skills relevant to occupation:
             heroskillz = hero.charisma * 4
