@@ -1,7 +1,7 @@
 #Angelica
 
 label mages_tower:
-    $ pytfall.gm.enter_location(goodtraits=["Magic Gift", "Magic Talent"])
+    $ gm.enter_location(goodtraits=["Magic Gift", "Magic Talent"])
     
     # Music related:
     if not "mages_tower" in ilists.world_music:
@@ -42,7 +42,7 @@ label mages_tower:
             result = ui.interact()
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             
             if result[0] == 'control':
                 if result[1] == 'return':
@@ -58,7 +58,7 @@ screen pyt_mages_tower:
     
     use location_actions("mages_tower")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -66,7 +66,7 @@ screen pyt_mages_tower:
             align(0.5, 0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
       
                     # use r_lightbutton(img=entry.show("girl_meets", "miko", "magician",  exclude=all_indoor_tags + water_selection, label_cache=True, resize=(300, 400)), return_value=['jump', entry])
         

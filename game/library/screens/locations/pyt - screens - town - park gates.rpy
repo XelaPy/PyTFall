@@ -1,5 +1,5 @@
 label city_parkgates:
-    $ pytfall.gm.enter_location()
+    $ gm.enter_location()
     
     # Music related:
     if not "park" in ilists.world_music:
@@ -33,7 +33,7 @@ label city_parkgates:
             result = ui.interact()
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
                 
             if result[0] == 'control':
                 renpy.hide_screen("pyt_city_parkgates")
@@ -55,14 +55,14 @@ screen pyt_city_parkgates():
     
     use location_actions("city_parkgates")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
         hbox:
             align(0.5, 0.3)
             spacing 70
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("park_gates_tags") or entry.flag("park_gates_tags")[0] < day:
                         # $park_gates_tags_list = []                    

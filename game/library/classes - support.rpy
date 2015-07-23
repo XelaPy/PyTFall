@@ -16,9 +16,6 @@ init -9 python:
             self.witches_hut = ItemShop('Witches Hut', 18, ['Witches Hut'], sells=["amulet", "restore", "smallweapon"])
             self.tailor_store = ItemShop('Tailor Store', 18, ['Tailor Store'], sells=["dress"])
             
-            # Girlsmeets
-            self.gm = object()
-            
             # Maps
             self.maps = xml_to_dict(content_path('db/maps.xml'))
             for key in self.maps:
@@ -114,7 +111,7 @@ init -9 python:
             
             # Girlsmeets:
             # Termination:
-            cells = pytfall.gm.girlcells
+            cells = gm.girlcells
             for cell in cells.keys():
                 if cells[cell].termination_day <= day:
                     del cells[cell]

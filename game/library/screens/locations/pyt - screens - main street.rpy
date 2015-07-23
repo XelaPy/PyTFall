@@ -1,5 +1,5 @@
 label main_street:
-    $ pytfall.gm.enter_location(goodtraits=["Professional Maid", "Kleptomaniac", "Noble"], badtraits=["Not Human", "Alien", "Artificial Body"])
+    $ gm.enter_location(goodtraits=["Professional Maid", "Kleptomaniac", "Noble"], badtraits=["Not Human", "Alien", "Artificial Body"])
     
     # Music related:
     if not "main_street" in ilists.world_music:
@@ -40,7 +40,7 @@ label main_street:
                 jump(result[1])
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
 
     $ global_flags.del_flag("keep_playing_music")            
     hide screen pyt_main_street
@@ -54,14 +54,14 @@ screen pyt_main_street:
     use location_actions("main_street")
     
     # Girlsmeets screen
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
         hbox:
             align(0.5, 0.3)
             spacing 70
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("main_street_tags") or entry.flag("main_street_tags")[0] < day:
                         # $main_street_tags_list = []

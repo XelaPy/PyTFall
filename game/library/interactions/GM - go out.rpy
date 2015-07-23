@@ -109,26 +109,26 @@ label interactions_datefinish:
     
     if chr.libido > 60:
         "She is pretty horny so you:"
-        $ pytfall.gm.img_generate("sex")
+        $ gm.generate_img("sex")
         "End the date with a bang."
         jump girl_interactions
     
     elif chr.refinement > 60:
-        $ pytfall.gm.img_generate("date")
+        $ gm.generate_img("date")
         "She is learning to behave like a noble so she courteously says goodbye and goes to her room. "
         $chr.mod('reputation', 5)
         $chr.mod('joy', 5)
         jump girl_interactions
     
     elif chr.charisma > 40:
-        $ pytfall.gm.img_generate("date")
+        $ gm.generate_img("date")
         "She looks really nice, going back to her room and friends. "
         "But you feel that the date went well. "
         $chr.mod('joy', 2)
         $chr.mod('reputation', 2)
     
     else:
-        $ pytfall.gm.img_generate("date")
+        $ gm.generate_img("date")
         "The date went as well as could be expected... "
         $chr.mod('joy', 2)
         $chr.mod('constitution', 2)

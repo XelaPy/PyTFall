@@ -22,7 +22,7 @@ label girl_interactions:
     python:
         # Hide all images, show background
         renpy.scene()
-        renpy.show(pytfall.gm.bg_cache)
+        renpy.show(gm.bg_cache)
         
         # Hide last screen
         hs()
@@ -37,23 +37,23 @@ label girl_interactions:
         pytfall.world_events.run_events("auto")
         
         # Hide menus till greeting
-        pytfall.gm.show_menu = False
-        pytfall.gm.show_menu_givegift = False
+        gm.show_menu = False
+        gm.show_menu_givegift = False
         
         # Show screen
         renpy.show_screen("pyt_girl_interactions")
         renpy.with_statement(dissolve)
     
     # Show greeting
-    if pytfall.gm.see_greeting:
-        $ pytfall.gm.see_greeting = False
+    if gm.see_greeting:
+        $ gm.see_greeting = False
         
-        if renpy.has_label("%s_greeting"%pytfall.gm.mode):
-            call expression ("%s_greeting"%pytfall.gm.mode) from _call_expression
+        if renpy.has_label("%s_greeting"%gm.mode):
+            call expression ("%s_greeting"%gm.mode) from _call_expression
     
     python:
         # Show menu
-        pytfall.gm.show_menu = True
+        gm.show_menu = True
         
         # GM labels can now be of the following formats (where %l is the label and %g is the girl's id):
         # girl_meets_%l_%g
@@ -83,9 +83,9 @@ label girl_interactions:
         
         # Create actions
         if pytfall.world_actions.location("girl_meets"):
-            _gm_mode = Iff(S((pytfall.gm, "mode")), "==", "girl_meets")
-            _gi_mode = Iff(S((pytfall.gm, "mode")), "==", "girl_interactions")
-            _gt_mode = Iff(S((pytfall.gm, "mode")), "==", "girl_trainings")
+            _gm_mode = Iff(S((gm, "mode")), "==", "girl_meets")
+            _gi_mode = Iff(S((gm, "mode")), "==", "girl_interactions")
+            _gt_mode = Iff(S((gm, "mode")), "==", "girl_trainings")
             
             _not_gm_mode = IffOr(_gi_mode, _gt_mode)
             _not_gi_mode = IffOr(_gm_mode, _gt_mode)
@@ -217,32 +217,32 @@ label girl_interactions:
             
             # Testing
             if result[0] == "test":
-                pytfall.gm.end(safe=True)
+                gm.end(safe=True)
                 
                 # Girls Meets
                 if result[1] == "GM":
                     # Include img as coming from int and tr prevents the "img from last location" from working
-                    pytfall.gm.start_gm(chr, img=chr.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
+                    gm.start_gm(chr, img=chr.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
                 
                 # Interactions
                 elif result[1] == "GI":
-                    pytfall.gm.start_int(chr)
+                    gm.start_int(chr)
                 
                 # Training
                 elif result[1] == "GT":
-                    pytfall.gm.start_tr(chr)
+                    gm.start_tr(chr)
             
             # Gifts
             elif result[0] == "gift":
                 # Show menu
                 if result[1] is True:
-                    pytfall.gm.show_menu = False
-                    pytfall.gm.show_menu_givegift = True
+                    gm.show_menu = False
+                    gm.show_menu_givegift = True
                 
                 # Hide menu
                 elif result[1] is None:
-                    pytfall.gm.show_menu = True
-                    pytfall.gm.show_menu_givegift = False
+                    gm.show_menu = True
+                    gm.show_menu_givegift = False
                 
                 # Give gift
                 else:
@@ -264,17 +264,17 @@ label girl_interactions:
                      
                     hero.inventory.remove(item)
                     chr.disposition += dismod
-                    setattr(pytfall.gm, "show_menu", True)
-                    setattr(pytfall.gm, "show_menu_givegift", False)
+                    setattr(gm, "show_menu", True)
+                    setattr(gm, "show_menu_givegift", False)
                      
                     if dismod < 0:
-                        pytfall.gm.jump("badgift")
+                        gm.jump("badgift")
                      
                     elif 50 < dismod >= 0:
-                        pytfall.gm.jump("goodgift")
+                        gm.jump("goodgift")
                      
                     else:
-                        pytfall.gm.jump("perfectgift")
+                        gm.jump("perfectgift")
             
             # Controls
             elif result[0] == "control":
@@ -296,10 +296,10 @@ label girl_interactions:
         renpy.hide_screen("pyt_girl_interactions")
         
         # End the GM
-        pytfall.gm.end()
+        gm.end()
     
 
-screen pyt_girl_interactions:
+screen pyt_girl_interactions():
     
     # BG
     add "content/gfx/images/bg_gradient.png" yalign 0.2
@@ -311,7 +311,7 @@ screen pyt_girl_interactions:
         vbar:
             top_gutter 13
             bottom_gutter 0 
-            value AnimatedValue(value=pytfall.gm.chr.disposition, range=pytfall.gm.chr.get_max("disposition"), delay=4.0)
+            value AnimatedValue(value=gm.chr.disposition, range=gm.chr.get_max("disposition"), delay=4.0)
             bottom_bar "content/gfx/interface/bars/progress_bar_full1.png"
             top_bar "content/gfx/interface/bars/progress_bar_1.png"
             thumb None
@@ -319,9 +319,8 @@ screen pyt_girl_interactions:
         
         python:
             # Trying to invert the values (bar seems messed up with negative once):
-            if pytfall.gm.chr.disposition < 0:
-                inverted_disposition = pytfall.gm.chr.disposition * -1
-            
+            if gm.chr.disposition < 0:
+                inverted_disposition = gm.chr.disposition * -1
             else:
                 inverted_disposition = 0
         
@@ -329,7 +328,7 @@ screen pyt_girl_interactions:
             bar_invert True
             top_gutter 12
             bottom_gutter 0
-            value AnimatedValue(value=inverted_disposition, range=pytfall.gm.chr.stats.min["disposition"]*-1, delay=4.0)
+            value AnimatedValue(value=inverted_disposition, range=gm.chr.stats.min["disposition"]*-1, delay=4.0)
             bottom_bar im.Flip("content/gfx/interface/bars/progress_bar_1.png", vertical=True)
             top_bar "content/gfx/interface/bars/bar_mine.png"
             thumb None
@@ -343,24 +342,24 @@ screen pyt_girl_interactions:
         
         frame:
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-            add ProportionalScale(pytfall.gm.img, 515, 515)
+            add ProportionalScale(gm.img, 515, 515)
         
         if config.developer:
             null width 15
             
             vbox:
                 null height 60
-                text "{color=[white]}Mode: [pytfall.gm.mode]"
-                text "{color=[white]}Label: [pytfall.gm.jump_cache]"
-                text ("{color=[white]}Girl.AP: [pytfall.gm.chr.AP] / %s"%pytfall.gm.chr.get_ap())
-                text "{color=[white]}Points: [pytfall.gm.gm_points]"
+                text "{color=[white]}Mode: [gm.mode]"
+                text "{color=[white]}Label: [gm.jump_cache]"
+                text ("{color=[white]}Girl.AP: [gm.chr.AP] / %s"%gm.chr.get_ap())
+                text "{color=[white]}Points: [gm.gm_points]"
     
     # Actions
-    if pytfall.gm.show_menu:
-        use location_actions("girl_meets", pytfall.gm.chr, pos=(1180, 315), anchor=(1.0, 0.5), style="main_screen_3")
+    if gm.show_menu:
+        use location_actions("girl_meets", gm.chr, pos=(1180, 315), anchor=(1.0, 0.5), style="main_screen_3")
     
     # Give gift interface
-    if pytfall.gm.show_menu_givegift:
+    if gm.show_menu_givegift:
         vbox:
             align (0.75, 0.5)
             
@@ -495,7 +494,7 @@ screen pyt_girl_interactions_old:
         xanchor 0
         xpos 0.05
         yalign 0.2
-        add ProportionalScale(pytfall.gm.img, 900, 530)
+        add ProportionalScale(gm.img, 900, 530)
     
     use pyt_top_stripe(True)
     

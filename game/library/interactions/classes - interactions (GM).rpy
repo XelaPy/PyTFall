@@ -10,7 +10,7 @@ init -1 python:
             self.girls = []
             
             # Get availible girls and check occupation
-            choices = list(i for i in char.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in pytfall.gm.get_all_girls())
+            choices = list(i for i in char.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
             conditioned_choices = choices * 1
             if occupation:
                 conditioned_choices = list(i for i in conditioned_choices if occupation in i.occupations)
@@ -97,6 +97,7 @@ init -1 python:
             self.label_cache = ""
             self.bg_cache = ""
             self.jump_cache = ""
+            self.img_cache = Null()
             
             # Current interaction
             self.chr = None
@@ -112,14 +113,7 @@ init -1 python:
             self.show_menu = False
             self.show_menu_givegift = False
         
-        def change_img(self, img):
-            """
-            Changes the image.
-            img = The image to change to.
-            """
-            self.image_cache = self.img
-            self.img = img
-        
+        # Charcters Control:
         def display_girls(self):
             """
             Should simply return a list of girls for display.
@@ -129,31 +123,6 @@ init -1 python:
             
             else:
                 return list()    
-        
-        def end(self, safe=False):
-            """
-            Ends the current scenario.
-            safe = Whether to prevent the label jump.
-            """
-            self.see_greeting = True
-            self.show_menu = False
-            self.show_menu_givegift = False
-            if not safe:
-                renpy.jump(self.label_cache)
-        
-        def enter_location(self, **kwargs):
-            """
-            Enters the current location for the GM system.
-            """
-            self.label_cache = str(last_label)
-            self.bg_cache = " ".join(["bg", self.label_cache])
-            self.show_girls = False
-            
-            # Creation:
-            if self.label_cache not in self.girlcells:
-                cell = GmCell(self.label_cache, **kwargs)
-                if cell:
-                    self.girlcells[self.label_cache] = cell
         
         def get_all_girls(self):
             """
@@ -166,14 +135,45 @@ init -1 python:
                     l.append(girl)
             
             return l
+            
+        def remove_girl(self, chr):
+            """
+            Removes a girl from the girl_meets.
+            """
+            for cell in self.girlcells.values():
+                if chr in cell:
+                    cell.girls.remove(chr)
         
-        def img_generate(self, *args, **kwargs):
+        # Image Controls:
+        def generate_img(self, *args, **kwargs):
             """
             Generates a new image for the girl.
+            *Used upon first entering a location! This writes to cache so we know what image to fall back upon!
             """
             self.img_cache = self.img
             self.img = self.chr.show(*args, **kwargs)
+            
+        def set_img(self, *args, **kwargs):
+            """
+            Sets the image, bypassing the image cache.
+            """
+            self.img = self.chr.show(*args, **kwargs)
         
+        def change_img(self, img):
+            """
+            Changes the image AND writes to cache!
+            img = The image to change to.
+            """
+            self.img_cache = self.img
+            self.img = img
+            
+        def restore_img(self): 
+            """
+            Restores the image to the cached one.
+            """   
+            self.img = self.img_cache
+        
+        # Interactions/GM Flow Controls:
         def jump(self, label, free=False, allow_unique=True, **kwargs):
             """
             Jumps to a GMIT label with the most specific name.
@@ -197,7 +197,7 @@ init -1 python:
             # If we are allowed unique labels
             if allow_unique:
                 # Add the girl unique label
-                ls.append("%s_%s"%(label, pytfall.gm.chr.id))
+                ls.append("%s_%s"%(label, gm.chr.id))
             
             # Add the generic label
             ls.append("interactions_%s"%label)
@@ -235,28 +235,7 @@ init -1 python:
             # Notify and jump
             self.show_menu = False
             renpy.jump(l)
-        
-        def remove_girl(self, chr):
-            """
-            Removes a girl from the girl_meets.
-            """
-            for cell in self.girlcells.values():
-                if chr in cell:
-                    cell.girls.remove(chr)
-        
-        def restore_img(self): 
-            """
-            Restores the image to the cached one.
-            """   
-            self.img = self.image_cache
-        
-        def set_img(self, img):
-            """
-            Sets the image, bypassing the image cache.
-            img = The image to use.
-            """
-            self.img = img
-        
+            
         def start(self, mode, girl, img=None, exit=None, bg=None):
             """
             Starts a girl meet scenario.
@@ -338,7 +317,31 @@ init -1 python:
             bg = The background to use. Defaults to "dungeon".
             """
             self.start("girl_trainings", girl, img, exit, bg)
+            
+        def enter_location(self, **kwargs):
+            """
+            Enters the current location for the GM system.
+            """
+            self.label_cache = str(last_label)
+            self.bg_cache = " ".join(["bg", self.label_cache])
+            self.show_girls = False
+            
+            # Creation:
+            if self.label_cache not in self.girlcells:
+                cell = GmCell(self.label_cache, **kwargs)
+                if cell:
+                    self.girlcells[self.label_cache] = cell
         
+        def end(self, safe=False):
+            """
+            Ends the current scenario.
+            safe = Whether to prevent the label jump.
+            """
+            self.see_greeting = True
+            self.show_menu = False
+            self.show_menu_givegift = False
+            if not safe:
+                renpy.jump(self.label_cache)
     
     class GMJump(Action):
         """
@@ -361,4 +364,4 @@ init -1 python:
             """
             Executes the jump.
             """
-            pytfall.gm.jump(self.label, free=self.free, allow_unique=self.allow_unique, **self.kwargs)
+            gm.jump(self.label, free=self.free, allow_unique=self.allow_unique, **self.kwargs)

@@ -1,5 +1,5 @@
 label tavern_town:
-    $ pytfall.gm.enter_location(goodtraits=["Adventurer", "Heavy Drinker"], badtraits=["Lolita", "Artificial Body", "Dandere", "Loner"])
+    $ gm.enter_location(goodtraits=["Adventurer", "Heavy Drinker"], badtraits=["Lolita", "Artificial Body", "Dandere", "Loner"])
     
     python:
         # Build the actions
@@ -22,7 +22,7 @@ label tavern_town:
             result = ui.interact()
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             if result[0] == 'control':
                 if result[1] == 'return':
                     break
@@ -40,7 +40,7 @@ screen pyt_tavern_town:
     
     use location_actions("tavern_town")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -48,7 +48,7 @@ screen pyt_tavern_town:
             align(0.5, 0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
            
                     use rg_lightbutton(img=entry.show("profile",  exclude=for_gm_selection + all_indoor_tags + water_selection + ["arena", "bathroom", "bedroom", "classroom", "kitchen", "living room", "library", "shop", "stage", "beach", "forest","meadow", "onsen", "park", "pool", "ruin", "urban", "wilderness"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 

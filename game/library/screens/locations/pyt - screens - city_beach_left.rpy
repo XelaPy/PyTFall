@@ -1,5 +1,5 @@
 label city_beach_left:
-    $ pytfall.gm.enter_location()
+    $ gm.enter_location()
     
     # Music related:
     if not "beach_main" in ilists.world_music:
@@ -29,7 +29,7 @@ label city_beach_left:
             result = ui.interact()
 
             if result[0] == 'jump':
-                pytfall.gm.start_gm(result[1])
+                gm.start_gm(result[1])
             
             if result[0] == 'control':
                 if result[1] == 'return':
@@ -61,7 +61,7 @@ screen pyt_city_beach_left:
     
     use location_actions("city_beach_left")
     
-    if pytfall.gm.show_girls:
+    if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -69,7 +69,7 @@ screen pyt_city_beach_left:
             align(0.5, 0.3)
             spacing 70
             
-            for entry in pytfall.gm.display_girls():
+            for entry in gm.display_girls():
             # """
                     # if not entry.flag("beach_left_tags") or entry.flag("beach_left_tags")[0] < day:
                         # $beach_left_tags_list = []                    
