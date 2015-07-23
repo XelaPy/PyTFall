@@ -145,7 +145,7 @@
                 ]
             },
             "Kunoichi": {
-                "desc": "This course focuses on training attack and agility. May also improve explorations skill.",
+                "desc": "This course focuses on training attack and agility. May also improve explorations and sex skill.",
                 "image": "Kunoichi/",
                 "imageTags": [
                     "ninja",
@@ -157,7 +157,7 @@
                     "agility"
                 ],
                 "secondary": [
-                    "exploration"
+                    "exploration", "sex"
                 ]
             },
             "Dance": {
@@ -221,7 +221,7 @@
                 ]
             },
             "Oral Sex": {
-                "desc": "This course focuses on training oral sex skills. May also improve group.",
+                "desc": "This course focuses on training oral sex skills. May also improve general sex.",
                 "image": "Oral/",
                 "imageMode": "any",
                 "imageTags": [
@@ -238,11 +238,11 @@
                     "oral"
                 ],
                 "secondary": [
-                    "group"
+                    "sex"
                 ]
             },
             "Anal Sex": {
-                "desc": "This course focuses on training anal sex skills.May also improve group.",
+                "desc": "This course focuses on training anal sex skills.May also improve general sex.",
                 "image": "Anal/",
                 "imageMode": "any",
                 "imageTags": [
@@ -261,11 +261,11 @@
                     "anal"
                 ],
                 "secondary": [
-                    "group"
+                    "sex"
                 ]
             },
             "Vaginal Sex": {
-                "desc": "This course focuses on training vaginal sex skills. May also improve group.",
+                "desc": "This course focuses on training vaginal sex skills. May also improve group and general sex.",
                 "image": "Vaginal/",
                 "imageMode": "any",
                 "imageTags": [
@@ -285,7 +285,7 @@
                     "vaginal"
                 ],
                 "secondary": [
-                    "group"
+                    "group", "sex"
                 ]
             },
             "Waitress": {
@@ -318,7 +318,7 @@
                     "rape"
                 ],
                 "primary": [
-                    "group"
+                    "group", "sex"
                 ],
                 "secondary": [
                     "anal",
