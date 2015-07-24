@@ -577,7 +577,7 @@ screen pyt_arena_bestiary():
                         maximum(1000, 750)
                         box_wrap True
                         spacing 2
-                        for creature in pytfall.mobs.itervalues():
+                        for creature in mobs.itervalues():
                             vbox:
                                 frame:
                                     background Solid((100, 100, 200, 150))

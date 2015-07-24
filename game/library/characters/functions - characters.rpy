@@ -29,10 +29,10 @@ init -11 python:
         Skills = mob.stats.skills.keys()
         
         if not id:
-            id = choice(pytfall.mobs.keys())
+            id = choice(mobs.keys())
             
-        if id in pytfall.mobs:
-            data = pytfall.mobs[id]
+        if id in mobs:
+            data = mobs[id]
             mob.id = id
         else:
             raise Exception("Unknown id {} when creating a mob!".format(id))

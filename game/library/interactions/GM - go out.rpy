@@ -144,14 +144,14 @@ label interactions_datefight:
     python:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = copy.deepcopy(pytfall.mobs["Barbarian"])
+        mob = copy.deepcopy(mobs["Barbarian"])
         for stat in ilists.battlestats:
             stat_value = int(getattr(mob, stat) * 0.8)
             setattr(mob, stat, stat_value)
         
         enemy_team.add(mob)
         
-        mob = copy.deepcopy(pytfall.mobs["Barbarian"])
+        mob = copy.deepcopy(mobs["Barbarian"])
         for stat in ilists.battlestats:
             stat_value = int(getattr(mob, stat) * 0.4)
             setattr(mob, stat, stat_value)
