@@ -964,6 +964,7 @@ init -9 python:
             self.baseAP = 3
             self.reservedAP = 0
             
+            # Locations and actions, most are properties with setters and getters.
             self._location = None # Present Location.
             self._workplace = None  # Place of work.
             self._home = None # Living location.

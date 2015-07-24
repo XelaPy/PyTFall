@@ -121,3 +121,24 @@ init -11 python:
             for z in args:
                 if i != z and z in i.lovers:
                     i.lovers.remove(z)
+                    
+    # Other:
+    def find_les_partner():
+        """
+        Returns a set with if any partner(s) is availible and willing at the location.
+        (lesbian action)
+        *We can move this to GM class and have this run once instead of twice! (menu + label)
+        """
+        # First get a set of all girls at the same location as the current character:
+        partners = set()
+        for i in char.values():
+            if i.location == chr.location:
+                partners.add(i)
+                
+        # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of chr.
+        willing_partners = set()
+        for i in partners:
+            if (i.disposition >= 800 or check_lovers(chr, i)) and not i.disposition <= 50: # Last check is too make sure partner doesn't dislike the MC.
+                willing_partners.add(i)
+                
+        return willing_partners
