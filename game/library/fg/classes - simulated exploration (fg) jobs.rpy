@@ -590,7 +590,7 @@ init python:
             """
             # Create a dict of characters to enable im.Sepia (=dead)) when constructing the image.
             # False for alive and True for dead.
-            chars = {c: False for c in self.team}
+            characters = {c: False for c in self.team}
             dead = 0
             
             for char in self.team:
@@ -607,7 +607,7 @@ init python:
                             char.mod(stat, self.stats[stat])
                 
                 else:
-                    chars[char] = True
+                    characters[char] = True
                     dead = dead + 1
             
             # Handle the dead chars:
@@ -674,8 +674,8 @@ init python:
             
             # New style:
             args = list()
-            for g in chars:
-                if chars[g]:
+            for g in characters:
+                if characters[g]:
                     # Dead:
                     args.append(im.Sepia(g.show("battle_sprite", resize=(200, 200), cache=True)))
                 

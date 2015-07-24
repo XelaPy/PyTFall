@@ -12,7 +12,7 @@ label next_day:
     python:
         global_flags.set_flag("keep_playing_music")
         tl.timer("Next Day")
-        devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(char)))
+        devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(chars)))
         NextDayList = list()
         
         ################## Restore before the job ##################
@@ -40,7 +40,7 @@ label next_day:
     # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
-        $ resting_chars.action(resting_char) # <--- Looks odd and off?
+        $ resting_char.action(resting_char) # <--- Looks odd and off?
         
     $ tl.timer("Rest (1)")
     

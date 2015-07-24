@@ -60,9 +60,9 @@ init -9 python:
             """
             Heals, restores AP and MP for non player characters that may have been exposed to world events.
             """
-            chars = [girl for girl in chars.itervalues() if girl not in hero.girls]
+            characters = [girl for girl in chars.itervalues() if girl not in hero.girls]
             
-            for girl in chars:
+            for girl in characters:
                 girl.health = girl.get_max("health")
                 girl.mp = girl.get_max("mp")
                 girl.vitality = girl.get_max("vitality")
