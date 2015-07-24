@@ -210,13 +210,32 @@ label girl_interactions:
             
             pytfall.world_actions.finish()
     
-    # Interactions
+    jump girl_interactions_control
+
+label girl_interactions_end:
     python:
-        while True:
-            result = ui.interact()
-            
-            # Testing
-            if result[0] == "test":
+        # Music flag
+        # This causes an issue when run from interactions, trying to fix:
+        if renpy.music.get_playing(channel='world'):
+            global_flags.set_flag("keep_playing_music")
+        
+        # Reset GM counters
+        gm_disp_mult = 1
+        
+        # Reset scene
+        renpy.scene()
+        renpy.hide_screen("pyt_girl_interactions")
+        
+        # End the GM
+        gm.end()
+        
+label girl_interactions_control:
+    while 1:
+        $ result = ui.interact()
+        
+        # Testing
+        if result[0] == "test":
+            python:
                 gm.end(safe=True)
                 
                 # Girls Meets
@@ -231,9 +250,10 @@ label girl_interactions:
                 # Training
                 elif result[1] == "GT":
                     gm.start_tr(chr)
-            
-            # Gifts
-            elif result[0] == "gift":
+        
+        # Gifts
+        elif result[0] == "gift":
+            python:
                 # Show menu
                 if result[1] is True:
                     gm.show_menu = False
@@ -243,7 +263,7 @@ label girl_interactions:
                 elif result[1] is None:
                     gm.show_menu = True
                     gm.show_menu_givegift = False
-                
+            
                 # Give gift
                 else:
                     item = result[1]
@@ -275,28 +295,12 @@ label girl_interactions:
                      
                     else:
                         gm.jump("perfectgift")
-            
-            # Controls
-            elif result[0] == "control":
-                # Return / Back
-                if result[1] in ("back", "return"):
-                    break
-    
-    python:
-        # Music flag
-        # This causes an issue when run from interactions, trying to fix:
-        if renpy.music.get_playing(channel='world'):
-            global_flags.set_flag("keep_playing_music")
         
-        # Reset GM counters
-        gm_disp_mult = 1
-        
-        # Reset scene
-        renpy.scene()
-        renpy.hide_screen("pyt_girl_interactions")
-        
-        # End the GM
-        gm.end()
+        # Controls
+        elif result[0] == "control":
+            # Return / Back
+            if result[1] in ("back", "return"):
+                jump girl_interactions_end
     
 
 screen pyt_girl_interactions():
