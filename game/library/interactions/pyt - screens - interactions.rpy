@@ -101,7 +101,7 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
             pytfall.world_actions.gm_choice("Interests", mode="girl_interactions", index=(m, 5))
             pytfall.world_actions.gm_choice("Romance", index=(m, 6))
-            pytfall.world_actions.gm_choice("Fuck", index=(m, 7))
+            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
             
             # TRAINING
             m = 1

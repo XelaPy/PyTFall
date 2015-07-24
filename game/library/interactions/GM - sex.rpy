@@ -82,9 +82,9 @@ label interactions_fuck:
         if dice(30):
             $ gm.generate_img("living", "nude", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
         elif dice(30):
-            $ gm.generate_img("living", "no clothes", exclude=["sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+            $ gm.generate_img("living", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
         else:
-            $ gm.generate_img("nude", "no clothes", "simple bg", exclude=["sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+            $ gm.generate_img("nude", "no clothes", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
             
     $ sex_count = 0
     $ guy_count = 0
@@ -306,10 +306,10 @@ label interactions_lesbian_choice:
     $ chr_sprite2 = chr2.get_vnsprite()
     "[chr.nickname] decided to call [chr2.nickname] for the lesbo action!"
     
-    show expression chr_sprite at left with dissolve
+    show expression chr_sprite at mid_left with dissolve
     chr.say "Time to do something lewd! :)"
-    show expression chr_sprite at right as chr_sprite with move
-    show expression chr_sprite2 at left as chr_sprite2 with dissolve
+    show expression chr_sprite at mid_right as chr_sprite with move
+    show expression chr_sprite2 at mid_left as chr_sprite2 with dissolve
     chr2.say "I wonder what's going to happen next? "
     extend "(*looking at you) Are you planning to watch?"
     
@@ -347,6 +347,8 @@ label interactions_lesbian_choice:
         del resize
         del chr2
         del willing_partners
+        
+    stop events
         
     # And we're all done!:
     jump choice
