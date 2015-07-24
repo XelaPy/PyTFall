@@ -62,7 +62,7 @@ init -9 python:
         
         def run_events(self, trigger_type, default=None, cost=0):
             """
-            Executes an available event with the given trigger.
+            Functions an available event with the given trigger.
             trigger_type = The trigger to proc.
             default = The label to go to if there are no available events.
             cost = The cost of triggering the event.

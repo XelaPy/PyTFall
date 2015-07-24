@@ -1,5 +1,9 @@
 init -9 python:
     
+    """
+    Alex: Why is all of this required? I cannot (yet) seen an advantage to writing any of these conditions to strings and evaluate those strings as/when needed.
+    While that is possible also, it makes everything else redundant.
+    """
     # 
     # Iff is used to hold and solve an if statement later, instead of immediately.
     #     c = Iff(myvar, ">", 7)
@@ -562,7 +566,7 @@ init -9 python:
                 else:
                     condition = mode
             
-            self.add(index or act, WorldAction(act, (GMJump(label, **kwargs), Execute(pytfall.world_actions.clear)), condition=condition, null_button=act, null_condition=null_condition))
+            self.add(index or act, WorldAction(act, (GMJump(label, **kwargs), Function(pytfall.world_actions.clear)), condition=condition, null_button=act, null_condition=null_condition))
         
         def location(self, name):
             """
@@ -908,7 +912,7 @@ screen action_button(a):
             textbutton a.null_button action NullAction(insensitive=True) xsize 175
         
         elif isinstance(a, WorldAction) and a.is_event_trigger:
-            textbutton a.button action (CloseActionMenus(a), Execute(pytfall.world_events.run_events, a.action, a.label, a.cost)) xsize 175
+            textbutton a.button action (CloseActionMenus(a), Function(pytfall.world_events.run_events, a.action, a.label, a.cost)) xsize 175
         
         elif isinstance(a, WorldActionMenu):
             textbutton "< " + a.button action a.action xsize 175

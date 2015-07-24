@@ -56,7 +56,7 @@ init -10 python:
         
         def __call__(self):
             """
-            Executes the action.
+            Functions the action.
             """
             if hasattr(self.container, self.name):
                 setattr(self.container, self.name, self.value)
@@ -74,19 +74,3 @@ init -10 python:
             Whether the property in container equals the value.
             """
             return getattr(self.container, self.name, None) == self.value
-            
-            
-    # Custom Screen Action classes:
-    class Execute(Action):
-        """
-        Well... it executes... :)
-        """
-        
-        def __init__(self, func, *args, **kwargs):
-            self.func = func
-            self.args = args
-            self.kwargs = kwargs
-        
-        def __call__(self):
-            self.func(*self.args, **self.kwargs)
-            renpy.restart_interaction()

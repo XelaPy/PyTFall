@@ -15,8 +15,7 @@
 
 label start:
     $ renpy.block_rollback()
-    # if config.debug:
-        # show screen controls_overwrite
+    
     python:
         # Global variables and loading content:
         day = 1
@@ -95,7 +94,7 @@ label start:
         pytfall.world_quests.first_day()
         
         tl.timer("Loading: Mobs")
-        pytfall.mobs = load_mobs()
+        mobs = load_mobs()
         tl.timer("Loading: Mobs")
         
         tl.timer("Loading: Exploration")

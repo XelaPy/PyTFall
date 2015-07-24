@@ -577,7 +577,7 @@ screen pyt_arena_bestiary():
                         maximum(1000, 750)
                         box_wrap True
                         spacing 2
-                        for creature in pytfall.mobs.itervalues():
+                        for creature in mobs.itervalues():
                             vbox:
                                 frame:
                                     background Solid((100, 100, 200, 150))
@@ -658,7 +658,7 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
         $ renpy.music.play("content/sfx/sound/world/win_screen.mp3", channel="music")
         $ play_music = False
     
-    timer 10.5 action [Execute(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
+    timer 10.5 action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
     frame:
         at move_bpwe(start_pos=(0, config.screen_height), end_pos=(0, config.screen_height/2), t=0.7)
         xysize (config.screen_width, config.screen_height/2)
@@ -845,7 +845,7 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
         align (1.0, 0.0)
         idle (img)
         hover (im.MatrixColor(img,im.matrix.brightness(0.15)))
-        action [Execute(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
+        action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
                     
     fixed:
         at arena_textslide

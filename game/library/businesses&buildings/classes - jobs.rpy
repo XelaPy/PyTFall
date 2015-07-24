@@ -1176,7 +1176,7 @@
             
             self.logloc("dirt", 10)
             
-            self.txt.append("Test Job Executed: Girl: {}, Location: {}".format(chr.name, self.loc.name))
+            self.txt.append("Test Job Functiond: Girl: {}, Location: {}".format(chr.name, self.loc.name))
             self.img = "nude"
             
             self.apply_stats()

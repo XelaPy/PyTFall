@@ -171,7 +171,7 @@ screen pyt_girlslist(source=None, page=0, total_pages=1):
                                     $ filter_name, filter_group, filter_key = filter_item
                                     $ focus = source.get_focus(filter_group, filter_key)
                                     button:
-                                        action [SelectedIf(focus), Execute(source.add_filter, filter_group, filter_key)]
+                                        action [SelectedIf(focus), Function(source.add_filter, filter_group, filter_key)]
                                         text "[filter_name]" size 16
             vbar value YScrollValue("filterlist")
             

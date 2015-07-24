@@ -946,8 +946,8 @@ init -9 python:
         
         def __call__(self):
             """
-            Executes this action.
-            If mode = "action": Executes the training interaction and jumps to the label.
+            Functions this action.
+            If mode = "action": Functions the training interaction and jumps to the label.
             If mode = "menu": Returns whether any option in the training course can be used.
             If mode = "condition": Returns whether the course can be used.
             """

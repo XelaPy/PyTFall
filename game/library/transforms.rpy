@@ -1,5 +1,15 @@
 init -1: # Transforms:
     # Basic transforms:
+    
+    # First, More default positions:
+    transform mid_right:
+        align (0.75, 1.0)
+        
+    transform mid_left:
+        align (0.25, 1.0)
+    
+    # Other Transforms:
+        
     transform just_move_with_offset(pos, t):
         linear t offset pos
     

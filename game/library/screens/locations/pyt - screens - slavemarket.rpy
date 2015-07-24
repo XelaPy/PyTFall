@@ -424,7 +424,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                     align(0.5, 0.5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-                    action (Execute(store.previous_index))
+                    action (Function(store.previous_index))
                     hovered tt.Action("<== Previous Girl")
             
                 null width 10
@@ -443,7 +443,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                     else: 
                         textbutton "[buy_button]":
                             xsize 150
-                            action (Execute(store.buy_girl))
+                            action (Function(store.buy_girl))
                             hovered tt.Action("" + buy_tt % store.girlfin.get_price())
                     textbutton "Back":
                         action Hide("pyt_slave_shopping", transition=Dissolve(1.0))
@@ -455,7 +455,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                     align(0.5, 0.5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-                    action (Execute(store.next_index))
+                    action (Function(store.next_index))
                     hovered tt.Action("Next Girl ==>")
         
         # Girl choice:
@@ -477,7 +477,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                                 imagebutton:
                                     idle img
                                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-                                    action Execute(store.set_girl, girl)
+                                    action Function(store.set_girl, girl)
                                     hovered tt.Action(u"{=stats_label_text}%s{=stats_value_text}{size=+2}\nDescription:\n{=stats_value_text}%s"%(girl.name, girl.desc))
                 bar value XScrollValue("sm_vp_glist")
     
@@ -501,9 +501,9 @@ screen pyt_se_captured_retrieval(pos=(900, 300)):
                 action jail.sell_captured, renpy.restart_interaction, Hide("pyt_se_captured_retrieval")
             if global_flags.flag("blue_cg"):
                 textbutton "Train with Blue!":
-                    action Execute(jail.retrieve_captured, direction="Blue"), Hide("pyt_se_captured_retrieval")
+                    action Function(jail.retrieve_captured, direction="Blue"), Hide("pyt_se_captured_retrieval")
             if schools[TrainingDungeon.NAME] in hero.buildings:  #TODO: ONLY IF THERE ARE FREE ROOMS AVAILIBLE
                 textbutton "To the Dungeons!":
-                    action Execute(jail.retrieve_captured, direction="STinTD"), Hide("pyt_se_captured_retrieval")
+                    action Function(jail.retrieve_captured, direction="STinTD"), Hide("pyt_se_captured_retrieval")
             textbutton "Close":
                 action Hide("pyt_se_captured_retrieval")

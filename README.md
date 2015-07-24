@@ -22,12 +22,14 @@ Modules currently include:
 In the last few month a lot of work has been on interface and adding content to some of the modules
 as well as recoding part of the game. Other modules are planned or actively developed.
 
+
 Current active dev team consits of:
 - Alex (Xela) (Code)
 - DarkTl (Content)
 - Gismo (Interface)
 - CherryWood (Support)
 
+====
 We are always looking for:
 
 - Writers
@@ -36,8 +38,10 @@ We are always looking for:
 
 to help us with the project.
 
-Dev forum can be found at: http://www.pinkpetal.org/
-It's open to view and requires registration to chat or to post.
+====
+Demo of some basic features: https://www.youtube.com/watch?v=VowPkYSq_6k&feature=youtu.be
+Our forums are open to view and require registration to chat or to post.
+
 
 See ya in PyTFall,
 

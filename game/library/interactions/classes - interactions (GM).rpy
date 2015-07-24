@@ -362,6 +362,6 @@ init -1 python:
         
         def __call__(self):
             """
-            Executes the jump.
+            Functions the jump.
             """
             gm.jump(self.label, free=self.free, allow_unique=self.allow_unique, **self.kwargs)

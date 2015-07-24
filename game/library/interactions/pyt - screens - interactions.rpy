@@ -101,7 +101,7 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
             pytfall.world_actions.gm_choice("Interests", mode="girl_interactions", index=(m, 5))
             pytfall.world_actions.gm_choice("Romance", index=(m, 6))
-            pytfall.world_actions.gm_choice("Fuck", index=(m, 7))
+            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
             
             # TRAINING
             m = 1
@@ -342,7 +342,10 @@ screen pyt_girl_interactions():
         
         frame:
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-            add ProportionalScale(gm.img, 515, 515)
+            if isinstance(gm.img, im.ImageBase):
+                add ProportionalScale(gm.img, 515, 515)
+            else:
+                add renpy.easy.displayable(gm.img)
         
         if config.developer:
             null width 15

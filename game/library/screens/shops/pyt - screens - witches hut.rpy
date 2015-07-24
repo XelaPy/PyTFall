@@ -212,6 +212,6 @@ screen pyt_witches_hut_shopping:
         align(0.5, 0.99)
         textbutton "Talk to the witch":
             align (0.5, 1.0)
-            action [Execute(global_flags.set_flag, "talk_to_witch"), Hide("pyt_shopping", transition=dissolve), Hide("pyt_witches_hut_shopping", transition=dissolve),
+            action [Function(global_flags.set_flag, "talk_to_witch"), Hide("pyt_shopping", transition=dissolve), Hide("pyt_witches_hut_shopping", transition=dissolve),
                        Jump("witches_hut")]
 

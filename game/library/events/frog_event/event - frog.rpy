@@ -286,12 +286,12 @@ label frog_deathfight:
     python:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = copy.deepcopy(pytfall.mobs["Goblin Warrior"])
+        mob = copy.deepcopy(mobs["Goblin Warrior"])
         for stat in ilists.battlestats:
             stat_value = int(getattr(mob, stat) * 16)
             setattr(mob, stat, stat_value)
         enemy_team.add(mob)
-        mob = copy.deepcopy(pytfall.mobs["Goblin Archer"])
+        mob = copy.deepcopy(mobs["Goblin Archer"])
         for stat in ilists.battlestats:
             stat_value = int(getattr(mob, stat) * 8)
             setattr(mob, stat, stat_value)

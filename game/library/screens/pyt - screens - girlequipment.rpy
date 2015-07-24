@@ -144,7 +144,7 @@ screen pyt_equip_for(pos=()):
                 else:
                     textbutton "[t]":
                         xminimum 200
-                        action [Execute(chr.equip_for, t), Hide("pyt_equip_for")]
+                        action [Function(chr.equip_for, t), Hide("pyt_equip_for")]
             textbutton "Close":
                 action Hide("pyt_equip_for")
 
@@ -154,8 +154,8 @@ screen pyt_girl_equip():
         key "mousedown_2" action Return(["item", "equip/unequip"])
     else:
         key "mousedown_2" action NullAction()
-    key "mousedown_4" action Execute(inv_source.inventory.next)
-    key "mousedown_5" action Execute(inv_source.inventory.prev)
+    key "mousedown_4" action Function(inv_source.inventory.next)
+    key "mousedown_5" action Function(inv_source.inventory.prev)
     
     # Equipment slots
     frame:
@@ -193,10 +193,10 @@ screen pyt_girl_equip():
                 xysize (150, 30)
                 align (0.5, 0.5)
                 if inv_source == chr:
-                    action [SetVariable("inv_source", hero), Execute(hero.inventory.apply_filter, chr.inventory.filter)]
+                    action [SetVariable("inv_source", hero), Function(hero.inventory.apply_filter, chr.inventory.filter)]
                     text "Switch to MC"
                 else:
-                    action [SetVariable("inv_source", chr), Execute(chr.inventory.apply_filter, hero.inventory.filter)]
+                    action [SetVariable("inv_source", chr), Function(chr.inventory.apply_filter, hero.inventory.filter)]
                     text "Switch to Girl"
                     
     # Paging:
@@ -258,7 +258,7 @@ screen pyt_girl_equip():
                             hover Transform(img_hover, alpha=1.1)
                             selected_idle img_selected
                             selected_hover Transform(img_selected, alpha=1.15)
-                            action [Execute(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.filter)]
+                            action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.filter)]
                             focus_mask True
         
         # Item Desciption:

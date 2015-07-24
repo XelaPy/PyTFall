@@ -82,9 +82,9 @@ label interactions_fuck:
         if dice(30):
             $ gm.generate_img("living", "nude", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
         elif dice(30):
-            $ gm.generate_img("living", "no clothes", exclude=["sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+            $ gm.generate_img("living", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
         else:
-            $ gm.generate_img("nude", "no clothes", "simple bg", exclude=["sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+            $ gm.generate_img("nude", "no clothes", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
             
     $ sex_count = 0
     $ guy_count = 0
@@ -278,6 +278,8 @@ label choice:
             else:
                 $ gm.set_img("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=chr.select_image(chr.id, 'after_sex'))
             jump anal_sex
+        "Ask for some lesbo action" if find_les_partner():
+            jump interactions_lesbian_choice
         "That's all.":
             "You decided to finish."
             
@@ -373,7 +375,71 @@ label choice:
                     $ chr.vitality += 10
             
                 $ gm.restore_img()
-                jump girl_interactions 
+            jump girl_interactions
+            
+label interactions_lesbian_choice:
+    # The interactions itself.
+    # Since we called a funciton, we need to do so again (Consider making this func a method so it can be called just once)...
+    $ willing_partners = find_les_partner()
+    
+    # Single out one partner randomly from a set:
+    $ chr2 = random.sample(willing_partners, 1)[0]
+    
+    # We painly hide the interactions screen to get rid of the image and gradient:
+    hide screen pyt_girl_interactions
+    
+    $ chr_sprite = chr.get_vnsprite()
+    $ chr_sprite2 = chr2.get_vnsprite()
+    "[chr.nickname] decided to call [chr2.nickname] for the lesbo action!"
+    
+    show expression chr_sprite at mid_left with dissolve
+    chr.say "Time to do something lewd! :)"
+    show expression chr_sprite at mid_right as chr_sprite with move
+    show expression chr_sprite2 at mid_left as chr_sprite2 with dissolve
+    chr2.say "I wonder what's going to happen next? "
+    extend "(*looking at you) Are you planning to watch?"
+    
+    hide chr_sprite
+    hide chr_sprite2
+    with dissolve
+    
+    # Resize images to be slightly smaller than half a screen in width and the screen in height. ProportionalScale will do the rest.
+    $ resize = (config.screen_width/2 - 75, config.screen_height - 75)
+    
+    show expression chr.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx at Transform(align=(0, 0.5)) with moveinright
+    show expression chr2.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx2 at Transform(align=(1.0, 0.5)) with moveinleft
+    
+    # Wait for 0.25 secs and add soundbyte:
+    pause 0.25
+    play events "female/orgasm.mp3"
+    
+    "Description of hot lesbo action..."
+    
+    hide xxx
+    hide xxx2
+    
+    show expression chr2.get_vnsprite() at left as chr_sprite2 with dissolve
+    chr2.say "This was fun! I'll see you around!"
+    hide chr_sprite2 with dissolve
+    
+    # Restore the gm image:
+    chr.say "We should do that again sometime :)"
+    
+    # Show the screen again:
+    show screen pyt_girl_interactions
+    
+    # And finally clear all the variables for global scope:
+    python:
+        del resize
+        del chr2
+        del willing_partners
+        
+    stop events
+        
+    # And we're all done!:
+    jump choice
+    
+    
 
 label bj:
     if libido <= 0:

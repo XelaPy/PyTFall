@@ -432,7 +432,7 @@ init python:
                             self.txt.append("\n")
                             
                             # Object mobs and combat resolver:
-                            mob = deepcopy(pytfall.mobs[mob]) # Get the actual instance instead of a string!
+                            mob = deepcopy(mobs[mob]) # Get the actual instance instead of a string!
                             
                             for stat in ilists.battlestats:
                                 stat_value = int(getattr(mob, stat) * min(self.mobs[mob.name][1][2], (self.mobs[mob.name][1][0] + int(round(self.mobs[mob.name][1][1] * self.day)))))

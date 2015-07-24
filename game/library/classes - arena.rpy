@@ -1271,7 +1271,7 @@ init -9 python:
                     
                 # TODO: Restore this!
                 # if not team.leader.defeated:
-                    # pytfall.mobs[team.leader.name].defeated = True
+                    # mobs[team.leader.name].defeated = True
                     
                 self.cf_count += 1
                     
