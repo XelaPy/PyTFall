@@ -343,7 +343,7 @@
     "type": "armor",
     "max": {"attack": 45, "health": 20, "magic": -40},
     "mod": {"charisma": -20, "refinement": -25, "attack": 30, "defence": 20, "agility": -5},
-    "mod_skills": {"vaginal": [-0.02, 0, 0, 0, 0], "oral": [-0.02, 0, 0, 0, 0], "anal": [-0.02, 0, 0, 0, 0], "bdsm": [-0.02, 0, 0, 0, 0], "group": [-0.02, 0, 0, 0, 0]},
+    "mod_skills": {"vaginal": [-0.02, 0, 0, 0, 0], "oral": [-0.02, 0, 0, 0, 0], "anal": [-0.02, 0, 0, 0, 0], "bdsm": [-0.02, 0, 0, 0, 0], "group": [-0.02, 0, 0, 0, 0], "sex": [-0.02, 0, 0, 0, 0]},
     "min": {"attack": 10},
     "locations": ["Exploration"]
     },

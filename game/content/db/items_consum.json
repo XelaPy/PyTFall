@@ -196,7 +196,7 @@
     "slot": "consumable",
     "type": "restore",
     "ctemp": 4,
-    "mod_skills": {"vaginal": [0.01, 0.01, 0, 0, 0], "anal": [0.01, 0.01, 0, 0, 0], "group": [0.01, 0.01, 0, 0, 0]},
+    "mod_skills": {"vaginal": [0.01, 0.01, 0, 0, 0], "anal": [0.01, 0.01, 0, 0, 0], "group": [0.01, 0.01, 0, 0, 0], "sex": [0.01, 0.01, 0, 0, 0]},
     "locations": ["Witches Hut"],
     "goodtraits": ["Curious"],
     "badtraits": ["Frigid"]
@@ -423,7 +423,7 @@
     "cblock": 14,
     "mod": {"charisma": 15},
     "skillmax": 300,
-    "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "anal": [0.01, 0, 0.01, 0, 0], "oral": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "bdsm": [0.01, 0, 0.01, 0, 0]},
+    "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "anal": [0.01, 0, 0.01, 0, 0], "oral": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "bdsm": [0.01, 0, 0.01, 0, 0], "sex": [0.01, 0, 0.01, 0, 0]},
     "locations": ["General Store"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"]
@@ -481,7 +481,7 @@
     "ctemp": 6,
     "cblock": 6,
     "mod": {"character": -50},
-    "mod_skills": {"vaginal": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "bdsm": [0, 0, 0.02, 0, 0]},
+    "mod_skills": {"vaginal": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "bdsm": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Curious"],
     "badtraits": ["Frigid"]
@@ -593,7 +593,7 @@
     "type": "permanent",
     "removetraits": ["MILF"],
     "addtraits": ["Virgin"],
-    "mod_skills": {"vaginal": [0, 0, 0, -500, 0], "anal": [0, 0, 0, -500, 0], "oral": [0, 0, 0, -500, 0], "group": [0, 0, 0, -500, 0], "bdsm": [0, 0, 0, -500, 0]},
+    "mod_skills": {"vaginal": [0, 0, 0, -500, 0], "anal": [0, 0, 0, -500, 0], "oral": [0, 0, 0, -500, 0], "group": [0, 0, 0, -500, 0], "bdsm": [0, 0, 0, -500, 0], "sex": [0, 0, 0, -500, 0]},
     "locations": ["Exploration"]
     },
     {

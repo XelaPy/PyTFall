@@ -104,7 +104,7 @@
     "mdestruct": false,
     "skillmax": 10,
     "mod": {"gold": -8},
-    "mod_skills": {"oral": [0, 0, 0, 1, 0]},
+    "mod_skills": {"sex": [0, 0, 0, 1, 0]},
     "locations": ["Witches Hut", "Exploration"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"]
@@ -186,7 +186,7 @@
     "mtemp": 5,
     "mreusable": false,
     "mdestruct": true,
-    "mod_skills": {"vaginal": [0, 0, 0, 0, 80], "anal": [0, 0, 0, 0, 40], "oral": [0, 0, 0, 0, 40]},
+    "mod_skills": {"vaginal": [0, 0, 0, 0, 80], "anal": [0, 0, 0, 0, 40], "oral": [0, 0, 0, 0, 40], "sex": [0, 0, 0, 0, 40]},
     "locations": ["Exploration"],
     "goodtraits": ["Curious"],
     "badtraits": ["Lesbian", "Frigid"]
@@ -227,7 +227,7 @@
     "mtemp": 5,
     "mreusable": false,
     "mdestruct": true,
-    "mod_skills": {"vaginal": [0, 0, 0, 0, 20], "anal": [0, 0, 0, 0, 10], "oral": [0, 0, 0, 0, 90]},
+    "mod_skills": {"vaginal": [0, 0, 0, 0, 20], "anal": [0, 0, 0, 0, 10], "oral": [0, 0, 0, 0, 90], "sex": [0, 0, 0, 0, 90]},
     "locations": ["Exploration"],
     "goodtraits": ["Curious", "Lesbian", "Bisexual"],
     "badtraits": ["Frigid"]
@@ -376,7 +376,7 @@
     "skillmax": 300,
     "mreusable": false,
     "mdestruct": false,
-    "mod_skills": {"vaginal": [0, 0, 0, 0, 30], "anal": [0, 0, 0, 0, 20]},
+    "mod_skills": {"vaginal": [0, 0, 0, 0, 30], "anal": [0, 0, 0, 0, 20], "sex": [0, 0, 0, 0, 20]},
     "locations": ["General Store"],
     "goodtraits": ["Curious"],
     "badtraits": ["Lesbian"]
@@ -420,7 +420,7 @@
     "mreusable": false,
     "mdestruct": false,
     "skillmax": 300,
-    "mod_skills": {"oral": [0, 0, 0, 0, 35], "vaginal": [0, 0, 0, 0, 10], "anal": [0, 0, 0, 0, 5]},
+    "mod_skills": {"oral": [0, 0, 0, 0, 35], "vaginal": [0, 0, 0, 0, 10], "anal": [0, 0, 0, 0, 5], "sex": [0, 0, 0, 0, 5]},
     "locations": ["Witches Hut"],
     "goodtraits": ["Curious", "Bisexual", "Lesbian"]
     },

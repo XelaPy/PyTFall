@@ -167,13 +167,11 @@
     {
     "id": "Virgin",
     "desc": "This girl has never had sex before.",
-    "block_traits": ["MILF"],
     "max": {"character": -3},
     "mod_skills": {"vaginal": [-0.4, 0.05, -0.5]}
     },
     {
     "id": "MILF",
     "desc": "This woman has had children before.",
-    "block_traits": ["Virgin"],
     "mod_skills": {"vaginal": [0.01, 0, 0.01]}
     }]
