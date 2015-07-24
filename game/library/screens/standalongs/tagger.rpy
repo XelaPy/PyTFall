@@ -197,11 +197,11 @@ screen tagger():
             if tag in tagz:
                 textbutton "{color=[red]}[tag]":
                     style "white_cry_button"
-                    action Execute(tagz.remove, tag)
+                    action Function(tagz.remove, tag)
             else:
                 textbutton "[tag]":
                     style "white_cry_button"
-                    action Execute(tagz.add, tag)
+                    action Function(tagz.add, tag)
         
     # Picture:
     if pic:

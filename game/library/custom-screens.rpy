@@ -360,13 +360,13 @@ init: # Items:
                             align (0.0, 0.5)
                             idle img
                             hover im.MatrixColor(img, im.matrix.brightness(0.15))
-                            action Execute(ref.apply_filter, "prev")
+                            action Function(ref.apply_filter, "prev")
                         label ("%s " % (ref.filter).capitalize()) align (0.5, 0.5)  text_color ivory
                         imagebutton:
                             align (1.0, 0.5)
                             idle (path+'next.png')
                             hover (im.MatrixColor(path+'next.png', im.matrix.brightness(0.15)))
-                            action Execute(ref.apply_filter, "next")
+                            action Function(ref.apply_filter, "next")
                 # Listing
                 hbox:
                     xalign 0.5
@@ -381,7 +381,7 @@ init: # Items:
                             if root:
                                 action Return([root, 'first_page'])
                             else:
-                                action Execute(ref.first)
+                                action Function(ref.first)
                         imagebutton:
                             yalign 0.5
                             idle (path+'prev.png')
@@ -389,7 +389,7 @@ init: # Items:
                             if root:
                                 action Return([root, 'prev_page'])
                             else:
-                                action Execute(ref.prev)
+                                action Function(ref.prev)
                     label ("%d - %d"%(ref.page+1, ref.max_page+1)) align (0.5, 0.5) text_color ivory
                     hbox:
                         align (1.0, 0.5)
@@ -400,7 +400,7 @@ init: # Items:
                             if root:
                                 action Return([root, 'next_page'])
                             else:    
-                                action Execute(ref.next)
+                                action Function(ref.next)
                         imagebutton:
                             yalign 0.5
                             idle (path+'last.png')
@@ -408,7 +408,7 @@ init: # Items:
                             if root:
                                 action Return([root, 'last_page'])
                             else:    
-                                action Execute(ref.last)
+                                action Function(ref.last)
                         
     screen shop_inventory(ref=None, x=0.0):
         key "mousedown_4" action ref.inventory.next
@@ -483,11 +483,11 @@ init: # PyTFall:
             key "mousedown_3" action Return(['control', 'return'])
         if renpy.current_screen().tag not in ["pyt_girl_interactions", "pyt_hero_profile", "pyt_quest_log"]:
             if global_flags.flag("visited_arena"):
-                key "a" action [Execute(hs), Jump("arena_inside")]
+                key "a" action [Function(hs), Jump("arena_inside")]
             if global_flags.flag("visited_city_beach"):
-                key "c" action [Execute(hs), Execute(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
-            key "g" action [Execute(hs), Execute(global_flags.del_flag, "keep_playing_music"), Jump("general_store")] 
-            key "m" action [Execute(hs), Execute(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen")]
+                key "c" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
+            key "g" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("general_store")] 
+            key "m" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen")]
             key "j" action ShowMenu("pyt_quest_log")
           
         # Top Stripe:
@@ -538,13 +538,13 @@ init: # PyTFall:
                             imagebutton:
                                 idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
                                 hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(0.25))
-                                action Execute(hero.team.remove, chr)
+                                action Function(hero.team.remove, chr)
                                 hovered tt.Action("Remove [chr.nickname] from player team!")
                         else:
                             imagebutton:
                                 idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
                                 hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(0.25))
-                                action Execute(hero.team.add, chr)
+                                action Function(hero.team.add, chr)
                                 hovered tt.Action("Add [chr.nickname] to player team!")
                   
                 # Girlslist paging buttons:
@@ -603,7 +603,7 @@ init: # PyTFall:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
-                            action (Hide(renpy.current_screen().tag), Execute(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
+                            action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                             hovered tt.Action("Return to Main Screen!")
                             
                     if renpy.current_screen().tag in ["pyt_girl_profile", "pyt_girl_equip"] and chr.action != "Exploring":
@@ -737,14 +737,14 @@ init: # PyTFall:
                         if entry == 'Stripper':
                             if girl.location.upgrades['stripclub']['1']['active']:
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                         elif entry == 'Guard':
                             if girl.status != 'slave' and (girl.occupation != "Warrior" or girl.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                         else:
                             textbutton "[entry]":
-                                action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                 
                 # Fighters Guild
                 elif isinstance(girl.location, FighterGuild):
@@ -752,21 +752,21 @@ init: # PyTFall:
                         if entry == 'Training':
                             if girl.status != "slave":
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                         elif entry == 'ServiceGirl':
                             if (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "ServiceGirl"):
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                         elif entry == 'BarGirl':
                             if fg.upgrades["bar"][0] and (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "BarGirl"):
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, "ServiceGirl"), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, "ServiceGirl"), Hide("pyt_dropdown_action")]
                         elif entry == 'Rest':
                             textbutton "[entry]":
-                                action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                         else:
                             textbutton "[entry]":
-                                action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                 
                 # Other buildings
                 elif hasattr(girl.location, "actions"):
@@ -774,7 +774,7 @@ init: # PyTFall:
                         if entry == "Guard":
                             if girl.status != "slave" and (girl.occupation != "Warrior" or girl.disposition <= 950):
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
                         
                         elif entry == "Take Course":
                             textbutton "[entry]":
@@ -784,12 +784,12 @@ init: # PyTFall:
                         
                         else:
                             textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_action")]
+                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_action")]
                 
                 # Prevent none action in schools
                 if not hasattr(girl.location, "is_school") or not girl.location.is_school:
                     textbutton "None":
-                        action [SetField(girl, "action", None), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_action")]
+                        action [SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_action")]
                 
                 textbutton "Close":
                     action [Hide("pyt_dropdown_action")]
@@ -828,10 +828,10 @@ init: # PyTFall:
                             $ can_keep_action = False
                         if can_keep_action:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [SetField(girl, "location", building), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
                         else:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), SetField(girl, "action", None), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [SetField(girl, "location", building), SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
                     elif building.free_rooms():
                         $ can_keep_action = False
                         if isinstance(building, Brothel):
@@ -845,13 +845,13 @@ init: # PyTFall:
                                 $ can_keep_action = True
                         if can_keep_action:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [SetField(girl, "location", building), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
                         else:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), SetField(girl, "action", None), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [SetField(girl, "location", building), SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
                 
                 textbutton "None":
-                    action [SetField(girl, "location", hero), SetField(girl, "action", None), If(girl_is_training(girl), true=Execute(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                    action [SetField(girl, "location", hero), SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
                 
                 textbutton "Close":
                     action Hide("pyt_dropdown_loc")

@@ -57,7 +57,7 @@ screen pyt_city_beach_left:
         align (0.99, 0.5)
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("pyt_city_beach_left"), Execute(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]    
+        action [Hide("pyt_city_beach_left"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]    
     
     use location_actions("city_beach_left")
     

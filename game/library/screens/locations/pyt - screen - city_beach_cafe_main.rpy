@@ -49,7 +49,7 @@ screen pyt_city_beach_cafe_main:
         align (0.01, 0.5)
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("pyt_city_beach_cafe_main"), Execute(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
+        action [Hide("pyt_city_beach_cafe_main"), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
     
     $img = im.Scale(im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True), 80, 70)
     imagebutton:

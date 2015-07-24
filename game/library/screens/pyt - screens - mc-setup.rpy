@@ -393,7 +393,7 @@ screen mc_setup():
             hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
             align (0.46, 0.93)
             activate_sound "content/sfx/sound/events/start_2.mp3"
-            action [Execute(renpy.music.stop), Return(["control", "build_mc"])]
+            action [Function(renpy.music.stop), Return(["control", "build_mc"])]
     textbutton "{size=24}{font=fonts/TisaOTM.otf}{color=[white]}[hero.name]":
         background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
         hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
