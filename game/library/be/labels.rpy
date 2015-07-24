@@ -20,13 +20,13 @@ label test_be():
         if len(enemy_team) != 3:
             enemy_team.add(mob)
         
-        h = char["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
+        h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
         h.status = "free"
         h.exp += 2000000
         for stat in h.stats:
             h.mod(stat, 1000)
         h.front_row = False
-        n = char["Nami"]
+        n = chars["Nami"]
         h.status = "free"
         n.apply_trait("Air")
         for skill in battle_skills.values():

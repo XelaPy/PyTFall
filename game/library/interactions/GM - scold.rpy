@@ -6,26 +6,26 @@
 
 ###### j1
 label interactions_insult:
-    if chr.disposition > 600:
+    if char.disposition > 600:
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 300:
+    elif char.disposition > 300:
         $ gm_disp_mult = 0.4
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_disp_mult = 0.5
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_disp_mult = 0.7
-    elif chr.disposition > 50:
+    elif char.disposition > 50:
         $ gm_disp_mult = 1
-    elif chr.disposition > 20:
+    elif char.disposition > 20:
         $ gm_disp_mult = 1
-    elif chr.disposition > -1:
+    elif char.disposition > -1:
         $ gm_disp_mult = 1
-    elif chr.disposition > -20:
+    elif char.disposition > -20:
         $ gm_disp_mult = 1        
     else:
         $ gm_disp_mult = 1
     
-    $chr.disposition -= (randint(10, 22)*(gm_disp_mult))
+    $ char.disposition -= (randint(10, 22)*(gm_disp_mult))
     
     if ct("Mind Fucked"):
         $rc("<She ignores you.>")
@@ -64,26 +64,26 @@ label interactions_insult:
 ###### j2
 label interactions_slut:
     
-    if chr.disposition > 400:
+    if char.disposition > 400:
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 550:
+    elif char.disposition > 550:
         $ gm_disp_mult = 0.4
-    elif chr.disposition > 450:
+    elif char.disposition > 450:
         $ gm_disp_mult = 0.7
-    elif chr.disposition > 400:
+    elif char.disposition > 400:
         $ gm_disp_mult = 1
-    elif chr.disposition > 350:
+    elif char.disposition > 350:
         $ gm_disp_mult = 1
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_disp_mult = 1
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_disp_mult = 1
-    elif chr.disposition > 20:
+    elif char.disposition > 20:
         $ gm_disp_mult = 1
     else:
         $ gm_disp_mult = 1
     
-    $chr.disposition -= (randint(15, 35)*(gm_disp_mult))
+    $ char.disposition -= (randint(15, 35)*(gm_disp_mult))
     
     if ct("Mind Fucked"):
         $rc("Um..?")

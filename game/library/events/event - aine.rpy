@@ -49,9 +49,9 @@ label aine_menu:
                     else:
                         a "Will it be you or your lovely friend?"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                 call screen magic_purchase_screen(aine_light_spells, azure, aine_darkness_spells, black)
                 $ spell = _return
@@ -97,11 +97,11 @@ label aine_menu:
                         with dissolve
                         
                         $ spell = spell[0]
-                        $ chr.magic_skills[spell] = 1
+                        $ char.magic_skills[spell] = 1
                         
                         a "Use your new powers wisely!"
                         
-                        "[chr.nickname] learned [spell]!!!"
+                        "[char.nickname] learned [spell]!!!"
                         
                     else:
                         a "I know that I'm nice but don't even thing if taking advantage!"
@@ -111,9 +111,9 @@ label aine_menu:
                 if len(hero.team) > 1:
                     a "Who will it be?"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                 if not global_flags.has_flag("aine_training_explained"):    
                     a "Well dear, I can teach you manners and proper care so to increase your charisma."
@@ -126,7 +126,7 @@ label aine_menu:
                 else:
                     a "I am ready if you are!"
                     
-                $ training_price = chr.get_training_price()    
+                $ training_price = char.get_training_price()    
                 menu:
                     "Pay [training_price] Gold" if hero.AP > 0:
                         if hero.take_money(training_price, "Training"):
@@ -153,15 +153,15 @@ label aine_menu:
                 if len(hero.team) > 1:
                     "Pick a character!"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                 menu:
-                    "Setup sessions" if not chr.has_flag("train_with_aine"):
-                        $ chr.set_flag("train_with_aine")
-                    "Cancel sessions" if chr.flag("train_with_aine"):
-                        $ chr.del_flag("train_with_aine")
+                    "Setup sessions" if not char.has_flag("train_with_aine"):
+                        $ char.set_flag("train_with_aine")
+                    "Cancel sessions" if char.flag("train_with_aine"):
+                        $ char.del_flag("train_with_aine")
                     "Do Nothing...":
                         $ pass
                     

@@ -38,10 +38,10 @@ init -1 python: # Core classes:
             self.start_turn_events = list() # Events we execute on the end of the turn.
             self.mid_turn_events = list() # Events to execute after controller was set.
             
-        def get_faction(self, chr):
+        def get_faction(self, char):
             # Since factions are simply teams:
             for team in self.teams:
-                if chr in team:
+                if char in team:
                     return team.name # Maybe this should be an instance of the team? Concider this for the future when this might really matter.
             
         def main_loop(self):
@@ -107,11 +107,11 @@ init -1 python: # Core classes:
             
             team = self.teams[0]
             for i in team:
-                self.show_chr(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
                 
             team = self.teams[1]
             for i in team:
-                self.show_chr(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
              
             # renpy.show_screen("be_test")
             
@@ -150,7 +150,7 @@ init -1 python: # Core classes:
                 self.queue = l
             return self.queue.pop()
             
-        def get_icp(self, team, chr):
+        def get_icp(self, team, char):
             """
             Get Initial Character Position
             Basically this is what sets the characters up at the start of the battle-round.
@@ -158,13 +158,13 @@ init -1 python: # Core classes:
             Positions should always be retrieved using this method or errors may occur.
             """
             team_index = self.teams.index(team)
-            chr_index = team.members.index(chr)
+            char_index = team.members.index(char)
             
             if len(team) == 3:
-                if chr_index == 0:
-                    chr_index = 1
-                elif chr_index == 1:
-                    chr_index = 0
+                if char_index == 0:
+                    char_index = 1
+                elif char_index == 1:
+                    char_index = 0
             
             if team_index == 0:
                 team_index = "l"
@@ -172,71 +172,71 @@ init -1 python: # Core classes:
                 team_index = "r"
                 
             # We want different behavior for 3 member teams putting the leader in the middle:
-            chr.besk = dict()
+            char.besk = dict()
             # Supplied to the show method.
-            chr.betag = str(random.random())
+            char.betag = str(random.random())
             # First, lets get correct sprites:
-            sprite = chr.show("battle_sprite", resize=chr.get_sprite_size("battle_sprite"))
-            chr.besprite_size = sprite.true_size()
-            chr.allegiance = team.name # Character always remains on the same team but allegiance may change with confusion skill for example.
+            sprite = char.show("battle_sprite", resize=char.get_sprite_size("battle_sprite"))
+            char.besprite_size = sprite.true_size()
+            char.allegiance = team.name # Character always remains on the same team but allegiance may change with confusion skill for example.
             # We'll assign ranges from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
             if team_index == "l":
-                chr.row = int(chr.front_row)
+                char.row = int(char.front_row)
                 
-                if chr.__class__ in [Mob]:
-                    chr.besprite = im.Flip(sprite, horizontal=True)
+                if char.__class__ in [Mob]:
+                    char.besprite = im.Flip(sprite, horizontal=True)
                 else:
-                    chr.besprite = sprite
+                    char.besprite = sprite
                     
                 # We're going to land the character at the default position from now on, with centered buttom of the image landing directly on the position!
                 # This makes more sense for all purposes:
-                chr.dpos = self.row_pos[team_index + str(int(chr.front_row))][chr_index]
-                chr.cpos = chr.dpos
+                char.dpos = self.row_pos[team_index + str(int(char.front_row))][char_index]
+                char.cpos = char.dpos
                 # Now the offset:
-                # xpos = pos[0] + chr.besprite_size[0] / 2
-                # ypos = pos[1] + chr.besprite_size[1]
-                # chr.dpos = (xpos, pos[1])
+                # xpos = pos[0] + char.besprite_size[0] / 2
+                # ypos = pos[1] + char.besprite_size[1]
+                # char.dpos = (xpos, pos[1])
                 
             if team_index == "r":
-                chr.row = 2 if chr.front_row else 3
+                char.row = 2 if char.front_row else 3
 
-                if chr.__class__ in [Player, Girl, rGirl, ArenaFighter]:
-                    chr.besprite = im.Flip(sprite, horizontal=True)
+                if char.__class__ in [Player, Girl, rGirl, ArenaFighter]:
+                    char.besprite = im.Flip(sprite, horizontal=True)
                 else:
-                    chr.besprite = sprite
+                    char.besprite = sprite
                     
-                pos = self.row_pos[team_index + str(int(chr.front_row))][chr_index]
+                pos = self.row_pos[team_index + str(int(char.front_row))][char_index]
                 # Now the offset:
-                xpos = pos[0] - chr.besprite_size[0]
-                # ypos = pos[1] + chr.besprite_size[1]
-                chr.dpos = (xpos, pos[1])
-                chr.cpos = chr.dpos
+                xpos = pos[0] - char.besprite_size[0]
+                # ypos = pos[1] + char.besprite_size[1]
+                char.dpos = (xpos, pos[1])
+                char.cpos = char.dpos
                 
                 
-            chr.besk["what"] = chr.besprite
-            # Zorder defaults to chracters (index + 1) * 100 so we could theoretically show 100 extras with this design :)
-            chr.besk["zorder"] = (chr_index + 1) * 100
+            char.besk["what"] = char.besprite
+            # Zorder defaults to characters (index + 1) * 100 so we could theoretically show 100 extras with this design :)
+            char.besk["zorder"] = (char_index + 1) * 100
             
             # ---------------------------------------------------->>>
-            return chr.dpos
+            return char.dpos
              
-        def show_chr(self, chr, *args, **kwargs):
-            for key in chr.besk:
+        def show_char(self, char, *args, **kwargs):
+            for key in char.besk:
                 if key not in kwargs: # We do not want to overwrite!
-                    kwargs[key] = chr.besk[key]
-            return renpy.show(chr.betag, *args, **kwargs)
+                    kwargs[key] = char.besk[key]
+            return renpy.show(char.betag, *args, **kwargs)
             
-        def move(self, chr, pos, t, pause=True):
+        def move(self, char, pos, t, pause=True):
             """
             Move character to new position...
             """
-            renpy.hide(chr.betag)
-            renpy.show(chr.betag, what=chr.besprite, at_list=[move_bpwe(start_pos=chr.cpos, end_pos=pos, t=t)], zorder=chr.besk["zorder"])
-            chr.cpos = pos
+            renpy.hide(char.betag)
+            renpy.show(char.betag, what=char.besprite, at_list=[move_bpwe(start_pos=char.cpos, end_pos=pos, t=t)], zorder=char.besk["zorder"])
+            char.cpos = pos
             if pause:
                 renpy.pause(t)
             
-        def get_cp(self, chr, type="pos", xo=0, yo=0):
+        def get_cp(self, char, type="pos", xo=0, yo=0):
             """
             I am not sure how this is supposed to work yet in the grand scheme of things.
             Old Comment: For now it will report initial position + types:
@@ -250,30 +250,30 @@ init -1 python: # Core classes:
             xo = offset for x
             yo = offset for y
             """
-            if not chr.cpos or not chr.besprite_size:
-                raise Error([chr.cpos, chr.besprite_size])
+            if not char.cpos or not char.besprite_size:
+                raise Error([char.cpos, char.besprite_size])
             if type == "pos":
-                xpos = chr.cpos[0]
-                ypos = chr.cpos[1] + yo
+                xpos = char.cpos[0]
+                ypos = char.cpos[1] + yo
             elif type == "center":
-                xpos = chr.cpos[0] + chr.besprite_size[0] / 2
-                ypos = chr.cpos[1] + chr.besprite_size[1] / 2 + yo
+                xpos = char.cpos[0] + char.besprite_size[0] / 2
+                ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
             elif type == "tc":
-                xpos = chr.cpos[0] + chr.besprite_size[0] / 2
-                ypos = chr.cpos[1] + yo
+                xpos = char.cpos[0] + char.besprite_size[0] / 2
+                ypos = char.cpos[1] + yo
             elif type == "bc":
-                xpos = chr.cpos[0] + chr.besprite_size[0] / 2
-                ypos = chr.cpos[1] + chr.besprite_size[1] + yo
+                xpos = char.cpos[0] + char.besprite_size[0] / 2
+                ypos = char.cpos[1] + char.besprite_size[1] + yo
             elif type == "fc":
-                if chr.row in [0, 1]:
-                    xpos = chr.cpos[0] + chr.besprite_size[0]
-                    ypos = chr.cpos[1] + chr.besprite_size[1] / 2 + yo
+                if char.row in [0, 1]:
+                    xpos = char.cpos[0] + char.besprite_size[0]
+                    ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
                 else:
-                    xpos = chr.cpos[0]
-                    ypos = chr.cpos[1] + chr.besprite_size[1] / 2 + yo
+                    xpos = char.cpos[0]
+                    ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
                     
             # While yoffset is the same, x offset depends on the team position:
-            if chr.row in [0, 1]:
+            if char.row in [0, 1]:
                 xpos = xpos + xo
             else:
                 xpos = xpos - xo
@@ -401,21 +401,21 @@ init -1 python: # Core classes:
             Rows go [0, 1, 2, 3] from left to right of the battle-field.
             """
             if source:
-                chr = source
+                char = source
             else:
-                chr = self.source
+                char = self.source
                 
             l = battle.get_fighters()
             in_range = set()
             # First figure out all targets within the range:
             # We calculate this by assigning.
             for fighter in l:
-                if fighter.row in xrange(chr.row - self.range, chr.row + 1 + self.range):
+                if fighter.row in xrange(char.row - self.range, char.row + 1 + self.range):
                     in_range.add(fighter)
                     
             # Lets handle the piercing (Or not piercing since piercing attacks incude everyone in range already):
             if not self.piercing:
-                if chr.row in [0, 1]:
+                if char.row in [0, 1]:
                     # Source is on left team:
                     # We need to check if there is at least one member on the opposing front row and if true, remove everyone in the back.
                     if battle.get_fighters(rows=[2]):
@@ -432,7 +432,7 @@ init -1 python: # Core classes:
                                 
             # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
             # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
-            if chr.row == 0:
+            if char.row == 0:
                 # Case: Fighter in backrow and no defenders on opfor.
                 if not battle.get_fighters(rows=[2]) and self.range > 1:
                     # We add everyone in the back row for target practice :)
@@ -445,15 +445,15 @@ init -1 python: # Core classes:
                     # else, there is are no defenders at all anywhere...
                     else:
                         in_range = in_range.union(battle.get_fighters(rows=[3]))
-            elif chr.row == 1:
+            elif char.row == 1:
                 if not battle.get_fighters(rows=[2]):
                     # We add everyone in the back row for target practice :)
                     in_range = in_range.union(battle.get_fighters(rows=[3]))
-            elif chr.row == 2:
+            elif char.row == 2:
                 if not battle.get_fighters(rows=[1]):
                     # We add everyone in the back row for target practice :)
                     in_range = in_range.union(battle.get_fighters(rows=[0]))
-            elif chr.row == 3:
+            elif char.row == 3:
                 if not battle.get_fighters(rows=[1]) and self.range > 1:
                     # We add everyone in the back row for target practice :)
                     in_range = in_range.union(battle.get_fighters(rows=[0]))
@@ -469,21 +469,21 @@ init -1 python: # Core classes:
             # Now the type, we just care about friends and enemies:
             if self.type in ["all_enemies", "se"]:
                 for fighter in in_range.copy():
-                    if chr.allegiance == fighter.allegiance:
+                    if char.allegiance == fighter.allegiance:
                         in_range.remove(fighter)
             if self.type in ["all_allies", "sa"]:
                 for fighter in in_range.copy():
-                    if chr.allegiance != fighter.allegiance:
+                    if char.allegiance != fighter.allegiance:
                         in_range.remove(fighter)
                     
             return list(in_range) # So we can support indexing...
             
         def check_conditions(self, source=None):
             if source:
-                chr = source
+                char = source
             else:
-                chr = self.source
-            if self.get_targets(chr):
+                char = self.source
+            if self.get_targets(char):
                 return True
                 
         def effects_resolver(self, targets):

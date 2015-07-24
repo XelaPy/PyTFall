@@ -6,12 +6,12 @@
 #  3 - proposition - hire
 
 ###### j1
-label interactions_friends: #if char["Hinata"] in char["Sakura"].friends:
+label interactions_friends: #if chars["Hinata"] in chars["Sakura"].friends:
     "You proposing to become friends."
-    if char[chr] in hero.friends:
+    if chars[char] in hero.friends:
         "But you already are!"
         python:
-            chr.AP += 1
+            char.AP += 1
             hero.AP += 1
         jump girl_interactions
     if ct("Shy"):  
@@ -38,7 +38,7 @@ label interactions_friends: #if char["Hinata"] in char["Sakura"].friends:
         $ fr_ch += 50
     else:
         $ fr_ch += 70
-    if chr.disposition >= (250 - fr_ch) and dice(round((fr_ch + chr.disposition)*0.25))):
+    if char.disposition >= (250 - fr_ch) and dice(round((fr_ch + char.disposition)*0.25))):
         if ct("Impersonal"):
             $rc("Very well.", "Alright.")
         elif ct("Shy") and dice(30):  
@@ -61,8 +61,8 @@ label interactions_friends: #if char["Hinata"] in char["Sakura"].friends:
             $rc("You know, I'd be totally up for sex friend status.♪", "Well, we get along fine...")
         else:
            $rc("Mm, alright.", "Okay!", "I have the feeling I could get along with you.", "Hehehe, it's great to be friends～♪", "Of course. Let's get along♪")
-       # $ chr.friends.add(hero)
-       # $ hero.friends.add(chr)
+       # $ char.friends.add(hero)
+       # $ hero.friends.add(char)
     else:
         if ct("Impersonal"):  
             $rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
@@ -131,8 +131,8 @@ label interactions_girlfriend:
     else:
         $ l_ch += 70
     
-    if 1>0:# chr.disposition >= (500 - l_ch) and dice(round((l_ch + chr.disposition)*0.15))):
-        if ct("Impersonal") in  chr.traits:
+    if 1>0:# char.disposition >= (500 - l_ch) and dice(round((l_ch + char.disposition)*0.15))):
+        if ct("Impersonal") in  char.traits:
             $rc("You want me to have an affair with you. Understood.", "As you wish. I'm yours.", "I understand. I suppose we're now lovers.")
         elif ct("Shy") and dice(20):  
             $rc("I-If you're okay with me...", "V-very well...  I-I'll work hard to be a woman fit to be with you.", "F-fine then...")
@@ -154,8 +154,8 @@ label interactions_girlfriend:
             $rc("Of course! Now no one can keep us apart! Hehe♪", "We're sweethearts now?　Finally!♪", "I want to be yours as well♪", "Huhu, I'm not responsible if you regret it...", "You wanna do something dirty with me, right? You'd better!")
         else:
             $rc("Yes... I'll be by your side forever... Hehehe♪", "Gosh. Fine...", "O-Okay... Ahaha, this is kinda embarrassing...", "I guess I'm your girlfriend now.")
-#        $ chr.lovers.add(hero)
-#        $ hero.lovers.add(chr)
+#        $ char.lovers.add(hero)
+#        $ hero.lovers.add(char)
     else:
         if ct("Lesbian"):
             if ct("Impersonal"):
@@ -216,15 +216,15 @@ label interactions_hire:
             
             for stat in ilists.battlestats:
                 heroskillz += getattr(hero, stat)
-                girlskillz += getattr(chr, stat)
+                girlskillz += getattr(char, stat)
             
             # add charisma:    
             heroskillz += hero.charisma
-            girlskillz += chr.charisma
+            girlskillz += char.charisma
             
             # if girl wants to be in the arena and heros arena rep is a lot higher, we'll throw in another 100
-            if chr.arena_willing and chr.arena_rep > 0:
-                if hero.arena_rep > chr.arena_rep * 5:
+            if char.arena_willing and char.arena_rep > 0:
+                if hero.arena_rep > char.arena_rep * 5:
                     heroskillz += 100
             
             # and finally get the difference and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
@@ -232,7 +232,7 @@ label interactions_hire:
             
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
             if mod_chance > 50:
-                chr.disposition += randint(10, 15)
+                char.disposition += randint(10, 15)
             
             if mod_chance > 500: mod_chance = 500
     
@@ -240,14 +240,14 @@ label interactions_hire:
         python:
             # get skills relevant to occupation:
             heroskillz = hero.charisma * 3
-            girlskillz = chr.charisma * 3
+            girlskillz = char.charisma * 3
             
             # and finally get the difference and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
             mod_chance = heroskillz - girlskillz
             
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
             if mod_chance > 50:
-                chr.disposition += randint(10, 15)
+                char.disposition += randint(10, 15)
             
             if mod_chance > 200: mod_chance = 200
     
@@ -255,14 +255,14 @@ label interactions_hire:
         python:
             # get skills relevant to occupation:
             heroskillz = hero.character * 4
-            girlskillz = chr.character * 4
+            girlskillz = char.character * 4
             
             # and finally get the differense and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
             mod_chance = heroskillz - girlskillz
             
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
             if mod_chance > 50:
-                chr.disposition += randint(10, 15)
+                char.disposition += randint(10, 15)
             
             if mod_chance > 400: mod_chance = 400
     
@@ -270,11 +270,11 @@ label interactions_hire:
         python:
             # get skills relevant to occupation:
             heroskillz = hero.charisma * 4
-            girlskillz = chr.charisma * 4
+            girlskillz = char.charisma * 4
             
             # if girl wants to be in the arena and heros arena rep is a lot higher, we'll throw in another 100
-            if chr.arena_willing and chr.arena_rep > 0:
-                if hero.arena_rep > chr.arena_rep * 5:
+            if char.arena_willing and char.arena_rep > 0:
+                if hero.arena_rep > char.arena_rep * 5:
                     heroskillz += 100
             
             # and finally get the differense and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
@@ -282,7 +282,7 @@ label interactions_hire:
             
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
             if mod_chance > 50:
-                chr.disposition += randint(10, 15)
+                char.disposition += randint(10, 15)
             
             if mod_chance > 400: mod_chance = 400
     
@@ -294,7 +294,7 @@ label interactions_hire:
        del heroskillz
     
     # Solve chance
-    if chr.disposition > 500 - mod_chance:
+    if char.disposition > 500 - mod_chance:
         $g(choice(["Ok. I guess I could try working for you.",
                    "You seem like a good employer!",
                    "Thanks, I'll take the offer!"]))
@@ -302,9 +302,9 @@ label interactions_hire:
         $ del mod_chance
         
         menu:
-            "Hire her as [chr.occupation].":
-                $gm.remove_girl(chr)
-                $hero.add_girl(chr)
+            "Hire her as [char.occupation].":
+                $gm.remove_girl(char)
+                $hero.add_girl(char)
                 hide screen pyt_girl_interactions
                 
                 $ gm.see_greeting = True

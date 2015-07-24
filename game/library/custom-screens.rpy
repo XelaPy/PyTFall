@@ -1,11 +1,11 @@
 ################### Specialized ####################
 init: # Items:
-    screen items_inv(chr=None, main_size=(553, 282), frame_size=(90, 90), return_value=['item', 'get']):
+    screen items_inv(char=None, main_size=(553, 282), frame_size=(90, 90), return_value=['item', 'get']):
         frame:
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             xysize main_size
             has hbox box_wrap True
-            for item in list(item for item in chr.inventory.getpage()):
+            for item in list(item for item in char.inventory.getpage()):
                 frame:
                     if item.bg_color == "dark":
                         background Frame("content/gfx/frame/frame_it2.png", -1, -1)
@@ -13,7 +13,7 @@ init: # Items:
                         background Frame("content/gfx/frame/frame_it2.png", -1, -1)
                     xysize frame_size
                     use r_lightbutton (img=ProportionalScale(item.icon, 75, 75), return_value=return_value+[item], align=(0.5, 0.5))
-                    label (u"{color=#ecc88a}%d" % chr.inventory.content[item.id]):
+                    label (u"{color=#ecc88a}%d" % char.inventory.content[item.id]):
                         align (0.995, 0.995)
                         style "stats_label_text"
                         text_size 18
@@ -21,17 +21,17 @@ init: # Items:
                         #if item.bg_color == "dark":
                             #text_color ivory
     
-    screen pyt_eqdoll(active_mode=True, chr=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=14, fx_size=(300, 320)):
+    screen pyt_eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=14, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
-        # chr = source of equipment slots.
+        # char = source of equipment slots.
         # Slots and the doll ------------------------------------------------------------>
-        if chr == hero:
+        if char == hero:
             add im.Scale("content/gfx/interface/images/dollM2.png", 220, 290) align (0.25, 0.23)
         else:
             # frame:
                 # align (0.5, 0.5)
                 # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-            add (chr.show("vnsprite", resize=(350, 600), cache=True)) alpha 0.6 align (0.5, 0.5)
+            add (char.show("vnsprite", resize=(350, 600), cache=True)) alpha 0.6 align (0.5, 0.5)
             
         fixed:
             style_group "content"
@@ -39,10 +39,10 @@ init: # Items:
             xysize fx_size
             for key in equipSlotsPositions:
                 python:
-                    if chr.eqslots[key]:
-                        img = chr.eqslots[key].icon
+                    if char.eqslots[key]:
+                        img = char.eqslots[key].icon
                         # Frame background:
-                        if chr.eqslots[key].bg_color == "dark":
+                        if char.eqslots[key].bg_color == "dark":
                             bg = im.Scale(im.Twocolor("content/gfx/frame/d_box2.png", grey, black), *frame_size)
                         else:
                             bg = im.Scale("content/gfx/frame/d_box2.png", *frame_size)
@@ -53,9 +53,9 @@ init: # Items:
                     background bg
                     pos (equipSlotsPositions[key][1], equipSlotsPositions[key][2]-0.1)
                     xysize (frame_size[0], frame_size[1])
-                    if active_mode and chr.eqslots[key]:
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[chr.eqslots[key]])
-                    elif chr.eqslots[key]:
+                    if active_mode and char.eqslots[key]:
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
+                    elif char.eqslots[key]:
                         add ProportionalScale(img, frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
                     else:
                         text (u"%s"%equipSlotsPositions[key][0]) align (0.5, 0.5) color ivory size txt_size
@@ -65,10 +65,10 @@ init: # Items:
                 align(0.99, 0.5)
                 for key in ['ring', 'ring2',  'ring1']:
                     python:
-                        if chr.eqslots[key]:
-                            img = chr.eqslots[key].icon
+                        if char.eqslots[key]:
+                            img = char.eqslots[key].icon
                             # Frame background:
-                            if chr.eqslots[key].bg_color == "dark":
+                            if char.eqslots[key].bg_color == "dark":
                                 bg = im.Scale(im.Twocolor("content/gfx/frame/d_box2.png", grey, black), *frame_size)
                             else:
                                 bg = im.Scale("content/gfx/frame/d_box2.png", *frame_size)
@@ -78,9 +78,9 @@ init: # Items:
                     frame:
                         background bg
                         xysize (frame_size[0], frame_size[1])
-                        if active_mode and chr.eqslots[key]:
-                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[chr.eqslots[key]])
-                        elif chr.eqslots[key]:
+                        if active_mode and char.eqslots[key]:
+                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
+                        elif char.eqslots[key]:
                             add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
                         else:
                             text (u"Ring") align (0.5, 0.5) color ivory size txt_size
@@ -441,7 +441,7 @@ init: # Items:
                 
             null height 5
             
-            use items_inv(chr=ref, main_size=(268, 522), frame_size=(85, 85), return_value=["item", ref])
+            use items_inv(char=ref, main_size=(268, 522), frame_size=(85, 85), return_value=["item", ref])
             
 init: # PyTFall:
     screen r_lightbutton:
@@ -533,19 +533,19 @@ init: # PyTFall:
                 hbox:
                     align(0.3, 0.5)
                     
-                    if renpy.get_screen("pyt_girl_profile") and chr not in pytfall.ra:
-                        if chr in hero.team:
+                    if renpy.get_screen("pyt_girl_profile") and char not in pytfall.ra:
+                        if char in hero.team:
                             imagebutton:
                                 idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
                                 hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(0.25))
-                                action Function(hero.team.remove, chr)
-                                hovered tt.Action("Remove [chr.nickname] from player team!")
+                                action Function(hero.team.remove, char)
+                                hovered tt.Action("Remove [char.nickname] from player team!")
                         else:
                             imagebutton:
                                 idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
                                 hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(0.25))
-                                action Function(hero.team.add, chr)
-                                hovered tt.Action("Add [chr.nickname] to player team!")
+                                action Function(hero.team.add, char)
+                                hovered tt.Action("Add [char.nickname] to player team!")
                   
                 # Girlslist paging buttons:
                 if renpy.current_screen().tag == "pyt_girlslist":
@@ -606,12 +606,12 @@ init: # PyTFall:
                             action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                             hovered tt.Action("Return to Main Screen!")
                             
-                    if renpy.current_screen().tag in ["pyt_girl_profile", "pyt_girl_equip"] and chr.action != "Exploring":
+                    if renpy.current_screen().tag in ["pyt_girl_profile", "pyt_girl_equip"] and char.action != "Exploring":
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                             action Return(["jump", "item_transfer"])
-                            hovered tt.Action("Transfer items between MC and and [chr.nickname]!")
+                            hovered tt.Action("Transfer items between MC and and [char.nickname]!")
                             
                     if renpy.get_screen("pyt_hero_profile") and hero.location == ap:
                         imagebutton:
@@ -780,7 +780,7 @@ init: # PyTFall:
                         elif entry == "Take Course":
                             textbutton "[entry]":
                                 action [Hide("pyt_dropdown_action"), Hide("pyt_girlslist"), Hide("pyt_girl_profile"), # Hide the dropdown screen, the girls list and girl profile screens
-                                        SetField(store, "chr", girl, True), # Ensure that the global var chr is set to the current girl
+                                        SetField(store, "char", girl, True), # Ensure that the global var char is set to the current girl
                                         Jump("girl_training")] # Jump to the training screen
                         
                         else:
@@ -857,7 +857,7 @@ init: # PyTFall:
                 textbutton "Close":
                     action Hide("pyt_dropdown_loc")
         
-    screen chr_rename(chr=None):
+    screen char_rename(char=None):
         modal True
         zorder 1
         
@@ -866,19 +866,19 @@ init: # PyTFall:
             at fade_in_out()
             align (0.5, 0.5)
             spacing 10
-            if isinstance(chr, Player) or chr.status == "slave":
-                textbutton "Name: [chr.name]":
+            if isinstance(char, Player) or char.status == "slave":
+                textbutton "Name: [char.name]":
                     action Return(["rename", "name"])
-            textbutton "Nick: [chr.nickname]":
+            textbutton "Nick: [char.nickname]":
                 action Return(["rename", "nick"])
-            if isinstance(chr, Player) or chr.status == "slave":
-                textbutton "Full: [chr.fullname]":
+            if isinstance(char, Player) or char.status == "slave":
+                textbutton "Full: [char.fullname]":
                     action Return(["rename", "full"])
                 
             null height 20
             
             textbutton "Back":
-                action Hide("chr_rename")
+                action Hide("char_rename")
     ##############################################################################
     screen notify:
         zorder 500

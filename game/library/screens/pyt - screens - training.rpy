@@ -40,7 +40,7 @@ label girl_training:
         
         # Ensure valid course if selected
         if training_screen_course is not None:
-            if not training_screen_course.can_train(chr, training_screen_trainer):
+            if not training_screen_course.can_train(char, training_screen_trainer):
                 training_screen_course = None
         
         while True:
@@ -56,15 +56,15 @@ label girl_training:
                 # Schooling
                 if training_screen_current.is_school:
                     # Slave and combat incompatibility
-                    if chr.status == "slave" and result[1].type == "Combat":
+                    if char.status == "slave" and result[1].type == "Combat":
                         renpy.call_screen("pyt_message_screen", "Slaves cannot be trained as Warriors!")
                     
                     else:
-                        result[1].set_training(chr, training_screen_current)
+                        result[1].set_training(char, training_screen_current)
                 
                 # Normal training
                 else:
-                    result[1].set_training(chr, training_screen_current, training_screen_trainer)
+                    result[1].set_training(char, training_screen_current, training_screen_trainer)
                 
                 break
             
@@ -185,7 +185,7 @@ screen pyt_girl_training_trainer:
                     box_wrap True
                     spacing 5
                     for course in sorted(training_screen_current.courses):
-                        if course.can_train(chr, hero, one_off_only=False):
+                        if course.can_train(char, hero, one_off_only=False):
                             frame:
                                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                                 xysize (190, 190)
@@ -227,7 +227,7 @@ screen pyt_girl_training_trainer:
                         xsize 440
                         box_wrap True
                         spacing 7
-                        for course in training_screen_course.get_options(chr, training_screen_trainer, one_off_only=False):
+                        for course in training_screen_course.get_options(char, training_screen_trainer, one_off_only=False):
                             frame:
                                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                                 xysize (210, 145)
@@ -318,7 +318,7 @@ screen pyt_girl_training_lesson(course, tt, show_image):
                     
                     text (u"%s"%(course.gold))
             
-            text (u"%s"%(course.trainerStatus(chr, training_screen_trainer)))
+            text (u"%s"%(course.trainerStatus(char, training_screen_trainer)))
     
 
 # Schools sub-screen

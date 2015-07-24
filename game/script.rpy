@@ -1,10 +1,9 @@
 ﻿init python:
     # Generating some random girls for the arena
     def create_arena_girls():
-        rchars = rchar
-        rgirls = rchars.keys()
+        rgirls = store.rchars.keys()
         for __ in xrange(85):
-            if not rgirls: rgirls = rchars.keys()
+            if not rgirls: rgirls = store.rchars.keys()
             if rgirls:
                 rgirl = rgirls.pop()
                 arena_girl = build_rc(id=rgirl, pattern="Warrior")
@@ -84,11 +83,11 @@ label start:
         for tag in tags_dict.values():
             tagdb.tagmap[tag] = set()
         tl.timer("Loading: All Characters!")
-        char = load_characters()
+        chars = load_characters()
         # Trying to load crazy characters:
         crazy_chars = load_crazy_characters()
-        char.update(crazy_chars)
-        rchar = load_random_characters()
+        chars.update(crazy_chars)
+        rchars = load_random_characters()
         del crazy_chars
         tl.timer("Loading: All Characters!")
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
@@ -114,15 +113,15 @@ label start:
         tl.timer("Loading: Generating Random girls")
         
         # Some random girls (if there are any):
-        if rchar:
-            rgirls = rchar.keys()
+        if rchars:
+            rgirls = rchars.keys()
             shuffle(rgirls)
             for __ in xrange(25):
                 if rgirls:
                     rgirl = rgirls.pop()
                     new_random_girl = build_rc(id=rgirl)
                 else:
-                    rgirls = rchar.keys()
+                    rgirls = rchars.keys()
                     shuffle(rgirls)
 
             del rgirls
@@ -196,7 +195,7 @@ label start:
         tl.timer("Loading: Arena!")
         
     # Call girls starting labels:
-    $ all_chars = char.values()
+    $ all_chars = chars.values()
     while all_chars:
         $ popped_girl = all_chars.pop()
         $ girl_unique_label = "_".join(["start", popped_girl.id])
@@ -206,8 +205,8 @@ label start:
     if girl_unique_label in globals():
         $ del girl_unique_label
         
-    if "chr" in store.__dict__:
-        $ del store.__dict__["chr"]
+    if "char" in store.__dict__:
+        $ del store.__dict__["char"]
     if "girl" in store.__dict__:
         $ del store.__dict__["girl"]
     if "testBrothel" in store.__dict__:
@@ -243,9 +242,9 @@ label after_load:
                 # new_chars[girl].houseper = 50
  
         # for key in new_chars.keys():
-            # if key in char:
+            # if key in chars:
                 # pass
             # else:
-                # char[key] = new_chars[key]
+                # chars[key] = new_chars[key]
         # del new_chars
         # jump('pyt_mainscreen')

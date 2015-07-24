@@ -37,9 +37,9 @@ label general_store_shopping:
         amount = 1
         shop = pytfall.general_store
         shop.inventory.apply_filter(filter)
-        chr = hero
-        chr.inventory.set_page_size(18)
-        chr.inventory.apply_filter("all")
+        char = hero
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter("all")
 
     show screen pyt_shopping(left_ref=hero, right_ref=shop)
     with dissolve

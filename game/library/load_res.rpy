@@ -48,7 +48,7 @@ label load_resources:
             hero.add_building(buildings[TrainingDungeon.NAME])
         
         # Variables:
-        chr = None # Character global
+        char = None # Character global
         girl_equip = None # Girl equipment screen came from label holder
         girl_profile = None # Girl profile screen came from label holder
         pyt_gallery = None

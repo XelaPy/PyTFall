@@ -8,25 +8,25 @@
 
 ###### j1
 label interactions_hand:
-    if chr.disposition > 250:
+    if char.disposition > 250:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 150:
+    elif char.disposition > 150:
         $ gm_dice = 90
         $ gm_disp_mult = 0.3
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 90
         $ gm_disp_mult = 0.5
-    elif chr.disposition > 50:
+    elif char.disposition > 50:
         $ gm_dice = 90
         $ gm_disp_mult = 1
-    elif chr.disposition > 20:
+    elif char.disposition > 20:
         $ gm_dice = 70
         $ gm_disp_mult = 1
-    elif chr.disposition > 0:
+    elif char.disposition > 0:
         $ gm_dice = 50
         $ gm_disp_mult = 1
-    elif chr.disposition > -20:
+    elif char.disposition > -20:
         $ gm_dice = 30
         $ gm_disp_mult = 1
     else:
@@ -36,10 +36,10 @@ label interactions_hand:
 
     if dice(gm_dice):
         $ gm_last_success = True
-        $chr.disposition += (randint(5, 20)*(gm_disp_mult))
+        $ char.disposition += (randint(5, 20)*(gm_disp_mult))
     else:
         $ gm_last_success = False
-        $chr.disposition -= (randint(10, 30)*(gm_disp_mult))
+        $ char.disposition -= (randint(10, 30)*(gm_disp_mult))
 
     if gm_last_success:
         if ct("Impersonal"):
@@ -58,25 +58,25 @@ label interactions_hand:
 
 ###### j2    
 label interactions_forehead:
-    if chr.disposition > 550:
+    if char.disposition > 550:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 450:
+    elif char.disposition > 450:
         $ gm_dice = 95
         $ gm_disp_mult = 0.3
-    elif chr.disposition > 350:
+    elif char.disposition > 350:
         $ gm_dice = 95
         $ gm_disp_mult = 0.5
-    elif chr.disposition > 250:
+    elif char.disposition > 250:
         $ gm_dice = 90
         $ gm_disp_mult = 0.7
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_dice = 90
         $ gm_disp_mult = 1
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 50
         $ gm_disp_mult = 1
-    elif chr.disposition > 50:
+    elif char.disposition > 50:
         $ gm_dice = 20
         $ gm_disp_mult = 1
     else:
@@ -85,13 +85,13 @@ label interactions_forehead:
 
     if dice(gm_dice):
         $ gm_last_success = True
-        $chr.disposition += (randint(20, 30)*(gm_disp_mult))
+        $ char.disposition += (randint(20, 30)*(gm_disp_mult))
     else:
         $ gm_last_success = False
-        $chr.disposition -= (randint(10, 30)*(gm_disp_mult))
+        $ char.disposition -= (randint(10, 30)*(gm_disp_mult))
 
     if gm_last_success:
-        if "Impersonal" in chr.traits:
+        if "Impersonal" in char.traits:
             $g(choice(["... <No reaction>", "... <She's staring at you>", ".... <Her face is completely unreadable>", "...weird..."]))        
         else:
             $g(choice(["Ahh…     F-forehead...? You're teasing me… ", "I ... guess that's fine.", "Haha, I'm not a child you know. *smiles*", "You think it's kissable? ... huh ... *blush*", "Ok, then. *closes eyes*", "Hmmm...*sigh*", "♪Arara♪ Am I being spoiled?♪ Hehe", ":) <She's staring at you with a radiant smile>", "... that was nice. *blush*", "Well... I suppose I'll allow it.", "What was that supposed to be? *grin*", "Oooh, I can see where this is going. *smirk*", "You devil. *chuckle*"])) 
@@ -107,41 +107,41 @@ label interactions_forehead:
 
 ###### j3
 label interactions_cheek:
-    if chr.disposition > 650:
+    if char.disposition > 650:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 550:
+    elif char.disposition > 550:
         $ gm_dice = 95
         $ gm_disp_mult = 0.3
-    elif chr.disposition > 450:
+    elif char.disposition > 450:
         $ gm_dice = 95
         $ gm_disp_mult = 0.5
-    elif chr.disposition > 350:
+    elif char.disposition > 350:
         $ gm_dice = 90
         $ gm_disp_mult = 0.7
-    elif chr.disposition > 300:
+    elif char.disposition > 300:
         $ gm_dice = 90
         $ gm_disp_mult = 1
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_dice = 50
         $ gm_disp_mult = 1
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 10
         $ gm_disp_mult = 1
     else:
         $ gm_dice = 1
         $ gm_disp_mult = 1
 
-    if "Lesbian" in chr.traits: 
+    if "Lesbian" in char.traits: 
         $ gm_dice = ((gm_dice)*0.5)
 
     if dice(gm_dice):
         $ gm_last_success = True
-        $chr.disposition += (randint(10, 30)*(gm_disp_mult))
+        $ char.disposition += (randint(10, 30)*(gm_disp_mult))
     
     else:
         $ gm_last_success = False
-        $chr.disposition -= (randint(15, 35)*(gm_disp_mult))
+        $ char.disposition -= (randint(15, 35)*(gm_disp_mult))
 
     if gm_last_success:
         if ct("Impersonal"):
@@ -181,34 +181,34 @@ label interactions_cheek:
 
 ###### j4
 label interactions_mouth:
-    if chr.disposition > 700:
+    if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 650:
+    elif char.disposition > 650:
         $ gm_dice = 95
         $ gm_disp_mult = 0.3
-    elif chr.disposition > 600:
+    elif char.disposition > 600:
         $ gm_dice = 95
         $ gm_disp_mult = 0.5
-    elif chr.disposition > 550:
+    elif char.disposition > 550:
         $ gm_dice = 95
         $ gm_disp_mult = 0.6  
-    elif chr.disposition > 500:
+    elif char.disposition > 500:
         $ gm_dice = 90
         $ gm_disp_mult = 0.8
-    elif chr.disposition > 450:
+    elif char.disposition > 450:
         $ gm_dice = 85
         $ gm_disp_mult = 1
-    elif chr.disposition > 400:
+    elif char.disposition > 400:
         $ gm_dice = 70
         $ gm_disp_mult = 1
-    elif chr.disposition > 300:
+    elif char.disposition > 300:
         $ gm_dice = 30
         $ gm_disp_mult = 1
-    elif chr.disposition > 250:
+    elif char.disposition > 250:
         $ gm_dice = 15
         $ gm_disp_mult = 1
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_dice = 5
         $ gm_disp_mult = 1
     else:
@@ -221,10 +221,10 @@ label interactions_mouth:
 
     if dice(gm_dice):
         $ gm_last_success = True
-        $chr.disposition += (randint(20, 40)*(gm_disp_mult))
+        $ char.disposition += (randint(20, 40)*(gm_disp_mult))
     else:
         $ gm_last_success = False
-        $chr.disposition -= (randint(25, 45)*(gm_disp_mult))
+        $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
     
     if gm_last_success:
         if ct("Half-Sister") and dice(20):

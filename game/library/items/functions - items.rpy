@@ -1,57 +1,57 @@
 init -11 python:
     # Equipment checks and area effects!
-    def equip_item(item, chr):
+    def equip_item(item, char):
         """
         First level of checks, all items should be equiped through this function!
         TODO: Move this to Chracter equipment method?
         """
         if item.unique and item.unique != item.id:
-            renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on %s!" % chr.name)
+            renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on %s!" % char.name)
             return
         if item.slot == "quest":
             renpy.show_screen("pyt_message_screen", "Quest items cannot be equipped!")
             return
         if item.slot == 'consumable':
             if not item.ceffect:
-                chr.equip(item)
+                char.equip(item)
             elif item.ceffect == 'brothelgirls':
-                if chr.location in hero.brothels:
-                    chr.inventory.remove(item)
-                    for girl in [char[key] for key in char if char[key].location == chr.location]:
+                if char.location in hero.brothels:
+                    char.inventory.remove(item)
+                    for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         girl.equip(item)
                 else:
-                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "% chr.nickname)
+                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "% char.nickname)
 
             elif item.ceffect == 'brothelfree':
-                if chr.location in hero.brothels:
-                    chr.inventory.remove(item)
-                    for girl in [char[key] for key in char if char[key].location == chr.location]:
+                if char.location in hero.brothels:
+                    char.inventory.remove(item)
+                    for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         if girl.status != 'slave':
                             girl.equip(item)
                 else:
-                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%chr.nickname)
+                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%char.nickname)
 
             elif item.ceffect == 'brothelslave':
-                if chr.location in hero.brothels:
-                    chr.inventory.remove(item)
-                    for girl in [char[key] for key in char if char[key].location == chr.location]:
+                if char.location in hero.brothels:
+                    char.inventory.remove(item)
+                    for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         if girl.status == 'slave':
                             girl.equip(item)
                 else:
-                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%chr.nickname)
+                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%char.nickname)
 
             elif item.ceffect == 'allslaves':
-                chr.inventory.remove(item)
+                char.inventory.remove(item)
                 for girl in [girl for girl in hero.girls if girl.status == 'slave']:
                     girl.equip(item)
 
             elif item.ceffect == 'allfree':
-                chr.inventory.remove(item)
+                char.inventory.remove(item)
                 for girl in [girl for girl in hero.girls if girl.status != 'slave']:
                     girl.equip(item)
 
             elif item.ceffect == 'allgirls':
-                chr.inventory.remove(item)
+                char.inventory.remove(item)
                 for girl in [girl for girl in hero.girls]:
                     girl.equip(item)
 
@@ -60,7 +60,7 @@ init -11 python:
         elif item.slot == "quest":
             renpy.call_screen("pyt_message_screen", "Quest Items cannot be equipped!")
         else:    
-            chr.equip(item)
+            char.equip(item)
             
     def equip_for(girl, jobtype):
         # TODO: Must be updated to work with new base-traits and jobs system.

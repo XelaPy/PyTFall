@@ -100,15 +100,15 @@ label examples:
     mc "Yey! Now I can talk!"
     mc "CW's Naruto pack needs to be installed in order to proceed from this point!"
     
-    $ h = char["Hinata"].say
+    $ h = chars["Hinata"].say
     # char is a container (a dictionary) that holds all characters in the game. That's also made for convinience. Characters can be retrieved by girls ids we defined in their data files.
     h "Now I can talk too!"
     extend " And my portrait side-picture is being properly displayed!"
     
     # We add two more characters:
     python:
-        s = char["Sakura"].say
-        t = char["Tenten"].say
+        s = chars["Sakura"].say
+        t = chars["Tenten"].say
         
     s "I am here now as well!"
     t "And don't forget about me!"
@@ -116,7 +116,7 @@ label examples:
     "Now that we've seen how they can talk... one more thing should be noted, if we just need a character to speak once, a simple:"
     
     hero.say "Something simple..."
-    char["Sakura"].say "You god damn right, that wasn't hard!"
+    chars["Sakura"].say "You god damn right, that wasn't hard!"
     
     "(It makes more sense if you read the file and not just the game :) )"
     
@@ -124,7 +124,7 @@ label examples:
     "We do not use internal image tagging system that Ren'Py comes with for image tracking, that doesn't mean however that we cannot make use of default Ren'Py statements!"
     
     # So lets declare (assign) some images as well:
-    $ hi = char["Hinata"].get_vnsprite()
+    $ hi = chars["Hinata"].get_vnsprite()
     show expression hi at right with dissolve
     
     h "Just two lines of script and you can see me in at a specific location shown with special effects!"
@@ -147,8 +147,8 @@ label examples:
     extend  " Where are you???"
     
     python:
-        si = char["Sakura"].get_vnsprite()
-        ti = char["Tenten"].get_vnsprite()
+        si = chars["Sakura"].get_vnsprite()
+        ti = chars["Tenten"].get_vnsprite()
         
     show expression si at right with dissolve
     s "Here I am!"
@@ -268,7 +268,7 @@ label simple_numbers_game:
     $ global_flags.set_flag("been_here_once")
     # This is an example of flags used in PyTFall. Flags are set to remember something that happened at one point of the game. It can be set to anything at all, set or read anywhere.
     # In this particular default case, we'll set the flag to True. It just works that way if no additional arguments are provided.
-    # All characters and most buildings have flags as well: char["Hinata"].set_flag("met_with_sakura_in_the_park")
+    # All characters and most buildings have flags as well: chars["Hinata"].set_flag("met_with_sakura_in_the_park")
     # Would set up an unique flag for Hinata for example.
     
     jump simple_numbers_game

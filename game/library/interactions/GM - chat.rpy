@@ -14,73 +14,73 @@
 label FoodP: #bathroom awaits, no time to talk
     $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
     $narrator(choice(["But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts."]))
-    $ chr.disposition -= 2
+    $ char.disposition -= 2
     jump girl_interactions
 
 label Tired: #very-very tired, vitality close to zero
     $gm.generate_img("sad", "tired", "angry", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     $narrator(choice(["But she was too tired to even to talk.", "She was not very happy that you interrupted her rest."]))
-    $ chr.disposition -= 5
-    $ chr.vitality -= 2
+    $ char.disposition -= 5
+    $ char.vitality -= 2
     jump girl_interactions
     
 label Hurted: #very low health
     $gm.generate_img("in pain", "sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     $narrator(choice(["But she is too wounded to talk."]))
-    $ chr.disposition -= 5
-    $ chr.vitality -= 2
+    $ char.disposition -= 5
+    $ char.vitality -= 2
     jump girl_interactions
     
 label interactions_general:
-    "You had a conversation with [chr.nickname]."
-    if chr.effects["Food Poisoning"]['active']: #nope
+    "You had a conversation with [char.nickname]."
+    if char.effects["Food Poisoning"]['active']: #nope
         jump FoodP
         
-    if chr.health < 15:
+    if char.health < 15:
         jump Hurted
     
-    if chr.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
+    if char.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
         $gm.generate_img("tired", "sad", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
         if dice(50):
             $narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
-            $ chr.disposition += 5
-            $ chr.joy += randint(3, 6)
+            $ char.disposition += 5
+            $ char.joy += randint(3, 6)
         else:
             $narrator(choice(["She is not feeling well today and not in the mood to talk."]))
             jump girl_interactions
     
     #if she is very tired
-    if chr.vitality < 9:
+    if char.vitality < 9:
         jump Tired
         
-    if chr.health < 10:
+    if char.health < 10:
         jump Hurted
         
     #if she is tired
-    if chr.vitality < 35:
+    if char.vitality < 35:
         $gm.generate_img("rest", exclude=["nude", "swimsuit", "revealing", "beach", "pool"])
         $narrator(choice(["But she was simply too tired to pay any serious attention to you.", "But she fell asleep in the middle of it."]))
-        $ chr.disposition += randint(0, 1)
-        $ chr.vitality -= 2
+        $ char.disposition += randint(0, 1)
+        $ char.vitality -= 2
         jump girl_interactions
 
     #additional part with chance
-    if chr.joy < 15 and dice(30):
+    if char.joy < 15 and dice(30):
         $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
         $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
-        $ chr.joy += randint(3, 6)
+        $ char.joy += randint(3, 6)
     
     if dice(15):
         $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
-        if chr.disposition > 0:
+        if char.disposition > 0:
             $ narrator(choice(["You feel especially close today."]))
-            $ chr.disposition += randint(2, 4)
+            $ char.disposition += randint(2, 4)
         else:
             $ narrator(choice(["She was much more approachable today."]))
-            $ chr.disposition += randint(1, 3)
+            $ char.disposition += randint(1, 3)
 
     #main part      
-    if chr.disposition > 150:
+    if char.disposition > 150:
         if dice(40):
             $ gm.generate_img("happy", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         else:    
@@ -89,7 +89,7 @@ label interactions_general:
             $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
         else:
             $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
-    elif chr.disposition > -100:
+    elif char.disposition > -100:
         $ gm.generate_img("uncertain", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
@@ -97,8 +97,8 @@ label interactions_general:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though…", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
         $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
-    $ chr.disposition += (randint(1, 5))
-    $ chr.joy += (randint(0, 3))
+    $ char.disposition += (randint(1, 5))
+    $ char.joy += (randint(0, 3))
     
     jump girl_interactions
     
@@ -106,12 +106,12 @@ label interactions_general:
 ###### j2
 label girl_interactions_aboutjob:
     "You asking about her job."
-    if chr.effects["Food Poisoning"]['active']: #nope
+    if char.effects["Food Poisoning"]['active']: #nope
         jump FoodP
-    if chr.health < 15:
+    if char.health < 15:
         jump Hurted
-    if chr.disposition < -350:
-        if chr.status != "slave":
+    if char.disposition < -350:
+        if char.status != "slave":
             $ gm.generate_img("angry", "sad", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
             if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                 $ rc("... <She doesn't want to talk>", "I don't think I'll linger here for a long time.", "I do not wish to about it. Leave me alone.")
@@ -125,29 +125,29 @@ label girl_interactions_aboutjob:
                 $ rc("...I don't want to live.", "My life is awful. I want to end this...", "... <She looks extremely depressed>")
             else:
                 $ rc("I wish that I the resolve to kill myself...", "My life in your service is awful.", "Just sell me off to someone. To anyone!")
-        $ chr.disposition += 1
+        $ char.disposition += 1
         if dice(int(round(hero.charisma*0.2))): #the less disposition will be, the more charisma you will need to pass the check for additional goods
-            $ chr.joy += 3
-            $ chr.disposition += 2
+            $ char.joy += 3
+            $ char.disposition += 2
 
-    elif chr.mech_relay["daysemployed"] < 10:
+    elif char.mech_relay["daysemployed"] < 10:
         # Less than 10 days in service:
         $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-        if chr.status != "slave":
+        if char.status != "slave":
             $ rc("I'm still adjusting to the new position.", "Trying to find my bearings with this new career.")
         else:
             $ rc("I want to serve you better, master.", "A new master takes a while to get used to...")
-        $ chr.disposition += 1
-        $ chr.joy += 1
+        $ char.disposition += 1
+        $ char.joy += 1
         if dice(int(round(hero.charisma*0.3))):
-            $ chr.joy += 3
-            $ chr.disposition += 2
+            $ char.joy += 3
+            $ char.disposition += 2
             $ hero.exp += adjust_exp(hero, randint(1, 5))
-            $ chr.exp += adjust_exp(chr, randint(1, 5))
+            $ char.exp += adjust_exp(char, randint(1, 5))
 
-    elif chr.disposition < 0:
-        if chr.status != "slave":
-            if chr.joy >= 50:
+    elif char.disposition < 0:
+        if char.status != "slave":
+            if char.joy >= 50:
                 $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I don't like my job.", "You are a bad employer.")
@@ -164,7 +164,7 @@ label girl_interactions_aboutjob:
                 else:
                     $ rc("I'm sad and you are the worst... what else do you want me to say?", "I'm looking for new employment opportunities; that's how I'm feeling...")
         else:
-            if chr.joy >= 50:
+            if char.joy >= 50:
                 $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I suppose a slave like me doesn't have much of a choice.", "I follow your orders. That's all.")
@@ -180,18 +180,18 @@ label girl_interactions_aboutjob:
                     $ rc("...Yes, master. I'm fine. <you notice tears in her eyes>")
                 else:
                     $ rc("There isn't much to say... I'm sad and you're mean...", "I feel like it would be better if you sold me off at the next auction.")
-        $ chr.disposition += 2
-        $ chr.joy += 1
+        $ char.disposition += 2
+        $ char.joy += 1
         if dice(int(round(hero.charisma*0.4))):
-            $ chr.refinement += 1
-            $ chr.joy += 3
-            $ chr.disposition += 1
+            $ char.refinement += 1
+            $ char.joy += 3
+            $ char.disposition += 1
             $ hero.exp += adjust_exp(hero, randint(1, 5))
-            $ chr.exp += adjust_exp(chr, randint(1, 5))
+            $ char.exp += adjust_exp(char, randint(1, 5))
 
     else:
-        if chr.status != "slave":
-            if chr.joy >= 50:
+        if char.status != "slave":
+            if char.joy >= 50:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I like my job. Nothing more to say.", "No complaints.")
@@ -212,7 +212,7 @@ label girl_interactions_aboutjob:
                     $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Not very chipper but I hope things become better soon.", "Bit sad, if truth be told. Don't want to complain though.")
         else:
-            if chr.joy >= 50:
+            if char.joy >= 50:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm satisfied with everything, master.", "I am at your service, master. My life is my job.")
@@ -232,37 +232,37 @@ label girl_interactions_aboutjob:
                 else:
                     $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
-        if chr.disposition < 50: #because it's stupid to rise it forever
-            $ chr.disposition += 2
-        $ chr.joy += 3
+        if char.disposition < 50: #because it's stupid to rise it forever
+            $ char.disposition += 2
+        $ char.joy += 3
         if dice(int(round(hero.charisma*0.5))):
-            $ chr.refinement += 1
-            $ chr.joy += 3
+            $ char.refinement += 1
+            $ char.joy += 3
             $ hero.exp += adjust_exp(hero, randint(5, 10))
-            $ chr.exp += adjust_exp(chr, randint(5, 10))
+            $ char.exp += adjust_exp(char, randint(5, 10))
 
     jump girl_interactions
 ########
 label interactions_howshefeels:
     "You asking how she feels today."
-    if chr.effects["Food Poisoning"]['active']: #at least no penalty to disposition, unlike other cases with food poisoning
+    if char.effects["Food Poisoning"]['active']: #at least no penalty to disposition, unlike other cases with food poisoning
         $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
         $ rc("I ate something wrong. Ow-ow-ow.", "Ouh. I think I need to use bathroom again...")
         jump girl_interactions
 
-    if chr.effects["Down with Cold"]['active'] or chr.vitality < 9 or chr.health < 40: #we select one suitable image in the very beginning
+    if char.effects["Down with Cold"]['active'] or char.vitality < 9 or char.health < 40: #we select one suitable image in the very beginning
         $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
-    elif chr.joy<30:
+    elif char.joy<30:
         if ct("Shy"):
             $ gm.generate_img("profile", "sad", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         else:
             $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-    elif chr.joy>70:
+    elif char.joy>70:
         if ct("Shy"):
             $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         else:
             $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-    elif chr.vitality < 35:
+    elif char.vitality < 35:
         $gm.generate_img("tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     else:
         if ct("Shy"):
@@ -270,17 +270,17 @@ label interactions_howshefeels:
         else:
             $ gm.generate_img("profile", "confident", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
             
-    if chr.effects["Down with Cold"]['active']: #illness
+    if char.effects["Down with Cold"]['active']: #illness
         $ rc("I think I caught a cold...", "I'm not feeling well today *sneezes*.", "I have a fever... <She looks pale>")
         
-    if chr.joy<30: #begin joy checks
+    if char.joy<30: #begin joy checks
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
             $ rc("I'm not in the mood.", "I'm just a bit sad. That's all.")
         elif ct("Shy"):
             $ rc("I'm kinda sad...", "I-I cried a bit some time ago. Why? Because I felt like it...")
         else:
             $ rc("I'm depressed. Don't wanna talk about it.", "I'm sad. Isn't it obvious to you?")
-    elif chr.joy>70:
+    elif char.joy>70:
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
             $ rc("I'm pretty happy. I think.", "I'm fine. <barely smiling>")
         elif ct("Shy"):
@@ -295,20 +295,20 @@ label interactions_howshefeels:
         else:
             $ rc("I'm ok, I guess.", "Everything is as usual.")
             
-    if chr.vitality < 35: #body checks
+    if char.vitality < 35: #body checks
         $ rc("My body a bit tired.", "I could use some rest, I need to recover my strength.")
-    elif chr.vitality >= chr.get_max("vitality"):
+    elif char.vitality >= char.get_max("vitality"):
         $ rc("I'm full of strength and energy.", "My body rested very well lately.")
-    elif chr.vitality < 9:
+    elif char.vitality < 9:
         $ rc("I want to sleep so badly... <yawns>", "I'm very tired lately... <yawns>")
-    if chr.health < 40:
+    if char.health < 40:
         $ rc("My whole body hurts. I think I need a doctor.", "My body is not feeling very well lately...")
-    elif chr.health >= chr.get_max("health") and not(chr.effects["Food Poisoning"]['active']) and not(chr.effects["Down with Cold"]['active']):
+    elif char.health >= char.get_max("health") and not(char.effects["Food Poisoning"]['active']) and not(char.effects["Down with Cold"]['active']):
         $ rc("My body is in top condition.", "My health is pretty good lately.")
     if cgo("Caster"):
-        if chr.mp < 5 and chr.get_max("mp")>9:
+        if char.mp < 5 and char.get_max("mp")>9:
             $ rc("I feel drained.", "My mind is tired. Perhaps I should use magic less frequently.")
-        elif chr.mp >= chr.get_max("mp"):
+        elif char.mp >= char.get_max("mp"):
             $ rc("I feel like magic overflows me.", "I'm filled with magic energy.")
     jump girl_interactions
 ###### j3
@@ -316,23 +316,23 @@ label interactions_abouther:
     "You trying to learn a bit about her."
     $ gm_abouther_list = []
     
-    if chr.disposition > 200:
+    if char.disposition > 200:
         $ gm_dice = 100
         $ gm_disp_mult = 0.1
     
-    elif chr.disposition > 150:
+    elif char.disposition > 150:
         $ gm_dice = 90
         $ gm_disp_mult = 0.5
     
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 80
         $ gm_disp_mult = 0.75
     
-    elif chr.disposition > -20:
+    elif char.disposition > -20:
         $ gm_dice = 70
         $ gm_disp_mult = 1
     
-    elif chr.disposition > -300:
+    elif char.disposition > -300:
         $ gm_dice = 60
         $ gm_disp_mult = 1
     
@@ -367,7 +367,7 @@ label interactions_abouther:
     
     if dice(gm_dice):
     #if dice(100):
-        $ chr.disposition += (randint(5, 10)*(gm_disp_mult))
+        $ char.disposition += (randint(5, 10)*(gm_disp_mult))
         $ gm.abouther_count = 0
         
         if ct("Big Boobs", "Abnormally Large Boobs"):
@@ -559,7 +559,7 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["Hm? A little of this, a little of that?", "...I don't really have much to say.", "Nothing much, there's nothing worth mentioning.", "What I'm doing? The usual stuff...", "I'm just normal, I guess.", "I like just about anything.", "Hmm, there's not much to talk about.", "Now that I think about it... am I just boring?", "I'm just about average, I guess."]))
     
     else:
-        $ chr.disposition -= (randint(1, 7)*(gm_disp_mult))
+        $ char.disposition -= (randint(1, 7)*(gm_disp_mult))
         jump interactions_refused
     
     $ g(choice(gm_abouther_list))
@@ -568,19 +568,19 @@ label interactions_abouther:
 ######
 label interactions_aboutoccupation:
     "You asking about her occupation."
-    if chr.disposition > 200:
+    if char.disposition > 200:
         $ gm_dice = 100
     
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 90
     
-    elif chr.disposition > 50:
+    elif char.disposition > 50:
         $ gm_dice = 80
     
-    elif chr.disposition > 0:
+    elif char.disposition > 0:
         $ gm_dice = 70
     
-    elif chr.disposition > -50:
+    elif char.disposition > -50:
         $ gm_dice = 60
     else:
         $ gm_dice = 30
@@ -631,46 +631,46 @@ label interactions_aboutoccupation:
         if not(cgo("Server") or cgo("SIW") or cgo("Warrior") or cgo("Caster") or co("Manager")): #you never know
             $rc("I don't really have a profession...")
     else:
-        $ chr.disposition -= randint(1, 5)
+        $ char.disposition -= randint(1, 5)
         jump interactions_refused
     jump girl_interactions
 ###### j4
 label interactions_interests:
     "You asking about her interests."
-    if chr.effects["Food Poisoning"]['active']: #nope
+    if char.effects["Food Poisoning"]['active']: #nope
         jump FoodP
-    if chr.vitality < 15:
+    if char.vitality < 15:
         jump Tired
 #    if ct("Exhibitionnist") and dice(35):
 #        $rc("Showing off my 'goods' to the crowd,", "Just being one with nature, if you catch my meaning.")
-#        if d(80) and chr.flag("gm_stripped_today") != day:
+#        if d(80) and char.flag("gm_stripped_today") != day:
 #            menu:
 #               g "Would you like to see me naked?"
 #                
 #                "Strongly agree":
 #                    g "You're weird... but I'm weird too ;)"
-#                    $gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
 #                    g "So, what do you think?"
 #                    $gm.restore_img()
-#                    $chr.disposition += 10
-#                    $chr.set_flag("gm_stripped_today", value=day)
+#                    $ char.disposition += 10
+#                    $ char.set_flag("gm_stripped_today", value=day)
 #                
 #                "Agree":
-#                    $gm.change_img(chr.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
 #                    g "You like?"
 #                    $gm.restore_img()
-#                    $chr.disposition += 5
-#                    $chr.set_flag("gm_stripped_today", value=day)
+#                    $ char.disposition += 5
+#                    $ char.set_flag("gm_stripped_today", value=day)
 #                
 #                "Disagree":
 #                    g "Well, screw you then..."
-#                    $chr.disposition -= 20
-    if chr.disposition > 2:
-        $ gm_dice = (round(chr.disposition/2))
+#                    $ char.disposition -= 20
+    if char.disposition > 2:
+        $ gm_dice = (round(char.disposition/2))
     else:
         jump interactions_refused
     if dice(gm_dice):
-        $ line = rts(chr, {
+        $ line = rts(char, {
         "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beach to pools because it's free."],
         "Manly": ["She gives you a lection how to build your muscles properly. You feel a bit offended, but keep your cool.", "She casually remarks that you should exercise more often, and gives you some advices."],
         "Chubby": ["You have a lively discussion about your favorite local bakeries and pastry shops.", "Your conversation turns toward cooking, and she shares some of her recipes. They are all pretty high in calories..."],
@@ -716,39 +716,39 @@ label interactions_interests:
         })
         
         "[line]"
-        if chr.joy < 40 and dice(40):
+        if char.joy < 40 and dice(40):
             $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
-            $ chr.joy += randint(2, 5)
-        if chr.joy > 70:
-            if dice (chr.joy):
+            $ char.joy += randint(2, 5)
+        if char.joy > 70:
+            if dice (char.joy):
                 "You had a very lively and enjoyable conversation."
                 $ gm_joy = 100
-                $ chr.joy += randint(0, 2)
-                $ chr.disposition += randint(1, 2)
+                $ char.joy += randint(0, 2)
+                $ char.disposition += randint(1, 2)
             else:
                 "You had a pretty lively conversation."
                 $ gm_joy = 75
-                $ chr.disposition += 1
-        elif chr.joy > 30:
-            if dice (chr.joy + 30):
+                $ char.disposition += 1
+        elif char.joy > 30:
+            if dice (char.joy + 30):
                 "You had a fairly normal conversation."
                 $ gm_joy = 50
-                $ chr.disposition += randint(0, 1)
+                $ char.disposition += randint(0, 1)
             else: 
                 "You had a bit short conversation."
                 $ gm_joy = 25
         else:
             "It was a short and not very pleasant conversation."
             $ gm_joy = 0
-        if dice(round(gm_joy*100/chr.disposition)):
-            $ chr.disposition += randint(2, 5)
+        if dice(round(gm_joy*100/char.disposition)):
+            $ char.disposition += randint(2, 5)
             "You feel like two became closer."
         jump girl_interactions
     else:
         jump interactions_refused
 ###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
 #label interactions_hangouts:
-#    if chr.disposition < 200:
+#    if char.disposition < 200:
 #        jump interactions_refused
 #    
 #    else:
@@ -770,10 +770,10 @@ label interactions_interests:
 ###### j6
 label interactions_romance:
     "You asking her about love and romantic stuff."
-    if chr.disposition < 250:
+    if char.disposition < 250:
         jump interactions_refused
     else:
-        $ gm_dice = (round(chr.disposition * 0.4))
+        $ gm_dice = (round(char.disposition * 0.4))
     
     if dice(gm_dice):
         if ct("Impersonal"):
@@ -803,7 +803,7 @@ label interactions_romance:
         else:
             $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love～...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Love... sure is a good thing...", "Everyone wants to fall in love.")
 
-    $ chr.disposition += round(dice (11, 20) - (chr.disposition * 0.01) + (chr.joy * 0.1))
+    $ char.disposition += round(dice (11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
     jump girl_interactions
 
 ###### j7
@@ -838,82 +838,82 @@ label interactions_refused:
 label interactions_occupation:
     menu:
         "Ask her to switch to:"
-        "Prostitute" if chr.occupation != "Prostitute":
-            if chr.status == "slave" and chr.disposition > -500:
+        "Prostitute" if char.occupation != "Prostitute":
+            if char.status == "slave" and char.disposition > -500:
                 g "As you wish Master..."
-                if chr.occupation != "Stripper" and chr.disposition < 200:
+                if char.occupation != "Stripper" and char.disposition < 200:
                     "She doesn't look too happy about this..."
                     python:
-                        chr.joy -= 40
-                        chr.disposition -= 50
-                        chr.occupation = "Prostitute"
+                        char.joy -= 40
+                        char.disposition -= 50
+                        char.occupation = "Prostitute"
                 else:
-                    $ chr.occupation = "Prostitute"
+                    $ char.occupation = "Prostitute"
                     
-            elif chr.status == "slave":
+            elif char.status == "slave":
                 g "Never, not for you!"
                 "She seems rather cross with you..."
                 
             else:
                 # Case free girl:
-                if chr.disposition < 950 + chr.level:
+                if char.disposition < 950 + char.level:
                     $ rc("Don't even think of me in that way!", "Nope!", "I refuse")
                 else:
                     g "Well... why not, I am willing to try new things..."
-                    $ chr.occupation = "Prostitute"
+                    $ char.occupation = "Prostitute"
                 
-        "Stripper" if chr.occupation != "Stripper":
-            if chr.status == "slave" and chr.disposition > -500:
+        "Stripper" if char.occupation != "Stripper":
+            if char.status == "slave" and char.disposition > -500:
                 g "As you wish Master..."
-                if chr.occupation != "Prostitute" and chr.disposition < 200:
+                if char.occupation != "Prostitute" and char.disposition < 200:
                     "She doesn't look too happy about this..."
                     python:
-                        chr.joy -= 40
-                        chr.disposition -= 50
-                        chr.occupation = "Stripper"
+                        char.joy -= 40
+                        char.disposition -= 50
+                        char.occupation = "Stripper"
                 else:
-                    $ chr.occupation = "Stripper"
+                    $ char.occupation = "Stripper"
                     
-            elif chr.status == "slave":
+            elif char.status == "slave":
                 g "Never, not for you!"
                 "She seems rather cross with you..."
                 
             else:
                 # Case free girl:
-                if chr.disposition < 950 + chr.level:
+                if char.disposition < 950 + char.level:
                     $ rc("Don't even think of me in that way!", "Nope!", "I refuse")
                 else:
                     g "Well... why not, I am willing to try new things..."
-                    $ chr.occupation = "Stripper"
+                    $ char.occupation = "Stripper"
                 
-        "ServiceGirl" if chr.occupation != "ServiceGirl":
-            if chr.status == "slave" and chr.disposition > -500:
+        "ServiceGirl" if char.occupation != "ServiceGirl":
+            if char.status == "slave" and char.disposition > -500:
                 g "As you wish Master..."
-                $ chr.occupation = "ServiceGirl"
+                $ char.occupation = "ServiceGirl"
                     
-            elif chr.status == "slave":
+            elif char.status == "slave":
                 g "Never, not for you!"
                 "She seems rather cross with you..."
                 
             else:
                 # Case free girl:
-                if chr.disposition < 950 + chr.level:
+                if char.disposition < 950 + char.level:
                     $ rc("Don't even thing of me in that way!", "Nope!", "I refuse")
                 else:
                     g "Well... why not, I am willing to try new things..."
-                    $ chr.occupation = "ServiceGirl"
+                    $ char.occupation = "ServiceGirl"
                 
-        "Warrior" if chr.occupation != "Warrior" and chr.status != "slave" and chr.has_image("battle_sprite"):
+        "Warrior" if char.occupation != "Warrior" and char.status != "slave" and char.has_image("battle_sprite"):
                 # Case free girl:
-                if chr.disposition < 950 + chr.level:
+                if char.disposition < 950 + char.level:
                     $ rc("Don't even thing of me in that way!", "Nope!", "I refuse")
                 else:
                     g "Well... why not, I am willing to try new things..."
-                    $ chr.occupation = "Warrior"
+                    $ char.occupation = "Warrior"
                     
         "Just kidding":
             python:
-                chr.AP += 1
+                char.AP += 1
                 hero.AP += 1
     
     jump girl_interactions

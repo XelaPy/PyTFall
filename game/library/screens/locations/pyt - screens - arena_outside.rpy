@@ -145,9 +145,9 @@ label arena_outside:
                     if len(hero.team) > 1:
                         ax "Sure thing! Who will it be?"
                         call screen character_pick_screen
-                        $ chr = _return
+                        $ char = _return
                     else:
-                        $ chr = hero
+                        $ char = hero
                         
                     if not global_flags.has_flag("xeona_training_explained"):    
                         ax "As you may have already guessed, I train battle skills."
@@ -160,7 +160,7 @@ label arena_outside:
                     else:
                         ax "I am ready if you are!"
                         
-                    $ training_price = chr.get_training_price()    
+                    $ training_price = char.get_training_price()    
                     menu:
                         "Pay [training_price] Gold" if hero.AP > 0:
                             if hero.take_money(training_price, "Training"):
@@ -187,15 +187,15 @@ label arena_outside:
                     if len(hero.team) > 1:
                         "Pick a character!"
                         call screen character_pick_screen
-                        $ chr = _return
+                        $ char = _return
                     else:
-                        $ chr = hero
+                        $ char = hero
                         
                     menu:
-                        "Setup sessions" if not chr.has_flag("train_with_xeona"):
-                            $ chr.set_flag("train_with_xeona")
-                        "Cancel sessions" if chr.flag("train_with_xeona"):
-                            $ chr.del_flag("train_with_xeona")
+                        "Setup sessions" if not char.has_flag("train_with_xeona"):
+                            $ char.set_flag("train_with_xeona")
+                        "Cancel sessions" if char.flag("train_with_xeona"):
+                            $ char.del_flag("train_with_xeona")
                         "Do Nothing...":
                             $ pass
                                 

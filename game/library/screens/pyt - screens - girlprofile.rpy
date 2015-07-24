@@ -1,127 +1,136 @@
 label girl_profile:
     
-    if not hasattr(store, "girls") or girls is None or chr not in girls:
+    if not hasattr(store, "girls") or girls is None or char not in girls:
         $ girls = list(girl for girl in hero.girls if girl.action != "Exploring")
     
     scene bg scroll
+    $ renpy.retain_after_load()
     show screen pyt_girl_profile
     with dissolve
     
-    python:
-        while True:
-            result = ui.interact()
-            
-            # If the girl has runaway
-            if chr in pytfall.ra:
-                if result[0] == "girl":
-                    if result[1] == "gallery":
-                        pyt_gallery = PytGallery(chr)
-                        jump("gallery")
-                    
-                    elif result[1] == "get_rid":
-                        if renpy.call_screen("yesno_prompt", message="Are you sure you wish to stop looking for %s?"%chr.name, yes_action=Return(True), no_action=Return(False)):
-                            hero.remove_girl(chr)
-                            girls.remove(chr)
-                            chr.dispoition -= 300
-                            if chr in hero.team: hero.team.remove(chr)
-                            if girls:
-                                index = (index+1)%len(girls)
-                                chr = girls[index]
-                                continue
-                            else:
-                                break
-                    else:
-                        renpy.show_screen("pyt_message_screen", "This girl has run away!")
+    jump girl_profile_control
+
+label girl_profile_control:
+    while 1:
+        $ result = ui.interact()
+        
+        # If the girl has runaway
+        if char in pytfall.ra:
+            if result[0] == "girl":
+                if result[1] == "gallery":
+                    $ pyt_gallery = PytGallery(char)
+                    jump gallery
                 
-                elif result[0] != "control":
-                    renpy.show_screen("pyt_message_screen", "This girl has run away!")
+                elif result[1] == "get_rid":
+                    if renpy.call_screen("yesno_prompt", message="Are you sure you wish to stop looking for %s?"%char.name, yes_action=Return(True), no_action=Return(False)):
+                        python:
+                            hero.remove_girl(char)
+                            girls.remove(char)
+                            char.dispoition -= 300
+                            if char in hero.team: hero.team.remove(char)
+                        if girls:
+                            $ index = (index+1) % len(girls)
+                            $ char = girls[index]
+                        else:
+                            jump girl_profile_end
+                else:
+                    $ renpy.show_screen("pyt_message_screen", "This girl has run away!")
             
-            # Else if you still have the girl
-            else:
-                if result[0] == "jump":
-                    if result[1] == "item_transfer":
-                        renpy.hide_screen("pyt_girl_profile")
-                        pytfall.it = GuiItemsTransfer("personal_transfer", chr=chr, last_label=last_label)
-                        jump("items_transfer")
-                
-                elif result[0] == "dropdown":
+            elif result[0] != "control":
+                $ renpy.show_screen("pyt_message_screen", "This girl has run away!")
+        
+        # Else if you still have the girl
+        else:
+            if result[0] == "jump":
+                if result[1] == "item_transfer":
+                    hide screen pyt_girl_profile
+                    $ pytfall.it = GuiItemsTransfer("personal_transfer", char=char, last_label=last_label)
+                    jump items_transfer
+            
+            elif result[0] == "dropdown":
+                python:
                     if result[1] == "loc":
                         renpy.show_screen("pyt_dropdown_loc", result[2], pos=renpy.get_mouse_pos())
                     elif result[1] == "action":
                         renpy.show_screen("pyt_dropdown_action", result[2], pos=renpy.get_mouse_pos())
-                
-                elif result[0] == "girl":
-                    if result[1] == "gallery":
-                        pyt_gallery = PytGallery(chr)
-                        jump("gallery")
-                    elif result[1] == "it":
-                        pytfall.it = GuiItemsTransfer("personal_transfer", chr=chr, last_label=last_label)
-                        jump("items_transfer")
-                    elif result[1] == "get_rid":
-                        if chr.status == "slave":
-                            message = "Are you sure you wish to sell {} for {}?".format(chr.name, int(chr.fin.get_price()*0.8))
+            
+            elif result[0] == "girl":
+                if result[1] == "gallery":
+                    $ pyt_gallery = PytGallery(char)
+                    jump gallery
+                elif result[1] == "it":
+                    $ pytfall.it = GuiItemsTransfer("personal_transfer", char=char, last_label=last_label)
+                    jump items_transfer
+                elif result[1] == "get_rid":
+                    if char.status == "slave":
+                        $ message = "Are you sure you wish to sell {} for {}?".format(char.name, int(char.fin.get_price()*0.8))
+                    else:
+                        $ message = "Are you sure that you wish to fire {}?".format(char.name)
+                    if renpy.call_screen("yesno_prompt",
+                                                    message=message,
+                                                    yes_action=Return(True), no_action=Return(False)):
+                        if char.status == 'slave':
+                            $ hero.add_money(int(char.fin.get_price()*0.8), reason="SlaveTrade")
+                            $ char.location = 'slavemarket'
                         else:
-                            message = "Are you sure that you wish to fire {}?".format(chr.name)
-                        if renpy.call_screen("yesno_prompt",
-                                                        message=message,
-                                                        yes_action=Return(True), no_action=Return(False)):
-                            if chr.status == 'slave':
-                                hero.add_money(int(chr.fin.get_price()*0.8), reason="SlaveTrade")
-                                chr.location = 'slavemarket'
-                            else:
-                                chr.location = 'city'
-                            hero.remove_girl(chr)
-                            index = girls.index(chr) # Index is not set otherwise???
-                            girls.remove(chr)
-                            chr.disposition -= 300
-                            if chr in hero.team:
-                                hero.team.remove(chr)
-                            if girls:
-                                index = (index + 1) % len(girls)
-                                chr = girls[index]
-                            else:
-                                break
-                                
-                    elif result[1] == 'buyrank':
-                        # Should prolly move this to the Girl method at some point:
-                        # TODO: Update to skills (Refinement!)
-                        targetrank = chr.rank + 1
+                            $ char.location = 'city'
+                        python:    
+                            hero.remove_girl(char)
+                            index = girls.index(char) # Index is not set otherwise???
+                            girls.remove(char)
+                            char.disposition -= 300
+                        if char in hero.team:
+                            $ hero.team.remove(char)
+                        if girls:
+                            $ index = (index + 1) % len(girls)
+                            $ char = girls[index]
+                        else:
+                            jump girls_profile_end
+                            
+                elif result[1] == 'buyrank':
+                    # Should prolly move this to the Girl method at some point:
+                    # TODO: Update to skills (Refinement!)
+                    # No Longer in use!!!
+                    python:
+                        targetrank = char.rank + 1
                         maxrank = max(b.maxrank for b in hero.brothels)
-                        if targetrank > 3 and chr.status == "slave":
+                        if targetrank > 3 and char.status == "slave":
                             renpy.call_screen('pyt_message_screen', "Slave Girls cannot be pushed past rank 3!")
                         elif targetrank > maxrank:
                             renpy.call_screen('pyt_message_screen', "You do not currently own any brothels to justify ranking a prostitute to Rank %d" % targetrank)
                         else:    
-                            rankinfo = chr.wranks['r%d' % targetrank]
+                            rankinfo = char.wranks['r%d' % targetrank]
                 
-                            if chr.exp >= rankinfo['exp']:
-                                if chr.refinement >= rankinfo['ref']:
+                            if char.exp >= rankinfo['exp']:
+                                if char.refinement >= rankinfo['ref']:
                                     if hero.take_money(rankinfo['price'], reason="Prositute Ranks"):
-                                        chr.rank += 1
-                                        chr.stats.max['refinement'] += 15
+                                        char.rank += 1
+                                        char.stats.max['refinement'] += 15
                                 
                         del maxrank
                         del targetrank
-                elif result[0] == "rename":
-                    if result[1] == "name":
-                        chr.name = renpy.call_screen("pyt_input", chr.name, "Enter Name", 20)
-                    if result[1] == "nick":
-                        chr.nickname = renpy.call_screen("pyt_input", chr.name, "Enter Nick-Name", 20)
-                    if result[1] == "full":
-                        chr.fullname = renpy.call_screen("pyt_input", chr.name, "Enter Full-Name", 20)
-            
-            if result[0] == 'control':
-                index = girls.index(chr)
-                if result[1] == 'left':
-                    index = (index - 1) % len(girls)
-                    chr = girls[index]
-                elif result[1] == 'right':
-                    index = (index + 1) % len(girls)
-                    chr = girls[index]
-                    
-                elif result[1] == 'return':
-                    break
+                        
+            elif result[0] == "rename":
+                if result[1] == "name":
+                    $ char.name = renpy.call_screen("pyt_input", char.name, "Enter Name", 20)
+                if result[1] == "nick":
+                    $ char.nickname = renpy.call_screen("pyt_input", char.name, "Enter Nick-Name", 20)
+                if result[1] == "full":
+                    $ char.fullname = renpy.call_screen("pyt_input", char.name, "Enter Full-Name", 20)
         
+        if result[0] == 'control':
+            $ index = girls.index(char)
+            if result[1] == 'left':
+               $ index = (index - 1) % len(girls)
+               $ char = girls[index]
+            elif result[1] == 'right':
+                $ index = (index + 1) % len(girls)
+                $ char = girls[index]
+                
+            elif result[1] == 'return':
+                jump girl_profile_end
+
+label girl_profile_end:
     hide screen pyt_girl_profile
     
     $ girls = None
@@ -129,12 +138,10 @@ label girl_profile:
     if girl_profile:
         $ last_label, girl_profile = girl_profile, None
         jump expression last_label
-    
     else:
         jump girls_list
-    
-
-screen pyt_girl_profile:
+                
+screen pyt_girl_profile():
 
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
@@ -142,7 +149,7 @@ screen pyt_girl_profile:
     default tt = Tooltip("Manage your girls here!!!")
     default stats_display = "stats"
     
-    $ not_escaped = chr not in pytfall.ra
+    $ not_escaped = char not in pytfall.ra
     
     if girls:
         # Picture and left/right buttons:
@@ -155,7 +162,7 @@ screen pyt_girl_profile:
             ymaximum 514 #569
             python:
                 frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
-                img = chr.show('profile', resize=(600, 514), cache=True)
+                img = char.show('profile', resize=(600, 514), cache=True)
             button:
                 align (0.5, 0.5)
                 idle_background frame_image
@@ -171,9 +178,9 @@ screen pyt_girl_profile:
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                     add ProportionalScale(img, 600, 514) align(0.5, 0.5)
                 
-                action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), Function(gm.start_int_or_tr, chr)], false=NullAction())
+                action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), Function(gm.start_int_or_tr, char)], false=NullAction())
                 
-                hovered tt.action("Interact with [chr.nickname]!")
+                hovered tt.action("Interact with [char.nickname]!")
             
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
@@ -215,36 +222,36 @@ screen pyt_girl_profile:
                 xanchor -0.14
                 xysize (250, 50)
                 background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
-                label "{color=[gold]}[chr.name]":
+                label "{color=[gold]}[char.name]":
                     text_color ivory text_outlines [(2, "#424242", 0, 0)]
                     align (0.5, 0.5)
-                    if len(chr.name) < 20:
+                    if len(char.name) < 20:
                         text_size 21
                 
             null height 5
             # Rank up for prostitutes:
             # TODO: Adapt ranks to new skills code!
             # @Review: Will not be used until further notice!
-            # if traits['Prostitute'] in chr.occupations:
+            # if traits['Prostitute'] in char.occupations:
                 # frame:
                     # xanchor -0.01
                     # xysize(313, 47)
                     # background Frame("content/gfx/frame/rank_frame.png", 10, 10)
-                    # text ('%s:'%chr.wranks['r%s'%chr.rank]['name'][0]) align(0.1, 0.2) color ivory size 16
-                    # text ('%s'%chr.wranks['r%s'%chr.rank]['name'][1]) align(0.5, 0.96) color ivory size 16
-                    # if chr.rank < 8:
-                        # $ rankinfo = chr.wranks['r%d' % (chr.rank+1)]                                
+                    # text ('%s:'%char.wranks['r%s'%char.rank]['name'][0]) align(0.1, 0.2) color ivory size 16
+                    # text ('%s'%char.wranks['r%s'%char.rank]['name'][1]) align(0.5, 0.96) color ivory size 16
+                    # if char.rank < 8:
+                        # $ rankinfo = char.wranks['r%d' % (char.rank+1)]                                
                         # imagebutton:
                             # align (0.95, 0.5)
                             # hover "rank_up"
-                            # if chr.refinement >=rankinfo['ref'] and chr.exp >= rankinfo['exp']:
+                            # if char.refinement >=rankinfo['ref'] and char.exp >= rankinfo['exp']:
                                 # idle "rank_up"
                                 # action Return(['girl', 'buyrank'])
                                 # hovered tt.Action("Increase this girl's Rank. Rank is one of the most important things for a girl in a brothel to have. \nTo achieve next rank your girl requires: %d of Refinement, %d of Experience and a sum of %d gold."%(rankinfo['ref'], rankinfo['exp'], rankinfo['price']))
                             # else:
                                 # idle im.Sepia("content/gfx/animations/rank_up/1.png")
                                 # action NullAction()
-                                # hovered tt.Action("[chr.nickname] does not meet the requirements for a rank up.\nRank is one of the most important things for a girl in a brothel to have. \nTo achieve next rank your girl requires: %d of Refinement, %d of Experience and a sum of %d gold."%(rankinfo['ref'], rankinfo['exp'], rankinfo['price']))
+                                # hovered tt.Action("[char.nickname] does not meet the requirements for a rank up.\nRank is one of the most important things for a girl in a brothel to have. \nTo achieve next rank your girl requires: %d of Refinement, %d of Experience and a sum of %d gold."%(rankinfo['ref'], rankinfo['exp'], rankinfo['price']))
 
             null height 8
 
@@ -255,10 +262,10 @@ screen pyt_girl_profile:
                 vbox:
                     # Prof-Classes
                     python:
-                        if len(chr.traits.basetraits) == 1:
-                            classes = [list(chr.traits.basetraits)[0]]
-                        elif len(chr.traits.basetraits) == 2:
-                            classes = list(chr.traits.basetraits).sort()
+                        if len(char.traits.basetraits) == 1:
+                            classes = [list(char.traits.basetraits)[0]]
+                        elif len(char.traits.basetraits) == 2:
+                            classes = list(char.traits.basetraits).sort()
                         else:
                             raise Exception("Character without prof basetraits detected! line: 262, girlsprofile screen")
                     hbox:
@@ -284,11 +291,11 @@ screen pyt_girl_profile:
                                 text  "[cls.id]"  color ivory size 15
                         
                     null height 2
-                    $ loc = chr.location if isinstance(chr.location, basestring) else chr.location.name
+                    $ loc = char.location if isinstance(char.location, basestring) else char.location.name
                     button:
                         style_group "ddlist"
-                        action Return(["dropdown", "loc", chr])
-                        hovered tt.Action("Choose a location for %s to work at!" % chr.nickname)
+                        action Return(["dropdown", "loc", char])
+                        hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
                         text "{image=content/gfx/interface/icons/move15.png}Location: [loc]":
                             if len(loc) > 18:
                                 size 15
@@ -296,17 +303,17 @@ screen pyt_girl_profile:
                                 size 18
                     button:
                         style_group "ddlist"
-                        action Return(["dropdown", "action", chr])
-                        hovered tt.Action("Choose a task for %s to do!" % chr.nickname)
-                        text "{image=content/gfx/interface/icons/move15.png}Action: [chr.action]":
-                            if chr.action is not None and len(str(chr.action)) > 18:
+                        action Return(["dropdown", "action", char])
+                        hovered tt.Action("Choose a task for %s to do!" % char.nickname)
+                        text "{image=content/gfx/interface/icons/move15.png}Action: [char.action]":
+                            if char.action is not None and len(str(char.action)) > 18:
                                 size 15
                             else:
                                 size 18
                     
                 imagebutton:
                     align(0.99, 0.45)
-                    if chr.status == "slave":
+                    if char.status == "slave":
                         idle ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
                         hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50), im.matrix.brightness(0.25)))
                         hovered tt.Action("This girl is a slave!")
@@ -373,17 +380,17 @@ screen pyt_girl_profile:
                                 xfill True
                                 xminimum 142
                                 xmaximum 142
-                                if chr.health <= chr.get_max("health")*0.3:
-                                    text (u"{color=[red]}%s/%s"%(chr.health, chr.get_max("health"))) style "stats_value_text" xalign (1.0)
+                                if char.health <= char.get_max("health")*0.3:
+                                    text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) style "stats_value_text" xalign (1.0)
                                 else:
-                                    text (u"%s/%s"%(chr.health, chr.get_max("health"))) style "stats_value_text" xalign (1.0)
-                                if chr.vitality < chr.get_max("vitality")*0.3:
-                                    text (u"{color=[red]}%s/%s"%(chr.vitality, chr.get_max("vitality"))) style "stats_value_text" xalign (1.0)
+                                    text (u"%s/%s"%(char.health, char.get_max("health"))) style "stats_value_text" xalign (1.0)
+                                if char.vitality < char.get_max("vitality")*0.3:
+                                    text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) style "stats_value_text" xalign (1.0)
                                 else:
-                                    text (u"%s/%s"%(chr.vitality, chr.get_max("vitality"))) style "stats_value_text" xalign (1.0)
+                                    text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) style "stats_value_text" xalign (1.0)
                                 for stat in stats:
-                                    text ('%d/%d'%(getattr(chr, stat), chr.get_max(stat))) style "stats_value_text" xalign (1.0)
-                                text (u"{color=[gold]}%s"%chr.gold) style "stats_value_text" xalign (1.0)
+                                    text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) style "stats_value_text" xalign (1.0)
+                                text (u"{color=[gold]}%s"%char.gold) style "stats_value_text" xalign (1.0)
                             
                     null height -8
                     label (u"{size=20}{color=[ivory]}{b}Info:") xalign(0.48) text_outlines [(2, "#424242", 0, 0)]
@@ -398,10 +405,10 @@ screen pyt_girl_profile:
                                 xanchor 0
                                 xmaximum 153
                                 xfill True
-                                if chr.status == "slave":
+                                if char.status == "slave":
                                     frame:
                                         text "{color=#79CDCD}Market Price:" xalign (0.02)
-                                if traits['Prostitute'] in chr.occupations:
+                                if traits['Prostitute'] in char.occupations:
                                     frame:
                                         text "{color=#79CDCD}Work Price:" xalign (0.02)
                                 frame:
@@ -412,11 +419,11 @@ screen pyt_girl_profile:
                                 xminimum 142
                                 xmaximum 142
                                 spacing 9
-                                if chr.status == "slave":
-                                    text (u"%s"%(chr.fin.get_price())) style "stats_value_text" xalign (1.0)
-                                if traits['Prostitute'] in chr.occupations:
-                                    text (u"%s"%(chr.fin.get_whore_price())) style "stats_value_text" xalign (1.0)
-                                text (u"%s"%(chr.fin.get_upkeep())) style "stats_value_text" xalign (1.0)
+                                if char.status == "slave":
+                                    text (u"%s"%(char.fin.get_price())) style "stats_value_text" xalign (1.0)
+                                if traits['Prostitute'] in char.occupations:
+                                    text (u"%s"%(char.fin.get_whore_price())) style "stats_value_text" xalign (1.0)
+                                text (u"%s"%(char.fin.get_upkeep())) style "stats_value_text" xalign (1.0)
                             
 
                     
@@ -459,19 +466,19 @@ screen pyt_girl_profile:
                                 xfill True
                                 xminimum 142
                                 xmaximum 142
-                                text (u"{size=16}{color=#CD4F39}[chr.attack]/%s"%(chr.get_max("attack"))) style "stats_value_text" xalign (1.0)
-                                text (u"{size=16}{color=#dc762c}[chr.defence]/%s"%(chr.get_max("defence"))) style "stats_value_text" xalign (1.0)
-                                text (u"{size=16}{color=#8470FF}[chr.magic]/%s"%(chr.get_max("magic"))) style "stats_value_text" xalign (1.0)
-                                text (u"{size=16}{color=#009ACD}[chr.mp]/%s"%(chr.get_max("mp"))) style "stats_value_text" xalign (1.0)
-                                text (u"{size=16}{color=#1E90FF}[chr.agility]/%s"%(chr.get_max("agility"))) style "stats_value_text" xalign (1.0)
-                                text (u"{size=16}{color=#00FA9A}[chr.luck]") style "stats_value_text" xalign (1.0)
+                                text (u"{size=16}{color=#CD4F39}[char.attack]/%s"%(char.get_max("attack"))) style "stats_value_text" xalign (1.0)
+                                text (u"{size=16}{color=#dc762c}[char.defence]/%s"%(char.get_max("defence"))) style "stats_value_text" xalign (1.0)
+                                text (u"{size=16}{color=#8470FF}[char.magic]/%s"%(char.get_max("magic"))) style "stats_value_text" xalign (1.0)
+                                text (u"{size=16}{color=#009ACD}[char.mp]/%s"%(char.get_max("mp"))) style "stats_value_text" xalign (1.0)
+                                text (u"{size=16}{color=#1E90FF}[char.agility]/%s"%(char.get_max("agility"))) style "stats_value_text" xalign (1.0)
+                                text (u"{size=16}{color=#00FA9A}[char.luck]") style "stats_value_text" xalign (1.0)
 
                     null height 4
-                    if hasattr(chr, "elements"): # This should always be true...
+                    if hasattr(char, "elements"): # This should always be true...
                         # Prepear the list:
                         $ els = list()
                         $ crops = list()
-                        for e in chr.elements:
+                        for e in char.elements:
                             python:
                                 img = ProportionalScale(e.icon, 90, 90)
                                 els.append(img)
@@ -493,7 +500,7 @@ screen pyt_girl_profile:
                             viewport:
                                 draggable True
                                 has vbox
-                                for e in chr.elements:
+                                for e in char.elements:
                                     textbutton "{=tisa_otm}[e.id]":
                                         background None
                                         action NullAction()
@@ -501,8 +508,8 @@ screen pyt_girl_profile:
                                     
                             
                     null height 4
-                    $ _traits = set(list(traits[t] for t in chr.PERSONALITY_TRAITS))
-                    $ trait = _traits.intersection(set(chr.traits)).pop()
+                    $ _traits = set(list(traits[t] for t in char.PERSONALITY_TRAITS))
+                    $ trait = _traits.intersection(set(char.traits)).pop()
                     $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 90, 90)
                     yalign 0.5
                     frame:
@@ -535,19 +542,19 @@ screen pyt_girl_profile:
                                 xmaximum 250
                                 xfill True
                                 label "Full Name:" xpos 20
-                                textbutton (u"{color=[gold]}[chr.fullname]"):
+                                textbutton (u"{color=[gold]}[char.fullname]"):
                                     background None
                                     xpos 30
                                     xmaximum 220
-                                    action Show("chr_rename", chr=chr)
-                                    hovered tt.action("Rename %s!" % chr.name)
-                                if chr.race:
+                                    action Show("char_rename", char=char)
+                                    hovered tt.action("Rename %s!" % char.name)
+                                if char.race:
                                     label "Race:" xpos 20
                                     frame:
-                                        text (u"{color=#dc762c}[chr.race]") xpos 30 xmaximum 220
+                                        text (u"{color=#dc762c}[char.race]") xpos 30 xmaximum 220
                                 label "Origin:" xpos 20
                                 frame:
-                                    text (u"{color=#43CD80}[chr.origin]") xpos 30 xmaximum 220
+                                    text (u"{color=#43CD80}[char.origin]") xpos 30 xmaximum 220
                     null height 5
                     label (u"{size=20}{b}Description:") xalign(0.45) text_outlines [(2, "#424242", 0, 0)]
                     null height 5
@@ -555,15 +562,15 @@ screen pyt_girl_profile:
                         xanchor 0.015
                         background Frame("content/gfx/frame/ink_box.png", 10, 10)
                         minimum (314, 10)
-                        text ("{color=[ivory]}[chr.desc]") style "content_text" layout "greedy" justify True minwidth 304 xalign 0.5
+                        text ("{color=[ivory]}[char.desc]") style "content_text" layout "greedy" justify True minwidth 304 xalign 0.5
                 elif stats_display == "skillstest":
                     viewport:
                         scrollbars "vertical"
                         xysize (310, 500)
                         mousewheel True
                         has vbox spacing 1
-                        for skill in chr.stats.skills:
-                            text "[skill]: {true} <{action}, {training}>".format(true=int(chr.get_skill(skill)), action=int(chr.stats.skills[skill][0]), training=int(chr.stats.skills[skill][1]))
+                        for skill in char.stats.skills:
+                            text "[skill]: {true} <{action}, {training}>".format(true=int(char.get_skill(skill)), action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1]))
 
         # Level, experience:
         fixed:
@@ -571,12 +578,12 @@ screen pyt_girl_profile:
             ypos 570
             xysize (360, 45)
             add(ProportionalScale("content/gfx/frame/level.png", 360, 45)) align(0.5, 0.5)
-            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[chr.level]") pos(106, 7)
-            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[chr.exp]") pos(190, 7)
-            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[chr.goal]") pos(190, 27)
+            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.level]") pos(106, 7)
+            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.exp]") pos(190, 7)
+            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.goal]") pos(190, 27)
 
             
-    ## Right frame
+        # Right frame
         frame:
             ypos 37
             xalign 1.0
@@ -597,7 +604,7 @@ screen pyt_girl_profile:
                         button:
                             xysize (150, 40)
                             action If(not_escaped, true=Show("pyt_girl_control"))
-                            hovered tt.action('Set desired behaviour for [chr.nickname].')
+                            hovered tt.action('Set desired behaviour for [char.nickname].')
                             text "Girl Control"
                         button:
                             xysize (150, 40)
@@ -634,7 +641,7 @@ screen pyt_girl_profile:
                 ypos 160
                 xysize (300, 90)
                 background ProportionalScale("content/gfx/frame/frame_ap.png", 300, 100)
-                label ("[chr.AP]"):
+                label ("[char.AP]"):
                     pos (200, 0)
                     style "content_label"
                     text_color ivory
@@ -659,8 +666,8 @@ screen pyt_girl_profile:
                                 mousewheel True
                                 vbox:
                                     spacing -7
-                                    for trait in chr.traits:
-                                        if trait.id not in chr.PERSONALITY_TRAITS or not trait.hidden:
+                                    for trait in char.traits:
+                                        if trait.id not in char.PERSONALITY_TRAITS or not trait.hidden:
                                             frame:
                                                 xysize (150, 10)
                                                 button:
@@ -684,10 +691,10 @@ screen pyt_girl_profile:
                                 mousewheel True
                                 vbox:
                                     spacing -7
-                                    for key in chr.effects:
+                                    for key in char.effects:
                                         frame:
                                             xysize (155, 37)
-                                            if chr.effects[key]['active']:
+                                            if char.effects[key]['active']:
                                                 button:
                                                     background Null()
                                                     xysize (155, 37)
@@ -715,7 +722,7 @@ screen pyt_girl_profile:
                                 mousewheel True
                                 vbox:
                                     spacing -7
-                                    for entry in chr.attack_skills:
+                                    for entry in char.attack_skills:
                                         frame:
                                             xysize (150, 10)
                                             button:
@@ -739,7 +746,7 @@ screen pyt_girl_profile:
                                 mousewheel True
                                 vbox:
                                     spacing -7
-                                    for entry in chr.magic_skills:
+                                    for entry in char.magic_skills:
                                         frame:
                                             xysize (144, 10)
                                             button:
@@ -749,30 +756,31 @@ screen pyt_girl_profile:
                                                 text "[entry.name]" idle_color ivory hover_color red size(15) xanchor(10)
                                                 hovered tt.action(entry)
                             vbar value YScrollValue("girlprofile_magic_vp")
-                    
-    frame:
-        background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10) ##alpha=0.5
-        yalign(0.998)
-        xanchor -321
-        xpadding 10
-        xysize (955, 100)
-        has hbox spacing 1
-        if isinstance(tt.value, BE_Action):
-            $ element = tt.value.get_element()
-            if element:
-                frame:
-                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                    xysize (70, 70)
-                    if element.icon:
-                        $ img = ProportionalScale(element.icon, 70, 70)
-                        add img align (0.5, 0.5)
-            text tt.value.desc style "content_text" size 20 color ivory yalign 0.1
-        else:        
-            text (u"{=content_text}{color=[ivory]}%s" % tt.value)
+                            
+        # Elements:            
+        frame:
+            background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10) ##alpha=0.5
+            yalign(0.998)
+            xanchor -321
+            xpadding 10
+            xysize (955, 100)
+            has hbox spacing 1
+            if isinstance(tt.value, BE_Action):
+                $ element = tt.value.get_element()
+                if element:
+                    frame:
+                        background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                        xysize (70, 70)
+                        if element.icon:
+                            $ img = ProportionalScale(element.icon, 70, 70)
+                            add img align (0.5, 0.5)
+                text tt.value.desc style "content_text" size 20 color ivory yalign 0.1
+            else:
+                text (u"{=content_text}{color=[ivory]}%s" % tt.value)
             
     use pyt_top_stripe(True)
     
-screen pyt_girl_control:
+screen pyt_girl_control():
     modal True
     zorder 1
     
@@ -805,10 +813,10 @@ screen pyt_girl_control:
                 style_group "basic"
                 xysize (150, 33)
                 align (0.5, 0.05)
-                action ToggleDict(chr.autocontrol, "Tips")
+                action ToggleDict(char.autocontrol, "Tips")
                 hovered tt.action("Allow girls to keep their tips!")
                 text "Tips:" align (0.0, 0.5)
-                if chr.autocontrol['Tips']:
+                if char.autocontrol['Tips']:
                     add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
                 else:
                     add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
@@ -823,10 +831,10 @@ screen pyt_girl_control:
                         xfill True
                         text (u"{color=[ivory]}Wage percentage:") outlines [(1, "#424242", 0, 0)]
                     vbox:    
-                        text (u"{color=[ivory]}%d %%" % chr.mech_relay['wagemod']) outlines [(1, "#424242", 0, 0)]
+                        text (u"{color=[ivory]}%d %%" % char.mech_relay['wagemod']) outlines [(1, "#424242", 0, 0)]
                 bar:
                     align (0.5, 1.0)
-                    value FieldValue(chr, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)
+                    value FieldValue(char, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)
                     xmaximum 150
                     thumb 'content/gfx/interface/icons/move15.png'
                          
@@ -835,29 +843,29 @@ screen pyt_girl_control:
             style_group "basic"
             align (0.55, 0.5)
             button:
-                action If(chr.status != "slave", true=ToggleField(chr, "front_row"))
+                action If(char.status != "slave", true=ToggleField(char, "front_row"))
                 xysize (200, 32)
                 text "Front Row" align (0.0, 0.5)
-                if chr.front_row:
+                if char.front_row:
                     add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                elif not chr.front_row:
+                elif not char.front_row:
                     add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
             
             button:
-                action ToggleDict(chr.autocontrol, "Rest")
+                action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
                 text "Auto Rest" align (0.0, 0.5)
-                if chr.autocontrol['Rest']:
+                if char.autocontrol['Rest']:
                     add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                elif not chr.autocontrol['Rest']:
+                elif not char.autocontrol['Rest']:
                     add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
              
             # Autobuy: 
             button:
-                action  If(chr.status != "slave" and chr.disposition > 950, true=ToggleField(chr, "autobuy"))
+                action  If(char.status != "slave" and char.disposition > 950, true=ToggleField(char, "autobuy"))
                 xysize (200, 32)
                 text "Auto Buy" align (0.0, 0.5)
-                if chr.autobuy:
+                if char.autobuy:
                     add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
                 else:
                     add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
@@ -865,20 +873,20 @@ screen pyt_girl_control:
             # Autoequip
             button:
                 xysize (200, 32)
-                action If(chr.status == "slave" or (chr.status != "slave" and chr.disposition > 850), true=ToggleField(chr, "autoequip"))
+                action If(char.status == "slave" or (char.status != "slave" and char.disposition > 850), true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (0.0, 0.5)
-                if chr.autoequip:
+                if char.autoequip:
                     add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
                 else:
                     add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
             # ------------------------------------------------------------------------------------------------------------------------------------->>>        
                
             # Disabled until Beta release        
-            # if chr.action in ["Whore", "ServiceGirl", "Stripper"]:
+            # if char.action in ["Whore", "ServiceGirl", "Stripper"]:
                 # null height 10
                 # hbox:
                     # spacing 20
-                    # if chr.autocontrol['SlaveDriver']:
+                    # if char.autocontrol['SlaveDriver']:
                         # textbutton "{color=[red]}Slave Driver":
                             # yalign 0.5
                             # action Return(['girl_cntr', 'slavedriver'])
@@ -886,7 +894,7 @@ screen pyt_girl_control:
                             # maximum(150, 20)
                             # xfill true
                         # add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) yalign 0.5
-                    # elif not chr.autocontrol['SlaveDriver']:
+                    # elif not char.autocontrol['SlaveDriver']:
                         # textbutton "Slave Driver":
                             # yalign 0.5
                             # action Return(['girl_cntr', 'slavedriver'])
@@ -897,8 +905,8 @@ screen pyt_girl_control:
 
             null height 30
             
-            # if chr.action == "Whore":
-                # for key in chr.autocontrol['Acts']:
+            # if char.action == "Whore":
+                # for key in char.autocontrol['Acts']:
                     # null height 10
                     # hbox:
                         # spacing 20
@@ -906,20 +914,20 @@ screen pyt_girl_control:
                             # yalign 0.5
                             # action Return(['girl_cntr', 'set_act', key])
                             # minimum(150, 20)
-                        # if chr.autocontrol['Acts'][key]:
+                        # if char.autocontrol['Acts'][key]:
                             # add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) yalign 0.5
-                        # elif not chr.autocontrol['Acts'][key]:
+                        # elif not char.autocontrol['Acts'][key]:
                             # add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) yalign 0.5
             
-            if chr.action == "ServiceGirl":
-                for key in chr.autocontrol['S_Tasks']:
+            if char.action == "ServiceGirl":
+                for key in char.autocontrol['S_Tasks']:
                     button:
-                        action ToggleDict(chr.autocontrol['S_Tasks'], key)
+                        action ToggleDict(char.autocontrol['S_Tasks'], key)
                         xysize (200, 30)
                         text (key.capitalize()) align (0.0, 0.5)
-                        if chr.autocontrol['S_Tasks'][key]:
+                        if char.autocontrol['S_Tasks'][key]:
                             add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                        elif not chr.autocontrol['S_Tasks'][key]:
+                        elif not char.autocontrol['S_Tasks'][key]:
                             add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
         
         button:
@@ -929,7 +937,7 @@ screen pyt_girl_control:
             align (0.5, 0.95)
             text  "OK"
         
-screen confirm_girl_sale:
+screen confirm_girl_sale():
     modal True
     zorder 1
     
@@ -940,8 +948,8 @@ screen confirm_girl_sale:
         xfill True
         yfill True
         
-        if chr.status == "slave":
-            text("{size=-5}Are you sure you want to sell %s for %d Gold?"%(chr.name, int(chr.fin.get_price()*0.8))) align(0.5, 0.1)
+        if char.status == "slave":
+            text("{size=-5}Are you sure you want to sell %s for %d Gold?"%(char.name, int(char.fin.get_price()*0.8))) align(0.5, 0.1)
             
             hbox:
                 align(0.5, 0.85)
@@ -952,7 +960,7 @@ screen confirm_girl_sale:
                     action Return(['control', 'sell'])
             
         else:
-            text("{size=-5}Are you sure you want to fire the %s?"%chr.name) align(0.5, 0.1)
+            text("{size=-5}Are you sure you want to fire the %s?"%char.name) align(0.5, 0.1)
             
             hbox:
                 align(0.5, 0.85)
@@ -980,9 +988,9 @@ screen pyt_girl_finances():
             xysize (1100, 600)
             draggable False
             mousewheel True
-            if day > 1 and chr.fin.game_fin_log.has_key(str(day-1)):
-                $ fin_inc = chr.fin.game_fin_log[str(day-1)][0]
-                $ fin_exp = chr.fin.game_fin_log[str(day-1)][1]
+            if day > 1 and char.fin.game_fin_log.has_key(str(day-1)):
+                $ fin_inc = char.fin.game_fin_log[str(day-1)][0]
+                $ fin_exp = char.fin.game_fin_log[str(day-1)][1]
                 
                 if show_fin == 'day':
                     label (u"{color=[ivory]}Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
@@ -1064,11 +1072,11 @@ screen pyt_girl_finances():
                     label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
                     python:
                         income = dict()
-                        for _day in chr.fin.game_fin_log:
-                            for key in chr.fin.game_fin_log[_day][0]["work"]:
-                                income[key] = income.get(key, 0) + chr.fin.game_fin_log[_day][0]["work"][key]
-                            for key in chr.fin.game_fin_log[_day][0]["tips"]:
-                                income[key] = income.get(key, 0) + chr.fin.game_fin_log[_day][0]["tips"][key]
+                        for _day in char.fin.game_fin_log:
+                            for key in char.fin.game_fin_log[_day][0]["work"]:
+                                income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["work"][key]
+                            for key in char.fin.game_fin_log[_day][0]["tips"]:
+                                income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["tips"][key]
                                 
                     # Income:
                     vbox:
@@ -1091,9 +1099,9 @@ screen pyt_girl_finances():
                     # Expense:
                     python:
                         expenses = dict()
-                        for _day in chr.fin.game_fin_log:
-                            for key in chr.fin.game_fin_log[_day][1]["cost"]:
-                                expenses[key] = expenses.get(key, 0) + chr.fin.game_fin_log[_day][1]["cost"][key]
+                        for _day in char.fin.game_fin_log:
+                            for key in char.fin.game_fin_log[_day][1]["cost"]:
+                                expenses[key] = expenses.get(key, 0) + char.fin.game_fin_log[_day][1]["cost"][key]
                     vbox:
                         pos (450, 100)
                         label "Expense:" text_size 20
@@ -1113,13 +1121,13 @@ screen pyt_girl_finances():
                                 
                     python:
                         game_total = 0
-                        for _day in chr.fin.game_fin_log:
-                            total_list = list(itertools.chain(chr.fin.game_fin_log[_day][0]["work"].values(),
-                                                                          chr.fin.game_fin_log[_day][0]["tips"].values()))
+                        for _day in char.fin.game_fin_log:
+                            total_list = list(itertools.chain(char.fin.game_fin_log[_day][0]["work"].values(),
+                                                                          char.fin.game_fin_log[_day][0]["tips"].values()))
                             total_income = sum(total_list)
                             total_expenses = 0
-                            for key in chr.fin.game_fin_log[_day][1]["cost"]:
-                                total_expenses += chr.fin.game_fin_log[_day][1]["cost"][key]
+                            for key in char.fin.game_fin_log[_day][1]["cost"]:
+                                total_expenses += char.fin.game_fin_log[_day][1]["cost"][key]
                             total = total_income - total_expenses
                             game_total += total
                     vbox:
@@ -1210,9 +1218,9 @@ screen pyt_girl_finances():
                     
                     python:
                         income = dict()
-                        for _day in chr.fin.game_fin_log:
-                            for key in chr.fin.game_fin_log[_day][0]["private"]:
-                                income[key] = income.get(key, 0) + chr.fin.game_fin_log[_day][0]["private"][key]
+                        for _day in char.fin.game_fin_log:
+                            for key in char.fin.game_fin_log[_day][0]["private"]:
+                                income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["private"][key]
                                     
                     # Income:
                     vbox:
@@ -1235,9 +1243,9 @@ screen pyt_girl_finances():
                     # Expense:
                     python:
                         expenses = dict()
-                        for _day in chr.fin.game_fin_log:
-                            for key in chr.fin.game_fin_log[_day][1]["private"]:
-                                expenses[key] = expenses.get(key, 0) + chr.fin.game_fin_log[_day][1]["private"][key]
+                        for _day in char.fin.game_fin_log:
+                            for key in char.fin.game_fin_log[_day][1]["private"]:
+                                expenses[key] = expenses.get(key, 0) + char.fin.game_fin_log[_day][1]["private"][key]
                     vbox:
                         pos (450, 100)
                         label "Expense:" text_size 20

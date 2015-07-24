@@ -6,28 +6,28 @@
 
 ###### j1
 label interactions_compliment:
-    if chr.disposition > 600:
+    if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 300:
+    elif char.disposition > 300:
         $ gm_dice = 95
         $ gm_disp_mult = 0.4
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_dice = 90
         $ gm_disp_mult = 0.5
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 85
         $ gm_disp_mult = 0.7
-    elif chr.disposition > 50:
+    elif char.disposition > 50:
         $ gm_dice = 85
         $ gm_disp_mult = 1
-    elif chr.disposition > 20:
+    elif char.disposition > 20:
         $ gm_dice = 70
         $ gm_disp_mult = 1
-    elif chr.disposition > -1:
+    elif char.disposition > -1:
         $ gm_dice = 50
         $ gm_disp_mult = 1
-    elif chr.disposition > -20:
+    elif char.disposition > -20:
         $ gm_dice = 40
         $ gm_disp_mult = 1        
     else:
@@ -36,10 +36,10 @@ label interactions_compliment:
     
     if dice(gm_dice):
         $ gm_last_success = True
-        $chr.disposition += (randint(10, 22)*(gm_disp_mult))
+        $ char.disposition += (randint(10, 22)*(gm_disp_mult))
     else:
         $ gm_last_success
-        $chr.disposition -= (randint(2, 15)*(gm_disp_mult))
+        $ char.disposition -= (randint(2, 15)*(gm_disp_mult))
 
     if gm_last_success:
         if ct("Impersonal"):
@@ -95,28 +95,28 @@ label interactions_compliment:
 
 ###### j2
 label interactions_breasts:
-    if chr.disposition > 400:
+    if char.disposition > 400:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
-    elif chr.disposition > 550:
+    elif char.disposition > 550:
         $ gm_dice = 95
         $ gm_disp_mult = 0.4
-    elif chr.disposition > 450:
+    elif char.disposition > 450:
         $ gm_dice = 90
         $ gm_disp_mult = 0.7
-    elif chr.disposition > 400:
+    elif char.disposition > 400:
         $ gm_dice = 80
         $ gm_disp_mult = 1
-    elif chr.disposition > 350:
+    elif char.disposition > 350:
         $ gm_dice = 40
         $ gm_disp_mult = 1
-    elif chr.disposition > 200:
+    elif char.disposition > 200:
         $ gm_dice = 35
         $ gm_disp_mult = 1
-    elif chr.disposition > 100:
+    elif char.disposition > 100:
         $ gm_dice = 15
         $ gm_disp_mult = 1
-    elif chr.disposition > 20:
+    elif char.disposition > 20:
         $ gm_dice = 5
         $ gm_disp_mult = 1
     else:
@@ -125,10 +125,10 @@ label interactions_breasts:
 
     if dice(gm_dice):
         $ gm_last_success = True
-        $chr.disposition += (randint(10, 30)*(gm_disp_mult))
+        $ char.disposition += (randint(10, 30)*(gm_disp_mult))
     else:
         $ gm_last_success = False
-        $chr.disposition -= (randint(15, 35)*(gm_disp_mult))
+        $ char.disposition -= (randint(15, 35)*(gm_disp_mult))
 
     if gm_last_success:
         if ct("Yandere"):

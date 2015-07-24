@@ -3,11 +3,11 @@ label girl_equip:
         focusitem = False
         selectedslot = None
         item_direction = None
-        chr.inventory.set_page_size(18)
-        # chr.inventory.famale_filter = True
+        char.inventory.set_page_size(18)
+        # char.inventory.famale_filter = True
         hero.inventory.set_page_size(18)
         # hero.inventory.famale_filter = True
-        inv_source = chr
+        inv_source = char
     
     scene bg gallery3
     
@@ -26,7 +26,7 @@ label girl_equip:
                 renpy.hide_screen("pyt_girl_equip")
                 if result[1] == "item_transfer":
                     renpy.hide_screen("pyt_girl_control")
-                    pytfall.it = GuiItemsTransfer("personal_transfer", chr=chr, last_label=last_label)
+                    pytfall.it = GuiItemsTransfer("personal_transfer", char=char, last_label=last_label)
                     jump("items_transfer")
                     
             elif result[0] == "equip_for":
@@ -39,7 +39,7 @@ label girl_equip:
                         if focusitem.slot == "quest":
                             renpy.call_screen('pyt_message_screen', "Quest items cannot be equipped!")
                             focusitem = False
-                        elif focusitem.unique and item.unque != chr.id:
+                        elif focusitem.unique and item.unque != char.id:
                             renpy.call_screen('pyt_message_screen', "%s cannot be equipped on this character!"  % focusitem.id)
                             focusitem = False
                         elif focusitem.sex == 'male':
@@ -48,37 +48,37 @@ label girl_equip:
                         elif focusitem.slot == "gift":
                             renpy.call_screen('pyt_message_screen', "Gifts are only used during Girlsmeets!")
                             focusitem = False
-                        elif chr.status == "slave" and focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
+                        elif char.status == "slave" and focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
                             renpy.call_screen('pyt_message_screen', "Slaves are forbidden to equip large weapons by law!")
                             focusitem = False
                         else:
-                            if inv_source == chr:
-                                if all([chr.status != "slave", chr.disposition < 850]) or all([chr.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
-                                    chr.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
+                            if inv_source == char:
+                                if all([char.status != "slave", char.disposition < 850]) or all([char.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
+                                    char.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
                                 else:
-                                    equip_item(focusitem, chr)
-                                    # chr.equip(focusitem)
+                                    equip_item(focusitem, char)
+                                    # char.equip(focusitem)
                             else:
-                                if all([chr.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
-                                    chr.say(choice(["No way!", "I do not want this!", "No way in hell!"]))
+                                if all([char.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
+                                    char.say(choice(["No way!", "I do not want this!", "No way in hell!"]))
                                 else:
-                                    if transfer_items(inv_source, chr, focusitem):
-                                        equip_item(focusitem, chr)
+                                    if transfer_items(inv_source, char, focusitem):
+                                        equip_item(focusitem, char)
                             
                     elif item_direction == 'unequip':
-                        if chr.status != "slave" and chr.disposition < 850:
-                            chr.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
+                        if char.status != "slave" and char.disposition < 850:
+                            char.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
                         else:
-                            if inv_source == hero and chr.status != "slave":
-                                if any([(focusitem.slot == "misc" and item.mdestruct), chr.given_items.get(focusitem.id, 0) - 1 < 0]):
-                                    chr.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
+                            if inv_source == hero and char.status != "slave":
+                                if any([(focusitem.slot == "misc" and item.mdestruct), char.given_items.get(focusitem.id, 0) - 1 < 0]):
+                                    char.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
                                                              "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                                 else:
-                                    chr.unequip(focusitem)
-                                    transfer_items(chr, hero, focusitem)
+                                    char.unequip(focusitem)
+                                    transfer_items(char, hero, focusitem)
                             else: # Slave condition:
-                                chr.unequip(focusitem)
-                                chr.inventory.remove(focusitem)
+                                char.unequip(focusitem)
+                                char.inventory.remove(focusitem)
                                 inv_source.inventory.append(focusitem)
                             
                     selectedslot = False
@@ -101,12 +101,12 @@ label girl_equip:
                     
     hide screen pyt_girl_equip
     python:
-        chr.inventory.set_page_size(15)
+        char.inventory.set_page_size(15)
         hero.inventory.set_page_size(15)
-        # chr.inventory.female_filter = False
+        # char.inventory.female_filter = False
         # hero.inventory.female_filter = False
-        if chr.location == "After Life":
-            renpy.call_screen("pyt_message_screen", "Either your 'awesome' item handling or my 'brilliant' programming have killed %s..." % chr.fullname)
+        if char.location == "After Life":
+            renpy.call_screen("pyt_message_screen", "Either your 'awesome' item handling or my 'brilliant' programming have killed %s..." % char.fullname)
             jump("mainscreen")
     if girl_equip:
         $ last_label, girl_equip = girl_equip, None
@@ -139,12 +139,12 @@ screen pyt_equip_for(pos=()):
             text "Equip For:" xalign 0 style "della_respira" color ivory
             null height 5
             for t in ["Combat", "Sex", "Service", "Striptease"]:
-                if t == "Combat" and chr.status == "slave":
+                if t == "Combat" and char.status == "slave":
                     pass
                 else:
                     textbutton "[t]":
                         xminimum 200
-                        action [Function(chr.equip_for, t), Hide("pyt_equip_for")]
+                        action [Function(char.equip_for, t), Hide("pyt_equip_for")]
             textbutton "Close":
                 action Hide("pyt_equip_for")
 
@@ -162,7 +162,7 @@ screen pyt_girl_equip():
         pos (0, 40)
         background Frame(Transform("content/gfx/frame/Mc_bg.png", alpha=0.7), 10, 10)
         xysize (520, 680)
-        use pyt_eqdoll(active_mode=True, chr=chr, frame_size=[70, 70], scr_align=(0.5, 0.4), return_value=['item', "unequip"], txt_size=18, fx_size=(450, 600))
+        use pyt_eqdoll(active_mode=True, char=char, frame_size=[70, 70], scr_align=(0.5, 0.4), return_value=['item', "unequip"], txt_size=18, fx_size=(450, 600))
 
     # Middle VBox:
     frame:
@@ -192,11 +192,11 @@ screen pyt_girl_equip():
                 style_group "basic"
                 xysize (150, 30)
                 align (0.5, 0.5)
-                if inv_source == chr:
-                    action [SetVariable("inv_source", hero), Function(hero.inventory.apply_filter, chr.inventory.filter)]
+                if inv_source == char:
+                    action [SetVariable("inv_source", hero), Function(hero.inventory.apply_filter, char.inventory.filter)]
                     text "Switch to MC"
                 else:
-                    action [SetVariable("inv_source", chr), Function(chr.inventory.apply_filter, hero.inventory.filter)]
+                    action [SetVariable("inv_source", char), Function(char.inventory.apply_filter, hero.inventory.filter)]
                     text "Switch to Girl"
                     
     # Paging:
@@ -233,7 +233,7 @@ screen pyt_girl_equip():
             xalign 0.5
             xpadding 8
             background Null()
-            use items_inv(chr=inv_source, return_value=['item', 'equip'])
+            use items_inv(char=inv_source, return_value=['item', 'equip'])
         vbox:
             null height -7
             style_group "dropdown_gm"

@@ -3,7 +3,7 @@ init -11 python:
     def rc(*args):
         """
         random choice function
-        Wrapper to enable simpler girl_meets choices, returns whatever chr_gm is set to along with a random line.
+        Wrapper to enable simpler girl_meets choices, returns whatever char_gm is set to along with a random line.
         """
         return g(choice(list(args)))
         
@@ -38,7 +38,7 @@ init -11 python:
         l = list()
         for key in d:
             if key in traits:
-                if key in chr.traits:
+                if key in char.traits:
                     l.extend(d[key])
             else:
                 if eval(key):
@@ -56,7 +56,7 @@ init -11 python:
         Checks is character in girl_meets has any trait in entered as an argument.
         """
         l = list(traits[i] for i in list(args))
-        return any(i in l for i in chr.traits)
+        return any(i in l for i in char.traits)
         
     def co(*args):
         """
@@ -70,7 +70,7 @@ init -11 python:
         Checks for General Occupation strings, such as "SIW", "Warrior", "Server", etc.
         """
         gen_occs = set()
-        for occ in chr.traits:
+        for occ in char.traits:
             if hasattr(occ, "occupations"):
                 gen_occs = gen_occs.union(set(occ.occupations))
         return any(i for i in list(args) if i in gen_occs)
@@ -79,7 +79,7 @@ init -11 python:
         """
         Checks if disposition of the girl is any higher that value.
         """
-        return chr.disposition >= value
+        return char.disposition >= value
         
     # Relationships:
     def check_friends(*args):
@@ -131,14 +131,14 @@ init -11 python:
         """
         # First get a set of all girls at the same location as the current character:
         partners = set()
-        for i in char.values():
-            if i.location == chr.location:
+        for i in chars.values():
+            if i.location == char.location:
                 partners.add(i)
                 
-        # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of chr.
+        # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of char.
         willing_partners = set()
         for i in partners:
-            if (i.disposition >= 800 or check_lovers(chr, i)) and not i.disposition <= 50: # Last check is too make sure partner doesn't dislike the MC.
+            if (i.disposition >= 800 or check_lovers(char, i)) and not i.disposition <= 50: # Last check is too make sure partner doesn't dislike the MC.
                 willing_partners.add(i)
                 
         return willing_partners

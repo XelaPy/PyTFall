@@ -21,7 +21,7 @@ label girls_list:
                     renpy.show_screen("pyt_dropdown_action", result[2], pos=renpy.get_mouse_pos())
             elif result[0] == 'choice':
                 renpy.hide_screen("pyt_girlslist")
-                chr = result[1]
+                char = result[1]
                 jump('girl_profile')
             elif result[0] == "paging":
                 gs = renpy.get_screen("pyt_girlslist").scope["_kwargs"]["source"]
@@ -39,7 +39,7 @@ label girls_list:
     hide screen pyt_girlslist
     jump mainscreen
 
-screen pyt_girlslist(source=None, page=0, total_pages=1):                                   
+screen pyt_girlslist(source=None, page=0, total_pages=1):
     frame:
         background Frame("content/gfx/frame/framegp2.png", 10, 10)
         pos (5, 46)

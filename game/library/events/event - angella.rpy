@@ -39,11 +39,11 @@ label angelica_menu:
                     if len(hero.team) == 3:
                         a "Who is it going to be?"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
-                if chr.flag("picked_alignement"):
+                if char.flag("picked_alignement"):
                     a "Sorry, I cannot change the alignment twice :("
                 else:
                     a "Keep in mind that it can only be done once!"
@@ -53,7 +53,7 @@ label angelica_menu:
                     $ alignment = _return
                             
                     if alignment:
-                        if alignment == chr.element.split()[0]:
+                        if alignment == char.element.split()[0]:
                             a "Err, you cannot really change from [alignment] to [alignment]."
                             a "Sorry..."
                         else:
@@ -62,9 +62,9 @@ label angelica_menu:
                                 # Animation?
                                 python:
                                     global_flags.del_flag("angelica_free_alignment")
-                                    chr.set_flag("picked_alignement")
-                                    chr.element = " ".join([alignment, str(choice([1, 2]))])
-                                $ chr.say(choice(["What a weird feeling...", "Awesome!", "This is cool!"]))
+                                    char.set_flag("picked_alignement")
+                                    char.element = " ".join([alignment, str(choice([1, 2]))])
+                                $ char.say(choice(["What a weird feeling...", "Awesome!", "This is cool!"]))
                             else:
                                 a "You don't have enought money."
                     $ del alignment

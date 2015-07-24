@@ -132,7 +132,7 @@ init -11 python:
     def build_rc(id=None, name=None, last_name=None, pattern=None, level=1, add_to_gameworld=True):
         '''
         Creates a random character!
-        id: id to choose from the rchar dictionary that holds rGirl loading data from JSON files, will be chosen at random if none availible.
+        id: id to choose from the rchars dictionary that holds rGirl loading data from JSON files, will be chosen at random if none availible.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
         pattern: Pattern to use when creating the character! (Options atm: Warrior, ServiceGirl, Prostitute, Stripper) If None, we use data or normalize in init()
@@ -144,10 +144,10 @@ init -11 python:
         Skills = rg.stats.skills.keys()
         
         if not id:
-            id = choice(rchar.keys())
+            id = choice(rchars.keys())
         
-        if id in rchar:
-            data = rchar[id]
+        if id in rchars:
+            data = rchars[id]
             rg.id = id
         else:
             raise Exception("Unknown id {} when creating a random character!".format(id))
@@ -277,60 +277,60 @@ init -11 python:
             
         # And add to char! :)
         if add_to_gameworld:
-            store.char["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
+            store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
             
         return rg
     
-    def initial_levelup(chr, level, max_out_stats=False):
+    def initial_levelup(char, level, max_out_stats=False):
         """
         This levels up the character, usually when it's first created.
         """
         exp = level*(level-1)*500
-        chr.stats.level = 1
-        chr.exp = 0
-        chr.stats.goal = 1000
-        chr.stats.goal_increase = 1000
+        char.stats.level = 1
+        char.exp = 0
+        char.stats.goal = 1000
+        char.stats.goal_increase = 1000
 
-        chr.exp += exp
+        char.exp += exp
         
         if max_out_stats:
-            for stat in chr.stats.stats:
+            for stat in char.stats.stats:
                 if stat not in ["alignment"]:
-                    setattr(chr, stat, chr.get_max(stat))
+                    setattr(char, stat, char.get_max(stat))
         # -------- 
         
-    def adjust_exp(chr, exp):
+    def adjust_exp(char, exp):
         '''
         Adjusts experience according to a level of character.
         We will find a better way to handle experience in the future.
         '''
-        if chr == hero:
-            if chr.level < 10:
-                return int(math.ceil(chr.level * exp)*1.4)
-            elif chr.level < 30:
-                return int(math.ceil(chr.level * exp)*1.3)
-            elif chr.level < 40:
-                return int(math.ceil(chr.level * exp)*1.2)
+        if char == hero:
+            if char.level < 10:
+                return int(math.ceil(char.level * exp)*1.4)
+            elif char.level < 30:
+                return int(math.ceil(char.level * exp)*1.3)
+            elif char.level < 40:
+                return int(math.ceil(char.level * exp)*1.2)
             else:
-                return int(math.ceil(chr.level * exp)*1.1)
-        elif isinstance(chr, Girl):
-            if chr.level < 10:
-                return int(math.ceil(chr.level * exp)*0.9)
-            elif chr.level < 20:
-                return int(math.ceil(chr.level * exp)*0.8)
-            elif chr.level < 30:
-                return int(math.ceil(chr.level * exp)*0.75)
-            elif chr.level < 40:
-                return int(math.ceil(chr.level * exp)*0.70)
-            elif chr.level < 50:
-                return int(math.ceil(chr.level * exp)*0.65)
-            elif chr.level < 60:
-                return int(math.ceil(chr.level * exp)*0.6)
-            elif chr.level < 70:
-                return int(math.ceil(chr.level * exp)*0.5)
+                return int(math.ceil(char.level * exp)*1.1)
+        elif isinstance(char, Girl):
+            if char.level < 10:
+                return int(math.ceil(char.level * exp)*0.9)
+            elif char.level < 20:
+                return int(math.ceil(char.level * exp)*0.8)
+            elif char.level < 30:
+                return int(math.ceil(char.level * exp)*0.75)
+            elif char.level < 40:
+                return int(math.ceil(char.level * exp)*0.70)
+            elif char.level < 50:
+                return int(math.ceil(char.level * exp)*0.65)
+            elif char.level < 60:
+                return int(math.ceil(char.level * exp)*0.6)
+            elif char.level < 70:
+                return int(math.ceil(char.level * exp)*0.5)
             else:
-                return int(math.ceil(chr.level * exp)*0.4)
-        return int(math.ceil(chr.level * exp))
+                return int(math.ceil(char.level * exp)*0.4)
+        return int(math.ceil(char.level * exp))
         
     def create_traits_base(pattern):
         """

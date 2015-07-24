@@ -8,24 +8,24 @@ label items_transfer:
             
             result = ui.interact()
             
-            if result[0] == 'select_left_chr':
-                pytfall.it.select_left_chr(result[1])
-                pytfall.it.left_chr.inventory.apply_filter(pytfall.it.filter)
+            if result[0] == 'select_left_char':
+                pytfall.it.select_left_char(result[1])
+                pytfall.it.left_char.inventory.apply_filter(pytfall.it.filter)
             if result[0] == 'select_left_item':
                 pytfall.it.select_left_item(result[1])
-                if pytfall.it.right_chr:
-                    pytfall.it.right_chr.inventory.apply_filter(pytfall.it.filter)
-            if result[0] == 'select_right_chr': pytfall.it.select_right_chr(result[1])
+                if pytfall.it.right_char:
+                    pytfall.it.right_char.inventory.apply_filter(pytfall.it.filter)
+            if result[0] == 'select_right_char': pytfall.it.select_right_char(result[1])
             if result[0] == 'select_right_item':
                 pytfall.it.select_right_item(result[1])
-                if pytfall.it.left_chr:
-                    pytfall.it.left_chr.inventory.apply_filter(pytfall.it.filter)
+                if pytfall.it.left_char:
+                    pytfall.it.left_char.inventory.apply_filter(pytfall.it.filter)
             if result[0] == 'transfer_left': pytfall.it.transfer_item_left()
             if result[0] == 'transfer_right': pytfall.it.transfer_item_right()
             if result[0] == 'set_filter':
                 pytfall.it.filter = result[1]
-                if pytfall.it.left_chr: pytfall.it.left_chr.inventory.apply_filter(result[1])
-                if pytfall.it.right_chr: pytfall.it.right_chr.inventory.apply_filter(result[1])
+                if pytfall.it.left_char: pytfall.it.left_char.inventory.apply_filter(result[1])
+                if pytfall.it.right_char: pytfall.it.right_char.inventory.apply_filter(result[1])
             if result[0] == 'incr_amount':
                 if pytfall.it.items_amount == 1:
                     pytfall.it.items_amount = 5
@@ -38,20 +38,20 @@ label items_transfer:
                     pytfall.it.items_amount -= 5
                     
             elif result[0] == 'left_inv':
-                if result[1] == 'first_page': pytfall.it.left_chr.inventory.first()
-                elif result[1] == 'last_page': pytfall.it.left_chr.inventory.last()
-                elif result[1] == 'next_page': pytfall.it.left_chr.inventory.next()
-                elif result[1] == 'prev_page': pytfall.it.left_chr.inventory.prev()
-                elif result[1] == 'prev_filter': pytfall.it.left_chr.inventory.apply_filter('prev')
-                elif result[1] == 'next_filter': pytfall.it.left_chr.inventory.apply_filter('next') 
+                if result[1] == 'first_page': pytfall.it.left_char.inventory.first()
+                elif result[1] == 'last_page': pytfall.it.left_char.inventory.last()
+                elif result[1] == 'next_page': pytfall.it.left_char.inventory.next()
+                elif result[1] == 'prev_page': pytfall.it.left_char.inventory.prev()
+                elif result[1] == 'prev_filter': pytfall.it.left_char.inventory.apply_filter('prev')
+                elif result[1] == 'next_filter': pytfall.it.left_char.inventory.apply_filter('next') 
                 
             elif result[0] == 'right_inv':
-                if result[1] == 'first_page': pytfall.it.right_chr.inventory.first()
-                elif result[1] == 'last_page': pytfall.it.right_chr.inventory.last()
-                elif result[1] == 'next_page': pytfall.it.right_chr.inventory.next()
-                elif result[1] == 'prev_page': pytfall.it.right_chr.inventory.prev()
-                elif result[1] == 'prev_filter': pytfall.it.right_chr.inventory.apply_filter('prev')
-                elif result[1] == 'next_filter': pytfall.it.right_chr.inventory.apply_filter('next') 
+                if result[1] == 'first_page': pytfall.it.right_char.inventory.first()
+                elif result[1] == 'last_page': pytfall.it.right_char.inventory.last()
+                elif result[1] == 'next_page': pytfall.it.right_char.inventory.next()
+                elif result[1] == 'prev_page': pytfall.it.right_char.inventory.prev()
+                elif result[1] == 'prev_filter': pytfall.it.right_char.inventory.apply_filter('prev')
+                elif result[1] == 'next_filter': pytfall.it.right_char.inventory.apply_filter('next') 
 
             if result[0] == 'control':
                 if result[1] == 'return':
@@ -60,7 +60,7 @@ label items_transfer:
     hide screen pyt_items_transfer
     python:
         # Restore inventory page size (We do this for all characters to make sure)
-        for i in char.values():
+        for i in chars.values():
             i.inventory.set_page_size(15)
         hero.inventory.set_page_size(15)
         last_label = pytfall.it.last_label
@@ -89,11 +89,11 @@ screen pyt_items_transfer():
         ypos -2
         xysize (1285, 46)
         if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
-            if pytfall.it.left_chr and isinstance(pytfall.it.left_chr, Girl):
-                text ("%s ---- %s" % (pytfall.it.left_chr.occupation, pytfall.it.left_chr.action)) align (0.09, 0.5) style "content_text" color ivory size 20
+            if pytfall.it.left_char and isinstance(pytfall.it.left_char, Girl):
+                text ("%s ---- %s" % (pytfall.it.left_char.occupation, pytfall.it.left_char.action)) align (0.09, 0.5) style "content_text" color ivory size 20
         if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
-            if pytfall.it.right_chr and isinstance(pytfall.it.right_chr, Girl):
-                text ("%s ---- %s" % (pytfall.it.right_chr.occupation, pytfall.it.right_chr.action)) align (0.92, 0.5) style "content_text" color ivory size 20
+            if pytfall.it.right_char and isinstance(pytfall.it.right_char, Girl):
+                text ("%s ---- %s" % (pytfall.it.right_char.occupation, pytfall.it.right_char.action)) align (0.92, 0.5) style "content_text" color ivory size 20
                 
     # Members + Items
     if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
@@ -129,7 +129,7 @@ screen pyt_items_transfer():
                                             idle img
                                             hover img
                                             selected_idle Transform(img, alpha=1.05)
-                                            action [Return(['select_left_chr', lmember]), SelectedIf(lmember == pytfall.it.left_chr), SensitiveIf(lmember != pytfall.it.right_chr)]
+                                            action [Return(['select_left_char', lmember]), SelectedIf(lmember == pytfall.it.left_char), SensitiveIf(lmember != pytfall.it.right_char)]
                                         frame:
                                             xalign 0.5
                                             background Frame("content/gfx/frame/Mc_bg3.png", 5, 5)
@@ -158,7 +158,7 @@ screen pyt_items_transfer():
                             ysize 10000
                             if pytfall.it.show_left_items_selection():
                                 for litem in pytfall.it.get_left_inventory():
-                                    $ left_vp_items_amount = pytfall.it.left_chr.inventory.content[litem.id]
+                                    $ left_vp_items_amount = pytfall.it.left_char.inventory.content[litem.id]
                                     button:
                                         xysize (325, 28)
                                         action [Return(['select_left_item', litem]), SelectedIf(litem == pytfall.it.left_item)]
@@ -201,7 +201,7 @@ screen pyt_items_transfer():
                                             idle img
                                             hover img
                                             selected_idle Transform(img, alpha=1.05)
-                                            action [Return(['select_right_chr', rmember]), SelectedIf(rmember == pytfall.it.right_chr), SensitiveIf(rmember != pytfall.it.left_chr)]
+                                            action [Return(['select_right_char', rmember]), SelectedIf(rmember == pytfall.it.right_char), SensitiveIf(rmember != pytfall.it.left_char)]
                                         frame:
                                             ypos -4
                                             xalign 0.5
@@ -229,7 +229,7 @@ screen pyt_items_transfer():
                             ysize 10000
                             if pytfall.it.show_right_items_selection():
                                 for ritem in pytfall.it.get_right_inventory():
-                                    $ right_vp_items_amount = pytfall.it.right_chr.inventory.content[ritem.id]  
+                                    $ right_vp_items_amount = pytfall.it.right_char.inventory.content[ritem.id]  
                                     button:
                                         xysize (325, 28)
                                         action [Return(['select_right_item', ritem]), SelectedIf(ritem == pytfall.it.right_item)]
@@ -263,9 +263,9 @@ screen pyt_items_transfer():
                 yalign  0.5
                 spacing 210
                 if pytfall.it.left_image_cache:
-                    use paging(root='left_inv', xysize=(190, 50), ref=pytfall.it.left_chr.inventory, use_filter=False)
+                    use paging(root='left_inv', xysize=(190, 50), ref=pytfall.it.left_char.inventory, use_filter=False)
                 if pytfall.it.right_image_cache:
-                    use paging(root='right_inv', xysize=(190, 50), ref=pytfall.it.right_chr.inventory, use_filter=False)
+                    use paging(root='right_inv', xysize=(190, 50), ref=pytfall.it.right_char.inventory, use_filter=False)
                 
         # Transfer Buttons:
         vbox:
@@ -285,7 +285,7 @@ screen pyt_items_transfer():
                     insensitive_background im.Sepia(img, align=(0.5, 0.5))
                     action [Return(['transfer_left']), SensitiveIf(pytfall.it.show_left_transfer_button())]
                     if pytfall.it.show_left_transfer_button():
-                        hovered tt.action("Transfer %s from %s to %s!" % (pytfall.it.right_item.id, pytfall.it.right_chr.name, pytfall.it.left_chr.name))
+                        hovered tt.action("Transfer %s from %s to %s!" % (pytfall.it.right_item.id, pytfall.it.right_char.name, pytfall.it.left_char.name))
                 
                 hbox:
                     align (0.5, 0.5)
@@ -303,7 +303,7 @@ screen pyt_items_transfer():
                     insensitive_background im.Sepia(img, align=(0.5, 0.5))
                     action [Return(['transfer_right']), SensitiveIf(pytfall.it.show_right_transfer_button())]
                     if pytfall.it.show_right_transfer_button():
-                        hovered tt.action("Transfer %s from %s to %s!" % (pytfall.it.left_item.id, pytfall.it.left_chr.name, pytfall.it.right_chr.name))
+                        hovered tt.action("Transfer %s from %s to %s!" % (pytfall.it.left_item.id, pytfall.it.left_char.name, pytfall.it.right_char.name))
                         
             null height 1
             frame:

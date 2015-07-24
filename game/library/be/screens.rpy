@@ -1,6 +1,6 @@
 init: # screens:
-    screen be_test(chr=None):
-        # text "[chr.name]" align (0.5, 0.2)
+    screen be_test(char=None):
+        # text "[char.name]" align (0.5, 0.2)
         $ pass
         # vbox:
             # spacing 5
@@ -43,7 +43,7 @@ init: # screens:
                 align (0.5, 0)
                 action Hide("be_test"), Hide("target_practice"), Hide("pick_skill"), Hide("battle_overlay"), Jump("mainscreen")
                  
-    screen pick_skill(chr):
+    screen pick_skill(char):
         
         default tt = Tooltip("")
         default menu_mode = "top"
@@ -82,25 +82,25 @@ init: # screens:
                 # *Skills (That use vitality) later?.?
                 # And then sort them in alphabetical order.
                 python:
-                    attacks = copy.copy(chr.attack_skills)
+                    attacks = copy.copy(char.attack_skills)
                     attacks.sort(key=attrgetter("name"))
-                    magic = copy.copy(chr.magic_skills)
+                    magic = copy.copy(char.magic_skills)
                     try:
                         magic.sort(key=attrgetter("name"))
                     except AttributeError:
-                        raise Error, chr.name
+                        raise Error, char.name
                     
                     # We'll also try to figure out if there is at least one usable attack for them:
-                    active_attacks = list() # list(a for a in attacks if battle_skills[a].check_conditions(chr)) # BUG IN REN'PY!
+                    active_attacks = list() # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!
                     for i in attacks:
-                        if i.check_conditions(chr):
-                            active_attacks.append(chr)
+                        if i.check_conditions(char):
+                            active_attacks.append(char)
                             break
-                    # active_magic = list(s for s in magic if battle_skills[s].check_conditions(chr)) # BUG IN REN'PY!
+                    # active_magic = list(s for s in magic if battle_skills[s].check_conditions(char)) # BUG IN REN'PY!
                     active_magic = list()
                     for i in magic:
-                        if i.check_conditions(chr):
-                            active_magic.append(chr)
+                        if i.check_conditions(char):
+                            active_magic.append(char)
                             break
                 
                 if menu_mode == "top":
@@ -115,7 +115,7 @@ init: # screens:
                 elif menu_mode == "attacks":
                     for skill in attacks:
                         textbutton "[skill.mn]":
-                            action SensitiveIf(skill.check_conditions(chr)), Return(skill)
+                            action SensitiveIf(skill.check_conditions(char)), Return(skill)
                     textbutton "Back":
                         xminimum 100
                         action SetScreenVariable("menu_mode", "top")
@@ -123,7 +123,7 @@ init: # screens:
                 elif menu_mode == "magic":
                     for skill in magic:
                         textbutton "{=text}{color=[black]}{size=-3}[skill.mn]":
-                            action SensitiveIf(skill.check_conditions(chr)), Return(skill)
+                            action SensitiveIf(skill.check_conditions(char)), Return(skill)
                             hovered tt.action(skill)
                     textbutton "Back":
                         xminimum 100
@@ -159,8 +159,8 @@ init: # screens:
                             profile_img = member.show('portrait', resize=(95, 95), cache=True)
                             scr = renpy.get_screen("pick_skill")
                             if scr:
-                                chr = scr.scope["_args"][0]
-                            if member == chr:
+                                char = scr.scope["_args"][0]
+                            if member == char:
                                 portrait_frame = im.Twocolor("content/gfx/frame/MC_bg3.png", grey, grey)
                                 img = "content/gfx/frame/ink_box.png"
                             else:

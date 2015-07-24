@@ -92,9 +92,9 @@ label tailor_store_shopping:
         amount = 1
         shop = pytfall.tailor_store
         shop.inventory.apply_filter(filter)
-        chr = hero
-        chr.inventory.set_page_size(18)
-        chr.inventory.apply_filter(filter)
+        char = hero
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter(filter)
 
     show screen pyt_shopping(left_ref=hero, right_ref=shop)
     show screen pyt_tailor_store_shopping

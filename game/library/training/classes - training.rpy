@@ -952,11 +952,11 @@ init -9 python:
             If mode = "condition": Returns whether the course can be used.
             """
             if self.mode == "action":
-                if in_training_location(chr):
+                if in_training_location(char):
                     global gm_job
                     
                     # Build the job
-                    gm_job = OneOffTrainingJob(chr, chr.location, self.lesson, hero)
+                    gm_job = OneOffTrainingJob(char, char.location, self.lesson, hero)
                     
                     # Report
                     gm.show_menu = False
@@ -966,13 +966,13 @@ init -9 python:
                     renpy.jump(gm_job.label)
                 
                 else:
-                    renpy.show_screen("pyt_message_screen", "%s cannot be trained in her current location!"%chr.nickname)
+                    renpy.show_screen("pyt_message_screen", "%s cannot be trained in her current location!"%char.nickname)
             
             elif self.mode == "menu":
-                return self.lesson.can_train(chr, hero, one_off_only=True)
+                return self.lesson.can_train(char, hero, one_off_only=True)
             
             elif self.mode == "condition":
-                return self.lesson.can_train(chr, hero)
+                return self.lesson.can_train(char, hero)
         
     
     class SchoolLesson(PytTrainingLesson):

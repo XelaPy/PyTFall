@@ -60,7 +60,7 @@ init -9 python:
             """
             Heals, restores AP and MP for non player characters that may have been exposed to world events.
             """
-            chars = [girl for girl in char.itervalues() if girl not in hero.girls]
+            chars = [girl for girl in chars.itervalues() if girl not in hero.girls]
             
             for girl in chars:
                 girl.health = girl.get_max("health")
@@ -87,7 +87,7 @@ init -9 python:
         
         @staticmethod        
         def add_random_girls():
-            l = list(girl for girl in char.values() if girl.__class__ == rGirl and not girl.arena_active and girl not in hero.girls)
+            l = list(girl for girl in chars.values() if girl.__class__ == rGirl and not girl.arena_active and girl not in hero.girls)
             amount = randint(45, 60)
             if len(l) < amount:
                 for __ in xrange((amount+5) - len(l)):

@@ -86,7 +86,7 @@ label interactions_perfectgift:
     else:
         $rc("I'm so happy! Many thanks, [hero.name]", "You're amazing.", "Oh, you shouldn't have. <blush>")
     
-    if chr.disposition > 500 and ct("Nymphomaniac") and dice(40):
+    if char.disposition > 500 and ct("Nymphomaniac") and dice(40):
         g "I think you deserve a reward."
         $gm.generate_img("blowjob", "partner hidden", type="first_default")
         $ g("Did you like it? ♥")

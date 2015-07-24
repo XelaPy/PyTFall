@@ -35,9 +35,9 @@ label workshop_shopping:
         amount = 1
         shop = pytfall.workshop
         shop.inventory.apply_filter(filter)
-        chr = hero
-        chr.inventory.set_page_size(18)
-        chr.inventory.apply_filter(filter)
+        char = hero
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter(filter)
 
     show screen pyt_shopping(left_ref=hero, right_ref=shop)
     with dissolve
@@ -52,7 +52,7 @@ label workshop_shopping:
     
 screen pyt_workshop_shopping:
     
-    use shop_inventory(root='inv', ref=chr, x=0.0, title="Inventory")
+    use shop_inventory(root='inv', ref=char, x=0.0, title="Inventory")
     use shop_inventory(root='shop', ref=pytfall.workshop, x=1.0, title="WorkShop")
     
     if focus:

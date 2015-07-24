@@ -687,7 +687,7 @@ init -9 python:
             txt = self.txt
             
             evtlist = []
-            chr = None
+            char = None
             tmodrep = 0 # Total of rep changed on next day, girl's mod are not included here.
             tmodfame = 0 # Total of fame, same rules.
             spentcash = 0
@@ -797,7 +797,7 @@ init -9 python:
             evt.type = type
             evt.red_flag = self.flag_red
             evt.loc = self
-            evt.girl = chr
+            evt.girl = char
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)
@@ -945,15 +945,15 @@ init -9 python:
             """
             return False
         
-        def log_income(self, chr, value):
+        def log_income(self, char, value):
             """
             Logs the training cost.
-            chr = The character who the income is being spent for.
+            char = The character who the income is being spent for.
             value = The amount being spent.
             """
             hero.take_money(value, reason=self.name)
             self.income += value
-            chr.fin.log_cost(value, "Training")
+            char.fin.log_cost(value, "Training")
         
         def mod_disobey(self):
             """
@@ -1000,7 +1000,7 @@ init -9 python:
             img = im.Scale(self.img, int(config.screen_width*0.6), int(config.screen_height*0.8))
             txt = "%s Report: \n"%self.name
             evtlist = []
-            chr = None
+            char = None
             
             girls = self.get_girls("Course")
             
@@ -1077,7 +1077,7 @@ init -9 python:
             
             evt = Event()
             evt.type = type
-            evt.girl = chr
+            evt.girl = char
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)
@@ -1177,15 +1177,15 @@ init -9 python:
             """
             return True
         
-        def log_income(self, chr, value):
+        def log_income(self, char, value):
             """
             Logs the schools income.
-            chr = The character who the income is being spent for.
+            char = The character who the income is being spent for.
             value = The amount being spent.
             """
             hero.take_money(value, reason=self.name)
             self.income += value
-            chr.fin.log_cost(value, "Training")
+            char.fin.log_cost(value, "Training")
         
         def next_day(self):
             """
@@ -1196,7 +1196,7 @@ init -9 python:
             img = im.Scale(self.img, int(config.screen_width*0.6), int(config.screen_height*0.8))
             txt = "%s Report: \n"%self.name
             evtlist = []
-            chr = None
+            char = None
             
             girls = [girl for girl in hero.girls if girl.location == self.name]
             
@@ -1289,7 +1289,7 @@ init -9 python:
             
             evt = Event()
             evt.type = type
-            evt.girl = chr
+            evt.girl = char
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)

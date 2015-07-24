@@ -28,7 +28,7 @@ label girl_interactions:
         hs()
         
         # Set characters
-        g = Character(chr.name, color="#c8ffc8", show_two_window=True)
+        g = Character(char.name, color="#c8ffc8", show_two_window=True)
         h = Character(hero.name, color="#c8ffc8", show_two_window=True)
         nvl_gm = Character(None, kind=nvl)
         
@@ -241,15 +241,15 @@ label girl_interactions_control:
                 # Girls Meets
                 if result[1] == "GM":
                     # Include img as coming from int and tr prevents the "img from last location" from working
-                    gm.start_gm(chr, img=chr.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
+                    gm.start_gm(char, img=char.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
                 
                 # Interactions
                 elif result[1] == "GI":
-                    gm.start_int(chr)
+                    gm.start_int(char)
                 
                 # Training
                 elif result[1] == "GT":
-                    gm.start_tr(chr)
+                    gm.start_tr(char)
         
         # Gifts
         elif result[0] == "gift":
@@ -268,22 +268,22 @@ label girl_interactions_control:
                 else:
                     item = result[1]
                     dismod = 0
-                    if (hasattr(item, "traits") and any(trait in chr.traits for trait in item.traits)) or (hasattr(item, "occupations") and chr.occupation in item.occupations):
+                    if (hasattr(item, "traits") and any(trait in char.traits for trait in item.traits)) or (hasattr(item, "occupations") and char.occupation in item.occupations):
                         if hasattr(item, "traits"):
                             for key in item.traits:
-                                if key in chr.traits:
+                                if key in char.traits:
                                     dismod += item.traits[key]
                          
                         if hasattr(item, "occupations"):
                             for key in item.occupations:
-                                if key == chr.occupation:
+                                if key == char.occupation:
                                     dismod += item.occupations[key]
                      
                     else:
                         dismod = item.dismod
                      
                     hero.inventory.remove(item)
-                    chr.disposition += dismod
+                    char.disposition += dismod
                     setattr(gm, "show_menu", True)
                     setattr(gm, "show_menu_givegift", False)
                      
@@ -315,7 +315,7 @@ screen pyt_girl_interactions():
         vbar:
             top_gutter 13
             bottom_gutter 0 
-            value AnimatedValue(value=gm.chr.disposition, range=gm.chr.get_max("disposition"), delay=4.0)
+            value AnimatedValue(value=gm.char.disposition, range=gm.char.get_max("disposition"), delay=4.0)
             bottom_bar "content/gfx/interface/bars/progress_bar_full1.png"
             top_bar "content/gfx/interface/bars/progress_bar_1.png"
             thumb None
@@ -323,8 +323,8 @@ screen pyt_girl_interactions():
         
         python:
             # Trying to invert the values (bar seems messed up with negative once):
-            if gm.chr.disposition < 0:
-                inverted_disposition = gm.chr.disposition * -1
+            if gm.char.disposition < 0:
+                inverted_disposition = gm.char.disposition * -1
             else:
                 inverted_disposition = 0
         
@@ -332,7 +332,7 @@ screen pyt_girl_interactions():
             bar_invert True
             top_gutter 12
             bottom_gutter 0
-            value AnimatedValue(value=inverted_disposition, range=gm.chr.stats.min["disposition"]*-1, delay=4.0)
+            value AnimatedValue(value=inverted_disposition, range=gm.char.stats.min["disposition"]*-1, delay=4.0)
             bottom_bar im.Flip("content/gfx/interface/bars/progress_bar_1.png", vertical=True)
             top_bar "content/gfx/interface/bars/bar_mine.png"
             thumb None
@@ -358,12 +358,12 @@ screen pyt_girl_interactions():
                 null height 60
                 text "{color=[white]}Mode: [gm.mode]"
                 text "{color=[white]}Label: [gm.jump_cache]"
-                text ("{color=[white]}Girl.AP: [gm.chr.AP] / %s"%gm.chr.get_ap())
+                text ("{color=[white]}Girl.AP: [gm.char.AP] / %s"%gm.char.get_ap())
                 text "{color=[white]}Points: [gm.gm_points]"
     
     # Actions
     if gm.show_menu:
-        use location_actions("girl_meets", gm.chr, pos=(1180, 315), anchor=(1.0, 0.5), style="main_screen_3")
+        use location_actions("girl_meets", gm.char, pos=(1180, 315), anchor=(1.0, 0.5), style="main_screen_3")
     
     # Give gift interface
     if gm.show_menu_givegift:

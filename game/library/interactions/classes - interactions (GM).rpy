@@ -10,7 +10,7 @@ init -1 python:
             self.girls = []
             
             # Get availible girls and check occupation
-            choices = list(i for i in char.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
+            choices = list(i for i in chars.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
             conditioned_choices = choices * 1
             if occupation:
                 conditioned_choices = list(i for i in conditioned_choices if occupation in i.occupations)
@@ -100,7 +100,7 @@ init -1 python:
             self.img_cache = Null()
             
             # Current interaction
-            self.chr = None
+            self.char = None
             self.img = ""
             self.gm_points = 0
             
@@ -136,13 +136,13 @@ init -1 python:
             
             return l
             
-        def remove_girl(self, chr):
+        def remove_girl(self, char):
             """
             Removes a girl from the girl_meets.
             """
             for cell in self.girlcells.values():
-                if chr in cell:
-                    cell.girls.remove(chr)
+                if char in cell:
+                    cell.girls.remove(char)
         
         # Image Controls:
         def generate_img(self, *args, **kwargs):
@@ -151,13 +151,13 @@ init -1 python:
             *Used upon first entering a location! This writes to cache so we know what image to fall back upon!
             """
             self.img_cache = self.img
-            self.img = self.chr.show(*args, **kwargs)
+            self.img = self.char.show(*args, **kwargs)
             
         def set_img(self, *args, **kwargs):
             """
             Sets the image, bypassing the image cache.
             """
-            self.img = self.chr.show(*args, **kwargs)
+            self.img = self.char.show(*args, **kwargs)
         
         def change_img(self, img):
             """
@@ -189,7 +189,7 @@ init -1 python:
                 # If we are allowed unique labels
                 if allow_unique:
                     # Add the mode specific girl unique label
-                    ls.append("%s_%s_%s"%(self.mode, label, self.chr.id))
+                    ls.append("%s_%s_%s"%(self.mode, label, self.char.id))
                 
                 # Add the mode specific label
                 ls.append("%s_%s"%(self.mode, label))
@@ -197,7 +197,7 @@ init -1 python:
             # If we are allowed unique labels
             if allow_unique:
                 # Add the girl unique label
-                ls.append("%s_%s"%(label, gm.chr.id))
+                ls.append("%s_%s"%(label, gm.char.id))
             
             # Add the generic label
             ls.append("interactions_%s"%label)
@@ -245,7 +245,7 @@ init -1 python:
             exit = The exit label to use. Overrides enter_location.
             """
             self.mode = mode
-            self.chr = girl
+            self.char = girl
             
             if exit is not None:
                 self.label_cache = exit
@@ -255,16 +255,16 @@ init -1 python:
                 self.bg_cache = "bg " + bg
             
             if img is None:
-                self.img = self.chr.get_img_from_cache(str(last_label))
+                self.img = self.char.get_img_from_cache(str(last_label))
                 
                 if self.img == "":
-                    self.img = self.chr.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"])
+                    self.img = self.char.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"])
             
             else:
                 self.img = img
             
-            global chr
-            chr = girl
+            global char
+            char = girl
             
             if mode in self.USE_GI:
                 jump("girl_interactions")

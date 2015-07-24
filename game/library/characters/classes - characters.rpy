@@ -84,7 +84,7 @@ init -9 python:
             # If we got a string with a traits name. Let the game throw an error otherwise.
             if not isinstance(trait, Trait):
                 trait = store.traits[trait]
-            chr = self.instance
+            char = self.instance
             
             # We cannot allow "Neutral" element to be applied if there is at least one element present already:
             if trait.elemental and trait.id == "Neutral":
@@ -172,13 +172,13 @@ init -9 python:
                 if entry in traits:
                     self.blocked_traits.add(traits[entry])
                 else:
-                    devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, chr.id, chr.__class__)))
+                    devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
                 
             #TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
-            if isinstance(chr, Girl):
+            if isinstance(char, Girl):
                 for entry in trait.effects:
-                    chr.enable_effect(entry)
+                    char.enable_effect(entry)
                 
             # Rewrite this bit of code so upkeep to look/work better
             for key in trait.mod:
@@ -186,22 +186,22 @@ init -9 python:
                 if key == "disposition":
                     stats.disposition += trait.mod[key]
                 elif key == 'upkeep':
-                    chr.upkeep += trait.mod[key]
+                    char.upkeep += trait.mod[key]
                 elif key in stats:
                     value = trait.mod[key]
                     mod_value = 0
                     # 10% per every 5 levels applied:
-                    for level in xrange(chr.level+1):
+                    for level in xrange(char.level+1):
                         if not level%5:
                             mod_value += int(round(value*0.1))
-                    chr.mod(key, mod_value)
+                    char.mod(key, mod_value)
                 else:
                     msg = "'%s' trait tried to apply unknown stat: %s!"
                     devlog.warning(str(msg % (trait.id, key)))
                     
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
-                    if key in chr.SKILLS:
+                    if key in char.SKILLS:
                         sm = stats.skills_multipliers[key] # skillz muplties
                         m = trait.mod_skills[key] # mod
                         sm[0] += m[0]
@@ -228,7 +228,7 @@ init -9 python:
             # If we got a string with a traits name. Let the game throw an error otherwise.
             if not isinstance(trait, Trait):
                 trait = store.traits[trait]
-            chr = self.instance
+            char = self.instance
             
             # We Never want to remove a base trait:
             if trait in self.basetraits:
@@ -241,7 +241,7 @@ init -9 python:
             if not super(Traits, self).remove(trait, truetrait):
                 return
                 
-            stats = chr.stats
+            stats = char.stats
             for key in trait.max:
                 if key in stats.max:
                     stats.max[key] -= trait.max[key]
@@ -263,7 +263,7 @@ init -9 python:
                     if entry in traits:
                         _traits.add(traits[entry])
                     else:
-                        devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, chr.id, chr.__class__)))
+                        devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
                 self.blocked_traits -= _traits
 
             # Ensure that blocks forced by other traits were not removed:
@@ -272,7 +272,7 @@ init -9 python:
 
             # TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
-            if isinstance(chr, Girl):
+            if isinstance(char, Girl):
                 for entry in trait.effects:
                     self.intance.disable_effect(entry)
 
@@ -280,22 +280,22 @@ init -9 python:
                 if key == "disposition":
                     stats -= trait.mod[key]
                 elif key == 'upkeep':
-                    chr.upkeep -= trait.mod[key]
+                    char.upkeep -= trait.mod[key]
                 elif key in stats:
                     value = trait.mod[key]
                     mod_value = 0
                     # 10% per every 5 levels applied:
-                    for level in xrange(chr.level+1):
+                    for level in xrange(char.level+1):
                         if not level%5:
                             mod_value += int(round(value*0.1))
-                    chr.mod(key, mod_value*-1)
+                    char.mod(key, mod_value*-1)
                 else:
                     msg = "'%s' trait tried to remove unknown stat: %s!"
                     devlog.warning(str(msg % (trait.id, key)))
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
-                    if key in chr.SKILLS:
+                    if key in char.SKILLS:
                         sm = stats.skills_multipliers[key] # skillz muplties
                         m = trait.mod_skills[key] # mod
                         sm[0] -= m[0]
@@ -443,9 +443,9 @@ init -9 python:
         
         # Retrieving data:    
         def get_total_taxes(self, days):
-            chr = self.instance
+            char = self.instance
             income = dict()
-            for brothel in chr.brothels:
+            for brothel in char.brothels:
                 for _day in brothel.fin.game_fin_log:
                     if int(_day) > day - days:
                         for key in brothel.fin.game_fin_log[_day][0]["private"]:
@@ -468,9 +468,9 @@ init -9 python:
             else:
                 tax = int(round(income*0.45))
                  
-            for brothel in chr.brothels:
+            for brothel in char.brothels:
                 tax += int(brothel.price*0.04)
-            for girl in chr.girls:
+            for girl in char.girls:
                 if girl.status == "slave":
                     tax += int(girl.fin.get_price()*0.05)
                 
@@ -483,43 +483,43 @@ init -9 python:
             Amount of money each character expects to get paid for her skillset.
             """
             # TODO: To be revised after SKILLS!
-            chr = self.instance
+            char = self.instance
             
             wage = 0
             
-            if traits['Prostitute'] in chr.occupations:
+            if traits['Prostitute'] in char.occupations:
                 bw = 5 # Base wage
-                sm = bw*((1+chr.charisma/5 + chr.refinement/5 + chr.reputation/4 + chr.fame/4)/100) # Stats Mod
-                osm = (chr.anal + chr.normalsex + chr.blowjob + chr.lesbian) / 4 * (chr.rank / 10 + 1) # Occupational Stats M
+                sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
+                osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
 
                 wage =  (sm*osm)/5 + bw
 
-            elif traits['Stripper'] in chr.occupations:
+            elif traits['Stripper'] in char.occupations:
                 bw = 2
-                sm = bw*(chr.charisma/4 + chr.refinement/5 + chr.reputation/4 + chr.fame/4)
-                osm = chr.strip*chr.agility/100
+                sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
+                osm = char.strip*char.agility/100
 
                 wage = (sm+osm)/5 + bw
 
-            elif 'Server' in chr.occupations:
+            elif 'Server' in char.occupations:
                 bw = 10
-                sm = chr.charisma/5 + chr.agility/2 + chr.refinement/4
-                osm = chr.service*bw
+                sm = char.charisma/5 + char.agility/2 + char.refinement/4
+                osm = char.service*bw
 
                 wage = sm/2+osm/100
 
-            elif 'Warrior' in chr.occupations or isinstance(self.instance, Player):
+            elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
                 # Here we include MC for the attack event as well.
                 bw = 15
-                sm = chr.agility/100+chr.fame/4 + chr.reputation/3
-                osm = (chr.attack + chr.defence + chr.magic/2)/100 + bw
+                sm = char.agility/100+char.fame/4 + char.reputation/3
+                osm = (char.attack + char.defence + char.magic/2)/100 + bw
 
                 wage = bw+sm*osm
 
             else:
-                for stat in chr.stats:
+                for stat in char.stats:
                     if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                        wage += getattr(chr, stat)
+                        wage += getattr(char, stat)
                 wage = wage/2
 
             # Normalize:    
@@ -535,75 +535,75 @@ init -9 python:
             Called during next day method per each individual girl.
             Right now being used for Brothels only, all FG profit goes directly into MC's pockets.
             """
-            chr = self.instance
+            char = self.instance
             
             if self.wage_conditions():
                 total_wage = sum(self.daily_income_log["work"].values())
                 hero.add_money(total_wage, reason="Brothels")
                 
-                if chr.status != "slave":
-                    if chr.mech_relay["wagemod"] >= 100:
-                        amount = int(self.expects_wage() + int(round(self.expects_wage()*0.01*(chr.mech_relay['wagemod']-100))))
+                if char.status != "slave":
+                    if char.mech_relay["wagemod"] >= 100:
+                        amount = int(self.expects_wage() + int(round(self.expects_wage()*0.01*(char.mech_relay['wagemod']-100))))
                         if hero.take_money(amount, reason="Wages"):
                             self.add_money(amount, reason="Wages")
                             self.log_cost(amount, "Wages")
-                            if isinstance(chr.location, Building):
-                                chr.location.fin.log_work_expense(amount, "Wages")
-                            if chr.disposition < 700:
-                                chr.disposition += int(round((chr.mech_relay['wagemod']-100)*0.1))
-                            chr.joy += int(round((chr.mech_relay['wagemod']-100)*0.1))
+                            if isinstance(char.location, Building):
+                                char.location.fin.log_work_expense(amount, "Wages")
+                            if char.disposition < 700:
+                                char.disposition += int(round((char.mech_relay['wagemod']-100)*0.1))
+                            char.joy += int(round((char.mech_relay['wagemod']-100)*0.1))
         
-                    elif chr.mech_relay['wagemod'] < 100:
-                        amount = int(self.expects_wage() - int(round(self.expects_wage()*0.01*(100-chr.mech_relay['wagemod']))))
+                    elif char.mech_relay['wagemod'] < 100:
+                        amount = int(self.expects_wage() - int(round(self.expects_wage()*0.01*(100-char.mech_relay['wagemod']))))
                         if hero.take_money(amount, reason="Wages"):
                             self.log_cost(amount, "Wages")
                             self.add_money(amount, reason="Wages")
-                            if isinstance(chr.location, Building):
-                                chr.location.fin.log_work_expense(amount, "Wages")
+                            if isinstance(char.location, Building):
+                                char.location.fin.log_work_expense(amount, "Wages")
                                 
                 else:
-                    amount = int(self.expects_wage()*0.01*(chr.mech_relay['wagemod']))
+                    amount = int(self.expects_wage()*0.01*(char.mech_relay['wagemod']))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
                         self.log_cost(amount, "Wages")
-                        if isinstance(chr.location, Building):
-                            chr.location.fin.log_work_expense(amount, "Wages")
-                        if chr.disposition < 700:
-                            chr.disposition += int(round((chr.mech_relay['wagemod'])*0.2))
-                        chr.joy += int(round((chr.mech_relay['wagemod'])*0.2))
+                        if isinstance(char.location, Building):
+                            char.location.fin.log_work_expense(amount, "Wages")
+                        if char.disposition < 700:
+                            char.disposition += int(round((char.mech_relay['wagemod'])*0.2))
+                        char.joy += int(round((char.mech_relay['wagemod'])*0.2))
                                      
         def wage_conditions(self):
-            chr = self.instance
-            return chr.action not in ["Rest", "AutoRest"] or (chr.location != "Streets" and not in_training_location(chr))
+            char = self.instance
+            return char.action not in ["Rest", "AutoRest"] or (char.location != "Streets" and not in_training_location(char))
         
         def get_price(self):
             # TODO: To be revised after skills are added!
-            chr = self.instance
-            if chr.status == 'slave':
-                if traits['Prostitute'] in chr.occupations:
+            char = self.instance
+            if char.status == 'slave':
+                if traits['Prostitute'] in char.occupations:
                     bp = 3000 # Base Price
-                    sp = 2 * (chr.charisma + chr.reputation + chr.fame + chr.constitution + chr.character) + 3 * chr.refinement
-                    ssp = 2 * (chr.anal + chr.normalsex + chr.blowjob + chr.lesbian) # Sex Price
+                    sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
+                    ssp = 2 * (char.anal + char.normalsex + char.blowjob + char.lesbian) # Sex Price
                     if sp > 1200:
                         sp = sp * 1.2
                     if ssp > 850:
                         ssp = ssp * 1.4
                     price = bp + sp + ssp
                     return int(price)
-                elif traits['Stripper'] in chr.occupations:
+                elif traits['Stripper'] in char.occupations:
                     bp = 3900 # Base Price
-                    sp = 2 * (chr.charisma + chr.reputation + chr.fame + chr.constitution + chr.character) + 3 * chr.refinement
-                    ssp = 2 * 4 * (chr.strip) # Sex Price
+                    sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
+                    ssp = 2 * 4 * (char.strip) # Sex Price
                     if sp > 1200:
                         sp = sp * 1.2
                     if ssp > 850:
                         ssp = ssp * 1.4
                     price = bp + sp + ssp
                     return int(price)
-                elif 'Server' in chr.occupations:
+                elif 'Server' in char.occupations:
                     bp = 3500 # Base Price
-                    sp = 2 * (chr.charisma + chr.reputation + chr.fame + chr.constitution + chr.character) + 3 * chr.refinement
-                    ssp = 2 * 4 * (chr.service) # Sex Price
+                    sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
+                    ssp = 2 * 4 * (char.service) # Sex Price
                     if sp > 1200:
                         sp = sp * 1.2
                     if ssp > 850:
@@ -613,9 +613,9 @@ init -9 python:
                 else:
                     bp = 3000 # Base Price
                     sp = 0
-                    for stat in chr.stats:
+                    for stat in char.stats:
                         if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                            sp += getattr(chr, stat)
+                            sp += getattr(char, stat)
                     
                     if sp > 1200:
                         sp = sp * 1.2
@@ -625,63 +625,63 @@ init -9 python:
 
         def get_upkeep(self):
             # TODO: To be revised after skills are added!
-            chr = self.instance
-            if chr.status == 'slave':
-                if traits['Prostitute'] in chr.occupations:
-                    bu = 20 * chr.rank
-                    su = chr.charisma/10 + chr.refinement*1.5 + chr.constitution/5 + chr.reputation/2 + chr.fame/2 # Stats Upkeep
-                    ssu = chr.anal/8 + chr.normalsex/8 + chr.blowjob/8 + chr.lesbian/8
+            char = self.instance
+            if char.status == 'slave':
+                if traits['Prostitute'] in char.occupations:
+                    bu = 20 * char.rank
+                    su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
+                    ssu = char.anal/8 + char.normalsex/8 + char.blowjob/8 + char.lesbian/8
                     
-                    return int(bu + su + ssu + chr.upkeep)
+                    return int(bu + su + ssu + char.upkeep)
 
-                elif traits['Stripper'] in chr.occupations:
-                    bu = 3 * chr.strip
-                    su = chr.charisma/10 + chr.refinement*1.5 + chr.constitution/5 + chr.reputation/2 + chr.fame/2 # Stats Upkeep
+                elif traits['Stripper'] in char.occupations:
+                    bu = 3 * char.strip
+                    su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
 
-                    return int(bu + su + chr.upkeep)
+                    return int(bu + su + char.upkeep)
 
-                elif 'Server' in chr.occupations:
-                    bu = 3 * chr.service
-                    su = chr.charisma/10 + chr.refinement*1.5 + chr.constitution/5 + chr.reputation/2 + chr.fame/2 # Stats Upkeep
+                elif 'Server' in char.occupations:
+                    bu = 3 * char.service
+                    su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
 
-                    return int(bu + su + chr.upkeep)
+                    return int(bu + su + char.upkeep)
 
                 else:
                     bu = 20
                     su = 0 # Stats Upkeep
-                    for stat in chr.stats:
+                    for stat in char.stats:
                         if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                            su += getattr(chr, stat)
+                            su += getattr(char, stat)
 
-                    return int(bu + su + chr.upkeep)
+                    return int(bu + su + char.upkeep)
 
-            elif chr.status == 'free':
-                return chr.upkeep
+            elif char.status == 'free':
+                return char.upkeep
 
             else: # This is for any unknown types
                 bu = 50
                 su = 0 # Stats Upkeep
-                for stat in chr.stats:
+                for stat in char.stats:
                     if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                        su += getattr(chr, stat)
+                        su += getattr(char, stat)
 
-                return int(bu + su + chr.upkeep)
+                return int(bu + su + char.upkeep)
 
         def get_whore_price(self):
             """
             Workprice for girls working as whores.
             """
             # TODO: To be revised after skills are added!
-            chr = self.instance
+            char = self.instance
             
-            if chr.rank < 4:
-                bp = 10 * chr.rank # Base Price
-            elif chr.rank < 7 :
-                bp = 15 * chr.rank
+            if char.rank < 4:
+                bp = 10 * char.rank # Base Price
+            elif char.rank < 7 :
+                bp = 15 * char.rank
             else:
-                bp = 20 * chr.rank
-            sp = chr.charisma/2 + chr.refinement/3 + chr.reputation/4 + chr.fame/4 # Stats Price
-            ssp = (chr.anal + chr.normalsex + chr.blowjob + chr.lesbian)/4*(1+(chr.rank*0.1)) # Sex Stats Price
+                bp = 20 * char.rank
+            sp = char.charisma/2 + char.refinement/3 + char.reputation/4 + char.fame/4 # Stats Price
+            ssp = (char.anal + char.normalsex + char.blowjob + char.lesbian)/4*(1+(char.rank*0.1)) # Sex Stats Price
 
             return int(bp + sp + ssp)
             
@@ -1329,7 +1329,7 @@ init -9 python:
             *kind = is a string refering to the NPC
             """
             # Any training:
-            chr.exp += self.adjust_exp(randint(20, max(25, self.luck)))
+            char.exp += self.adjust_exp(randint(20, max(25, self.luck)))
             
             if kind == "train_with_witch":
                 self.magic += randint(1, 2)
@@ -1503,7 +1503,7 @@ init -9 python:
             if item.unique and item.unique != item.id:
                 raise Error("A character attempted to equip unqiue item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
 
-            if item.sex not in ["unisex", self.chr_sex]:
+            if item.sex not in ["unisex", self.char_sex]:
                 devlog.warning(str("False charachter sex value: %s, %s,  %s" % (item.sex, item.id, self.__class__.__name__)))
                 return
 
@@ -1667,7 +1667,7 @@ init -9 python:
                         continue
                     
                     if slot == "consumable":    
-                        if any([item.ceffect, item.type == "permanent",  item.sex not in (self.chr_sex, "unisex"),
+                        if any([item.ceffect, item.type == "permanent",  item.sex not in (self.char_sex, "unisex"),
                                   item.id in self.consblock, item.id in self.constemp, not item.eqchance,
                                   item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
                             continue
@@ -1678,7 +1678,7 @@ init -9 python:
                             if item.mdestruct or not item.mreusable:
                                 return returns
                                 
-                        if any([item.type == "permanent",  item.sex not in (self.chr_sex, "unisex"),
+                        if any([item.type == "permanent",  item.sex not in (self.char_sex, "unisex"),
                                   not item.eqchance, item.id in self.miscblock]):
                             continue
 
@@ -1705,7 +1705,7 @@ init -9 python:
                     else: # All other slots:
                         if item.slot == "weapon" and not real_weapons and not item.type.lower().startswith("nw"):
                             continue
-                        if any([item.type == "permanent",  item.sex not in (self.chr_sex, "unisex"), not item.eqchance]):
+                        if any([item.type == "permanent",  item.sex not in (self.char_sex, "unisex"), not item.eqchance]):
                             continue
                         
                     # We finally check if there is at least one matching stat and if so, add the item at 0 priority    
@@ -2151,11 +2151,11 @@ init -9 python:
                     self.miscitems[key] = items[key].mtemp
 
         # Relationships:
-        def is_friend(self, chr):
-            return chr in self.friends
+        def is_friend(self, char):
+            return char in self.friends
             
-        def is_lover(self, chr):
-            return chr in self.lovers
+        def is_lover(self, char):
+            return char in self.lovers
                     
         # Post init and ND.
         def init(self):
@@ -2314,7 +2314,7 @@ init -9 python:
             self.occupation = "Warrior"
             self.status = "free"
             self.flags = Flags()
-            self.chr_sex = "male"
+            self.char_sex = "male"
             
             # Player only...
             self.corpses = list() # Dead bodies go here until disposed off.
@@ -2783,7 +2783,7 @@ init -9 python:
         def __init__(self):
             super(Girl, self).__init__(arena=True, inventory=True)
             # Game mechanics assets
-            self.chr_sex = 'female'
+            self.char_sex = 'female'
             self.race = ""
             # Compability with crazy mod:
             self.desc = ""

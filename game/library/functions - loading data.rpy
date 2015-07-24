@@ -48,12 +48,12 @@ init -11 python:
                         # Apply the content of the file to the character:
                         for gd in ugirls: # We go over each dict one mainaining correct order of application:
                             
-                            chr = Girl()
+                            char = Girl()
                             
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
                                 raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
-                            chr.id = gd["id"]
+                            char.id = gd["id"]
                             
                             # @Review: We make sure all traits get applied first!
                             for key in ("blocked_traits", "ab_traits"):
@@ -64,7 +64,7 @@ init -11 python:
                                             _traits.add(store.traits[t])
                                         else:
                                             devlog.warning("%s trait is unknown for %s (In %s)!" % (t, gd["id"], key))
-                                    setattr(chr.traits, key, _traits)
+                                    setattr(char.traits, key, _traits)
                                     
                             # Get and normalize basetraits:
                             if "basetraits" in gd:
@@ -82,55 +82,55 @@ init -11 python:
                                         
                                 # In case that we have basetraits:
                                 if basetraits:
-                                    chr.traits.basetraits = basetraits
+                                    char.traits.basetraits = basetraits
                                 
-                                for trait in chr.traits.basetraits:
-                                    chr.apply_trait(trait)
+                                for trait in char.traits.basetraits:
+                                    char.apply_trait(trait)
                                     
                             for key in ("personality", "breasts", "body", "base_race"):
                                 if key in gd:
                                     trait = gd[key]
                                     if trait in traits:
-                                        chr.apply_trait(traits[trait])
+                                        char.apply_trait(traits[trait])
                                     else:
                                         devlog.warning("%s %s is unknown for %s!" % (trait, key, gd["id"]))
                                     
                             if "elements" in gd:
                                 for trait in gd["elements"]:
                                     if trait in traits:
-                                        chr.apply_trait(traits[trait])
+                                        char.apply_trait(traits[trait])
                                     else:
                                         devlog.warning("%s element is unknown for %s!" % (trait, gd["id"]))
                                         
                             if "traits" in gd:
                                 for trait in gd["traits"]:
                                     if trait in traits:
-                                        chr.apply_trait(traits[trait])
+                                        char.apply_trait(traits[trait])
                                     else:
                                         devlog.warning("%s trait is unknown for %s!" % (trait, gd["id"]))
                                 
                             # Leveling up:
                             if "level" in gd:
-                                initial_levelup(chr, gd["level"])
+                                initial_levelup(char, gd["level"])
                                 del gd["level"]
                                 
                             if "stats" in gd:
                                 for stat in gd["stats"]:
-                                    if stat in chr.STATS:
+                                    if stat in char.STATS:
                                         value = gd["stats"][stat]
                                         if stat != "luck":
-                                            value = int(round(float(value)*chr.get_max(stat))/100)
-                                        chr.mod(stat, value)
+                                            value = int(round(float(value)*char.get_max(stat))/100)
+                                        char.mod(stat, value)
                                     else:
                                         devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
                                 del gd["stats"]
                                 
                             if "skills" in gd:
                                 for skill in gd["skills"]:
-                                    if skill in chr.stats.skills:
+                                    if skill in char.stats.skills:
                                         value = gd["skills"][skill]
-                                        setattr(chr, skill.lower(), value * (2/3.0))
-                                        setattr(chr, skill.capitalize(), value * (1/3.0))
+                                        setattr(char, skill.lower(), value * (2/3.0))
+                                        setattr(char, skill.capitalize(), value * (1/3.0))
                                     else:
                                         devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
                                 del gd["skills"]
@@ -145,15 +145,15 @@ init -11 python:
                                     for skill in skills:
                                         if skill in store.battle_skills:
                                             skill = store.battle_skills[skill]
-                                            chr.__dict__[key].append(skill)
+                                            char.__dict__[key].append(skill)
                                         else:
                                             devlog.warning("%s JSON Loading func tried to apply unknown battle skill: %s!" % (gd["id"], skill))
                             
                             for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "race", "location", "status", "height"):
                                 if key in gd:
-                                    setattr(chr, key, gd[key])
+                                    setattr(char, key, gd[key])
                             
-                            folder = chr.id
+                            folder = char.id
                             if os.path.isdir("/".join([dir, packfolder, folder])):
                                 # We load the new tags!:
                                 for fn in os.listdir("/".join([dir, packfolder, folder])):
@@ -173,8 +173,8 @@ init -11 python:
                                         # Adding filenames to girls id:
                                         tagdb.tagmap.setdefault(folder, set()).add(rp_path)
                                         
-                            chr.init() # Normalize!
-                            content[chr.id] = chr
+                            char.init() # Normalize!
+                            content[char.id] = char
                                     
         return content
         

@@ -400,7 +400,7 @@ screen mc_setup():
         xpadding 12
         ypadding 8
         align (0.37, 0.10)
-        action Show("chr_rename", chr=hero)
+        action Show("char_rename", char=hero)
     
     # Text:
     # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)

@@ -1,6 +1,6 @@
 label girl_interactions_greeting:
-    if chr.status != "slave":
-        if check_lovers(hero, chr):
+    if char.status != "slave":
+        if check_lovers(hero, char):
             if ct("Half-Sister") and dice(35):
                 if ct("Impersonal"):
                     $rc("I love you, even though we're siblings.", "I love you. I think.", "...Love you.")
@@ -48,7 +48,7 @@ label girl_interactions_greeting:
             else:
                 $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
     
-        elif chr.disposition < -350:
+        elif char.disposition < -350:
             if ct("Yandere"):
                 $rc("<She looks at you with hostility>", "Stay away~", "...")
             elif ct("Impersonal"):
@@ -72,7 +72,7 @@ label girl_interactions_greeting:
             else:
                 $rc("...Hey! Could you not get any closer to me, please?", "Sigh~… What is it?", "...Leave me alone.", "Geez, what is it...", "Leave, will you? I don't want to talk to you.", "You're an eyesore.", "You're so annoying!", "Why do you keep bothering me?", "Ah... I-I have stuff to do, so....", "U-Um... right now is a bit, err...")
     
-        elif check_friends(hero, chr) or chr.disposition >= 500:
+        elif check_friends(hero, char) or char.disposition >= 500:
             if ct("Impersonal"):
                 $rc("Talk, I'll listen.", "...Being with you makes me feel extraordinarily comfortable.", "...You really like to talk, huh?", "What is your purpose in getting close to me?", "Being with you... calms me.")
             elif ct("Shy") and dice(30):
@@ -118,7 +118,7 @@ label girl_interactions_greeting:
             else:
                 $rc("...Is there something you need?", "Is there something you would like to ask?", "You called?", "Hmm?", "Is something the matter?", "What do you need from me?", "What is it? If you need something, then say it.", "You have business with me...?", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Hm? Yes?", "Yes, what is it...?", "Hm? What's up?")
     else:
-        if check_lovers(hero, chr):
+        if check_lovers(hero, char):
             if ct("Half-Sister") and dice(35):
                 if ct("Impersonal"):
                     $rc("I love you, Master, even though we're siblings.", "I love you, Master. I think.", "...Love you, Master.")
@@ -166,7 +166,7 @@ label girl_interactions_greeting:
             else:
                 $rc("I really like you, Master...", "A-As lovers, let's love each other a lot, okay, Master...?", "We shouldn't flirt to much in front of the others, Master.", "I-I love you, Master... Hehehe...♪", "I love you, Master～ I love you so much～", "We're the most compatible couple in the world, aren't we, Master?", "I want you to love me more and more, Master! Prepare yourself for it, okay?", "I love you...I super love you, Master...!", "I wish we could be together forever, Master...♪", "What do you think other people think when they see us, Master? ...you think maybe, 'Hey, look at that cute couple'...?")
     
-        if chr.disposition < -350:
+        if char.disposition < -350:
             if ct("Yandere"):
                 $rc("<She looks at you with hostility> What is it, 'Master'?", "...")
             elif ct("Impersonal"):
@@ -190,7 +190,7 @@ label girl_interactions_greeting:
             else:
                 $rc("Sigh~… What is it, Master?", "...Leave me alone, Master. Please.", "...I don't want to talk to you, Master.", "Ah... I-I have stuff to do, so....")
     
-        elif chr.disposition >= 500 or check_friends(hero, chr):
+        elif char.disposition >= 500 or check_friends(hero, char):
             if ct("Impersonal"):
                 $rc("Yes, Master.", "I'm waiting for your order.", "...You really like to talk to your property, Master.", "Why are you so close to me, Master?", "Being with Master... calms me.")
             elif ct("Shy") and dice(30):
@@ -241,13 +241,13 @@ label girl_interactions_greeting:
     
 
 label girl_trainings_greeting:
-    if chr.disposition > 900:
+    if char.disposition > 900:
         $rc("Am I doing well Master?", "Master <3")
     
-    elif chr.disposition < -70:
+    elif char.disposition < -70:
         $rc("I'll never listen to you.", "Hmph.")
     
-    elif chr.disposition > 300:
+    elif char.disposition > 300:
         $rc("What am I learning today?", "M-Mas...")
     
     else:
@@ -257,7 +257,7 @@ label girl_trainings_greeting:
     return
 
 label girl_meets_greeting:
-    if check_lovers(hero, chr):
+    if check_lovers(hero, char):
         if ct("Half-Sister") and dice(35):
             if ct("Impersonal"):
                 $rc("I love you, even though we're siblings.", "I love you. I think.", "...Love you.")
@@ -305,7 +305,7 @@ label girl_meets_greeting:
         else:
             $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
     
-    if chr.disposition < -300:
+    if char.disposition < -300:
         if ct("Yandere"):
             $rc("...I don't like you...", "<She looks at you with hostility>", "Ugh, stay away~", "...I resent you.", "...!")
         elif ct("Impersonal"):
@@ -329,7 +329,7 @@ label girl_meets_greeting:
         else:
             $rc("...Hey! Could you not get any closer to me, please?", "You're bothering me… Would you mind getting the hell out of here?", "Sigh~… What is it?", "Stop following me.", "Coming in here... You're a nuisance.", "Ah, please, don't bother me...", "...Leave me alone.", "Geez, what is it...", "Leave, will you? I don't want to talk to you.", "You're an eyesore.", "You're so annoying!", "Why do you keep bothering me?", "Ah... I-I have stuff to do, so....", "U-Um... right now is a bit, err...")
     
-    elif chr.disposition > 500 or check_friends(hero, chr):
+    elif char.disposition > 500 or check_friends(hero, char):
         if ct("Shy") and dice(30):
             $rc("Even being... with me... is ok...?", "I-I'm getting a little bit... used to you, [hero.name]...", "Hey, am I... do you… Err... nothing. Never mind.", "Being near you calms me down...", "H…H-Hello!", "It's you…H-Hi! …sorry…", "It's nice… to see you again.", "H-Hi…Is it really ok to talk? I don't want to bother you…", "Hello. It's nice of you… umm...to remember me…", "If I am with you, I…  I-it's nothing…")
         elif ct("Impersonal"):

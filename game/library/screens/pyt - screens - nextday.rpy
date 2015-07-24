@@ -40,7 +40,7 @@ label next_day:
     # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
-        $ resting_char.action(resting_char) # <--- Looks odd and off?
+        $ resting_chars.action(resting_char) # <--- Looks odd and off?
         
     $ tl.timer("Rest (1)")
     
@@ -101,10 +101,10 @@ label next_day:
                 $ clients = nd_clients[:]
                 
                 while nd_chars and clients:
-                    $ chr = nd_chars.pop()
+                    $ char = nd_chars.pop()
                     # Make sure we're dealing with a Job here:
-                    if isinstance(chr.action, Job):
-                        $ chr.action()
+                    if isinstance(char.action, Job):
+                        $ char.action()
                 $ loop = loop - 1
             
         # Old jobs:

@@ -76,10 +76,6 @@ init -999 python:
                     
     tl = TimeLog()
     tl.timer("Ren'Py User Init!")
-    
-    # Since we're using chr in the game. (Should be moved to start?)
-    if not hasattr(store, "chr"):
-        characters = chr
 
     # setting the window on center
     # useful if game is launched in the window mode

@@ -2,10 +2,10 @@
 #
 label escaped_girl_recapture(event):
     # Get the specific girl
-    $ chr = pytfall.ra.get_look_around_girl(event)
+    $ char = pytfall.ra.get_look_around_girl(event)
     
     # If something goes wrong
-    if chr == None:
+    if char == None:
         hero.say "Wait is that?.."
         hero.say "Must be my imagnination..."
         return
@@ -17,16 +17,16 @@ label escaped_girl_recapture(event):
         
         hero.say "Ah ha!{nw}"
         
-        chr.say "Ah! What? No!{nw}"
+        char.say "Ah! What? No!{nw}"
         
-        "You grab [chr.name]'s arm and hold on tightly as she tries to struggle."
+        "You grab [char.name]'s arm and hold on tightly as she tries to struggle."
         
         hero.say "Found you. You won't be escaping again."
         
-        chr.say "..."
+        char.say "..."
         
         # Return the girl to the player
-        $ pytfall.ra.retrieve(chr)
+        $ pytfall.ra.retrieve(char)
         
         return
     

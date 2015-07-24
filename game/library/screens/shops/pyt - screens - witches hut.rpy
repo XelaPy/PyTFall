@@ -48,9 +48,9 @@ label witches_hut_shopping:
         amount = 1
         shop = pytfall.witches_hut
         shop.inventory.apply_filter(filter)
-        chr = hero
-        chr.inventory.set_page_size(18)
-        chr.inventory.apply_filter(filter)
+        char = hero
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter(filter)
 
     show screen pyt_shopping(left_ref=hero, right_ref=shop)
     show screen pyt_witches_hut_shopping
@@ -82,9 +82,9 @@ label witch_menu:
                 if len(hero.team) > 1:
                     w "Who will it be?"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                 call screen magic_purchase_screen(witch_fire_spells, orange, witch_air_spells, blue)
                 $ spell = _return
@@ -127,11 +127,11 @@ label witch_menu:
                         with dissolve
                         
                         $ spell = spell[0]
-                        $ chr.magic_skills[spell] = 1
+                        $ char.magic_skills[spell] = 1
                         
                         w "Congrats on your new skillz!"
                         
-                        "[chr.nickname] learned [spell]!!!"
+                        "[char.nickname] learned [spell]!!!"
                         
                     else:
                         w "Not enought cash I fear... we've all been there."
@@ -140,9 +140,9 @@ label witch_menu:
                 if len(hero.team) > 1:
                     w "Who gets a lesson from a wicked witch today?"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                 if not global_flags.has_flag("witches_training_explained"):    
                     w "I will train magic, intelligence and restore some MP."
@@ -155,7 +155,7 @@ label witch_menu:
                 else:
                     w "You know the deal!"
                     
-                $ training_price = chr.get_training_price()    
+                $ training_price = char.get_training_price()    
                 menu:
                     "Pay [training_price] Gold" if hero.AP > 0:
                         if hero.take_money(training_price, "Training"):
@@ -181,15 +181,15 @@ label witch_menu:
                 if len(hero.team) > 1:
                     "Pick a character!"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                 menu:
-                    "Setup sessions" if not chr.has_flag("train_with_witch"):
-                        $ chr.set_flag("train_with_witch")
-                    "Cancel sessions" if chr.flag("train_with_witch"):
-                        $ chr.del_flag("train_with_witch")
+                    "Setup sessions" if not char.has_flag("train_with_witch"):
+                        $ char.set_flag("train_with_witch")
+                    "Cancel sessions" if char.flag("train_with_witch"):
+                        $ char.del_flag("train_with_witch")
                     "Do Nothing...":
                         $ pass
                         

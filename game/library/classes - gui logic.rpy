@@ -8,19 +8,19 @@ init -1 python:
         And maybe even improve code readability
         This is still used in combination with RenPy screen language as I do not like to code GUI in pure python 
         '''
-        def __init__(self, location, chr=None, last_label=None):
+        def __init__(self, location, char=None, last_label=None):
             '''Takes location (so far we only have brothels) as an argument'''
-            self.left_chr = None
-            self.right_chr = None
+            self.left_char = None
+            self.right_char = None
             self.left_image_cache = None
             self.right_image_cache = None
             
             if location == "personal_transfer":
                 self.location = location
-                self.select_left_chr(hero)
-                self.left_chr.inventory.apply_filter("all")
-                self.select_right_chr(chr)
-                self.right_chr.inventory.apply_filter("all")
+                self.select_left_char(hero)
+                self.left_char.inventory.apply_filter("all")
+                self.select_right_char(char)
+                self.right_char.inventory.apply_filter("all")
             else:    
                 self.location = location
 
@@ -45,36 +45,36 @@ init -1 python:
                 else: return [False]
                 
             elif self.location == "personal_transfer":
-                members = [hero, self.right_chr]
+                members = [hero, self.right_char]
                 return [True, members]
                 
         def show_left_items_selection(self):
             '''Populates left items selection viewport'''
-            if self.left_chr != None:
+            if self.left_char != None:
                 return True
             else: return False
             
         def show_right_items_selection(self):
             '''Populates right items selection viewport'''
-            if self.right_chr != None:
+            if self.right_char != None:
                 return True
             else: return False
             
-        def select_left_chr(self, chr):
-            chr.inventory.set_page_size(23)
-            if chr == self.right_chr:
+        def select_left_char(self, char):
+            char.inventory.set_page_size(23)
+            if char == self.right_char:
                 renpy.show_screen('pyt_message_screen', "Same character cannot be chozen from both sides!")
             else:
-                self.left_chr = chr
-                self.left_image_cache = self.left_chr.show('portrait', resize=(205, 205))
+                self.left_char = char
+                self.left_image_cache = self.left_char.show('portrait', resize=(205, 205))
         
-        def select_right_chr(self, chr):
-            chr.inventory.set_page_size(23)
-            if chr == self.left_chr:
+        def select_right_char(self, char):
+            char.inventory.set_page_size(23)
+            if char == self.left_char:
                 renpy.show_screen('pyt_message_screen', "Same character cannot be chozen from both sides!")
             else:
-                self.right_chr = chr
-                self.right_image_cache = self.right_chr.show('portrait', resize=(205, 205))
+                self.right_char = char
+                self.right_image_cache = self.right_char.show('portrait', resize=(205, 205))
         
         def select_left_item(self, item):
             self.left_item = item
@@ -85,30 +85,30 @@ init -1 python:
             self.item_cache = item
             
         def show_right_transfer_button(self):
-            if self.left_item and self.right_chr:
+            if self.left_item and self.right_char:
                 return True
             else:
                 return False
                 
         def show_left_transfer_button(self):
-            if self.right_item and self.left_chr:
+            if self.right_item and self.left_char:
                 return True
             else:
                 return False
                 
         
         def get_left_inventory(self):
-            return [item for item in self.left_chr.inventory.getpage()]
+            return [item for item in self.left_char.inventory.getpage()]
 
             
         def get_right_inventory(self):
-            return [item for item in self.right_chr.inventory.getpage()]
+            return [item for item in self.right_char.inventory.getpage()]
 
                 
         def transfer_item_right(self):
             item = self.left_item
-            source = self.left_chr
-            target = self.right_chr
+            source = self.left_char
+            target = self.right_char
             for i in range(self.items_amount):
                 if item.id in source.inventory.content:
                     if not transfer_items(source, target, item):
@@ -124,8 +124,8 @@ init -1 python:
 
         def transfer_item_left(self):
             item = self.right_item
-            source = self.right_chr
-            target = self.left_chr
+            source = self.right_char
+            target = self.left_char
             for i in range(self.items_amount):
                 if item.id in source.inventory.content:
                     if not transfer_items(source, target, item):
@@ -256,7 +256,7 @@ init -1 python:
             """
             Generates a random list of girls.
             """
-            candidates = list(girl for girl in char.values() if girl not in hero.girls and girl.location == "slavemarket" and girl.status == 'slave')
+            candidates = list(girl for girl in chars.values() if girl not in hero.girls and girl.location == "slavemarket" and girl.status == 'slave')
             shuffle(candidates)
             sglist = list()
             unique = 0
@@ -327,7 +327,7 @@ init -1 python:
                 if self.blue_girls[g] == 30:
                     hero.add_girl(g)
                     del self.blue_girls[g]
-                    pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % char[g].name)
+                    pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % chars[g].name)
             
         def next_index(self):
             """
@@ -441,7 +441,7 @@ init -1 python:
                         
                     elif result[1] == "transfer":
                         renpy.hide_screen("pyt_hero_profile")
-                        pytfall.it = GuiItemsTransfer("personal_transfer", chr=ap, last_label=last_label)
+                        pytfall.it = GuiItemsTransfer("personal_transfer", char=ap, last_label=last_label)
                         jump("items_transfer")
                         
                     elif result[1] == 'unequip':
@@ -469,13 +469,13 @@ init -1 python:
         """
         PyTFall gallery to view girl's pictures and controls
         """
-        def __init__(self, chr):
-            self.girl = chr
+        def __init__(self, char):
+            self.girl = char
             self.imgsize = (960, 660)
             self.tag = "profile"
             self.tagsdict = tagdb.get_tags_per_character(self.girl)
             self.td_mode = "full" # Tagsdict Mode (full or dev)
-            self.pathlist = list(tagdb.get_imgset_with_all_tags(set([chr.id, "profile"])))
+            self.pathlist = list(tagdb.get_imgset_with_all_tags(set([char.id, "profile"])))
             self.imagepath = self.pathlist[0]
             self.image = ProportionalScale(self.pathlist[0], 940, 645)
             self.tags = " | ".join([i for i in tagdb.get_tags_per_path(self.imagepath)])

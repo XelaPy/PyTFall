@@ -106,9 +106,9 @@ init python:
 
         def show_gfx(self, target):
             # Simple effects for the sword attack:
-            chr = self.source
+            char = self.source
             
-            battle.move(chr, battle.get_cp(chr, xo=50), 0.5)
+            battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
             gfxtag = "attack"
             bbtag = "battle_bouce"
@@ -135,7 +135,7 @@ init python:
                 renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+1)
             renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
             
-            battle.move(chr, chr.dpos, 0.5, pause=False)
+            battle.move(char, char.dpos, 0.5, pause=False)
             
             renpy.pause(self.pause)
             renpy.hide(gfxtag)
@@ -167,12 +167,12 @@ init python:
 
         def check_conditions(self, source=None):
             if source:
-                chr = source
+                char = source
             else:
-                chr = self.source
+                char = self.source
             # We need to make sure that we have enought mp for this one:
-            if chr.mp - self.cost >= 0:
-                if self.get_targets(chr):
+            if char.mp - self.cost >= 0:
+                if self.get_targets(char):
                     return True
                     
         def apply_effects(self, targets):
@@ -196,19 +196,19 @@ init python:
             
         def show_gfx(self, targets):
             # Simple effects for the magic attack:
-            chr = self.source
+            char = self.source
             
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             
             # Inicial movement of the sprtite:
-            battle.move(chr, battle.get_cp(chr, xo=50), 0.5)
+            battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
             # if self.casting_effects[1] == "default":
                 # renpy.sound.play("content/sfx/sound/be/cannon_3.mp3")
             
             if self.casting_effects[0]:
-                casting_effect(chr, self.casting_effects[0], sfx=self.casting_effects[1])
+                casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             died = self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
@@ -239,7 +239,7 @@ init python:
                 if len(self.td_gfx) > 1:
                     self.show_gfx_td(target, 0.5, self.td_gfx[1])
             
-            battle.move(chr, chr.dpos, 0.5, pause=False)
+            battle.move(char, char.dpos, 0.5, pause=False)
             
             # Pause before termination of damage on target effects, if there are any:
             # @Review: OR Pause before application of special death effects!
@@ -304,28 +304,28 @@ init python:
                 targets = list(targets)
             # This is a check to see nothing goes wrong. It has no effect value.   
             
-            chr = self.source # Just a simple reasignment for convinience, this is the source of the attack (Attacker).
+            char = self.source # Just a simple reasignment for convinience, this is the source of the attack (Attacker).
             target = targets[0] # We can do this since we're sure that there is only one target for this spell.
             
             # This returns the position of battle sprite (To be exact, it return the position of TOP, LEFT CORNER of the battle sprite, this is it's default behavior).
             # xo is means we want to adjust position alogn the x axis. xo with value of -30 plainly means 30 pixels backwards (to the side characters back is pointed to).
-            newpos = battle.get_cp(chr, xo=-30)
+            newpos = battle.get_cp(char, xo=-30)
             
             # Inicial movement of the sprtite:
-            # renpy.hide(chr.betag) # We need to hide the sprite that we're looking at (this will not create any kind of visible effect, just a programming thing).
+            # renpy.hide(char.betag) # We need to hide the sprite that we're looking at (this will not create any kind of visible effect, just a programming thing).
             # # Renpy show function is what we use here to display stuff on the screen where:
             # """
-            # chr.betag: name (tag) assigned to this show command so we can hide/replace it.
-            # what=chr.besprite: This is the battle_sprite image.
-            # at_list=[move_bpwe(start_pos=chr.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
+            # char.betag: name (tag) assigned to this show command so we can hide/replace it.
+            # what=char.besprite: This is the battle_sprite image.
+            # at_list=[move_bpwe(start_pos=char.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
             # You can find more about it in the Ren'Py Documentation.
-            # zorder=chr.besk["zorder"]: Ren'Py will show stuff with higher zorder infront of the stuff with lower zorder. It's as simple as that. chr.best is the dict where we keep our dedault values for the character.
+            # zorder=char.besk["zorder"]: Ren'Py will show stuff with higher zorder infront of the stuff with lower zorder. It's as simple as that. char.best is the dict where we keep our dedault values for the character.
             # You can just follow the lead with zorders from the examples.
             # """
-            # renpy.show(chr.betag, what=chr.besprite, at_list=[move_bpwe(start_pos=chr.dpos, end_pos=newpos, t=0.5)], zorder=chr.besk["zorder"]) # So this moves the character slightly to the back.
+            # renpy.show(char.betag, what=char.besprite, at_list=[move_bpwe(start_pos=char.dpos, end_pos=newpos, t=0.5)], zorder=char.besk["zorder"]) # So this moves the character slightly to the back.
             # renpy.pause(0.5) # Need to add pauses for effects to take place!
             ### >>> Now done through move method:
-            battle.move(chr, battle.get_cp(chr, xo=50), 0.5)
+            battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
             # This two functions do the actual calculation of the damage:
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
@@ -340,7 +340,7 @@ init python:
                 renpy.sound.play(sfx)
                 
             # We need to make sure that attack sprites are facing the correct way:
-            if battle.get_cp(chr)[0] > battle.get_cp(target)[0]:
+            if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
                 castsprite = Transform(self.gfx, zoom=-1, xanchor=1.0) # We also need to add yanchor here for obvious reasons.
                 arrowsprite = Transform(self.gfx2, zoom=-1, xanchor=1.0)
             else:
@@ -348,9 +348,9 @@ init python:
                 arrowsprite = self.gfx2
                 
             # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)
-            castpos = battle.get_cp(chr, type="fc", xo=-60) # Ok, so get_cp method we've covered. "fc" returns front center position of the image. We add a xo as well because we've moved the sprite and this animation has a large empty space space...
+            castpos = battle.get_cp(char, type="fc", xo=-60) # Ok, so get_cp method we've covered. "fc" returns front center position of the image. We add a xo as well because we've moved the sprite and this animation has a large empty space space...
             # I think the bow looks looker infront of the sprite but feel free to change this.
-            renpy.show("casting", what=castsprite, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=chr.besk["zorder"]+50)
+            renpy.show("casting", what=castsprite, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=char.besk["zorder"]+50)
             renpy.pause(0.6)
 
             
@@ -379,7 +379,7 @@ init python:
             
             renpy.pause(0.1)
             # Time to move character back to it's positions as well:
-            battle.move(chr, chr.dpos, 0.5, pause=False)
+            battle.move(char, char.dpos, 0.5, pause=False)
             
             renpy.pause(0.7)
             renpy.hide("impact")
@@ -415,14 +415,14 @@ init python:
             else:
                 targets = list(targets)
             
-            chr = self.source
+            char = self.source
             target = targets[0]
             
-            # Inicial chr move
-            battle.move(chr, battle.get_cp(chr, xo=50), 0.5)
+            # Inicial char move
+            battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
             if self.casting_effects[0]:
-                casting_effect(chr, self.casting_effects[0], sfx=self.casting_effects[1])
+                casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
             self.effects_resolver(targets)
             self.apply_effects(targets)
@@ -434,12 +434,12 @@ init python:
                     sfx = self.sfx
                 renpy.sound.play(sfx)
                 
-            if battle.get_cp(chr)[0] > battle.get_cp(target)[0]:
+            if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
                 missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
             else:
                 missle = self.gfx
                 
-            initpos = battle.get_cp(chr, type="fc", xo=60)
+            initpos = battle.get_cp(char, type="fc", xo=60)
             aimpos = battle.get_cp(target, type="center")
             renpy.show("launch", what=missle, at_list=[move_bpweo(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
             renpy.pause(self.pause)
@@ -452,7 +452,7 @@ init python:
             
             renpy.pause(self.pause2)
             # Time to move character back to it's positions as well:
-            battle.move(chr, chr.dpos, 0.5, pause=False)
+            battle.move(char, char.dpos, 0.5, pause=False)
             
             renpy.hide("impact")
             # renpy.with_statement(dissolve)
@@ -479,10 +479,10 @@ init python:
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
-            chr = self.source
+            char = self.source
             attributes = self.attributes
                 
-            restore = self.effect + (chr.intelligence + chr.magic) * 0.25
+            restore = self.effect + (char.intelligence + char.magic) * 0.25
             
             for t in targets:
                 if not self.check_resistance(t):
@@ -500,7 +500,7 @@ init python:
                 # String for the log:
                 # String for the log:
                 s = list()
-                s.append("%s used %s to restore HP of %s!" % (chr.nickname, self.name, t.name))
+                s.append("%s used %s to restore HP of %s!" % (char.nickname, self.name, t.name))
                 
                 s = s + self.effects_for_string(t, default_color="green")
                 
@@ -514,13 +514,13 @@ init python:
                     
         def show_gfx(self, targets):
             # Simple effects for the magic attack:
-            chr = self.source
+            char = self.source
             
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
                 
             if self.casting_effects[0]:
-                casting_effect(chr, self.casting_effects[0], sfx=self.casting_effects[1])
+                casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
@@ -617,11 +617,11 @@ init python:
  
             
 init python: # Helper Functions:
-    def death_effect(chr, kind, sfx=None, pause=False):
+    def death_effect(char, kind, sfx=None, pause=False):
         if kind == "shatter":
             pass
     
-    def casting_effect(chr, kind, sfx="default", pause=True):
+    def casting_effect(char, kind, sfx="default", pause=True):
         """
         GFX and SFX effects on the caster of any attack (usually magic).
         """
@@ -630,56 +630,56 @@ init python: # Helper Functions:
         if kind == "orb":
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_orb_1", zoom=1.85),  at_list=[Transform(pos=battle.get_cp(chr, type="center"), align=(0.5, 0.5))], zorder=chr.besk["zorder"]+1)
+            renpy.show("casting", what=Transform("cast_orb_1", zoom=1.85),  at_list=[Transform(pos=battle.get_cp(char, type="center"), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
             if pause:
                 renpy.pause(0.84)
                 renpy.hide("casting")
         elif kind in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_" + kind, zoom=1.5),  at_list=[Transform(pos=battle.get_cp(chr, type="bc", yo=-75), align=(0.5, 0.5))], zorder=chr.besk["zorder"]+1)
+            renpy.show("casting", what=Transform("cast_" + kind, zoom=1.5),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-75), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
             if pause:
                 renpy.pause(0.84)
                 renpy.hide("casting")
         elif kind in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_" + kind, zoom=0.9),  at_list=[Transform(pos=battle.get_cp(chr, type="center"), align=(0.5, 0.5))], zorder=chr.besk["zorder"]+1)
+            renpy.show("casting", what=Transform("cast_" + kind, zoom=0.9),  at_list=[Transform(pos=battle.get_cp(char, type="center"), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
             if pause:
                 renpy.pause(1.4)
                 renpy.hide("casting")
         elif kind == "default_1":
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_default_1", zoom=1.6),  at_list=[Transform(pos=battle.get_cp(chr, type="bc"), align=(0.5, 0.5))], zorder=chr.besk["zorder"]-1)
+            renpy.show("casting", what=Transform("cast_default_1", zoom=1.6),  at_list=[Transform(pos=battle.get_cp(char, type="bc"), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
             if pause:
                 renpy.pause(1.12)
                 renpy.hide("casting")
         elif kind == "circle_1":
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_circle_1", zoom=1.9),  at_list=[Transform(pos=battle.get_cp(chr, type="bc", yo=-10), align=(0.5, 0.5))], zorder=chr.besk["zorder"]-1)
+            renpy.show("casting", what=Transform("cast_circle_1", zoom=1.9),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-10), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
             if pause:
                 renpy.pause(1.05)
                 renpy.hide("casting")
         elif kind == "circle_2":
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_circle_2", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(chr, type="bc", yo=-100), align=(0.5, 0.5))], zorder=chr.besk["zorder"]+1)
+            renpy.show("casting", what=Transform("cast_circle_2", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-100), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
             if pause:
                 renpy.pause(1.1)
                 renpy.hide("casting")
         elif kind == "circle_3":
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_circle_3", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(chr, type="bc", yo=-100), align=(0.5, 0.5))], zorder=chr.besk["zorder"]+1)
+            renpy.show("casting", what=Transform("cast_circle_3", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-100), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
             if pause:
                 renpy.pause(1.03)
                 renpy.hide("casting")
         elif kind == "runes_1":
             if sfx:
                 renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_runes_1", zoom=1.1),  at_list=[Transform(pos=battle.get_cp(chr, type="bc", yo=-50), align=(0.5, 0.5))], zorder=chr.besk["zorder"]-1)
+            renpy.show("casting", what=Transform("cast_runes_1", zoom=1.1),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-50), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
             if pause:
                 renpy.pause(0.75)
                 renpy.hide("casting")

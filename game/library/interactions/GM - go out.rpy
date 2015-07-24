@@ -17,7 +17,7 @@ label interactions_beach:
     
     "You take a walk on the beach. "
     
-    $ renpy.show('chr', what=chr.show('datebeach', resize=(700,600)), at_list=[Position(ypos = 0.77)])
+    $ renpy.show('char', what=char.show('datebeach', resize=(700,600)), at_list=[Position(ypos = 0.77)])
     with dissolve
     
     "The weather is really nice. "
@@ -62,29 +62,29 @@ label interactions_beach:
         elif interact_date_beach_drinkmenu == 'Lemonade':
             if hero.take_money(50, "Gifts"):
                 "Thanks, this is a great drink!"
-                $chr.mod('disposition', 20)
-                $chr.mod('joy', 3)
+                $ char.mod('disposition', 20)
+                $ char.mod('joy', 3)
             
             else:
                 "You do not have enough money to pay for the drink, so you leave."
-                $chr.mod('disposition', -5)
+                $ char.mod('disposition', -5)
         
         elif interact_date_beach_drinkmenu == 'Cocktail':
             if hero.take_money(100, "Gifts"):
                 "Wow, this tastes amazing! Thank you!"
-                $chr.mod('disposition', randint(25, 30))
-                $chr.mod('joy', randint(4, 7))
+                $ char.mod('disposition', randint(25, 30))
+                $ char.mod('joy', randint(4, 7))
             
             else:
                 "You do not have enough money to pay for the drink, so you leave."
-                $chr.mod('disposition', -10)
+                $ char.mod('disposition', -10)
     
     else:
         g "To bad, I was really thirsty."
-        $chr.mod('disposition', -10) 
+        $ char.mod('disposition', -10) 
         
     $renpy.show('bg city_street_1')
-    $renpy.show('chr', what=chr.show('date', resize=(700,600)), at_list=[Position(ypos = 0.77)])
+    $renpy.show('char', what=char.show('date', resize=(700,600)), at_list=[Position(ypos = 0.77)])
     with fade
     
     "As you walk back home... "
@@ -107,31 +107,31 @@ label interactions_datefinish:
     
     "Back at home:"
     
-    if chr.libido > 60:
+    if char.libido > 60:
         "She is pretty horny so you:"
         $ gm.generate_img("sex")
         "End the date with a bang."
         jump girl_interactions
     
-    elif chr.refinement > 60:
+    elif char.refinement > 60:
         $ gm.generate_img("date")
         "She is learning to behave like a noble so she courteously says goodbye and goes to her room. "
-        $chr.mod('reputation', 5)
-        $chr.mod('joy', 5)
+        $ char.mod('reputation', 5)
+        $ char.mod('joy', 5)
         jump girl_interactions
     
-    elif chr.charisma > 40:
+    elif char.charisma > 40:
         $ gm.generate_img("date")
         "She looks really nice, going back to her room and friends. "
         "But you feel that the date went well. "
-        $chr.mod('joy', 2)
-        $chr.mod('reputation', 2)
+        $ char.mod('joy', 2)
+        $ char.mod('reputation', 2)
     
     else:
         $ gm.generate_img("date")
         "The date went as well as could be expected... "
-        $chr.mod('joy', 2)
-        $chr.mod('constitution', 2)
+        $ char.mod('joy', 2)
+        $ char.mod('constitution', 2)
     
     jump girl_interactions
     
@@ -159,7 +159,7 @@ label interactions_datefight:
         enemy_team.add(mob)
         enemy_team.add(mob)
         
-        result = start_battle([hero, chr], enemy_team, music=choice(ilists.battle_tracks), background="bg %s"%gm_fight_bg)
+        result = start_battle([hero, char], enemy_team, music=choice(ilists.battle_tracks), background="bg %s"%gm_fight_bg)
         
         gm_fight_bg = "battle_arena_1"
         
@@ -179,7 +179,7 @@ label interactions_datefight:
             jump("game_over")
     
     "You've beat the shit out of these losers. "
-    "[chr.name] seems happy! "
+    "[char.name] seems happy! "
     
     jump interactions_datefinish
     

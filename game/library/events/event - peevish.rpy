@@ -140,9 +140,9 @@ label peevish_menu:
                 if len(hero.team) > 1:
                     p "Who gets to be awesome today?"
                     call screen character_pick_screen
-                    $ chr = _return
+                    $ char = _return
                 else:
-                    $ chr = hero
+                    $ char = hero
                     
                     
                 call screen magic_purchase_screen(peevish_water_spells, cornflowerblue, peevish_earth_spells, brown)
@@ -190,11 +190,11 @@ label peevish_menu:
                         with dissolve
                         
                         $ spell = spell[0]
-                        $ chr.magic_skills[spell] = 1
+                        $ char.magic_skills[spell] = 1
                         
                         p "Congratulations! You're a little bit less useless than you were five minutes ago."
                         
-                        "[chr.nickname] learned [spell]!!!"
+                        "[char.nickname] learned [spell]!!!"
                         
                     else:
                         p "The hell is this? Are you trying to rip me off mother-frecker?"
@@ -221,7 +221,7 @@ screen magic_purchase_screen(left_magic, left_magic_color, right_magic, right_ma
         xpos 100
         has vbox
         for key, v in sorted(left_magic.iteritems(), key=itemgetter(1)):
-            if key not in chr.magic_skills:
+            if key not in char.magic_skills:
                 $ price = left_magic[key][0]
                 button:
                     action Return((key, left_magic[key]))
@@ -237,7 +237,7 @@ screen magic_purchase_screen(left_magic, left_magic_color, right_magic, right_ma
         xanchor 1.0
         has vbox
         for key, v in sorted(right_magic.iteritems(), key=itemgetter(1)):
-            if key not in chr.magic_skills:
+            if key not in char.magic_skills:
                 $ price = right_magic[key][0]
                 button:
                     action Return((key, right_magic[key]))

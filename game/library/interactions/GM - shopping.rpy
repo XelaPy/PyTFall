@@ -31,8 +31,8 @@ label interactions_shopping:
     python:
         focus = False
         pytfall.tailor_store.inventory.apply_filter('all')
-        chr.inventory.set_page_size(18)
-        chr.inventory.apply_filter('all')
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter('all')
     
     show screen pyt_tailor_store_shopping_girl
     with dissolve
@@ -53,15 +53,15 @@ label interactions_shopping:
                     focus = pytfall.tailor_store.inventory.getitem(result[1])
             
             elif result[0] == 'inv':
-                if result[1] == 'first_page':chr.inventory.first()
-                elif result[1] == 'last_page':chr.inventory.last()
-                elif result[1] == 'next_page':chr.inventory.next()
-                elif result[1] == 'prev_page':chr.inventory.prev()
-                elif result[1] == 'prev_filter':chr.inventory.apply_filter('prev')
-                elif result[1] == 'next_filter':chr.inventory.apply_filter('next')
+                if result[1] == 'first_page':char.inventory.first()
+                elif result[1] == 'last_page':char.inventory.last()
+                elif result[1] == 'next_page':char.inventory.next()
+                elif result[1] == 'prev_page':char.inventory.prev()
+                elif result[1] == 'prev_filter':char.inventory.apply_filter('prev')
+                elif result[1] == 'next_filter':char.inventory.apply_filter('next')
                 else:
                     purchasing_dir = 'sell'
-                    focus = chr.inventory.getitem(result[1])
+                    focus = char.inventory.getitem(result[1])
             
             elif result[0] == 'control':
                 if result[1] == 'buy/sell':
@@ -69,83 +69,83 @@ label interactions_shopping:
                         result = hero.take_money(focus.price, reason="Gifts")
                         
                         if result:
-                            if chr.status == 'slave':
-                                if chr.occupation=='Prostitute':
+                            if char.status == 'slave':
+                                if char.occupation=='Prostitute':
                                     for entry in focus.mod:
                                         if entry =='anal' or entry =='normalsex' or entry =='lesbian':
                                             txt =="%s will definitly make me a better whore for master.\n"%focus.id
-                                            chr.mod('disposition', 1)
+                                            char.mod('disposition', 1)
                                 
-                                if chr.occupation=='Stripper':
+                                if char.occupation=='Stripper':
                                     for entry in focus.mod:
                                         if entry =='strip':
                                             txt =="%s will make my stripping performance even better Master.\n"%focus.id
-                                            chr.mod('disposition', 1)
+                                            char.mod('disposition', 1)
                                 
-                                if chr.occupation=='ServiceGirl':
+                                if char.occupation=='ServiceGirl':
                                     txt += "ServiceGirl Slave"
                                 
-                                if chr.occupation=='Warrior':
+                                if char.occupation=='Warrior':
                                     txt += "Warrior Slavet"
                                 
-                                if chr.occupation=='Healer':
+                                if char.occupation=='Healer':
                                     txt += "Healer Slave"
                             
                             else:
-                                if chr.occupation=='Prostitute':
+                                if char.occupation=='Prostitute':
                                     for entry in focus.mod:
                                         if entry =='anal' or entry =='normalsex' or entry =='lesbian':
                                             txt =="%s will definitly make me a better whore for master."%focus.id
-                                            chr.mod('disposition', 1)
+                                            char.mod('disposition', 1)
                                 
-                                if chr.occupation=='Stripper':
+                                if char.occupation=='Stripper':
                                     txt += "Stripper Slave"
                                 
-                                if chr.occupation=='ServiceGirl':
+                                if char.occupation=='ServiceGirl':
                                     txt += "ServiceGirl Slave"
                                 
-                                if chr.occupation=='Warrior':
+                                if char.occupation=='Warrior':
                                     txt += "Warrior Slavet"
                                 
-                                if chr.occupation=='Healer':
+                                if char.occupation=='Healer':
                                     txt += "Healer Slave"
                             
-                            if chr.joy < 40:
+                            if char.joy < 40:
                                 if focus.price > 1000:
                                     txt += "Thank you very much Master. I will put the %s to good use.\n"%focus.id
-                                    chr.mod('joy', 2)
-                                    chr.mod('disposition', 4)
-                                    chr.mod('disposition', 1)
+                                    char.mod('joy', 2)
+                                    char.mod('disposition', 4)
+                                    char.mod('disposition', 1)
                                 
                                 else:
                                     txt += "Thank you Master for the %s.\n"%focus.id
-                                    chr.mod('disposition', 2)
-                                    chr.mod('joy', 1)
+                                    char.mod('disposition', 2)
+                                    char.mod('joy', 1)
                             
-                            elif 39 < chr.joy < 80:
+                            elif 39 < char.joy < 80:
                                 if focus.price > 1000:
                                     txt += "Thank you *KISS* very *VERY* much Master *KISS* for the %s .\n"%focus.id
-                                    chr.mod('disposition', 5)
-                                    chr.mod('joy', 3)
+                                    char.mod('disposition', 5)
+                                    char.mod('joy', 3)
                                 
                                 else:
                                     txt += "*KISS* Thank you Master. I like the %s.\n"%focus.id
-                                    chr.mod('disposition', 2)
-                                    chr.mod('joy', 2)
+                                    char.mod('disposition', 2)
+                                    char.mod('joy', 2)
                             
                             else:
                                 if focus.price > 1000:
                                     txt += "MASTER! I love the %s. Thank you so much.\nShe gives you a kiss that leaves you breathless for a moment.\n"%focus.id
-                                    chr.mod('disposition', 6)
-                                    chr.mod('joy', 4)
+                                    char.mod('disposition', 6)
+                                    char.mod('joy', 4)
                                 
                                 else:
                                     txt += "Master *KISS* Thank you Master. I like the %s.\n"%focus.id
-                                    chr.mod('disposition', 3)
-                                    chr.mod('joy', 3)
+                                    char.mod('disposition', 3)
+                                    char.mod('joy', 3)
                             
                             pytfall.tailor_store.inventory.remove(focus)
-                            chr.inventory.append(focus)
+                            char.inventory.append(focus)
                             pytfall.tailor_store.gold += focus.price
                             break
                         
@@ -157,22 +157,22 @@ label interactions_shopping:
                         if result:
                             pytfall.tailor_store.gold -= focus.price
                             hero.add_money(focus.price, reason="Items")
-                            chr.inventory.remove(focus)
+                            char.inventory.remove(focus)
                             pytfall.tailor_store.inventory.append(focus)
                             
-                            if chr.occupation=='Prostitute':
+                            if char.occupation=='Prostitute':
                                 txt += "Prostitute test"
                             
-                            if chr.occupation=='Stripper':
+                            if char.occupation=='Stripper':
                                 txt += "Stripper test"
                             
-                            if chr.occupation=='ServiceGirl':
+                            if char.occupation=='ServiceGirl':
                                 txt += "ServiceGirl test"
                             
-                            if chr.occupation=='Warrior':
+                            if char.occupation=='Warrior':
                                 txt += "Warrior test"
                             
-                            if chr.occupation=='Healer':
+                            if char.occupation=='Healer':
                                 txt += "Healer test"
                             
                             break
@@ -188,7 +188,7 @@ label interactions_shopping:
     
     python:
         pytfall.tailor_store.inventory.apply_filter('all')
-        chr.inventory.apply_filter('all')
+        char.inventory.apply_filter('all')
     
     if txt !='':
         g "[txt]"
@@ -214,7 +214,7 @@ screen pyt_tailor_store_shopping_girl:
             text(u'{size=+1}Day  =  %d'%day) align(0.5,0.5)
             null width 50
 
-    use shop_inventory(root='inv',ref=chr,x=0.0,title="Inventory")
+    use shop_inventory(root='inv',ref=char,x=0.0,title="Inventory")
     use shop_inventory(root='shop',ref=pytfall.tailor_store,x=1.0,title="Tailor Store")
     
     if focus:
@@ -230,12 +230,12 @@ screen pyt_tailor_store_shopping_girl:
                     text (u' Price: %s'%focus.price)
                     null width 20
                     textbutton "Buy/Sell" action Return(['control','buy/sell']) maximum(150,30)
-        if chr.eqslots['body']: #only show the currently equiped item if there is one
+        if char.eqslots['body']: #only show the currently equiped item if there is one
             frame background Frame("content/gfx/frame/mes12.jpg",5,5): 
                 align (0.5,0.95)
                 xmaximum 700
                 ymaximum 300
-                use itemstats(item=chr.eqslots['body']) #added a mode to the itemstats
+                use itemstats(item=char.eqslots['body']) #added a mode to the itemstats
                     
         
     use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/shape69.png",40,40),return_value =['control','return'], align=(0.99,0))

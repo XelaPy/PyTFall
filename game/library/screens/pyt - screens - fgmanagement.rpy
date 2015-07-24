@@ -3,8 +3,8 @@ label fg_management:
     
     # We check if any of the girls in teams had been fired and remove them:
     python:
-        if not hasattr(store, "chr"):
-            chr = None
+        if not hasattr(store, "char"):
+            char = None
         if not hasattr(store, "girls"):
             girls = None
         for team in fg.teams[:]:
@@ -120,12 +120,12 @@ init python:
         content = fg_drags.get_page_content()
         for girl in content:
             if girl.fullname == drags[0].drag_name:
-                chr = girl
+                char = girl
                 break
         else:
             raise Error, "Unknown drag name: %s!" % drags[0].drag_name
                 
-        index = content.index(chr)
+        index = content.index(char)
         x = fg_drags.pos[index][0]
         y = fg_drags.pos[index][1]
         
@@ -134,7 +134,7 @@ init python:
             renpy.restart_interaction()
             return
 
-        if chr.status == "slave":
+        if char.status == "slave":
             drags[0].snap(x, y, delay=0.2)
             renpy.show_screen("pyt_message_screen", "Slaves are not allowed to participate in combat!")
             renpy.restart_interaction()
@@ -148,24 +148,24 @@ init python:
             raise Error, ["Team unknown during drag/drop!", drop.drag_name, team.name]
             
         for t in fg.teams:
-            if t and t[0] == chr:
+            if t and t[0] == char:
                 drags[0].snap(x, y, delay=0.2)
-                renpy.show_screen("pyt_message_screen", "%s is already a leader of %s!" % (chr.nickname, t.name))
+                renpy.show_screen("pyt_message_screen", "%s is already a leader of %s!" % (char.nickname, t.name))
                 renpy.restart_interaction()
                 return
             
             if not team:
                 for girl in t:
-                    if girl == chr:
+                    if girl == char:
                         drags[0].snap(x, y, delay=0.2)
-                        renpy.show_screen("pyt_message_screen", "%s cannot lead %s as she's already on %s!" % (chr.nickname, team.name, t.name))
+                        renpy.show_screen("pyt_message_screen", "%s cannot lead %s as she's already on %s!" % (char.nickname, team.name, t.name))
                         renpy.restart_interaction()
                         return
                         
         for girl in team:
-            if girl == chr:
+            if girl == char:
                 drags[0].snap(x, y, delay=0.2)
-                renpy.show_screen("pyt_message_screen", "%s is already on %s!" % (chr.nickname, team.name))
+                renpy.show_screen("pyt_message_screen", "%s is already on %s!" % (char.nickname, team.name))
                 renpy.restart_interaction()
                 return
                 
@@ -174,8 +174,8 @@ init python:
             renpy.restart_interaction()
             return
         else:
-            team.add(chr)
-            fg_drags.remove(chr)
+            team.add(char)
+            fg_drags.remove(char)
             drags[0].snap(x, y)
 
         return True

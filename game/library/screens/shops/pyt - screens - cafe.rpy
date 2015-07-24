@@ -3,10 +3,10 @@ label shop_control:
         while True:
             result = ui.interact()
             if result[0] == "item":
-                if result[1] in (chr, shop):
+                if result[1] in (char, shop):
                     amount = 1
                     focus = result[2]
-                    if result[1] == chr:
+                    if result[1] == char:
                         purchasing_dir = 'sell'
                         item_price = int(focus.price*0.8)
                     else:
@@ -15,12 +15,12 @@ label shop_control:
                     
                 elif result[1] == 'buy/sell':
                     if purchasing_dir == 'buy':
-                        result = chr.take_money(item_price*amount, "Items")
+                        result = char.take_money(item_price*amount, "Items")
                         if result:
                             renpy.play("content/sfx/sound/world/purchase_1.ogg")
                             for __ in xrange(amount):
                                 shop.inventory.remove(focus)
-                                chr.inventory.append(focus)
+                                char.inventory.append(focus)
                                 shop.gold += item_price
                         else:
                             focus = None
@@ -46,8 +46,8 @@ label shop_control:
                                 renpy.play("content/sfx/sound/world/purchase_1.ogg")
                                 for __ in xrange(amount):
                                     shop.gold -= item_price
-                                    chr.add_money(item_price, "Items")
-                                    chr.inventory.remove(focus)
+                                    char.add_money(item_price, "Items")
+                                    char.inventory.remove(focus)
                                     shop.inventory.append(focus)
                             else:
                                 focus = None
@@ -58,7 +58,7 @@ label shop_control:
             elif result[0] == 'control':
                 if result[1] == "increase_amount":
                     if purchasing_dir == 'sell':
-                        if amount < chr.inventory.get_item_count(focus):
+                        if amount < char.inventory.get_item_count(focus):
                             amount += 1
                     elif purchasing_dir == 'buy':
                         if amount < shop.inventory.get_item_count(focus):
@@ -116,9 +116,9 @@ label cafe_shopping:
         amount = 1
         shop = pytfall.cafe
         shop.inventory.apply_filter(filter)
-        chr = hero
-        chr.inventory.set_page_size(18)
-        chr.inventory.apply_filter(filter)
+        char = hero
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter(filter)
 
     show screen pyt_shopping(left_ref=hero, right_ref=shop)
     with dissolve

@@ -87,7 +87,7 @@ init python:
             # Finishing up:
             for stat in self.girlmod:
                 if stat == "exp":
-                    self.girlmod[stat] = chr.adjust_exp(self.girlmod[stat])
+                    self.girlmod[stat] = char.adjust_exp(self.girlmod[stat])
                     self.girl.exp += self.girlmod[stat]
                 
                 else:
@@ -248,24 +248,24 @@ init python:
                                      no_action=Return(False)):
                 return
             
-            for chr in team:
-                if chr.action == "Exploring":
-                    renpy.show_screen("pyt_message_screen", "Team Member: %s is already on exploration run!" % chr.name)
+            for char in team:
+                if char.action == "Exploring":
+                    renpy.show_screen("pyt_message_screen", "Team Member: %s is already on exploration run!" % char.name)
                     return
             
-            for chr in team:
-                chr.action = "Exploring"
-                chr.set_flag("loc_backup", chr.location)
-                if chr in hero.team:
-                    hero.team.remove(chr)
+            for char in team:
+                char.action = "Exploring"
+                char.set_flag("loc_backup", char.location)
+                if char in hero.team:
+                    hero.team.remove(char)
             
             # Shitty loops to remove characters from other exploration teams.
             for t in fg.teams:
                 if t != team:
-                    for chr in team:
+                    for char in team:
                         for c in t:
-                            if c == chr:
-                                t.remove(chr)
+                            if c == char:
+                                t.remove(char)
             
             self.area = deepcopy(area)
             self.team = team
@@ -308,16 +308,16 @@ init python:
             """
             restore = False
             
-            for chr in self.team:
-                if chr.health < 60 or chr.vitality < 30 or chr.AP < 1:
+            for char in self.team:
+                if char.health < 60 or char.vitality < 30 or char.AP < 1:
                     restore = True
                     break
             
             if restore:        
-                for chr in self.team:
-                    chr.health = chr.get_max("health")
-                    chr.vitality = chr.get_max("vitality")
-                    chr.mp = chr.get_max("mp")
+                for char in self.team:
+                    char.health = char.get_max("health")
+                    char.vitality = char.get_max("vitality")
+                    char.mp = char.get_max("mp")
                 
                 self.txt.append("Day 0: \n\n")
                 self.txt.append("The team rested in one of the frontier encampments prepearing for the run!")
@@ -364,9 +364,9 @@ init python:
             
             if self.hazard:
                 self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
-                for chr in self.team:
+                for char in self.team:
                     for stat in self.hazard:
-                        chr.mod(stat, self.hazard[stat]*-1)
+                        char.mod(stat, self.hazard[stat]*-1)
             
             ap = sum(list(girl.AP for girl in self.team))
             
@@ -396,12 +396,13 @@ init python:
                     # Girls capture (We break off exploration run in case of success):
                     if fg.capture_girls:
                         for g in self.area.girls:
-                            if g in char and dice(self.area.girls[g] + self.day*0.1) and g.location == "se":
-                                self.captured_girl = char[g]
+                            if g in chars and dice(self.area.girls[g] + self.day*0.1) and g.location == "se":
+                                self.captured_girl = chars[g]
                                 stop = True
                                 break
-                            
-                            elif g in rchar and dice(self.area.girls[g] + self.day*0.1):
+                                
+                            # TODO: g in rchars looks like broken code!
+                            elif g in rchars and dice(self.area.girls[g] + self.day*0.1):
                                 new_random_girl = build_rc()
                                 self.captured_girl = new_random_girl
                                 stop = True
@@ -592,21 +593,21 @@ init python:
             chars = {c: False for c in self.team}
             dead = 0
             
-            for chr in self.team:
-                if chr.location != "After Life":
-                    chr.action = None
-                    chr.location = chr.flag("loc_backup")
-                    chr.del_flag("loc_backup")
+            for char in self.team:
+                if char.location != "After Life":
+                    char.action = None
+                    char.location = char.flag("loc_backup")
+                    char.del_flag("loc_backup")
                     
                     for stat in self.stats:
                         if stat == "exp":
-                            self.stats[stat] = chr.adjust_exp(self.stats[stat])
-                            chr.exp += self.stats[stat]
+                            self.stats[stat] = char.adjust_exp(self.stats[stat])
+                            char.exp += self.stats[stat]
                         else:
-                            chr.mod(stat, self.stats[stat])
+                            char.mod(stat, self.stats[stat])
                 
                 else:
-                    chars[chr] = True
+                    chars[char] = True
                     dead = dead + 1
             
             # Handle the dead chars:

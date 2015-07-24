@@ -251,7 +251,7 @@ screen pyt_hero_profile():
                                     
     # Equipment   -------------------------------------------------->
     showif not renpy.get_screen('pyt_hero_equip'):
-        use pyt_eqdoll(active_mode=False, chr=hero)
+        use pyt_eqdoll(active_mode=False, char=hero)
      
 
     # Tooltip text            
@@ -291,7 +291,7 @@ screen pyt_hero_equip():
     key "mousedown_5" action Return(["hero", "prev_page"])
     
     # Doll...
-    use pyt_eqdoll(chr=hero)
+    use pyt_eqdoll(char=hero)
     
     # Inventory ------------------------------------------------------------>
     vbox:
@@ -301,7 +301,7 @@ screen pyt_hero_equip():
         hbox:
             spacing 52
             use paging(root='hero', ref=hero.inventory, use_filter=True)
-            use items_inv(chr=hero)
+            use items_inv(char=hero)
             
         # Buttons:    
         frame:

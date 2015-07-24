@@ -3,12 +3,13 @@ label tagger:
     call load_json_tags from _call_load_json_tags
     python:
         alltags = list(sorted(tags_dict.values()))
-        all_char = {k:v for k, v in char.iteritems() if v.__class__ == Girl}
-        all_char.update(rchar)
+        all_char = {k:v for k, v in chars.iteritems() if v.__class__ == Girl}
+        # Broken code? TODO: But this module is not likely to be used ever again.
+        all_chars.update(rchar)
         pic = None
-        if not hasattr(store, "tagchr"):
-            tagchr = choice(all_char.values())
-        images = tagdb.get_imgset_with_tag(tagchr.id)
+        if not hasattr(store, "tagchar"):
+            tagchar = choice(all_chars.values())
+        images = tagdb.get_imgset_with_tag(tagchar.id)
         images = list(images)
         images.sort()
         images = [images[i:i+40] for i in range(0, len(images), 40)]
@@ -37,14 +38,14 @@ label tagger:
                 oldtagz = tagz.copy()
                 pic = result[1]
                 
-            if result[0] == "tagchr":
+            if result[0] == "tagchar":
                 if result[1] == "show":
-                    renpy.show_screen("pick_tagchr", renpy.get_mouse_pos())
+                    renpy.show_screen("pick_tagchar", renpy.get_mouse_pos())
                 if result[1] == "pick":
                     if renpy.call_screen("yesno_prompt", message="Did you save your tagging?", yes_action=Return(True), no_action=Return(False)):
                         pic = None
-                        tagchr = result[2]
-                        images = tagdb.get_imgset_with_tag(tagchr.id)
+                        tagchar = result[2]
+                        images = tagdb.get_imgset_with_tag(tagchar.id)
                         images = list(images)
                         images.sort()
                         images = [images[i:i+40] for i in range(0, len(images), 40)]
@@ -74,7 +75,7 @@ label tagger:
                         inverted = {v:k for k, v in tags_dict.iteritems()}
                         # Carefully! We write a script to rename the image files...
                         alltagz = set(tags_dict.values())
-                        for img in tagdb.get_imgset_with_tag(tagchr.id):
+                        for img in tagdb.get_imgset_with_tag(tagchar.id):
                             # Normalize the path:
                             f = normalize_path("".join([gamedir, "/", img]))
                             # Gets the tags:
@@ -110,7 +111,7 @@ label tagger:
     with dissolve
     jump mainscreen
     
-screen pick_tagchr(pos=()):
+screen pick_tagchar(pos=()):
     zorder 3
     modal True
     
@@ -136,13 +137,13 @@ screen pick_tagchr(pos=()):
             box_wrap True
             # text "Equip For:" style "black_serpent"
             null height 5
-            for g in all_char.values():
+            for g in all_chars.values():
                 textbutton "{size=10}[g.id]":
                     xsize 100
-                    action [Hide("pick_tagchr"), Return(["tagchr", "pick", g])]
+                    action [Hide("pick_tagchar"), Return(["tagchar", "pick", g])]
         textbutton "Close":
             align (0.5, 1.0)
-            action Hide("pick_tagchr")
+            action Hide("pick_tagchar")
 
 screen tagger():
     # on "show" action Hide("debugTools")
@@ -213,7 +214,7 @@ screen tagger():
         textbutton "Tag filenames!":
             action Return(["tags", "write_to_fn"])
         textbutton "Pick Char":
-            action Return(["tagchr", "show"])
+            action Return(["tagchar", "show"])
         textbutton "{color=[red]}JSON --> FN":
             action Return(["tags", "json_to_fn"])
     use exit_button

@@ -123,11 +123,11 @@ init -9 python:
             fighters = list()
             
             if include_hero_girls:
-                for fighter in char.values():
+                for fighter in chars.values():
                     if fighter.arena_active:
                         fighters.append(fighter)
             else:
-                for fighter in char.values():
+                for fighter in chars.values():
                     if fighter.arena_active and fighter not in hero.girls:
                         fighters.append(fighter)
                         
@@ -151,12 +151,12 @@ init -9 python:
             arena_candidates = []
             
             # First pass, unique girls...
-            for girl in char.values():
+            for girl in chars.values():
                 if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == Girl and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
                     arena_candidates.append(girl)
             
             # Second pass, random girls:
-            for girl in char.values():
+            for girl in chars.values():
                 if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == rGirl and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
                     arena_candidates.append(girl)
                     
@@ -825,14 +825,14 @@ init -9 python:
                         member.arena_permit = True
                         member.arena_active = True
                         a_team.add(member)
-                    elif member in char:
-                        if char[member] in hero.girls:
-                            hero.remove_girl(char[member])
-                        if char[member] in self.get_teams_fighters(teams="2v2"):
-                            raise Error, "You've added unique girl %s to 2v2 Arena teams twice!"%char[member].name
-                        if char[member] in self.get_teams_fighters(teams="3v3"):
-                            raise Error, "You've added unique girl %s to 3v3 Arena teams more than once!"%char[member].name
-                        a_team.add(char[member])
+                    elif member in chars:
+                        if chars[member] in hero.girls:
+                            hero.remove_girl(chars[member])
+                        if chars[member] in self.get_teams_fighters(teams="2v2"):
+                            raise Error, "You've added unique girl %s to 2v2 Arena teams twice!"%chars[member].name
+                        if chars[member] in self.get_teams_fighters(teams="3v3"):
+                            raise Error, "You've added unique girl %s to 3v3 Arena teams more than once!"%chars[member].name
+                        a_team.add(chars[member])
                     elif member in pytfall.arena.ac:
                         member = pytfall.arena.ac[member]
                         if member.unique:
@@ -847,7 +847,8 @@ init -9 python:
                             af = copy.deepcopy(member)
                             self.arena_fighters.append(af)
                             a_team.add(af)
-                    elif member in rchar:
+                    # TODO: Check is this is still valid code (member in rchars)
+                    elif member in rchars:
                         build_rc(id=member, pattern="Warrior")
                         member.status = "free"
                         member.location = "arena"
@@ -1606,20 +1607,20 @@ init -9 python:
             battle.AddFighter(Member, x=6, y=5)
             
             
-            Sprite = BattleSprite(char["Hinata"].show('battle_sprite', resize=(120, 120)), anchor=(0.5, 0.75))
+            Sprite = BattleSprite(chars["Hinata"].show('battle_sprite', resize=(120, 120)), anchor=(0.5, 0.75))
             
             
-            Member = PlayerFighter(char["Hinata"].name, Move=5, Health=char["Hinata"].health,  Speed=char["Hinata"].agility, Attack=char["Hinata"].attack,
-                                                    Magic=char["Hinata"].magic, Defence=char["Hinata"].defence, MP=char["Hinata"].mp, sprite=Sprite)
+            Member = PlayerFighter(chars["Hinata"].name, Move=5, Health=chars["Hinata"].health,  Speed=chars["Hinata"].agility, Attack=chars["Hinata"].attack,
+                                                    Magic=chars["Hinata"].magic, Defence=chars["Hinata"].defence, MP=chars["Hinata"].mp, sprite=Sprite)
   
-            Member._baseStats.Health = char["Hinata"].get_max('health')
-            Member._baseStats.Magic = char["Hinata"].get_max('magic')
-            Member._baseStats.Attack = char["Hinata"].get_max('attack')
-            Member._baseStats.Defence = char["Hinata"].get_max('defence')
-            Member._baseStats.MP = char["Hinata"].get_max('mp')
-            Member._baseStats.Speed = char["Hinata"].get_max('agility')
+            Member._baseStats.Health = chars["Hinata"].get_max('health')
+            Member._baseStats.Magic = chars["Hinata"].get_max('magic')
+            Member._baseStats.Attack = chars["Hinata"].get_max('attack')
+            Member._baseStats.Defence = chars["Hinata"].get_max('defence')
+            Member._baseStats.MP = chars["Hinata"].get_max('mp')
+            Member._baseStats.Speed = chars["Hinata"].get_max('agility')
 
-            for entry in itertools.chain(char["Hinata"].attack_skills, char["Hinata"].magic_skills):
+            for entry in itertools.chain(chars["Hinata"].attack_skills, chars["Hinata"].magic_skills):
                 entry = entry.replace(" ", "")
                 Member.RegisterSkill(Library.Skills.__dict__[entry])
                     

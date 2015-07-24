@@ -307,7 +307,7 @@
             self.reset()
             
             self.event_type = "girlreport"
-            self.girl, self.client, self.loc = store.chr, store.clients.pop(), store.chr.location
+            self.girl, self.client, self.loc = store.char, store.clients.pop(), store.char.location
             self.girlmod, self.locmod = {}, {}
             
             # if not self.finished: self.check_injury()
@@ -1147,23 +1147,23 @@
             self.reset()
             
             self.event_type = "girlreport"
-            self.girl, self.loc = store.chr, store.chr.location
+            self.girl, self.loc = store.char, store.char.location
             
             self.client = store.clients.pop()
             
-            chr, cl = self.girl, self.client
+            char, cl = self.girl, self.client
             
             self.loggs("charisma", randint(1, 3))
             self.loggs("Refinement", randint(1, 3))
             self.loggs("refinement", randint(1, 3))
             self.loggs("strip", randint(1, 3))
             
-            chr.AP -= 1
+            char.AP -= 1
             self.loggs("vitality", 35)
             
             self.logloc("dirt", 10)
             
-            self.txt.append("Test Job Report: Girl: {}, Location: {}".format(chr.name, self.loc.name))
+            self.txt.append("Test Job Report: Girl: {}, Location: {}".format(char.name, self.loc.name))
             self.img = "nude"
             
             self.apply_stats()
