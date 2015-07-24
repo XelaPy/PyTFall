@@ -110,26 +110,27 @@ label interactions_fuck:
         $libido += 10
         
 label choice:
+    if chr.vitality <=0:
+        jump finish_sex
+    if hero.vitality <= 20:
+        "You are too tired to continue."
+        jump finish_sex
     if chr.status == "slave":
-        if chr.vitality <=0:
-            jump finish_sex
         if libido <= 0:
             "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
-        if joy <= 10:
+        if chr.joy <= 10:
             "She looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
-        if vitality <= 15:
+        if chr.vitality <= 25:
             "She looks very tired. You can force her, but it's probably for the best to let her rest."
     else:
-        if chr.vitality <=0:
-            jump finish_sex
-        elif libido <= 0:
+        if libido <= 0:
             "She doesn't want to do it any longer."
             jump finish_sex
-        elif joy <= 10:
+        elif chr.joy <= 10:
             "She looks upset. Not the best mood for sex."
             jump finish_sex
-        if vitality <= 15:
-            "She is tired to continue."
+        if chr.vitality < 50:
+            "She is too tired to continue."
             jump finish_sex
     menu:
         "What would you like to do now?"
@@ -289,6 +290,25 @@ label choice:
             # $ together_count = 0
             # $ cum_count = 0
             label finish_sex:
+                if libido >= 15 and chr.vitality >= 35:
+                    if chr.flag("s_bg") == "beach":
+                        if dice(50):
+                            $ gm.set_img("masturbation", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
+                        else:
+                            $ gm.set_img("masturbation", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
+
+                    elif chr.flag("s_bg") == "park":
+                        if dice(50):
+                            $ gm.set_img("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+                        else:
+                            $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+                    else:
+                        if dice(50):
+                            $ gm.set_img("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+                        else:
+                            $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+                    "She is not statisfied yet, so she quickly masturbates to decrease libido."
+                    $ chr.disposition -= round(libido*0.5)
                 if chr.vitality <=0:
                     $ gm.set_img("rest", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
                     "She fainted from fatigue. You cannot continue any longer."
@@ -303,7 +323,7 @@ label choice:
                     call after_good_sex
                     $ chr.disposition += randint(40, 70)
                     $ chr.joy += randint(20, 50)
-                    $ chr.vitality -= 10
+                    $ chr.vitality -= 30
                 elif girl_count < 1 and guy_count > 0:
                     if chr.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "sad", "beach")
@@ -311,10 +331,11 @@ label choice:
                         $ gm.set_img("profile", "sad", "nature")
                     else:
                         $ gm.set_img("profile", "sad", "indoors", "living")
+                    "She's not statisfied at all."
                     call girl_never_come
                     $ chr.disposition -= randint(20, 50)
                     $ chr.joy -= randint(20, 50)
-                    $ chr.vitality -= 15
+                    $ chr.vitality -= 25
                 elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
                     if chr.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "shy", "beach")
@@ -322,10 +343,11 @@ label choice:
                         $ gm.set_img("profile", "shy", "nature")
                     else:
                         $ gm.set_img("profile", "shy", "indoors", "living")
+                    "She was unable to satisfy you."
                     call guy_never_came
                     $ chr.disposition += randint(10, 20)
                     $ chr.joy -= randint(10, 30)
-                    $ chr.vitality -= 15
+                    $ chr.vitality -= 25
                 elif girl_count > 0 and (cum_count >=5 or (cum_count > girl_count)):
                     if chr.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "confident", "beach")
@@ -336,7 +358,7 @@ label choice:
                     call guy_cum_alot
                     $ chr.disposition += randint(20, 40)
                     $ chr.joy += randint(20, 40)
-                    $ chr.vitality += 10
+                    $ chr.vitality -= 20
                 elif (sex_count < 1) and (guy_count < 1) and (girl_count < 1):
                     if chr.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "sad", "angry", "beach")
@@ -372,8 +394,8 @@ label choice:
                     "It was pretty good, and she looks quite pleased and satisfied. But there is room for improvement."
                     $ chr.disposition += randint(20, 40)
                     $ chr.joy += randint(20, 30)
-                    $ chr.vitality += 10
-            
+                    $ chr.vitality -= 20
+
                 $ gm.restore_img()
             jump girl_interactions
             
@@ -443,7 +465,7 @@ label interactions_lesbian_choice:
 
 label bj:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy -= 5
     if chr.joy <= 10:
         $ chr.disposition -= 5
@@ -454,26 +476,30 @@ label bj:
         "She clearly needs more training, so it took some time. But at least she learned something new."
         $ chr.oral += randint (3, 5)
         $ hero.oral += randint (0, 1)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 30
+        $ hero.vitality -= 30
         $ libido -= 5
     elif chr.oral < 300:
         "It was pretty good."
         $ chr.oral += randint (2, 4)
         $ hero.oral += randint (0, 2)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
         $ libido -= 5
     elif chr.oral < 1000:
         "It was very good."
         $ chr.oral += randint (1, 3)
         $ hero.oral += randint (1, 3)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.oral += randint (0, 2)
         $ hero.oral += randint (1, 4)
-        $ chr.vitality -= 4
+        $ chr.vitality -= 20
+        $ hero.vitality -= 20
         $ chr.joy += 2
         $ libido += 5
         $ sex_count += 1
@@ -491,7 +517,7 @@ label bj:
         
 label tj:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy -= 5
     if chr.joy <= 10:
         $ chr.disposition -= 5
@@ -503,14 +529,16 @@ label tj:
         $ chr.oral += randint (1, 4)
         $ chr.sex += randint (1, 4)
         $ hero.sex += randint (0, 1)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 30
+        $ hero.vitality -= 30
         $ libido -= 5
     elif chr.oral < 300 or  chr.sex < 300:
         "It was pretty good."
         $ chr.oral += randint (1, 3)
         $ chr.sex += randint (1, 3)
         $ hero.sex += randint (0, 1)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
         $ libido -= 5
     elif chr.oral < 1000 or chr.sex < 1000:
@@ -518,14 +546,16 @@ label tj:
         $ chr.oral += randint (1, 2)
         $ chr.sex += randint (1, 2)
         $ hero.sex += randint (1, 2)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.oral += randint (0, 2)
         $ chr.sex += randint (0, 2)
         $ hero.sex += randint (1, 3)
-        $ chr.vitality -= 4
+        $ chr.vitality -= 20
+        $ hero.vitality -= 20
         $ chr.joy += 2
         $ libido += 5
     if (chr.oral - hero.oral) > 200 or (chr.sex - hero.sex) > 200:
@@ -543,7 +573,7 @@ label tj:
     
 label hj:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy -= 5
     if chr.joy <= 10:
         $ chr.disposition -= 5
@@ -554,26 +584,30 @@ label hj:
         "She clearly needs more training, so it took some time. But at least she learned something new."
         $ chr.sex += randint (3, 5)
         $ hero.sex += randint (0, 1)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 30
+        $ hero.vitality -= 30
         $ libido -= 5
     elif chr.sex < 300:
         "It was pretty good."
         $ chr.sex += randint (2, 4)
         $ hero.sex += randint (0, 2)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
         $ libido -= 5
     elif chr.sex < 1000:
         "It was very good."
         $ chr.sex += randint (1, 3)
         $ hero.sex += randint (1, 2)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.sex += randint (0, 2)
         $ hero.sex += randint (1, 3)
-        $ chr.vitality -= 4
+        $ chr.vitality -= 20
+        $ hero.vitality -= 20
         $ chr.joy += 2
         $ libido += 5
     if (chr.sex - hero.sex) > 200:
@@ -589,7 +623,7 @@ label hj:
     
 label fj:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy -= 5
     if chr.joy <= 10:
         $ chr.disposition -= 5
@@ -600,26 +634,30 @@ label fj:
         "She clearly needs more training, so it took some time. But at least she learned something new."
         $ chr.sex += randint (3, 5)
         $ hero.sex += randint (0, 1)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 30
+        $ hero.vitality -= 30
         $ libido -= 5
     elif chr.sex < 300:
         "It was pretty good."
         $ chr.sex += randint (2, 4)
         $ hero.sex += randint (0, 2)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
         $ libido -= 5
     elif chr.sex < 1000:
         "It was very good."
         $ chr.sex += randint (1, 3)
         $ hero.sex += randint (1, 2)
-        $ chr.vitality -= 5
+        $ chr.vitality -= 25
+        $ hero.vitality -= 25
         $ chr.joy += 1
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.sex += randint (0, 2)
         $ hero.sex += randint (1, 3)
-        $ chr.vitality -= 4
+        $ chr.vitality -= 20
+        $ hero.vitality -= 20
         $ chr.joy += 2
         $ libido += 5
     if (chr.sex - hero.sex) > 200:
@@ -635,7 +673,7 @@ label fj:
     
 label mast:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         if chr.health >= 30:
             $ chr.health -= 10
         $ chr.joy -= 5
@@ -654,7 +692,7 @@ label mast:
     
 label vag_sex:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         if chr.health >= 30:
             $ chr.health -= 10
         $ chr.joy -= 5
@@ -666,14 +704,16 @@ label vag_sex:
         "You fuck her pussy until she comes. She's still too inexperienced, so you were unable to come properly. Oh well, at least she learned something new."
         $ chr.vaginal += randint (3, 5)
         $ hero.vaginal += randint (0, 1)
-        $ chr.vitality -= 20
+        $ chr.vitality -= 50
+        $ hero.vitality -= 60
         $ libido -= 10
         $ sex_count += 1
         $ girl_count +=1
     elif chr.vaginal >= 50 and hero.vaginal < 50:
         "You fuck her pussy until you come. Unfortunately you didn't have enough skill to make her come as well. She looks disappointed."
         $ hero.vaginal += randint (1, 2)
-        $ chr.vitality -= 20
+        $ chr.vitality -= 60
+        $ hero.vitality -= 50
         $ chr.joy -= 10
         $ libido -= 5
         $ sex_count += 1
@@ -682,7 +722,8 @@ label vag_sex:
         "You fuck her pussy for some time until you both realized that you are not skillful enough to make each other properly come. It would be funny if it wasn't so sad."
         $ chr.vaginal += randint (0, 1)
         $ hero.vaginal += randint (0, 1)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 60
+        $ hero.vitality -= 60
         $ libido -= 5
         $ chr.joy -= 10
         $ sex_count += 1
@@ -690,7 +731,8 @@ label vag_sex:
         "You fuck her wet pussy until you both come. It was pretty good."
         $ chr.vaginal += randint (2, 4)
         $ hero.vaginal += randint (0, 2)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 50
+        $ hero.vitality -= 50
         $ chr.joy += 5
         $ libido -= 10
         $ sex_count += 1
@@ -700,7 +742,8 @@ label vag_sex:
         "You fuck her wet pussy until you both come. You did it much earlier, and noticed a light self-confident smile on her face."
         $ chr.vaginal += randint (1, 4)
         $ hero.vaginal += randint (1, 2)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 40
+        $ hero.vitality -= 50
         $ chr.joy += 5
         $ libido -= 10
         $ sex_count += 1
@@ -710,7 +753,8 @@ label vag_sex:
         "You fuck her wet pussy until you both come. She did it much earlier, looks like she enjoyed it a lot."
         $ chr.vaginal += randint (1, 4)
         $ hero.vaginal += randint (1, 2)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 50
+        $ hero.vitality -= 40
         $ chr.joy += 10
         $ libido -= 10
         $ sex_count += 1
@@ -726,7 +770,8 @@ label vag_sex:
             $ together_count += 1
         $ chr.vaginal += randint (1, 3)
         $ hero.vaginal += randint (1, 3)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 45
+        $ hero.vitality -= 45
         $ chr.joy += 10
         $ libido -= 10
         $ sex_count += 1
@@ -737,7 +782,8 @@ label vag_sex:
         $ chr.vaginal += randint (1, 2)
         $ hero.vaginal += randint (1, 3)
         $ together_count += 1
-        $ chr.vitality -= 10
+        $ chr.vitality -= 40
+        $ hero.vitality -= 40
         $ chr.joy += 15
         $ libido -= 15
         $ sex_count += 1
@@ -753,7 +799,7 @@ label vag_sex:
     
 label anal_sex:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         if chr.health >= 30:
             $ chr.health -= 10
         $ chr.joy -= 5
@@ -765,7 +811,8 @@ label anal_sex:
         "You fuck her ass until she comes. She's still too inexperienced, so you were unable to come properly, and it was quite painful for her. Oh well, at least she learned something new."
         $ chr.anal += randint (3, 5)
         $ hero.anal += randint (0, 1)
-        $ chr.vitality -= 25
+        $ chr.vitality -= 55
+        $ hero.vitality -= 60
         $ chr.joy -=10
         if chr.health > 30:
             $ chr.health -= 5
@@ -775,7 +822,8 @@ label anal_sex:
     elif chr.anal >= 50 and hero.anal < 50:
         "You fuck her ass until you come. Unfortunately you didn't have enough skill to make her come, and it was quite painful for her. She looks disappointed."
         $ hero.anal += randint (1, 2)
-        $ chr.vitality -= 20
+        $ chr.vitality -= 60
+        $ hero.vitality -= 55
         $ chr.joy -= 20
         $ libido -= 5
         if chr.health > 30:
@@ -786,7 +834,8 @@ label anal_sex:
         "You fuck her ass for some time until you both realized that you are not skillful enough to make each other properly come. It was an unpleasant and painful experience for both of you."
         $ chr.anal += randint (1, 3)
         $ hero.anal += randint (1, 3)
-        $ chr.vitality -= 25
+        $ chr.vitality -= 60
+        $ hero.vitality -= 60
         $ libido -= 5
         $ chr.joy -= 25
         $ sex_count += 1
@@ -796,7 +845,8 @@ label anal_sex:
         "You fuck her tight ass until you both come. It was pretty good."
         $ chr.anal += randint (2, 4)
         $ hero.anal += randint (0, 2)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 50
+        $ hero.vitality -= 50
         $ chr.joy += 5
         $ libido -= 10
         $ sex_count += 1
@@ -806,7 +856,8 @@ label anal_sex:
         "You fuck her tight ass until you both come. You did it much earlier, and noticed a small self-confident smile on her face."
         $ chr.anal += randint (1, 4)
         $ hero.anal += randint (1, 2)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 45
+        $ hero.vitality -= 50
         $ chr.joy += 5
         $ libido -= 10
         $ sex_count += 1
@@ -816,7 +867,8 @@ label anal_sex:
         "You fuck her tight ass until you both come. She did it much earlier, looks like she enjoyed it a lot."
         $ chr.anal += randint (1, 4)
         $ hero.anal += randint (1, 2)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 50
+        $ hero.vitality -= 45
         $ chr.joy += 10
         $ libido -= 10
         $ sex_count += 1
@@ -832,7 +884,8 @@ label anal_sex:
             $ together_count += 1
         $ chr.anal += randint (1, 3)
         $ hero.anal += randint (1, 3)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 45
+        $ hero.vitality -= 45
         $ chr.joy += 10
         $ libido -= 10
         $ sex_count += 1
@@ -843,7 +896,8 @@ label anal_sex:
         $ chr.anal += randint (1, 2)
         $ hero.anal += randint (1, 3)
         $ together_count += 1
-        $ chr.vitality -= 15
+        $ chr.vitality -= 40
+        $ hero.vitality -= 40
         $ chr.joy += 15
         $ libido += -15
         $ sex_count += 1
@@ -859,35 +913,35 @@ label anal_sex:
     
 label stripte:
     if libido <= 0:
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy -= 5
-    if joy <= 10:
+    if chr.joy <= 10:
         $ chr.disposition -= 5
     "You ask her to show you striptease."
     if chr.strip < 50:
         "She tried her best, but the moves were clumsy and unnatural. At least she learned something new though."
         $ chr.strip += randint (3, 5)
         $ chr.joy -= 10
-        $ chr.vitality -= 15
+        $ chr.vitality -= 30
         $ libido -= 5
     elif chr.strip < 300:
         "It's nice to look at her graceful and elegant moves."
         $ chr.strip += randint (1, 3)
         $ hero.strip += randint (0, 1)
-        $ chr.vitality -= 15
+        $ chr.vitality -= 35
         $ libido += 5
     elif chr.strip < 1000:
         "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
         $ chr.strip += randint (1, 2)
         $ hero.strip += randint (1, 2)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy += 10
         $ libido += 5
     else:
         "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in the eyes."
         $ chr.strip += randint (0, 1)
         $ hero.strip += randint (1, 4)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 20
         $ chr.joy += 15
         $ libido += 10
         $ guy_count +=1
