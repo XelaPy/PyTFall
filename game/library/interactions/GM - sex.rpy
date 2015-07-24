@@ -91,25 +91,46 @@ label interactions_fuck:
     $ girl_count = 0
     $ together_count = 0
     $ cum_count = 0
-    if ct("Nymphomaniac"): #will need to add lover as well!!!
-        $libido = 140
+    if ct("Nymphomaniac"):
+        $libido = 55
     elif ct("Frigid"):
-        $libido = 60
+        $libido = 20
     else:
-        $libido = 100
+        $libido = 35
     if ct ("Messy"):
-        $libido += 10
-    if chr.flag("forced") == "true" and ct("Masochist"):
+        $libido += 5
+    if check_lovers(hero, chr):
         $libido += 20
+    if chr.flag("forced") == "true" and ct("Masochist"):
+        $libido += 10
     elif chr.flag("forced") == "true":
-        $libido -= 20
+        $libido -= 10
         $chr.joy -= 15
     if cgo("SIW"):
-        $libido += 20
-    else:
-        $libido -= 20
+        $libido += 10
         
 label choice:
+    if chr.status == "slave":
+        if chr.vitality <=0:
+            jump finish_sex
+        if libido <= 0:
+            "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
+        if joy <= 10:
+            "She looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
+        if vitality <= 15:
+            "She looks very tired. You can force her, but it's probably for the best to let her rest."
+    else:
+        if chr.vitality <=0:
+            jump finish_sex
+        elif libido <= 0:
+            "She doesn't want to do it any longer."
+            jump finish_sex
+        elif joy <= 10:
+            "She looks upset. Not the best mood for sex."
+            jump finish_sex
+        if vitality <= 15:
+            "She is tired to continue."
+            jump finish_sex
     menu:
         "What would you like to do now?"
         
@@ -265,59 +286,130 @@ label choice:
             # $ girl_count = 0
             # $ together_count = 0
             # $ cum_count = 0
-            
-            if together_count > 0 and sex_count >=3:
-                "Placeholder for come together lines from AA"
-            if cum_count >= 3:
-                "Placeholder for cum lines from AA"
-            elif sex_count < 1 and guy_count < 1 and girl_count < 1:
-                if chr.status == "slave":
-                    "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
+            label finish_sex:
+                if chr.vitality <=0:
+                    $ gm.set_img("rest", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
+                    "She fainted from fatigue. You cannot continue any longer."
+                    $ chr.disposition = randint(4, 10)
+                elif (together_count > 0 and sex_count >=2) or (sex_count >=4 and girl_count >=2 and guy_count >= 2):
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "happy", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "happy", "nature")
+                    else:
+                        $ gm.set_img("profile", "happy", "indoors", "living")
+                    call after_good_sex
+                    $ chr.disposition += randint(40, 70)
+                    $ chr.joy += randint(20, 50)
+                    $ chr.vitality -= 10
+                elif girl_count < 1 and guy_count > 0:
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "sad", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "sad", "nature")
+                    else:
+                        $ gm.set_img("profile", "sad", "indoors", "living")
+                    call girl_never_come
+                    $ chr.disposition -= randint(20, 50)
+                    $ chr.joy -= randint(20, 50)
+                    $ chr.vitality -= 15
+                elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "shy", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "shy", "nature")
+                    else:
+                        $ gm.set_img("profile", "shy", "indoors", "living")
+                    call guy_never_came
+                    $ chr.disposition += randint(10, 20)
+                    $ chr.joy -= randint(10, 30)
+                    $ chr.vitality -= 15
+                elif girl_count > 0 and (cum_count >=5 or (cum_count > girl_count)):
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "confident", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "confident", "nature")
+                    else:
+                        $ gm.set_img("profile", "confident", "indoors", "living")
+                    call guy_cum_alot
+                    $ chr.disposition += randint(20, 40)
+                    $ chr.joy += randint(20, 40)
+                    $ chr.vitality += 10
+                elif (sex_count < 1) and (guy_count < 1) and (girl_count < 1):
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "sad", "angry", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "sad", "angry", "nature")
+                    else:
+                        $ gm.set_img("profile", "sad", "angry", "indoors", "living")
+                    if chr.status == "slave":
+                        "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
+                    else:
+                        "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
+                    $ chr.disposition -= randint(40, 70)
+                    $ chr.joy -= randint(20, 50)
+                    $ chr.vitality -= 5
+                elif girl_count > 0 and sex_count < 1:
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "shy", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "shy", "nature")
+                    else:
+                        $ gm.set_img("profile", "shy", "indoors", "living")
+                    "She did nothing but masturbated in front of you. Probably better than nothing, but be prepared for rumors about your impotence or orientation."
+                    $ chr.disposition -= randint(30, 50)
+                    $ chr.joy -= randint(15, 25)
+                    $ chr.vitality -= 5
                 else:
-                    "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
-                $ chr.disposition -= randint(40, 70)
-                $ chr.joy -= randint(20, 50)
-                $ chr.vitality -= 25
-            elif girl_count > 0 and sex_count < 1:
-                "She did nothing but masturbated in front of you. Probably better than nothing, but be prepared for rumors about your impotence or orientation."
-                $ chr.disposition -= randint(30, 50)
-                $ chr.joy -= randint(15, 25)
-                $ chr.vitality -= 20
-            elif girl_count > 0 and guy_count > 0 and sex_count < 3:
-                "Placeholder for small amount of sex lines from AA"
+                    if chr.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "happy", "beach")
+                    elif chr.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "happy", "nature")
+                    else:
+                        $ gm.set_img("profile", "happy", "indoors", "living")
+                    "It was pretty good, and she looks quite pleased and satisfied. But there is room for improvement."
+                    $ chr.disposition += randint(20, 40)
+                    $ chr.joy += randint(20, 30)
+                    $ chr.vitality += 10
             
-            $ gm.restore_img()
-            jump girl_interactions 
+                $ gm.restore_img()
+                jump girl_interactions 
 
 label bj:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     "She licks and sucks your dick until you come."
     if chr.oral < 50:
         "She clearly needs more training, so it took some time. But at least she learned something new."
         $ chr.oral += randint (3, 5)
         $ hero.oral += randint (0, 1)
         $ chr.vitality -= 15
-        $ libido += 5
+        $ libido -= 5
     elif chr.oral < 300:
         "It was pretty good."
         $ chr.oral += randint (2, 4)
         $ hero.oral += randint (0, 2)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 5
+        $ libido -= 5
     elif chr.oral < 1000:
         "It was very good."
         $ chr.oral += randint (1, 3)
         $ hero.oral += randint (1, 3)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 8
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.oral += randint (0, 2)
         $ hero.oral += randint (1, 4)
         $ chr.vitality -= 4
         $ chr.joy += 2
-        $ libido += 10
+        $ libido += 5
         $ sex_count += 1
         $ guy_count +=1
     if (chr.oral - hero.oral) > 200:
@@ -332,6 +424,13 @@ label bj:
     jump choice
         
 label tj:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     "She stimulates your dick with her soft breasts until you come."
     if chr.oral < 50 or chr.sex < 50:
         "She clearly needs more training, so it took some time. But at least she learned something new."
@@ -339,7 +438,7 @@ label tj:
         $ chr.sex += randint (1, 4)
         $ hero.sex += randint (0, 1)
         $ chr.vitality -= 15
-        $ libido += 5
+        $ libido -= 5
     elif chr.oral < 300 or  chr.sex < 300:
         "It was pretty good."
         $ chr.oral += randint (1, 3)
@@ -347,7 +446,7 @@ label tj:
         $ hero.sex += randint (0, 1)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 5
+        $ libido -= 5
     elif chr.oral < 1000 or chr.sex < 1000:
         "It was very good."
         $ chr.oral += randint (1, 2)
@@ -355,7 +454,6 @@ label tj:
         $ hero.sex += randint (1, 2)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 8
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.oral += randint (0, 2)
@@ -363,7 +461,7 @@ label tj:
         $ hero.sex += randint (1, 3)
         $ chr.vitality -= 4
         $ chr.joy += 2
-        $ libido += 10
+        $ libido += 5
     if (chr.oral - hero.oral) > 200 or (chr.sex - hero.sex) > 200:
         "You learned something new about titsjob as well. A pleasure to deal with professionals."
         $ hero.oral += 1
@@ -378,34 +476,40 @@ label tj:
     jump choice
     
 label hj:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     "She stimulates your dick with her hands until you come."
     if chr.sex < 50:
         "She clearly needs more training, so it took some time. But at least she learned something new."
         $ chr.sex += randint (3, 5)
         $ hero.sex += randint (0, 1)
         $ chr.vitality -= 15
-        $ libido += 5
+        $ libido -= 5
     elif chr.sex < 300:
         "It was pretty good."
         $ chr.sex += randint (2, 4)
         $ hero.sex += randint (0, 2)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 5
+        $ libido -= 5
     elif chr.sex < 1000:
         "It was very good."
         $ chr.sex += randint (1, 3)
         $ hero.sex += randint (1, 2)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 8
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.sex += randint (0, 2)
         $ hero.sex += randint (1, 3)
         $ chr.vitality -= 4
         $ chr.joy += 2
-        $ libido += 10
+        $ libido += 5
     if (chr.sex - hero.sex) > 200:
         "You learned something new about handjob as well. A pleasure to deal with professionals."
         $ hero.sex += 2
@@ -418,34 +522,40 @@ label hj:
     jump choice
     
 label fj:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     "She stimulates your dick with her feet until you come."
     if chr.sex < 50:
         "She clearly needs more training, so it took some time. But at least she learned something new."
         $ chr.sex += randint (3, 5)
         $ hero.sex += randint (0, 1)
         $ chr.vitality -= 15
-        $ libido += 5
+        $ libido -= 5
     elif chr.sex < 300:
         "It was pretty good."
         $ chr.sex += randint (2, 4)
         $ hero.sex += randint (0, 2)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 5
+        $ libido -= 5
     elif chr.sex < 1000:
         "It was very good."
         $ chr.sex += randint (1, 3)
         $ hero.sex += randint (1, 2)
         $ chr.vitality -= 5
         $ chr.joy += 1
-        $ libido += 8
     else:
         "She was so good that you came after a few seconds. Wow."
         $ chr.sex += randint (0, 2)
         $ hero.sex += randint (1, 3)
         $ chr.vitality -= 4
         $ chr.joy += 2
-        $ libido += 10
+        $ libido += 5
     if (chr.sex - hero.sex) > 200:
         "You learned something new about footjob as well. A pleasure to deal with professionals."
         $ hero.sex += 2
@@ -458,16 +568,34 @@ label fj:
     jump choice
     
 label mast:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        if chr.health >= 30:
+            $ chr.health -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     "She masturbates in front of you. Although it cannot be considered as a sexual act, you both are more aroused now."
-    if libido <= 30:
+    if libido <= 10:
         $ libido += 10
     else:
         $ libido += 5
-    $ chr.vitality -= 10
+    $ chr.vitality -= 20
     $ girl_count +=1
     jump choice
     
 label vag_sex:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        if chr.health >= 30:
+            $ chr.health -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     if chr.vaginal < 50 and hero.vaginal >= 50:
         "You fuck her pussy until she comes. She's still too inexperienced, so you were unable to come properly. Oh well, at least she learned something new."
         $ chr.vaginal += randint (3, 5)
@@ -481,7 +609,7 @@ label vag_sex:
         $ hero.vaginal += randint (1, 2)
         $ chr.vitality -= 20
         $ chr.joy -= 10
-        $ libido += 5
+        $ libido -= 5
         $ sex_count += 1
         $ guy_count +=1
     elif chr.vaginal < 50 and hero.vaginal < 50:
@@ -489,7 +617,7 @@ label vag_sex:
         $ chr.vaginal += randint (0, 1)
         $ hero.vaginal += randint (0, 1)
         $ chr.vitality -= 10
-        $ libido += 5
+        $ libido -= 5
         $ chr.joy -= 10
         $ sex_count += 1
     elif chr.vaginal < 500 and hero.vaginal < 500:
@@ -545,7 +673,7 @@ label vag_sex:
         $ together_count += 1
         $ chr.vitality -= 10
         $ chr.joy += 15
-        $ libido += -20
+        $ libido -= 15
         $ sex_count += 1
         $ guy_count +=2
         $ girl_count +=2
@@ -558,6 +686,15 @@ label vag_sex:
     jump choice
     
 label anal_sex:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        if chr.health >= 30:
+            $ chr.health -= 10
+        $ chr.joy -= 5
+    if chr.joy <= 10:
+        $ chr.disposition -= 5
+    if chr.vitality <= 15 and chr.health >= 50:
+        $ chr.health -= 2
     if chr.anal < 50 and hero.anal >= 50:
         "You fuck her ass until she comes. She's still too inexperienced, so you were unable to come properly, and it was quite painful for her. Oh well, at least she learned something new."
         $ chr.anal += randint (3, 5)
@@ -574,7 +711,7 @@ label anal_sex:
         $ hero.anal += randint (1, 2)
         $ chr.vitality -= 20
         $ chr.joy -= 20
-        $ libido += 5
+        $ libido -= 5
         if chr.health > 30:
             $ chr.health -= 5
         $ sex_count += 1
@@ -584,7 +721,7 @@ label anal_sex:
         $ chr.anal += randint (1, 3)
         $ hero.anal += randint (1, 3)
         $ chr.vitality -= 25
-        $ libido += 5
+        $ libido -= 5
         $ chr.joy -= 25
         $ sex_count += 1
         if chr.health > 35:
@@ -642,7 +779,7 @@ label anal_sex:
         $ together_count += 1
         $ chr.vitality -= 15
         $ chr.joy += 15
-        $ libido += -10
+        $ libido += -15
         $ sex_count += 1
         $ guy_count +=2
         $ girl_count +=2
@@ -655,18 +792,23 @@ label anal_sex:
     jump choice
     
 label stripte:
+    if libido <= 0:
+        $ chr.vitality -= 10
+        $ chr.joy -= 5
+    if joy <= 10:
+        $ chr.disposition -= 5
     "You ask her to show you striptease."
     if chr.strip < 50:
         "She tried her best, but the moves were clumsy and unnatural. At least she learned something new though."
         $ chr.strip += randint (3, 5)
         $ chr.joy -= 10
-        $ chr.vitality -= 10
-        $ libido -= 15
+        $ chr.vitality -= 15
+        $ libido -= 5
     elif chr.strip < 300:
         "It's nice to look at her graceful and elegant moves."
         $ chr.strip += randint (1, 3)
         $ hero.strip += randint (0, 1)
-        $ chr.vitality -= 10
+        $ chr.vitality -= 15
         $ libido += 5
     elif chr.strip < 1000:
         "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
@@ -1092,11 +1234,11 @@ label interactions_sex:
                 $rc("It's alright for siblings to do something like this.", "Make your sister feel good.", "Just for now, we're not siblings... we're just... a man and a woman.", "We're brother and sister. What we're doing now must remain an absolute secret.", "I'll do my best. I want you to feel good, brother.", "I bet our parents would be so mad.")
        
         elif ct("Impersonal"):
-            $rc("...Please insert to continue.", "You are authorized so long as it does not hurt.", "You can do me if you want.", "So, I'll begin the sexual interaction...", "Understood. I will... service you…", "I dedicate this body to you.")
+            $rc("...Please insert to continue.", "You are authorized so long as it does not hurt.", "You can do me if you want.", "So, I'll begin the sexual interaction...", "Understood. I will... service you…", "I dedicate this body to you.", "Understood. Please demonstrate your abilities.")
         elif ct("Shy") and dice(30):
             $rc("D-do you mean…  Ah, y-yes…  If I'm good enough…", "Eeh?! Th-that's... uh... W- well... I do... want to...", "O...okay. I'll do my best.", "I-I was thinking… That I wanted to be one with you…", "If it's you, I'm fine with anything...", "I too... wanted to be touched by you... ","I want my feelings…  To reach you…", "It's... it's... o-okay to... have... s--s-sex... with me...", "Uh... I... h...how should I say this... It... it'll be great if you could do it gently...", "Aah... p... please... I... I want it... I... I can't think of anything else now!", "I-I'll do my best... for your sake!", "Uhm... I want you... to be gentle...", "Um, I-I want to do it… Please treat me well…", "Uh, uhm, how should I...? Eh? You want it like this...? O-okay! Then, h-here I go…", "Eeh, i-is it ok with someone like me...?", "Sorry if I'm no good at this...", "Uh... p... please... d...do it for me... my whole body's aching right now...", "Umm... anything is fine as long as it's you...", "Umm… please do perverted things to me…", "I don't know how well I will do...")
         elif ct("Nymphomaniac") and dice(40):
-            $rc("Come on, I'll do the same for you, so please hurry and do me.", "Ahh, I can't wait anymore... quickly... please do me fast…", "I've been waiting for you all this time, so hurry up.", "Ready anytime you are.", "Please fill my naughty holes with your hot shaft.", " Let's do it all night long, okay? ...What, I'm just a dirty-minded girl~ ♪", "I don't mind. I really loooove to have sex. ♪", "Just watching is boring, right?  So… ♪", "...Shit! Now I'm horny as hell! ...Hey? You up for a go?", "Whenever, wherever…", "If you'd made me wait any longer I would have violated you myself.", "You know, had you kept me waiting any longer I would probably have jumped you myself.", "I hope you know how to handle a pussy...", "Man, who'd have thought that you are as perverted as I am...", "Ah... actually, I have been feeling sexually frustrated lately...", "Aah~~ Geez, I can't hold it anymore! Let's fuck!", "Hyauh…  Geez, do you have any idea how long I've been wet?", "Finally!", "You can ask me as much as you like... We can do it again... and again...", "...These perverted feelings... You can make them go away, can't you...?", "Umm, I-I'm always ready for it, so...!", "Turn me into a sloppy mess...!", "Let's do it! Right now! Take off your clothes! Hurry!", "Hmmm, what should I do～? ...Do you wanna do it THAT much～? I guess there's no stopping it～", "eah, it's okay. If that's what you want. Besides... I kinda like this stuff.")
+            $rc("Come on, I'll do the same for you, so please hurry and do me.", "Ahh, I can't wait anymore... quickly... please do me fast…", "I've been waiting for you all this time, so hurry up.", "Ready anytime you are.", "Please fill my naughty holes with your hot shaft.", " Let's do it all night long, okay? ...What, I'm just a dirty-minded girl~ ♪", "I don't mind. I really loooove to have sex. ♪", "Just watching is boring, right?  So… ♪", "...Shit! Now I'm horny as hell! ...Hey? You up for a go?", "Whenever, wherever…", "If you'd made me wait any longer I would have violated you myself.", "You know, had you kept me waiting any longer I would probably have jumped you myself.", "I hope you know how to handle a pussy...", "Man, who'd have thought that you are as perverted as I am...", "Ah... actually, I have been feeling sexually frustrated lately...", "Aah~~ Geez, I can't hold it anymore! Let's fuck!", "Hyauh…  Geez, do you have any idea how long I've been wet?", "Finally!", "You can ask me as much as you like... We can do it again... and again...", "...These perverted feelings... You can make them go away, can't you...?", "Umm, I-I'm always ready for it, so...!", "Turn me into a sloppy mess...!", "Let's do it! Right now! Take off your clothes! Hurry!", "Hmmm, what should I do～? ...Do you wanna do it THAT much～? I guess there's no stopping it～", "eah, it's okay. If that's what you want. Besides... I kinda like this stuff.", "Whatー, you want to do it tooー... Sure, let's do itー♪", "Mm, I might be able to learn some new tricks... Okay, fine by me!")
         elif ct("Masochist") and dice (20):
             $rc("Feel free to make me your personal bitch slave!", "Geez～, you could have just taken me by force～...", "Kya~... I - am - being - molested -... Oh come on, at least play along a little bit...")
         elif ct("Sadist") and dice(20):
@@ -1106,15 +1248,15 @@ label interactions_sex:
         elif ct("Dandere"):
             $rc("...Very well then. Please go ahead and do as you like.", "I... want you inside me.", "You're welcome to... do that.", "You can do whatever you want to me.", "I'm going to make you cum. You had better prepare yourself.", "I will not go easy on you.", "I... I'm ready for sex.", "Make me feel good...", "...If you do it, be gentle.", "I will handle... all of your urges...", "Then…  I will do it with you…", "...If you want, do it now.", "...I want to do it, too.", "...How do you want it?  ...Okay, I can do it…", "Now is your chance...")
         elif ct("Kuudere"):
-            $rc("...I don't particularly mind.", "Heh. I'm just a girl too, you know. Let's do it.", "...V-Very well. I will neither run nor hide.", "Don't forget that I'm a woman after all...", "What a bothersome guy... Alright, I get it.", "...Fine, just don't use the puppy-dog eyes.", "*sigh* ...Fine, fine! I'll do it as many times as you want!", "Fine with me… Wh-what? ...Even I have times when I want to do it…")
+            $rc("...I don't particularly mind.", "Heh. I'm just a girl too, you know. Let's do it.", "...V-Very well. I will neither run nor hide.", "Don't forget that I'm a woman after all...", "What a bothersome guy... Alright, I get it.", "...Fine, just don't use the puppy-dog eyes.", "*sigh* ...Fine, fine! I'll do it as many times as you want!", "Fine with me… Wh-what? ...Even I have times when I want to do it…", "I-I'll make sure to satisfy you...!", "If you wanna do it just do what you want.")
         elif ct("Imouto"):
             $rc("Ehehe... It's ok? Doing it...", "Ehehe, I'm going to move a lot for you... ♪", "[chr.name] will show you the power of love♪", "I can do naughty stuff, you know? ...Want to see?", "Uhuhu, Well then, I'll be really nice to you, ok? ♪", "Uhuhu, Well then, what should I tease first~ ♪", "Okayyy! Let's love each other a lot. ♪", "Hey? You want to? You do, don't you? We can do it, if you waaaaant~", "Aah... I want you… To love me lots…", "Ehehe♪ Prepare to receive loads and loads of my love! ♪", "Hold me really tight, kiss me really hard, and make me feel really good. ♪", "Aha, When I am with a certain someone, I do only naughty things~… Uhuhu ♪", "Yeah, let's make lots of love♪", "I-is it okay for me to climb onto you? I'm sorry if I'm heavy...", "I-I'll do my best to pleasure you!", "Yes. I'm happy that I can help make you feel good.", "I don't know how well I will do...", "Geez, you're so forceful...♪")
         elif ct("Ane"):
-            $rc("Hmhm, what is going to happen to me, I wonder?", "Come on, show me what you've got...", "This looks like it will be enjoyable.", "If you can do this properly... I'll give you a nice pat on the head.", "Seems like you can't help it, huh...", "Fufufu, please don't overdo it, okay?", "Go ahead and do it as you like, it's okay.")
+            $rc("Hmhm, what is going to happen to me, I wonder?", "Come on, show me what you've got...", "This looks like it will be enjoyable.", "If you can do this properly... I'll give you a nice pat on the head.", "Seems like you can't help it, huh...", "Fufufu, please don't overdo it, okay?", "Go ahead and do it as you like, it's okay.", "Very well, I can show you a few things... Hmhm.")
         elif ct("Bokukko"):
-            $rc("Heh heeeh~♪ It's cool, no one's here. ♪", "Y-yeah… I sort of want to do it, too... ehehe…", "Wha!? C-can you read my mind...?", "Ah, eh, right now?", "Okay... but I'll do it like I want, kay?" ,"...Okay, that's it! I can't stand it! I've gotta fuck ya!", "S-sure… Ehehe, I'm, uh, kind of interested, too…", "Hey, let's do it while we got some time to kill...?", "Hehee, just leave it all to me! I'll make this awesome!", "Gotcha, sounds like a plan!", "Hey, maybe… The two of us could have an anatomy lesson?", "Is that ok? Ehehe... I wanted to do it too…", "Huhu… I want to do it with a pervert like you.", "Ehehe… In that case, let's go hog wild~", "Ehehe… So... let's do it. ♪", "Hmph... if you'd like, I'll give ya' some lovin'. ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Y-yeah... if we're going to do it, we should do it now...", "Huhuh, I sort of want to do it now...", "Hey, er…  Wanna try doing it with me...?")
+            $rc("Right, yeah... As long as you don't just cum on your own, sure, let's do it", "Y-yeah… I sort of want to do it, too... ehehe…", "Wha!? C-can you read my mind...?", "Ah, eh, right now?", "Okay... but I'll do it like I want, kay?" ,"...Okay, that's it! I can't stand it! I've gotta fuck ya!", "S-sure… Ehehe, I'm, uh, kind of interested, too…", "Hey, let's do it while we got some time to kill...?", "Hehee, just leave it all to me! I'll make this awesome!", "Gotcha, sounds like a plan!", "Hey, maybe… The two of us could have an anatomy lesson?", "Is that ok? Ehehe... I wanted to do it too…", "Huhu… I want to do it with a pervert like you.", "Ehehe… In that case, let's go hog wild~", "Ehehe… So... let's do it. ♪", "Hmph... if you'd like, I'll give ya' some lovin'. ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Y-yeah... if we're going to do it, we should do it now...", "Huhuh, I sort of want to do it now...", "Hey, er…  Wanna try doing it with me...?", "Well, I s'pose once in a while wouldn't hurtー♪")
         elif ct("Yandere"):
-            $rc("Fine, if you insist...", "Hehe. How should I make you feel good?", "If we have sex you will never forget me, right?♪", "Please do your best... if it's you, it'll be okay.", "Heh heh... You're going to feel a lot of pleasure. Try not to break on me.", "Alright, I'll just kill some time playing around with your body...", "Feel grateful for even having the opportunity to touch my body.", "Huhuh, I'll kill you with my tightness...")
+            $rc("Yes, let's have passionate sex, locked together♪", "Hehe. How should I make you feel good?", "If we have sex you will never forget me, right?♪", "Please do your best... if it's you, it'll be okay.", "Heh heh... You're going to feel a lot of pleasure. Try not to break on me.", "Alright, I'll just kill some time playing around with your body...", "Feel grateful for even having the opportunity to touch my body.", "Huhuh, I'll kill you with my tightness...", "You're lewd～♪")
         elif ct("Kamidere"):
             $rc("*giggle* I'll give you a feeling you'll never get from anyone else…", "Oh? You seem quite confident. I'm looking forward to this. ♪", "You're raring to go, aren't you? Very well, let's see what you've got.", "Now then, show me sex appropriate to someone qualified to be my lover...", "Hhmn... My, my... you love my body so much? Of course you do, it can't be helped.", "Oh, you seem to understand what I want from you,.. Good doggy, good doggy ♪", "Be sure to make me feel good, got it?", "Then you're bored, too.", "Feel grateful for even having the opportunity to touch my body.", "You won't be able to think about anybody else besides me after I'm done with you.", "Huhuhu, having sex with me… pretty cheeky for a pet dog~ ♪", "Hmph, Entertain me the best you can…", "Hmph, I'll prove that I'm the greatest you'll ever have...", "...For now, I'm open to the idea.", "Huhuh, I'll be using you until I'm satisfied...", "Huhu, you can't cum until I give you permission, okay? So, get ready to endure it~ ♪", "I don't really want to, but since you look so miserable I'll allow it.", "For me to get in this state... I can't believe it...", "Haa, in the end, it turned out like this…  Fine then, do as you like…")
         else:
@@ -1157,7 +1299,7 @@ label interactions_sex:
             else:
                 $rc("No! Brother! We can't do this!",  "Don't you think that siblings shouldn't be doings things like that?")
         elif ct("Impersonal"):
-            $rc("I see no possible benefit in doing that with you so I will have to decline.", "No.")
+            $rc("I see no possible benefit in doing that with you so I will have to decline.", "No.", "So, let's have you explain in full detail why you decided to do that today, hmm?")
         elif ct("Not Human") and dice(20):
             $rc("I wonder why humans constantly wish to have sex...")
         elif ct("Shy") and dice(30):
@@ -1165,23 +1307,22 @@ label interactions_sex:
         elif ct("Lesbian") and dice(25):
             $rc("Ew, don't wanna. You're a guy.", "I'm terribly sorry, but... I can't do that with a man.", "Men for me are... well...")
         elif ct("Imouto"):
-            $rc("Noooo way!", "I, I think perverted things are bad!", "That only happens after you've made your vows to be together forever, right?", "...I-I'm gonna get mad if you say that stuff, you know? Jeez!") 
+            $rc("Noooo way!", "I, I think perverted things are bad!", "That only happens after you've made your vows to be together forever, right?", "...I-I'm gonna get mad if you say that stuff, you know? Jeez!", "Y-you dummyー! You should be talking about stuff like s-s-sexー!") 
         elif ct("Dandere"):
             $rc("Keep sexual advances to a minimum.", "No.", "...pathetic.", "...you're no good.")
         elif ct("Tsundere"):
             $rc("I'm afraid I must inform you of your utter lack of common sense. Hmph!", "You are so... disgusting!!", "You pervy little scamp! Not in a million years!", "Hmph! Unfortunately for you, I'm not that cheap!")
         elif ct("Kuudere"):
-            $rc("...Perv.", "...Looks like I'll have to teach you about this little thing called reality.", "O-of course the answer is no!", "Hmph, how unromantic!")
+            $rc("...Perv.", "...Looks like I'll have to teach you about this little thing called reality.", "O-of course the answer is no!", "Hmph, how unromantic!", "Don't even suggest something that awful.")
         elif ct("Kamidere"):
             $rc("Wh-who do you think you are!?", "W-what are you talking about… Of course I'm against that!", "What?! How could you think that I... NO!", "What? Asking that out of the blue? Know some shame!", "You should really settle down.", "What? Dying wish? You want to die?", "The meaning of 'not knowing your place' must be referring to this, eh...?", "I don't know how anyone so despicable as you could exist outside of hell.")
         elif ct("Bokukko"):
-            $rc("He- Hey, Settle down a bit, okay?", "You should keep it in your pants, okay?", "Y-you're talking crazy...")
+            $rc("He- Hey, Settle down a bit, okay?", "You should keep it in your pants, okay?", "Y-you're talking crazy...", "Hmph! Well no duhー!")
         elif ct("Ane"):
-            $rc("...Give me a bit more time, please.", "Sorry... I'm not ready for that...", "Oh my, can't you think of a better way to seduce me?", "No. I have decided that it would not be appropriate.", "I'm sorry, it's too early for that.", "I don't think our relationship has progressed to that point yet.", "I think that you are being way too aggressive.", "I'm not attracted to you in ‘that’ way.")
+            $rc("If I was interested in that sort of thing I might, but unfortunately...", "Sorry... I'm not ready for that...", "Oh my, can't you think of a better way to seduce me?", "No. I have decided that it would not be appropriate.", "I'm sorry, it's too early for that.", "I don't think our relationship has progressed to that point yet.", "I think that you are being way too aggressive.", "I'm not attracted to you in ‘that’ way.")
         elif ct("Yandere"):
             $rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.")
         else:
             $rc("No! Absolutely NOT!", "With you? Don't make me laugh.", "Yeah right, dickhead.", "Yeah, get the fuck away from me, you disgusting perve.", "Get lost, pervert!", "Woah, hold on there, killer. Maybe after we get to know each other better.", "Don't tell me that you thought I was a slut...?", "I'm just really tired... ok?", "How about you fix that 'anytime's fine' attitude of yours, hmm?")  
     
     jump girl_interactions
-    

@@ -145,11 +145,11 @@ label interactions_girlfriend:
         elif ct("Tsundere"):
             $rc("Haah... Why did I fall in love with someone like this...? I guess it's fine, though.", "Hmph... It's YOU we're talking about, so I thought something like this might happen.")
         elif ct("Bokukko"):  
-            $rc("I-I guess I could if you're g-gonna go that far.", "You've got weird taste, falling for a girl like me... Don't regret this, okay?")
+            $rc("I-I guess I could if you're g-gonna go that far.", "You've got weird taste, falling for a girl like me... Don't regret this, okay?", "I like you too, so we should be good to go, right?")
         elif ct("Ane"):
             $rc("Hmhm, I'll try establishing a relationship.", "Hmhmhm... I'm quite the troublesome woman, you know...?", "I swear I'll make you happy!")
         elif ct("Kamidere"):
-            $rc("Yes, I suppose it's time things got serious.", "I feel the same way.")
+            $rc("Yes, I suppose it's time things got serious.", "I feel the same way.", "Alright, you'd better take good care of me as your girlfriend.")
         elif ct("Yandere"):
             $rc("Of course! Now no one can keep us apart! Hehe♪", "We're sweethearts now?　Finally!♪", "I want to be yours as well♪", "Huhu, I'm not responsible if you regret it...", "You wanna do something dirty with me, right? You'd better!")
         else:
@@ -157,6 +157,29 @@ label interactions_girlfriend:
 #        $ chr.lovers.add(hero)
 #        $ hero.lovers.add(chr)
     else:
+        if ct("Lesbian"):
+            if ct("Impersonal"):
+                $rc("Opposite sex... Dismissed.")
+            elif ct("Shy") and dice(30):  
+                $rc("Ah, I'm sorry, I can't do that with a boy...")
+            elif ct("Imouto"):
+                $rc("If you were a girl...it'd be alright, but...")
+            elif ct("Dandere"):
+                $rc("Guys are...not for me.")
+            elif ct("Kuudere"):
+                $rc("Men for me are...well...")
+            elif ct("Tsundere"):
+                $rc("Hmph. You're out of your league.", "How about you go kill yourself?", "Y...you idiot! D... don't say something so embarassing like that!", "Jeez, please take your relationships more seriously!")
+            elif ct("Bokukko"):  
+                $rc("Ew, don't wanna. You're a guy.")
+            elif ct("Ane"):
+                $rc("My apologies, I'm a lesbian.")
+            elif ct("Yandere"):  
+                $rc("Sorry, I only like girls.")
+            elif ct("Kamidere"):
+                $rc("I have no interest in men.")
+            else: 
+                $rc("Sorry. I'm weird, so... I'm not into guys.")
         if ct("Impersonal"):
             $rc("Unable to process.", "I'm sorry, but I must refuse you.")
         elif ct("Shy") and dice(30):  
@@ -170,11 +193,11 @@ label interactions_girlfriend:
         elif ct("Tsundere"):
             $rc("Hmph. You're out of your league.", "How about you go kill yourself?", "Y...you idiot! D... don't say something so embarassing like that!", "Jeez, please take your relationships more seriously!")
         elif ct("Bokukko"):  
-            $rc("Drop it, this sounds like it'll be a huge pain in the ass.", "S-stop asking that stuff, you embarrass me...", "No way, what kind of girl do you think I am, geez...")
+            $rc("Drop it, this sounds like it'll be a huge pain in the ass.", "S-stop asking that stuff, you embarrass me...", "No way, what kind of girl do you think I am, geez...", "But you're my friend. Friends are friends, duh.")
         elif ct("Ane"):
             $rc("...I'm sure you'll find someone that matches you better than I do.", "There's no sense losing your head over something you can't possibly achieve, you know?", "I'm sorry, but I can't go out with you", "I appreciate your feelings... But I can't answer them.")
         elif ct("Yandere"):  
-            $rc("No way!", "Don't ask me that", "What d'you mean...?")
+            $rc("No way!", "Don't ask me that", "What d'you mean...?", "Come on, if you wanna have me you gotta get out there and break a leg.")
         elif ct("Kamidere"):
             $rc("That's not for you to decide.", "That's too bad, I have no interest in you.", "That sort of relationship will be a big problem for both of us, you know?", "Being in a relationship is more trouble than it's worth.")
         else: 

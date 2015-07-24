@@ -361,7 +361,7 @@ label interactions_grabbreasts:
         elif ct("Half-Sister") and dice(25):
             $rc("You're a no good brother to be doing it with your sister.")
         elif ct("Shy") and dice(20):
-            $rc("N... no... s...stop... p... please stop...", "Wait... aren't you overdoing it?", "Ugh... what... w...w-w-wwhat are you doing!?", "*sob* Why you are so mean...", "NO! D-don't do that!")
+            $rc("N... no... s...stop... p... please stop...", "Wait... aren't you overdoing it?", "Ugh... what... w...w-w-wwhat are you doing!?", "*sob* Why you are so mean...", "NO! D-don't do that!", "N-no, you can't, that's too p-perverted...")
         elif ct("Kuudere"):
             $rc("...! Who told you you could touch me there!?", "No, cut it out!", "Nn...Where in the world are you touching? Jeez...!", "Geez! Don't touch them!", "Wha-... What? Aah... Wai-... Idiot! Stop it!")
         elif ct("Dandere"):
