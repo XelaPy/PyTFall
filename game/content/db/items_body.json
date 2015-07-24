@@ -122,7 +122,7 @@
     "type": "dress",
     "max": {"charisma": 30},
     "mod": {"charisma": 10, "character": 20},
-    "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "strip": [0.02, 0.01, 0.04, 0, 0]},
+    "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "strip": [0.02, 0.01, 0.04, 0, 0], "sex": [0.01, 0.01, 0, 0, 0]},
     "locations": ["Tailor Store"],
     "goodtraits": ["Exhibitionnist"],
     "badtraits": ["Shy"]
@@ -511,7 +511,7 @@
     "type": "dress",
     "max": {"agility": 90, "attack": 50, "charisma": 30, "defence": 20},
     "mod": {"agility": 70, "attack": 30, "defence": 20, "charisma": 30},
-    "mod_skills": {"strip": [0.2, 0, 0.08, 0, 0], "vaginal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0]},
+    "mod_skills": {"strip": [0.2, 0, 0.08, 0, 0], "vaginal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Former Assassin"],
     "badtraits": ["Frigid"]
@@ -639,7 +639,7 @@
     "type": "dress",
     "max": {"charisma": -50},
     "mod": {"agility": -30, "attack": -40, "defence": -40},
-    "mod_skills": {"strip": [0, 0, -0.5, 0, 0], "refinement": [0, 0, -0.5, 0, 0], "management": [0, 0, -0.5, 0, 0], "teaching": [0, 0, -0.5, 0, 0], "exploration": [0, 0, -0.5, 0, 0], "vaginal": [0.05, 0.05, 0.2, 0, 0], "group": [0.05, 0.05, 0.2, 0, 0], "anal": [0.05, 0.05, 0.2, 0, 0], "oral": [0.05, 0.05, 0.2, 0, 0]},
+    "mod_skills": {"strip": [0, 0, -0.5, 0, 0], "refinement": [0, 0, -0.5, 0, 0], "management": [0, 0, -0.5, 0, 0], "teaching": [0, 0, -0.5, 0, 0], "exploration": [0, 0, -0.5, 0, 0], "vaginal": [0.05, 0.05, 0.2, 0, 0], "group": [0.05, 0.05, 0.2, 0, 0], "anal": [0.05, 0.05, 0.2, 0, 0], "oral": [0.05, 0.05, 0.2, 0, 0], "sex": [0.05, 0.05, 0.2, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"]
@@ -659,7 +659,7 @@
     "type": "armor",
     "max": {"defence": 60},
     "mod": {"defence": 50, "character": 60},
-    "mod_skills": {"strip": [0, 0, 0.01, 0, 0], "vaginal": [0, 0, 0.01, 0, 0], "group": [0, 0, 0.01, 0, 0], "anal": [0, 0, 0.01, 0, 0], "oral": [0, 0, 0.01, 0, 0], "bdsm": [0, 0, 0.01, 0, 0]},
+    "mod_skills": {"strip": [0, 0, 0.01, 0, 0], "vaginal": [0, 0, 0.01, 0, 0], "group": [0, 0, 0.01, 0, 0], "anal": [0, 0, 0.01, 0, 0], "oral": [0, 0, 0.01, 0, 0], "bdsm": [0, 0, 0.01, 0, 0], "sex": [0, 0, 0.01, 0, 0]},
     "removetraits": ["Frigid"],
     "locations": ["Exploration"]
     },
