@@ -15,7 +15,6 @@ init -9 python:
         """
         The super class for all Building logic.
         """
-        
         def __init__(self, id=None, name=None, desc=None, price=1, minrooms=0, maxrooms=1, roomprice=250, mod=1, **kwargs):
             """
             Creates a new building.
@@ -34,10 +33,7 @@ init -9 python:
             self.desc = desc
             self.price = price
             self.jobs = set()
-            if config.debug:
-                self.building_jobs = set([TestingJob()])
-            else:
-                self.building_jobs = set()
+            self.building_jobs = set()
             
             # Flagging
             self.flags = Flags()
@@ -423,7 +419,7 @@ init -9 python:
     class NewStyleUpgradableBuilding(Building):
         def __init__(self, *args, **kwargs):
             super(NewStyleUpgradableBuilding, self).__init__(*args, **kwargs)
-            self._upgrades = list()
+            self._upgrades = list() #  New style Upgrades!
             
             # And new style upgrades:
             self.in_slots = 100 # Interior Slots
@@ -434,7 +430,7 @@ init -9 python:
                 
         def normalize_jobs(self):
             self.jobs = self.jobs.union(self.building_jobs)
-            for up in self.upgrades:
+            for up in self._upgrades:
                 self.jobs = self.jobs.union(up.jobs)
                 
         def can_add_upgrade(self, upgrade, build=False):
@@ -449,6 +445,7 @@ init -9 python:
             # If we want to build the upgrade as well:
             if build:
                 self.add_upgrade(upgrade)
+                self.normalize_jobs()
                 
             return True
                 

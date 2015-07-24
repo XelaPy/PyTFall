@@ -731,6 +731,7 @@ init: # PyTFall:
                         textbutton "[i.id]":
                             # Without Equipping for the job!
                             action [SetField(girl, "action", i), Hide("pyt_dropdown_action")]
+                            
                 # Brothels
                 elif isinstance(girl.location, Brothel):
                     for entry in Brothel.ACTIONS:

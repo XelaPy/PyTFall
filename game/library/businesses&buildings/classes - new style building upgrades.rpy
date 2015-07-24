@@ -20,7 +20,7 @@ init -9 python:
             self.ex_slots = ex_slots # External slots
             self.cost = cost # Price in gold.
             
-            self.jobs = set() # Jobs this upgrade can add. *We add job classes here, not instances!
+            self.jobs = set() # Jobs this upgrade can add. *We add job instances here!
         
         def method(self):
             pass
@@ -50,7 +50,7 @@ init -9 python:
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.rooms = in_slots
             # self.jobs = set(["Whore"])
-            self.jobs = set([TestingJob])
+            self.jobs = set([simple_jobs["Whore Job"], simple_jobs["Testing Job"]])
             
         def get_clients(self):
             # ATM: We always return just the one client for the brothel job.
@@ -80,5 +80,5 @@ init -9 python:
             super(SlaveQuarters, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.rooms = in_slots
             
-    UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
+    # UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
             

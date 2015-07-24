@@ -31,10 +31,10 @@ label next_day:
     
     # Since Resting is no longer buildings bound, we make one pass over all MCs chars here:
     # In order to test:
-    python:
-        for c in hero.girls:
-            if dice(40):
-                c.action = Rest()
+    # python:
+        # for c in hero.girls:
+            # if dice(40):
+                # c.action = Rest()
     $ tl.timer("Rest (1)")
     $ ndr_chars = list(c for c in hero.girls if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
     # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
@@ -90,7 +90,8 @@ label next_day:
             $ upgrade = upgrades.pop()
             python:
                 # Testing Mode!:
-                _nd_chars = list(g for g in hero.girls if g.action.__class__ in upgrade.jobs) # Needs to be rewritten... to include ["SIW", "Warrior"]
+                _nd_chars = list(g for g in hero.girls if g.action in upgrade.jobs) # Needs to be rewritten... to include ["SIW", "Warrior"]
+            # $ raise Exception(list(i.id for i in _nd_chars))
                 
             $ loop = 3 # This should be a property of Building and modified through Managers Job!
             # NOTE: THIS MAY NOT BE GOOD ENOUGHT FOR THE TASK, SWITCH BACK TO PYTHON in that case!
@@ -100,10 +101,10 @@ label next_day:
                 $ clients = nd_clients[:]
                 
                 while nd_chars and clients:
-                    python:
-                        ch = nd_chars.pop()
-                        # We just get the character and call the job (action), rest of the data can be handled by the job itself.
-                        ch.action(ch) # This looks weird again...
+                    $ chr = nd_chars.pop()
+                    # Make sure we're dealing with a Job here:
+                    if isinstance(chr.action, Job):
+                        $ chr.action()
                 $ loop = loop - 1
             
         # Old jobs:
@@ -267,20 +268,32 @@ label next_day:
     with dissolve
     
     ####### - - - - - #######
-    python:
-        while 1:
-            result = ui.interact()
+    call next_day_controls
+
+    # Lets free some memory...
+    if not day%50:
+        $ renpy.free_memory()
+    
+    $ girls = None
+    hide screen pyt_next_day
+    jump mainscreen
+
+label next_day_controls:
+    while 1:
+        $ result = ui.interact()
+        
+        if result[0] == 'filter':
             
-            if result[0] == 'filter':
-                
-                if result[1] == 'all':
+            if result[1] == 'all':
+                python:
                     FilteredList = NextDayList * 1
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     # raise Error, [event, type(event), event.__class__, event.__dict__]
                     gimg = event.load_image()
-                    
-                if result[1] == 'red_flags':
+                
+            if result[1] == 'red_flags':
+                python:
                     FilteredList = list()
                     for event in NextDayList:
                         if event.red_flag:
@@ -289,8 +302,9 @@ label next_day:
                     index = FilteredList.index(event)
                     # raise Error, [event, type(event), event.__class__, event.__dict__]
                     gimg = event.load_image()
-                    
-                elif result[1] == 'mc':
+                
+            elif result[1] == 'mc':
+                python:
                     FilteredList = []
                     for entry in NextDayList:
                         if entry.type == 'mcndreport':
@@ -298,8 +312,9 @@ label next_day:
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     gimg = event.load_image()
-                
-                elif result[1] == 'school':
+            
+            elif result[1] == 'school':
+                python:
                     FilteredList = []
                     for entry in NextDayList:
                         if entry.type == 'schoolndreport':
@@ -309,22 +324,25 @@ label next_day:
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     gimg = event.load_image()
-                            
-                elif result[1] == 'gndreports': # Girl Next Day Reports
+                        
+            elif result[1] == 'gndreports': # Girl Next Day Reports
+                python:
                     FilteredList = []
                     for entry in NextDayList:
                         if entry.type == 'girlndreport':
                             FilteredList.append(entry)
-                        
-                    # Preventing Index Error on empty filter        
+                    
+                # Preventing Index Error on empty filter
+                python:
                     if FilteredList:
                         event = FilteredList[0]
                         index = FilteredList.index(event)
                         gimg = event.load_image()
                     else:
                         FilteredList = NextDayList
-                            
-                elif result[1] == 'brothel':
+                        
+            elif result[1] == 'brothel':
+                python:
                     brothel = result[2]
                     FilteredList = []
                     for entry in NextDayList:
@@ -335,8 +353,9 @@ label next_day:
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     gimg = event.load_image()
-                    
-                elif result[1] == "fighters_guild":
+                
+            elif result[1] == "fighters_guild":
+                python:
                     FilteredList = []
                     for entry in NextDayList:
                         if entry.type == "fg_report":
@@ -349,31 +368,23 @@ label next_day:
                     index = FilteredList.index(event)
                     gimg = event.load_image()
 
-            if result[0] == 'control':
-
-                if result[1] == 'left':
+        if result[0] == 'control':
+            if result[1] == 'left':
+                python:
                     index = FilteredList.index(event)
                     if index > 0:
                         event = FilteredList[index-1]
                         gimg = event.load_image()
 
-                elif result[1] == 'right':
+            elif result[1] == 'right':
+                python:
                     index = FilteredList.index(event)
                     if index < len(FilteredList)-1:
                         event = FilteredList[index+1]
                         gimg = event.load_image()
-                        
-                elif result[1] == 'return':
-                    break
-
-    # Lets free some memory...
-    if not day%50:
-        $ renpy.free_memory()
-    
-    $ girls = None
-    hide screen pyt_next_day
-    jump mainscreen
-
+                    
+            elif result[1] == 'return':
+                return
 
 screen pyt_next_day:
 

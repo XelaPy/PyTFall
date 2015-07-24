@@ -34,6 +34,7 @@
             girl = The girl the job is for.
             girls = The list of girls the girl is in.
             """
+            self.id = "Base Job"
             self.girls = girls
             self.girl = girl
             self.girlmod = {} # Logging all stats/skills changed during the job.
@@ -61,7 +62,9 @@
             self.event_type = event_type
             
             self.finished = False
-            # Execution of the job:
+            
+        def __str__(self):
+            return str(self.id)
             
         def reset(self):
             self.girl = None
@@ -289,43 +292,26 @@
             clients = The list of clients this client is in.
             """
             super(WhoreJob, self).__init__()
+            self.id = "Whore Job"
+            
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponing traits...
             
             # TODO: Rewrite for skills? Or simply leave it like this and add skills with a check in this dict...
-            self.girlmod = {} # {"refinement": 0,
-                                    # "health": 0,
-                                    # "vitality": 0, 
-                                    # "disposition": 0, 
-                                    # "joy": 0, 
-                                    # "exp": 0,
-                                    # "attack": 0,
-                                    # "defence": 0,
-                                    # "agility": 0,
-                                    # "magic": 0,
-                                    # "mp": 0,
-                                    # "normalsex": 0,
-                                    # "anal": 0,
-                                    # "blowjob": 0,
-                                    # "lesbian": 0,
-                                    # "constitution": 0,
-                                    # "intelligence": 0}
+            self.girlmod = {}
             
-            self.locmod = 0 # {"dirt": 0,
-                                   # "fame": 0,
-                                   # "reputation": 0}
+            self.locmod = 0
             
-            # Check for refusals first:
-            # self.check_life()
-            # self.auto_clean()
+        def __call__(self):
+            self.reset()
             
-        def __call__(self, girl, client, loc):
-            self.girl, self.client, self.loc = girl, client, loc
+            self.event_type = "girlreport"
+            self.girl, self.client, self.loc = store.chr, store.clients.pop(), store.chr.location
             self.girlmod, self.locmod = {}, {}
             
-            if not self.finished: self.check_injury()
-            if not self.finished: self.check_vitality()
+            # if not self.finished: self.check_injury()
+            # if not self.finished: self.check_vitality()
             
             # Returning client to the list if girl wasn't actually availible TODO:
             # if self.finished:
@@ -426,6 +412,8 @@
         # Doing it now :)
         def payout_mod(self):
             # No matched traits
+            self.payout = 1
+            
             if not self.client.traitmatched:
                 if self.client.favtraits:
                     self.txt.append("%s came to the %s looking for a girl with a %s traits but didn't find one so %s picked %s randomly. \n"%(self.client.caste,
@@ -533,7 +521,7 @@
             # Skill
             t, m = act.get_skill()
             self.txt.append(t + "\n")
-            self.loggs("exp", random(15, 25))
+            self.loggs("exp", randint(15, 25))
             self.loggs("joy", m)
             
             # Improvement:
@@ -849,6 +837,7 @@
             girl = The girl to solve for.
             """
             super(Rest, self).__init__()
+            self.id = "Rest Job"
                 
         def __call__(self, girl):
             self.girl = girl
@@ -1123,6 +1112,7 @@
         """
         def __init__(self):
             super(AutoRest, self).__init__()
+            self.id = "Auto Rest"
         
         def after_rest(self):
             """
@@ -1150,17 +1140,14 @@
         def __init__(self):
             super(TestingJob, self).__init__()
             self.id = "Testing Job"
-            
-        def __str__(self):
-            # Return id when converting to string:
-            return str(self.id)
         
-        def __call__(self, chr):
+        def __call__(self):
             # Basic job that takes 1 AP of a girl, removes client from queue and adds random stats/skills.
             # Next thing is to make this work with Rest Job!
             self.reset()
             
-            self.girl, self.loc = chr, chr.location
+            self.event_type = "girlreport"
+            self.girl, self.loc = store.chr, store.chr.location
             
             self.client = store.clients.pop()
             
@@ -1176,7 +1163,7 @@
             
             self.logloc("dirt", 10)
             
-            self.txt.append("Test Job Functiond: Girl: {}, Location: {}".format(chr.name, self.loc.name))
+            self.txt.append("Test Job Report: Girl: {}, Location: {}".format(chr.name, self.loc.name))
             self.img = "nude"
             
             self.apply_stats()

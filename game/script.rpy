@@ -48,6 +48,13 @@ label start:
         
         ilists = ListHandler()
         
+        tl.timer("Loading: SimpleJobs")
+        # This jobs are usually normal, most common type that we have in PyTFall
+        temp = [TestingJob(), WhoreJob()]
+        simple_jobs = {j.id: j for j in temp}
+        del temp
+        tl.timer("Loading: SimpleJobs")
+        
         tl.timer("Loading: Brothels")
         brothels = load_brothels()
         pytWhoringActs = build_whoring_acts()
