@@ -100,6 +100,8 @@ label tailor_store_shopping:
     show screen pyt_tailor_store_shopping
     with dissolve
     
+    call shop_control from _call_shop_control_4
+    
     $ global_flags.del_flag("keep_playing_music") 
     $ kayo_music_on = False
     hide screen pyt_shopping
@@ -117,3 +119,4 @@ screen pyt_tailor_store_shopping:
             action [SetField(global_flags, "tailor_special_order_ask", True), Hide("pyt_shopping", transition=dissolve), Jump("tailor_store")]
             xalign 0.5
             xfill True
+            
