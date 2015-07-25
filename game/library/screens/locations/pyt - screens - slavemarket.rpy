@@ -370,7 +370,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
             frame:
                 align (0.5, 0.5)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add (store.girl.show("quest, nude", resize=(560, 400), exclude=main_sex_tags, label_cache=True)) align(0.5, 0.5)
+                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(0.5, 0.5)
         
         # Traits:
         frame:
@@ -471,7 +471,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                         align(0, 0)
                         spacing 5
                         for girl in store.girls_list:
-                            $ img = girl.show("quest", resize=(180, 140), exclude=main_sex_tags, cache=True)
+                            $ img = girl.show("vnsprite", resize=(180, 140), cache=True)
                             frame:
                                 background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
                                 imagebutton:

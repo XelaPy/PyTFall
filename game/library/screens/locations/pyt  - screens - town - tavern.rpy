@@ -1,5 +1,5 @@
 label tavern_town:
-    $ gm.enter_location(goodtraits=["Adventurer", "Heavy Drinker"], badtraits=["Lolita", "Artificial Body", "Dandere", "Loner"])
+    $ gm.enter_location(goodtraits=["Adventurer", "Heavy Drinker"], badtraits=["Lolita", "Artificial Body", "Shy", "Elegant"])
     
     python:
         # Build the actions
@@ -50,7 +50,7 @@ screen pyt_tavern_town:
             
             for entry in gm.display_girls():
            
-                    use rg_lightbutton(img=entry.show("profile",  exclude=for_gm_selection + all_indoor_tags + water_selection + ["arena", "bathroom", "bedroom", "classroom", "kitchen", "living room", "library", "shop", "stage", "beach", "forest","meadow", "onsen", "park", "pool", "ruin", "urban", "wilderness"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                    use rg_lightbutton(img=entry.show("girlmeets",  exclude=["swimsuit", "wildness", "beach", "pool","onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
     for key in pytfall.maps['Tavern']:
         python:

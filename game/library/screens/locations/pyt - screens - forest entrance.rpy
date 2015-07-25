@@ -1,5 +1,5 @@
 label forest_entrance:
-    $ gm.enter_location(goodtraits=["Not Human", "Adventurer", "Alien"], badtraits=["Kleptomaniac", "Edgy", "Noble"])
+    $ gm.enter_location(goodtraits=["Not Human", "Courageous", "Alien","Scars","Adventurer"], badtraits=["Homebody", "Coward", "Exhibitionnist"])
 
     # Music related:
     if not "forest_entrance" in ilists.world_music:
@@ -56,34 +56,27 @@ screen pyt_forest_entrance:
             spacing 70
             
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("forest_entrance_tags") or entry.flag("forest_entrance_tags")[0] < day:
-                        # $forest_entrance_tags_list = []
-                        # # primary tags
-                        # if entry.has_image("girl_meets","forest"):
-                            # $forest_entrance_tags_list.append(("girl_meets","forest"))
-                        # # adding secondary tags at dice chance
-                        # if forest_entrance_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor") and dice(40):
-                                # $forest_entrance_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg") and dice(40):
-                                # $forest_entrance_tags_list.append(("girl_meets","simple bg"))
-                        # # secondary tags if no primary tags    
-                        # if not forest_entrance_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $forest_entrance_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $forest_entrance_tags_list.append(("girl_meets","simple bg"))    
-                        # # giveup    
-                        # if not forest_entrance_tags_list:
-                            # $forest_entrance_tags_list.append(("girl_meets"))   
+                    if not entry.flag("forest_entrance_tags") or entry.flag("forest_entrance_tags")[0] < day:
+                        $forest_entrance_tags_list = []
                         
-                        # $ entry.set_flag("forest_entrance_tags", (day, choice(forest_entrance_tags_list)))
+                        if entry.has_image("girlmeets","outdoors"):
+                            $forest_entrance_tags_list.append(("girlmeets","outdoors"))
+                        # adding with dice chance
+                        if forest_entrance_tags_list:    
+                            if entry.has_image("girlmeets","simple bg") and dice(50):
+                                $forest_entrance_tags_list.append(("girlmeets","simple bg"))
+                        #and without if empty    
+                        if not forest_entrance_tags_list:
+                            if entry.has_image("girlmeets","simple bg"):
+                                $forest_entrance_tags_list.append(("girlmeets","simple bg"))   
+                        # giveup    
+                        if not forest_entrance_tags_list:
+                            $forest_entrance_tags_list.append(("girlmeets"))   
+                        
+                        $ entry.set_flag("forest_entrance_tags", (day, choice(forest_entrance_tags_list)))
                     
-                    # use r_lightbutton(img=entry.show(*entry.flag("forest_entrance_tags")[1], exclude=["bikini", "swimsuit"], label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-            # """        
-                    use rg_lightbutton(img=entry.show('profile', "forest", exclude=for_gm_selection + all_indoor_tags + water_selection + ["urban", "yard"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
-     
+                    use rg_lightbutton(img=entry.show(*entry.flag("forest_entrance_tags")[1], exclude=["urban", "wildness", "suburb", "winter", "swimsuit"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+
     for key in pytfall.maps['ForestEntrance']:
         python:
             map_point = pytfall.maps['ForestEntrance'][key]['attr']

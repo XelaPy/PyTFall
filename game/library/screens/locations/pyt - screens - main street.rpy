@@ -1,5 +1,5 @@
 label main_street:
-    $ gm.enter_location(goodtraits=["Professional Maid", "Kleptomaniac", "Noble"], badtraits=["Not Human", "Alien", "Artificial Body"])
+    $ gm.enter_location(goodtraits=["Elegant", "Kleptomaniac", "Nymphomaniac"], badtraits=["Not Human", "Alien", "Strange Eyes"])
     
     # Music related:
     if not "main_street" in ilists.world_music:
@@ -62,43 +62,8 @@ screen pyt_main_street:
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("main_street_tags") or entry.flag("main_street_tags")[0] < day:
-                        # $main_street_tags_list = []
-                        # # primary tags
-                        # if entry.has_image("girl_meets","urban"):
-                            # $main_street_tags_list.append(("girl_meets","urban"))
-                        # if entry.has_image("girl_meets","shop"):
-                            # $main_street_tags_list.append(("girl_meets","shop")) 
-                        # # adding secondary tags at dice chance
-                        # if main_street_tags_list:
-                            # if entry.has_image("girl_meets","generic indoor") and dice(40):
-                                # $main_street_tags_list.append(("girl_meets","generic indoor"))
-                            # if entry.has_image("girl_meets","road") and dice(40):
-                                # $main_street_tags_list.append(("girl_meets","road"))    
-                            # if entry.has_image("girl_meets","generic outdoor") and dice(40):
-                                # $main_street_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg") and dice(40):
-                                # $main_street_tags_list.append(("girl_meets","simple bg"))
-                        # # secondary tags if no primary tags    
-                        # if not main_street_tags_list:
-                            # if entry.has_image("girl_meets","generic indoor"):
-                                # $main_street_tags_list.append(("girl_meets","generic indoor"))
-                            # if entry.has_image("girl_meets","road"):
-                                # $main_street_tags_list.append(("girl_meets","road"))    
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $main_street_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $main_street_tags_list.append(("girl_meets","simple bg"))    
-                        # # giveup    
-                        # if not main_street_tags_list:
-                            # $main_street_tags_list.append(("girl_meets"))   
-                        
-                        # $ entry.set_flag("main_street_tags", (day, choice(main_street_tags_list)))
-                    
-                    # use r_lightbutton(img=entry.show(*entry.flag("main_street_tags")[1], exclude=["bikini", "swimsuit"], label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-            # """        
-                    use rg_lightbutton(img=entry.show('profile', exclude=for_gm_selection + water_selection + ["forest", "meadow", "ruin", "wilderness", "arena", "bathroom", "bedroom", "classroom", "kitchen", "stage"], label_cache=True, resize=(300, 400), type="any"), return_value=['jump', entry])
+  
+                    use rg_lightbutton(img=entry.show("girlmeets","simple bg","urban", exclude=["swimsuit", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="first_default"), return_value=['jump', entry])
 
     # Normal screen
     else:

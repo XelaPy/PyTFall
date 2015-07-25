@@ -63,31 +63,5 @@ screen pyt_city_parkgates():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("park_gates_tags") or entry.flag("park_gates_tags")[0] < day:
-                        # $park_gates_tags_list = []                    
-                        # if entry.has_image("girl_meets","park"):
-                            # $park_gates_tags_list.append(("girl_meets","park"))
-                        # if entry.has_image("girl_meets","road"):
-                            # $park_gates_tags_list.append(("girl_meets","road"))
-                        
-                        # if park_gates_tags_list:                        
-                            # if entry.has_image("girl_meets","generic outdoor") and dice(40):
-                                # $park_gates_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg") and dice(40):
-                                # $park_gates_tags_list.append(("girl_meets","simple bg"))
-                            
-                        # if not park_gates_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $park_gates_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $park_gates_tags_list.append(("girl_meets","simple bg"))    
-                            
-                        # if not park_gates_tags_list:
-                            # $park_gates_tags_list.append(("girl_meets"))   
-                        
-                        # $ entry.set_flag("park_gates_tags", (day, choice(park_gates_tags_list)))
-                    
-                    # use r_lightbutton(img=entry.show(*entry.flag("park_gates_tags")[1], exclude=["bikini", "swimsuit"], label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-            # """              
-                    use rg_lightbutton(img=entry.show('profile', exclude=for_gm_selection + all_indoor_tags + water_selection + ["urban", "forest"], label_cache=True, resize=(300, 400), type="any"), return_value=['jump', entry])
+          
+                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen", "indoors"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])

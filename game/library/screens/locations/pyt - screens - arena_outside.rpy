@@ -292,42 +292,5 @@ screen pyt_arena_outside:
             spacing 70
                         
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("arena_outside_tags") or entry.flag("arena_outside_tags")[0] < day:
-                        # $arena_outside_tags_list = []
-                        # # primary tags
-                        # if entry.has_image("battle","generic outdoor"):
-                            # $arena_outside_tags_list.append(("battle","generic outdoor"))
-                        # if entry.has_image("battle","simple bg"):
-                            # $arena_outside_tags_list.append(("battle","simple bg"))
-                        # if entry.has_image("battle","arena"):
-                            # $arena_outside_tags_list.append(("battle","arena"))    
-                        # if entry.has_image("girl_meets","arena"):
-                            # $arena_outside_tags_list.append(("girl_meets","arena"))
-                        # if entry.has_image("girl_meets","armor","generic outdoor"):
-                            # $arena_outside_tags_list.append(("girl_meets","armor","generic outdoor"))
-                        # if entry.has_image("girl_meets","armor","simple bg"):
-                            # $arena_outside_tags_list.append(("girl_meets","armor","simple bg"))
-                        # if entry.has_image("girl_meets","nurse","generic outdoor"):
-                            # $arena_outside_tags_list.append(("girl_meets","nurse","generic outdoor"))
-                        # if entry.has_image("girl_meets","nurse","simple bg"):
-                            # $arena_outside_tags_list.append(("girl_meets","nurse","simple bg"))
-                        # if entry.has_image("girl_meets","weapon","generic outdoor"):
-                            # $arena_outside_tags_list.append(("girl_meets","weapon","generic outdoor"))
-                        # if entry.has_image("girl_meets","weapon","simple bg"):
-                            # $arena_outside_tags_list.append(("girl_meets","weapon","simple bg"))    
-                        # # secondary tags if no primary tags    
-                        # if not arena_outside_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $arena_outside_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $arena_outside_tags_list.append(("girl_meets","simple bg"))    
-                        # # giveup    
-                        # if not arena_outside_tags_list:
-                            # $arena_outside_tags_list.append(("girl_meets"))   
-                        
-                        # $ entry.set_flag("arena_outside_tags", (day, choice(arena_outside_tags_list)))
-                    
-                    # use r_lightbutton(img=entry.show(*entry.flag("arena_outside_tags")[1], exclude=["bikini", "swimsuit"], label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-            # """                   
-                    use rg_lightbutton(img=entry.show("weapon", "arena", "armor", "battle", exclude=main_sex_tags + water_selection + ["strip", "nude", "cooking", "waitress", "musician", "singer", "studying", "hurt", "bar", "bathroom", "bedroom", "classroom", "kitchen", "living room", "library", "shop", "park", "fighting" , "magic"], label_cache=True, resize=(300, 400), type="any"), return_value=['jump', entry])
+                 
+                    use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny"], label_cache=True, resize=(300, 400), type="first_default"), return_value=['jump', entry])

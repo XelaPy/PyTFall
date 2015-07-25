@@ -1,5 +1,5 @@
 label city_beach_left:
-    $ gm.enter_location()
+    $ gm.enter_location(goodtraits=["Athletic", "Energetic", "Exhibitionnist"], badtraits=['Scars', "Shy", "Artificial Body","Not Human"])
     
     # Music related:
     if not "beach_main" in ilists.world_music:
@@ -70,31 +70,26 @@ screen pyt_city_beach_left:
             spacing 70
             
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("beach_left_tags") or entry.flag("beach_left_tags")[0] < day:
-                        # $beach_left_tags_list = []                    
-                        # if entry.has_image("girl_meets","beach"):
-                            # $beach_left_tags_list.append(("girl_meets","beach"))
-                        # if entry.has_image("girl_meets","bikini","simple bg"):
-                            # $beach_left_tags_list.append(("girl_meets","bikini","simple bg"))
-                        # if entry.has_image("girl_meets","swimsuit","simple bg"):
-                            # $beach_left_tags_list.append(("girl_meets","swimsuit","simple bg"))
-                        # if entry.has_image("girl_meets","bikini","generic outdoor"):
-                            # $beach_left_tags_list.append(("girl_meets","bikini","generic outdoor"))    
-                        # if entry.has_image("girl_meets","swimsuit","generic outdoor"):
-                            # $beach_left_tags_list.append(("girl_meets","swimsuit","generic outdoor")) 
-
-                        # if not beach_left_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $beach_left_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $beach_left_tags_list.append(("girl_meets","simple bg"))    
-                            
-                        # if not beach_left_tags_list:
-                            # $beach_left_tags_list.append(("girl_meets"))   
                     
-                        # $ entry.set_flag("beach_left_tags", (day, choice(beach_left_tags_list)))
+                    if not entry.flag("beach_left_tags") or entry.flag("beach_left_tags")[0] < day:
+                        $beach_left_tags_list = []  
+                        # main set                        
+                        if entry.has_image("girlmeets","beach"):
+                            $beach_left_tags_list.append(("girlmeets","beach"))
+                        if entry.has_image("girlmeets","swimsuit","simple bg"):
+                            $beach_left_tags_list.append(("girlmeets","swimsuit","simple bg"))
+                        if entry.has_image("girlmeets","swimsuit","outdoors"):
+                            $beach_left_tags_list.append(("girlmeets","swimsuit","outdoors"))
+                        # secondary set if nothing found
+                        if not beach_left_tags_list:
+                            if entry.has_image("girlmeets","outdoors"):
+                                $beach_left_tags_list.append(("girlmeets","outdoors"))
+                            if entry.has_image("girlmeets","simple bg"):
+                                $beach_left_tags_list.append(("girlmeets","simple bg"))    
+                        # giveup  
+                        if not beach_left_tags_list:
+                            $beach_left_tags_list.append(("girlmeets"))   
+                    
+                        $ entry.set_flag("beach_left_tags", (day, choice(beach_left_tags_list)))
             
-                    # use r_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-            # """        
-                    use rg_lightbutton(img=entry.show("bikini", "beach", "swimsuit", exclude=for_gm_selection + all_indoor_tags + ["pool", "onsen", "winter"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                    use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 

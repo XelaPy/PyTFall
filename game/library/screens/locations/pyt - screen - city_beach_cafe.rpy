@@ -1,5 +1,5 @@
 label city_beach_cafe:
-    $ gm.enter_location()
+    $ gm.enter_location(goodtraits=["Athletic", "Dawdler"], badtraits=['Scars', "Alien","Not Human"])
     
     $ global_flags.set_flag("keep_playing_music")
     
@@ -56,44 +56,17 @@ screen pyt_city_beach_cafe:
             spacing 70
             
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("beach_cafe_tags") or entry.flag("beach_cafe_tags")[0] < day:
-                        # $beach_cafe_tags_list = []  
-                        # # primary tags
-                        # if entry.has_image("girl_meets","bikini","simple bg"):
-                            # $beach_cafe_tags_list.append(("girl_meets","bikini","simple bg"))
-                        # if entry.has_image("girl_meets","swimsuit","simple bg"):
-                            # $beach_cafe_tags_list.append(("girl_meets","swimsuit","simple bg"))
-                        # if entry.has_image("girl_meets","bikini","generic outdoor"):
-                            # $beach_cafe_tags_list.append(("girl_meets","bikini","generic outdoor"))    
-                        # if entry.has_image("girl_meets","swimsuit","generic outdoor"):
-                            # $beach_cafe_tags_list.append(("girl_meets","swimsuit","generic outdoor"))
-                        # if entry.has_image("girl_meets","summer","simple bg"):
-                            # $beach_cafe_tags_list.append(("girl_meets","summer","simple bg"))
-                        # if entry.has_image("girl_meets","summer","generic outdoor"):
-                            # $beach_cafe_tags_list.append(("girl_meets","summer","generic outdoor"))
-                        # if entry.has_image("girl_meets","casual","simple bg"):
-                            # $beach_cafe_tags_list.append(("girl_meets","casual","simple bg"))
-                        # if entry.has_image("girl_meets","casual","generic outdoor"):
-                            # $beach_cafe_tags_list.append(("girl_meets","casual","generic outdoor"))    
-                        # # adding secondary tags at dice chance
-                        # if beach_cafe_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor") and dice(40):
-                                # $beach_cafe_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg") and dice(40):
-                                # $beach_cafe_tags_list.append(("girl_meets","simple bg")) 
-                        # # secondary tags if no primary tags
-                        # if not beach_cafe_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $beach_cafe_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $beach_cafe_tags_list.append(("girl_meets","simple bg"))    
-                        # # giveup    
-                        # if not beach_cafe_tags_list:
-                            # $beach_cafe_tags_list.append(("girl_meets"))   
+                    if not entry.flag("beach_cafe_tags") or entry.flag("beach_cafe_tags")[0] < day:
+                        $beach_cafe_tags_list = []  
+
+                        if entry.has_image("girlmeets","simple bg"):
+                            $beach_cafe_tags_list.append(("girlmeets","simple bg"))    
+                        if entry.has_image("girlmeets","outdoors"):
+                            $beach_cafe_tags_list.append(("girlmeets","outdoors"))   
+                        # giveup    
+                        if not beach_cafe_tags_list:
+                            $beach_cafe_tags_list.append(("girlmeets"))   
                         
-                        # $ entry.set_flag("beach_cafe_tags", (day, choice(beach_cafe_tags_list)))
+                        $ entry.set_flag("beach_cafe_tags", (day, choice(beach_cafe_tags_list)))
                     
-                    # use r_lightbutton(img=entry.show(*entry.flag("beach_cafe_tags")[1], label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-            # """                    
-                    use rg_lightbutton(img=entry.show('bikini', "swimsuit", "summer", "casual", exclude=for_gm_selection + all_indoor_tags + ["ruin", "wilderness", "meadow", "forest", "winter"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                    use rg_lightbutton(img=entry.show(*entry.flag("beach_cafe_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
