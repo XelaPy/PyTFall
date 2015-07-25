@@ -1,5 +1,5 @@
 label city_park:
-    $ gm.enter_location(goodtraits=["Psychic", "Impersonal"], badtraits=["Energetic", "Aggressive"])
+    $ gm.enter_location()
     
     python:
         # Build the actions
@@ -65,39 +65,6 @@ screen pyt_city_park:
             spacing 70
             
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("city_park_tags") or entry.flag("city_park_tags")[0] < day:
-                        # $city_park_tags_list = [] 
-                        # # primary tags
-                        # if entry.has_image("girl_meets","park"):
-                            # $city_park_tags_list.append(("girl_meets","park"))
-                        # # adding secondary tags at dice chance    
-                        # if city_park_tags_list:    
-                            # if entry.has_image("girl_meets","generic outdoor") and dice(40):
-                                # $city_park_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg") and dice(40):
-                                # $city_park_tags_list.append(("girl_meets","simple bg"))
-                            # if entry.has_image("girl_meets","meadow") and dice(50):
-                                # $city_park_tags_list.append(("girl_meets","meadow"))
-                            # if entry.has_image("girl_meets","forest") and dice(50):
-                                # $city_park_tags_list.append(("girl_meets","forest"))
-                        # # secondary tags if no primary tags    
-                        # if not city_park_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $city_park_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $city_park_tags_list.append(("girl_meets","simple bg"))
-                            # if entry.has_image("girl_meets","meadow"):
-                                # $city_park_tags_list.append(("girl_meets","meadow"))
-                            # if entry.has_image("girl_meets","forest"):
-                                # $city_park_tags_list.append(("girl_meets","forest"))                                
-                        # # giveup    
-                        # if not city_park_tags_list:
-                            # $city_park_tags_list.append(("girl_meets"))   
-                        
-                        # $ entry.set_flag("city_park_tags", (day, choice(city_park_tags_list)))
-                    
-                    # use r_lightbutton(img=entry.show(*entry.flag("city_park_tags")[1], exclude=["bikini", "swimsuit"], label_cache=True, resize=(300, 400)), return_value=['jump', entry])             
-            # """
-                    use rg_lightbutton(img=entry.show("generic outdoor", "park", "forest", "meadow", exclude=for_gm_selection + all_indoor_tags + water_selection + ["urban"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+
+                    use rg_lightbutton(img=entry.show('girlmeets',"simple bg","outdoors","nature", exclude=["swimsuit", "wildness", "urban","stage", "beach", "pool", "onsen", "indoors"], label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                         

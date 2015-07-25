@@ -30,7 +30,7 @@
               image=""/>
               
         <forest_entrance name="Dark Forest" 
-              x="9" y="620" type="location"
+              x="9" y="570" type="location"
               image="content/gfx/interface/buttons/blue_arrow_left.png"/>
               
         <tavern_town name="Tavern" 
@@ -46,23 +46,23 @@
     <MainStreet image=""> 
 
         <general_store name="General Store" 
-              x="480" y="570" type="building"
+              x="475" y="530" type="building"
               image="content/gfx/interface/icons/neitral.png"/>
               
         <realtor_agency name="Realtor" 
-              x="360" y="570" type="building"
+              x="365" y="535" type="building"
               image="content/gfx/interface/icons/neitral.png"/>
               
         <cafe name="Cafe" 
-              x="70" y="700" type="building"
+              x="70" y="670" type="building"
               image="content/gfx/interface/icons/neitral.png"/>
               
         <workshop name="Work Shop" 
-              x="1050" y="660" type="building"
+              x="1055" y="615" type="building"
               image="content/gfx/interface/icons/neitral.png"/>
               
         <tailor_store name="Tailor Store" 
-              x="630" y="540" type="building"
+              x="635" y="535" type="building"
               image="content/gfx/interface/icons/neitral.png"/>
 
     </MainStreet>
@@ -78,7 +78,7 @@
     <Tavern image=""> 
 
         <tavern_inside name="Night &amp; Day" 
-              x="820" y="600" type="building"
+              x="820" y="550" type="building"
               image="content/gfx/interface/icons/tavern.png"/>
 
     </Tavern>

@@ -1,5 +1,5 @@
 label city_beach_right:
-    $ gm.enter_location(goodtraits=["Not Human", "Exhibitionnist"])
+    $ gm.enter_location(goodtraits=["Not Human", "Alien","Courageous"], badtraits=["Shy", "Coward","Homebody"])
     
     python:
         # Build the actions
@@ -55,35 +55,26 @@ screen pyt_city_beach_right:
             spacing 70
             
             for entry in gm.display_girls():
-            # """
-                    # if not entry.flag("beach_right_tags") or entry.flag("beach_right_tags")[0] < day:
-                        # $beach_right_tags_list = []                    
-                        # if entry.has_image("girl_meets","beach"):
-                            # $beach_right_tags_list.append(("girl_meets","beach"))
-                        # if entry.has_image("girl_meets","bikini","simple bg"):
-                            # $beach_right_tags_list.append(("girl_meets","bikini","simple bg"))
-                        # if entry.has_image("girl_meets","swimsuit","simple bg"):
-                            # $beach_right_tags_list.append(("girl_meets","swimsuit","simple bg"))
-                        # if entry.has_image("girl_meets","bikini","generic outdoor"):
-                            # $beach_right_tags_list.append(("girl_meets","bikini","generic outdoor"))    
-                        # if entry.has_image("girl_meets","swimsuit","generic outdoor"):
-                            # $beach_right_tags_list.append(("girl_meets","swimsuit","generic outdoor"))
-                        # if entry.has_image("girl_meets","summer","simple bg"):
-                            # $beach_right_tags_list.append(("girl_meets","summer","simple bg"))
-                        # if entry.has_image("girl_meets","summer","generic outdoor"):
-                            # $beach_right_tags_list.append(("girl_meets","summer","generic outdoor"))                                    
 
-                        # if not beach_right_tags_list:
-                            # if entry.has_image("girl_meets","generic outdoor"):
-                                # $beach_right_tags_list.append(("girl_meets","generic outdoor"))
-                            # if entry.has_image("girl_meets","simple bg"):
-                                # $beach_right_tags_list.append(("girl_meets","simple bg"))    
-                            
-                        # if not beach_right_tags_list:
-                            # $beach_right_tags_list.append(("girl_meets"))   
+                    if not entry.flag("beach_right_tags") or entry.flag("beach_right_tags")[0] < day:
+                        $beach_right_tags_list = []
+                        # main set
+                        if entry.has_image("girlmeets","beach"):
+                            $beach_right_tags_list.append(("girlmeets","beach"))
+                        if entry.has_image("girlmeets","swimsuit","simple bg"):
+                            $beach_right_tags_list.append(("girlmeets","swimsuit","simple bg"))
+                        if entry.has_image("girlmeets","swimsuit","outdoors"):
+                            $beach_right_tags_list.append(("girlmeets","swimsuit","outdoors"))                                   
+                        # secondary set if nothing found
+                        if not beach_right_tags_list:
+                            if entry.has_image("girlmeets","outdoors"):
+                                $beach_right_tags_list.append(("girlmeets","outdoors"))
+                            if entry.has_image("girlmeets","simple bg"):
+                                $beach_right_tags_list.append(("girlmeets","simple bg"))    
+                        # giveup    
+                        if not beach_right_tags_list:
+                            $beach_right_tags_list.append(("girlmeets"))   
                     
-                        # $ entry.set_flag("beach_right_tags", (day, choice(beach_right_tags_list)))
+                        $ entry.set_flag("beach_right_tags", (day, choice(beach_right_tags_list)))
             
-                    # use r_lightbutton(img=entry.show(*entry.flag("beach_right_tags")[1], label_cache=True, resize=(300, 400)), return_value=['jump', entry])             
-            # """
-                    use rg_lightbutton(img=entry.show("bikini", "beach", "swimsuit", "summer", exclude=for_gm_selection + all_indoor_tags + ["pool", "onsen", "winter"], type="any", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                    use rg_lightbutton(img=entry.show(*entry.flag("beach_right_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])             
