@@ -1,4 +1,28 @@
 init -9 python:
+    """
+    # Alex Notes (Code Implemented by Thewlis):
+    PytWhoringManager: Building a advanced dictionary:
+    male: {male.client.act: PytWhoring Instances}
+    female: {female.client.act: PytWhoring Instances}
+    with custom special methods
+    
+    PytWhoring usually contains ceveral PytWhoringVariant()
+    
+    PytWhoringCase() Builds/Solves the actual data for the job event.
+    
+    ====
+    # Alex: I've decided to fall back to old setup until we figure out the job. This seems too difficut to advance and upgrade, especially for content creators who are not versed in Python.
+    Such structures should be avoided in the future (in favor of plain liniar code) if only for sake of modders who may want to freely expand on these jobs.
+    Complex Python structures should be used to simplefy addition/expansion of content and never to complicate it.
+    - If someone wanted to add client info to strings, extra interpolation code is required.
+    - If someone wanted to check effects, flags or any other attribute of character/client, significant modifications to the code are required.
+    - Female/Male acts can also have the same name (especially under the new, changed system).
+    - Syntax for adding new content is also very confusing for anyone who is not well versed in python.
+    
+    ***We may fall back to this setup after jobs are more mature and we know whats what but before version 1.0, this is too much! :)
+    ====
+    """
+    
     class PytWhoringManager(_object):
         """
         Class (Custom Container) that holds the whoring acts in male/female dicts (instances of PytWhoring or PytWhoringVariant) and allows global access to both.

@@ -266,6 +266,598 @@
             # Logs a stat for the building:
             self.locmod[s] = self.girlmod.get(s, 0) + value
     ####################### Whore Job  ############################
+    class WhoreJob(Job):
+        #Temporarily restored for reference!
+        def __init__(self):
+            super(WhoreJob, self).__init__()
+            self.id = "Whore Job"
+            
+            # Traits/Job-types associated with this job:
+            self.occupations = list() # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Prostitute"]] # Corresponing traits...
+            
+            # TODO: Rewrite for skills? Or simply leave it like this and add skills with a check in this dict...
+            self.girlmod = {}
+            self.locmod = {}
+            
+        def __call__(self):
+            self.reset()
+            
+            self.event_type = "girlreport"
+            self.girl, self.client, self.loc = store.char, store.clients.pop(), store.char.location
+            self.char = self.girl
+            self.girlmod, self.locmod = {}, {}
+            
+            # if not self.finished: self.check_injury()
+            # if not self.finished: self.check_vitality()
+            
+            # Returning client to the list if girl wasn't actually availible TODO:
+            # if self.finished:
+                # self.client.traitmatched = False
+                # self.clients.append(client)
+                # return
+            
+            # if self.check_dirt(): TODO:
+                # global stop_whore_job
+                # stop_whore_job = True
+            
+            if not self.finished: self.check_occupation()
+            
+            # AP cost of the job if all checks for refusals have failed.
+            if not self.finished:
+                self.girl.AP -= 1
+                self.payout_mod()
+            
+            # if not self.finished: self.guard_event()
+            
+            if not self.finished: self.acts()
+
+            # self.payout = self.girl.fin.get_whore_price()
+            
+            # Upgrades (main hall branch)
+            # if self.brothel.upgrades['mainhall']['3']['active']:
+                # self.payout = int(self.payout * 1.4)
+                # self.txt.append("Sex goddess statue in your brothel influences the minds of your customers to pay something extra for your girls services. \n")
+            # elif self.brothel.upgrades['mainhall']['2']['active']:
+                # self.payout = int(self.payout * 1.2)
+                # self.txt.append("Customer will pay extra because of the services promised to him at the reception.\n")
+            # elif self.brothel.upgrades['mainhall']['2']['active']:
+                # self.payout = int(self.payout * 1.1)
+                # self.txt.append("Client had a nice time relaxing in the main hall. Expect some tips :) \n")
+                
+        def check_rank(self):
+            """
+            @Review: We are disabling ranks until better times :)
+            Checks the whore rank against the client rank.
+            """
+            if self.girl.rank < self.client.rank - 2 and self.girl.status == 'free':
+                self.txt.append("The customer quickly realized that %s was too poor of a whore rank to bother with her, "%self.girl.name + \
+                                "%s pushed her out of the way as if she was not even there and left pissed at the establishment... \n"%self.client.pronoun)
+                
+                self.txt.append("You should not forget that people in PyTFall take prostitute ranks very seriously and all girls who choose that lifestyle or were forced into it, "+ \
+                                "should strive to improve rank. Being told that she was not good enough is not likely to increase your girls happiness... ")
+                
+                self.locmod['reputation'] -= (randint(1, 5) + self.client.rank)
+                self.girlmod['joy'] -= randint(4, 10)
+                
+                self.img = self.girl.show("profile", "sad", resize=(740, 685))
+                
+                self.apply_stats()
+                self.finish_job()
+                return
+            
+            elif self.client.rank < self.girl.rank - 2 and self.girl.status != 'slave':
+                self.txt.append("This customer of yours can go to hell! %s is not worthy of even kissing my feet!  \n"%self.client.pronoun)
+                self.txt.append("Even if an event like this was to damage your brothels reputation, such damage would be insignificant because noone would want to brag about a girl refusing them. \n")
+                
+                self.locmod['reputation'] -= randint(0, 1)
+                
+                self.img = self.girl.show("profile", "angry", resize=(740, 685))
+                
+                self.apply_stats()
+                self.finish_job()
+                return
+            
+            elif self.client.rank < self.girl.rank - 2 and self.girl.status == 'slave':
+                self.txt.append("%s didn't want to fuck someone so far below her own hard earned rank, but slaves have little choice...' "%self.girl.name)
+                self.girlmod['joy'] -= 10
+                
+        def check_occupation(self):
+            """
+            Checks the girls occupation.
+            # TODO: We need to check this when assigning to Job! Not during it!
+            # Still, we'll check this...
+            """
+            if [t for t in self.occupation_traits if t in self.girl.occupations]:
+                if self.girl.status != 'slave' and self.girl.disposition > 900:
+                    self.txt.append("%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % self.girl.nickname)
+                    self.loggs('disposition', -randint(10, 30))
+                
+                elif self.girl.status != 'slave':
+                    self.txt.append(choice(["%s: I am not some cheap whore that will do whatever you please! Find someone else for this debauchery! " % self.girl.nickname,
+                                                         "Don't be absurd, I am not fucking anyone for you!"]))
+                    
+                    self.loggs('disposition', -50)
+                    self.img = self.girl.show("profile", "angry", resize=(740, 685))
+                    self.girl.action = None
+                    
+                    self.apply_stats()
+                    self.finish_job()
+                    return
+                
+                else:
+                    self.txt.append(choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % self.girl.name,
+                                                         "She'll do as she is told, doesn't mean that she'll be happy about.",
+                                                         "%s will do as you command but you cannot expect her to enjoy this..." % self.girl.fullname]))
+                    
+                    self.loggs('joy', -randint(1, 3))
+            
+            else:
+                self.txt.append(choice(["{} is doing her shift as Prostitute!".format(self.girl.name),
+                                                     "%s does her shift as a Prostitute!" % self.girl.fullname,
+                                                     "{color=[red]}Whore?{/color} WTF?? I am a {color=[pink]}Fancy Girl!!!{/color}"]))
+            
+            self.txt.append("\n\n")  
+                    
+        # I need to rebuild relay so it makes more sense and then rewrite this method
+        # Doing it now :)
+        def payout_mod(self):
+            # No matched traits
+            self.payout = 1
+            
+            if not self.client.traitmatched:
+                if self.client.favtraits:
+                    self.txt.append("%s came to the %s looking for a girl with a %s traits but didn't find one so %s picked %s randomly. \n"%(self.client.caste,
+                                                                                                                                              self.loc.name, ", ".join(self.client.favtraits),
+                                                                                                                                              self.client.pronoun.lower(),
+                                                                                                                                              self.girl.fullname))
+                else:
+                    self.txt.append("%s came to the %s brothel. Not wanting any kind of girl in particular %s went for %s. \n"%(self.client.caste,
+                                                                                                                                self.loc.name,
+                                                                                                                                self.client.pronoun.lower(),
+                                                                                                                                self.girl.name))
+            
+            else:
+                self.txt.append("%s came into %s and was looking for a girl with %s traits so %s went straight for %s. \n"%(self.client.caste,
+                                                                                                                            self.loc.name,
+                                                                                                                            ", ".join(self.client.favtraits),
+                                                                                                                            self.client.pronoun.lower(),
+                                                                                                                            self.girl.name))
+                self.payout = int(self.payout * 1.3)
+            
+            # Brothel room upgrades modifiers, simple version for now
+            # Might have to be improved to match customers expectations based on their castes later
+            # bru = self.loc.get_upgrade_mod("room_upgrades")
+            # if bru == 3:
+                # self.txt.append("Any of your customers would be willing to chop off a finger just to spend a couple of hours in room so fine. "+ \
+                                # "The companionship that %s provides is just a bonus. \n"%self.girl.nickname)
+                # self.girlmod['joy'] += choice([0,0,3])
+                # self.girlmod['refinement'] += choice([0,0,0,0,3])
+                # self.payout = int(self.payout * 1.6)
+            # elif bru == 2:
+                # self.txt.append("Luxury rooms had every convenience that could possibly spice up the upcoming intercource, this was definitely a sound investment on your part. \n")
+                # self.girlmod['joy'] += choice([0,0,2])
+                # self.girlmod['refinement'] += choice([0,0,0,0,2])
+                # self.payout = int(self.payout * 1.3)
+            # elif bru == 1:
+                # self.txt.append("Improved rooms interior with an exotic sexual theme were much appreciated by your girl and her client. \n")
+                # self.girlmod['joy'] += choice([0,0,1])
+                # self.girlmod['refinement'] += choice([0,0,0,1])
+                # self.payout = int(self.payout * 1.2)
+            
+            self.txt.append("\n")
+            
+        def guard_event(self):
+            """
+            Solves guard events for agressive clients.
+            """
+            if "Aggressive" in self.client.traits and self.loc.guardevents["prostituteattackedevents"] < int(self.loc.id * 1.5) and not dice(self.loc.security_rating/10):
+                # Relay
+                self.loc.guardevents["prostituteattackedevents"] += 1
+                self.txt.append("{color=[red]}Getting ready for some action with %s, %s became violent and threatened to beat the shit out of your girl.{/color} \n"%(self.girl.name,
+                                                                                                                                                                      self.client.pronoun.lower()))
+                
+                # If conflict is not resolved, act ends here, else act goes on to interactions.
+                # Function calls girls.remove(girl) for us. # TODO: Get Rid of this!
+                if not solve_job_guard_event(self, "whore_event", enemies=self.client):
+                    self.apply_stats()
+                    self.finish_job()
+                        
+                        
+        def acts(self):
+            # Blocks by girl/player
+            # if self.client.act == 'lesbian' and not self.girl.autocontrol["Acts"]["lesbian"]:
+                # txt += "%s refused to perform lesbian, unblock it in her control options or raise disposition until she allows you to do so. \n"%(self.girl.nickname)
+                # txt += "You've otherwise lost this customer :( "
+                # self.img = "profile"
+                # self.apply_stats()
+                # self.finish_job()
+                # return
+                 
+
+            # Straight Sex Act
+            if self.client.act == 'sex':
+                
+                self.skill = "vaginal"
+                
+                # Temporarely done here, should be moved to game init and after_load to improve performance:
+                tags = (("2c vaginal", "ontop"), ("2c vaginal", "doggy"), ("2c vaginal", "missionary"), ("2c vaginal", "onside"), ("2c vaginal", "standing"), ("2c vaginal", "spooning"))
+                act = self.get_act(tags)
+
+                if act == ("2c vaginal", "ontop"):
+                    self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c vaginal", "doggy"):
+                    self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c vaginal", "missionary"):
+                    self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your pussy is wrapping around me so tight!' \n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c vaginal", "onside"):
+                    self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c vaginal", "standing"):
+                    self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c vaginal", "spooning"):
+                    self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                else:
+                    self.txt.append(choice(['He wanted some old-fashioned straight fucking. \n',
+                                                         'He was in the mood for some pussy pounding. \n',
+                                                         'He asked for some playtime with her vagina.\n']))
+                    self.img = self.girl.show("2c vaginal", resize=(740, 685))
+                    
+                # Virgin trait check:
+                if "Virgin" in self.girl.traits:
+                    tips = self.girl.rank * 100 + self.girl.charisma * 2
+                    self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot so he left a tip of {color=[gold]}%d Gold{/color} for your girl.\n\n"%(self.girl.nickname, tips))
+                    self.girl.removetrait(traits["Virgin"])
+                    self.girl.fin.log_tips(tips, "WhoreJob")
+                    self.loc.fin.log_work_income(tips, "WhoreJob")
+                else:
+                    self.txt.append("\n")
+
+
+            # Anal Sex Act
+            elif self.client.act == 'anal':
+                
+                self.skill = "anal"
+                
+                self.txt.append(choice(["Anal sex is the best, customer thought... ",
+                                                      "I am in the mood for a good anal fuck, customer said. ",
+                                                      "Customer's dick got harder and harder just from the thought of %s's asshole! "%self.girl.nickname]))
+                
+                # Temporarely done here, should be moved to game init and after_load to improve performance:
+                tags = (("2c anal", "ontop"), ("2c anal", "doggy"), ("2c anal", "missionary"), ("2c anal", "onside"), ("2c anal", "standing"), ("2c anal", "spooning"))
+                act = self.get_act(tags)
+                
+                if act == ("2c anal", "ontop"):
+                    self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl on top' position. \n")
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c anal", "doggy"):
+                    self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c anal", "missionary"):
+                    self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your anus is wrapping around me so tight!' \n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c anal", "onside"):
+                    self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c anal", "standing"):
+                    self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == ("2c anal", "spooning"):
+                    self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                else:
+                    self.txt.append(choice(['He took her in the ass right there and then. \n',
+                                                          'He got his dose of it. \n',
+                                                          'And so he took her in her butt. \n']))
+                    self.img = self.girl.show("2c anal", resize=(740, 685))
+                
+            # Suck a Dick act    
+            elif self.client.act == 'blowjob':
+                
+                self.skill = "oral"
+                
+                tags = (('bc deepthroat'), ('bc handjob'), {"tags": ['bc footjob'], "dice": 80}, ('bc titsjob'), {"tags": ["after sex"], "dice": 10}, ("bc blowjob"))
+                act = self.get_act(tags)
+                
+                if act == tags[0]:
+                    self.txt.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == tags[1]:
+                    self.txt.append("He told %s to give him a good handjob.\n"%self.girl.nickname)
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == tags[2]:
+                    self.txt.append(choice(["He asked her for a foodjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
+                    self.img = self.girl.show(*act["tags"], resize=(740, 685))                    
+                elif act == tags[3]:
+                    if trats["Big Boobs"] in self.girl.traits or traits["Abnormally Large Boobs"] in self.girl.traits:
+                        self.txt.append(choice(["He went straight for her big boobs. \n", "Seeing her knockers, customer wanted notning else then to park his dick between them. \n", "Lustfully gazing on your girl's burst, he asked for a titsjob. \n", "He put his manhood between her big tits. \n" , "He showed his cock between %s's enormous breasts. \n"%self.girl.nickname]))
+                    elif traits["Small Boobs"] in self.girl.traits:
+                        if dice(7):
+                            self.txt.append("With a smirk on his face, customer asked for a titsjob. He was having fun from her vain effords. \n")
+                        else:    
+                            self.txt.append(choice(["He placed his cock between her breasts, clearly enyoing her flat chest. \n", "Even when knowing that her breasts are small, he wanted to be carresed by them. \n"]))
+                    else:
+                        self.txt.append(choice(["He asked for a titsjob. \n", "He let %s to carres him with her breasts. \n", "He showed his cock between %s's tits. \n"%self.girl.nickname]))
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                elif act == tags[4]:
+                    self.txt.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejactuate on her face. \n", "He wanked himself hard in efford to cover her with his cum. \n"]))
+                    self.img = self.girl.show(*act["tags"], resize=(740, 685))        
+                elif act == tags[5]:
+                    self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
+                    self.img = self.girl.show(*act, resize=(740, 685))
+                else: # I do not thing that this will ever be reached...
+                    self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
+                    self.img = self.girl.show("bc blowjob", resize=(740, 685))
+
+            # Lesbian Act
+            elif self.client.act == 'lesbian':
+                
+                self.skill = "vaginal" # May be overwriten...
+                
+                acts = list()
+                # We'll be adding "les" here as Many lesbian pics do not fall in any of the categories and will never be called...
+                acts.append("gay")
+                if self.girl.has_image("gay", "dildo joined"):
+                    acts.append("dildo joined")
+                if self.girl.has_image("gay", "lick pussy"):
+                    acts.append("les_lick_pussy")
+                if self.girl.has_image("gay", "do lick pussy"):
+                    acts.append("les_do_lick_pussy")
+                if self.girl.has_image("gay", "lick anus"):
+                    acts.append("les_lick_anus")
+                if self.girl.has_image("gay", "do lick anus"):
+                    acts.append("les_do_lick_anus")
+                if self.girl.has_image("gay", "finger pussy"):
+                    acts.append("les_finger_pussy")
+                if self.girl.has_image("gay", "do finger pussy"):    
+                    acts.append("les_do_finger_pussy")
+                if self.girl.has_image("gay", "finger anus"):
+                    acts.append("les_finger_anus")
+                if self.girl.has_image("gay", "do finger anus"):    
+                    acts.append("les_do_finger_anus")
+                if self.girl.has_image("les", "caress tits"):
+                    acts.append("les_caress_tits")
+                if self.girl.has_image("gay", "do caress tits"):
+                    acts.append("les_do_caress_tits")
+                if self.girl.has_image("gay", "hug"):
+                    acts.append("les_hug")
+                if self.girl.has_image("gay", "strapon"):
+                    acts.append("les_strapon")
+                if self.girl.has_image("gay", "do strapon"):
+                    acts.append("les_do_strapon")
+                if self.girl.has_image("gay", "anal strapon"):
+                    acts.append("les_anal_strapon")
+                if self.girl.has_image("gay", "do anal strapon"):
+                    acts.append("les_do_anal_strapon")
+                if self.girl.has_image("gay", "anal beads"):
+                    acts.append("les_anal_beads")
+                if self.girl.has_image("gay", "do anal beads"):
+                    acts.append("les_do_anal_beads")
+                if self.girl.has_image("gay", "dildo pussy"):
+                    acts.append("les_dildo_pussy")
+                if self.girl.has_image("gay", "do dildo pussy"):
+                    acts.append("les_do_dildo_pussy")
+                if self.girl.has_image("gay", "dildo anal"):
+                    acts.append("les_dildo_anal")
+                if self.girl.has_image("gay", "do dildo anal"):
+                    acts.append("les_do_dildo_anal")
+                    
+                act = choice(acts)
+
+                if act == "dildo joined":
+                    self.txt.append(choice(["She've asked your girl to lend her a double-ended dildo.\n",
+                                                         "She brought a twin-ended dildo for the party so %s could have some fun as well.\n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "dildo joined", resize=(740, 685))
+                elif act == "les_lick_pussy":
+                    self.txt.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n"%self.girl.nickname,
+                                                                                    "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "lick pussy", resize=(740, 685))
+                elif act == "les_do_lick_pussy":
+                    self.txt.append(choice(["All hot and bothered, she ordered %s to lick her cunt. \n"%self.girl.nickname,
+                                                                                    "As if she had an itch, she quickly told %s to tong her pussy. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "do lick pussy", resize=(740, 685))
+                elif act == "les_lick_anus":
+                    self.txt.append(choice(["She licked %ss anus clean.\n"%self.girl.nickname,
+                                                                                    "She told %s to be still and started licking her asshole with her hot tong. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "lick anus", resize=(740, 685))
+                elif act == "les_do_lick_anus":
+                    self.txt.append(choice(["All hot and bothered, she ordered %s to lick her asshole. \n"%self.girl.nickname,
+                                                                                    "As if she had an itch, she quickly told %s to tong her anus. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "do lick anus", resize=(740, 685))
+                elif act == "les_finger_pussy":
+                    self.txt.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls pussy. \n",
+                                                                                     "She watched %s moan as she stuck fingers in her pussy. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "finger pussy", resize=(740, 685))
+                elif act == "les_do_finger_pussy":
+                    self.txt.append(choice(["Quite horny, she ordered your girl to finger her cunt. \n",
+                                                                                    "Clearly in the mood, she told %s to finger her until she cums. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "do finger pussy", resize=(740, 685))
+                elif act == "les_finger_anus":
+                    self.txt.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls anus. \n",
+                                                                                     "She watched %s moan as she stuck fingers in her asshole. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "finger anus", resize=(740, 685))
+                elif act == "les_do_finger_anus":
+                    self.txt.append(choice(["Quite horny, she ordered your girl to finger her anus. \n",
+                                                                                    "Clearly in the mood, she told %s to finger her asshole until she cums. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "do finger anus", resize=(740, 685))
+                elif act == "les_caress_tits":
+                    self.txt.append(choice(["Liking your girls breasts, she had some good time caressing them. \n",
+                                                                                    "She enjoyed herself by caressing your girls breasts. \n"]))
+                    self.img = self.girl.show("les", "caress tits", resize=(740, 685))
+                elif act ==  "les_do_caress_tits":
+                    self.txt.append(choice(["She asked your girl to caress her tits. \n",
+                                                                                      "She told your girl to put a squeeze on her breasts. \n"]))
+                    self.img = self.girl.show("les", "do caress tits", resize=(740, 685))
+                elif act == "les_hug":
+                    self.txt.append(choice(["Girls lost themselves in eachothers embrace.\n",
+                                                                                    "Any good lesbo action should start with a hug, don't you think??? \n"]))
+                    self.img = self.girl.show("les", "hug", resize=(740, 685))
+                elif act == "les_strapon":
+                    if "Virgin" in self.girl.traits:
+                        tips = self.girl.rank * 100 + self.girl.charisma * 2
+                        self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot so she left a tip of {color=[gold]}%d Gold{/color} for your girl.\n\n"%(self.girl.nickname, tips))
+                        self.girl.removetrait(traits["Virgin"])
+                        self.girl.fin.log_tips(tips, "WhoreJob")
+                        self.loc.fin.log_work_income(tips, "WhoreJob")
+
+                    self.txt.append(choice(["She put on a strapon and fucked your girl in her cunt. \n",
+                                                                                   "Equipping herself with a strap-on, she lustfully shoved it in %ss pussy. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "strapon", resize=(740, 685))
+                elif act == "les_do_strapon":
+                    self.txt.append(choice(["She ordered %s to put on a strapon and fuck her silly with it. \n"%self.girl.nickname,
+                                                                                   "She equipped %s with a strapon and told her that she was 'up' for a good fuck! \n"]))
+                    self.img = self.girl.show("les", "do strapon", resize=(740, 685))
+                elif act == "les_anal_strapon":
+                    self.txt.append(choice(["She put on a strapon and fucked your girl in her butt. \n",
+                                                                                   "Equipping herself with a strapon, she lustfully shoved it in %ss asshole. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "anal strapon", resize=(740, 685))
+                elif act == "les_do_anal_strapon":
+                    self.txt.append(choice(["She ordered %s to put on a strapon and butt-fuck her silly with it. \n"%self.girl.nickname,
+                                                                                   "She equipped %s with a strapon and told her that she was 'up' for a good anal fuck! \n"]))
+                    self.img = self.girl.show("les", "do anal strapon", resize=(740, 685))
+                elif act == "les_anal_beads":
+                    self.txt.append(choice(["They got their hands on some anal beads and shoved it up %ss butt. \n"%self.girl.nickname,
+                                                                                   "She had some fun with your girls asshole and some anal beads \n"]))
+                    self.img = self.girl.show("les", "anal beads", resize=(740, 685))
+                elif act == "les_do_anal_beads":
+                    self.txt.append(choice(["She had %s stick some anal beads up her butt. \n"%self.girl.nickname,
+                                                                                     "She told %s to get some anal beads to play with her anus. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "do anal beads", resize=(740, 685))
+                elif act == "les_dildo_pussy":
+                    if "Virgin" in self.girl.traits:
+                        tips = self.girl.rank * 100 + self.girl.charisma * 2
+                        self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot so she left a tip of {color=[gold]}%d Gold{/color} for your girl.\n\n"%(self.girl.nickname, tips))
+                        self.girl.removetrait(traits["Virgin"])
+                        self.girl.fin.log_tips(tips, "WhoreJob")
+                        self.loc.fin.log_work_income(tips, "WhoreJob")
+                        
+                    self.txt.append(choice(["She played with a dildo and %ss pussy. \n"%self.girl.nickname,
+                                                                                   "She stuck a dildo up %s cunt. \n"%self.girl.nickname]))
+                    self.img = self.girl.show("les", "dildo pussy", resize=(740, 685))
+                elif act == "les_do_dildo_pussy":
+                    self.txt.append(choice(["Without further ado, %s fucked her with a dildo. \n"%self.girl.nickname,
+                                                                                   "She asked your girl to fuck her pussy with a dildo. \n"]))
+                    self.img = self.girl.show("les", "do dildo pussy", resize=(740, 685))
+                elif act == "les_dildo_anal":
+                    self.txt.append(choice(["After some foreplay, she stuck a dildo up your girls butt. \n",
+                                                                                   "For her money, she had some fun playing with a dildo and your girls asshole. \n"]))
+                    self.img = self.girl.show("les", "dildo anal", resize=(740, 685))
+                elif act == "les_do_dildo_anal":
+                    self.txt.append(choice(["After some foreplay, she asked %s to shove a dildo up her ass. \n"%self.girl.nickname,
+                                                         "This female customer of your brothel clearly believed that there is no greater pleasure than a dildo up her butt. \n"]))
+                    self.img = self.girl.show("les", "do dildo anal", resize=(740, 685))
+                else:
+                    self.txt.append(choice(["She was in the mood for some girl on girl action. \n", "She asked for a good lesbian sex. \n"]))
+                    self.img = self.girl.show("gay", resize=(740, 685))
+            
+            else:
+                self.txt.append("Whore Job\n\nMissed All acts!\n\n")
+                self.skill = "vaginal"
+                self.img = self.girl.show("sex", resize=(740, 685))
+                
+            self.check_skills(self.skill)
+                
+            # Take care of stats mods
+            sexmod = 1 if dice(20) else 0
+            constmod = 1 if dice(12) else 0
+            self.loggs(self.skill, sexmod)
+            self.loggs("constitution", constmod)
+            self.loggs("vitality", -randint(18, 28))
+            
+            if sexmod + constmod > 0:
+                self.txt.append("\n%s feels like she learned something! \n"%self.girl.name)
+                self.loggs("joy", 1)       
+            
+            # Dirt:
+            self.logloc("dirt", randint(2, 5))
+            
+            # Log income for girl and MC
+            self.txt.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.payout)
+            self.girl.fin.log_wage(self.payout, "WhoreJob")
+            self.loc.fin.log_work_income(self.payout, "WhoreJob")
+            
+            self.apply_stats()
+            self.finish_job()
+            
+        def get_act(self, tags):
+            acts = list()
+            for t in tags:
+                if isinstance(t, tuple):
+                    if self.char.has_image(*t):
+                        acts.append(t)
+                elif isinstance(t, dict):
+                    if self.char.has_image(*t.get("tags", []), exclude=t.get("exclude", [])) and dice(t.get("dice", 100)):
+                        acts.append(t)
+                
+            if acts:
+                act = choice(acts)
+            else:
+                act = None
+                
+            return act
+            
+        def check_skills(self, skill=None):
+            if not skill:
+                skill = self.skill
+            if skill > 300 and self.girl.charisma > 300:
+
+                self.txt.append("The client was at your girls mercy. Her beauty enchanting, she playfully took him into her embrace and made him forget about the rest of the world until they were finished. \n")
+
+                self.loggs("exp", randint(15, 25))
+                self.loggs("joy", 3)
+                
+            elif 200 <= skill and 200 <= self.girl.charisma:
+                
+                self.txt.append("Your girl performed wonderfully with her breathtaking beauty and matching carnal skill. \n")
+
+                self.loggs("exp", randint(15, 25))
+                self.loggs("joy", 2)
+                
+            elif 80 <= skill and 80 <= self.girl.charisma:
+
+                self.txt.append("Her well honed sexual skills and good looks both were pleasing to the customer. \n")
+
+                self.loggs("exp", randint(15, 25))
+                self.loggs("joy", 1)
+                
+            elif 30 <= skill and 30 <= self.girl.charisma:
+
+                self.txt.append("Your girl did the job to the best of her ability but her skills could definitely be improved and her beauty enhanced. \n")
+
+                self.loggs("exp", randint(15, 25))
+                
+            elif -100 <= skill <= 30 and -100 <= self.girl.charisma <= 30:
+
+                self.txt.append("Your girl barely knew what she was doing. Her looks were not likely to be of any help to her either. \n")
+                self.txt.append("Still, the customer explained that he preferred fucking her over a horse. Hearing that from him however, was not encouraging for your girl at all... \n")
+
+                self.loggs("exp", randint(15, 25))
+                self.loggs("joy", -2)
+                
+            elif skill < 30 and self.girl.charisma > 30:
+
+                self.txt.append("A cold turkey sandwich would have made a better sex partner than her. Her performance was however saved by her somewhat pleasing looks. \n")
+
+                self.loggs("exp", randint(15, 25))
+                self.loggs("joy", -2)
+                
+            elif skill > 30 and self.girl.charisma < 30:
+
+                self.txt.append("Her ability to please him sexually managed to help the client overlook the fact that she looked like a hag. \n")
+
+                self.loggs("exp", randint(15, 25))
+                self.loggs("joy", -1)
+                
+            else:
+                self.txt.append('Dev Note: >>>I missed something!<<< Charisma = %d, Sex = %d \n'%(self.girl.charisma, skill))
+               
+            self.txt.append("\n")
+    
     class AnalWhore(Job):
         pass
     
@@ -278,7 +870,7 @@
         pass
     
     
-    class WhoreJob(Job):
+    class NextGenWhoreJob(Job):
         """
         The class that solves whoring jobs.
         """
@@ -309,6 +901,7 @@
             self.event_type = "girlreport"
             self.girl, self.client, self.loc = store.char, store.clients.pop(), store.char.location
             self.girlmod, self.locmod = {}, {}
+            self.skill = None
             
             # if not self.finished: self.check_injury()
             # if not self.finished: self.check_vitality()

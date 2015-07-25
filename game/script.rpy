@@ -11,6 +11,7 @@
                 arena_girl.arena_active = False # Should prolly be moved to preparation?
                 arena_girl.status = "free"
 
+# Some things can be loaded in init so they are not saved?
 
 label start:
     $ renpy.block_rollback()
@@ -101,12 +102,12 @@ label start:
         
         tl.timer("Loading: Mobs")
         mobs = load_mobs()
-        tl.timer("Loading: Mobs")
+        tl.timer("Loading: Mobs")     
         
         tl.timer("Loading: Exploration")
-        pytfall.forest_1 = Exploration()
+        # pytfall.forest_1 = Exploration()
         fg_areas = load_fg_areas()
-        tl.timer("Loading: Exploration")
+        tl.timer("Loading: Exploration")  
         
         # ---------------------------------------
         # Temporary code

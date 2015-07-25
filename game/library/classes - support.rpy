@@ -33,8 +33,8 @@ init -9 python:
             # self.pt = Team(implicit = [hero])
             
             # Exploration
-            self.tiles = load_tiles()
-            self.forest_1 = object()
+            # self.tiles = load_tiles()
+            # self.forest_1 = object()
             
             # Events:
             self.world_events = WorldEventsManager(world_events)
