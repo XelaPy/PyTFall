@@ -1,50 +1,140 @@
 label hero_profile:
     scene bg profile_1
-    show screen pyt_hero_profile
-    with dissolve
     
     $ global_flags.set_flag("keep_playing_music")
     
-    #$ pytfall.world_quests.run_quests("auto") Goes against squelching policy?
+    # $ pytfall.world_quests.run_quests("auto") Goes against squelching policy?
     $ pytfall.world_events.run_events("auto")
-    # $ renpy.retain_after_load()
-    $ pytfall.hp.screen_loop()
-
-    hide screen pyt_hero_equip
-    hide screen pyt_hero_profile
-    jump mainscreen
-
-screen pyt_hero_dropdown_loc(pos=()):
-    # Trying to create a drop down screen with choices of buildings:
-    zorder 3
-    modal True
+    $ renpy.retain_after_load()
     
-    key "mousedown_4" action NullAction()
-    key "mousedown_5" action NullAction()
+    show screen pyt_hero_profile
+    with dissolve
     
-    # Get mouse coords:
-    python:
-        x, y = pos
-        if x > 1000:
-            xval = 1.0
-        else:
-            xval = 0.0
-        if y > 500:
-            yval = 1.0
-        else:
-            yval = 0.0
-    frame:
-        style_group "dropdown"
-        pos (x, y)
-        anchor (xval, yval)
-        vbox:
-            for building in hero.buildings:
-                textbutton "[building.name]":
-                    action [SetField(hero, "location", building), Hide("pyt_hero_dropdown_loc")]
-            textbutton "None":
-                action [SetField(hero, "location", hero), Hide("pyt_hero_dropdown_loc")]
-            textbutton "Close":
-                action [Hide("pyt_hero_dropdown_loc")]
+    $ hero.inventory.set_page_size(18)
+    
+    while 1:
+        $ result = ui.interact()
+        
+        # To kill input error during team renaming:
+        if not result:
+            pass
+        
+        elif result[0] == 'control':
+            if result[1] == 'return':
+                $ pytfall.hp.show_item_info = False
+                $ pytfall.hp.item = False
+                hide screen pyt_hero_profile
+                hide screen pyt_hero_equip
+                
+                # Reset filters (prevents crap from happening in shops):
+                $ hero.inventory.male_filter = False
+                $ hero.inventory.apply_filter('all')
+                
+                # Taking care of Ren'Pys annoying reserves... <-- Prolly obsolete after I rewrote the last label func.
+                if pytfall.hp.came_from.startswith("_"):
+                    jump mainscreen
+                else:
+                    jump expression pytfall.hp.came_from
+                    
+        elif result[0] == "dropdown":
+            if result[1] == "loc":
+                $ renpy.show_screen("set_location_dropdown", hero, pos=renpy.get_mouse_pos())
+            elif result[1] == "home":
+                $ renpy.show_screen("set_home_dropdown", hero, pos=renpy.get_mouse_pos())
+                
+        elif result[0] == 'hero':
+            if result[1] == 'equip':
+                if renpy.get_screen('pyt_hero_equip'):
+                    hide screen pyt_hero_equip
+                    $ pytfall.hp.show_item_info = False
+                    $ pytfall.hp.item = False
+                else:    
+                    show screen pyt_hero_equip 
+                    
+            elif result[1] == 'first_page':
+                $ hero.inventory.first()
+            elif result[1] == 'last_page':
+                $ hero.inventory.last()
+            elif result[1] == 'next_page':
+                $ hero.inventory.next()
+            elif result[1] == 'prev_page':
+                $ hero.inventory.prev()
+            elif result[1] == 'prev_filter':
+                $ hero.inventory.apply_filter('prev')
+            elif result[1] == 'next_filter':
+                $ hero.inventory.apply_filter('next')
+            elif result[1] == 'male_filter':
+                $ hero.inventory.male_filter = True
+                $ hero.inventory.apply_filter('all')
+            elif result[1] == 'unisex_filter':
+                $ hero.inventory.male_filter = False
+                $ hero.inventory.apply_filter('all')
+            
+        elif result[0] == 'item':
+            if result[1] == 'get':
+                $ pytfall.hp.show_item_info = True
+                $ pytfall.hp.item = result[2]
+
+            elif result[1] == 'equip':
+                $ equip_item(pytfall.hp.item, hero)
+                $ pytfall.hp.show_item_info = False
+                $ pytfall.hp.item = False
+                
+            elif result[1] == "transfer":
+                $ renpy.hide_screen("pyt_hero_profile")
+                $ pytfall.it = GuiItemsTransfer("personal_transfer", char=ap, last_label=last_label)
+                jump items_transfer
+                
+            elif result[1] == 'unequip':
+                $ hero.unequip(pytfall.hp.item)
+                $ pytfall.hp.show_item_info = False
+                $ pytfall.hp.item = False
+
+        elif result[0] == "remove_from_team":
+            $ hero.team.remove(result[1])
+            
+        elif result[0] == "rename_team":
+            if result[1] == "set_name":
+                $ hero.team.name = renpy.call_screen("pyt_ht_input")
+    
+    
+    # $ pytfall.hp.screen_loop()
+
+    # hide screen pyt_hero_equip
+    # hide screen pyt_hero_profile
+    # jump mainscreen
+
+# screen pyt_hero_dropdown_loc(pos=()):
+    # # Trying to create a drop down screen with choices of buildings:
+    # zorder 3
+    # modal True
+     
+    # key "mousedown_4" action NullAction()
+    # key "mousedown_5" action NullAction()
+     
+    # # Get mouse coords:
+    # python:
+        # x, y = pos
+        # if x > 1000:
+            # xval = 1.0
+        # else:
+            # xval = 0.0
+        # if y > 500:
+            # yval = 1.0
+        # else:
+            # yval = 0.0
+    # frame:
+        # style_group "dropdown"
+        # pos (x, y)
+        # anchor (xval, yval)
+        # vbox:
+            # for building in hero.buildings:
+                # textbutton "[building.name]":
+                    # action [SetField(hero, "location", building), Hide("pyt_hero_dropdown_loc")]
+            # textbutton "None":
+                # action [SetField(hero, "location", hero), Hide("pyt_hero_dropdown_loc")]
+            # textbutton "Close":
+                # action [Hide("pyt_hero_dropdown_loc")]
 
 screen pyt_hero_profile():
     
@@ -88,7 +178,7 @@ screen pyt_hero_profile():
         text "[hero.exp]" pos (160, 21) color ivory bold True size 18
         text "[hero.goal]" pos (160, 49) color ivory bold True size 18
     
-    # Stats  + Location       
+    # Stats  + Location:
     frame:
         align (0.0, 0.13)
         background (im.Scale("content/gfx/frame/stats_frame2.png", 245, 470))
@@ -124,7 +214,7 @@ screen pyt_hero_profile():
                     xfill True
                     xminimum 0
                     xmaximum 120
-    
+                    
                     if hero.health <= hero.get_max("health")*0.3:
                         text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
                     else:
@@ -145,16 +235,18 @@ screen pyt_hero_profile():
                         
             null height 2
             
-            $ loc = hero.location if isinstance(hero.location, basestring) else hero.location.name
+            # $ loc = hero.location if isinstance(hero.location, basestring) else hero.location.name
             button:
                 style_group "ddlist"
                 action Return(["dropdown", "loc"])
-                hovered tt.Action("Change MCs location.")
-                text "{image=content/gfx/interface/icons/move15.png}Location:\n       [loc]":
-                    if len(loc) > 18:
+                alternate Return(["dropdown", "home"])
+                text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
+                    if len(str(hero.location)) > 18:
                         size 15
                     else:
                         size 16
+                hovered tt.Action("Change MCs Home/Location.")
+
                         
     # Buttons ------------------------------------>
     frame:
@@ -254,7 +346,7 @@ screen pyt_hero_profile():
         use pyt_eqdoll(active_mode=False, char=hero)
      
 
-    # Tooltip text            
+    # Tooltip text:  
     frame:
         background Frame("content/gfx/frame/frame_hor_stripe.png", 10, 10)
         align (0.99, 1.0)

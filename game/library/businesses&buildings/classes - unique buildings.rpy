@@ -1016,7 +1016,7 @@ init -9 python:
             
             # Checking if girls have completed their courses
             for girl in girls:
-                course = girl_is_training(girl)
+                course = char_is_training(girl)
                 trainer = girl_training_with(girl)
                 
                 if course.daysLeft(girl) > 0:

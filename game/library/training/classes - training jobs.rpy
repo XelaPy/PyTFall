@@ -306,7 +306,7 @@ init python:
             super(TrainingJob, self).__init__(girl, girls, loc=loc, event_type="schoolreport")
             
             # Get needed stats
-            self.course = course or girl_is_training(self.girl)
+            self.course = course or char_is_training(self.girl)
             self.trainer = trainer or girl_training_with(self.girl)
             
             # The chance that the girl will get an effect from the training

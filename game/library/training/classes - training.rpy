@@ -319,7 +319,7 @@ init -9 python:
     trainer_disobey_event = PytRelayProxy("disobey_event", use_against=True)
     
     # FlagProxy for the course the girl is currently taking.
-    girl_is_training = PytFlagProxy("training_course", None)
+    char_is_training = PytFlagProxy("training_course", None)
     
     # FlagProxy for who is currently training the girl.
     girl_training_with = PytFlagProxy("training_with", None)
@@ -343,7 +343,7 @@ init -9 python:
         """
         i = 0
         for girl in girls_training_with(trainer):
-            i += girl_is_training(girl).heroAP
+            i += char_is_training(girl).heroAP
         
         return i
     
@@ -388,7 +388,7 @@ init -9 python:
         """
         Stops a girl from training.
         """
-        girl_is_training.clear(girl)
+        char_is_training.clear(girl)
         girl_training_with.clear(girl)
         girl_training_left.clear(girl)
         girl.action = None
@@ -635,7 +635,7 @@ init -9 python:
             """
             Returns the girls that are doing this course.
             """
-            return [girl for girl in hero.girls if girl_is_training(girl) is self]
+            return [girl for girl in hero.girls if char_is_training(girl) is self]
                 
         def get_image(self, girl, **kwargs):
             """
@@ -823,7 +823,7 @@ init -9 python:
             """
             Sets a girl and hero combo for training.
             """
-            girl_is_training(girl, self)
+            char_is_training(girl, self)
             girl_training_with(girl, hero)
             girl_training_left(girl, self.duration+1)
             
@@ -1028,7 +1028,7 @@ init -9 python:
             """
             Sets a girl and hero combo for training.
             """
-            girl_is_training(girl, self)
+            char_is_training(girl, self)
             girl_training_with(girl, None)
             
             girl.action = self.action

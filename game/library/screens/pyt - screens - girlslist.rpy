@@ -16,11 +16,11 @@ label girls_list:
                     break    
             elif result[0] == "dropdown":
                 if result[1] == "loc":
-                    renpy.show_screen("pyt_dropdown_loc", result[2], pos=renpy.get_mouse_pos())
+                    renpy.show_screen("set_location_dropdown", result[2], pos=renpy.get_mouse_pos())
                 elif result[1] == "home":
                     renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
                 elif result[1] == "action":
-                    renpy.show_screen("pyt_dropdown_action", result[2], pos=renpy.get_mouse_pos())
+                    renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
             elif result[0] == 'choice':
                 renpy.hide_screen("pyt_girlslist")
                 char = result[1]

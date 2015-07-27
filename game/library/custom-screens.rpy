@@ -702,7 +702,7 @@ init: # PyTFall:
             hover im.MatrixColor(img, im.matrix.brightness(0.25))
             action Return(['control', 'return'])
             
-    screen pyt_dropdown_action(girl, pos=()):
+    screen set_action_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
@@ -726,76 +726,76 @@ init: # PyTFall:
             pos (x, y)
             anchor (xval, yval)
             vbox:
-                if isinstance(girl.location, NewStyleUpgradableBuilding):
-                    for i in girl.location.jobs:
+                if isinstance(char.location, NewStyleUpgradableBuilding):
+                    for i in char.location.jobs:
                         textbutton "[i.id]":
                             # Without Equipping for the job!
-                            action [SetField(girl, "action", i), Hide("pyt_dropdown_action")]
+                            action [SetField(char, "action", i), Hide("set_action_dropdown")]
                             
                 # Brothels
-                elif isinstance(girl.location, Brothel):
+                elif isinstance(char.location, Brothel):
                     for entry in Brothel.ACTIONS:
                         if entry == 'Stripper':
-                            if girl.location.upgrades['stripclub']['1']['active']:
+                            if char.location.upgrades['stripclub']['1']['active']:
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         elif entry == 'Guard':
-                            if girl.status != 'slave' and (girl.occupation != "Warrior" or girl.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
+                            if char.status != 'slave' and (char.occupation != "Warrior" or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         else:
                             textbutton "[entry]":
-                                action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                 
                 # Fighters Guild
-                elif isinstance(girl.location, FighterGuild):
+                elif isinstance(char.location, FighterGuild):
                     for entry in FighterGuild.ACTIONS:
                         if entry == 'Training':
-                            if girl.status != "slave":
+                            if char.status != "slave":
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         elif entry == 'ServiceGirl':
-                            if (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "ServiceGirl"):
+                            if (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "ServiceGirl"):
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         elif entry == 'BarGirl':
-                            if fg.upgrades["bar"][0] and (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "BarGirl"):
+                            if fg.upgrades["bar"][0] and (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "BarGirl"):
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, "ServiceGirl"), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, "ServiceGirl"), Hide("set_action_dropdown")]
                         elif entry == 'Rest':
                             textbutton "[entry]":
-                                action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         else:
                             textbutton "[entry]":
-                                action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                 
                 # Other buildings
-                elif hasattr(girl.location, "actions"):
-                    for entry in girl.location.actions:
+                elif hasattr(char.location, "actions"):
+                    for entry in char.location.actions:
                         if entry == "Guard":
-                            if girl.status != "slave" and (girl.occupation != "Warrior" or girl.disposition <= 950):
+                            if char.status != "slave" and (char.occupation != "Warrior" or char.disposition <= 950):
                                 textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         
                         elif entry == "Take Course":
                             textbutton "[entry]":
-                                action [Hide("pyt_dropdown_action"), Hide("pyt_girlslist"), Hide("pyt_girl_profile"), # Hide the dropdown screen, the girls list and girl profile screens
-                                        SetField(store, "char", girl, True), # Ensure that the global var char is set to the current girl
-                                        Jump("girl_training")] # Jump to the training screen
+                                action [Hide("set_action_dropdown"), Hide("pyt_charslist"), Hide("pyt_char_profile"), # Hide the dropdown screen, the chars list and char profile screens
+                                        SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
+                                        Jump("char_training")] # Jump to the training screen
                         
                         else:
                             textbutton "[entry]":
-                                    action [SetField(girl, "action", entry), Function(equip_for, girl, entry), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_action")]
+                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
                 
                 # Prevent none action in schools
-                if not hasattr(girl.location, "is_school") or not girl.location.is_school:
+                if not hasattr(char.location, "is_school") or not char.location.is_school:
                     textbutton "None":
-                        action [SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_action")]
+                        action [SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
                 
                 textbutton "Close":
-                    action [Hide("pyt_dropdown_action")]
+                    action [Hide("set_action_dropdown")]
                 
-    screen pyt_dropdown_loc(girl, pos=()):
+    screen set_location_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of buildings:
         zorder 3
         modal True
@@ -823,39 +823,39 @@ init: # PyTFall:
                 # Updating to new code: *Ugly code atm, TODO: Fix IT!
                 for building in hero.buildings:
                     if isinstance(building, NewStyleUpgradableBuilding):
-                        if girl.action in building.jobs:
+                        if char.action in building.jobs:
                             $ can_keep_action = True
                         else:
                             $ can_keep_action = False
                         if can_keep_action:
                             textbutton "[building.name]":
-                                action [If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
+                                action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
                         else:
                             textbutton "[building.name]":
-                                action [SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
+                                action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
                     elif building.free_rooms():
                         $ can_keep_action = False
                         if isinstance(building, Brothel):
-                            if girl.action in Brothel.ACTIONS:
+                            if char.action in Brothel.ACTIONS:
                                 $ can_keep_action = True
                         elif isinstance(building, FighterGuild):
-                            if girl.action in FighterGuild.ACTIONS:
+                            if char.action in FighterGuild.ACTIONS:
                                 $ can_keep_action = True
                         elif hasattr(building, "actions"):
-                            if girl.action in building.actions:
+                            if char.action in building.actions:
                                 $ can_keep_action = True
                         if can_keep_action:
                             textbutton "[building.name]":
-                                action [If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
+                                action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
                         else:
                             textbutton "[building.name]":
-                                action [SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
+                                action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
                 
                 textbutton "Home":
-                    action [If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, girl.home), Hide("pyt_dropdown_loc")]
+                    action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]
                 
                 textbutton "Close":
-                    action Hide("pyt_dropdown_loc")
+                    action Hide("set_location_dropdown")
                     
     screen set_home_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of buildings:
@@ -885,7 +885,7 @@ init: # PyTFall:
             for building in hero.buildings:
                 if isinstance(building, NewStyleUpgradableBuilding) and building.has_living_space:
                     textbutton "[building.name]":
-                        action SetField(char, "home", building), Hide("set_home_dropdown")
+                        action SelectedIf(char.home==building), SetField(char, "home", building), Hide("set_home_dropdown")
             textbutton "Streets":
                 action SetField(char, "home", locations["Streets"]), Hide("set_home_dropdown")
             textbutton "Close":
