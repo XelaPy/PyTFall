@@ -155,20 +155,20 @@ label girl_interactions:
             pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]))
             
             # GO OUT
-            m = 6
-            pytfall.world_actions.menu(m, "Go Out")
-            pytfall.world_actions.gm_choice("Beach", index=(m, 0))
-            pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
+           # m = 6
+           # pytfall.world_actions.menu(m, "Go Out")
+           # pytfall.world_actions.gm_choice("Beach", index=(m, 0))
+           # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
             
             # PROPOSITION
-            m = 7
+            m = 6
             pytfall.world_actions.menu(m, "Proposition", condition=_gm_mode)
             pytfall.world_actions.gm_choice("Friends", index=(m, 0))
             pytfall.world_actions.gm_choice("Girlfriend", index=(m, 1))
             pytfall.world_actions.gm_choice("Hire", index=(m, 2))
             
             # INTAMACY
-            m = 8
+            m = 7
             pytfall.world_actions.menu(m, "Intimacy")
             
             # TOUCH

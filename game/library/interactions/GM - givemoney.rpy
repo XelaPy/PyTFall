@@ -10,18 +10,32 @@
 label interactions_gm25g:
 
     if hero.take_money(25):
-        if dice(70):           
-            if char.disposition > 600:
-                $ char.disposition += (randint(1, 4))
+        if char.gold < 50: 
+            "She gratefully accepts money. It is hard times."        
+            if char.disposition > 0:
+                $ char.disposition += (randint(2, 4))
             else:
-                $ char.disposition += (randint(5, 15))
-            g "Thank you!"
-            
+                $ char.disposition += (randint(5, 10))
+            $ char.gold += 25
+        elif char.gold < 100:
+            "She takes your money."        
+            if char.disposition > 0:
+                $ char.disposition += (randint(1, 2))
+            else:
+                $ char.disposition += (randint(3, 5))
+            $ char.gold += 25
+        elif check_lovers(char, hero) or check_friends(char, hero):
+            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
+            $ char.gold += 25
+        elif char.status == "slave":
+            "Her training doesn't allow her to refuse. But it's not enough to change much."
+            $ char.gold += 25
+            if char.disposition < 0:
+                $ char.disposition += (randint(1, 2))
         else:
-            g "I don't want your money."
-            $ char.disposition -= (randint(5, 12))
+            "She refuses to take your money."
+            $ char.disposition -= (randint(4, 10))
             $hero.add_money(25)
-    
     else:    
         narrator "You don't have 25g!"
     
@@ -32,18 +46,32 @@ label interactions_gm25g:
 label interactions_gm50g:
 
     if hero.take_money(50):
-        if dice(70):           
-            if char.disposition > 600:
-                $ char.disposition += (randint(2, 5))
+        if char.gold < 100: 
+            "She gratefully accepts money. It is hard times."        
+            if char.disposition > 0:
+                $ char.disposition += (randint(4, 8))
             else:
                 $ char.disposition += (randint(10, 20))
-            g "Thank you!"
-            
+            $ char.gold += 50
+        elif char.gold < 200:
+            "She takes your money."        
+            if char.disposition > 0:
+                $ char.disposition += (randint(2, 4))
+            else:
+                $ char.disposition += (randint(6, 10))
+            $ char.gold += 50
+        elif check_lovers(char, hero) or check_friends(char, hero):
+            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
+            $ char.gold += 50
+        elif char.status == "slave":
+            "Her training doesn't allow her to refuse. But it's not enough to change much."
+            $ char.gold += 50
+            if char.disposition < 0:
+                $ char.disposition += (randint(1, 2))
         else:
-            g "I don't want your money."
-            $ char.disposition -= (randint(10, 20))
+            "She refuses to take your money."
+            $ char.disposition -= (randint(8, 20))
             $hero.add_money(50)
-    
     else:    
         narrator "You don't have 50g!"
     
@@ -54,18 +82,32 @@ label interactions_gm50g:
 label interactions_gm100g:
 
     if hero.take_money(100):
-        if dice(70):           
-            if char.disposition > 600:
-                $ char.disposition += (randint(3, 6))
+        if char.gold < 200: 
+            "She gratefully accepts money. It is hard times."        
+            if char.disposition > 0:
+                $ char.disposition += (randint(8, 16))
             else:
-                $ char.disposition += (randint(15, 30))
-            g "Thank you!"
-            
+                $ char.disposition += (randint(20, 40))
+            $ char.gold += 100
+        elif char.gold < 400:
+            "She takes your money."        
+            if char.disposition > 150:
+                $ char.disposition += (randint(4, 8))
+            else:
+                $ char.disposition += (randint(12, 20))
+            $ char.gold += 100
+        elif check_lovers(char, hero) or check_friends(char, hero):
+            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
+            $ char.gold += 100
+        elif char.status == "slave":
+            "Her training doesn't allow her to refuse. But it's not enough to change much."
+            $ char.gold += 100
+            if char.disposition < 0:
+                $ char.disposition += (randint(1, 2))
         else:
-            g "I don't want your money."
-            $ char.disposition -= (randint(10, 25))
+            "She refuses to take your money."
+            $ char.disposition -= (randint(7, 15))
             $hero.add_money(100)
-    
     else:    
         narrator "You don't have 100g!"
     
@@ -76,18 +118,31 @@ label interactions_gm100g:
 label interactions_gm500g:
     
     if hero.take_money(500):
-        if dice(70):           
-            if char.disposition > 600:
-                $ char.disposition += (randint(5, 10))
+        if char.gold < 1000: 
+            "She gratefully accepts money. It is hard times."        
+            if char.disposition > 0:
+                $ char.disposition += (randint(40, 80))
             else:
-                $ char.disposition += (randint(25, 45))
-            $rc("Thank you!", "Wow, how generous you are!")
-            
+                $ char.disposition += (randint(100, 200))
+            $ char.gold += 500
+        elif char.gold < 2000:
+            "She takes your money."        
+            if char.disposition > 150:
+                $ char.disposition += (randint(20, 40))
+            else:
+                $ char.disposition += (randint(60, 100))
+        elif check_lovers(char, hero) or check_friends(char, hero):
+            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
+            $ char.gold += 500
+        elif char.status == "slave":
+            "Her training doesn't allow her to refuse. But it's not enough to change much."
+            $ char.gold += 500
+            if char.disposition < 0:
+                $ char.disposition += (randint(1, 2))
         else:
-            g "I don't want your money."
-            $ char.disposition -= (randint(20, 35))
+            "She refuses to take your money."
+            $ char.disposition -= (randint(9, 20))
             $hero.add_money(500)
-    
     else:    
         narrator "You don't have 500g!"
     
