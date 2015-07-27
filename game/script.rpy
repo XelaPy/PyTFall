@@ -32,6 +32,18 @@ label start:
         shuffle(randomTeamNames)
         file.close()
         tl.timer("Loading: Random Name Files")
+        
+        tl.timer("Loading: PyTFallWorld")
+        pytfall = PyTFallWorld()
+        tl.timer("Loading: PyTFallWorld")
+        
+        # Create locations:
+        locations = dict()
+        temp = Apartments()
+        locations[temp.id] = temp
+        temp = Streets()
+        locations[temp.id] = temp
+        del temp
             
         # Load all game elements:
         tl.timer("Loading: Traits")
@@ -57,7 +69,7 @@ label start:
         
         tl.timer("Loading: Brothels")
         brothels = load_brothels()
-        pytWhoringActs = build_whoring_acts()
+        # pytWhoringActs = build_whoring_acts()
         tl.timer("Loading: Brothels")
         
         tl.timer("Loading: Training")
@@ -93,9 +105,8 @@ label start:
         tl.timer("Loading: All Characters!")
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
         
-        tl.timer("Loading: PyTFallWorld")
-        pytfall = PyTFallWorld()
-        tl.timer("Loading: PyTFallWorld")
+        # Build shops:
+        pytfall.init_shops()
         
         # Start auto-quests
         pytfall.world_quests.first_day()

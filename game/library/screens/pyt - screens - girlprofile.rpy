@@ -291,13 +291,13 @@ screen pyt_girl_profile():
                                 text  "[cls.id]"  color ivory size 15
                         
                     null height 2
-                    $ loc = char.location if isinstance(char.location, basestring) else char.location.name
+                    # $ loc = char.location if isinstance(char.location, basestring) else char.location.name
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "loc", char])
                         hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
-                        text "{image=content/gfx/interface/icons/move15.png}Location: [loc]":
-                            if len(loc) > 18:
+                        text "{image=content/gfx/interface/icons/move15.png}Location: [char.location]":
+                            if len(str(char.location)) > 18:
                                 size 15
                             else:
                                 size 18

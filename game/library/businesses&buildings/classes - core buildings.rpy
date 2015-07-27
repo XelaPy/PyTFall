@@ -11,7 +11,7 @@ init -9 python:
     # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
-    class Building(_object):
+    class Building(Location):
         """
         The super class for all Building logic.
         """
@@ -455,4 +455,10 @@ init -9 python:
             """
             upgrade.instance = self
             self._upgrades.append(upgrade)
+            
+        def has_living_space(self):
+            """
+            Returns True if this buildings has free living space.
+            """
+            return
             

@@ -1,4 +1,6 @@
 label items_transfer:
+    
+    $ renpy.retain_after_load()
     show screen pyt_items_transfer
     with fade
     
@@ -36,7 +38,6 @@ label items_transfer:
                     pytfall.it.items_amount = 1
                 else:
                     pytfall.it.items_amount -= 5
-                    
             elif result[0] == 'left_inv':
                 if result[1] == 'first_page': pytfall.it.left_char.inventory.first()
                 elif result[1] == 'last_page': pytfall.it.left_char.inventory.last()

@@ -235,7 +235,7 @@ init -1 python:
         def get_focus(self, filter_group, filter_key):
             return filter_key in self.active_filters[filter_group]
 
-    class SlaveMarket(_object):
+    class SlaveMarket(Location):
         """
         Class for populating and running of the slave market.
         """
@@ -244,6 +244,8 @@ init -1 python:
             Creates a new SlaveMarket.
             type = type girls predominatly present in the market. Not used.
             """
+            super(SlaveMarket, self).__init__()
+            self.id = "PyTFall Slavemarket"
             self.type = type
             
             self.girl = None
@@ -256,18 +258,18 @@ init -1 python:
             """
             Generates a random list of girls.
             """
-            candidates = list(girl for girl in chars.values() if girl not in hero.girls and girl.location == "slavemarket" and girl.status == 'slave')
+            candidates = list(self.actors)
             shuffle(candidates)
             sglist = list()
-            unique = 0
-            slave = 0
+            uniques = 0
+            randoms = 0
             for girl in candidates:
-                if girl.__class__ == Girl and unique < 5:
+                if girl.__class__ == Girl and uniques < 5:
                     sglist.append(girl)
-                    unique += 1
-                if girl.__class__ == rGirl and slave < 5:
+                    uniques += 1
+                if girl.__class__ == rGirl and randoms < 5:
                     sglist.append(girl)
-                    slave += 1
+                    randoms += 1
             shuffle(sglist)
             return sglist
         

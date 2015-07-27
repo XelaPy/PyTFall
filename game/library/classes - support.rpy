@@ -7,15 +7,6 @@ init -9 python:
         This really looks like this should be a function at the moment, but we will add more relevant methods in the future.
         '''
         def __init__(self):
-            
-            # Shops:
-            self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store']
-            self.general_store = GeneralStore('General Store', 18, ['General Store'])
-            self.cafe = ItemShop('Cafe', 18, ['Cafe'], sells=["food"])
-            self.workshop = ItemShop('Work Shop', 18, ['Work Shop'], sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow"])
-            self.witches_hut = ItemShop('Witches Hut', 18, ['Witches Hut'], sells=["amulet", "restore", "smallweapon"])
-            self.tailor_store = ItemShop('Tailor Store', 18, ['Tailor Store'], sells=["dress"])
-            
             # Maps
             self.maps = xml_to_dict(content_path('db/maps.xml'))
             for key in self.maps:
@@ -53,6 +44,15 @@ init -9 python:
             self.ms_text = ""
             self.show_text = False
             self.todays_first_view = True
+            
+        def init_shops(self):
+            # Shops:
+            self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store']
+            self.general_store = GeneralStore('General Store', 18, ['General Store'])
+            self.cafe = ItemShop('Cafe', 18, ['Cafe'], sells=["food"])
+            self.workshop = ItemShop('Work Shop', 18, ['Work Shop'], sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow"])
+            self.witches_hut = ItemShop('Witches Hut', 18, ['Witches Hut'], sells=["amulet", "restore", "smallweapon"])
+            self.tailor_store = ItemShop('Tailor Store', 18, ['Tailor Store'], sells=["dress"])
         
         # World AI ----------------------------->
         @staticmethod

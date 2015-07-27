@@ -17,6 +17,8 @@ label girls_list:
             elif result[0] == "dropdown":
                 if result[1] == "loc":
                     renpy.show_screen("pyt_dropdown_loc", result[2], pos=renpy.get_mouse_pos())
+                elif result[1] == "home":
+                    renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
                 elif result[1] == "action":
                     renpy.show_screen("pyt_dropdown_action", result[2], pos=renpy.get_mouse_pos())
             elif result[0] == 'choice':
@@ -128,12 +130,14 @@ screen pyt_girlslist(source=None, page=0, total_pages=1):
                                         text "Classes: [classes]" color ivory size 18
                                         
                                         null height 2
-                                        $ loc = girl.location if isinstance(girl.location, basestring) else girl.location.name
+                                        # $ loc = girl.location if isinstance(girl.location, basestring) else girl.location.name
                                         if girl not in pytfall.ra:
                                             button:
                                                 style_group "ddlist"
                                                 action Return(["dropdown", "loc", girl])
-                                                text "{image=content/gfx/interface/icons/move15.png}Location: [loc]"
+                                                if girl.status == "slave":
+                                                    alternate Return(["dropdown", "home", girl])
+                                                text "{image=content/gfx/interface/icons/move15.png}Location: [girl.location]"
                                             button:
                                                 style_group "ddlist"
                                                 action Return(["dropdown", "action", girl])

@@ -479,7 +479,7 @@ init: # PyTFall:
                 unhovered SetField(pytfall, "city_dropdown", False)
     
         # Hotkeys:
-        if show_return_button:
+        if show_return_button and renpy.current_screen().tag not in ["pyt_girlslist", "pyt_hero_profile", "pyt_girl_interactions"]:
             key "mousedown_3" action Return(['control', 'return'])
         if renpy.current_screen().tag not in ["pyt_girl_interactions", "pyt_hero_profile", "pyt_quest_log"]:
             if global_flags.flag("visited_arena"):
@@ -829,10 +829,10 @@ init: # PyTFall:
                             $ can_keep_action = False
                         if can_keep_action:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
                         else:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
                     elif building.free_rooms():
                         $ can_keep_action = False
                         if isinstance(building, Brothel):
@@ -846,16 +846,50 @@ init: # PyTFall:
                                 $ can_keep_action = True
                         if can_keep_action:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
                         else:
                             textbutton "[building.name]":
-                                action [SetField(girl, "location", building), SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                                action [SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, building), Hide("pyt_dropdown_loc")]
                 
-                textbutton "None":
-                    action [SetField(girl, "location", hero), SetField(girl, "action", None), If(girl_is_training(girl), true=Function(stop_training, girl)), Hide("pyt_dropdown_loc")]
+                textbutton "Home":
+                    action [If(girl_is_training(girl), true=Function(stop_training, girl)), Function(change_location, girl, girl.home), Hide("pyt_dropdown_loc")]
                 
                 textbutton "Close":
                     action Hide("pyt_dropdown_loc")
+                    
+    screen set_home_dropdown(char, pos=()):
+        # Trying to create a drop down screen with choices of buildings:
+        zorder 3
+        modal True
+        
+        key "mousedown_4" action NullAction()
+        key "mousedown_5" action NullAction()
+        
+        # Get mouse coords:
+        python:
+            x, y = pos
+            if x > config.screen_width/2:
+                xval = 1.0
+            else:
+                xval = 0.0
+            if y > config.screen_height/2:
+                yval = 1.0
+            else:
+                yval = 0.0
+        frame:
+            style_group "dropdown_gm"
+            pos (x, y)
+            anchor (xval, yval)
+            has vbox
+            
+            for building in hero.buildings:
+                if isinstance(building, NewStyleUpgradableBuilding) and building.has_living_space:
+                    textbutton "[building.name]":
+                        action SetField(char, "home", building), Hide("set_home_dropdown")
+            textbutton "Streets":
+                action SetField(char, "home", locations["Streets"]), Hide("set_home_dropdown")
+            textbutton "Close":
+                action Hide("set_home_dropdown")
         
     screen char_rename(char=None):
         modal True

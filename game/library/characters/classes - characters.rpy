@@ -622,6 +622,11 @@ init -9 python:
 
                     price = bp + sp
                     return int(price)
+                    
+            else:
+                devlog.warning("get_price for {} was ran even though character is free !".format(char.id))
+                return 0
+                
 
         def get_upkeep(self):
             # TODO: To be revised after skills are added!
@@ -1160,20 +1165,20 @@ init -9 python:
         @property
         def location(self):
             # Physical locaiton at the moment, this is not used a lot right now.
-            if all([self._location == hero, isinstance(self, Girl), self.status == "free"]):
-                return "Own Dwelling"
-            elif self._location == hero: # We set location to MC in most cases, this may be changed soon?
-                return "Streets"
-            else:
-                return self._location # Otherwise we use the 
+            # if all([self._location == hero, isinstance(self, Girl), self.status == "free"]):
+                # return "Own Dwelling"
+            # elif self._location == hero: # We set location to MC in most cases, this may be changed soon?
+                # return "Streets"
+            # else:
+            return self._location # Otherwise we use the 
          
         # Not sure we require a setter here now that I've added home and workplaces.
         @location.setter
         def location(self, value):
             # *Adding some location code that needs to be executed always:
-            if value == "slavemarket":
-                self.status = "slave"
-                self.home = "slavemarket"
+            # if value == "slavemarket":
+                # self.status = "slave"
+                # self.home = "slavemarket"
             self._location = value
         
         @property
@@ -2310,7 +2315,7 @@ init -9 python:
             self.name = 'Player'
             self.fullname = 'Player'
             self.nickname = 'Player'
-            self._location = self
+            self._location = locations["Streets"]
             self.occupation = "Warrior"
             self.status = "free"
             self.flags = Flags()
@@ -2431,7 +2436,6 @@ init -9 python:
         def add_girl(self, girl):
             if girl not in self._girls:
                 self._girls.append(girl)
-                girl.location = hero
 
         def remove_girl(self, girl):
             if girl in self._girls:
@@ -2940,27 +2944,33 @@ init -9 python:
             if self.status not in self.STATUS:
                 if "Warrior" in self.occupations:
                     self.status = "free"
-                else:    
+                else:
                     self.status = random.sample(self.STATUS, 1).pop()
             
-            # Locations (post property):
-            # TODO: REMOVE OCCUPATION FROM HERE!
-            if hasattr(self, "location"):
-                self._location = self.location
-            if self.status == "slave" and "Warrior" in self.occupations:
-                self.status = "free"
-            if self.status == "slave" and self.location == "city":
-                self.location = "slavemarket"
+            # Locations + Home + Status:
+            # SM string --> object
+            if self.location == "slavemarket":
+                set_location(self, pytfall.sm)
+            """    
+            # Slaves cannot be Warriors? # This is not reasonable... Slaves are just not allowed to do combat...
+            # if self.status == "slave" and "Warrior" in self.occupations:
+                # self.status = "free"
+            """
+            # Make sure all slaves that were not supplied custom locations string, find themselves in the SM
+            if self.status == "slave" and (self.location == "city" or not self.location):
+                set_location(self, pytfall.sm)
+
+            # *** No girls land themselves in the city :( TODO: Fix city string to be an object.
+            if self.status == "free" and self.location == pytfall.sm:
+                set_location(self, "city")
                 
-            # *** No girls land themselves in the city :(
-            if self.status == "free" and self.location == "slavemarket":
-                self.location = "city"
-                
-            # Stats:
-            # for stat in self.STATS:
-                # if stat not in self.stats.FIXED_MAX and getattr(self, stat) == 0:
-                    # setattr(self, stat, randint(5, 25))
-    
+            # Home settings:
+            if self.status == "slave" and self.location == pytfall.sm:
+                self.home = pytfall.sm
+            if self.status == "free":
+                if not self.home:
+                    self.home = locations["City Apartment"]
+            
             # Wagemod:
             if self.status == 'slave':
                 self.mech_relay["wagemod"] = 0
@@ -2987,7 +2997,8 @@ init -9 python:
                 setattr(self, stat, self.get_max(stat))
             
             # Arena:
-            if "Warrior" in self.occupations and self not in hero.girls and self.arena_willing != False:
+            # TODO: Must be update for all warrior classes and moved to init()
+            if traits["Warrior"] in self.occupations and self not in hero.girls and self.arena_willing != False:
                 self.arena_willing = True
                 
             # AP:
