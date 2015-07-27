@@ -138,7 +138,7 @@ init -11 python:
         # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of char.
         willing_partners = set()
         for i in partners:
-            if (i.disposition >= 800 or check_lovers(char, i)) and not i.disposition <= 50: # Last check is too make sure partner doesn't dislike the MC.
+            if (check_lovers(i, hero) or check_lovers(char, i)) and not (i.vitality < 25 or i.health < 25) and not (i.disposition <= -50): # Last check is too make sure partner doesn't dislike the MC.
                 willing_partners.add(i)
                 
         return willing_partners

@@ -101,7 +101,7 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
             pytfall.world_actions.gm_choice("Interests", mode="girl_interactions", index=(m, 5))
             pytfall.world_actions.gm_choice("Romance", index=(m, 6))
-            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
+            
             
             # TRAINING
             m = 1
@@ -155,20 +155,20 @@ label girl_interactions:
             pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]))
             
             # GO OUT
-            m = 6
-            pytfall.world_actions.menu(m, "Go Out")
-            pytfall.world_actions.gm_choice("Beach", index=(m, 0))
-            pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
+           # m = 6
+           # pytfall.world_actions.menu(m, "Go Out")
+           # pytfall.world_actions.gm_choice("Beach", index=(m, 0))
+           # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
             
             # PROPOSITION
-            m = 7
+            m = 6
             pytfall.world_actions.menu(m, "Proposition", condition=_gm_mode)
             pytfall.world_actions.gm_choice("Friends", index=(m, 0))
             pytfall.world_actions.gm_choice("Girlfriend", index=(m, 1))
             pytfall.world_actions.gm_choice("Hire", index=(m, 2))
             
             # INTAMACY
-            m = 8
+            m = 7
             pytfall.world_actions.menu(m, "Intimacy")
             
             # TOUCH
@@ -197,6 +197,9 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("Blowjob", index=(m, n, 1))
             pytfall.world_actions.gm_choice("Anal", index=(m, n, 2))
             pytfall.world_actions.gm_choice("Tribadism", label="lesbo", index=(m, n, 3))
+            
+            n = 4
+            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
             
             # Back
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
