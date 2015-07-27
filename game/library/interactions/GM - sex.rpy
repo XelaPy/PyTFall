@@ -8,6 +8,68 @@
 #  5 - sex - sex - GM
 
 ###### j1
+label interactions_virgin_check:
+    $ char.set_flag("raped", value="false")
+    if check_lovers(hero, char) or char.disposition >= 700:
+        menu:
+            "Looks like this is her first time. Do you want to continue?"
+                        
+            "Yes":
+                call girl_virgin
+                "You deflower her. Congratulations!"
+                jump interactions_virgin_check_goon
+                        
+            "No":
+                jump interaction_scene_choice
+                    
+    elif char.status == "slave" and (char.disposition >= 300 or (cgo("SIW") and char.disposition >= 50)):
+        menu: 
+            "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
+            
+            "Yes":
+                call girl_virgin
+                "You deflower her. Congratulations!"
+                jump interactions_virgin_check_goon
+                        
+            "No":
+                jump interaction_scene_choice
+                    
+    elif char.status == "slave":
+        menu: 
+            "She tells you that this is her first time, and asks plaintively to choose something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
+            
+            "Yes":
+                "You violated her."
+                $ char.set_flag("raped", value="true")
+                if ct("Masochist"):
+                    $ libido += 10
+                    $ char.joy += 5
+                    $ char.disposition += 10
+                else:
+                    $ char.disposition -= 150
+                    $ char.joy -= 50
+                jump interactions_virgin_check_goon
+                        
+            "No":
+                jump interaction_scene_choice
+    else:
+        "Unfortunately she's still a virgin, and she's not ready to cease to be her yet."
+        jump interaction_scene_choice
+    
+    label interactions_virgin_check_goon:
+        $ char.removetrait(traits["Virgin"])
+        if char.health >=20:
+            $ char.health -= 10
+        else:
+            $ char.vitality -= 20
+        if char.flag("s_bg") == "beach":
+            jump interactions_virgin_ok_beach
+        elif char.flag("s_bg") == "park":
+            jump interactions_virgin_ok_park
+        else:
+            jump interactions_virgin_ok_room
+    jump interaction_scene_choice
+
 label interactions_fuck:
     $ char.set_flag("forced", value="false")
     if char.disposition >= 650 or ct("Nymphomaniac"): #will need to add lover as well!!!
@@ -87,6 +149,7 @@ label interactions_fuck:
             $ gm.generate_img("nude", "no clothes", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
             
     $ sex_count = 0
+    $ les_count = 0
     $ guy_count = 0
     $ girl_count = 0
     $ together_count = 0
@@ -109,12 +172,12 @@ label interactions_fuck:
     if cgo("SIW"):
         $libido += 10
         
-label choice:
+label interaction_scene_choice:
     if char.vitality <=0:
-        jump finish_sex
+        jump interaction_scene_finish_sex
     if hero.vitality <= 20:
         "You are too tired to continue."
-        jump finish_sex
+        jump interaction_scene_finish_sex
     if char.status == "slave":
         if libido <= 0:
             "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
@@ -125,13 +188,13 @@ label choice:
     else:
         if libido <= 0:
             "She doesn't want to do it any longer."
-            jump finish_sex
+            jump interaction_scene_finish_sex
         elif char.joy <= 10:
             "She looks upset. Not the best mood for sex."
-            jump finish_sex
+            jump interaction_scene_finish_sex
         if char.vitality < 50:
             "She is too tired to continue."
-            jump finish_sex
+            jump interaction_scene_finish_sex
     menu:
         "What would you like to do now?"
         
@@ -140,146 +203,155 @@ label choice:
                 $ gm.set_img("stripping", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
             else:
                 $ gm.set_img("stripping", "simple bg", exclude=["stage"], type="first_default")
-            jump stripte
+            jump interaction_scene_strip
         "Ask for striptease" if char.flag("s_bg") == "park" and (char.has_image("stripping", "nature", type="first_default") or char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default")):
             if dice(50):
                 $ gm.set_img("stripping", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
             else:
                 $ gm.set_img("stripping", "simple bg", exclude=["stage"], type="first_default")
-            jump stripte
+            jump interaction_scene_strip
         "Ask for striptease" if char.flag("s_bg") == "room" and (char.has_image("stripping", "living", type="first_default") or char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default") or char.has_image("stripping", "indoors", type="first_default")):
             if dice(50):
-                $ gm.set_img("stripping", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+                $ gm.set_img("stripping", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
             else:
                 $ gm.set_img("stripping", "simple bg", exclude=["stage"], type="first_default")
-            jump stripte
+            jump interaction_scene_strip
         "Ask to masturbate" if char.flag("s_bg") == "beach" and (char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
             if dice(50):
                 $ gm.set_img("masturbation", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
             else:
                 $ gm.set_img("masturbation", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump mast
+            jump interaction_scene_mast
         "Ask to masturbate" if char.flag("s_bg") == "park" and (char.has_image("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
             if dice(50):
                 $ gm.set_img("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
             else:
                 $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            jump mast
-        "Ask to masturbate" if char.flag("s_bg") == "room" and (char.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
+            jump interaction_scene_mast
+        "Ask to masturbate" if char.flag("s_bg") == "room" and (char.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "dungeon", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
             if dice(50):
-                $ gm.set_img("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+                $ gm.set_img("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
             else:
                 $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            jump mast
-        "Ask for blowjob" if char.flag("s_bg") == "beach" and (char.has_image("bc blowjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_mast
+        "Ask for blowjob" if char.flag("s_bg") == "beach" and (char.has_image("bc blowjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc blowjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump bj
-        "Ask for blowjob" if char.flag("s_bg") == "park" and (char.has_image("bc blowjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_blowjob
+        "Ask for blowjob" if char.flag("s_bg") == "park" and (char.has_image("bc blowjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc blowjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump bj
-        "Ask for blowjob" if char.flag("s_bg") == "room" and (char.has_image("bc blowjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_blowjob
+        "Ask for blowjob" if char.flag("s_bg") == "room" and (char.has_image("bc blowjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "indoors", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
             if dice(50):
-                $ gm.set_img("bc blowjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                $ gm.set_img("bc blowjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump bj
-        "Ask for titsjob" if char.flag("s_bg") == "beach" and (char.has_image("bc titsjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_blowjob
+        "Ask for titsjob" if char.flag("s_bg") == "beach" and (char.has_image("bc titsjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc titsjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump tj
-        "Ask for titsjob" if char.flag("s_bg") == "park" and (char.has_image("bc titsjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_titsjob
+        "Ask for titsjob" if char.flag("s_bg") == "park" and (char.has_image("bc titsjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc titsjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump tj
-        "Ask for titsjob" if char.flag("s_bg") == "room" and (char.has_image("bc titsjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_titsjob
+        "Ask for titsjob" if char.flag("s_bg") == "room" and (char.has_image("bc titsjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "indoors", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
             if dice(50):
-                $ gm.set_img("bc titsjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                $ gm.set_img("bc titsjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump tj
-        "Ask for handjob" if char.flag("s_bg") == "beach" and (char.has_image("bc handjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_titsjob
+        "Ask for handjob" if char.flag("s_bg") == "beach" and (char.has_image("bc handjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc handjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump hj
-        "Ask for handjob" if char.flag("s_bg") == "park" and (char.has_image("bc handjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_handjob
+        "Ask for handjob" if char.flag("s_bg") == "park" and (char.has_image("bc handjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc handjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump hj
-        "Ask for handjob" if char.flag("s_bg") == "room" and (char.has_image("bc handjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")or char.has_image("bc handjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_handjob
+        "Ask for handjob" if char.flag("s_bg") == "room" and (char.has_image("bc handjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")or char.has_image("bc handjob", "indoors", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
             if dice(50):
-                $ gm.set_img("bc handjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                $ gm.set_img("bc handjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump hj
-        "Ask for footjob" if char.flag("s_bg") == "beach" and (char.has_image("bc footjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_handjob
+        "Ask for footjob" if char.flag("s_bg") == "beach" and (char.has_image("bc footjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc footjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump fj
-        "Ask for footjob" if char.flag("s_bg") == "park" and (char.has_image("bc footjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_footjob
+        "Ask for footjob" if char.flag("s_bg") == "park" and (char.has_image("bc footjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("bc footjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump fj
-        "Ask for footjob" if char.flag("s_bg") == "room" and (char.has_image("bc footjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")or char.has_image("bc footjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_footjob
+        "Ask for footjob" if char.flag("s_bg") == "room" and (char.has_image("bc footjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")or char.has_image("bc footjob", "indoors", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
             if dice(50):
-                $ gm.set_img("bc footjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                $ gm.set_img("bc footjob", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump fj
-        "Ask for vaginal sex" if char.flag("s_bg") == "beach" and (char.has_image("2c vaginal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if dice(50):
-                $ gm.set_img("2c vaginal", "partnerhidden", "swimsuit", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            else:
-                $ gm.set_img("2c vaginal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump vag_sex
-        "Ask for vaginal sex" if char.flag("s_bg") == "park" and (char.has_image("2c vaginal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if dice(50):
-                $ gm.set_img("2c vaginal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            else:
-                $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump vag_sex
-        "Ask for vaginal sex" if char.flag("s_bg") == "room" and (char.has_image("2c vaginal", "partnerhidden", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")or char.has_image("2c vaginal", "partnerhidden", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if dice(50):
-                $ gm.set_img("2c vaginal", "partnerhidden", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            else:
-                $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump vag_sex
-        "Ask for anal sex" if char.flag("s_bg") == "beach" and (char.has_image("2c anal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_footjob
+        "Ask for vaginal sex" if char.flag("s_bg") == "beach" and (char.has_image("2c vaginal", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if ct("Virgin"):
+                jump interactions_virgin_check
+            label interactions_virgin_ok_beach:
+                if dice(50):
+                    $ gm.set_img("2c vaginal", "partnerhidden", "swimsuit", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                else:
+                    $ gm.set_img("2c vaginal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                jump interaction_scene_vaginal
+        "Ask for vaginal sex" if char.flag("s_bg") == "park" and (char.has_image("2c vaginal", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            if ct("Virgin"):
+                jump interactions_virgin_check
+            label interactions_virgin_ok_park:
+                if dice(50):
+                    $ gm.set_img("2c vaginal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                else:
+                    $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                jump interaction_scene_vaginal
+        "Ask for vaginal sex" if char.flag("s_bg") == "room" and (char.has_image("2c vaginal", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
+            if ct("Virgin"):
+                jump interactions_virgin_check
+            label interactions_virgin_ok_room:
+                if dice(50):
+                    $ gm.set_img("2c vaginal", "partnerhidden", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                else:
+                    $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                jump interaction_scene_vaginal
+        "Ask for anal sex" if char.flag("s_bg") == "beach" and (char.has_image("2c anal", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("2c anal", "partnerhidden", "swimsuit", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("2c anal", "partnerhidden", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump anal_sex
-        "Ask for anal sex" if char.flag("s_bg") == "park" and (char.has_image("2c anal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
+            jump interaction_scene_anal
+        "Ask for anal sex" if char.flag("s_bg") == "park" and (char.has_image("2c anal", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
             if dice(50):
                 $ gm.set_img("2c anal", "partnerhidden", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump anal_sex
-        "Ask for anal sex" if char.flag("s_bg") == "room" and (char.has_image("2c anal", "partnerhidden", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "partnerhidden", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "partnerhidden", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
+            jump interaction_scene_anal
+        "Ask for anal sex" if char.flag("s_bg") == "room" and (char.has_image("2c anal", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "dungeon", "straight", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")):
             if dice(50):
-                $ gm.set_img("2c anal", "partnerhidden", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
+                $ gm.set_img("2c anal", "partnerhidden", "indoors", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             else:
                 $ gm.set_img("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
-            jump anal_sex
-        "Ask for some lesbo action" if find_les_partner():
+            jump interaction_scene_anal
+        "Ask for some hot lesbo action" if find_les_partner() and char.flag("s_bg") == "room":
             jump interactions_lesbian_choice
         "That's all.":
             "You decided to finish."
@@ -289,7 +361,7 @@ label choice:
             # $ girl_count = 0
             # $ together_count = 0
             # $ cum_count = 0
-            label finish_sex:
+            label interaction_scene_finish_sex:
                 if libido >= 15 and char.vitality >= 35:
                     if char.flag("s_bg") == "beach":
                         if dice(50):
@@ -310,7 +382,12 @@ label choice:
                     "She is not statisfied yet, so she quickly masturbates to decrease libido."
                     $ char.disposition -= round(libido*0.5)
                 if char.vitality <=0:
-                    $ gm.set_img("rest", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
+                    if char.flag("s_bg") == "beach":
+                        $ gm.set_img("rest", "beach", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
+                    elif char.flag("s_bg") == "park":
+                        $ gm.set_img("rest", "nature", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
+                    else:
+                        $ gm.set_img("rest", "living", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
                     "She fainted from fatigue. You cannot continue any longer."
                     $ char.disposition = randint(4, 10)
                 elif (together_count > 0 and sex_count >=2) or (sex_count >=4 and girl_count >=2 and guy_count >= 2):
@@ -359,7 +436,7 @@ label choice:
                     $ char.disposition += randint(20, 40)
                     $ char.joy += randint(20, 40)
                     $ char.vitality -= 20
-                elif (sex_count < 1) and (guy_count < 1) and (girl_count < 1):
+                elif (sex_count < 1) and (guy_count < 1) and (girl_count < 1) and (les_count < 1):
                     if char.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "sad", "angry", "beach")
                     elif char.flag("s_bg") == "park":
@@ -373,7 +450,7 @@ label choice:
                     $ char.disposition -= randint(40, 70)
                     $ char.joy -= randint(20, 50)
                     $ char.vitality -= 5
-                elif girl_count > 0 and sex_count < 1:
+                elif girl_count > 0 and sex_count < 1 and les_count < 1:
                     if char.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "shy", "beach")
                     elif char.flag("s_bg") == "park":
@@ -384,6 +461,23 @@ label choice:
                     $ char.disposition -= randint(30, 50)
                     $ char.joy -= randint(15, 25)
                     $ char.vitality -= 5
+                elif les_count > 0 and sex_count < 1:
+                    if char.flag("s_bg") == "beach":
+                        $ gm.set_img("profile", "shy", "beach")
+                    elif char.flag("s_bg") == "park":
+                        $ gm.set_img("profile", "shy", "nature")
+                    else:
+                        $ gm.set_img("profile", "shy", "indoors", "living")
+                    "She wonders why you didn't do a thing except watching her and her partner."
+                    if ct("Lesbian") or ct("Bisexual"):
+                        "She had her fun though, so no hard feelings."
+                        $ char.joy = randint(5, 15)
+                        $ char.vitality -= 5
+                    else:
+                        "Without your involvement she's not satisfied at all."
+                        $ char.disposition -= randint(20, 50)
+                        $ char.joy -= randint(20, 50)
+                        $ char.vitality -= 25
                 else:
                     if char.flag("s_bg") == "beach":
                         $ gm.set_img("profile", "happy", "beach")
@@ -402,6 +496,27 @@ label choice:
 label interactions_lesbian_choice:
     # The interactions itself.
     # Since we called a funciton, we need to do so again (Consider making this func a method so it can be called just once)...
+    if ct("Lesbian") or ct("Bisexual"):
+        if char.disposition <= 500 or not(check_friends(hero, char) or check_lovers(hero, char)):
+            "Unfortunately she does not want to do it for you."
+            if char.status == "slave":
+                "Even if you force her and some other girl, it won't look natural. Too bad."
+            jump interaction_scene_choice
+        elif check_lovers(hero, char):
+            "She gladly agrees to make a show for you."
+        elif check_friends(hero, char) or char.disposition > 600:
+            "A bit hesitant, she agrees to do it for you."
+    else:
+        if char.disposition <= 600 or not(check_friends(hero, char) or check_lovers(hero, char)) or not(cgo("SIW")): 
+            "Unfortunately she does not like girls in this way."
+            if char.status == "slave":
+                "Even if you force her and some other girl, it won't look natural. Too bad."
+            jump interaction_scene_choice
+        elif check_lovers(hero, char):
+                "She gladly agrees to make a show for you if there will be some stright sex as well today."
+        elif (check_friends(hero, char) or char.disposition > 600) and cgo("SIW"):
+                "She prefers men, but agrees to make a show for you if there will be some straight sex as well today."
+    $ les_count += 1
     $ willing_partners = find_les_partner()
     
     # Single out one partner randomly from a set:
@@ -415,11 +530,11 @@ label interactions_lesbian_choice:
     "[char.nickname] decided to call [char2.nickname] for the lesbo action!"
     
     show expression char_sprite at mid_left with dissolve
-    char.say "Time to do something lewd! :)"
+    char.say "We are going to do 'it'."
     show expression char_sprite at mid_right as char_sprite with move
     show expression char_sprite2 at mid_left as char_sprite2 with dissolve
-    char2.say "I wonder what's going to happen next? "
-    extend "(*looking at you) Are you planning to watch?"
+    char2.say "And..."
+    extend "(*looking at you*) Are you planning to watch?"
     
     hide char_sprite
     hide char_sprite2
@@ -428,24 +543,77 @@ label interactions_lesbian_choice:
     # Resize images to be slightly smaller than half a screen in width and the screen in height. ProportionalScale will do the rest.
     $ resize = (config.screen_width/2 - 75, config.screen_height - 75)
     
-    show expression char.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx at Transform(align=(0, 0.5)) with moveinright
-    show expression char2.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx2 at Transform(align=(1.0, 0.5)) with moveinleft
+    
+    show expression char.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx at Transform(align=(0, 0.5)) with moveinright
+    show expression char2.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx2 at Transform(align=(1.0, 0.5)) with moveinleft
     
     # Wait for 0.25 secs and add soundbyte:
     pause 0.25
     play events "female/orgasm.mp3"
-    
-    "Description of hot lesbo action..."
-    
+    $ renpy.pause(5.0)
     hide xxx
     hide xxx2
     
+
     show expression char2.get_vnsprite() at left as char_sprite2 with dissolve
-    char2.say "This was fun! I'll see you around!"
+    show expression char.get_vnsprite() at right as char_sprite with dissolve
+    if libido <= 0:
+        $ char.vitality -= 20
+        $ char.joy -= 5
+    if char.joy <= 10:
+        $ char.disposition -= 5
+    if char.vitality <= 15 and char.health >= 50:
+        $ char.health -= 2
+    if char.oral < 100 and char.sex < 100 and char2.oral < 100 and char2.sex < 100:
+        "They both were not skilled enough to give each other enough pleasure, no matter how they tried. That was quite awkward."
+        $ char.oral += randint (0,1)
+        $ char2.oral += randint (0,1)
+        $ char.sex += randint (0,1)
+        $ char2.sex += randint (0,1)
+        $ char.vitality -= 20
+        $ char2.vitality -= 20
+        $ libido -= 5
+        char2.say "..."
+        char.say "Sorry..."
+    elif char.oral < 100 and char.sex < 100:
+        "[char.nickname] was not skilled enough to make her partner come. On the bright side, [char2.nickname] made her come a lot."
+        $ char.oral += randint (2,4)
+        $ char2.oral += randint (2,4)
+        $ char.sex += randint (0,1)
+        $ char2.sex += randint (0,1)
+        $ char.vitality -= 20
+        $ char2.vitality -= 15
+        $ libido -= 10
+        char.say "Sorry..."
+        char2.say "Don't worry. You'll become better in time."
+    elif char2.oral < 100 and char2.sex < 100:
+        "[char2.nickname] was not skilled enough to make her partner come. On the bright side, [char.nickname] made her come a lot."
+        $ char.oral += randint (2,4)
+        $ char2.oral += randint (2,4)
+        $ char.sex += randint (0,1)
+        $ char2.sex += randint (0,1)
+        $ char.vitality -= 20
+        $ char2.vitality -= 15
+        $ libido -= 10
+        char2.say "I'm sorry..."
+        char.say "Don't be. We had our fun (*looking at you*)."
+    else:
+        "They both come a lot. What a beautiful sight."
+        $ char.oral += randint (2,4)
+        $ char2.oral += randint (2,4)
+        $ char.sex += randint (2,4)
+        $ char2.sex += randint (2,4)
+        $ char.vitality -= 15
+        $ char2.vitality -= 15
+        $ libido -= 10
+        $ char.joy += 5
+        $ char2.joy += 5
+        char2.say "That... wasn't so bad."
+        char2.say "We should do that again sometime ♪"
     hide char_sprite2 with dissolve
+    hide char_sprite with dissolve
     
     # Restore the gm image:
-    char.say "We should do that again sometime :)"
     
     # Show the screen again:
     show screen pyt_girl_interactions
@@ -459,11 +627,11 @@ label interactions_lesbian_choice:
     stop events
         
     # And we're all done!:
-    jump choice
+    jump interaction_scene_choice
     
     
 
-label bj:
+label interaction_scene_blowjob:
     if libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
@@ -513,9 +681,9 @@ label bj:
     $ sex_count += 1
     $ guy_count +=1
     $ cum_count += 1
-    jump choice
+    jump interaction_scene_choice
         
-label tj:
+label interaction_scene_titsjob:
     if libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
@@ -569,9 +737,9 @@ label tj:
     $ sex_count += 1
     $ guy_count +=1
     $ cum_count += 1
-    jump choice
+    jump interaction_scene_choice
     
-label hj:
+label interaction_scene_handjob:
     if libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
@@ -619,9 +787,9 @@ label hj:
     $ sex_count += 1
     $ guy_count +=1
     $ cum_count += 1
-    jump choice
+    jump interaction_scene_choice
     
-label fj:
+label interaction_scene_footjob:
     if libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
@@ -669,9 +837,9 @@ label fj:
     $ sex_count += 1
     $ guy_count +=1
     $ cum_count += 1
-    jump choice
+    jump interaction_scene_choice
     
-label mast:
+label interaction_scene_mast:
     if libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
@@ -688,9 +856,9 @@ label mast:
         $ libido += 5
     $ char.vitality -= 20
     $ girl_count +=1
-    jump choice
+    jump interaction_scene_choice
     
-label vag_sex:
+label interaction_scene_vaginal:
     if libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
@@ -700,6 +868,8 @@ label vag_sex:
         $ char.disposition -= 5
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
+    if char.flag("raped") == "true":
+        "She crying with pain and grief when you deflower her. Soon, however, her slave training is doing its job, and her hips begin to move in rhythm with you."
     if char.vaginal < 50 and hero.vaginal >= 50:
         "You fuck her pussy until she comes. She's still too inexperienced, so you were unable to come properly. Oh well, at least she learned something new."
         $ char.vaginal += randint (3, 5)
@@ -795,9 +965,9 @@ label vag_sex:
     elif (hero.vaginal - char.vaginal) > 300:
         "You were able to show her some new tricks."
         $ char.vaginal += 2
-    jump choice
+    jump interaction_scene_choice
     
-label anal_sex:
+label interaction_scene_anal:
     if libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
@@ -909,9 +1079,9 @@ label anal_sex:
     elif (hero.anal - char.anal) > 300:
         "You were able to show her some new tricks."
         $ char.anal += 2
-    jump choice
+    jump interaction_scene_choice
     
-label stripte:
+label interaction_scene_strip:
     if libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
@@ -951,7 +1121,7 @@ label stripte:
     elif (hero.strip - char.strip) > 200:
         "You were able to show her some new tricks."
         $ char.strip += 2
-    jump choice
+    jump interaction_scene_choice
         
  #   "Where would you like to do it?"
  #   menu:

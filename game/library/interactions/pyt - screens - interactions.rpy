@@ -101,7 +101,7 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
             pytfall.world_actions.gm_choice("Interests", mode="girl_interactions", index=(m, 5))
             pytfall.world_actions.gm_choice("Romance", index=(m, 6))
-            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
+            
             
             # TRAINING
             m = 1
@@ -197,6 +197,9 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("Blowjob", index=(m, n, 1))
             pytfall.world_actions.gm_choice("Anal", index=(m, n, 2))
             pytfall.world_actions.gm_choice("Tribadism", label="lesbo", index=(m, n, 3))
+            
+            n = 4
+            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
             
             # Back
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
