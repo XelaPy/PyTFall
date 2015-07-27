@@ -105,6 +105,7 @@ label temp_jobs_loop:
     $ store.building.nd_events_report.append("\n\n")
     $ store.building.nd_events_report.append("{}".format(set_font_color("===================", "lawngreen")))
     $ store.building.nd_events_report.append("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
+    $ store.building.nd_events_report.append("{}".format(set_font_color("Testing a Brothel with two rooms:", "lawngreen")))
     # $ random.seed(RANDOM_SEED)  # This helps reproducing the results
     
     # Create an environment and start the setup process

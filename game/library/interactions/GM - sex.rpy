@@ -351,7 +351,7 @@ label interaction_scene_choice:
             else:
                 $ gm.set_img("2c anal", "partnerhidden", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default", default=char.select_image(char.id, 'after_sex'))
             jump interaction_scene_anal
-        "Ask for some hot lesbo action" if find_les_partner() and char.flag("s_bg") == "room":
+        "Ask for some hot lesbo action" if find_les_partners() and char.flag("s_bg") == "room":
             jump interactions_lesbian_choice
         "That's all.":
             "You decided to finish."
@@ -517,7 +517,7 @@ label interactions_lesbian_choice:
         elif (check_friends(hero, char) or char.disposition > 600) and cgo("SIW"):
                 "She prefers men, but agrees to make a show for you if there will be some straight sex as well today."
     $ les_count += 1
-    $ willing_partners = find_les_partner()
+    $ willing_partners = find_les_partners()
     
     # Single out one partner randomly from a set:
     $ char2 = random.sample(willing_partners, 1)[0]

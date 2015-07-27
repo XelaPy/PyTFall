@@ -123,7 +123,7 @@ init -11 python:
                     i.lovers.remove(z)
                     
     # Other:
-    def find_les_partner():
+    def find_les_partners():
         """
         Returns a set with if any partner(s) is availible and willing at the location.
         (lesbian action)
@@ -138,7 +138,9 @@ init -11 python:
         # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of char.
         willing_partners = set()
         for i in partners:
-            if (check_lovers(i, hero) or check_lovers(char, i)) and not (i.vitality < 25 or i.health < 25) and not (i.disposition <= -50): # Last check is too make sure partner doesn't dislike the MC.
-                willing_partners.add(i)
-                
+            if char != i: # @review: (Alex) make sure we do not pick the girl to fuck herself...
+                # @review: (Alex) vitality is a fixed stat but it's best to check health as a percentage of it's max (60%+), 25 can feel like near death for some characters.
+                if (check_lovers(i, hero) or check_lovers(char, i)) and not (i.vitality < 25 or i.health < i.get_max("health")*0.6) and not (i.disposition <= -50): # Last check is too make sure partner doesn't dislike the MC.
+                    willing_partners.add(i)
+        # @review: (Alex) renamed the function. We are returning all choices, nit just the one partner.
         return willing_partners
