@@ -394,6 +394,7 @@ init -9 python:
             # Stat mod dict:
             # Should be used for recording and displaying information only
             self.stats_mod = {}
+            self.nd_events_report = list()
             
             # Brothel class related:
             # self.stripresults = {'clients': 0, 'satisfaction': 0}
@@ -679,12 +680,14 @@ init -9 python:
         def next_day(self):
             """
             Solves the next day logic for the brothel.
+            TODO: Split this over parent classes!
             """
             # Local vars
             type = 'brothelreport'
             img = self.img
             
             txt = self.txt
+            txt = txt + "\n".join(self.nd_events_report)
             
             evtlist = []
             char = None
@@ -809,6 +812,7 @@ init -9 python:
             
             # Reset
             # self.guardevents = dict(prostituteattackedevents = 0, barbrawlevents = 0)
+            self.nd_events_report = list()
             self.txt = ""
             self.logged_clients = False
         

@@ -34,12 +34,14 @@ init -999 python:
     import collections
     from collections import OrderedDict
     import xml.etree.ElementTree as ET
+    sys.path.append(renpy.loader.transfn("library"))
+    import simpy
     
     # def listdir_nohidden(path):
         # for f in os.listdir(path):
             # if not f.startswith('.'):
                 # yield f
-    
+                
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according
     # to the conventions of the local OS

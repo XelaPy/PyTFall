@@ -3995,11 +3995,12 @@ init -9 python:
             
             # determine act and pronoun
             if self.gender == 'male':
-                self.act = choice(pytWhoringActs.male.keys())
+                self.act = choice(["sex", "anal", "blowjob"])
                 self.pronoun = 'He'
             
             elif self.gender == 'female':
-                self.act = choice(pytWhoringActs.female.keys())
+                # self.act = choice(pytWhoringActs.female.keys())
+                self.act = "lesbian"
                 self.pronoun = 'She'
             
             # determine cash
