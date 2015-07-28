@@ -649,40 +649,6 @@ init -9 python:
             
 
         # -------------------------- GUI methods ---------------------------------->
-        def screen_loop(self):
-            while 1:
-                
-                result = ui.interact()
-                
-                if result[0] == 'control':
-                    if result[1] == "hide_vic":
-                        renpy.hide_screen("pyt_arena_af_popup")
-                    if result[1] == 'return':
-                        break
-                        
-                # elif result[0] == "pick_chain":
-                    # if result[1] == "break":
-                        # self.result = "break"
-                    # else:
-                        # self.result = result[1]
-                        
-                elif result[0] == "challenge":
-                    if result[1] == "dogfights":
-                        self.dogfight_challenge(result[2])
-                        # self.start_dogfight(result[2])
-                    elif result[1] == "match":
-                        self.setup = result[2]
-                        self.match_challenge(n=True)
-                    elif result[1] == "confirm_match":
-                        self.match_challenge()
-                    elif result[1] == "start_match":
-                        self.check_before_matchfight()
-                    elif result[1] == "start_chainfight":
-                        self.check_before_chainfight()
-                    elif result[1] == "chainfight":
-                        self.start_chainfight()
-                    
-                
         def dogfight_challenge(self, team):
             """
             Checks if player team is ready for a dogfight.

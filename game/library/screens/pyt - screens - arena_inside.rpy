@@ -12,8 +12,40 @@ label arena_inside:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     $ renpy.retain_after_load()
-    $ pytfall.arena.screen_loop()
+    
+    while 1:
+        
+        $ result = ui.interact()
+        
+        if result[0] == 'control':
+            if result[1] == "hide_vic":
+                hide screen pyt_arena_af_popup
+            if result[1] == 'return':
+                jump arena_inside_end
+                
+        # elif result[0] == "pick_chain":
+            # if result[1] == "break":
+                # pytfall.arena.result = "break"
+            # else:
+                # pytfall.arena.result = result[1]
+                
+        elif result[0] == "challenge":
+            if result[1] == "dogfights":
+                pytfall.arena.dogfight_challenge(result[2])
+                # pytfall.arena.start_dogfight(result[2])
+            elif result[1] == "match":
+                pytfall.arena.setup = result[2]
+                pytfall.arena.match_challenge(n=True)
+            elif result[1] == "confirm_match":
+                pytfall.arena.match_challenge()
+            elif result[1] == "start_match":
+                pytfall.arena.check_before_matchfight()
+            elif result[1] == "start_chainfight":
+                pytfall.arena.check_before_chainfight()
+            elif result[1] == "chainfight":
+                pytfall.arena.start_chainfight()
 
+label arena_inside_end:
     stop world fadeout 1.5
     hide screen pyt_arena_inside
     jump arena_outside
