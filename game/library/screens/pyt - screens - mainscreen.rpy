@@ -115,13 +115,13 @@ screen pyt_mainscreen():
             style_group "dropdown_gm"
             spacing 1
             align (0.01, 0.5)
-            textbutton "Test D-Screen":
+            textbutton "Test BE":
                 # action Function(renpy.show_screen, "pyt_display_disposition", str(random.random()), 1000, 40, 530, 400, 5)
                 action Hide("pyt_mainscreen"), Jump("test_be")
             textbutton "Test Forest Exploration":
                 action [Hide("pyt_mainscreen"), Jump("forest_exploration")]
-            textbutton "Tagger":
-                action [Hide("pyt_mainscreen"), Jump("tagger")]
+            textbutton "Free Test":
+                action Hide("pyt_mainscreen"), Jump("frog_deathfight")
             textbutton "Examples":
                 action [Hide("pyt_mainscreen"), Jump("examples")]
 

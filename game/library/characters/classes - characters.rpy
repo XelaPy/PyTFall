@@ -2258,6 +2258,8 @@ init -9 python:
             self.battle_sprite = ""
             self.combat_img = ""
             
+            self.controller = BE_AI(self)
+            
             # Monster is revealed in bestiary after it's been deafeated once!
             self.defeated = False
    
@@ -2299,8 +2301,6 @@ init -9 python:
             
             if not self.portrait:
                 self.portrait = self.battle_sprite
-                
-           
                 
             # add Character:
             self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(140, 140)), window_left_padding=230)

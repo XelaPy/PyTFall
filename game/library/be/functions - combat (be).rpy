@@ -55,7 +55,8 @@ init -11 python:
             if new_results: return "D", exp
             else: return "defeat"
     
-    # TODO: This must be recoded to work with our new battle-engine!
+    
+    # @TODO: Absolete code!?!
     def be_bridge_team_setup(team, battle, f_class=None, skip=False, sprite_flip=False):
         """
         Registers skills, stats,  with the battle engine.
@@ -73,7 +74,7 @@ init -11 python:
             
             if sprite_flip:
                 Sprite = BattleSprite(im.Flip(member.show("battle_sprite", resize=(200, 200)), horizontal=True), anchor=(0.5, 0.75), placeMark=(0,-75))
-            else:    
+            else:
                 Sprite = BattleSprite(member.show('battle_sprite', resize=(200, 200)), anchor=(0.5, 0.75))
                 
             Member = f_class(member.name, sprite=Sprite,  attributes=[member.element.split(" ")[0]],
@@ -105,7 +106,7 @@ init -11 python:
                     entry = key.replace(" ", "")
                     Member.RegisterSkill(Library.Skills.__dict__[entry], member.magic_skills[key])
                     
-            if skip:        
+            if skip:
                 Member.RegisterSkill(Library.Skills.Skip)
                 
             battle.AddFighter(Member)
@@ -267,6 +268,5 @@ init -11 python:
                         member.combat_stats = "K.O."
                         
             return (False, corpses)
-            
             
 

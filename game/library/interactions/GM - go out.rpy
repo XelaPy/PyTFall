@@ -144,26 +144,16 @@ label interactions_datefight:
     python:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = copy.deepcopy(mobs["Barbarian"])
-        for stat in ilists.battlestats:
-            stat_value = int(getattr(mob, stat) * 0.8)
-            setattr(mob, stat, stat_value)
+        for i in xrange(3):
+            mob = build_mob("Barbarian", level=hero.lvl + randint(3, 6))
+            enemy_team.add(mob)
+    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+    $ battle.teams.append(hero.team)
+    $ battle.teams.append(enemy_team)
+    $ battle.start_battle()
         
-        enemy_team.add(mob)
-        
-        mob = copy.deepcopy(mobs["Barbarian"])
-        for stat in ilists.battlestats:
-            stat_value = int(getattr(mob, stat) * 0.4)
-            setattr(mob, stat, stat_value)
-        
-        enemy_team.add(mob)
-        enemy_team.add(mob)
-        
-        result = start_battle([hero, char], enemy_team, music=choice(ilists.battle_tracks), background="bg %s"%gm_fight_bg)
-        
-        gm_fight_bg = "battle_arena_1"
-        
-        if result[0]:
+    python:
+        if battle.hero == hero.team:
             renpy.play("content/sfx/sound/events/go_for_it.mp3")
             
             for member in hero.team:

@@ -102,6 +102,8 @@ init -1 python: # Core classes:
             renpy.scene()
             renpy.show("bg", what=self.bg)
             
+            # Consider using Screen for this as well?
+            
             # Lets render the teammembers:
             # First the left team:
             
@@ -127,6 +129,7 @@ init -1 python: # Core classes:
             renpy.hide_screen("target_practice")
             renpy.hide_screen("pick_skill")
             renpy.hide_screen("battle_overlay")
+            renpy.scene()
 
             if self.music:
                 renpy.music.stop()

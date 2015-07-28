@@ -279,39 +279,61 @@ label frog_deathfight:
     define ax = Character('Xeona', color=ivory, show_two_window=True)
     show npc xeona
     with dissolve
-    $ renpy.music.stop(channel="world")
+    
+    stop world
+    
     ax "Well, I hope that you're ready! "
     extend "{color=[red]}Best of luck!"
+    
     $ hero.take_ap(2)
+    
+    # New Style BE Preparations:
+    # Prepthe teams:
+    # First we create an enemy team:
+    $ enemy_team = Team(name="Enemy Team", max_size=3)
+    $ mob = build_mob("Goblin Warrior", level=80)
+    
+    # Add it to the enemy team, first mob in will become team leader.
+    $ enemy_team.add(mob)
+    
+    # Now we create two extra mobs and place them on a team as support:
     python:
-        # Prepear the teams:
-        enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = copy.deepcopy(mobs["Goblin Warrior"])
-        for stat in ilists.battlestats:
-            stat_value = int(getattr(mob, stat) * 16)
-            setattr(mob, stat, stat_value)
-        enemy_team.add(mob)
-        mob = copy.deepcopy(mobs["Goblin Archer"])
-        for stat in ilists.battlestats:
-            stat_value = int(getattr(mob, stat) * 8)
-            setattr(mob, stat, stat_value)
-        enemy_team.add(mob)
-        enemy_team.add(mob)
-        
-        result = start_battle(hero.team, enemy_team, music=choice(ilists.battle_tracks), background="bg battle_arena_1")
-        
-        if result[0]:
+        for i in xrange(2):
+            mob = build_mob("Goblin Archer", level=60)
+            enemy_team.add(mob)
+
+    # Instantiate te BE:
+    # We provide background and soundtrack as arguments:
+    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+    
+    # We add teams next, first team in is on the left:
+    # Hero team is used as the main team:
+    $ battle.teams.append(hero.team)
+    
+    # Now mobs:
+    $ battle.teams.append(enemy_team)
+    
+    # And we start the battle:
+    $ battle.start_battle()
+    
+    # Check if we won and apply some rewards:
+    if battle.winner == hero.team:
+        python:
             renpy.play("content/sfx/sound/events/go_for_it.mp3")
             for member in hero.team:
-                if member not in result[1]:
+                if member not in battle.corpses:
                     member.attack += 2
                     member.luck += 2
                     member.defence += 2
                     member.magic += 2
                     member.vitality -= 100
-                    member.exp += adjust_exp(member, 500)
-        else:
-            jump("game_over")
+                member.exp += adjust_exp(member, 500)
+    else: # We lost:
+        jump game_over
+        
+    # Be would have hidden everything so we show Xeona again:
+    show npc xeona
+    with dissolve
             
     ax "Great Fight!!! I was rooting for you!"
     ax "Knock yourself out playing with it's corpse ;) I am sure getting to the eye will be no problem."

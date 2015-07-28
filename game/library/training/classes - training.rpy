@@ -1954,6 +1954,7 @@ init -9 python:
                     
                     else:
                         # Fight!
+                        # TODO (Alex) Check out what this is/does:
                         result, dead = start_battle(guards, [girl], pt_ai=pt_ai, **be_kwargs)
                         
                         exp = (girl.attack + girl.defence + girl.agility + girl.magic) / 10
