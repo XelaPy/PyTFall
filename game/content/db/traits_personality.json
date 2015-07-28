@@ -4,7 +4,6 @@
     "mod": {"character": 40, "upkeep": 10},
     "max": {"character": 100},
     "mod_skills": {"management": [0.05, 0, 0.01], "waiting": [-0.1, -0.02, -0.1], "bartending": [0, 0, -0.08], "bdsm": [-0.02, 0.04, 0.01], "teaching": [0, 0, -0.1], "cleaning": [0, 0, -0.04], "refinement": [0, 0, -0.2], "service": [-0.05, 0, -0.07], "dancing": [0.1, 0.1, 0.1], "oral": [-0.1, 0.1, 0]},
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -14,7 +13,6 @@
     "max": {"character": 35, "intelligence": -50},
     "mod_skills": {"management": [-0.3, 0.1, -0.2], "waiting": [-0.1, 0, -0.2], "bartending": [-0.1, 0, -0.1], "bdsm": [0.2, 0.1, 0.2], "teaching": [0, 0, -0.2], "cleaning": [0, 0, 0.03], "strip": [0, 0.02, 0], "refinement": [0, 0, -0.1], "service": [0, 0.03, -0.1]},
     "effect": "Unstable",
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -23,7 +21,6 @@
     "mod": {"character": 30},
     "max": {"character": 50},
     "mod_skills": {"management": [0.05, 0.1, 0.1], "waiting": [0, 0.01, 0], "bartending": [0, 0, 0.1], "bdsm": [-0.05, 0.05, -0.1], "teaching": [0, 0.02, 0], "cleaning": [0, 0, 0.06], "refinement": [0.05, 0.05, 0], "service": [-0.02, 0.03, -0.08], "dancing": [-0.1, 0, -0.1], "strip": [0, 0, -0.1]},
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -33,7 +30,6 @@
     "max": {"character": -50},
     "mod_skills": {"management": [-0.2, -0.05, -0.15], "waiting": [0, 0.06, -0.01], "bartending": [0, 0, -0.1], "bdsm": [-0.15, 0.15, 0.1], "teaching": [0.02, 0.02, 0.06], "cleaning": [0.1, 0.1, 0.15], "refinement": [-0.15, -0.05, -0.25], "service": [-0.02, 0.03, 0.1]},
     "effect": "Introvert",
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -44,7 +40,6 @@
     "max": {"character": -25, "intelligence": 15, "upkeep": -10},
     "mod_skills": {"management": [-0.1, 0.1, -0.2], "waiting": [0, 0.1, 0.02], "bartending": [0, 0.1, 0.01], "bdsm": [-0.2, 0.1, -0.1], "teaching": [0.15, 0.1, 0.1], "cleaning": [0, 0.1, 0.2], "refinement": [-0.2, 0.1, -0.1], "service": [0, 0.1, 0], "dancing": [-0.3, -0.1, -0.2], "vaginal": [0, 0.1, 0], "anal": [0, 0.1, 0], "oral": [0, 0.1, 0], "strip": [0, 0.1, -0.1], "exploration": [0, 0.1, 0.1]},
     "effect": "Impersonal",
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -52,7 +47,6 @@
     "desc": "An «older sister» type personality. Mature, caring, parenial, practical and helpful.",
     "mod": {"character": 10, "intelligence": 20, "upkeep": -5},
     "mod_skills": {"management": [0.15, 0.1, 0.15], "waiting": [0.05, 0.05, 0.04], "bartending": [0.05, 0.05, 0.1], "bdsm": [-0.2, -0.1, -0.1], "teaching": [0.2, 0.1, 0.15], "cleaning": [0.1, 0.1, 0.1], "refinement": [0.05, 0.03, 0], "service": [0.1, 0.1, 0.1], "dancing": [0, 0, 0.07], "strip": [0, 0.1, -0.1], "exploration": [-0.04, 0, -0.08]},
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -60,7 +54,6 @@
     "desc": "A «little sister» type. Looks up to others, childish and dependant.",
     "mod": {"character": -10, "intelligence": -20, "upkeep": 5},
     "mod_skills": {"management": [-0.15, 0, -0.15], "waiting": [0.05, -0.04, 0.07], "bartending": [-0.1, -0.2, -0.1], "bdsm": [-0.3, -0.3, -0.2], "teaching": [-0.2, -0.1, -0.15], "cleaning": [-0.1, -0.1, -0.1], "refinement": [-0.05, -0.03, 0], "service": [-0.1, -0.1, -0.1], "dancing": [0.06, 0.03, 0.08], "strip": [-0.1, 0.1, 0], "exploration": [0.08, -0.06, 0.1]},
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -69,7 +62,6 @@
     "mod": {"character": 50, "upkeep": 10},
     "max": {"character": 75},
     "mod_skills": {"management": [0.1, 0.1, 0.2], "waiting": [-0.2, -0.1, -0.2], "bartending": [0, 0, -0.05], "bdsm": [0.2, 0.2, 0.2], "teaching": [0.2, 0.2, -0.2], "cleaning": [-0.25, -0.1, -0.2], "refinement": [0.2, 0.08, 0.1], "service": [-0.06, -0.01, -0.1], "exploration": [0, 0, 0.05]},
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -77,7 +69,6 @@
     "desc": "Confident, competitive and boyish personality, also known as a tomboy.",
     "mod": {"constitution": 30, "upkeep": 5},
     "mod_skills": {"waiting": [-0.05, 0, -0.03], "bartending": [0, 0, 0.02], "cleaning": [0, -0.06, -0.08], "refinement": [0, 0, -0.04], "service": [-0.04, 0, 0], "exploration": [0.3, 0.2, 0.3]},
-    "type": "main_personality",
     "personality": true
     },
     {
@@ -85,7 +76,6 @@
     "desc": "Sweet, friendly and outgoing personality, without any issues with emotions or behavior.",
     "mod_skills": {"management": [0, 0, 0.1], "waiting": [0.05, 0, 0.05], "cleaning": [0, 0, 0.03], "service": [0, 0, 0.02], "dancing": [0.1, 0.1, 0.1]},
     "effect": "Extrovert",
-    "type": "main_personality",
     "personality": true
     }
     ]
