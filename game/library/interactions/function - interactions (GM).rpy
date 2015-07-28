@@ -5,7 +5,8 @@ init -11 python:
         random choice function
         Wrapper to enable simpler girl_meets choices, returns whatever char_gm is set to along with a random line.
         """
-        return g(choice(list(args)))
+        # https://github.com/Xela00/PyTFall/issues/37
+        return char.say(choice(list(args)))
         
     def rts(girl, options):
         """
