@@ -8,9 +8,6 @@ label girl_profile:
     show screen pyt_girl_profile
     with dissolve
     
-    jump girl_profile_control
-
-label girl_profile_control:
     while 1:
         $ result = ui.interact()
         

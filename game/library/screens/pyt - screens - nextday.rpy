@@ -273,9 +273,6 @@ label next_day:
             event = FilteredList[0]
             gimg = event.load_image()
     
-    show screen pyt_next_day
-    with dissolve
-    
     ####### - - - - - #######
     call next_day_controls
 
@@ -288,6 +285,10 @@ label next_day:
     jump mainscreen
 
 label next_day_controls:
+    scene bg profile_2
+    show screen pyt_next_day
+    with dissolve
+    
     while 1:
         $ result = ui.interact()
         
@@ -395,7 +396,7 @@ label next_day_controls:
             elif result[1] == 'return':
                 return
 
-screen pyt_next_day:
+screen pyt_next_day():
 
     default tt = Tooltip("Review days events here!")
     default show_summary = True
