@@ -53,3 +53,13 @@ tmp/
 chars/
 rchars/
 
+game/library/simpy/__init__.pyo
+game/library/simpy/_compat.pyo
+game/library/simpy/core.pyo
+game/library/simpy/events.pyo
+game/library/simpy/resources/__init__.pyo
+game/library/simpy/resources/base.pyo
+game/library/simpy/resources/container.pyo
+game/library/simpy/resources/resource.pyo
+game/library/simpy/resources/store.pyo
+game/library/simpy/rt.pyo
