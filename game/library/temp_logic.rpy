@@ -12,6 +12,8 @@ init python:
         run jobs in parallel.
         
         Single Customer handling...
+        
+        @ TODO: I thinks this bit should be assigned to Building Upgrades!
     
         Clients have to have to request one of the rooms. When they got one, they
         can start the job processes and wait for it to finish (which
@@ -33,6 +35,8 @@ init python:
             store.client = client
             store.char = char
             char.action()
+            # We return the char to the nd list
+            store.nd_chars.insert(0, char)
             
         def kick_client(self, client):
             """
@@ -59,8 +63,25 @@ init python:
         with upgrade.room.request() as request:
             yield request
             
-            if nd_chars:
-                char = nd_chars.pop()
+            while store.nd_chars:
+                
+                # Here we should attempt to find the best match for the client!
+                store.char = store.nd_chars.pop()
+                
+                # First check is the char is still well and ready:
+                if not check_char(store.char):
+                    temp = set_font_color('{} is done with this job for the day.'.format(store.char.name), "aliceblue")
+                    store.building.nd_events_report.append(temp)
+                    continue
+                
+                # We to make sure that the girl is willing to do the job:
+                temp = store.char.action.id
+                if not store.char.action.check_occupation(store.char):
+                    temp = set_font_color('{} is not willing to do {}.'.format(store.char.name, temp), "red")
+                    store.building.nd_events_report.append(temp)
+                    continue
+                    
+                    # All is well and we create the event
                 temp = "{} and {} enter the room at {}".format(client.name, char.name, env.now)
                 store.building.nd_events_report.append(temp)
                 
@@ -68,12 +89,12 @@ init python:
                 
                 temp = "{} leaves at {}".format(client.name, env.now)
                 store.building.nd_events_report.append(temp)
+                return
                 
-            else:
-                temp = "No girls were availible for {}".format(client.name)
-                store.building.nd_events_report.append(temp)
-                
-                yield env.process(upgrade.kick_client(client))
+            temp = "No girls were availible for {}".format(client.name)
+            store.building.nd_events_report.append(temp)
+            
+            yield env.process(upgrade.kick_client(client))
                 
                 # temp = "{} leaves at {}".format(client.name, env.now)
                 # store.building.nd_events_report.append(temp)
@@ -111,7 +132,7 @@ label temp_jobs_loop:
     # Create an environment and start the setup process
     $ env = simpy.Environment()
     $ env.process(setup(env, 2, 3))
-    $ env.run(until=20)
+    $ env.run(until=40)
     $ store.building.nd_events_report.append("{}".format(set_font_color("Ending the simulation:", "red")))
     $ store.building.nd_events_report.append("{}".format(set_font_color("===================", "red")))
     $ store.building.nd_events_report.append("\n\n")

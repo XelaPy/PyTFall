@@ -31,19 +31,19 @@ label arena_inside:
                 
         elif result[0] == "challenge":
             if result[1] == "dogfights":
-                pytfall.arena.dogfight_challenge(result[2])
+                $ pytfall.arena.dogfight_challenge(result[2])
                 # pytfall.arena.start_dogfight(result[2])
             elif result[1] == "match":
-                pytfall.arena.setup = result[2]
-                pytfall.arena.match_challenge(n=True)
+                $ pytfall.arena.setup = result[2]
+                $ pytfall.arena.match_challenge(n=True)
             elif result[1] == "confirm_match":
-                pytfall.arena.match_challenge()
+                $ pytfall.arena.match_challenge()
             elif result[1] == "start_match":
-                pytfall.arena.check_before_matchfight()
+                $ pytfall.arena.check_before_matchfight()
             elif result[1] == "start_chainfight":
-                pytfall.arena.check_before_chainfight()
+                $ pytfall.arena.check_before_chainfight()
             elif result[1] == "chainfight":
-                pytfall.arena.start_chainfight()
+                $ pytfall.arena.start_chainfight()
 
 label arena_inside_end:
     stop world fadeout 1.5

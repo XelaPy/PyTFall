@@ -15,7 +15,7 @@ label next_day:
         devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(chars)))
         NextDayList = list()
         
-        ################## Restore before the job ##################
+        ################## Restore before the jobs ##################
         tl.timer("Girl.restore for all MC girls")
         list(girl.restore() for girl in list(g for g in hero.girls if g.action != "Exploring"))
         tl.timer("Girl.restore for all MC girls")

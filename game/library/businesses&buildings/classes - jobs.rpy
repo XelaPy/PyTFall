@@ -113,11 +113,11 @@
                                  green_flag=self.flag_green,
                                  red_flag=self.flag_red)
             
-        def check_occupations(self):
+        def check_occupation(self, char=None):
             """
             Checks the girls occupation.
             """
-            pass
+            return 1
         
         def check_life(self):
             """
@@ -266,6 +266,13 @@
             # Logs a stat for the building:
             self.locmod[s] = self.girlmod.get(s, 0) + value
     ####################### Whore Job  ############################
+    class NewStyleJob(_object):
+        """
+        Class created to facilitate SimPy type of job loops.
+        """
+        pass
+    
+    
     class WhoreJob(Job):
         #Temporarily restored for reference!
         def __init__(self):
@@ -300,8 +307,9 @@
             # if self.check_dirt(): TODO:
                 # global stop_whore_job
                 # stop_whore_job = True
-            
-            if not self.finished: self.check_occupation()
+                
+            # We no longer check for occupation from inside of this method!
+            # if not self.finished: self.check_occupation()
             
             # AP cost of the job if all checks for refusals have failed.
             if not self.finished:
@@ -362,42 +370,54 @@
                 self.txt.append("%s didn't want to fuck someone so far below her own hard earned rank, but slaves have little choice...' "%self.girl.name)
                 self.girlmod['joy'] -= 10
                 
-        def check_occupation(self):
+        def check_occupation(self, char=None):
             """
             Checks the girls occupation.
             # TODO: We need to check this when assigning to Job! Not during it!
+            # TODO: This will no longer make it to reports under the new code! Rewrite!!!
             # Still, we'll check this...
             """
-            if [t for t in self.occupation_traits if t in self.girl.occupations]:
-                if self.girl.status != 'slave' and self.girl.disposition > 900:
-                    self.txt.append("%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % self.girl.nickname)
+            if not char:
+                char = self.girl
+            
+            if [t for t in self.occupation_traits if t in char.occupations]:
+                if char.status != 'slave' and char.disposition > 900:
+                    self.txt.append("%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % char.nickname)
                     self.loggs('disposition', -randint(10, 30))
                 
-                elif self.girl.status != 'slave':
-                    self.txt.append(choice(["%s: I am not some cheap whore that will do whatever you please! Find someone else for this debauchery! " % self.girl.nickname,
+                elif char.status != 'slave':
+                    self.txt.append(choice(["%s: I am not some cheap whore that will do whatever you please! Find someone else for this debauchery! " % char.nickname,
                                                          "Don't be absurd, I am not fucking anyone for you!"]))
+                    # TODO: Very Clumsy!
+                    self.girl = char
+                    self.loc = store.building
+                    self.event_type = "girlreport"
+                    self.char = self.girl
+                    self.girlmod, self.locmod = {}, {}
                     
                     self.loggs('disposition', -50)
-                    self.img = self.girl.show("profile", "angry", resize=(740, 685))
-                    self.girl.action = None
+                    self.img = char.show("profile", "angry", resize=(740, 685))
+                    char.action = None
                     
                     self.apply_stats()
                     self.finish_job()
                     return
                 
                 else:
-                    self.txt.append(choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % self.girl.name,
+                    self.txt.append(choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % char.name,
                                                          "She'll do as she is told, doesn't mean that she'll be happy about.",
-                                                         "%s will do as you command but you cannot expect her to enjoy this..." % self.girl.fullname]))
+                                                         "%s will do as you command but you cannot expect her to enjoy this..." % char.fullname]))
                     
                     self.loggs('joy', -randint(1, 3))
             
             else:
-                self.txt.append(choice(["{} is doing her shift as Prostitute!".format(self.girl.name),
-                                                     "%s does her shift as a Prostitute!" % self.girl.fullname,
+                self.txt.append(choice(["{} is doing her shift as Prostitute!".format(char.name),
+                                                     "%s does her shift as a Prostitute!" % char.fullname,
                                                      "{color=[red]}Whore?{/color} WTF?? I am a {color=[pink]}Fancy Girl!!!{/color}"]))
+                
             
-            self.txt.append("\n\n")  
+            self.txt.append("\n\n")
+            return True
                     
         # I need to rebuild relay so it makes more sense and then rewrite this method
         # Doing it now :)
