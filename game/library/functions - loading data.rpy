@@ -4,6 +4,29 @@ init -11 python:
         return renpy.loader.transfn('content/' + path)
         
     # ---------------------- Loading game data:
+    def load_random_names(amount):
+        # Loads random amount of names from our name files:
+        file = open(renpy.loader.transfn(content_path("db/RandomGirlNames_1.txt")))
+        randomNames = file.readlines()
+        file.close()
+        file = open(renpy.loader.transfn(content_path("db/RandomGirlNames_2.txt")))
+        randomNames.extend(file.readlines())
+        file.close()
+        
+        # @Review: Remove empty space:
+        randomNames = list(n.replace('\n', '') for n in randomNames)
+        return random.sample(randomNames, amount)
+        
+    def load_random_last_names(amount):
+        # Loads random amount of last names from our last names file:
+        file = open(renpy.loader.transfn(content_path("db/RandomLastNames.txt")))
+        randomLastNames = file.readlines()
+        file.close()
+        
+        # @Review: Remove empty space:
+        randomLastNames = list(n.replace('\n', '') for n in randomLastNames)
+        return random.sample(randomLastNames, amount)
+        
     def load_mc_images():
         dir = content_path("gfx/sprites/mc")
         dirlist = os.listdir(dir)

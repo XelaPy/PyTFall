@@ -630,52 +630,41 @@ init -9 python:
             """
             if name:
                 raise NotImplementedError("Returning customers are not implemented yet")
+
+            # determine gender of random customer
+            gender = choice(['male', 'male', 'male', 'male', "male", 'female', "female"])
             
-            else:
-                # determine gender of random customer
-                gender = choice(['male', 'male', 'male', 'male', "male", 'female', "female"])
-                
-                # determine caste of random customer 
-                if self.rep < 50: caste = choice(['Beggar', 'Peasant', 'Merchant'])
-                elif 50 <= self.rep <= 150: caste = choice(['Peasant', 'Merchant', 'Nomad'])
-                elif 151 <= self.rep <= 400: caste = choice(['Nomad', 'Merchant', 'Wealthy Merchant'])
-                elif 401 <= self.rep <= 600:caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
-                elif 601 <= self.rep <= 800: caste = choice(['Wealthy Merchant', 'Clerk', 'Noble'])
-                else: caste = choice(['Clerk', 'Noble', 'Royal'])
-                
-                # create random customer
-                customer = Customer(gender=gender, caste=caste)
-                
-                # Setting the favtraits in this method because brothel fetishes will prolly be in future plans:
-                # if self.upgrades['bar']['3']['active']: customer.wtgbar = dice(60)
-                # elif self.upgrades['bar']['2']['active']: customer.wtgbar = dice(45)
-                # else: customer.wtgbar = dice(35)
-                
-                # if self.upgrades['stripclub']['3']['active']: customer.wtsstrip = dice(45)
-                # elif self.upgrades['stripclub']['2']['active']: customer.wtsstrip = dice(30)
-                # else: customer.wtsstrip = dice(20)
-                
-                if customer.gender == 'female' and dice(60): customer.favtraits.add(choice(['Lesbian', 'Bisexual']))
-                if not customer.favtraits and dice(50):
-                    customer.favtraits.add(choice(['Great Arse', 
-                                                                   'Nymphomaniac', 'Sexy Air', 'Great Figure',
-                                                                   'Abnormally Large Boobs', 'Not Human', 'Meek',
-                                                                   'Nerd', 'Famous',
-                                                                   'Well-mannered', 'Long Legs',
-                                                                   'Kind', 'Energetic', 'Shy',
-                                                                   'Average Boobs', 'Strange Eyes', 'MILF', 'Sensitive',
-                                                                   'Protective', 'Serious', 'Noble', 'Tomboy',
-                                                                   'Tough', 'Athletic', 'Lolita', 'Exhibitionnist',
-                                                                   'Small Boobs', 'Aggressive', 'Outgoing', 'Big Boobs', 'Elegant']))
-                
-                if not customer.favtraits and dice(20):
-                    customer.favtraits.add(choice(['Genius',  'Smart', 'Ill-mannered', 'Merciless', 'Yandere', 'Fearless', 'Kuudere',  'Masochist',
-                                                   'Dandere', 'Clumsy',  'Old Scars', 'Pessimist', 'Sadistic', 'Heavy Drinker', 'Tsundere', 'Optimist', 'Impersonal']))
-                
-                if not customer.favtraits and dice(10):
-                    customer.favtraits.add(choice(['Psychic', 'Artificial Body', 'Adventurer', 'Broken Will', 'Frigid', 'Silly', 'Fragile', 'Alien', 'Manly', 'Mind Fucked']))
-                
-                return customer
+            # determine caste of random customer 
+            if self.rep < 50: caste = choice(['Peasant', 'Merchant'])
+            elif 50 <= self.rep <= 150: caste = choice(['Peasant', 'Merchant', 'Nomad'])
+            elif 151 <= self.rep <= 400: caste = choice(['Nomad', 'Merchant', 'Wealthy Merchant'])
+            elif 401 <= self.rep <= 600:caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
+            elif 601 <= self.rep <= 800: caste = choice(['Wealthy Merchant', 'Clerk', 'Noble'])
+            else: caste = choice(['Clerk', 'Noble', 'Royal'])
+            
+            # create random customer
+            customer = build_client(gender=gender, caste=caste, level=randint(2, 70))
+            
+            # @ Review: Jobs, Traits and other should plainly be added to likes and dislikes. 
+            # if customer.gender == 'female' and dice(60): customer.favtraits.add(choice(['Lesbian', 'Bisexual']))
+            # if not customer.favtraits and dice(50):
+                # customer.favtraits.add(choice(['Great Arse', 
+                                                               # 'Nymphomaniac', 'Sexy Air', 'Great Figure',
+                                                               # 'Abnormally Large Boobs', 'Not Human', 'Meek',
+                                                               # 'Nerd', 'Famous',
+                                                               # 'Well-mannered', 'Long Legs',
+                                                               # 'Kind', 'Energetic', 'Shy',
+                                                               # 'Average Boobs', 'Strange Eyes', 'MILF', 'Sensitive',
+                                                               # 'Protective', 'Serious', 'Noble', 'Tomboy',
+                                                               # 'Tough', 'Athletic', 'Lolita', 'Exhibitionnist',
+                                                               # 'Small Boobs', 'Aggressive', 'Outgoing', 'Big Boobs', 'Elegant']))
+            # if not customer.favtraits and dice(20):
+                # customer.favtraits.add(choice(['Genius',  'Smart', 'Ill-mannered', 'Merciless', 'Yandere', 'Fearless', 'Kuudere',  'Masochist',
+                                               # 'Dandere', 'Clumsy',  'Old Scars', 'Pessimist', 'Sadistic', 'Heavy Drinker', 'Tsundere', 'Optimist', 'Impersonal']))
+            # if not customer.favtraits and dice(10):
+                # customer.favtraits.add(choice(['Psychic', 'Artificial Body', 'Adventurer', 'Broken Will', 'Frigid', 'Silly', 'Fragile', 'Alien', 'Manly', 'Mind Fucked']))
+            
+            return customer
         
         def next_day(self):
             """

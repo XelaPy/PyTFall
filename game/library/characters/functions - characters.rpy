@@ -1,28 +1,5 @@
 init -11 python:
     # Characters related:
-    def load_random_names(amount):
-        # Loads random amount of names from our name files:
-        file = open(renpy.loader.transfn(content_path("db/RandomGirlNames_1.txt")))
-        randomNames = file.readlines()
-        file.close()
-        file = open(renpy.loader.transfn(content_path("db/RandomGirlNames_2.txt")))
-        randomNames.extend(file.readlines())
-        file.close()
-        
-        # @Review: Remove empty space:
-        randomNames = list(n.replace('\n', '') for n in randomNames)
-        return random.sample(randomNames, amount)
-        
-    def load_random_last_names(amount):
-        # Loads random amount of last names from our last names file:
-        file = open(renpy.loader.transfn(content_path("db/RandomLastNames.txt")))
-        randomLastNames = file.readlines()
-        file.close()
-        
-        # @Review: Remove empty space:
-        randomLastNames = list(n.replace('\n', '') for n in randomLastNames)
-        return random.sample(randomLastNames, amount)
-        
     def build_mob(id=None, level=1):
         mob = Mob()
         Stats = mob.STATS
@@ -212,7 +189,7 @@ init -11 python:
             d = data["init_basetraits"]
             if pattern not in d:
                 devlog.warning(str("{} Random Girl tried to apply blocked pattern: {}!".format(id, pattern)))
-            rg.occupation = choice(d)    
+            rg.occupation = choice(d)
         
         # Battle and Magic skills:
         # TODO: This should be battle_skills! (plural and a list))
@@ -272,7 +249,7 @@ init -11 python:
         super(rGirl, rg).init()
         
         # And at last, leveling up and stats/skills applications:
-        if level != 1:
+        if level > 1:
             initial_levelup(rg, level)
             
         # And add to char! :)
@@ -351,4 +328,37 @@ init -11 python:
         else:
             raise Exception("Cannot create base traits list from pattern: {}".format(pattern))
             
+        # Should never return more than two traits! That is expected by callers of this func!
         return _traits
+        
+    def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None, pattern=None, likes=None, dislikes=None, level=1):
+        """
+        This function creates Customers to be used in the jobs.
+        Some things are initiated in __init__ and funcs/methods that call this.
+        """
+        client = Customer(gender, caste)
+        
+        if not id:
+            client.id = "Client" + str(random.random())
+        if name:
+            client.name = name
+        if last_name:
+            client.fullname = client.name + " " + last_name
+            
+        if not pattern:
+            pattern = random.sample(client.CLASSES, 1).pop()
+        pattern = create_traits_base(pattern)
+        for i in pattern:
+            client.traits.basetraits.add(i)
+            client.apply_trait(i)
+        
+        if level > 1:
+            initial_levelup(client, level)
+            
+        return client
+            
+            
+            
+            
+            
+        

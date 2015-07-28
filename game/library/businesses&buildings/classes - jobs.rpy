@@ -117,7 +117,7 @@
             """
             Checks the girls occupation.
             """
-            return 1
+            return True
         
         def check_life(self):
             """
@@ -266,11 +266,15 @@
             # Logs a stat for the building:
             self.locmod[s] = self.girlmod.get(s, 0) + value
     ####################### Whore Job  ############################
-    class NewStyleJob(_object):
-        """
-        Class created to facilitate SimPy type of job loops.
-        """
-        pass
+    # class NewStyleJob(Job):
+        # """
+        # Class created to facilitate SimPy type of job loops.
+        # Since events are now called by the SimPy, there is no general loop in a new style Job.3
+        # """
+        # def __init__(self):
+            # pass
+        # def __str__(self):
+            # return str(self.id)
     
     
     class WhoreJob(Job):
@@ -425,25 +429,25 @@
             # No matched traits
             self.payout = 1
             
-            if not self.client.traitmatched:
-                if self.client.favtraits:
-                    self.txt.append("%s came to the %s looking for a girl with a %s traits but didn't find one so %s picked %s randomly. \n"%(self.client.caste,
-                                                                                                                                              self.loc.name, ", ".join(self.client.favtraits),
-                                                                                                                                              self.client.pronoun.lower(),
-                                                                                                                                              self.girl.fullname))
-                else:
-                    self.txt.append("%s came to the %s brothel. Not wanting any kind of girl in particular %s went for %s. \n"%(self.client.caste,
-                                                                                                                                self.loc.name,
-                                                                                                                                self.client.pronoun.lower(),
-                                                                                                                                self.girl.name))
-            
-            else:
-                self.txt.append("%s came into %s and was looking for a girl with %s traits so %s went straight for %s. \n"%(self.client.caste,
-                                                                                                                            self.loc.name,
-                                                                                                                            ", ".join(self.client.favtraits),
-                                                                                                                            self.client.pronoun.lower(),
-                                                                                                                            self.girl.name))
-                self.payout = int(self.payout * 1.3)
+            # TODO: UPDATE THIS TO BE WRITTEN FROM LOOP AND WITH likes AND dislikes
+            # if not self.client.traitmatched:
+                # if self.client.favtraits:
+                    # self.txt.append("%s came to the %s looking for a girl with a %s traits but didn't find one so %s picked %s randomly. \n"%(self.client.caste,
+                                                                                                                                              # self.loc.name, ", ".join(self.client.favtraits),
+                                                                                                                                              # self.client.pronoun.lower(),
+                                                                                                                                              # self.girl.fullname))
+                # else:
+                    # self.txt.append("%s came to the %s brothel. Not wanting any kind of girl in particular %s went for %s. \n"%(self.client.caste,
+                                                                                                                                # self.loc.name,
+                                                                                                                                # self.client.pronoun.lower(),
+                                                                                                                                # self.girl.name))
+            # else:
+                # self.txt.append("%s came into %s and was looking for a girl with %s traits so %s went straight for %s. \n"%(self.client.caste,
+                                                                                                                            # self.loc.name,
+                                                                                                                            # ", ".join(self.client.favtraits),
+                                                                                                                            # self.client.pronoun.lower(),
+                                                                                                                            # self.girl.name))
+                # self.payout = int(self.payout * 1.3)
             
             # Brothel room upgrades modifiers, simple version for now
             # Might have to be improved to match customers expectations based on their castes later
@@ -465,7 +469,7 @@
                 # self.girlmod['refinement'] += choice([0,0,0,1])
                 # self.payout = int(self.payout * 1.2)
             
-            self.txt.append("\n")
+            # self.txt.append("\n")
             
         def guard_event(self):
             """
@@ -870,6 +874,7 @@
     class NextGenWhoreJob(Job):
         """
         The class that solves whoring jobs.
+        @ Abandoned until 1.0 due to complexity of adding new content.
         """
         def __init__(self):
             """
@@ -1015,7 +1020,6 @@
                                                                                                                                 self.loc.name,
                                                                                                                                 self.client.pronoun.lower(),
                                                                                                                                 self.girl.name))
-            
             else:
                 self.txt.append("%s came into %s and was looking for a girl with %s traits so %s went straight for %s. \n"%(self.client.caste,
                                                                                                                             self.loc.name,
@@ -1143,7 +1147,6 @@
         """
         Class for the solving of stripping logic.
         """
-        
         def __init__(self):
             """
             Creates a new StripJob.

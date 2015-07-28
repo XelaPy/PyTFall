@@ -985,6 +985,10 @@ init -9 python:
             self.friends = set()
             self.lovers = set()
             
+            # Preferences:
+            self.likes = set() # These are simple sets containing objects and possibly strings of what this character likes or dislikes...
+            self.dislikes = set() # ... more often than not, this is used to compliment same params based of traits. Also (for example) to set up client preferences.
+            
             # Arena relared:
             if arena:
                 self.fighting_days = list() # Days of fights taking place
@@ -1508,7 +1512,7 @@ init -9 python:
             if item.unique and item.unique != item.id:
                 raise Error("A character attempted to equip unqiue item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
 
-            if item.sex not in ["unisex", self.char_sex]:
+            if item.sex not in ["unisex", self.gender]:
                 devlog.warning(str("False charachter sex value: %s, %s,  %s" % (item.sex, item.id, self.__class__.__name__)))
                 return
 
@@ -1672,7 +1676,7 @@ init -9 python:
                         continue
                     
                     if slot == "consumable":    
-                        if any([item.ceffect, item.type == "permanent",  item.sex not in (self.char_sex, "unisex"),
+                        if any([item.ceffect, item.type == "permanent",  item.sex not in (self.gender, "unisex"),
                                   item.id in self.consblock, item.id in self.constemp, not item.eqchance,
                                   item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
                             continue
@@ -1683,7 +1687,7 @@ init -9 python:
                             if item.mdestruct or not item.mreusable:
                                 return returns
                                 
-                        if any([item.type == "permanent",  item.sex not in (self.char_sex, "unisex"),
+                        if any([item.type == "permanent",  item.sex not in (self.gender, "unisex"),
                                   not item.eqchance, item.id in self.miscblock]):
                             continue
 
@@ -1710,7 +1714,7 @@ init -9 python:
                     else: # All other slots:
                         if item.slot == "weapon" and not real_weapons and not item.type.lower().startswith("nw"):
                             continue
-                        if any([item.type == "permanent",  item.sex not in (self.char_sex, "unisex"), not item.eqchance]):
+                        if any([item.type == "permanent",  item.sex not in (self.gender, "unisex"), not item.eqchance]):
                             continue
                         
                     # We finally check if there is at least one matching stat and if so, add the item at 0 priority    
@@ -2319,7 +2323,7 @@ init -9 python:
             self.occupation = "Warrior"
             self.status = "free"
             self.flags = Flags()
-            self.char_sex = "male"
+            self.gender = "male"
             
             # Player only...
             self.corpses = list() # Dead bodies go here until disposed off.
@@ -2787,7 +2791,7 @@ init -9 python:
         def __init__(self):
             super(Girl, self).__init__(arena=True, inventory=True)
             # Game mechanics assets
-            self.char_sex = 'female'
+            self.gender = 'female'
             self.race = ""
             # Compability with crazy mod:
             self.desc = ""
@@ -3949,41 +3953,43 @@ init -9 python:
             super(rGirl, self).__init__()
             
     class Customer(PytCharacter):
-        def __init__(self, gender="male", caste="Beggar"):
-
-            # general class attributes
-            self.name = ""
+        def __init__(self, gender="male", caste="Peasant"):
+            super(Customer, self).__init__()
+            
             self.gender = gender
             self.caste = caste
             self.rank = ilists.clientCastes.index(caste)
-            self.traits = list()
+            self.regular = False # Regular clients do not get removed from building lists as those are updated.
             
             # Traits activation:
-            if dice(3):
-                self.traits.append('Aggressive')
+            if dice(2):
+                self.apply_trait(traits['Aggressive'])
             
-            self.seenstrip = False  # Seen striptease at least once
-            self.stripsatisfaction = 0  # Range from 0 to 100, extra bonus of goes above
+            # self.seenstrip = False  # Seen striptease at least once
+            # self.stripsatisfaction = 0  # Range from 0 to 100, extra bonus of goes above
             
-            self.traitmatched = False  # Sets to true if checks on next day to avoid another loop during the job.
-            self.favtraits = set()
-            self.favgirls = set()
-            self.favacts = set()
-            self.portrait = "" # path to portrait
+            # self.traitmatched = False  # Sets to true if checks on next day to avoid another loop during the job.
+            # self.favtraits = set()
+            # self.favgirls = set()
+            # self.favacts = set()
             # Alex, we should come up with a good way to set portrait depending on caste
+            self.portrait = "" # path to portrait
             self.questpic = "" # path to picture used in quests
             self.act = ""
             self.pronoun = ""
+            
+            # Should we use money? @ presently not...
             self.cash = 0 # carried cash
             self.cashtospend = 0 # cash the customer is willing to spend
-            self.libido = randint(20,150)
+            
+            # self.libido = randint(20,150)
             
             # class battle stats
-            self.attack = randint(5, 40)
-            self.magic = randint(5, 40)
-            self.defence = randint(5, 40)
-            self.mp = randint(5, 40)
-            self.agility = randint(5, 40)
+            # self.attack = randint(5, 40)
+            # self.magic = randint(5, 40)
+            # self.defence = randint(5, 40)
+            # self.mp = randint(5, 40)
+            # self.agility = randint(5, 40)
             
             
             # if "Aggressive" in self.traits:
@@ -4003,74 +4009,74 @@ init -9 python:
                 self.act = "lesbian"
                 self.pronoun = 'She'
             
-            # determine cash
-            if caste in ('Beggar'):
-                self.cash = randint(30, 50)
-                self.fame = randint(0, 10)
-                
-                self.attack += randint(5, 10)
-                self.magic += randint(5, 10)
-                self.defence += randint(5, 10)
-                self.mp += randint(5, 10)
-                self.agility += randint(5, 10)
-            elif caste in ('Peasant', 'Nomad'):
-                self.cash = randint(50, 80)
-                self.fame = randint(10, 30)
-                
-                self.attack += randint(5, 15)
-                self.magic += randint(5, 15)
-                self.defence += randint(5, 15)
-                self.mp += randint(5, 15)
-                self.agility += randint(5, 15)
-            elif caste in ('Merchant'):
-                self.cash = randint(80, 120)
-                self.fame = randint(25, 65)
-                
-                self.attack += randint(10, 15)
-                self.magic += randint(10, 15)
-                self.defence += randint(10, 15)
-                self.mp += randint(10, 15)
-                self.agility += randint(10, 15)
-            elif caste in ('Wealthy Merchant', 'Clerk'):
-                self.cash = randint(120, 150)
-                self.fame = randint(65, 100)
-                
-                self.attack += randint(10, 20)
-                self.magic += randint(10, 20)
-                self.defence += randint(10, 20)
-                self.mp += randint(10, 20)
-                self.agility += randint(10, 20)
-            elif caste in ('Noble'):
-                self.cash = randint(150, 200)
-                self.fame = randint(95, 150)
-                
-                self.attack += randint(15, 30)
-                self.magic += randint(15, 30)
-                self.defence += randint(15, 30)
-                self.mp += randint(15, 30)
-                self.agility += randint(15, 30)
-            elif caste in ('Royal'):
-                self.cash = randint(200, 250)
-                self.fame = randint(120, 200)
-                
-                self.attack += randint(25, 40)
-                self.magic += randint(25, 40)
-                self.defence += randint(25, 40)
-                self.mp += randint(25, 40)
-                self.agility += randint(25, 40)
-            else:
-                self.cash = 100
+            # @Review: Temporary disabled (until we are ready to do complex client modeling, all clients assumed to have infinite money)
+            # if caste in ('Beggar'):
+                # self.cash = randint(30, 50)
+                # self.fame = randint(0, 10)
+
+                # self.attack += randint(5, 10)
+                # self.magic += randint(5, 10)
+                # self.defence += randint(5, 10)
+                # self.mp += randint(5, 10)
+                # self.agility += randint(5, 10)
+            # elif caste in ('Peasant', 'Nomad'):
+                # self.cash = randint(50, 80)
+                # self.fame = randint(10, 30)
+
+                # self.attack += randint(5, 15)
+                # self.magic += randint(5, 15)
+                # self.defence += randint(5, 15)
+                # self.mp += randint(5, 15)
+                # self.agility += randint(5, 15)
+            # elif caste in ('Merchant'):
+                # self.cash = randint(80, 120)
+                # self.fame = randint(25, 65)
+
+                # self.attack += randint(10, 15)
+                # self.magic += randint(10, 15)
+                # self.defence += randint(10, 15)
+                # self.mp += randint(10, 15)
+                # self.agility += randint(10, 15)
+            # elif caste in ('Wealthy Merchant', 'Clerk'):
+                # self.cash = randint(120, 150)
+                # self.fame = randint(65, 100)
+
+                # self.attack += randint(10, 20)
+                # self.magic += randint(10, 20)
+                # self.defence += randint(10, 20)
+                # self.mp += randint(10, 20)
+                # self.agility += randint(10, 20)
+            # elif caste in ('Noble'):
+                # self.cash = randint(150, 200)
+                # self.fame = randint(95, 150)
+
+                # self.attack += randint(15, 30)
+                # self.magic += randint(15, 30)
+                # self.defence += randint(15, 30)
+                # self.mp += randint(15, 30)
+                # self.agility += randint(15, 30)
+            # elif caste in ('Royal'):
+                # self.cash = randint(200, 250)
+                # self.fame = randint(120, 200)
+                 
+                # self.attack += randint(25, 40)
+                # self.magic += randint(25, 40)
+                # self.defence += randint(25, 40)
+                # self.mp += randint(25, 40)
+                # self.agility += randint(25, 40)
+            # else:
+                # self.cash = 100
                 # notify(u">>Warning<< Unknown caste: '%s'" % caste)  
             # determine cash the customer is willing to spend
             # poor customers should be willing to spend all of it, or not go 
             # into a brothel in the first place
-            self.cashtospend = min((self.cash/2 + 30), self.cash)
+            # self.cashtospend = min((self.cash/2 + 30), self.cash)
             
         # Want to see striptease method:    
         def wts_strip(self, girl):
             # Just in the mood for striptease / Overlapping traits / Fame:
             if self.wtsstrip or self.favtraits.intersection(girl.traits) or girl.fame >= self.fame:
-                self.seenstrip = True
+                # self.seenstrip = True
                 return True
             else:
                 return False

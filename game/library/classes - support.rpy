@@ -171,7 +171,7 @@ init -9 python:
             self.BrtlUpList = ['bar', 'garden', 'stripclub', 'casinofloor', 'viprooms']
             self.BrtlAdList = ['sign', 'flyers', 'magazine', 'billboard', 'girl', 'celeb']
             self.LocList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'brothel', "-PyTFall Educators-"]
-            self.clientCastes = ['None', 'Beggar', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
+            self.clientCastes = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
             self.battlestats = ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck", "charisma"]
             self.herostats = ['libido', 'constitution', 'reputation', 'fame', 'charisma', 'sex', 'alignment', 'vitality', 'intelligence', 'luck']
             
