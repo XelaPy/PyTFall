@@ -129,9 +129,9 @@ label girl_interactions:
             # PRAISE
             m = 2
             pytfall.world_actions.menu(m, "Praise", condition=_not_gt_mode)
-            pytfall.world_actions.gm_choice("Clever", label="compliment", index=(m, 0))
-            pytfall.world_actions.gm_choice("Strong", label="compliment", index=(m, 1))
-            pytfall.world_actions.gm_choice("Cute", label="compliment", index=(m, 2))
+            pytfall.world_actions.gm_choice("Clever", index=(m, 0))
+            pytfall.world_actions.gm_choice("Strong", index=(m, 1))
+            pytfall.world_actions.gm_choice("Cute", index=(m, 2))
             pytfall.world_actions.gm_choice("Breasts", index=(m, 3))
             
             # SCOLD

@@ -491,7 +491,7 @@ label interaction_scene_choice:
                     $ char.vitality -= 20
 
                 $ gm.restore_img()
-            jump girl_interactions
+            jump girl_interactions_end
             
 label interactions_lesbian_choice:
     # The interactions itself.
