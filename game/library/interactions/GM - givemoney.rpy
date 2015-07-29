@@ -130,8 +130,11 @@ label interactions_gm500g:
     
 label interactions_int_give_money:
     $ temp = renpy.input("You decided to give her some money. You have [hero.gold] G.", allow="1234567890")
+    if temp == "":
+        "You changed your mind."
+        jump girl_interactions
     $ python_BS = int(temp)
-    if hero.gold >= python_BS:
+    if hero.gold >= python_BS: # that's right, it is python bullsh*t that you have to use another variable without a reason
         $ hero.gold -= python_BS
         $ char.gold += python_BS
         "You gave her [temp] G."
@@ -141,6 +144,9 @@ label interactions_int_give_money:
     
 label interactions_int_take_money:
     $ temp = renpy.input("You decided to take her money. She has [char.gold] G.", allow="1234567890")
+    if temp == "":
+        "You changed your mind."
+        jump girl_interactions
     $ python_BS = int(temp)
     if char.gold >= python_BS:
         $ hero.gold += python_BS
