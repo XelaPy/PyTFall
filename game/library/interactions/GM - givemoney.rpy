@@ -159,7 +159,7 @@ label interactions_int_give_money:
     
             
     if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
-        char.add_money(temp) # Same...
+        $ char.add_money(temp) # Same...
         "You gave her [temp] G."
     else:
         "You don't have such amount of gold."
