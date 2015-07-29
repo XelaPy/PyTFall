@@ -124,8 +124,7 @@
     "mod": {"charisma": -30, "upkeep": 5, "constitution": 5},
     "max": {"constitution": 5, "charisma": -5},
     "mod_skills": {"strip": [0, 0, -0.09]},
-    "permanent": true,
-    "client": true
+    "permanent": true
     },
     {
     "id": "Half-Sister",

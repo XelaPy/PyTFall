@@ -1,186 +1,7 @@
-###### j0
-# quick navigation, search "j" + number, example: j0 - this panel
-# 
-#  1 - kiss - hand
-#  2 - kiss - forehead
-#  3 - kiss - cheek
-#  4 - kiss - mouth
-
-###### j1
-label interactions_hand:
-    if char.disposition > 250:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.2
-    elif char.disposition > 150:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.3
-    elif char.disposition > 100:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.5
-    elif char.disposition > 50:
-        $ gm_dice = 90
-        $ gm_disp_mult = 1
-    elif char.disposition > 20:
-        $ gm_dice = 70
-        $ gm_disp_mult = 1
-    elif char.disposition > 0:
-        $ gm_dice = 50
-        $ gm_disp_mult = 1
-    elif char.disposition > -20:
-        $ gm_dice = 30
-        $ gm_disp_mult = 1
-    else:
-        $ gm_dice = 2
-        $ gm_disp_mult = 1
-
-
-    if dice(gm_dice):
-        $ gm_last_success = True
-        $ char.disposition += (randint(5, 20)*(gm_disp_mult))
-    else:
-        $ gm_last_success = False
-        $ char.disposition -= (randint(10, 30)*(gm_disp_mult))
-
-    if gm_last_success:
-        if ct("Impersonal"):
-            $rc("... <No reaction>", ".... <Her face is completely unreadable>", "... <Maybe she didn't notice>")                
-        else:
-            $rc("Oh, this is nice.", "<Smiles> You're welcome.", "You're pretty interesting.", "You are certainly charming.", "Hoooh, chivalry is it?", "Eh? Do I look high class? *blush*", "Well. If it's just a greeting.", "Just this one time. <Offers her hand>", "<Raises an eyebrow> Huh.", "You don't need to ... *bright smile*", "Fufu♪ How many hearts have you broken today?", "It's hard to say 'no' when you ask like that.", "Wow, and I thought chivalry was dead.", "No, the pleasure is mine.", "You sure have a lot of free time *grin*")
-    
-    else:    
-        if ct("Impersonal"):
-            $rc("... <No reaction>", "... *wipe* *wipe* <She's wiping off her hand>", ".... <Her face is completely unreadable>")     
-        else:
-            $rc("Don't be weird.", "Uh-um- I haven't washed my hands ...", "No. Thankyou.", "I don't do that.", "<She pulls her hand out of the way> Let's talk about something else.", "Men are gross.", "*Glares* >(", "I'd rather not.", "I don't like people touching me.", "Sorry, could you save it for later?")  
-    
-    jump girl_interactions
-    
-
-###### j2    
-label interactions_forehead:
-    if char.disposition > 550:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.2
-    elif char.disposition > 450:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.3
-    elif char.disposition > 350:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.5
-    elif char.disposition > 250:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.7
-    elif char.disposition > 200:
-        $ gm_dice = 90
-        $ gm_disp_mult = 1
-    elif char.disposition > 100:
-        $ gm_dice = 50
-        $ gm_disp_mult = 1
-    elif char.disposition > 50:
-        $ gm_dice = 20
-        $ gm_disp_mult = 1
-    else:
-        $ gm_dice = 1
-        $ gm_disp_mult = 1
-
-    if dice(gm_dice):
-        $ gm_last_success = True
-        $ char.disposition += (randint(20, 30)*(gm_disp_mult))
-    else:
-        $ gm_last_success = False
-        $ char.disposition -= (randint(10, 30)*(gm_disp_mult))
-
-    if gm_last_success:
-        if "Impersonal" in char.traits:
-            $g(choice(["... <No reaction>", "... <She's staring at you>", ".... <Her face is completely unreadable>", "...weird..."]))        
-        else:
-            $g(choice(["Ahh…     F-forehead...? You're teasing me… ", "I ... guess that's fine.", "Haha, I'm not a child you know. *smiles*", "You think it's kissable? ... huh ... *blush*", "Ok, then. *closes eyes*", "Hmmm...*sigh*", "♪Arara♪ Am I being spoiled?♪ Hehe", ":) <She's staring at you with a radiant smile>", "... that was nice. *blush*", "Well... I suppose I'll allow it.", "What was that supposed to be? *grin*", "Oooh, I can see where this is going. *smirk*", "You devil. *chuckle*"])) 
-    else:
-
-        if ct("Impersonal"):
-            $rc("... <No reaction>", "... <Her forehead collides with your teeth just before you kiss her>", ".... <Her face is completely unreadable>", "... <She looks bored>")
-        else:
-            $rc("<steps back> Hey, Stop it!", "W-wait, what are you doin'...?", "P-Please stop that~", "Back up, jerk.", "Ew. Gross!", "Well... I don't think you need to treat me like a child.", "Wha-! What are you doing?!", "No! Stop.", "What're you trying to pull? Huh?", "You're a creep.", "No, you stink.", "Urg, take a bath.", ":X <She makes an 'X' with her arms>", "You're in my space...", "Too soon.")  
-         
-    jump girl_interactions
-    
-
-###### j3
-label interactions_cheek:
-    if char.disposition > 650:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.2
-    elif char.disposition > 550:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.3
-    elif char.disposition > 450:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.5
-    elif char.disposition > 350:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.7
-    elif char.disposition > 300:
-        $ gm_dice = 90
-        $ gm_disp_mult = 1
-    elif char.disposition > 200:
-        $ gm_dice = 50
-        $ gm_disp_mult = 1
-    elif char.disposition > 100:
-        $ gm_dice = 10
-        $ gm_disp_mult = 1
-    else:
-        $ gm_dice = 1
-        $ gm_disp_mult = 1
-
-    if "Lesbian" in char.traits: 
-        $ gm_dice = ((gm_dice)*0.5)
-
-    if dice(gm_dice):
-        $ gm_last_success = True
-        $ char.disposition += (randint(10, 30)*(gm_disp_mult))
-    
-    else:
-        $ gm_last_success = False
-        $ char.disposition -= (randint(15, 35)*(gm_disp_mult))
-
-    if gm_last_success:
-        if ct("Impersonal"):
-            $rc("... <No reaction>", ".... <Her face is completely unreadable>")    
-        elif ct("Tsundere"):
-            $rc("Chu…  But only on the cheek, ok...?", "Wah… O-oh, a kiss on the cheek, okay…", "Kya…  Geez, don't kiss me on the cheek, it's embarrassing…", "Wha...! I-I know that some degree of intimacy is required to strengthen our bonds with each other, but...")
-        elif ct("Dandere"):
-            $rc("Hn… A kiss on the cheek...?", "Hn... Cheek... good.")
-        elif ct("Kuudere"):
-            $rc("Ah... just the cheek... No, it's nothing.")
-        elif ct("Imouto"):
-            $rc("Fuwa... I got kissed on the cheek... ♪", "Aa.. I want it on the other cheek too!", "Huhuh, your lips feel so good... ♪")
-        elif ct("Ane"):
-            $rc("It was cheek so no harm, no foul, right?♪")
-        elif ct("Bokukko"):
-            $rc("Hyaa! Uu, I'm gonna pay you back that lick! Hey, no fair! Please stop dodging me!")
-        elif ct("Kamidere"):
-            $rc("This is how you wanted to seduce me, isn't it?", "Oh...You surprised me a bit with that...")
-        else:
-            $rc("Your lips are very soft.", "That wasn't so bad.", "Feels good~", "I won't lose. <Kisses you back>", "Hnn, *kiss* ♪ Heh, nothing wrong with a kiss on the cheek~ ♪", "Fufuh, don't get all excited, it's just a kiss on the cheek. ♪", "*smile*", "Oh ... *giggle*", "*blush* ... that's nice", "Fufu♪, sometimes a man needs to take the lead.", "Fwaah!? W-Where are you licking...!?") 
-    else:
-        if ct("Impersonal"):
-            $rc("... <No reaction>", ".... <Her face is completely unreadable>")    
-        elif ct("Kamidere"):
-            $rc("It's enough. This won't do at all.", "Hya… M-my cheeks are off limits, too…", "Hya, Don't act so familiar with me!")
-        elif ct("Dandere"):
-            $rc("No...Stop it.", "Keep your distance.", "No good...")
-        elif ct("Tsundere"):
-            $rc("STOP IT! This is no good.")
-        elif ct("Kuudere"):
-            $rc("I don't remember being that close with you.", "Don't act so friendly...")
-        else:
-            $rc("This is no good...", "I don't like that.", "Don't touch me.", "Stay away...", "I'm not ready for that!", "Too fast! Slow down.", "I-I think we should wait on that one...", "Relax Romeo, I'm not disappearing tomorrow.", "Eh~ No way, what are you doing~?", "Eek! <She turns her face and ducks out of the way>", "<Her hand blocks your face> Whoa. Where are you going?")  
-    
-    jump girl_interactions
-    
 
 ###### j4
-label interactions_mouth:
+label interactions_kiss:
+    "You trying to kiss her."
     if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -219,7 +40,7 @@ label interactions_mouth:
     if ct("Lesbian"): 
         $ gm_dice = ((gm_dice)*0.5)
 
-    if dice(gm_dice):
+    if (dice(gm_dice) and check_friends(char, hero)) or check_lovers(char, hero):
         $ gm_last_success = True
         $ char.disposition += (randint(20, 40)*(gm_disp_mult))
     else:
@@ -227,7 +48,7 @@ label interactions_mouth:
         $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
     
     if gm_last_success:
-        if ct("Half-Sister") and dice(20):
+        if ct("Half-Sister") and dice(40):
             if ct("Dandere", "Impersonal", "Yandere"):
                 $rc("*kiss*")
             elif ct("Shy") and dice(30):
@@ -271,14 +92,7 @@ label interactions_mouth:
         else:
             $rc("*smooch*… Getting excited?", "Don't say anything.... *kiss*","*kiss*, *lick*, I like, *kiss*, this…", "*kiss*… Felt good, right?", "*kiss*, hmm… *sigh*, kissing feels so good…", "<Smiles after your kiss> You're good at kissing.", "*kiss*... Was that good enough for a passing grade, [hero.name]", "*kiss*...  My heart's racing...", "Even though we're just kissing... I'm already…<Blushes>", "Hmm... *kiss, kiss*, ahm,.. I like... kissing… Hn, *smooch*…", "Hn,chu… Eh, what've you been eating? I can taste it~", "*kiss*… Hn... My body's getting hotter…", "A kiss? Why not. *smooch*","Just what I was thinking about♪ *kiss*", "*slurp, kiss* Kissing this rough... feels so good.", "*kiss* hmm...Where did you learn to kiss like this?", "*kiss*,*lick*… This is great... got me all excited...", "Ok, but don't go overboard. *kiss*","*kiss* You're sweet...", "Ahm... *kiss, lick*... nnn… Do you think touching tongues is a little... sexy?", "*kiss*… My, you are a good kisser!") 
     else:
-        if ct("Yandere"):
-            $rc("*kiss* ... *BITE* <She bit you!>", "*kiss* ... <She stares blankly into nothing>", "*kiss* ... *kiss* ... *zzzzz* <She fell asleep...>")    
-        elif ct("Dandere"):
-            $rc("No.")
-        elif ct("Impersonal"):
-            $rc("...don't want to.", "...Naive.")
-        else:
-            $rc("Don't rush it.", "What? With you? Never!", "Yikes! No way!", "I'm not in the mood...", "You're kidding...", "This place is no good for that...", "You're joking right?", "Stay away from me!", "Yes, you can... When hell freezes over!", "What?! Shove off!", "Don't even think about it! ", "Yikes! <She covers her mouth with her hand>", "Waa! Go brush your teeth!", "Urg, what did you eat? ... <she looks sick>", "B-but what if someone sees?")
+        "She refuses."
     
     jump girl_interactions
     

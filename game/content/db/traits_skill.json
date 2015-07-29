@@ -66,27 +66,31 @@
     "desc": "She just can't hold her liquor.",
     "mod": {"upkeep": 15},
     "mod_skills": {"refinement": [0, 0, -0.01]},
-    "character_trait": true
+    "character_trait": true,
+    "client": true
     },
     {
     "id": "Always Hungry",
     "desc": "There is never enough for this girl's appetite.",
     "mod": {"upkeep": 10, "constitution": 10},
     "mod_skills": {"refinement": [0, 0, -0.04]},
-    "character_trait": true
+    "character_trait": true,
+    "client": true
     },
     {
     "id": "Well-mannered",
     "desc": "This girl is polite, courteous and respectful to others under most circumstances",
     "block_traits": ["Ill-mannered"],
     "mod_skills": {"refinement": [0.2, 0.1, 0.08], "bdsm": [-0.07, -0.02, -0.06]},
-    "character_trait": true
+    "character_trait": true,
+    "client": true
     },
     {
     "id": "Ill-mannered",
     "desc": "This girl is rude, insolent and uncivil under most circumstances.",
     "block_traits": ["Well-mannered"],
     "mod_skills": {"refinement": [-0.2, -0.1, -0.08], "bdsm": [0.07, 0.02, 0.06]},
-    "character_trait": true
+    "character_trait": true,
+    "client": true
     }
     ]

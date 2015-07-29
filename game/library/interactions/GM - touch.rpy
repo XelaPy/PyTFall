@@ -8,6 +8,7 @@
 
 ###### j1
 label interactions_hug:
+    "You trying to hug her."
     if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -39,7 +40,7 @@ label interactions_hug:
         $ gm_dice = 1
         $ gm_disp_mult = 1
     
-    if dice(gm_dice):
+    if dice(gm_dice) or check_lovers(char, hero):
         $ gm_last_success = True
         $ char.disposition += (randint(10, 30)*(gm_disp_mult))
     
@@ -102,93 +103,11 @@ label interactions_hug:
     jump girl_interactions
     
 
-###### j2
-label interactions_holdhands:
-    if char.disposition > 650:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.2
-    elif char.disposition > 550:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.4
-    elif char.disposition > 400:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.5
-    elif char.disposition > 300:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.7
-    elif char.disposition > 250:
-        $ gm_dice = 90
-        $ gm_disp_mult = 1
-    elif char.disposition > 200:
-        $ gm_dice = 70
-        $ gm_disp_mult = 1   
-    elif char.disposition > 150:
-        $ gm_dice = 40
-        $ gm_disp_mult = 1
-    elif char.disposition > 100:
-        $ gm_dice = 20
-        $ gm_disp_mult = 1
-    elif char.disposition > 50:
-        $ gm_dice = 5
-        $ gm_disp_mult = 1
-    else:
-        $ gm_dice = 1
-        $ gm_disp_mult = 1
-
-    if "Lesbian" in char.traits: 
-        $ gm_dice = ((gm_dice)*0.5)
-
-    if dice(gm_dice):
-        $ gm_last_success = True
-        $ char.disposition += (randint(15, 25)*(gm_disp_mult))
-    
-    else:
-        $ gm_last_success = False
-        $ char.disposition -= (randint(5, 15)*(gm_disp_mult))
-
-    if gm_last_success:
-        if ct("Impersonal"):
-            $rc("...warm...", "...Okay.", "<slowly puts her hand into yours> Nn...")
-        elif ct("Shy") and dice(30):
-            $rc("It's... it's okay to hold my hand", "I, um... I don't mind...", "<you hold hands> U-um... that's... embarrassing...")
-        elif ct("Dandere"):
-            $rc("Your hands are... warm.", "It's warm.")
-        elif ct("Kuudere"):
-            $rc("My hand is warm, huh...", "Hold me properly!", "Why not.")
-        elif ct("Tsundere"):
-            $rc("Hold me properly!", "Uh... it's... alright to hold hands like this, right?")
-        elif ct("Kamidere"):
-            $rc("It's okay... I guess...", "Well, I guess I could... hold your hand.", "Uh... it's... alright to hold hands like this, right?")
-        elif ct("Imouto"):
-            $rc("Well...Is it ok... to hold hands? Ehe... ♪", "Hehe, it's so warm.")
-        elif ct("Bokukko"):
-            $rc("Our hands will become sweaty this way.", "Uu...Why's this making me so...", "Ahh... warm, hmm?")
-        elif ct("Ane"):
-            $rc("...You're quite stiff.　You need to stretch yourself regularly, you know?", "This is... I feel so safe...")
-        elif ct("Yandere"):
-            $rc("Hee hee hee, I'm not letting go of your hand, you know...?", "Let's hold hands♪ C'mon, without getting embarrassed～♪")
-        else:
-            $rc("Hmmmm… Yeah, it's alright…", "As expected, this is... embarrassing.", "Why not.", "Don't grasp it too hard...", "This is so nice. Your hands.... they're so warm and make me feel safe.", "I'd love to!", "This is so nice. Your hands.... they're so warm and make me feel safe.", "Feeling someone else's warmth is good once in a while, isn’t it?")
-
-    else:
-        if ct("Impersonal"):
-            $rc("<She ignores you.>")
-        elif ct("Shy") and dice(30):
-            $rc("<pulls her hand back> S-sorry...")
-        elif ct("Kuudere"):
-            $rc("Your hands seem...somewhat indecent...")
-        elif ct("Dandere"):
-            $rc("No...", "...Stay away.")
-        elif ct("Kamidere"):
-            $rc("Don't act so familiar with me!", "That's silly.")
-        else:
-            $rc("Sorry, not now.", "That's silly.", "Sorry, I'm not in a good mood right now.", "Leave me alone...", "I don't trust you.", "Don't act so familiar with me!")    
-    
-    jump girl_interactions
     
 
 ###### j3    
 label interactions_slapbutt:
+    "You trying to slap her butt."
     if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -221,9 +140,9 @@ label interactions_slapbutt:
         $ gm_disp_mult = 1
     
     if "Lesbian" in char.traits: 
-        $ gm_dice = ((gm_dice)*0.5)
+        $ gm_dice = 0
     
-    if dice(gm_dice):
+    if dice(gm_dice) or check_lovers(char, hero):
         $ gm_last_success = True
         $ char.disposition += (randint(7, 20)*(gm_disp_mult))
     
@@ -286,6 +205,7 @@ label interactions_slapbutt:
 
 ###### j4
 label interactions_grabbreasts:
+    "You trying to grab her breasts."
     if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -318,9 +238,9 @@ label interactions_grabbreasts:
         $ gm_disp_mult = 1
 
     if "Lesbian" in char.traits: 
-        $ gm_dice = ((gm_dice)*0.5)
+        $ gm_dice = 0
 
-    if dice(gm_dice):
+    if dice(gm_dice) or check_lovers(char, hero):
         $ gm_last_success = True
         $ char.disposition += (randint(13, 30)*(gm_disp_mult))
     else:
