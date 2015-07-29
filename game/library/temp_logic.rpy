@@ -99,9 +99,10 @@ init python:
                 # temp = "{} leaves at {}".format(client.name, env.now)
                 # store.building.nd_events_report.append(temp)
     
-    def setup(env, rooms=2, ev_time=3):
+    def setup(env, rooms=2, ev_time=3, end=40):
         """
         First attempt at making a jobs loop with SimPy!
+        @param: We should draw end from the building.
         """
         # Create the building
         upgrade = UpgradeRelay(env, rooms, ev_time)
@@ -114,11 +115,15 @@ init python:
     
         # Create more clients while the simulation is running if such are availible...
         while store.nd_clients:
-            yield env.timeout(random.randint(5, 9))
-            i += 1
-            store.client = store.nd_clients.pop()
-            store.client.name = "client {}".format(i)
-            env.process(client_dispatcher(env, store.client, upgrade))
+            # Only run if we can have a sucessful event...
+            if env.now + ev_time <= end:
+                yield env.timeout(random.randint(5, 9))
+                i += 1
+                store.client = store.nd_clients.pop()
+                store.client.name = "client {}".format(i)
+                env.process(client_dispatcher(env, store.client, upgrade))
+            else:
+                break
 
 
 label temp_jobs_loop:
@@ -131,7 +136,7 @@ label temp_jobs_loop:
     
     # Create an environment and start the setup process
     $ env = simpy.Environment()
-    $ env.process(setup(env, 2, 3))
+    $ env.process(setup(env, 2, 3, 40))
     $ env.run(until=40)
     $ store.building.nd_events_report.append("{}".format(set_font_color("Ending the simulation:", "red")))
     $ store.building.nd_events_report.append("{}".format(set_font_color("===================", "red")))
