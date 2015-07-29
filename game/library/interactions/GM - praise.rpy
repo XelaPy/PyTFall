@@ -200,84 +200,48 @@ label praise_yes:
     else:
         $ rc("You think so? How nice.", "Thank you. <smiles>", "Hehe, thanks.", "Thanks for the compliment.", "I am, aren't I?", "You mean it?", "Well, I do like being praised.", "<Smiles> Yes, go on ...", "Alright, you've got my attention. <blush>", "..You're too kind.", "Aww♪, so sweet.", "You don't have to say that. <she's blushing and smiling>", "Such flattery won't work on me! <it totally looks like it's working>", "♪Arara, such a smooth talker.", "Gosh, flattery won't get you anything from me, you know?", "Ehehe, thank you very much♪", "Thank you, I'm glad to hear that.","D-Don't say that... I'm starting to blush.", "I sure hope you don't go saying that to every other girl too.", "You are sweet.", "Oh, you're exaggerating.", "Thanks, but it's nothing to boast of.", "Thank you, I'm very pleased.")
     return
-###### j2
-label interactions_breasts:
-    if char.disposition > 400:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.2
-    elif char.disposition > 550:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.4
-    elif char.disposition > 450:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.7
-    elif char.disposition > 400:
-        $ gm_dice = 80
-        $ gm_disp_mult = 1
-    elif char.disposition > 350:
-        $ gm_dice = 40
-        $ gm_disp_mult = 1
-    elif char.disposition > 200:
-        $ gm_dice = 35
-        $ gm_disp_mult = 1
-    elif char.disposition > 100:
-        $ gm_dice = 15
-        $ gm_disp_mult = 1
-    elif char.disposition > 20:
-        $ gm_dice = 5
-        $ gm_disp_mult = 1
-    else:
-        $ gm_dice = 1
-        $ gm_disp_mult = 1
-
-    if dice(gm_dice):
-        $ gm_last_success = True
-        $ char.disposition += (randint(10, 30)*(gm_disp_mult))
-    else:
-        $ gm_last_success = False
-        $ char.disposition -= (randint(15, 35)*(gm_disp_mult))
-
-    if gm_last_success:
-        if ct("Yandere"):
-            $rc("Nfufu, boo-bies♪ boo-bies♪ -bies ♪", "Interested, aren't you? <smiles mischievously>")
-        elif ct("Shy") and dice(30):
-            $rc("U-Um... Please don't stare at me so much...", "Even though this is embarrassing... I'm glad...", "Don't look at me like that... I-I'm not embarrassed!")
-        elif ct("Kamidere"):
-            $rc("Do you seriously think so?", "Thanks, but next time keep talk like that for private, ok? ", "So you are that type of person…", "Thanks, I grew them myself.", "Thanks. {p=0.5}Hey, enough. How long will you stare for?!")
-        elif ct("Ane"):
-            $rc("My, don't stare so hard, okay...?", "If you're gonna look, pay me the viewer's fee!♪", "Thanks, but please don't stare like that, it's embarrassing.", "Do you like my breasts? Glad to hear it...")
-        elif ct("Imouto"):
-            $rc("Huhu ♪ Lookie, these are my awesome boobs ~ ♪", "Geez, don't loooook～♪")
-        elif ct("Kuudere"):
-            $rc("G-go ahead, if you're going to look then look!", "D-don't look... You can't!")
-        elif ct("Tsundere"):
-            $rc("Wh-who said you could look?", "Uuu... Stop staring at me like that...")
-        elif ct("Dandere"):
-            $rc("Hmmm… Interested?", "You like my body? ...good.")
-        elif ct("Bokukko"):
-            $rc("Hah hah hah! Go ahead, envy my boobs! Worship them!", "Hmm, already captivated by my exquisite breasts, huh!")
-        else:
-            $rc("It’s alright to look, but touching is not allowed, oo… fufufu.", "[hero.name], just where are you looking at? It’s alright, look at much as you like.", "Like the view? <pushes her chest up in a pose>", "Do you like my breasts? Glad to hear it...", "You're so perverted. <giggles>", "My body gets you excited, doesn't it?", "Thanks… Hey! Is that why you are interested in me?", "You think so? I'm glad...", "Really? I'm glad to hear that.")
-
-    else:
-        if ct("Shy") and dice(30):
-            $rc("Ummm... Please don't look....", "D...don't... say that!", "D-don't say such strange things...", "Uu... Don't say such a thing...", "Uwaa! T-this is, that's... I'm, that's… Ugh…")
-        elif ct("Impersonal"):
-            $rc("I can't really say I'm pleased.", "You are being weird.", "Would you please refrain from commenting on my appearance?")
-        elif ct("Kamidere"):
-            $rc("It's a good idea to not talk like that, got it?", "Wipe that smug expression from your face.", "Cut that perverted talk.", "*sigh* Just be quiet, okay?")
-        elif ct("Tsundere"):
-            $rc("Y-you were thinking about something weird, weren't you?", "What are you talking about, geez...?")
-        elif ct("Kuudere"):
-            $rc("...Perv.", "Shut up. That's disgusting.")
-        elif ct("Bokukko"):
-            $rc("D-don't stare! It's totally embarrassing...", "Wh-why are you looking at me with such perverted eyes...")    
-        elif ct("Ane"):
-            $rc("That's no good, you'll dampen the mood like that.")
-        elif ct("Dandere"):
-            $rc("...Pervert.", "Weirdo...", "...annoying.", "...Shut up.", "Not for you.")
-        else:
-            $rc("What are you looking at, you idiot.", "I'll shut that annoying mouth of yours, physically.", "That was really kinky.", "What? Stop staring.", "*sigh*… Okay, that's enough…", "That was a bit over the top for a compliment.", "What are you saying, geez!", "Get lost, pervert!", "Hey, look at my eyes not my chest. OK?", "You're annoying...")    
-           
-    jump girl_interactions
+######
+    #if gm_last_success:
+    #    if ct("Yandere"):
+    #        $rc("Nfufu, boo-bies♪ boo-bies♪ -bies ♪", "Interested, aren't you? <smiles mischievously>")
+    #    elif ct("Shy") and dice(30):
+    #        $rc("U-Um... Please don't stare at me so much...", "Even though this is embarrassing... I'm glad...", "Don't look at me like that... I-I'm not embarrassed!")
+    #    elif ct("Kamidere"):
+    #        $rc("Do you seriously think so?", "Thanks, but next time keep talk like that for private, ok? ", "So you are that type of person…", "Thanks, I grew them myself.", "Thanks. {p=0.5}Hey, enough. How long will you stare for?!")
+    #    elif ct("Ane"):
+    #        $rc("My, don't stare so hard, okay...?", "If you're gonna look, pay me the viewer's fee!♪", "Thanks, but please don't stare like that, it's embarrassing.", "Do you like my breasts? Glad to hear it...")
+    #    elif ct("Imouto"):
+    #        $rc("Huhu ♪ Lookie, these are my awesome boobs ~ ♪", "Geez, don't loooook～♪")
+    #    elif ct("Kuudere"):
+    #        $rc("G-go ahead, if you're going to look then look!", "D-don't look... You can't!")
+    #    elif ct("Tsundere"):
+    #        $rc("Wh-who said you could look?", "Uuu... Stop staring at me like that...")
+    #    elif ct("Dandere"):
+    #        $rc("Hmmm… Interested?", "You like my body? ...good.")
+    #    elif ct("Bokukko"):
+    #        $rc("Hah hah hah! Go ahead, envy my boobs! Worship them!", "Hmm, already captivated by my exquisite breasts, huh!")
+    #    else:
+    #        $rc("It’s alright to look, but touching is not allowed, oo… fufufu.", "[hero.name], just where are you looking at? It’s alright, look at much as you like.", "Like the view? <pushes her chest up in a pose>", "Do you like my breasts? Glad to hear it...", "You're so perverted. <giggles>", "My body gets you excited, doesn't it?", "Thanks… Hey! Is that why you are interested in me?", "You think so? I'm glad...", "Really? I'm glad to hear that.")
+#
+    #else:
+    #    if ct("Shy") and dice(30):
+    #        $rc("Ummm... Please don't look....", "D...don't... say that!", "D-don't say such strange things...", "Uu... Don't say such a thing...", "Uwaa! T-this is, that's... I'm, that's… Ugh…")
+    #    elif ct("Impersonal"):
+    #        $rc("I can't really say I'm pleased.", "You are being weird.", "Would you please refrain from commenting on my appearance?")
+    #    elif ct("Kamidere"):
+    #        $rc("It's a good idea to not talk like that, got it?", "Wipe that smug expression from your face.", "Cut that perverted talk.", "*sigh* Just be quiet, okay?")
+    #    elif ct("Tsundere"):
+    #        $rc("Y-you were thinking about something weird, weren't you?", "What are you talking about, geez...?")
+    #    elif ct("Kuudere"):
+    #        $rc("...Perv.", "Shut up. That's disgusting.")
+    #    elif ct("Bokukko"):
+    #        $rc("D-don't stare! It's totally embarrassing...", "Wh-why are you looking at me with such perverted eyes...")    
+    #    elif ct("Ane"):
+    #        $rc("That's no good, you'll dampen the mood like that.")
+    #    elif ct("Dandere"):
+    #        $rc("...Pervert.", "Weirdo...", "...annoying.", "...Shut up.", "Not for you.")
+    #    else:
+    #        $rc("What are you looking at, you idiot.", "I'll shut that annoying mouth of yours, physically.", "That was really kinky.", "What? Stop staring.", "*sigh*… Okay, that's enough…", "That was a bit over the top for a compliment.", "What are you saying, geez!", "Get lost, pervert!", "Hey, look at my eyes not my chest. OK?", "You're annoying...")    
+    #       
+    #jump girl_interactions
     

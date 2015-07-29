@@ -6,9 +6,9 @@
 #  3 - proposition - hire
 
 ###### j1
-label interactions_friends: #if chars["Hinata"] in chars["Sakura"].friends:
+label interactions_friends:
     "You proposing to become friends."
-    if chars[char] in hero.friends:
+    if check_friends(char, hero):
         "But you already are!"
         python:
             char.AP += 1
@@ -38,10 +38,11 @@ label interactions_friends: #if chars["Hinata"] in chars["Sakura"].friends:
         $ fr_ch += 50
     else:
         $ fr_ch += 70
-    if char.disposition >= (250 - fr_ch) and dice(round((fr_ch + char.disposition)*0.25))):
+    if (char.disposition >= (250 - fr_ch)) and (dice(round((fr_ch + char.disposition)*0.25))):
+        $ set_friends(hero, char)
         if ct("Impersonal"):
             $rc("Very well.", "Alright.")
-        elif ct("Shy") and dice(30):  
+        elif ct("Shy") and dice(40):  
             $rc("Umm... That is... I-I'm in your care...!", "I think of you as a precious friend too.")
         elif ct("Kuudere"):  
             $rc("I can't think of any reason to refuse. Sure, why not.", "...Looks like we're a good match.")
@@ -61,12 +62,10 @@ label interactions_friends: #if chars["Hinata"] in chars["Sakura"].friends:
             $rc("You know, I'd be totally up for sex friend status.♪", "Well, we get along fine...")
         else:
            $rc("Mm, alright.", "Okay!", "I have the feeling I could get along with you.", "Hehehe, it's great to be friends～♪", "Of course. Let's get along♪")
-       # $ char.friends.add(hero)
-       # $ hero.friends.add(char)
     else:
         if ct("Impersonal"):  
             $rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
-        elif ct("Shy") and dice(30):
+        elif ct("Shy") and dice(40):
             $rc("I-I'm really sorry...", "Another time, maybe...", "Eh?")
         elif ct("Tsundere"):
             $rc("Huh? Why should I agree to that?", "Uh? Wha...what are you talking about?")
@@ -93,10 +92,35 @@ label interactions_friends: #if chars["Hinata"] in chars["Sakura"].friends:
 ###### j2    
 label interactions_girlfriend:
     "You proposing to become lovers."
-    if ct("Lesbian"):  
-        $rc("I'm terribly sorry, but... I can't do that with a man.", "Men for me are...well...", "Sorry. I'm weird, so... I'm not into guys.", "Men are...no.")
-        "Maybe you can find a way to change her orientation. There is nothing you can do for now."
+    if check_lovers(char, hero):
+        "But you already are!"
+
         jump girl_interactions
+    if ct("Lesbian"):
+        if ct("Impersonal"):
+            $rc("Opposite sex... Dismissed.")
+        elif ct("Shy") and dice(30):  
+            $rc("Ah, I'm sorry, I can't do that with a boy...")
+        elif ct("Imouto"):
+            $rc("If you were a girl...it'd be alright, but...")
+        elif ct("Dandere"):
+            $rc("Guys are...not for me.")
+        elif ct("Kuudere"):
+            $rc("Men for me are...well...")
+        elif ct("Tsundere"):
+            $rc("Hmph. And that's why I don't like men.")
+        elif ct("Bokukko"):  
+            $rc("Ew, don't wanna. You're a guy.")
+        elif ct("Ane"):
+            $rc("My apologies, I'm a lesbian.", "I'm terribly sorry, but... I can't do that with a man.")
+        elif ct("Yandere"):  
+            $rc("Sorry, I only like girls.")
+        elif ct("Kamidere"):
+            $rc("I have no interest in men.")
+        else: 
+            $rc("Sorry. I'm weird, so... I'm not into guys.")
+        jump girl_interactions
+        
     $ l_ch = 0
     if ct("Shy"):  
         $ l_ch -= 10
@@ -131,7 +155,8 @@ label interactions_girlfriend:
     else:
         $ l_ch += 70
     
-    if 1>0:# char.disposition >= (500 - l_ch) and dice(round((l_ch + char.disposition)*0.15))):
+    if (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
+        $ set_lovers(hero, char)
         if ct("Impersonal") in  char.traits:
             $rc("You want me to have an affair with you. Understood.", "As you wish. I'm yours.", "I understand. I suppose we're now lovers.")
         elif ct("Shy") and dice(20):  
@@ -154,32 +179,7 @@ label interactions_girlfriend:
             $rc("Of course! Now no one can keep us apart! Hehe♪", "We're sweethearts now?　Finally!♪", "I want to be yours as well♪", "Huhu, I'm not responsible if you regret it...", "You wanna do something dirty with me, right? You'd better!")
         else:
             $rc("Yes... I'll be by your side forever... Hehehe♪", "Gosh. Fine...", "O-Okay... Ahaha, this is kinda embarrassing...", "I guess I'm your girlfriend now.")
-#        $ char.lovers.add(hero)
-#        $ hero.lovers.add(char)
     else:
-        if ct("Lesbian"):
-            if ct("Impersonal"):
-                $rc("Opposite sex... Dismissed.")
-            elif ct("Shy") and dice(30):  
-                $rc("Ah, I'm sorry, I can't do that with a boy...")
-            elif ct("Imouto"):
-                $rc("If you were a girl...it'd be alright, but...")
-            elif ct("Dandere"):
-                $rc("Guys are...not for me.")
-            elif ct("Kuudere"):
-                $rc("Men for me are...well...")
-            elif ct("Tsundere"):
-                $rc("Hmph. You're out of your league.", "How about you go kill yourself?", "Y...you idiot! D... don't say something so embarassing like that!", "Jeez, please take your relationships more seriously!")
-            elif ct("Bokukko"):  
-                $rc("Ew, don't wanna. You're a guy.")
-            elif ct("Ane"):
-                $rc("My apologies, I'm a lesbian.")
-            elif ct("Yandere"):  
-                $rc("Sorry, I only like girls.")
-            elif ct("Kamidere"):
-                $rc("I have no interest in men.")
-            else: 
-                $rc("Sorry. I'm weird, so... I'm not into guys.")
         if ct("Impersonal"):
             $rc("Unable to process.", "I'm sorry, but I must refuse you.")
         elif ct("Shy") and dice(30):  

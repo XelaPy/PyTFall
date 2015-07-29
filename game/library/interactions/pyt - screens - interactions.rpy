@@ -99,7 +99,7 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("How She Feels", mode="girl_interactions", index=(m, 2))
             pytfall.world_actions.gm_choice("About Her", index=(m, 3))
             pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
-            pytfall.world_actions.gm_choice("Interests", mode="girl_interactions", index=(m, 5))
+            pytfall.world_actions.gm_choice("Interests", index=(m, 5))
             pytfall.world_actions.gm_choice("Romance", index=(m, 6))
             
             
@@ -128,27 +128,24 @@ label girl_interactions:
             
             # PRAISE
             m = 2
-            pytfall.world_actions.menu(m, "Praise", condition=_not_gt_mode)
-            pytfall.world_actions.gm_choice("Clever", index=(m, 0))
-            pytfall.world_actions.gm_choice("Strong", index=(m, 1))
-            pytfall.world_actions.gm_choice("Cute", index=(m, 2))
-            pytfall.world_actions.gm_choice("Breasts", index=(m, 3))
+            pytfall.world_actions.menu(m, "Praise",  condition="not(char in hero.girls)")
+            pytfall.world_actions.gm_choice("Clever", mode="girl_meets", index=(m, 0))
+            pytfall.world_actions.gm_choice("Strong", mode="girl_meets", index=(m, 1))
+            pytfall.world_actions.gm_choice("Cute", mode="girl_meets", index=(m, 2))
             
-            # SCOLD
-            m = 3
-            pytfall.world_actions.menu(m, "Scold", condition=_not_gt_mode)
-            pytfall.world_actions.gm_choice("Dumb", label="insult", index=(m, 0))
-            pytfall.world_actions.gm_choice("Boring", label="insult", index=(m, 1))
-            pytfall.world_actions.gm_choice("Ugly", label="insult", index=(m, 2))
-            pytfall.world_actions.gm_choice("Slut", index=(m, 3))
-            
+          
             # GIVE MONEY
-            m = 4
-            pytfall.world_actions.menu(m, "Give Money")
+            m = 3
+            pytfall.world_actions.menu(m, "Give Money", condition="char.status != 'slave'")
             pytfall.world_actions.gm_choice("25G", label="gm25g", index=(m, 0))
             pytfall.world_actions.gm_choice("50G", label="gm50g", index=(m, 1))
             pytfall.world_actions.gm_choice("100G", label="gm100g", index=(m, 2))
             pytfall.world_actions.gm_choice("500G", label="gm500g", index=(m, 3))
+            
+            m = 4
+            pytfall.world_actions.menu(m, "Money", condition="char.status == 'slave'")
+            pytfall.world_actions.gm_choice("Give", label="int_give_money", index=(m, 0))
+            pytfall.world_actions.gm_choice("Take", label="int_take_money", index=(m, 1))
             
             # GIVE GIFT
             m = 5
@@ -162,45 +159,24 @@ label girl_interactions:
             
             # PROPOSITION
             m = 6
-            pytfall.world_actions.menu(m, "Proposition", condition=_gm_mode)
-            pytfall.world_actions.gm_choice("Friends", index=(m, 0))
-            pytfall.world_actions.gm_choice("Girlfriend", index=(m, 1))
-            pytfall.world_actions.gm_choice("Hire", index=(m, 2))
+            pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.girls) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
+            pytfall.world_actions.gm_choice("Friends", condition="not check_friends(char, hero)", index=(m, 0))
+            pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 1))
+            pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.girls)", index=(m, 2))
             
-            # INTAMACY
+            # INTIMACY
             m = 7
             pytfall.world_actions.menu(m, "Intimacy")
+            pytfall.world_actions.gm_choice("Hug", index=(m, 0))
+            pytfall.world_actions.gm_choice("Slap Butt", index=(m, 1))
+            pytfall.world_actions.gm_choice("Grab Breasts", index=(m, 2))
+            pytfall.world_actions.gm_choice("Kiss", index=(m, 3))
+            pytfall.world_actions.gm_choice("Sex", index=(m, 4))
+            pytfall.world_actions.gm_choice("Become Fr", index=(m, 5))
+            pytfall.world_actions.gm_choice("Become Lv", index=(m, 6))
+            pytfall.world_actions.gm_choice("Disp", index=(m, 7))
             
-            # TOUCH
-            n = 0
-            pytfall.world_actions.menu((m, n), "Touch")
-            pytfall.world_actions.gm_choice("Hug", index=(m, n, 0))
-            pytfall.world_actions.gm_choice("Hold Hands", index=(m, n, 1))
-            pytfall.world_actions.gm_choice("Slap Butt", index=(m, n, 2))
-            pytfall.world_actions.gm_choice("Grab Breasts", index=(m, n, 3))
-            
-            # KISS
-            n = 1
-            pytfall.world_actions.menu((m, n), "Kiss")
-            pytfall.world_actions.gm_choice("Hand", index=(m, n, 0))
-            pytfall.world_actions.gm_choice("Forehead", index=(m, n, 1))
-            pytfall.world_actions.gm_choice("Cheek", index=(m, n, 2))
-            pytfall.world_actions.gm_choice("Mouth", index=(m, n, 3))
-            
-            # SEX
-            n = 2
-            pytfall.world_actions.gm_choice("Sex", mode="girl_meets", index=(m, n))
-            
-            n = 3
-            pytfall.world_actions.menu((m, n), "Sex", condition=_not_gm_mode)
-            pytfall.world_actions.gm_choice("Fuck", index=(m, n, 0))
-            pytfall.world_actions.gm_choice("Blowjob", index=(m, n, 1))
-            pytfall.world_actions.gm_choice("Anal", index=(m, n, 2))
-            pytfall.world_actions.gm_choice("Tribadism", label="lesbo", index=(m, n, 3))
-            
-            n = 4
-            pytfall.world_actions.gm_choice("Fuck", condition=config.debug, index=(m, 7))
-            
+           
             # Back
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
             

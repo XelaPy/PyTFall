@@ -608,7 +608,7 @@ label interactions_aboutoccupation:
                 $rc("Oral sex is my strong point.", "Oral is my specialty.", "I'm the best in oral sex.")
             if co("Stright Prostitute"):
                 $rc("Vaginal sex is my strong point.", "Vaginal is my specialty.", "I'm the best in vaginal sex.")
-            if co("BDSM Prostitute"):
+            if co("Mistress"):
                 $rc("I prefer S&M, myself. Wanna try sometime? ♪", "BDSM is my specialty.", "I'm the best in S&M.")
             if co("Stripper"):
                 $rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
@@ -803,7 +803,7 @@ label interactions_romance:
         else:
             $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love～...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Love... sure is a good thing...", "Everyone wants to fall in love.")
 
-    $ char.disposition += round(dice (11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
+    $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
     jump girl_interactions
 
 ###### j7
@@ -917,4 +917,17 @@ label interactions_occupation:
                 hero.AP += 1
     
     jump girl_interactions
+
+label interactions_disp:
+    $ char.disposition += 250
+    jump girl_interactions
     
+label interactions_becomefr:
+    $ char.disposition += 500
+    $ set_friends(hero, char)
+    jump girl_interactions
+    
+label interactions_becomelv:
+    $ char.disposition += 500
+    $ set_lovers(hero, char)
+    jump girl_interactions

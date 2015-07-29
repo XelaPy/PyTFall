@@ -106,7 +106,9 @@
     "mod": {"attack": 25, "character": 10},
     "max": {"attack": 5, "character": 5},
     "mod_skills": {"bdsm": [0.15, 0.1, 0.15]},
-    "sexual": true
+    "sexual": true,
+    "character_trait": true,
+    "client": true
     },
     {
     "id": "Masochist",
@@ -114,13 +116,16 @@
     "mod": {"attack": -25, "character": -10},
     "max": {"defence": -5, "character": -5},
     "mod_skills": {"bdsm": [0.15, 0.1, 0.15]},
-    "sexual": true
+    "sexual": true,
+    "character_trait": true
     },
     {
     "id": "Lesbian",
     "desc": "This girl prefers women to men.",
     "block_traits": ["Bisexual"],
-    "sexual": true
+    "sexual": true,
+    "client": true,
+    "character_trait": true
     },
     {
     "id": "Nymphomaniac",
@@ -128,7 +133,9 @@
     "block_traits": ["Frigid"],
     "mod": {"upkeep": 10},
     "mod_skills": {"bdsm": [0.03, 0.01, 0.02], "vaginal": [0.05, 0.02, 0.08], "anal": [0.05, 0.02, 0.08], "oral": [0.03, 0.01, 0.02], "teaching": [-0.05, 0, -0.1]},
-    "sexual": true
+    "sexual": true,
+    "client": true,
+    "character_trait": true
     },
     {
     "id": "Frigid",
@@ -136,27 +143,32 @@
     "block_traits": ["Nymphomaniac"],
     "mod": {"upkeep": -10},
     "mod_skills": {"bdsm": [-0.03, -0.01, -0.02], "vaginal": [-0.05, -0.02, -0.08], "anal": [-0.05, -0.02, -0.08], "oral": [-0.03, -0.01, -0.02], "teaching": [0.05, 0, 0.1]},
-    "sexual": true
+    "sexual": true,
+    "client": true,
+    "character_trait": true
     },
     {
     "id": "Bisexual",
     "desc": "This girl considers herself a bisexual.",
     "block_traits": ["Lesbian"],
-    "sexual": true
+    "sexual": true,
+    "character_trait": true
     },
 
     {
     "id": "Exhibitionnist",
     "desc": "She doesn't hide anything. At least physically.",
     "mod_skills": {"strip": [0.1, 0.1, 0.1], "management": [0, 0, -0.15], "teaching": [0, 0, -0.15]},
-    "sexual": true
+    "sexual": true,
+    "character_trait": true
     },
     {
     "id": "Sexy Air",
     "desc": "Something about this girl is just so sexy. Everything she does is hot.",
     "max": {"character": 5, "charisma": 5},
     "mod_skills": {"strip": [0, 0, 0.01], "dancing": [0, 0, 0.01], "teaching": [0, 0, -0.05], "waiting": [0, 0, 0.01], "bartending": [0, 0, 0.01], "service": [0, 0, 0.01]},
-    "sexual": true
+    "sexual": true,
+    "character_trait": true
     },
     {
     "id": "Energetic",
