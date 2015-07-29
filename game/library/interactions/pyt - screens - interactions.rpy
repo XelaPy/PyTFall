@@ -136,14 +136,19 @@ label girl_interactions:
           
             # GIVE MONEY
             m = 3
-            pytfall.world_actions.menu(m, "Give Money")
+            pytfall.world_actions.menu(m, "Give Money", condition="char.status != 'slave'")
             pytfall.world_actions.gm_choice("25G", label="gm25g", index=(m, 0))
             pytfall.world_actions.gm_choice("50G", label="gm50g", index=(m, 1))
             pytfall.world_actions.gm_choice("100G", label="gm100g", index=(m, 2))
             pytfall.world_actions.gm_choice("500G", label="gm500g", index=(m, 3))
             
-            # GIVE GIFT
             m = 4
+            pytfall.world_actions.menu(m, "Money", condition="char.status == 'slave'")
+            pytfall.world_actions.gm_choice("Give", label="int_give_money", index=(m, 0))
+            pytfall.world_actions.gm_choice("Take", label="int_take_money", index=(m, 1))
+            
+            # GIVE GIFT
+            m = 5
             pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]))
             
             # GO OUT
@@ -153,14 +158,14 @@ label girl_interactions:
            # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
             
             # PROPOSITION
-            m = 5
+            m = 6
             pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.girls) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
             pytfall.world_actions.gm_choice("Friends", condition="not check_friends(char, hero)", index=(m, 0))
             pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 1))
             pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.girls)", index=(m, 2))
             
             # INTIMACY
-            m = 6
+            m = 7
             pytfall.world_actions.menu(m, "Intimacy")
             pytfall.world_actions.gm_choice("Hug", index=(m, 0))
             pytfall.world_actions.gm_choice("Slap Butt", index=(m, 1))

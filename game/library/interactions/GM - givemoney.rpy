@@ -27,11 +27,6 @@ label interactions_gm25g:
         elif check_lovers(char, hero) or check_friends(char, hero):
             "You are not strangers, so she has nothing against your money. But it's not enough to change much."
             $ char.gold += 25
-        elif char.status == "slave":
-            "Her training doesn't allow her to refuse. But it's not enough to change much."
-            $ char.gold += 25
-            if char.disposition < 0:
-                $ char.disposition += (randint(1, 2))
         else:
             "She refuses to take your money."
             $ char.disposition -= (randint(4, 10))
@@ -63,11 +58,6 @@ label interactions_gm50g:
         elif check_lovers(char, hero) or check_friends(char, hero):
             "You are not strangers, so she has nothing against your money. But it's not enough to change much."
             $ char.gold += 50
-        elif char.status == "slave":
-            "Her training doesn't allow her to refuse. But it's not enough to change much."
-            $ char.gold += 50
-            if char.disposition < 0:
-                $ char.disposition += (randint(1, 2))
         else:
             "She refuses to take your money."
             $ char.disposition -= (randint(8, 20))
@@ -99,11 +89,6 @@ label interactions_gm100g:
         elif check_lovers(char, hero) or check_friends(char, hero):
             "You are not strangers, so she has nothing against your money. But it's not enough to change much."
             $ char.gold += 100
-        elif char.status == "slave":
-            "Her training doesn't allow her to refuse. But it's not enough to change much."
-            $ char.gold += 100
-            if char.disposition < 0:
-                $ char.disposition += (randint(1, 2))
         else:
             "She refuses to take your money."
             $ char.disposition -= (randint(7, 15))
@@ -134,11 +119,6 @@ label interactions_gm500g:
         elif check_lovers(char, hero) or check_friends(char, hero):
             "You are not strangers, so she has nothing against your money. But it's not enough to change much."
             $ char.gold += 500
-        elif char.status == "slave":
-            "Her training doesn't allow her to refuse. But it's not enough to change much."
-            $ char.gold += 500
-            if char.disposition < 0:
-                $ char.disposition += (randint(1, 2))
         else:
             "She refuses to take your money."
             $ char.disposition -= (randint(9, 20))
@@ -148,3 +128,24 @@ label interactions_gm500g:
     
     jump girl_interactions
     
+label interactions_int_give_money:
+    $ temp = renpy.input("You decided to give her some money. You have [hero.gold] G.", allow="1234567890")
+    $ python_BS = int(temp)
+    if hero.gold >= python_BS:
+        $ hero.gold -= python_BS
+        $ char.gold += python_BS
+        "You gave her [temp] G."
+    else:
+        "You don't have such amount of gold."
+    jump girl_interactions
+    
+label interactions_int_take_money:
+    $ temp = renpy.input("You decided to take her money. She has [char.gold] G.", allow="1234567890")
+    $ python_BS = int(temp)
+    if char.gold >= python_BS:
+        $ hero.gold += python_BS
+        $ char.gold -= python_BS
+        "You took [temp] G."
+    else:
+        "She doesn't have such amount of gold."
+    jump girl_interactions
