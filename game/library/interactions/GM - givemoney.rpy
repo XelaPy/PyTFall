@@ -129,35 +129,15 @@ label interactions_gm500g:
     jump girl_interactions
     
 label interactions_int_give_money:
-    # $ temp = renpy.input("You decided to give her some money. You have [hero.gold] G.", allow="1234567890")
-    # if temp == "":
-        # "You changed your mind."
-        # jump girl_interactions
-    # $ python_BS = int(temp)
-    # if hero.gold >= python_BS: # that's right, it is python bullsh*t that you have to use another variable without a reason
-        # $ hero.gold -= python_BS
-        # $ char.gold += python_BS
-        # "You gave her [temp] G."
-    # else:
-        # "You don't have such amount of gold."
-        
-    # @BS BS BS BS BS ;)
-    # Even Shakespeares works would look like bullsh*t if you did not know how to read/write...
-    # Just give it a bit of time, you'll figure out Python soon enough!
     python:
         try:
-            temp = int(renpy.input("Enter a Number:", allow="1234567890"))
+            temp = int(renpy.input("You decided to give her some money. You have [hero.gold] G.", allow="1234567890"))
         except ValueError:
+            "You changed your mind."
             renpy.jump("girl_interactions")
-            
-    # This bit is not required for this interaction, but I'll put it here just to point out apparent absence of BS:
-    # Do note that none of this interrupts the program in any way or form while the code is run on every interaction:
-    $ temp = int(temp)
-    if hero.gold >= int(str(temp)):
-        $ pass
-    # End..
-    
-            
+    if temp == 0:
+        "You changed your mind."
+        jump girl_interactions
     if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
         $ char.add_money(temp) # Same...
         "You gave her [temp] G."
@@ -166,14 +146,17 @@ label interactions_int_give_money:
     jump girl_interactions
     
 label interactions_int_take_money:
-    $ temp = renpy.input("You decided to take her money. She has [char.gold] G.", allow="1234567890")
-    if temp == "":
+    python:
+        try:
+            temp = int(renpy.input("You decided to take her money. She has [char.gold] G.", allow="1234567890"))
+        except ValueError:
+            "You changed your mind."
+            renpy.jump("girl_interactions")
+    if temp == 0:
         "You changed your mind."
         jump girl_interactions
-    $ python_BS = int(temp)
-    if char.gold >= python_BS:
-        $ hero.gold += python_BS
-        $ char.gold -= python_BS
+    if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
+        $ hero.add_money(temp) # Same...
         "You took [temp] G."
     else:
         "She doesn't have such amount of gold."
