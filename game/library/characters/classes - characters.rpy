@@ -3187,6 +3187,7 @@ init -9 python:
                      - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
                      - any = will try to find an image with any of the tags chozen at random
                      - first_default = will use first tag as a default instead of a profile and only than switch to profile
+                     - pop = try all tags first, if that fails, pop the last tag and try without it. Repeat until none remains and fall back to profile or default.
                 add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
             '''
             maxw, maxh = kwargs.get("resize", (None, None))
@@ -3197,9 +3198,12 @@ init -9 python:
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
             # add character folder name to tags (aka self.id)
-            tags = list(tags)
-            tags.append(self.id)
+            tags, original_tags = list(tags), list(tags)
+            # tags.append(self.id)
             imgpath = ""
+            
+            if not any([maxw, maxh]): # @TODO: Remove adding self.id to tags after we're done with Debugging!!! and update the code accordingly.
+                raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
             
             # Make sure we don't mess up tags by adding the mood if mood tag has already been selected in args:
             # auto-tagging seems to be messing up some good tagging during jobs so until we fix that:
@@ -3214,7 +3218,7 @@ init -9 python:
                 else:
                     # We get the current mood tag:
                     mood_tag = self.get_mood_tag()
-                    tags_with_mood = tags + [mood_tag]
+                    # tags_with_mood = tags + [mood_tag]
             
             if label_cache:
                 for entry in self.img_cache:
@@ -3226,78 +3230,78 @@ init -9 python:
                     if entry[0] == tags:
                          return ProportionalScale(entry[1], maxw, maxh)
             
-            # select, load and resize image (Get imgpath)
-            if type == "normal":
+            # Select Image (set imgpath)
+            if type in ["normal", "first_default", "reduce"]:
                 # Try the mood first:
                 if add_mood:
-                    imgpath = self.select_image(*tags_with_mood, exclude=exclude)
+                    imgpath = self.select_image(self.id, mood_tag, *tags, exclude=exclude)
                 # in case we failed or didn't want the mood:
                 if not imgpath:
-                    imgpath = self.select_image(*tags, exclude=exclude)
-                # Try different combinations
-                # Try with mood first...
-                if add_mood:
-                    if not imgpath and not len(tags) <= 3:
-                        tags_backup = tags * 1
-                        tags.remove(self.id)
+                    imgpath = self.select_image(self.id, *tags, exclude=exclude)
+
+                if type in ["normal", "first_default"]:
+                    # We try to find tags accordingly:
+                    # Try with mood first...
+                    if add_mood:
+                        if not imgpath and len(tags) > 1:
+                            # tags_backup = tags[:]
+                            # tags.remove(self.id)
+                            main_tag = tags.pop(0)
+                            while tags and not imgpath:
+                                descriptor_tag = tags.pop()
+                                imgpath = self.select_image(self.id,  main_tag, descriptor_tag, mood_tag, exclude=exclude)
+                            tags = original_tags[:]
+                    # Then try normal behavior without the mood:    
+                    if not imgpath and len(tags) > 1:
+                        # tags_backup = tags[:]
+                        # tags.remove(self.id)
                         main_tag = tags.pop(0)
                         while tags and not imgpath:
                             descriptor_tag = tags.pop()
-                            imgpath = self.select_image(main_tag, descriptor_tag, mood_tag, self.id, exclude=exclude)
-                        tags = tags_backup
-                # Then try normal behavior without the mood:    
-                if not imgpath and not len(tags) <= 3:
-                    tags_backup = tags * 1
-                    tags.remove(self.id)
-                    main_tag = tags.pop(0)
-                    while tags and not imgpath:
-                        descriptor_tag = tags.pop()
-                        imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
-                    tags = tags_backup
+                            imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
+                        tags = original_tags[:]
+                        
+                    if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
+                        if add_mood:
+                            imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
+                        else:    
+                            imgpath = self.select_image(main_tag, self.id, exclude=exclude)
+                            
+                elif type == "reduce":
+                    # Try all tags, popping the last one on each failed attempt.
+                    if not imgpath and len(tags) > 1:
+                        # Try with the mood first:
+                        if add_mood:
+                            main_tag = tags.pop(0)
+                            imgpath = self.select_image(self.id, main_tag, mood_tag, *tags, exclude=exclude)
+                            while tags and not imgpath:
+                                tags.pop()
+                                imgpath = self.select_image(self.id, main_tag, mood_tag, *tags, exclude=exclude)
+                            tags = original_tags[:]
+                            
+                        if not imgpath:
+                            main_tag = tags.pop(0)
+                            imgpath = self.select_image(self.id, main_tag, *tags, exclude=exclude)
+                            while tags and not imgpath:
+                                tags.pop()
+                                imgpath = self.select_image(self.id, main_tag, *tags, exclude=exclude)
+                            tags = original_tags[:]
+                        
             elif type == "any":
-                tags_backup = tags * 1
-                tags.remove(self.id)
                 shuffle(tags)
                 # Try with the mood first:
                 if add_mood:
                     while tags and not imgpath:
                         tag = tags.pop()
-                        imgpath = self.select_image(tag, self.id, mood_tag, exclude=exclude)
-                    tags = tags_backup
-                # Then try 'any'' behavior without the mood:
+                        imgpath = self.select_image(self.id, tag, mood_tag, exclude=exclude)
+                    tags = original_tags[:]
+                # Then try 'any' behavior without the mood:
+                shuffle(tags)
                 while tags and not imgpath:
                     tag = tags.pop()
-                    imgpath = self.select_image(tag, self.id, exclude=exclude)
-                tags = tags_backup
-            elif type == "first_default":
-                # Try the mood first:
-                if add_mood:
-                    imgpath = self.select_image(*tags_with_mood, exclude=exclude)
-                # in case we failed or didn't want the mood:
-                if not imgpath:
-                    imgpath = self.select_image(*tags, exclude=exclude)
-                    
-                # Try different combinations
-                if not imgpath and len(tags) > 2:
-                    tags_backup = tags * 1
-                    tags.remove(self.id)
-                    # Try with the mood first:
-                    if add_mood:
-                        main_tag = tags.pop(0)
-                        while tags and not imgpath:
-                            descriptor_tag = tags.pop()
-                            imgpath = self.select_image(main_tag, descriptor_tag, self.id, mood_tag, exclude=exclude)
-                        imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
-                        tags = tags_backup
-                    # "first_default" behavior OR auto-mood was not desired    
-                    if not imgpath:
-                        main_tag = tags.pop(0)
-                        while tags and not imgpath:
-                            descriptor_tag = tags.pop()
-                            imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
-                        imgpath = self.select_image(main_tag, self.id, exclude=exclude)
-                        tags = tags_backup
-                    
+                    imgpath = self.select_image(self.id, tag, exclude=exclude)
+                tags = original_tags[:]
+
             if imgpath == "":
                 msg = "could not find image with tags %s"
                 if default == None:
@@ -3306,7 +3310,7 @@ init -9 python:
                     devlog.warning(str(msg % sorted(tags)))
                     return default
             
-            # If we got here without being able to find an image:        
+            # If we got here without being able to find an image ("profile" lookup failed is the only option):        
             if not imgpath:
                 devlog.warning(str("Total failure while looking for image with %s tags!!!" % sorted(tags)))
                 imgpath = "content/gfx/interface/images/no_image.png"
@@ -3318,11 +3322,9 @@ init -9 python:
             
             if label_cache:
                 self.img_cache.append([tags, last_label, imgpath])
-                return image
                 
             if cache:
                 self.cache.append([tags, imgpath])
-                return image
                 
             return image
             

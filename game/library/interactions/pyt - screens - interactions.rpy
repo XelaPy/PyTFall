@@ -28,8 +28,8 @@ label girl_interactions:
         hs()
         
         # Set characters
-        g = Character(char.name, color="#c8ffc8", show_two_window=True)
-        h = Character(hero.name, color="#c8ffc8", show_two_window=True)
+        g = char.say
+        h = hero.say
         nvl_gm = Character(None, kind=nvl)
         
         # Run quests and events
@@ -220,7 +220,7 @@ label girl_interactions_control:
                 # Girls Meets
                 if result[1] == "GM":
                     # Include img as coming from int and tr prevents the "img from last location" from working
-                    gm.start_gm(char, img=char.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
+                    gm.start_gm(char, img=char.show("profile", resize=gm.img_size, exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
                 
                 # Interactions
                 elif result[1] == "GI":
@@ -325,10 +325,11 @@ screen pyt_girl_interactions():
         
         frame:
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-            if isinstance(gm.img, im.ImageBase):
-                add ProportionalScale(gm.img, 515, 515)
+            # basestring assumes that image is coming from cache, so it simply a path.
+            if isinstance(gm.img, basestring):
+                add ProportionalScale(gm.img, gm.img_size[0], gm.img_size[1])
             else:
-                add renpy.easy.displayable(gm.img)
+                add gm.img
         
         if config.developer:
             null width 15

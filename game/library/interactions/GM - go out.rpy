@@ -17,7 +17,7 @@ label interactions_beach:
     
     "You take a walk on the beach. "
     
-    $ renpy.show('char', what=char.show('datebeach', resize=(700,600)), at_list=[Position(ypos = 0.77)])
+    $ renpy.show('char', what=char.show('datebeach', resize=(700, 600)), at_list=[Position(ypos = 0.77)])
     with dissolve
     
     "The weather is really nice. "

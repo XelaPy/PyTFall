@@ -94,6 +94,7 @@ init -1 python:
             """
             # Mode and caches
             self.mode = None
+            self.img_size = (600, 515) # Img size we automatically use for girlsmeets.
             self.label_cache = ""
             self.bg_cache = ""
             self.jump_cache = ""
@@ -151,12 +152,14 @@ init -1 python:
             *Used upon first entering a location! This writes to cache so we know what image to fall back upon!
             """
             self.img_cache = self.img
+            kwargs["resize"] = kwargs.get("resize", self.img_size)
             self.img = self.char.show(*args, **kwargs)
             
         def set_img(self, *args, **kwargs):
             """
             Sets the image, bypassing the image cache.
             """
+            kwargs["resize"] = kwargs.get("resize", self.img_size)
             self.img = self.char.show(*args, **kwargs)
         
         def change_img(self, img):
@@ -258,7 +261,7 @@ init -1 python:
                 self.img = self.char.get_img_from_cache(str(last_label))
                 
                 if self.img == "":
-                    self.img = self.char.show("profile", exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"])
+                    self.img = self.char.show("profile", resize=self.img_size, exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"])
             
             else:
                 self.img = img
@@ -282,7 +285,6 @@ init -1 python:
             """
             if girl.location == "girl_meets_quest":
                 self.start(girl.id, girl, img, exit, bg)
-            
             else:
                 self.start("girl_meets", girl, img, exit, bg)
         
