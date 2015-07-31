@@ -51,7 +51,9 @@ screen say(who, what, side_image=None, two_window=False):
 
     # If there's a side image, display it above the text.
     if side_image:
-        add ProportionalScale (side_image, 120, 120) xalign 0.138 yalign 0.968 #1.0
+        # We supply this here since it's always the same value for all characters. This can easiely be moved to the declararion of classes.
+        # add ProportionalScale(side_image, 120, 120) xalign 0.138 yalign 0.968 #1.0
+        add side_image xalign 0.138 yalign 0.968
     else:
         add SideImage() xalign 0.0 yalign 1.0
 

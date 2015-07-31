@@ -2178,7 +2178,7 @@ init -9 python:
             self.log_stats()
             
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(140, 140)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), window_left_padding=230)
             
             self.restore_ap()
             
@@ -2241,7 +2241,7 @@ init -9 python:
                 self.arena_active = False # Indicates that char fights at Arena at the time.
 
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(140, 140)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), window_left_padding=230)
                 
             self.restore_ap()
             
@@ -2303,7 +2303,7 @@ init -9 python:
                 self.portrait = self.battle_sprite
                 
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(140, 140)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), window_left_padding=230)
                 
             self.restore_ap()
         
@@ -3019,7 +3019,7 @@ init -9 python:
             self.set_flag("day_since_shopping", 1)
             
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(140, 140)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=DynamicDisplayable(self._portrait), window_left_padding=230)
         
         def get_availible_pics(self):
             """
@@ -3111,6 +3111,21 @@ init -9 python:
         def add_money(self, value, reason="Other"):
             self.fin.add_money(value, reason)
         ### Displaying images
+        #@property
+        def _portrait(self, st, at):
+            if self.flag("fixed_portrait"):
+                return self.flag("fixed_portrait"), None
+            else:
+                return self.show("portrait", self.get_mood_tag(), cache=True, resize=(120, 120)), None
+                
+        def override_portrait(self, *args, **kwargs):
+            kwargs["resize"] = kwargs.get("resize", (120, 120))
+            kwargs["cache"] = kwargs.get("cache", True)
+            self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            
+        def restore_portrait(self):
+            self.del_flag("fixed_portrait")
+                
         def get_mood_tag(self):
             """
             This should return a tag that describe characters mood.
@@ -3193,32 +3208,24 @@ init -9 python:
             maxw, maxh = kwargs.get("resize", (None, None))
             cache = kwargs.get("cache", False)
             label_cache = kwargs.get("label_cache", False)
-            add_mood = kwargs.get("add_mood", True)
             exclude = kwargs.get("exclude", None)
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
-            # add character folder name to tags (aka self.id)
-            tags, original_tags = list(tags), list(tags)
-            # tags.append(self.id)
+
+            add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
+            if set(tags).intersection(self.MOOD_TAGS):
+                add_mood = False
+            
+            pure_tags = list(tags)
+            tags = list(tags)
+            if add_mood:
+                mood_tag = self.get_mood_tag()
+                tags.append(mood_tag)
+            original_tags = tags[:]
             imgpath = ""
             
             if not any([maxw, maxh]): # @TODO: Remove adding self.id to tags after we're done with Debugging!!! and update the code accordingly.
                 raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
-            
-            # Make sure we don't mess up tags by adding the mood if mood tag has already been selected in args:
-            # auto-tagging seems to be messing up some good tagging during jobs so until we fix that:
-            # Adding portrait here as well.
-            if not set(["profile", "portrait"]).intersection(tags):
-                add_mood = False
-                
-            if add_mood:
-                check_the_mood = set(tags)
-                if check_the_mood.intersection(self.MOOD_TAGS):
-                    add_mood = False
-                else:
-                    # We get the current mood tag:
-                    mood_tag = self.get_mood_tag()
-                    # tags_with_mood = tags + [mood_tag]
             
             if label_cache:
                 for entry in self.img_cache:
@@ -3232,62 +3239,49 @@ init -9 python:
             
             # Select Image (set imgpath)
             if type in ["normal", "first_default", "reduce"]:
-                # Try the mood first:
                 if add_mood:
-                    imgpath = self.select_image(self.id, mood_tag, *tags, exclude=exclude)
-                # in case we failed or didn't want the mood:
-                if not imgpath:
                     imgpath = self.select_image(self.id, *tags, exclude=exclude)
+                if not imgpath:
+                    imgpath = self.select_image(self.id, *pure_tags, exclude=exclude)
 
                 if type in ["normal", "first_default"]:
-                    # We try to find tags accordingly:
-                    # Try with mood first...
-                    if add_mood:
-                        if not imgpath and len(tags) > 1:
-                            # tags_backup = tags[:]
-                            # tags.remove(self.id)
-                            main_tag = tags.pop(0)
-                            while tags and not imgpath:
-                                descriptor_tag = tags.pop()
-                                imgpath = self.select_image(self.id,  main_tag, descriptor_tag, mood_tag, exclude=exclude)
-                            tags = original_tags[:]
-                    # Then try normal behavior without the mood:    
-                    if not imgpath and len(tags) > 1:
-                        # tags_backup = tags[:]
-                        # tags.remove(self.id)
+                    if not imgpath and len(pure_tags) > 1:
+                        tags = pure_tags[:]
                         main_tag = tags.pop(0)
                         while tags and not imgpath:
                             descriptor_tag = tags.pop()
-                            imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
+                            
+                            # We will try mood tag on the last lookup as well, it can do no harm here:
+                            if not tags:
+                                imgpath = self.select_image(main_tag, descriptor_tag, self.id, mood_tag, exclude=exclude)
+                            if not imgpath:
+                                imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
                         tags = original_tags[:]
                         
                     if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
                         if add_mood:
                             imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
-                        else:    
+                        else:
                             imgpath = self.select_image(main_tag, self.id, exclude=exclude)
                             
                 elif type == "reduce":
-                    # Try all tags, popping the last one on each failed attempt.
-                    if not imgpath and len(tags) > 1:
-                        # Try with the mood first:
-                        if add_mood:
-                            main_tag = tags.pop(0)
-                            imgpath = self.select_image(self.id, main_tag, mood_tag, *tags, exclude=exclude)
-                            while tags and not imgpath:
-                                tags.pop()
-                                imgpath = self.select_image(self.id, main_tag, mood_tag, *tags, exclude=exclude)
-                            tags = original_tags[:]
-                            
                         if not imgpath:
+                            tags = pure_tags[:]
                             main_tag = tags.pop(0)
                             imgpath = self.select_image(self.id, main_tag, *tags, exclude=exclude)
                             while tags and not imgpath:
                                 tags.pop()
-                                imgpath = self.select_image(self.id, main_tag, *tags, exclude=exclude)
+                                
+                                # We will try mood tag on the last lookup as well, it can do no harm here:
+                                if not tags:
+                                    imgpath = self.select_image(self.id, main_tag, mood_tag, *tags, exclude=exclude)
+                                if not imgpath:
+                                    imgpath = self.select_image(self.id, main_tag, descriptor_tag, self.id, exclude=exclude)
+                                    
                             tags = original_tags[:]
                         
             elif type == "any":
+                tags = pure_tags[:]
                 shuffle(tags)
                 # Try with the mood first:
                 if add_mood:
@@ -3296,16 +3290,21 @@ init -9 python:
                         imgpath = self.select_image(self.id, tag, mood_tag, exclude=exclude)
                     tags = original_tags[:]
                 # Then try 'any' behavior without the mood:
-                shuffle(tags)
-                while tags and not imgpath:
-                    tag = tags.pop()
-                    imgpath = self.select_image(self.id, tag, exclude=exclude)
-                tags = original_tags[:]
+                if not imgpath:
+                    tags = pure_tags[:]
+                    shuffle(tags)
+                    while tags and not imgpath:
+                        tag = tags.pop()
+                        imgpath = self.select_image(self.id, tag, exclude=exclude)
+                    tags = original_tags[:]
 
             if imgpath == "":
                 msg = "could not find image with tags %s"
                 if default == None:
-                    imgpath = self.select_image(self.id, 'profile')
+                    if add_mood:
+                        imgpath = self.select_image(self.id, 'profile', mood_tag)
+                    if not imgpath:
+                        self.select_image(self.id, 'profile')
                 else:
                     devlog.warning(str(msg % sorted(tags)))
                     return default
@@ -3314,19 +3313,14 @@ init -9 python:
             if not imgpath:
                 devlog.warning(str("Total failure while looking for image with %s tags!!!" % sorted(tags)))
                 imgpath = "content/gfx/interface/images/no_image.png"
-                    
-            if (maxw is not None) and (maxh is not None):
-                image = ProportionalScale(imgpath, maxw, maxh)
-            else:
-                image = Image(imgpath)
             
             if label_cache:
                 self.img_cache.append([tags, last_label, imgpath])
-                
+                 
             if cache:
                 self.cache.append([tags, imgpath])
                 
-            return image
+            return ProportionalScale(imgpath, maxw, maxh)
             
         def get_img_from_cache(self, label):
             """
