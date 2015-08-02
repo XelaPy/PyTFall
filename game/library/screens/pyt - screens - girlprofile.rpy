@@ -173,7 +173,7 @@ screen pyt_girl_profile():
                 frame:
                     align(0.5, 0.5)
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                    add ProportionalScale(img, 600, 514) align(0.5, 0.5)
+                    add img align(0.5, 0.5)#ProportionalScale(img, 600, 514) align(0.5, 0.5)
                 
                 action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), Function(gm.start_int_or_tr, char)], false=NullAction())
                 
