@@ -19,7 +19,7 @@ label start:
     python:
         # Global variables and loading content:
         day = 1
-        difficulty = Difficulties()
+        # difficulty = Difficulties()
         
         # Load random names selections for rGirls:
         tl.timer("Loading: Random Name Files")
