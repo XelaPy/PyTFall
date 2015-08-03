@@ -3252,7 +3252,7 @@ init -9 python:
                             descriptor_tag = tags.pop()
                             
                             # We will try mood tag on the last lookup as well, it can do no harm here:
-                            if not tags:
+                            if not imgpath and add_mood:
                                 imgpath = self.select_image(main_tag, descriptor_tag, self.id, mood_tag, exclude=exclude)
                             if not imgpath:
                                 imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
