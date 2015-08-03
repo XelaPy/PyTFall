@@ -170,6 +170,8 @@ label start:
                 $ pass
             "MC Level 100":
                 $ initial_levelup(hero, 100, max_out_stats=True)
+            "Test Story":
+                jump intro_story
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()
