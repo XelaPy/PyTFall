@@ -254,7 +254,7 @@ label intro_story:
     stop world
     stop music
     play music "content/sfx/music/events/Theme2.ogg" loop
-    play sound "content/sfx/music/events/night_forest.mp3" loop
+    play events "events/night_forest.mp3" loop
     show expression Text("Story I", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
@@ -304,9 +304,7 @@ label intro_story:
                 menu:
                     "Look at chronometer":
                         show clocks at truecenter with dissolve
-                        play sound "content/sfx/sound/events/checking.wav"
-                        pause 1.0
-                        play sound "content/sfx/music/events/night_forest.mp3" loop
+                        play events2 "events/checking.wav"
                         "The chronometer left over from your father. Many offered to buy it, but it is dear to you as a memory."
                         "It looks very complex and even has a built-in calendar, but it does not work since you left the city."
                         hide clocks with dissolve
@@ -314,18 +312,14 @@ label intro_story:
                     "Read letter":
                         show letter at truecenter with dissolve
                         "This is the first reason for your return. An unsigned letter sent a month ago."
-                        play sound "content/sfx/sound/events/letter.mp3"
-                        pause 1.0
-                        play sound "content/sfx/music/events/night_forest.mp3" loop
+                        play events2 "events/letter.mp3"
                         "'You have mortal enemies that will find you very soon. If you wish to live, come to Pytfall and find your father's grave.'"
                         "Quite ominous, but does not look like a threat."
                         hide letter with dissolve
                         jump your_bag_intro
                     "Check wooden box":
                         show box at truecenter with dissolve
-                        play sound "content/sfx/sound/events/box.wav"
-                        pause 1.0
-                        play sound "content/sfx/music/events/night_forest.mp3" loop
+                        play events2 "events/box.wav"
                         "This is a simple wooden box belonged to your father, and the second reason for your return. His notes are still here, but you have no clue what they mean."
                         "Papers covered with cryptic symbols and drawings that no one was able to decipher over the years."
                         hide box with dissolve
@@ -340,9 +334,9 @@ label intro_story:
                 b "Aaah!"
                 "You hear someone's yelling in the forest nearby. Sounds pretty hot."
                 menu:
-                    "Perfect, just what you need.":
+                    "Perfect, just what you need. Continue.":
                         jump intro_cont_mast
-                    "Put on the pants would be a good start.":
+                    "Looks like you have more interesting things to do.":
                         "You quickly pull the clothes back."
                         $ mast_while_attack = False
                         jump intro_begin_battle
@@ -377,7 +371,7 @@ label intro_story:
                                 hide imag with noisedissolve
                                 "Oh, it's not your imagination. Someone yells in the forest nearby."
                                 menu:
-                                    "Yelling is fine too. Continue.":
+                                    "Moans are fine too. Continue.":
                                         "..."
                                         label intro_cont_mast:
                                         b "N-No! W-w-wait you... Ahh!"
@@ -387,6 +381,7 @@ label intro_story:
                                         b "Ahhhhhhhh!♪"
                                         "You managed to come simultaneously, even at a distance. Nice."
                                         $ mast_while_attack = True
+                                        "You quickly pull the clothes back."
                                         jump intro_begin_battle
                                     "Put on the pants would be a good start.":
                                         "You quickly pull the clothes back."
@@ -413,13 +408,14 @@ label intro_story:
             scene black
             with eye_shut
             "You slowly sink to sleep."
+            
             b "Aaah!"
             "Mmmm... Z-Z-Z"
             "Help! Somebo... Aah!"
             show bg camp with eye_open
-            "...Someone yells in the forest nearby, interrupting your rest."
+            "...Someone yells in the forest nearby, interrupting your rest. If you want to rest tonight, you need silence."
             label intro_begin_battle:
-            
+            stop music fadeout 2.0
         
     pause 100
     # play music "content/sfx/music/fire-2.mp3" fadein 2.0 fadeout 2.0
