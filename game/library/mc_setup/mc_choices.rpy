@@ -20,6 +20,7 @@ label build_mc_stories:
         mc_stories["Merchant"]["img"] = "content/gfx/interface/images/merchant.png" # Path to the icon representing the branch onscreen.
         mc_stories["Merchant"]["header"] = "Your father was a great merchant" # Header for the branch. Without a header, option is greyed out.
         mc_stories["Merchant"]["label"] = "mc_setup_merchant" # This decides a label to jump to in order to apply the effects.
+        mc_stories["Merchant"]["class"] = "Mage" # As agreed, we will be adding a class to choices without clear descriptions.
         
         # We add the rest of the options:
         mc_stories["Warrior"] = {}
@@ -92,6 +93,7 @@ label build_mc_stories:
         mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["header"] = "Defender of the caravan"
         mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["text"] = "Acting as a security guard at the father's caravan, you have gained some experience in the weapons handling. You become a little bit stronger and hardier {color=#1E90FF}({/color}{color=#E9967A}+Defence{/color}{color=#1E90FF},{/color}{color=#DEB887} + Constitution{/color}{color=#1E90FF}){/color}"
         mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["label"] = "mc_setup_merchant_mc_defender"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["class"] = "Warrior" # As agreed, we will be adding a class to choices without clear descriptions.
         mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Sword"] = {}
         mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Sword"]["text"] = "You cut down many heads with your favourite sword 'Bettie' {color=#1E90FF}({/color}{color=#FFD700}+Sword{/color}{color=#1E90FF},{/color} {color=#CD5C5C}+Attack{/color}{color=#1E90FF}){/color}"
         mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Sword"]["label"] = "mc_setup_merchant_mc_defender_sword"
@@ -104,6 +106,7 @@ label build_mc_stories:
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"] = {} 
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["header"] = "Muleteer"
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["text"] = "You personally ruled one of vans in the father's caravan. Because of a sedentary life you lose in a constitution a little, but in conversations you don't have the equal {color=#1E90FF}({/color}{color=#DEB887} -- Constitution{/color}{color=#1E90FF},{/color}{color=#8470FF} +Intelligence{/color}{color=#1E90FF}){/color}"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["class"] = "Manager" # As agreed, we will be adding a class to choices without clear descriptions.
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Book"] = {}
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Book"]["text"] = "On each halt books were your only friends {color=#1E90FF}({/color}{color=#8470FF} +Intelligence{/color}{color=#1E90FF},{/color}{color=#FFD700}+ Random Books{/color}{color=#1E90FF}){/color}"
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Boots"] = {}

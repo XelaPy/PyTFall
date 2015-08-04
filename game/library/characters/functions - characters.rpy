@@ -356,9 +356,14 @@ init -11 python:
             initial_levelup(client, level)
             
         return client
-            
-            
-            
-            
-            
         
+    def create_arena_girls():
+        rgirls = store.rchars.keys()
+        for __ in xrange(85):
+            if not rgirls: rgirls = store.rchars.keys()
+            if rgirls:
+                rgirl = rgirls.pop()
+                arena_girl = build_rc(id=rgirl, pattern="Warrior")
+                arena_girl.arena_willing = True
+                arena_girl.arena_active = False # Should prolly be moved to preparation?
+                arena_girl.status = "free"

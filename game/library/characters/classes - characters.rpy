@@ -22,7 +22,7 @@ init -9 python:
                     else:
                         devlog.warning("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
                         return
-            if normal: #  Item applied by anything other than 
+            if normal: #  Item applied by anything other than that 
                 self.normal.add(item)
             else:
                 self.items[item] = self.items.get(item, 0) + 1
@@ -2333,9 +2333,9 @@ init -9 python:
             self._girls = list()
             
             self.guard_relay = {"bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0}
-                                }
+                                           "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
+                                           "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0}
+                                           }
             
             for p in pytRelayProxyStore:
                 p.reset(self)

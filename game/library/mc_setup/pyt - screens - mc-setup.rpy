@@ -189,7 +189,24 @@ label mc_setup:
                     # 'magic': 20,
                     # 'defence': 20,
                     # 'agility': 20}
-                
+               
+label build_mc:
+    # We build the MC here. First we get the classes player picked in the choices screen and add those to MC:
+    $ temp = {traits[t] for t in [mc_stories[main_story]["class"],mc_stories[main_story]["MC"][sub_story][mc_story]["class"]]}
+    $ hero.traits.basetraits = temp
+    python:
+        for t in temp:
+            hero.apply_trait(t)
+            
+    # Now that we have our setup, max out all fixed max stats and set all normal stats to 35% of their maximum:
+    python:
+        for s in ['libido', 'constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
+            setattr(hero, s, int(round(hero.get_max(s)*0.35)))
+    python:
+        for s in ["health", "mp", "vitality"]:
+            setattr(hero, s, hero.get_max(s))
+    return
+                    
 label mc_setup_end:
     hide screen mc_stories
     hide screen mc_texts
@@ -198,8 +215,8 @@ label mc_setup_end:
     hide screen mc_setup
     scene black
     
-    # "Call up console"
-    # pause
+    call build_mc
+    
     # Call all the labels:
     python:
         """
@@ -356,7 +373,7 @@ screen mc_setup():
     default left_index = -1
     default right_index = 1
     
-    # Rename and Start buttons:
+    # Rename and Start buttons + Classes are now here as well!!!:
     if all([hero.img_db, (hasattr(store, "mc_substory") and store.mc_substory)]):
         textbutton "{size=40}{color=[white]}{font=fonts/TisaOTB.otf}Start Game" at fade_in_out():
             background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=1)
@@ -372,6 +389,26 @@ screen mc_setup():
         ypadding 8
         align (0.37, 0.10)
         action Show("char_rename", char=hero)
+        
+    if store.main_story:
+        python:
+            try:
+                bc = mc_stories[main_story]["class"]
+            except:
+                bc = "Error: No Class Specified!"
+        textbutton "[bc]":
+            align (0.32, 0.06)
+            action NullAction()
+            
+    if store.mc_story and mc_stories[main_story]["class"] != mc_stories[main_story]["MC"][sub_story][mc_story]["class"]:
+        python:
+            try:
+                bc = mc_stories[main_story]["MC"][sub_story][mc_story]["class"]
+            except:
+                bc = "Error: No Class Specified!"
+        textbutton "[bc]":
+            align (0.42, 0.17)
+            action NullAction()
     
     # Text:
     # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)
