@@ -15,21 +15,21 @@ label FoodP: #bathroom awaits, no time to talk
     $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
     $narrator(choice(["But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts."]))
     $ char.disposition -= 2
-    jump girl_interactions
+    jump girl_interactions_end
 
 label Tired: #very-very tired, vitality close to zero
     $gm.generate_img("sad", "tired", "angry", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     $narrator(choice(["But she was too tired to even to talk.", "She was not very happy that you interrupted her rest."]))
     $ char.disposition -= 5
     $ char.vitality -= 2
-    jump girl_interactions
+    jump girl_interactions_end
     
 label Hurted: #very low health
     $gm.generate_img("in pain", "sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
     $narrator(choice(["But she is too wounded to talk."]))
     $ char.disposition -= 5
     $ char.vitality -= 2
-    jump girl_interactions
+    jump girl_interactions_end
     
 label interactions_general:
     "You had a conversation with [char.nickname]."
@@ -40,14 +40,13 @@ label interactions_general:
         jump Hurted
     
     if char.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
-        $gm.generate_img("tired", "sad", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
         if dice(50):
             $narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
             $ char.disposition += 5
             $ char.joy += randint(3, 6)
         else:
             $narrator(choice(["She is not feeling well today and not in the mood to talk."]))
-            jump girl_interactions
+            jump girl_interactions_end
     
     #if she is very tired
     if char.vitality < 9:
@@ -58,20 +57,17 @@ label interactions_general:
         
     #if she is tired
     if char.vitality < 35:
-        $gm.generate_img("rest", exclude=["nude", "swimsuit", "revealing", "beach", "pool"])
         $narrator(choice(["But she was simply too tired to pay any serious attention to you.", "But she fell asleep in the middle of it."]))
         $ char.disposition += randint(0, 1)
         $ char.vitality -= 2
-        jump girl_interactions
+        jump girl_interactions_end
 
     #additional part with chance
     if char.joy < 15 and dice(30):
-        $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
         $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
         $ char.joy += randint(3, 6)
     
     if dice(15):
-        $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "pool", "lingerie"])
         if char.disposition > 0:
             $ narrator(choice(["You feel especially close today."]))
             $ char.disposition += randint(2, 4)
@@ -81,16 +77,11 @@ label interactions_general:
 
     #main part      
     if char.disposition > 150:
-        if dice(40):
-            $ gm.generate_img("happy", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-        else:    
-            $ gm.generate_img("confident", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
         else:
             $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
     elif char.disposition > -100:
-        $ gm.generate_img("uncertain", "indifferent", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
         else:
@@ -111,8 +102,8 @@ label girl_interactions_aboutjob:
     if char.health < 15:
         jump Hurted
     if char.disposition < -350:
+        $ char.override_portrait("portrait", "sad")
         if char.status != "slave":
-            $ gm.generate_img("angry", "sad", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
             if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                 $ rc("... <She doesn't want to talk>", "I don't think I'll linger here for a long time.", "I do not wish to about it. Leave me alone.")
             elif ct("Shy"):
@@ -120,7 +111,6 @@ label girl_interactions_aboutjob:
             else:
                 $ rc("You're a terrible employer; I have no idea why I'm still working here...", "Maybe I should try to beg in the streets instead of this 'job'...")
         else:
-            $ gm.generate_img("sad", "angry", exclude=["sex", "rest", "nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
             if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
                 $ rc("...I don't want to live.", "My life is awful. I want to end this...", "... <She looks extremely depressed>")
             else:
@@ -129,10 +119,10 @@ label girl_interactions_aboutjob:
         if dice(int(round(hero.charisma*0.2))): #the less disposition will be, the more charisma you will need to pass the check for additional goods
             $ char.joy += 3
             $ char.disposition += 2
-
+        $ char.restore_portrait()
     elif char.mech_relay["daysemployed"] < 10:
         # Less than 10 days in service:
-        $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+        $ char.override_portrait("portrait", "indifferent")
         if char.status != "slave":
             $ rc("I'm still adjusting to the new position.", "Trying to find my bearings with this new career.")
         else:
@@ -144,11 +134,11 @@ label girl_interactions_aboutjob:
             $ char.disposition += 2
             $ hero.exp += adjust_exp(hero, randint(1, 5))
             $ char.exp += adjust_exp(char, randint(1, 5))
-
+        $ char.restore_portrait()
     elif char.disposition < 0:
+        $ char.override_portrait("portrait", "indifferent")
         if char.status != "slave":
             if char.joy >= 50:
-                $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I don't like my job.", "You are a bad employer.")
                 elif ct("Shy"):
@@ -156,7 +146,6 @@ label girl_interactions_aboutjob:
                 else:
                     $ rc("I'm fine, but I just wish you weren't such a terrible employer.", "As good as can be expected under the circumstances, 'boss'...")
             else:
-                $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I hate my job.", "I'm not in the mood. Why? Because of my job, obviously.")
                 elif ct("Shy"):
@@ -165,7 +154,6 @@ label girl_interactions_aboutjob:
                     $ rc("I'm sad and you are the worst... what else do you want me to say?", "I'm looking for new employment opportunities; that's how I'm feeling...")
         else:
             if char.joy >= 50:
-                $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("I suppose a slave like me doesn't have much of a choice.", "I follow your orders. That's all.")
                 elif ct("Shy"):
@@ -173,7 +161,6 @@ label girl_interactions_aboutjob:
                 else:
                     $ rc("I am 'ok'. Just wish I had a better owner...", "I guess it is better than the slave market. A bit.")
             else:
-                $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
                     $ rc("...I want another owner.", "I wish I had a better life as a slave.")
                 elif ct("Shy"):
@@ -182,6 +169,7 @@ label girl_interactions_aboutjob:
                     $ rc("There isn't much to say... I'm sad and you're mean...", "I feel like it would be better if you sold me off at the next auction.")
         $ char.disposition += 2
         $ char.joy += 1
+        $ char.restore_portrait()
         if dice(int(round(hero.charisma*0.4))):
             $ char.refinement += 1
             $ char.joy += 3
@@ -190,51 +178,41 @@ label girl_interactions_aboutjob:
             $ char.exp += adjust_exp(char, randint(1, 5))
 
     else:
+        $ char.override_portrait("portrait", "happy")
         if char.status != "slave":
             if char.joy >= 50:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I like my job. Nothing more to say.", "No complaints.")
                 elif ct("Shy"):
-                    $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I-I like my job. T-thank you.", "I-I'm perfectly fine! <shyly smiling>")
                 else:
-                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm happy and this job is not so bad.", "I'm comfortable and content with this arrangement.")
             else:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I like my job. I think.", "Not bad. It's not perfect, but...")
                 elif ct("Shy"):
-                    $ gm.generate_img("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm just a bit sad today, b-but my job is nice.", "Um, I'm ok, I think. You can't be happy all the time, r-right?")
                 else:
-                    $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Not very chipper but I hope things become better soon.", "Bit sad, if truth be told. Don't want to complain though.")
         else:
             if char.joy >= 50:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm satisfied with everything, master.", "I am at your service, master. My life is my job.")
                 elif ct("Shy"):
-                    $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-                    $ rc("E-everything is well, master! <shyly smiling>", "It's fine. Thanks for asking, master. <blushes>")
+                     $ rc("E-everything is well, master! <shyly smiling>", "It's fine. Thanks for asking, master. <blushes>")
                 else:
-                    $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-                    $ rc("I'm very well, thank you Master!", "I am satisfied with my life and job as a slave.")
+                      $ rc("I'm very well, thank you Master!", "I am satisfied with my life and job as a slave.")
             else:
                 if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-                    $ gm.generate_img("profile", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Nothing to worry about, Master.", "Good enough.")
                 elif ct("Shy"):
-                    $ gm.generate_img("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("Y-yes, Master. I can do it, I know I can!", "It's normal, I suppose...")
                 else:
-                    $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
                     $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
         if char.disposition < 50: #because it's stupid to rise it forever
             $ char.disposition += 2
         $ char.joy += 3
+        $ char.restore_portrait()
         if dice(int(round(hero.charisma*0.5))):
             $ char.refinement += 1
             $ char.joy += 3
@@ -246,29 +224,23 @@ label girl_interactions_aboutjob:
 label interactions_howshefeels:
     "You asking how she feels today."
     if char.effects["Food Poisoning"]['active']: #at least no penalty to disposition, unlike other cases with food poisoning
-        $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+        $ char.override_portrait("portrait", "sad")
         $ rc("I ate something wrong. Ow-ow-ow.", "Ouh. I think I need to use bathroom again...")
-        jump girl_interactions
+        $ char.restore_portrait()
+        jump girl_interactions_end
 
-    if char.effects["Down with Cold"]['active'] or char.vitality < 9 or char.health < 40: #we select one suitable image in the very beginning
-        $gm.generate_img("sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
-    elif char.joy<30:
-        if ct("Shy"):
-            $ gm.generate_img("profile", "sad", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-        else:
-            $ gm.generate_img("profile", "sad", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+    if char.effects["Down with Cold"]['active'] or char.vitality < 9 or char.health < 40 or char.joy<30: #we select one suitable image in the very beginning
+        $ char.override_portrait("portrait", "sad")
     elif char.joy>70:
         if ct("Shy"):
-            $ gm.generate_img("profile", "happy", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
+            $ char.override_portrait("portrait", "shy")
         else:
-            $ gm.generate_img("profile", "happy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool"])
-    elif char.vitality < 35:
-        $gm.generate_img("tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
+            $ char.override_portrait("portrait", "happy")
     else:
         if ct("Shy"):
-            $ gm.generate_img("profile", "shy", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
+            $ char.override_portrait("portrait", "shy")
         else:
-            $ gm.generate_img("profile", "confident", "indifferent", exclude=["nude", "swimsuit", "revealing", "beach", "lingerie", "pool", "happy", "sad"])
+            $ char.override_portrait("portrait", "indifferent")
             
     if char.effects["Down with Cold"]['active']: #illness
         $ rc("I think I caught a cold...", "I'm not feeling well today *sneezes*.", "I have a fever... <She looks pale>")
@@ -310,6 +282,7 @@ label interactions_howshefeels:
             $ rc("I feel drained.", "My mind is tired. Perhaps I should use magic less frequently.")
         elif char.mp >= char.get_max("mp"):
             $ rc("I feel like magic overflows me.", "I'm filled with magic energy.")
+    $ char.restore_portrait()        
     jump girl_interactions
 ###### j3
 label interactions_abouther:
@@ -774,7 +747,7 @@ label interactions_romance:
         jump interactions_refused
     else:
         $ gm_dice = (round(char.disposition * 0.4))
-    
+        $ char.override_portrait("portrait", "shy")
     if dice(gm_dice):
         if ct("Impersonal"):
             $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.")
@@ -802,15 +775,17 @@ label interactions_romance:
             $rc("Huhu, a girl in love is invincible~", "Nothing motivates you quite like 'love', huh...", "If it's just with their mouth, everyone can talk about love. Even though none of them know how hard it is in reality...")
         else:
             $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love～...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Love... sure is a good thing...", "Everyone wants to fall in love.")
-
+    $ char.restore_portrait()           
     $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
     jump girl_interactions
 
 ###### j7
 label interactions_refused:
+    $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
         $rc("Conversation denied.", "It's none of your business.", "...")
     elif ct("Shy") and dice(50):
+        $ char.override_portrait("portrait", "shy")
         $rc("I-I won't tell you... ", "It's nothing. ...sorry.", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
     elif ct("Dandere"):
         $rc("I don't feel the need to answer that question.", "...later...maybe...", "*she stares into the sky*")
@@ -830,7 +805,7 @@ label interactions_refused:
         $rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
     else:
         $rc("I don't want to answer.", "I don't want to talk now.", "It's none of your business ", "Hmph, Why should I have to tell you?", "I'm not in a mood for chatting.", "Must I give you an answer?")
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
 

@@ -176,7 +176,8 @@ label praise_nope:
         $ rc("Sorry, not interested.", "How many girls have you said that to today?", "Please, stop.", "Does that usually work?", "Don't mock me.", "...I'm sorry, did you say something?", "Can we end this conversation here?", "That doesn't sound sincere at all.", "You don't have to say things you don't mean.", "Too bad. I'm not going to fall for that.", "I've heard it all.", "Huhn, you're far too obvious.", "...What? Don't look at me", "What is it? I don't get what you mean.", "Stop it already...", "Well... guess so. <unimpressed>", "You don't sound as if you mean it.", "......What?", "*sigh*…  I don't really have time for this.", "And so?", "That gets you nowhere!", "I won't be fooled by beautiful words.", "Save your breath!")
     jump girl_interactions
     
-label praise_yes: 
+label praise_yes:
+    $ char.override_portrait("portrait", "shy") 
     if ct("Impersonal"):
         $rc("There's no need to state the obvious.", "I... see.", "I thank you.")
     elif ct("Shy") and dice(30):
@@ -199,6 +200,7 @@ label praise_yes:
         $rc("I'm not used to compliments…", "Is that so...?", "…ok.", "<smiles dreamilly> Mhm...", "...I'm happy.", "<gives you a faint smile> Nn...")
     else:
         $ rc("You think so? How nice.", "Thank you. <smiles>", "Hehe, thanks.", "Thanks for the compliment.", "I am, aren't I?", "You mean it?", "Well, I do like being praised.", "<Smiles> Yes, go on ...", "Alright, you've got my attention. <blush>", "..You're too kind.", "Aww♪, so sweet.", "You don't have to say that. <she's blushing and smiling>", "Such flattery won't work on me! <it totally looks like it's working>", "♪Arara, such a smooth talker.", "Gosh, flattery won't get you anything from me, you know?", "Ehehe, thank you very much♪", "Thank you, I'm glad to hear that.","D-Don't say that... I'm starting to blush.", "I sure hope you don't go saying that to every other girl too.", "You are sweet.", "Oh, you're exaggerating.", "Thanks, but it's nothing to boast of.", "Thank you, I'm very pleased.")
+    $ char.restore_portrait()
     return
 ######
     #if gm_last_success:

@@ -449,7 +449,7 @@ label intro_story:
                 "You uncover your weapon, slide ahead and to strike at the congestion of vines."
                 $ intro_war = True
                 play sound "content/sfx/sound/be/scythe_attack.mp3"
-                "You cut some of them, but the weapon gets stuck in the fleshy vines. The creature tries to attack back, and you quickly move away."
+                "You cut some of them, but the weapon gets stuck in the fleshy vines and cracks. The creature tries to attack back, and you quickly move away."
             "<Mages> Try to cast a spell." if intro_mag != True:
                 "You focus, feeling rising energy inside your body. You take a step forward and raise your hand."
                 play sound "content/sfx/sound/be/light1.mp3"
@@ -469,7 +469,7 @@ label intro_story:
     play events "events/night_forest.mp3" loop
     $ s = chars["Sakura"]
     $ s.override_portrait("portrait", "sad")
-    s.say "T-turn back, I need to change my clothes quiclky!"
+    s.say "T-turn back, I need to change my clothes quickly!"
     "That's right, her clothes are soaked with aphrodisiac as well. It's better to change them before it becomes worse."
     "Although it's too late to be modest after what you saw, but whatever..."
     "..."
@@ -478,7 +478,7 @@ label intro_story:
     $ sakspr = chars["Sakura"].get_vnsprite()
     show expression sakspr at center with dissolve
     "She tries to look calm, but you notice the blush on her cheeks. You introduce yourself."
-    s.say "I see, nice to meet you, [hero.name]. Thanks for you help."
+    s.say "I see, nice to meet you, [hero.name]. Thanks for your help."
     $ s.disposition += 200
     menu:
         "Be a gentleman. Offer to rest in your camp.":
@@ -490,6 +490,8 @@ label intro_story:
         "There is no time to waste. Her ass is compromised already.":
             "You explain that her that her ass is full of aphrodisiac, and needs to be cleaned. You are willing to take the risk and help her."
             $ s.override_portrait("portrait", "shy")
+            $ hero.anal += 10
+            $ s.anal += 10
             s.say "<she immediately blushes> I-I understand that. I accept you proposition, but please be gentle."
             hide sakspr
             $ intro_be_nice = False
@@ -501,7 +503,7 @@ label intro_story:
             "However, because of the aphrodisiac she feels nothing but pleasure, so things go very smoothly."
             "She does her best to keep quite, but soon enough begins to moan."
             s.say "Ah... Yeah, there..."
-            "Soon you come, cleaning her ass with your improvised enema. She came three times at very least during this time. "
+            "Soon you come, cleaning her ass with your improvised enema. She came three times at very least meanwhile."
             "Damn, this aphrodisiac is a powerful thing. You put your clothes on, feeling a bit numb. There is a chance that you was effected as well through her ass, but it shouldn't be as powerful for men."
             hide expression xxx with dissolve
             show expression sakspr at center with dissolve
@@ -526,6 +528,7 @@ label intro_story:
             "She gives you a small sharp dagger."
             $ intro_war = False
             s.say "It's called kunai. I have a spare one, so you can take it."
+            $ hero.add_item("Kunai")
             jump intro_sarura_diag
         "Wish her good night and go to sleep":
             "You are too exhausted to keep talking. You wish her good night and go to your tent."
@@ -545,12 +548,13 @@ label intro_story:
                 s.say "I'm sorry, but it's not a proposition."
                 "She grabs you. You suddenly realise that she much stronger than you. Stronger than anyone you know."
                 s.say "I need it. NOW."
+        $ s.oral += 10
         hide sakspr
         $ s.restore_portrait()
         show expression s.show("sex", "confident", "suggestive", "indoors", "living", "bc blowjob", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
-        "The last thing you remember is how Sarura licks you while stimulating herself with her left hand. You slowly fall asleep."
+        "The last thing you remember is how Sakura licks you while stimulating herself with her left hand. You slowly fall asleep."
     else:
-        "You slowly fall asleep. It was a tough night. The last thing you remember is how Sarura walks in and lies on the other side of the tent."
+        "You slowly fall asleep. It was a tough night. The last thing you remember is how Sakura walks in and lies on the other side of the tent."
     scene black
     with eye_shut
     hide xxx
@@ -567,7 +571,7 @@ label intro_story:
     $ sakspr = chars["Sakura"].get_vnsprite()
     show expression sakspr at center with dissolve
     "At the next morning together you quickly reached the city. Some bandits tried to rob you along the road, but your new companion quickly got rid of them."
-    "She kept up the general conversation, but avoided to talk about the last night, like it never happened."
+    "She kept up the general conversation, but avoided to talk about the last night, probably pretending it never happened."
     "Ultimately, you part ways in the town square. She told you where you can find her in the city if something happens, but asked to not bother without a good reason, since she's on her mission."
     hide expression sakspr at center with dissolve
     "Well then, time to do your own mission."

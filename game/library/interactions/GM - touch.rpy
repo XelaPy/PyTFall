@@ -49,9 +49,11 @@ label interactions_hug:
         $ char.disposition -= (randint(10, 30)*(gm_disp_mult))
     
     if gm_last_success:
+        $ char.override_portrait("portrait", "confident")
         if ct("Impersonal"):
             $rc("Yes?", "Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm...")
         elif ct("Shy") and dice(30):
+            $ char.override_portrait("portrait", "shy")
             $rc("Hm... You are... very warm...", "I feel like I'm safe.", "Being so close...", "A... are you feeling cold? It's m... much warmer like this, right?", "It's... it's okay to do it like this, right?", "Y-yes… Please hold me… hold me tight…")
         elif ct("Nymphomaniac") and dice(20):
             $rc("Geez, you're such a perv♪", "Well, aren't you too close～♪", "Hau～... I'm...starting to feel funny...", "Being so close... Exciting?")
@@ -77,6 +79,7 @@ label interactions_hug:
             $rc("There's no helping it, huh? Come to me.", "Whoa there... Are you all right? Hold onto me tightly.", "Just what I wanted! <Hugs you warmly>", "Can you hear my heartbeat too? ", "Don't worry about anything else… Come to me.", "Yes, you can hold me tighter if you wish.", "Let me melt in your arms...", "...mm, it feels good to be held like this. ♪", "<Hugs you tightly> What do you think? Can you feel me up against you?")
 
     else:
+        $ char.override_portrait("portrait", "angry")
         if ct("Impersonal"):
             $rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>")
         elif ct("Shy") and dice(30):
@@ -99,7 +102,7 @@ label interactions_hug:
             $rc("Hn... Let me go...", "Don't want to.", "I refuse.", "…stay…away.")
         else:
             $rc("<Steps back> Don't think so.", "! What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "Maybe later.", "That's no good.", "No, cut it out!", "<Shrinks back> Don't get weird.", "What are you doing! Please don't bother me!", "I'm not in the mood.")    
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
 
@@ -151,6 +154,7 @@ label interactions_slapbutt:
         $ char.disposition -= (randint(10, 20)*(gm_disp_mult))
     
     if gm_last_success:
+        $ char.override_portrait("portrait", "confident")
         if ct("Yandere"):
             $rc("<She smiles and slapes you back.>", "Ha... That touching... so lewd...", "How lewd...", "Blossoming youth?", "Such a perverted hand...")
         elif ct("Impersonal"):
@@ -158,6 +162,7 @@ label interactions_slapbutt:
         elif ct("Nymphomaniac") and dice(20):
             $rc("...Alright, any lower and I'll have to charge extra.", "Hehehe, I just got a bit horny...", "That... Ahh... Hehe... So perverted...", "Ahh... You made me cum a little.", "You're lewd～♪", "Ahaha, you're pervy～♪", "If you keep touching me, I'll touch you back~")
         elif ct("Shy") and dice(30):
+            $ char.override_portrait("portrait", "shy")
             $rc("Aauh… Wh-what's up...?", "Nwa, Y-you surprised me...", "Umm... I get nervous when others touch me.", "U-uhm… touch me gently, please…", "Umm.. Do you like... my butt?")
         elif ct("Kamidere"):
             $rc("Wha! D-don't be such a perv when you touch me~", "Hyaa! G-Geez! Don't do that out of the blue.", "You can touch me just a bit... Just a bit, got it?", "Hn, ah… If you touch like that, it's sort of perverse…", "Hmm, don't tell me... you're horny?", "Hn… How is it? Have I got a tasty ass?", "Ahn... It looks like I've found someone with perverted hands.")
@@ -177,6 +182,7 @@ label interactions_slapbutt:
             $rc("Hya! If you keep doing that, Hnn! I'll get in the mood…", "Geez, you're hopeless.", "Even if you touch me, nothing interesting is going to happen.", "Teasing people isn't good, you know~", "*giggle* How troublesome♪", "Such a surprise attack is not fair!", "Kya…  Doing this all of sudden, that surprised me.", "So pushy…  Are you proposing or something?", "Is touching me really that fun? I don't really get it... but if you're enjoying it, then sure, I guess.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn") 
 
     else:
+        $ char.override_portrait("portrait", "angry")
         if ct("Yandere"):
             $rc("Hey, it hurts! Stop it!", "Touching is forbidden~ That hand, don't blame me if it falls off.", "You have some nerve putting your hands on me!", "Could you refrain from touching me with your dirty hands?", "It looks like you are in dire need of punishment...")
         elif ct("Impersonal"):
@@ -199,7 +205,7 @@ label interactions_slapbutt:
             $rc("Nooo, What are you doing!?", "Hya! Don't touch me there!", "*sob* that hurts...", "O-owowowowow! Sto-, Wai-, AGYAAA!!", "P-Pervert! Pervert!! Help!", "Perv!")
         else:
             $rc("...Hey! Why are you touching me!", "Why are you touching me without permission!?", "Geez! If you don't stop, I'm gonna get mad!", "Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "Aahn! Stop it!", "Ow! How dare you!", "Hey~! Stop that~!", "[hero.name]...! I'd rather you do this sort of thing with someone else...!", "If you have the free time to be doing that, I'm leaving.", "What? Don't touch me that much.", "Hey! Quit it, already!", "Aah! C...cut it out! ","What are you doing over there, you sneak?", "Kyaa-! Y... you idiot!", "What?! What is the meaning of this? Hey!", "Hmph, how unromantic! Know some shame!", "Don't touch me.", "What are you doing, weirdo???", "Don't anger me...", "Jeez～, gimme a break already～...")   
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
 
@@ -248,6 +254,7 @@ label interactions_grabbreasts:
         $ char.disposition -= (randint(15, 60)*(gm_disp_mult))
     
     if gm_last_success:
+        $ char.override_portrait("portrait", "shy")
         if ct("Impersonal"):
             $rc("This is...unexpectedly embarrassing.", "...Do you like my tits?", "You're rubbing my nipples.", "Uh... my chest, it feels so tight...", "Hnn, no matter how hard you squeeze, nothing will come out, auh.", "Hnn, you don't need to rub so hard...", "Can't control yourself?")
         elif ct("Half-Sister") and dice(30):
@@ -274,6 +281,7 @@ label interactions_grabbreasts:
             $rc("Nnn… It's okay to rub it just a little.", "Mm~ Being touched every now and then isn't so bad, I guess?", "...You're surprisingly bold. I like that", "Kya, Hnn, Geez~, you've got such perverted hands!", "Hmm, *moan*, phew... It feels good, even over the clothes…", "My soft tits feel good, don't they?", "Oh my~ You're even touching there!?", "Ah... fondle my breasts...", "You like my breasts, don't you?", "Y... Yes... Continue massaging...like that.", "Aah... my chest... it feels so good.", "No... This is no good... Ahhh... Doing a thing like this... But... I…", "I... Ah… Do you like my boobs...?", "Ahhh, that feels so good.", "Hnnn, you've got... some naughty hands... uhn!", "Hnn, you don't need to rub so hard...", "With this... my breasts... are very easy to stimulate...", "Rubbing my tits... I love this!", "It feels good... m...my nipples... What you did just now felt so good!", "You're pretty damn good... ", "This feeling... from your massage... is so good.", "God you are such a perve! <Smiles>", "Aahhh... you can do it harder if you want～") 
 
     else:
+        $ char.override_portrait("portrait", "angry")
         if ct("Yandere"):
             $rc("Hey, it hurts! Stop it!", "How filthy.", "How... dare you...", "No, don't touch...")
         elif ct("Impersonal"):
@@ -298,6 +306,6 @@ label interactions_grabbreasts:
             $rc("What an idiot. What do you mean by 'Oops'?", "How dare you?! Know your place your filthy piece of trash!", "Piss off you fucktard!", "<jumps away> Ha! Like I'll ever let a loser like you touch me.", "Huhuhuh… I wonder how warm it would be to bathe in your blood...?")
         else:
             $rc("You certainly have courage, asshole!", "The hell!?", "Hey! I won't let you touch me that easily.", "You graceless swine! Can you not calm down a little?", "<steps back> Wow. No need to hurry like that.", "Huh? Stop it! Where are you touching!?", "<Screams> What are you doing!!! They are not an invitation, asshole!", "Hey! Where are those hands of yours going?", "<Angrily> Don't touch me, asshole!", "You're... terrible! Must you do such a thing!", "Don't ever think about it!", "What are you trying to...?! To hell with you!", "You filthy pig! Who gave you permission to touch me?!")   
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
