@@ -64,6 +64,7 @@ init:
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     image imag = ProportionalScale("content/events/Intro/imag.png", 1600, 400)
+    image sakura_rape = ProportionalScale("content/events/Intro/sakura_rape.jpg", 1133, 850)
     image terumi reversed = Transform(ProportionalScale("content/events/Intro/terumi.png", 1600, 400), xzoom=-1)
     image sinstar = FilmStrip('content/events/Intro/sinstar.png', (192, 192), (5, 6), 0.1, loop=True)
     image skystar = FilmStrip('content/events/Intro/skystar.png', (100, 100), (2, 1), 0.3, loop=True)
@@ -253,8 +254,8 @@ label intro_story:
     scene black
     stop world
     stop music
-    play music "content/sfx/music/events/Theme2.ogg" loop
-    play sound "content/sfx/music/events/night_forest.mp3" loop
+    play music "content/sfx/music/events/Theme2.ogg" fadein 2.0 loop
+    play events "events/night_forest.mp3" loop
     show expression Text("Story I", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
@@ -304,9 +305,7 @@ label intro_story:
                 menu:
                     "Look at chronometer":
                         show clocks at truecenter with dissolve
-                        play sound "content/sfx/sound/events/checking.wav"
-                        pause 1.0
-                        play sound "content/sfx/music/events/night_forest.mp3" loop
+                        play events2 "events/checking.wav"
                         "The chronometer left over from your father. Many offered to buy it, but it is dear to you as a memory."
                         "It looks very complex and even has a built-in calendar, but it does not work since you left the city."
                         hide clocks with dissolve
@@ -314,18 +313,14 @@ label intro_story:
                     "Read letter":
                         show letter at truecenter with dissolve
                         "This is the first reason for your return. An unsigned letter sent a month ago."
-                        play sound "content/sfx/sound/events/letter.mp3"
-                        pause 1.0
-                        play sound "content/sfx/music/events/night_forest.mp3" loop
+                        play events2 "events/letter.mp3"
                         "'You have mortal enemies that will find you very soon. If you wish to live, come to Pytfall and find your father's grave.'"
                         "Quite ominous, but does not look like a threat."
                         hide letter with dissolve
                         jump your_bag_intro
                     "Check wooden box":
                         show box at truecenter with dissolve
-                        play sound "content/sfx/sound/events/box.wav"
-                        pause 1.0
-                        play sound "content/sfx/music/events/night_forest.mp3" loop
+                        play events2 "events/box.wav"
                         "This is a simple wooden box belonged to your father, and the second reason for your return. His notes are still here, but you have no clue what they mean."
                         "Papers covered with cryptic symbols and drawings that no one was able to decipher over the years."
                         hide box with dissolve
@@ -340,9 +335,9 @@ label intro_story:
                 b "Aaah!"
                 "You hear someone's yelling in the forest nearby. Sounds pretty hot."
                 menu:
-                    "Perfect, just what you need.":
+                    "Perfect, just what you need. Continue.":
                         jump intro_cont_mast
-                    "Put on the pants would be a good start.":
+                    "Looks like you have more interesting things to do.":
                         "You quickly pull the clothes back."
                         $ mast_while_attack = False
                         jump intro_begin_battle
@@ -377,7 +372,7 @@ label intro_story:
                                 hide imag with noisedissolve
                                 "Oh, it's not your imagination. Someone yells in the forest nearby."
                                 menu:
-                                    "Yelling is fine too. Continue.":
+                                    "Moans are fine too. Continue.":
                                         "..."
                                         label intro_cont_mast:
                                         b "N-No! W-w-wait you... Ahh!"
@@ -387,6 +382,7 @@ label intro_story:
                                         b "Ahhhhhhhh!♪"
                                         "You managed to come simultaneously, even at a distance. Nice."
                                         $ mast_while_attack = True
+                                        "You quickly pull the clothes back."
                                         jump intro_begin_battle
                                     "Put on the pants would be a good start.":
                                         "You quickly pull the clothes back."
@@ -405,22 +401,182 @@ label intro_story:
             "Go to sleep":
                 if intro_past == True:
                     "It's about time. Tomorrow will be a tough day."
+                    $ mast_while_attack = False
                     jump intro_back_to_story
                 else:
                     "You don't want to."
                     jump setup_intro_menu
         label intro_back_to_story:
-            scene black
-            with eye_shut
-            "You slowly sink to sleep."
-            b "Aaah!"
-            "Mmmm... Z-Z-Z"
-            "Help! Somebo... Aah!"
-            show bg camp with eye_open
-            "...Someone yells in the forest nearby, interrupting your rest."
-            label intro_begin_battle:
+        scene black
+        with eye_shut
+        "You slowly sink to sleep."
             
-        
+        b "Aaah!"
+        "Mmmm... Z-Z-Z"
+        b "Help! Somebo... Aah!"
+        show bg camp with eye_open
+        label intro_begin_battle:
+        "...Whatever it was, if you want to rest tonight, you need silence."
+        "You leave the cozy camp heading into the night forest."
+        stop music fadeout 2.0
+        show bg night_forest with zoomin
+        "As soon as you move away from the fire, the immediately forest becomes much less friendly. You belatedly remember about wolves and other predators of night."
+        "You quickly return to the bonfire. That's right, wolves are supposed to be afraid of fire."
+        show bg camp with slideawayleft
+        "You light a small torch. Hopefully, it will deter animals."
+        show bg night_forest with slideawayright
+        "You carefully continue to move in the direction of sounds. You can no longer make out individual words, it is more like a soft moans."
+        "Sounds become closer. There is a small clearing ahead..."
+        stop events
+        play music "content/sfx/music/be/battle (8).mp3" loop
+        show sakura_rape at truecenter with zoomin
+        "And you see a girl caught by forest tentacles!"
+        "She tries to break free, but vines firmly hold her. One of the tentacles is already deep in her ass, and another one in close proximity to her pussy."
+        if mast_while_attack == True:
+            "You notice how heavily she breathes. She already came at least once. You don't have much time left."
+        "She tries to say something, but you can only hear moans from her mouth."
+        "Time to act quickly. If you won't stop it, her moans will prevent your sleep for the rest of the night."
+        $ intro_war = False
+        $ intro_mag = False
+        label intro_attack_menu:
+        menu:
+            "Recall what do you know about forest tentacles.":
+                "Forest tentacles are predators, so to speak. They don't eat meat, instead they consume... certain female human body fluids. They brought victims to orgasm over and over again, releasing a huge amount of aphrodisiac inside."
+                "While it seems like a great experience at first sight, such loads quickly incapacitate the higher nervous system, turning victims into mindless sex slaves."
+                "They also die quickly without tentacle's control, what makes them useless for slaves market."
+                jump intro_attack_menu
+            "<Warriors> Try to attack it." if intro_war != True:
+                "You uncover your weapon, slide ahead and to strike at the congestion of vines."
+                $ intro_war = True
+                play sound "content/sfx/sound/be/scythe_attack.mp3"
+                "You cut some of them, but the weapon gets stuck in the fleshy vines. The creature tries to attack back, and you quickly move away."
+            "<Mages> Try to cast a spell." if intro_mag != True:
+                "You focus, feeling rising energy inside your body. You take a step forward and raise your hand."
+                play sound "content/sfx/sound/be/light1.mp3"
+                "A flow of magic strikes from under your nail. It cuts off some vines, but not nearly enough."
+                $ intro_mag = True
+            "Try the torch":
+                "You still have your torch in the left hand. Quickly taking aim, you throw it into the creature."
+                "To your surprise, the creature quickly drew back."
+        "It wasn't very effective, but you managed to distract the creature. It weakened the grip, and the girl managed to get her own weapon."
+        play sound "content/sfx/sound/be/dagger_attack_1.mp3"
+        pause 0.5
+        play sound "content/sfx/sound/be/dagger_attack_1.mp3"
+        "With fast and precise movements she cuts off remaining vines and frees herself. The creature produces frustrated sound and collapses."
+        hide sakura_rape with dissolve
+        stop music fadeout 2.0
+    play music "content/sfx/music/events/Theme2.ogg" fadein 2.0 loop
+    play events "events/night_forest.mp3" loop
+    $ s = chars["Sakura"]
+    $ s.override_portrait("portrait", "sad")
+    s.say "T-turn back, I need to change my clothes quiclky!"
+    "That's right, her clothes are soaked with aphrodisiac as well. It's better to change them before it becomes worse."
+    "Although it's too late to be modest after what you saw, but whatever..."
+    "..."
+    $ s.override_portrait("portrait", "shy")
+    s.say "I'm done, thanks. My name is Sakura. Who are you?"
+    $ sakspr = chars["Sakura"].get_vnsprite()
+    show expression sakspr at center with dissolve
+    "She tries to look calm, but you notice the blush on her cheeks. You introduce yourself."
+    s.say "I see, nice to meet you, [hero.name]. Thanks for you help."
+    $ s.disposition += 200
+    menu:
+        "Be a gentleman. Offer to rest in your camp.":
+            $ s.override_portrait("portrait", "happy")
+            "She must be tired. You tell her about your camp nearby."
+            s.say "<she looks a bit surprised, but happy> Oh, ok! I would like to have some rest indeed."
+            $ s.disposition += 50
+            $ intro_be_nice = True
+        "There is no time to waste. Her ass is compromised already.":
+            "You explain that her that her ass is full of aphrodisiac, and needs to be cleaned. You are willing to take the risk and help her."
+            $ s.override_portrait("portrait", "shy")
+            s.say "<she immediately blushes> I-I understand that. I accept you proposition, but please be gentle."
+            hide sakspr
+            $ intro_be_nice = False
+            show expression s.show("sex", "in pain", "uncertain", "outdoors", "suburb", "night", "2c anal", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
+            "She slowly turns around and bends down. You are already hard enough after seeing the raping scene, so you quickly go inside."
+            $ s.override_portrait("portrait", "ecstatic")
+            s.say "Ah..."
+            "She feels very tight. It must be her first time, or rather second one, after the monster."
+            "However, because of the aphrodisiac she feels nothing but pleasure, so things go very smoothly."
+            "She does her best to keep quite, but soon enough begins to moan."
+            s.say "Ah... Yeah, there..."
+            "Soon you come, cleaning her ass with your improvised enema. She came three times at very least during this time. "
+            "Damn, this aphrodisiac is a powerful thing. You put your clothes on, feeling a bit numb. There is a chance that you was effected as well through her ass, but it shouldn't be as powerful for men."
+            hide expression xxx with dissolve
+            show expression sakspr at center with dissolve
+            "You tell her about your camp nearby, and together you go there. She still blushes and avoids looking in your direction."
+    show bg camp with slideawayleft
+    $ s.override_portrait("portrait", "indifferent")
+    if intro_be_nice == True:
+        $ s.override_portrait("portrait", "happy")
+        "With a grateful smile, she sits by the fire."
+    else:
+        $ s.override_portrait("portrait", "shy")
+        "Still shy, she sits by the fire."
+    label intro_sarura_diag:
+    menu:
+        "Ask about her":
+            s.say "Um, you already know my name. I'm on a mission here. Sorry, I cannot say more."
+            "Judging by her uniform, she is one of those infamous kunoichi, female assassins living outside cities."
+            jump intro_sarura_diag
+        "Ask for a new weapon" if intro_war == True:
+            "You explain that you lost your weapon trying to save her."
+            s.say "Alright. Here, take this."
+            "She gives you a small sharp dagger."
+            $ intro_war = False
+            s.say "It's called kunai. I have a spare one, so you can take it."
+            jump intro_sarura_diag
+        "Wish her good night and go to sleep":
+            "You are too exhausted to keep talking. You wish her good night and go to your tent."
+            hide sakspr
+            show bg tent with dissolve
+    if intro_be_nice == True or mast_while_attack == True:
+        "You are ready for bed when Sakura walks in. She avoids to look into your eyes, looking at your crotch instead."
+        $ s.override_portrait("portrait", "shy")
+        if intro_be_nice == True:
+            s.say "Sorry to bother you. That thing poisoned me, I won't be able to sleep without some releasing."
+        else:
+            s.say "How should I say it... Well, thanks for your hard work, but we need to keep going. I won't be able to sleep without it."
+        menu:
+            "It can't be helped":
+                s.say "Thanks. Please lay down then."
+            "You really need some rest already":
+                s.say "I'm sorry, but it's not a proposition."
+                "She grabs you. You suddenly realise that she much stronger than you. Stronger than anyone you know."
+                s.say "I need it. NOW."
+        hide sakspr
+        $ s.restore_portrait()
+        show expression s.show("sex", "confident", "suggestive", "indoors", "living", "bc blowjob", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
+        "The last thing you remember is how Sarura licks you while stimulating herself with her left hand. You slowly fall asleep."
+    else:
+        "You slowly fall asleep. It was a tough night. The last thing you remember is how Sarura walks in and lies on the other side of the tent."
+    scene black
+    with eye_shut
+    hide xxx
+    stop events
+    stop music fadeout 2.0
+    show expression Text("In the next morning", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
+        alpha 0
+        linear 3.5 alpha 1.0
+    pause 2.5
+    hide txt1
+    with dissolve
+    play music "content/sfx/music/events/Theme3.ogg" fadein 2.0 loop
+    show bg city_street_2 with dissolve
+    $ sakspr = chars["Sakura"].get_vnsprite()
+    show expression sakspr at center with dissolve
+    "At the next morning together you quickly reached the city. Some bandits tried to rob you along the road, but your new companion quickly got rid of them."
+    "She kept up the general conversation, but avoided to talk about the last night, like it never happened."
+    "Ultimately, you part ways in the town square. She told you where you can find her in the city if something happens, but asked to not bother without a good reason, since she's on her mission."
+    hide expression sakspr at center with dissolve
+    "Well then, time to do your own mission."
+    stop music fadeout 2.0
+    scene black with dissolve
+
+    
+    
+                
     pause 100
     # play music "content/sfx/music/fire-2.mp3" fadein 2.0 fadeout 2.0
     # scene bg fcity with dissolve
