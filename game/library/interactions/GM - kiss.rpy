@@ -48,6 +48,7 @@ label interactions_kiss:
         $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
     
     if gm_last_success:
+        $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(40):
             if ct("Dandere", "Impersonal", "Yandere"):
                 $rc("*kiss*")
@@ -93,6 +94,6 @@ label interactions_kiss:
             $rc("*smooch*… Getting excited?", "Don't say anything.... *kiss*","*kiss*, *lick*, I like, *kiss*, this…", "*kiss*… Felt good, right?", "*kiss*, hmm… *sigh*, kissing feels so good…", "<Smiles after your kiss> You're good at kissing.", "*kiss*... Was that good enough for a passing grade, [hero.name]", "*kiss*...  My heart's racing...", "Even though we're just kissing... I'm already…<Blushes>", "Hmm... *kiss, kiss*, ahm,.. I like... kissing… Hn, *smooch*…", "Hn,chu… Eh, what've you been eating? I can taste it~", "*kiss*… Hn... My body's getting hotter…", "A kiss? Why not. *smooch*","Just what I was thinking about♪ *kiss*", "*slurp, kiss* Kissing this rough... feels so good.", "*kiss* hmm...Where did you learn to kiss like this?", "*kiss*,*lick*… This is great... got me all excited...", "Ok, but don't go overboard. *kiss*","*kiss* You're sweet...", "Ahm... *kiss, lick*... nnn… Do you think touching tongues is a little... sexy?", "*kiss*… My, you are a good kisser!") 
     else:
         "She refuses."
-    
+    $ char.restore_portrait()
     jump girl_interactions
     

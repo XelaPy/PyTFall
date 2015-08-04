@@ -40,6 +40,7 @@ label interactions_friends:
         $ fr_ch += 70
     if (char.disposition >= (250 - fr_ch)) and (dice(round((fr_ch + char.disposition)*0.25))):
         $ set_friends(hero, char)
+        $ char.override_portrait("portrait", "happy")
         if ct("Impersonal"):
             $rc("Very well.", "Alright.")
         elif ct("Shy") and dice(40):  
@@ -63,6 +64,7 @@ label interactions_friends:
         else:
            $rc("Mm, alright.", "Okay!", "I have the feeling I could get along with you.", "Hehehe, it's great to be friends～♪", "Of course. Let's get along♪")
     else:
+        $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):  
             $rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
         elif ct("Shy") and dice(40):
@@ -85,7 +87,7 @@ label interactions_friends:
             $rc("Ahー... This's kind of a huge pain...", "Mm, sounds kinda boring, y'know?")
         else:
             $rc("Maybe some other time.", "Something about this seems kinda suspicious... I think I'll pass.", "Nope", "Sorry. Maybe some other time.")
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
 
@@ -97,6 +99,7 @@ label interactions_girlfriend:
 
         jump girl_interactions
     if ct("Lesbian"):
+        $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $rc("Opposite sex... Dismissed.")
         elif ct("Shy") and dice(30):  
@@ -119,6 +122,7 @@ label interactions_girlfriend:
             $rc("I have no interest in men.")
         else: 
             $rc("Sorry. I'm weird, so... I'm not into guys.")
+        $ char.restore_portrait()
         jump girl_interactions
         
     $ l_ch = 0
@@ -157,6 +161,7 @@ label interactions_girlfriend:
     
     if (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
         $ set_lovers(hero, char)
+        $ char.override_portrait("portrait", "shy")
         if ct("Impersonal") in  char.traits:
             $rc("You want me to have an affair with you. Understood.", "As you wish. I'm yours.", "I understand. I suppose we're now lovers.")
         elif ct("Shy") and dice(20):  
@@ -180,6 +185,7 @@ label interactions_girlfriend:
         else:
             $rc("Yes... I'll be by your side forever... Hehehe♪", "Gosh. Fine...", "O-Okay... Ahaha, this is kinda embarrassing...", "I guess I'm your girlfriend now.")
     else:
+        $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $rc("Unable to process.", "I'm sorry, but I must refuse you.")
         elif ct("Shy") and dice(30):  
@@ -202,7 +208,7 @@ label interactions_girlfriend:
             $rc("That's not for you to decide.", "That's too bad, I have no interest in you.", "That sort of relationship will be a big problem for both of us, you know?", "Being in a relationship is more trouble than it's worth.")
         else: 
             $rc("I-I'm sorry! Let's just be good friends!", "That's... I'm sorry! Please let's continue being good friends!", "What's your problem? Saying that out of nowhere.", "That's nice of you to say, but... I can't help you there.")
-    
+    $ char.restore_portrait()
     jump girl_interactions
 
 ##### j3    

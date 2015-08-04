@@ -7,6 +7,7 @@
 
 ###### j1
 label interactions_badgift:
+    $ char.override_portrait("portrait", "sad")
     if ct("Impersonal"):
         $rc("I don't need it.", "Can I return it later?", "What's it for?")
     elif ct("Shy") and dice(30):
@@ -29,12 +30,13 @@ label interactions_badgift:
         $rc("Man... this is bad...", "Hmm, so my zodiac was right ... today's a bad day.", "Hey, is this a joke?")
     else:
        $ rc("Just as I feared, it's pretty bad...", "Thanks, but I don't like these kinds of things.", "I'll receive it, but... <sigh>")
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
 
 ###### j2
 label interactions_goodgift:
+    $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $rc("Don't mind if I do.", "Thank you. I'll take it.", "I suddenly feel better now.", "I'll take that off your hands, if you don't mind.")
     elif ct("Shy") and dice(30):
@@ -57,12 +59,13 @@ label interactions_goodgift:
         $rc("Oh? This is pretty good! Thanks.", "You know about karma, right? This is good karma.", "Yeah, looks good! Thanks!", "Hey, thanks.", "Hmm... Not bad!", )
     else:
         $ rc("Thank you so much!", "Yes, you have my thanks.", "Thank you...! I'm happy.", "Uhm, I greatly appreciate it!", "Many thanks!", "Haha. Can't say 'no' to that.",  "No! I won't take it! Just kidding~", "Well, that's nice.")
-    
+    $ char.restore_portrait()
     jump girl_interactions
     
 
 ###### j3
 label interactions_perfectgift:
+    $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("You really know what I like, don't you?", "It's incredible. Thank you.", "It ... it's perfect.")
     elif ct("Shy"):
@@ -90,6 +93,6 @@ label interactions_perfectgift:
         g "I think you deserve a reward."
         $gm.generate_img("blowjob", "partner hidden", "simple bg", type="first_default")
         $ g("Did you like it? ♥")
-    
+    $ char.restore_portrait()
     jump girl_interactions
     

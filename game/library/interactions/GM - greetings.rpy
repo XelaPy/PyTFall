@@ -1,6 +1,7 @@
 label girl_interactions_greeting:
     if char.status != "slave":
         if check_lovers(hero, char):
+            $ char.override_portrait("portrait", "shy")
             if ct("Half-Sister") and dice(35):
                 if ct("Impersonal"):
                     $rc("I love you, even though we're siblings.", "I love you. I think.", "...Love you.")
@@ -47,8 +48,9 @@ label girl_interactions_greeting:
                 $rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's~ fine, tell me~!")
             else:
                 $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
-    
+            $ char.restore_portrait()
         elif char.disposition < -350:
+            $ char.override_portrait("portrait", "angry")
             if ct("Yandere"):
                 $rc("<She looks at you with hostility>", "Stay away~", "...")
             elif ct("Impersonal"):
@@ -71,8 +73,9 @@ label girl_interactions_greeting:
                 $rc("Why are you bothering me?", "You just won't shut up, will you...", "Geez, you're pissing me off!")
             else:
                 $rc("...Hey! Could you not get any closer to me, please?", "Sigh~… What is it?", "...Leave me alone.", "Geez, what is it...", "Leave, will you? I don't want to talk to you.", "You're an eyesore.", "You're so annoying!", "Why do you keep bothering me?", "Ah... I-I have stuff to do, so....", "U-Um... right now is a bit, err...")
-    
+            $ char.restore_portrait()
         elif check_friends(hero, char) or char.disposition >= 500:
+            $ char.override_portrait("portrait", "happy")
             if ct("Impersonal"):
                 $rc("Talk, I'll listen.", "...Being with you makes me feel extraordinarily comfortable.", "...You really like to talk, huh?", "What is your purpose in getting close to me?", "Being with you... calms me.")
             elif ct("Shy") and dice(30):
@@ -93,8 +96,9 @@ label girl_interactions_greeting:
                 $rc("Huhu, You seem like you'd be good for some entertainment. ♪", "Huu… You certainly like to be with me, don't you…", "Hu Hu~ ♪ Do you want to chat with me that badly?", "Being around me won't do you any good, you know?", "Ok. I have chosen to give you some of my valuable time today. Don't make me regret that.", "Good timing. Come on, entertain me.", "I have fairly high expectation of you.", "Eh, what? Do you want to consult with me?", "Is there something you would like to consult with me? It's alright.")
             else:
                 $rc("Um, what is it?", "Hey, how's it going?", "Well, what shall we talk about..?", "What do you want to do?", "Let's walk together for a while.", "Hi! Another splendid day today!")
-    
+            $ char.restore_portrait()
         else:
+            $ char.override_portrait("portrait", "indifferent")
             if ct("Impersonal"):
                 $rc("Start talking.", "State your business", "You're the kind of person who likes pointless conversations, right? Well, answering your questions makes me similar, I suppose.", "...Please do not get any closer.")
             elif ct("Shy") and dice(30):
@@ -117,8 +121,10 @@ label girl_interactions_greeting:
                 $rc("Yes? If you have no business here, then do please vacate from my sight.", "If you've got something to say, look me in the eyes and say it.", "...I don't recall asking to talk to you, so what is it?", "I don't have any business with you. If you do, make it quick.", "...Spit it out already.")
             else:
                 $rc("...Is there something you need?", "Is there something you would like to ask?", "You called?", "Hmm?", "Is something the matter?", "What do you need from me?", "What is it? If you need something, then say it.", "You have business with me...?", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Hm? Yes?", "Yes, what is it...?", "Hm? What's up?")
+            $ char.restore_portrait()
     else:
         if check_lovers(hero, char):
+            $ char.override_portrait("portrait", "shy")
             if ct("Half-Sister") and dice(35):
                 if ct("Impersonal"):
                     $rc("I love you, Master, even though we're siblings.", "I love you, Master. I think.", "...Love you, Master.")
@@ -165,8 +171,9 @@ label girl_interactions_greeting:
                 $rc("Being subtle is such a bother so let me tell you straight... I love you, Master.", "Even though we're lovers now, Master, not all that much has changed, huh...", "Say, what do you like about me, Master? ...it's~ fine, tell me~!")
             else:
                 $rc("I really like you, Master...", "A-As lovers, let's love each other a lot, okay, Master...?", "We shouldn't flirt to much in front of the others, Master.", "I-I love you, Master... Hehehe...♪", "I love you, Master～ I love you so much～", "We're the most compatible couple in the world, aren't we, Master?", "I want you to love me more and more, Master! Prepare yourself for it, okay?", "I love you...I super love you, Master...!", "I wish we could be together forever, Master...♪", "What do you think other people think when they see us, Master? ...you think maybe, 'Hey, look at that cute couple'...?")
-    
+            $ char.restore_portrait()
         if char.disposition < -350:
+            $ char.override_portrait("portrait", "sad")
             if ct("Yandere"):
                 $rc("<She looks at you with hostility> What is it, 'Master'?", "...")
             elif ct("Impersonal"):
@@ -189,8 +196,9 @@ label girl_interactions_greeting:
                 $rc("Yeah-yeah. I'm here, 'Master'.", "Geez, what is it again, Master?")
             else:
                 $rc("Sigh~… What is it, Master?", "...Leave me alone, Master. Please.", "...I don't want to talk to you, Master.", "Ah... I-I have stuff to do, so....")
-    
+            $ char.restore_portrait()
         elif char.disposition >= 500 or check_friends(hero, char):
+            $ char.override_portrait("portrait", "happy")
             if ct("Impersonal"):
                 $rc("Yes, Master.", "I'm waiting for your order.", "...You really like to talk to your property, Master.", "Why are you so close to me, Master?", "Being with Master... calms me.")
             elif ct("Shy") and dice(30):
@@ -211,8 +219,9 @@ label girl_interactions_greeting:
                 $rc("Huhu, You seem like you'd be good for some entertainment. ♪", "You certainly like to be with me, don't you, Master…", "Do you want to chat with me, Master?", "Being around me won't do you any good, Master.", "I have fairly high expectation of you, Master.", "Eh, what? Do you want to consult with me, Master?")
             else:
                 $rc("Um, what is it, Master?", "Hey, how's it going, Master?", "What shall we talk about, Master?", "What do you want me to do, Master?")
-    
+            $ char.restore_portrait()
         else:
+            $ char.override_portrait("portrait", "indifferent")
             if ct("Impersonal"):
                 $rc("Awaiting input.", "Yes, Master?", "Master?")
             elif ct("Shy") and dice(30):
@@ -235,7 +244,7 @@ label girl_interactions_greeting:
                 $rc("Yes, Master?", "...What is it, Master?", "...Spit it out already... Er, yes, Master?")
             else:
                 $rc("...Is there something you need, Master?", "Is there something you would like to ask, Master?", "You called, Master?", "Hmm?", "Is something the matter, Master?", "What do you need from me, Master?", "Yes, what is it, Master?", "Do you need something?, Master?", "Yes, what is it, Master?")
-    
+            $ char.restore_portrait()
     # Accessed through call rather then jump
     return
     
@@ -258,6 +267,7 @@ label girl_trainings_greeting:
 
 label girl_meets_greeting:
     if check_lovers(hero, char):
+        $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(35):
             if ct("Impersonal"):
                 $rc("I love you, even though we're siblings.", "I love you. I think.", "...Love you.")
@@ -304,8 +314,9 @@ label girl_meets_greeting:
             $rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's~ fine, tell me~!")
         else:
             $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
-    
+        $ char.restore_portrait()
     elif char.disposition < -300:
+        $ char.override_portrait("portrait", "angry")
         if ct("Yandere"):
             $rc("...I don't like you...", "<She looks at you with hostility>", "Ugh, stay away~", "...I resent you.", "...!")
         elif ct("Impersonal"):
@@ -328,8 +339,9 @@ label girl_meets_greeting:
             $rc("Uwah, a pest has arrived!", "Why are you bothering me?", "No! Stop following me.", "You just won't shut up, will you...", "Geez, you're pissing me off!", "Oh, what's this? There's a weirdo in front of me. Whoa! It looked at me!")
         else:
             $rc("...Hey! Could you not get any closer to me, please?", "You're bothering me… Would you mind getting the hell out of here?", "Sigh~… What is it?", "Stop following me.", "Coming in here... You're a nuisance.", "Ah, please, don't bother me...", "...Leave me alone.", "Geez, what is it...", "Leave, will you? I don't want to talk to you.", "You're an eyesore.", "You're so annoying!", "Why do you keep bothering me?", "Ah... I-I have stuff to do, so....", "U-Um... right now is a bit, err...")
-    
+        $ char.restore_portrait()
     elif char.disposition > 500 or check_friends(hero, char):
+        $ char.override_portrait("portrait", "happy")
         if ct("Shy") and dice(30):
             $rc("Even being... with me... is ok...?", "I-I'm getting a little bit... used to you, [hero.name]...", "Hey, am I... do you… Err... nothing. Never mind.", "Being near you calms me down...", "H…H-Hello!", "It's you…H-Hi! …sorry…", "It's nice… to see you again.", "H-Hi…Is it really ok to talk? I don't want to bother you…", "Hello. It's nice of you… umm...to remember me…", "If I am with you, I…  I-it's nothing…")
         elif ct("Impersonal"):
@@ -350,8 +362,9 @@ label girl_meets_greeting:
             $rc("Huhu, You seem like you'd be good for some entertainment. ♪", "Huu… You certainly like to be with me, don't you…", "Hu Hu~ ♪ Do you want to chat with me that badly?", "Being around me won't do you any good, you know?", "You've missed me, right? I know you did. Good boy ♪", "You came to visit me again? I know you couldn't help it, I'm just irresistible ♪", "You came just to see me? That's a point for you, but you have to try a lot harder to impress me, fufu ♪", "Ok. I have chosen to give you some of my valuable time today. Don't make me regret that.", "Good timing. Come on, entertain me.", "I have fairly high expectation of you.", "Eh, what? Do you want to consult with me?", "Is there something you would like to consult with me? It's alright.")
         else:
             $rc("[hero.name]...? Um, what is it?", "Hey! Did you think that I might have forgotten about you?!", "Ah, Hello~ ♪", "Hello, nice to see you again.", "Hey, how's it going?", "Hi! Nice to see you again!", "Hello~. What are you doing?", "Well, what shall we talk about..?", "I have the feeling I could get along with you.", "Hey, I just wanted to see you. ♪", "So? You enjoying life here?", "Oh, hello!", "Ah, it's you. Hi there!", "Oh Hi, it's you again…", "Hi! What a coincidence…", "Hi [hero.name]. How's it going?", "Hello [hero.name].", "Hi! What do you want to do?", "Hi [hero.name]! Let's walk together for a while.", "Ah! Hello♪", "Hi there [hero.name]! So what have you been up to?", "Hi! Another splendid day today!")
-    
+        $ char.restore_portrait()
     else:
+        $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $rc("Start talking.", "State your business", "You're the kind of person who likes pointless conversations, right? Well, answering your questions makes me similar, I suppose.", "...Please do not get any closer.")
         elif ct("Shy") and dice(30):
@@ -374,11 +387,12 @@ label girl_meets_greeting:
             $rc("Yes? If you have no business here, then do please vacate from my sight.", "If you've got something to say, look me in the eyes and say it.", "...I don't recall asking to talk to you, so what is it?", "You're in my way. Get lost.", "I don't have any business with you.", "...Spit it out already.")
         else:
             $rc("...Is there something you need?", "Ohhh… What seems to be the matter…? You over there. Is there something you would like to ask?", "You called?", "Hmm?", "...I don't like being stared at. Go away.", "...What? You're bothering me.", "Is something the matter?", "? What do you need from me?", "What is it, I'm busy here...", "What is it? If you need something, then say it.", "You have business with me...?", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Hm? Yes?", "Yes, what is it...?", "Hm? What's up?", "Ah, sorry. Did you call me?")
-    
+        $ char.restore_portrait()
     # Accessed through call rather then jump
     return
     
 label girl_never_come: 
+    $ char.override_portrait("portrait", "sad")
     if ct("Impersonal"):
         $rc("Doesn't it count as sex only if we've actually both came?", "I'm not sure how to feel about this kind of sex.")
     elif ct("Shy") and dice(50):
@@ -401,9 +415,11 @@ label girl_never_come:
         $rc("No self-centered sex allowed, you can't skip the important parts!", "I am not pleased. Please figure out the reason on your own.")
     else:
         $rc("Hey! I-I didn't cum at all!", "I haven't had anywhere near enough yet, you know?", "Th-this happens sometimes, right...? Still...")
+    $ char.restore_portrait()
     return
     
 label girl_virgin: 
+    $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("I'm not going to stay a virgin all my life.", "Please make me an ex-virgin.")
     elif ct("Shy") and dice(50):
@@ -428,9 +444,11 @@ label girl_virgin:
         $rc("My first time... Will be tested on your body.", "Hmph, you'll do as my first partner.", "I don't really like pain～... I'm okay. let's do it.")
     else:
         $rc("I've never done it before, but... I think I could do it with you.", "It's my first, so... Be gentle, alright?", "Hmm... well, it should be fine if it's with you you, first time or not.") 
+    $ char.restore_portrait()
     return
     
 label guy_never_came:
+    $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("...Was my technique that bad?", "I'm sorry, I'm just so incompetent...")
     elif ct("Shy") and dice(50):
@@ -453,9 +471,11 @@ label guy_never_came:
         $rc( "Hmph, if you didn't want it you could've refused, you know?", "It's your own fault for masturbating so much you can't finish.")
     else:
         $rc("Um. I'm sorry! I'll study up for next time.", "Sorry... I'll do some more studying, so...") 
+    $ char.restore_portrait()
     return
     
 label guy_cum_alot:
+    $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("...I think I've had about all I can drink...", "As a side note, creampies are okay.", "Nn... Your load exceeded my maximum capacity...", "I have all your weak spots memorized.")
     elif ct("Shy") and dice(50):
@@ -480,9 +500,11 @@ label guy_cum_alot:
         $rc("Ew, I'm all stickyー... Does the smell even come off...?", "Ahh, you're so naughty to cum this much...", "Nha... H-haven't you got anything to wipe with?", "I need to take a shower...")
     else:
         $rc("Wow, look, look! Look at all of it... How did you even cum this much～...", "You came so much...", "Are you okay? Want some water? Are you going to be okay without rehydrating yourself?") 
+    $ char.restore_portrait()
     return
 
 label after_good_sex:
+    $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $rc("Thanks for your hard work... Let's have fun the next time too.", "When our membranes make direct contact, it feels like we are melting into each other.")
     elif ct("Shy") and dice(30):
@@ -507,4 +529,5 @@ label after_good_sex:
         $rc("There there, that felt pretty damn good, hey?", "Aau... I thought I was going to break...",  "Ohhー, who's a good boy, yes you are.", "Mmh... I could become addicted to this pleasure.")
     else:
         $rc("Ahh～... My hips are all worn out... Ahahaー", "It kinda feels like we're one body one mind now一♪", "Haah... Well done... Was it good for you...?", "Haah... Your sexual technique is simply admirable...") 
+    $ char.restore_portrait()
     return
