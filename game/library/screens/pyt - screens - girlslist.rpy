@@ -124,7 +124,7 @@ screen pyt_girlslist(source=None, page=0, total_pages=1):
                                             elif len(girl.traits.basetraits) == 2:
                                                 classes = list(girl.traits.basetraits)
                                                 classes.sort()
-                                                classes = ", ".join(classes)
+                                                classes = ", ".join([str(c) for c in classes])
                                             else:
                                                 raise Exception("Character without prof basetraits detected! line: 211, girlslists screen")
                                         text "Classes: [classes]" color ivory size 18

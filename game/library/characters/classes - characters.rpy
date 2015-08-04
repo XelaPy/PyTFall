@@ -4136,6 +4136,9 @@ init -9 python:
             
             self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
             
+        def __str__(self):
+            return str(self.id)
+            
 
     class Team(_object):
         def __init__(self, name="", implicit=None, max_size=3):
