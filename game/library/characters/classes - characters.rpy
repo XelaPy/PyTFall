@@ -1376,7 +1376,13 @@ init -9 python:
             self.stats.log["level"] = self.level
             
         # -------------------------------------------------------------------------------->
-        # Equipment Methods
+        # Equipment Methods (They assume a character has an inventory)
+        def add_item(self, item, amount=1):
+            self.inventory.append(item, amount=amount)
+        
+        def remove_item(self, item, amount=1):
+            self.inventory.remove(item, amount=amount)
+        
         def auto_buy(self, item=None, amount=1, equip=False):
             # NOTE: There is is need to adapt this to skills since it works off baddness.
             items = store.items

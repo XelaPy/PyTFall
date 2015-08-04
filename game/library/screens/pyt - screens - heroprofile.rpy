@@ -178,7 +178,7 @@ screen pyt_hero_profile():
         text "[hero.exp]" pos (160, 21) color ivory bold True size 18
         text "[hero.goal]" pos (160, 49) color ivory bold True size 18
     
-    # Stats  + Location:
+    # Stats + Location:
     frame:
         align (0.0, 0.13)
         background (im.Scale("content/gfx/frame/stats_frame2.png", 245, 470))
@@ -247,7 +247,13 @@ screen pyt_hero_profile():
                         size 16
                 hovered tt.Action("Change MCs Home/Location.")
 
-                        
+    # Traits (Baseclasses for now):
+    frame:
+        align (1.0, 0.1)
+        has vbox
+        for t in hero.traits:
+            textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
+    
     # Buttons ------------------------------------>
     frame:
         background Frame("content/gfx/frame/p_frame3.png", 10, 10)
