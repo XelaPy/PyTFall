@@ -204,7 +204,7 @@ screen main_menu():
         add "mm_clouds" at mm_clouds(768, 0, 50)
         add "mm_clouds" at  mm_clouds(0, -768, 50)
     
-    add "eyes" pos (150, 410) # "mm_eyes"
+    add "eyes" pos (150, 410)
     #add "logo" pos (980, 250)
     add "content/gfx/animations/main_menu/logo/logo1.png" pos (980, 250) # static logo
     add "fog" at fog
@@ -228,34 +228,17 @@ screen main_menu():
             style_group "mmenu"
             vbox:
                 spacing 4
-                textbutton _("New Game") action Start() xalign 0.5 #text_size 18 xsize 170 background Frame ("content/gfx/interface/buttons/main2.png", 5, 5)
+                textbutton _("New Game") action Start() xalign 0.5
                 null height 4
-                #textbutton _("QuickLoad") action QuickLoad() xalign 0.5
-                textbutton _("Load Game") action Show("s_menu", s_menu="Load"), With(dissolve) # action ShowMenu("load") xalign 0.5
-                textbutton _("Settings") action Show("s_menu", s_menu="Settings"), With(dissolve) # action ShowMenu("preferences") xalign 0.5
+                textbutton _("Load Game") action Show("s_menu", s_menu="Load"), With(dissolve)
+                textbutton _("Settings") action Show("s_menu", s_menu="Settings"), With(dissolve)
                 hbox:
                     xalign 0.5
                     textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3)) xsize 85 text_size 16
                     textbutton _("Help") action OpenURL("http://www.pinkpetal.org/index.php#c7") xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
     
-init -10:
-    transform flashing:
-        additive 1.0 alpha 0.4
-        block:
-            linear 1.0 alpha 0.1
-            linear 1.0 alpha 0.4
-            repeat
-    
-    transform fog:
-        linear 1.0 alpha 0.2
-        linear 1.0 alpha 0.3
-        linear 1.0 alpha 0.4
-        linear 1.0 alpha 0.5
-        linear 1.0 alpha 0.4
-        linear 1.0 alpha 0.3
-        repeat
-    
+
 screen credits():
     zorder 1
     modal True

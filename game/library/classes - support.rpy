@@ -8,10 +8,12 @@ init -9 python:
         '''
         def __init__(self):
             # Maps
-            self.maps = xml_to_dict(content_path('db/maps.xml'))
-            for key in self.maps:
-                if "attr" in self.maps[key]:
-                    del self.maps[key]["attr"]
+            # self.maps = xml_to_dict(content_path('db/maps.xml'))
+            # for key in self.maps:
+                # if "attr" in self.maps[key]:
+                    # del self.maps[key]["attr"]
+            self.map_pattern = "content/gfx/bg/locations/map_buttons/gismo/"
+            self.maps = OnScreenMap()
             
             # GUI
             self.city_dropdown = False
@@ -353,20 +355,25 @@ init -9 python:
                     return self.girl.show(self.img, resize=size, cache=True)
             devlog.warning("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img))
             return ProportionalScale("content/gfx/interface/images/no_image.png", width, height)
-            # Old Code:
-            # if self.type in ["girlreport", "schoolreport", "girlndreport", "mcndreport"]:
-                # # find a default image as fallback for girl events
-                # # defimg = self.girl.show("profile", resize=size)
-                # # select image
-                # gimg = self.girl.show(self.img, resize=size)
-            # elif self.type in ["exploration_report", "brothelreport", "schoolndreport", "fg_report"]:
-                # gimg = ProportionalScale(self.img, width, height)
-            # else:
-                # gimg = None
-                # devlog.warning("unknown self.type: %s" % self.type)
-            # # remember which image was selected
-            # self.img = gimg
-            # return gimg
             
             
-
+    class OnScreenMap(_object):
+        """
+        Loads data from JSON, builds a map.
+        To be used with screens.
+        It either builds the map from cut out peaces or by placing icons on in.
+        """
+        def __init__(self):
+            in_file = content_path("db/maps.json")
+            with open(in_file) as f:
+                data = json.load(f)
+                
+            for i in data:
+                setattr(self, i, data[i])
+                
+        def __call__(self, map):
+            return getattr(self, map)
+        
+        
+    class OnScreenMapCell(_object):
+        pass

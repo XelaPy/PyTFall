@@ -27,7 +27,7 @@ label main_street:
     
     python:
 
-        while True:
+        while 1:
 
             result = ui.interact()
 
@@ -47,7 +47,7 @@ label main_street:
     jump pyt_city
 
     
-screen pyt_main_street:
+screen pyt_main_street():
     
     use pyt_top_stripe(True)
     
@@ -62,26 +62,19 @@ screen pyt_main_street:
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-  
-                    use rg_lightbutton(img=entry.show("girlmeets","simple bg","urban", exclude=["swimsuit", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="first_default"), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets","simple bg","urban", exclude=["swimsuit", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="first_default"), return_value=['jump', entry])
 
     # Normal screen
     else:
-        for key in pytfall.maps['MainStreet']:
-            python:
-                map_point = pytfall.maps['MainStreet'][key]['attr']
-                x = int(map_point['x']) / float(config.screen_width)
-                y = int(map_point['y']) / float(config.screen_height)
-                if "rx" in map_point:
-                    rx = map_point["rx"]
-                    ry = map_point["rx"]
-                else:
-                    rx = 25
-                    ry = 25
-                    
-            use r_lightbutton(img=ProportionalScale(map_point['image'], rx, ry), return_value=['location', key], align=(x, y))
-            frame background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, grey), alpha=0.5), 5, 5):
-                align (x, y+0.05)
-                text (u"{size=-4}{color=[black]}%s"%(map_point['name']))
-                
-
+        for key in pytfall.maps("pytfall_ms"):
+            if "img" in key:
+                python:
+                    rx = int(key["rx"]) if "rx" in key else 25
+                    ry = int(key["ry"]) if "ry" in key else 25
+                    x = int(key['x']) / float(config.screen_width)
+                    y = int(key['y']) / float(config.screen_height)
+                use r_lightbutton(img=ProportionalScale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
+                frame:
+                    background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, grey), alpha=0.5), 5, 5)
+                    align (x, y+0.05)
+                    text (u"%s"%(key['name'])) size 16 color black

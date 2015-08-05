@@ -1,0 +1,98 @@
+{
+    "pytfall": [
+        {
+            "id": "city_parkgates",
+            "name": "Park"
+        },
+        {
+            "id": "main_street",
+            "name": "Main Street"
+        },
+        {
+            "id": "mages_tower",
+            "name": "Mages Tower"
+        },
+        {
+            "id": "city_beach",
+            "name": "Beach"
+        },
+        {
+            "id": "arena_outside",
+            "name": "Arena"
+        },
+        {
+            "id": "slave_market",
+            "name": "Slave Market"
+        },
+        {
+            "id": "forest_entrance",
+            "name": "Forest Entrance",
+            "x": 9,
+            "y": 570,
+            "img": "content/gfx/interface/buttons/blue_arrow_left.png"
+        },
+        {
+            "id": "tavern_town",
+            "name": "Tavern"
+        },
+        {
+            "id": "city_jail",
+            "name": "City Jail"
+        }
+    ],
+    "pytfall_ms": [
+        {
+            "id": "general_store",
+            "name": "General Store",
+            "x": 475,
+            "y": 530,
+            "img": "content/gfx/interface/icons/neitral.png"
+        },
+        {
+            "id": "realtor_agency",
+            "name": "Realtor",
+            "x": 365,
+            "y": 535,
+            "img": "content/gfx/interface/icons/neitral.png"
+        },
+        {
+            "id": "cafe",
+            "name": "Cafe",
+            "x": 70,
+            "y": 670,
+            "img": "content/gfx/interface/icons/neitral.png"
+        },
+        {
+            "id": "workshop",
+            "name": "Work Shop",
+            "x": 1055,
+            "y": 615,
+            "img": "content/gfx/interface/icons/neitral.png"
+        },
+        {
+            "id": "tailor_store",
+            "name": "Tailor Store",
+            "x": 635,
+            "y": 535,
+            "img": "content/gfx/interface/icons/neitral.png"
+        }
+    ],
+    "pytfall_fe": [
+        {
+            "id": "witches_hut",
+            "name": "Witches Hut",
+            "x": 700,
+            "y": 550,
+            "img": "content/gfx/interface/icons/neitral.png"
+        }
+    ],
+    "pytfall_tavern": [
+        {
+            "id": "tavern_inside",
+            "name": "Night & Day",
+            "x": 820,
+            "y": 550,
+            "img": "content/gfx/interface/icons/tavern.png"
+        }
+    ]
+}

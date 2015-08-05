@@ -1,4 +1,4 @@
-init -1: # Transforms:
+init -997: # Transforms:
     # Basic transforms:
     
     # First, More default positions:
@@ -202,4 +202,20 @@ init -1: # Transforms:
         ypos yps
         alpha ast
         linear t ypos ype alpha ae
+        repeat
+        
+    transform flashing:
+        additive 1.0 alpha 0.4
+        block:
+            linear 1.0 alpha 0.1
+            linear 1.0 alpha 0.4
+            repeat
+    
+    transform fog:
+        linear 1.0 alpha 0.2
+        linear 1.0 alpha 0.3
+        linear 1.0 alpha 0.4
+        linear 1.0 alpha 0.5
+        linear 1.0 alpha 0.4
+        linear 1.0 alpha 0.3
         repeat

@@ -21,8 +21,8 @@ label mainscreen:
     # Prediction Helpers:
     # TODO: Stop predicions when we've moved to far away from the images!
     python:
-        imglist = ["".join([persistent.town_path, key, ".png"]) for key in pytfall.maps['PyTFall']]
-        imglist.extend(["".join([persistent.town_path, key, "_hover.png"])  for key in pytfall.maps['PyTFall']])
+        imglist = ["".join([pytfall.map_pattern, key, ".png"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
+        imglist.extend(["".join([pytfall.map_pattern, key, "_hover.png"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
         imglist.append("bg gallery")
         renpy.start_predict(*imglist)
     

@@ -34,7 +34,7 @@ label tavern_town:
     jump pyt_city
     
                 
-screen pyt_tavern_town:
+screen pyt_tavern_town():
 
     use pyt_top_stripe(True)
     
@@ -47,16 +47,18 @@ screen pyt_tavern_town:
         hbox:
             align(0.5, 0.3)
             spacing 70
-            
             for entry in gm.display_girls():
-           
-                    use rg_lightbutton(img=entry.show("girlmeets",  exclude=["swimsuit", "wildness", "beach", "pool","onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets",  exclude=["swimsuit", "wildness", "beach", "pool","onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
-    for key in pytfall.maps['Tavern']:
-        python:
-            map_point = pytfall.maps['Tavern'][key]['attr']
-            x = int(map_point['x']) / float(config.screen_width)
-            y = int(map_point['y']) / float(config.screen_height)
-        use r_lightbutton(img=im.Scale(map_point['image'], 60, 60), return_value=['location',key], align=(x,y))
-        frame background Solid((0,0,0,128)) align (x,y+0.05):
-            text (u"{size=-4}%s"%(map_point['name']))                
+    for key in pytfall.maps("pytfall_tavern"):
+        if "img" in key:
+            python:
+                rx = int(key["rx"]) if "rx" in key else 60
+                ry = int(key["ry"]) if "ry" in key else 60
+                x = int(key['x']) / float(config.screen_width)
+                y = int(key['y']) / float(config.screen_height)
+            use r_lightbutton(img=im.Scale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
+            frame:
+                background Solid((0, 0, 0, 128))
+                align (x, y+0.05)
+                text (u"%s"%(key['name'])) size 16        

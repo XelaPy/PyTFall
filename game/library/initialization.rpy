@@ -124,9 +124,10 @@ init -999 python:
     world_quests = list()
     
     # Setting default town path to persistent:
-    if not persistent.town_path:
-        persistent.town_path = "content/gfx/bg/locations/map_buttons/dark/"
-    renpy.image("bg humans", "".join([persistent.town_path, "humans.jpg"]))
+    # if not persistent.town_path:
+        # persistent.town_path = "content/gfx/bg/locations/map_buttons/dark/"
+    # renpy.image("bg humans", "".join([persistent.town_path, "humans.jpg"]))
+    renpy.image("bg humans", "content/gfx/bg/locations/map_buttons/gismo/humans.jpg")
     
     # Getting rid of Ren'Py's containers since we don't require rollback.
     dict = _dict

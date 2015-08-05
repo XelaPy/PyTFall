@@ -33,34 +33,25 @@ screen pyt_city_screen():
     
     default tt = Tooltip(None)
     
-    for key in pytfall.maps['PyTFall']:
-            python:
-                map_point = pytfall.maps['PyTFall'][key]['attr']
-                x = int(map_point['x']) / float(config.screen_width)
-                y = int(map_point['y']) / float(config.screen_height)
-                if "rx" in map_point:
-                    rx = int(map_point["rx"])
-                    ry = int(map_point["rx"])
-                else:
-                    rx = 25
-                    ry = 25
-                    
-            if map_point['image']:
-                $ img=ProportionalScale(map_point['image'], rx, ry)
-                imagebutton:
-                    align(x, y)
-                    idle img
-                    hover im.MatrixColor(img, im.matrix.brightness(0.25))
-                    focus_mask True
-                    hovered tt.action(map_point['name'])
-                    action Return(['location', key])
-            else: # Map-cut-style:
-                imagebutton:
-                    idle "".join([persistent.town_path, key, ".png"])
-                    hover "".join([persistent.town_path, key, "_hover.png"])
-                    focus_mask True
-                    hovered tt.action(map_point['name'])
-                    action Return(['location', key])
+    for key in pytfall.maps("pytfall"):
+        if "img" in key:
+            $ rx = int(key["rx"]) if "rx" in key else 25
+            $ ry = int(key["ry"]) if "ry" in key else 25
+            $ img = ProportionalScale(key["img"], rx, ry)
+            imagebutton:
+                pos (key["x"], key["y"])
+                idle img
+                hover im.MatrixColor(img, im.matrix.brightness(0.25))
+                focus_mask True
+                hovered tt.action(key['name'])
+                action Return(['location', key["id"]])
+        else: # Map-cut-style:
+            imagebutton:
+                idle "".join([pytfall.map_pattern, key["id"], ".png"])
+                hover "".join([pytfall.map_pattern, key["id"], "_hover.png"])
+                focus_mask True
+                hovered tt.action(key['name'])
+                action Return(['location', key["id"]])
                     
     if tt.value:
         frame:
