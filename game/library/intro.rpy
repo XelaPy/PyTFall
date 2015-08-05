@@ -59,6 +59,7 @@ init python:
     
 init:
     image terumi normal = ProportionalScale("content/events/Intro/terumi.png", 1700, 500)
+    image carstein = ProportionalScale("content/events/Intro/Eric Carstein.png", 1700, 500)
     image bag = ProportionalScale("content/items/quest/bag.png", 150, 150)
     image clocks = ProportionalScale("content/items/quest/cl2.png", 150, 150)
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
@@ -87,7 +88,6 @@ init:
     image bg sky3 = im.Scale("content/events/Intro/sky3.jpg", config.screen_width, config.screen_height)
     image bg ruin1 = im.Scale("content/events/Intro/ruin1.jpg", config.screen_width, config.screen_height)
     image bg ruin2 = im.Scale("content/events/Intro/ruin2.jpg", config.screen_width, config.screen_height)
-    image boy = ProportionalScale("content/events/Intro/boy.png", 900, 300)
     image logo = ProportionalScale("content/events/Intro/logo-transperent.png", 600, 300)
     image cat = ProportionalScale("content/events/Intro/cat.png", 1100, 350)
     image girl = ProportionalScale("content/events/Intro/girl.png", 1300, 400)
@@ -167,7 +167,7 @@ label intro:
     show he with dissolve:
         yalign 1.0 xpos 400
     "Out of nowhere a stranger appeared, claiming to be a historian."
-    "He told the Master of underground sanctuary not too far from the city, where an antient star sleept."
+    "He told the Master of underground sanctuary not too far from the city, where an ancient star slept."
     show bg ruin1 with dissolve:
         subpixel True
         size (config.screen_width, config.screen_height)
@@ -182,7 +182,7 @@ label intro:
         crop (0, 0, config.screen_width, config.screen_height)
         linear 30 crop (config.screen_width/2, config.screen_height/2, config.screen_width/32, 100)
     extend " and of crushing the rebels once and for all..."
-    "Yelding magic powerful enough to build a new empire and maybe, even to surpass Crossgates weath and fame!"
+    "Carrying magic powerful enough to build a new empire and maybe, even to surpass Crossgates wealth and fame!"
     
     show bg ruin2:
         linear 3 alpha 0
@@ -245,10 +245,11 @@ init python:
     # image white:
         # Solid("#FFF")    
     
-label intro_story:
+label intro_story1:
     
     $ b = Character("???", color=white, what_color=white, show_two_window=True, window_left_padding=230)
     $ t = Character("Terumi", color=green, what_color=green, show_two_window=True, show_side_image="content\events\Intro\pnterumi.png", window_left_padding=230)
+    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png", window_left_padding=230)
     
     hide screen pyt_mainscreen
     scene black
@@ -477,7 +478,7 @@ label intro_story:
     s.say "I'm done, thanks. My name is Sakura. Who are you?"
     $ sakspr = chars["Sakura"].get_vnsprite()
     show expression sakspr at center with dissolve
-    "She tries to look calm, but you notice the blush on her cheeks. You introduce yourself."
+    "She tries to look calm, but you notice how quickly she breathes. You introduce yourself."
     s.say "I see, nice to meet you, [hero.name]. Thanks for your help."
     $ s.disposition += 200
     menu:
@@ -575,13 +576,308 @@ label intro_story:
     "Ultimately, you part ways in the town square. She told you where you can find her in the city if something happens, but asked to not bother without a good reason, since she's on her mission."
     hide expression sakspr at center with dissolve
     "Well then, time to do your own mission."
+label intro_story2:
+    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png", window_left_padding=230)
     stop music fadeout 2.0
     scene black with dissolve
-
+    play music "content/sfx/music/events/cemetery.ogg" fadein 2.0 loop
+    show expression Text("City Cemetery", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
+        alpha 0
+        linear 3.5 alpha 1.0
+    pause 2.5
+    hide txt1
+    show bg cemetery with dissolve
+    "You found the cemetery very soon with the help of local residents. It does not look abandoned, but you are almost alone here."
+    "..."
+    show bg cemetery_1 with dissolve
+    show carstein at center with dissolve
+    "On the very edge you see an old man standing next to a tombstone. Maybe he is the author of the letter? You come closer with caution."
+    ec "Well hello there youngster."
+    "His voice is low and raspy."
+    ec "Not many people come to this place. Do you have some business with me?"
+    $ cem = 0
+    label cem_diag:
+    menu:
+        "Look at the tombstone next to him":
+            "Nope, it's not your father. You can not make out the name, but the surname is 'Carstein'."
+            jump cem_diag
+        "Ask about the cemetery":
+            ec "Ah yes, you see, after the riot there were too many dead bodies to bury, and we started to burn them." 
+            ec "Over time it has become a tradition, and cemeteries are no longer used as before."
+            ec "That's why not many people come here these days. <he glances at the tombstone nearby>"
+            jump cem_diag
+        "Ask what is he doing here":
+            ec "<he laughs softly> The same thing as you, I presume. Pay tribute to the fallen."
+            jump cem_diag
+        "Ask about your father's grave":
+            ec "Oh, so you are looking for HIM. I'm afraid he is not here. I don't know where he is. Maybe nobody knows."
+            $ cem = 1
+            jump cem_diag
+        "Leave" if cem == 1:
+            "You turning around, going to leave this place. Obviously, the letter was someone's joke."
+            ec "But if you looking for anyone else, we can help each other. [hero.name]."
+    ec "Allow me to introduce myself, boy. I am Eric Carstein, retired militia officer."
+    ec "I used to know your father. Now I'm just a tired old man, but I still have some connections with military."
+    label cem_diag1:
+    menu:
+        "Ask about the letter":
+            ec "So, you got a letter too? In fact, I have a similar letter telling me to meet you here today."
+            ec "I don't know who sent them. Handwriting analysis showed complete nonsense."
+            jump cem_diag1
+        "Ask about the papers of your father":
+            ec "<he doesn't look interested> Ah yes, he used to work on something. I don't know what it was, and I don't want to know too."
+            ec "I already know enough to sleep bad at night. <he winks at you> Let's not worsen the situation."
+            jump cem_diag1
+        "Ask about your father":
+            ec "We were friends from childhood. Always wanted to make a military career."
+            ec "And we both succeeded in killing people. I was on the battlefield, your father was in the laboratory."
+            jump cem_diag1
+        "Show him your letter":
+            "You show him the letter you received two weeks ago. He carefully examines it for a minute or so."
+            ec "It is the same handwriting, I'm sure of it. <he gazes at you> I don't know what is it about, but to be manipulated is never a good thing."
+    ec "I will need some time to think about it. <he gives you a bag of coins> Here. Buy yourself a house. Find a job. Gather some money."
+    menu:
+        "Ohh, free money!":
+            ec "<he frowns> I don't think so, youngster. I expect you to return them, with interest."
+        "No charity is needed":
+            ec "<He nods approvingly> It is not a charity. I expect you to return them, with interest."
+    $ hero.gold+= 1000
+    # Here we give a quest to buy a house and collect, let's say, 5000 gold and get to lvl 5. We will take 2000 when he will return the debt.
+    ec "<he gives you address> This is where I live. Meet me there when you will be ready. Until then..."
+    hide carstein with dissolve
+    "He left. After a short while you go back to the city."
+    stop music fadeout 2.0
+    scene black with dissolve
+label intro_story3:
+    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png", window_left_padding=230)
+    scene black with dissolve
+    play music "content/sfx/music/events/Town5.ogg" fadein 2.0 loop
+    show bg cab with dissolve
+    show carstein at center with dissolve
+    "You managed to settle a bit for the last days. You came to Carstein as he asked."
+    ec "First thing's first. Do you have money?"
+    "You gave him twice as much as he gave you."
+    $ hero.gold -= 2000
+    ec "Good, very good. During this time I learned something new. I'm not sure where to start... <he looks somewhat depressed>"
+    "You sit on a luxury sofa. It's very comfortable and most likely worth more than your house."
+    label last_carst:
+    menu:
+        "Ask about your father's grave":
+            ec "Ah, you see, nobody knows where his body is. There are witnesses of his death, but no one saw what happened after."
+            ec "At least no one alive in the city. <he grins slightly>"
+            jump last_carst
+        "Ask about the letter":
+            ec "Nothing new here. It's the same papper, the same inks, the same handwriting."
+            ec "But letters are identical to each other. Yet the force pressing the paper is different, so it shouldn't be written by a machine."
+            ec "<sigh> ...Or at least my connections think so."
+            jump last_carst
+        "Ask about new clues":
+            ec "Yes, yes. <he looks at you> Do you know what happened in 3596?"
+            label last_carst1:
+            menu:
+                "My father died":
+                    ec "Yes, indeed. A tragedy, but just one of many."
+                    jump last_carst1
+                "The city was wiped put":
+                    ec "Close, but not truth. We lost a quarter of the city."
+                    jump last_carst1
+                "Slaves rebellion":
+                    ec "Indeed, but they happened almost every year back then. It was a big one, perhaps the biggest one."
+                    ec "<you are alone in the room, but he lowers his voice anyway> They say someone helped them. Someone gave them weapons and magic to fight back."
+                    ec "But in the end they were manipulated by someone. The riot was a consequence, not a cause."
+                    jump last_carst1
+                "You tell me":
+                    ec "<he makes a short laugh> I would if I could. The truth is that nobody knows what exactly happened. I spent years looking for witnesses and evidences."
+                    ec "Unfortunately, the red flash that vaporized the army of slaves also destroyed most of the clues."
+                    ec "And the user of the weapon lost his mind..."
+    ec "But enough with history for today. I have an idea where we should start looking."
+    ec "The weapon used during the riot was found in ruins not very far from the city. They say an itinerant historian came to the city and told us where to find it."
+    ec "<sigh> And everything he said was true. The riot ended with a single flash. The city has grown and become rich."
+    ec "And he never told us about the consequences for one who used it in the battle. So technically, he did not lie in anything."
+    ec "<he frowns> And that's what scares me. Everyone lies, even if unintentionally. His instructions were absolutely accurate and correct."
+    ec "I cannot attract any more attention. Therefore you have to send an expedition to the ruins where we found the weapon on your own."
+    ec "This is the best clue I have. The information about its location is still classified, so most likely nobody was there after Terumi."
+    ec "See if you can find something. Anything."
+    "You get up to leave."
+    ec "...And be careful."
+    # And so we give a quest to find ruins deep in SE. When the group will return, MC will know that ruins were sealed by impenetrable stone wall.
+    # At the wall there is the same symbol you saw at Sakura's equipment.
+    scene black with dissolve
+    stop music fadeout 2.0
+    
+label intro_story: # this label goes when MC goes to Sakura's house after it becomes available
+    play music "content/sfx/music/events/Theme3.ogg" fadein 2.0 loop
+    show bg city_street_2 with dissolve
+    "Initially you didn't wanted to bother Sakura at all. Kunoichi are mortally dangerous and unpredictable, everyone knows it."
+    "They say one kunoichi worth hundreds of soldiers."
+    "But if someone knows how to remove the stone wall in the ruins, it's her. There is no doubt about it, her head protector has the same symbol as the wall."
+    "And besides... She didn't looked so dangerous during your time 'together'. Maybe you can do it again, who knows?"
+    show bg house with dissolve
+    "According to your information, she rented a house outside the city."
+    "Well then, time to act!"
+    $ a = 0
+    $ b = 0
+    label sak_house:
+    menu:
+        "Knock the door":
+            "That's right, better to warn her."
+            play sound "content/sfx/sound/events/door_knock.mp3"
+            "..."
+            "No response. Damn."
+            $ a = 1
+            jump sak_house
+        "Look through the window":
+            "Unfortunately, curtains effectively prevent it. Too bad."
+            jump sak_house
+        "Try to open the door":
+            "You trying to open the door..."
+            play sound "content/sfx/sound/events/door_open.mp3"
+            "...and it opens. Strange, why the door is not locked if nobody's home?"
+            $ b = 1
+            jump sak_house
+        "Enter":
+            "That's right, fortune favors the bold."
+            if b == 0:  
+                play sound "content/sfx/sound/events/door_open.mp3"
+            if a == 1:
+                "At least you always can say that you knocked."
+            stop music fadeout 2.0
+        "Leave" if a == 1:
+            "It's unwise to enter at this point. You should leave."
+            stop music fadeout 2.0
+            "Something is wrong. At the corner of your eye you saw some movement outside."
+            "Carstein warned you to be careful. At least Sakura might help you if someone will attack you."
+            if b == 0:  
+                play sound "content/sfx/sound/events/door_open.mp3"
+    show bg livingroom with dissolve
+    "Trying not to make noise, you go inside."
+    "It looks like an ordinary living room. You are alone here. Maybe you should..."
+    $ s = chars["Sakura"]
+    $ i = chars["Ino_Yamanaka"]
+    $ s_spr = chars["Sakura"].get_vnsprite()
+    $ i_spr = chars["Ino_Yamanaka"].get_vnsprite()
+    init:
+        image bg sky1 = im.Scale("content/events/Intro/sky1.jpg", config.screen_width, config.screen_height)
+    play music "content/sfx/music/events/Scene2.ogg" fadein 2.0 loop
+    $ i.override_portrait("portrait", "angry")
+    "You feel cold steel near your neck."
+    i.say "You have 5 seconds to explain why are you here."
+    "Oh crap."
+    label ohcrap:
+    menu:
+        "I'm looking for Sakura":
+            i.say "Really? Who are you? How do you know her?"
+        "Please don't kill me.":
+            i.say "It depends on who are you. I won't hesitate to kill a spy."
+            jump ohcrap
+        "Wrong door. I'm leaving already.":
+            i.say "Oh no you don't! Move, and I'll kill you!"
+            jump ohcrap
+    "You trying to explain, but she interrupts you."
+    i.say "I won't believe you anyway. But there is a way to find out for sure."
+    "She removes the weapon from your throat."
+    show expression i_spr at center with dissolve
+    i.say "Like I said, if you move, I will kill you on spot. Now I'm going to use a special technique to find out who you are."
+    stop music fadeout 2.0
+    show black with noisedissolve 
+    play sound "content/sfx/sound/be/darkness2.mp3"
+    hide black with noisedissolve 
+    "Suddenly you feel very dizzy. You body is heavy, you cannot move, and thoughts flow very slowly."
+    "The girl concentrates, and you beginning to see scattered fragments of your past."
+    "..."
+    "After a while you realize that she's not very good at it. She tries to find your memories about Sakura, but she cannot control the flow of your memory well enough."
+    play music "content/sfx/music/events/Field2.ogg" fadein 2.0 loop
+    "Let's see what you can do."
+    $ a = 0
+    $ b = 0
+    $ c = 0
+    label ino_mind:
+    menu:
+        "Focus on jerking off" if a == 0:
+            "That's right, if she wants to be in your head, there WILL be consequences!"
+            "You recall how and where you did it."
+            $ i.override_portrait("portrait", "shy")
+            i.say "..."
+            "She blushes, but not much. Maybe she masturbates even more often?"
+            $ a = 1
+            jump ino_mind
+        "Remember your childhood" if b == 0:
+            "Yes, it should work. You never felt sorry for yourself, but you realised that your childhood was pretty tough."
+            $ i.override_portrait("portrait", "sad")
+            i.say "..."
+            "Good. If she empathizes you, she won't kill you. Probably."
+            $ b = 1
+            jump ino_mind
+        "Remember the events of the riot" if c == 0:
+            "You don't like to remember that part of your life. But currently you are not alone in your head, so..."
+            $ c = 1
+            $ i.override_portrait("portrait", "indifferent")
+            show bg sky1 with noisedissolve
+            i.say "..."
+            "Yes, not every day you see how the sky is torn apart by the red flash."
+            show bg livingroom with noisedissolve
+            jump ino_mind
+        "Focus on Sakura" if b == 1 and c == 1:
+            "Okey, if she wants Sakura, you give her Sakura."
+            "You recall the events of that night. How you set the camp. How you helped Sakura. And how you two..."
+            $ i.override_portrait("portrait", "scared")
+            stop music 
+            i.say "Whaaat?!"
+            
+    i.say "Sakura... You... Together..."
+    "You don't feel her presence inside your head any longer."
+    play sound "content/sfx/sound/events/door_open.mp3"
+    $ s.override_portrait("portrait", "confident")
+    s.say "I'm home!"
+    show expression s_spr at right with dissolve
+    s.say "Oh? [hero.name]? What are you..."
+    $ i.override_portrait("portrait", "angry")
+    i.say "I can't believe you! So while I'm all alone here, you are d-dating like there's no tomorrow!"
+    $ s.override_portrait("portrait", "angry")
+    s.say "W-what? What are you talking about? I..."
+    i.say "I SAW it in his head. Night, forest, you do 'it'."
+    "That escalated quickly. You're wondering whether you should intervene or quickly and quietly leave."
+    $ s.override_portrait("portrait", "defiant")
+    s.say "Whaat? You used it on civilians again? Just wait until lady Tsunade will know about it..."
+    i.say "Oh? So you think you can..."
+    "That's it, time to go. You make a small step toward the door."
+    s.say "You, stay right there!"
+    i.say "Where do you think you going?!"
+    "It can't be good..."
+    show black with dissolve 
+    pause 2.0
+    play music "content/sfx/music/events/Theme3.ogg" fadein 2.0 loop
+    hide black with dissolve
+    $ i.override_portrait("portrait", "indifferent")
+    $ s.override_portrait("portrait", "indifferent")
+    "After they calmed, you finally managed to tell them why are you here."
+    "They look at each other."
+    i.say "That's... not something we can decide on our own."
+    s.say "Right, if someone put a seal, there must be a reason. You probably should speak with someone from our village, but..."
+    i.say "But outsiders are not permitted without approval of three ninjas. Too bad, your girlfriend Sakura is not enough for that."
+    s.say "Be quite, you! She is right though, you cannot go there."
+    $ s.override_portrait("portrait", "confident")
+    "You ask her to deliver a letter to the village headman."
+    s.say "Oh, alright. No promises though. They might just ignore you."
+    s.say "I'll let you know if... when they answer. It may take several days."
+    "You thank them and say goodbye."
+    play sound "content/sfx/sound/events/door_open.mp3"
+    hide expression s_spr
+    hide expression i_spr
+    show bg house with dissolve
+    $ i.override_portrait("portrait", "angry")
+    $ s.override_portrait("portrait", "angry")
+    "Once beyond the threshold, you sigh. Deeply and with relief."
+    i.say "What, no goodbye kiss?"
+    s.say "That's it, you asked for that!"
+    "You quickly increase the distance between you and the house."
+    "If they won't answer to your letter, you need to get to the village in person. For that you will need approval of three ninjas."
+    "Sakura most likely will cooperate. Even together with Ino it won't be enough, but two is better than one, right?" # here we give access to Ino in the house and give a quest to rise disposition to 300 and become her friend via interactions
+    scene black with dissolve
+    stop music
     
     
-                
-    pause 100
+    pause
     # play music "content/sfx/music/fire-2.mp3" fadein 2.0 fadeout 2.0
     # scene bg fcity with dissolve
     # show terumi normal at left with dissolve
