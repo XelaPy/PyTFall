@@ -143,7 +143,11 @@ screen pyt_girl_profile():
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
     
-    default tt = Tooltip("Manage your girls here!!!")
+    if girls:
+        # text ("{color=[ivory]}[char.desc]") style "content_text" layout "greedy" justify True minwidth 304 xalign 0.5
+        default tt = Tooltip("[char.desc]")
+    else:
+        default tt = Tooltip("Manage your girls here!!!")
     default stats_display = "main"
     
     $ not_escaped = char not in pytfall.ra
@@ -260,10 +264,10 @@ screen pyt_girl_profile():
                 vbox:
                     # Prof-Classes ====================================>
                     python:
-                        if len(girl.traits.basetraits) == 1:
-                            classes = list(girl.traits.basetraits)[0].id
-                        elif len(girl.traits.basetraits) == 2:
-                            classes = list(girl.traits.basetraits)
+                        if len(char.traits.basetraits) == 1:
+                            classes = list(char.traits.basetraits)[0].id
+                        elif len(char.traits.basetraits) == 2:
+                            classes = list(char.traits.basetraits)
                             classes.sort()
                             classes = ", ".join([str(c) for c in classes])
                         else:
@@ -277,7 +281,7 @@ screen pyt_girl_profile():
                         text "Classes: [classes]" color ivory size 18
                         
                     null height 2
-                    # $ loc = char.location if isinstance(char.location, basestring) else char.location.name
+                    
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "loc", char])
@@ -325,10 +329,6 @@ screen pyt_girl_profile():
                     yalign 0.5
                     action SetScreenVariable("stats_display", "pro_stats")
                     text "Pro Stats" size 15
-                button:
-                    yalign 0.5
-                    action SetScreenVariable("stats_display", "info")
-                    text "Info" size 15
                 if config.developer:
                     button:
                         yalign 0.5
@@ -342,7 +342,27 @@ screen pyt_girl_profile():
                 xsize 318
                 xfill True
                 if stats_display == "main":
-                    # Basetraits first:
+                    frame:
+                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        xysize (317, 100)
+                        xanchor 5
+                        has vbox spacing -6 xsize 250 xfill True
+                        label "Full Name:" xpos 20
+                        frame:
+                            xmaximum 310
+                            textbutton (u"{color=[gold]}[char.fullname]"):
+                                xpos 10
+                                background None
+                                action Show("char_rename", char=char)
+                                hovered tt.action("Rename {}!".format(char.name))
+                        null height 8
+                        label "Origin:" xpos 20
+                        frame:
+                            text (u"[char.origin]") color "#43CD80" xpos 20 xmaximum 220 size 22
+                            
+                    null height 2
+                    
+                    # Basetraits:
                     vbox:
                         xsize 315
                         xfill True
@@ -352,54 +372,43 @@ screen pyt_girl_profile():
                             for trait in sorted(list(char.traits.basetraits)):
                                 $ temp = (0.7, 0.9) if sorted(list(char.traits.basetraits)).index(trait) else (0.3, 0.1)
                                 textbutton "[trait]" action NullAction() hovered tt.action(trait.desc) align temp
+                                
                     null height 4
                     
-                    $ _traits = set(list(traits[t] for t in char.PERSONALITY_TRAITS))
-                    $ trait = _traits.intersection(set(char.traits)).pop()
+                    # Personality:
+                    $ trait = list(t for t in char.traits if t.personality).pop()
                     $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 90, 90)
-                    # yalign 0.5
                     fixed:
                         xysize (300, 120)
-                        # style_group "content"
-                        # background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-                        # xysize (300, 120)
-                        # xalign 0.5
-                        label "[trait]" align (0.55, 0.1) text_color purple text_size 30 text_bold True
+                        label "[trait]" yalign 0.1 text_color purple text_size 30 text_bold True xanchor 0 xpos 95
                         imagebutton:
                             at pers_effect()
                             xcenter 50
                             ycenter 53
-                            idle (img)
-                            hover (img)
+                            idle img
+                            hover img
                             hovered tt.Action(trait.desc)
                             action NullAction()
                             
-                    $ _traits = list(t for t in char.traits if t.race)
-                    $ trait = _traits.pop()
+                    # Race:
+                    $ trait = list(t for t in char.traits if t.race).pop()
                     $ img = ProportionalScale(trait.icon, 90, 90)
-                    # yalign 0.5
                     fixed:
                         yoffset -20
                         xysize (300, 50)
-                        # style_group "content"
-                        # background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-                        # xysize (300, 120)
-                        # xalign 0.5
-                        label "[trait]" yalign 0.9 text_color black text_size 30 text_bold True xanchor 1.0 xpos 220
+                        label "[trait]" yalign 0.9 text_color black text_size 30 text_bold True xanchor 1.0 xpos 210
                         imagebutton:
                             at pers_effect()
                             xcenter 250
                             ycenter 0
-                            idle (img)
-                            hover (img)
+                            idle img
+                            hover img
                             hovered tt.Action(trait.desc)
                             action NullAction()
                     
                 elif stats_display == "stats":
-                    #label (u"{size=20}{color=[ivory]}{b}Stats:")
-                    #null height 1
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         xysize (317, 100)
                         xanchor 5
                         yanchor 10
@@ -411,14 +420,14 @@ screen pyt_girl_profile():
                                 xmaximum 153
                                 xfill True
                                 frame:
-                                    text "{color=#CD4F39}Health:" xalign (0.02) #{color=#00CCCC} 00FFFF 2E8B57
+                                    text "Health:" xalign (0.02) color "#CD4F39"
                                 frame:
-                                    text "{color=#43CD80}Vitality:" xalign (0.02)
+                                    text "Vitality:" xalign (0.02) color "#43CD80"
                                 for stat in stats:
                                     frame:
-                                        text ('{color=#79CDCD}%s'%stat.capitalize()) xalign (0.02) 
+                                        text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
                                 frame:
-                                    text "{color=[gold]}Gold:" xalign (0.02)
+                                    text "Gold:" xalign (0.02) color gold
                             vbox:
                                 yalign (0.6)
                                 spacing 9
@@ -439,7 +448,6 @@ screen pyt_girl_profile():
                             
                     null height -8
                     label (u"{size=20}{color=[ivory]}{b}Info:") xalign(0.48) text_outlines [(2, "#424242", 0, 0)]
-                    #null height 2
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         xysize (317, 10)
@@ -486,8 +494,9 @@ screen pyt_girl_profile():
                                 xysize (300, 35)
                                 text "[stat]" color color size 16 align (0.02, 0.5)
                                 text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style "stats_value_text" color color size 16 align (0.98, 0.5)
-
+                                
                     null height 4
+                    
                     if hasattr(char, "elements"): # This should always be true...
                         # Prepear the list:
                         $ els = list()
@@ -502,12 +511,12 @@ screen pyt_girl_profile():
                             xysize (300, 130)
                             ymaximum 120
                             xalign 0.5
+                            xoffset -5
                             $ x = 0
                             fixed:
                                 xysize (100, 100)
                                 xcenter 250
                                 ycenter 62
-                                # at pers_effect
                                 for i in els:
                                     add Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i)))
                             viewport:
@@ -518,42 +527,7 @@ screen pyt_girl_profile():
                                         background None
                                         action NullAction()
                                         hovered tt.Action("%s" % e.desc)
-                # Info
-                elif stats_display == "info": 
-                    null height -10
-                    frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 100)
-                        xanchor 5
-                        hbox:
-                            yalign 0.5
-                            vbox:
-                                spacing -3
-                                xanchor 0
-                                xmaximum 250
-                                xfill True
-                                label "Full Name:" xpos 20
-                                textbutton (u"{color=[gold]}[char.fullname]"):
-                                    background None
-                                    xpos 30
-                                    xmaximum 220
-                                    action Show("char_rename", char=char)
-                                    hovered tt.action("Rename %s!" % char.name)
-                                if char.race:
-                                    label "Race:" xpos 20
-                                    frame:
-                                        text (u"{color=#dc762c}[char.race]") xpos 30 xmaximum 220
-                                label "Origin:" xpos 20
-                                frame:
-                                    text (u"{color=#43CD80}[char.origin]") xpos 30 xmaximum 220
-                    null height 5
-                    label (u"{size=20}{b}Description:") xalign(0.45) text_outlines [(2, "#424242", 0, 0)]
-                    null height 5
-                    frame:
-                        xanchor 0.015
-                        background Frame("content/gfx/frame/ink_box.png", 10, 10)
-                        minimum (314, 10)
-                        text ("{color=[ivory]}[char.desc]") style "content_text" layout "greedy" justify True minwidth 304 xalign 0.5
+                                        
                 elif stats_display == "skillstest":
                     viewport:
                         scrollbars "vertical"
@@ -648,7 +622,7 @@ screen pyt_girl_profile():
                 hbox:
                     fixed:
                         xysize (170, 190)
-                        label (u"Traits:") text_size 20 text_color ivory text_bold True align(0.42, 0.03) #text_outlines [(3, "#3a3a3a", 0, 0), (2, "#7A378B", 0, 0), (1, "#3a3a3a", 0, 0)]
+                        label (u"Traits:") text_size 20 text_color ivory text_bold True align(0.42, 0.03)
                         side "c r":
                             align(0, 0.92)
                             viewport id "girlprofile_traits_vp":
@@ -657,8 +631,8 @@ screen pyt_girl_profile():
                                 mousewheel True
                                 vbox:
                                     spacing -7
-                                    for trait in char.traits:
-                                        if trait.id not in char.PERSONALITY_TRAITS or not trait.hidden:
+                                    for trait in list(t for t in char.traits if not any([t.basetrait, t.personality, t.race, t.elemental])):
+                                        if not trait.hidden:
                                             frame:
                                                 xysize (150, 10)
                                                 button:
