@@ -48,7 +48,7 @@ label interactions_virgin_check:
                 else:
                     $ char.disposition -= 150
                     $ char.joy -= 50
-                jump interactions_virgin_check_goon
+                jump interactions_virgin_check_good
                         
             "No":
                 jump interaction_scene_choice
@@ -56,7 +56,8 @@ label interactions_virgin_check:
         "Unfortunately she's still a virgin, and she's not ready to cease to be her yet."
         jump interaction_scene_choice
     
-    label interactions_virgin_check_goon:
+    label interactions_virgin_check_good:
+        $ char.disposition += 20
         $ char.removetrait(traits["Virgin"])
         if char.health >=20:
             $ char.health -= 10
@@ -69,7 +70,38 @@ label interactions_virgin_check:
         else:
             jump interactions_virgin_ok_room
     jump interaction_scene_choice
-
+    
+label interactions_hireforsex:
+    "You propose to pay her for sex."
+    if char.disposition < -500:
+        call int_sex_nope
+        $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
+        jump girl_interactions
+    if char.health < char.get_max("health")*0.5 or char.effects["Food Poisoning"]['active']:
+        "But she is not feeling well."
+        jump girl_interactions
+    elif char.vitality < 60:
+        "But she is too tired."
+        jump girl_interactions
+    $ price = round((char.oral + char.anal + char.vaginal + char.sex) * 0.5) - hero.charisma + char.charisma*5 - round(char.disposition * 0.1)
+    if ct("Lesbian"):
+        $ price = round((price+100) * 1.5)
+    if price <= 0:
+        "You managed to charm her and get free service."
+    else:
+        if hero.gold < price:
+            "It will be [price] G. You don't have so much money."
+            jump girl_interactions
+        else:
+            menu:
+                "It will be [price] G. Continue?"
+            
+                "Yes":
+                    if hero.take_money(price):
+                        $ char.add_money(price)
+                    jump scene_sex_hired
+                "No":
+                    jump girl_interactions
 label interactions_sex:
     "You proposing to have sex."
     if ct("Lesbian"):
@@ -88,7 +120,8 @@ label interactions_sex:
         jump girl_interactions
     $ char.set_flag("forced", value="false")
 
-    if (char.disposition >= 700 and check_friends(char, hero)) or ct("Nymphomaniac") or check_lovers(char, hero):
+    if (char.disposition >= 600 and check_friends(char, hero)) or ct("Nymphomaniac") or check_lovers(char, hero):
+        label scene_sex_hired:
         menu:
             "Where would you like to do it?"
             
@@ -1043,7 +1076,7 @@ label interaction_scene_vaginal:
         $ guy_count +=2
         $ girl_count +=2
     if (char.vaginal - hero.vaginal) > 300:
-        "You learned something new about vagianl sex as well. A pleasure to deal with professionals."
+        "You learned something new about vaginal sex as well. A pleasure to deal with professionals."
         $ hero.vaginal += 2
     elif (hero.vaginal - char.vaginal) > 300:
         "You were able to show her some new tricks."

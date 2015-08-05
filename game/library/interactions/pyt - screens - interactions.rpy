@@ -172,9 +172,10 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("Grab Breasts", index=(m, 2))
             pytfall.world_actions.gm_choice("Kiss", index=(m, 3))
             pytfall.world_actions.gm_choice("Sex", index=(m, 4))
-            pytfall.world_actions.gm_choice("Become Fr", index=(m, 5))
-            pytfall.world_actions.gm_choice("Become Lv", index=(m, 6))
-            pytfall.world_actions.gm_choice("Disp", index=(m, 7))
+            pytfall.world_actions.gm_choice("Hire For Sex", index=(m, 5), condition="not(check_lovers(char, hero)) and cgo('SIW') and char.status != 'slave'")
+            pytfall.world_actions.gm_choice("Become Fr", index=(m, 6))
+            pytfall.world_actions.gm_choice("Become Lv", index=(m, 7))
+            pytfall.world_actions.gm_choice("Disp", index=(m, 8))
             
            
             # Back
