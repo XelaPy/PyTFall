@@ -67,14 +67,15 @@ screen pyt_main_street():
     # Normal screen
     else:
         for key in pytfall.maps("pytfall_ms"):
-            if "img" in key:
-                python:
-                    rx = int(key["rx"]) if "rx" in key else 25
-                    ry = int(key["ry"]) if "ry" in key else 25
-                    x = int(key['x']) / float(config.screen_width)
-                    y = int(key['y']) / float(config.screen_height)
-                use r_lightbutton(img=ProportionalScale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
-                frame:
-                    background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, grey), alpha=0.5), 5, 5)
-                    align (x, y+0.05)
-                    text (u"%s"%(key['name'])) size 16 color black
+            if not key.get("hidden", False):
+                if "img" in key:
+                    python:
+                        rx = int(key["rx"]) if "rx" in key else 25
+                        ry = int(key["ry"]) if "ry" in key else 25
+                        x = int(key['x']) / float(config.screen_width)
+                        y = int(key['y']) / float(config.screen_height)
+                    use r_lightbutton(img=ProportionalScale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
+                    frame:
+                        background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, grey), alpha=0.5), 5, 5)
+                        align (x, y+0.05)
+                        text (u"%s"%(key['name'])) size 16 color black

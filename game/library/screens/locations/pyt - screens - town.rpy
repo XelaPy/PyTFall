@@ -34,24 +34,25 @@ screen pyt_city_screen():
     default tt = Tooltip(None)
     
     for key in pytfall.maps("pytfall"):
-        if "img" in key:
-            $ rx = int(key["rx"]) if "rx" in key else 25
-            $ ry = int(key["ry"]) if "ry" in key else 25
-            $ img = ProportionalScale(key["img"], rx, ry)
-            imagebutton:
-                pos (key["x"], key["y"])
-                idle img
-                hover im.MatrixColor(img, im.matrix.brightness(0.25))
-                focus_mask True
-                hovered tt.action(key['name'])
-                action Return(['location', key["id"]])
-        else: # Map-cut-style:
-            imagebutton:
-                idle "".join([pytfall.map_pattern, key["id"], ".png"])
-                hover "".join([pytfall.map_pattern, key["id"], "_hover.png"])
-                focus_mask True
-                hovered tt.action(key['name'])
-                action Return(['location', key["id"]])
+        if not key.get("hidden", False):
+            if "img" in key:
+                $ rx = int(key["rx"]) if "rx" in key else 25
+                $ ry = int(key["ry"]) if "ry" in key else 25
+                $ img = ProportionalScale(key["img"], rx, ry)
+                imagebutton:
+                    pos (key["x"], key["y"])
+                    idle img
+                    hover im.MatrixColor(img, im.matrix.brightness(0.25))
+                    focus_mask True
+                    hovered tt.action(key['name'])
+                    action Return(['location', key["id"]])
+            else: # Map-cut-style:
+                imagebutton:
+                    idle "".join([pytfall.map_pattern, key["id"], ".png"])
+                    hover "".join([pytfall.map_pattern, key["id"], "_hover.png"])
+                    focus_mask True
+                    hovered tt.action(key['name'])
+                    action Return(['location', key["id"]])
                     
     if tt.value:
         frame:

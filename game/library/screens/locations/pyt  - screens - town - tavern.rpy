@@ -51,14 +51,15 @@ screen pyt_tavern_town():
                 use rg_lightbutton(img=entry.show("girlmeets",  exclude=["swimsuit", "wildness", "beach", "pool","onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
     for key in pytfall.maps("pytfall_tavern"):
-        if "img" in key:
-            python:
-                rx = int(key["rx"]) if "rx" in key else 60
-                ry = int(key["ry"]) if "ry" in key else 60
-                x = int(key['x']) / float(config.screen_width)
-                y = int(key['y']) / float(config.screen_height)
-            use r_lightbutton(img=im.Scale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
-            frame:
-                background Solid((0, 0, 0, 128))
-                align (x, y+0.05)
-                text (u"%s"%(key['name'])) size 16        
+        if not key.get("hidden", False):
+            if "img" in key:
+                python:
+                    rx = int(key["rx"]) if "rx" in key else 60
+                    ry = int(key["ry"]) if "ry" in key else 60
+                    x = int(key['x']) / float(config.screen_width)
+                    y = int(key['y']) / float(config.screen_height)
+                use r_lightbutton(img=im.Scale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
+                frame:
+                    background Solid((0, 0, 0, 128))
+                    align (x, y+0.05)
+                    text (u"%s"%(key['name'])) size 16        

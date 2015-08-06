@@ -56,7 +56,7 @@ screen pyt_city_beach:
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Hide("pyt_city_beach"), Jump("city_beach_right")]
         
-    $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
+    $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
     imagebutton:
         align (0.01, 0.5)
         idle (img)
@@ -74,26 +74,26 @@ screen pyt_city_beach:
             spacing 70
             
             for entry in gm.display_girls():
-                    if not entry.flag("beach_tags") or entry.flag("beach_tags")[0] < day:
-                        $citybeach_tags_list = [] 
-                        # main set
-                        if entry.has_image("girlmeets","beach"):
-                            $citybeach_tags_list.append(("girlmeets","beach"))
-                        if entry.has_image("girlmeets","swimsuit","simple bg"):
-                            $citybeach_tags_list.append(("girlmeets","swimsuit","simple bg"))  
-                        if entry.has_image("girlmeets","swimsuit","outdoors"):
-                            $citybeach_tags_list.append(("girlmeets","swimsuit","outdoors")) 
-                        # secondary set if nothing found
-                        if not citybeach_tags_list:
-                            if entry.has_image("girlmeets","outdoors"):
-                                $citybeach_tags_list.append(("girlmeets","outdoors"))
-                            if entry.has_image("girlmeets","simple bg"):
-                                $citybeach_tags_list.append(("girlmeets","simple bg"))    
-                        # giveup    
-                        if not citybeach_tags_list:
-                            $citybeach_tags_list.append(("girlmeets"))   
-                        
-                        $ entry.set_flag("beach_tags", (day, choice(citybeach_tags_list)))
+                if not entry.flag("beach_tags") or entry.flag("beach_tags")[0] < day:
+                    $ citybeach_tags_list = [] 
+                    # main set
+                    if entry.has_image("girlmeets", "beach"):
+                        $ citybeach_tags_list.append(("girlmeets", "beach"))
+                    if entry.has_image("girlmeets", "swimsuit", "simple bg"):
+                        $ citybeach_tags_list.append(("girlmeets", "swimsuit", "simple bg"))  
+                    if entry.has_image("girlmeets", "swimsuit", "outdoors"):
+                        $ citybeach_tags_list.append(("girlmeets" ,"swimsuit", "outdoors")) 
+                    # secondary set if nothing found
+                    if not citybeach_tags_list:
+                        if entry.has_image("girlmeets", "outdoors"):
+                            $citybeach_tags_list.append(("girlmeets", "outdoors"))
+                        if entry.has_image("girlmeets", "simple bg"):
+                            $citybeach_tags_list.append(("girlmeets", "simple bg"))    
+                    # giveup    
+                    if not citybeach_tags_list:
+                        $citybeach_tags_list.append(("girlmeets"))   
                     
-                    use rg_lightbutton(img=entry.show(*entry.flag("beach_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+                    $ entry.set_flag("beach_tags", (day, choice(citybeach_tags_list)))
+                
+                use rg_lightbutton(img=entry.show(*entry.flag("beach_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
 

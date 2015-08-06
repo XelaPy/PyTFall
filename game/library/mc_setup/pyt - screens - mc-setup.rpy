@@ -36,7 +36,7 @@ label mc_setup:
                     # del mc_max
                     # del mc_lvl_max
                     
-                $ hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(140, 140)), window_left_padding=230)
+                $ hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
                 
                 if hasattr(renpy.store, "neow"):
                     $ del neow

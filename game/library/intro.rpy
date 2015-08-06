@@ -247,9 +247,9 @@ init python:
     
 label intro_story1:
     
-    $ b = Character("???", color=white, what_color=white, show_two_window=True, window_left_padding=230)
-    $ t = Character("Terumi", color=green, what_color=green, show_two_window=True, show_side_image="content\events\Intro\pnterumi.png", window_left_padding=230)
-    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png", window_left_padding=230)
+    $ b = Character("???", color=white, what_color=white, show_two_window=True)
+    $ t = Character("Terumi", color=green, what_color=green, show_two_window=True, show_side_image="content\events\Intro\pnterumi.png")
+    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png")
     
     hide screen pyt_mainscreen
     scene black
@@ -577,7 +577,7 @@ label intro_story1:
     hide expression sakspr at center with dissolve
     "Well then, time to do your own mission."
 label intro_story2:
-    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png", window_left_padding=230)
+    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png")
     stop music fadeout 2.0
     scene black with dissolve
     play music "content/sfx/music/events/cemetery.ogg" fadein 2.0 loop
@@ -649,7 +649,7 @@ label intro_story2:
     stop music fadeout 2.0
     scene black with dissolve
 label intro_story3:
-    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png", window_left_padding=230)
+    $ ec = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\Intro\EricpCarstein.png")
     scene black with dissolve
     play music "content/sfx/music/events/Town5.ogg" fadein 2.0 loop
     show bg cab with dissolve
@@ -1085,7 +1085,7 @@ label intro_story: # this label goes when MC goes to Sakura's house after it bec
     # show terumi normal at right with move:
         # xzoom -1
         # This is one of the ways to use ATL, you can have the image rotating, changing shape and size, flying around the screen, changing alpha and anything like that.
-    # $ npc1 = Character("Terumi", color=green, what_color=green, show_two_window=True, show_side_image="content\events\Intro\pnterumi.png", window_left_padding=230)
+    # $ npc1 = Character("Terumi", color=green, what_color=green, show_two_window=True, show_side_image="content\events\Intro\pnterumi.png")
     # npc1 "Meow!"
     # t "Or not?"
     # "Note that all the good stuff is written as comments in examples.rpy file and you will not be able to see it from the game!"

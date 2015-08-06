@@ -2184,7 +2184,7 @@ init -9 python:
             self.log_stats()
             
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)))
             
             self.restore_ap()
             
@@ -2247,7 +2247,7 @@ init -9 python:
                 self.arena_active = False # Indicates that char fights at Arena at the time.
 
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)))
                 
             self.restore_ap()
             
@@ -2309,7 +2309,7 @@ init -9 python:
                 self.portrait = self.battle_sprite
                 
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)))
                 
             self.restore_ap()
         
@@ -3025,7 +3025,7 @@ init -9 python:
             self.set_flag("day_since_shopping", 1)
             
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=DynamicDisplayable(self._portrait), window_left_padding=230)
+            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=DynamicDisplayable(self._portrait))
         
         def get_availible_pics(self):
             """

@@ -44,6 +44,7 @@
         {
             "id": "general_store",
             "name": "General Store",
+            "hidden": false,
             "x": 475,
             "y": 530,
             "img": "content/gfx/interface/icons/neitral.png"
