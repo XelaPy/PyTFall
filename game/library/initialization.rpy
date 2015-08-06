@@ -260,21 +260,28 @@ init -999 python:
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
         if fname.endswith('.jpg') or fname.endswith(".png"):
             tag = 'bg ' + fname[:-4]
-            image = gamedir + '/content/gfx/bg/' + fname
+            image = 'content/gfx/bg/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
     
     for fname in os.listdir(gamedir + '/content/gfx/bg/locations'):
         if fname.endswith('.jpg') or fname.endswith(".png"):
             tag = 'bg ' + fname[:-4]
-            image = gamedir + '/content/gfx/bg/locations/' + fname
+            image = 'content/gfx/bg/locations/' + fname
+            renpy.image(tag, im.Scale(image, config.screen_width,
+                        config.screen_height))
+            
+    for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
+        if fname.endswith('.jpg') or fname.endswith(".png"):
+            tag = 'bg ' + "story " + fname[:-4]
+            image = 'content/gfx/bg/locations/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
            
     for fname in os.listdir(gamedir + '/content/gfx/bg/be'):
         if fname.endswith('.jpg'):
             tag = 'bg ' + fname[:-4]
-            image = gamedir + '/content/gfx/bg/be/' + fname
+            image = 'content/gfx/bg/be/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
 
@@ -282,7 +289,7 @@ init -999 python:
     for fname in os.listdir(gamedir + '/content/gfx/sprites'):
         if fname.endswith('.png'):
             tag = fname[:-4]
-            image = gamedir + '/content/gfx/sprites/' + fname
+            image = 'content/gfx/sprites/' + fname
             renpy.image(tag, image)
             
     for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
@@ -292,7 +299,7 @@ init -999 python:
             renpy.image(tag, ProportionalScale(image, 400,
                         600))
             tag = 'npc ' + fname[:-4] + '_novel'
-            image = gamedir + '/content/gfx/sprites/npc/' + fname
+            image = 'content/gfx/sprites/npc/' + fname
             renpy.image(tag, ProportionalScale(image, 600,
                         700))
             
@@ -304,7 +311,7 @@ init -999 python:
             renpy.image(tag, ProportionalScale(image, 400,
                         600))
             tag = 'npc ' + fname[:-4] + '_novel'
-            image = gamedir + '/content/gfx/sprites/npc/' + fname
+            image = 'content/gfx/sprites/npc/' + fname
             renpy.image(tag, ProportionalScale(image, 600,
                         700))
             

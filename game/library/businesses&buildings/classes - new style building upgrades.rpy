@@ -48,8 +48,7 @@ init -9 python:
     class BrothelBlock(MainUpgrade):
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
-            self.rooms = in_slots
-            # self.jobs = set(["Whore"])
+            self.capacity = in_slots
             self.jobs = set([simple_jobs["Whore Job"], simple_jobs["Testing Job"]])
             
         def get_clients(self):
@@ -60,6 +59,9 @@ init -9 python:
         def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!", img="content/buildings/upgrades/strip_club.jpg", build_effort=0, materials=None, in_slots=5, cost=500, **kwargs):
             super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set(["Stripper"])
+            
+            self.capacity = in_slots
+            self.active = set() # On duty Strippers
             
     class Garden(MainUpgrade):
         def __init__(self, name="Garden", instance=None, desc="Relax!", img="content/buildings/upgrades/garden.jpg", build_effort=0, materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):

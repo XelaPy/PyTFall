@@ -74,8 +74,39 @@ label examples:
     # "This was it... sorry for inconvenience..."
     # scene black
     
+    "First attempt to emulate dizziness:"
+    show expression Mirage("bg cafe", amplitude=0.04, wavelength=10) as testing
+    pause
+    hide testing
+    
+    "Second Try:"
+    $ double_vision_on("bg cafe")
+    pause
+    $ double_vision_off()
+    
+    "Third..."
+    $ temp = im.Scale(ImageReference("bg cafe"), 128, 72)
+    $ temp = Transform(temp, size=(1280, 720))
+    show expression temp as bg
+    with Dissolve(0.4)
+    show bg cafe
+    with Dissolve(0.4)
+    show expression temp as bg
+    with Dissolve(0.5)
+    show bg cafe
+    with Dissolve(0.5)
+    show expression temp as bg
+    with Dissolve(0.6)
+    show bg cafe
+    with Dissolve(0.4)
+    show expression temp as bg
+    with Dissolve(1.0)
+    show bg cafe
+    with dissolve
+    
+    scene black
+    
     "Hello... "
-    # jump intro
     extend "I am the narrator! And will be guiding you in this example!"
     # Narrator will just display the text. Not from a name of any particular character.
     
@@ -176,6 +207,7 @@ label examples_2:
     # The game autodefines all background images. We are using that very effectively...
     # bg in this case is a prefix tag, cafe is the name of the image that was autodefined. It's a name without extension.
     # If we show another bg prefixed image, the current one will be automatically replaced with the new one.
+    
     show bg cafe
     
     "Cafe in the center of PyTFall!"

@@ -230,3 +230,93 @@ init -999 python:
 
         def predict_files(self):
             return self.image.predict_files()
+            
+            
+    class Mirage(renpy.Displayable):
+        def __init__(self, displayable, resize=(1280, 720), ycrop=8, amplitude=0, wavelength=0, **kwargs):
+            super(renpy.Displayable, self).__init__(**kwargs)
+            displayable = Transform(displayable, size=resize)
+            self.displayable = list()
+            for r in xrange(resize[1]/ycrop):
+                y = r * ycrop
+                self.displayable.append((Transform(displayable, crop=(0, y, resize[0], ycrop)), y))
+                
+            # self.image = [Transform(renpy.easy.displayable(image), crop=(0, i+1, width, 2)) for i in range(height/2)]
+            self.amplitude = amplitude
+            self.wavelength = wavelength
+            self.W2 = config.screen_width * 0.5
+
+            zoom_factor = 1.0 - self.amplitude
+            self.x_zoom_factor = 1 / zoom_factor
+           
+        # Stretch each scanline horizontally, oscillating from +amplitude to -amplitude across specified wavelength
+        # Shift oscillation over time by st
+        def render(self, width, height, st, at):
+            render = renpy.Render(width, height)
+             
+            h = 1.0
+            for scanline in self.displayable:   
+                # math.sin(x) returns the sine of x radians
+                t = Transform(scanline[0], xzoom = self.x_zoom_factor + (math.sin(h / self.wavelength + st) * self.amplitude), yzoom = (1.01))
+                h += 1.0
+                child_render = renpy.render(t, 0, 0, st, at)
+                cW, cH = child_render.get_size()
+                # final amount subtracted from h sets y placement
+                render.blit(child_render, ((self.W2) - (cW * 0.5), scanline[1]))
+            renpy.redraw(self, 0)
+            return render
+            
+            
+init:
+
+    transform transpa:
+
+        alpha 0.5
+
+    python hide:
+
+        def gen_randmotion(count, dist, delay):
+
+            import random
+
+            args = [ ]
+
+            for i in range(0, count):
+                args.append(anim.State(i, None,
+                                       Position(xpos=random.randrange(-dist, dist),
+                                                ypos=random.randrange(-dist, dist),
+                                                xanchor='left',
+                                                yanchor='top',
+                                                )))
+
+            for i in range(0, count):
+                for j in range(0, count):
+
+                    if i == j:
+                        continue
+
+                    args.append(anim.Edge(i, delay, j, MoveTransition(delay)))
+
+            return anim.SMAnimation(0, *args)
+
+        store.randmotion = gen_randmotion(9, 9, 0.4)
+
+
+init python:
+
+    def double_vision_on(picture):
+
+        renpy.scene()
+
+        renpy.show(picture)
+
+        renpy.show(picture, at_list=[transpa,randmotion], tag="blur_image")
+
+        renpy.with_statement(dissolve)
+
+
+    def double_vision_off():
+
+        renpy.hide("blur_image")
+
+        renpy.with_statement(dissolve)

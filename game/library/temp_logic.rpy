@@ -29,6 +29,9 @@ init python:
             This should be a job...
             """
             yield self.env.timeout(self.job_time)
+            if config.debug:
+                temp = "Debug: {} Resource (rooms) currently occupied!".format(set_font_color(self.room.count, "red"))
+                store.building.nd_events_report.append(temp)
             
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
             store.building.nd_events_report.append(temp)
@@ -129,7 +132,7 @@ init python:
 label temp_jobs_loop:
     # Setup and start the simulation
     $ store.building.nd_events_report.append("\n\n")
-    $ store.building.nd_events_report.append("{}".format(set_font_color("===================", "lawngreen")))
+    $ store.building.nd_events_report.append(set_font_color("===================", "lawngreen"))
     $ store.building.nd_events_report.append("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
     $ store.building.nd_events_report.append("{}".format(set_font_color("Testing a Brothel with two rooms:", "lawngreen")))
     # $ random.seed(RANDOM_SEED)  # This helps reproducing the results
