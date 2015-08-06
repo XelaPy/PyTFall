@@ -373,7 +373,19 @@ init -9 python:
                 
         def __call__(self, map):
             return getattr(self, map)
-        
-        
-    class OnScreenMapCell(_object):
-        pass
+            
+        def unlock(self, map, loc):
+            for l in self(map):
+                if l["id"] == loc:
+                    l["hidden"] = False
+                    break
+            else:
+                notify("Could not find location: {} in map: {} to unlock.".format(map, loc))
+                
+        def lock(self, map, loc):
+            for l in self(map):
+                if l["id"] == loc:
+                    l["hidden"] = True
+                    break
+            else:
+                notify("Could not find location: {} in map: {} to lock.".format(map, loc))
