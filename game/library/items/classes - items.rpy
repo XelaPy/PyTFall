@@ -1,10 +1,9 @@
 init -9 python:
 
     ####### Equipment Classes ########
-    class Item(Structure):
+    class Item(_object):
 
         def __init__(self):
-            Structure.__init__(self, namespace=None)
             self.desc = ''
             self.slot = "consumable"
             self.mod = {}
@@ -50,7 +49,7 @@ init -9 python:
                     self.skillmax = False
                     self.statmax = False
                     
-                if not self.has('ceffect'):
+                if not hasattr(self, 'ceffect'):
                     self.ceffect = False
 
             if self.slot == 'misc':

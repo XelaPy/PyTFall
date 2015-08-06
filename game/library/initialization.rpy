@@ -133,7 +133,7 @@ init -999 python:
     dict = _dict
     set = _set
     list = _list
-    # object = _object
+    # object = _object # We are not using Ren'Pys object anywhere but it will throw errors if initiated this early because layout cannot be built with Pythons one.
     _rollback = False
     
     # Regestration of extra music channels:
