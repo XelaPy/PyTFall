@@ -272,9 +272,9 @@ init -999 python:
                         config.screen_height))
             
     for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
-        if fname.endswith('.jpg') or fname.endswith(".png"):
+        if fname.endswith(('.jpg', ".png")):
             tag = 'bg ' + "story " + fname[:-4]
-            image = 'content/gfx/bg/locations/' + fname
+            image = 'content/gfx/bg/story/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
            

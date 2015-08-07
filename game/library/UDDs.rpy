@@ -1,5 +1,4 @@
 init -999 python:
-    # BattleStats...
     class RadarChart(renpy.Displayable):
         def __init__(self, stat1, stat2, stat3, stat4, stat5, size, xcenter, ycenter, color, **kwargs):
             super(RadarChart, self).__init__(self, **kwargs)
@@ -267,56 +266,108 @@ init -999 python:
             return render
             
             
-init:
-
-    transform transpa:
-
-        alpha 0.5
-
-    python hide:
-
-        def gen_randmotion(count, dist, delay):
-
-            import random
-
-            args = [ ]
-
-            for i in range(0, count):
-                args.append(anim.State(i, None,
-                                       Position(xpos=random.randrange(-dist, dist),
-                                                ypos=random.randrange(-dist, dist),
-                                                xanchor='left',
-                                                yanchor='top',
-                                                )))
-
-            for i in range(0, count):
-                for j in range(0, count):
-
-                    if i == j:
-                        continue
-
-                    args.append(anim.Edge(i, delay, j, MoveTransition(delay)))
-
-            return anim.SMAnimation(0, *args)
-
-        store.randmotion = gen_randmotion(9, 9, 0.4)
-
-
 init python:
+    def get_size(d):
+        d = renpy.easy.displayable(d)
+        w, h = renpy.render(d, 0, 0, 0, 0).get_size()
+        w, h = int(round(w)), int(round(h))
+        return w, h
+    
+    def gen_randmotion(count, dist, delay):
+        args = [ ]
+        for i in xrange(count):
+            args.append(anim.State(i, None,
+                                   Position(xpos=randrange(-dist, dist),
+                                            ypos=randrange(-dist, dist),
+                                            xanchor='left',
+                                            yanchor='top',
+                                            )))
 
-    def double_vision_on(picture):
+        for i in xrange(count):
+            for j in xrange(count):
+                if i == j:
+                    continue
+                    
+                args.append(anim.Edge(i, delay, j, MoveTransition(delay)))
+        return anim.SMAnimation(0, *args)
 
+    def double_vision_on(img, alpha=0.5, count=10, dist=7, delay=0.4):
         renpy.scene()
-
-        renpy.show(picture)
-
-        renpy.show(picture, at_list=[transpa,randmotion], tag="blur_image")
-
+        renpy.show(img)
+        renpy.show(img, at_list=[Transform(alpha=alpha), gen_randmotion(count, dist, delay)], tag="blur_image")
         renpy.with_statement(dissolve)
-
 
     def double_vision_off():
-
         renpy.hide("blur_image")
-
         renpy.with_statement(dissolve)
+            
+    def blurred_vision(img):
+        img = renpy.easy_displayable(img)
+        width, height = get_size(img)
+        
+        factor = im.Scale(img, width/5, height/5)
+        factor = Transform(factor, size=(width, height))
+        renpy.show("blur_effect", what=factor)
+        renpy.with_statement(Dissolve(0.6))
+        renpy.hide("blur_effect")
+        
+        renpy.show("blur_effect", what=img)
+        renpy.with_statement(Dissolve(0.4))
+        renpy.hide("blur_effect")
+        
+        factor = im.Scale(img, width/10, height/10)
+        factor = Transform(factor, size=(width, height))
+        renpy.show("blur_effect", what=factor)
+        renpy.with_statement(Dissolve(0.8))
+        renpy.hide("blur_effect")
+        
+        factor = im.Scale(img, width/5, height/5)
+        factor = Transform(factor, size=(width, height))
+        renpy.show("blur_effect", what=factor)
+        renpy.with_statement(Dissolve(0.6))
+        renpy.hide("blur_effect")
+        
+        factor = im.Scale(img, width/15, height/15)
+        factor = Transform(factor, size=(width, height))
+        renpy.show("blur_effect", what=factor)
+        renpy.with_statement(Dissolve(1.0))
+        renpy.hide("blur_effect")
+        
+        factor = im.Scale(img, width/10, height/10)
+        factor = Transform(factor, size=(width, height))
+        renpy.show("blur_effect", what=factor)
+        renpy.with_statement(Dissolve(0.8))
+        renpy.hide("blur_effect")
+        
+        factor = im.Scale(img, width/20, height/20)
+        factor = Transform(factor, size=(width, height))
+        renpy.show("blur_effect", what=factor)
+        renpy.with_statement(Dissolve(1.2))
+        renpy.hide("blur_effect")
+        
+        
+        
+        # factor3 = im.Scale(img, width/10, height/10)
+        # renpy.show("blur_effect" what=factor2)
+        # renpy.with_statement(Dissolve(0.5))
+        # renpy.hide("blur_effect")
+        # factor3 = Transform(factor3, size=(width, height))
+        # factor4 = im.Scale(img, width/10, height/10)
+        # factor4 = Transform(factor4, size=(width, height))
+# 
+        # renpy.show("", what=factor1, tag="blur_effect")
+        # renpy.with_statement(Dissolve(0.4))
+        # show bg cafe
+        # with Dissolve(0.4)
+        # show expression temp as bg
+        # with Dissolve(0.5)
+        # show bg cafe
+        # with Dissolve(0.5)
+        # show expression temp as bg
+        # with Dissolve(0.6)
+        # show bg cafe
+        # with Dissolve(0.4)
+        # show expression temp as bg
+        # with Dissolve(1.0)
+        # show bg cafe
+        # with dissolve

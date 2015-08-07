@@ -104,7 +104,11 @@ label examples:
     show bg cafe
     with dissolve
     
+    "Third... ver 2.0"
+    $ blurred_vision("bg cafe")
+    
     scene black
+    "All Done!"
     
     "Hello... "
     extend "I am the narrator! And will be guiding you in this example!"
