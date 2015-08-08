@@ -345,29 +345,13 @@ init python:
         renpy.with_statement(Dissolve(1.2))
         renpy.hide("blur_effect")
         
-        
-        
-        # factor3 = im.Scale(img, width/10, height/10)
-        # renpy.show("blur_effect" what=factor2)
-        # renpy.with_statement(Dissolve(0.5))
-        # renpy.hide("blur_effect")
-        # factor3 = Transform(factor3, size=(width, height))
-        # factor4 = im.Scale(img, width/10, height/10)
-        # factor4 = Transform(factor4, size=(width, height))
-# 
-        # renpy.show("", what=factor1, tag="blur_effect")
-        # renpy.with_statement(Dissolve(0.4))
-        # show bg cafe
-        # with Dissolve(0.4)
-        # show expression temp as bg
-        # with Dissolve(0.5)
-        # show bg cafe
-        # with Dissolve(0.5)
-        # show expression temp as bg
-        # with Dissolve(0.6)
-        # show bg cafe
-        # with Dissolve(0.4)
-        # show expression temp as bg
-        # with Dissolve(1.0)
-        # show bg cafe
-        # with dissolve
+    def _shake_function(trans, st, at, dt=.5, dist=256): #dt is duration timebase, dist is maximum shake distance in pixel
+        if st <= dt:
+            trans.xoffset = int((dt-st)*dist*(.5-renpy.random.random())*2)
+            trans.yoffset = int((dt-st)*dist*(.5-renpy.random.random())*2)
+            return .01
+        else:
+            return None
+           
+transform shake(dt=.4, dist=128):
+    function renpy.curry(_shake_function)(dt=dt,dist=dist)

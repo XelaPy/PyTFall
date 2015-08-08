@@ -54,7 +54,7 @@ init -1 python hide:
     
     # Game may bug out on saving, in such case, comment should be removed
     # config.use_cpickle = False
-    config.save_dump = True
+    config.save_dump = False
     
     # Imagecache:
     # config.debug_image_cache = True
