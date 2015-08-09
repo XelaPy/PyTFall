@@ -91,7 +91,7 @@ label intro_story_ad:
     stop world fadeout 2.0
     scene black with dissolve
     
-label intro_story:
+label intro_story_hj:
     stop music
     stop world
     scene black with dissolve
