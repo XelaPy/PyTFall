@@ -15,14 +15,13 @@ init:
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     
-label intro_story:
+label intro_story_b:
     $ b = Character("???", color=white, what_color=white, show_two_window=True)
     hide screen pyt_mainscreen
     scene black
     stop world
     stop music
     $ s = chars["Sakura"]
-    $ s.override_portrait("portrait", "sad")
     play world "Theme2.ogg" fadein 2.0 loop
     play events "events/night_forest.mp3" loop
     show expression Text("Story I", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
@@ -213,10 +212,12 @@ label intro_story:
                 "You light a small torch. Hopefully, it will deter animals."
                 show bg night_forest with slideawayright
                 $ intro_torch = True
+                $ poison_intro = False
             "Nope":
                 "Nah, it attracts too much attention in the night forest. Better be stealthy."
         "You carefully continue to move in the direction of sounds. You can no longer make out individual words, it is more like a soft moans."
         "Sounds become closer. There is a small clearing ahead..."
+        $ intro_war = False
         stop events
         stop world
         play music "content/sfx/music/be/battle (8).mp3" loop
@@ -230,7 +231,6 @@ label intro_story:
         else:
             "She didn't noticed you yet, as well as the monster. Time to act quickly."
         if intro_torch == True:
-            $ intro_war = False
             label intro_attack_menu:
             menu:
                 "Recall what do you know about forest tentacles.":
@@ -299,30 +299,35 @@ label intro_story:
     stop music
     play world "Theme2.ogg" fadein 2.0 loop
     play events "events/night_forest.mp3" loop
-    s.say "T-turn back, I need to change my clothes quickly!"
-    "That's right, her clothes are soaked with aphrodisiac as well. It's better to change them before it becomes worse."
+    if poison_intro == True:
+        "You give her the bag you found earlier. Gratefully nod, she takes it."
+    else:
+        "She quickly picks up the bag from the bushes nearby."
+    "She tries to look calm, but you notice how quickly and heavily she breathes."
+    "The lower part of her clothes was torn apart. She gets out of the bag spare clothes and changes in the bushes."
     "Although it's too late to be modest after what you saw, but whatever..."
     "..."
-    $ s.override_portrait("portrait", "shy")
-    s.say "I'm done, thanks. My name is Sakura. Who are you?"
     $ sakspr = chars["Sakura"].get_vnsprite()
+    $ s.override_portrait("portrait", "indifferent")
     show expression sakspr at center with dissolve
-    "She tries to look calm, but you notice how quickly she breathes. You introduce yourself."
-    s.say "I see, nice to meet you, [hero.name]. Thanks for your help."
+    s.say "Thanks for the help. My name is Sakura."
+    "You introduce yourself."
+    s.say "I see. Nice to meet you, [hero.name]."
     $ s.disposition += 200
+    label before_camp:
     menu:
-        "Be a gentleman. Offer to rest in your camp.":
+        "Offer to rest in your camp":
             $ s.override_portrait("portrait", "happy")
             "She must be tired. You tell her about your camp nearby."
             s.say "<she looks a bit surprised, but happy> Oh, ok! I would like to have some rest indeed."
-            $ s.disposition += 50
+            $ s.disposition += 30
             $ intro_be_nice = True
-        "There is no time to waste. Her ass is compromised already.":
-            "You explain that her that her ass is full of aphrodisiac, and needs to be cleaned. You are willing to take the risk and help her."
+        "There is no time to waste. Her ass is compromised already":
+            "You explain that her that her ass is full of very powerful aphrodisiac, and needs to be cleaned. You are willing to take the risk and help her."
             $ s.override_portrait("portrait", "shy")
             $ hero.anal += 10
             $ s.anal += 10
-            s.say "<she immediately blushes> I-I understand that. I accept you proposition, but please be gentle."
+            s.say "<she immediately blushes> I-I see. I accept you proposition, but please be gentle."
             hide sakspr
             $ intro_be_nice = False
             show expression s.show("sex", "in pain", "uncertain", "outdoors", "suburb", "night", "2c anal", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
@@ -338,6 +343,28 @@ label intro_story:
             hide expression xxx with dissolve
             show expression sakspr at center with dissolve
             "You tell her about your camp nearby, and together you go there. She still blushes and avoids looking in your direction."
+        "Demand a reward":
+            "You quickly explain what that thing could do to her without your help, and ask for reward."
+            $ intro_be_nice = True
+            $ s.override_portrait("portrait", "indifferent")
+            "She doesn't look surprised, she probably expected it."
+            s.say "Naturally. I don't have much gold, but you can have it if you want. I have some healing potions too."
+            menu:
+                "Take gold":
+                    "She gives you 200 G."
+                    $ hero.gold += 200
+                "Take potions":
+                    $ hero.add_item("Small Healing Potion")
+                    "She gives you a bottle."
+                    "You tell her about your camp nearby, and together you go there."
+                "Ask for a new weapon" if intro_war == True:
+                    "You explain that you lost your weapon trying to save her."
+                    s.say "Alright. Here, take this."
+                    "She gives you a small sharp dagger."
+                    $ intro_war = False
+                    s.say "It's called kunai. I have a spare one, so you can take it."
+                    $ hero.add_item("Kunai")
+                    "You tell her about your camp nearby, and together you go there."
     show bg camp with slideawayleft
     $ s.override_portrait("portrait", "indifferent")
     if intro_be_nice == True:
@@ -352,16 +379,13 @@ label intro_story:
             s.say "Um, you already know my name. I'm on a mission here. Sorry, I cannot say more."
             "Judging by her uniform, she is one of those infamous kunoichi, female assassins living outside cities."
             jump intro_sarura_diag
-        "Ask for a new weapon" if intro_war == True:
-            "You explain that you lost your weapon trying to save her."
-            s.say "Alright. Here, take this."
-            "She gives you a small sharp dagger."
-            $ intro_war = False
-            s.say "It's called kunai. I have a spare one, so you can take it."
-            $ hero.add_item("Kunai")
+        "Ask about what happened":
+            $ s.override_portrait("portrait", "shy")
+            s.say "I was on my to the city. I took a shortcut through the forest, we did it many times."
+            s.say "But I never used this route alone before, so maybe that's why it attacked me..."
             jump intro_sarura_diag
         "Wish her good night and go to sleep":
-            "You are too exhausted to keep talking. You wish her good night and go to your tent."
+            "You are too exhausted after a long day and recent events to keep talking, or doing anything else. You wish her good night and go to your tent."
             hide sakspr
             show bg tent with dissolve
     if intro_be_nice == True or mast_while_attack == True:
@@ -378,26 +402,50 @@ label intro_story:
                 s.say "I'm sorry, but it's not a proposition."
                 "She grabs you. You suddenly realise that she much stronger than you. Stronger than anyone you know."
                 s.say "I need it. NOW."
+        label sleep_sex:
         $ s.oral += 10
         hide sakspr
         $ s.restore_portrait()
         show expression s.show("sex", "confident", "suggestive", "indoors", "living", "bc blowjob", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
         "The last thing you remember is how Sakura licks you while stimulating herself with her left hand. You slowly fall asleep."
+        $ hero.vitality -= 100
     else:
-        "You slowly fall asleep. It was a tough night. The last thing you remember is how Sakura walks in and lies on the other side of the tent."
+        "You slowly fall asleep. It was a tough night."
+        $ s.override_portrait("portrait", "ecstatic")
+        s.say "Mmm... Ah..."
+        "Really? Again?"
+        s.say "Ah..."
+        "You quietly get up and carefully peeking out of the tent."
+        show expression s.show("nude", "stripping", "uncertain", "outdoors", "nature", "shy", "uncertain", "revealing", resize=(800, 600), type="first_default") as xxx at truecenter
+        "Looks like the aphrodisiac still does its job. You see Sakura touching herself."
+        menu:
+            "What a healthy girl. Sleepy time":
+                "Yeap, sex cannot replace night sleep. You return to your bed."
+                hide xxx with dissolve
+            "Lend her a helping, ahem, hand":
+                "It could be dangerous to let her know that you saw it. You retreat into the depths of the tent and call her."
+                hide xxx with dissolve
+                "After some time she enters the tent. Looks like dressed in a hurry. You notice the blush on her cheeks."
+                $ s.override_portrait("portrait", "shy")
+                s.say "Yes, what do you want?"
+                "You explain her that you understand how she feels, and propose to help with burning out remains of aphrodisiac."
+                "As you talk, she blushes even more, but doesn't interrupt you."
+                s.say "I... accept your offer. Please lay down."
+                jump sleep_sex
+                
     scene black
     with eye_shut
     hide xxx
     stop events
-    stop music fadeout 2.0
+    stop world fadeout 2.0
     show expression Text("In the next morning", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
     pause 2.5
     hide txt1
     with dissolve
-    play music "content/sfx/music/events/Theme3.ogg" fadein 2.0 loop
-    show bg city_street_2 with dissolve
+    play world "Theme3.ogg" fadein 2.0 loop
+    show bg story city_street_2 with dissolve
     $ sakspr = chars["Sakura"].get_vnsprite()
     show expression sakspr at center with dissolve
     "At the next morning together you quickly reached the city. Some bandits tried to rob you along the road, but your new companion quickly got rid of them."
