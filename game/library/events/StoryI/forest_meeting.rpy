@@ -15,7 +15,7 @@ init:
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     
-label intro_story:
+label intro_story_b:
     $ b = Character("???", color=white, what_color=white, show_two_window=True)
     hide screen pyt_mainscreen
     scene black
