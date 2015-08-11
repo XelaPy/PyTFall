@@ -1,10 +1,13 @@
+init:
+    image orig_1 = ProportionalScale("content/items/quest/orig_1.png", 150, 150)
+    image orig_2 = ProportionalScale("content/items/quest/orig_2.png", 150, 150)
 label change_alpha:
     hide bg1
     hide bg2
     show expression Transform("bg hidden_village", alpha=a) as bg1
     show expression Transform("bg night_forest", alpha=b) as bg2
     return
-label intro_story:
+label intro_story_dy:
     $ sex_is_must = 0
     $ s = chars["Sakura"]
     $ i = chars["Ino_Yamanaka"]
@@ -324,9 +327,68 @@ label intro_story:
         i.say "You think I cannot..."
         "You quickly increase the distance between you and the house."
     "If they won't answer to your letter, you need to get to the village in person. For that you will need approval of three ninjas."
+    $ s.restore_portrait()
+    $ i.restore_portrait()
     "Sakura most likely will cooperate. Even together with Ino it won't be enough, but two is better than one, right?"
     "here we give access to Ino and give a quest to rise disposition to 300 and become her friend via interactions"
     scene black with dissolve
     stop world
     
-    
+label intro_story_wrf: #this label goes when player will complete the last quest, ie became friends with Ino
+    $ s = chars["Sakura"]
+    $ i = chars["Ino_Yamanaka"]
+    $ s_spr = chars["Sakura"].get_vnsprite()
+    $ i_spr = chars["Ino_Yamanaka"].get_vnsprite()
+    stop music
+    stop world
+    play world "Theme3.ogg" fadein 2.0 loop
+    show bg house with dissolve
+    "After a few days you got a message from the kunoichi to meet in their house."
+    play events2 "events/door_knock.mp3"
+    $ i.override_portrait("portrait", "happy")
+    i.say "Yes, come in!"
+    play sound "content/sfx/sound/events/door_open.mp3"
+    show bg livingroom with dissolve
+    show expression i_spr at center with dissolve
+    i.say "Hi, [hero.name]!"
+    "For the last days you managed to get closer to her. Unlike constantly absent Sakura, she can do her missions without leaving the house thanks to her mind abilities."
+    $ a = 0
+    label ino_diag_one:
+    menu:
+        "Where's Sakura?" if a == 0:
+            $ i.override_portrait("portrait", "indifferent")
+            i.say "On another mission, of course. She takes all missions she can lately."
+            $ i.override_portrait("portrait", "happy")
+            i.say "But who cares about her when I'm here? ♪"
+            $ a = 1
+            jump ino_diag_one
+        "Any news from your village?":
+            i.say "Actually, yes. Here, take this."
+            show orig_1 at truecenter with dissolve
+    $ a = 0
+    $ b = 0
+    label ino_diag_two:
+    menu:
+        "You did it for me?" if a == 0:
+            $ i.override_portrait("portrait", "shy")
+            i.say "Jeez, why should I do something like that? It's stupid."
+            $ a = 1
+            jump ino_diag_two
+        "What is this... thing?" if b == 0:
+            $ i.override_portrait("portrait", "indifferent")
+            $ b = 1
+            i.say "In our village we call it origami. But it's not the important part."
+            jump ino_diag_two
+        "What should I do with it?":
+            $ i.override_portrait("portrait", "indifferent")
+            i.say "I think it's a test. There is a rule they don't want to break, but they give you a chance."
+    hide orig_1 with dissolve
+    i.say "They told me to tell you that it will help you to find the third kunoichi."
+    "That's right, you need the approval of three kunoichi to get to their village."
+    i.say "We can't help you with it, you should do it on your own. Oh, and you can't ask others to do it for you too."
+    $ i.override_portrait("portrait", "happy")
+    i.say "Good luck, I guess. I'll be rooting for you ♪" # here we give quest to find kunoichi in the city
+    $ i.restore_portrait()
+    scene black with dissolve
+    stop world
+    return
