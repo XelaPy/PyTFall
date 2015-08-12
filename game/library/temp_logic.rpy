@@ -32,6 +32,7 @@ init python:
             self.sc.res = simpy.Resource(env, 10)
             self.sc.time = 10 # Time it takes to clear one client.
             self.sc.cap = 10 # Capacity
+            self.sc.cash = 0
             
         def brothel_client_dispatcher(self, evn, client):
             """The client_dispatcher process arrives at the building
@@ -129,8 +130,9 @@ init python:
             This should be a job...
             """
             yield self.env.timeout(self.sc.time)
+            self.sc.cash += 100
             if config.debug:
-                temp = "Debug: {} Strip Club Resource currently in use!".format(set_font_color(self.sc.res.count, "red"))
+                temp = "Debug: {} Strip Club Resource currently in use/ Cash earned: {}!".format(set_font_color(self.sc.res.count, "red"), self.sc.cash)
                 store.building.nd_events_report.append(temp)
             
             # temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
@@ -182,7 +184,10 @@ init python:
                 store.building.nd_events_report.append(temp)
                 
                 # Take an action!
-                if upgrade.brothel.res.count < upgrade.brothel.cap and store.nd_chars:
+                # Must be moved to 
+                whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
+                strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
+                if upgrade.brothel.res.count < upgrade.brothel.cap and (store.nd_chars):
                     env.process(upgrade.brothel_client_dispatcher(env, store.client))
                 elif upgrade.sc.res.count < upgrade.sc.cap:
                     env.process(upgrade.sc_client_dispatcher(env, store.client))
