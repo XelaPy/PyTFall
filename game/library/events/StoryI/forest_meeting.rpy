@@ -405,7 +405,6 @@ label intro_story_b:
         label sleep_sex:
         $ s.oral += 10
         hide sakspr
-        $ s.restore_portrait()
         show expression s.show("sex", "confident", "suggestive", "indoors", "living", "bc blowjob", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
         "The last thing you remember is how Sakura licks you while stimulating herself with her left hand. You slowly fall asleep."
         $ hero.vitality -= 100
@@ -452,4 +451,5 @@ label intro_story_b:
     "She kept up the general conversation, but avoided to talk about the last night, probably pretending it never happened."
     "Ultimately, you part ways in the town square. She told you where you can find her in the city if something happens, but asked to not bother without a good reason, since she's on her mission."
     hide expression sakspr at center with dissolve
+    $ s.restore_portrait()
     "Well then, time to do your own mission."
