@@ -151,21 +151,21 @@ label girl_interactions:
             m = 5
             pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]))
             
-            # GO OUT
-           # m = 6
-           # pytfall.world_actions.menu(m, "Go Out")
-           # pytfall.world_actions.gm_choice("Beach", index=(m, 0))
+            # SPEND TIME TOGETHER
+            m = 6
+            pytfall.world_actions.menu(m, "Go Out")
+            pytfall.world_actions.gm_choice("Eat Together", index=(m, 0))
            # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
             
             # PROPOSITION
-            m = 6
+            m = 7
             pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.girls) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
             pytfall.world_actions.gm_choice("Friends", condition="not check_friends(char, hero)", index=(m, 0))
             pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 1))
             pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.girls)", index=(m, 2))
             
             # INTIMACY
-            m = 7
+            m = 8
             pytfall.world_actions.menu(m, "Intimacy")
             pytfall.world_actions.gm_choice("Hug", index=(m, 0))
             pytfall.world_actions.gm_choice("Slap Butt", index=(m, 1))

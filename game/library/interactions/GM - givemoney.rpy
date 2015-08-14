@@ -161,3 +161,166 @@ label interactions_int_take_money:
     else:
         "She doesn't have such amount of gold."
     jump girl_interactions
+
+label interactions_eattogether:
+    "You propose to eat together somewhere."
+    $ b = 0
+    $ c = 0
+    $ d = 0
+    menu:
+        "Where would you like to do it?"
+        
+        "Bar":
+            $ a = 1
+        "Beach Cafe":
+            $ a = 2
+        "Eatery":
+            $ a = 3
+        "Restaurant":
+            $ a = 4
+        "Change you mind":
+            jump girl_interactions
+    if a == 1:
+        show bg city_bar as back with dissolve
+        $ gm.set_img("vnsprite")
+    elif a == 2:
+        show bg city_beach_cafe as back with dissolve
+    elif  == 3:
+        show bg cafe as back with dissolve
+    else:
+        show bg city_restaurant as back with dissolve
+    if a == 1:
+        "Together you sit behind the bar."
+        if ct("Tsundere") or ct("Imouto") or ct("Kamidere") or ct("Shy") or ct("Homebody"):
+            $ char.override_portrait("portrait", "shy")
+            char.say "She feels a bit uncomfortable in such an establishment."
+            $ char.disposition -= randint (15, 35)
+            $ char.restore_portrait()
+        if ct("Heavy Drinker") and dice(80):
+            $ char.override_portrait("portrait", "happy")
+            $ d = 1
+            char.say "Very soon she welcomes the opportunity to get drunk for free."
+            $ char.disposition += 5
+            $ b += randint (9, 25)
+            if ct("Aggressive") and dice (80):
+                $ char.override_portrait("portrait", "angry")
+                char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
+                $ char.restore_portrait()
+                $ b += randint (15, 35)
+            $ char.restore_portrait()
+        if dice(50) and not ct("Heavy Drinker"):
+            $ d = 1
+            char.say "Very soon she becomes a bit drunk."
+            $ b += randint(25, 45)
+            if ct("Aggressive") and dice (80):
+                $ char.override_portrait("portrait", "angry")
+                char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
+                $ char.restore_portrait()
+                $ b += randint (15, 35)
+        if ct("Always Hungry") and dice (80):
+            $ char.override_portrait("portrait", "indifferent")
+            "They mostly serving light snacks here, so it's difficult for her to eat one's fill."
+            $ char.disposition -= 5
+            $ char.restore_portrait()
+        if ct("Aggressive") and dice (50):
+            $ char.override_portrait("portrait", "angry")
+            char.say "She didn't liked how some drunk customers loudly discussed her, leading to a small skirmish. You managed to calm her, but not before they broke some furniture."
+            $ char.restore_portrait()
+            $ b += randint (10, 30)
+        if (ct("Sexy Air") and dice (80)) or dice (40):
+            $ char.override_portrait("portrait", "shy")
+            char.say "A drunk customer tried to hit on her and was driven off by you. She looks grateful."
+            $ char.disposition += 15
+            $ char.restore_portrait()
+        "Over a glass of booze you have a small chat with her."
+        call eat_together_chat
+        $ b += randint(45, 75)
+        "It's time to pay the bill. It will be [b]G."
+        
+        if (d == 1 or dice(65)) and ct("Exhibitionnist"):
+            $ gm.set_img("stripping", "simple bg", type="first_default")
+            "Your meeting ends with her drunk, naked and dancing on the table under cheers of customers."
+            jump girl_interactions_end
+
+        elif d == 1 and (ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 850):
+            $ char.override_portrait("portrait", "shy")
+            char.say "Drunk and blushing, she proposes to have some fun together."
+            $ char.restore_portrait()
+            menu:
+                "Of course":
+                    "Quickly paying, you leave the establishment together."
+                    jump scene_sex_hired
+                "Maybe another time":
+                    "She looks a but disappointed."
+                    $ char.disposition -= 5
+    hide back with dissolve
+    jump girl_interactions_end
+label eat_together_chat:
+    if char.disposition > 200:
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+            $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
+        else:
+            $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
+        $ char.disposition += randint (20, 40)
+    else:
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+            $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
+        else:
+            $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though…", "It's hard to find common ground.", "But it was somewhat forced."]))
+        $ char.disposition += randint (15, 35)
+    return
+label eat_together_pay:
+    if char.status != "slave":
+        if ct("Virtuous") or ct("Well-mannered") or char.disposition >= 900 or check_lovers(char, hero):
+            if char.gold >= round(b*0.5) and hero.gold >= round(b*0.5):
+                "She doesn't allow you to pay the whole sum, insisting on dividing it in half."
+                $ char.take_money(round(b*0.5))
+                $ hero.take_money(round(b*0.5))
+            elif hero.gold < b and char.gold >= b:
+                "You don't have enough money, and she readily pays for both of you."
+                $ char.take_money(b)
+            elif char.gold + hero.gold >= b:
+                "You pay the bill together."
+                $ char.disposition += 5
+                $ char.take_money(b-hero.gold)
+                $ hero.take_money(hero.gold)
+            else:
+                "You both didn't have enough money and were kicked out. That was a bad idea..."
+                $ char.disposition -= 50
+                $ hero.take_money(hero.gold)
+                $ char.take_money(char.gold)
+                $ char.joy -= 30
+
+        else:
+            if hero.gold >= b:
+                "You pay the whole sum as a true gentleman."
+                $ hero.take_money(b)
+            elif char.gold + hero.gold >= b:
+                "You don't have enough money, and your companion has to pay too. She looks disappointed."
+                $ char.take_money(b-hero.gold)
+                $ hero.take_money(hero.gold)
+                $ char.disposition -= 5
+            else:
+                "You both didn't have enough money and were kicked out. That was a bad idea..."
+                $ char.disposition -= 50
+                $ hero.take_money(hero.gold)
+                $ char.take_money(char.gold)
+                $ char.joy -= 30
+
+    else:
+        if hero.gold >= b:
+            $ hero.take_money(b)
+            "Together you pay the bill."
+        elif hero.gold < b and char.gold >= b:
+            "Together you pay the bill."
+            $ char.take_money(b)
+        elif char.gold + hero.gold >= b:
+            $ hero.take_money(hero.gold)
+            $ char.take_money(b - hero.gold)
+            "Together you pay the bill."
+        else:
+            "You both didn't have enough money and were kicked out. That was a bad idea..."
+            $ char.disposition -= 20
+            $ hero.take_money(hero.gold)
+            $ char.take_money(char.gold)
+            $ char.joy -= 20
