@@ -95,6 +95,7 @@ init -9 python:
             if trait in self.ab_traits | self.blocked_traits:
                 return
                 
+            # Unique Traits:
             if trait.personality and list(t for t in self if t.personality):
                 return
             if trait.race and list(t for t in self if t.race):
@@ -102,7 +103,15 @@ init -9 python:
             if trait.breasts and list(t for t in self if t.breasts):
                 return
             if trait.body and list(t for t in self if t.body):
-                return
+                return  
+            if trait.personality:
+                char.personality = trait
+            if trait.race:
+                char.race = trait
+            if trait.breasts:
+                char.breasts = trait
+            if trait.body:
+                char.body = trait
                 
             # We need to make sure that no more than x + len(basetraits) of basetraits can be applied, atm x is 4:
             if trait.basetrait:
