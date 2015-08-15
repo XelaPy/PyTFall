@@ -913,6 +913,24 @@ init: # PyTFall:
             
             textbutton "Back":
                 action Hide("char_rename")
+                
+    screen poly_matrix(in_file):
+        
+        python:
+            with open(renpy.loader.transfn(in_file)) as f:
+                matrix = json.load(f)
+                
+        # $ mp = renpy.get_mouse_pos()
+        $ func = renpy.curry(point_in_poly)
+        for i in matrix:
+            # $ var = point_in_poly()
+            button:
+                background Null()
+                focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
+                action Return(i["id"])
+                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
+                unhovered SetField(config, "mouse", None)
+        
     ##############################################################################
     screen notify:
         zorder 500

@@ -1,6 +1,8 @@
 ﻿label start:
     $ renpy.block_rollback()
-    
+    if config.developer:
+        show screen debugTools
+        
     python:
         # Global variables and loading content:
         day = 1
@@ -157,6 +159,8 @@
                 $ initial_levelup(hero, 100, max_out_stats=True)
             "Test Story":
                 jump intro_story
+            "Test Matrix":
+                call test_matrix
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()
