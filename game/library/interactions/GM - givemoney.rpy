@@ -234,7 +234,7 @@ label interactions_eattogether:
                 "Do you want to try getting her drunk?"
             
                 "Yes":
-                    if dice (char.disposition - 200):
+                    if dice (char.disposition - 100):
                         $ d = 1
                         $ char.override_portrait("portrait", "happy")
                         char.say "You keep pouring, and very soon she becomes drunk."
@@ -279,6 +279,7 @@ label interactions_eattogether:
         if (d == 1 or dice(55)) and ct("Exhibitionnist"):
             $ gm.set_img("stripping", "simple bg", type="first_default")
             "Your meeting ends with her drunk, naked and dancing on the table under cheers of customers."
+            hide back
             jump girl_interactions_end
 
         elif d == 1 and (ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 850):
@@ -288,6 +289,7 @@ label interactions_eattogether:
             menu:
                 "Of course":
                     "You leave the establishment together."
+                    hide back with dissolve
                     jump scene_sex_hired
                 "Maybe another time":
                     "She looks a but disappointed."
