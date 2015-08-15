@@ -202,30 +202,56 @@ label interactions_eattogether:
         if ct("Dandere") or ct("Imouto") or ct("Kamidere") or ct("Shy") or ct("Homebody") or ct("Nerd"):
             $ char.override_portrait("portrait", "shy")
             char.say "She feels a bit uncomfortable in such an establishment."
-            $ char.disposition -= randint (15, 35)
+            $ char.disposition -= randint (15, 20)
             $ char.restore_portrait()
-        if ct("Heavy Drinker") and dice(80):
-            $ char.override_portrait("portrait", "happy")
-            $ d = 1
-            char.say "She welcomes the opportunity to get drunk for free."
-            $ char.disposition += 5
-            $ b += randint (9, 25)
-            if ct("Aggressive") and dice (80):
-                $ char.override_portrait("portrait", "angry")
-                char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
-                $ char.restore_portrait()
-                $ b += randint (15, 35)
+        if ct("Heavy Drinker"):
+            if dice(70):
+                $ char.override_portrait("portrait", "happy")
+                $ d = 1
+                char.say "She welcomes the opportunity to get drunk for free."
+                $ char.disposition += dice (2, 6)
+                $ b += randint (9, 25)
+                if ct("Aggressive") and dice (80):
+                    $ char.override_portrait("portrait", "angry")
+                    char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
+                    $ char.restore_portrait()
+                    $ b += randint (15, 35)
             $ char.restore_portrait()
-        if dice(50) and not ct("Heavy Drinker"):
-            $ d = 1
-            char.say "Very soon she becomes a bit drunk."
-            $ b += randint(25, 45)
-            if ct("Aggressive") and dice (80):
-                $ char.override_portrait("portrait", "angry")
-                char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
+        elif (char.character+char.intelligence)>=(hero.charisma+hero.intelligence):
+            if dice(25):
+                $ d = 1
+                $ char.override_portrait("portrait", "happy")
+                char.say "Very soon she becomes drunk."
+                $ b += randint(25, 45)
+                if ct("Aggressive") and dice (80):
+                    $ char.override_portrait("portrait", "angry")
+                    char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
+                    $ char.restore_portrait()
+                    $ b += randint (15, 35)
                 $ char.restore_portrait()
-                $ b += randint (15, 35)
-        if ct("Always Hungry") and dice (80):
+        elif (char.character+char.intelligence)<(hero.charisma+hero.intelligence):
+            menu:
+                "Do you want to try getting her drunk?"
+            
+                "Yes":
+                    if dice (char.disposition - 200):
+                        $ d = 1
+                        $ char.override_portrait("portrait", "happy")
+                        char.say "You keep pouring, and very soon she becomes drunk."
+                        $ char.restore_portrait()
+                        $ b += randint(25, 45)
+                        if ct("Aggressive") and dice (80):
+                            $ char.override_portrait("portrait", "angry")
+                            char.say "Once drunk, she begins to bully other customers. You managed to calm her, but not before they broke some furniture."
+                            $ char.restore_portrait()
+                            $ b += randint (15, 35)
+                        $ char.restore_portrait()
+                    else:
+                        "You keep pouring, but she politely refuses. Maybe she suspects something?"
+                        $ char.disposition -= 10
+                "No":
+                    $ pass
+        if ct("Always Hungry") and dice (70):
             $ char.override_portrait("portrait", "indifferent")
             char.say "They mostly serving light snacks here, so it's difficult for her to eat one's fill."
             $ char.disposition -= 5
@@ -233,24 +259,24 @@ label interactions_eattogether:
             $ char.restore_portrait()
         if ct("Aggressive") and dice (50):
             $ char.override_portrait("portrait", "angry")
-            char.say "She didn't liked how some drunk customers loudly discussed her, leading to a small skirmish. You managed to calm her, but not before they broke some furniture."
+            char.say "She didn't liked how some drunk customers loudly discussed her, leading to a small skirmish. You managed to calm her, but not before they broke some glasses."
             $ char.restore_portrait()
             $ b += randint (10, 30)
         if ct("Clumsy") and dice (30):
             "She was more clumsy than usual today and smashed her glass. She was upset, but you managed to cheer her up."
-            $ b += dice (10, 15)
+            $ b += dice (5, 10)
             $ char.disposition += dice (1, 5)
-        if (ct("Sexy Air") and dice (80)) or dice (40):
+        if (ct("Sexy Air") and dice (80)) or dice (25):
             $ char.override_portrait("portrait", "shy")
             char.say "A drunk customer tried to hit on her and was driven off by you. She looks grateful."
-            $ char.disposition += 15
+            $ char.disposition += 10
             $ char.restore_portrait()
         "Over a glass of booze you have a small chat with her."
         call eat_together_chat
         $ b += randint(45, 75)
         "It's time to pay the bill. It will be [b]G."
         call eat_together_pay
-        if (d == 1 or dice(65)) and ct("Exhibitionnist"):
+        if (d == 1 or dice(55)) and ct("Exhibitionnist"):
             $ gm.set_img("stripping", "simple bg", type="first_default")
             "Your meeting ends with her drunk, naked and dancing on the table under cheers of customers."
             jump girl_interactions_end
@@ -267,26 +293,20 @@ label interactions_eattogether:
                     "She looks a but disappointed."
                     $ char.disposition -= 5
     elif a == 2:
-        "Together you sit at a table under a beach umbrella and oreder some light meal and soda."
+        "Together you sit at a table under a beach umbrella and order some light meal and soda."
         if dice (50):
             "The weather is nice today."
         else:
             "Cold wind blowing from the sea. Not the best time to sit here..."
-            $ char.disposition -= randint (5, 15)
+            $ char.disposition -= randint (5, 10)
             if dice (50):
                 $ char.effects['Down with Cold']['active'] = True
-        if ct("Always Hungry") and dice (80):
+        if ct("Always Hungry") and dice (70):
             $ char.override_portrait("portrait", "happy")
             char.say "They don't serve much besides junk food, but she enjoys it anyway."
-            $ b += randint (10, 20)
+            $ b += randint (35, 50)
             $ char.disposition += 5
             $ char.restore_portrait()
-        if ct("Clumsy") and dice (50):
-            $ char.override_portrait("portrait", "sad")
-            char.say "She was more clumsy than usual today and broke the umbrella. She was upset, but you managed to cheer her up."
-            $ char.restore_portrait()
-            $ b += dice (10, 15)
-            $ char.disposition += dice (1, 5)
         $ b += randint(20, 35)
         "Under the sound of the ocean and the cries of birds you have a small chat with her."
         call eat_together_chat
@@ -297,13 +317,13 @@ label interactions_eattogether:
         if ct("Kamidere") or ct("Yandere"):
             $ char.override_portrait("portrait", "indifferent")
             char.say "She feels a bit uncomfortable in such an establishment."
-            $ char.disposition -= randint (5, 20)
+            $ char.disposition -= randint (15, 20)
             $ char.restore_portrait()
         if ct("Clumsy") and dice (50):
             $ char.override_portrait("portrait", "sad")
             char.say "She was more clumsy than usual today and smashed a plate. She was upset, but you managed to cheer her up."
             $ char.restore_portrait()
-            $ b += dice (10, 15)
+            $ b += dice (5, 15)
             $ char.disposition += dice (1, 5)
         if ct("Always Hungry") and dice (80):
             $ char.override_portrait("portrait", "happy")
@@ -311,8 +331,8 @@ label interactions_eattogether:
             $ b += randint (20, 30)
             $ char.disposition += 15
             $ char.restore_portrait()
-        $ b += randint (20, 25)
-        if dice (50):
+        $ b += randint (25, 35)
+        if dice (60):
             "Unfortunately, today it's too crowded here for a chat."
         else:
             "You managed to have a small chat with her, though you didn't have much time to talk between eating and waiting in line."
@@ -324,7 +344,7 @@ label interactions_eattogether:
         if ct("Impersonal") or ct("Bokukko") or ct("Homebody") or ct("Messy"):
             $ char.override_portrait("portrait", "indifferent")
             char.say "She feels a bit uncomfortable in such an establishment."
-            $ char.disposition -= randint (5, 20)
+            $ char.disposition -= randint (15, 20)
             $ char.restore_portrait()
         if ct("Heavy Drinker") and dice(80):
             $ char.override_portrait("portrait", "happy")
@@ -345,15 +365,15 @@ label interactions_eattogether:
             $ char.restore_portrait()
             $ b += dice (20, 25)
             $ char.disposition += dice (1, 8)
-        if ct("Extremely Jealous") and dice (50):
+        if ct("Extremely Jealous") and dice (40):
             "Today you are served by a young flirty waitress, prompting [char.name] to fight for your attention."
             $ char.disposition += dice (1, 10)
             $ char.joy -= dice (10, 20)
-        if ct("Ill-mannered") and dice (50):
+        if ct("Ill-mannered") and dice (60):
             "Her lack of good manners lead to a conflict with other customers and staff. You were fined for improper conduct."
             $ b += dice (30, 65)
             $ char.disposition += dice (1, 10)
-        "In a pleasant environment you managed to had a good long chat with her."
+        "In a pleasant environment you managed to have a good long chat with her."
         call eat_together_chat
         $ b += randint(75, 150)
         "It's time to pay the bill. It will be [b]G."
@@ -370,24 +390,24 @@ label eat_together_chat:
         if a == 1:
             $ char.disposition += randint (20, 40)
         elif a == 2:
-            $ char.disposition += randint (10, 20)
+            $ char.disposition += randint (15, 20)
         elif a == 3:
             $ char.disposition += randint (5, 15)
         else:
-            $ char.disposition += randint (40, 70)
+            $ char.disposition += randint (30, 40)
     else:
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
         else:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though…", "It's hard to find common ground.", "But it was somewhat forced."]))
         if a == 1:
-            $ char.disposition += randint (15, 35)
+            $ char.disposition += randint (15, 30)
         elif a == 2:
             $ char.disposition += randint (10, 15)
         elif a == 3:
             $ char.disposition += randint (5, 10)
         else:
-            $ char.disposition += randint (30, 50)
+            $ char.disposition += randint (20, 35)
     return
 label eat_together_pay:
     if char.status != "slave":
@@ -430,18 +450,23 @@ label eat_together_pay:
     else:
         if hero.gold >= b:
             $ hero.take_money(b)
-            "Together you pay the bill."
         elif hero.gold < b and char.gold >= b:
-            "Together you pay the bill."
             $ char.take_money(b)
         elif char.gold + hero.gold >= b:
             $ hero.take_money(hero.gold)
             $ char.take_money(b - hero.gold)
-            "Together you pay the bill."
         else:
-            "You both didn't have enough money and were kicked out. That was a bad idea..."
+            "You didn't have enough money and were kicked out. That was a bad idea..."
             $ char.disposition -= 20
             $ hero.take_money(hero.gold)
             $ char.take_money(char.gold)
             $ char.joy -= 20
     return
+    
+# label interactions_helpwithsomething:
+    # "You propose to help with something for free."
+    # $ line = rts(char, {
+        # "Athletic": ["rts_athletic_choice"],
+        # "Manly": ["rts_manly_choice"],
+        # "default": ["You chat for some time."]
+        # })
