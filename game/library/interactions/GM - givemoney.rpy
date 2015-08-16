@@ -55,11 +55,11 @@ label interactions_giftmoney:
     jump girl_interactions
 
 label interactions_askmoney:
-    if (day - char.flag("gm_ask_money")) > 7 or char.flag("gm_ask_money") == 0:
+    if (day - char.flag("gm_ask_money")) > 5 or char.flag("gm_ask_money") == 0:
         $char.set_flag("gm_ask_money", value=day)
     else:
         "You already did it recently, she cannot afford it."
-        $ char.disposition -= (randint(20, 45))
+        $ char.disposition -= randint(1, 4)
         jump girl_interactions
     "You asked her to help you with money."
     if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
@@ -81,7 +81,7 @@ label interactions_askmoney:
             $ char.disposition -= randint (10, 30)
     else:
         "But she doesn't know you well enough yet."
-        $ char.disposition -= randint (10, 30)
+        $ char.disposition -= randint (5, 15)
     jump girl_interactions    
     
 label interactions_int_give_money:
