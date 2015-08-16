@@ -7,126 +7,82 @@
 #  4 - givemoney - 500G - GM
 
 ###### j1
-label interactions_gm25g:
-
-    if hero.take_money(25):
-        if char.gold < 50: 
-            "She gratefully accepts money. It is hard times."        
-            if char.disposition > 0:
-                $ char.disposition += (randint(2, 4))
-            else:
-                $ char.disposition += (randint(5, 10))
-            $ char.gold += 25
-        elif char.gold < 100:
-            "She takes your money."        
-            if char.disposition > 0:
-                $ char.disposition += (randint(1, 2))
-            else:
-                $ char.disposition += (randint(3, 5))
-            $ char.gold += 25
-        elif check_lovers(char, hero) or check_friends(char, hero):
-            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
-            $ char.gold += 25
+label interactions_giftmoney:
+    if (day - char.flag("gm_give_money")) > 2 or char.flag("gm_give_money") == 0:
+        $char.set_flag("gm_give_money", value=day)
+    else:
+        "You already did it recently, she does not want to abuse your generosity."
+        jump girl_interactions
+    python:
+        try:
+            temp = int(renpy.input("You proposed to help her with money. You have [hero.gold] G.", allow="1234567890"))
+        except ValueError:
+            "You changed your mind."
+            renpy.jump("girl_interactions")
+    if temp == 0:
+        "You changed your mind."
+        jump girl_interactions
+    if temp > hero.gold:
+        "You don't have such amount of gold."
+        jump girl_interactions
+    if round(char.gold/temp) > 5:
+        "She refuses to take your money. Looks like you have insulted her by such a small sum."
+        $ char.disposition -= (randint(9, 25))
+        jump girl_interactions
+    if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
+        $ char.add_money(temp) # Same...
+        "You gave her [temp] G."
+        if round(char.gold/temp) <= 1:
+            "She enthusiastically accepts money. Looks like it's a huge sum for her."
+            $ a = 20
+            $ b = 50
+        elif round(char.gold/temp) <= 3:
+            "She gratefully accepts money. It is hard times."
+            $ a = 10
+            $ b = 25
         else:
-            "She refuses to take your money."
-            $ char.disposition -= (randint(4, 10))
-            $hero.add_money(25)
-    else:    
-        narrator "You don't have 25g!"
-    
-    jump girl_interactions
-    
-
-###### j2
-label interactions_gm50g:
-
-    if hero.take_money(50):
-        if char.gold < 100: 
-            "She gratefully accepts money. It is hard times."        
-            if char.disposition > 0:
-                $ char.disposition += (randint(4, 8))
-            else:
-                $ char.disposition += (randint(10, 20))
-            $ char.gold += 50
-        elif char.gold < 200:
-            "She takes your money."        
-            if char.disposition > 0:
-                $ char.disposition += (randint(2, 4))
-            else:
-                $ char.disposition += (randint(6, 10))
-            $ char.gold += 50
-        elif check_lovers(char, hero) or check_friends(char, hero):
-            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
-            $ char.gold += 50
+            "She takes your money."
+            $ a = 5
+            $ b = 15
+        if char.disposition >= 90:
+            $ char.disposition += randint(a, b)/(char.disposition*0.01)
         else:
-            "She refuses to take your money."
-            $ char.disposition -= (randint(8, 20))
-            $hero.add_money(50)
-    else:    
-        narrator "You don't have 50g!"
-    
+            $ char.disposition += randint(a, b)
+    else:
+        "You don't have such amount of gold."
+    $ del a
+    $ del b
     jump girl_interactions
-         
 
-###### j3
-label interactions_gm100g:
-
-    if hero.take_money(100):
-        if char.gold < 200: 
-            "She gratefully accepts money. It is hard times."        
-            if char.disposition > 0:
-                $ char.disposition += (randint(8, 16))
-            else:
-                $ char.disposition += (randint(20, 40))
-            $ char.gold += 100
-        elif char.gold < 400:
-            "She takes your money."        
-            if char.disposition > 150:
-                $ char.disposition += (randint(4, 8))
-            else:
-                $ char.disposition += (randint(12, 20))
-            $ char.gold += 100
-        elif check_lovers(char, hero) or check_friends(char, hero):
-            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
-            $ char.gold += 100
+label interactions_askmoney:
+    if (day - char.flag("gm_ask_money")) > 5 or char.flag("gm_ask_money") == 0:
+        $char.set_flag("gm_ask_money", value=day)
+    else:
+        "You already did it recently, she cannot afford it."
+        $ char.disposition -= randint(1, 4)
+        jump girl_interactions
+    "You asked her to help you with money."
+    if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
+        if char.gold < 100:
+            "But she's too poor to help you."
+            jump girl_interactions
+        elif char.gold > hero.gold*10:
+            $ temp = randint (round(char.gold*0.2), round(char.gold*0.8))
+            label less_money_int:
+            if temp > 1000:
+                $ temp = round(temp*0.1)
+                jump less_money_int
+            if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
+                $ hero.add_money(temp) # Same...
+                "You gave you [temp] G."
+                $ char.disposition -= randint (20, 40)
         else:
-            "She refuses to take your money."
-            $ char.disposition -= (randint(7, 15))
-            $hero.add_money(100)
-    else:    
-        narrator "You don't have 100g!"
-    
-    jump girl_interactions
-    
-    
-###### j4
-label interactions_gm500g:
-    
-    if hero.take_money(500):
-        if char.gold < 1000: 
-            "She gratefully accepts money. It is hard times."        
-            if char.disposition > 0:
-                $ char.disposition += (randint(40, 80))
-            else:
-                $ char.disposition += (randint(100, 200))
-            $ char.gold += 500
-        elif char.gold < 2000:
-            "She takes your money."        
-            if char.disposition > 150:
-                $ char.disposition += (randint(20, 40))
-            else:
-                $ char.disposition += (randint(60, 100))
-        elif check_lovers(char, hero) or check_friends(char, hero):
-            "You are not strangers, so she has nothing against your money. But it's not enough to change much."
-            $ char.gold += 500
-        else:
-            "She refuses to take your money."
-            $ char.disposition -= (randint(9, 20))
-            $hero.add_money(500)
-    else:    
-        narrator "You don't have 500g!"
-    
-    jump girl_interactions
+            "You are already much richer than her. She needs money more than you."
+            $ char.disposition -= randint (10, 30)
+    else:
+        "But she doesn't know you well enough yet."
+        $ char.disposition -= randint (5, 15)
+    jump girl_interactions    
     
 label interactions_int_give_money:
     python:
@@ -164,10 +120,10 @@ label interactions_int_take_money:
 
 label interactions_eattogether:
     "You propose to eat together somewhere."
-    if char.flag("gm_eat_together") != day or day == 0:
+    if char.flag("gm_eat_together") != day:
         $char.set_flag("gm_eat_together", value=day)
     else:
-        "You already did it today."
+        "You already did it today. She's not hungry."
         jump girl_interactions
     $ b = 0
     $ c = 0

@@ -136,11 +136,9 @@ label girl_interactions:
           
             # GIVE MONEY
             m = 3
-            pytfall.world_actions.menu(m, "Give Money", condition="char.status != 'slave'")
-            pytfall.world_actions.gm_choice("25G", label="gm25g", index=(m, 0))
-            pytfall.world_actions.gm_choice("50G", label="gm50g", index=(m, 1))
-            pytfall.world_actions.gm_choice("100G", label="gm100g", index=(m, 2))
-            pytfall.world_actions.gm_choice("500G", label="gm500g", index=(m, 3))
+            pytfall.world_actions.menu(m, "Money", condition="char.status != 'slave'")
+            pytfall.world_actions.gm_choice("Propose to give money", label="giftmoney", index=(m, 0))
+            pytfall.world_actions.gm_choice("Ask for money", label="askmoney", index=(m, 1))
             
             m = 4
             pytfall.world_actions.menu(m, "Money", condition="char.status == 'slave'")
@@ -155,6 +153,7 @@ label girl_interactions:
             m = 6
             pytfall.world_actions.menu(m, "Go Out")
             pytfall.world_actions.gm_choice("Eat Together", index=(m, 0))
+            pytfall.world_actions.gm_choice("Help With Something", index=(m, 1))
            # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
             
             # PROPOSITION
