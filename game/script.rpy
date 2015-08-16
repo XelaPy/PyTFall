@@ -230,24 +230,3 @@
 label after_load:
     stop music
     return
-    # python:
-        # new_chars = load_characters(content_dir)
- 
-        # for stat in StatList:
-            # for girl in new_chars:
-                # if stat not in new_chars[girl].stats.keys():
-                    # new_chars[girl].__dict__['stats'][stat] = 0
-                    
-        # for girl in new_chars:
-            # if new_chars[girl].status == 'slave':
-                # new_chars[girl].houseper = 100
-            # else:
-                # new_chars[girl].houseper = 50
- 
-        # for key in new_chars.keys():
-            # if key in chars:
-                # pass
-            # else:
-                # chars[key] = new_chars[key]
-        # del new_chars
-        # jump('pyt_mainscreen')
