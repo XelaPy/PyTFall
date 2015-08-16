@@ -161,6 +161,8 @@
                 jump intro_story
             "Test Matrix":
                 call test_matrix
+            "Test Vortex":
+                call test_vortex
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()

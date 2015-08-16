@@ -266,6 +266,49 @@ init -999 python:
             return render
             
             
+    class Vortex(renpy.Displayable):
+        def __init__(self, displayable, amount=25, radius=300, adjust_radius=None, time=10, circles=3, **kwargs):
+            super(Vortex, self).__init__(**kwargs)
+            self.displayable = renpy.easy.displayable(displayable)
+            self.amount = amount
+            self.radius = radius
+            self.adjust_radius = adjust_radius
+            self.time = time
+            self.circles = circles
+            self.vp = None
+            
+        def render(self, width, height, st, at):
+            if not st:
+                self.args = None
+            
+            if not self.args:
+                self.args = list()
+                step = self.radius/self.amount
+                for i in xrange(1, self.amount+1):
+                    if isinstance(self.time, (tuple, list)):
+                        t = random.uniform(*self.time)
+                    else:
+                        t = self.time
+                        
+                    if isinstance(self.circles, (tuple, list)):
+                        c = random.uniform(*self.circles)
+                    else:
+                        c = self.circles
+                        
+                    r = self.radius - step*i
+                    if self.adjust_radius:
+                        r = r + randint(*self.adjust_radius)
+                        
+                    self.args.append(vortex_particle(self.displayable, t=t, angle=randint(0, 360), radius=r, circles=c))
+                    
+            render = renpy.Render(width, height)
+            for r in self.args:
+                cr = r.render(width, height, st, at)
+                render.blit(cr, (r.xpos, r.ypos))
+            renpy.redraw(self, 0)
+            return render
+            
+            
 init python:
     def get_size(d):
         d = renpy.easy.displayable(d)

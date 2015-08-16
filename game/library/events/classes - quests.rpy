@@ -236,10 +236,9 @@ init -9 python:
             Builds a condition check string for WorldEvent.run_conditions.
             """
             if flags is not None and len(flags) > 0:
-                return "pytfall.world_quests.get(\"%s\").check(%s, %s, %s)"%(self.name, str(stage), "true" if strict else "false", "\"" + "\", \"".join(flags) + "\"")
-            
+                return "pytfall.world_quests.get(\"%s\").check(%s, %s, %s)"%(self.name, str(stage), True if strict else False, "\"" + "\", \"".join(flags) + "\"")
             else:
-                return "pytfall.world_quests.get(\"%s\").check(%s, %s)"%(self.name, str(stage), "true" if strict else "false")
+                return "pytfall.world_quests.get(\"%s\").check(%s, %s)"%(self.name, str(stage), True if strict else False)
         
         @property
         def failed(self):
