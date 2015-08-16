@@ -178,14 +178,14 @@ screen main_menu():
        # style "mm_root"
     add "bg_main"
         
-    $ index = map_options.index(persistent.town_path)
-    button:
-        xalign 0
-        yalign 1.0
-        xysize (60, 25)
-        style "blue1"
-        text "<->" color black align (0.5, 0.5) size 15
-        action [SetField(persistent, "town_path", map_options[(index + 1) % len(map_options)]), Jump("_save_reload_game")]
+    # $ index = map_options.index(persistent.town_path)
+    # button:
+        # xalign 0
+        # yalign 1.0
+        # xysize (60, 25)
+        # style "blue1"
+        # text "<->" color black align (0.5, 0.5) size 15
+        # action [SetField(persistent, "town_path", map_options[(index + 1) % len(map_options)]), Jump("_save_reload_game")]
         
     #add AlphaBlend(Text("PyTFall", size=210, font="fonts/earthkid.ttf"), Frame(Null(), 25, 25),  "fire_logo", alpha=True) align (0.02, 0.02)
 

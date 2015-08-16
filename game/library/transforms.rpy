@@ -227,5 +227,5 @@ init -997: # Transforms:
         around around
         angle angle
         radius radius
-        linear t radius 0 clockwise circles 2.5
+        easeout t radius 0 clockwise circles circles
         Null()
