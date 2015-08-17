@@ -914,22 +914,29 @@ init: # PyTFall:
             textbutton "Back":
                 action Hide("char_rename")
                 
-    screen poly_matrix(in_file):
+    screen poly_matrix(in_file, show_exit_button=False):
+        # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
+        
+        on "hide":
+            action SetField(config, "mouse", None)
         
         python:
             with open(renpy.loader.transfn(in_file)) as f:
                 matrix = json.load(f)
                 
-        # $ mp = renpy.get_mouse_pos()
         $ func = renpy.curry(point_in_poly)
         for i in matrix:
-            # $ var = point_in_poly()
             button:
                 background Null()
                 focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
                 action Return(i["id"])
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
                 unhovered SetField(config, "mouse", None)
+                
+        if show_exit_button:
+            textbutton "All Done":
+                align show_exit_button
+                action Return(False)
         
     ##############################################################################
     screen notify:

@@ -187,6 +187,7 @@ init python:
                 # Must be moved to 
                 whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
                 strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
+                servers = list(i for i in store.nd_chars if "Server" in i.occupations)
                 if upgrade.brothel.res.count < upgrade.brothel.cap and (store.nd_chars):
                     env.process(upgrade.brothel_client_dispatcher(env, store.client))
                 elif upgrade.sc.res.count < upgrade.sc.cap:
@@ -210,6 +211,8 @@ label temp_jobs_loop:
     $ env = simpy.Environment()
     $ env.process(setup(env, end=100))
     $ env.run(until=100)
+    $ store.building.nd_events_report.append("{}".format(set_font_color("Ending the First Stage:", "red")))
+    $ env.run(until=110)
     $ store.building.nd_events_report.append("{}".format(set_font_color("Ending the simulation:", "red")))
     $ store.building.nd_events_report.append("{}".format(set_font_color("===================", "red")))
     $ store.building.nd_events_report.append("\n\n")

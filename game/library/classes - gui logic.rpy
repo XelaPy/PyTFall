@@ -1,11 +1,6 @@
 init -1 python:
     # GUI Logic ---------------------------------------------------------------------------------------------
     # One func:
-    def check_polymatrix(in_file):
-        result = renpy.call_screen("poly_matrix", "library/events/StoryI/coordinates.json")
-        config.mouse = None
-        return result
-    
     def point_in_poly(poly, x, y):
     
         n = len(poly)
