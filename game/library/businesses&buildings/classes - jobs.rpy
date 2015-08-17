@@ -1156,6 +1156,7 @@
             clients = The clients the girl can service.
             """ 
             super(StripJob, self).__init__()
+            self.id = "Striptease Job"
             
             # Traits/Job-types associated with this job:
             self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
