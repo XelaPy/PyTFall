@@ -428,6 +428,15 @@ init -9 python:
             if hasattr(self, "building_jobs"):
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
                 
+            # SimPy and etc follows (L33t stuff :) ):
+            self.env = None
+            
+            self.clients = set()
+            
+        def log(self, item):
+            # Logs the text to log...
+            self.nd_events_report.append(item)
+            
         def normalize_jobs(self):
             self.jobs = self.jobs.union(self.building_jobs)
             for up in self._upgrades:
@@ -469,4 +478,46 @@ init -9 python:
             Returns True if this building has upgrades that are businesses.
             """
             return any(i.workable for i in self._upgrades)
+            
+        # SimPy:
+        def kick_client(self, client):
+            """
+            Gets rid of this client...
+            """
+            temp = "There is not much for the {} to do...".format(client.name)
+            self.log(temp)
+            yield self.env.timeout(1)
+            temp = "So {} leaves the hotel cursing...".format(client.name)
+            self.log(temp)
+            
+        def setup(env, end=40):
+            upgrades = list(up for up in self._upgrades if up.workable)
+            i = 0
+            while self.clients:
+                if self.env.now + 5 <= end: # This is a bit off... should we decide which action should be taken first?
+                    if i > 4:
+                        yield self.env.timeout(random.randint(1, 3))
+                    i += 1
+                    store.client = self.pop()
+                    store.client.name = "Client {}".format(i)
+                    
+                    # Register the fact that client arrived at the building:
+                    temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
+                    self.log(temp)
+                    
+                    # Take an action!
+                    whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
+                    strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
+                    servers = list(i for i in store.nd_chars if "Server" in i.occupations)
+                    
+                    for upgrade in upgrades: # This assumes that job requires clients at the moment.
+                        # STOPPED HERE!
+                        if upgrade.res.count < upgrade.capacity and upgrade.has_worker:
+                            env.process(upgrade.brothel_client_dispatcher(env, store.client))
+                        elif upgrade.sc.res.count < upgrade.sc.cap:
+                            env.process(upgrade.sc_client_dispatcher(env, store.client))
+                    else:
+                        env.process(upgrade.kick_client(client))
+                else:
+                    break
             

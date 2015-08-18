@@ -85,7 +85,7 @@
         @property
         def all_occs(self):
             # All Occupations:
-            return self.occupations + self.occupation_traits
+            return set(self.occupations + self.occupation_traits)
             
         def get_clients(self):
             # This returns a correct amount of clients used for the job
