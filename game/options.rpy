@@ -75,7 +75,10 @@ init -1 python hide:
             some_dict["chars"] = len(hero.girls)
             some_dict["gold"] = hero.gold
             some_dict["buildings"] = len(hero.buildings)
-            some_dict["portrait"] = hero.img_db["portrait"][:].pop()
+            try:
+                some_dict["portrait"] = hero.img_db["portrait"][:].pop()
+            except:
+                some_dict["portrait"] = Null()
     config.save_json_callbacks = [simple_save_dict]
     
     if not config.developer:

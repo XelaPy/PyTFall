@@ -1,6 +1,6 @@
 # ANIMATION
 init:
-    image bg_main = "content/gfx/bg/main.png"
+    image bg_main = "content/gfx/bg/main.jpg"
     
     image eyes:
         zoom 0.7
