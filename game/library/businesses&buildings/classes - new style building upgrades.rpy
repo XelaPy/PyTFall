@@ -21,6 +21,9 @@ init -9 python:
             self.cost = cost # Price in gold.
             
             self.jobs = set() # Jobs this upgrade can add. *We add job instances here!
+            
+            self.habitable = False
+            self.workable = False
         
         def method(self):
             pass
@@ -44,12 +47,14 @@ init -9 python:
         def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!", img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
             super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set(["Waitress"])
+            self.workable = True
             
     class BrothelBlock(MainUpgrade):
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
             self.jobs = set([simple_jobs["Whore Job"], simple_jobs["Testing Job"]])
+            self.workable = True
             
         def get_clients(self):
             # ATM: We always return just the one client for the brothel job.

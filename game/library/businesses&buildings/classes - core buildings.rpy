@@ -456,9 +456,17 @@ init -9 python:
             upgrade.instance = self
             self._upgrades.append(upgrade)
             
-        def has_living_space(self):
+        @property
+        def habitable(self):
             """
-            Returns True if this buildings has free living space.
+            Returns True if this buildings has upgrades with free living space.
             """
-            return
+            return any(i.habitable for i in self._upgrades)
+            
+        @property
+        def workable(self):
+            """
+            Returns True if this building has upgrades that are businesses.
+            """
+            return any(i.workable for i in self._upgrades)
             
