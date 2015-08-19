@@ -154,50 +154,51 @@ init: # Items:
         if item:
             fixed:
                 maximum (size[0], size[1])
-                hbox:
-                    xpos 16
-                    style_group style_group
+                vbox:
+                    align (0.5, 0.5)
+                    yfill True
                     frame:
-                        pos (0, 3)
-                        background Frame("content/gfx/frame/frame_it2.png", 5, 5)
-                        xysize (120, 120)
-                        add (ProportionalScale(item.icon, 100, 100)) align(0.5, 0.5)
-                    null width 21
+                        xalign 0.5
+                        xysize (440, 40)
+                        background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+                        label ('[item.id]') text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text1"
                     vbox:
+                        yfill True
+                        align (0.5, 0.5)
                         #xmaximum (size[0]-15-175)
-                        frame:
-                            ypos 3
-                            xalign 0.5
-                            xysize (340, 40)
-                            background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-                        label ('[item.id]') text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text1" ypos -32
-                        null height -35
-                        label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" xalign 0.5
-                        null height 5
-                        frame:
-                            background Frame("content/gfx/frame/p_frame4.png", 10, 10)
-                            xalign 0.5
-                            xysize (260, 120)
-                            hbox:
-                                ypos 1
+                        null height -15
+                        label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" align (0.5, 0.5)
+                        hbox:
+                            align (0.5, 0.5)
+                            xfill True
+                            frame:
+                                xpos 0
+                                yalign 0.5
+                                background Frame("content/gfx/frame/frame_it2.png", 5, 5)
+                                xysize (130, 130)
+                                add (ProportionalScale(item.icon, 110, 110)) align(0.5, 0.5)
+                            frame:
+                                background Frame("content/gfx/frame/p_frame4.png", 10, 10)
+                                xysize (205, 130)
                                 vbox:
                                     style_group "stats"
                                     spacing -7
                                     xfill True
+                                    null height 15
                                     frame:
-                                        xsize 250
+                                        xsize 195
                                         text ('Price:') color gold yalign 0.5
                                         label ('{size=-3}{color=[gold]}[item.price]') style "stats_value_text" align (1.0, 0.5)
                                     frame:
-                                        xsize 250
+                                        xsize 195
                                         text ('Slot:') color ivory yalign 0.5
                                         label ('{size=-3}%s'%item.slot.capitalize()) style "stats_value_text" align (1.0, 0.5)
                                     frame:
-                                        xsize 250
+                                        xsize 195
                                         text ('Type:') color ivory yalign 0.5
                                         label ('{size=-3}%s'%item.type.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5)
                                     frame:
-                                        xsize 250
+                                        xsize 195
                                         text ('Sex:') color ivory yalign 0.5
                                         if item.sex == 'male':
                                             label ('{size=-3}{color=#FFA54F}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5)
@@ -205,122 +206,122 @@ init: # Items:
                                             label ('{size=-3}{color=#FFAEB9}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5)
                                         if item.sex == 'unisex':
                                             label ('{size=-3}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5)
-                        null height -5
-                        label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" xalign 0.5
-                        frame:
-                            xysize (340, 130)
-                            background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-                            side "c r":
-                                xalign 0.5
-                                xysize (330, 120)
-                                viewport:
-                                    id "item.desc"
-                                    mousewheel True
-                                    text ('{color=#ecc88a}[item.desc]') font "fonts/TisaOTM.otf" size 16 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
-                                    #text ('[item.desc]') color ivory
-                                vbar value YScrollValue("item.desc")
-                                
-                frame:
-                    pos (-5, 130)
-                    xysize (160, 199)
-                    background Frame("content/gfx/frame/p_frame7.png", 5, 5)
-                    side "c r":
-                        xalign 0.5
-                        #maximum (145, size[1]-175)
-                        viewport id "item_info":
-                            mousewheel True
-                            has vbox
-                            style_group "stats"
-                            vbox:
-                                spacing -7
-                                xysize (140, 10000)
-                                null height 5
-                                if item.mod:
-                                    label ('Stats:') text_size 18 text_color gold yalign 0.5 xpos 50
-                                    for stat, value in item.mod.items():
+                            frame:
+                                xysize (160, 130)
+                                background Frame("content/gfx/frame/p_frame7.png", 5, 5)
+                                side "c r":
+                                    xalign 0.5
+                                    #maximum (145, size[1]-175)
+                                    viewport id "item_info":
+                                        mousewheel True
+                                        has vbox
+                                        style_group "stats"
                                         vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text (u'%s' % stat.capitalize()) color ivory size 16 yalign 0.5
-                                                label (u'{size=-4}[value]') style "stats_value_text" xalign 1.0 align (1.0, 0.5)
-                                null height 10
-                                if item.max:
-                                    label ('Max') text_size 16 text_color gold yalign 0.5 xpos 52
-                                    for stat, value in item.max.items():
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text (u'%s'%stat.capitalize()) color ivory size 16 yalign 0.5
-                                                label (u'{size=-4}[value]') style "stats_value_text" xalign 1.0 align (1.0, 0.5)
-                                null height 10
-                                if item.min:
-                                    label ('Min') text_size 16 text_color gold yalign 0.5 xpos 53
-                                    for stat, value in item.min.items():
-                                        if True:
-                                            vbox:
-                                                xfill True
-                                                frame:
-                                                    xsize 140
-                                                    text(u'%s'%stat.capitalize()) color ivory size 16 yalign 0.5
-                                                    label (u'{size=-4}%d'%value) style "stats_value_text" xalign 1.0 align (1.0, 0.5)
-                                null height 10
-                                if not mc_mode and item.addtraits:
-                                    label ('Adds traits') text_size 16 text_color gold align (0.35, 0.5)
-                                    for trait in item.addtraits:
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text(u'%s'%trait.capitalize()) color ivory size 16 yalign 0.5
-                                null height 10
-                                if not mc_mode and item.removetraits:
-                                    label ('Removes traits') text_size 16 text_color gold align (0.3, 0.5)
-                                    for trait in item.removetraits:
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text(u'%s'%trait.capitalize()) color ivory size 16 yalign 0.5
-                                null height 10
-                                if item.add_be_spells:
-                                    label ('Adds Skills') text_size 16 text_color gold align (0.25, 0.5)
-                                    for skill in item.add_be_spells:
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text(u'%s'%skill.capitalize()) color ivory size 16 yalign 0.5
-                                null height 10
-                                if item.remove_be_spells:
-                                    label ('Removes Skills') text_size 16 text_color gold align (0.1, 0.5)
-                                    for skill in item.remove_be_spells:
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text(u'%s'%skill.capitalize()) color ivory size 16 yalign 0.5
-                                null height 10
-                                if not mc_mode and item.addeffects:
-                                    label ('Adds Effects') text_size 16 text_color gold align (0.32, 0.5)
-                                    for effect in item.addeffects:
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text(u'%s'%effect.capitalize()) color ivory size 16 yalign 0.5
-                                null height 10
-                                if not mc_mode and item.removeeffects:
-                                    label ('Removes Effects') text_size 16 text_color gold align (0.15, 0.5)
-                                    for effect in item.removeeffects:
-                                        vbox:
-                                            xfill True
-                                            frame:
-                                                xsize 140
-                                                text(u'%s'%effect.capitalize()) color ivory size 16 yalign 0.5
+                                            spacing -7
+                                            xysize (140, 10000)
+                                            null height 5
+                                            if item.mod:
+                                                label ('Stats:') text_size 18 text_color gold yalign 0.5 xpos 50
+                                                for stat, value in item.mod.items():
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text (u'%s' % stat.capitalize()) color ivory size 16 yalign 0.5
+                                                            label (u'{size=-4}[value]') style "stats_value_text" xalign 1.0 align (1.0, 0.5)
+                                            null height 10
+                                            if item.max:
+                                                label ('Max') text_size 16 text_color gold yalign 0.5 xpos 52
+                                                for stat, value in item.max.items():
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text (u'%s'%stat.capitalize()) color ivory size 16 yalign 0.5
+                                                            label (u'{size=-4}[value]') style "stats_value_text" xalign 1.0 align (1.0, 0.5)
+                                            null height 10
+                                            if item.min:
+                                                label ('Min') text_size 16 text_color gold yalign 0.5 xpos 53
+                                                for stat, value in item.min.items():
+                                                    if True:
+                                                        vbox:
+                                                            xfill True
+                                                            frame:
+                                                                xsize 140
+                                                                text(u'%s'%stat.capitalize()) color ivory size 16 yalign 0.5
+                                                                label (u'{size=-4}%d'%value) style "stats_value_text" xalign 1.0 align (1.0, 0.5)
+                                            null height 10
+                                            if not mc_mode and item.addtraits:
+                                                label ('Adds traits') text_size 16 text_color gold align (0.35, 0.5)
+                                                for trait in item.addtraits:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text(u'%s'%trait.capitalize()) color ivory size 16 yalign 0.5
+                                            null height 10
+                                            if not mc_mode and item.removetraits:
+                                                label ('Removes traits') text_size 16 text_color gold align (0.3, 0.5)
+                                                for trait in item.removetraits:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text(u'%s'%trait.capitalize()) color ivory size 16 yalign 0.5
+                                            null height 10
+                                            if item.add_be_spells:
+                                                label ('Adds Skills') text_size 16 text_color gold align (0.25, 0.5)
+                                                for skill in item.add_be_spells:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text(u'%s'%skill.capitalize()) color ivory size 16 yalign 0.5
+                                            null height 10
+                                            if item.remove_be_spells:
+                                                label ('Removes Skills') text_size 16 text_color gold align (0.1, 0.5)
+                                                for skill in item.remove_be_spells:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text(u'%s'%skill.capitalize()) color ivory size 16 yalign 0.5
+                                            null height 10
+                                            if not mc_mode and item.addeffects:
+                                                label ('Adds Effects') text_size 16 text_color gold align (0.32, 0.5)
+                                                for effect in item.addeffects:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text(u'%s'%effect.capitalize()) color ivory size 16 yalign 0.5
+                                            null height 10
+                                            if not mc_mode and item.removeeffects:
+                                                label ('Removes Effects') text_size 16 text_color gold align (0.15, 0.5)
+                                                for effect in item.removeeffects:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 140
+                                                            text(u'%s'%effect.capitalize()) color ivory size 16 yalign 0.5
                                                 
-                        vbar value YScrollValue("item_info")
+                                    vbar value YScrollValue("item_info")
+                        null height -15
+                        label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" align (0.5, 0.5)
+                        hbox:
+                            align (0.5, 0.5)
+                            frame:
+                                xysize (460, 120)
+                                background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+                                side "c r":
+                                    xalign 0.5
+                                    xysize (450, 110)
+                                    viewport:
+                                        id "item.desc"
+                                        mousewheel True
+                                        text ('{color=#ecc88a}[item.desc]') font "fonts/TisaOTM.otf" size 16 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
+                                        #text ('[item.desc]') color ivory
+                                    vbar value YScrollValue("item.desc")
                                     
     # Equipment slot frame (of an item)
     screen equipment_slot(pos=(0.5, 0.5), name="", img=None, value=None):
@@ -455,7 +456,7 @@ init: # PyTFall:
     screen rg_lightbutton:
         default align = (0, 0)
         frame:
-            background Frame("content/gfx/frame/FrameGP.png", 40, 40)
+            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             imagebutton:
                 align align
                 idle (img)

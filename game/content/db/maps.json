@@ -26,10 +26,7 @@
         },
         {
             "id": "forest_entrance",
-            "name": "Forest Entrance",
-            "x": 9,
-            "y": 570,
-            "img": "content/gfx/interface/buttons/blue_arrow_left.png"
+            "name": "Forest Entrance"
         },
         {
             "id": "tavern_town",
