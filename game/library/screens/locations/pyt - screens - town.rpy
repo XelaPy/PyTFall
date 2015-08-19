@@ -62,11 +62,5 @@ screen pyt_city_screen():
             ypadding 4
             text (u"{=content_text}{size=+12}{color=#ecc88a}[tt.value]") font "fonts/TisaOTM.otf" size 22 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.3)
             
-    #frame:
-        #xalign 1.0
-        #ypos 40
-        #xysize (200, 400)
-        #background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-        
     use pyt_top_stripe(True, use_hide_transform=True, normal_op=False)
             
