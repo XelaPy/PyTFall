@@ -21,6 +21,7 @@ init -9 python:
             self.cost = cost # Price in gold.
             
             self.jobs = set() # Jobs this upgrade can add. *We add job instances here!
+            self.workers = set() # List of on duty characters.
             
             self.habitable = False
             self.workable = False
@@ -34,15 +35,33 @@ init -9 python:
             # Logs the text to log...
             self.instance.nd_events_report.append(item)
             
-        def has_worker(self):
-            # Checks if there is a worker availible.
+        def has_workers(self, amount=1):
+            # Checks if there is a worker(s) availible.
             return False
+            
+        def get_workers(self, amount=1):
+            # Finds a best match for workers and returns them...
+            return None
+            
+        def requires_workers(self, amount=1):
+            """
+            Returns True if this upgrade requires a Worker to run this job.
+            Example: Brothel
+            Strip Club on the other hand may nor require one or one would be requested later.
+            It may be a better bet to come up with request_worker method that evaluates the same ealier, we'll see.
+            """
+            return False
+            
+        def run_nd(self):
+            # Runs at the very start of execusion of SimPy loop during the next day.
+            return
             
         @property
         def all_occs(self):
             s = set()
             for i in self.jobs:
                 s = s | i.all_occs
+            return s
         
         
     class MainUpgrade(BuildingUpgrade):
@@ -64,8 +83,40 @@ init -9 python:
             self.res = None # Restored before every job...
             self.time = 5 # Same
             
-        def has_worker(self):
+        def has_workers(self):
             return list(i for i in store.nd_chars if self.all_occs & i.occupations)
+            
+        def requires_workers(self, amount=1):
+            return True
+            
+        def get_workers(self, amount=1):
+            """
+            This is quite possibly an overkill for this stage of the game development.
+            """
+            workers = list()
+            
+            # First gets the workers assigned directly to this upgrade as a priority.
+            priority = list(i for i in store.nd_chars if i.workplace == self and self.all_occs & i.occupations)
+            for i in range(amount):
+                try:
+                    workers.append(priority.pop())
+                except:
+                    break
+            if len(workers) < amount:
+                # Next try to get anyone availible:
+                anyw = list(i for i in store.nd_chars if self.all_occs & i.occupations)
+                for i in range(amount-len(workers)):
+                    try:
+                        workers.append(priority.pop())
+                    except:
+                        break
+            if len(workers) == amount:
+                if len(workers) == 1:
+                    return workers.pop()
+            # When we'll have jobs that require moar than one worker, we'll add moar code here.
+            
+        def run_nd(self):
+            self.res = simpy.Resource(self.env, self.capacity)
             
         def request(self, client):
             with self.res.request() as request:
@@ -102,7 +153,7 @@ init -9 python:
     class StripClub(MainUpgrade):
         def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!", img="content/buildings/upgrades/strip_club.jpg", build_effort=0, materials=None, in_slots=5, cost=500, **kwargs):
             super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
-            self.jobs = set(["Stripper"])
+            self.jobs = set([simple_jobs["Striptease Job"]])
             self.workable = True
             
             self.capacity = in_slots
@@ -114,6 +165,9 @@ init -9 python:
             
             self.earned_cash = 0
             
+        def run_nd(self):
+            self.res = simpy.Resource(self.env, self.capacity)
+            
         def request(self, client):
             with self.res.request() as request:
                 yield request
@@ -122,7 +176,7 @@ init -9 python:
                 temp = "{} enters the Strip Club at {}".format(client.name, self.env.now)
                 self.log(temp)
                 
-                yield self.env.process(self.run_sc_job(client, store.char))
+                yield self.env.process(self.run_job(client, store.char))
                 
                 temp = "{} leaves the Club at {}".format(client.name, self.env.now)
                 self.log(temp)

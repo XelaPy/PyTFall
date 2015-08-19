@@ -114,8 +114,9 @@ label next_day:
         $ upgrade = building._upgrades[:].pop()
         $ nd_chars = list(g for g in hero.girls if g.action in upgrade.jobs)
         $ nd_clients = clients[:]
+        $ building.run_nd()
         # $ raise Exception((len(nd_chars), len(nd_clients)))
-        call temp_jobs_loop
+        # call temp_jobs_loop
         
         # Old jobs:
         python:

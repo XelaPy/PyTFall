@@ -1,10 +1,8 @@
 label test_matrix:
-    $ result = check_polymatrix("library/events/StoryI/coordinates.json")
-    "Result: [result]"
     show bg story dark_room with dissolve
-    screen ask_are_you_sure:
-        fixed:
-            textbutton "Yes" xalign 0.33 yalign 0.5 action Return(True)
+    call screen poly_matrix("library/events/StoryI/coordinates.json", show_exit_button=(0.9, 0.9))
+    "Result: [_return]"
+    
     menu:
         "Try Again":
             jump test_matrix

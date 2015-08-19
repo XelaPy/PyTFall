@@ -1280,33 +1280,34 @@
                 self.apply_stats()
                 self.finish_job()
         
-        def clients_relays(self):
-            """
-            Gets the clients that the girl strips for.
-            """
-            total_clients = len(store.clients)
-            clients = len(self.clients)
-            c_cnt = plural("client", clients)
-            
-            # Get proper text for the amount of clients
-            if clients > int(total_clients * 0.7):
-                self.txt.append('%d %s came to see her strip and dance in the club! It is a most impressive feat for one girl to attract so many! \n '%(clients, c_cnt))
-            elif int(total_clients * 0.5) <= clients <= int(total_clients * 0.7):
-                self.txt.append('%d %s came to see her strip and dance in the club! This is a very respectable amount of fans for one girl to have! \n '%(clients, c_cnt))
-            elif int(total_clients * 0.25) <= clients <= int(total_clients * 0.5):
-                self.txt.append('%d %s came to see her strip and dance in the club! Not bad at all considering the size of the brothel! \n'%(clients, c_cnt))
-            elif int(total_clients * 0.1) <= clients <= int(total_clients * 0.25):
-                self.txt.append("%d %s came to see her strip, not the most impressive amount, but everyone has to start somewhere. \n"%(clients, c_cnt))
-            else:
-                self.txt.append("Just a couple of clients came to check your girl out, very poor result indeed. ")
+        # def clients_relays(self):
+            # """
+            # Gets the clients that the girl strips for.
+            # """
+            # total_clients = len(store.clients)
+            # clients = len(self.clients)
+            # c_cnt = plural("client", clients)
+             
+            # # Get proper text for the amount of clients
+            # if clients > int(total_clients * 0.7):
+                # self.txt.append('%d %s came to see her strip and dance in the club! It is a most impressive feat for one girl to attract so many! \n '%(clients, c_cnt))
+            # elif int(total_clients * 0.5) <= clients <= int(total_clients * 0.7):
+                # self.txt.append('%d %s came to see her strip and dance in the club! This is a very respectable amount of fans for one girl to have! \n '%(clients, c_cnt))
+            # elif int(total_clients * 0.25) <= clients <= int(total_clients * 0.5):
+                # self.txt.append('%d %s came to see her strip and dance in the club! Not bad at all considering the size of the brothel! \n'%(clients, c_cnt))
+            # elif int(total_clients * 0.1) <= clients <= int(total_clients * 0.25):
+                # self.txt.append("%d %s came to see her strip, not the most impressive amount, but everyone has to start somewhere. \n"%(clients, c_cnt))
+            # else:
+                # self.txt.append("Just a couple of clients came to check your girl out, very poor result indeed. ")
         
         def strip(self):
             """
             Solves the main job logic.
+            Applies effects to the girl, runs at the end of the job.
             """
             
-            tippayout = 0
-            len_clients = len(self.clients)
+            # tippayout = 0
+            # len_clients = len(self.clients)
             
             # Upgrades
             # scbu = self.loc.get_upgrade_mod("stipclub")

@@ -918,6 +918,8 @@ init: # PyTFall:
     screen poly_matrix(in_file, show_exit_button=False):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
         
+        default tooltip = False
+        
         on "hide":
             action SetField(config, "mouse", None)
         
@@ -927,17 +929,86 @@ init: # PyTFall:
                 
         $ func = renpy.curry(point_in_poly)
         for i in matrix:
-            button:
-                background Null()
-                focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
-                action Return(i["id"])
-                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
-                unhovered SetField(config, "mouse", None)
+            if "tooltip" in i:
+                if "align" in i:
+                    python:
+                        align = tuple(i["align"])
+                        pos = ()
+                        anchor = ()
+                else:
+                    python:
+                        align = ()
+                        # Get a proper placement:
+                        allx, ally = list(), list()
+                        # maxx, minx, maxy, miny = 0, 0, 0, 0
+                        
+                        for t in i["xy"]:
+                            allx.append(t[0])
+                            ally.append(t[1])
+                            
+                        maxx = max(allx)
+                        maxy = max(ally)
+                        minx = min(allx)
+                        miny = min(ally)
+                        
+                        w, h = config.screen_width, config.screen_height
+                        
+                        side = i.get("place", "left")
+                        
+                        if side == "left":
+                            pos = (minx - 20, sum(ally)/len(ally))
+                            anchor = (1.0, 0.5)
+                        elif side == "right":
+                            pos = (maxx + 20, sum(ally)/len(ally))
+                            anchor = (0.0, 0.5)
+                        elif side == "bottom":
+                            pos = (sum(allx)/len(allx), maxy + 20)
+                            anchor = (0.5, 0.0)
+                        elif side == "top":
+                            pos = (sum(allx)/len(allx), miny - 20)
+                            anchor = (0.5, 1.0)
+            
+                button:
+                    background Null()
+                    focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
+                    action Return(i["id"])      
+                    hovered [SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]}),
+                                   Show("show_poly_matrix_tt", pos=pos, anchor=anchor, align=align, text=i["tooltip"]), With(dissolve)]
+                                   # SetScreenVariable("tooltip", (i["tooltip"], align, pos))]
+                    unhovered [SetField(config, "mouse", None),
+                                       Hide("show_poly_matrix_tt"), With(dissolve)]
+                                       # SetScreenVariable("tooltip", False)]
+            else:
+                button:
+                    background Null()
+                    focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
+                    action Return(i["id"])
+                    hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
+                    unhovered SetField(config, "mouse", None)
                 
         if show_exit_button:
             textbutton "All Done":
                 align show_exit_button
                 action Return(False)
+                
+        # if tooltip:
+            # frame:
+                # if tooltip[2]:
+                    # pos tooltip[2]
+                    # anchor tooltip[3]
+                # elif tooltip[1]:
+                    # align tooltip[1]
+                # text tooltip[0] + ", ".join(str(i) for i in tooltip[2])
+                
+    screen show_poly_matrix_tt(pos=(), anchor=(), align=(), text=""):
+        zorder 1
+        frame:
+            if align:
+                align align
+            if pos:
+                pos pos
+                anchor anchor
+            text text  # + "pos".join(str(i) for i in pos)  + "align".join(str(i) for i in align)
         
     ##############################################################################
     screen notify:

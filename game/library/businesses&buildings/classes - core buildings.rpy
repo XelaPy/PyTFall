@@ -433,6 +433,30 @@ init -9 python:
             
             self.clients = set()
             
+        def run_nd(self):
+            tl.timer("Temp Jobs Loop")
+            # Setup and start the simulation
+            self.clients = nd_clients
+            for up in self._upgrades:
+                up.run_nd()
+            
+            self.log("\n\n")
+            self.log(set_font_color("===================", "lawngreen"))
+            self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
+            self.log("{}".format(set_font_color("Testing a Brothel with two rooms:", "lawngreen")))
+            # random.seed(RANDOM_SEED)  # This helps reproducing the results
+            
+            # Create an environment and start the setup process
+            self.env = simpy.Environment()
+            self.env.process(self.setup(end=100))
+            self.env.run(until=100)
+            self.log("{}".format(set_font_color("Ending the First Stage:", "red")))
+            env.run(until=110)
+            self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+            self.log("{}".format(set_font_color("===================", "red")))
+            self.log("\n\n")
+            tl.timer("Temp Jobs Loop")
+            
         def log(self, item):
             # Logs the text to log...
             self.nd_events_report.append(item)
@@ -486,11 +510,11 @@ init -9 python:
             """
             temp = "There is not much for the {} to do...".format(client.name)
             self.log(temp)
-            yield self.env.timeout(1)
+            # yield self.env.timeout(1)
             temp = "So {} leaves the hotel cursing...".format(client.name)
             self.log(temp)
             
-        def setup(env, end=40):
+        def setup(self, end=40):
             upgrades = list(up for up in self._upgrades if up.workable)
             i = 0
             while self.clients:
@@ -498,26 +522,59 @@ init -9 python:
                     if i > 4:
                         yield self.env.timeout(random.randint(1, 3))
                     i += 1
-                    store.client = self.pop()
+                    store.client = self.clients.pop()
                     store.client.name = "Client {}".format(i)
                     
                     # Register the fact that client arrived at the building:
                     temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
                     self.log(temp)
                     
-                    # Take an action!
-                    whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
-                    strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
-                    servers = list(i for i in store.nd_chars if "Server" in i.occupations)
+                    # whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
+                    # strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
+                    # servers = list(i for i in store.nd_chars if "Server" in i.occupations)
                     
-                    for upgrade in upgrades: # This assumes that job requires clients at the moment.
-                        # STOPPED HERE!
-                        if upgrade.res.count < upgrade.capacity and upgrade.has_worker:
-                            env.process(upgrade.brothel_client_dispatcher(env, store.client))
-                        elif upgrade.sc.res.count < upgrade.sc.cap:
-                            env.process(upgrade.sc_client_dispatcher(env, store.client))
-                    else:
-                        env.process(upgrade.kick_client(client))
+                    # Take an action!
+                    for upgrade in upgrades:
+                        if upgrade.res.count < upgrade.capacity and upgrade.has_workers():
+                            # Assumes a single worker at this stage... This part if for upgrades like Brothel.
+                            if upgrade.requires_workers():
+                                store.char = None
+                                while store.nd_chars: 
+                                    
+                                    # Here we should attempt to find the best match for the client!
+                                    store.char = upgrade.get_workers()
+                                    
+                                    # First check is the char is still well and ready:
+                                    if not check_char(store.char):
+                                        if store.char in store.nd_chars:
+                                            store.nd_chars.remove(store.char)
+                                        temp = set_font_color('{} is done with this job for the day.'.format(store.char.name), "aliceblue")
+                                        self.log(temp)
+                                        continue
+                                    
+                                    # We to make sure that the girl is willing to do the job:
+                                    temp = store.char.action.id
+                                    if not store.char.action.check_occupation(store.char):
+                                        if store.char in store.nd_chars:
+                                            store.nd_chars.remove(store.char)
+                                        temp = set_font_color('{} is not willing to do {}.'.format(store.char.name, temp), "red")
+                                        self.log(temp)
+                                        continue
+                                    break # Breaks the while loop.
+                            
+                                if store.char:
+                                    store.client = client
+                                    self.env.process(upgrade.request(env, client))
+                                    break
+                                else:
+                                    continue
+                        # Jobs like the Club:
+                        else:
+                            self.env.process(upgrade.request(env, client))
+                            break
+                            
+                    else: # If nothing was found, kick the client:
+                        self.env.process(self.kick_client(client))
                 else:
                     break
             

@@ -78,7 +78,7 @@ init -1 python hide:
             try:
                 some_dict["portrait"] = hero.img_db["portrait"][:].pop()
             except:
-                some_dict["portrait"] = Null()
+                pass
     config.save_json_callbacks = [simple_save_dict]
     
     if not config.developer:

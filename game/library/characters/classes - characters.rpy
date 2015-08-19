@@ -1196,7 +1196,7 @@ init -9 python:
         
         @property
         def workplace(self):
-            return self._workpace
+            return self._workplace
         
         @workplace.setter
         def workplace(self, value):

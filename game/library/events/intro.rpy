@@ -136,7 +136,7 @@ label intro:
         linear 30 crop (config.screen_width/2, config.screen_height/2, config.screen_width/8, 100)
     show he with dissolve:
         yalign 1.0 xpos 400
-    "Then out of nowhere a stranger appeared, claiming to be a historian."
+    "Amid chaos that took hold of the city a stranger appeared, claiming to be a historian."
     "He told the Master of underground sanctuary not too far from the city, where an ancient star slept."
     show bg story ruin1 with dissolve:
         subpixel True
