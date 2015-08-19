@@ -7,7 +7,7 @@ init:
     image ling = ProportionalScale("content/items/quest/ling.png", 150, 150)
     image protector = ProportionalScale("content/items/quest/konan_protector.png", 150, 150)
     image blossoms = SnowBlossom("content/items/quest/paper.png", count=125,  border=50, xspeed=(20, 50), yspeed=(100, 200), start=0, horizontal=True)
-label intro_story:
+label intro_story_konan:
     stop music
     stop world
     $ k = chars["Konan"]
