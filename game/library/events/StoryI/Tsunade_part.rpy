@@ -118,9 +118,11 @@ label intro_story:
     "You stand in the middle of a small village."
     if first_try == 1:
         s.say "See? Told you he would not just stare at my chest and get it."
+        $ s.disposition += 5
     else:
         $ i.override_portrait("portrait", "happy")
-        i.say "Wow. I can't believe took so long. Like I said, he just stared at your chest instead of listening."
+        i.say "Wow. I can't believe it took so long. Like I said, he just stared at your chest instead of listening."
+        $ i.disposition += 5
     show expression s_spr at mid_left
     show expression i_spr at mid_right
     show expression t_spr at center 
@@ -181,5 +183,9 @@ label intro_story:
     $ t.override_portrait("portrait", "shy")
     t.say "Come to me when you are ready and well rested, and I'll test you. You you pass my exam and take care of a certain number of my girls, I'll get the ruins entrance cleared for you."
     "Here we give quest to rise vaginal skill, let's say, to 200, and return to the hidden village after that."
+    $ t.restore_portrait()
+    $ del first_try
+    $ del a
+    $ del string
     scene black with dissolve
     stop world
