@@ -253,6 +253,7 @@ label intro_story: # and MC returns with high enough vaginal skill
     show bg hidden_village with dissolve
     "Looks like you have a lot of work to do. Better start as soon as possible."
     $ del a
+    $ t.restore_portrait()
     "Here we give full access to the village location."
     scene black with dissolve
     stop world
