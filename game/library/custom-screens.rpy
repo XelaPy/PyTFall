@@ -956,16 +956,16 @@ init: # PyTFall:
                         side = i.get("place", "left")
                         
                         if side == "left":
-                            pos = (minx - 20, sum(ally)/len(ally))
+                            pos = (minx - 10, sum(ally)/len(ally))
                             anchor = (1.0, 0.5)
                         elif side == "right":
-                            pos = (maxx + 20, sum(ally)/len(ally))
+                            pos = (maxx + 10, sum(ally)/len(ally))
                             anchor = (0.0, 0.5)
                         elif side == "bottom":
-                            pos = (sum(allx)/len(allx), maxy + 20)
+                            pos = (sum(allx)/len(allx), maxy + 10)
                             anchor = (0.5, 0.0)
                         elif side == "top":
-                            pos = (sum(allx)/len(allx), miny - 20)
+                            pos = (sum(allx)/len(allx), miny - 10)
                             anchor = (0.5, 1.0)
             
                 button:

@@ -102,14 +102,16 @@ init -9 python:
                     workers.append(priority.pop())
                 except:
                     break
+            
             if len(workers) < amount:
                 # Next try to get anyone availible:
                 anyw = list(i for i in store.nd_chars if self.all_occs & i.occupations)
                 for i in range(amount-len(workers)):
                     try:
-                        workers.append(priority.pop())
+                        workers.append(anyw.pop())
                     except:
                         break
+                        
             if len(workers) == amount:
                 if len(workers) == 1:
                     return workers.pop()
@@ -128,7 +130,7 @@ init -9 python:
                 
                 yield self.env.process(self.run_job(client, store.char))
                 
-                temp = "{} leaves at {}".format(client.name, env.now)
+                temp = "{} leaves at {}".format(client.name, self.env.now)
                 self.log(temp)
                 
         def run_job(self, client, char):

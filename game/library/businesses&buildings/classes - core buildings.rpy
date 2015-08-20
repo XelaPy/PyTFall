@@ -437,8 +437,6 @@ init -9 python:
             tl.timer("Temp Jobs Loop")
             # Setup and start the simulation
             self.clients = nd_clients
-            for up in self._upgrades:
-                up.run_nd()
             
             self.log("\n\n")
             self.log(set_font_color("===================", "lawngreen"))
@@ -448,10 +446,15 @@ init -9 python:
             
             # Create an environment and start the setup process
             self.env = simpy.Environment()
+            for up in self._upgrades:
+                up.run_nd()
+            
+            # store.env = self.env
+            
             self.env.process(self.setup(end=100))
             self.env.run(until=100)
             self.log("{}".format(set_font_color("Ending the First Stage:", "red")))
-            env.run(until=110)
+            self.env.run(until=110)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             self.log("{}".format(set_font_color("===================", "red")))
             self.log("\n\n")
@@ -510,7 +513,7 @@ init -9 python:
             """
             temp = "There is not much for the {} to do...".format(client.name)
             self.log(temp)
-            # yield self.env.timeout(1)
+            yield self.env.timeout(1)
             temp = "So {} leaves the hotel cursing...".format(client.name)
             self.log(temp)
             
@@ -529,10 +532,6 @@ init -9 python:
                     temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
                     self.log(temp)
                     
-                    # whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
-                    # strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
-                    # servers = list(i for i in store.nd_chars if "Server" in i.occupations)
-                    
                     # Take an action!
                     for upgrade in upgrades:
                         if upgrade.res.count < upgrade.capacity and upgrade.has_workers():
@@ -544,6 +543,9 @@ init -9 python:
                                     # Here we should attempt to find the best match for the client!
                                     store.char = upgrade.get_workers()
                                     
+                                    if not store.char:
+                                        break
+                                   
                                     # First check is the char is still well and ready:
                                     if not check_char(store.char):
                                         if store.char in store.nd_chars:
@@ -560,17 +562,20 @@ init -9 python:
                                         temp = set_font_color('{} is not willing to do {}.'.format(store.char.name, temp), "red")
                                         self.log(temp)
                                         continue
+                                        
                                     break # Breaks the while loop.
                             
                                 if store.char:
+                                    if store.char in store.nd_chars:
+                                        store.nd_chars.remove(store.char)
                                     store.client = client
-                                    self.env.process(upgrade.request(env, client))
+                                    self.env.process(upgrade.request(client))
                                     break
                                 else:
                                     continue
                         # Jobs like the Club:
                         else:
-                            self.env.process(upgrade.request(env, client))
+                            self.env.process(upgrade.request(client))
                             break
                             
                     else: # If nothing was found, kick the client:
