@@ -6,7 +6,7 @@ init:
     image ling = ProportionalScale("content/items/quest/ling.png", 150, 150)
     image protector = ProportionalScale("content/items/quest/konan_protector.png", 150, 150)
     image blossoms = SnowBlossom("content/items/quest/paper.png", count=125,  border=50, xspeed=(20, 50), yspeed=(100, 200), start=0, horizontal=True)
-label intro_story:
+label intro_storyi_entervillage:
     stop music
     stop world
     $ first_try = 1
@@ -38,7 +38,7 @@ label intro_story:
     "She quickly makes the signs and dissolves in the air."
     "You should try to do it as well."
     label hidden_village_enter_again:
-    $ string = ""
+    $ string_value = ""
     $ a = 0
     label hidden_village_enter:
     
@@ -47,66 +47,66 @@ label intro_story:
         "You need to perform five signs."
     
         "Bird":
-            $ string += "a"
+            $ string_value += "a"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Boar":
-            $ string += "b"
+            $ string_value += "b"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Dog":
-            $ string += "c"
+            $ string_value += "c"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Dragon":
-            $ string += "d"
+            $ string_value += "d"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Ox":
-            $ string += "e"
+            $ string_value += "e"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Tiger":
-            $ string += "f"
+            $ string_value += "f"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Snake":
-            $ string += "g"
+            $ string_value += "g"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Rat":
-            $ string += "h"
+            $ string_value += "h"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Horse":
-            $ string += "i"
+            $ string_value += "i"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Monkey":
-            $ string += "j"
+            $ string_value += "j"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Hare":
-            $ string += "k"
+            $ string_value += "k"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
         "Ram":
-            $ string += "l"
+            $ string_value += "l"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
-    if string != "dkfga":
+    if string_value != "dkfga":
         "Nothing happens. You probably made a mistake."
         $ first_try = 0
         jump hidden_village_enter_again
@@ -186,6 +186,73 @@ label intro_story:
     $ t.restore_portrait()
     $ del first_try
     $ del a
-    $ del string
+    $ del string_value
+    scene black with dissolve
+    stop world
+    
+label intro_story: # and MC returns with high enough vaginal skill
+    $ t = chars["Tsunade"]
+    $ t_spr = chars["Tsunade"].get_vnsprite()
+    $ a = 0
+    stop music
+    play world "town2.ogg" fadein 2.0 loop
+    show bg cafe with dissolve
+    show expression t.show("sfw", "indoors", "profile", "rest", "public", "confident", "suggestive", "everyday", resize=(800, 600), type="first_default") as xxx at truecenter
+    $ t.override_portrait("portrait", "suggestive")
+    t.say "Lets just say sometimes, I just happened to slip, and accidentally get captured, because I liked the way certain of the guards looked. Strong, well in shape, nice big hands.... "
+    "Your second visit to the hidden village led you to the local bar."
+    t.say "What? I used to be a hormone crazed teenager once as well. And we are pretty good at training our girls how to escape almost anything. Plus, women like me have urges as well..."
+    "The head medic was pretty drunk already when you arrived."
+    t.say "Come on, drop that look, young man. I know, modern morals, but who do you prefer? Some silly little goose that barely knows what she is doing, or some older, more.... experienced woman that can take care of you?"
+    "And she kept drinking for awhile now, until staff had gone home, leaving you two alone."
+    t.say "Let's look at it that way: you are hormone crazed, they are hormone crazed, and you have the word of a head medical professional that these encounters will remain without consequence. Take as much or as little time as you need, and work your magic..."
+    hide xxx
+    show expression t.show("nude", "stripping", "indoors", "confident", "happy", "everyday", resize=(800, 600), type="first_default") as xxx at truecenter
+    "Without any warning with fast, confident movement she stripped the upper part of her body."
+    t.say "What do you think? I grow them myself. I used to be flat as a board, but medical technics can improve many things. One day Sakura may have a pair of decent boobs as well."
+    hide xxx
+    show expression t.show("nude", "stripping", "indoors", "shy", "no clothes", resize=(800, 600), type="first_default") as xxx at truecenter
+    t.say "Let's make it quick. I don't want you to spend too much energy on me, not before you finish with my task."
+    t.say "Come on, young man. Your exam starts now. Pick your pose."
+    menu:
+        "On top":
+            t.say "Oh? YOu like to be taken care of, just I thought. Lovely."
+            $ a = 1
+        "Missionary":
+            t.say "You think you can handle it? Very well, as you wish."
+            $ a = 2
+        "Doggy":
+            t.say "Want to to all the job by yourself? Let's see what you are made of."
+            $ a = 3
+    hide xxx
+    if a == 1:
+        show expression t.show("sex", "normalsex", "indoors", "shy", "no clothes", "partnerhidden", "ontop", resize=(800, 600), type="first_default") as xxx at truecenter
+        "She sits on you."
+    elif a == 2:
+        show expression t.show("sex", "normalsex", "ecstatic", "indoors", "shy", "everyday", "partnerhidden", "missionary", resize=(600, 800), type="first_default") as xxx at truecenter
+        "She lies on her back and spreads her legs."
+    elif a == 3:
+        show expression t.show("sex", "normalsex", "ecstatic", "indoors", "spooning", "no clothes", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
+        "She lies on her stomach, waiting for you to tahe the action."
+    "As you enter and begin to move, you feel like being palpated by walls inside of her. It feels strange, but very good."
+    t.say "Drop that look, young man. I'm a doctor, it's my job to make sure that you are healthy. Better focus on your job, it becomes cool here."
+    "Pulling yourself together, you manage to hold out long enough to make her come."
+    hide xxx
+    $ t.override_portrait("portrait", "shy")
+    show expression t.show("nude", "simple bg", "ecstatic", "indoors", "shy", "everyday", "partnerhidden", "missionary", resize=(600, 800), type="first_default") as xxx at truecenter
+    if hero.vaginal >= 400:
+        t.say "You have a decent skill, [hero.name]. Not bad for someone in your age."
+    else:
+        t.say "I can say you lack practice, [hero.name]. But it should be enough for your task."
+    t.say "You have my permission to freely operate on the territory of the village."
+    t.say "Take care of, let's say, four girls for me, and you will have your access to the ruins."
+    t.say "But if you'll manage to handle all nine young kunoichi it the village, I'll give you a special bonus."
+    t.say "You may go now, I need some rest."
+    "She is going to sleep right here?.."
+    hide xxx with dissolve
+    show bg hidden_village with dissolve
+    "Looks like you have a lot of work to do. Better start as soon as possible."
+    $ del a
+    "Here we give full access to the village location."
     scene black with dissolve
     stop world
