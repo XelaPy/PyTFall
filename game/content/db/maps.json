@@ -33,6 +33,18 @@
             "name": "Tavern"
         },
         {
+            "id": "academy_town",
+            "name": "Academy"
+        },
+        {
+            "id": "graveyard_town",
+            "name": "Graveyard"
+        },
+        {
+            "id": "hiddenVillage_entrance",
+            "name": "Hidden Village"
+        },
+        {
             "id": "city_jail",
             "name": "City Jail"
         }
