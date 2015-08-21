@@ -190,7 +190,7 @@ label intro_storyi_entervillage:
     scene black with dissolve
     stop world
     
-label intro_story: # and MC returns with high enough vaginal skill
+label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
     $ t = chars["Tsunade"]
     $ t_spr = chars["Tsunade"].get_vnsprite()
     $ a = 0
@@ -216,7 +216,7 @@ label intro_story: # and MC returns with high enough vaginal skill
     t.say "Come on, young man. Your exam starts now. Pick your pose."
     menu:
         "On top":
-            t.say "Oh? YOu like to be taken care of, just I thought. Lovely."
+            t.say "Oh? You like to be taken care of, just I thought. Lovely."
             $ a = 1
         "Missionary":
             t.say "You think you can handle it? Very well, as you wish."
