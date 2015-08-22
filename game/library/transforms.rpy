@@ -220,12 +220,12 @@ init -997: # Transforms:
         linear 1.0 alpha 0.3
         repeat
         
-    transform vortex_particle(displayable, t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200, circles=3):
+    transform vortex_particle(displayable, t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, start_radius=200, end_radius=0, circles=3):
         displayable
         subpixel True
         anchor (0.5, 0.5)
         around around
         angle angle
-        radius radius
-        easeout t radius 0 clockwise circles circles
+        radius start_radius
+        easeout t radius end_radius clockwise circles circles
         Null()

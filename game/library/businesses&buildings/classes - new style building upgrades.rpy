@@ -208,7 +208,6 @@ init -9 python:
                 temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
                 self.log(temp)
             
-                
         def use_worker(self, worker):
             temp = "{} comes out to do a stripshow!".format(worker.name)
             self.log(temp)
