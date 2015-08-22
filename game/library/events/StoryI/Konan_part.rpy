@@ -7,7 +7,7 @@ init:
     image ling = ProportionalScale("content/items/quest/ling.png", 150, 150)
     image protector = ProportionalScale("content/items/quest/konan_protector.png", 150, 150)
     image blossoms = SnowBlossom("content/items/quest/paper.png", count=125,  border=50, xspeed=(20, 50), yspeed=(100, 200), start=0, horizontal=True)
-label intro_story_konan:
+label intro_story_konan_room:
     stop music
     stop world
     $ k = chars["Konan"]
@@ -320,5 +320,182 @@ label intro_story_konan:
     $ del konan_orig
     $ del konan_ling
     $ del konan_protector
+    scene black with dissolve
+    stop world
+    
+label konan_first_meeting:
+    stop music
+    stop world
+    $ k = chars["Konan"]
+    $ k_spr = chars["Konan"].get_vnsprite()
+    play world "Theme2.ogg" fadein 2.0 loop
+    show bg hidden_village with dissolve
+    show expression k_spr at center with dissolve
+    "Strolling through the village, you noticed a familiar figure."
+    $ k.override_portrait("portrait", "indifferent")
+    k.say "Hm? Ah, it's you. As I promised, I helped you to get to the village. I suppose it means we're even now."
+    menu:
+        "Try to start a neutral conversation":
+            $ k.disposition -= 25
+            k.say "I'm sorry to say it, but for me your intentions are clear as the sky today."
+        "Propose to have sex here and now":
+            $ k.override_portrait("portrait", "happy")
+            "It's the first time you see her smile."
+            $ k.disposition += 15
+            k.say "How amusing. Normally men try to pretend they want something else."
+        "Tell her about your mission in the village":
+            "She nods."
+            $ k.disposition += 20
+            k.say "I appreciate your honesty. It's a rare gift, especially among kunoichi."
+    $ k.override_portrait("portrait", "indifferent")
+    k.say "However, I'm not a young, inexperienced girl like others. I'm fulfilling missions of the highest rank for years."
+    k.say "The chances of me being captured and raped are nonexistent. One could argue I'm the strongest and the most experienced among remaining kunoichi."
+    k.say "Thus your services are not needed."
+    $ a = 0
+    $ b = 0
+    $ c = 0
+    label konan_seduce:
+    menu:
+        "What about love?" if a == 0:
+            $ k.override_portrait("portrait", "sad")
+            $ a = 1
+            k.say "I... loved once. But he's gone long time ago."
+            $ k.override_portrait("portrait", "indifferent")
+            k.say "This part of my life is behind."
+            jump konan_seduce
+        "What about sexual pleasure?" if b == 0:
+            $ k.override_portrait("portrait", "suggestive")
+            $ b = 1
+            k.say "Oh? You've never heard of self pleasure, young man? I don't think so."
+            $ k.override_portrait("portrait", "indifferent")
+            k.say "There is no need for you, or anyone else, to help me with that."
+            jump konan_seduce
+        "Remind her about events in her room" if c == 0 and (a == 1 or b == 1):
+            $ k.override_portrait("portrait", "shy")
+            $ c = 1
+            k.say "Not so loud! I... I would appreciate if you'll never talk about it with anyone."
+            $ k.override_portrait("portrait", "indifferent")
+            k.say "I don't want others to know about it. Not before I'll find out that's happened."
+            $ k.override_portrait("portrait", "shy")
+            "She sighs."
+            k.say "You may be right. I might be not as all-powerful as I always thought."
+            $ k.override_portrait("portrait", "indifferent")
+            k.say "Very well. Let's make a deal. You will never talk about events in my room with anyone, not before I'll let you."
+            $ k.override_portrait("portrait", "shy")
+            k.say "And in return I'll give you a chance. I can deflower myself without your help if I must. Prove me that it should be you."
+            jump konan_seduce
+        "Promise to get her fall in love again" if a == 1 and c == 1:
+            $ k.override_portrait("portrait", "sad")
+            k.say "I don't believe it is possible. But you can try, I'll give you a chance as I promised."
+            "We give quest to get her disposition to 600."
+        "Promise to make her first time unforgettable and painless" if b == 1 and c == 1:
+            $ k.override_portrait("portrait", "shy")
+            k.say "W-well, I suppose it's better to avoid pain when possible. I'll give you a chance as I promised."
+            "We give quest to rise MC's vaginal and oral sex skills to 300."
+    hide expression k_spr with dissolve
+    $ k.restore_portrait()
+    $ del a
+    $ del b
+    $ del c
+    scene black with dissolve
+    stop world
+    
+label konan_second_meeting_love: # depending on selected quest, there could be two scenes
+    stop music
+    stop world
+    $ k = chars["Konan"]
+    $ k_spr = chars["Konan"].get_vnsprite()
+    show bg hidden_village with dissolve
+    play world "Field1.ogg" fadein 2.0 loop
+    show expression k_spr at center with dissolve
+    "Once again you met Konan in the village. She wasn't that surly and cold woman that you used to know."
+    $ k.override_portrait("portrait", "happy")
+    k.say "..."
+    "You had a lively discussion about her recent adventures. Her top rank missions are always interesting and complex, making her stories exciting."
+    "Even though they are supposed to be classified, she seems to enjoy sharing them with you."
+    "Finally, when you was about to say goodbye..."
+    $ k.override_portrait("portrait", "shy")
+    $ k.disposition += 100
+    k.say "Wait, [hero.name]. Do you... Do you remember about your promise?"
+    menu:
+        "Yes":
+            k.say "Well, I just wanted to say that you can stop making so many efforts."
+        "What promise?":
+            $ k.override_portrait("portrait", "happy")
+            k.say "I'm not sure if you're joking or not, but it does not matter."
+    $ k.override_portrait("portrait", "shy")
+    k.say "Because you won. You... you have proved me that it should be you."
+    $ set_lovers(hero, k)
+    $ k.override_portrait("portrait", "happy")
+    k.say "What is past is past. If you don't mind, I'd like to be with you from now on."
+    $ k.override_portrait("portrait", "suggestive")
+    "She suddenly leans forward and soundly kisses you."
+    k.say "Oh, and we can do whatever you want anytime you want. Just saying." # unlocking sex actions
+    $ k.restore_portrait()
+    scene black with dissolve
+    stop world
+    
+#label intro_story:
+label konan_second_meeting_sex:
+    stop music
+    stop world
+    $ k = chars["Konan"]
+    $ k_spr = chars["Konan"].get_vnsprite()
+    if k.disposition < 500:
+        $ k.disposition = 500
+    show bg hidden_village with dissolve
+    play world "Field1.ogg" fadein 2.0 loop
+    show expression k_spr at center with dissolve
+    "Once again you met Konan in the village. But this time you was prepared."
+    $ k.override_portrait("portrait", "indifferent")
+    k.say "Good day, [hero.name]. Want something?"
+    "You explain that you are ready to prove your skill."
+    k.say "Your skill..? Ah, you mean 'that' skill. Let's see..."
+    "She thinks for a few seconds."
+    $ k.override_portrait("portrait", "happy")
+    k.say "If you are as skilled as you claim, it shouldn't be a problem for you to make me feel good without irreversible consequences. Follow me."
+    show bg girl_room with fade
+    "She quickly led into a room in a local small hotel. Despite her cold attitude, she really has no complexes..."
+    hide expression k_spr with dissolve
+    show expression k.show("sex", "masturbation", "confident", "indoors", "no clothes", resize=(800, 600), type="first_default") as xxx at truecenter
+    "She quickly undresses and lays on the floor."
+    $ k.override_portrait("portrait", "suggestive")
+    k.say "Well? I'm waiting. A word of warning though. If it won't be better than masturbation, we're done now and forever."
+    "Looks like to need to work with tongue for a start. You bend down and begin. If she really doesn't have any experience besides her hand, it will be easy."
+    k.say "..."
+    "At first she remains silent, but you notice how often she breathes now."
+    $ k.override_portrait("portrait", "shy")
+    k.say "Mmm..."
+    "You increase the pace."
+    k.say "Ah..."
+    "She softly moans now. Good, but you need to try even harder."
+    k.say "Aah... H-hey, [hero.name], you... ahh... you can stop now... aaaahhh..."
+    "Too bad, too late. You increase the pace even more."
+    $ k.override_portrait("portrait", "ecstatic")
+    k.say "I-I said... ahh... ahh.. I said you can st... AHH!"
+    "She does not attempt to stop you, so maybe it's a roleplay of some kind? Doesn't matter, you are here to prove her your skill, not your chivalry."
+    "Last seconds, and..."
+    $ k.override_portrait("portrait", "ecstatic")
+    k.say "AHHHHH!"
+    "...done."
+    hide xxx with dissolve
+    show bg hidden_village with dissolve
+    show expression k_spr at center with dissolve
+    "It took her a few minutes to recover. She got dressed and together you left the hotel."
+    "Finally she broke the silence."
+    $ k.override_portrait("portrait", "indifferent")
+    k.say "I suppose I was wrong. I always thought it feels just the same, not matter how... or with who you do it."
+    $ k.override_portrait("portrait", "happy")
+    k.say "You should be proud of your skills. Normally I do it silently, but I just could not help but moan this time."
+    $ k.override_portrait("portrait", "shy")
+    k.say "I was afraid someone might hear me and enter the room. But you didn't stopped, so I was considered to attack you with my paper technique..."
+    "Oh. That was close."
+    $ k.override_portrait("portrait", "happy")
+    k.say "But then I thought 'screw it, I'd rather kill anyone who enters the room and interrupts us'."
+    "She suddenly leans forward and whispered in your ear."
+    $ k.override_portrait("portrait", "suggestive")
+    k.say "I can't wait for more. You know where to find me."
+    hide expression k_spr with dissolve
+    "With these words, she turned around and left. Still waters run deep, huh?" #unlocking sex with her
     scene black with dissolve
     stop world

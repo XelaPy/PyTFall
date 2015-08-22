@@ -1,5 +1,3 @@
-init:
-    $ noisedissolve = ImageDissolve(im.Tile("content/events/StoryI/noisetile.png"), 1.0, 1)
 label karin_first_meeting:
     stop music
     stop world
