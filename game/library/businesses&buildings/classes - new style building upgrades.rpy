@@ -43,6 +43,10 @@ init -9 python:
             # Finds a best match for workers and returns them...
             return None
             
+        @property
+        def all_workers(self):
+            return list(i for i in store.nd_chars if self.all_occs & i.occupations)
+            
         def requires_workers(self, amount=1):
             """
             Returns True if this upgrade requires a Worker to run this job.
@@ -76,6 +80,7 @@ init -9 python:
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
+            self.type = "personal_type"
             self.jobs = set([simple_jobs["Whore Job"], simple_jobs["Testing Job"]])
             self.workable = True
             
@@ -120,15 +125,15 @@ init -9 python:
         def run_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
             
-        def request(self, client):
+        def request(self, client, char):
             with self.res.request() as request:
                 yield request
                         
                 # All is well and we create the event
-                temp = "{} and {} enter the room at {}".format(client.name, store.char.name, self.env.now)
+                temp = "{} and {} enter the room at {}".format(client.name, char.name, self.env.now)
                 self.log(temp)
                 
-                yield self.env.process(self.run_job(client, store.char))
+                yield self.env.process(self.run_job(client, char))
                 
                 temp = "{} leaves at {}".format(client.name, self.env.now)
                 self.log(temp)
@@ -157,6 +162,7 @@ init -9 python:
             super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Striptease Job"]])
             self.workable = True
+            self.type = "club_type"
             
             self.capacity = in_slots
             self.active = set() # On duty Strippers
@@ -178,18 +184,44 @@ init -9 python:
                 temp = "{} enters the Strip Club at {}".format(client.name, self.env.now)
                 self.log(temp)
                 
-                yield self.env.process(self.run_job(client, store.char))
+                yield self.env.process(self.run_job(client))
                 
                 temp = "{} leaves the Club at {}".format(client.name, self.env.now)
                 self.log(temp)
                 
-        def run_job(self, client, char):
+        def run_job(self, client):
+            # See if there are any strip girls, that may be added to simpy.Resource at some point of the development:
+            if not self.active or len(self.active) < self.res.count/3:
+                # Get all candidates:
+                aw = self.all_workers
+                if aw:
+                    shuffle(aw)
+                    worker = aw.pop()
+                    self.active.add(worker)
+                    store.nd_chars.remove(worker)
+                    self.env.process(self.use_worker(worker))
+                
             yield self.env.timeout(self.time)
-            self.earned_cash += 100
+            cash = self.res.count*len(self.active)*randint(8, 12)
+            self.earned_cash += cash
             if config.debug:
-                temp = "Debug: {} Strip Club Resource currently in use/ Cash earned: {}!".format(set_font_color(self.res.count, "red"), self.earned_cash)
+                temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
                 self.log(temp)
             
+                
+        def use_worker(self, worker):
+            temp = "{} comes out to do a stripshow!".format(worker.name)
+            self.log(temp)
+            while worker.AP and self.res.count:
+                yield self.env.timeout(5)
+                worker.AP -= 1
+                tips = randint(4, 7) * self.res.count
+                temp = "{} gets {} in tips from {} clients!".format(worker.name, tips, self.res.count)
+                self.log(temp)
+    
+            self.active.remove(worker)
+            temp = "{} is done with her job for the day!".format(worker.name)
+            self.log(temp)
             
     class Bar(MainUpgrade):
         """

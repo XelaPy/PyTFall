@@ -111,8 +111,7 @@ label next_day:
                             $ char.action()
                     $ loop = loop - 1
             """
-        $ upgrade = building._upgrades[:].pop()
-        $ nd_chars = list(g for g in hero.girls if g.action in upgrade.jobs)
+        $ nd_chars = list(g for g in hero.girls if g.location == building)
         $ nd_clients = clients[:]
         $ building.run_nd()
         # $ raise Exception((len(nd_chars), len(nd_clients)))

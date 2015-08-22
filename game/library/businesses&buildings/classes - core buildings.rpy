@@ -441,7 +441,7 @@ init -9 python:
             self.log("\n\n")
             self.log(set_font_color("===================", "lawngreen"))
             self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-            self.log("{}".format(set_font_color("Testing a Brothel with two rooms:", "lawngreen")))
+            self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
             # random.seed(RANDOM_SEED)  # This helps reproducing the results
             
             # Create an environment and start the setup process
@@ -533,48 +533,51 @@ init -9 python:
                     self.log(temp)
                     
                     # Take an action!
-                    for upgrade in upgrades:
-                        if upgrade.res.count < upgrade.capacity and upgrade.has_workers():
+                    ups = upgrades[:]
+                    shuffle(ups)
+                    for upgrade in ups:
+                        # TODO: Brothel block check needs to be worked out of here.
+                        if isinstance(upgrade, BrothelBlock) and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
                             # Assumes a single worker at this stage... This part if for upgrades like Brothel.
                             if upgrade.requires_workers():
-                                store.char = None
+                                char = None
                                 while store.nd_chars: 
                                     
                                     # Here we should attempt to find the best match for the client!
-                                    store.char = upgrade.get_workers()
+                                    char = upgrade.get_workers()
                                     
-                                    if not store.char:
+                                    if not char:
                                         break
                                    
                                     # First check is the char is still well and ready:
-                                    if not check_char(store.char):
-                                        if store.char in store.nd_chars:
-                                            store.nd_chars.remove(store.char)
-                                        temp = set_font_color('{} is done with this job for the day.'.format(store.char.name), "aliceblue")
+                                    if not check_char(char):
+                                        if char in store.nd_chars:
+                                            store.nd_chars.remove(char)
+                                        temp = set_font_color('{} is done with this job for the day.'.format(char.name), "aliceblue")
                                         self.log(temp)
                                         continue
                                     
                                     # We to make sure that the girl is willing to do the job:
-                                    temp = store.char.action.id
-                                    if not store.char.action.check_occupation(store.char):
-                                        if store.char in store.nd_chars:
-                                            store.nd_chars.remove(store.char)
-                                        temp = set_font_color('{} is not willing to do {}.'.format(store.char.name, temp), "red")
+                                    temp = char.action.id
+                                    if not char.action.check_occupation(char):
+                                        if char in store.nd_chars:
+                                            store.nd_chars.remove(char)
+                                        temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
                                         self.log(temp)
                                         continue
                                         
                                     break # Breaks the while loop.
                             
-                                if store.char:
-                                    if store.char in store.nd_chars:
-                                        store.nd_chars.remove(store.char)
+                                if char:
+                                    if char in store.nd_chars:
+                                        store.nd_chars.remove(char)
                                     store.client = client
-                                    self.env.process(upgrade.request(client))
+                                    self.env.process(upgrade.request(client, char))
                                     break
                                 else:
                                     continue
                         # Jobs like the Club:
-                        else:
+                        elif isinstance(upgrade, StripClub) and upgrade.res.count < upgrade.capacity:
                             self.env.process(upgrade.request(client))
                             break
                             
