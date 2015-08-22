@@ -163,7 +163,7 @@ label intro_storyi_entervillage:
     t.say "Tell me, have you ever been with a girl?"
     menu:
         "Yes":
-            t.say "Oh? That sounds.... not bad."
+            t.say "Oh? Not bad."
         "No":
             $ t.override_portrait("portrait", "shy")
             t.say "Oh? How... interesting."
@@ -209,7 +209,7 @@ label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
     hide xxx
     show expression t.show("nude", "stripping", "indoors", "confident", "happy", "everyday", resize=(800, 600), type="first_default") as xxx at truecenter
     "Without any warning with fast, confident movement she stripped the upper part of her body."
-    t.say "What do you think? I grow them myself. I used to be flat as a board, but medical technics can improve many things. One day Sakura may have a pair of decent boobs as well."
+    t.say "What do you think? I grow them myself. I used to be flat as a board, but medical techniques can improve many things. One day Sakura may have a pair of decent boobs as well."
     hide xxx
     show expression t.show("nude", "stripping", "indoors", "shy", "no clothes", resize=(800, 600), type="first_default") as xxx at truecenter
     t.say "Let's make it quick. I don't want you to spend too much energy on me, not before you finish with my task."
@@ -246,7 +246,7 @@ label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
         t.say "I can say you lack practice, [hero.name]. But it should be enough for your task."
     t.say "You have my permission to freely operate on the territory of the village."
     t.say "Take care of, let's say, four girls for me, and you will have your access to the ruins."
-    t.say "But if you'll manage to handle all nine young kunoichi it the village, I'll give you a special bonus."
+    t.say "But if you'll manage to handle all young kunoichi it the village, I'll give you a special bonus."
     t.say "You may go now, I need some rest."
     "She is going to sleep right here?.."
     hide xxx with dissolve
