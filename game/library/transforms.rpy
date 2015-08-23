@@ -111,7 +111,7 @@ init -997: # Transforms:
                     sfade(0.3, 1.0, 5.0)
                 parallel:
                     szoom(1.2, 0.8, 5.0)
-            block:        
+            block:
                 parallel:
                     sfade(1.0, 0.3, 5.0)
                 parallel:    

@@ -497,36 +497,32 @@ screen pyt_girl_profile():
                                 
                     null height 4
                     
-                    if hasattr(char, "elements"): # This should always be true...
-                        # Prepear the list:
-                        $ els = list()
-                        $ crops = list()
-                        for e in char.elements:
-                            python:
-                                img = ProportionalScale(e.icon, 90, 90)
-                                els.append(img)
-                        frame:
-                            style_group "content"
-                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-                            xysize (300, 130)
-                            ymaximum 120
-                            xalign 0.5
-                            xoffset -5
-                            $ x = 0
-                            fixed:
-                                xysize (100, 100)
-                                xcenter 250
-                                ycenter 62
-                                for i in els:
-                                    add Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i)))
-                            viewport:
-                                draggable True
-                                has vbox
-                                for e in char.elements:
-                                    textbutton "{=tisa_otm}[e.id]":
-                                        background None
-                                        action NullAction()
-                                        hovered tt.Action("%s" % e.desc)
+                    # Elements:
+                    $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
+                    frame:
+                        style_group "content"
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
+                        xysize (300, 130)
+                        ymaximum 120
+                        xalign 0.5
+                        xoffset -5
+                        
+                        $ x = 0
+                        $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+                        $ f = Fixed(*els, xysize=(90, 90))
+                        add f xcenter 230 ycenter 58
+                        
+                        viewport:
+                            draggable True
+                            edgescroll (20, 10)
+                            xysize (200, 102)
+                            yalign 0.5
+                            has vbox spacing -10
+                            for e in char.elements:
+                                textbutton "{=tisa_otm}[e.id]":
+                                    background None
+                                    action NullAction()
+                                    hovered tt.Action("%s" % e.desc)
                                         
                 elif stats_display == "skillstest":
                     viewport:
@@ -643,7 +639,7 @@ screen pyt_girl_profile():
                                                     hovered tt.Action(u"%s"%trait.desc)
                                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                             vbar value YScrollValue("girlprofile_traits_vp")
-            # Effects:
+                    # Effects:
                     fixed:
                         xanchor 5
                         xysize (165, 190)
@@ -722,10 +718,10 @@ screen pyt_girl_profile():
                                                 hovered tt.action(entry)
                             vbar value YScrollValue("girlprofile_magic_vp")
                             
-        # Elements ====================================>
+        # Tooltip ====================================>
         frame:
-            background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10) ##alpha=0.5
-            yalign(0.998)
+            background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10)
+            yalign (0.998)
             xanchor -321
             xpadding 10
             xysize (955, 100)
