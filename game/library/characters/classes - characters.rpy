@@ -4121,6 +4121,11 @@ init -9 python:
             self.body = False
             self.elemental = False
             
+            self.mob_only = False
+            self.character_trait = False
+            self.sexual = False
+            self.client = False
+            
             self.add_beskills = list()
             
             # Elemental:

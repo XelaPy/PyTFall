@@ -37,6 +37,18 @@
         traits = load_traits()
         tl.timer("Loading: Traits")
         
+        # This should be reorganized later:
+        tgs = object() # traitgroups!
+        tgs.breasts = [i for i in traits.values() if i.breasts]
+        #TODO: Come up with better name for permennt traits?
+        tgs.body = [i for i in traits.values() if i.body]
+        tgs.base = [i for i in traits.values() if i.basetrait and not i.mob_only]
+        tgs.elemental = [i for i in traits.values() if i.elemental]
+        tgs.ct = [i for i in traits.values() if i.character_trait]
+        tgs.sexual = [i for i in traits.values() if i.sexual] # This is a subset of character traits!
+        tgs.race = [i for i in traits.values() if i.race]
+        tgs.client = [i for i in traits.values() if i.client]
+        
         tl.timer("Loading: Items")
         items = load_items()
         items.update(load_gifts())

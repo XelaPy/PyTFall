@@ -135,7 +135,7 @@
     },
    {
     "id": "Alien",
-    "desc": "This girl has come from a distant dimension with absolutely other laws of physics, magic and society.",
+    "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society.",
     "mod": {"magic": -100, "attack": -50, "defence": -50, "constitution": -50, "upkeep": 30},
     "max": {"magic": 50, "attack": 20, "defence": 20, "constitution": 10},
     "mod_skills": {"refinement": [-0.01, -0.06, -0.02], "service": [0, -0.03, -0.01]},
