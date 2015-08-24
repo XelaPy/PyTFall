@@ -418,6 +418,11 @@ init -9 python:
         
     class NewStyleUpgradableBuilding(Building):
         def __init__(self, *args, **kwargs):
+            """
+            @ Last review:
+            Alex: I've moved everything except adverts and methods from Brothel class here.
+            Soon Brothel class needs to die off...
+            """
             super(NewStyleUpgradableBuilding, self).__init__(*args, **kwargs)
             self._upgrades = list() #  New style Upgrades!
             
@@ -428,10 +433,18 @@ init -9 python:
             if hasattr(self, "building_jobs"):
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
                 
+            # Clients:
+            self.all_clients = set() # All clients of this building are maintained here.
+            self.regular_clients = set() # Subset of self.all_clients.
+            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
+                
             # SimPy and etc follows (L33t stuff :) ):
             self.env = None
+            self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
             
-            self.clients = set()
+            self.logged_clients = False
+            
+            self.fin = Finances(self)
             
         def run_nd(self):
             tl.timer("Temp Jobs Loop")
