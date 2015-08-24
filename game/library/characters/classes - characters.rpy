@@ -3136,7 +3136,10 @@ init -9 python:
         def override_portrait(self, *args, **kwargs):
             kwargs["resize"] = kwargs.get("resize", (120, 120))
             kwargs["cache"] = kwargs.get("cache", True)
-            self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            # First check is there is an image:
+            if self.has_image(*args, **kwargs):
+                self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            # Otherwise we do nothing...
             
         def restore_portrait(self):
             self.del_flag("fixed_portrait")
