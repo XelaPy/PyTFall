@@ -96,8 +96,8 @@ label interactions_girlfriend:
     "You proposing to become lovers."
     if check_lovers(char, hero):
         "But you already are!"
-
         jump girl_interactions
+
     if ct("Lesbian"):
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
@@ -159,7 +159,7 @@ label interactions_girlfriend:
     else:
         $ l_ch += 70
     
-    if (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
+    if char.flag("quest_no_sex") != "True" and (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
         $ set_lovers(hero, char)
         $ char.override_portrait("portrait", "shy")
         if ct("Impersonal") in  char.traits:

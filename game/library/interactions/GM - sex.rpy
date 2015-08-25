@@ -10,7 +10,7 @@
 ###### j1
 label interactions_virgin_check:
     $ char.set_flag("raped", value="false")
-    if check_lovers(hero, char) or char.disposition >= 700:
+    if check_lovers(hero, char) or char.disposition >= 700 or (char.flag("allowed_sex") == "True" and char.disposition >= 400):
         menu:
             "Looks like this is her first time. Do you want to continue?"
                         
@@ -22,7 +22,7 @@ label interactions_virgin_check:
             "No":
                 jump interaction_scene_choice
                     
-    elif char.status == "slave" and (char.disposition >= 300 or (cgo("SIW") and char.disposition >= 50)):
+    elif char.status == "slave" and (char.flag("allowed_sex") == "True" or char.disposition >= 250 or (cgo("SIW") and char.disposition >= 50)):
         menu: 
             "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
             
@@ -36,7 +36,7 @@ label interactions_virgin_check:
                     
     elif char.status == "slave":
         menu: 
-            "She tells you that this is her first time, and asks plaintively to choose something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
+            "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
             
             "Yes":
                 "You violated her."
@@ -73,9 +73,12 @@ label interactions_virgin_check:
     
 label interactions_hireforsex:
     "You propose to pay her for sex."
+    if char.flag("quest_no_sex") == "True":
+        call int_sex_nope
+        jump girl_interactions
     if char.disposition < -500:
         call int_sex_nope
-        $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
+        $ char.disposition -= randint(25, 45)
         jump girl_interactions
     if char.health < char.get_max("health")*0.5 or char.effects["Food Poisoning"]['active']:
         "But she is not feeling well."
@@ -88,6 +91,7 @@ label interactions_hireforsex:
         $ price = round((price+100) * 1.5)
     if price <= 0:
         "You managed to charm her and get free service."
+        jump scene_sex_hired
     else:
         if hero.gold < price:
             "It will be [price] G. You don't have so much money."
@@ -99,15 +103,19 @@ label interactions_hireforsex:
                 "Yes":
                     if hero.take_money(price):
                         $ char.add_money(price)
+                    $ char.set_flag("forced", value="false")
                     jump scene_sex_hired
                 "No":
                     jump girl_interactions
 label interactions_sex:
     "You proposing to have sex."
+    if char.flag("quest_no_sex") == "True":
+        call int_sex_nope
+        jump girl_interactions
     if ct("Lesbian"):
         "But she is not interested in men."
         jump girl_interactions
-    if (char.disposition >= 650 and check_friends(char, hero)) or (ct("Nymphomaniac") and char.disposition >= 450) or check_lovers(char, hero):
+    if (char.disposition >= 650 and check_friends(char, hero)) or (ct("Nymphomaniac") and char.disposition >= 400) or check_lovers(char, hero) or (char.flag("allowed_sex") == "True" and char.disposition >= 350):
         if char.vitality < 60:
             "But she is too tired."
             jump girl_interactions
@@ -116,7 +124,7 @@ label interactions_sex:
             jump girl_interactions
     else:
         call int_sex_nope
-        $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
+        $ char.disposition -= randint(25, 45)
         jump girl_interactions
     $ char.set_flag("forced", value="false")
 
@@ -495,7 +503,7 @@ label interaction_scene_choice:
                             $ gm.set_img("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
                         else:
                             $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-                    "She is not statisfied yet, so she quickly masturbates to decrease libido."
+                    "She is not satisfied yet, so she quickly masturbates to decrease libido."
                     $ char.disposition -= round(libido*0.5)
                 if char.vitality <=0:
                     if char.flag("s_bg") == "beach":
@@ -514,6 +522,7 @@ label interaction_scene_choice:
                     else:
                         $ gm.set_img("profile", "happy", "indoors", "living")
                     call after_good_sex
+                    $ char.set_flag("allowed_sex", value="True")
                     $ char.disposition += randint(40, 70)
                     $ char.joy += randint(20, 50)
                     $ char.vitality -= 30
@@ -602,6 +611,7 @@ label interaction_scene_choice:
                     else:
                         $ gm.set_img("profile", "happy", "indoors", "living")
                     "It was pretty good, and she looks quite pleased and satisfied. But there is room for improvement."
+                    $ char.set_flag("allowed_sex", value="True")
                     $ char.disposition += randint(20, 40)
                     $ char.joy += randint(20, 30)
                     $ char.vitality -= 20

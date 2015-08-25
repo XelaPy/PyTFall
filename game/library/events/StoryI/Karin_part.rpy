@@ -92,6 +92,8 @@ label karin_third_meeting: # returning with proper chakra
     k.say "Ah, I see what you did there. Clever, clever indeed."
     k.say "I never liked that depressive damsel in distress, but her chakra combined with someone else is tasty indeed."
     "She licks her lips."
+    $ k.set_flag("allowed_sex", value="True")
+    $ k.set_flag("quest_no_sex", value="False")
     k.say "Very well, I'll give you a chance. Just don't bring her with you, and we are good." # here we unlock her sex/romance options
     # also we could add additional mechanics like 1 sex with hinata = 1 available sex with karin
     hide expression k_spr with dissolve

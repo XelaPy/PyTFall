@@ -180,7 +180,7 @@ label interactions_eattogether:
     else:
         "You already did it today. She's not hungry."
         jump girl_interactions
-    if not(dice(round(char.disposition*0.5)) or check_lovers(char, hero) or check_friends(char, hero)):
+    if not(dice(round(char.disposition*0.5)) or check_lovers(char, hero) or check_friends(char, hero) or ct("Always Hungry")):
         "But she doesn't want to."
         jump girl_interactions
     $ b = 0

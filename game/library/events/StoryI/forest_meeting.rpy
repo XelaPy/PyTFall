@@ -15,7 +15,18 @@ init:
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     
-label intro_story_b:
+label forest_begining:
+#label intro_story:
+    $ chars["Temari"].set_flag("quest_no_sex", value="True")
+    $ chars["Sakura"].set_flag("quest_no_sex", value="True")
+    $ chars["Hinata"].set_flag("quest_no_sex", value="True")
+    $ chars["Ino_Yamanaka"].set_flag("quest_no_sex", value="True")
+    $ chars["Karin"].set_flag("quest_no_sex", value="True")
+    $ chars["Konan"].set_flag("quest_no_sex", value="True")
+    $ chars["Kushina_Uzumaki"].set_flag("quest_no_sex", value="True")
+    $ chars["Naruko_Uzumaki"].set_flag("quest_no_sex", value="True")
+    $ chars["Tenten"].set_flag("quest_no_sex", value="True")
+    $ chars["Tsunade"].set_flag("quest_no_sex", value="True")
     $ b = Character("???", color=white, what_color=white, show_two_window=True)
     hide screen pyt_mainscreen
     scene black

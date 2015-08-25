@@ -71,6 +71,8 @@ label intro_temari_third: # after the fight
     t.say "I hope you did like it as well... Not that I particularly care, but... If you want to, I would like to train some more at a later time."
     "She blushes harder."
     t.say "The next time, at first, I can teach you a bit more about fighting, and then you can teach me a bit more about groundwork... Here, you can have my water bottle, and don't worry about the scratches."
+    $ t.set_flag("allowed_sex", value="True")
+    $ t.set_flag("quest_no_sex", value="False")
     "Here we unlock an option to have sex and become lovers with her."
     hide expression t_spr with dissolve
     $ t.restore_portrait()

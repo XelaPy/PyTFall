@@ -496,6 +496,8 @@ label konan_second_meeting_sex:
     k.say "I can't wait for more. You know where to find me."
     hide expression k_spr with dissolve
     "With these words, she turned around and left. Still waters run deep, huh?" #unlocking sex with her
+    $ k.set_flag("allowed_sex", value="True")
+    $ k.set_flag("quest_no_sex", value="False")
     $ k.restore_portrait()
     scene black with dissolve
     stop world
