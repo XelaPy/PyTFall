@@ -122,7 +122,7 @@ label tenten_second_meeting: # after finding the summon scroll
     scene black with dissolve
     stop world
 
-label intro_story:
+
 label tenten_bonus_scene: # random scene after doing it with both temari and tenten
     stop music
     stop world

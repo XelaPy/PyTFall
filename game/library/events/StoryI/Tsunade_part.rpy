@@ -190,7 +190,7 @@ label intro_storyi_entervillage:
     scene black with dissolve
     stop world
     
-label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
+label story_tsunade_first_meeting: # and MC returns with high enough vaginal skill
     $ t = chars["Tsunade"]
     $ t_spr = chars["Tsunade"].get_vnsprite()
     $ a = 0
@@ -235,7 +235,7 @@ label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
         show expression t.show("sex", "normalsex", "ecstatic", "indoors", "spooning", "no clothes", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
         "She lies on her stomach, waiting for you to tahe the action."
     "As you enter and begin to move, you feel like being palpated by walls inside of her. It feels strange, but very good."
-    t.say "Drop that look, young man. I'm a doctor, it's my job to make sure that you are healthy. Better focus on your job, it becomes cool here."
+    t.say "Drop that look, young man. I'm a doctor, it's my job to make sure that you are healthy. Focus on your job, it becomes cold here."
     "Pulling yourself together, you manage to hold out long enough to make her come."
     hide xxx
     $ t.override_portrait("portrait", "shy")
@@ -245,9 +245,8 @@ label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
     else:
         t.say "I can say you lack practice, [hero.name]. But it should be enough for your task."
     t.say "You have my permission to freely operate on the territory of the village."
-    t.say "Take care of, let's say, four girls for me, and you will have your access to the ruins."
-    t.say "But if you'll manage to handle all young kunoichi it the village, I'll give you a special bonus."
-    t.say "You may go now, I need some rest."
+    t.say "Take care of all young kunoichi it the village, and you will have your access to the ruins."
+    t.say "That's all, you may go now, I need some rest."
     "She is going to sleep right here?.."
     hide xxx with dissolve
     show bg hidden_village with dissolve
@@ -255,5 +254,23 @@ label intro_story_tsunade_exam: # and MC returns with high enough vaginal skill
     $ del a
     $ t.restore_portrait()
     "Here we give full access to the village location."
+    scene black with dissolve
+    stop world
+
+label story_tsunade_second_meeting:
+    $ t = chars["Tsunade"]
+    $ t_spr = chars["Tsunade"].get_vnsprite()
+    stop music
+    stop world
+    play world "town2.ogg" fadein 2.0 loop
+    show bg story cab_1 with dissolve
+    show expression t_spr at center with dissolve
+    $ t.override_portrait("portrait", "indifferent")
+    "Tsunade attentively listening as you report in detail about your success. It took some time, but you managed to take care of young kunoichi in the village."
+    "Unfortunately, some of them weren't in the village at the moment, like Ino and Sakura, but there is nothing you can do about it."
+    t.say "I see. Well done, [hero.name]. You fulfilled your part of the bargain, and I will do the same. From now on the ruins will not be sealed."
+    t.say "You are still welcomed in the village, of course."
+    # at this point you can send expedition to new zone in SE
+    $ t.restore_portrait()
     scene black with dissolve
     stop world

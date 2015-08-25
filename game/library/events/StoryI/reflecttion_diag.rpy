@@ -149,3 +149,38 @@ label intro_story_hj:
     # At the wall there is the same symbol you saw at Sakura's equipment.
     scene black with dissolve
     stop music fadeout 2.0
+    
+label intro_story_ff:
+    stop music # after ruins were opened and expedition returned
+    stop world
+    scene black with dissolve
+    play world "Town5.ogg" fadein 2.0 loop
+    show bg story cab with dissolve
+    show carstein at center with dissolve
+    ec_sad "Well, I can't say I'm surprised. Do not be upset, young man."
+    "Despite the assistance of kunoichi, the result of the expedition wasn't satisfactory."
+    ec_neutral "I don't quite understand why they sealed the ruins in the first place. Perhaps it was done to slow us down, and in this case it worked perfectly."
+    "Your last expedition has found some monsters and trinkets in the ruins, but nothing about the ancient weapon."
+    ec_neutral "The description of the ruins made by your expedition does not match at all the description made by the first expedition. There are many ways to explain it, but I have no idea which one is the best in this case..."
+    menu:
+        "The first expedition?":
+            ec_neutral "Yes, it took the weapon from the ruins. Only one of its members is still alive."
+        "What should we do now?":
+            ec_neutral "I have an idea. One member of the first expedition is still alive."
+    ec_neutral "Terumi, the ex captain of the city's Intelligence Department. He brought us the weapon, and he used it against the riot. Which appears to have some devastating affect on him."
+    ec_neutral "Currently he is contained in a special underground section of the Department. It's like a prison for special cases."
+    ec_neutral "I did not see him personally. but they say he lost hid mind and will."
+    ec_happy "I bet you wonder how can we get information from him. Your new ninja friends will help us."
+    menu:
+        "How do know about it?":
+            ec_happy "I told you, I have good connections."
+        "Are you spying on me?":
+            ec_happy "I told you, I have good connections. You had a lot of fun recently, don't you?"
+        "How?":
+            $ pass
+    ec_neutral "I heard many things about their healing techniques. I believe some of them are powerful enough to return Terumi his mind."
+    ec_neutral "I cannot be sure, so you better ask your ninja friends about it. If they want money, tell them I'm willing to cover the bill."
+    "You get up to leave."
+    ec_sad "[hero.name], do not trust Terumi. If possible, do not let him free."
+    scene black with dissolve
+    stop music fadeout 2.0
