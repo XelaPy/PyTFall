@@ -248,7 +248,6 @@ label naruko_third_meeting:
     scene black with dissolve
     stop world
     
-label intro_story:
 label naruko_final_meeting: 
     $ flash = Fade(.25, 0, .75, color=green)
     stop music
