@@ -410,8 +410,8 @@ init -9 python:
                 # 'second_round': False,
             # }
             
-            if hasattr(self, "building_jobs"):
-                self.building_jobs = self.building_jobs.union(self.building_jobs)
+            # if hasattr(self, "building_jobs"):
+                # self.building_jobs = self.building_jobs.union(self.building_jobs)
             
             self.maxrank = kwargs.pop("maxrank", 0)
             

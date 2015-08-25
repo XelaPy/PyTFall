@@ -23,9 +23,30 @@ init -9 python:
             self.jobs = set() # Jobs this upgrade can add. *We add job instances here!
             self.workers = set() # List of on duty characters.
             
+            self._rep = 0
+            
             self.habitable = False
             self.workable = False
+            
+            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
         
+        def get_client_count(self):
+            # Returns amount of workers we expect to come here.
+            return 2 + self._rep*0.01*self.all_workers
+            
+        # Reputation:
+        @property
+        def rep(self):
+            return self._rep
+            
+        @rep.setter
+        def rep(self, value):
+            self._rep = self._rep + value
+            if self._rep > 1000:
+                self._rep = 1000
+            elif self._rep < -1000:
+                self._rep = -1000
+            
         @property
         def env(self):
             # SimPy and etc follows (L33t stuff :) ):
@@ -87,6 +108,10 @@ init -9 python:
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job...
             self.time = 5 # Same
+            
+        def get_client_count(self):
+            # Returns amount of workers we expect to come here.
+            return 2 + self._rep*0.01*max(self.all_workers, self.capacity)
             
         def has_workers(self):
             return list(i for i in store.nd_chars if self.all_occs & i.occupations)
@@ -172,6 +197,10 @@ init -9 python:
             self.time = 5 # Same
             
             self.earned_cash = 0
+            
+        def get_client_count(self):
+            # Returns amount of workers we expect to come here.
+            return 2 + self._rep*0.05*max(self.all_workers, self.capacity)
             
         def run_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)

@@ -335,6 +335,9 @@ init -11 python:
         """
         This function creates Customers to be used in the jobs.
         Some things are initiated in __init__ and funcs/methods that call this.
+        
+        - pattern: Pattern (string) to be supplied to the create_traits_base function.
+        - likes: Expects a list/set/tuple of anything a client may find attractive in a worker/building/upgrade, will be added to other likes (mostly traits), usually adds a building...
         """
         client = Customer(gender, caste)
         
@@ -345,12 +348,35 @@ init -11 python:
         if last_name:
             client.fullname = client.name + " " + last_name
             
+        # Patterns:
         if not pattern:
             pattern = random.sample(client.CLASSES, 1).pop()
         pattern = create_traits_base(pattern)
         for i in pattern:
             client.traits.basetraits.add(i)
             client.apply_trait(i)
+            
+        # Add a couple of client traits: <=== This may not be useful...
+        trts = random.sample(tgs.client, randint(2, 5))
+        for t in trts:
+            client.apply_trait(t)
+        
+        # Likes:
+        client.likes = set()
+        # Add some traits from trait groups:
+        cl = client.likes
+        cl.add(choice(tgs.breasts))
+        cl.add(choice(tgs.body))
+        cl.add(choice(tgs.race))
+        cl = cl.union(random.sample(tgs.base, randint(1, 2)))
+        cl = cl.union(random.sample(tgs.elemental, randint(2, 3)))
+        cl = cl.union(random.sample(tgs.ct, randint(2, 4)))
+        cl = cl.union(random.sample(tgs.sexual, randint(1, 2)))
+        
+        
+        if likes:
+            client.likes = client.likes.union(likes)
+            # We pick some of the traits to like/dislike at random.
         
         if level > 1:
             initial_levelup(client, level)

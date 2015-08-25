@@ -38,7 +38,7 @@
         tl.timer("Loading: Traits")
         
         # This should be reorganized later:
-        tgs = object() # traitgroups!
+        tgs = object() # TraitGoups!
         tgs.breasts = [i for i in traits.values() if i.breasts]
         #TODO: Come up with better name for permennt traits?
         tgs.body = [i for i in traits.values() if i.body]
