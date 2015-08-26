@@ -65,7 +65,7 @@ label girl_interactions_greeting:
                 $rc("Leave me alone!", "Go away. ...I said get the hell away from me!", "...Lowlife.", "Listening to you is a waste of my time.")
             elif ct("Ane"):
                 $rc("What is it? Please leave me alone.", "I don't really feel like talking to you ", "Could you leave me alone?", "There is not a single shred of merit to your existence.")
-            elif ct(Kamidere):
+            elif ct("Kamidere"):
                 $rc("You dirty little...", "It's you again. Don't bother me!", "Could you try to not talk to me, please?  Also, could you not breathe when near me? You're wasting good oxygen.", "Hmph! What an ugly sight.")
             elif ct("Imouto"):
                 $rc("Geez, what is it?!", "Loooooooserー!", "Jeezー! Bug off already!", "You good-for-nothing...")
@@ -188,7 +188,7 @@ label girl_interactions_greeting:
                 $rc("L-leave me alone...", "Go away...", "...")
             elif ct("Ane"):
                 $rc("What is it? Please leave me alone, Master...", "I don't really feel like talking to you, Master.", "Could you leave me alone, Master?")
-            elif ct(Kamidere):
+            elif ct("Kamidere"):
                 $rc("...", "You again... <sigh> Yes, Master?", "'Master', could you try to not talk to me without a good reason, please?", "Hmph!")
             elif ct("Imouto"):
                 $rc("Geez, what is it, Master?!", "Jeez... I'm listening, Master.", "You good-for-nothing... Ahem, what is it, Master?")

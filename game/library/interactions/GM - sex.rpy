@@ -73,6 +73,9 @@ label interactions_virgin_check:
     
 label interactions_hireforsex:
     "You propose to pay her for sex."
+    call interactions_check_for_bad_stuff
+    if calling_interactions_end == 1:
+        jump girl_interactions_end
     if char.flag("quest_no_sex") == "True":
         call int_sex_nope
         jump girl_interactions
@@ -109,6 +112,9 @@ label interactions_hireforsex:
                     jump girl_interactions
 label interactions_sex:
     "You proposing to have sex."
+    call interactions_check_for_bad_stuff
+    if calling_interactions_end == 1:
+        jump girl_interactions_end
     if char.flag("quest_no_sex") == "True":
         call int_sex_nope
         jump girl_interactions

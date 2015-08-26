@@ -1,7 +1,9 @@
-
-###### j4
 label interactions_kiss:
     "You trying to kiss her."
+    call interactions_check_for_bad_stuff
+    call interactions_check_for_minor_bad_stuff
+    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
+        jump girl_interactions_end
     if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2

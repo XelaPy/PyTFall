@@ -1,6 +1,9 @@
 label interactions_clever:
     if (day - char.flag("gm_praise_day")) > 1 or char.flag("gm_praise_day") == 0: # you can do it once per 3 days, no matter the result
         "You trying to compliment her intelligence."
+        call interactions_check_for_bad_stuff
+        if calling_interactions_end == 1:
+            jump girl_interactions_end
         $ inter_praise_1 = 0
         $ inter_praise_2 = 0
         $ inter_praise_3 = 0
@@ -52,6 +55,9 @@ label interactions_clever:
 label interactions_strong:
     if (day - char.flag("gm_praise_day")) > 1 or char.flag("gm_praise_day") == 0: # you can do it once per 3 days, no matter the result
         "You trying to compliment her physique."
+        call interactions_check_for_bad_stuff
+        if calling_interactions_end == 1:
+            jump girl_interactions_end
         $ inter_praise_1 = 0
         $ inter_praise_2 = 0
         $ inter_praise_3 = 0
@@ -102,7 +108,10 @@ label interactions_strong:
         
 label interactions_cute:
     if (day - char.flag("gm_praise_day")) > 1 or char.flag("gm_praise_day") == 0: # you can do it once per 3 days, no matter the result
-        "You trying to compliment her physique."
+        "You trying to compliment her appearance."
+        call interactions_check_for_bad_stuff
+        if calling_interactions_end == 1:
+            jump girl_interactions_end
         $ inter_praise_1 = 0
         $ inter_praise_2 = 0
         $ inter_praise_3 = 0

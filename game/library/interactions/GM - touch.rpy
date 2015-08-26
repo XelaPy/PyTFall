@@ -9,6 +9,9 @@
 ###### j1
 label interactions_hug:
     "You trying to hug her."
+    call interactions_check_for_bad_stuff
+    if calling_interactions_end == 1:
+        jump girl_interactions_end
     if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -111,6 +114,9 @@ label interactions_hug:
 ###### j3    
 label interactions_slapbutt:
     "You trying to slap her butt."
+    call interactions_check_for_bad_stuff
+    if calling_interactions_end == 1:
+        jump girl_interactions_end
     if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -212,6 +218,9 @@ label interactions_slapbutt:
 ###### j4
 label interactions_grabbreasts:
     "You trying to grab her breasts."
+    call interactions_check_for_bad_stuff
+    if calling_interactions_end == 1:
+        jump girl_interactions_end
     if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
