@@ -1643,7 +1643,7 @@
                         self.img = 'mast'
                         evcount += 1
                     
-                    elif "Exhibitionnist" == rt:
+                    elif "Exhibitionist" == rt:
                         if dice(70):
                             self.txt.append("Since she is going to walk around with barely any clothes on anyway, you asked her to do it around the brothel this time. "+ \
                                             "Free advertising is good for business, and she will have less problems with the city guards this way. \n")

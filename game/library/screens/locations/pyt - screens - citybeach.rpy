@@ -1,5 +1,5 @@
 label city_beach:
-    $ gm.enter_location(goodtraits=["Athletic", "Energetic", "Exhibitionnist"], badtraits=['Scars', "Shy", "Artificial Body","Not Human"])
+    $ gm.enter_location(goodtraits=["Athletic", "Energetic", "Exhibitionist"], badtraits=['Scars', "Shy", "Artificial Body","Not Human"])
     
     # Music related:
     if not "beach_main" in ilists.world_music:

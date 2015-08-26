@@ -1,5 +1,5 @@
 label forest_entrance:
-    $ gm.enter_location(goodtraits=["Not Human", "Courageous", "Alien","Scars","Adventurer"], badtraits=["Homebody", "Coward", "Exhibitionnist"])
+    $ gm.enter_location(goodtraits=["Not Human", "Courageous", "Alien","Scars","Adventurer"], badtraits=["Homebody", "Coward", "Exhibitionist"])
 
     # Music related:
     if not "forest_entrance" in ilists.world_music:

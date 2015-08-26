@@ -354,7 +354,7 @@
     "slot": "ring",
     "mod": {"defence": -100, "attack": 50},
     "removetraits": ["Shy", "Edgy"],
-    "addtraits": ["Courageous", "Exhibitionnist"],
+    "addtraits": ["Courageous", "Exhibitionist"],
     "locations": ["Exploration"]
     },
     {

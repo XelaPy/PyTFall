@@ -290,7 +290,7 @@ label interactions_eattogether:
         $ b += randint(45, 75)
         "It's time to pay the bill. It will be [b]G."
         call eat_together_pay
-        if (d == 1 or dice(55)) and ct("Exhibitionnist"):
+        if (d == 1 or dice(55)) and ct("Exhibitionist"):
             $ gm.set_img("stripping", "simple bg", type="first_default")
             "Your meeting ends with her drunk, naked and dancing on the table under cheers of customers."
             hide back

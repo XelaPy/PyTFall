@@ -209,7 +209,7 @@
     "mod": {"defence": -45},
     "mod_skills": {"strip": [0.06, 0.03, 0.08, 0, 0], "refinement": [0, 0, 0.04, 0, 0]},
     "locations": ["Exploration", "General Store"],
-    "goodtraits": ["Exhibitionnist"],
+    "goodtraits": ["Exhibitionist"],
     "badtraits": ["Shy"]
     },
     {

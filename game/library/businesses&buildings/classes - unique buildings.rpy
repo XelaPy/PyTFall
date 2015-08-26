@@ -656,7 +656,7 @@ init -9 python:
                                                                # 'Kind', 'Energetic', 'Shy',
                                                                # 'Average Boobs', 'Strange Eyes', 'MILF', 'Sensitive',
                                                                # 'Protective', 'Serious', 'Noble', 'Tomboy',
-                                                               # 'Tough', 'Athletic', 'Lolita', 'Exhibitionnist',
+                                                               # 'Tough', 'Athletic', 'Lolita', 'Exhibitionist',
                                                                # 'Small Boobs', 'Aggressive', 'Outgoing', 'Big Boobs', 'Elegant']))
             # if not customer.favtraits and dice(20):
                 # customer.favtraits.add(choice(['Genius',  'Smart', 'Ill-mannered', 'Merciless', 'Yandere', 'Fearless', 'Kuudere',  'Masochist',

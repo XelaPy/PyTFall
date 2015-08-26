@@ -124,7 +124,7 @@
     "mod": {"charisma": 10, "character": 20},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "strip": [0.02, 0.01, 0.04, 0, 0], "sex": [0.01, 0.01, 0, 0, 0]},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Exhibitionnist"],
+    "goodtraits": ["Exhibitionist"],
     "badtraits": ["Shy"]
     },
     {

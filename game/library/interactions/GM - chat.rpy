@@ -461,7 +461,7 @@ label interactions_abouther:
         if ct("Frigid"):
             $gm_abouther_list.append(choice(["Why does everyone get so excited about underwear? It's just fabric…", "Relations should be clean and wholesome, an example to others."]))
         
-        if ct("Exhibitionnist"):
+        if ct("Exhibitionist"):
             $gm_abouther_list.append(choice(["I just love attention...", "Have you ever thought of doing it in public? Just imagine all those eyes…", "It would be a waste not to show some skin when the weather is nice.", "It arouses me when strangers are staring... Stripping me with their eyes..."]))
         
         if ct("Clumsy"):
@@ -609,7 +609,7 @@ label interactions_interests:
     call interactions_check_for_minor_bad_stuff
     if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
         jump girl_interactions_end
-#    if ct("Exhibitionnist") and dice(35):
+#    if ct("Exhibitionist") and dice(35):
 #        $rc("Showing off my 'goods' to the crowd,", "Just being one with nature, if you catch my meaning.")
 #        if d(80) and char.flag("gm_stripped_today") != day:
 #            menu:
