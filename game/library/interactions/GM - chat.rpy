@@ -15,7 +15,6 @@ label interactions_check_for_bad_stuff: # we check major issues when the charact
         $ calling_interactions_end = 1
     elif char.health < (round(char.get_max("health")*0.2)):
         $ char.override_portrait("portrait", "indifferent")
-        $gm.generate_img("in pain", "sad", "tired", exclude=["sex", "nude", "swimsuit", "revealing", "beach", "pool"])
         $ rc("But she is too wounded for that.", "But her wounds completely occupy her thoughts.")
         $ char.restore_portrait()
         $ char.disposition -= 5

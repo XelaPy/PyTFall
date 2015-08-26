@@ -1,4 +1,5 @@
 label girl_interactions_greeting:
+    call interactions_checks_for_bad_stuff_greetings
     if char.status != "slave":
         if check_lovers(hero, char):
             $ char.override_portrait("portrait", "shy")
@@ -266,6 +267,7 @@ label girl_trainings_greeting:
     return
 
 label girl_meets_greeting:
+    call interactions_checks_for_bad_stuff_greetings
     if check_lovers(hero, char):
         $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(35):
@@ -530,4 +532,27 @@ label after_good_sex:
     else:
         $rc("Ahh～... My hips are all worn out... Ahahaー", "It kinda feels like we're one body one mind now一♪", "Haah... Well done... Was it good for you...?", "Haah... Your sexual technique is simply admirable...") 
     $ char.restore_portrait()
+    return
+    
+label interactions_checks_for_bad_stuff_greetings:
+    if char.effects["Food Poisoning"]['active']:
+        $ char.override_portrait("portrait", "indifferent")
+        $ rc("She does not look good...")
+        $ char.restore_portrait()
+    elif char.vitality <= 10:
+        $ char.override_portrait("portrait", "indifferent")
+        $ rc("She looks very tired...")
+        $ char.restore_portrait()
+    elif char.health < (round(char.get_max("health")*0.2)):
+        $ char.override_portrait("portrait", "indifferent")
+        $ rc("She does not look good...")
+        $ char.restore_portrait()
+    elif char.effects["Down with Cold"]['active']:
+        $ char.override_portrait("portrait", "indifferent")
+        $ rc("She looks a bit pale...")
+        $ char.restore_portrait()
+    elif char.joy <= 25 or (ct("Pessimist") and char.joy <= 10):
+        $ char.override_portrait("portrait", "sad")
+        $ rc("She looks pretty sad...")
+        $ char.restore_portrait()
     return
