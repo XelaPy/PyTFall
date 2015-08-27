@@ -213,6 +213,11 @@ init -1 python:
                     break
             
             # Else we have no labels
+            # Try just the label name...:
+            # TODO: Improve?
+            if renpy.has_label(label):
+                self.jump_cache = label
+                l = label
             else:
                 # Notify and stop
                 notify("Unable to find GM label %s."%label)
