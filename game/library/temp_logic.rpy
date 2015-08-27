@@ -219,3 +219,13 @@ label temp_jobs_loop:
     $ tl.timer("Temp Jobs Loop")
     
     return
+    
+label reg_H_event:
+    $ chars["Hinata"].set_flag("event_to_interactions_10012adacx2134s", value={"label": "some_Hinata_label", "button_name": "Hinata Q", "condition": "True"})
+    return
+    
+label some_Hinata_label:
+    "Event Goes here..."
+    "Don't forget to delete/change the flag one you're done!"
+    $ chars["Hinata"].del_flag("event_to_interactions_10012adacx2134s")
+    jump girl_interactions

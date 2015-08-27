@@ -566,6 +566,8 @@ init -9 python:
             """
             self.flag_red = False # Dev Note: This is being set and reset here and only here!
             
+            self.txt += "OLD CODE THAT NEEDS TO DIE OFF:\n\n"
+            
             if not self.fame and not self.rep and not self.adverts['sign']['active']:
                 no_clients = True
                 self.flag_red = True

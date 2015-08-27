@@ -20,6 +20,12 @@ init python:
 
 label girl_interactions:
     python:
+        # We need to recreate this in order to update the menu accordingly! TODO: Improve!
+        # pytfall.world_actions = WorldActionsManager()
+        if "girl_meets" in pytfall.world_actions.locations:
+            del pytfall.world_actions.locations["girl_meets"]
+        pytfall.world_actions.clear()
+        
         # Hide all images, show background
         renpy.scene()
         renpy.show(gm.bg_cache)
@@ -176,6 +182,24 @@ label girl_interactions:
             pytfall.world_actions.gm_choice("Become Lv", index=(m, 7))
             pytfall.world_actions.gm_choice("Disp", index=(m, 8))
             
+            # Quests/Events to Interactions Menu:
+            """
+            Expects a dictionary with the following k/v pairs to be set as a flag that starts with :
+            event_to_interactions_  as a flag and {"label": "some_label", "button_name='Some Name'", "condition": "True"}
+            """
+            m = 9
+            # First add the Menu:
+            for f in char.flags.__dict__:
+                if f.startswith("event_to_interactions_") and renpy.has_label(char.flag(f)["label"]):
+                    if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
+                        pytfall.world_actions.menu(m, "U-Actions")
+                        break
+            i = 0
+            for f in char.flags.__dict__:
+                if f.startswith("event_to_interactions_") and renpy.has_label(char.flag(f)["label"]):
+                    if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
+                        pytfall.world_actions.gm_choice(char.flag(f)["button_name"], label=char.flag(f)["label"], index=(m, i))
+                        i = i + 1
            
             # Back
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
@@ -186,7 +210,7 @@ label girl_interactions:
                 pytfall.world_actions.add(("dev", "gm"), "GM", Return(["test", "GM"]), condition=_not_gm_mode)
                 pytfall.world_actions.add(("dev", "gi"), "GI", Return(["test", "GI"]), condition=_not_gi_mode)
                 pytfall.world_actions.add(("dev", "gt"), "GT", Return(["test", "GT"]), condition=_not_gt_mode)
-            
+                
             pytfall.world_actions.finish()
     
     jump girl_interactions_control

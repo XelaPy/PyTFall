@@ -111,7 +111,7 @@ init -9 python:
             
         def get_client_count(self):
             # Returns amount of workers we expect to come here.
-            return 2 + self._rep*0.01*max(self.all_workers, self.capacity)
+            return int(round(2 + self._rep*0.01*max(len(self.all_workers), self.capacity)))
             
         def has_workers(self):
             return list(i for i in store.nd_chars if self.all_occs & i.occupations)
@@ -200,7 +200,7 @@ init -9 python:
             
         def get_client_count(self):
             # Returns amount of workers we expect to come here.
-            return 2 + self._rep*0.05*max(self.all_workers, self.capacity)
+            return int(round(3 + self._rep*0.05*max(len(self.all_workers), self.capacity)))
             
         def run_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)

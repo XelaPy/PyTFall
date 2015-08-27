@@ -362,9 +362,8 @@ init -11 python:
             client.apply_trait(t)
         
         # Likes:
-        client.likes = set()
         # Add some traits from trait groups:
-        cl = client.likes
+        cl = set()
         cl.add(choice(tgs.breasts))
         cl.add(choice(tgs.body))
         cl.add(choice(tgs.race))
@@ -372,7 +371,7 @@ init -11 python:
         cl = cl.union(random.sample(tgs.elemental, randint(2, 3)))
         cl = cl.union(random.sample(tgs.ct, randint(2, 4)))
         cl = cl.union(random.sample(tgs.sexual, randint(1, 2)))
-        
+        client.likes = cl
         
         if likes:
             client.likes = client.likes.union(likes)

@@ -887,7 +887,7 @@ screen location_actions(actions, girl=None, pos=(0.98, 0.98), anchor=(1.0, 1.0),
         
         spacing 11
         
-        for i in range(0, 6):
+        for i in range(0, 10):
             if i < len(pytfall.world_actions.nest):
                 if style == "main_screen_3":
                     frame:
