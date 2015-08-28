@@ -861,7 +861,6 @@ init -9 python:
             """
             if self.null_button:
                 return solution(self.null_condition)
-            
             else:
                 return False
     

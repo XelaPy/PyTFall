@@ -211,18 +211,18 @@ init -1 python:
                 if renpy.has_label(l):
                     self.jump_cache = l
                     break
-            
-            # Else we have no labels
-            # Try just the label name...:
-            # TODO: Improve?
-            if renpy.has_label(label):
-                self.jump_cache = label
-                l = label
             else:
-                # Notify and stop
-                notify("Unable to find GM label %s."%label)
-                self.jump_cache = ""
-                return
+                # Notify and stop @Review: One last try!        
+                # Else we have no labels
+                # Try just the label name...:
+                # TODO: Improve?
+                if renpy.has_label(label):
+                    self.jump_cache = label
+                    l = label
+                else:
+                    notify("Unable to find GM label %s."%label)
+                    self.jump_cache = ""
+                    return
             
             # If we aren't a free action
             if not free:
