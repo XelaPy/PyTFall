@@ -113,8 +113,7 @@ label interactions_hireforsex:
 label interactions_sex:
     "You proposing to have sex."
     call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    call interactions_check_for_minor_bad_stuff
     if char.flag("quest_no_sex") == "True":
         call int_sex_nope
         jump girl_interactions

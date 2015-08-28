@@ -1,6 +1,8 @@
 label test_matrix:
-    show bg story dark_room with dissolve
-    call screen poly_matrix("library/events/StoryI/coordinates.json", show_exit_button=(0.9, 0.9))
+    stop music
+    stop world
+    show bg hidden_village with dissolve
+    call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.9, 0.9))
     "Result: [_return]"
     
     menu:

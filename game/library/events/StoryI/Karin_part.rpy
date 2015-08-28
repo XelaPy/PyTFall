@@ -1,7 +1,4 @@
 label karin_first_meeting:
-    stop music
-    stop world
-    play world "park.mp3" fadein 2.0 loop
     scene black
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
