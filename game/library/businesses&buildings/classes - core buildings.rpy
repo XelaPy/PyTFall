@@ -466,7 +466,7 @@ init -9 python:
             self.clients = self.all_clients.copy() # should be union with samples from regulars in the future.
             self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
             
-            # Create an environment and start the setup process
+            # Create an environment and start the setup process:
             self.env = simpy.Environment()
             for up in self._upgrades:
                 up.run_nd()

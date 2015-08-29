@@ -8,10 +8,10 @@ label shop_control:
                     focus = result[2]
                     if result[1] == char:
                         purchasing_dir = 'sell'
-                        item_price = int(focus.price*0.8)
+                        item_price = int(focus.price*shop.sell_margin)
                     else:
                         purchasing_dir = 'buy'
-                        item_price = int(focus.price*1.2)
+                        item_price = int(focus.price*shop.buy_margin)
                     
                 elif result[1] == 'buy/sell':
                     if purchasing_dir == 'buy':
