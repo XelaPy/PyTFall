@@ -175,12 +175,16 @@
     
 label interactions_eattogether:
     "You invite her to eat together somewhere."
+    call interactions_check_for_bad_stuff
+    call interactions_check_for_minor_bad_stuff
+    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
+        jump girl_interactions_end
     if char.flag("gm_eat_together") != day:
         $char.set_flag("gm_eat_together", value=day)
     else:
         "You already did it today. She's not hungry."
         jump girl_interactions
-    if not(dice(round(char.disposition*0.5)) or check_lovers(char, hero) or check_friends(char, hero) or ct("Always Hungry")):
+    if not(dice(round(char.disposition*0.45)) or check_lovers(char, hero) or check_friends(char, hero) or ct("Always Hungry")):
         "But she doesn't want to."
         jump girl_interactions
     $ b = 0
@@ -213,7 +217,7 @@ label interactions_eattogether:
         $ gm.set_img("vnsprite")
     if a == 1:
         "Together you sit behind the bar and order some snacks and drinks."
-        if ct("Dandere") or ct("Imouto") or ct("Kamidere") or ct("Shy") or ct("Homebody") or ct("Nerd"):
+        if ct("Dandere") or ct("Imouto") or ct("Shy") or ct("Homebody") or ct("Nerd"):
             $ char.override_portrait("portrait", "shy")
             char.say "She feels a bit uncomfortable in such an establishment."
             $ char.disposition -= randint (15, 20)
@@ -398,17 +402,17 @@ label interactions_eattogether:
     hide back with dissolve
     jump girl_interactions_end
 label eat_together_chat:
-    if char.disposition > 200:
+    if char.disposition >= 400:
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
         else:
             $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
         if a == 1:
-            $ char.disposition += randint (20, 40)
+            $ char.disposition += randint (25, 35)
         elif a == 2:
-            $ char.disposition += randint (15, 20)
+            $ char.disposition += randint (20, 30)
         elif a == 3:
-            $ char.disposition += randint (5, 15)
+            $ char.disposition += randint (15, 25)
         else:
             $ char.disposition += randint (30, 40)
     else:
@@ -417,13 +421,13 @@ label eat_together_chat:
         else:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though…", "It's hard to find common ground.", "But it was somewhat forced."]))
         if a == 1:
-            $ char.disposition += randint (15, 30)
+            $ char.disposition += randint (15, 25)
         elif a == 2:
-            $ char.disposition += randint (10, 15)
+            $ char.disposition += randint (10, 20)
         elif a == 3:
-            $ char.disposition += randint (5, 10)
+            $ char.disposition += randint (5, 15)
         else:
-            $ char.disposition += randint (20, 35)
+            $ char.disposition += randint (20, 30)
     return
 label eat_together_pay:
     if char.status != "slave":
