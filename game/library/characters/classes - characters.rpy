@@ -1075,6 +1075,10 @@ init -9 python:
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
             
+            # Game world status:
+            self.alive = True
+            self._available = True
+            
             # We add Neutral element here to all classes to be replaced later:
             self.apply_trait(traits["Neutral"])
             
@@ -1142,6 +1146,12 @@ init -9 python:
             
         # Game assist methods:
         # Properties:
+        @property
+        def is_available(self):
+            if not self.alive:
+                return False
+            return self._available
+        
         @property
         def occupations(self):
             """

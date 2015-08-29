@@ -276,7 +276,6 @@ init -1 python:
             
             if mode in self.USE_GI:
                 jump("girl_interactions")
-            
             else:
                 jump(mode)
         

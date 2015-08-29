@@ -921,7 +921,7 @@ init: # PyTFall:
         default tooltip = False
         
         on "hide":
-            action SetField(config, "mouse", None)
+            action SetField(config, "mouse", None), Hide("show_poly_matrix_tt")
         
         python:
             with open(renpy.loader.transfn(in_file)) as f:
