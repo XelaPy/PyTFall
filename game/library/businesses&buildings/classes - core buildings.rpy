@@ -628,13 +628,20 @@ init -9 python:
                                         self.log(temp)
                                         continue
                                     
-                                    # We to make sure that the girl is willing to do the job:
-                                    temp = char.action.id
-                                    if not char.action.check_occupation(char):
+                                    if hasattr(char.action, "id"): # TODO: MAKE DAMN SURE NO CHAR WITHOUT ACTION MAKES IT THIS FAR!
+                                        # We to make sure that the girl is willing to do the job:
+                                        temp = char.action.id
+                                        if not char.action.check_occupation(char):
+                                            if char in store.nd_chars:
+                                                store.nd_chars.remove(char)
+                                            temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
+                                            self.log(temp)
+                                            continue
+                                    else:
+                                        temp = set_font_color('{} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
+                                        self.log(temp)
                                         if char in store.nd_chars:
                                             store.nd_chars.remove(char)
-                                        temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
-                                        self.log(temp)
                                         continue
                                         
                                     break # Breaks the while loop.
