@@ -55,10 +55,11 @@ screen pyt_hiddenVillage_entrance():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-          
                 use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen", "indoors"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                
 label Karin:
-    $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")   
+    $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
+    
 label hidden_village_matrix:
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8))
     if not(_return):
