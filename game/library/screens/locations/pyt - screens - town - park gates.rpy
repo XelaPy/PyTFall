@@ -42,6 +42,7 @@ label city_parkgates:
                 
                 if result[1] == 'return':
                     break
+                    
     $ renpy.music.stop(channel="world")
     hide screen pyt_city_parkgates
     jump pyt_city
