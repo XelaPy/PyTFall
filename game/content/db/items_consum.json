@@ -604,7 +604,7 @@
     "type": "restore",
     "ctemp": 4,
     "mod_skills": {"vaginal": [0.01, 0.01, 0, 0, 0], "anal": [0.01, 0.01, 0, 0, 0], "group": [0.01, 0.01, 0, 0, 0], "sex": [0.01, 0.01, 0, 0, 0]},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Ninja Shop"],
     "goodtraits": ["Curious"],
     "badtraits": ["Frigid"]
     },
@@ -910,7 +910,7 @@
     "cblock": 2,
     "max": {"defence": 40},
     "mod": {"defence": 40, "attack": -30, "agility": -10},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Ninja Shop"],
     "goodtraits": ["Combat Training"],
     "badtraits": ["Former Assassin"]
     },
@@ -931,7 +931,7 @@
     "cblock": 2,
     "max": {"attack": 40},
     "mod": {"defence": -15, "attack": 40, "agility": 20, "constitution": -20},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Ninja Shop"],
     "goodtraits": ["Former Assassin"],
     "badtraits": ["Manly"]
     },

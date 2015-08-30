@@ -114,7 +114,7 @@ label interactions_sex:
     "You proposing to have sex."
     call interactions_check_for_bad_stuff
     call interactions_check_for_minor_bad_stuff
-    if char.flag("quest_no_sex") == "True":
+    if char.flag("quest_cannot_be_fucked") == "True":
         call int_sex_nope
         jump girl_interactions
     if ct("Lesbian"):

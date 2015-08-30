@@ -38,7 +38,7 @@ label hiddenVillage_entrance:
                     break
 
     $ renpy.music.stop(channel="world")
-    hide screen pyt_city_parkgates
+    hide screen pyt_hiddenVillage_entrance
     jump pyt_city
     
 screen pyt_hiddenVillage_entrance():
@@ -56,21 +56,79 @@ screen pyt_hiddenVillage_entrance():
             spacing 70
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen", "indoors"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])
-                
-label Karin:
-    $ renpy.hide_screen("pyt_hiddenVillage_entrance")
-    $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
     
 label hidden_village_matrix:
+    hide screen pyt_hiddenVillage_entrance
+    scene bg hidden_village
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8))
     if not(_return):
         jump hiddenVillage_entrance
-    # if _return == "House_5" and not chars["Karin"].flag('Karin_intro'):
-        # chars["Karin"].set_flag("Karin_intro", value="True")
-        # jump karin_first_meeting
     if _return == "House_5":
-        # show bg girl_room_12 with dissolve
-        # $ gm.start("girl_meets", chars["Karin"],  chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
-        jump Karin
+        if pytfall.world_quests.get("Sixth Sense").stage < 1:
+            $ renpy.hide_screen("pyt_hiddenVillage_entrance")
+            jump karin_first_meeting
+        elif not('Virgin'​ in chars['Naruko_Uzumaki'].traits):
+            $ renpy.hide_screen("pyt_hiddenVillage_entrance")
+            jump karin_second_meeting
+        else:
+            if chars["Karin"].status == "slave":
+                "Nobody's here..."
+                jump hiddenVillage_entrance
+            $ renpy.hide_screen("pyt_hiddenVillage_entrance")
+            if chars["Karin"] in hero.girls:
+                $ gm.start("girl_interactions", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
+            else:
+                $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
+    if _return == "House_6":
+        jump hidden_village_shop
     "Result: [_return]"
     jump hidden_village_matrix
+    
+label hidden_village_shop:
+
+    if not "shops" in ilists.world_music:
+        $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
+    if not global_flags.has_flag("keep_playing_music"):
+        play world choice(ilists.world_music["shops"]) fadein 1.5
+        
+    hide bg hidden_village
+    
+    scene bg workshop
+    with dissolve
+    show npc ninja_assistant
+    with dissolve
+    $ hidden_village_shop = ItemShop("Ninja Tools Shop", 18, ["Ninja Shop"], gold=1000, sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow", "amulet", "smallweapon", "restore", "dress"], sell_margin=0.85, buy_margin=3.0)
+    $ r = Character("Ren", color=red, what_color=orange, show_two_window=True)
+    
+    if global_flags.flag('hidden_village_shop_first_enter'):
+        r "Hey, [hero.name]. Need something?"
+    else:
+        $ r = Character("???", color=red, what_color=orange, show_two_window=True)
+        $ global_flags.set_flag('hidden_village_shop_first_enter')
+        r "Hm? Ah, you are that new guy."
+        extend " Welcome to my Tools Shop."
+        r "I'm Ren. We sell ninja stuff here."
+        r "If we are interested, I can sell you some leftovers. Of course it won't be cheap for an outsider like you."
+        r "But you won't find these things anywhere else, so it is worth it."
+        r "Wanna take a look?"
+    python:
+        focus = False
+        item_price = 0
+        filter = "all"
+        amount = 1
+        shop = pytfall.hidden_village_shop
+        shop.inventory.apply_filter(filter)
+        char = hero
+        char.inventory.set_page_size(18)
+        char.inventory.apply_filter(filter)
+        
+    show screen pyt_shopping(left_ref=hero, right_ref=shop)
+    with dissolve
+    $ pytfall.world_events.run_events("auto") 
+    
+    call shop_control from _call_shop_control_5
+                    
+    $ global_flags.del_flag("keep_playing_music")
+    hide screen pyt_shopping
+    with dissolve
+    jump hiddenVillage_entrance

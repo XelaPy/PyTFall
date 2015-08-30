@@ -255,7 +255,7 @@
     "slot": "ring",
     "max": {"vitality": 20, "constitution": 5},
     "mod": {"constitution": 20},
-    "locations": ["Witches Hut"]
+    "locations": ["Ninja Shop"]
     },
     {
     "id": "Ring of Physique",
@@ -287,7 +287,7 @@
     "slot": "ring",
     "max": {"agility": 60},
     "mod": {"agility": 50},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": ["Former Assassin", "Kleptomaniac"]
     },
     {
@@ -304,7 +304,7 @@
     "slot": "ring",
     "max": {"defence": 25},
     "mod": {"defence": 20},
-    "locations": ["Witches Hut"],
+    "locations": ["Ninja Shop"],
     "goodtraits": ["Adventurer"]
     },
     {
@@ -572,7 +572,7 @@
     },
     {
     "id": "Golden Ribbon Ring",
-    "desc": "Six platinum strings, tight together with a golden band. Rumors says that they are wore by members of some kind fighter organization.",
+    "desc": "Six platinum strings, tight together with a golden band. Rumors says that they are wore by members of some fighters organization.",
     "icon": "content/items/ring/kring (22).png",
     "price": 2000,
     "sex": "unisex",
@@ -585,7 +585,7 @@
     "slot": "ring",
     "max": {"defence": 40, "attack": 40, "agility": 25, "constitution": 15},
     "mod": {"luck": 10, "defence": 10, "attack": 10},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Ninja Shop"]
     },
     {
     "id": "Emerald Heart",
