@@ -56,7 +56,7 @@ label karin_first_meeting:
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
     $ chars["Karin"].set_flag("event_to_interactions_karincanhealalways", value={"label": "Karin_can_heal", "button_name": "Ask for healing", "condition": "True"})
-    $ chars["Karin"].set_flag("event_to_interactions_showkarinyournewchakra", value={"label": "karin_second_meeting", "button_name": "Show her your chakra", "condition": "not('Virgin'​ in chars['Naruko_Uzumaki'].traits)"})
+    $ chars["Karin"].set_flag("event_to_interactions_showkarinyournewchakra", value={"label": "karin_second_meeting", "button_name": "Show her your chakra", "condition": "not('Virgin' in chars['Naruko_Uzumaki'].traits)"})
     show bg hidden_village with dissolve
     "You walk through the village, as you flip through the files that you got from Tsunade."
     "Telepathy, eyesight through any obstacles, superhuman strength... Kunoichi have uncommon and useful perks. It would be wise to have them as allies or slaves..."
