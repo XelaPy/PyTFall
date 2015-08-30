@@ -73,7 +73,8 @@
     "addtraits": ["Sadist"],
     "locations": ["Exploration"],
     "goodtraits": ["Yandere"],
-    "badtraits": ["Virtuous"]
+    "badtraits": ["Virtuous"],
+    "locations": ["Ninja Shop"]
     },
     {
     "id": "Ice Daggers",
@@ -147,7 +148,7 @@
     "attacks": ["KnifeAttack"],
     "max": {"attack": 30, "agility": 10},
     "mod": {"attack": 40, "character": 5, "defence": -20},
-    "locations": ["Work Shop", "Exploration"],
+    "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": ["Former Assassin"]
     },
     {
@@ -297,7 +298,7 @@
     "attacks": ["ClawAttack"],
     "max": {"attack": 15, "defence": -10, "agility": 35},
     "mod": {"character": 15, "agility": 15},
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Ninja Shop", "Exploration"]
     },
     {
     "id": "Spray with Acid",
@@ -408,7 +409,7 @@
     "attacks": ["ThrowAttack"],
     "max": {"attack": 20, "defence": -10, "agility": 15},
     "mod": {"attack": 10, "agility": 10},
-    "locations": ["Work Shop", "Exploration"],
+    "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": ["Former Assassin"]
     },
     {
@@ -427,7 +428,7 @@
     "attacks": ["ThrowAttack"],
     "max": {"attack": 35},
     "mod": {"attack": 15, "agility": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Ninja Shop"]
     },
     {
     "id": "Foldable Crossbow",
@@ -445,7 +446,7 @@
     "attacks": ["CrossbowAttack"],
     "max": {"attack": 60, "agility": -50},
     "mod": {"attack": 70, "agility": -70},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Ninja Shop"]
     },
     {
     "id": "Rose Shield",

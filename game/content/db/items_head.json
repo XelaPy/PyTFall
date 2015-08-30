@@ -30,7 +30,7 @@
     "slot": "head",
     "type": "armor",
     "mod": {"magic": 15, "mp": 20, "defence": 10},
-    "locations": ["Tailor Store", "Exploration"],
+    "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": ["Dandere"]
     },
     {

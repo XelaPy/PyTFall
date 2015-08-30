@@ -267,7 +267,7 @@
     "slot": "amulet",
     "min": {"character": 15},
     "removetraits": ["Pessimist"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Ninja Shop"]
     },
     {
     "id": "Garem Charm",
