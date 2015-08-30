@@ -1,7 +1,10 @@
 # Events File
 
-init -9 python:    
-    register_event("meet_beggar_event", locations=["city_parkgates"], priority=1, restore_priority=8, dice=25, max_runs=7)
+init -9 python:
+    if config.debug:
+        register_event("meet_beggar_event", locations=["city_parkgates"], priority=1, restore_priority=8, dice=100, max_runs=7)
+    else:
+        register_event("meet_beggar_event", locations=["city_parkgates"], priority=1, restore_priority=8, dice=25, max_runs=7)
     register_event("simple_beach_event", locations=["city_beach", "city_beach_left", "city_beach_right"], restore_priority=1, dice=50, max_runs=50)
     register_event("creatures_beach_event", locations=["city_beach_right"], restore_priority=2, dice=40, max_runs=3)
     register_event("found_money_event", locations=["all"], run_conditions=["dice(max(5, int(hero.luck/5)))"], priority=50, dice=0, restore_priority=0)
@@ -9,16 +12,16 @@ init -9 python:
 
 label meet_beggar_event(event):
 
-    $ g = Character('Beggar', color="#c8ffc8", show_two_window=True)
+    $ beggar = Character('Beggar', color="#c8ffc8", show_two_window=True)
 
     'You see a girl who comes close to you.'
     show npc beggar_girl_novel
     with dissolve
     
-    $rc('Hello, mister! Please, could you spare some coin for hungry beggar?',
-          'Hello, mister! Please, could you spare some coin?',
-          'Hi! Could you buy me something?',
-          'Please, could you spare some coin for hungry beggar?')
+    $ beggar(choice(['Hello, mister! Please, could you spare some coin for hungry beggar?',
+                                'Hello, mister! Please, could you spare some coin?',
+                                'Hi! Could you buy me something?',
+                                'Please, could you spare some coin for hungry beggar?']))
 
     menu:
         'WTF? Who are you?':
@@ -27,18 +30,20 @@ label meet_beggar_event(event):
                 for steal_amount in [5000, 500, 100, 50, 25, 5]:
                     if hero.take_money(steal_amount, reason="Theft"):
                         break
-            g 'Oh, I`m just searching my way to [random_place]! I guess it`s there? Thank you, have a nice day!'
+            beggar 'Oh, I`m just searching my way to [random_place]! I guess it`s there? Thank you, have a nice day!'
+            "Somehow your pockets feel a bit lighter..."
+            
         'Go buy some food. (-5 gold)':
             if hero.take_money(5, reason="Charity"):
                 show npc beggar_girl_smile_novel
                 with dissolve
-                g 'Thanks! ^_^'
+                beggar 'Thanks! ^_^'
             else:
-                g 'Empty pockets? Too bad. :`('
+                beggar 'Empty pockets? Too bad. :`('
         'NO!':
-            $rc("You're a meanie! >:-(",
-                  "That's too bad...",
-                  "And you looked so promising...")
+            $ beggar(choice(["You're a meanie! >:-(",
+                                        "That's too bad...",
+                                        "And you looked so promising..."]))
 
     hide npc
     with dissolve

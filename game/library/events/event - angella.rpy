@@ -1,6 +1,8 @@
 init python:
-    register_event("angelica_menu", locations=["mages_tower"], simple_conditions=["global_flags.flag('mt_counter') > 3"], priority=100, start_day=1, jump=True, dice=80, max_runs=1)
-
+    if config.debug:
+        register_event("angelica_menu", locations=["mages_tower"], priority=1000, start_day=1, jump=True, dice=100, max_runs=1)
+    else:
+        register_event("angelica_menu", locations=["mages_tower"], simple_conditions=["global_flags.flag('mt_counter') > 3"], priority=100, start_day=1, jump=True, dice=80, max_runs=1)
     
 label angelica_menu:
     
@@ -19,13 +21,19 @@ label angelica_menu:
             a "Are you interested in magic?"
             "Yes!":
                 a "Great! I might be of some assistance then. "
-                extend "You cannot join us in the tower at the moment but I am capable of helping you picking an alignment."
+                extend "You cannot join us in the tower at the moment but I can be of some help!"
+                a "I for once am one of the very few people in this part of the world who can unlock add and remove elemental alignments from a person."
+                a "It is not an easy task so don't think that you will be able to get away with being a cheapskate!"
+                a "It takes a lot out of me so I want to be very well compensated. If you believe that you can find a better deal anywhere... I do dare you to try :)"
                 $ global_flags.set_flag("angelica_free_alignment")
-                a "Guild demands that I charge 10000 Gold for it but I like you, so you get one freebie!"
-                a "You can change an alignment only once! So be sure about your choice!"
+                a "You look like you have some potencial... so I'll give you one freebie. "
+                extend "Do not expect that to happen again!"
+                a "I charge 10 000 Gold for the first element if you do not have any alignment at all and 10 000 and 5 000 more for every one that you already have!"
+                a "If you want to loose one, it is a lot trickier... elements are not shoes you can put on and off."
+                a "That will cost you 50 000 per elements and expect to suffer some damage to your magical powers and health..."
             "Not really...":
                 a "Oh? Well, never mind then..."
-                a "On the other hand, keep in mind that I can assign magical alignment. So if you know someone who's in need of my services, please send them in my direction!"
+                a "I'll be around if you change your mind."
                 jump mages_tower
     
     $ loop = True
@@ -43,31 +51,30 @@ label angelica_menu:
                 else:
                     $ char = hero
                     
-                if char.flag("picked_alignement"):
-                    a "Sorry, I cannot change the alignment twice :("
-                else:
-                    a "Keep in mind that it can only be done once!"
-                    
-                    call screen alignment_choice
-                    
-                    $ alignment = _return
-                            
-                    if alignment:
-                        if alignment == char.element.split()[0]:
-                            a "Err, you cannot really change from [alignment] to [alignment]."
-                            a "Sorry..."
+                call screen alignment_choice
+                
+                $ alignment = _return
+                        
+                if alignment:
+                    if alignment in char.traits:
+                        a "You already have [alignment] alignment... "
+                        extend "did you really think I wasn't going to notice or do you have that much money to burn?"
+                    else:
+                        if "Neutral" in char.traits:
+                            $ price = 10000
                         else:
-                            if global_flags.flag("angelica_free_alignment") or hero.take_money(10000, reason="Alignments"):
-                                a "There! All done!"
-                                # Animation?
-                                python:
-                                    global_flags.del_flag("angelica_free_alignment")
-                                    char.set_flag("picked_alignement")
-                                    char.element = " ".join([alignment, str(choice([1, 2]))])
-                                $ char.say(choice(["What a weird feeling...", "Awesome!", "This is cool!"]))
-                            else:
-                                a "You don't have enought money."
-                    $ del alignment
+                            $ price = 10000 + len([e for e in char.traits if e.elemental])*5000
+                        if global_flags.flag("angelica_free_alignment") or hero.take_money(price, reason="Element Purchase"):
+                            a "There! All done!"
+                            a "Don't let these new powers go into your head and use them responsibly!"
+                            python:
+                                global_flags.del_flag("angelica_free_alignment")
+                                char.apply_trait(alignment)
+                            $ char.say(choice(["What a weird feeling...", "Awesome!", "This is cool!"]))
+                        else:
+                            a "You don't have enought money..."
+                            a " but come back when you do! I will be around here somewhere!"
+                $ del alignment
                     
             "Goodbye!":
                 $ loop = False
@@ -83,17 +90,8 @@ screen alignment_choice:
         align(0.1, 0.05)
         action Return("")
     
-    # python:
-        # center_x = config.screen_width/2
-        # center_y = config.screen_height/2
-        # radius = 300
-        # button_idx = 0
-    
     python:
-        elements = list(el for el in traits.values() if el.elemental)
-        # for fn in os.listdir(content_path("gfx/interface/images/elements")):
-            # path = "content/gfx/interface/images/elements/" + fn
-            # elements.append((path, fn.capitalize()))
+        elements = list(el for el in traits.values() if el.elemental and el != traits["Neutral"])
         step = 360 / len(elements)
         var = 0
         
@@ -107,20 +105,50 @@ screen alignment_choice:
             hover im.MatrixColor(img, im.matrix.brightness(0.25))
             action Return(el)
             hovered tt.Action(el.id)
+            
+screen alignment_choice():
+    default tt = Tooltip("I changed my mind...!")
+    
+    textbutton "[tt.value]":
+        style "yesno_button"
+        align(0.1, 0.05)
+        action Return("")
+    
+    python:
+        elements = list(el for el in traits.values() if el.elemental and el != traits["Neutral"])
+        step = 360 / len(elements)
+        var = 0
         
-    # fixed at repeated_rotate(t=15):
-        # pos(-100, -350)
-        # for alignment in ["air", "earth", "fire", "water", "darkness", "light", "neutral"]:
-            # python:
-                # angle = button_idx * math.pi * 2 / 7
-                # x = cos(angle) * radius + center_x
-                # y = sin(angle) * radius + center_y
-            # $ img = ProportionalScale("".join(["content/gfx/interface/images/elements/", alignment, ".png"]), 150, 150)
-            # imagebutton at elements():
-                # idle img
-                # hover im.MatrixColor(img, im.matrix.brightness(0.25))
-                # action Return(alignment.split()[0].capitalize())
-                # anchor (0.5, 0.5)
-                # pos (int(x), int(y))
-                # hovered tt.Action(alignment.split()[0].capitalize())
-            # $ button_idx += 1
+    for el in elements:
+        python:
+            img = ProportionalScale(el.icon, 120, 120)
+            angle = var
+            var = var + step
+        imagebutton at circle_around(t=10, angle=angle, radius=250):
+            idle img
+            hover im.MatrixColor(img, im.matrix.brightness(0.25))
+            action Return(el)
+            hovered tt.Action(el.id)
+            
+screen alignment_removal_choice(char):
+    default tt = Tooltip("I changed my mind...!")
+    
+    textbutton "[tt.value]":
+        style "yesno_button"
+        align(0.1, 0.05)
+        action Return("")
+    
+    python:
+        elements = list(el for el in char.traits if el.elemental)
+        xpos = 200
+        
+    for el in elements:
+        python:
+            img = ProportionalScale(el.icon, 120, 120)
+            angle = var
+            var = var + step
+        imagebutton at circle_around(t=10, angle=angle, radius=250):
+            idle img
+            hover im.MatrixColor(img, im.matrix.brightness(0.25))
+            action Return(el)
+            hovered tt.Action(el.id)    
