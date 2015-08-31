@@ -64,17 +64,17 @@ label hidden_village_matrix:
     if not(_return):
         jump hiddenVillage_entrance
     if _return == "House_5":
-        if pytfall.world_quests.get("Sixth Sense").stage < 1:
-            $ renpy.hide_screen("pyt_hiddenVillage_entrance")
+        if pytfall.world_quests.get("Sixth Sense") and pytfall.world_quests.get("Sixth Sense").stage < 1:
+            hide screen pyt_hiddenVillage_entrance
             jump karin_first_meeting
-        elif not('Virgin'​ in chars['Naruko_Uzumaki'].traits):
-            $ renpy.hide_screen("pyt_hiddenVillage_entrance")
+        elif not('Virgin' in chars['Naruko_Uzumaki'].traits):
+            hide screen pyt_hiddenVillage_entrance
             jump karin_second_meeting
         else:
             if chars["Karin"].status == "slave":
                 "Nobody's here..."
                 jump hiddenVillage_entrance
-            $ renpy.hide_screen("pyt_hiddenVillage_entrance")
+            hide screen pyt_hiddenVillage_entrance
             if chars["Karin"] in hero.girls:
                 $ gm.start("girl_interactions", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
             else:
