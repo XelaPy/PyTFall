@@ -1,6 +1,7 @@
 init python:
     q = register_quest("Sixth Sense")
-    register_event("karin_first_meeting", quest="Sixth Sense", dice=None, trigger_type="auto", max_runs=1)
+    register_event("karin_first_meeting", quest="Sixth Sense",  dice=None, trigger_type="auto", max_runs=1)
+    # register_event("karin_first_meeting", quest="Sixth Sense", dice=None, locations=["mainscreen"], run_conditions=["pytfall.world_quests.get('Sixth Sense').stage == 1"], max_runs=1)
     
 label Karin_can_heal:
     $ k = chars["Karin"]
@@ -50,13 +51,13 @@ label Karin_can_heal:
     "She obviously enjoys it despite the pain. You feel like her energy flows into you, healing your wounds."
     $ k.disposition += 10
     k.say "Alright, we are done here. Come again when you'll need a treatment."
+    $ k.restore_portrait()
     jump girl_interactions
 label karin_first_meeting:
     scene black
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
     $ chars["Karin"].set_flag("event_to_interactions_karincanhealalways", value={"label": "Karin_can_heal", "button_name": "Ask for healing", "condition": "True"})
-    $ chars["Karin"].set_flag("event_to_interactions_showkarinyournewchakra", value={"label": "karin_second_meeting", "button_name": "Show her your chakra", "condition": "not('Virgin' in chars['Naruko_Uzumaki'].traits)"})
     show bg hidden_village with dissolve
     "You walk through the village, as you flip through the files that you got from Tsunade."
     "Telepathy, eyesight through any obstacles, superhuman strength... Kunoichi have uncommon and useful perks. It would be wise to have them as allies or slaves..."
@@ -100,6 +101,8 @@ label karin_first_meeting:
 
 label karin_second_meeting:
     $ k = chars["Karin"]
+    $ k_spr = chars["Karin"].get_vnsprite()
+    show expression k_spr at center with dissolve
     $ k.override_portrait("portrait", "angry")
     k.say "What is it? I don't have time right now, so..."
     "She stammers and seemed to be sniffing."
@@ -120,6 +123,13 @@ label karin_second_meeting:
     $ k.set_flag("quest_cannot_be_lover", value="False")
     $ k.set_flag("quest_cannot_be_fucked", value="False")
     k.say "Very well, I'll give you a chance."
-    "Now you can try sex with her, providing that she likes you enough of course."
-    $ k.del_flag("event_to_interactions_showkarinyournewchakra")
-    jump girl_interactions
+    $ pytfall.world_quests.get("Sixth Sense").next_in_label("Now you can try sex with her, providing that she likes you enough of course...")
+    $ pytfall.world_events.kill_event("karin_second_meeting")
+    $ register_event_in_label("karin_finish_quest", quest="Sixth Sense", locations=["hiddenVillage_entrance"], run_conditions=["not('Virgin' in chars['Karin'].traits)"], trigger_type="auto", max_runs=1)
+    return
+    
+label karin_finish_quest:
+    "It was a bit strange, but pleasant in general..."
+    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity. Now she will be available as a lover.", "complete")
+    $ pytfall.world_events.kill_event("karin_finish_quest")
+    jump hiddenVillage_entrance

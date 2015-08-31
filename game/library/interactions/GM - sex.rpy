@@ -55,7 +55,7 @@ label interactions_virgin_check:
     else:
         "Unfortunately she's still a virgin, and she's not ready to cease to be her yet."
         jump interaction_scene_choice
-    
+    label interactions_virgin_check_goon:
     label interactions_virgin_check_good:
         $ char.disposition += 20
         $ char.removetrait(traits["Virgin"])

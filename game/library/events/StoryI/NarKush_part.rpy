@@ -1,3 +1,7 @@
+init python:
+    q = register_quest("Sixth Sense")
+    register_event("karin_first_meeting", quest="Sixth Sense",  dice=None, trigger_type="auto", max_runs=1)
+
 label naruko_first_meeting:
     stop music
     stop world

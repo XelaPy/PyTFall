@@ -67,9 +67,11 @@ label hidden_village_matrix:
         if pytfall.world_quests.get("Sixth Sense") and pytfall.world_quests.get("Sixth Sense").stage < 1:
             hide screen pyt_hiddenVillage_entrance
             jump karin_first_meeting
-        elif not('Virgin' in chars['Naruko_Uzumaki'].traits):
+        elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.get("Sixth Sense") and pytfall.world_quests.get("Sixth Sense").stage < 2:
             hide screen pyt_hiddenVillage_entrance
-            jump karin_second_meeting
+            show bg girl_room_12
+            call karin_second_meeting
+            $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
         else:
             if chars["Karin"].status == "slave":
                 "Nobody's here..."
