@@ -86,6 +86,17 @@ init -9 python:
                 if i.name == name: return i
             else: return None
         
+        def check_stage(self, quest, stage):
+            """Safe way of checking a stage of a quest.
+            
+            Will return None if quest is not active stage is below the requested stage value and True if it equals or above.
+            """
+            if not self.is_active(quest):
+                return
+            if self.get(quest).stage < stage:
+                return
+            return True
+            
         def has_failed(self, quest):
             """
             Whether a quest has been failed.
@@ -170,7 +181,6 @@ init -9 python:
         """
         Class to hold the current status of a quest.
         """
-        
         def __init__(self, name, auto=None, manual=None):
             """
             Creates a new Quest.
