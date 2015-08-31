@@ -14,7 +14,7 @@ init:
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
 
-label intro_story:
+
 label reflection_quest_part_one:
     stop world
     stop music

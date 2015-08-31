@@ -16,13 +16,13 @@ init:
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     
 label forest_begining:
-
-    # python:
-        # for c in chars:
-            # if c.origin == "Naruto":
-                # c.set_flag("quest_cannot_be_hired", True)
-                # c.set_flag("quest_cannot_be_fucked", True)
-                # c.set_flag("quest_cannot_be_lover", True)
+label intro_story:
+    python:
+        for i in chars.values():
+            if i.origin == "Naruto":
+                i.set_flag("quest_cannot_be_hired", True)
+                i.set_flag("quest_cannot_be_fucked", True)
+                i.set_flag("quest_cannot_be_lover", True)
     $ b = Character("???", color=white, what_color=white, show_two_window=True)
     hide screen pyt_mainscreen
     scene black
