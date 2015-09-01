@@ -58,7 +58,7 @@ label interactions_virgin_check:
     label interactions_virgin_check_goon:
     label interactions_virgin_check_good:
         $ char.disposition += 20
-        $ char.removetrait(traits["Virgin"])
+        $ char.remove_trait(traits["Virgin"])
         if char.health >=20:
             $ char.health -= 10
         else:

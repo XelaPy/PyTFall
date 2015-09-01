@@ -84,7 +84,7 @@ init -997: # Transforms:
         anchor (0.5, 0.5)
         zoom start_val
         linear t zoom end_val
-       
+        
     # Complex transforms(*):
     transform pers_effect():
         subpixel True

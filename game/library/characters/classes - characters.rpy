@@ -1891,7 +1891,7 @@ init -9 python:
         def apply_trait(self, trait, truetrait=True): # Applies trait effects
             self.traits.apply(trait, truetrait=truetrait)
 
-        def removetrait(self, trait, truetrait=True):  # Removes trait effects
+        def remove_trait(self, trait, truetrait=True):  # Removes trait effects
             self.traits.remove(trait, truetrait=truetrait)
             
         # Applies Item Effects:
@@ -1976,9 +1976,9 @@ init -9 python:
                 for entry in item.removetraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
-                            self.removetrait(traits[entry], truetrait=False)
+                            self.remove_trait(traits[entry], truetrait=False)
                         else:
-                            self.removetrait(traits[entry])
+                            self.remove_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to remove an invalid trait: %s!" % (item.id, entry)))
                     
@@ -2125,9 +2125,9 @@ init -9 python:
                 for entry in item.addtraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
-                            self.removetrait(traits[entry], truetrait=False)
+                            self.remove_trait(traits[entry], truetrait=False)
                         else:
-                            self.removetrait(traits[entry])
+                            self.remove_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to remove an invalid trait: %s!" % (item.id, entry)))
     

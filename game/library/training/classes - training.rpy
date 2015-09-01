@@ -1216,7 +1216,7 @@ init -9 python:
                 for k in iter(self.noTraits):
                     if isinstance(k, (list,tuple)): k = choice(v)
                     
-                    if k in traits: girl.removetrait(traits[k])
+                    if k in traits: girl.remove_trait(traits[k])
             
             if self.effect is not None:
                 for k in iter(self.effect):

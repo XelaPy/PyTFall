@@ -75,37 +75,56 @@ label angelica_menu:
                             a "You don't have enought money..."
                             a " but come back when you do! I will be around here somewhere!"
                 $ del alignment
+            
+            "Remove Alignments!":
+                a "Lets take a look!"
+                if len(hero.team) > 1:
+                    if len(hero.team) == 3:
+                        a "Who is it going to be?"
+                    call screen character_pick_screen
+                    $ char = _return
+                else:
+                    $ char = hero
                     
+                if not "Neutral" in char.traits:
+                    
+                    call screen alignment_removal_choice(char)
+                    
+                    $ alignment = _return
+                    
+                    if alignment:
+                        if alignment == "clear_all":
+                            $ price = 50000 * len(list(el for el in char.traits if el.elemental))
+                            if hero.take_money(price, reason="Element Purchase"):
+                                a "There! All done!"
+                                a "All elements removed!"
+                                python:
+                                    for el in list(el for el in char.traits if el.elemental):
+                                        char.remove_trait(el)
+                            else:
+                                a "You don't have enought money..."
+                                a " but come back when you do! I will be around here somewhere!"
+                        else:
+                            $ price = 50000
+                            if hero.take_money(price, reason="Element Purchase"):
+                                a "There! All done!"
+                                $ char.remove_trait(alignment)
+                            else:
+                                a "You don't have enought money..."
+                                a " but come back when you do! I will be around here somewhere!"
+                    
+                else:
+                    a "I can't remove an element if you don't have any..."
+                      
+                if hasattr(store, "alignment"):
+                    $ del alignment
+                
             "Goodbye!":
                 $ loop = False
             
     a "See you around!"
     jump mages_tower
     
-screen alignment_choice:
-    default tt = Tooltip("I changed my mind...!")
-    
-    textbutton "[tt.value]":
-        style "yesno_button"
-        align(0.1, 0.05)
-        action Return("")
-    
-    python:
-        elements = list(el for el in traits.values() if el.elemental and el != traits["Neutral"])
-        step = 360 / len(elements)
-        var = 0
-        
-    for el in elements:
-        python:
-            img = ProportionalScale(el.icon, 120, 120)
-            angle = var
-            var = var + step
-        imagebutton at circle_around(t=10, angle=angle, radius=250):
-            idle img
-            hover im.MatrixColor(img, im.matrix.brightness(0.25))
-            action Return(el)
-            hovered tt.Action(el.id)
-            
 screen alignment_choice():
     default tt = Tooltip("I changed my mind...!")
     
@@ -142,13 +161,21 @@ screen alignment_removal_choice(char):
         elements = list(el for el in char.traits if el.elemental)
         xpos = 200
         
-    for el in elements:
-        python:
-            img = ProportionalScale(el.icon, 120, 120)
-            angle = var
-            var = var + step
-        imagebutton at circle_around(t=10, angle=angle, radius=250):
+    hbox:
+        xsize 600
+        box_wrap True
+        align (0.5, 0.2)
+        spacing 50
+        for el in elements:
+            $ img = ProportionalScale(el.icon, 120, 120)
+            imagebutton:
+                idle img
+                hover Transform(im.MatrixColor(img, im.matrix.brightness(0.25)), zoom=1.2)
+                action Return(el)
+                hovered tt.Action(el.id)
+        $ img = ProportionalScale(traits["Neutral"].icon, 120, 120)
+        imagebutton:
             idle img
-            hover im.MatrixColor(img, im.matrix.brightness(0.25))
-            action Return(el)
-            hovered tt.Action(el.id)    
+            hover Transform(im.MatrixColor(img, im.matrix.brightness(0.25)), zoom=1.2)
+            action Return("clear_all")
+            hovered tt.Action("Clear all elements!")

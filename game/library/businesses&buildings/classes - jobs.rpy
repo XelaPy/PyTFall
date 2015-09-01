@@ -799,7 +799,7 @@
             if traits["Virgin"] in self.char.traits:
                 tips = 100 + self.char.charisma * 3
                 self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot so she left a tip of {color=[gold]}%d Gold{/color} for your girl.\n\n"%(self.char.nickname, tips))
-                self.char.removetrait(traits["Virgin"])
+                self.char.remove_trait(traits["Virgin"])
                 self.char.fin.log_tips(tips, "WhoreJob")
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
@@ -1106,7 +1106,7 @@
             if act.is_vaginal and "Virgin" in self.girl.traits:
                 tips = self.girl.charisma * 10
                 self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} The customer thought it was super hot so he left a tip of {color=[gold]}%d Gold{/color}.\n\n"%(self.girl.nickname, tips))
-                self.girl.removetrait(traits["Virgin"])
+                self.girl.remove_trait(traits["Virgin"])
                 self.girl.fin.log_tips(tips, "WhoreJob")
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
