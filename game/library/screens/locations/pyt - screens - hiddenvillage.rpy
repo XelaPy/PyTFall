@@ -25,6 +25,8 @@ label hiddenVillage_entrance:
     $ pytfall.world_events.run_events("auto")
     if pytfall.world_quests.check_stage("Sixth Sense", 2) and not('Virgin' in chars['Karin'].traits):
         jump karin_finish_quest
+    if pytfall.world_quests.check_stage("Stubborn Kunoichi", 3) and not('Virgin' in chars['Temari'].traits):
+        jump karin_finish_quest
     python:
 
         while True:
@@ -68,7 +70,7 @@ label hidden_village_matrix:
         if not(pytfall.world_quests.check_stage("Sixth Sense", 1)):
             hide screen pyt_hiddenVillage_entrance
             jump karin_first_meeting
-        elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and not(pytfall.world_quests.check_stage("Sixth Sense", 2)):
+        elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.check_stage("Sixth Sense", 1) and not(pytfall.world_quests.check_stage("Sixth Sense", 2)):
             hide screen pyt_hiddenVillage_entrance
             show bg girl_room_12
             call karin_second_meeting
@@ -82,8 +84,34 @@ label hidden_village_matrix:
                 $ gm.start("girl_interactions", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
             else:
                 $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
-    if _return == "House_6":
+    elif _return == "House_6":
         jump hidden_village_shop
+    elif _return == "Training":
+        if not(pytfall.world_quests.check_stage("Stubborn Kunoichi", 1)):
+            hide screen pyt_hiddenVillage_entrance
+            jump temari_first_meeting
+        elif pytfall.world_quests.check_stage("Stubborn Kunoichi", 2) and not(pytfall.world_quests.check_stage("Stubborn Kunoichi", 3)):
+            hide screen pyt_hiddenVillage_entrance
+            jump temari_final_meeting
+    elif _return == "House_9":
+        if not(pytfall.world_quests.check_stage("Stubborn Kunoichi", 1)):
+            "The door is locked. Looks like there is no one here..."
+        elif pytfall.world_quests.check_stage("Stubborn Kunoichi", 1) and not(pytfall.world_quests.check_stage("Stubborn Kunoichi", 2)) and chars["Temari"].disposition >= 200:
+            hide screen pyt_hiddenVillage_entrance
+            show bg girls_dorm with dissolve
+            jump temari_second_meeting
+        else:
+            menu:
+                "It's a dormitory who kunoichi who don't own a house. Who you want to see?"
+                
+                "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi", 1):# and chars["Temari"].status != "slave":
+                    
+                    if chars["Temari"] in hero.girls:
+                        $ gm.start("girl_interactions", chars["Temari"], chars["Temari"].get_vnsprite(), "hiddenVillage_entrance", "girls_dorm")
+                    else:
+                        $ gm.start("girl_meets", chars["Temari"], chars["Temari"].get_vnsprite(), "hiddenVillage_entrance", "girls_dorm")
+                "Leave":
+                    jump hiddenVillage_entrance
     "Result: [_return]"
     jump hidden_village_matrix
     

@@ -1,5 +1,5 @@
 init python:
-    q = register_quest("Sixth Sense")
+    karin_quest = register_quest("Sixth Sense")
     
 label Karin_can_heal:
     $ k = chars["Karin"]
@@ -110,11 +110,11 @@ label karin_second_meeting:
     $ k.set_flag("quest_cannot_be_fucked", value=False)
     k.say "Very well, I'll give you a chance."
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("Now you can try sex with her, providing that she likes you enough of course...")
-    $ pytfall.world_events.kill_event("karin_second_meeting")
     return
     
 label karin_finish_quest:
+    $ k = chars["Karin"]
     "It was a bit strange because of her masochistic tendencies, but pleasant in general..."
-    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity.", "complete")
-    $ pytfall.world_events.kill_event("karin_finish_quest")
+    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity. She can be hired now.", "complete")
+    $ k.set_flag("quest_cannot_be_hired", value=False)
     jump hiddenVillage_entrance
