@@ -23,7 +23,8 @@ label hiddenVillage_entrance:
         
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    
+    if pytfall.world_quests.check_stage("Sixth Sense", 2) and not('Virgin' in chars['Karin'].traits):
+        jump karin_finish_quest
     python:
 
         while True:
@@ -64,10 +65,10 @@ label hidden_village_matrix:
     if not(_return):
         jump hiddenVillage_entrance
     if _return == "House_5":
-        if pytfall.world_quests.get("Sixth Sense") and pytfall.world_quests.get("Sixth Sense").stage < 1:
+        if not(pytfall.world_quests.check_stage("Sixth Sense", 1)):
             hide screen pyt_hiddenVillage_entrance
             jump karin_first_meeting
-        elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.get("Sixth Sense") and pytfall.world_quests.get("Sixth Sense").stage < 2:
+        elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and not(pytfall.world_quests.check_stage("Sixth Sense", 2)):
             hide screen pyt_hiddenVillage_entrance
             show bg girl_room_12
             call karin_second_meeting

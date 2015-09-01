@@ -1,7 +1,5 @@
 init python:
     q = register_quest("Sixth Sense")
-    register_event("karin_first_meeting", quest="Sixth Sense",  dice=None, trigger_type="auto", max_runs=1)
-    # register_event("karin_first_meeting", quest="Sixth Sense", dice=None, locations=["mainscreen"], run_conditions=["pytfall.world_quests.get('Sixth Sense').stage == 1"], max_runs=1)
     
 label Karin_can_heal:
     $ k = chars["Karin"]
@@ -95,8 +93,6 @@ label karin_first_meeting:
     $ k.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("You met Karin, one of ninja medics. She wants you to improve your chakra before she will agree to do anything with you.")
-    $ pytfall.world_events.kill_event("karin_first_meeting")
-    $ register_event_in_label("karin_second_meeting", quest="Sixth Sense", dice=None, trigger_type="auto", max_runs=1)
     jump hiddenVillage_entrance
 
 label karin_second_meeting:
@@ -106,30 +102,19 @@ label karin_second_meeting:
     $ k.override_portrait("portrait", "angry")
     k.say "What is it? I don't have time right now, so..."
     "She stammers and seemed to be sniffing."
-    menu:
-        "Ask what's wrong":
-            $ k.override_portrait("portrait", "indifferent")
-            k.say "Wrong? There is nothing wrong. Not with me at least."
-        "Propose to just talk a bit":
-            k.say "Nah, just stay still. I need to..."
-        "Turn around and leave":
-            $ k.override_portrait("portrait", "shy")
-            k.say "H-Hey, wait! I didn't told you to leave!"
     "For a few seconds she looks at you, but at the same time through you."
     $ k.override_portrait("portrait", "suggestive")
-    k.say "Ah, I see what you did there. Clever, clever indeed."
-    k.say "Her chakra combined with someone else is tasty indeed."
+    k.say "Ah, I see what you did there. Her chakra combined with someone else is tasty indeed."
     "She licks her lips."
-    $ k.set_flag("quest_cannot_be_lover", value="False")
-    $ k.set_flag("quest_cannot_be_fucked", value="False")
+    $ k.set_flag("quest_cannot_be_lover", value=False)
+    $ k.set_flag("quest_cannot_be_fucked", value=False)
     k.say "Very well, I'll give you a chance."
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("Now you can try sex with her, providing that she likes you enough of course...")
     $ pytfall.world_events.kill_event("karin_second_meeting")
-    $ register_event_in_label("karin_finish_quest", quest="Sixth Sense", locations=["hiddenVillage_entrance"], run_conditions=["not('Virgin' in chars['Karin'].traits)"], trigger_type="auto", max_runs=1)
     return
     
 label karin_finish_quest:
-    "It was a bit strange, but pleasant in general..."
-    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity. Now she will be available as a lover.", "complete")
+    "It was a bit strange because of her masochistic tendencies, but pleasant in general..."
+    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity.", "complete")
     $ pytfall.world_events.kill_event("karin_finish_quest")
     jump hiddenVillage_entrance
