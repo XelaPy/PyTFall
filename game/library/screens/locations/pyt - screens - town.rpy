@@ -120,11 +120,11 @@ screen pyt_city_screen():
     
     frame:
         background Null()
-        xysize(190, 195)
-        pos (1090, 123)
+        xysize(190, 193)
+        pos (1090, 126)
         side "c r":
             pos (5, 5)
-            maximum(190, 195)
+            maximum(190, 193)
             viewport id "locations":
                 draggable True
                 mousewheel True

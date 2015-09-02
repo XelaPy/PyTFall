@@ -130,7 +130,7 @@ screen pyt_items_transfer():
                                             idle img
                                             hover img
                                             selected_idle Transform(img, alpha=1.05)
-                                            action [Return(['select_left_char', lmember]), SelectedIf(lmember == pytfall.it.left_char), SensitiveIf(lmember != pytfall.it.right_char)]
+                                            action [Return(['select_left_char', lmember]), SelectedIf(lmember == pytfall.it.left_char), SensitiveIf(lmember != pytfall.it.right_char)], With(dissolve)
                                         frame:
                                             xalign 0.5
                                             background Frame("content/gfx/frame/Mc_bg3.png", 5, 5)
@@ -162,7 +162,7 @@ screen pyt_items_transfer():
                                     $ left_vp_items_amount = pytfall.it.left_char.inventory.content[litem.id]
                                     button:
                                         xysize (325, 28)
-                                        action [Return(['select_left_item', litem]), SelectedIf(litem == pytfall.it.left_item)]
+                                        action [Return(['select_left_item', litem]), SelectedIf(litem == pytfall.it.left_item)] , With(dissolve)
                                         text "[litem.id]" align (0.0, 0.5) style "dropdown_gm2_button_text"
                                         text "[left_vp_items_amount]" align (1.0, 0.7) style "dropdown_gm2_button_value_text"
                     vbar value YScrollValue("left_items")
@@ -202,7 +202,7 @@ screen pyt_items_transfer():
                                             idle img
                                             hover img
                                             selected_idle Transform(img, alpha=1.05)
-                                            action [Return(['select_right_char', rmember]), SelectedIf(rmember == pytfall.it.right_char), SensitiveIf(rmember != pytfall.it.left_char)]
+                                            action [Return(['select_right_char', rmember]), SelectedIf(rmember == pytfall.it.right_char), SensitiveIf(rmember != pytfall.it.left_char)], With(dissolve)
                                         frame:
                                             ypos -4
                                             xalign 0.5
@@ -233,7 +233,7 @@ screen pyt_items_transfer():
                                     $ right_vp_items_amount = pytfall.it.right_char.inventory.content[ritem.id]  
                                     button:
                                         xysize (325, 28)
-                                        action [Return(['select_right_item', ritem]), SelectedIf(ritem == pytfall.it.right_item)]
+                                        action [Return(['select_right_item', ritem]), SelectedIf(ritem == pytfall.it.right_item)], With(dissolve)
                                         text "[ritem.id]" align (0.0, 0.5) style "dropdown_gm2_button_text"
                                         text "[right_vp_items_amount]" align (1.0, 0.7) style "dropdown_gm2_button_value_text"
                     vbar value YScrollValue("right_items")
@@ -361,7 +361,7 @@ screen pyt_items_transfer():
                             hover Transform(img_hover, alpha=1.1)
                             selected_idle img_selected
                             selected_hover Transform(img_selected, alpha=1.15)
-                            action [Return(['set_filter', filter]), SelectedIf(filter == pytfall.it.filter)]
+                            action [Return(['set_filter', filter]), SelectedIf(filter == pytfall.it.filter)] , With(dissolve)
                             focus_mask True
            
                     

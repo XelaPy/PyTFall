@@ -65,7 +65,7 @@ init 998:
         drop_shadow [(1, 1)]
         drop_shadow_color black
         color "#EEE8CD"
-        insensitive_color grey
+        insensitive_color "#808069" # warmgrey
         size 16
         outlines [(1, "#3a3a3a", 0, 0)]
         selected_outlines [(1, "#8B3E2F", 0, 0)]
@@ -103,7 +103,7 @@ init 998:
         hover_outlines [(1, "#3a3a3a", 0, 0)]
         selected_idle_color "#CDC673"
         selected_hover_color "#CDC673"
-        insensitive_color grey
+        insensitive_color "#808069"
         size 18
         align (0.5, 0.5)
         
@@ -188,6 +188,21 @@ init 998:
         outlines [(1, "#3a3a3a", 0, 0)]
         size 14
         color ivory 
+    
+    # Style for profile buttons "pb"
+    style pb_button:
+        is hframe_button
+        xysize (60, 30)
+    style pb_button_text:
+        font "fonts/rubius.ttf"
+        size 17
+        idle_color "#CDCDC1"
+        hover_color "#F5F5DC"
+        selected_idle_color "#CDAD00"
+        selected_hover_color "#CDAD00"
+        xalign 0.5
+        ypos 15
+    
 init -2:
     # Frames:
     style alt_frame:
@@ -253,6 +268,13 @@ init -2:
         hover_background  Fixed(Frame("content/gfx/interface/buttons/s_menu1.png", 5, 5),
                                                   flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/s_menu1.png"), 5, 5)
+        
+    style hframe_button:
+        take flashing
+        background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)
+        hover_background  Fixed(Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5),
+                                                  flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
+        insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/hp_1s.png"), 5, 5)
         
     style smenu2_button:
         background Frame ("content/gfx/interface/buttons/s_menu2.png", 5, 5)
@@ -367,7 +389,7 @@ init -2:
         color ivory
         hover_color red
         selected_color green
-        insensitive_color grey
+        insensitive_color "#808069"
         
     style sqstory_button:
         is button
@@ -621,7 +643,7 @@ init: # Ren'Py Styles:
         drop_shadow [(1, 1)]
         drop_shadow_color grey
         selected_color crimson
-        insensitive_color grey
+        insensitive_color "#808069"
         
     style pref_slider:
         is bar
