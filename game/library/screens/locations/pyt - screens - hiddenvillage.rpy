@@ -23,10 +23,10 @@ label hiddenVillage_entrance:
         
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    if pytfall.world_quests.check_stage("Sixth Sense", 2) and not('Virgin' in chars['Karin'].traits):
+    if pytfall.world_quests.check_stage("Sixth Sense", 2) and not('Virgin' in chars['Karin'].traits) and not(pytfall.world_quests.is_complete("Sixth Sense")):
         jump karin_finish_quest
-    if pytfall.world_quests.check_stage("Stubborn Kunoichi", 3) and not('Virgin' in chars['Temari'].traits):
-        jump karin_finish_quest
+    if pytfall.world_quests.check_stage("Stubborn Kunoichi", 3) and not('Virgin' in chars['Temari'].traits) and not(pytfall.world_quests.is_complete("Stubborn Kunoichi")):
+        jump temari_finish_quest
     python:
 
         while True:
