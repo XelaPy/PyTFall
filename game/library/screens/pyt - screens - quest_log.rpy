@@ -46,8 +46,6 @@ screen pyt_quest_log:
     default display_mode = "active"
     default modes = ["active", "complete", "failed"]
     
-    add "bg profile_1"
-    
     frame:
         ypos 42
         background Frame("content/gfx/frame/p_frame5.png", 10, 10)
