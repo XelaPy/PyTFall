@@ -460,12 +460,12 @@ screen pyt_hero_profile():
                     #textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
     
     # EQUIPMENT   -------------------------------------------------->
-    #showif not renpy.get_screen('pyt_hero_equip'):
-        #use pyt_eqdoll(active_mode=False, char=hero)
+    # showif not renpy.get_screen('pyt_hero_equip'):
+        # use pyt_eqdoll(active_mode=False, char=hero)
     
     # TOOLTIP TEXT ====================================>
     frame:
-        background Null() 
+        background Null()
         pos (618, 599)
         xysize (660, 117)
         has hbox spacing 1
@@ -515,7 +515,7 @@ screen pyt_hero_profile():
         pos (178, 70)
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-            hover (im.Scale("content/gfx/interface/buttons/close2h.png", 35, 35))
+            hover im.Scale("content/gfx/interface/buttons/close2h.png", 35, 35)
             action Return(['control', 'return'])
             hovered tt.Action("Return to previous screen!")
     
@@ -523,8 +523,8 @@ screen pyt_hero_profile():
     fixed:
         pos (259, 697)
         bar:
-            value hero.exp
-            range hero.goal
+            value hero.stats.exp + hero.stats.goal_increase - hero.stats.goal
+            range hero.stats.goal_increase
             left_bar ("content/gfx/interface/bars/exp_full.png")
             right_bar ("content/gfx/interface/bars/exp_empty.png")
             thumb None
@@ -535,7 +535,7 @@ screen pyt_hero_profile():
             xmaximum 160
             xfill True
             add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
-            text (u"{color=#DAA520}%s/%s"% (hero.exp, hero.goal)) style "stats_value_text" bold True outlines [(1, "#181818", 0, 0)]
+            text "[hero.exp]/[hero.goal]" style "stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
     
     #use pyt_top_stripe(True)
 
