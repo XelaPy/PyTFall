@@ -174,9 +174,7 @@ init -9 python:
             
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
             self.log(temp)
-            store.client = client
-            store.char = char
-            char.action()
+            char.action(char, client)
             
             # We return the char to the nd list:
             store.nd_chars.insert(0, char)

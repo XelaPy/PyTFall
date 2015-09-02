@@ -55,10 +55,10 @@ label interactions_virgin_check:
     else:
         "Unfortunately she's still a virgin, and she's not ready to cease to be her yet."
         jump interaction_scene_choice
-    
+    label interactions_virgin_check_goon:
     label interactions_virgin_check_good:
         $ char.disposition += 20
-        $ char.removetrait(traits["Virgin"])
+        $ char.remove_trait(traits["Virgin"])
         if char.health >=20:
             $ char.health -= 10
         else:
@@ -76,7 +76,7 @@ label interactions_hireforsex:
     call interactions_check_for_bad_stuff
     if calling_interactions_end == 1:
         jump girl_interactions_end
-    if char.flag("quest_no_sex") == "True":
+    if char.flag("quest_cannot_be_fucked") == True:
         call int_sex_nope
         jump girl_interactions
     if char.disposition < -500:
@@ -114,7 +114,7 @@ label interactions_sex:
     "You proposing to have sex."
     call interactions_check_for_bad_stuff
     call interactions_check_for_minor_bad_stuff
-    if char.flag("quest_no_sex") == "True":
+    if char.flag("quest_cannot_be_fucked") == True:
         call int_sex_nope
         jump girl_interactions
     if ct("Lesbian"):

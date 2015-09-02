@@ -160,7 +160,7 @@ label girl_interactions:
             pytfall.world_actions.menu(m, "Go Out")
             pytfall.world_actions.gm_choice("Eat Together", index=(m, 0))
             pytfall.world_actions.gm_choice("Help With Something", index=(m, 1))
-           # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
+            # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
             
             # PROPOSITION
             m = 7

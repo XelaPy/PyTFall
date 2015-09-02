@@ -1,9 +1,6 @@
 init python:
-    def eyewarp(x):
-        return x**1.33
-    eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
-    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
-    
+    q = register_quest("Settling in the city")
+    register_event("reflection_quest_part_one", quest="Settling in the city", dice=None, trigger_type="auto", max_runs=1)
 init:
     image carstein = ProportionalScale("content/events/StoryI/Eric Carstein.png", 1700, 500)
     $ ec_neutral = Character("Carstein", color=white, what_color=white, show_two_window=True, show_side_image="content\events\StoryI\Carstein_neutral.png")
@@ -16,8 +13,9 @@ init:
     image clocks = ProportionalScale("content/items/quest/cl2.png", 150, 150)
     image letter = ProportionalScale("content/items/quest/letter.png", 150, 150)
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
-    
-label intro_story_ad:
+
+
+label reflection_quest_part_one:
     stop world
     stop music
     scene black with dissolve
@@ -39,59 +37,58 @@ label intro_story_ad:
     "His voice is low and raspy."
     ec_happy "Not many people come to this place these days. Do you have some business with me?"
     $ cem = 0
-    label cem_diag:
+    label reflection_quest_diag_one:
     menu:
         "Look at the tombstone next to him":
             "Nope, it's not your father. You can not make out the name, but the surname is 'Carstein'."
-            jump cem_diag
+            jump reflection_quest_diag_one
         "Ask about the cemetery":
             ec_neutral  "Ah yes, you see, after the riot there were too many dead bodies to bury, so we started to burn them." 
-            ec_neutral  "Over time it has become a tradition, and cemeteries are no longer used as before."
+            ec_neutral  "Over time it has become a tradition, and cemeteries are almost no longer used as before."
             ec_neutral "That's why not many people come here these days. <he glances at the tombstone nearby>"
-            jump cem_diag
+            jump reflection_quest_diag_one
         "Ask what is he doing here":
             ec_happy "<he laughs softly> The same thing as you, I presume. Pay tribute to the fallen."
-            jump cem_diag
+            jump reflection_quest_diag_one
         "Ask about your father's grave":
             ec_d "Oh, so you are looking for HIM. I'm afraid he is not here. I don't know where he is. Maybe nobody knows."
             $ cem = 1
-            jump cem_diag
+            jump reflection_quest_diag_one
         "Leave" if cem == 1:
             "You turning around, going to leave this place. Obviously, the letter was someone's joke."
             ec_neutral "But if you looking for anyone else, we can help each other, [hero.name]."
     "You stop. Does he know you?"
     ec_neutral "Allow me to introduce myself, boy. I am Eric Carstein, retired militia officer."
     ec_neutral "I used to know your father. Now I'm just a tired old man, but I still have some connections with military."
-    label cem_diag1:
+    label reflection_quest_diag_two:
     menu:
-        "Ask about the letter":
-            ec_neutral "So, you got a letter too? In fact, I have a similar letter telling me to meet you here today."
-            ec_neutral "I don't know who sent them. Handwriting analysis showed complete nonsense."
-            jump cem_diag1
         "Ask about the papers of your father":
             ec_d "<he doesn't look interested> Ah yes, he used to work on something. I don't know what it was, and I don't want to know too."
             ec_neutral "I already know enough to sleep bad at night. <he winks at you> Let's not worsen the situation."
-            jump cem_diag1
+            jump reflection_quest_diag_two
         "Ask about your father":
             ec_neutral "We were friends from childhood. Always wanted to make a military career."
             ec_sad "And we both succeeded in killing people. I was on the battlefield, your father was in the laboratory."
-            jump cem_diag1
+            jump reflection_quest_diag_two
         "Show him your letter":
             show letter at center with dissolve
-            "You show him the letter you received two weeks ago. He carefully examines it for a minute or so."
-            ec_neutral "It is the same handwriting, I'm sure of it. <he gazes at you> I don't know what is it about, but to be manipulated is never a good thing."
+            "You show him the letter you received two weeks ago."
+            ec_neutral "Ah yes, I sent it. You see, I don't know the details, but I know that some dangerous people trying to find you right now."
+            ec_neutral "They don't expect you to be right in the city thanks to my warning, so we have some time."
             hide letter with dissolve
-    ec_neutral "I have a proposition. <he gives you a bag of coins> Here, consider it a payment for that letter of yours. Buy yourself a house. Find a job. Gather some money."
-    ec_neutral "I believe we can be helpful to each other. If you help me to understand something, I will help you the best I can in return. We even can try to find your father, if you intend to follow the letter."
-    $ hero.gold+= 500
-    "Here we give a quest to buy a house and collect, let's say, 5000 gold and get to lvl 5." #quest
+    ec_neutral "I believe we can be helpful to each other. If you help me to understand something, I will help you the best I can in return."
+    ec_neutral "Buy yourself a house. Find a job. Gather some money."
     ec_neutral "<he gives you address> This is where I live. Meet me there when you will be ready. Until then..."
     hide carstein with dissolve
-    "He left. After a short while you go back to the city. At least that letter brought you some money."
+    "He left. After a short while you go back to the city."
+    $ pytfall.world_quests.get("Settling in the city").next_in_label("Your new acquaintance Carstein wants you to buy a house in the city and gather 3000 gold before you can continue.")
+    $ pytfall.world_events.kill_event("reflection_quest_part_one")
     stop world fadeout 2.0
-    scene black with dissolve
+    $ register_event_in_label("reflection_quest_part_two", quest="Settling in the city", locations=["mainscreen"], run_conditions=["hero.gold >= 3000"], dice=100, max_runs=1)
+    scene black
+    jump pyt_city
     
-label intro_story_hj:
+label reflection_quest_part_two:
     stop music
     stop world
     scene black with dissolve

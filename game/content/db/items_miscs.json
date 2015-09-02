@@ -39,7 +39,7 @@
     "mdestruct": false,
     "statmax": 110,
     "mod": {"constitution": 1, "attack": 1, "vitality": -25},
-    "locations": ["Work Shop", "Exploration"],
+    "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": ["Combat Training"]
     },
     {
@@ -105,7 +105,7 @@
     "skillmax": 10,
     "mod": {"gold": -8},
     "mod_skills": {"sex": [0, 0, 0, 1, 0]},
-    "locations": ["Witches Hut", "Exploration"],
+    "locations": ["Witches Hut", "Ninja Shop", "Exploration"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"]
     },
@@ -168,7 +168,7 @@
     "mdestruct": false,
     "statmax": 95,
     "mod": {"joy": 3, "vitality": 1, "character": 1, "gold": -4},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Ninja Shop"]
     },
     {
     "id": "Codex of Eros",
@@ -588,7 +588,7 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"health": 2},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration", "Ninja Shop"]
     },
     {
     "id": "Willbreaker Spice",
@@ -607,7 +607,7 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"character": -1, "vitality": -5, "mp": -5},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Ninja Shop"]
     },
     {
     "id": "Magic Chess",

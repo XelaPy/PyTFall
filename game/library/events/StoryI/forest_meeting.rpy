@@ -16,17 +16,13 @@ init:
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     
 label forest_begining:
-#label intro_story:
-    $ chars["Temari"].set_flag("quest_no_sex", value="True")
-    $ chars["Sakura"].set_flag("quest_no_sex", value="True")
-    $ chars["Hinata"].set_flag("quest_no_sex", value="True")
-    $ chars["Ino_Yamanaka"].set_flag("quest_no_sex", value="True")
-    $ chars["Karin"].set_flag("quest_no_sex", value="True")
-    $ chars["Konan"].set_flag("quest_no_sex", value="True")
-    $ chars["Kushina_Uzumaki"].set_flag("quest_no_sex", value="True")
-    $ chars["Naruko_Uzumaki"].set_flag("quest_no_sex", value="True")
-    $ chars["Tenten"].set_flag("quest_no_sex", value="True")
-    $ chars["Tsunade"].set_flag("quest_no_sex", value="True")
+label intro_story:
+    python:
+        for i in chars.values():
+            if i.origin == "Naruto":
+                i.set_flag("quest_cannot_be_hired", True)
+                i.set_flag("quest_cannot_be_fucked", True)
+                i.set_flag("quest_cannot_be_lover", True)
     $ b = Character("???", color=white, what_color=white, show_two_window=True)
     hide screen pyt_mainscreen
     scene black
@@ -464,3 +460,4 @@ label forest_begining:
     hide expression sakspr at center with dissolve
     $ s.restore_portrait()
     "Well then, time to do your own mission."
+    jump reflection_quest_part_one

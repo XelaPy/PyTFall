@@ -1075,6 +1075,10 @@ init -9 python:
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
             
+            # Game world status:
+            self.alive = True
+            self._available = True
+            
             # We add Neutral element here to all classes to be replaced later:
             self.apply_trait(traits["Neutral"])
             
@@ -1142,6 +1146,12 @@ init -9 python:
             
         # Game assist methods:
         # Properties:
+        @property
+        def is_available(self):
+            if not self.alive:
+                return False
+            return self._available
+        
         @property
         def occupations(self):
             """
@@ -1881,7 +1891,7 @@ init -9 python:
         def apply_trait(self, trait, truetrait=True): # Applies trait effects
             self.traits.apply(trait, truetrait=truetrait)
 
-        def removetrait(self, trait, truetrait=True):  # Removes trait effects
+        def remove_trait(self, trait, truetrait=True):  # Removes trait effects
             self.traits.remove(trait, truetrait=truetrait)
             
         # Applies Item Effects:
@@ -1966,9 +1976,9 @@ init -9 python:
                 for entry in item.removetraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
-                            self.removetrait(traits[entry], truetrait=False)
+                            self.remove_trait(traits[entry], truetrait=False)
                         else:
-                            self.removetrait(traits[entry])
+                            self.remove_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to remove an invalid trait: %s!" % (item.id, entry)))
                     
@@ -2115,9 +2125,9 @@ init -9 python:
                 for entry in item.addtraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
-                            self.removetrait(traits[entry], truetrait=False)
+                            self.remove_trait(traits[entry], truetrait=False)
                         else:
-                            self.removetrait(traits[entry])
+                            self.remove_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to remove an invalid trait: %s!" % (item.id, entry)))
     

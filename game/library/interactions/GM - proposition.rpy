@@ -97,7 +97,6 @@ label interactions_girlfriend:
     if check_lovers(char, hero):
         "But you already are!"
         jump girl_interactions
-
     if ct("Lesbian"):
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
@@ -159,7 +158,7 @@ label interactions_girlfriend:
     else:
         $ l_ch += 70
     
-    if char.flag("quest_no_sex") != "True" and (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
+    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
         $ set_lovers(hero, char)
         $ char.override_portrait("portrait", "shy")
         if ct("Impersonal") in  char.traits:
@@ -213,7 +212,9 @@ label interactions_girlfriend:
 
 ##### j3    
 label interactions_hire:
-    
+    if char.flag("quest_cannot_be_hired") == True:
+        $g(choice(["You're kidding, right?", "I don't want to work for you.", "Me working for you? Seriously?"]))
+        jump girl_interactions
     if cgo("Warrior"):
         python:
             # get skills relevant to occupation:

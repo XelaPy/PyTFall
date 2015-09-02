@@ -227,7 +227,7 @@
     "type": "armor",
     "max": {"defence": 5, "agility": 10},
     "mod": {"defence": 15, "agility": 5, "attack": 5},
-    "locations": ["Exploration", "Witches Hut"]
+    "locations": ["Exploration", "Ninja Shop"]
     },
     {
     "id": "Mage Robe",
@@ -299,7 +299,7 @@
     "max": {"defence": 10, "agility": 25},
     "mod": {"defence": 15, "agility": 25, "attack": 20, "charisma": -15},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": ["Former Assassin"]
     }
   ]

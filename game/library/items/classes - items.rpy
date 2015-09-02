@@ -255,7 +255,7 @@ init -9 python:
     class ItemShop(_object):
         '''Any shop that sells items ;)
         '''
-        def __init__(self, name, inv_length, locations=[], gold=10000, visible=True, sells=None):
+        def __init__(self, name, inv_length, locations=[], gold=10000, visible=True, sells=None, sell_margin=0.8, buy_margin=1.2):
             """Takes:
             locations = must be a list of item location fields ["general_shop", "cafe"] for example
             int_length = lenght of inventory field as arguments (must be an integer)
@@ -268,6 +268,8 @@ init -9 python:
             self.inventory = Inventory(inv_length)
             self.gold = gold
             self.normal_gold_amount = gold
+            self.sell_margin = sell_margin
+            self.buy_margin = buy_margin
             # self.target = None # Forgot what the hell tis is supposed to be
             self.visible = visible 
             self.restockday = randint(3, 5)

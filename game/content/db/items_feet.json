@@ -81,7 +81,7 @@
     "max": {"vitality": 15},
     "mod": {"agility": 10, "refinement": -20},
     "mod_skills": {"refinement": [0, 0, -0.08, 0, 0]},
-    "locations": ["Tailor Store"],
+    "locations": ["Tailor Store", "Ninja Shop"],
     "goodtraits": ["Athletic"]
     },
     {
@@ -118,7 +118,7 @@
     "max": {"attack": 10},
     "mod": {"agility": 10, "character": 5},
     "mod_skills": {"refinement": [0, 0, -0.07, 0, 0], "dancing": [0.02, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Ninja Shop"]
     },
     {
     "id": "High Heels",
@@ -464,7 +464,7 @@
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "max": {"agility": 30, "attack": 30, "defence": 20},
     "mod": {"agility": 30, "attack": 20, "defence": 25},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": ["Former Assassin"]
     },
     {

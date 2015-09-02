@@ -55,6 +55,7 @@ init -9 python:
             self.workshop = ItemShop('Work Shop', 18, ['Work Shop'], sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow"])
             self.witches_hut = ItemShop('Witches Hut', 18, ['Witches Hut'], sells=["amulet", "restore", "smallweapon"])
             self.tailor_store = ItemShop('Tailor Store', 18, ['Tailor Store'], sells=["dress"])
+            self.hidden_village_shop = ItemShop("Ninja Tools Shop", 18, ["Ninja Shop"], gold=1000, sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow", "amulet", "smallweapon", "restore", "dress"], sell_margin=0.85, buy_margin=3.0)
         
         # World AI ----------------------------->
         @staticmethod
