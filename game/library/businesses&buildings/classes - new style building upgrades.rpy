@@ -66,7 +66,7 @@ init -9 python:
             
         @property
         def all_workers(self):
-            return list(i for i in store.nd_chars if self.all_occs & i.occupations)
+            return list(i for i in self.instance.chars if self.all_occs & i.occupations)
             
         def requires_workers(self, amount=1):
             """
@@ -114,7 +114,7 @@ init -9 python:
             return int(round(2 + self._rep*0.01*max(len(self.all_workers), self.capacity)))
             
         def has_workers(self):
-            return list(i for i in store.nd_chars if self.all_occs & i.occupations)
+            return list(i for i in self.instance.chars if self.all_occs & i.occupations)
             
         def requires_workers(self, amount=1):
             return True
@@ -126,7 +126,7 @@ init -9 python:
             workers = list()
             
             # First gets the workers assigned directly to this upgrade as a priority.
-            priority = list(i for i in store.nd_chars if i.workplace == self and self.all_occs & i.occupations)
+            priority = list(i for i in self.instance.chars if i.workplace == self and self.all_occs & i.occupations)
             for i in range(amount):
                 try:
                     workers.append(priority.pop())
@@ -135,7 +135,7 @@ init -9 python:
             
             if len(workers) < amount:
                 # Next try to get anyone availible:
-                anyw = list(i for i in store.nd_chars if self.all_occs & i.occupations)
+                anyw = list(i for i in self.instance.chars if self.all_occs & i.occupations)
                 for i in range(amount-len(workers)):
                     try:
                         workers.append(anyw.pop())
@@ -177,7 +177,7 @@ init -9 python:
             char.action(char, client)
             
             # We return the char to the nd list:
-            store.nd_chars.insert(0, char)
+            self.instance.chars.insert(0, char)
             
             
     class StripClub(MainUpgrade):
@@ -225,7 +225,7 @@ init -9 python:
                     shuffle(aw)
                     worker = aw.pop()
                     self.active.add(worker)
-                    store.nd_chars.remove(worker)
+                    self.instance.chars.remove(worker)
                     self.env.process(self.use_worker(worker))
                 
             yield self.env.timeout(self.time)

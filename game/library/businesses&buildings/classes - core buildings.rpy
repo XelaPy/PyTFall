@@ -437,6 +437,8 @@ init -9 python:
             self.all_clients = set() # All clients of this building are maintained here.
             self.regular_clients = set() # Subset of self.all_clients.
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
+            # Chars:
+            self.chars = list() # All Workers...
                 
             # SimPy and etc follows (L33t stuff :) ):
             self.env = None
@@ -465,6 +467,9 @@ init -9 python:
                     self.all_clients.add(build_client())
             self.clients = self.all_clients.copy() # should be union with samples from regulars in the future.
             self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
+            
+            # All workers:
+            self.chars = list(g for g in hero.girls if g.location == self)
             
             # Create an environment and start the setup process:
             self.env = simpy.Environment()
@@ -612,7 +617,7 @@ init -9 python:
                             # Assumes a single worker at this stage... This part if for upgrades like Brothel.
                             if upgrade.requires_workers():
                                 char = None
-                                while store.nd_chars: 
+                                while self.chars: 
                                     
                                     # Here we should attempt to find the best match for the client!
                                     char = upgrade.get_workers()
@@ -622,8 +627,8 @@ init -9 python:
                                    
                                     # First check is the char is still well and ready:
                                     if not check_char(char):
-                                        if char in store.nd_chars:
-                                            store.nd_chars.remove(char)
+                                        if char in self.chars:
+                                            self.chars.remove(char)
                                         temp = set_font_color('{} is done with this job for the day.'.format(char.name), "aliceblue")
                                         self.log(temp)
                                         continue
@@ -632,23 +637,23 @@ init -9 python:
                                         # We to make sure that the girl is willing to do the job:
                                         temp = char.action.id
                                         if not char.action.check_occupation(char):
-                                            if char in store.nd_chars:
-                                                store.nd_chars.remove(char)
+                                            if char in self.chars:
+                                                self.chars.remove(char)
                                             temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
                                             self.log(temp)
                                             continue
                                     else:
                                         temp = set_font_color('{} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
                                         self.log(temp)
-                                        if char in store.nd_chars:
-                                            store.nd_chars.remove(char)
+                                        if char in self.chars:
+                                            sself.chars.remove(char)
                                         continue
                                         
                                     break # Breaks the while loop.
                             
                                 if char:
-                                    if char in store.nd_chars:
-                                        store.nd_chars.remove(char)
+                                    if char in self.chars:
+                                        self.chars.remove(char)
                                     store.client = client
                                     self.env.process(upgrade.request(client, char))
                                     break
