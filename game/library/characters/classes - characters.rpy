@@ -2484,6 +2484,10 @@ init -9 python:
                 tag = "combat"
             if tag == "fighting":
                 tag = "combat"
+            if tag == "cportrait":
+                tag = "cportrait"
+            if tag == "sprofile":
+                tag = "sprofile"
             if cache:
                 for entry in self.cache:
                     if entry[0] == tag:

@@ -1032,7 +1032,7 @@ init: # Settings:
     
         # default s_menu = "Settings"
         
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.7)
+        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.8)
         frame:
             #at fade_in_out(sv1=0.0, ev1=1.0, t1=0.7,
                                     #sv2=1.0, ev2=0.0, t2=0.5)

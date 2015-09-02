@@ -319,20 +319,20 @@ screen pyt_girl_profile():
                 xalign 0.5
                 button:
                     yalign 0.5
-                    action SetScreenVariable("stats_display", "main")
+                    action SetScreenVariable("stats_display", "main"), With(dissolve)
                     text "Main" size 15
                 button:
                     yalign 0.5
-                    action SetScreenVariable("stats_display", "stats")
+                    action SetScreenVariable("stats_display", "stats"), With(dissolve)
                     text "Stats" size 15
                 button:
                     yalign 0.5
-                    action SetScreenVariable("stats_display", "pro_stats")
+                    action SetScreenVariable("stats_display", "pro_stats"), With(dissolve)
                     text "Pro Stats" size 15
                 if config.developer:
                     button:
                         yalign 0.5
-                        action SetScreenVariable("stats_display", "skillstest")
+                        action SetScreenVariable("stats_display", "skillstest"), With(dissolve)
                         text "S" size 15
                         
             null height 4

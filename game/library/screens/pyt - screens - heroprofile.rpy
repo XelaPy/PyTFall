@@ -1,5 +1,5 @@
 label hero_profile:
-    scene bg profile_1
+    scene bg h_profile
     
     $ global_flags.set_flag("keep_playing_music")
     
@@ -138,15 +138,21 @@ label hero_profile:
 
 screen pyt_hero_profile():
     
-    default tt = Tooltip("Welcome to MC profile screen!")
+    default tt = Tooltip("")
+    default lframe_display = "status"
+    default rframe_display = "skills"
     
-    #  Hero Sprite:
-    add Transform(hero.show("battle_sprite", resize=(480, 480)), alpha=0.9) align(0.55, 0.53)
+    # HERO SPRITE ====================================>
+    add Transform(hero.show("sprofile", resize=(550, 550)), alpha=0.97) align(0.65, 0.9)
     
-    # Battle Stats:
+    # BASE FRAME 2 "bottom layer" and portrait ====================================>
+    add "content/gfx/frame/h_profile.png"
+    add (hero.show("cportrait", resize=(100, 100))) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
+    
+    # BATTLE STATS ====================================>
     fixed:
-        align (0.08, 0.98)
         xysize (270, 270)
+        pos (300, 413)
         add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
                                                               (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=0.4) align (0.5, 0.5)
         add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
@@ -155,208 +161,313 @@ screen pyt_hero_profile():
                                                               (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (0.5, 0.5)
         add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (0.01, 0.5)
         
-    text("{size=-5}{font=fonts/Rubius.ttf}{color=[red]}ATK [hero.attack]|%d"%(hero.get_max("attack"))) pos(178, 450)
-    text("{size=-5}{font=fonts/Rubius.ttf}{color=#dc762c}DEF [hero.defence]|%d"%(hero.get_max("defence"))) pos(33, 518)
-    text("{size=-5}{font=fonts/Rubius.ttf}{color=#1E90FF}AGI [hero.agility]|%d"%(hero.get_max("agility"))) pos(103, 698)
-    text("{size=-5}{font=fonts/Rubius.ttf}{color=#00FA9A}LCK [hero.luck]|%d"%(hero.get_max("luck"))) pos(248, 698)
-    text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}MAG [hero.magic]|%d"%(hero.get_max("magic"))) pos(308, 518)
-    
-    # Name:
     fixed:
-        xalign 0.6
-        ypos 45
-        label (u"[hero.name]") style "content_label" text_size 26 text_color ivory xalign 0.54 ypos 5
-            
-    # Level and Exp:
-    fixed:
-        xalign 0.585
-        ypos 80
-        xysize (300, 90)
-        style_group "content"
-        add ProportionalScale("content/gfx/frame/level1.png", 300, 90) align(0.5, 0.5)
-        label "[hero.level]" pos (45, 19) text_color ivory text_bold True text_size 17
-        text "[hero.exp]" pos (160, 21) color ivory bold True size 18
-        text "[hero.goal]" pos (160, 49) color ivory bold True size 18
-    
-    # Stats + Location:
-    frame:
-        align (0.0, 0.13)
-        background (im.Scale("content/gfx/frame/stats_frame2.png", 245, 470))
-        xysize (225, 470)
-        has vbox
-        vbox:
-            xpos 5
-            ypos 14
+        frame:
+            xysize (100,40)
+            pos(375, 402)
+            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
             hbox:
-                $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "libido"]
-                vbox:
-                    style_group "stats"
-                    spacing -7
-                    xanchor 2
-                    xmaximum 113
-                    frame:
-                        xysize (215, 8)
-                        text "{color=#CD4F39}Health:" xalign (0.02)
-                    frame:
-                        xysize (215, 8)
-                        text "{color=#009ACD}MP:" size 16 xalign (0.02)
-                    frame:
-                        xysize (215, 8)
-                        text "{color=#43CD80}Vitality:" xalign (0.02)
-                    for stat in stats:
+                xfill True
+                yfill True
+                add ProportionalScale("content/gfx/interface/images/atk.png", 24, 24) align (0.5, 0.5)
+                text("{size=-5}{font=fonts/Rubius.ttf}{color=[red]}[hero.attack]|%d"%(hero.get_max("attack"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+        frame:
+            xysize (100,40)
+            pos(223, 483)
+            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+            hbox:
+                xfill True
+                yfill True
+                add ProportionalScale("content/gfx/interface/images/def.png", 24, 24) align (0.5, 0.5)
+                text("{size=-5}{font=fonts/Rubius.ttf}{color=#dc762c}[hero.defence]|%d"%(hero.get_max("defence"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+        frame:
+            xysize (100,40)
+            pos(255, 643)
+            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+            hbox:
+                xfill True
+                yfill True
+                add ProportionalScale("content/gfx/interface/images/agi.png", 24, 24) align (0.5, 0.5)
+                text("{size=-5}{font=fonts/Rubius.ttf}{color=#1E90FF} [hero.agility]|%d"%(hero.get_max("agility"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+        frame:
+            xysize (100,40)
+            pos(495, 643)
+            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+            hbox:
+                xfill True
+                yfill True
+                add ProportionalScale("content/gfx/interface/images/luck.png", 24, 24) align (0.5, 0.5)
+                text("{size=-5}{font=fonts/Rubius.ttf}{color=#00FA9A}[hero.luck]|%d"%(hero.get_max("luck"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+        frame:
+            xysize (100,40)
+            pos(526, 483)
+            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+            hbox:
+                xfill True
+                yfill True
+                add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24) align (0.5, 0.5)
+                text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+    
+    # LEFT FRAME ====================================>
+    vbox:
+        xysize (217, 470)
+        pos (8, 110)
+        text (u"{color=#ecc88a}[hero.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.492 ypos 5
+        
+        # NAME^   LVL   (ok for 1m lvls) ====================================>
+        if (hero.level) <10:
+            hbox:
+                spacing 1
+                pos (89, 11)
+                label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+                label "{color=#CDAD00}[hero.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+        elif (hero.level) <100:
+            hbox:
+                spacing 1
+                pos (86, 11)
+                label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+                label "{color=#CDAD00}[hero.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+        elif (hero.level) <10000:
+            hbox:
+                spacing 1
+                pos (77, 11)
+                label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+                label "{color=#CDAD00}[hero.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+        else:
+            hbox:
+                spacing 1
+                pos (73, 11)
+                label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+                label "{color=#CDAD00}[hero.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+        null height -30
+            
+        if lframe_display == "status":
+        
+        # STATS ====================================>
+            vbox:
+                hbox:
+                    $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "libido"]
+                    ypos 40
+                    vbox:
+                        style_group "stats"
+                        spacing -7
+                        xanchor 2
+                        xmaximum 113
                         frame:
                             xysize (215, 8)
-                            text ('{color=#79CDCD}%s'%stat.capitalize()) color ivory size 17 xalign (0.02) 
-                vbox:
-                    yalign (0.65)
-                    spacing 8
-                    xanchor 20
-                    xfill True
-                    xminimum 0
-                    xmaximum 120
+                            text "{color=#CD4F39}Health:" xalign (0.02)
+                        frame:
+                            xysize (215, 8)
+                            text "{color=#009ACD}MP:" size 16 xalign (0.02)
+                        frame:
+                            xysize (215, 8)
+                            text "{color=#43CD80}Vitality:" xalign (0.02)
+                        for stat in stats:
+                            frame:
+                                xysize (215, 8)
+                                text ('{color=#79CDCD}%s'%stat.capitalize()) color ivory size 17 xalign (0.02) 
+                    vbox:
+                        yalign (0.65)
+                        spacing 8
+                        xanchor 20
+                        xfill True
+                        xminimum 0
+                        xmaximum 120
                     
-                    if hero.health <= hero.get_max("health")*0.3:
-                        text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
-                    else:
-                        text (u"%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
+                        if hero.health <= hero.get_max("health")*0.3:
+                            text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
+                        else:
+                            text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
     
-                    if hero.mp <= hero.get_max("mp")*0.3:
-                        text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) style "stats_value_text" xalign (1.0)
-                    else:
-                        text (u"%s/%s"%(hero.mp, hero.get_max("mp"))) style "stats_value_text" xalign (1.0)
+                        if hero.mp <= hero.get_max("mp")*0.3:
+                            text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) style "stats_value_text" xalign (1.0)
+                        else:
+                            text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) style "stats_value_text" xalign (1.0)
     
-                    if hero.vitality <= hero.get_max("vitality")*0.3:
-                        text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                    else:
-                        text (u"%s/%s"%(hero.vitality, hero.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-    
-                    for stat in stats:
-                        text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) style "stats_value_text" xalign (1.0)
+                        if hero.vitality <= hero.get_max("vitality")*0.3:
+                            text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) style "stats_value_text" xalign (1.0)
+                        else:
+                            text (u"{color=#F5F5DC}%s/%s"%(hero.vitality, hero.get_max("vitality"))) style "stats_value_text" xalign (1.0)
                         
-            null height 2
-            
-            # $ loc = hero.location if isinstance(hero.location, basestring) else hero.location.name
-            button:
-                style_group "ddlist"
-                action Return(["dropdown", "loc"])
-                alternate Return(["dropdown", "home"])
-                text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
-                    if len(str(hero.location)) > 18:
-                        size 15
-                    else:
-                        size 16
-                hovered tt.Action("Change MCs Home/Location.")
-
-    # Traits (Baseclasses for now):
-    frame:
-        align (1.0, 0.1)
-        has vbox
-        for t in hero.traits:
-            textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
+                        for stat in stats:
+                            text ('{color=#F5F5DC}%d/%d'%(getattr(hero, stat), hero.get_max(stat))) style "stats_value_text" xalign (1.0)
+                    
+                # LOCATION ====================================>
+                vbox:
+                    pos (10, 8)
+                    # $ loc = hero.location if isinstance(hero.location, basestring) else hero.location.name
+                    button:
+                        ypos 35
+                        style_group "ddlist"
+                        action Return(["dropdown", "loc"])
+                        alternate Return(["dropdown", "home"])
+                        text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
+                            if len(str(hero.location)) > 18:
+                                size 15
+                            else:
+                                size 16
+                        hovered tt.Action("Change MCs Home/Location.")
+                        
+                    # AP ====================================>
+                    frame:
+                        ypos 37
+                        xysize (100, 80)
+                        background ProportionalScale("content/gfx/frame/frame_ap2.png", 190, 80)
+                        label "[hero.AP]":
+                            pos (130, -2)
+                            style "content_label"
+                            text_color ivory
+                            text_size 22
+                        
+                    # ELEMENTAL ALIGNMENT ====================================>
+                    frame:
+                        xpos -13
+                        style_group "content"
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
+                        xysize (217, 177)
+                        ymaximum 165
+                        if hasattr(hero, "element"):
+                            $ img = ProportionalScale("".join(["content/gfx/interface/images/elements/", hero.element.lower(), ".png"]), 120, 120)
+                            $ element = hero.element.split()[0]
+                            $ desc = pytfall.desc.elements[element.lower()]
+                            label "[element]" align(0.1, 0.1) text_color purple text_size 30 text_bold True
+                            imagebutton:
+                                at elements()
+                                xcenter 205
+                                ycenter 95
+                                idle (img)
+                                hover (img)
+                                hovered tt.Action(desc)
+                                action NullAction()
     
-    # Buttons ------------------------------------>
-    frame:
-        background Frame("content/gfx/frame/p_frame3.png", 10, 10)
-        style_group "basic"
-        xsize 150
-        xpadding 10
-        ypadding 10
-        pos (350, 545)
-        has vbox
-        textbutton "Show PT":
-            xsize 150 # make sure buttons don't change size all the time :)
-            action Show("pyt_hero_team")
-            xfill True
-            hovered tt.Action("Show [hero.team.name]!")
-        textbutton 'Finances':
-            hovered tt.Action("View your Finanaces.")
-            xfill True
-            action Show("pyt_hero_finances")
-        textbutton 'Equipment':
-            hovered tt.Action("Take a look at your inventory.")
-            xfill True
-            action Return(['hero', 'equip'])
+        if lframe_display == "friends":
                 
-    # Magic/Attacks  --------------------------->
+            # FRIEND LIST ====================================>
+            vbox:
+                ypos 140
+                frame:
+                    background Null()
+        
+    # BUTTONS on the "bottom layer" ------------------------------------>
     hbox:
-        pos (915, 400)
-        style_group "content"
+        style_group "pb"
+        spacing 1
+        pos (1131, 155)
+        button:
+            action SetScreenVariable("rframe_display", "skills"), With(dissolve)
+            text "Skills" style "pb_button_text"
+        button:
+            action SetScreenVariable("rframe_display", "traits"), With(dissolve)
+            text "Traits" style "pb_button_text"
         
+    # RIGHT FRAME ====================================>
+    vbox:
+        pos (1124, 60)
+        xysize (153, 140)
         frame:
-            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-            xysize (160, 200)
-            label (u"Attack:") text_size 20 text_color ivory text_bold True
-            side "c r":
-                align(0, 0.92)
-                viewport id "heroprofile_attack_vp":
-                    xysize (140, 150)
-                    draggable True
-                    mousewheel True
-                    vbox:
-                        spacing 1
-                        for entry in hero.attack_skills:
-                            button:
-                                background Null()
-                                xysize (130, 16)
-                                action NullAction()
-                                text "[entry.name]" size 17 idle_color ivory hover_color red
-                                hovered tt.action(entry)
-                                
-                vbar value YScrollValue("heroprofile_attack_vp")
+            xalign 0.5
+            yfill True
+            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+            xysize (153, 60)
+            text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.6)
+        null height -8
+        frame:
+            xalign 0.5
+            xsize 140
+            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.8), 10, 10)
+            hbox:
+                xfill True
+                text "{color=#DAA520}Gold:" size 14  outlines [(1, "#3a3a3a", 0, 0)] align (0.0, 0.5)
+                text (u"{color=#DAA520}%d"%int(hero.gold)) size 14 outlines [(1, "#3a3a3a", 0, 0)] align (1.0, 0.5)
         
-        frame:
-            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-            xysize (160, 200)
-            label (u"Magic:") text_size 20 text_color ivory text_bold True
-            side "c r":
-                align(0, 0.92)
-                viewport id "heroprofile_magic_vp":
-                    xysize (140, 150)
-                    draggable True
-                    mousewheel True
-                    vbox:
-                        align(0, 0.2)
-                        spacing 1
-                        for entry in hero.magic_skills:
-                            button:
-                                background Null()
-                                xysize (130, 16)
-                                action NullAction()
-                                text "[entry.name]" size 17 idle_color ivory hover_color red
-                                hovered tt.action(entry)
+    if rframe_display == "skills":
+            
+        # ATTACKS/MAGIC ====================================>
+        vbox:
+            pos (1125, 205)
+            style_group "stats"
+            spacing 5
+            
+            frame:
+                background Frame("content/gfx/frame/hp_1.png", 5, 5)
+                xysize (160, 192)
+                vbox:
+                    label (u"Attack:") text_size 19 text_color ivory text_bold True align(0.43, 0.5) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
+                    xpos -3
+                    side "c r":
+                        align(0, 0.98)
+                        viewport id "heroprofile_attack_vp":
+                            xysize (160, 150)
+                            draggable True
+                            mousewheel True
+                            vbox:
+                                spacing -7
+                                for entry in hero.attack_skills:
+                                    frame:
+                                        xysize (128, 10)
+                                        button:
+                                            background Null()
+                                            xysize (128, 10)
+                                            action NullAction()
+                                            text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
+                                            hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                            hovered tt.action(entry), With(dissolve)
                                 
-                vbar value YScrollValue("heroprofile_magic_vp")
+                        vbar value YScrollValue("heroprofile_attack_vp")
+            
+            frame:
+                background Frame("content/gfx/frame/hp_1.png", 5, 5)
+                xysize (160, 192)
+                vbox:
+                    label (u"Magic:") text_size 19 text_color ivory text_bold True align(0.41, 0.5) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
+                    xpos -3
+                    side "c r":
+                        align(0, 0.98)
+                        viewport id "heroprofile_magic_vp":
+                            xysize (160, 150)
+                            draggable True
+                            mousewheel True
+                            vbox:
+                                spacing -7
+                                for entry in hero.magic_skills:
+                                    frame:
+                                        xysize (128, 10)
+                                        button:
+                                            background Null()
+                                            xysize (128, 10)
+                                            action NullAction()
+                                            text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
+                                            hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                            hovered tt.action(entry), With(dissolve)
+                                
+                        vbar value YScrollValue("heroprofile_magic_vp")
     
-    # Elemental alignment:
-    if hasattr(hero, "element"):
-        $ img = ProportionalScale("".join(["content/gfx/interface/images/elements/", hero.element.lower(), ".png"]), 120, 120)
-        $ element = hero.element.split()[0]
-        $ desc = pytfall.desc.elements[element.lower()]
-        frame:
-            style_group "content"
-            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-            xysize (305, 180)
-            pos (926, 115)
-            label "[element]" align(0.1, 0.1) text_color purple text_size 30 text_bold True
-            imagebutton:
-                at elements()
-                xcenter 205
-                ycenter 95
-                idle (img)
-                hover (img)
-                hovered tt.Action(desc)
-                action NullAction()
-                                    
-    # Equipment   -------------------------------------------------->
-    showif not renpy.get_screen('pyt_hero_equip'):
-        use pyt_eqdoll(active_mode=False, char=hero)
-     
-
-    # Tooltip text:  
+    elif rframe_display == "traits":
+        
+        # TRAITS ====================================>
+        vbox:
+            pos (1125, 205)
+            style_group "stats"
+            spacing 5
+            
+            frame:
+                background Frame("content/gfx/frame/hp_1long.png", 5, 5)
+                xysize (160, 389)
+                
+                # Traits (Baseclasses for now):
+                #has vbox
+                #for t in hero.traits:
+                    #textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
+    
+    # EQUIPMENT   -------------------------------------------------->
+    #showif not renpy.get_screen('pyt_hero_equip'):
+        #use pyt_eqdoll(active_mode=False, char=hero)
+    
+    # TOOLTIP TEXT ====================================>
     frame:
-        background Frame("content/gfx/frame/frame_hor_stripe.png", 10, 10)
-        align (0.99, 1.0)
-        xysize (660, 115)
+        background Null() 
+        pos (618, 599)
+        xysize (660, 117)
         has hbox spacing 1
         if isinstance(tt.value, BE_Action):
             $ element = tt.value.get_element()
@@ -366,11 +477,67 @@ screen pyt_hero_profile():
                     if element.icon:
                         $ img = ProportionalScale(element.icon, 90, 90)
                         add img align (0.5, 0.5)
-            text tt.value.desc style "content_text" size 20 color ivory yalign 0.1
+            text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign 0.1
         else:
-            text (u"{=content_text}{color=[ivory]}%s" % tt.value)  yalign 0.1 xalign 0.1
+            text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
             
-    use pyt_top_stripe(True)
+    # BASE FRAME 1 "top layer" ====================================>
+    add "content/gfx/frame/h1.png"
+    
+    # BUTTONS and UI elements on the "top layer" ====================================>
+    hbox:
+        style_group "pb"
+        spacing 3
+        pos (459, 9)
+        button:
+            xsize 75
+            action SetScreenVariable("lframe_display", "status"), With(dissolve)
+            text "Status" style "pb_button_text"
+            hovered tt.Action("Show Hero Stats")
+        button:
+            xsize 75
+            action Show("pyt_hero_team"), With(dissolve)
+            text "Team" style "pb_button_text"
+            hovered tt.Action("Show [hero.team.name]!"), With(dissolve)
+        button:
+            action Return(['hero', 'equip']), With(dissolve)
+            text "Equipment" style "pb_button_text"
+            hovered tt.Action("Take a look at your inventory.")
+        button:
+            action Show("pyt_hero_finances"), With(dissolve)
+            text "Finance" style "pb_button_text"
+        button:
+            xsize 75
+            action SetScreenVariable("lframe_display", "friends"), With(dissolve)
+            text "Friends" style "pb_button_text"
+    
+    fixed:
+        pos (178, 70)
+        imagebutton:
+            idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
+            hover (im.Scale("content/gfx/interface/buttons/close2h.png", 35, 35))
+            action Return(['control', 'return'])
+            hovered tt.Action("Return to previous screen!")
+    
+    # EXP BAR ====================================>
+    fixed:
+        pos (259, 697)
+        bar:
+            value hero.exp
+            range hero.goal
+            left_bar ("content/gfx/interface/bars/exp_full.png")
+            right_bar ("content/gfx/interface/bars/exp_empty.png")
+            thumb None
+            maximum (324, 18)
+        hbox:
+            spacing 10
+            pos (90, -17)
+            xmaximum 160
+            xfill True
+            add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
+            text (u"{color=#DAA520}%s/%s"% (hero.exp, hero.goal)) style "stats_value_text" bold True outlines [(1, "#181818", 0, 0)]
+    
+    #use pyt_top_stripe(True)
 
 
 screen pyt_hero_equip():
@@ -403,7 +570,7 @@ screen pyt_hero_equip():
             
         # Buttons:    
         frame:
-            background Frame("content/gfx/frame/p_frame3.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame2.png", 10, 10)
             style_group "basic"
             xpadding 10
             ypadding 10
@@ -479,7 +646,7 @@ screen pyt_hero_team():
             spacing 10
             for member in hero.team:
                 frame:
-                    background Frame("content/gfx/frame/p_frame3.png", 10, 10)
+                    background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                     xpadding 20
                     ypadding 10
                     has hbox
