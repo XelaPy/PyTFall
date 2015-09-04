@@ -62,7 +62,8 @@ label eat_with_Naruko:
         jump girl_interactions
     scene black
     show bg cafe with dissolve
-    show expression n.show("eating", resize=(800, 600), type="first_default") as xxx at mid_right
+    $ gm.set_img("eating", type="first_default")
+    # show expression n.show("eating", resize=(800, 600), type="first_default") as xxx at mid_right
     "You treat her in her favorite eatery."
     if not(pytfall.world_quests.check_stage("Uzumaki Clan", 2)):
         $ narrator(choice(["The food is clearly unhealthy, like any fastfood. But she enjoys it anyway.", "The food is cheap here, but she eats a lot, meaning you have to pay a lot too.", "She proposes you to try the local food too, but you politely refuse. It's unwise to eat unfamiliar food in unfamiliar place."]))
@@ -74,7 +75,7 @@ label eat_with_Naruko:
     n.say "Thanksies for the meal! ♪"
     $ del temp
     $ n.restore_portrait()
-    hide xxx with dissolve
+    $ gm.set_img("vnsprite", type="first_default")
     jump girl_interactions
         
 label naruko_second_meeting: # after feeding her enough times
