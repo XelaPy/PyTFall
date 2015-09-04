@@ -1169,7 +1169,7 @@
             # if not self.finished: self.check_occupation()
             # if not self.finished: self.check_ap()
             # if not self.finished: self.clients_relays()
-            if not self.finished: self.strip()
+            self.strip()
             
         def check_occupation(self):
             """
@@ -1290,7 +1290,7 @@
             Applies effects to the girl, runs at the end of the job.
             """
             
-            # tippayout = 0
+            tippayout = 0 # TODO: Convert to new code
             # len_clients = len(self.clients)
             
             # Upgrades
@@ -1322,45 +1322,44 @@
                 # We get the highest skills a character has to match vs strip skill, assumption is that proffessional can appriciate another profi :)
                 cl_strip = cl_strip + max(list(getattr(c, s + "skill") for s in c.stats.skills))
                 cl_char = cl_char + c.charisma
-                
             cl_strip = cl_strip / len_clients
             cl_char = cl_char / len_clients
             
             if self.girl.strip > cl_strip*1.5 and self.girl.charisma > cl_char*1.5:
-                tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.01 * self.girl.charisma * 0.01 + len_clients * self.girl.strip * 0.01) + \
-                                                        int(self.APr  * (self.girl.charisma * 0.01 + self.girl.strip * 0.005))
+                # tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.01 * self.girl.charisma * 0.01 + len_clients * self.girl.strip * 0.01) + \
+                                                        # int(self.APr  * (self.girl.charisma * 0.01 + self.girl.strip * 0.005))
                 self.txt.append("Your girl gave a performance worthy of kings and queens as the whole hall was cheering for her. \n")
                 self.loggs('joy', 3)
             elif cl_strip*1.3 <= self.girl.strip and cl_char*1.3 <= self.girl.charisma:
-                tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement*0.005 * self.girl.charisma*0.01 + len_clients * self.girl.strip * 0.015) + \
-                                                        int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005))
+                # tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement*0.005 * self.girl.charisma*0.01 + len_clients * self.girl.strip * 0.015) + \
+                                                        # int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005))
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. \n")
                 self.loggs('joy', 2)
             elif cl_strip*1.15 <= self.girl.strip and cl_char*1.15 <= self.girl.charisma:
-                tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.005 * self.girl.charisma * 0.005 + len_clients * self.girl.strip * 0.005) + \
-                                                        int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005))
+                # tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.005 * self.girl.charisma * 0.005 + len_clients * self.girl.strip * 0.005) + \
+                                                        # int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005))
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. "+ \
                                          "Overall it was a more than decent performance.  \n")
                 self.loggs('joy', 1)
             elif cl_strip <= self.girl.strip and cl_char <= self.girl.charisma:
-                tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.005 * self.girl.charisma * 0.003 + len_clients * self.girl.strip * 0.0025) + \
-                                                        int(self.APr * (self.girl.charisma*0.01 + self.girl.strip*0.005) )
+                # tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.005 * self.girl.charisma * 0.003 + len_clients * self.girl.strip * 0.0025) + \
+                                                        # int(self.APr * (self.girl.charisma*0.01 + self.girl.strip*0.005) )
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, some mildly drunk clients cheered for her. Overall it was a decent performance. \n")
             elif 0 <= self.girl.strip <= cl_strip and 0 <= self.girl.charisma <= cl_char:
-                tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.0001 * self.girl.charisma * 0.0001 + len_clients * self.girl.strip * 0.0003) + \
-                                                        int(self.APr * (self.girl.charisma * 0.001 + self.girl.strip * 0.001) )
+                # tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.0001 * self.girl.charisma * 0.0001 + len_clients * self.girl.strip * 0.0003) + \
+                                                        # int(self.APr * (self.girl.charisma * 0.001 + self.girl.strip * 0.001) )
                 self.txt.append("%s certainly did not shine as she clumsily 'danced' on the floor. Neither her looks nor her skill could save the performance... "%self.girl.nickname + \
                                         "calls for a different stripper could be heard from all over the club! ")
                 self.loggs('joy', -2)
             elif self.girl.strip < cl_strip and self.girl.charisma > cl_char:
-                tippayout += int(len_clients/ 5 ) + 1 * int(len_clients * self.girl.refinement * 0.002 * self.girl.charisma * 0.003 + len_clients * self.girl.strip * 0.005) + \
-                                                        int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005) )
+                # tippayout += int(len_clients/ 5 ) + 1 * int(len_clients * self.girl.refinement * 0.002 * self.girl.charisma * 0.003 + len_clients * self.girl.strip * 0.005) + \
+                                                        # int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005) )
                 self.txt.append("Your girl tripped several times while trying to undress herself as she 'stripdanced' on the floor, noone really complained because even if her skill was inadequate, " + \
                                         "she was pretty enough to arouse most men and women in the club. Overall it was a decent performance. \n")
                 self.loggs('joy', -1)
             elif self.girl.strip > cl_strip and self.girl.charisma < cl_char:
-                tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.002 * self.girl.charisma * 0.002 + len_clients * self.girl.strip*0.003) + \
-                                                        int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005) )
+                # tippayout += int(len_clients / 5) + 1 * int(len_clients * self.girl.refinement * 0.002 * self.girl.charisma * 0.002 + len_clients * self.girl.strip*0.003) + \
+                                                        # int(self.APr * (self.girl.charisma * 0.01 + self.girl.strip * 0.005) )
                 self.txt.append("%s may not be the prettiest girl in town but noone really complained because what she lacked in looks, she made up in skill. "%self.girl.name + \
                                         "Overall it was a decent performance. \n")
                 self.loggs('joy', -1)
@@ -1377,11 +1376,11 @@
             if dice(35):
                 self.loggs('strip', 1)
             
-            self.loggs('exp', int(self.APr * randint(15, 25)))
+            # self.loggs('exp', int(self.APr * randint(15, 25))) # TODO: Adjust to clients len().
             self.loggs('reputation', choice([0, 0, 0, 0, 0, 1, 0]) + int(round(0.01 * self.girl.charisma)) + int(round(0.005 * self.girl.strip)))
             self.loggs('fame', choice([0, 0, 1, 1, 0, 0, 0]) + int(round(0.02 * self.girl.charisma)) + int(round(0.02 * self.girl.strip)))
             self.loggs('agility', choice([0, 0, 0, 1]) * self.APr)
-            self.girl.AP -= self.APr
+            # self.girl.AP -= self.APr # TODO: Adjust to clients len().
             self.girlmod('vitality', randrange(15, 31))
             
             # Finances:

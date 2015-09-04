@@ -646,7 +646,7 @@ init -9 python:
                                         temp = set_font_color('{} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
                                         self.log(temp)
                                         if char in self.chars:
-                                            sself.chars.remove(char)
+                                            self.chars.remove(char)
                                         continue
                                         
                                     break # Breaks the while loop.
