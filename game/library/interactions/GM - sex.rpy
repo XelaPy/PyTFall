@@ -10,7 +10,7 @@
 ###### j1
 label interactions_virgin_check:
     $ char.set_flag("raped", value="false")
-    if check_lovers(hero, char) or char.disposition >= 700 or (char.flag("allowed_sex") == "True" and char.disposition >= 400):
+    if check_lovers(hero, char) or (check_friends(hero, char) and char.disposition >= 600) or (char.flag("quest_sex_anytime") == True and char.disposition >= 300):
         menu:
             "Looks like this is her first time. Do you want to continue?"
                         
@@ -22,7 +22,7 @@ label interactions_virgin_check:
             "No":
                 jump interaction_scene_choice
                     
-    elif char.status == "slave" and (char.flag("allowed_sex") == "True" or char.disposition >= 250 or (cgo("SIW") and char.disposition >= 50)):
+    elif char.status == "slave" and (char.flag("quest_sex_anytime") == "True" or char.disposition >= 250 or (cgo("SIW") and char.disposition >= 50)):
         menu: 
             "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
             
@@ -48,15 +48,14 @@ label interactions_virgin_check:
                 else:
                     $ char.disposition -= 150
                     $ char.joy -= 50
-                jump interactions_virgin_check_good
+                jump interactions_virgin_check_goon
                         
             "No":
                 jump interaction_scene_choice
     else:
-        "Unfortunately she's still a virgin, and she's not ready to cease to be her yet."
+        "Unfortunately she's still a virgin, not ready to cease to be her yet."
         jump interaction_scene_choice
     label interactions_virgin_check_goon:
-    label interactions_virgin_check_good:
         $ char.disposition += 20
         $ char.remove_trait(traits["Virgin"])
         if char.health >=20:
@@ -83,9 +82,6 @@ label interactions_hireforsex:
         call int_sex_nope
         $ char.disposition -= randint(25, 45)
         jump girl_interactions
-    if char.health < char.get_max("health")*0.5 or char.effects["Food Poisoning"]['active']:
-        "But she is not feeling well."
-        jump girl_interactions
     elif char.vitality < 60:
         "But she is too tired."
         jump girl_interactions
@@ -97,11 +93,11 @@ label interactions_hireforsex:
         jump scene_sex_hired
     else:
         if hero.gold < price:
-            "It will be [price] G. You don't have so much money."
+            "She wants [price] G. You don't have so much money."
             jump girl_interactions
         else:
             menu:
-                "It will be [price] G. Continue?"
+                "She wants [price] G. Continue?"
             
                 "Yes":
                     if hero.take_money(price):
@@ -120,12 +116,9 @@ label interactions_sex:
     if ct("Lesbian"):
         "But she is not interested in men."
         jump girl_interactions
-    if (char.disposition >= 650 and check_friends(char, hero)) or (ct("Nymphomaniac") and char.disposition >= 400) or check_lovers(char, hero) or (char.flag("allowed_sex") == "True" and char.disposition >= 350):
+    if (char.disposition >= 500 and check_friends(char, hero)) or (ct("Nymphomaniac") and char.disposition >= 300) or check_lovers(char, hero) or (char.flag("quest_sex_anytime") == True and char.disposition >= 200):
         if char.vitality < 60:
             "But she is too tired."
-            jump girl_interactions
-        elif char.health < char.get_max("health")*0.5 or char.effects["Food Poisoning"]['active']:
-            "But she is not feeling well."
             jump girl_interactions
     else:
         call int_sex_nope
@@ -184,7 +177,7 @@ label interactions_sex:
         show bg girl_room with fade
         $ char.set_flag("s_bg", value="room")
     elif ct("Homebody"):
-        "She doesn't want to do it outdoors, so you go into her room."
+        "She doesn't want to do it outdoors, so you go to her room."
         show bg girl_room with fade
         $ char.set_flag("s_bg", value="room")
     else:
@@ -245,7 +238,7 @@ label interaction_scene_choice:
             "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
         if char.joy <= 10:
             "She looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
-        if char.vitality <= 25:
+        if char.vitality <= 40:
             "She looks very tired. You can force her, but it's probably for the best to let her rest."
     else:
         if libido <= 0:
@@ -485,11 +478,6 @@ label interaction_scene_choice:
         "That's all.":
             "You decided to finish."
             
-            # $ sex_count = 0
-            # $ guy_count = 0
-            # $ girl_count = 0
-            # $ together_count = 0
-            # $ cum_count = 0
             label interaction_scene_finish_sex:
                 if libido >= 15 and char.vitality >= 35:
                     if char.flag("s_bg") == "beach":
@@ -631,7 +619,7 @@ label interactions_lesbian_choice:
         if char.disposition <= 500 or not(check_friends(hero, char) or check_lovers(hero, char)):
             "Unfortunately she does not want to do it for you."
             if char.status == "slave":
-                "Even if you force her and some other girl, it won't look natural. Too bad."
+                "Even if you force her, it won't look natural. Too bad."
             jump interaction_scene_choice
         elif check_lovers(hero, char):
             "She gladly agrees to make a show for you."
