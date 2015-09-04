@@ -86,6 +86,18 @@ label hidden_village_matrix:
                 $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
     elif _return == "House_6":
         jump hidden_village_shop
+    elif _return == "House_2":
+        if not(pytfall.world_quests.check_stage("Uzumaki Clan", 1)):
+            jump naruko_first_meeting
+        else:
+            # if chars["Naruko_Uzumaki"].status == "slave":
+                # "Nobody's here..."
+                # jump hiddenVillage_entrance
+            hide screen pyt_hiddenVillage_entrance
+            if chars["Naruko_Uzumaki"] in hero.girls:
+                $ gm.start("girl_interactions", chars["Naruko_Uzumaki"], chars["Naruko_Uzumaki"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_4")
+            else:
+                $ gm.start("girl_meets", chars["Naruko_Uzumaki"], chars["Naruko_Uzumaki"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_4")
     elif _return == "Training":
         if not(pytfall.world_quests.check_stage("Stubborn Kunoichi", 1)):
             hide screen pyt_hiddenVillage_entrance

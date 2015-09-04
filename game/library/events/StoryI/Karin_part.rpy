@@ -1,5 +1,6 @@
+init python:
+    karinquest = register_quest("Sixth Sense")
 
-    
 label Karin_can_heal:
     $ k = chars["Karin"]
     $ k.override_portrait("portrait", "indifferent")

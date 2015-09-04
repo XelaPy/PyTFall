@@ -53,7 +53,7 @@ label interactions_virgin_check:
             "No":
                 jump interaction_scene_choice
     else:
-        "Unfortunately she's still a virgin, not ready to cease to be her yet."
+        "Unfortunately she's still a virgin, and not ready to cease to be her yet."
         jump interaction_scene_choice
     label interactions_virgin_check_goon:
         $ char.disposition += 20

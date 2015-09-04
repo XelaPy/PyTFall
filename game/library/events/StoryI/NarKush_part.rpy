@@ -1,21 +1,17 @@
 init python:
-    q = register_quest("Sixth Sense")
-    register_event("karin_first_meeting", quest="Sixth Sense",  dice=None, trigger_type="auto", max_runs=1)
+    narukoquest = register_quest("Uzumaki Clan")
 
 label naruko_first_meeting:
-    stop music
-    stop world
-    play world "park.mp3" fadein 2.0 loop
     scene black
+    show bg hidden_village with dissolve
     $ k = chars["Kushina_Uzumaki"]
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
-    show bg hidden_village with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Hey, you are [hero.name]!"
-    "A cheerful girl suddenly approached as you passing by the local cafe."
+    "A cheerful girl suddenly approached you."
     n.say "Nice to meet ya! I'm Naruko Uzumaki."
     menu:
         "How do you know my name?":
@@ -27,31 +23,60 @@ label naruko_first_meeting:
     $ n.override_portrait("portrait", "shy")
     n.say "But I want something in return for my, you know..."
     $ n.override_portrait("portrait", "happy")
-    n.say "So here's a deal: you treat me for a few days, and I will allow you to do your thing. Deal?"
+    n.say "So here's a deal: you treat me five times, and I will allow you to do your thing. Deal?"
     "That sounds very simple. Prices shouldn't be high either."
     menu:
         "Deal":
             n.say "Awesome!"
-            $ n.disposition += 50
-            "It's hard to believe, but she is already drooling. How she managed to stay slim?.."
+            $ n.disposition += 20
+            "It's hard to believe, but she is already drooling..."
         "Don't you want to know each other better for a start?":
-            $ n.disposition -= 50
+            $ n.disposition -= 20
             $ n.override_portrait("portrait", "angry")
             n.say "Why? I don't care about you. Let's just do it and be done with it."
             n.say "I told ya, I don't like complicating things."
         "It's too simple to be truth":
             n.say "I dunno, it seems fair. Sex is not a big deal, yeah?"
             $ n.override_portrait("portrait", "shy")
-            n.say "I-I mean, there are ladies in the city who do it for a small fee every day."
+            n.say "I mean, ladies in the city do it for a small fee every day."
     $ n.override_portrait("portrait", "happy")
-    n.say "Anyway, you know where to find me. Let me know when you are ready to treat me. See ya!"
+    n.say "Let me know when you are ready to treat me. See ya!"
     hide expression n_spr with dissolve
+    $ chars["Naruko_Uzumaki"].set_flag("event_to_interactions_eatwithnarukotogether", value={"label": "eat_with_Naruko", "button_name": "Treat Her", "condition": "True"})
     "She left. What a weird girl."
-    "Well, if she is telling the truth, it will be simple enough." #quest to eat together with naruko 5 times
+    "Well, if she is telling the truth, it will be simple enough."
     $ n.restore_portrait()
-    scene black with dissolve
-    stop world
+    $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You met Naruko, a cheerful and lively kunoichi. She proposed to give away her virginity if you treat her five times in her favorite eatery.")
+    jump hiddenVillage_entrance
 
+label eat_with_Naruko:
+    if hero.gold <= 200:
+        "You don't have enough money for that."
+        jump girl_interactions
+    $ n = chars["Naruko_Uzumaki"]
+    $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
+    if n.flag("gm_eat_together") != day:
+        $ n.set_flag("gm_eat_together", value=day)
+    else:
+        "You already did it today. She's not hungry."
+        jump girl_interactions
+    scene black
+    show bg cafe with dissolve
+    show expression n.show("eating", resize=(800, 600), type="first_default") as xxx at mid_right
+    "You treat her in her favorite eatery."
+    if not(pytfall.world_quests.check_stage("Uzumaki Clan", 2)):
+        $ narrator(choice(["The food is clearly unhealthy, like any fastfood. But she enjoys it anyway.", "The food is cheap here, but she eats a lot, meaning you have to pay a lot too.", "She proposes you to try the local food too, but you politely refuse. It's unwise to eat unfamiliar food in unfamiliar place."]))
+    $ n.disposition += 40
+    $ temp = randint (90, 250)
+    if hero.take_money(temp):
+        "You pay her bill, it was [temp] G. Not bad for a slim girl..."
+    $ n.override_portrait("portrait", "happy")
+    n.say "Thanksies for the meal! ♪"
+    $ del temp
+    $ n.restore_portrait()
+    hide xxx with dissolve
+    jump girl_interactions
+        
 label naruko_second_meeting: # after feeding her enough times
     $ flash = Fade(.25, 0, .75, color=green)
     stop music
