@@ -1,9 +1,6 @@
 init:
     $ noisedissolve = ImageDissolve(im.Tile("content/events/StoryI/noisetile.png"), 1.0, 1)
     
-init python:
-    temari_quest = register_quest("Stubborn Kunoichi")
-    
 label temari_first_meeting:
     scene black
     $ t = chars["Temari"]
