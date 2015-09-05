@@ -89,11 +89,11 @@ init -9 python:
         def check_stage(self, quest, stage):
             """Safe way of checking a stage of a quest.
             
-            Will return None if quest is not active stage is below the requested stage value and True if it equals or above.
+            Will return True if quest is at the requested stage and active, None otherwise.
             """
             if not self.is_active(quest):
                 return
-            if self.get(quest).stage < stage:
+            if self.get(quest).stage != stage:
                 return
             return True
             
