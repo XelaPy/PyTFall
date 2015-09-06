@@ -43,10 +43,11 @@ label naruko_first_meeting:
     n.say "Let me know when you are ready to treat me. See ya!"
     hide expression n_spr with dissolve
     $ chars["Naruko_Uzumaki"].set_flag("event_to_interactions_eatwithnarukotogether", value={"label": "eat_with_Naruko", "button_name": "Treat Her", "condition": "True"})
+    $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=0)
     "She left. What a weird girl."
     "Well, if she is telling the truth, it will be simple enough."
     $ n.restore_portrait()
-    $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You met Naruko, a cheerful and lively kunoichi. She proposed to give away her virginity if you treat her five times in her favorite eatery.")
+    $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You met Naruko, a cheerful and lively kunoichi. She proposed to give away her virginity if you treat her five times in her favourite eatery.")
     jump hiddenVillage_entrance
 
 label eat_with_Naruko:
@@ -63,8 +64,10 @@ label eat_with_Naruko:
     scene black
     show bg cafe with dissolve
     $ gm.set_img("eating", type="first_default")
-    # show expression n.show("eating", resize=(800, 600), type="first_default") as xxx at mid_right
-    "You treat her in her favorite eatery."
+    "You treat her in her favourite eatery."
+    $ flag = chars["Naruko_Uzumaki"].flag("naruko_eat")
+    $ flag += 1
+    $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=flag)
     if not(pytfall.world_quests.check_stage("Uzumaki Clan", 2)):
         $ narrator(choice(["The food is clearly unhealthy, like any fastfood. But she enjoys it anyway.", "The food is cheap here, but she eats a lot, meaning you have to pay a lot too.", "She proposes you to try the local food too, but you politely refuse. It's unwise to eat unfamiliar food in unfamiliar place."]))
     $ n.disposition += 40
@@ -78,7 +81,7 @@ label eat_with_Naruko:
     $ gm.set_img("vnsprite", type="first_default")
     jump girl_interactions
         
-label naruko_second_meeting: # after feeding her enough times
+label naruko_second_meeting:
     $ flash = Fade(.25, 0, .75, color=green)
     stop music
     stop world
