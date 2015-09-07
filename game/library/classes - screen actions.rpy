@@ -74,3 +74,16 @@ init -10 python:
             Whether the property in container equals the value.
             """
             return getattr(self.container, self.name, None) == self.value
+            
+            
+    # Menu extensions:
+    class MenuExtensionAction(Action):
+        def __init__(self, actions, extra_action=None):
+            if extra_action:
+                if "return" in actions:
+                    actions.remove("return")
+                actions = actions.append(extra_action)
+            self.actions = actions
+        def __call__(self):
+            for _ in self.actions:
+                _()

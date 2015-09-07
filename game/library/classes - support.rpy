@@ -390,3 +390,21 @@ init -9 python:
                     break
             else:
                 notify("Could not find location: {} in map: {} to lock.".format(map, loc))
+                
+    
+    # Menu extensions:
+    class MenuExtension(_dict):
+        """Smarter Dictionary...
+        """
+        def register_extension(self, ext, matrix):
+            self[ext] = matrix
+            
+        def build_choices(self, ext):
+            choices = []
+            for i in self[ext]:
+                # check if we have a condition in the matrix (2nd index)
+                if len(i) == 3 and eval(i[2]):
+                    choices.append(i)
+                else:
+                    choices.append(i)
+            return choices
