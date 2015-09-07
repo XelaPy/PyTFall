@@ -487,6 +487,8 @@ init -9 python:
             self.log("\n\n")
             tl.timer("Temp Jobs Loop")
             
+            self.post_nd_reset()
+            
         def get_client_count(self, write_to_nd=False):
             """
             Get the amount of clients that will visit the brothel the next day.
@@ -669,3 +671,8 @@ init -9 python:
                 else:
                     break
             
+        def post_nd_reset(self):
+            self.env = None
+            
+            for _ in self._upgrades:
+                _.post_nd_reset()

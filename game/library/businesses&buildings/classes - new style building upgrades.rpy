@@ -88,6 +88,10 @@ init -9 python:
                 s = s | i.all_occs
             return s
         
+        def post_nd_reset(self):
+            # Resets all flags and variables after next day calculations are finished.
+            pass
+        
         
     class MainUpgrade(BuildingUpgrade):
         """
@@ -179,6 +183,9 @@ init -9 python:
             # We return the char to the nd list:
             self.instance.chars.insert(0, char)
             
+        def post_nd_reset(self):
+            self.res = None
+            
             
     class StripClub(MainUpgrade):
         def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!", img="content/buildings/upgrades/strip_club.jpg", build_effort=0, materials=None, in_slots=5, cost=500, **kwargs):
@@ -217,7 +224,7 @@ init -9 python:
                 self.log(temp)
                 
         def run_job(self, client):
-            # See if there are any strip girls, that may be added to simpy.Resource at some point of the development:
+            # See if there are any strip girls, that may be added to Resource at some point of the development:
             if not self.active or len(self.active) < self.res.count/3:
                 # Get all candidates:
                 aw = self.all_workers
@@ -248,6 +255,12 @@ init -9 python:
             self.active.remove(worker)
             temp = "{} is done with her job for the day!".format(worker.name)
             self.log(temp)
+            
+        def post_nd_reset(self):
+            self.res = None
+            self.active = set()
+            self.earned_cash = 0
+            
             
     class Bar(MainUpgrade):
         """

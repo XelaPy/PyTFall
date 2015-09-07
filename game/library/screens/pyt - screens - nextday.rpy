@@ -112,10 +112,7 @@ label next_day:
                     $ loop = loop - 1
             """
         
-        # $ nd_clients = clients[:]
         $ building.run_nd()
-        # $ raise Exception((len(nd_chars), len(nd_clients)))
-        # call temp_jobs_loop
         
         # Old jobs:
         python:
