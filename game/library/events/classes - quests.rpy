@@ -91,7 +91,27 @@ init -9 python:
             
             Will return True if quest is at the requested stage and active, False otherwise.
             """
-            if self.is_active(quest) and self.get(quest).stage == stage:
+            if self.get(quest).stage == stage:
+                return True
+            else:
+                return False
+                
+        def check_quest_active(self, quest):
+            """Safe way of checking a quest.
+            
+            Will return True if quest is active, False otherwise.
+            """
+            if self.is_active(quest):
+                return True
+            else:
+                return False
+                
+        def check_quest_finished(self, quest):
+            """Safe way of checking a quest.
+            
+            Will return True if quest is completed or failed, False otherwise.
+            """
+            if self.is_complete(quest) or self.has_failed(quest):
                 return True
             else:
                 return False
