@@ -22,8 +22,13 @@
         
         tl.timer("Loading: PyTFallWorld")
         pytfall = PyTFallWorld()
-        menu_extensions = MenuExtension()
         tl.timer("Loading: PyTFallWorld")
+        
+        tl.timer("Loading: Menu Extensions")
+        menu_extensions = MenuExtension()
+        menu_extensions["Abby The Witch Main"] = []
+        menu_extensions["Xeona Main"] = []
+        tl.timer("Loading: Menu Extensions")
         
         # Create locations:
         locations = dict()

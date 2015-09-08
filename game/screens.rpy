@@ -77,11 +77,27 @@ screen choice(items):
         vbox:
             style "menu"
             spacing 2
+            
+            $ item = items[0][0]
+            if item in menu_extensions:
+                for cap, act in menu_extensions.build_choices(item):
+                    if act:
+                        button:
+                            if isinstance(act, (list, tuple)) and "return" in act:
+                                action MenuExtensionAction(act, [items[0][1]])
+                            else:
+                                action act
+                            style "menu_choice_button_blue"
+    
+                            text cap style "menu_choice"
+    
+                    else:
+                        text cap style "menu_caption"
 
             for caption, action, chosen in items:
                 if caption in menu_extensions:
                     $ pass
-                else:                
+                else:
                     if action:
                         button:
                             action action
@@ -92,22 +108,7 @@ screen choice(items):
                     else:
                         text caption style "menu_caption"
             
-            $ item = items[0][0]
-            if item in menu_extensions:
-                for cap, act in menu_extensions[item]:
-                    if act:
-                        button:
-                            if isinstance(act, (list, tuple)) and "return" in act:
-                                action MenuExtensionAction(act, [items[0][1]])
-                            else:
-                                action act
-                            style "menu_choice_button"
-    
-                            text cap style "menu_choice"
-    
-                    else:
-                        text cap style "menu_caption"
-
+                        
 init -2:
     $ config.narrator_menu = True
 

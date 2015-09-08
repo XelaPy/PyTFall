@@ -82,7 +82,7 @@ init -10 python:
             if extra_action:
                 if "return" in actions:
                     actions.remove("return")
-                actions = actions.append(extra_action)
+                actions.append(extra_action)
             self.actions = actions
         def __call__(self):
             for _ in self.actions:

@@ -78,6 +78,8 @@ label witch_menu:
     while loop:
         menu:
             w "What do you want?"
+            "Abby The Witch Main":
+                $ pass
             "Ask her to teach magic spells!":
                 if len(hero.team) > 1:
                     w "Who will it be?"

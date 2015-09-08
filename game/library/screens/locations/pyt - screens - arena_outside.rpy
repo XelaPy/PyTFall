@@ -121,6 +121,8 @@ label arena_outside:
         while a_skip:
             menu:
                 ax "Anytime now..."
+                "Xeona Main":
+                    $ pass
                 "How about that Arena Permit?" if not hero.arena_permit:
                     if hero.arena_rep > 15000:
                         ax "Looks like you've managed to gain enough reputation!"

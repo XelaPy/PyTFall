@@ -11,21 +11,10 @@ init python:
     
     # Dev Note: I've added screen attribute to WorldEvent class so the useless labels below are no longer required.
     # This doesn't change much for this event but in other places it will mean a much smoother gameplay.
-label show_frog_abby_part2:
-    show screen show_frog_abby_2
-    jump witches_hut_shopping
-    
-label show_frog_arena_eye:
-    show screen show_frog_arena
-    jump arena_outside
     
 label show_frog_deathfight:
-    show screen show_frog_deathfight
+    $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight")))
     jump arena_outside
-    
-label show_frog_gotgoods:
-    show screen show_frog_abby_3
-    jump witches_hut_shopping
     
 label show_frog_final:
     show screen show_frog_final
@@ -42,61 +31,6 @@ screen show_frog:
             action Jump("start_frog_event")
     else:
         timer 0.01 action Hide("show_frog")
-        
-screen show_frog_abby:
-    zorder 10
-    if renpy.get_screen("pyt_witches_hut_shopping"):
-        button:
-            style_group "basic"
-            align (0.5, 0.9)
-            action Jump("frog1_event_abby")
-            text "Ask about the frog" align (0.5, 0.5)
-    else:
-        timer 0.01 action Hide("show_frog_abby")
-        
-screen show_frog_abby_2:
-    zorder 10
-    if renpy.get_screen("pyt_witches_hut_shopping"):
-        button:
-            style_group "basic"
-            align (0.5, 0.9)
-            action Jump("frog1_event_abby_2")
-            text "Ask about the frog (again)" align (0.5, 0.5)
-    else:
-        timer 0.01 action Hide("show_frog_abby_2")
-        
-screen show_frog_arena:
-    zorder 10
-    if last_label == "arena_outside":
-        button:
-            style_group "basic"
-            align (0.9, 0.4)
-            action Jump("frog_event_arena")
-            text "Enquire about the eye!" align (0.5, 0.5)
-    else:
-        timer 0.01 action Hide("show_frog_arena")
-        
-screen show_frog_deathfight:
-    zorder 10
-    if last_label == "arena_outside":
-        button:
-            style_group "basic"
-            align (0.9, 0.4)
-            action Jump("frog_deathfight")
-            text "Deathfight!" align (0.5, 0.5)
-    else:
-        timer 0.01 action Hide("show_frog_deathfight")
-        
-screen show_frog_abby_3:
-    zorder 10
-    if renpy.get_screen("pyt_witches_hut_shopping"):
-        button:
-            style_group "basic"
-            align (0.5, 0.9)
-            action Jump("frog1_event_abby_3")
-            text "Ask about the frog (again)" align (0.5, 0.5)
-    else:
-        timer 0.01 action Hide("show_frog_abby_3")
         
 screen show_frog_final:
     zorder 10
@@ -183,10 +117,11 @@ label frog1_event_listen:
                 $ pytfall.world_events.kill_event("show_frog")
                 $ loop = False
                 $ hero.take_ap(1)
+                
                 $ pytfall.world_quests.get("Frog Princess!").next_in_label("You've met a talking frog who claims to be a princess! She asked you to help restore her original form.", manual=True)
-                $ register_event_in_label("show_frog_abby", screen=True, locations=["witches_hut_shopping"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=100)
-                # Using the new method to add the button to abbies hut on the same day!:
-                $ pytfall.world_events.force_event("show_frog_abby")
+                # Instead of event, we can now add this to Abbys menu :)
+                $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the Frog", Jump("frog1_event_abby")))
+                
                 jump forest_entrance
             "Fuck this, I'm going home.":
                 "Not being interested in a talking frog tale you had left the forest."
@@ -213,8 +148,11 @@ label frog1_event_abby:
             w "I should have the answer soon. Come see me in few days." # not to Xela, MC -5000 gold, quest goes to next phase, kicked out the hut or just to the talk menu.
             $ pytfall.world_quests.get("Frog Princess!").next_in_label("For a hefty sum of 5000 Gold Abby the witch promised to look into the frog matter. You should visit her again in a few days.")
             $ hero.take_money(5000, reason="Other")
-            $ register_event_in_label("show_frog_abby_part2", locations=["witches_hut_shopping"], trigger_type="auto", restore_priority=1, priority=300, start_day=day+4, jump=True, dice=100, max_runs=100)
-            $ pytfall.world_events.kill_event("show_frog_abby")
+            if config.debug:
+                $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
+            else:
+                $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day + 4)))
+            $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the Frog")
             jump forest_entrance
              
         "I don't have that kind of money right now.":
@@ -225,7 +163,7 @@ label frog1_event_abby:
             "Being the last ray of hope for a princess turned into a talking frog  to regain her humanity, you decided that spending 5000 gold was too much."
             extend "{color=[red]} Way to go cheapskate!"
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
-            $ pytfall.world_events.kill_event("show_frog_abby")
+            $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the Frog")
             jump forest_entrance
 
 
@@ -235,24 +173,29 @@ label frog1_event_abby_2:
     hide screen pyt_witches_hut_shopping
     with dissolve
     
-    hero.say "Did you found anything?" # note to Xela, this should be an option when talking to Abby inside the witch hut. 
+    hero.say "Did you found anything?"
     if dice(50 + day/3):
-        w "Still going thru my books and scrolls. Come back later." # note to Xela, option able for first 3 days, when asking Abby did she finished. <-- Too much hussle :(
+        w "Still going thru my books and scrolls. Come back later."
+        
+        $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
+        $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
+        
         jump forest_entrance
     else:    
         w "I found a solution. A rare magic potion should do the trick but that's not the hard part..."
-        extend " I need another 10 000 gold to buy the necessary ingredients but the really hard part will be getting a goblin champion eye." # note to Xela, option avaible from day 4 after Abbys line go to menu.
+        extend " I need another 10 000 gold to buy the necessary ingredients but the real trick will be getting a goblin champion eye."
 
     menu:
         "I will get you the money and the eye...":
-            $ pytfall.world_events.kill_event("show_frog_abby_part2")
-            $ pytfall.world_quests.get("Frog Princess!").next_in_label("Abby asked you to aquire another 10000 Gold for ingridients and an eye of a Goblin Champion.")
-            $ register_event_in_label("show_frog_arena_eye", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=100)
+            $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
+            $ pytfall.world_quests.get("Frog Princess!").next_in_label("Abby asked you to aquire another 10000 Gold for ingridients and an eye of a Goblin Champion...")
+            
+            $ menu_extensions.add_extension("Xeona Main", ("Enquire about an eye of a Goblin Champion!", Jump("frog_event_arena")))
             jump forest_entrance
         "Oh my weak heart! 10 000 not a chance.":
             "You gave up :("
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
-            $ pytfall.world_events.kill_event("show_frog_abby_part2")
+            $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
             jump forest_entrance
 
 label frog_event_arena:
@@ -270,8 +213,11 @@ label frog_event_arena:
     ax "Also don't expect him to be along even if you are, people will expect a vicious fight, deathmatches are rare enough so it's best to make it look good!"
     $ hero.take_ap(1)
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Xeona agreed to set up a match per your request but you've been warned that it is a {color=[red]}very{/color} dangerous endevour and it would be a good idea to bring some backup!")
-    $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day+3, jump=True, dice=100, max_runs=100)
-    $ pytfall.world_events.kill_event("show_frog_arena_eye")
+    if config.debug:
+        $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=1)
+    else:
+        $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day+3, jump=True, dice=100, max_runs=1)
+    $ menu_extensions.remove_extension("Xeona Main", "Enquire about an eye of a Goblin Champion!")
     jump arena_outside
     
 label frog_deathfight:
@@ -338,9 +284,9 @@ label frog_deathfight:
     ax "Great Fight!!! I was rooting for you!"
     ax "Knock yourself out playing with it's corpse ;) I am sure getting to the eye will be no problem."
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("You got the eye! You should visit Abby yet again!")
-    $ register_event_in_label("show_frog_gotgoods", locations=["witches_hut_shopping"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=100)
-    $ pytfall.world_events.force_event("show_frog_gotgoods")
+    $ menu_extensions.add_extension("Abby The Witch Main", ("Give her the eye", Jump("frog1_event_abby_3")))
     $ pytfall.world_events.kill_event("show_frog_arena_eye")
+    $ menu_extensions.remove_extension("Xeona Main", "Deathfight vs Goblin Champ!")
     jump arena_outside
             
             
@@ -363,8 +309,10 @@ label frog1_event_abby_3:
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Finally you have the potion! Talk to the frog again!")
     $ renpy.music.stop(channel="world", fadeout=1)
     scene bg forest_entrance at truecenter
+    
     hero.say "Damn, that blasted frog isn't around... Maybe I should comeback tomorrow."
-    $ pytfall.world_events.kill_event("show_frog_gotgoods")
+    $ menu_extensions.remove_extension("Abby The Witch Main", "Give her the eye")
+    
     $ register_event_in_label("show_frog_final", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=100)
     jump forest_entrance
 

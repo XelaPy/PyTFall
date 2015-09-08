@@ -396,15 +396,29 @@ init -9 python:
     class MenuExtension(_dict):
         """Smarter Dictionary...
         """
-        def register_extension(self, ext, matrix):
-            self[ext] = matrix
+        def add_extension(self, ext, matrix):
+            self[ext].append(matrix)
+            
+        def remove_extension(self, ext, name):
+            matrix = None
+            for m in self[ext]:
+                if m[0] == name:
+                    matrix = m
+                    break
+            else:
+                devlog.warning("Removal of matrix named: {} from Menu Extensions failed!".format(name))
+            if matrix:
+                self[ext].remove(matrix)
             
         def build_choices(self, ext):
             choices = []
             for i in self[ext]:
                 # check if we have a condition in the matrix (2nd index)
-                if len(i) == 3 and eval(i[2]):
-                    choices.append(i)
+                if len(i) == 3:
+                    if eval(i[2]):
+                        # We need to remove the second index because screens expects just the two:
+                        i = i[:2]
+                        choices.append(i)
                 else:
                     choices.append(i)
             return choices
