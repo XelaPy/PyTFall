@@ -79,17 +79,34 @@ screen choice(items):
             spacing 2
 
             for caption, action, chosen in items:
-
-                if action:
-
-                    button:
-                        action action
-                        style "menu_choice_button"
-
-                        text caption style "menu_choice"
-
-                else:
-                    text caption style "menu_caption"
+                if caption in menu_extensions:
+                    $ pass
+                else:                
+                    if action:
+                        button:
+                            action action
+                            style "menu_choice_button"
+    
+                            text caption style "menu_choice"
+                            
+                    else:
+                        text caption style "menu_caption"
+            
+            $ item = items[0][0]
+            if item in menu_extensions:
+                for cap, act in menu_extensions[item]:
+                    if act:
+                        button:
+                            if isinstance(act, (list, tuple)) and "return" in act:
+                                action MenuExtensionAction(act, [items[0][1]])
+                            else:
+                                action act
+                            style "menu_choice_button"
+    
+                            text cap style "menu_choice"
+    
+                    else:
+                        text cap style "menu_caption"
 
 init -2:
     $ config.narrator_menu = True

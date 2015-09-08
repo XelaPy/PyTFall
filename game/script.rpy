@@ -22,6 +22,7 @@
         
         tl.timer("Loading: PyTFallWorld")
         pytfall = PyTFallWorld()
+        menu_extensions = MenuExtension()
         tl.timer("Loading: PyTFallWorld")
         
         # Create locations:
