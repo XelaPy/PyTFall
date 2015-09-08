@@ -88,7 +88,7 @@ label hidden_village_matrix:
         jump hidden_village_shop
     elif _return == "House_2":
         if not(pytfall.world_quests.check_quest_finished("Uzumaki Clan")):
-            if not(pytfall.world_quests.check_quest_active("Uzumaki Clan")):
+            if pytfall.world_quests.check_stage("Uzumaki Clan", 0):
                 jump naruko_first_meeting
             elif chars["Naruko_Uzumaki"].flag("naruko_eat") >= 2 and pytfall.world_quests.check_stage("Uzumaki Clan", 1):
                 jump naruko_second_meeting

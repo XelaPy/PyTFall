@@ -29,7 +29,7 @@ label mainscreen:
     $ pytfall.world_events.next_day() # Get new set of active events
     $ pytfall.world_quests.run_quests("auto") # Unsquelch active quests
     $ pytfall.world_events.run_events("auto") # Run current events
-    $ pytfall.world_quests.next_day() # Garbage collect quests
+    # $ pytfall.world_quests.next_day() # Garbage collect quests
     
     while True:
         $ result = ui.interact()
