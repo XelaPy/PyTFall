@@ -116,7 +116,7 @@ init -9 python:
             else:
                 return False
                 
-        def stage_goe(self, quest, stage):
+        def stage_goes(self, quest, stage):
             """Safe way of checking a stage of a quest.
             
             Will return True if quest is active and it's stage equals/above the current stage, False otherwise.

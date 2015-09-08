@@ -1,5 +1,5 @@
 init python:
-    narukoquest = register_quest("Uzumaki Clan")
+    narukoquest = register_quest("Uzumaki Clan", manual=True)
 
 label naruko_first_meeting:
     scene black
