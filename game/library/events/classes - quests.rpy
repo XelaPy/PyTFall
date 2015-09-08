@@ -163,24 +163,24 @@ init -9 python:
             if self.is_complete(quest): self.complete.remove(quest)
             self.quests.remove(quest)
         
-        # def next_day(self):
-            # """
-            # Fails quests that have no valid events.
-            # """
-            # garbage = list()
+        def next_day(self):
+            """
+            Fails quests that have no valid events.
+            """
+            garbage = list()
             
             # Find incomplete quests with no existing events
-            # for i in self.active:
-                # for j in pytfall.world_events.events_cache:
-                    # if j.quest == i.name:
-                        # break
+            for i in self.active:
+                for j in pytfall.world_events.events_cache:
+                    if j.quest == i.name:
+                        break
                 
-                # else:
-                    # if not i.manual: garbage.append(i)
+                else:
+                    if not i.manual: garbage.append(i)
             
-            # while len(garbage) > 0:
-                # devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[0].name)
-                # self.fail_quest(garbage.pop())
+            while len(garbage) > 0:
+                devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[0].name)
+                self.fail_quest(garbage.pop())
         
         def run_quests(self, param=None):
             """
