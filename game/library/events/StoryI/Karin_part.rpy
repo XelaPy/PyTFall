@@ -1,5 +1,5 @@
 init python:
-    karinquest = register_quest("Sixth Sense")
+    karinquest = register_quest("Sixth Sense", manual=True)
 
 label Karin_can_heal:
     $ k = chars["Karin"]

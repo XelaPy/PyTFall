@@ -86,46 +86,21 @@ init -9 python:
                 if i.name == name: return i
             else: return None
         
-        def check_stage(self, quest, stage):
+        def check_stage(self, quest):
             """Safe way of checking a stage of a quest.
             
-            Will return True if quest is at the requested stage and active, False otherwise.
+            Will return the number of quest stage if quest is active, -1 otherwise.
             """
-            if self.get(quest).stage == stage:
-                return True
-            else:
-                return False
-                
-        def check_quest_active(self, quest):
-            """Safe way of checking a quest.
-            
-            Will return True if quest is active, False otherwise.
-            """
-            if self.is_active(quest):
-                return True
-            else:
-                return False
-                
-        def check_quest_finished(self, quest):
-            """Safe way of checking a quest.
-            
-            Will return True if quest is completed or failed, False otherwise.
+            return self.get(quest).stage
+        def check_quest_not_finished(self, quest):
+            """           
+            Will return False if quest is completed or failed, True otherwise.
             """
             if self.is_complete(quest) or self.has_failed(quest):
-                return True
-            else:
                 return False
-                
-        def stage_goes(self, quest, stage):
-            """Safe way of checking a stage of a quest.
-            
-            Will return True if quest is active and it's stage equals/above the current stage, False otherwise.
-            """
-            if self.is_active(quest) and self.get(quest).stage >= stage:
-                return True
             else:
-                return False
-            
+                return True
+
         def has_failed(self, quest):
             """
             Whether a quest has been failed.

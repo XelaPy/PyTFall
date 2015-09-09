@@ -145,3 +145,15 @@ init -11 python:
                     willing_partners.add(i)
         # @review: (Alex) renamed the function. We are returning all choices, nit just the one partner.
         return willing_partners
+        
+    def interactions_run_gm_anywhere(char, place, background):
+        """           
+        Runs (or doesn't) gm or interactions with the char based on her status
+        """
+        if chars[char].status == "slave" or not(chars[char].is_available):
+            narrator("Nobody's here...")
+            renpy.jump(place)
+        elif chars[char] in hero.girls:
+            gm.start("girl_interactions", chars[char], chars[char].get_vnsprite(), place, background)
+        else:
+            gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), place, background)
