@@ -686,16 +686,17 @@ init: # Ren'Py Styles:
         clear
 
     style menu_choice_button is chat_textbox:
-        xminimum int(config.screen_width * 0.15)
-        xmaximum int(config.screen_width * 0.75)
+        xminimum int(config.screen_width * 0.10)
+        xmaximum int(config.screen_width * 0.80)
+        xpadding 50
         size_group "choice_menu"
         background Frame("content/gfx/frame/chat_text_box_idle.png", 5, 5)
-        hover_background Transform(Frame("content/gfx/frame/chat_text_box_hover.png", 5, 5), xzoom=1.02, yzoom=1.5, align=(0.5, 0.5))
+        hover_background Transform(Frame("content/gfx/frame/chat_text_box_hover.png", 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, 0.5))
         ysize 29
         
     style menu_choice_button_blue is menu_choice_button:
         background Frame(im.Twocolor("content/gfx/frame/chat_text_box_idle.png", white, blue), 5, 5)
-        hover_background Transform(Frame(im.Twocolor("content/gfx/frame/chat_text_box_hover.png", white, blue), 5, 5), xzoom=1.02, yzoom=1.5, align=(0.5, 0.5))
+        hover_background Transform(Frame(im.Twocolor("content/gfx/frame/chat_text_box_hover.png", white, blue), 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, 0.5))
         
     # Quickbuttons:
     style quick_button:
