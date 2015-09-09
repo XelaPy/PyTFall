@@ -57,8 +57,6 @@ init -11 python:
 
         elif item.slot == "gift":
             renpy.call_screen("pyt_message_screen", "Gift slot items only serve purpose during girl meets!")
-        elif item.slot == "quest":
-            renpy.call_screen("pyt_message_screen", "Quest Items cannot be equipped!")
         else:    
             char.equip(item)
             
