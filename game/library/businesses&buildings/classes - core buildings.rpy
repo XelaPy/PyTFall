@@ -11,7 +11,7 @@ init -9 python:
     # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
-    class Building(Location):
+    class Building(Location, Flags):
         """
         The super class for all Building logic.
         """
@@ -28,6 +28,7 @@ init -9 python:
             mod = The modifier for the building.
             **kwargs = Excess arguments.
             """
+            super(Building, self).__init__()
             self.id = id
             self.name = name
             self.desc = desc
@@ -36,7 +37,6 @@ init -9 python:
             self.building_jobs = set()
             
             # Flagging
-            self.flags = Flags()
             self.flag_red = False
             self.flag_green = False
             self.highlighted = False
@@ -54,35 +54,6 @@ init -9 python:
             
             # ND Report
             self.txt = ""
-        
-        def set_flag(self, par, value=True):
-            """
-            Sets a flag for this building.
-            par = The flag.
-            value = The value.
-            """
-            self.flags.set_flag(par, value)
-        
-        def has_flag(self, par):
-            """
-            Whether this building as a flag.
-            par = The flag.
-            """
-            return self.flags.has_flag(par)
-        
-        def del_flag(self, par):
-            """
-            Deletes a flag from this building.
-            par = The flag.
-            """
-            self.flags.del_flag(par)
-        
-        def flag(self, par):
-            """
-            Returns a flag for this building.
-            par = The flag.
-            """
-            return self.flags.flag(par)
         
         def free_rooms(self):
             """
