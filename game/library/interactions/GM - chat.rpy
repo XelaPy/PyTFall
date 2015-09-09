@@ -8,7 +8,7 @@ label interactions_check_for_bad_stuff: # we check major issues when the charact
         $ calling_interactions_end = 1
     elif char.vitality <= 10:
         $ char.override_portrait("portrait", "indifferent")
-        $ rc("But she was too tired to even to talk.", "She was not very happy that you interrupted her rest.")
+        $ rc("But she was too tired to even talk.", "She was not very happy that you interrupted her rest.")
         $ char.restore_portrait()
         $ char.disposition -= 2
         $ char.vitality -= 2
@@ -24,7 +24,7 @@ label interactions_check_for_bad_stuff: # we check major issues when the charact
     
 label interactions_check_for_minor_bad_stuff: # we check minor issues when character might refuse to do something based on dice
     $ calling_interactions_end_minor = 0
-    if char.joy <= 15 or (ct("Pessimist") and char.joy < 5):
+    if (not(ct("Pessimist")) and char.joy <= 15) or (ct("Pessimist") and char.joy < 5):
         if dice(60):
             $narrator(choice(["She is in a bad mood today, however you managed to cheer her up."]))
             $ char.disposition += 1

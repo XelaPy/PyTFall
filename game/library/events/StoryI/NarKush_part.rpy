@@ -65,9 +65,7 @@ label eat_with_Naruko:
     show bg cafe with dissolve
     $ gm.set_img("eating", type="first_default")
     "You treat her in her favourite eatery."
-    $ flag = chars["Naruko_Uzumaki"].flag("naruko_eat")
-    $ flag += 1
-    $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=flag)
+    $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=chars["Naruko_Uzumaki"].flag("naruko_eat")+1)
     if not(pytfall.world_quests.check_stage("Uzumaki Clan", 2)):
         $ narrator(choice(["The food is clearly unhealthy, like any fastfood. But she enjoys it anyway.", "The food is cheap here, but she eats a lot, meaning you have to pay a lot too.", "She proposes you to try the local food too, but you politely refuse. It's unwise to eat unfamiliar food in unfamiliar place."]))
     $ n.disposition += 40
@@ -83,9 +81,6 @@ label eat_with_Naruko:
         
 label naruko_second_meeting:
     $ flash = Fade(.25, 0, .75, color=green)
-    stop music
-    stop world
-    play world "Town2.ogg" fadein 2.0 loop
     scene black
     $ k = chars["Kushina_Uzumaki"]
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
@@ -103,18 +98,17 @@ label naruko_second_meeting:
     "She quickly unbuttoning clothes."
     n.say "C'mon, c'mon, I have other things to do!"
     "Well, if she insists... "
-    "You carefully enter inside. Slowly moving forward, eventually you feel a resistance. Here we go, another target for Tsunade is completed. Just a bit more..."
+    "You carefully enter inside. Slowly moving forward, eventually you feel a resistance. Just a bit more..."
     play sound "content/sfx/sound/be/light1.mp3"
     show bg story girl_room with flash
-    "Huh? You see some kind of glow."
+    "Huh?"
     play sound "content/sfx/sound/be/light1.mp3"
     show bg story girl_room with flash
     hide xxx
     show expression k.show("sex", "straight", "partnerhidden", "doggy", "living", "no clothes", resize=(600, 800), type="first_default") as xxx at truecenter with flash
     "Suddenly the resistance disappears. You look down and see an unknown woman instead of Naruko."
-    "Fearing the worst, you quickly remove your dick."
     $ k.override_portrait("portrait", "ecstatic")
-    k.say "W-wait, don't pull it out!"
+    k.say "Um, hi. Could you please begin moving already?"
     menu:
         "Who are you?":
             $ pass
@@ -122,13 +116,12 @@ label naruko_second_meeting:
             $ pass
         "Where is Naruko?":
             $ pass
-    k.say "I'll tell you everything later, just keep moving!"
+    k.say "Could it wait? I'd like to have a proper sex while I can."
     "Damn, it was suspicious from the beginning. As you continue to move, the woman loudly moans. Looks like she is very horny, so maybe she won't be angry at you for, er, appearing around you dick..."
     hide xxx with dissolve
     show expression k.show("nude", "living", "no clothes", "confident", "happy", resize=(800, 600), type="first_default") as xxx at truecenter
-    "After a few minutes you managed to make her come. The woman happily resting now."
+    "After a few minutes you both come. The woman happily resting now."
     $ k.override_portrait("portrait", "shy")
-    k.say "My, what a handsome young man. She has a good taste after all."
     k.say "I suppose you have many questions. We have some time before she returns, so I can answer them."
     $ a = 0
     label kushina_after_sex:
@@ -142,7 +135,7 @@ label naruko_second_meeting:
             jump kushina_after_sex
         "What's going on?":
             k.say "You have been tricked by my daughter, of course. It wasn't the first time when she got free meal from strangers promising sex in return."
-            k.say "Though it's pretty lonely inside, so I don't mind to take her place at all."
+            k.say "Though it's pretty lonely inside, so I don't mind. It"
             jump kushina_after_sex
         "How can you change places?":
             $ k.override_portrait("portrait", "sad")
