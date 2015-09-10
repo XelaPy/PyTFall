@@ -155,7 +155,7 @@ init -9 python:
             self.events_cache.sort(key=attrgetter("priority"), reverse=True)
         
     
-    class WorldEvent(_object):
+    class WorldEvent(Flags):
         """
         Container for the world event.
         """
@@ -193,6 +193,8 @@ init -9 python:
             
             quest = The name of the quest the event is attached to.
             """
+            super(WorldEvent, self).__init__()
+            
             # Names/Label
             self.name = name
             self.jump = jump
@@ -218,8 +220,6 @@ init -9 python:
             # Runs
             self.max_runs = max_runs
             self.runs = 0
-            # Flags:
-            self.flags = Flags()
             
             # Quest support
             self.quest = quest
@@ -231,19 +231,6 @@ init -9 python:
             self.disabled = False
             self.enable_on = 0 # Day to restore the event
             self.label_cache = None # Just for kicks I guess, someone may find it useful
-        
-        # Flags - set, mod, del, get
-        def set_flag(self, par, value=True):
-            self.flags.set_flag(par, value)
-        
-        def has_flag(self, par):
-            self.flags.has_flag(par)
-        
-        def del_flag(self, par):
-            self.flags.del_flag(par)
-        
-        def flag(self, par):
-            self.flags.flag(par)
         
         def check_conditions(self):
             """

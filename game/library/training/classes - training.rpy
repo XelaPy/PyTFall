@@ -258,7 +258,7 @@ init -9 python:
             Deletes the flag from the girl.
             girl = The girl to delete the flag from.
             """
-            girl.flags.del_flag(self.flag)
+            girl.del_flag(self.flag)
             if self.trait is not None and self.trait in girl.traits:
                 girl.apply_trait(traits[self.trait])
         
@@ -268,14 +268,14 @@ init -9 python:
             girl = The girl to access the flag for.
             """
             if not self.has(girl): return self.default
-            else: return girl.flags.flag(self.flag)
+            else: return girl.flag(self.flag)
         
         def has(self, girl):
             """
             Check whether the flag exists.
             girl = The girl to check for.
             """
-            return girl.flags.has_flag(self.flag)
+            return girl.has_flag(self.flag)
         
         def register_for_relative_training(self):
             """
@@ -297,7 +297,7 @@ init -9 python:
             
             if to < self.min: self.clear(girl)
             else:
-                girl.flags.set_flag(self.flag, to)
+                girl.set_flag(self.flag, to)
                 if self.trait is not None and self.trait not in girl.traits:
                     girl.apply_trait(traits[self.trait])
         
@@ -1197,14 +1197,14 @@ init -9 python:
                     else: devlog.warning("Attempt to set non-existant flag in StatChanges: %s = %s"(k, v))
             
             if self.flags is not None:
-                for k,v in self.flags.iteritems():
-                    if isinstance(v, (list,tuple)):
-                        if len(v) == 1: v = randint(0,v[0])
+                for k, v in self.flags.iteritems():
+                    if isinstance(v, (list, tuple)):
+                        if len(v) == 1: v = randint(0, v[0])
                         elif len(v) == 2: v = randint(*v)
                         else: v = choice(v)
                     
                     if k in pytFlagProxyStore: pytFlagProxyStore[k].set(girl, v, True)
-                    else: girl.flags.set_flag(k, v)
+                    else: girl.set_flag(k, v)
             
             if self.traits is not None:
                 for k in iter(self.traits):

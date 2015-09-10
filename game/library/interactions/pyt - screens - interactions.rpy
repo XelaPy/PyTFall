@@ -189,13 +189,13 @@ label girl_interactions:
             """
             m = 9
             # First add the Menu:
-            for f in char.flags.__dict__:
+            for f in char.flags:
                 if f.startswith("event_to_interactions_") and renpy.has_label(char.flag(f)["label"]):
                     if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
                         pytfall.world_actions.menu(m, "U-Actions")
                         break
             i = 0
-            for f in char.flags.__dict__:
+            for f in char.flags:
                 if f.startswith("event_to_interactions_") and renpy.has_label(char.flag(f)["label"]):
                     if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
                         pytfall.world_actions.gm_choice(char.flag(f)["button_name"], label=char.flag(f)["label"], index=(m, i))

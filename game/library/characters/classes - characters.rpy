@@ -952,7 +952,7 @@ init -9 python:
         
                 
     ###### Character Classes ######
-    class PytCharacter(_object):
+    class PytCharacter(Flags):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
                                "bartending", "cleaning", "waiting", "management", "exploration", "teaching"])
@@ -966,6 +966,7 @@ init -9 python:
         Decided to create a base class for characters (finally)...
         """
         def __init__(self, arena=False, inventory=False):
+            super(PytCharacter, self).__init__()
             self.img = ""
             self.portrait = ""
             self.gold = 0
@@ -1117,21 +1118,6 @@ init -9 python:
             """
             return ", ".join([self.fullname, self.id])
             
-        # Flags - set, mod, del, get
-        def set_flag(self, par, value=True):
-            self.flags.set_flag(par, value)
-            
-        def mod_flag(self, flag, value=1):
-            self.flags.mod_flag(flag, value)
-
-        def has_flag(self, par):
-            return self.flags.has_flag(par)
-
-        def del_flag(self, par):
-            self.flags.del_flag(par)
-
-        def flag(self, par):
-            return self.flags.flag(par)
            
         # Money:
         def take_money(self, amount, reason="Other"):
@@ -2347,7 +2333,6 @@ init -9 python:
             self._location = locations["Streets"]
             self.occupation = "Warrior"
             self.status = "free"
-            self.flags = Flags()
             self.gender = "male"
             
             # Player only...
@@ -2849,7 +2834,6 @@ init -9 python:
             self.img_cache = list()
             self.picture_base = dict()
 
-            self.flags = Flags()
             self.nickname = ''
             self.fullname = ''
             self.origin = ""

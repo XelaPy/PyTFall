@@ -158,37 +158,45 @@ init -999 python:
         return AnimateFromList(args)
 
     class Flags(_object):
+        """Simple class to log all variables into a single namespace
+        
+        Now and count...
         """
-        Old way of using Structure for flags is obsolete since
-        it is not possible to set or change flags with screen language functions directly.
-        Simple class to log all variables into a singe namespace
-        """
+        def __init__(self):
+            self.flags = dict()
+        
         def set_flag(self, flag, value=True):
-            setattr(self, flag, value)
+            self.flags[flag] = value
             
         def mod_flag(self, flag, value):
-            # This is used for flags that are counters, otherwise just use set flag method again.
-            # Will write to dev log if flag doesn't exist.
-            if isinstance(value, int) and hasattr(self, flag):
-                setattr(self, flag, getattr(self, flag) + value)
+            """Can be used as counter for integer based flags.
+            
+            Simply changes the value of the flag otherwise.
+            """
+            if not flag in self.flags:
+                self.flags[flag] = value
+                devlog.warning("{} flag modded before setting it's value!".format(flag))
+                return
+                
+            if isinstance(value, int):
+                self.flags[flag] += value
             else:
-                devlog.warning("%s flag doesn't exist or value is not an integer!" % flag)
+                self.flags[flag] = value
                 
         def flag(self, flag):
-            if hasattr(self, flag):
-                return getattr(self, flag)
+            if flag in self.flags:
+                return self.flags[flag]
             else:
                 return False
                 
         def del_flag(self, flag):
-            if hasattr(self, flag):
-                delattr(self, flag)
+            if flag in self.flags:
+                del(self.flags[flag])
                 
         def has_flag(self, flag):
+            """Check if flag exists at all (not just set to False).
             """
-            Check if flag exists at all (not just set to false).
-            """
-            return hasattr(self, flag)
+            return flag in self.flags
             
         
     def dice(value):
