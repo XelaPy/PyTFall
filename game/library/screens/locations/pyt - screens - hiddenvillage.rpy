@@ -27,6 +27,8 @@ label hiddenVillage_entrance:
         jump karin_finish_quest
     if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 3 and not('Virgin' in chars['Temari'].traits) and pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi"):
         jump temari_finish_quest
+    if pytfall.world_quests.check_stage("Uzumaki Clan") == 7 and not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.check_quest_not_finished("Uzumaki Clan"):
+        jump naruko_finish_quest
     python:
 
         while True:
@@ -87,8 +89,12 @@ label hidden_village_matrix:
         if pytfall.world_quests.check_quest_not_finished("Uzumaki Clan"):
             if pytfall.world_quests.check_stage("Uzumaki Clan") == 0:
                 jump naruko_first_meeting
-            elif (chars["Naruko_Uzumaki"].flag("naruko_eat") >= 2) and (pytfall.world_quests.check_stage("Uzumaki Clan") == 1):
+            elif pytfall.world_quests.check_stage("Uzumaki Clan") == 2:
                 jump naruko_second_meeting
+            elif pytfall.world_quests.check_stage("Uzumaki Clan") == 4:
+                jump naruko_third_meeting
+            elif pytfall.world_quests.check_stage("Uzumaki Clan") == 6:
+                jump naruko_final_meeting
             else:
                 hide screen pyt_hiddenVillage_entrance
                 $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenVillage_entrance", "girl_room_4")
@@ -112,7 +118,7 @@ label hidden_village_matrix:
             jump temari_second_meeting
         else:
             menu:
-                "It's a dormitory who kunoichi who don't own a house. Who you want to see?"
+                "It's a dormitory for those kunoichi who don't own a house. Who you want to see?"
                 
                 "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:# and chars["Temari"].status != "slave":
                     $ interactions_run_gm_anywhere ("Temari", "hiddenVillage_entrance", "girls_dorm")
