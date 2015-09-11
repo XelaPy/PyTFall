@@ -53,12 +53,16 @@ label temari_before_fight:
     $ t_spr = chars["Temari"].get_vnsprite()
     show expression t_spr at center
     $ t.override_portrait("portrait", "confident")
-    t.say "Well? Are you ready?" # oi m8 fite me irl 1v1 on rust I gonna wreck u I swear on my mom :)
+    t.say "Well? Are you ready for a fight?" # oi m8 fite me irl 1v1 on rust I gonna wreck u I swear on my mom :)
     menu:
         "Yes":
+
             $ enemy_team = Team(name="Enemy Team", max_size=1)
             $ your_team = Team(name="Your Team", max_size=1)
             $ enemy_team.add(t)
+            python:
+                for member in enemy_team:
+                    member.controller = BE_AI(member)
             $ your_team.add(hero)
             $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
             $ battle.teams.append(your_team)
