@@ -16,9 +16,9 @@ label next_day:
         NextDayList = list()
         
         ################## Restore before the jobs ##################
-        tl.timer("Girl.restore for all MC girls")
+        tl.timer("Char.restore for all MC girls")
         list(girl.restore() for girl in list(g for g in hero.girls if g.action != "Exploring"))
-        tl.timer("Girl.restore for all MC girls")
+        tl.timer("Char.restore for all MC girls")
         
         ################## Brothel events Start ##################
         """
@@ -509,7 +509,7 @@ screen pyt_next_day():
                                         guards = list()
                                 
                                         for __ in NextDayList:
-                                            if isinstance(__.girl, Girl):
+                                            if isinstance(__.girl, Char):
                                                 if traits["Stripper"] in __.girl.occupations:
                                                     strippers.append(__)
                                                 elif traits["Prostitute"] in __.girl.occupations:
@@ -818,7 +818,7 @@ screen pyt_next_day():
                                                         guards = list()
                                                 
                                                         for __ in NextDayList:
-                                                            if isinstance(__.girl, Girl) and __.girl.location == fg:
+                                                            if isinstance(__.girl, Char) and __.girl.location == fg:
                                                                 if traits["Stripper"] in __.girl.occupations:
                                                                     strippers.append(__)
                                                                 elif traits["Prostitute"] in __.girl.occupations:
@@ -1081,7 +1081,7 @@ screen pyt_next_day():
                                                         guards = list()
                                                     
                                                         for __ in NextDayList:
-                                                            if isinstance(__.girl, Girl) and __.girl.location == brothel:
+                                                            if isinstance(__.girl, Char) and __.girl.location == brothel:
                                                                 if traits["Stripper"] in __.girl.occupations:
                                                                     strippers.append(__)
                                                                 elif traits["Prostitute"] in __.girl.occupations:

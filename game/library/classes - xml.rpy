@@ -86,7 +86,7 @@ init -10 python:
         dictionary = dict()
         for entry in db:
             dictionary[entry] = entity()
-            if entity == Girl:
+            if entity == Char:
                 Stats = dictionary[entry].STATS
                 Skills = dictionary[entry].stats.skills.keys()
                 # Had to change quite a bit to allow crazies packs into the game...

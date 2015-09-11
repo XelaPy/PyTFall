@@ -116,7 +116,7 @@ init -11 python:
         level: Level of the character...
         add_to_gameworld: Adds to characters dictionary, should always be True unless character is created not to participate in the game world...
         '''
-        rg = rGirl()
+        rg = rChar()
         Stats = rg.STATS
         Skills = rg.stats.skills.keys()
         
@@ -246,7 +246,7 @@ init -11 python:
         
         # Normalizing new girl:
         # We simply run the init method of parent class for this:
-        super(rGirl, rg).init()
+        super(rChar, rg).init()
         
         # And at last, leveling up and stats/skills applications:
         if level > 1:
@@ -290,7 +290,7 @@ init -11 python:
                 return int(math.ceil(char.level * exp)*1.2)
             else:
                 return int(math.ceil(char.level * exp)*1.1)
-        elif isinstance(char, Girl):
+        elif isinstance(char, Char):
             if char.level < 10:
                 return int(math.ceil(char.level * exp)*0.9)
             elif char.level < 20:

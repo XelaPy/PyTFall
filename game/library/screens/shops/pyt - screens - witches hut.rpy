@@ -14,7 +14,7 @@ label witches_hut:
     show npc witch_assistant
     with dissolve
     
-    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    $ w = npcs["Abby_the_witch"].say
     
     if global_flags.flag("talk_to_witch"):
         $ global_flags.del_flag("talk_to_witch")
@@ -69,7 +69,7 @@ label witches_hut_shopping:
 
 label witch_menu:
     
-    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    $ w = npcs["Abby_the_witch"].say
     
     $ witch_fire_spells = {"Fire 1": [3000], "Fire 2": [6000], "Fire 3": [10000], "Fire Arrow": [30000], "Fire Ball Z": [50000]}
     $ witch_air_spells = {"Windwhirl": [6000], "Spring Thunder": [50000]}

@@ -1,0 +1,67 @@
+[
+    {
+        "id": "Abby_the_witch",
+        "name": "Abby",
+        "fullname": "Abby The Witch",
+        "desc": "Redhead Witch who keeps a shop near the forest entrance.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 1000,
+        
+        "color": "orange",
+        "what_color": "yellow",
+        
+        "level": 55,
+        "basetraits": ["Mage"],
+        
+        "stats": {
+            "charisma": 70,
+            "constitution": 50,
+            "luck": 25,
+            "character": 75,
+            "intelligence": 75,
+            "attack": 20,
+            "magic": 90,
+            "defence": 55,
+            "agility": 60
+        },
+        
+        "skills": {
+            "cleaning": 20,
+            "management": 600,
+            "teaching": 2000,
+            "exploration": 1000
+        },
+        "blocked_traits": [
+        
+        ],
+        "ab_traits": [
+        
+        ],
+        
+        "traits": [
+            "Fire",
+            "Darkness",
+            "Bokukko",
+            "Average Boobs",
+            "Dandere",
+            "Slim"
+        ],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": [
+            "Firaga",
+            "Firaja",
+            "Fireball",
+            "Solar Flash",
+            "Darkra",
+            "Black Hole"
+        ]
+    }
+]

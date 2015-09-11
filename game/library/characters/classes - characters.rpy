@@ -185,7 +185,7 @@ init -9 python:
                 
             #TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
-            if isinstance(char, Girl):
+            if isinstance(char, Char):
                 for entry in trait.effects:
                     char.enable_effect(entry)
                 
@@ -281,7 +281,7 @@ init -9 python:
 
             # TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
-            if isinstance(char, Girl):
+            if isinstance(char, Char):
                 for entry in trait.effects:
                     self.intance.disable_effect(entry)
 
@@ -850,7 +850,7 @@ init -9 python:
                 self.goal += self.goal_increase
                 self.level += 1
                 
-                if isinstance(self.instance, Girl):
+                if isinstance(self.instance, Char):
                     _traits = list()
                     for trait in self.instance.traits:
                         if trait not in _traits:
@@ -911,7 +911,7 @@ init -9 python:
                     if isinstance(self.instance, Player):
                         jump("game_over")
                         return
-                    elif isinstance(self.instance, Girl):
+                    elif isinstance(self.instance, Char):
                         girl = self.instance
                         girl._location = "After Life"
                         girl.alive = False
@@ -1080,6 +1080,9 @@ init -9 python:
             self.alive = True
             self._available = True
             
+            # Say style properties:
+            self.say_style = {"color": ivory}
+            
             # We add Neutral element here to all classes to be replaced later:
             self.apply_trait(traits["Neutral"])
             
@@ -1174,7 +1177,7 @@ init -9 python:
         @property
         def location(self):
             # Physical locaiton at the moment, this is not used a lot right now.
-            # if all([self._location == hero, isinstance(self, Girl), self.status == "free"]):
+            # if all([self._location == hero, isinstance(self, Char), self.status == "free"]):
                 # return "Own Dwelling"
             # elif self._location == hero: # We set location to MC in most cases, this may be changed soon?
                 # return "Streets"
@@ -1957,7 +1960,7 @@ init -9 python:
                     devlog.warning(str(msg % (item.id, key)))
                 
             # Taking care of traits/effects (only for girls obviously): ---------------------------------------->
-            if isinstance(self, Girl):
+            if isinstance(self, Char):
                 # Traits:
                 for entry in item.removetraits:
                     if entry in traits:
@@ -2107,7 +2110,7 @@ init -9 python:
                     devlog.warning(str(msg % (item.id, key)))
                             
             # Taking care of traits/effect (for girls):
-            if isinstance(self, Girl):
+            if isinstance(self, Char):
                 for entry in item.addtraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
@@ -2189,7 +2192,7 @@ init -9 python:
             self.log_stats()
             
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)))
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
             
             self.restore_ap()
             
@@ -2252,7 +2255,7 @@ init -9 python:
                 self.arena_active = False # Indicates that char fights at Arena at the time.
 
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)))
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
                 
             self.restore_ap()
             
@@ -2314,7 +2317,7 @@ init -9 python:
                 self.portrait = self.battle_sprite
                 
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)))
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
                 
             self.restore_ap()
         
@@ -2722,7 +2725,7 @@ init -9 python:
                                     girl.location = hero
                                     girl.action = None
                             self.remove_brothel(confiscate)
-                        elif isinstance(confiscate, Girl):
+                        elif isinstance(confiscate, Char):
                             price = confiscate.fin.get_price()
                             hero.remove_girl(confiscate)
                             confiscate.location = 'slavemarket'
@@ -2789,7 +2792,7 @@ init -9 python:
             self.arena_stats = dict()
             
                 
-    class Girl(PytCharacter):
+    class Char(PytCharacter):
         wranks = {
                 'r1': dict(id=1, name=('Rank 1: Kirimise', '(Almost beggar)'), price=0),
                 'r2': dict(id=2, name=("Rank 2: Heya-Mochi", "(Low-class prostitute)"), price=1000, ref=45, exp=10000),
@@ -2803,7 +2806,7 @@ init -9 python:
         RANKS = {}
         MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
         def __init__(self):
-            super(Girl, self).__init__(arena=True, inventory=True)
+            super(Char, self).__init__(arena=True, inventory=True)
             # Game mechanics assets
             self.gender = 'female'
             self.race = ""
@@ -3032,7 +3035,7 @@ init -9 python:
             self.set_flag("day_since_shopping", 1)
             
             # add Character:
-            self.say = Character(self.nickname, color=ivory, show_two_window=True, show_side_image=DynamicDisplayable(self._portrait))
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=DynamicDisplayable(self._portrait), **self.say_style)
         
         def get_availible_pics(self):
             """
@@ -3115,7 +3118,7 @@ init -9 python:
                 # # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS!
                 # pass
             else:
-                super(Girl, self).__setattr__(key, value)
+                super(Char, self).__setattr__(key, value)
                 
         ### Girls fin methods
         def take_money(self, value, reason="Other"):
@@ -3951,10 +3954,10 @@ init -9 python:
                 p.reset(self)
                 
             # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
-            super(Girl, self).next_day()
+            super(Char, self).next_day()
         
     
-    class rGirl(Girl):
+    class rChar(Char):
         '''Randomised girls (WM Style)
         Basically means that there can be a lot more than one of them in the game
         Different from clones we discussed with Dark, because clones should not be able to use magic
@@ -3962,7 +3965,7 @@ init -9 python:
         It will most likely not be possible to write unique scripts for random girlz 
         '''
         def __init__(self):
-            super(rGirl, self).__init__()
+            super(rChar, self).__init__()
             
     class Customer(PytCharacter):
         def __init__(self, gender="male", caste="Peasant"):
@@ -4093,7 +4096,13 @@ init -9 python:
             else:
                 return False
             
-                
+    class NPC(Char):
+        """There is no point in this other than an ability to check for instances of NPCs
+        """
+        def __init__(self):
+            super(NPC, self).__init__()
+            
+            
     ### ==>> Rest:
     class Trait(_object):
         def __init__(self):

@@ -203,7 +203,7 @@ init -1 python: # Core classes:
             if team_index == "r":
                 char.row = 2 if char.front_row else 3
 
-                if char.__class__ in [Player, Girl, rGirl, ArenaFighter]:
+                if char.__class__ in [Player, Char, rChar, ArenaFighter]:
                     char.besprite = im.Flip(sprite, horizontal=True)
                 else:
                     char.besprite = sprite

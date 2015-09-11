@@ -86,20 +86,20 @@ init -11 python:
             renpy.call_screen('pyt_message_screen', "%s cannot be transferred to this character!" % item.id)
             return False
         # Free girls should always refuse giving up their items unless MC gave it to them.
-        if all([isinstance(source, Girl), source.status != "slave"]):
+        if all([isinstance(source, Char), source.status != "slave"]):
             if any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), source.given_items.get(item.id, 0) - amount < 0]):
                 # She will not give up the item:
                 return False
             else:
                 if source.inventory.remove(item, amount):
                     source.given_items[item.id] = source.given_items.get(item.id, 0) - amount
-                    if all([isinstance(target, Girl), target.status != "slave"]):
+                    if all([isinstance(target, Char), target.status != "slave"]):
                         target.given_items[item.id] = target.given_items.get(item.id, 0) + amount
                     target.inventory.append(item, amount)
                     return True
                     
         if source.inventory.remove(item, amount):
-            if all([isinstance(target, Girl), target.status != "slave"]) or not any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), isinstance(target, Player)]):
+            if all([isinstance(target, Char), target.status != "slave"]) or not any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), isinstance(target, Player)]):
                 target.given_items[item.id] = target.given_items.get(item.id, 0) + amount 
             target.inventory.append(item, amount)
             return True

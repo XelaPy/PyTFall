@@ -284,10 +284,10 @@ init -1 python:
             uniques = 0
             randoms = 0
             for girl in candidates:
-                if girl.__class__ == Girl and uniques < 5:
+                if girl.__class__ == Char and uniques < 5:
                     sglist.append(girl)
                     uniques += 1
-                if girl.__class__ == rGirl and randoms < 5:
+                if girl.__class__ == rChar and randoms < 5:
                     sglist.append(girl)
                     randoms += 1
             shuffle(sglist)

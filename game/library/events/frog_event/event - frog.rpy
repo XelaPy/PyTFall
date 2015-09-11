@@ -132,7 +132,7 @@ label frog1_event_listen:
 
 label frog1_event_abby:
     # note to Xela, this should be an option when talking to Abby inside the witch hut. the text is: "Ask about finding a way to lift a spell from a talking frog."
-    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    $ w = npcs["Abby_the_witch"].say
     hide screen pyt_shopping
     hide screen pyt_witches_hut_shopping
     with dissolve
@@ -168,7 +168,7 @@ label frog1_event_abby:
 
 
 label frog1_event_abby_2:
-    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    $ w = npcs["Abby_the_witch"].say
     hide screen pyt_shopping
     hide screen pyt_witches_hut_shopping
     with dissolve
@@ -292,7 +292,7 @@ label frog_deathfight:
             
 # note to Xela, option in the talk menu inside the witch hut should be able for selection: 
 label frog1_event_abby_3:
-    $ w = Character("Abby", color=orange, what_color=yellow, show_two_window=True)
+    $ w = npcs["Abby_the_witch"].say
     hide screen pyt_shopping
     hide screen pyt_witches_hut_shopping
     with dissolve
