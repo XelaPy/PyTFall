@@ -50,7 +50,7 @@ label girl_interactions_greeting:
             else:
                 $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
             $ char.restore_portrait()
-        elif char.disposition < -350:
+        elif char.disposition <= -150:
             $ char.override_portrait("portrait", "angry")
             if ct("Yandere"):
                 $rc("<She looks at you with hostility>", "Stay away~", "...")
@@ -173,7 +173,7 @@ label girl_interactions_greeting:
             else:
                 $rc("I really like you, Master...", "A-As lovers, let's love each other a lot, okay, Master...?", "We shouldn't flirt to much in front of the others, Master.", "I-I love you, Master... Hehehe...♪", "I love you, Master～ I love you so much～", "We're the most compatible couple in the world, aren't we, Master?", "I want you to love me more and more, Master! Prepare yourself for it, okay?", "I love you...I super love you, Master...!", "I wish we could be together forever, Master...♪", "What do you think other people think when they see us, Master? ...you think maybe, 'Hey, look at that cute couple'...?")
             $ char.restore_portrait()
-        if char.disposition < -350:
+        elif char.disposition <= -200:
             $ char.override_portrait("portrait", "sad")
             if ct("Yandere"):
                 $rc("<She looks at you with hostility> What is it, 'Master'?", "...")

@@ -108,9 +108,9 @@ label hidden_village_matrix:
                 jump temari_first_meeting
             elif pytfall.world_quests.check_stage("Stubborn Kunoichi") == 2:
                 hide screen pyt_hiddenVillage_entrance
-                jump temari_final_meeting
+                jump temari_before_fight
     elif _return == "House_9":
-        if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0:
+        if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0 and not(pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
             "The door is locked. Looks like there is no one here..."
         elif (pytfall.world_quests.check_stage("Stubborn Kunoichi") == 1) and (chars["Temari"].disposition >= 200) and (pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
             hide screen pyt_hiddenVillage_entrance
@@ -120,7 +120,7 @@ label hidden_village_matrix:
             menu:
                 "It's a dormitory for those kunoichi who don't own a house. Who you want to see?"
                 
-                "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:# and chars["Temari"].status != "slave":
+                "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:
                     $ interactions_run_gm_anywhere ("Temari", "hiddenVillage_entrance", "girls_dorm")
                 "Leave":
                     jump hiddenVillage_entrance
