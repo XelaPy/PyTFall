@@ -11,7 +11,7 @@ label witches_hut:
     scene bg witches_hut
     with dissolve
     
-    show npc witch_assistant
+    show expression npcs["Abby_the_witch"].get_vnsprite() as npc
     with dissolve
     
     $ w = npcs["Abby_the_witch"].say
@@ -125,7 +125,7 @@ label witch_menu:
                         $ renpy.pause(3.0, hard=True)
                         hide magic
                         
-                        show npc witch_assistant
+                        show expression npcs["Abby_the_witch"].get_vnsprite() as npc
                         with dissolve
                         
                         $ spell = spell[0]
