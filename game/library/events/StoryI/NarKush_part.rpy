@@ -424,6 +424,8 @@ label naruko_final_meeting:
     $ k.set_flag("quest_cannot_be_fucked", value=False)
     $ n.set_flag("quest_cannot_be_lover", value=False)
     $ n.set_flag("quest_cannot_be_fucked", value=False)
+    $ chars["Naruko_Uzumaki"].del_flag("naruko_eat")
+    $ chars["Naruko_Uzumaki"].del_flag("event_to_interactions_eatwithnarukotogether")
     scene black with dissolve
     stop world
     jump hiddenVillage_entrance

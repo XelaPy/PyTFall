@@ -1,7 +1,7 @@
-label tenten_first_meeting: # became available after having disposition 250 or more with Temari
-    stop music
-    stop world
-    play world "park.mp3" fadein 2.0 loop
+init python:
+    questtenten = register_quest("Weapons Specialist", manual=True)
+
+label tenten_first_meeting:
     scene black
     $ ten = chars["Tenten"]
     $ ten_spr = chars["Tenten"].get_vnsprite()
@@ -33,13 +33,11 @@ label tenten_first_meeting: # became available after having disposition 250 or m
     $ ten.restore_portrait()
     $ tem.restore_portrait()
     "Looks like a severe case. The best approach would be to find her equipment for a start."
+    $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You met Tenten, a tomboyish kunoichi who lost her weapon scrolls. Here we give a quest find them in SE -_-")
     scene black with dissolve
-    stop world #quest to send exploration team to forest. They will only find scrolls since bandits didn't know how to use them and just dropped.
+    jump hiddenVillage_entrance
     
 label tenten_second_meeting: # after finding the summon scroll
-    stop music
-    stop world
-    play world "park.mp3" fadein 2.0 loop
     scene black
     $ b = Character("Bandit", color=white, what_color=white, show_two_window=True)
     $ ten = chars["Tenten"]
@@ -99,7 +97,26 @@ label tenten_second_meeting: # after finding the summon scroll
     hide expression ten_spr
     hide expression tem_spr
     with dissolve
-    scene black # here we run BE with tenten and temari vs bandits, without MC
+    $ enemy_team = Team(name="Enemy Team", max_size=3)
+    $ your_team = Team(name="Your Team", max_size=3)
+    $ tem.front_row = True
+    $ ten.front_row = True
+    $ hero.front_row = False
+    $ mob_1 = build_mob("Warrior", level=20)
+    $ mob_2 = build_mob("Warrior", level=25)
+    $ mob_3 = build_mob("Archer", level=15)
+    $ enemy_team.add(mob_1)
+    $ enemy_team.add(mob_2)
+    $ enemy_team.add(mob_3)
+    $ your_team.add(tem)
+    $ your_team.add(ten)
+    $ your_team.add(hero)
+    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+    $ battle.teams.append(your_team)
+    $ battle.teams.append(enemy_team)
+    $ battle.start_battle()
+    if battle.winner != your_team:
+        jump game_over
     show bg story training_ground with dissolve
     show expression ten_spr at mid_right
     show expression tem_spr at mid_left
@@ -107,22 +124,30 @@ label tenten_second_meeting: # after finding the summon scroll
     tem.say "Calm down, Tenten. They cannot hear you anymore."
     "Poor bandits were no match for two kunoichi."
     $ ten.override_portrait("portrait", "indifferent")
-    ten.say "<panting> Yes, I need to calm down... Sorry, guys. I'll just take back my equipment, and we can go back."
+    ten.say "<panting> I'll just take back my equipment, and we can go back."
     hide expression ten_spr with dissolve
     $ tem.override_portrait("portrait", "confident")
     tem.say "...Try to not hurt her feeling, [hero.name]. For your own safety."
     tem.say "As you can see, she is not very popular among men. Some men like tomboys, but her case is... extreme."
-    tem.say "Other than that, I suppose she will be an easy target."
     show expression ten_spr at mid_right
     $ ten.override_portrait("portrait", "confident")
     ten.say "Alright, I'm done. Let's go."
     "Together you come back to the village. You can't help but notice how Tenten tries to keep close to you. Poor girl is ready to jump on the first available guy..."
     $ ten.restore_portrait()
     $ tem.restore_portrait()
+    $ ten.set_flag("quest_cannot_be_lover", value=False)
+    $ ten.set_flag("quest_cannot_be_fucked", value=False)
+    $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You managed to get closer to her. Now it's up to your charisma.")
     scene black with dissolve
-    stop world
+    jump hiddenVillage_entrance
 
-
+label tenten_finish_quest:
+    $ t = chars["Tenten"]
+    "Tenten was the easiest target ever. It's hard to be a tomboy..."
+    $ pytfall.world_quests.get("Weapons Specialist").finish_in_label("You took care of Tenten's virginity. She can be hired now.", "complete")
+    $ t.set_flag("quest_cannot_be_hired", value=False)
+    jump hiddenVillage_entrance
+    
 label tenten_bonus_scene: # random scene after doing it with both temari and tenten
     stop music
     stop world
