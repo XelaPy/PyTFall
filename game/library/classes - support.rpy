@@ -90,7 +90,7 @@ init -9 python:
         
         @staticmethod        
         def add_random_girls():
-            l = list(girl for girl in chars.values() if girl.__class__ == rGirl and not girl.arena_active and girl not in hero.girls)
+            l = list(girl for girl in chars.values() if girl.__class__ == rChar and not girl.arena_active and girl not in hero.girls)
             amount = randint(45, 60)
             if len(l) < amount:
                 for __ in xrange((amount+5) - len(l)):

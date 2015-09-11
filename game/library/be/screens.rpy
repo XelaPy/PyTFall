@@ -198,7 +198,7 @@ init: # screens:
                                         text_bold True
                                         xpos 38
                                         yalign 0.03
-                                        if isinstance(member, Girl):
+                                        if isinstance(member, Char):
                                             text_color pink
                                         else:
                                             text_color ivory

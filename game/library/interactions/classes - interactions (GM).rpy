@@ -40,7 +40,7 @@ init -1 python:
             shuffle(conditioned_choices)
             while conditioned_choices and len(self.girls) != 3:
                 for i in conditioned_choices:
-                    if i.__class__ == Girl:
+                    if i.__class__ == Char:
                         self.girls.append(i)
                         conditioned_choices.remove(i)
                         break
@@ -53,7 +53,7 @@ init -1 python:
                 shuffle(choices)
                 while choices and len(self.girls) != 3:
                     for i in choices:
-                        if i.__class__ == Girl:
+                        if i.__class__ == Char:
                             self.girls.append(i)
                             choices.remove(i)
                             break

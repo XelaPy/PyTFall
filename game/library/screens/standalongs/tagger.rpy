@@ -3,7 +3,7 @@ label tagger:
     call load_json_tags from _call_load_json_tags
     python:
         alltags = list(sorted(tags_dict.values()))
-        all_char = {k:v for k, v in chars.iteritems() if v.__class__ == Girl}
+        all_char = {k:v for k, v in chars.iteritems() if v.__class__ == Char}
         # Broken code? TODO: But this module is not likely to be used ever again.
         all_chars.update(rchar)
         pic = None

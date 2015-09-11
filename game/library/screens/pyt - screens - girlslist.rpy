@@ -100,7 +100,7 @@ screen pyt_girlslist(source=None, page=0, total_pages=1):
                                         text_size 18
                                         xpos 10
                                         yalign 0.06
-                                        if girl.__class__ == Girl:
+                                        if girl.__class__ == Char:
                                             text_color pink
                                         else:
                                             text_color ivory

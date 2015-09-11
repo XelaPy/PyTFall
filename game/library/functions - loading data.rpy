@@ -45,8 +45,15 @@ init -11 python:
                     
         return content            
     
-    def load_characters():
-        dir = content_path('chars')
+    def load_characters(path, cls):
+        """Loads a Full character from JSON file.
+        
+        path: Path to main folder.
+        class: Class to use in creating the character.
+        
+        This will walk through folders inside of a folder where the path leads, looking for JSONs and reading image tags off file names.
+        """
+        dir = content_path(path)
         dirlist = os.listdir(dir)
         content = dict()
         
@@ -71,12 +78,16 @@ init -11 python:
                         # Apply the content of the file to the character:
                         for gd in ugirls: # We go over each dict one mainaining correct order of application:
                             
-                            char = Girl()
+                            char = cls()
                             
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
                                 raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
                             char.id = gd["id"]
+                            
+                            # Check if there is a gender:
+                            if "gender" in gd:
+                                char.gender = gd["gender"]
                             
                             # @Review: We make sure all traits get applied first!
                             for key in ("blocked_traits", "ab_traits"):
@@ -172,6 +183,11 @@ init -11 python:
                                         else:
                                             devlog.warning("%s JSON Loading func tried to apply unknown battle skill: %s!" % (gd["id"], skill))
                             
+                            for key in ("color", "what_color"):
+                                if key in gd:
+                                    if "color" in key:
+                                        char.say_style[key] = getattr(store, gd[key])
+                                            
                             for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "race", "location", "status", "height"):
                                 if key in gd:
                                     setattr(char, key, gd[key])
@@ -181,7 +197,7 @@ init -11 python:
                                 # We load the new tags!:
                                 for fn in os.listdir("/".join([dir, packfolder, folder])):
                                     if fn.endswith((".jpg", ".png", ".gif")):
-                                        rp_path = "/".join(["content/chars", packfolder, folder, fn])
+                                        rp_path = "/".join(["content/{}".format(path), packfolder, folder, fn])
                                         tags = fn.split("-")
                                         # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
                                         try:
@@ -213,7 +229,7 @@ init -11 python:
                 for file in os.listdir('/'.join([dir, folder])):
                     if file.endswith(".girlsx"):
                         crazy_folders.add(folder)
-                        content.update(load_database("%s/%s/%s" % (dir, folder, file), entity=Girl))
+                        content.update(load_database("%s/%s/%s" % (dir, folder, file), entity=Char))
                         
                     # if os.path.isdir("/".join([dir, folder, file])):
                         # # We load the new tags!:
@@ -315,7 +331,7 @@ init -11 python:
                         
                     for gd in rgirls:
                         # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
-                        # rg = rGirl()
+                        # rg = rChar()
                         if "id" not in gd:
                             # Only time we throw an error instead of writing to log.
                             raise Error("No id was specified in %s JSON Datafile!" % str(in_file))

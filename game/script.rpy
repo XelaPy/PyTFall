@@ -41,7 +41,6 @@
         # Load all game elements:
         tl.timer("Loading: Traits")
         traits = load_traits()
-        tl.timer("Loading: Traits")
         
         # This should be reorganized later:
         tgs = object() # TraitGoups!
@@ -54,6 +53,7 @@
         tgs.sexual = [i for i in traits.values() if i.sexual] # This is a subset of character traits!
         tgs.race = [i for i in traits.values() if i.race]
         tgs.client = [i for i in traits.values() if i.client]
+        tl.timer("Loading: Traits")
         
         tl.timer("Loading: Items")
         items = load_items()
@@ -101,7 +101,8 @@
         for tag in tags_dict.values():
             tagdb.tagmap[tag] = set()
         tl.timer("Loading: All Characters!")
-        chars = load_characters()
+        chars = load_characters("chars", Char)
+        npcs = load_characters("new_npcs", NPC)
         # Trying to load crazy characters:
         crazy_chars = load_crazy_characters()
         chars.update(crazy_chars)

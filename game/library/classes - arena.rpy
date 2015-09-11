@@ -152,12 +152,12 @@ init -9 python:
             
             # First pass, unique girls...
             for girl in chars.values():
-                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == Girl and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
+                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == Char and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
                     arena_candidates.append(girl)
             
             # Second pass, random girls:
             for girl in chars.values():
-                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == rGirl and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
+                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == rChar and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
                     arena_candidates.append(girl)
                     
             return arena_candidates
