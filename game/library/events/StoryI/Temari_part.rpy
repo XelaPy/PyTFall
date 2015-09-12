@@ -47,11 +47,47 @@ label temari_second_meeting:
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("Temari wants you fight her at the Training Grounds. She is going to hold back, but you still better be prepared.")
     jump hiddenVillage_entrance
     
+label temari_before_fight:
+    show bg story training_ground with dissolve
+    $ t = chars["Temari"]
+    $ t_spr = chars["Temari"].get_vnsprite()
+    show expression t_spr at center
+    $ t.override_portrait("portrait", "confident")
+    t.say "Well? Are you ready for a fight?" # oi m8 fite me irl 1v1 on rust I gonna wreck u I swear on my mom :)
+    menu:
+        "Yes":
+
+            $ enemy_team = Team(name="Enemy Team", max_size=1)
+            $ your_team = Team(name="Your Team", max_size=1)
+            $ enemy_team.add(t)
+            python:
+                for member in enemy_team:
+                    member.controller = BE_AI(member)
+            $ your_team.add(hero)
+            $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+            $ battle.teams.append(your_team)
+            $ battle.teams.append(enemy_team)
+            $ battle.start_battle()
+            if battle.winner == your_team:
+                jump temari_final_meeting
+            else:
+                show bg story training_ground with dissolve
+                $ t = chars["Temari"]
+                $ t_spr = chars["Temari"].get_vnsprite()
+                show expression t_spr at center
+                t.say "Well, that was disappointing... Good luck next time, I guess."
+                $ t.restore_portrait()
+                jump hiddenVillage_entrance
+        "No":
+            t.say "Alright, no rush. Come when you will be prepeared."
+            $ t.restore_portrait()
+            jump hiddenVillage_entrance
+            
 label temari_final_meeting:
     show bg story training_ground with dissolve
     $ t = chars["Temari"]
     $ t_spr = chars["Temari"].get_vnsprite()
-    $ t.disposition += 300
+    $ t.disposition += 150
     show expression t_spr at center
     $ t.override_portrait("portrait", "confident")
     t.say "It wasn't.... as bad as I expected it to be. You need to work on your weapons, you need to train to get rid of the flab, and even the four year olds in the village pose more of a challenge."

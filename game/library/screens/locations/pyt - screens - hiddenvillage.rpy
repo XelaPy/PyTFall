@@ -29,6 +29,8 @@ label hiddenVillage_entrance:
         jump temari_finish_quest
     if pytfall.world_quests.check_stage("Uzumaki Clan") == 7 and not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.check_quest_not_finished("Uzumaki Clan"):
         jump naruko_finish_quest
+    if pytfall.world_quests.check_stage("Weapons Specialist") >= 2 and not('Virgin' in chars['Tenten'].traits) and pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
+        jump tenten_finish_quest
     python:
 
         while True:
@@ -108,9 +110,17 @@ label hidden_village_matrix:
                 jump temari_first_meeting
             elif pytfall.world_quests.check_stage("Stubborn Kunoichi") == 2:
                 hide screen pyt_hiddenVillage_entrance
-                jump temari_final_meeting
+                jump temari_before_fight
+            elif pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
+                # if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 3 and pytfall.world_quests.check_stage("Weapons Specialist") == 0:
+                if pytfall.world_quests.check_stage("Weapons Specialist") == 0:
+                    hide screen pyt_hiddenVillage_entrance
+                    jump tenten_first_meeting
+                elif pytfall.world_quests.check_stage("Weapons Specialist") == 1:
+                    hide screen pyt_hiddenVillage_entrance
+                    jump tenten_second_meeting
     elif _return == "House_9":
-        if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0:
+        if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0 and not(pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
             "The door is locked. Looks like there is no one here..."
         elif (pytfall.world_quests.check_stage("Stubborn Kunoichi") == 1) and (chars["Temari"].disposition >= 200) and (pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
             hide screen pyt_hiddenVillage_entrance
@@ -120,8 +130,10 @@ label hidden_village_matrix:
             menu:
                 "It's a dormitory for those kunoichi who don't own a house. Who you want to see?"
                 
-                "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:# and chars["Temari"].status != "slave":
+                "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:
                     $ interactions_run_gm_anywhere ("Temari", "hiddenVillage_entrance", "girls_dorm")
+                "Tenten" if pytfall.world_quests.check_stage("Weapons Specialist") >= 2:
+                    $ interactions_run_gm_anywhere ("Tenten", "hiddenVillage_entrance", "girls_dorm")
                 "Leave":
                     jump hiddenVillage_entrance
     "Result: [_return]"
