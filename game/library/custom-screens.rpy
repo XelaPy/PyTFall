@@ -884,7 +884,7 @@ init: # PyTFall:
             has vbox
             
             for building in hero.buildings:
-                if isinstance(building, NewStyleUpgradableBuilding) and building.has_living_space:
+                if isinstance(building, NewStyleUpgradableBuilding) and building.habitable:
                     textbutton "[building.name]":
                         action SelectedIf(char.home==building), SetField(char, "home", building), Hide("set_home_dropdown")
             textbutton "Streets":

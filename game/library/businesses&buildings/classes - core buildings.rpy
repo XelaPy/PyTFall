@@ -401,7 +401,7 @@ init -9 python:
             self.in_slots = 100 # Interior Slots
             self.ex_slots = 100 # Exterior Slots
             
-            if hasattr(self, "building_jobs"):
+            if hasattr(self, "building_jobs"): # BAD Code, right now all jobs are kept in .jobs attribute...
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
                 
             # Clients:
@@ -409,7 +409,7 @@ init -9 python:
             self.regular_clients = set() # Subset of self.all_clients.
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
             # Chars:
-            self.chars = list() # All Workers...
+            self.workers = list() # All Workers...
                 
             # SimPy and etc follows (L33t stuff :) ):
             self.env = None
@@ -431,29 +431,28 @@ init -9 python:
             self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
             self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
             
+            # Clietns:
             clnts = self.get_client_count(write_to_nd=True)
             # TODO: Generate and add regulars!
             if len(self.all_clients) < clnts:
                 for i in xrange(clnts - len(self.all_clients)):
                     self.all_clients.add(build_client())
-            self.clients = self.all_clients.copy() # should be union with samples from regulars in the future.
+            self.clients = self.all_clients.copy()
             self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
             
             # All workers:
-            self.chars = list(g for g in hero.girls if g.location == self)
+            self.workers = list(c for c in hero.girls if c.location == self and c.action in self.jobs)
             
             # Create an environment and start the setup process:
             self.env = simpy.Environment()
             for up in self._upgrades:
-                up.run_nd()
-            
-            # store.env = self.env
-            
+                up.pre_nd()
+                
             self.env.process(self.setup(end=100))
             self.env.run(until=100)
-            self.log("{}".format(set_font_color("Ending the First Stage:", "red")))
-            self.env.run(until=110)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+            # self.env.run(until=110)
+            # self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             self.log("{}".format(set_font_color("===================", "red")))
             self.log("\n\n")
             tl.timer("Temp Jobs Loop")
@@ -590,7 +589,7 @@ init -9 python:
                             # Assumes a single worker at this stage... This part if for upgrades like Brothel.
                             if upgrade.requires_workers():
                                 char = None
-                                while self.chars: 
+                                while self.workers: 
                                     
                                     # Here we should attempt to find the best match for the client!
                                     char = upgrade.get_workers()
@@ -600,33 +599,34 @@ init -9 python:
                                    
                                     # First check is the char is still well and ready:
                                     if not check_char(char):
-                                        if char in self.chars:
-                                            self.chars.remove(char)
+                                        if char in self.workers:
+                                            self.workers.remove(char)
                                         temp = set_font_color('{} is done with this job for the day.'.format(char.name), "aliceblue")
                                         self.log(temp)
                                         continue
                                     
-                                    if hasattr(char.action, "id"): # TODO: MAKE DAMN SURE NO CHAR WITHOUT ACTION MAKES IT THIS FAR!
+                                    if char.action in upgrade.jobs: # Check if current chars action is valid for the upgrade and remove it otherwise.
                                         # We to make sure that the girl is willing to do the job:
                                         temp = char.action.id
                                         if not char.action.check_occupation(char):
-                                            if char in self.chars:
-                                                self.chars.remove(char)
+                                            if char in self.workers:
+                                                self.workers.remove(char)
                                             temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
                                             self.log(temp)
                                             continue
                                     else:
-                                        temp = set_font_color('{} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
-                                        self.log(temp)
-                                        if char in self.chars:
-                                            self.chars.remove(char)
+                                        if config.debug:
+                                            temp = set_font_color('Debug: {} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
+                                            self.log(temp)
+                                        if char in self.workers:
+                                            self.workers.remove(char)
                                         continue
                                         
                                     break # Breaks the while loop.
                             
                                 if char:
-                                    if char in self.chars:
-                                        self.chars.remove(char)
+                                    if char in self.workers:
+                                        self.workers.remove(char)
                                     store.client = client
                                     self.env.process(upgrade.request(client, char))
                                     break

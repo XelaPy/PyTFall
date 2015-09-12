@@ -11,7 +11,7 @@ screen fonts(fonts):
     
     default index = 0
     
-    add "bg profile_1"
+    add Solid(black)
     
     vbox:
         align (0.5, 0.1)
