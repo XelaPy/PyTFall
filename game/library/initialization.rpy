@@ -175,13 +175,30 @@ init -999 python:
             """
             if not flag in self.flags:
                 self.flags[flag] = value
-                devlog.warning("{} flag modded before setting it's value!".format(flag))
+                if config.debug:
+                    devlog.warning("{} flag modded before setting it's value!".format(flag))
                 return
                 
             if isinstance(value, int):
                 self.flags[flag] += value
             else:
                 self.flags[flag] = value
+                
+        def set_union(self, flag, value):
+            """Can be used to create sets.
+            
+            If a flag exists, expects it to be a set() and creates a union with it.
+            """
+            if not flag in self.flags:
+                self.flags[flag] = set(value)
+                if config.debug:
+                    devlog.warning("{} flag modded before setting it's value!".format(flag))
+                return
+                
+            if isinstance(value, (set, list, tuple)):
+                self.flags[flag] = self.flags[flag].union(value)
+            else:
+                self.flags[flag] = self.flags[flag].union(set(value))
                 
         def flag(self, flag):
             if flag in self.flags:

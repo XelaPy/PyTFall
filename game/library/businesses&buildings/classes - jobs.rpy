@@ -1142,33 +1142,11 @@
             self.girlmod = {}
             self.locmod = {}
             
-        def __call__(self, girl, loc):
-            self.girl, self.loc = girl, loc
+        def __call__(self, char, upgrade):
+            self.girl, self.loc = char, char.location
+            self.char = self.girl
+            self.clients = char.flag("jobs_strip_clients")
             
-            # Get the cost of the job and cash it
-            # if self.girl.AP >= 3:
-                # aprelay = choice([2, 3])
-                # self.APr = aprelay
-                # self.girl.AP -= aprelay
-            # else:
-                # self.APr = self.girl.AP
-                # self.girl.AP = 0
-                
-            # self.check_life()
-            # self.auto_clean()
-            # self.check_dirt()
-            
-            # if not self.clients:
-                # self.txt.append("No clients wanted to see strippers today.")
-                # self.img = self.girl.show("profile", "sad", resize=(740, 685))
-                # self.finish_job()
-                # return
-            
-            # if not self.finished: self.check_injury()
-            # if not self.finished: self.check_vitality()
-            # if not self.finished: self.check_occupation()
-            # if not self.finished: self.check_ap()
-            # if not self.finished: self.clients_relays()
             self.strip()
             
         def check_occupation(self):
@@ -1183,7 +1161,6 @@
                     self.txt.append("%s: I am not thrilled about having to dance in front of a bunch of pervs, but you've been really good to me so I owe you a favor... "%self.girl.nickname)
                     self.loggs('disposition', -randint(5, 10))
                     self.loggs('joy', -randint(3, 6)) 
-                
                 
                 elif self.girl.status != 'slave':
                     self.txt.append(choice(["%s: I refuse to do work as a Stripper!"%char.nickname,
@@ -1216,106 +1193,10 @@
             self.txt.append("\n\n")
             return True
         
-        # def check_ap(self):
-            # """
-            # Checks the girls ap for the job.
-            # TODO: Review this method!
-            # """
-            # if self.APr < 2:
-                # self.txt.append("%s did not have enough stamina left to throw a decent show, instead she "%(self.girl.name))
-                # if dice(50):
-                    # self.txt.append("went into the club, chatting with and entertaining customers. \n")
-                    # for i in xrange(self.APr * 3):
-                        # customer = choice(self.clients)
-                        # customer.stripsatisfaction += int(self.girl.charisma * 0.2 + self.girl.refinement * 0.2)
-                        # # self.loc.clientsr['club'] += 1
-
-                    # if dice(7):
-                        # self.loggs('refinement', 1)
-
-                    # if dice(33):
-                        # self.loggs('joy', 1)
-
-                    # self.img = self.girl.show("profile", "happy", resize=(740, 685))
-                    # self.loggs('vitality', -self.APr * randint(15, 25))
-
-                # elif self.girl.strip < 800 and dice(50):
-                    # self.txt.append('tried to learn new moves to improve her striptease skills. \n')
-                    # if dice(50):
-                        # self.loggs('strip', 1)
-                        # self.loggs('joy', 2)
-                        # self.img = self.girl.show("profile", "happy", resize=(740, 685))
-                        # self.txt.append("She did well and got better! \n")
-
-                    # else:
-                        # self.loggs('joy', -1)
-                        # self.img = self.girl.show("profile", "sad", resize=(740, 685))
-                        # self.txt.append("It was however a failed attempt. \n")
-
-                    # self.loggs('vitality', -self.APr * randint(15, 25))
-
-                # else:
-                    # self.txt.append("took a little break. \n")
-                    # self.loggs('vitality', self.APr * randint(15, 25))
-                    # self.img = self.girl.show("rest", resize=(740, 685))
-
-                # self.loggs("exp", randint(15, 25))
-
-                # self.apply_stats()
-                # self.finish_job()
-        
-        # def clients_relays(self):
-            # """
-            # Gets the clients that the girl strips for.
-            # """
-            # total_clients = len(store.clients)
-            # clients = len(self.clients)
-            # c_cnt = plural("client", clients)
-             
-            # # Get proper text for the amount of clients
-            # if clients > int(total_clients * 0.7):
-                # self.txt.append('%d %s came to see her strip and dance in the club! It is a most impressive feat for one girl to attract so many! \n '%(clients, c_cnt))
-            # elif int(total_clients * 0.5) <= clients <= int(total_clients * 0.7):
-                # self.txt.append('%d %s came to see her strip and dance in the club! This is a very respectable amount of fans for one girl to have! \n '%(clients, c_cnt))
-            # elif int(total_clients * 0.25) <= clients <= int(total_clients * 0.5):
-                # self.txt.append('%d %s came to see her strip and dance in the club! Not bad at all considering the size of the brothel! \n'%(clients, c_cnt))
-            # elif int(total_clients * 0.1) <= clients <= int(total_clients * 0.25):
-                # self.txt.append("%d %s came to see her strip, not the most impressive amount, but everyone has to start somewhere. \n"%(clients, c_cnt))
-            # else:
-                # self.txt.append("Just a couple of clients came to check your girl out, very poor result indeed. ")
-        
         def strip(self):
-            """
-            Solves the main job logic.
-            Applies effects to the girl, runs at the end of the job.
-            """
-            
-            tippayout = 0 # TODO: Convert to new code
-            # len_clients = len(self.clients)
-            
-            # Upgrades
-            # scbu = self.loc.get_upgrade_mod("stipclub")
-            # if scbu == 3:
-                # if dice(50):
-                    # self.txt.append("Customers enjoyed the presence of golden cages and the awesome podium in your establishment! \n")
-                    # self.locmod['fame'] += 1
-                # tippayout += int(len_clients/4)*3
-                # sat = int(((self.girl.strip / 2 + self.girl.charisma) / 2)*1.5)
-                # for client in self.clients: client.stripsatisfaction += sat
-            # elif scbu == 2:
-                # if dice(50):
-                    # self.txt.append("Large podium will ensure better tips and higher customer satisfaction!  \n")
-                # tippayout += int(len_clients/4)*2
-                # sat = int(((self.girl.strip / 2 + self.girl.charisma) / 2)*1.2)
-                # for client in self.clients: client.stripsatisfaction += sat
-            # else:
-                # sat = int((self.girl.strip / 2 + self.girl.charisma) / 2)
-                # for client in self.clients:
-                    # client.stripsatisfaction += sat
-
             self.txt.append("\n")
             
-            # TODO: Rewrite this bit:
+            # TODO: LEFT OFF HERE: Rewrite this bit, ADD TIPS, CLEAN UP
             cl_strip = 0
             cl_char = 0
             for c in self.clients:

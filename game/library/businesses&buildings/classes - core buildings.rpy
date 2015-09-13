@@ -448,7 +448,7 @@ init -9 python:
             for up in self._upgrades:
                 up.pre_nd()
                 
-            self.env.process(self.setup(end=100))
+            self.env.process(self.run_jobs(end=100))
             self.env.run(until=100)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
@@ -565,13 +565,18 @@ init -9 python:
             temp = "So {} leaves the hotel cursing...".format(client.name)
             self.log(temp)
             
-        def setup(self, end=40):
+        def run_jobs(self, end=40):
             upgrades = list(up for up in self._upgrades if up.workable)
+            for u in upgrades:
+                if hasattr(u, "is_running"):
+                    u.is_running = True # Prolly redundant...
+                    self.env.process(u.run_job(end))
+            
             i = 0
             while self.clients:
                 if self.env.now + 5 <= end: # This is a bit off... should we decide which action should be taken first?
                     if i > 4:
-                        yield self.env.timeout(random.randint(1, 3))
+                        yield self.env.timeout(randint(1, 3))
                     i += 1
                     store.client = self.clients.pop()
                     store.client.name = "Client {}".format(i)
@@ -647,3 +652,8 @@ init -9 python:
             
             for _ in self._upgrades:
                 _.post_nd_reset()
+                
+            for c in self.all_clients:
+                for f in c.flags.keys():
+                    if f.startswith("jobs"):
+                        c.del_flag(f)

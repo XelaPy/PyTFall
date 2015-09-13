@@ -195,11 +195,13 @@ init -9 python:
             self.type = "club_type"
             
             self.capacity = in_slots
-            self.active = set() # On duty Strippers
+            self.active = set() # On duty Strippers.
+            self.clients = set() # Clients watching the stripshows.
             
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job...
             self.time = 5 # Same
+            self.is_running = False
             
             self.earned_cash = 0
             
@@ -216,49 +218,70 @@ init -9 python:
                 
                 # All is well and we create the event
                 temp = "{} enters the Strip Club at {}".format(client.name, self.env.now)
+                self.clients.add(client)
                 self.log(temp)
                 
-                yield self.env.process(self.run_job(client))
+                # TODO: LEFT OFF HERE, THIS IS A MESS.
+                while not client.flag("jobs_ready_to_leave"):
+                    yield self.env.timeout(2)
+                # yield self.env.process(self.run_job(client))
                 
                 temp = "{} leaves the Club at {}".format(client.name, self.env.now)
+                self.clients.remove(client)
                 self.log(temp)
                 
-        def run_job(self, client):
+        def run_job(self, end):
             # See if there are any strip girls, that may be added to Resource at some point of the development:
-            if not self.active or len(self.active) < self.res.count/3:
-                # Get all candidates:
-                aw = self.all_workers
-                if aw:
-                    shuffle(aw)
-                    worker = aw.pop()
-                    self.active.add(worker)
-                    self.instance.workers.remove(worker)
-                    self.env.process(self.use_worker(worker))
+            while 1:
+                if not self.active or len(self.active) < self.res.count/3:
+                    workers = self.instance.workers
+                    # Get all candidates:
+                    aw = self.all_workers
+                    if aw:
+                        shuffle(aw)
+                        worker = aw.pop()
+                        self.active.add(worker)
+                        workers.remove(worker)
+                        self.env.process(self.use_worker(worker))
+                    
+                yield self.env.timeout(self.time)
                 
-            yield self.env.timeout(self.time)
-            cash = self.res.count*len(self.active)*randint(8, 12)
-            self.earned_cash += cash
-            if config.debug:
-                temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
-                self.log(temp)
+                # Handle the cash/tips:
+                cash = self.res.count*len(self.active)*randint(8, 12)
+                self.earned_cash += cash
+                
+                # Manage clients...
+                for c in self.clients:
+                    c.mod_flag("jobs_seen_strip_for", self.time)
+                    if c.flag("jobs_seen_strip_for") >= self.time*2:
+                        c.set_flag("jobs_ready_to_leave")
+                
+                if config.debug:
+                    temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
+                    self.log(temp)
             
         def use_worker(self, worker):
             temp = "{} comes out to do a stripshow!".format(worker.name)
             self.log(temp)
             while worker.AP and self.res.count:
-                yield self.env.timeout(5)
+                yield self.env.timeout(5) # This is a single shift a worker can take for cost of 1 AP.
+                worker.set_union("jobs_strip_clients", self.clients)
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
+                worker.mod_flag("jobs_" + worker.action.id + "_tips", tips)
                 temp = "{} gets {} in tips from {} clients!".format(worker.name, tips, self.res.count)
                 self.log(temp)
     
+            # worker.action(worker, self) # BETTER BET TO ACCESS Class directly...
             self.active.remove(worker)
-            temp = "{} is done with her job for the day!".format(worker.name)
+            temp = "{} is done entertaining for the day!".format(set_font_color(worker.name, "red"))
             self.log(temp)
             
         def post_nd_reset(self):
             self.res = None
+            self.is_running = False
             self.active = set()
+            self.clients = set()
             self.earned_cash = 0
             
             
