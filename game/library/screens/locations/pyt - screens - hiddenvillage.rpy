@@ -12,12 +12,13 @@ label hiddenVillage_entrance:
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.add("hiddenvillage_matrix", "Explore", Jump("hidden_village_matrix"))
             pytfall.world_actions.finish()
-            
+    $ pytfall.world_quests.run_quests("auto")
+    $ pytfall.world_events.run_events("auto")
     scene bg hidden_village
     with dissolve
     show screen pyt_hiddenVillage_entrance
     
-    if not global_flags.flag('visited_hidden_village'):
+    if not global_flags.flag('visited_hidden_village') and pytfall.world_quests.check_stage("Medic's Request") >= 3:
         $ global_flags.set_flag('visited_hidden_village')
         "From now on you have an access to the hidden village."
         
@@ -111,14 +112,14 @@ label hidden_village_matrix:
             elif pytfall.world_quests.check_stage("Stubborn Kunoichi") == 2:
                 hide screen pyt_hiddenVillage_entrance
                 jump temari_before_fight
-            elif pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
+        if pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
                 # if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 3 and pytfall.world_quests.check_stage("Weapons Specialist") == 0:
-                if pytfall.world_quests.check_stage("Weapons Specialist") == 0:
-                    hide screen pyt_hiddenVillage_entrance
-                    jump tenten_first_meeting
-                elif pytfall.world_quests.check_stage("Weapons Specialist") == 1:
-                    hide screen pyt_hiddenVillage_entrance
-                    jump tenten_second_meeting
+            if pytfall.world_quests.check_stage("Weapons Specialist") == 0:
+                hide screen pyt_hiddenVillage_entrance
+                jump tenten_first_meeting
+            elif pytfall.world_quests.check_stage("Weapons Specialist") == 1:
+                hide screen pyt_hiddenVillage_entrance
+                jump tenten_second_meeting
     elif _return == "House_9":
         if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0 and not(pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
             "The door is locked. Looks like there is no one here..."
