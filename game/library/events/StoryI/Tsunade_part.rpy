@@ -1,4 +1,7 @@
 # after a couple days mc gets a paper airplane with instructions written to meet with kunoichi ub the forest
+init python:
+    qtsunade = register_quest("Medic's Request")
+    register_event("intro_storyi_entervillage", quest="Medic's Request", run_conditions=[qtsunade.condition(0, True)], locations=["forest_entrance"], dice=100, max_runs=1)
 init:
     $ noisedissolve = ImageDissolve(im.Tile("content/events/StoryI/noisetile.png"), 1.0, 1)
     image orig_2 = ProportionalScale("content/items/quest/orig_2.png", 150, 150)
@@ -6,12 +9,18 @@ init:
     image ling = ProportionalScale("content/items/quest/ling.png", 150, 150)
     image protector = ProportionalScale("content/items/quest/konan_protector.png", 150, 150)
     image blossoms = SnowBlossom("content/items/quest/paper.png", count=125,  border=50, xspeed=(20, 50), yspeed=(100, 200), start=0, horizontal=True)
-label intro_storyi_entervillage:
+    
+label tsunade_request_part_one(event):
+    "Your skill now should be sufficient to pass Tsunade exam. You should return to the Hidden Village."
+    $ pytfall.world_quests.get(event.quest).next_in_label("Your skill now should be sufficient to pass Tsunade exam. You should return to the Hidden Village.", "part2")
+    $ pytfall.world_events.kill_event("tsunade_request_part_one")
+    $ register_event_in_label("story_tsunade_first_meeting", trigger_type="auto", locations=["hiddenVillage_entrance"], dice=100, max_runs=1)
+    return
+    
+label intro_storyi_entervillage(event):
     stop music
     stop world
     $ first_try = 1
-    $ k = chars["Konan"]
-    $ k_spr = chars["Konan"].get_vnsprite()
     $ s = chars["Sakura"]
     $ i = chars["Ino_Yamanaka"]
     $ s_spr = chars["Sakura"].get_vnsprite()
@@ -51,62 +60,27 @@ label intro_storyi_entervillage:
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
-        "Boar":
+        "Dragon":
             $ string_value += "b"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
-        "Dog":
+        "Tiger":
             $ string_value += "c"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
-        "Dragon":
+        "Snake":
             $ string_value += "d"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
-        "Ox":
+        "Hare":
             $ string_value += "e"
             $ a += 1
             if a < 5:
                 jump hidden_village_enter
-        "Tiger":
-            $ string_value += "f"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-        "Snake":
-            $ string_value += "g"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-        "Rat":
-            $ string_value += "h"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-        "Horse":
-            $ string_value += "i"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-        "Monkey":
-            $ string_value += "j"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-        "Hare":
-            $ string_value += "k"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-        "Ram":
-            $ string_value += "l"
-            $ a += 1
-            if a < 5:
-                jump hidden_village_enter
-    if string_value != "dkfga":
+    if string_value != "becda":
         "Nothing happens. You probably made a mistake."
         $ first_try = 0
         jump hidden_village_enter_again
@@ -163,7 +137,7 @@ label intro_storyi_entervillage:
     t.say "Tell me, have you ever been with a girl?"
     menu:
         "Yes":
-            t.say "Oh? Not bad."
+            t.say "Good."
         "No":
             $ t.override_portrait("portrait", "shy")
             t.say "Oh? How... interesting."
@@ -182,15 +156,18 @@ label intro_storyi_entervillage:
     t.say "Before that, however, I need to make sure you know what to do. Like I said, they shouldn't get hurt, so you need a certain experience in this matter."
     $ t.override_portrait("portrait", "shy")
     t.say "Come to me when you are ready and well rested, and I'll test you. You you pass my exam and take care of a certain number of my girls, I'll get the ruins entrance cleared for you."
-    "Here we give quest to rise vaginal skill, let's say, to 200, and return to the hidden village after that."
+    $ pytfall.world_quests.get(event.quest).next_in_label("Tsunade, the head medic of the village, wants to test your sex skill. Return to her when you are ready.", "part1")
+    $ pytfall.world_events.kill_event("intro_storyi_entervillage")
+    $ register_event_in_label("tsunade_request_part_one", quest=event.quest, trigger_type="auto", locations=["all"], run_conditions=["hero.get_skill('vaginal') >= 200"], dice=0, max_runs=1)
     $ t.restore_portrait()
     $ del first_try
     $ del a
     $ del string_value
     scene black with dissolve
     stop world
+    jump forest_entrance
     
-label story_tsunade_first_meeting: # and MC returns with high enough vaginal skill
+label story_tsunade_first_meeting(event):
     $ t = chars["Tsunade"]
     $ t_spr = chars["Tsunade"].get_vnsprite()
     $ a = 0
@@ -253,11 +230,14 @@ label story_tsunade_first_meeting: # and MC returns with high enough vaginal ski
     "Looks like you have a lot of work to do. Better start as soon as possible."
     $ del a
     $ t.restore_portrait()
-    "Here we give full access to the village location."
+    $ pytfall.world_quests.get("Medic's Request").next_in_label("You passed Tsunade's exam. Now you need to find and deflower four kunoichi.", "part3")
+    $ pytfall.world_events.kill_event("story_tsunade_first_meeting")
+    $ register_event_in_label("story_tsunade_second_meeting", quest="Medic's Request", trigger_type="auto", locations=["all"], run_conditions=["not(pytfall.world_quests.check_quest_not_finished('Sixth Sense') or pytfall.world_quests.check_quest_not_finished('Stubborn Kunoichi') or pytfall.world_quests.check_quest_not_finished('Uzumaki Clan') or pytfall.world_quests.check_quest_not_finished('Weapons Specialist'))"], dice=0, max_runs=1)
     scene black with dissolve
     stop world
+    return
 
-label story_tsunade_second_meeting:
+label story_tsunade_second_meeting(event):
     $ t = chars["Tsunade"]
     $ t_spr = chars["Tsunade"].get_vnsprite()
     stop music
@@ -272,5 +252,8 @@ label story_tsunade_second_meeting:
     t.say "You are still welcomed in the village, of course."
     # at this point you can send expedition to new zone in SE
     $ t.restore_portrait()
+    $ pytfall.world_quests.get(event.quest).finish_in_label("You finished Tsunade's mission and now can enter the ruins.", "complete")
+    $ pytfall.world_events.kill_event("story_tsunade_second_meeting")
     scene black with dissolve
+    return
     stop world

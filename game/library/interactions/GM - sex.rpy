@@ -1038,7 +1038,7 @@ label interaction_scene_vaginal:
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
-    elif char.vaginal < 500 and hero.vaginal =< 500:
+    elif char.vaginal < 500 and hero.vaginal <= 500:
         "You fuck her wet pussy until you both come. She did it much earlier, looks like she enjoyed it a lot."
         $ char.vaginal += randint (1, 4)
         $ hero.vaginal += randint (1, 2)
@@ -1152,7 +1152,7 @@ label interaction_scene_anal:
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
-    elif char.anal < 500 and hero.anal =< 500:
+    elif char.anal < 500 and hero.anal <= 500:
         "You fuck her tight ass until you both come. She did it much earlier, looks like she enjoyed it a lot."
         $ char.anal += randint (1, 4)
         $ hero.anal += randint (1, 2)
