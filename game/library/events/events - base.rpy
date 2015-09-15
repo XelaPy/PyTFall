@@ -10,6 +10,25 @@ init -9 python:
     register_event("found_money_event", locations=["all"], run_conditions=["dice(max(5, int(hero.luck/5)))"], priority=50, dice=0, restore_priority=0)
     register_event("found_item_event", locations=["all"], run_conditions=["dice(max(3, int(hero.luck/6)))"], priority=50, dice=0, restore_priority=0)
 
+    # Test Events:
+    if config.debug:
+        register_event("test_ev_label_1", trigger_type="auto", locations=["city_parkgates"], priority=2, dice=100, max_runs=1)
+        register_event("test_ev_label_2", trigger_type="auto", locations=["city_parkgates"], priority=1, dice=100, max_runs=1)
+    
+label test_ev_label_1(event):
+    "Exit and reenter the location..."
+    return
+    
+label test_ev_label_2(event):
+    "Exit and reenter the location."
+    $ register_event_in_label("test_ev_label_3", trigger_type="auto", locations=["city_parkgates"], priority=1, dice=100, max_runs=1)
+    $ pytfall.world_events.force_event("test_ev_label_3") # This one adds the event to the cache before the next day..
+    return
+    
+label test_ev_label_3(event):
+    "All Done!"
+    return
+    
 label meet_beggar_event(event):
 
     $ beggar = Character('Beggar', color="#c8ffc8", show_two_window=True)

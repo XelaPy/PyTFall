@@ -21,8 +21,7 @@ init -9 python:
         pytfall.world_events.events.append(WorldEvent(*args, **kwargs))
     
     class WorldEventsManager(_object):
-        """
-        Manager of all events in PyTFall.
+        """Manager of all events in PyTFall.
         """
         
         def __init__(self, data):
@@ -77,7 +76,6 @@ init -9 python:
                 if hero.AP < cost:
                     renpy.show_screen("pyt_message_screen", "Not enough AP left")
                     return
-                
                 else:
                     hero.AP -= cost
                     for event in l:
@@ -156,10 +154,8 @@ init -9 python:
         
     
     class WorldEvent(Flags):
+        """Container for the world event.
         """
-        Container for the world event.
-        """
-        
         def __init__(self, name, label=None, priority=100, restore_priority=5, dice=50, start_day=1, end_day=9999999, jump=False, screen=False,
                            times_per_days=(), locations=list(), trigger_type="look_around", custom_condition=False, simple_conditions= None, run_conditions=None, stop_music=False, max_runs=0,
                            quest=None):

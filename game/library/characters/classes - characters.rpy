@@ -4244,7 +4244,7 @@ init -9 python:
             
         # BE Related:
         def reset_controller(self):
-            # Resets combat controller 
+            # Resets combat controller
             for m in self.members:
                 m.controller = "player"
             

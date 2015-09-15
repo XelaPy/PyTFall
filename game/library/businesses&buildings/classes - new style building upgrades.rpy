@@ -271,8 +271,12 @@ init -9 python:
                 worker.mod_flag("jobs_" + worker.action.id + "_tips", tips)
                 temp = "{} gets {} in tips from {} clients!".format(worker.name, tips, self.res.count)
                 self.log(temp)
-    
-            simple_jobs["Striptease Job"](worker, self) # BETTER BET TO ACCESS Class directly...
+                
+            if worker.flag("jobs_strip_clients"):
+                simple_jobs["Striptease Job"](worker, self) # BETTER BET TO ACCESS Class directly...
+            else:
+                temp = "No clients came to see {}".format(worker.name)
+                self.log(temp)
             self.active.remove(worker)
             temp = "{} is done entertaining for the day!".format(set_font_color(worker.name, "red"))
             self.log(temp)
