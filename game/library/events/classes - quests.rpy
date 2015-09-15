@@ -92,14 +92,15 @@ init -9 python:
             Will return the number of quest stage if quest is active, -1 otherwise.
             """
             return self.get(quest).stage
-        def check_quest_not_finished(self, quest):
+            
+        def check_quest_not_finished(self, *quests):
             """           
             Will return False if quest is completed or failed, True otherwise.
             """
-            if self.is_complete(quest) or self.has_failed(quest):
-                return False
-            else:
-                return True
+            for quest in quests:
+                if self.is_complete(quest) or self.has_failed(quest):
+                    return False
+            return True
 
         def has_failed(self, quest):
             """
