@@ -4242,4 +4242,10 @@ init -9 python:
                 arena_rep += member.arena_rep
             return int(math.ceil(arena_rep/len(self._members)))
             
+        # BE Related:
+        def reset_controller(self):
+            # Resets combat controller 
+            for m in self.members:
+                m.controller = "player"
+            
  
