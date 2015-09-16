@@ -16,7 +16,6 @@ label academy_town:
     scene bg library
     with dissolve
     show screen pyt_academy_town_entrance
-        
     python:
 
         while True:
@@ -55,3 +54,13 @@ label library_read_matrix:
     call screen poly_matrix("library/screens/locations/coordinates_library.json", show_exit_button=(1.0, 1.0))
     if not(_return):
         jump academy_town
+    else:
+        $renpy.transition(dissolve)
+        $renpy.call_screen("library_show_text", 1)
+    
+screen library_show_text(orly):
+    $ strer = "wot"
+    add "content/gfx/frame/library_page.jpg" at truecenter 
+    textbutton "Enough with it" action (Hide("library_show_text", transition=dissolve), Jump("library_read_matrix"))
+    if orly == 1:
+        text "%s" % strer

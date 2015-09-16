@@ -431,10 +431,6 @@ label naruko_final_meeting:
     jump hiddenVillage_entrance
     
 label naruko_finish_quest:
-    $ k = chars["Kushina_Uzumaki"]
-    $ n = chars["Naruko_Uzumaki"]
     "Ultimately you took care of Naruko, and got her hot mother as a bonus. Nice!"
-    $ pytfall.world_quests.get("Uzumaki Clan").finish_in_label("You took care of Naruko's virginity. She and her mother can be hired now.", "complete")
-    $ k.set_flag("quest_cannot_be_hired", value=False)
-    $ n.set_flag("quest_cannot_be_hired", value=False)
+    $ pytfall.world_quests.get("Uzumaki Clan").finish_in_label("You took care of Naruko's virginity.", "complete")
     jump hiddenVillage_entrance

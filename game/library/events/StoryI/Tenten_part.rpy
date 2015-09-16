@@ -146,10 +146,8 @@ label tenten_second_meeting: # after finding the summon scroll
     jump hiddenVillage_entrance
 
 label tenten_finish_quest:
-    $ t = chars["Tenten"]
     "Tenten was the easiest target ever. It's hard to be a tomboy..."
-    $ pytfall.world_quests.get("Weapons Specialist").finish_in_label("You took care of Tenten's virginity. She can be hired now.", "complete")
-    $ t.set_flag("quest_cannot_be_hired", value=False)
+    $ pytfall.world_quests.get("Weapons Specialist").finish_in_label("You took care of Tenten's virginity.", "complete")
     jump hiddenVillage_entrance
     
 label tenten_bonus_scene: # random scene after doing it with both temari and tenten
