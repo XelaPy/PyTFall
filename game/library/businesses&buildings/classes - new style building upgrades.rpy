@@ -123,26 +123,35 @@ init -9 python:
         def requires_workers(self, amount=1):
             return True
             
-        def get_workers(self, amount=1):
-            """
-            This is quite possibly an overkill for this stage of the game development.
+        def get_workers(self, client, amount=1):
+            """This is quite possibly an overkill for this stage of the game development.
+            
+            For now we just work with one clients.
             """
             workers = list()
             
             # First gets the workers assigned directly to this upgrade as a priority.
             priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations)
-            for i in range(amount):
+            for i in xrange(amount):
                 try:
-                    workers.append(priority.pop())
+                    w = self.find_best_match(client, workers)
+                    if w:
+                        workers.append(w)
+                    else:
+                        workers.append(priority.pop())
                 except:
                     break
             
             if len(workers) < amount:
                 # Next try to get anyone availible:
                 anyw = list(i for i in self.instance.workers if self.all_occs & i.occupations)
-                for i in range(amount-len(workers)):
+                for i in xrange(amount-len(workers)):
                     try:
-                        workers.append(anyw.pop())
+                        w = self.find_best_match(client, workers)
+                        if w:
+                            workers.append(w)
+                        else:
+                            workers.append(anyw.pop())
                     except:
                         break
                         
@@ -150,6 +159,21 @@ init -9 python:
                 if len(workers) == 1:
                     return workers.pop()
             # When we'll have jobs that require moar than one worker, we'll add moar code here.
+            
+        def find_best_match(self, client, workers):
+            worker = None
+            for w in workers:
+                likes = client.likes.intersection(w.traits)
+                if likes:
+                    if len(likes) == 1:
+                        likes = likes.pop()
+                    else:
+                        likes = ", ".join(likes)
+                    temp = '{} liked {} for {}.'.format(client.name, w.nickname, likes)
+                    self.instance.log(temp)
+                    worker = w
+                    break
+            return worker
             
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)

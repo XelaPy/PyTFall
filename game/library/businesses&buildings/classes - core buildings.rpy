@@ -578,8 +578,8 @@ init -9 python:
                     if i > 4:
                         yield self.env.timeout(randint(1, 3))
                     i += 1
-                    store.client = self.clients.pop()
-                    store.client.name = "Client {}".format(i)
+                    client = self.clients.pop()
+                    client.name = "Client {}".format(i)
                     
                     # Register the fact that client arrived at the building:
                     temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
@@ -594,10 +594,10 @@ init -9 python:
                             # Assumes a single worker at this stage... This part if for upgrades like Brothel.
                             if upgrade.requires_workers():
                                 char = None
-                                while self.workers: 
+                                while self.workers:
                                     
                                     # Here we should attempt to find the best match for the client!
-                                    char = upgrade.get_workers()
+                                    char = upgrade.get_workers(client)
                                     
                                     if not char:
                                         break
