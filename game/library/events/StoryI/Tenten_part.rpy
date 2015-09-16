@@ -110,11 +110,15 @@ label tenten_second_meeting: # after finding the summon scroll
     $ enemy_team.add(mob_3)
     $ your_team.add(tem)
     $ your_team.add(ten)
+    python:
+        for member in your_team:
+            member.controller = BE_AI(member)
     $ your_team.add(hero)
     $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()
+    $ your_team.reset_controller()
     if battle.winner != your_team:
         jump game_over
     show bg story training_ground with dissolve
