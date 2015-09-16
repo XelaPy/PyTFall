@@ -94,45 +94,51 @@ init -9 python:
             return self.get(quest).stage
             
         def check_quest_not_finished(self, *quests):
-            """           
-            Will return False if quest is completed or failed, True otherwise.
+            """Will return False if at least one quest is completed or failed, True otherwise.
             """
             for quest in quests:
                 if self.is_complete(quest) or self.has_failed(quest):
                     return False
             return True
-
-        def has_failed(self, quest):
+            
+        def all_finished(self, *quests):
+            """Will return True if all quests provided as arguments are completed or finished.
+            False otherwise.
             """
-            Whether a quest has been failed.
+            bools = []
+            for quest in quests:
+                bools.append(self.is_complete(quest) or self.has_failed(quest))
+            if all(bools):
+                return True
+            else:
+                return False
+            
+        def has_failed(self, quest):
+            """Whether a quest has been failed.
             """
             if isinstance(quest, str): quest = self.get(quest)
             return quest in self.failed
         
         def is_active(self, quest):
-            """
-            Whether a quest is active.
+            """Whether a quest is active.
             """
             if isinstance(quest, str): quest = self.get(quest)
             return quest in self.active
         
         def is_complete(self, quest):
-            """
-            Whether a quest is complete.
+            """Whether a quest is complete.
             """
             if isinstance(quest, str): quest = self.get(quest)
             return quest in self.complete
         
         def is_squelched(self, quest):
-            """
-            Whether a quest has been squelched.
+            """Whether a quest has been squelched.
             """
             if isinstance(quest, str): quest = self.get(quest)
             return quest in self.squelch
         
         def kill_quest(self, quest):
-            """
-            Removes a quest.
+            """Removes a quest.
             """
             if isinstance(quest, str): quest = self.get(quest)
             if self.is_active(quest): self.active.remove(quest)
@@ -140,8 +146,7 @@ init -9 python:
             self.quests.remove(quest)
         
         def next_day(self):
-            """
-            Fails quests that have no valid events.
+            """Fails quests that have no valid events.
             """
             garbage = list()
             
@@ -159,8 +164,7 @@ init -9 python:
                 self.fail_quest(garbage.pop())
         
         def run_quests(self, param=None):
-            """
-            Unsquelches all quests so they can report for a new location if needed.
+            """Unsquelches all quests so they can report for a new location if needed.
             Definition same as WorldEventsManager.run_quests for convenience.
             
             param = Optional for mirroring of WorldEventsManager, currently doesn't do anything.
@@ -168,15 +172,13 @@ init -9 python:
             del self.squelch[:]
         
         def squelch_quest(self, quest):
-            """
-            Squelches a quest so it doesn't provide any more updates.
+            """Squelches a quest so it doesn't provide any more updates.
             """
             if isinstance(quest, str): quest = self.get(quest)
             if self.is_active(quest): self.squelch.append(quest)
         
         def unsquelch_quest(self, quest):
-            """
-            Unsquelches a quest so it can provide updates.
+            """Unsquelches a quest so it can provide updates.
             """
             if isinstance(quest, str): quest = self.get(quest)
             if self.is_squelched(quest): self.squelch.remove(quest)
