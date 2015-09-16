@@ -15,6 +15,7 @@ label tsunade_request_part_one(event):
     $ pytfall.world_quests.get(event.quest).next_in_label("Your skill now should be sufficient to pass Tsunade exam. You should return to the Hidden Village.", "part2")
     $ pytfall.world_events.kill_event("tsunade_request_part_one")
     $ register_event_in_label("story_tsunade_first_meeting", trigger_type="auto", locations=["hiddenVillage_entrance"], dice=100, max_runs=1)
+    $ pytfall.world_events.force_event("story_tsunade_first_meeting")
     return
     
 label intro_storyi_entervillage(event):
@@ -232,7 +233,7 @@ label story_tsunade_first_meeting(event):
     $ t.restore_portrait()
     $ pytfall.world_quests.get("Medic's Request").next_in_label("You passed Tsunade's exam. Now you need to find and deflower four kunoichi.", "part3")
     $ pytfall.world_events.kill_event("story_tsunade_first_meeting")
-    $ register_event_in_label("story_tsunade_second_meeting", quest="Medic's Request", trigger_type="auto", locations=["all"], run_conditions=["not(pytfall.world_quests.check_quest_not_finished('Sixth Sense') or pytfall.world_quests.check_quest_not_finished('Stubborn Kunoichi') or pytfall.world_quests.check_quest_not_finished('Uzumaki Clan') or pytfall.world_quests.check_quest_not_finished('Weapons Specialist'))"], dice=0, max_runs=1)
+    $ register_event_in_label("story_tsunade_second_meeting", quest="Medic's Request", trigger_type="auto", locations=["all"], run_conditions=["not(pytfall.world_quests.check_quest_not_finished('Sixth Sense', 'Stubborn Kunoichi', 'Uzumaki Clan', 'Weapons Specialist')"], dice=0, max_runs=1)
     scene black with dissolve
     stop world
     return

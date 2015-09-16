@@ -68,6 +68,7 @@ label temari_before_fight:
             $ battle.teams.append(your_team)
             $ battle.teams.append(enemy_team)
             $ battle.start_battle()
+            $ enemy_team.reset_controller()
             if battle.winner == your_team:
                 jump temari_final_meeting
             else:
