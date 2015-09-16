@@ -113,8 +113,6 @@ label karin_second_meeting:
     return
     
 label karin_finish_quest:
-    $ k = chars["Karin"]
     "It was a bit strange because of her masochistic tendencies, but pleasant in general..."
-    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity. She can be hired now.", "complete")
-    $ k.set_flag("quest_cannot_be_hired", value=False)
+    $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity.", "complete")
     jump hiddenVillage_entrance

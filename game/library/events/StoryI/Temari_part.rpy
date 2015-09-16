@@ -107,8 +107,6 @@ label temari_final_meeting:
     jump hiddenVillage_entrance
     
 label temari_finish_quest:
-    $ t = chars["Temari"]
     "She clearly imagined her brothers instead of you while you were doing it... Never mind, important thing is that you have done it."
-    $ pytfall.world_quests.get("Stubborn Kunoichi").finish_in_label("You took care of Temari's virginity. She can be hired now.", "complete")
-    $ t.set_flag("quest_cannot_be_hired", value=False)
+    $ pytfall.world_quests.get("Stubborn Kunoichi").finish_in_label("You took care of Temari's virginity.", "complete")
     jump hiddenVillage_entrance

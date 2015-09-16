@@ -250,7 +250,12 @@ label story_tsunade_second_meeting(event):
     "Tsunade attentively listening as you report in detail about your success. It took some time, but you managed to take care of young kunoichi in the village."
     "Unfortunately, some of them weren't in the village at the moment, like Ino and Sakura, but there is nothing you can do about it."
     t.say "I see. Well done, [hero.name]. You fulfilled your part of the bargain, and I will do the same. From now on the ruins will not be sealed."
-    t.say "You are still welcomed in the village, of course."
+    t.say "You are still welcomed in the village, of course. And you have my permission to hire those five kunoichi you took care of."
+    $ chars["Tenten"].set_flag("quest_cannot_be_hired", value=False)
+    $ chars["Temari"].set_flag("quest_cannot_be_hired", value=False)
+    $ chars["Karin"].set_flag("quest_cannot_be_hired", value=False)
+    $ chars["Kushina_Uzumaki"].set_flag("quest_cannot_be_hired", value=False)
+    $ chars["Naruko_Uzumaki"].set_flag("quest_cannot_be_hired", value=False)
     # at this point you can send expedition to new zone in SE
     $ t.restore_portrait()
     $ pytfall.world_quests.get(event.quest).finish_in_label("You finished Tsunade's mission and now can enter the ruins.", "complete")
