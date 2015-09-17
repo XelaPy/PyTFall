@@ -20,49 +20,25 @@
     {
     "id": "Books_4",
     "xy": [[512, 216], [563, 233], [562, 389], [511, 394]],
-    "tooltip": "Books_4",
+    "tooltip": "Ancient and Medieval History",
     "place": "left"
     },
     {
     "id": "Books_5",
     "xy": [[567, 236], [606, 247], [605, 386], [566, 388]],
-    "tooltip": "Books_5",
+    "tooltip": "Medieval History",
     "place": "left"
     },
     {
     "id": "Books_6",
     "xy": [[610, 250], [672, 271], [670, 380], [611, 386]],
-    "tooltip": "Books_6",
+    "tooltip": "Medieval and Contemporary History",
     "place": "left"
     },
     {
     "id": "Books_7",
     "xy": [[696, 281], [761, 301], [761, 374], [696, 378]],
-    "tooltip": "Books_7",
-    "place": "left"
-    },
-    {
-    "id": "Books_8",
-    "xy": [[766, 375], [767, 299], [957, 293], [957, 376]],
-    "tooltip": "Books_8",
-    "place": "bottom"
-    },
-    {
-    "id": "Books_9",
-    "xy": [[1060, 406], [1060, 155], [1091, 115], [1091, 416]],
-    "tooltip": "Books_9",
-    "place": "bottom"
-    },
-    {
-    "id": "Books_10",
-    "xy": [[1098, 416], [1098, 99], [1049, 25], [1148, 434]],
-    "tooltip": "Books_10",
-    "place": "bottom"
-    },
-    {
-    "id": "Books_11",
-    "xy": [[1163, 437], [1162, 1], [1278, 1], [1278, 475]],
-    "tooltip": "Books_11",
+    "tooltip": "Contemporary History",
     "place": "left"
     }
 ]
