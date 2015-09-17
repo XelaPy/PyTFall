@@ -95,15 +95,13 @@ screen library_show_text(bookshelf_number):
     textbutton "Enough with it" action (Hide("library_show_text", transition=dissolve), Jump("library_read_matrix")):
         xalign 1.0
         yalign 1.0
-    viewport:
+    side "c r":
+        xysize (675, 670)
         xpos 306
         ypos 30
-        xysize (675, 670)
-        has viewport:
+        viewport id "lib_text":
+            xysize (675, 670)
             mousewheel True
             draggable True
-            xpos 0
-            ypos 0
-            scrollbars "vertical"
-            xysize (675, 670)
             text "%s" %string_to_show size 15 color black font "Fonts\EBGaramond-Regular.ttf"
+        vbar value YScrollValue("lib_text")
