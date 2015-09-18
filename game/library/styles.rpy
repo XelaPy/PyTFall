@@ -479,6 +479,22 @@ init -2:
         font "fonts/myriadpro-semibold.otf"
     
     # Specialized text styles:
+    style library_book_header_main:
+        is della_respira
+        color black
+        xalign 0.5
+        bold True
+        size 20
+        
+    style library_book_header_sub:
+        is library_book_header_main
+        size 18
+        
+    style library_book_content:
+        is garamond
+        color black
+        size 15
+    
     style black_serpent:
         is text
         size 20
