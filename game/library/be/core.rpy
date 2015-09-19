@@ -333,6 +333,9 @@ init -1 python: # Core classes:
                 self.apply_effects()
                 return self.kill()
                 
+        def __str__(self):
+            return str(self.name)
+                
         def check_conditions(self):
             """
             Should return True/False to allow event execution.

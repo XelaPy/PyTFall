@@ -126,8 +126,8 @@ label peevish_menu:
     p "Haha, look who's back!"
     p "Got some gold on ya?"
     
-    $ peevish_water_spells = {"Water 1": [3000], "Water 2": [6000], "Water 3": [10000], "Ice Arrow": [30000], "Geyser": [50000]}
-    $ peevish_earth_spells = {"Earth 1": [3000], "Earth 2": [6000], "Earth 3": [10000], "Wrath Of Nature": [30000], "Clay Spikes": [70000]}
+    $ peevish_water_spells = {"Water": [3000], "Watera": [6000], "Waterga": [10000], "Waterja": [30000]}
+    $ peevish_earth_spells = {"Stone": [3000], "Stonera": [6000], "Stonega": [10000], "Stoneja": [30000]}
     
     $ loop = True
     while loop:
@@ -190,15 +190,16 @@ label peevish_menu:
                         with dissolve
                         
                         $ spell = spell[0]
-                        $ char.magic_skills[spell] = 1
+                        $ char.magic_skills.append(spell)
                         
-                        p "Congratulations! You're a little bit less useless than you were five minutes ago."
+                        p "Congratulations! You're a little bit less useless than you were a minute ago."
                         
                         "[char.nickname] learned [spell]!!!"
+                        $ del spell
                         
                     else:
                         p "The hell is this? Are you trying to rip me off mother-frecker?"
-                        extend "You don't have that much on you! I can smell it!"
+                        extend "You don't have that much gold on you! I can smell it!"
                     
             "That will be all.":
                 $ loop = False
@@ -221,10 +222,11 @@ screen magic_purchase_screen(left_magic, left_magic_color, right_magic, right_ma
         xpos 100
         has vbox
         for key, v in sorted(left_magic.iteritems(), key=itemgetter(1)):
-            if key not in char.magic_skills:
+            $ skill = battle_skills[key]
+            if skill not in char.magic_skills:
                 $ price = left_magic[key][0]
                 button:
-                    action Return((key, left_magic[key]))
+                    action Return((skill, left_magic[key]))
                     text "[key]: [price]":
                         color cornflowerblue
                         drop_shadow [(1, 1)]
@@ -237,10 +239,11 @@ screen magic_purchase_screen(left_magic, left_magic_color, right_magic, right_ma
         xanchor 1.0
         has vbox
         for key, v in sorted(right_magic.iteritems(), key=itemgetter(1)):
-            if key not in char.magic_skills:
+            $ skill = battle_skills[key]
+            if skill not in char.magic_skills:
                 $ price = right_magic[key][0]
                 button:
-                    action Return((key, right_magic[key]))
+                    action Return((skill, right_magic[key]))
                     text "[key]: [price]":
                         color brown
                         drop_shadow [(1, 1)]
