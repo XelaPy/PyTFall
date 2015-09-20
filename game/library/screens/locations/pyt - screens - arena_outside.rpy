@@ -1,5 +1,5 @@
 label arena_outside:
-    $ gm.enter_location(occupation="Warrior")
+    $ gm.enter_location(occupations=["Warrior"])
     
     # Music related:
     if not "arena_outside" in ilists.world_music:
