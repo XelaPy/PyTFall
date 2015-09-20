@@ -15,7 +15,7 @@
     "attacks": ["KnifeAttack"],
     "max": {"attack": 10},
     "mod": {"attack": 5, "character": 3},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Enchanted Dagger",
@@ -33,7 +33,7 @@
     "attacks": ["KnifeAttack"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Parrying Dagger",
@@ -241,7 +241,7 @@
     "max": {"attack": 12},
     "mod": {"attack": 6, "character": 10, "agility": 5},
     "mod_skills": {"bdsm": [0.02, 0.01, 0.04, 0, 0], "management": [0, 0, 0.01, 0, 0]},
-    "locations": ["Work Shop"],
+    "locations": ["Work Shop", "Look around"],
     "goodtraits": ["Sadist"]
     },
     {
@@ -482,7 +482,7 @@
     "attacks": ["FistAttack"],
     "max": {"defence": 15, "agility": 10},
     "mod": {"defence": 10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Wooden Shield",

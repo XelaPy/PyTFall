@@ -62,7 +62,7 @@
     "slot": "ring",
     "max": {"charisma": 20},
     "mod": {"charisma": 5},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Ring of Pleasure",
@@ -432,7 +432,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"charisma": -15, "vitality": -15, "character": 35},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "The Scratch",
@@ -552,7 +552,7 @@
     "slot": "ring",
     "max": {"character": -10, "charisma": 5},
     "mod": {"charisma": 5},
-    "locations": ["General Shop"]
+    "locations": ["General Shop", "Look around"]
     },
     {
     "id": "Frozen Tear",
@@ -602,7 +602,7 @@
     "slot": "ring",
     "max": {"agility": 5, "charisma": 25},
     "mod": {"luck": 5},
-    "locations": ["General Shop"],
+    "locations": ["General Shop", "Look around"],
     "goodtraits": ["Lolita"]
     }
   ]

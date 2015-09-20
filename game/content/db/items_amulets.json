@@ -13,7 +13,7 @@
     "slot": "amulet",
     "max": {"charisma": 3},
     "mod": {"charisma": 7},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Leash",
@@ -29,7 +29,7 @@
     "slot": "amulet",
     "max": {"joy": -10, "character": -10},
     "mod": {"attack": -20, "defence": -20, "agility": -10, "character": -25},
-    "locations": ["General Store"],
+    "locations": ["General Store", "Look around"],
     "goodtraits": ["Masochist"]
     },
     {
@@ -67,7 +67,7 @@
     "max": {"charisma": 5},
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Pearl Necklace",
@@ -101,7 +101,7 @@
     "slot": "amulet",
     "max": {"charisma": 15},
     "mod": {"character": -15, "refinement": -20},
-    "locations": ["General Store"],
+    "locations": ["General Store", "Look around"],
     "mod_skills": {"refinement": [-0.01, 0, -0.02, 0, 0], "bdsm": [0.01, 0, 0.02, 0, 0]},
     "goodtraits": ["Masochist"]
     },
@@ -136,7 +136,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"attack": 5},
-    "locations": ["General Store"],
+    "locations": ["General Store", "Look around"],
     "goodtraits": ["Manly", "Kuudere"]
     },
     {
@@ -221,7 +221,7 @@
     "infinite": false,
     "slot": "amulet",
     "mod": {"luck": 5},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Health Charm",
@@ -236,7 +236,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"health": 25},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Mana Charm",
@@ -251,7 +251,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"mp": 25},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Victory Charm",
