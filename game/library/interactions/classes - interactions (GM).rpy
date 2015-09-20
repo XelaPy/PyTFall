@@ -5,17 +5,24 @@ init -1 python:
         Also resposible for sorting.
         Occupation = condition on which to sort. For now we only have warrior.
         """
-        def __init__(self, name, occupation=None, goodtraits=list(), badtraits=list()):
+        def __init__(self, name, **kwargs):
+            occupations = kwargs.get("occupations", set())
+            goodtraits = kwargs.get("goodtraits", list())
+            if goodtraits:
+                goodtraits = list(traits[t] for t in goodtraits)
+            badtraits = kwargs.get("badtraits", list())
+            if badtraits:
+                badtraits = list(traits[t] for t in badtraits)
             self.name = name
             self.girls = []
             
             # Get availible girls and check occupation
             choices = list(i for i in chars.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
-            conditioned_choices = choices * 1
-            if occupation:
-                conditioned_choices = list(i for i in conditioned_choices if occupation in i.occupations)
+            conditioned_choices = choices[:]
+            if occupations:
+                conditioned_choices = list(i for i in conditioned_choices if i.occupations.union(occupations))
             if goodtraits or badtraits:
-                conditioned_choices = list(i for i in conditioned_choices if ("Curious" in i.traits) or (any(trait in goodtraits for trait in i.traits) and 
+                conditioned_choices = list(i for i in conditioned_choices if (traits["Curious"] in i.traits) or (any(trait in goodtraits for trait in i.traits) and 
                                             not any(trait in badtraits for trait in i.traits)))
                 
             # Sort the list based on disposition:
