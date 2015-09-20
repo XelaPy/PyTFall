@@ -148,7 +148,7 @@
     "mdestruct": false,
     "statmax": 90,
     "mod": {"joy": 1, "vitality": 2, "gold": -3},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Guard Dog",
@@ -464,7 +464,7 @@
     "mdestruct": false,
     "skillmax": 90,
     "mod_skills": {"vaginal": [0, 0, 0, 1, 0], "anal": [0, 0, 0, 1, 0]},
-    "locations": ["General Store"],
+    "locations": ["General Store", "Look around"],
     "goodtraits": ["Lesbian", "Bisexual"],
     "badtraits": ["Frigid"]
     },

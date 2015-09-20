@@ -13,7 +13,7 @@
     "type": "scroll",
     "add_be_spells": ["Fireball"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Solar Flash Scroll",
@@ -30,7 +30,7 @@
     "type": "scroll",
     "add_be_spells": ["Solar Flash"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Cataclysm Scroll",
@@ -47,7 +47,7 @@
     "type": "scroll",
     "add_be_spells": ["Cataclysm"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Geyser Scroll",
@@ -64,7 +64,7 @@
     "type": "scroll",
     "add_be_spells": ["Geyser"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Last Drop Scroll",
@@ -81,7 +81,7 @@
     "type": "scroll",
     "add_be_spells": ["Last Drop"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Heavy Rain Scroll",
@@ -98,7 +98,7 @@
     "type": "scroll",
     "add_be_spells": ["Heavy Rain"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Zero Prism Scroll",
@@ -115,7 +115,7 @@
     "type": "scroll",
     "add_be_spells": ["Zero Prism"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Ice Shards Scroll",
@@ -132,7 +132,7 @@
     "type": "scroll",
     "add_be_spells": ["Ice Shards"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Hailstorm Scroll",
@@ -149,7 +149,7 @@
     "type": "scroll",
     "add_be_spells": ["Hailstorm"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Mudslide Scroll",
@@ -166,7 +166,7 @@
     "type": "scroll",
     "add_be_spells": ["Mudslide"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Transmutation Scroll",
@@ -183,7 +183,7 @@
     "type": "scroll",
     "add_be_spells": ["Transmutation"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Rift Line Scroll",
@@ -200,7 +200,7 @@
     "type": "scroll",
     "add_be_spells": ["Rift Line"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Air Pressure Scroll",
@@ -217,7 +217,7 @@
     "type": "scroll",
     "add_be_spells": ["Air Pressure"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Air Blast Scroll",
@@ -234,7 +234,7 @@
     "type": "scroll",
     "add_be_spells": ["Air Blast"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Vortex Scroll",
@@ -251,7 +251,7 @@
     "type": "scroll",
     "add_be_spells": ["Vortex"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Thunderstorm Scroll",
@@ -268,7 +268,7 @@
     "type": "scroll",
     "add_be_spells": ["Thunderstorm"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Electromagnetism Scroll",
@@ -285,7 +285,7 @@
     "type": "scroll",
     "add_be_spells": ["Electromagnetism"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Ion Storm Scroll",
@@ -302,7 +302,7 @@
     "type": "scroll",
     "add_be_spells": ["Ion Storm"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Photon Blade Scroll",
@@ -319,7 +319,7 @@
     "type": "scroll",
     "add_be_spells": ["Photon Blade"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Star Light Scroll",
@@ -336,7 +336,7 @@
     "type": "scroll",
     "add_be_spells": ["Star Light"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Forced Dawn Scroll",
@@ -353,7 +353,7 @@
     "type": "scroll",
     "add_be_spells": ["Forced Dawn"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Eternal Gluttony Scroll",
@@ -370,7 +370,7 @@
     "type": "scroll",
     "add_be_spells": ["Eternal Gluttony"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Black Hole Scroll",
@@ -387,7 +387,7 @@
     "type": "scroll",
     "add_be_spells": ["Black Hole"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Other Light Scroll",
@@ -404,7 +404,7 @@
     "type": "scroll",
     "add_be_spells": ["Other Light"],
     "goodtraits": ["Battle Mage"],
-    "locations": ["Witches Hut"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Small Mana Potion",
@@ -420,7 +420,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 25},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Mana Potion",
@@ -436,7 +436,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 50},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Great Mana Potion",
@@ -486,7 +486,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 25},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Healing Potion",
@@ -502,7 +502,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 50},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Great Healing Potion",
@@ -553,7 +553,7 @@
     "type": "restore",
     "cblock": 2,
     "mod": {"vitality": 25},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Potion of Serenity",
@@ -570,7 +570,7 @@
     "type": "restore",
     "cblock": 4,
     "mod": {"vitality": 50, "mp": 10},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Great Potion of Serenity",
@@ -691,7 +691,7 @@
     "slot": "consumable",
     "type": "restore",
     "removeeffects": ["Down with Cold"],
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Look around"]
     },
     {
     "id": "Basic Makeup",
@@ -709,7 +709,7 @@
     "ctemp": 7,
     "cblock": 7,
     "mod": {"charisma": 10, "character": 5},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Look around"],
     "badtraits": ["Bokukko", "Impersonal"]
     },
     {
@@ -728,7 +728,7 @@
     "ctemp": 8,
     "cblock": 8,
     "mod": {"charisma": 45, "character": 10, "joy": 5},
-    "locations": ["General Store"],
+    "locations": ["General Store", "Look around"],
     "badtraits": ["Bokukko", "Impersonal"]
     },
     {
@@ -768,7 +768,7 @@
     "cblock": 7,
     "skillmax": 300,
     "mod_skills": {"anal": [0.05, 0.05, 0.05, 0, 0], "group": [0, 0, 0.01, 0, 0]},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Look around"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"]
     },
@@ -811,7 +811,7 @@
     "mod": {"charisma": 5},
     "skillmax": 100,
     "mod_skills": {"refinement": [0.01, 0, 0.02, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Enchanting Perfume",
@@ -853,7 +853,7 @@
     "mod": {"charisma": 20, "refinement": 50},
     "skillmax": 150,
     "mod_skills": {"refinement": [0.02, 0, 0.03, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Fancy Breath Mints",
@@ -870,7 +870,7 @@
     "type": "upgrade",
     "cblock": 1,
     "mod": {"charisma": 1, "joy": 5},
-    "locations": ["Cafe"]
+    "locations": ["Cafe", "Look around"]
     },
     {
     "id": "Succubus Milk",

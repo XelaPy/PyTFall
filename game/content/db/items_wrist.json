@@ -14,7 +14,7 @@
     "type": "armor",
     "max": {"defence": 5},
     "mod": {"defence": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Tanned Leather Gloves",
@@ -133,7 +133,7 @@
     "type": "other",
     "max": {"character": -15, "joy": -5},
     "mod": {"character": -15, "agility": -5, "defence": -5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Cleaning Gloves",
@@ -150,7 +150,7 @@
     "type": "other",
     "mod": {"charisma": -10},
     "mod_skills": {"service": [0.05, 0, 0.01, 0, 0], "refinement": [-0.04, 0, 0, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Bracer of Toughness",
@@ -362,7 +362,7 @@
     "slot": "wrist",
     "type": "dress",
     "mod": {"charisma": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Velvet Gloves",

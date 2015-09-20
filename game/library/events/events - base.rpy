@@ -103,7 +103,7 @@ label found_money_event(event):
 label found_item_event(event):
     python:
         amount = max(200, (50 * hero.level + max(10, hero.luck*2)))
-        items_pool = list(item for item in items.values() if item.price <= amount)
+        items_pool = list(item for item in items.values() if "Look around" in item.locations)
         found_item = choice(items_pool)
         renpy.show("_tag", what=ProportionalScale(found_item.icon, 100, 100), at_list=[found_cash(150, 600, 4)])
         hero.say(choice(["Yey! Found something! ([found_item.id])", "[found_item.id] Might be useful!", "[found_item.id]! Lucky?", "-[found_item.id]- Never look a gift horse in the mouth :)"]))

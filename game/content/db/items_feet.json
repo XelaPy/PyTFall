@@ -13,7 +13,7 @@
     "slot": "feet",
     "type": "dress",
     "mod": {"agility": 2, "defence": 1},
-    "locations": ["Tailor Store"],
+    "locations": ["Tailor Store", "Look around"],
     "badtraits": ["Not Human"]
     },
     {
@@ -30,7 +30,7 @@
     "slot": "feet",
     "type": "dress",
     "max": {"vitality": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Fur Slippers",
@@ -46,7 +46,7 @@
     "slot": "feet",
     "type": "dress",
     "max": {"joy": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Hot Stilettos",
@@ -100,7 +100,7 @@
     "max": {"character": -20, "joy": -10},
     "mod": {"character": -20, "defence": -10, "attack": -10},
     "mod_skills": {"refinement": [0, 0, -0.1, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Kung Fu Shoes",
@@ -268,7 +268,7 @@
     "type": "armor",
     "max": {"defence": 10},
     "mod": {"defence": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Tanned Leather Boots",

@@ -107,7 +107,7 @@
     "attacks": ["SwordAttack"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Long Sword",
@@ -257,7 +257,7 @@
     "max": {"attack": 20, "agility": 10},
     "mod": {"attack": 10, "character": 10, "agility": 10},
     "mod_skills": {"refinement": [0.01, 0, 0, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Tower Shield",
@@ -431,7 +431,7 @@
     "attacks": ["RodAttack"],
     "max": {"attack": 4},
     "mod": {"charisma": -4, "attack": 4},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Look around"]
     },
     {
     "id": "Mallet",
@@ -449,7 +449,7 @@
     "attacks": ["RodAttack"],
     "max": {"attack": 20},
     "mod": {"charisma": -10, "character": 10, "agility": -10, "attack": 10, "defence": -5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Look around"]
     },
     {
     "id": "Pitchfork",
@@ -539,7 +539,7 @@
     "attacks": ["BowAttack"],
     "max": {"attack": 25, "defence": -10, "agility":7},
     "mod": {"attack": 10, "character": 5, "defence": -10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Long Bow",

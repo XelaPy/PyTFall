@@ -16,7 +16,7 @@
     "mod": {"charisma": -20, "character": -50},
     "mod_skills": {"refinement": [-0.1, 0, -0.1, 0, 0], "management": [-0.1, 0, -0.1, 0, 0], "bdsm": [0.05, 0, 0.05, 0, 0]},
     "removetraits": ["Optimist"],
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Worn Clothes",
@@ -34,7 +34,7 @@
     "max": {"defence": 5},
     "mod": {"defence": 10},
     "mod_skills": {"refinement": [0, 0, -0.06, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Peasant Gown",
@@ -51,7 +51,7 @@
     "type": "dress",
     "max": {"charisma": 5},
     "mod": {"charisma": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Linen Dress",
@@ -272,7 +272,7 @@
     "type": "armor",
     "max": {"defence": 20},
     "mod": {"defence": 15, "magic": -15},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Chainmail Bikini",

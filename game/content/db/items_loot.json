@@ -7,7 +7,7 @@
     "chance": 90,
     "slot": "loot",
     "type": "treasure",
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Look around"]
     },
     {
     "id": "Old Purse",

@@ -13,7 +13,7 @@
     "slot": "head",
     "type": "dress",
     "max": {"joy": 10},
-    "locations": ["Tailor Store"],
+    "locations": ["Tailor Store", "Look around"],
     "goodtraits": ["Imouto"]
     },
     {
@@ -65,7 +65,7 @@
     "type": "dress",
     "max": {"agility": 5},
     "mod": {"defence": 5, "agility": 10, "charisma": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "General Helmet",
@@ -276,7 +276,7 @@
     "type": "armor",
     "max": {"defence": 5},
     "mod": {"defence": 5, "charisma": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Scarf",
@@ -294,7 +294,7 @@
     "max": {"character": 5},
     "mod": {"character": 5,"service": 2},
     "mod_skills": {"service": [0, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store", "Look around"]
     },
     {
     "id": "Imperial Leather Helmet",
