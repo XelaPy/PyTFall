@@ -113,7 +113,7 @@ init: # Items:
                             align (0.5, 0.5)
                             style_group "stats"
                             $ total_price = item_price * amount
-                            label "Retail Price: [total_price]!":
+                            label "Retail Price: [total_price]":
                                 text_color gold
                                 text_size 22
                                 xalign 0.5
