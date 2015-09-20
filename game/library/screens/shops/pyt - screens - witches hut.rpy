@@ -71,8 +71,8 @@ label witch_menu:
     
     $ w = npcs["Abby_the_witch"].say
     
-    $ witch_fire_spells = {"Fire 1": [3000], "Fire 2": [6000], "Fire 3": [10000], "Fire Arrow": [30000], "Fire Ball Z": [50000]}
-    $ witch_air_spells = {"Windwhirl": [6000], "Spring Thunder": [50000]}
+    $ witch_fire_spells = {"Fire": [3000], "Fira": [6000], "Firaga": [10000], "Firaja": [30000]}
+    $ witch_air_spells = {"Aero": [3000], "Aerora": [6000], "Aeroga": [10000], "Aeroja": [30000]}
     
     $ loop = True
     while loop:
@@ -88,7 +88,7 @@ label witch_menu:
                 else:
                     $ char = hero
                     
-                call screen magic_purchase_screen(witch_fire_spells, orange, witch_air_spells, blue)
+                call screen magic_purchase_screen(witch_fire_spells, orange, witch_air_spells, white)
                 $ spell = _return
                 
                 if spell == "Nothing":
@@ -129,11 +129,12 @@ label witch_menu:
                         with dissolve
                         
                         $ spell = spell[0]
-                        $ char.magic_skills[spell] = 1
+                        $ char.magic_skills.append(spell)
                         
                         w "Congrats on your new skillz!"
                         
                         "[char.nickname] learned [spell]!!!"
+                        $ del spell
                         
                     else:
                         w "Not enought cash I fear... we've all been there."

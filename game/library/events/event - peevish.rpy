@@ -144,7 +144,6 @@ label peevish_menu:
                 else:
                     $ char = hero
                     
-                    
                 call screen magic_purchase_screen(peevish_water_spells, cornflowerblue, peevish_earth_spells, brown)
                 $ spell = _return
                 
@@ -226,9 +225,16 @@ screen magic_purchase_screen(left_magic, left_magic_color, right_magic, right_ma
             if skill not in char.magic_skills:
                 $ price = left_magic[key][0]
                 button:
+                    maximum (350, 30)
                     action Return((skill, left_magic[key]))
-                    text "[key]: [price]":
-                        color cornflowerblue
+                    text "[key]:":
+                        xalign 0
+                        color left_magic_color
+                        drop_shadow [(1, 1)]
+                        drop_shadow_color black
+                    text "[price]":
+                        xalign 1.0
+                        color left_magic_color
                         drop_shadow [(1, 1)]
                         drop_shadow_color black
         
@@ -243,9 +249,16 @@ screen magic_purchase_screen(left_magic, left_magic_color, right_magic, right_ma
             if skill not in char.magic_skills:
                 $ price = right_magic[key][0]
                 button:
+                    maximum (350, 30)
                     action Return((skill, right_magic[key]))
-                    text "[key]: [price]":
-                        color brown
+                    text "[key]:":
+                        xalign 0
+                        color right_magic_color
+                        drop_shadow [(1, 1)]
+                        drop_shadow_color black
+                    text "[price]":
+                        xalign 1.0
+                        color right_magic_color
                         drop_shadow [(1, 1)]
                         drop_shadow_color black
                     

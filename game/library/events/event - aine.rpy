@@ -32,8 +32,8 @@ label aine_menu:
         a "Hello again. How are you today?"
     
     
-    $ aine_light_spells = {"Divine Light": [30000], "Forced Dawn": [70000]}
-    $ aine_darkness_spells = {"Insatiable Spirit": [30000], "Other Light": [50000]}
+    $ aine_light_spells = {"Holy": [3000], "Holyra": [6000], "Holyda": [10000], "Holyja": [30000]}
+    $ aine_darkness_spells = {"Dark": [3000], "Darkra": [6000], "Darkga": [10000], "Darkja": [30000]}
     
     $ loop = True
     while loop:
@@ -89,19 +89,22 @@ label aine_menu:
                         with dissolve
                         $ renpy.pause(3.0, hard=True)
                         hide magic
+                        
                         show npc aine:
                             pos (0.4, 0.2)
                             linear 1.0 pos (0.4, 0.3)
                             linear 1.0 pos (0.4, 0.2)
                             repeat
+                            
                         with dissolve
                         
                         $ spell = spell[0]
-                        $ char.magic_skills[spell] = 1
+                        $ char.magic_skills.append(spell)
                         
                         a "Use your new powers wisely!"
                         
                         "[char.nickname] learned [spell]!!!"
+                        $ del spell
                         
                     else:
                         a "I know that I'm nice but don't even thing if taking advantage!"
