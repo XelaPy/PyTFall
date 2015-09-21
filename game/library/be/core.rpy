@@ -16,7 +16,7 @@ init -1 python: # Core classes:
         """
         Main BE controls and the loop!
         """
-        def __init__(self, bg, music=None, row_pos=None):
+        def __init__(self, bg, music=None, row_pos=None, start_sfx=None, end_sfx=None):
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.bg = bg # Background we'll use.
@@ -38,6 +38,9 @@ init -1 python: # Core classes:
             self.start_turn_events = list() # Events we execute on the end of the turn.
             self.mid_turn_events = list() # Events to execute after controller was set.
             
+            self.start_sfx = start_sfx
+            self.end_sfx = end_sfx
+            
         def get_faction(self, char):
             # Since factions are simply teams:
             for team in self.teams:
@@ -48,7 +51,6 @@ init -1 python: # Core classes:
             """
             Handles events on the battlefield until something that can break the loop is found.
             """
-            renpy.show_screen("battle_overlay")
             while 1:
                 # We run events queued at the start of the turn first:
                 for event in self.start_turn_events[:]:
@@ -100,13 +102,9 @@ init -1 python: # Core classes:
                 
             # Show the BG:
             renpy.scene()
-            renpy.show("bg", what=self.bg)
-            
-            # Consider using Screen for this as well?
             
             # Lets render the teammembers:
             # First the left team:
-            
             team = self.teams[0]
             for i in team:
                 self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
@@ -114,8 +112,11 @@ init -1 python: # Core classes:
             team = self.teams[1]
             for i in team:
                 self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
-             
-            # renpy.show_screen("be_test")
+                
+            renpy.show("bg", what=self.bg)
+            renpy.show_screen("battle_overlay")
+            if self.end_sfx: # Special Effects:
+                renpy.with_statement(self.end_sfx)
             
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()
@@ -130,6 +131,8 @@ init -1 python: # Core classes:
             renpy.hide_screen("pick_skill")
             renpy.hide_screen("battle_overlay")
             renpy.scene()
+            if self.end_sfx:
+                renpy.with_statement(self.end_sfx)
 
             if self.music:
                 renpy.music.stop()
@@ -227,7 +230,7 @@ init -1 python: # Core classes:
             for key in char.besk:
                 if key not in kwargs: # We do not want to overwrite!
                     kwargs[key] = char.besk[key]
-            return renpy.show(char.betag, *args, **kwargs)
+            renpy.show(char.betag, *args, **kwargs)
             
         def move(self, char, pos, t, pause=True):
             """

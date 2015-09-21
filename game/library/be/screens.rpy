@@ -1,19 +1,4 @@
 init: # screens:
-    screen be_test(char=None):
-        # text "[char.name]" align (0.5, 0.2)
-        $ pass
-        # vbox:
-            # spacing 5
-            # xalign 1.0
-            # for i in battle.teams[1]:
-                # text "%s, %s" % (battle.get_cp(battle.teams[1], i)[0], battle.get_cp(battle.teams[1], i)[1])
-                # text "Img Size: %s" % ", ".join(str(i) for i in i.be_spritesize)
-        # vbox:
-            # spacing 5
-            # xalign 0
-            # for i in battle.teams[0]:
-                # text "%s, %s" % (battle.get_cp(battle.teams[0], i)[0], battle.get_cp(battle.teams[0], i)[1])
-                
     screen target_practice(skill, targets):
         default highlight_idle = False
         default return_all = False
@@ -159,8 +144,8 @@ init: # screens:
                             profile_img = member.show('portrait', resize=(95, 95), cache=True)
                             scr = renpy.get_screen("pick_skill")
                             if scr:
-                                char = scr.scope["_args"][0]
-                            if member == char:
+                                char = scr.scope["_args"][0] # This is not the best code :(
+                            if scr and member == char:
                                 portrait_frame = im.Twocolor("content/gfx/frame/MC_bg3.png", grey, grey)
                                 img = "content/gfx/frame/ink_box.png"
                             else:

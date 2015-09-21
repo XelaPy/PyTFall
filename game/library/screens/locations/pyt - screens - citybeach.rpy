@@ -43,7 +43,7 @@ label city_beach:
     jump pyt_city
     
 
-screen pyt_city_beach:
+screen pyt_city_beach():
     
     use pyt_top_stripe(True)
     
@@ -68,7 +68,7 @@ screen pyt_city_beach:
     if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
+        
         hbox:
             align(0.5, 0.3)
             spacing 70
