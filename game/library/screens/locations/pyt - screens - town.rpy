@@ -32,6 +32,9 @@ label pyt_city:
 screen pyt_city_screen():
     
     default tt = Tooltip(None)
+    default loc_list = ["main_street", "arena_outside", "slave_market", "city_jail", "tavern_town",
+                                "city_parkgates", "academy_town", "mages_tower",
+                                "graveyard_town", "city_beach", "forest_entrance", "hiddenVillage_entrance"]
     add "content/gfx/images/m_1.png" align (1.0, 0.0)
     
     for key in pytfall.maps("pytfall"):
@@ -124,67 +127,16 @@ screen pyt_city_screen():
             draggable True
             mousewheel True
             has vbox style_group "dropdown_gm2" spacing 2 ysize 10000
-            
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/mstreet.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/mstreet_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "main_street"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/arena.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/arena_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "arena_outside"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/sm.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/sm_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "slave_market"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/jail.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/jail_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "city_jail"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/tavern.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/tavern_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "tavern_town"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/park.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/park_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "city_parkgates"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/academy.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/academy_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "academy_town"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/mtower.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/mtower_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "mages_tower"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/graveyard.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/graveyard_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "graveyard_town"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/beach.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/beach_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "city_beach"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/dforest.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/dforest_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "forest_entrance"])
-            button:
-                xysize (160, 28)
-                idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/hvillage.png", im.matrix.brightness(0.10)), 5, 5)
-                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/locations/hvillage_h.png", im.matrix.brightness(0.15)), 5, 5)
-                action Return(['location', "hiddenVillage_entrance"])
+            $ prefix = "content/gfx/interface/buttons/locations/"
+            for loc in pytfall.maps("pytfall"):
+                if loc["id"] in loc_list and not key.get("hidden", False):
+                    button:
+                        xysize (160, 28)
+                        idle_background Frame(im.MatrixColor(prefix + loc["id"] + ".png", im.matrix.brightness(0.10)), 5, 5)
+                        hover_background Frame(im.MatrixColor(prefix + loc["id"] + "_hover.png", im.matrix.brightness(0.15)), 5, 5)
+                        hovered tt.action(loc['name'])
+                        action Return(['location', loc["id"]])
+                    
         vbar value YScrollValue("locations")
     
     #use pyt_top_stripe(True, use_hide_transform=True, normal_op=False)
