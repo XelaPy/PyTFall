@@ -20,8 +20,7 @@ label angelica_menu:
         menu:
             a "Are you interested in magic?"
             "Yes!":
-                a "Great! I might be of some assistance then. "
-                extend "You cannot join us in the tower at the moment but I can be of some help!"
+                a "Great! You cannot join us in the tower at the moment but there are things I can help you with!"
                 a "I for once am one of the very few people in this part of the world who can unlock add and remove elemental alignments from a person."
                 a "It is not an easy task so don't think that you will be able to get away with being a cheapskate!"
                 a "It takes a lot out of me so I want to be very well compensated. If you believe that you can find a better deal anywhere... I do dare you to try :)"
@@ -31,17 +30,86 @@ label angelica_menu:
                 a "I charge 10 000 Gold for the first element if you do not have any alignment at all and 10 000 and 5 000 more for every one that you already have!"
                 a "If you want to loose one, it is a lot trickier... elements are not shoes you can put on and off."
                 a "That will cost you 50 000 per elements and expect to suffer some damage to your magical powers and health..."
+                
+                a "I can also teach you basics of Thunder and Ice magic!"
             "Not really...":
                 a "Oh? Well, never mind then..."
                 a "I'll be around if you change your mind."
                 jump mages_tower
+                
+    $ angelica_thunder_spells = {"Thunder": [3000], "Thundara": [6000], "Thundaga": [10000], "Thundaja": [30000]}
+    $ angelica_ice_spells = {"Blizzard": [3000], "Blizzara": [6000], "Blizzarga": [10000], "Blizzarja": [30000]}
     
     $ loop = True
     while loop:
         menu:
             a "How can I be of assistance today?"
             
-            "Change alignment!":
+            "Ask her to teach magic!":
+                a "Well!"
+                extend " Ice or Thunder! Which will it be?"
+                
+                if len(hero.team) > 1:
+                    if len(hero.team) == 3:
+                        a "Will it be you or one of your allies?"
+                    else:
+                        a "Will it be you or your ally?"
+                    call screen character_pick_screen
+                    $ char = _return
+                else:
+                    $ char = hero
+                    
+                call screen magic_purchase_screen(angelica_thunder_spells, "#7DF9FF", angelica_ice_spells, "#74BBFB")
+                $ spell = _return
+                
+                if spell == "Nothing":
+                    a "Anything else?!"
+                else:
+                    if hero.take_money(spell[1][0], reason="Spells"):
+                        a "Magic is knowledge and knowledge is power!"
+                        
+                        hide npc
+                        play sound "content/sfx/sound/events/go_for_it.mp3" fadein 1.0
+                        show expression im.Twocolor("content/gfx/images/magic.png", "#74BBFB", "#7DF9FF") as magic:
+                            yalign .5 subpixel True
+                    
+                            parallel:
+                                xalign .5
+                                linear 3.0 xalign .75
+                                linear 6.0 xalign .25
+                                linear 3.0 xalign .5
+                                repeat
+                    
+                            parallel:
+                                alpha 1.0 zoom 1.0
+                                linear .75 alpha .5 zoom .8
+                                linear .75 alpha 1.0 zoom 1.0
+                                repeat
+                    
+                            parallel:
+                                rotate 0
+                                linear 5 rotate 360
+                                repeat
+                    
+                        with dissolve
+                        $ renpy.pause(3.0, hard=True)
+                        hide magic
+                        
+                        show npc angelica
+                        with dissolve
+                        
+                        $ spell = spell[0]
+                        $ char.magic_skills.append(spell)
+                        
+                        a "Use your new skill responsibly!"
+                        
+                        "[char.nickname] learned [spell]!!!"
+                        $ del spell
+                        
+                    else:
+                        a "You do not have enough Gold!"
+            
+            "Add Alignment!":
                 a "Lets take a look!"
                 if len(hero.team) > 1:
                     if len(hero.team) == 3:
