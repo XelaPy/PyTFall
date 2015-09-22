@@ -307,7 +307,6 @@ label girl_interactions_control:
     
 
 screen pyt_girl_interactions():
-    
     # BG
     add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -322,7 +321,7 @@ screen pyt_girl_interactions():
             bottom_bar "content/gfx/interface/bars/progress_bar_full1.png"
             top_bar "content/gfx/interface/bars/progress_bar_1.png"
             thumb None
-            xysize(22, 175)
+            xysize (22, 175)
         
         python:
             # Trying to invert the values (bar seems messed up with negative once):
@@ -371,31 +370,40 @@ screen pyt_girl_interactions():
     
     # Give gift interface
     if gm.show_menu_givegift:
-        vbox:
-            align (0.75, 0.5)
-            
+        frame:
+            style "inter_frame"
+            xysize (385, 455)
+            align (0.89, 0.25)
             viewport:
-                maximum(400, 400)
+                xysize (365, 433)
                 scrollbars "vertical"
                 mousewheel True
-                 
-                vbox:
-                    xalign 0.5
-                     
-                    for item in hero.inventory:
-                        $ item = items[item]
-                        if item.slot == "gift":
-                            button:
-                                xysize(350, 90)
-                                hbox:
-                                    add LiveComposite((90, 90), (0, 0), im.Scale(item.icon, 90, 90), (0, 0), Text(str(hero.inventory.content[item.id])))
-                                    null width 10
-                                    text "[item.id]" yalign 0.5
-                                 
-                                action If(hero.AP > 0, Return(["gift", item]))
+                has vbox
+                
+                for item in hero.inventory:
+                    $ item = items[item]
+                    if item.slot == "gift":
+                        button:
+                            style "main_screen_3_button"
+                            xysize (350, 100)
+                            hbox:
+                                fixed:
+                                    yoffset 3
+                                    xysize (90, 90)
+                                    add im.Scale(item.icon, 90, 90)
+                                    text str(hero.inventory.content[item.id]) color ivory style "library_book_header_main" align (0, 0)
+                                null width 10
+                                text "[item.id]" yalign 0.5 style "library_book_header_sub" color ivory
+                            action If(hero.AP > 0, Return(["gift", item]))
             
-            null height 10
-            textbutton "Back" action Return(["gift", None]) minimum(220, 30) xalign 0.5
+                null height 10
+                textbutton "Back":
+                    action Return(["gift", None])
+                    minimum(220, 30)
+                    xalign 0.5
+                    style "main_screen_3_button"
+                    text_style "library_book_header_sub"
+                    text_color ivory
     
     use pyt_top_stripe(False)
     
