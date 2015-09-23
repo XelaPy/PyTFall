@@ -49,6 +49,7 @@ init -1 python:
                     if c in gm.get_all_girls():
                         gm.remove_girl(c)
                     local_chars.append(c)
+            shuffle(local_chars)
             while local_chars and len(self.girls) < 3:
                 self.girls.append(local_chars.pop())
             

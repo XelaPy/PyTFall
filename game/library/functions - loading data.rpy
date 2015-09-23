@@ -195,7 +195,7 @@ init -11 python:
                                             color = ivory
                                         char.say_style[key] = color
                                             
-                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "race", "location", "status", "height"):
+                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height"):
                                 if key in gd:
                                     setattr(char, key, gd[key])
                             
