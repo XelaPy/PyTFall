@@ -40,14 +40,26 @@ init -1 python:
             conditioned_choices.sort(key=attrgetter("disposition"))
             choices.sort(key=attrgetter("disposition"))
             
+            # =====================================>>>
+            # We add an absolute overwrite for any character that has the location string set as the name:
+            # Make sure that we do not get the char in two locations on the same day:
+            local_chars = list()
+            for c in chars.values():
+                if c.location == name:
+                    if c in gm.get_all_girls():
+                        gm.remove_girl(c)
+                    local_chars.append(c)
+            while local_chars and len(self.girls) < 3:
+                self.girls.append(local_chars.pop())
+            
             # Append to the list (1st girl):
-            if conditioned_choices:
+            if conditioned_choices and len(self.girls) != 3:
                 if not conditioned_choices[len(conditioned_choices)-1].disposition:
                     shuffle(conditioned_choices)
                     self.girls.append(conditioned_choices.pop())
                 else:
                     self.girls.append(conditioned_choices.pop())
-            elif choices:
+            elif choices and len(self.girls) != 3:
                 if not choices[len(choices)-1].disposition:
                     shuffle(choices)
                     self.girls.append(choices.pop())
@@ -79,7 +91,7 @@ init -1 python:
                         self.girls.append(choices.pop())
                     
             if len(self) > 3:
-                raise Exception("Something went wrong during girls sorting in {}.".format(self.__class__.__name__))
+                raise Exception("Something went wrong during girls sorting in {}.\n List: {}".format(self.__class__.__name__, ", ".join(c.name for c in self)))
             self.termination_day = day + randint(3, 5)
             self.creation_day = day
             
