@@ -24,9 +24,13 @@ init -1 python:
             conditioned_choices = choices[:]
             if occupations:
                 conditioned_choices = list(i for i in conditioned_choices if i.occupations.union(occupations))
-            if goodtraits or badtraits:
-                conditioned_choices = list(i for i in conditioned_choices if (traits["Curious"] in i.traits) or (any(trait in goodtraits for trait in i.traits) and 
-                                            not any(trait in badtraits for trait in i.traits)))
+            if goodtraits:
+                conditioned_choices.extend(list(i for i in conditioned_choices if (traits["Curious"] in i.traits) or any(trait in goodtraits for trait in i.traits)))
+            # Remove any doubles:
+            conditioned_choices = list(set(conditioned_choices))
+            
+            if badtraits:
+                conditioned_choices = list(i for i in conditioned_choices if not any(trait in badtraits for trait in i.traits))
                 
             # Sort the list based on disposition:
             conditioned_choices.sort(key=attrgetter("disposition"))
@@ -71,7 +75,7 @@ init -1 python:
                         self.girls.append(choices.pop())
                     
             if len(self) > 3:
-                raise Error, "Something went wrong during girls sorting in %s"%self.__class__.__name__
+                raise Exception("Something went wrong during girls sorting in {}.".format(self.__class__.__name__))
             self.termination_day = day + randint(3, 5)
             self.creation_day = day
             
