@@ -375,35 +375,29 @@ screen pyt_girl_profile():
                                 
                     null height 4
                     
-                    # Personality:
-                    $ trait = list(t for t in char.traits if t.personality).pop()
-                    $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 90, 90)
+                    # Personality/Race:
                     fixed:
                         xysize (300, 120)
-                        label "[trait]" yalign 0.1 text_color purple text_size 30 text_bold True xanchor 0 xpos 95
+                        $ trait = char.personality
+                        $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 100, 100)
                         imagebutton:
                             at pers_effect()
-                            xcenter 50
-                            ycenter 53
+                            xcenter 75
+                            ycenter 60
                             idle img
                             hover img
-                            hovered tt.Action(trait.desc)
+                            hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
                             action NullAction()
-                            
-                    # Race:
-                    $ trait = list(t for t in char.traits if t.race).pop()
-                    $ img = ProportionalScale(trait.icon, 90, 90)
-                    fixed:
-                        yoffset -20
-                        xysize (300, 50)
-                        label "[trait]" yalign 0.9 text_color black text_size 30 text_bold True xanchor 1.0 xpos 210
+
+                        $ trait = char.race
+                        $ img = ProportionalScale(trait.icon, 100, 100)
                         imagebutton:
                             at pers_effect()
-                            xcenter 250
-                            ycenter 0
+                            xcenter 225
+                            ycenter 60
                             idle img
                             hover img
-                            hovered tt.Action(trait.desc)
+                            hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
                             action NullAction()
                     
                 elif stats_display == "stats":
