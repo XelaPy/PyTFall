@@ -9,11 +9,11 @@ init -1 python:
             goodoccupations = kwargs.get("goodoccupations", set())
             badoccupations = kwargs.get("badoccupations", set())
             
-            goodtraits = kwargs.get("goodtraits", list())
+            goodtraits = kwargs.get("goodtraits", set())
             if goodtraits:
                 goodtraits = set(traits[t] for t in goodtraits)
                 
-            badtraits = kwargs.get("badtraits", list())
+            badtraits = kwargs.get("badtraits", set())
             if badtraits:
                 badtraits = set(traits[t] for t in badtraits)
                 
