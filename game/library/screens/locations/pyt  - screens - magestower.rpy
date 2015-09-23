@@ -1,7 +1,7 @@
 #Angelica
 
 label mages_tower:
-    $ gm.enter_location(goodtraits=["Mage"], occupations=["Caster"], curious_priority=False)
+    $ gm.enter_location(goodtraits=["Mage", "Psychic"], goodoccupations=["Caster"], badoccupations=["SIW"], curious_priority=False)
     
     # Music related:
     if not "mages_tower" in ilists.world_music:
@@ -53,7 +53,7 @@ label mages_tower:
     
                 
 screen pyt_mages_tower:
-
+    
     use pyt_top_stripe(True)
     
     use location_actions("mages_tower")
@@ -65,7 +65,5 @@ screen pyt_mages_tower:
         hbox:
             align(0.5, 0.3)
             spacing 70
-            
             for entry in gm.display_girls():
-        
-                    use rg_lightbutton(img=entry.show("girlmeets",  exclude=["swimsuit", "beach", "pool", "urban", "stage", "onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets",  exclude=["swimsuit", "beach", "pool", "urban", "stage", "onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])

@@ -6,7 +6,8 @@ init -1 python:
         Occupation = condition on which to sort. For now we only have warrior.
         """
         def __init__(self, name, curious_priority=True, **kwargs):
-            occupations = kwargs.get("occupations", set())
+            goodoccupations = kwargs.get("goodoccupations", set())
+            badoccupations = kwargs.get("badoccupations", set())
             
             goodtraits = kwargs.get("goodtraits", list())
             if goodtraits:
@@ -22,18 +23,19 @@ init -1 python:
             
             # Get availible girls and check occupation
             choices = list(i for i in chars.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
+            # We remove all chars with badtraits:
+            if badtraits:
+                choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
+            if badoccupations:
+                choices = list(i for i in choices if not i.occupations.intersection(badoccupations))
             conditioned_choices = set(choices)
             
             if self.curious_priority:
                 goodtraits.add(traits["Curious"])
             gt = list(i for i in conditioned_choices if any(trait in goodtraits for trait in i.traits)) if goodtraits else list()
-            occs = list(i for i in conditioned_choices if i.occupations.intersection(occupations)) if occupations else list()
-            conditioned_choices = list(conditioned_choices.intersection(gt + occs))
-            # raise Exception(["Caster" in g.occupations for g in conditioned_choices])
+            occs = list(i for i in conditioned_choices if i.occupations.intersection(goodoccupations)) if goodoccupations else list()
+            conditioned_choices = list(conditioned_choices.intersection(gt + occs)) if gt or occs else list(conditioned_choices)
             
-            if badtraits:
-                conditioned_choices = list(i for i in conditioned_choices if not any(trait in badtraits for trait in i.traits))
-                
             # Sort the list based on disposition:
             conditioned_choices.sort(key=attrgetter("disposition"))
             choices.sort(key=attrgetter("disposition"))

@@ -257,32 +257,32 @@ label girl_interactions_control:
         # Gifts
         elif result[0] == "gift":
             python:
-                # Show menu
+                # Show menu:
                 if result[1] is True:
                     gm.show_menu = False
                     gm.show_menu_givegift = True
                 
-                # Hide menu
+                # Hide menu:
                 elif result[1] is None:
                     gm.show_menu = True
                     gm.show_menu_givegift = False
             
-                # Give gift
+                # Give gift:
                 else:
                     item = result[1]
                     dismod = 0
-                    if (hasattr(item, "traits") and any(trait in char.traits for trait in item.traits)) or (hasattr(item, "occupations") and char.occupation in item.occupations):
-                        if hasattr(item, "traits"):
-                            for key in item.traits:
-                                if key in char.traits:
-                                    dismod += item.traits[key]
+                    
+                    if hasattr(item, "traits"):
+                        for t in item.traits:
+                            if traits[t] in char.traits:
+                                dismod += item.traits[t]
                          
-                        if hasattr(item, "occupations"):
-                            for key in item.occupations:
-                                if key == char.occupation:
-                                    dismod += item.occupations[key]
+                    if hasattr(item, "occupations"):
+                        for occ in item.occupations:
+                            if char.occupations.intersection([occ]):
+                                dismod += item.occupations[occ]
                      
-                    else:
+                    if not dismod:
                         dismod = item.dismod
                      
                     hero.inventory.remove(item)
@@ -292,10 +292,8 @@ label girl_interactions_control:
                      
                     if dismod < 0:
                         gm.jump("badgift")
-                     
-                    elif 50 < dismod >= 0:
+                    elif dismod < 50:
                         gm.jump("goodgift")
-                     
                     else:
                         gm.jump("perfectgift")
         
