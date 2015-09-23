@@ -1,7 +1,7 @@
 #Angelica
 
 label mages_tower:
-    $ gm.enter_location(goodtraits=["Psychic", "Nerd", "Mage"])
+    $ gm.enter_location(goodtraits=["Mage"], occupations=["Caster"], curious_priority=False)
     
     # Music related:
     if not "mages_tower" in ilists.world_music:
