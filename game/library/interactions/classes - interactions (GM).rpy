@@ -7,12 +7,15 @@ init -1 python:
         """
         def __init__(self, name, **kwargs):
             occupations = kwargs.get("occupations", set())
+            
             goodtraits = kwargs.get("goodtraits", list())
             if goodtraits:
                 goodtraits = list(traits[t] for t in goodtraits)
+                
             badtraits = kwargs.get("badtraits", list())
             if badtraits:
                 badtraits = list(traits[t] for t in badtraits)
+                
             self.name = name
             self.girls = []
             
