@@ -523,7 +523,7 @@ init -1 python:
                     ratio = config.screen_height/float(y)
                     if int(round(x * ratio)) <= config.screen_width:
                         image = ProportionalScale(image, config.screen_width, config.screen_height)
-                        renpy.show(tag, what=image, at_list=[center, szoom(1.0, 1.5, rndm)])
+                        renpy.show(tag, what=image, at_list=[truecenter, szoom(1.0, 1.5, rndm)])
                         renpy.with_statement(ImageDissolve(transitions.pop(), 3))
                         renpy.pause(rndm-3)
                     else:
@@ -545,7 +545,7 @@ init -1 python:
                         renpy.pause(rndm-3)
                 else:
                     image = ProportionalScale(image, config.screen_width, config.screen_height)
-                    renpy.show(tag, what=image, at_list=[center, szoom(1.0, 1.5, rndm)])
+                    renpy.show(tag, what=image, at_list=[truecenter, szoom(1.0, 1.5, rndm)])
                     renpy.with_statement(ImageDissolve(transitions.pop(), 3))
                     renpy.pause(rndm-3)
                     
