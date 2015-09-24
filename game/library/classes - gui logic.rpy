@@ -516,6 +516,7 @@ init -1 python:
                     transitions = transitions_copy * 1
                     
                 image = images.pop()
+                image = "/".join([self.girl.path_to_imgfolder, image])
                 x, y = renpy.image_size(image)
                 rndm = randint(5, 7)
                 if first_run:
