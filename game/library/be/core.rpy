@@ -115,8 +115,8 @@ init -1 python: # Core classes:
                 
             renpy.show("bg", what=self.bg)
             renpy.show_screen("battle_overlay")
-            if self.end_sfx: # Special Effects:
-                renpy.with_statement(self.end_sfx)
+            if self.start_sfx: # Special Effects:
+                renpy.with_statement(self.start_sfx)
             
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()

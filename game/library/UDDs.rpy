@@ -399,6 +399,13 @@ init python:
             return .01
         else:
             return None
-           
+            
+    def get_random_image_dissolve(time):
+        transitions = list()
+        path = content_path("gfx/masks")
+        for file in os.listdir(path):
+            transitions.append("/".join(["content/gfx/masks", file]))
+        return ImageDissolve(choice(transitions), time)
+            
 transform shake(dt=.4, dist=128):
     function renpy.curry(_shake_function)(dt=dt,dist=dist)
