@@ -3238,7 +3238,11 @@ init -9 python:
             default = kwargs.get("default", None)
             
             if "-" in tags[0]:
-                return ProportionalScale("/".join([self.path_to_imgfolder, tags[0]]), maxw, maxh)
+                _path = "/".join([self.path_to_imgfolder, tags[0]])
+                if renpy.loadable(_path):
+                    return ProportionalScale(_path, maxw, maxh)
+                else:
+                    return ProportionalScale("content/gfx/interface/images/no_image.png", maxw, maxh)
 
             add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
             if set(tags).intersection(self.MOOD_TAGS):
