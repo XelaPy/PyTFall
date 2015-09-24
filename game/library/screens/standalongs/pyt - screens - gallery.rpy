@@ -41,7 +41,7 @@ screen pyt_gallery():
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                 else:
                     background Frame(im.Twocolor("content/gfx/frame/MC_bg3.png", white, white), 10 ,10)
-                add (pyt_gallery.image) align (0.5, 0.5) 
+                add pyt_gallery.image align (0.5, 0.5) 
             if config.developer:
                 button:
                     if black_bg:

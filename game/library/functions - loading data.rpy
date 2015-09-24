@@ -201,6 +201,8 @@ init -11 python:
                             
                             folder = char.id
                             if os.path.isdir("/".join([dir, packfolder, folder])):
+                                # We set the path to the character so we know where to draw images from:
+                                setattr(char, "_path_to_imgfolder", "/".join(["content/{}".format(path), packfolder, folder]))
                                 # We load the new tags!:
                                 for fn in os.listdir("/".join([dir, packfolder, folder])):
                                     if fn.endswith((".jpg", ".png", ".gif")):
@@ -215,9 +217,9 @@ init -11 python:
                                         for tag in tags:
                                             if tag not in tags_dict:
                                                 raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                            tagdb.tagmap[tags_dict[tag]].add(rp_path)
+                                            tagdb.tagmap[tags_dict[tag]].add(fn)
                                         # Adding filenames to girls id:
-                                        tagdb.tagmap.setdefault(folder, set()).add(rp_path)
+                                        tagdb.tagmap.setdefault(folder, set()).add(fn)
                                         
                             char.init() # Normalize!
                             content[char.id] = char
@@ -225,6 +227,7 @@ init -11 python:
         return content
         
     def load_crazy_characters():
+        # Presently broken...
         dir = content_path("chars")
         dirlist = os.listdir(dir)
         content = dict()
@@ -342,19 +345,13 @@ init -11 python:
                         if "id" not in gd:
                             # Only time we throw an error instead of writing to log.
                             raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
-                        # rg.id = gd["id"]
-                        
-                        # if "random_traits" in gd:
-                            # rg.__dict__["random_traits"] = {k:v for k, v in gd["random_traits"]}
-                        # if "elements" in gd:
-                            # rg.__dict__["init_elements"] = gd["elements"]
-                        # for key in gd:
-                            # if key not in ("random_traits", "elements"):
-                                # rg.__dict__[key] = gd[key]
                                 
                         random_girls[gd["id"]] = gd
                 
                         folder = gd["id"]
+                        
+                        # Set the path to the folder:
+                        random_girls[gd["id"]]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
                         # We load the new tags!:
                         for fn in os.listdir(os.sep.join([dir, packfolder, folder])):
                             if fn.endswith((".jpg", ".png", ".gif")):
@@ -369,9 +366,9 @@ init -11 python:
                                 for tag in tags:
                                     if tag not in tags_dict:
                                         raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                    tagdb.tagmap[tags_dict[tag]].add(rp_path)
+                                    tagdb.tagmap[tags_dict[tag]].add(fn)
                                 # Adding filenames to girls id:
-                                tagdb.tagmap.setdefault(folder, set()).add(rp_path)
+                                tagdb.tagmap.setdefault(folder, set()).add(fn)
                                     
         return random_girls
 

@@ -412,13 +412,14 @@ init -1 python:
         """
         def __init__(self, char):
             self.girl = char
-            self.imgsize = (960, 660)
+            self.default_imgsize = (960, 660)
+            self.imgsize = self.default_imgsize
             self.tag = "profile"
             self.tagsdict = tagdb.get_tags_per_character(self.girl)
             self.td_mode = "full" # Tagsdict Mode (full or dev)
             self.pathlist = list(tagdb.get_imgset_with_all_tags(set([char.id, "profile"])))
             self.imagepath = self.pathlist[0]
-            self.image = ProportionalScale(self.pathlist[0], 940, 645)
+            self._image = self.pathlist[0]
             self.tags = " | ".join([i for i in tagdb.get_tags_per_path(self.imagepath)])
         
         def screen_loop(self):
@@ -462,14 +463,18 @@ init -1 python:
                 elif result[0] == "control":
                     if result[1] == 'return':
                         break
+                   
+        @property
+        def image(self):
+            return ProportionalScale("/".join([self.girl.path_to_imgfolder, self._image]), self.imgsize[0], self.imgsize[1])
                         
         def set_img(self):
             if self.tag in ("vnsprite", "battle_sprite"):
-                resize = self.girl.get_sprite_size(self.tag)
+                self.imgsize = self.girl.get_sprite_size(self.tag)
             else:
-                resize = self.imgsize
+                self.imgsize = self.imgsize
                 
-            self.image = ProportionalScale(self.imagepath, *resize)
+            self._image = self.imagepath
             self.tags = " | ".join([i for i in tagdb.get_tags_per_path(self.imagepath)])
                 
                 
@@ -535,12 +540,12 @@ init -1 python:
                     ratio = 1366/float(x)
                     if int(round(y * ratio)) <= 768:
                         image = ProportionalScale(image, config.screen_width, config.screen_height)
-                        renpy.show(tag, what=image, at_list=[center, szoom(1.0, 1.5, rndm)])
+                        renpy.show(tag, what=image, at_list=[truecenter, szoom(1.0, 1.5, rndm)])
                         renpy.with_statement(ImageDissolve(transitions.pop(), 3))
                         renpy.pause(rndm-3)
                     else:    
                         image = ProportionalScale(image, config.screen_width, 10000)
-                        renpy.show(tag, what=image, at_list=[center, move_bawl((0.5, 1.0), (0.5, 0.0), rndm)])
+                        renpy.show(tag, what=image, at_list=[truecenter, move_bawl((0.5, 1.0), (0.5, 0.0), rndm)])
                         renpy.with_statement(ImageDissolve(transitions.pop(), 3))
                         renpy.pause(rndm-3)
                 else:

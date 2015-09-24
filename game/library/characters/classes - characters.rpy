@@ -3127,7 +3127,13 @@ init -9 python:
         def add_money(self, value, reason="Other"):
             self.fin.add_money(value, reason)
         ### Displaying images
-        #@property
+        @property
+        def path_to_imgfolder(self):
+            if isinstance(self, rChar):
+                return rchars[self.id]["_path_to_imgfolder"]
+            else:
+                return self._path_to_imgfolder
+        
         def _portrait(self, st, at):
             if self.flag("fixed_portrait"):
                 return self.flag("fixed_portrait"), None
@@ -3230,6 +3236,9 @@ init -9 python:
             exclude = kwargs.get("exclude", None)
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
+            
+            if "-" in tags[0]:
+                return ProportionalScale("/".join([self.path_to_imgfolder, tags[0]]), maxw, maxh)
 
             add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
             if set(tags).intersection(self.MOOD_TAGS):
@@ -3332,7 +3341,9 @@ init -9 python:
             if not imgpath:
                 devlog.warning(str("Total failure while looking for image with %s tags!!!" % sorted(tags)))
                 imgpath = "content/gfx/interface/images/no_image.png"
-            
+            else: # We have an image, time to convert it to full path.
+                imgpath = "/".join([self.path_to_imgfolder, imgpath])
+                
             if label_cache:
                 self.img_cache.append([tags, last_label, imgpath])
                  
