@@ -741,7 +741,7 @@ init: # PyTFall:
                                 textbutton "[entry]":
                                     action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         elif entry == 'Guard':
-                            if char.status != 'slave' and (char.occupation != "Warrior" or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
+                            if char.status != 'slave' and ("Warrior" in char.occupations or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
                                 textbutton "[entry]":
                                     action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         else:
@@ -774,7 +774,7 @@ init: # PyTFall:
                 elif hasattr(char.location, "actions"):
                     for entry in char.location.actions:
                         if entry == "Guard":
-                            if char.status != "slave" and (char.occupation != "Warrior" or char.disposition <= 950):
+                            if char.status != "slave" and ("Warrior" in char.occupations or char.disposition <= 950):
                                 textbutton "[entry]":
                                     action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         

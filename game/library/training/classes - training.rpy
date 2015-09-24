@@ -436,7 +436,9 @@ init -9 python:
             """
             Whether this course is available for the girl.
             """
-            if self.jobs is not None and girl.occupation not in self.jobs: return False
+            # TODO: May not be upgraded to modern code properly:
+            # f self.jobs is not None and girl.occupation not in self.jobs: return False
+            if self.jobs is not None and girl.occupations.intersection(self.jobs): return False
             if self.status is not None and  girl.status not in self.status: return False
             
             # Only show if at least 1 option is available

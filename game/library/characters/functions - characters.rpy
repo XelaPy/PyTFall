@@ -185,11 +185,11 @@ init -11 python:
                 
         # Occupations:
         # This is possibly temporary: TODO: Update after discussion:
-        if "init_basetraits" in data:
-            d = data["init_basetraits"]
-            if pattern not in d:
-                devlog.warning(str("{} Random Girl tried to apply blocked pattern: {}!".format(id, pattern)))
-            rg.occupation = choice(d)
+        # if "init_basetraits" in data:
+            # d = data["init_basetraits"]
+            # if pattern not in d:
+                # devlog.warning(str("{} Random Girl tried to apply blocked pattern: {}!".format(id, pattern)))
+            # rg.occupation = choice(d)
         
         # Battle and Magic skills:
         # TODO: This should be battle_skills! (plural and a list))

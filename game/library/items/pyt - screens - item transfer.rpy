@@ -91,10 +91,10 @@ screen pyt_items_transfer():
         xysize (1285, 46)
         if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
             if pytfall.it.left_char and isinstance(pytfall.it.left_char, Char):
-                text ("%s ---- %s" % (pytfall.it.left_char.occupation, pytfall.it.left_char.action)) align (0.09, 0.5) style "content_text" color ivory size 20
+                text "[pytfall.it.left_char.traits.base_to_string] ---- [pytfall.it.left_char.action]" align (0.09, 0.5) style "content_text" color ivory size 20
         if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
             if pytfall.it.right_char and isinstance(pytfall.it.right_char, Char):
-                text ("%s ---- %s" % (pytfall.it.right_char.occupation, pytfall.it.right_char.action)) align (0.92, 0.5) style "content_text" color ivory size 20
+                text "[pytfall.it.right_char.traits.base_to_string] ---- [pytfall.it.right_char.action]" align (0.92, 0.5) style "content_text" color ivory size 20
                 
     # Members + Items
     if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:

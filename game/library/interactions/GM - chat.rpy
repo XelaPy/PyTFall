@@ -809,6 +809,7 @@ label interactions_refused:
 
 # changin occupation
 label interactions_occupation:
+    # TODO: Remove this from the game completely???
     menu:
         "Ask her to switch to:"
         "Prostitute" if char.occupation != "Prostitute":

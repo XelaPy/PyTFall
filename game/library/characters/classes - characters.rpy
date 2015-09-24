@@ -76,6 +76,10 @@ init -9 python:
             
             return super(Traits, self).__contains__(item)
             
+        @property
+        def base_to_string(self):
+            return ", ".join(sorted(list(str(t) for t in self.basetraits)))
+            
         def apply(self, trait, truetrait=True): # Applies trait effects
             """
             Activates trait and applies it's effects all the way up to a current level of the characters.
@@ -2334,7 +2338,7 @@ init -9 python:
             self.fullname = 'Player'
             self.nickname = 'Player'
             self._location = locations["Streets"]
-            self.occupation = "Warrior"
+            self.occupation = "Warrior" # TODO: THIS NEEDS TO GO
             self.status = "free"
             self.gender = "male"
             
@@ -2812,10 +2816,6 @@ init -9 python:
             self.race = ""
             # Compability with crazy mod:
             self.desc = ""
-            if dice(80):
-                self.occupation = "Prostitute"
-            else:
-                self.occupation = choice(["Stripper", "ServiceGirl"])
             self.status = "slave"
             self._location = "slavemarket"
             
@@ -2949,14 +2949,8 @@ init -9 python:
                 
             # Class | Status normalization:
             # TODO: REMOVE CLASSES FROM HERE!
-            
-            # @Review: Updating to work with new basetraits:
-            # TODO: Parts of this code are temporary! (.occpation check until it is removed) Also remove CLASSES from PytCharacter once that is done!
-            if self.occupation not in self.CLASSES:
-                self.occupation = random.sample(self.CLASSES, 1).pop()
-                
-            if not self.traits.basetraits:
-                pattern = create_traits_base(self.occupation)
+            if not self.traits.basetraits: # TODO: Just until all chars have proper jsons...
+                pattern = create_traits_base(random.sample(self.CLASSES, 1).pop())
                 for i in pattern:
                     self.traits.basetraits.add(i)
                     self.apply_trait(i)
