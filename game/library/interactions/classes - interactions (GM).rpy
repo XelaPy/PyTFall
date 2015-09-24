@@ -53,42 +53,44 @@ init -1 python:
             while local_chars and len(self.girls) < 3:
                 self.girls.append(local_chars.pop())
             
-            # Append to the list (1st girl):
-            if conditioned_choices and len(self.girls) != 3:
+            # Append to the list (1st girl) Best disposition:
+            # This whole codebit needs to be rewritten when Interactions are restructured.
+            if conditioned_choices and len(self.girls) < 3:
                 if not conditioned_choices[len(conditioned_choices)-1].disposition:
                     shuffle(conditioned_choices)
                     self.girls.append(conditioned_choices.pop())
                 else:
                     self.girls.append(conditioned_choices.pop())
-            elif choices and len(self.girls) != 3:
+            elif choices and len(self.girls) < 3:
                 if not choices[len(choices)-1].disposition:
                     shuffle(choices)
                     self.girls.append(choices.pop())
                 else:
                     self.girls.append(choices.pop())
                 
-            # Last two:
+            # Last two, Second one should be an Unique char, Third = Any char:
             shuffle(conditioned_choices)
-            while conditioned_choices and len(self.girls) != 3:
+            while conditioned_choices and len(self.girls) < 3:
                 for i in conditioned_choices:
                     if i.__class__ == Char:
                         self.girls.append(i)
                         conditioned_choices.remove(i)
                         break
-                if conditioned_choices:
+                if conditioned_choices and len(self.girls) < 3:
                     self.girls.append(conditioned_choices.pop())
                 # In the perfect world, we'd be done... yet...
                     
-            if len(self.girls) != 3:
+            # This last bit we do in case conditioned choices had failed:
+            if len(self.girls) < 3:
                 choices = list(i for i in choices if i not in self.girls)
                 shuffle(choices)
-                while choices and len(self.girls) != 3:
+                while choices and len(self.girls) < 3:
                     for i in choices:
                         if i.__class__ == Char:
                             self.girls.append(i)
                             choices.remove(i)
                             break
-                    if len(self.girls) != 3:        
+                    if len(self.girls) < 3:        
                         self.girls.append(choices.pop())
                     
             if len(self) > 3:
