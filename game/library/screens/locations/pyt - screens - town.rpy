@@ -34,7 +34,7 @@ screen pyt_city_screen():
     default tt = Tooltip(None)
     default loc_list = ["main_street", "arena_outside", "slave_market", "city_jail", "tavern_town",
                                 "city_parkgates", "academy_town", "mages_tower",
-                                "graveyard_town", "city_beach", "forest_entrance", "hiddenVillage_entrance"]
+                                "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"]
     add "content/gfx/images/m_1.png" align (1.0, 0.0)
     
     for key in pytfall.maps("pytfall"):
