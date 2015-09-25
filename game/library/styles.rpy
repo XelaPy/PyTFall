@@ -271,7 +271,7 @@ init -2:
         
     style hframe_button:
         take flashing
-        background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)
+        background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(0.02)), 5, 5)
         hover_background  Fixed(Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5),
                                                   flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/hp_1s.png"), 5, 5)
