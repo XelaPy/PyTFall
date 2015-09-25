@@ -186,14 +186,23 @@ init -11 python:
                             for key in ("color", "what_color"):
                                 if key in gd:
                                     if "color" in key:
-                                        char.say_style[key] = getattr(store, gd[key])
+                                        if gd[key] in globals():
+                                            color = getattr(store, gd[key])
+                                        elif gd[key].startswith("#"):
+                                            color = gd[key]
+                                        else:
+                                            devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                                            color = ivory
+                                        char.say_style[key] = color
                                             
-                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "race", "location", "status", "height"):
+                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height"):
                                 if key in gd:
                                     setattr(char, key, gd[key])
                             
                             folder = char.id
                             if os.path.isdir("/".join([dir, packfolder, folder])):
+                                # We set the path to the character so we know where to draw images from:
+                                setattr(char, "_path_to_imgfolder", "/".join(["content/{}".format(path), packfolder, folder]))
                                 # We load the new tags!:
                                 for fn in os.listdir("/".join([dir, packfolder, folder])):
                                     if fn.endswith((".jpg", ".png", ".gif")):
@@ -208,9 +217,9 @@ init -11 python:
                                         for tag in tags:
                                             if tag not in tags_dict:
                                                 raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                            tagdb.tagmap[tags_dict[tag]].add(rp_path)
+                                            tagdb.tagmap[tags_dict[tag]].add(fn)
                                         # Adding filenames to girls id:
-                                        tagdb.tagmap.setdefault(folder, set()).add(rp_path)
+                                        tagdb.tagmap.setdefault(folder, set()).add(fn)
                                         
                             char.init() # Normalize!
                             content[char.id] = char
@@ -218,6 +227,7 @@ init -11 python:
         return content
         
     def load_crazy_characters():
+        # Presently broken...
         dir = content_path("chars")
         dirlist = os.listdir(dir)
         content = dict()
@@ -335,19 +345,13 @@ init -11 python:
                         if "id" not in gd:
                             # Only time we throw an error instead of writing to log.
                             raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
-                        # rg.id = gd["id"]
-                        
-                        # if "random_traits" in gd:
-                            # rg.__dict__["random_traits"] = {k:v for k, v in gd["random_traits"]}
-                        # if "elements" in gd:
-                            # rg.__dict__["init_elements"] = gd["elements"]
-                        # for key in gd:
-                            # if key not in ("random_traits", "elements"):
-                                # rg.__dict__[key] = gd[key]
                                 
                         random_girls[gd["id"]] = gd
                 
                         folder = gd["id"]
+                        
+                        # Set the path to the folder:
+                        random_girls[gd["id"]]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
                         # We load the new tags!:
                         for fn in os.listdir(os.sep.join([dir, packfolder, folder])):
                             if fn.endswith((".jpg", ".png", ".gif")):
@@ -362,9 +366,9 @@ init -11 python:
                                 for tag in tags:
                                     if tag not in tags_dict:
                                         raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                    tagdb.tagmap[tags_dict[tag]].add(rp_path)
+                                    tagdb.tagmap[tags_dict[tag]].add(fn)
                                 # Adding filenames to girls id:
-                                tagdb.tagmap.setdefault(folder, set()).add(rp_path)
+                                tagdb.tagmap.setdefault(folder, set()).add(fn)
                                     
         return random_girls
 

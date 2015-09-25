@@ -1,5 +1,5 @@
 label city_beach_right:
-    $ gm.enter_location(goodtraits=["Not Human", "Alien","Courageous"], badtraits=["Shy", "Coward","Homebody"])
+    $ gm.enter_location(goodtraits=["Not Human", "Alien"], badtraits=["Shy", "Coward", "Homebody", "Human"], curious_priority=False)
     
     python:
         # Build the actions

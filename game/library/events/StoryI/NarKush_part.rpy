@@ -3,7 +3,7 @@ init python:
 
 label naruko_first_meeting:
     scene black
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     $ k = chars["Kushina_Uzumaki"]
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
@@ -48,7 +48,7 @@ label naruko_first_meeting:
     "Well, if she is telling the truth, it will be simple enough."
     $ n.restore_portrait()
     $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You met Naruko, a cheerful and lively kunoichi. She proposed to give away her virginity if you treat her for a week in her favourite eatery.")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
 
 label eat_with_Naruko:
     if hero.gold <= 200:
@@ -95,7 +95,7 @@ label naruko_second_meeting:
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Phew, I'm full. Thanksies♪"
@@ -189,7 +189,7 @@ label naruko_second_meeting:
     $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("This turned out not as you expected... In order to try again you need to treat her for a week once more.")
     scene black with dissolve
     stop world
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label naruko_third_meeting:
     $ flash = Fade(.25, 0, .75, color=green)
@@ -201,7 +201,7 @@ label naruko_third_meeting:
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Aahh, it feels good to eat for free, hehe."
@@ -289,7 +289,7 @@ label naruko_third_meeting:
     $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You have to keep treating her. Hopefully, it will pay off eventually.")
     scene black with dissolve
     stop world
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label naruko_final_meeting: 
     $ flash = Fade(.25, 0, .75, color=green)
@@ -306,7 +306,7 @@ label naruko_final_meeting:
     $ k.disposition += 100
     $ set_friends(hero, n)
     $ set_friends(hero, k)
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Ehehe, food tastes better when we eat together♪"
@@ -428,9 +428,9 @@ label naruko_final_meeting:
     $ chars["Naruko_Uzumaki"].del_flag("event_to_interactions_eatwithnarukotogether")
     scene black with dissolve
     stop world
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label naruko_finish_quest:
     "Ultimately you took care of Naruko, and got her hot mother as a bonus. Nice!"
     $ pytfall.world_quests.get("Uzumaki Clan").finish_in_label("You took care of Naruko's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance

@@ -260,7 +260,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xsize 305
                                 text ("{color=#79CDCD}{size=-1}Class:") pos (1, -4)
-                                label ("{size=-3}[store.girl.occupation]") align (1.0, 0.5) ypos 10
+                                label "{size=-3}[store.girl.traits.base_to_string]" align (1.0, 0.5) ypos 10
                             frame:
                                 xsize 305
                                 text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)

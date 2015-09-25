@@ -389,15 +389,15 @@ init -1 python: # Constants:
     blank = "content/gfx/interface/images/blank.png"
 
     equipSlotsPositions = dict()
-    equipSlotsPositions['head'] = [u'Head', 0.4, 0.1]
-    equipSlotsPositions['body'] = [u'Body', 0.4, 0.3]
-    equipSlotsPositions['amulet'] = [u'Amulet', 0.6, 0.3]
-    equipSlotsPositions['cape'] = [u'Cape', 0.2, 0.3]
-    equipSlotsPositions['weapon'] = [u'Weapon', 0.2, 0.5]
-    equipSlotsPositions['smallweapon'] = [u'Small Weapon', 0.6, 0.5]
-    equipSlotsPositions['feet'] = [u'Feet', 0.4, 0.9]
-    equipSlotsPositions['misc'] = [u'Misc', 0.4, 0.7] 
-    equipSlotsPositions['wrist'] = [u'Wrist', 0.4, 0.5]
+    equipSlotsPositions['head'] = [u'Head', 0.2, 0.2]
+    equipSlotsPositions['body'] = [u'Body', 0.2, 0.4]
+    equipSlotsPositions['amulet'] = [u'Amulet', 1.0, 0.4]
+    equipSlotsPositions['cape'] = [u'Cape', 1.0, 0.2]
+    equipSlotsPositions['weapon'] = [u'Weapon', 0.2, 0.6]
+    equipSlotsPositions['smallweapon'] = [u'Small Weapon', 1.0, 0.6]
+    equipSlotsPositions['feet'] = [u'Feet', 1.0, 0.8]
+    equipSlotsPositions['misc'] = [u'Misc', 0.035, 0.51]
+    equipSlotsPositions['wrist'] = [u'Wrist', 0.2, 0.8]
     
     # TODO: Remove most of this after retagging effort.
     main_sex_tags = ["sex", "anal", "les", "blowjob", "bdsm", "group", "mast"]

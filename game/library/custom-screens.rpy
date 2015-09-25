@@ -2,9 +2,11 @@
 init: # Items:
     screen items_inv(char=None, main_size=(553, 282), frame_size=(90, 90), return_value=['item', 'get']):
         frame:
-            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+            background Null()
+            #background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             xysize main_size
             has hbox box_wrap True
+            #align (0.5, 0.5)
             for item in list(item for item in char.inventory.getpage()):
                 frame:
                     if item.bg_color == "dark":
@@ -12,7 +14,7 @@ init: # Items:
                     else:
                         background Frame("content/gfx/frame/frame_it2.png", -1, -1)
                     xysize frame_size
-                    use r_lightbutton (img=ProportionalScale(item.icon, 75, 75), return_value=return_value+[item], align=(0.5, 0.5))
+                    use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
                     label (u"{color=#ecc88a}%d" % char.inventory.content[item.id]):
                         align (0.995, 0.995)
                         style "stats_label_text"
@@ -21,33 +23,36 @@ init: # Items:
                         #if item.bg_color == "dark":
                             #text_color ivory
     
-    screen pyt_eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=14, fx_size=(300, 320)):
+    screen pyt_eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
         # char = source of equipment slots.
         # Slots and the doll ------------------------------------------------------------>
         if char == hero:
-            add im.Scale("content/gfx/interface/images/dollM2.png", 220, 290) align (0.25, 0.23)
+            #add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(0.5, 1.0)
+            add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (0.5, 0.5)
         else:
-            # frame:
-                # align (0.5, 0.5)
-                # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-            add (char.show("vnsprite", resize=(350, 600), cache=True)) alpha 0.6 align (0.5, 0.5)
+            #frame:
+                #align (0.5, 0.5)
+                #background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+            add (char.show("vnsprite", resize=(288, 400), cache=True)) alpha 0.9 align (0.5, 1.0)
+            #add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (0.25, 0.23)
             
         fixed:
             style_group "content"
             align scr_align
             xysize fx_size
+            
             for key in equipSlotsPositions:
                 python:
                     if char.eqslots[key]:
                         img = char.eqslots[key].icon
                         # Frame background:
                         if char.eqslots[key].bg_color == "dark":
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/d_box2.png", grey, black), *frame_size)
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
-                            bg = im.Scale("content/gfx/frame/d_box2.png", *frame_size)
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                     else:
-                        bg = im.Scale("content/gfx/frame/d_box2.png", *frame_size)
+                        bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         img = blank
                 frame:
                     background bg
@@ -58,32 +63,33 @@ init: # Items:
                     elif char.eqslots[key]:
                         add ProportionalScale(img, frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
                     else:
-                        text (u"%s"%equipSlotsPositions[key][0]) align (0.5, 0.5) color ivory size txt_size
+                        text (u"{color=#CDCDC1}%s"%equipSlotsPositions[key][0]) align (0.5, 0.5) size txt_size
                         
-            vbox:
-                spacing 3
-                align(0.99, 0.5)
-                for key in ['ring', 'ring2',  'ring1']:
-                    python:
-                        if char.eqslots[key]:
-                            img = char.eqslots[key].icon
-                            # Frame background:
-                            if char.eqslots[key].bg_color == "dark":
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/d_box2.png", grey, black), *frame_size)
-                            else:
-                                bg = im.Scale("content/gfx/frame/d_box2.png", *frame_size)
+        vbox:
+            spacing 4
+            align(1.0, 0.5)
+            xoffset 150
+            for key in ['ring', 'ring2',  'ring1']:
+                python:
+                    if char.eqslots[key]:
+                        img = char.eqslots[key].icon
+                        # Frame background:
+                        if char.eqslots[key].bg_color == "dark":
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
-                            bg = im.Scale("content/gfx/frame/d_box2.png", *frame_size)
-                            img = blank
-                    frame:
-                        background bg
-                        xysize (frame_size[0], frame_size[1])
-                        if active_mode and char.eqslots[key]:
-                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
-                        elif char.eqslots[key]:
-                            add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
-                        else:
-                            text (u"Ring") align (0.5, 0.5) color ivory size txt_size
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                    else:
+                        bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                        img = blank
+                frame:
+                    background bg
+                    xysize (frame_size[0], frame_size[1])
+                    if active_mode and char.eqslots[key]:
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
+                    elif char.eqslots[key]:
+                        add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
+                    else:
+                        text (u"{color=#CDCDC1}Ring") align (0.5, 0.5) size 14
     
     screen pyt_shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
@@ -161,7 +167,7 @@ init: # Items:
                         xalign 0.5
                         xysize (440, 40)
                         background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-                        label ('[item.id]') text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text1"
+                        label ('[item.id]') text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
                     vbox:
                         yfill True
                         align (0.5, 0.5)
@@ -319,10 +325,270 @@ init: # Items:
                                     viewport:
                                         id "item.desc"
                                         mousewheel True
-                                        text ('{color=#ecc88a}[item.desc]') font "fonts/TisaOTM.otf" size 16 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
+                                        text ('[item.desc]') style "TisaOTMolxm" size 16
                                         #text ('[item.desc]') color ivory
                                     vbar value YScrollValue("item.desc")
                                     
+    screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False):
+        if item:
+            fixed:
+                maximum (size[0], size[1])
+                vbox:
+                    align (0.5, 0.5)
+                    yfill True
+                    hbox:
+                        align (0.5, 0.5)
+                        xfill True
+                        imagebutton:
+                            xoffset -9
+                            yoffset -3
+                            align (0.0, 0.5)
+                            idle ("content/gfx/interface/buttons/discard.png")
+                            hover ("content/gfx/interface/buttons/discard_h.png")
+                            #hovered tt.Action("Discard item") ## (need to do) The girl equipment screen has its own Tooltip, need fix to show on him :Gismo
+                            action NullAction() ## (need to do) Need to add ability to discard :Gismo
+                        frame:
+                            align (1.0, 0.5)
+                            xoffset -29
+                            xysize (439, 20)
+                            background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                            label ('[item.id]') text_color gold xalign 0.5 text_size 19 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
+                        imagebutton:
+                            xoffset 9
+                            yoffset -3
+                            align (1.0, 0.5)
+                            idle ("content/gfx/interface/buttons/close3.png")
+                            hover ("content/gfx/interface/buttons/close3_h.png")
+                            action Return(['con', 'return']) ## (need to do) In addition, need to add the ability to close with right-click  :Gismo
+                            #hovered tt.Action("Close item info")
+                    vbox:
+                        yfill True
+                        align (0.5, 0.5)
+                        null height -14
+                        label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" align (0.5, 0.5)
+                        hbox:
+                            align (0.5, 0.5)
+                            xfill True
+                            
+                            frame:
+                                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                                xysize (180, 130)
+                                align (0.0, 0.5)
+                                xoffset -5
+                                vbox:
+                                    style_group "stats"
+                                    spacing -7
+                                    xfill True
+                                    null height 15
+                                    frame:
+                                        xsize 170
+                                        text ('Price:') color gold yalign 0.5
+                                        label ('{size=-4}{color=[gold]}[item.price]') style "stats_value_text" align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                    frame:
+                                        xsize 170
+                                        text ('{color=#F5F5DC}Slot:') yalign 0.5
+                                        label ('{color=#F5F5DC}{size=-4}%s'%item.slot.capitalize()) style "stats_value_text" align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                    frame:
+                                        xsize 170
+                                        text ('{color=#F5F5DC}Type:') yalign 0.5
+                                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                    frame:
+                                        xsize 170
+                                        text ('{color=#F5F5DC}Sex:') yalign 0.5
+                                        if item.sex == 'male':
+                                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        if item.sex == 'female':
+                                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        if item.sex == 'unisex':
+                                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            
+                            button:
+                                style_group "pb"
+                                align (0.0, 0.5)
+                                xysize (80, 45)
+                                action Return(['item', 'equip/unequip'])
+                                if inv_source == hero: ## Item transfer - amount 1 :Gismo
+                                    text "Give to\n {color=#FFAEB9}Girl{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                                else:
+                                    text "Give to\n {color=#FFA54F}Hero{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                            
+                            frame:
+                                align (0.5, 0.5)
+                                background Frame("content/gfx/frame/frame_it2.png", 5, 5)
+                                xysize (120, 120)
+                                add (ProportionalScale(item.icon, 100, 100)) align(0.5, 0.5)
+                        
+                            button:
+                                style_group "pb"
+                                align (1.0, 0.5)
+                                xysize (80, 45)
+                                action Return(['item', 'equip/unequip'])
+                                text "Equip" style "pb_button_text" align (0.5, 0.5)
+                                # if       ## (need to do) If item selected from inventory :Gismo
+                                    # text "Equip" style "pb_button_text" align (0.5, 0.5)
+                                # else     ## (need to do) If item selected from equiped slot then... :Gismo
+                                    # text "Unequip" style "pb_button_text" align (0.5, 0.5)
+                        
+                            frame:
+                                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                                xysize (180, 130)
+                                align (1.0, 0.5)
+                                xoffset 5
+                                side "c r":
+                                    xalign 0.5
+                                    viewport id "item_info":
+                                        draggable True
+                                        mousewheel True
+                                        has vbox
+                                        style_group "stats"
+                                        vbox:
+                                            spacing -7
+                                            xysize (160, 10000)
+                                            null height 5
+                                            if item.mod:
+                                                label ('Stats:') text_size 18 text_color gold align (0.6, 0.5)
+                                                for stat, value in item.mod.items():
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 170
+                                                            text (u'{color=#F5F5DC}%s' % stat.capitalize()) size 16 yalign 0.5
+                                                            label (u'{color=#F5F5DC}{size=-4}[value]') style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                            if item.mod:
+                                                null height 7
+                                            if item.max:
+                                                label ('Max') text_size 16 text_color gold align (0.59, 0.5)
+                                                for stat, value in item.max.items():
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 170
+                                                            text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 16 yalign 0.5
+                                                            label (u'{color=#F5F5DC}{size=-4}[value]') style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                            if item.mod or item.max:
+                                                null height 7
+                                            if item.min:
+                                                label ('Min') text_size 16 text_color gold align (0.59, 0.5)
+                                                for stat, value in item.min.items():
+                                                    if True:
+                                                        vbox:
+                                                            xfill True
+                                                            frame:
+                                                                xsize 170
+                                                                text(u'{color=#F5F5DC}%s'%stat.capitalize()) size 16 yalign 0.5
+                                                                label (u'{color=#F5F5DC}{size=-4}%d'%value) style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        
+                        null height -14
+                        label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" align (0.5, 0.5)
+                        hbox:
+                            align (0.5, 0.5)
+                            xfill True
+                            yoffset -3
+                            frame:
+                                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                                xysize (158, 104)
+                                align (1.0, 0.5)
+                                xoffset -5
+                                side "c r":
+                                    xalign 0.5
+                                    viewport id "item_info":
+                                        draggable True
+                                        mousewheel True
+                                        has vbox
+                                        style_group "stats"
+                                        vbox:
+                                            xoffset 2
+                                            spacing -7
+                                            xysize (120, 10000)
+                                            
+                                            if (not mc_mode and item.addeffects) or (not mc_mode and item.removeeffects):
+                                                hbox:
+                                                    align (0.8, 0.5)
+                                                    label ('Effects:') text_size 16 text_color gold xoffset 7
+                                                    add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 25
+                                                    add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 25
+                                                vbox:
+                                                    spacing -7
+                                                    xfill True
+                                                    for effect in item.addeffects:
+                                                        frame:
+                                                            xsize 142
+                                                            text(u'{color=#43CD80}%s'%effect.capitalize()) size 16 yalign 0.5
+                                                    for effect in item.removeeffects:
+                                                        frame:
+                                                            xsize 142
+                                                            text(u'{color=#CD4F39}%s'%effect.capitalize()) size 16 yalign 0.5
+                            frame:
+                                xysize (382, 104)
+                                xalign 0.5
+                                xoffset -7
+                                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.9)
+                                side "c r":
+                                    xalign 0.5
+                                    xysize (360, 94)
+                                    viewport:
+                                        id "item.desc"
+                                        mousewheel True
+                                        text ('{color=#ecc88a}[item.desc]') font "fonts/TisaOTM.otf" size 16 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
+                                    vbar value YScrollValue("item.desc")
+                        
+                            frame:
+                                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                                xysize (158, 104)
+                                align (1.0, 0.5)
+                                xoffset -9
+                                side "c r":
+                                    xalign 0.5
+                                    viewport id "item_info":
+                                        draggable True
+                                        mousewheel True
+                                        has vbox
+                                        style_group "stats"
+                                        vbox:
+                                            xoffset -5
+                                            spacing -7
+                                            xysize (120, 10000)
+                                            
+                                            if (not mc_mode and item.addtraits) or item.removetraits:
+                                                hbox:
+                                                    align (0.8, 0.5)
+                                                    label ('Traits:') text_size 16 text_color gold xoffset 8
+                                                    add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 26
+                                                    add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 26
+                                                vbox:
+                                                    spacing -7
+                                                    xfill True
+                                                    for trait in item.addtraits:
+                                                        frame:
+                                                            xsize 142
+                                                            text(u'{color=#43CD80}%s'%trait.capitalize()) size 16 yalign 0.5
+                                                    for trait in item.removetraits:
+                                                        frame:
+                                                            xsize 142
+                                                            text(u'{color=#CD4F39}%s'%trait.capitalize()) size 16 yalign 0.5
+                                            
+                                            if (not mc_mode and item.addtraits) or item.removetraits:
+                                                null height 7
+                                            
+                                            if item.add_be_spells or item.remove_be_spells: ## Need to check whether or not working :Gismo
+                                                hbox:
+                                                    align (0.8, 0.5)
+                                                    label ('Skills:') text_size 16 text_color gold xoffset 8
+                                                    add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 26
+                                                    add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 26
+                                                for skill in item.add_be_spells:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 142
+                                                            text(u'{color=#43CD80}%s'%skill.capitalize()) size 16 yalign 0.5
+                                                for skill in item.remove_be_spells:
+                                                    vbox:
+                                                        xfill True
+                                                        frame:
+                                                            xsize 142
+                                                            text(u'{color=#CD4F39}%s'%skill.capitalize()) size 16 yalign 0.5
+    
     # Equipment slot frame (of an item)
     screen equipment_slot(pos=(0.5, 0.5), name="", img=None, value=None):
         frame:
@@ -342,14 +608,18 @@ init: # Items:
     # Inventory paging
     screen paging(path="content/gfx/interface/buttons/", use_filter=True, ref=None, xysize=(270, 60), root=None, align=(0.5, 0.0)):
         frame:
-            background Frame("content/gfx/frame/frame_bg.png", 5, 5)
+            if global_flags.flag("hero_equip"):
+                background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
+                ypadding 2
+            else:
+                background Frame("content/gfx/frame/frame_bg.png", 5, 5)
+                ypadding 15
             style_group "content"
             xpadding 15
-            ypadding 15
             xysize xysize
             align align
             vbox:
-                align (0.5, 0.2)
+                align (0.5, 0.5)
                 # Filter
                 if use_filter:
                     hbox:
@@ -741,7 +1011,7 @@ init: # PyTFall:
                                 textbutton "[entry]":
                                     action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         elif entry == 'Guard':
-                            if char.status != 'slave' and (char.occupation != "Warrior" or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
+                            if char.status != 'slave' and ("Warrior" in char.occupations or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
                                 textbutton "[entry]":
                                     action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         else:
@@ -774,7 +1044,7 @@ init: # PyTFall:
                 elif hasattr(char.location, "actions"):
                     for entry in char.location.actions:
                         if entry == "Guard":
-                            if char.status != "slave" and (char.occupation != "Warrior" or char.disposition <= 950):
+                            if char.status != "slave" and ("Warrior" in char.occupations or char.disposition <= 950):
                                 textbutton "[entry]":
                                     action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                         
@@ -1065,7 +1335,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Display -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Display -") style "TisaOTMolxm"
                                         textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1079,7 +1349,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Transitions -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Transitions -") style "TisaOTMolxm"
                                         textbutton _("All") action Preference("transitions", "all") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("None") action Preference("transitions", "none") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1093,7 +1363,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Text Speed -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Text Speed -") style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("text speed") align (0.5, 0.5)
                                 frame:
@@ -1122,7 +1392,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Skip -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Skip -") style "TisaOTMolxm"
                                         textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1136,7 +1406,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- After Choices -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- After Choices -") style "TisaOTMolxm"
                                         textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1150,7 +1420,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- A-Forward Time -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- A-Forward Time -") style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("auto-forward time") align (0.5, 0.5)
                                         if config.has_voice:
@@ -1181,7 +1451,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Mute -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Mute -") style "TisaOTMolxm"
                                         textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign 0.5 text_size 16
                                         textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1195,7 +1465,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Music Volume -") align (0.5, 0.0) color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Music Volume -") align (0.5, 0.0) style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("music volume") align (0.5, 0.5)
                                 frame:
@@ -1209,7 +1479,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Sound Volume -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Sound Volume -") style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("sound volume") align (0.5, 0.5)
                                         if config.sample_sound:
@@ -1266,12 +1536,12 @@ init: # Settings:
                                         align (0.5, 0.5)
                                         if s_menu == "Save":
                                             action FileSave(i)
-                                            text " - [file_name] -" align (1.0, 0) color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                            text "[file_time!t]\n[save_name!t]" color "#ecc88a" font "fonts/TisaOTM.otf" size 12 outlines [(1, "#3a3a3a", 0, 0)] align (1.05, 1.25)
+                                            text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                            text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
                                         elif s_menu == "Load":
                                             action FileLoad(i)
-                                            text " - [file_name] -" align (1.0, 0) color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                            text "[file_time!t]\n[save_name!t]" color "#ecc88a" font "fonts/TisaOTM.otf" size 12 outlines [(1, "#3a3a3a", 0, 0)] align (1.05, 1.25)
+                                            text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                            text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
                                         # action FileAction(i)
                                         # add FileScreenshot(i)
                                         xysize (220, 100)
@@ -1282,16 +1552,16 @@ init: # Settings:
                                             yalign 0.5
                                             spacing -7
                                             if "name" in json_info:
-                                                text "[json_info[name]]" color gold font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                                text "[json_info[name]]" style "TisaOTMol" color gold size 17
                                                 
                                             if "level" in json_info:
-                                                text "Level: [json_info[level]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Level: [json_info[level]]" style "TisaOTMol" ypos 0
                                             if "chars" in json_info:
-                                                text "Chars: [json_info[chars]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Chars: [json_info[chars]]" style "TisaOTMol" ypos 0
                                             if "gold" in json_info:
-                                                text "Gold: [json_info[gold]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Gold: [json_info[gold]]" style "TisaOTMol" ypos 0
                                             if "gold" in json_info:
-                                                text "Buildings: [json_info[buildings]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Buildings: [json_info[buildings]]" style "TisaOTMol" ypos 0
                                             # for i in ("name", "level", "chars", "gold", "buildings"):
                                                 # if i in json_info:
                                                     # $ key = i.capitalize()
@@ -1316,38 +1586,38 @@ init: # Settings:
                     xfill True
                     spacing -10
                     align (0.5, 0.5)
-                    text "-------------" color "#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                    text "-------------" style "TisaOTMol" size 20 align (0.5, 0.5)
                     if s_menu == "Settings":
-                        text "Settings" color "#ecc88a" font "fonts/TisaOTM.otf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                        text "Settings" style "TisaOTMol" size 26 align (0.5, 0.5)
                     elif s_menu == "Save":
-                        text "Save" color "#ecc88a" font "fonts/TisaOTM.otf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                        text "Save" style "TisaOTMol" size 26 align (0.5, 0.5)
                     elif s_menu == "Load":
-                        text "Load" color "#ecc88a" font "fonts/TisaOTM.otf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
-                    text "----------" color "#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                        text "Load" style "TisaOTMol" size 26 align (0.5, 0.5)
+                    text "----------" style "TisaOTMol" size 20 align (0.5, 0.5)
                 button:
                     yalign 0.5
                     action Hide("s_menu"), With(dissolve)
-                    text "Return" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
-                    text "Settings" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Settings" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
-                    text "Save" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Save" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load"), With(dissolve)#, SetScreenVariable("s_menu", "Load")
-                    text "Load" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Load" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action MainMenu()
-                    text "Main Menu" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Main Menu" size 18 align (0.5, 0.5) #  style "mmenu_button_text"
                 button:
                     yalign 1.0
                     action Quit()
-                    text "Quit" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 null height 3
         
     

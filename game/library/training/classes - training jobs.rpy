@@ -804,7 +804,7 @@ init python:
             
             # Get search chance
             self.chance = pytfall.ra.status(self.girl)
-            if self.girl.occupation != "Warrior": self.chance *= 0.8
+            if  "Warrior" not in self.girl.occupations: self.chance *= 0.8
             
             self.slave = None
             self.capture = False

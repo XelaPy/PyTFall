@@ -48,38 +48,3 @@ label workshop_shopping:
     hide screen pyt_shopping
     with dissolve
     jump main_street
-
-    
-screen pyt_workshop_shopping:
-    
-    use shop_inventory(root='inv', ref=char, x=0.0, title="Inventory")
-    use shop_inventory(root='shop', ref=pytfall.workshop, x=1.0, title="WorkShop")
-    
-    if focus:
-        frame background Frame("content/gfx/frame/mes12.jpg", 5, 5): 
-            align (0.5, 0.5)
-            xmaximum 650
-            ymaximum 600
-            
-            hbox:
-                use itemstats(item=focus)
-                
-            hbox:
-                align (0.5, 0.7)
-                python:
-                    total_price = item_price * amount
-                text("{size=25}Retail Price: [total_price]!") style "agrevue"
-                
-            hbox:
-                align (0.5, 0.85)
-                spacing 25
-                use r_lightbutton(img = im.Scale('content/gfx/interface/buttons/blue_arrow_left.png', 60, 60), return_value = ['control', "decrease_amount"])
-                text ("{size=50}[amount]")  style "agrevue"
-                use r_lightbutton(img = im.Scale('content/gfx/interface/buttons/blue_arrow_right.png', 60, 60), return_value = ['control', "increase_amount"])
-                
-            if purchasing_dir == "buy":
-                textbutton "{size=+5}{color=[black]}Buy" action Return(['control', 'buy/sell']) style "vista_button" xsize 100 align (0.5, 0.97)
-            elif purchasing_dir == "sell":
-                textbutton "{size=+5}{color=[black]}Sell" action Return(['control', 'buy/sell']) style "vista_button" xsize 100 align (0.5, 0.97)
-                    
-    use exit_button

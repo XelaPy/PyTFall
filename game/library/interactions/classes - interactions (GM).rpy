@@ -6,13 +6,14 @@ init -1 python:
         Occupation = condition on which to sort. For now we only have warrior.
         """
         def __init__(self, name, curious_priority=True, **kwargs):
-            occupations = kwargs.get("occupations", set())
+            goodoccupations = kwargs.get("goodoccupations", set())
+            badoccupations = kwargs.get("badoccupations", set())
             
-            goodtraits = kwargs.get("goodtraits", list())
+            goodtraits = kwargs.get("goodtraits", set())
             if goodtraits:
                 goodtraits = set(traits[t] for t in goodtraits)
                 
-            badtraits = kwargs.get("badtraits", list())
+            badtraits = kwargs.get("badtraits", set())
             if badtraits:
                 badtraits = set(traits[t] for t in badtraits)
                 
@@ -22,62 +23,78 @@ init -1 python:
             
             # Get availible girls and check occupation
             choices = list(i for i in chars.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
+            # We remove all chars with badtraits:
+            if badtraits:
+                choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
+            if badoccupations:
+                choices = list(i for i in choices if not i.occupations.intersection(badoccupations))
             conditioned_choices = set(choices)
             
             if self.curious_priority:
                 goodtraits.add(traits["Curious"])
             gt = list(i for i in conditioned_choices if any(trait in goodtraits for trait in i.traits)) if goodtraits else list()
-            occs = list(i for i in conditioned_choices if i.occupations.intersection(occupations)) if occupations else list()
-            conditioned_choices = list(conditioned_choices.intersection(gt + occs))
-            # raise Exception(["Caster" in g.occupations for g in conditioned_choices])
+            occs = list(i for i in conditioned_choices if i.occupations.intersection(goodoccupations)) if goodoccupations else list()
+            conditioned_choices = list(conditioned_choices.intersection(gt + occs)) if gt or occs else list(conditioned_choices)
             
-            if badtraits:
-                conditioned_choices = list(i for i in conditioned_choices if not any(trait in badtraits for trait in i.traits))
-                
             # Sort the list based on disposition:
             conditioned_choices.sort(key=attrgetter("disposition"))
             choices.sort(key=attrgetter("disposition"))
             
-            # Append to the list (1st girl):
-            if conditioned_choices:
+            # =====================================>>>
+            # We add an absolute overwrite for any character that has the location string set as the name:
+            # Make sure that we do not get the char in two locations on the same day:
+            local_chars = list()
+            for c in chars.values():
+                if c.location == name:
+                    if c in gm.get_all_girls():
+                        gm.remove_girl(c)
+                    local_chars.append(c)
+            shuffle(local_chars)
+            while local_chars and len(self.girls) < 3:
+                self.girls.append(local_chars.pop())
+            
+            # Append to the list (1st girl) Best disposition:
+            # This whole codebit needs to be rewritten when Interactions are restructured.
+            if conditioned_choices and len(self.girls) < 3:
                 if not conditioned_choices[len(conditioned_choices)-1].disposition:
                     shuffle(conditioned_choices)
                     self.girls.append(conditioned_choices.pop())
                 else:
                     self.girls.append(conditioned_choices.pop())
-            elif choices:
+            elif choices and len(self.girls) < 3:
                 if not choices[len(choices)-1].disposition:
                     shuffle(choices)
                     self.girls.append(choices.pop())
                 else:
                     self.girls.append(choices.pop())
                 
-            # Last two:
+            # Last two, Second one should be an Unique char, Third = Any char:
             shuffle(conditioned_choices)
-            while conditioned_choices and len(self.girls) != 3:
+            while conditioned_choices and len(self.girls) < 3:
                 for i in conditioned_choices:
                     if i.__class__ == Char:
                         self.girls.append(i)
                         conditioned_choices.remove(i)
                         break
-                if conditioned_choices:
+                if conditioned_choices and len(self.girls) < 3:
                     self.girls.append(conditioned_choices.pop())
                 # In the perfect world, we'd be done... yet...
                     
-            if len(self.girls) != 3:
+            # This last bit we do in case conditioned choices had failed:
+            if len(self.girls) < 3:
                 choices = list(i for i in choices if i not in self.girls)
                 shuffle(choices)
-                while choices and len(self.girls) != 3:
+                while choices and len(self.girls) < 3:
                     for i in choices:
                         if i.__class__ == Char:
                             self.girls.append(i)
                             choices.remove(i)
                             break
-                    if len(self.girls) != 3:        
+                    if len(self.girls) < 3:        
                         self.girls.append(choices.pop())
                     
             if len(self) > 3:
-                raise Exception("Something went wrong during girls sorting in {}.".format(self.__class__.__name__))
+                raise Exception("Something went wrong during girls sorting in {}.\n List: {}".format(self.__class__.__name__, ", ".join(c.name for c in self)))
             self.termination_day = day + randint(3, 5)
             self.creation_day = day
             

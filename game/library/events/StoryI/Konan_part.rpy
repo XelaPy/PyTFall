@@ -328,7 +328,7 @@ label konan_first_meeting:
     $ k = chars["Konan"]
     $ k_spr = chars["Konan"].get_vnsprite()
     play world "Theme2.ogg" fadein 2.0 loop
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression k_spr at center with dissolve
     "Strolling through the village, you noticed a familiar figure."
     $ k.override_portrait("portrait", "indifferent")
@@ -404,7 +404,7 @@ label konan_second_meeting_love: # depending on selected quest, there could be t
     stop world
     $ k = chars["Konan"]
     $ k_spr = chars["Konan"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     play world "Field1.ogg" fadein 2.0 loop
     show expression k_spr at center with dissolve
     "Once again you met Konan in the village. She wasn't that surly and cold woman that you used to know."
@@ -442,7 +442,7 @@ label konan_second_meeting_sex:
     $ k_spr = chars["Konan"].get_vnsprite()
     if k.disposition < 500:
         $ k.disposition = 500
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     play world "Field1.ogg" fadein 2.0 loop
     show expression k_spr at center with dissolve
     "Once again you met Konan in the village. But this time you was prepared."
@@ -478,7 +478,7 @@ label konan_second_meeting_sex:
     k.say "AHHHHH!"
     "...done."
     hide xxx with dissolve
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression k_spr at center with dissolve
     "It took her a few minutes to recover. She got dressed and together you left the hotel."
     "Finally she broke the silence."

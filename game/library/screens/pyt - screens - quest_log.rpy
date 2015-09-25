@@ -151,12 +151,12 @@ screen pyt_quest_log:
                             pos (10, 20)
                             for i in reversed(pytfall.world_quests.get(quest_log_current_quest).prompts):
                                 if quest_log_last_prompt:
-                                    text i color"#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
+                                    text i style "TisaOTMolxm" size 20
                                     $ quest_log_last_prompt = False
                                 else:
                                     null height 2
-                                    text "-------------------------------" color"#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
-                                    text (i) color"#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
+                                    text "-------------------------------" style "TisaOTMolxm" size 20
+                                    text i style "TisaOTMolxm" size 20
     
     use pyt_top_stripe(True)
     

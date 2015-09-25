@@ -31,10 +31,10 @@ label intro_story:
     $ s = chars["Sakura"]
     play world "Theme2.ogg" fadein 2.0 loop
     play events "events/night_forest.mp3" loop
-    show expression Text("Story I", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
+    show expression Text("Story I", style="TisaOTM", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
-    show expression Text("Hidden from the eyes", style="tisa_otm", align=(0.5, 0.66), size=35) as txt2:
+    show expression Text("Hidden from the eyes", style="TisaOTM", align=(0.5, 0.66), size=35) as txt2:
         alpha 0
         1
         linear 3.5 alpha 1.0
@@ -444,7 +444,7 @@ label intro_story:
     hide xxx
     stop events
     stop world fadeout 2.0
-    show expression Text("In the next morning", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
+    show expression Text("In the next morning", style="TisaOTM", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
     pause 2.5

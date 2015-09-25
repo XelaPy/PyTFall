@@ -205,7 +205,7 @@ screen pyt_hero_profile():
         pos (8, 110)
         
         # NAME^   LVL   (ok for 1m lvls) ====================================>
-        text (u"{color=#ecc88a}[hero.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.492 ypos 5
+        text (u"[hero.name]") style "TisaOTMol" size 28  xalign 0.492 ypos 5
         hbox:
             spacing 1
             if (hero.level) <10:
@@ -320,7 +320,7 @@ screen pyt_hero_profile():
                         # yoffset 33
                         has vbox spacing -4
                         for e in hero.elements:
-                            textbutton "{=tisa_otm}{size=15}[e.id]":
+                            textbutton "{=TisaOTM}{size=15}[e.id]":
                                 background None
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)
@@ -473,8 +473,8 @@ screen pyt_hero_profile():
     # TOOLTIP TEXT ====================================>
     hbox:
         spacing 1
-        pos (618, 599)
-        xysize (660, 117)
+        pos (621, 602)
+        xysize (657, 114)
         yfill True
         if isinstance(tt.value, BE_Action):
             $ element = tt.value.get_element()
@@ -490,7 +490,7 @@ screen pyt_hero_profile():
             text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
             
     # BASE FRAME 1 "top layer" ====================================>
-    add "content/gfx/frame/h1.png"
+    add "content/gfx/frame/h_profile2.png"
     
     # BUTTONS and UI elements on the "top layer" ====================================>
     hbox:
@@ -520,9 +520,9 @@ screen pyt_hero_profile():
             text "Friends" style "pb_button_text"
     
     imagebutton:
-        pos (178, 70)
+        pos (900, 7) # (178, 70)
         idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-        hover im.Scale("content/gfx/interface/buttons/close2h.png", 35, 35)
+        hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Return(['control', 'return'])
         hovered tt.Action("Return to previous screen!")
     

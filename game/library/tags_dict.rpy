@@ -1,4 +1,4 @@
-init python:
+init -999 python:
     tags_dict = {
     # Main Tags:
     'nn': 'sfw',

@@ -309,6 +309,7 @@ label interactions_hire:
         $ del mod_chance
         
         menu:
+            # TODO: NEEDS TO BE UPDATED.
             "Hire her as [char.occupation].":
                 $gm.remove_girl(char)
                 $hero.add_girl(char)

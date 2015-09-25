@@ -114,7 +114,7 @@ init python:
         return books
         
 label academy_town:
-
+    $ gm.enter_location(goodtraits=["Nerd", "Shy", "Dandere", "Impersonal", "Serious"], badtraits=["Aggressive", "Adventurer", "Ill-mannered", "Slime", "Monster"], curious_priority=True)
     if not "library" in ilists.world_music:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -128,7 +128,7 @@ label academy_town:
             pytfall.world_actions.add("library_matrix", "Read the books", Jump("library_read_matrix"))
             pytfall.world_actions.finish()
             
-    scene bg library
+    scene bg academy_town
     with dissolve
     show screen pyt_academy_town_entrance
     python:
@@ -166,7 +166,7 @@ screen pyt_academy_town_entrance():
                 
 label library_read_matrix:
     hide screen pyt_academy_town_entrance
-    scene bg library
+    scene bg academy_town
     
     if not hasattr(store, "lib_books"):
         $ lib_books = create_lib_books()

@@ -298,7 +298,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}Peaceful Grove" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}Peaceful Grove" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star1.png", 18, 18)
@@ -313,7 +313,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}Misty Thicket" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}Misty Thicket" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star3.png", 18, 18)
@@ -328,7 +328,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}Forbidden Cove" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}Forbidden Cove" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -343,7 +343,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}Flowing Lagoon" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}Flowing Lagoon" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -358,7 +358,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}Poison Forest" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}Poison Forest" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -377,7 +377,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}???????" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}???????" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -392,7 +392,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}???????" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}???????" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -407,7 +407,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}???????" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}???????" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -422,7 +422,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}???????" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}???????" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -437,7 +437,7 @@ screen pyt_fg_management():
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
                         xysize (150, 90)
-                        text "{color=[gold]}???????" style "interactions_text1" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                        text "{color=[gold]}???????" style "interactions_text" size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                         hbox:
                             align (0.5, 0.45)
                             add ProportionalScale("content/gfx/bg/example/star2.png", 18, 18)
@@ -673,9 +673,9 @@ screen pyt_fg_management():
                                                         xysize(150, 10)
                                                         ypadding 0
                                                         if len(girl.name) > 10:
-                                                            text "{color=[gold]}[girl.name]" style "interactions_text1" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                            text "{color=[gold]}[girl.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                                                         else:
-                                                            text "{color=[gold]}[girl.name]" style "interactions_text1" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                            text "{color=[gold]}[girl.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                                 vbar value YScrollValue("team_dg")
     
             elif stats_display == "Exploration":
@@ -702,7 +702,7 @@ screen pyt_fg_management():
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
                         xysize(207, 2)
                         ypos -128
-                        text "{color=[gold]}Teeny Woods" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                        text "{color=[gold]}Teeny Woods" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
     
                     null height -40
                     frame:
@@ -719,7 +719,7 @@ screen pyt_fg_management():
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
                         xysize(207, 2)
                         ypos -122
-                        text "{color=[gold]}The Vast Caves" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                        text "{color=[gold]}The Vast Caves" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
     
                     null height -40
                     frame:
@@ -736,7 +736,7 @@ screen pyt_fg_management():
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
                         xysize(207, 2)
                         ypos -135
-                        text "{color=[gold]}The Emerald Marsh" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                        text "{color=[gold]}The Emerald Marsh" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                     null height -40
                     frame:
                         $ img = ProportionalScale("content/gfx/bg/example/Orcs Kingdom.jpg", 200, 130)
@@ -752,7 +752,7 @@ screen pyt_fg_management():
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.4), 5, 5)
                         xysize(207, 2)
                         ypos -122
-                        text "{color=[gold]}Orcs Kingdom" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                        text "{color=[gold]}Orcs Kingdom" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                     null height -30
                     hbox:
                         xalign 0.5
@@ -786,7 +786,7 @@ screen pyt_fg_management():
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
                         xysize(207, 2)
                         ypos -132
-                        text "{color=[gold]}Teeny Woods" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                        text "{color=[gold]}Teeny Woods" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
     
                     null height -55
                     hbox:
@@ -925,7 +925,7 @@ screen pyt_explorer: ### Gismo: Just example ###
                 xalign 0.5
                 background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.9), 10, 10)
                 xysize (730, 90)
-                text "{color=[gold]}Peaceful Grove" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                text "{color=[gold]}Peaceful Grove" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                 hbox:
                     align (0.5, 0.45)
                     add ProportionalScale("content/gfx/bg/example/star1.png", 18, 18)
@@ -1214,7 +1214,7 @@ screen pyt_log1: ### Gismo: Just example ###
                 xalign 0.5
                 background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.9), 10, 10)
                 xysize (730, 90)
-                text "{color=[gold]}Peaceful Grove" style "interactions_text1" size 18 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                text "{color=[gold]}Peaceful Grove" style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                 hbox:
                     align (0.5, 0.45)
                     add ProportionalScale("content/gfx/bg/example/star1.png", 18, 18)

@@ -1,5 +1,5 @@
 label main_street:
-    $ gm.enter_location(goodtraits=["Elegant", "Kleptomaniac", "Nymphomaniac"], badtraits=["Not Human", "Alien", "Strange Eyes"])
+    $ gm.enter_location(goodtraits=["Human", "Kleptomaniac"], badtraits=["Not Human", "Alien", "Strange Eyes"], curious_priority=False)
     
     # Music related:
     if not "main_street" in ilists.world_music:
