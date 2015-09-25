@@ -1841,13 +1841,12 @@ screen pyt_next_day():
                         ypos 5
                         xalign 0.5
                         viewport id "nextdaytxt_vp":
-                            xysize(400, 500)
+                            xysize (400, 500)
                             draggable True
                             mousewheel True
-                            vbox:
-                                null height 10
-                                #text (u"{color=#f1f1e1}%s" % event.txt) font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #ivory
-                                text u"[event.txt]" style "TisaOTMolxm" size 20 # !!!
+                            has vbox
+                            null height 10
+                            text u"{}".format(event.txt) style "TisaOTMolxm" size 20
                         vbar value YScrollValue("nextdaytxt_vp")
                  
         mousearea:
