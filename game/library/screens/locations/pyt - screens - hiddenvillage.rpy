@@ -1,9 +1,9 @@
 label hiddenVillage_entrance:
 
-    if not "park" in ilists.world_music:
-        $ ilists.world_music["park"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("park")]
+    if not "village" in ilists.world_music:
+        $ ilists.world_music["village"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("village")]
     if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["park"]) fadein 0.5
+        play world choice(ilists.world_music["village"]) fadein 0.5
     $ global_flags.del_flag("keep_playing_music")
     
     python:
