@@ -56,7 +56,7 @@ label karin_first_meeting:
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
     $ chars["Karin"].set_flag("event_to_interactions_karincanhealalways", value={"label": "Karin_can_heal", "button_name": "Ask for healing", "condition": "True"})
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     "You walk through the village, as you flip through the files that you got from Tsunade."
     "Telepathy, eyesight through any obstacles, superhuman strength... Kunoichi have uncommon and useful perks. It would be wise to have them as allies or slaves..."
     "Deep in thought, you didn't noticed how the folder slipped out. Feeling a presence behind, you turn around."

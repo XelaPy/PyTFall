@@ -4,7 +4,7 @@ init:
 label change_alpha:
     hide bg1
     hide bg2
-    show expression Transform("bg hidden_village", alpha=a) as bg1
+    show expression Transform("bg hiddenvillage_entrance", alpha=a) as bg1
     show expression Transform("bg night_forest", alpha=b) as bg2
     return
 label intro_story_dy:

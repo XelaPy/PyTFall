@@ -1,5 +1,5 @@
 label arena_outside:
-    $ gm.enter_location(occupations=["Warrior"])
+    $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Warrior"], curious_priority=False)
     
     # Music related:
     if not "arena_outside" in ilists.world_music:

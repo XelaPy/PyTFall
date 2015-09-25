@@ -3,7 +3,7 @@ init python:
 
 label naruko_first_meeting:
     scene black
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     $ k = chars["Kushina_Uzumaki"]
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
@@ -95,7 +95,7 @@ label naruko_second_meeting:
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Phew, I'm full. Thanksies♪"
@@ -201,7 +201,7 @@ label naruko_third_meeting:
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Aahh, it feels good to eat for free, hehe."
@@ -306,7 +306,7 @@ label naruko_final_meeting:
     $ k.disposition += 100
     $ set_friends(hero, n)
     $ set_friends(hero, k)
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
     $ n.override_portrait("portrait", "happy")
     n.say "Ehehe, food tastes better when we eat together♪"

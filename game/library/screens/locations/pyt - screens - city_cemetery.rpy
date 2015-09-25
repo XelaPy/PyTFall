@@ -1,5 +1,6 @@
 label graveyard_town:
-
+    $ gm.enter_location(goodtraits=["Undead", "Divine Creature", "Demonic Creature"], badtraits=["Elf", "Android", "Monster", "Human", "Furry"], curious_priority=False)
+    
     if not "cemetery" in ilists.world_music:
         $ ilists.world_music["cemetery"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("cemetery")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -12,7 +13,7 @@ label graveyard_town:
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.finish()
             
-    scene bg cemetery
+    scene bg graveyard_town
     with dissolve
     show screen pyt_cemetery_entrance
         

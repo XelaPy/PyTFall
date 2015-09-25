@@ -6,7 +6,7 @@ label temari_first_meeting:
     scene black
     $ t = chars["Temari"]
     $ t_spr = chars["Temari"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression t.show("sfw", "rest", "outdoors", "everyday", "urban", "nature", resize=(800, 600), type="first_default") as xxx at truecenter
     "Just near the corner of the village training area you see a girl that is resting. She nods towards you."
     $ t.override_portrait("portrait", "confident")
@@ -64,7 +64,7 @@ label temari_before_fight:
                 for member in enemy_team:
                     member.controller = BE_AI(member)
             $ your_team.add(hero)
-            $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+            $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
             $ battle.teams.append(your_team)
             $ battle.teams.append(enemy_team)
             $ battle.start_battle()

@@ -1,5 +1,5 @@
 label city_beach_cafe_main:
-    $ gm.enter_location(goodtraits=["Athletic", "Dawdler"], badtraits=['Scars', "Alien","Not Human"])
+    $ gm.enter_location(goodtraits=["Athletic", "Dawdler", "Always Hungry"], badtraits=["Scars", "Undead", "Furry", "Monster"], curious_priority=False)
     
     # Music related:
     if not "beach_cafe" in ilists.world_music:
