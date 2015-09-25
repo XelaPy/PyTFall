@@ -49,7 +49,7 @@ label load_resources:
         
         # Variables:
         char = None # Character global
-        girl_equip = None # Girl equipment screen came from label holder
+        came_to_equip_from = None # Girl equipment screen came from label holder
         girl_profile = None # Girl profile screen came from label holder
         pyt_gallery = None
         
