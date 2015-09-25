@@ -26,7 +26,7 @@ label mainscreen:
         imglist.extend("".join(["content/gfx/interface/buttons/locations/", key, ".png"]) for key in ["main_street",
                                "arena_outside", "slave_market", "city_jail", "tavern_town",
                                "city_parkgates", "academy_town", "mages_tower",
-                               "graveyard_town", "city_beach", "forest_entrance", "hiddenVillage_entrance"])
+                               "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"])
         imglist.append("bg gallery")
         imglist.append("content/gfx/images/m_1.png")
         imglist.append("content/gfx/frame/h2.png")

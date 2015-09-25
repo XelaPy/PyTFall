@@ -86,8 +86,8 @@ init -9 python:
             self.filter = 'all'
             self.male_filter = False # Filters out female only items
             self.female_filter = False
-            self.ALL_FILTERS = ['all', 'weapon', 'smallweapon', 'consumable', "head", 'body', 'wrist', 'feet', 'cape', 'amulet', 'ring', "gift", 'misc']
-            self.GEQ_FILTERS = ['all', 'weapon', 'smallweapon', 'consumable', "head", 'body', 'wrist', 'feet', 'cape', 'amulet', 'ring', 'misc']
+            self.ALL_FILTERS = ['all', 'weapon', 'smallweapon', 'head', 'body', 'wrist', 'feet', 'cape', 'amulet', 'ring', 'consumable', 'gift', 'misc', 'quest']
+            self.GEQ_FILTERS = ['all', 'weapon', 'smallweapon', 'consumable', 'head', 'body', 'wrist', 'feet', 'cape', 'amulet', 'ring', 'misc', 'quest']
             self.FILTERS = self.ALL_FILTERS
 
         def set_page_size(self, size):

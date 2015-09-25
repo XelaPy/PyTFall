@@ -1,6 +1,5 @@
 label city_beach:
-    $ gm.enter_location(goodtraits=["Athletic", "Energetic", "Exhibitionist"], badtraits=['Scars', "Shy", "Artificial Body","Not Human"])
-    
+    $ gm.enter_location(goodtraits=["Energetic", "Exhibitionist"], badtraits=["Scars", "Undead", "Furry", "Monster", "Not Human"], curious_priority=False)
     # Music related:
     if not "beach_main" in ilists.world_music:
         $ ilists.world_music["beach_main"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("beach_main")]

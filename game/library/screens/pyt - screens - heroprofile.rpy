@@ -473,8 +473,8 @@ screen pyt_hero_profile():
     # TOOLTIP TEXT ====================================>
     hbox:
         spacing 1
-        pos (618, 599)
-        xysize (660, 117)
+        pos (621, 602)
+        xysize (657, 114)
         yfill True
         if isinstance(tt.value, BE_Action):
             $ element = tt.value.get_element()
@@ -490,7 +490,7 @@ screen pyt_hero_profile():
             text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
             
     # BASE FRAME 1 "top layer" ====================================>
-    add "content/gfx/frame/h1.png"
+    add "content/gfx/frame/h_profile2.png"
     
     # BUTTONS and UI elements on the "top layer" ====================================>
     hbox:
@@ -520,9 +520,9 @@ screen pyt_hero_profile():
             text "Friends" style "pb_button_text"
     
     imagebutton:
-        pos (178, 70)
+        pos (900, 7) # (178, 70)
         idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-        hover im.Scale("content/gfx/interface/buttons/close2h.png", 35, 35)
+        hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Return(['control', 'return'])
         hovered tt.Action("Return to previous screen!")
     

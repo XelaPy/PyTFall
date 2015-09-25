@@ -1,5 +1,5 @@
 label city_beach_cafe:
-    $ gm.enter_location(goodtraits=["Athletic", "Dawdler"], badtraits=['Scars', "Alien","Not Human"])
+    $ gm.enter_location(goodtraits=["Athletic", "Dawdler", "Always Hungry"], badtraits=["Scars", "Undead", "Furry", "Monster"], curious_priority=False)
     
     $ global_flags.set_flag("keep_playing_music")
     

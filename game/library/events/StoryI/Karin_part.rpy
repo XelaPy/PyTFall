@@ -56,7 +56,7 @@ label karin_first_meeting:
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
     $ chars["Karin"].set_flag("event_to_interactions_karincanhealalways", value={"label": "Karin_can_heal", "button_name": "Ask for healing", "condition": "True"})
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     "You walk through the village, as you flip through the files that you got from Tsunade."
     "Telepathy, eyesight through any obstacles, superhuman strength... Kunoichi have uncommon and useful perks. It would be wise to have them as allies or slaves..."
     "Deep in thought, you didn't noticed how the folder slipped out. Feeling a presence behind, you turn around."
@@ -93,7 +93,7 @@ label karin_first_meeting:
     $ k.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("You met Karin, one of ninja medics. She wants you to improve your chakra before she will agree to do anything with you.")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
 
 label karin_second_meeting:
     $ k = chars["Karin"]
@@ -115,4 +115,4 @@ label karin_second_meeting:
 label karin_finish_quest:
     "It was a bit strange because of her masochistic tendencies, but pleasant in general..."
     $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance

@@ -1,5 +1,5 @@
-label hiddenVillage_entrance:
-
+label hiddenvillage_entrance:
+    $ gm.enter_location(goodtraits=["Assassin"], badoccupations=["SIW", "Caster"], curious_priority=False, badtraits=("Monster", "Slime"))
     if not "park" in ilists.world_music:
         $ ilists.world_music["park"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("park")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -8,15 +8,15 @@ label hiddenVillage_entrance:
     
     python:
         # Build the actions
-        if pytfall.world_actions.location("hiddenVillage_entrance"):
+        if pytfall.world_actions.location("hiddenvillage_entrance"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.add("hiddenvillage_matrix", "Explore", Jump("hidden_village_matrix"))
             pytfall.world_actions.finish()
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    scene bg hidden_village
+    scene bg hiddenvillage_entrance
     with dissolve
-    show screen pyt_hiddenVillage_entrance
+    show screen pyt_hiddenvillage_entrance
     
     if not global_flags.flag('visited_hidden_village') and pytfall.world_quests.check_stage("Medic's Request") >= 3:
         $ global_flags.set_flag('visited_hidden_village')
@@ -41,19 +41,19 @@ label hiddenVillage_entrance:
             if result[0] == 'jump':
                 gm.start_gm(result[1])
             if result[0] == 'control':
-                renpy.hide_screen("pyt_hiddenVillage_entrance")
+                renpy.hide_screen("pyt_hiddenvillage_entrance")
                 if result[1] == 'return':
                     break
 
     $ renpy.music.stop(channel="world")
-    hide screen pyt_hiddenVillage_entrance
+    hide screen pyt_hiddenvillage_entrance
     jump pyt_city
     
-screen pyt_hiddenVillage_entrance():
+screen pyt_hiddenvillage_entrance:
 
     use pyt_top_stripe(True)
     
-    use location_actions("hiddenVillage_entrance")
+    use location_actions("hiddenvillage_entrance")
     
     if gm.show_girls:
     
@@ -63,29 +63,29 @@ screen pyt_hiddenVillage_entrance():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen", "indoors"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "stage", "onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
     
 label hidden_village_matrix:
-    hide screen pyt_hiddenVillage_entrance
-    scene bg hidden_village
+    hide screen pyt_hiddenvillage_entrance
+    scene bg hiddenvillage_entrance
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8))
     if not(_return):
-        jump hiddenVillage_entrance
+        jump hiddenvillage_entrance
     if _return == "House_5":
         if pytfall.world_quests.check_quest_not_finished("Sixth Sense"):
             if pytfall.world_quests.check_stage("Sixth Sense") == 0:
-                hide screen pyt_hiddenVillage_entrance
+                hide screen pyt_hiddenvillage_entrance
                 jump karin_first_meeting
             elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.check_stage("Sixth Sense") == 1:
-                hide screen pyt_hiddenVillage_entrance
+                hide screen pyt_hiddenvillage_entrance
                 show bg girl_room_12
                 call karin_second_meeting
-                $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenVillage_entrance", "girl_room_12")
+                $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenvillage_entrance", "girl_room_12")
             else:
-                $ interactions_run_gm_anywhere ("Karin", "hiddenVillage_entrance", "girl_room_12")
+                $ interactions_run_gm_anywhere ("Karin", "hiddenvillage_entrance", "girl_room_12")
         else:
-            hide screen pyt_hiddenVillage_entrance
-            $ interactions_run_gm_anywhere ("Karin", "hiddenVillage_entrance", "girl_room_12")
+            hide screen pyt_hiddenvillage_entrance
+            $ interactions_run_gm_anywhere ("Karin", "hiddenvillage_entrance", "girl_room_12")
     elif _return == "House_6":
         jump hidden_village_shop
     elif _return == "House_2":
@@ -99,32 +99,32 @@ label hidden_village_matrix:
             elif pytfall.world_quests.check_stage("Uzumaki Clan") == 6:
                 jump naruko_final_meeting
             else:
-                hide screen pyt_hiddenVillage_entrance
-                $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenVillage_entrance", "girl_room_4")
+                hide screen pyt_hiddenvillage_entrance
+                $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenvillage_entrance", "girl_room_4")
         else:
-            hide screen pyt_hiddenVillage_entrance
-            $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenVillage_entrance", "girl_room_4")
+            hide screen pyt_hiddenvillage_entrance
+            $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenvillage_entrance", "girl_room_4")
     elif _return == "Training":
         if pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi"):
             if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0:
-                hide screen pyt_hiddenVillage_entrance
+                hide screen pyt_hiddenvillage_entrance
                 jump temari_first_meeting
             elif pytfall.world_quests.check_stage("Stubborn Kunoichi") == 2:
-                hide screen pyt_hiddenVillage_entrance
+                hide screen pyt_hiddenvillage_entrance
                 jump temari_before_fight
         if pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
                 # if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 3 and pytfall.world_quests.check_stage("Weapons Specialist") == 0:
             if pytfall.world_quests.check_stage("Weapons Specialist") == 0:
-                hide screen pyt_hiddenVillage_entrance
+                hide screen pyt_hiddenvillage_entrance
                 jump tenten_first_meeting
             elif pytfall.world_quests.check_stage("Weapons Specialist") == 1:
-                hide screen pyt_hiddenVillage_entrance
+                hide screen pyt_hiddenvillage_entrance
                 jump tenten_second_meeting
     elif _return == "House_9":
         if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0 and not(pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
             "The door is locked. Looks like there is no one here..."
         elif (pytfall.world_quests.check_stage("Stubborn Kunoichi") == 1) and (chars["Temari"].disposition >= 200) and (pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
-            hide screen pyt_hiddenVillage_entrance
+            hide screen pyt_hiddenvillage_entrance
             show bg girls_dorm with dissolve
             jump temari_second_meeting
         else:
@@ -132,11 +132,11 @@ label hidden_village_matrix:
                 "It's a dormitory for those kunoichi who don't own a house. Who you want to see?"
                 
                 "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:
-                    $ interactions_run_gm_anywhere ("Temari", "hiddenVillage_entrance", "girls_dorm")
+                    $ interactions_run_gm_anywhere ("Temari", "hiddenvillage_entrance", "girls_dorm")
                 "Tenten" if pytfall.world_quests.check_stage("Weapons Specialist") >= 2:
-                    $ interactions_run_gm_anywhere ("Tenten", "hiddenVillage_entrance", "girls_dorm")
+                    $ interactions_run_gm_anywhere ("Tenten", "hiddenvillage_entrance", "girls_dorm")
                 "Leave":
-                    jump hiddenVillage_entrance
+                    jump hiddenvillage_entrance
     "Result: [_return]"
     jump hidden_village_matrix
     
@@ -147,7 +147,7 @@ label hidden_village_shop:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["shops"]) fadein 1.5
         
-    hide bg hidden_village
+    hide bg hiddenvillage_entrance
     
     scene bg workshop
     with dissolve
@@ -187,4 +187,4 @@ label hidden_village_shop:
     $ global_flags.del_flag("keep_playing_music")
     hide screen pyt_shopping
     with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
