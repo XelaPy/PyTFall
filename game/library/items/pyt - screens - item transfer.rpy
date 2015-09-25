@@ -137,9 +137,9 @@ screen pyt_items_transfer():
                                             xysize(150, 10)
                                             ypadding 0
                                             if len(lmember.name) > 10: # Gismo: For buildings???
-                                                text "{color=[gold]}[lmember.name]" style "interactions_text1" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[lmember.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                                             else:
-                                                text "{color=[gold]}[lmember.name]" style "interactions_text1" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[lmember.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
 
                     vbar value YScrollValue("left_members")
                 
@@ -210,9 +210,9 @@ screen pyt_items_transfer():
                                             xysize(150, 10)
                                             ypadding 0
                                             if len(rmember.name) > 10: # Gismo: For buildings???
-                                                text "{color=[gold]}[rmember.name]" style "interactions_text1" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[rmember.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                                             else:
-                                                text "{color=[gold]}[rmember.name]" style "interactions_text1" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[rmember.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                     vbar value YScrollValue("right_members")
             frame:
                 pos (172, -40)

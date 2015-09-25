@@ -513,7 +513,7 @@ screen pyt_girl_profile():
                             yalign 0.5
                             has vbox spacing -10
                             for e in char.elements:
-                                textbutton "{=tisa_otm}[e.id]":
+                                textbutton "{=TisaOTM}[e.id]":
                                     background None
                                     action NullAction()
                                     hovered tt.Action("%s" % e.desc)

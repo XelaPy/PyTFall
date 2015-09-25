@@ -369,9 +369,9 @@ screen pyt_girl_interactions():
     # Give gift interface
     if gm.show_menu_givegift:
         frame:
-            style "inter_frame"
+            style "dropdown_gm_frame"
             xysize (385, 455)
-            align (0.89, 0.25)
+            align (0.89, 0.27)
             viewport:
                 xysize (365, 433)
                 scrollbars "vertical"

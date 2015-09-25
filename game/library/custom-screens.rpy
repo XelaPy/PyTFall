@@ -161,7 +161,7 @@ init: # Items:
                         xalign 0.5
                         xysize (440, 40)
                         background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-                        label ('[item.id]') text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text1"
+                        label ('[item.id]') text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
                     vbox:
                         yfill True
                         align (0.5, 0.5)
@@ -319,7 +319,7 @@ init: # Items:
                                     viewport:
                                         id "item.desc"
                                         mousewheel True
-                                        text ('{color=#ecc88a}[item.desc]') font "fonts/TisaOTM.otf" size 16 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
+                                        text ('[item.desc]') style "TisaOTMolxm" size 16
                                         #text ('[item.desc]') color ivory
                                     vbar value YScrollValue("item.desc")
                                     
@@ -1065,7 +1065,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Display -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Display -") style "TisaOTMolxm"
                                         textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1079,7 +1079,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Transitions -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Transitions -") style "TisaOTMolxm"
                                         textbutton _("All") action Preference("transitions", "all") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("None") action Preference("transitions", "none") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1093,7 +1093,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Text Speed -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Text Speed -") style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("text speed") align (0.5, 0.5)
                                 frame:
@@ -1122,7 +1122,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Skip -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Skip -") style "TisaOTMolxm"
                                         textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1136,7 +1136,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- After Choices -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- After Choices -") style "TisaOTMolxm"
                                         textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign 0.5 text_size 16
                                         textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1150,7 +1150,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- A-Forward Time -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- A-Forward Time -") style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("auto-forward time") align (0.5, 0.5)
                                         if config.has_voice:
@@ -1181,7 +1181,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Mute -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Mute -") style "TisaOTMolxm"
                                         textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign 0.5 text_size 16
                                         textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign 0.5 text_size 16
                                 frame:
@@ -1195,7 +1195,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Music Volume -") align (0.5, 0.0) color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Music Volume -") align (0.5, 0.0) style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("music volume") align (0.5, 0.5)
                                 frame:
@@ -1209,7 +1209,7 @@ init: # Settings:
                                             xsize 184
                                             align (0.5, 0.5)
                                             background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Sound Volume -") xalign 0.5 color "#ecc88a" font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                            text _("- Sound Volume -") style "TisaOTMolxm"
                                         null height 8
                                         bar value Preference("sound volume") align (0.5, 0.5)
                                         if config.sample_sound:
@@ -1266,12 +1266,12 @@ init: # Settings:
                                         align (0.5, 0.5)
                                         if s_menu == "Save":
                                             action FileSave(i)
-                                            text " - [file_name] -" align (1.0, 0) color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                            text "[file_time!t]\n[save_name!t]" color "#ecc88a" font "fonts/TisaOTM.otf" size 12 outlines [(1, "#3a3a3a", 0, 0)] align (1.05, 1.25)
+                                            text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                            text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
                                         elif s_menu == "Load":
                                             action FileLoad(i)
-                                            text " - [file_name] -" align (1.0, 0) color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                            text "[file_time!t]\n[save_name!t]" color "#ecc88a" font "fonts/TisaOTM.otf" size 12 outlines [(1, "#3a3a3a", 0, 0)] align (1.05, 1.25)
+                                            text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                            text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
                                         # action FileAction(i)
                                         # add FileScreenshot(i)
                                         xysize (220, 100)
@@ -1282,16 +1282,16 @@ init: # Settings:
                                             yalign 0.5
                                             spacing -7
                                             if "name" in json_info:
-                                                text "[json_info[name]]" color gold font "fonts/TisaOTM.otf" size 17 outlines [(1, "#3a3a3a", 0, 0)]
+                                                text "[json_info[name]]" style "TisaOTMol" color gold size 17
                                                 
                                             if "level" in json_info:
-                                                text "Level: [json_info[level]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Level: [json_info[level]]" style "TisaOTMol" ypos 0
                                             if "chars" in json_info:
-                                                text "Chars: [json_info[chars]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Chars: [json_info[chars]]" style "TisaOTMol" ypos 0
                                             if "gold" in json_info:
-                                                text "Gold: [json_info[gold]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Gold: [json_info[gold]]" style "TisaOTMol" ypos 0
                                             if "gold" in json_info:
-                                                text "Buildings: [json_info[buildings]]" color "#ecc88a" font "fonts/TisaOTM.otf" size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 0
+                                                text "Buildings: [json_info[buildings]]" style "TisaOTMol" ypos 0
                                             # for i in ("name", "level", "chars", "gold", "buildings"):
                                                 # if i in json_info:
                                                     # $ key = i.capitalize()
@@ -1316,38 +1316,38 @@ init: # Settings:
                     xfill True
                     spacing -10
                     align (0.5, 0.5)
-                    text "-------------" color "#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                    text "-------------" style "TisaOTMol" size 20 align (0.5, 0.5)
                     if s_menu == "Settings":
-                        text "Settings" color "#ecc88a" font "fonts/TisaOTM.otf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                        text "Settings" style "TisaOTMol" size 26 align (0.5, 0.5)
                     elif s_menu == "Save":
-                        text "Save" color "#ecc88a" font "fonts/TisaOTM.otf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                        text "Save" style "TisaOTMol" size 26 align (0.5, 0.5)
                     elif s_menu == "Load":
-                        text "Load" color "#ecc88a" font "fonts/TisaOTM.otf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
-                    text "----------" color "#ecc88a" font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+                        text "Load" style "TisaOTMol" size 26 align (0.5, 0.5)
+                    text "----------" style "TisaOTMol" size 20 align (0.5, 0.5)
                 button:
                     yalign 0.5
                     action Hide("s_menu"), With(dissolve)
-                    text "Return" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
-                    text "Settings" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Settings" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
-                    text "Save" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Save" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load"), With(dissolve)#, SetScreenVariable("s_menu", "Load")
-                    text "Load" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Load" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 button:
                     yalign 0.5
                     action MainMenu()
-                    text "Main Menu" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Main Menu" size 18 align (0.5, 0.5) #  style "mmenu_button_text"
                 button:
                     yalign 1.0
                     action Quit()
-                    text "Quit" size 18 align (0.5, 0.5) style "mmenu_button_text"
+                    text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
                 null height 3
         
     

@@ -63,7 +63,7 @@ screen pyt_city_screen():
         fixed:
             xysize (164, 78)
             pos (1111, 321)
-            text (u"[tt.value]") color "#ecc88a" font "fonts/TisaOTM.otf" size 24 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.5)
+            text (u"[tt.value]") style "TisaOTMolxm" size 24 align (0.5, 0.5)
             
     # Right frame
     
@@ -110,11 +110,11 @@ screen pyt_city_screen():
         false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
         
     add ProportionalScale("content/gfx/frame/frame_ap.png", 155, 50) pos (1040, 90)
-    text "[hero.AP]" color "#f1f1e1" font "fonts/TisaOTM.otf" size 24 outlines [(1, "#3a3a3a", 0, 0)] pos (1143, 85)
+    text "[hero.AP]" style "TisaOTM" color "#f1f1e1" size 24 outlines [(1, "#3a3a3a", 0, 0)] pos (1143, 85)
     fixed:
         pos (1202, 99)
         xsize 72
-        text "Day [day]" color "#f1f1e1" font "fonts/TisaOTM.otf" size 18 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
+        text "Day [day]" style "TisaOTMolxm" color "#f1f1e1" size 18
     add "content/gfx/interface/buttons/compass.png" pos (1187, 15)
     
     add "content/gfx/images/m_2.png"
