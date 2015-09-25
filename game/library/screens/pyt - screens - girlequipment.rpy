@@ -96,23 +96,6 @@ label girl_equip:
                         focusitem = result[2]
                         item_direction = 'unequip'
             
-            elif result[0] == 'choice':
-                renpy.hide_screen("pyt_girls_list1")
-                char = result[1]
-                jump('girl_equip')
-            elif result[0] == "paging":
-                gs = renpy.get_screen("pyt_girls_list1").scope["_kwargs"]["source"]
-                if result[1] == "next":
-                    if gs.page + 1 > gs.total_pages - 1:
-                        gs.page = 0
-                    else:    
-                        gs.page += 1
-                elif result[1] == "previous":
-                    if gs.page - 1 < 0:
-                        gs.page = gs.total_pages - 1
-                    else:
-                        gs.page -= 1
-            
             elif result[0] == 'con':
                 if result[1] == 'return':
                     selectedslot = False

@@ -59,7 +59,7 @@ init: # Items:
                     pos (equipSlotsPositions[key][1], equipSlotsPositions[key][2]-0.1)
                     xysize (frame_size[0], frame_size[1])
                     if active_mode and char.eqslots[key]:
-                         use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
                     elif char.eqslots[key]:
                         add ProportionalScale(img, frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
                     else:
