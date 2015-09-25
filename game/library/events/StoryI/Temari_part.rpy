@@ -29,7 +29,7 @@ label temari_first_meeting:
     $ t.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("You met Temari, a weird kunoichi who loves her family too much. Perhaps you have to know each other better for a start?..")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label temari_second_meeting:
     $ t = chars["Temari"]
@@ -45,7 +45,7 @@ label temari_second_meeting:
     $ t.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("Temari wants you fight her at the Training Grounds. She is going to hold back, but you still better be prepared.")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label temari_before_fight:
     show bg story training_ground with dissolve
@@ -78,11 +78,11 @@ label temari_before_fight:
                 show expression t_spr at center
                 t.say "Well, that was disappointing... Good luck next time, I guess."
                 $ t.restore_portrait()
-                jump hiddenVillage_entrance
+                jump hiddenvillage_entrance
         "No":
             t.say "Alright, no rush. Come when you will be prepeared."
             $ t.restore_portrait()
-            jump hiddenVillage_entrance
+            jump hiddenvillage_entrance
             
 label temari_final_meeting:
     show bg story training_ground with dissolve
@@ -104,9 +104,9 @@ label temari_final_meeting:
     $ t.restore_portrait()
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("You managed to impress her. Perhaps now she will be more appeasable?")
     scene black with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label temari_finish_quest:
     "She clearly imagined her brothers instead of you while you were doing it... Never mind, important thing is that you have done it."
     $ pytfall.world_quests.get("Stubborn Kunoichi").finish_in_label("You took care of Temari's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance

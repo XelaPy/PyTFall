@@ -93,7 +93,7 @@ label karin_first_meeting:
     $ k.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("You met Karin, one of ninja medics. She wants you to improve your chakra before she will agree to do anything with you.")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
 
 label karin_second_meeting:
     $ k = chars["Karin"]
@@ -115,4 +115,4 @@ label karin_second_meeting:
 label karin_finish_quest:
     "It was a bit strange because of her masochistic tendencies, but pleasant in general..."
     $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance

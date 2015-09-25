@@ -14,7 +14,7 @@ label tsunade_request_part_one(event):
     "Your skill now should be sufficient to pass Tsunade exam. You should return to the Hidden Village."
     $ pytfall.world_quests.get(event.quest).next_in_label("Your skill now should be sufficient to pass Tsunade exam. You should return to the Hidden Village.", "part2")
     $ pytfall.world_events.kill_event("tsunade_request_part_one")
-    $ register_event_in_label("story_tsunade_first_meeting", trigger_type="auto", locations=["hiddenVillage_entrance"], dice=100, max_runs=1)
+    $ register_event_in_label("story_tsunade_first_meeting", trigger_type="auto", locations=["hiddenvillage_entrance"], dice=100, max_runs=1)
     $ pytfall.world_events.force_event("story_tsunade_first_meeting")
     return
     

@@ -35,7 +35,7 @@ label tenten_first_meeting:
     "Looks like a severe case. The best approach would be to find her equipment for a start."
     $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You met Tenten, a tomboyish kunoichi who lost her weapon scrolls. Here we give a quest find them in SE -_-")
     scene black with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label tenten_second_meeting: # after finding the summon scroll
     scene black
@@ -143,12 +143,12 @@ label tenten_second_meeting: # after finding the summon scroll
     $ ten.set_flag("quest_cannot_be_fucked", value=False)
     $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You managed to get closer to her. Now it's up to your charisma.")
     scene black with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
 
 label tenten_finish_quest:
     "Tenten was the easiest target ever. It's hard to be a tomboy..."
     $ pytfall.world_quests.get("Weapons Specialist").finish_in_label("You took care of Tenten's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label tenten_bonus_scene: # random scene after doing it with both temari and tenten
     stop music

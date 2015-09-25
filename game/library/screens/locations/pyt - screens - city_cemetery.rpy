@@ -26,7 +26,7 @@ label graveyard_town:
             if result[0] == 'jump':
                 gm.start_gm(result[1])
             if result[0] == 'control':
-                renpy.hide_screen("pyt_hiddenVillage_entrance")
+                renpy.hide_screen("pyt_cemetery_entrance")
                 if result[1] == 'return':
                     break
 
