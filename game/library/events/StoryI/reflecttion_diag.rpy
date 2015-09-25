@@ -20,7 +20,7 @@ label reflection_quest_part_one:
     stop music
     scene black with dissolve
     play world "cemetery.ogg" fadein 2.0 loop
-    show expression Text("City Cemetery", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
+    show expression Text("City Cemetery", style="TisaOTM", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
     pause 2.5

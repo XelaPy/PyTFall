@@ -93,10 +93,10 @@ label intro:
     #    star
     # play music "content/sfx/music/intro-1.mp3"
     
-    show expression Text("Mundiga continent", style="tisa_otm", align=(0.5, 0.33), size=40) as txt1:
+    show expression Text("Mundiga continent", style="TisaOTM", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
-    show expression Text("3596 AD", style="tisa_otm", align=(0.5, 0.66), size=35) as txt2:
+    show expression Text("3596 AD", style="TisaOTM", align=(0.5, 0.66), size=35) as txt2:
         alpha 0
         1
         linear 3.5 alpha 1.0

@@ -81,6 +81,7 @@ init -997: # Transforms:
         
     transform szoom(start_val=1.0, end_val=0.0, t=1.0):
         # Simple zoom...
+        subpixel True
         anchor (0.5, 0.5)
         zoom start_val
         linear t zoom end_val

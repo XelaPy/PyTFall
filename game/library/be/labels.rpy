@@ -8,7 +8,6 @@ label test_be():
         if len(enemy_team) != 3:
             enemy_team.add(mob)
         mob = build_mob(id="Goblin Archer", level=100)
-        mob.apply_trait("Freak")
         mob.front_row = False
         mob.attack_skills.append("SwordAttack")
         if len(enemy_team) != 3:
@@ -51,7 +50,7 @@ label test_be():
             hero.team.add(n)
         n.AP = 6
         # ImageReference("chainfights")
-        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=dissolve, end_sfx=dissolve)
+        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
 

@@ -6,7 +6,7 @@ label temari_first_meeting:
     scene black
     $ t = chars["Temari"]
     $ t_spr = chars["Temari"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression t.show("sfw", "rest", "outdoors", "everyday", "urban", "nature", resize=(800, 600), type="first_default") as xxx at truecenter
     "Just near the corner of the village training area you see a girl that is resting. She nods towards you."
     $ t.override_portrait("portrait", "confident")
@@ -29,7 +29,7 @@ label temari_first_meeting:
     $ t.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("You met Temari, a weird kunoichi who loves her family too much. Perhaps you have to know each other better for a start?..")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label temari_second_meeting:
     $ t = chars["Temari"]
@@ -45,7 +45,7 @@ label temari_second_meeting:
     $ t.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("Temari wants you fight her at the Training Grounds. She is going to hold back, but you still better be prepared.")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label temari_before_fight:
     show bg story training_ground with dissolve
@@ -64,7 +64,7 @@ label temari_before_fight:
                 for member in enemy_team:
                     member.controller = BE_AI(member)
             $ your_team.add(hero)
-            $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+            $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
             $ battle.teams.append(your_team)
             $ battle.teams.append(enemy_team)
             $ battle.start_battle()
@@ -78,11 +78,11 @@ label temari_before_fight:
                 show expression t_spr at center
                 t.say "Well, that was disappointing... Good luck next time, I guess."
                 $ t.restore_portrait()
-                jump hiddenVillage_entrance
+                jump hiddenvillage_entrance
         "No":
             t.say "Alright, no rush. Come when you will be prepeared."
             $ t.restore_portrait()
-            jump hiddenVillage_entrance
+            jump hiddenvillage_entrance
             
 label temari_final_meeting:
     show bg story training_ground with dissolve
@@ -104,9 +104,9 @@ label temari_final_meeting:
     $ t.restore_portrait()
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("You managed to impress her. Perhaps now she will be more appeasable?")
     scene black with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label temari_finish_quest:
     "She clearly imagined her brothers instead of you while you were doing it... Never mind, important thing is that you have done it."
     $ pytfall.world_quests.get("Stubborn Kunoichi").finish_in_label("You took care of Temari's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance

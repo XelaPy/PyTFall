@@ -205,7 +205,7 @@ screen pyt_hero_profile():
         pos (8, 110)
         
         # NAME^   LVL   (ok for 1m lvls) ====================================>
-        text (u"{color=#ecc88a}[hero.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.492 ypos 5
+        text (u"[hero.name]") style "TisaOTMol" size 28  xalign 0.492 ypos 5
         hbox:
             spacing 1
             if (hero.level) <10:
@@ -320,7 +320,7 @@ screen pyt_hero_profile():
                         # yoffset 33
                         has vbox spacing -4
                         for e in hero.elements:
-                            textbutton "{=tisa_otm}{size=15}[e.id]":
+                            textbutton "{=TisaOTM}{size=15}[e.id]":
                                 background None
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)

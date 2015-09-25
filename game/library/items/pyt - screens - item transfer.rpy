@@ -91,10 +91,10 @@ screen pyt_items_transfer():
         xysize (1285, 46)
         if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
             if pytfall.it.left_char and isinstance(pytfall.it.left_char, Char):
-                text ("%s ---- %s" % (pytfall.it.left_char.occupation, pytfall.it.left_char.action)) align (0.09, 0.5) style "content_text" color ivory size 20
+                text "[pytfall.it.left_char.traits.base_to_string] ---- [pytfall.it.left_char.action]" align (0.09, 0.5) style "content_text" color ivory size 20
         if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
             if pytfall.it.right_char and isinstance(pytfall.it.right_char, Char):
-                text ("%s ---- %s" % (pytfall.it.right_char.occupation, pytfall.it.right_char.action)) align (0.92, 0.5) style "content_text" color ivory size 20
+                text "[pytfall.it.right_char.traits.base_to_string] ---- [pytfall.it.right_char.action]" align (0.92, 0.5) style "content_text" color ivory size 20
                 
     # Members + Items
     if hasattr(pytfall, "it") and pytfall.it.populate_character_viewports()[0]:
@@ -137,9 +137,9 @@ screen pyt_items_transfer():
                                             xysize(150, 10)
                                             ypadding 0
                                             if len(lmember.name) > 10: # Gismo: For buildings???
-                                                text "{color=[gold]}[lmember.name]" style "interactions_text1" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[lmember.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                                             else:
-                                                text "{color=[gold]}[lmember.name]" style "interactions_text1" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[lmember.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
 
                     vbar value YScrollValue("left_members")
                 
@@ -210,9 +210,9 @@ screen pyt_items_transfer():
                                             xysize(150, 10)
                                             ypadding 0
                                             if len(rmember.name) > 10: # Gismo: For buildings???
-                                                text "{color=[gold]}[rmember.name]" style "interactions_text1" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[rmember.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                                             else:
-                                                text "{color=[gold]}[rmember.name]" style "interactions_text1" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                text "{color=[gold]}[rmember.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
                     vbar value YScrollValue("right_members")
             frame:
                 pos (172, -40)

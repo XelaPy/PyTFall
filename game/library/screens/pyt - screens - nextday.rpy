@@ -1847,7 +1847,7 @@ screen pyt_next_day():
                             vbox:
                                 null height 10
                                 #text (u"{color=#f1f1e1}%s" % event.txt) font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #ivory
-                                text (u"{color=#ecc88a}%s" % event.txt) font "fonts/TisaOTM.otf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5 #yellow
+                                text u"[event.txt]" style "TisaOTMolxm" size 20 # !!!
                         vbar value YScrollValue("nextdaytxt_vp")
                  
         mousearea:

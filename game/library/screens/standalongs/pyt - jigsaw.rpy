@@ -49,40 +49,42 @@ label jigsaw_puzzle_start:
     
     $ grid_width = 3       # default value
     $ grid_height = 3       # default value
-    $ puzzle_field_size = 700       # should be less then minimal of config.screen_width and config.screen_height values
+    $ puzzle_field_size = 655       # should be less then minimal of config.screen_width and config.screen_height values
     $ puzzle_field_offset = 50       # the offset from top left corner
     $ puzzle_piece_size = 450       # the size of stencil images that are used to create puzzle piece
     $ grip_size = 75       # see "_how_to_make_a_tile.png" file
     $ active_area_size = puzzle_piece_size - (grip_size * 2)
-    $ img_width, img_height = renpy.image_size(pyt_gallery.imagepath)
-    $ renpy.call_screen("control_scr", pyt_gallery.imagepath, img_width, img_height)
-    $ chosen_img = pyt_gallery.imagepath
+    
+    $ img_to_play  = ProportionalScale("/".join([pyt_gallery.girl.path_to_imgfolder, pyt_gallery.imagepath]), puzzle_field_size, puzzle_field_size)
+    $ img_width, img_height = img_to_play.true_size()
+    $ renpy.call_screen("control_scr", img_to_play)
+    # $ chosen_img = jigsaw_img
 
     python:
         
-        img_width, img_height = renpy.image_size(chosen_img)
-        
-        # scales down an image to fit the puzzle_field_size
-        if img_width >= img_height and img_width > puzzle_field_size:
-            img_scale_down_index = round( (1.00 * puzzle_field_size / img_width), 6)
-            img_to_play = im.FactorScale(chosen_img, img_scale_down_index)
-            img_width = int(img_width * img_scale_down_index)
-            img_height = int(img_height * img_scale_down_index)
-            
-        elif img_height >= img_width and img_height > puzzle_field_size:
-            img_scale_down_index = round( (1.00 * puzzle_field_size / img_height), 6)
-            img_to_play = im.FactorScale(chosen_img, img_scale_down_index)
-            img_width = int(img_width * img_scale_down_index)
-            img_height = int(img_height * img_scale_down_index)
-            
-        else:
-            img_to_play = chosen_img
-        
+        # img_width, img_height = renpy.image_size(chosen_img)
+#         
+        # # scales down an image to fit the puzzle_field_size
+        # if img_width >= img_height and img_width > puzzle_field_size:
+            # img_scale_down_index = round( (1.00 * puzzle_field_size / img_width), 6)
+            # img_to_play = im.FactorScale(chosen_img, img_scale_down_index)
+            # img_width = int(img_width * img_scale_down_index)
+            # img_height = int(img_height * img_scale_down_index)
+#             
+        # elif img_height >= img_width and img_height > puzzle_field_size:
+            # img_scale_down_index = round( (1.00 * puzzle_field_size / img_height), 6)
+            # img_to_play = im.FactorScale(chosen_img, img_scale_down_index)
+            # img_width = int(img_width * img_scale_down_index)
+            # img_height = int(img_height * img_scale_down_index)
+#             
+        # else:
+            # img_to_play = chosen_img
+#         
         x_scale_index = round( (1.00 * (img_width/grid_width)/active_area_size), 6)
         y_scale_index = round( (1.00 * (img_height/grid_height)/active_area_size), 6)
         
+        # mainimage = im.Composite((int(img_width+(grip_size*2)*x_scale_index), int(img_height+(grip_size*2)*y_scale_index)),(int(grip_size*x_scale_index), int(grip_size*y_scale_index)), img_to_play)
         mainimage = im.Composite((int(img_width+(grip_size*2)*x_scale_index), int(img_height+(grip_size*2)*y_scale_index)),(int(grip_size*x_scale_index), int(grip_size*y_scale_index)), img_to_play)
-        
         # some calculations
         top_row = []
         for i in range (0, grid_width):
@@ -183,17 +185,17 @@ label win:
             jump gallery
 
 
-screen control_scr(current_file, img_width, img_height):
+screen control_scr(preview):
 
-    if img_width>600 or img_height>600:
-        if img_width > img_height:
-            $ preview_scale = 600.00 / img_width
-        else:
-            $ preview_scale = 600.00 / img_height
-    else:
-        $ preview_scale = 1
-        
-    $ preview = im.FactorScale(current_file, preview_scale)
+    # if img_width>600 or img_height>600:
+        # if img_width > img_height:
+            # $ preview_scale = 600.00 / img_width
+        # else:
+            # $ preview_scale = 600.00 / img_height
+    # else:
+        # $ preview_scale = 1
+         
+    # $ preview = im.FactorScale(current_file, preview_scale)
     
     add preview xpos 450 ypos 100
         
@@ -224,7 +226,8 @@ screen control_scr(current_file, img_width, img_height):
         xysize (100, 40)
         style_group "basic"
         text "Done" size 35
-        action If(current_file != 0, Return(current_file))
+        # action If(current_file != 0, Return(current_file))
+        action Return()
         align (0.5, 0.98)
         
     imagebutton:
@@ -233,18 +236,17 @@ screen control_scr(current_file, img_width, img_height):
         hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(0.15)))
         action Jump("gallery")
         
-screen jigsaw:
+screen jigsaw():
     
-    key "rollback" action [[]]
-    key "rollforward" action [[]]
+    key "rollback" action NullAction()
+    key "rollforward" action NullAction()
     
-    add im.Scale("content/gfx/frame/_puzzle_field.png", img_width, img_height) pos(puzzle_field_offset, puzzle_field_offset)
+    add im.Scale("content/gfx/frame/_puzzle_field.png", img_width, img_height) pos (puzzle_field_offset, puzzle_field_offset)
     
     draggroup:
-
-        for i in range(0, grid_width):
-            for j in range(0, grid_height):
-                $ name = "%s%s"%(i,j)
+        for i in xrange(0, grid_width):
+            for j in xrange(0, grid_height):
+                $ name = "%s%s"%(i, j)
                 $ my_x = i*int(active_area_size*x_scale_index)+puzzle_field_offset
                 $ my_y = j*int(active_area_size*y_scale_index)+puzzle_field_offset
                 drag:
@@ -261,7 +263,7 @@ screen jigsaw:
                     child imagelist[i,j]
                     #droppable False
                     dragged piece_dragged
-                    xpos piecelist[i,j][0] ypos piecelist[i,j][1]
+                    xpos piecelist[i, j][0] ypos piecelist[i, j][1]
 
     imagebutton:
         align(1.0, 0.0)

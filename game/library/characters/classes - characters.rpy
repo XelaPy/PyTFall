@@ -76,6 +76,10 @@ init -9 python:
             
             return super(Traits, self).__contains__(item)
             
+        @property
+        def base_to_string(self):
+            return ", ".join(sorted(list(str(t) for t in self.basetraits)))
+            
         def apply(self, trait, truetrait=True): # Applies trait effects
             """
             Activates trait and applies it's effects all the way up to a current level of the characters.
@@ -2334,7 +2338,7 @@ init -9 python:
             self.fullname = 'Player'
             self.nickname = 'Player'
             self._location = locations["Streets"]
-            self.occupation = "Warrior"
+            self.occupation = "Warrior" # TODO: THIS NEEDS TO GO
             self.status = "free"
             self.gender = "male"
             
@@ -2812,10 +2816,6 @@ init -9 python:
             self.race = ""
             # Compability with crazy mod:
             self.desc = ""
-            if dice(80):
-                self.occupation = "Prostitute"
-            else:
-                self.occupation = choice(["Stripper", "ServiceGirl"])
             self.status = "slave"
             self._location = "slavemarket"
             
@@ -2949,14 +2949,8 @@ init -9 python:
                 
             # Class | Status normalization:
             # TODO: REMOVE CLASSES FROM HERE!
-            
-            # @Review: Updating to work with new basetraits:
-            # TODO: Parts of this code are temporary! (.occpation check until it is removed) Also remove CLASSES from PytCharacter once that is done!
-            if self.occupation not in self.CLASSES:
-                self.occupation = random.sample(self.CLASSES, 1).pop()
-                
-            if not self.traits.basetraits:
-                pattern = create_traits_base(self.occupation)
+            if not self.traits.basetraits: # TODO: Just until all chars have proper jsons...
+                pattern = create_traits_base(random.sample(self.CLASSES, 1).pop())
                 for i in pattern:
                     self.traits.basetraits.add(i)
                     self.apply_trait(i)
@@ -3127,7 +3121,13 @@ init -9 python:
         def add_money(self, value, reason="Other"):
             self.fin.add_money(value, reason)
         ### Displaying images
-        #@property
+        @property
+        def path_to_imgfolder(self):
+            if isinstance(self, rChar):
+                return rchars[self.id]["_path_to_imgfolder"]
+            else:
+                return self._path_to_imgfolder
+        
         def _portrait(self, st, at):
             if self.flag("fixed_portrait"):
                 return self.flag("fixed_portrait"), None
@@ -3230,6 +3230,13 @@ init -9 python:
             exclude = kwargs.get("exclude", None)
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
+            
+            if "-" in tags[0]:
+                _path = "/".join([self.path_to_imgfolder, tags[0]])
+                if renpy.loadable(_path):
+                    return ProportionalScale(_path, maxw, maxh)
+                else:
+                    return ProportionalScale("content/gfx/interface/images/no_image.png", maxw, maxh)
 
             add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
             if set(tags).intersection(self.MOOD_TAGS):
@@ -3332,7 +3339,9 @@ init -9 python:
             if not imgpath:
                 devlog.warning(str("Total failure while looking for image with %s tags!!!" % sorted(tags)))
                 imgpath = "content/gfx/interface/images/no_image.png"
-            
+            else: # We have an image, time to convert it to full path.
+                imgpath = "/".join([self.path_to_imgfolder, imgpath])
+                
             if label_cache:
                 self.img_cache.append([tags, last_label, imgpath])
                  

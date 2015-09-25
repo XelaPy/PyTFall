@@ -93,7 +93,7 @@ init -9 python:
             # Only get girls that (don't) match occupation list
             # TODO: NOT SURE IF THIS IS CORRECT AFTER THE REVIEW!
             elif isinstance(occupation, (list,tuple)):
-                return [girl for girl in g if [tr for tr in girl.occupation if tr in occupation] != nott]
+                return [girl for girl in g if [tr for tr in girl.occupations if tr in occupation] != nott]
             
             # Only get girls with specific occupation
             else:

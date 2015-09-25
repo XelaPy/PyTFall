@@ -1,4 +1,4 @@
-# The image tagging system of PytFall
+# The image tagging system of PyTFall
 
 init -9 python:
     class TagDatabase(_object):
@@ -46,6 +46,7 @@ init -9 python:
                 
         def __init__(self):
             # maps image tags to sets of image paths
+            self.all_tags = set(tags_dict.values())
             self.tagmap = {}
             # stores relative paths to untagged images
             self.untagged = set()
@@ -98,7 +99,7 @@ init -9 python:
             
         def get_imgset_with_tag(self, tag):
             '''Returns a set of paths to images, all of which are tagged with tag.
-            ''' 
+            '''
             try:
                 imgpathset = self.tagmap[tag]
             except KeyError:
@@ -140,18 +141,17 @@ init -9 python:
             """
             Returns a dict of tags as keys and amount of tags in the datebase
             character = character object
-            4 Post-@ code review: Is this a stupid way of doing it?
+            4 Post-@ code review: Is this a stupid way of doing it? ==> It was...
             """
             tags = dict()
-            for key in self.tagmap:
-                for tag in self.tagmap[key]:
-                    if len(tag.split("\\")) == 5 and tag.split("\\")[3] == character.id:
-                        tags[key] = tags.get(key, 0) + 1
-                    elif len(tag.split("/")) == 5 and tag.split("/")[3] == character.id:
-                        tags[key] = tags.get(key, 0) + 1
-                    else:
-                        pass
-                        # raise Error, "Unexpected path format: %s | Character: %s!"%([tag, tag.split()], character.id)
+            all_tags = self.all_tags.copy()
+            all_tags.add(character.id)
+            images = self.get_imgset_with_tag(character.id)
+            for img in images:
+                tags_per_path = self.get_tags_per_path(img)
+                for tag in tags_per_path:
+                    if tag in all_tags:
+                        tags[tag] = tags.get(tag, 0) + 1
             return tags
             
         def get_tags_per_path(self, path):    

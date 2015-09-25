@@ -7,7 +7,7 @@ label tenten_first_meeting:
     $ ten_spr = chars["Tenten"].get_vnsprite()
     $ tem = chars["Temari"]
     $ tem_spr = chars["Temari"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     show expression ten_spr at mid_right
     show expression tem_spr at mid_left
     with dissolve
@@ -35,7 +35,7 @@ label tenten_first_meeting:
     "Looks like a severe case. The best approach would be to find her equipment for a start."
     $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You met Tenten, a tomboyish kunoichi who lost her weapon scrolls. Here we give a quest find them in SE -_-")
     scene black with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label tenten_second_meeting: # after finding the summon scroll
     scene black
@@ -44,7 +44,7 @@ label tenten_second_meeting: # after finding the summon scroll
     $ ten_spr = chars["Tenten"].get_vnsprite()
     $ tem = chars["Temari"]
     $ tem_spr = chars["Temari"].get_vnsprite()
-    show bg hidden_village with dissolve
+    show bg hiddenvillage_entrance with dissolve
     "Armed with ninja scrolls, you carefully approach the girl."
     $ ten.override_portrait("portrait", "angry")
     show expression ten_spr at center with dissolve
@@ -114,7 +114,7 @@ label tenten_second_meeting: # after finding the summon scroll
         for member in your_team:
             member.controller = BE_AI(member)
     $ your_team.add(hero)
-    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()
@@ -143,12 +143,12 @@ label tenten_second_meeting: # after finding the summon scroll
     $ ten.set_flag("quest_cannot_be_fucked", value=False)
     $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You managed to get closer to her. Now it's up to your charisma.")
     scene black with dissolve
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
 
 label tenten_finish_quest:
     "Tenten was the easiest target ever. It's hard to be a tomboy..."
     $ pytfall.world_quests.get("Weapons Specialist").finish_in_label("You took care of Tenten's virginity.", "complete")
-    jump hiddenVillage_entrance
+    jump hiddenvillage_entrance
     
 label tenten_bonus_scene: # random scene after doing it with both temari and tenten
     stop music
