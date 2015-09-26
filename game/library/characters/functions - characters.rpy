@@ -398,11 +398,14 @@ init -11 python:
         
         This func cannot be used to make a playable character that can properly interact with the game world.
         """
-        new = deepcopy(char)
+        # new = deepcopy(char)
+        # Trying to improve the performace:
+        new = pickle.loads(pickle.dumps(char, -1))
         new.stats.instance = new
         new.traits.instance = new
         new.fin.instance = new
         new.resist.instance = new
+        new.eqslots = char.eqslots.copy()
         new.attack_skills.instance = new
         new.magic_skills.instance = new
         return new

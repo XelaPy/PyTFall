@@ -36,6 +36,7 @@ init -999 python:
     import xml.etree.ElementTree as ET
     sys.path.append(renpy.loader.transfn("library"))
     import simpy
+    import cPickle as pickle
     
     # def listdir_nohidden(path):
         # for f in os.listdir(path):

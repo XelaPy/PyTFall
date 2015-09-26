@@ -33,6 +33,7 @@ label char_equip:
                     
             elif result[0] == "equip_for":
                 renpy.show_screen("pyt_equip_for", renpy.get_mouse_pos())
+                dummy = None
                 
             elif result[0] == "item":
                 if result[1] == 'equip/unequip':
@@ -43,6 +44,7 @@ label char_equip:
                             continue
                         if eqtarget == hero: # Simpler MCs logic:
                             equip_item(focusitem, eqtarget)
+                            dummy = None
                         else: # Actors: Maybe it's a good idea to encapsulate this:
                             if eqtarget.status == "slave" and focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
                                 renpy.show_screen('pyt_message_screen', "Slaves are forbidden to equip large weapons by law!")
@@ -53,6 +55,7 @@ label char_equip:
                                         eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
                                     else:
                                         equip_item(focusitem, eqtarget)
+                                        dummy = None
                                         # eqtarget.equip(focusitem)
                                 else:
                                     if all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
@@ -60,11 +63,13 @@ label char_equip:
                                     else:
                                         if transfer_items(inv_source, eqtarget, focusitem):
                                             equip_item(focusitem, eqtarget)
+                                            dummy = None
                             
                     elif item_direction == 'unequip':
                         if eqtarget == hero:
                             hero.unequip(focusitem)
-                        else:    
+                            dummy = None
+                        else:
                             if eqtarget.status != "slave" and eqtarget.disposition < 850:
                                 eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
                             else:
@@ -74,9 +79,11 @@ label char_equip:
                                                                  "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                                     else:
                                         eqtarget.unequip(focusitem)
+                                        dummy = None
                                         transfer_items(eqtarget, hero, focusitem)
                                 else: # Slave condition:
                                     eqtarget.unequip(focusitem)
+                                    dummy = None
                                     eqtarget.inventory.remove(focusitem)
                                     inv_source.inventory.append(focusitem)
                             
@@ -89,8 +96,14 @@ label char_equip:
                     item_direction = 'equip'
                     
                     # # To Calc the effects:
-                    # dummy = copy_char(eqtarget)
-                    # equip_item(focusitem, dummy, silent=True)
+                    # if reset_dummy:
+                    dummy = copy_char(eqtarget)
+                    # else:
+                        # for slot in eqtarget.eqslots:
+                            # if eqtarget.eqslots[slot] != dummy.eqslots[slot]:
+                                # if not 
+                                # dummy.unequip(dummy.eqslots[slot])
+                    equip_item(focusitem, dummy, silent=True)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
                         
                 elif result[1] == 'unequip':
@@ -100,8 +113,9 @@ label char_equip:
                         item_direction = 'unequip'
                         
                     # To Calc the effects:
-                    # dummy = copy_char(eqtarget)
-                    # dummy.unequip(focusitem)
+                    dummy = copy_char(eqtarget)
+                    dummy.eqslots[selectedslot] = focusitem
+                    dummy.unequip(focusitem)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
             
             elif result[0] == 'con':
@@ -263,75 +277,143 @@ screen pyt_char_equip():
             xmaximum 218
             
             if stats_display == "stats":
-                frame:
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                vbox spacing 5:
                     pos (4, 40)
-                    yminimum 285
-                    
-                    # STATS ============================>
-                    hbox:
-                        xanchor -2
-                        if eqtarget == hero:
-                            $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "libido"]
-                        else:
-                            $ stats = ["constitution", "charisma", "intelligence", "character", "reputation", "joy", "disposition"]
-                        vbox:
-                            style_group "stats"
-                            spacing -7
-                            xanchor 2
-                            xmaximum 113
-                            frame:
-                                xysize (207, 8)
-                                text "{color=#CD4F39}Health:" xalign (0.02)
-                            frame:
-                                xysize (207, 8)
-                                text "{color=#43CD80}Vitality:" xalign (0.02)
-                            for stat in stats:
-                                frame:
-                                    xysize (207, 8)
-                                    text ('{color=#79CDCD}%s'%stat.capitalize()) color ivory size 17 xalign (0.02) 
-                        vbox:
-                            yalign (0.65)
-                            spacing 8
-                            xanchor 20
-                            xfill True
-                            xminimum 0
-                            xmaximum 120
-                            
-                            if eqtarget.health <= eqtarget.get_max("health")*0.3:
-                                text (u"{color=[red]}%s/%s"%(eqtarget.health, eqtarget.get_max("health"))) style "stats_value_text" xalign (1.0)
-                            else:
-                                text (u"{color=#F5F5DC}%s/%s"%(eqtarget.health, eqtarget.get_max("health"))) style "stats_value_text" xalign (1.0)
-                            if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3:
-                                text (u"{color=[red]}%s/%s"%(eqtarget.vitality, eqtarget.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                            else:
-                                text (u"{color=#F5F5DC}%s/%s"%(eqtarget.vitality, eqtarget.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                        
-                            for stat in stats:
-                                text ('{color=#F5F5DC}%d/%d'%(getattr(eqtarget, stat), eqtarget.get_max(stat))) style "stats_value_text" xalign (1.0)
-            
-                # BATTLE STATS ============================>
-                frame:
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
-                    yalign 1.0
-                    xpos 4
-                    yoffset -201
-                    xmaximum 218
-                    ypadding 10
-                    
-                    vbox:
-                        text (u"{size=18}{color=#CDCDC1}{b}Battle Stats:") xalign(0.49) style_group "ddlist"
+                    frame:
+                        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                        yminimum 270
+                        xsize 218
+                        xpadding 0
+                        ypadding 0
+                        xmargin 0
+                        ymargin 0
                         style_group "stats"
-                        spacing -6
+                        has vbox spacing -7
+                        # STATS ============================>
+                        $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "libido"] if eqtarget == hero else ["constitution", "charisma", "intelligence", "character", "reputation", "joy", "disposition"]
+                        null height 10
+                        frame:
+                            xalign 0.5
+                            xysize (215, 35)
+                            left_padding 9
+                            right_padding 11
+                            top_padding 4
+                            bottom_padding 1
+                            xmargin 0
+                            ymargin 0
+                            text "{color=#CD4F39}Health:" xalign (0.02)
+                            $ tempc = renpy.easy.color(red) if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
+                            if dummy:
+                                python:
+                                    temp = getattr(dummy, "health") - getattr(eqtarget, "health") if dummy else False
+                                    tempmax = dummy.get_max("health") - eqtarget.get_max("health") if dummy else False
+                                    tempstr = "{color=[tempc]}%s{/color}"%eqtarget.health
+                                    if temp:
+                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
+                                    tempstr = tempstr + "{color=#F5F5DC}/%s{/color}"%eqtarget.get_max("health")
+                                    if tempmax:
+                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                            else:
+                                text u"[eqtarget.health]/{}".format(eqtarget.get_max("health")) style "stats_value_text" xalign 1.0 color tempc  yoffset 3
+                        
+                        frame:
+                            xalign 0.5
+                            xysize (215, 35)
+                            left_padding 9
+                            right_padding 11
+                            top_padding 4
+                            bottom_padding 1
+                            xmargin 0
+                            ymargin 0
+                            text "{color=#43CD80}Vitality:" xalign (0.02)
+                            $ tempc = renpy.easy.color(red) if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
+                            if dummy:
+                                python:
+                                    temp = getattr(dummy, "vitality") - getattr(eqtarget, "vitality") if dummy else False
+                                    tempmax = dummy.get_max("vitality") - eqtarget.get_max("vitality") if dummy else False
+                                    tempstr = "{color=[tempc]}%s{/color}"%eqtarget.vitality
+                                    if temp:
+                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
+                                    tempstr = tempstr + "{color=#F5F5DC}/%s{/color}"%eqtarget.get_max("vitality")
+                                    if tempmax:
+                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                            else:
+                                text u"[eqtarget.vitality]/{}".format(eqtarget.get_max("vitality")) style "stats_value_text" xalign 1.0 color tempc  yoffset 3
+                            
+                        for stat in stats:
+                            frame:
+                                xalign 0.5
+                                xysize (215, 35)
+                                left_padding 9
+                                right_padding 11
+                                top_padding 4
+                                bottom_padding 1
+                                xmargin 0
+                                ymargin 0
+                                text "{color=#79CDCD}%s"%stat.capitalize() xalign (0.02)
+                                if dummy:
+                                    python:
+                                        temp = getattr(dummy, stat) - getattr(eqtarget, stat) if dummy else False
+                                        tempmax = dummy.get_max(stat) - eqtarget.get_max(stat) if dummy else False
+                                        tempstr = "{color=[ivory]}%s{/color}"%getattr(eqtarget, stat)
+                                        if temp:
+                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
+                                        tempstr = tempstr + "{color=[ivory]}/%s{/color}"%eqtarget.get_max(stat)
+                                        if tempmax:
+                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                    text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                                else:
+                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) style "stats_value_text" xalign 1.0 color ivory yoffset 3
+                                            
+                    # BATTLE STATS ============================>
+                    frame:
+                        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                        xysize (218, 230)
+                        xpadding 0
+                        ypadding 0
+                        xmargin 0
+                        ymargin 0
+                        style_group "stats"
+                        has vbox spacing -7
+                        
+                        null height 10
+                        label (u"{size=18}{color=#CDCDC1}{b}Battle Stats:") xalign(0.49)
                         $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
                         
                         null height 10
                     
                         for stat, color in stats:
                             frame:
-                                xysize (207, 31)
-                                text "[stat]" color color size 16 align (0.02, 0.5)
-                                text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) style "stats_value_text" color color size 16 align (0.98, 0.5)
+                                xalign 0.5
+                                xysize (215, 35)
+                                left_padding 9
+                                right_padding 11
+                                top_padding 4
+                                bottom_padding 1
+                                xmargin 0
+                                ymargin 0
+                                text "[stat]" color color size 16 xalign (0.02)
+                                $ stat = stat.lower()
+                                if stat == "mp":
+                                    $ tempc = renpy.easy.color(red) if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
+                                else:
+                                    $ tempc = color
+                                if dummy:
+                                    python:
+                                        temp = getattr(dummy, stat) - getattr(eqtarget, stat) if dummy else False
+                                        tempmax = dummy.get_max(stat) - eqtarget.get_max(stat) if dummy else False
+                                        tempstr = "{color=[tempc]}%s{/color}"%getattr(eqtarget, stat)
+                                        if temp:
+                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
+                                        tempstr = tempstr + "{color=[color]}/%s{/color}"%eqtarget.get_max(stat)
+                                        if tempmax:
+                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                    text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                                else:
+                                    text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) style "stats_value_text" color color  xalign 1.0  yoffset 3
+                                
             
             elif stats_display == "pro":
                 frame:
