@@ -392,3 +392,17 @@ init -11 python:
                 arena_girl.arena_willing = True
                 arena_girl.arena_active = False # Should prolly be moved to preparation?
                 arena_girl.status = "free"
+                
+    def copy_char(char):
+        """Due to some sh!tty coding on my part, just a simple deepcopy/copy will not do :(
+        
+        This func cannot be used to make a playable character that can properly interact with the game world.
+        """
+        new = deepcopy(char)
+        new.stats.instance = new
+        new.traits.instance = new
+        new.fin.instance = new
+        new.resist.instance = new
+        new.attack_skills.instance = new
+        new.magic_skills.instance = new
+        return new

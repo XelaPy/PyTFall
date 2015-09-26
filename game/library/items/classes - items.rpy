@@ -100,7 +100,7 @@ init -9 python:
             Filter for items
             Currently filtered by slot
             """
-            if last_label in ("girl_profile", "girl_equip", "items_transfer"):
+            if last_label in ("girl_profile", "char_equip", "items_transfer"):
                 self.FILTERS = self.GEQ_FILTERS
             else:
                 self.FILTERS = self.ALL_FILTERS
@@ -118,14 +118,14 @@ init -9 python:
             if filter == 'all':
                 if self.male_filter:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].sex != "female")
-                elif last_label in ("girl_equip", "items_transfer") or self.female_filter:
+                elif last_label in ("char_equip", "items_transfer") or self.female_filter:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].sex != "male" and items[item].slot in self.FILTERS)
                 else:
                     self.items = list(items[item] for item in self.content.iterkeys())
             else:
                 if self.male_filter:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].slot == filter and items[item].sex != 'female')
-                elif last_label in ("girl_equip", "items_transfer") or self.female_filter:
+                elif last_label in ("char_equip", "items_transfer") or self.female_filter:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].slot == filter and items[item].sex != 'male')
                 else:    
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].slot == filter)

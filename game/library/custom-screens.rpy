@@ -617,7 +617,7 @@ init: # PyTFall:
                             action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                             hovered tt.Action("Return to Main Screen!")
                             
-                    if renpy.current_screen().tag in ["pyt_girl_profile", "pyt_girl_equip"] and char.action != "Exploring":
+                    if renpy.current_screen().tag in ["pyt_girl_profile", "pyt_char_equip"] and char.action != "Exploring":
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))

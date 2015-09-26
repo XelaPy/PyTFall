@@ -1,4 +1,4 @@
-label girl_equip:
+label char_equip:
     python:
         focusitem = False
         selectedslot = None
@@ -8,12 +8,13 @@ label girl_equip:
         hero.inventory.set_page_size(16)
         # hero.inventory.famale_filter = True
         inv_source = eqtarget
+        dummy = None
     
     scene bg gallery3
     
     $ global_flags.set_flag("hero_equip")
     $ renpy.retain_after_load()
-    show screen pyt_girl_equip
+    show screen pyt_char_equip
     
     python:
         
@@ -24,7 +25,7 @@ label girl_equip:
             result = ui.interact()
             
             if result[0] == "jump":
-                renpy.hide_screen("pyt_girl_equip")
+                renpy.hide_screen("pyt_char_equip")
                 if result[1] == "item_transfer":
                     renpy.hide_screen("pyt_girl_control")
                     pytfall.it = GuiItemsTransfer("personal_transfer", char=eqtarget, last_label=last_label)
@@ -37,20 +38,7 @@ label girl_equip:
                 if result[1] == 'equip/unequip':
                     if item_direction == 'equip':
                         # Common to any eqtarget:
-                        if focusitem.slot == "quest":
-                            renpy.show_screen('pyt_message_screen', "Quest items cannot be equipped!")
-                            focusitem = False
-                            continue
-                        elif focusitem.unique and focusitem.unque != eqtarget.id:
-                            renpy.show_screen('pyt_message_screen', "%s cannot be equipped on this eqtargetacter!"  % focusitem.id)
-                            focusitem = False
-                            continue
-                        elif focusitem.sex != eqtarget.gender and focusitem.sex != "unisex":
-                            renpy.show_screen('pyt_message_screen', "{} item cannot be equipped on a eqtargetacter of {} gender!".format(focusitem.id, eqtarget.gender))
-                            focusitem = False
-                            continue
-                        elif focusitem.slot == "gift":
-                            renpy.show_screen('pyt_message_screen', "Gifts are only used during Girlsmeets!")
+                        if not can_equip(focusitem, eqtarget, silent=False):
                             focusitem = False
                             continue
                         if eqtarget == hero: # Simpler MCs logic:
@@ -99,12 +87,22 @@ label girl_equip:
                     focusitem = result[2]
                     selectedslot = focusitem.slot
                     item_direction = 'equip'
+                    
+                    # # To Calc the effects:
+                    # dummy = copy_char(eqtarget)
+                    # equip_item(focusitem, dummy, silent=True)
+                    # renpy.show_screen("diff_item_effects", eqtarget, dummy)
                         
                 elif result[1] == 'unequip':
                     selectedslot = result[2].slot
                     if selectedslot:
                         focusitem = result[2]
                         item_direction = 'unequip'
+                        
+                    # To Calc the effects:
+                    # dummy = copy_char(eqtarget)
+                    # dummy.unequip(focusitem)
+                    # renpy.show_screen("diff_item_effects", eqtarget, dummy)
             
             elif result[0] == 'con':
                 if result[1] == 'return':
@@ -115,7 +113,7 @@ label girl_equip:
                 if result[1] == 'return':
                     break
     
-    hide screen pyt_girl_equip
+    hide screen pyt_char_equip
     $ global_flags.del_flag("hero_equip")
     
     python:
@@ -167,7 +165,7 @@ screen pyt_equip_for(pos=()):
             textbutton "Close":
                 action Hide("pyt_equip_for")
     
-screen pyt_girl_equip():
+screen pyt_char_equip():
     
     # Useful keymappings (first time I try this in PyTFall): ====================================>
     if focusitem:
@@ -782,3 +780,36 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                                     frame:
                                                         xsize 142
                                                         text(u'{color=#CD4F39}%s'%skill.capitalize()) size 16 yalign 0.5
+                                                        
+                                                        
+screen diff_item_effects(char, dummy):
+    zorder 10
+    textbutton "X":
+        align (1.0, 0.0)
+        action Hide("diff_item_effects")
+    frame:
+        xysize (1000, 500)
+        background Solid("#F00", alpha=0.1)
+        align (0.1, 0.5)
+        has hbox
+        
+        vbox:
+            text "Stats:"
+            for stat in char.stats:
+                text "[stat]: {}".format(getattr(dummy, stat) - getattr(char, stat))
+        vbox:
+            text "Max Stats:"
+            for stat in char.stats:
+                text "[stat]: {}".format(dummy.get_max(stat) - char.get_max(stat))
+        vbox:
+            for skill in char.stats.skills:
+                text "[skill]: {}".format(dummy.get_skill(skill) - char.get_skill(skill))
+        vbox:
+            text "Traits (any):"
+            python:
+                t_old = set(t.id for t in char.traits)
+                t_new = set(t.id for t in dummy.traits)
+                temp = t_new.difference(t_old)
+                temp = sorted(list(temp))
+            for t in temp:
+                text "[t]"

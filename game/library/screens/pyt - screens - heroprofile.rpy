@@ -46,7 +46,7 @@ label hero_profile:
             if result[1] == 'equip':
                 $ came_to_equip_from = "hero_profile"
                 $ eqtarget = hero
-                jump girl_equip
+                jump char_equip
                 # if renpy.get_screen('pyt_hero_equip'):
                     # hide screen pyt_hero_equip
                     # $ pytfall.hp.show_item_info = False

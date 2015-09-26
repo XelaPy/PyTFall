@@ -563,7 +563,7 @@ screen pyt_girl_profile():
                             text "Girl Control"
                         button:
                             xysize (150, 40)
-                            action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('girl_equip')])
+                            action If(not_escaped, true=[Hide("pyt_girl_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
                             hovered tt.action('Access girls inverntory and equipment screen!')
                             text "Equipment"
                         button:

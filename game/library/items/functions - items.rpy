@@ -1,17 +1,37 @@
 init -11 python:
     # Equipment checks and area effects!
-    def equip_item(item, char):
+    def can_equip(item, char, silent=True):
+        """Checks if it is legal for a character to equip the item.
+        
+        @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
+        """
+        if all([item.unique, isinstance(char, Player), item.unique != "mc"]) or all([item.unique, item.unique != char.id]):
+            if not silent:
+                renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on {}!".format(char.name))
+            return
+        elif item.sex != char.gender and item.sex != "unisex":
+            if not silent:
+                renpy.show_screen('pyt_message_screen', "{} item cannot be equipped on a eqtargetacter of {} gender!".format(item.id, char.gender))
+            return
+        elif item.slot == "quest":
+            if not silent:
+                renpy.show_screen("pyt_message_screen", "Quest items cannot be equipped!")
+            return
+        elif item.slot == "gift":
+            if not silent:
+                renpy.call_screen("pyt_message_screen", "Gift slot items only serve purpose during girl meets!")
+            return
+        return True
+        
+    def equip_item(item, char, silent=False, area_effect=False):
         """
         First level of checks, all items should be equiped through this function!
-        TODO: Move this to Chracter equipment method?
+        TODO: Move this to Chracter equipment method? And Restore AREA EFFECT!
         """
-        if item.unique and item.unique != item.id:
-            renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on %s!" % char.name)
+        if not can_equip(item, char, silent=silent):
             return
-        if item.slot == "quest":
-            renpy.show_screen("pyt_message_screen", "Quest items cannot be equipped!")
-            return
-        if item.slot == 'consumable':
+        
+        if item.slot == 'consumable' and area_effect:
             if not item.ceffect:
                 char.equip(item)
             elif item.ceffect == 'brothelgirls':
@@ -54,10 +74,7 @@ init -11 python:
                 char.inventory.remove(item)
                 for girl in [girl for girl in hero.girls]:
                     girl.equip(item)
-
-        elif item.slot == "gift":
-            renpy.call_screen("pyt_message_screen", "Gift slot items only serve purpose during girl meets!")
-        else:    
+        else:
             char.equip(item)
             
     def equip_for(girl, jobtype):
