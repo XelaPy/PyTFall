@@ -3,6 +3,9 @@ init -9 python:
     """
     Alex: Why is all of this required? I cannot (yet) seen an advantage to writing any of these conditions to strings and evaluate those strings as/when needed.
     While that is possible also, it makes everything else redundant.
+    
+    @Review: I think that I've finally figured out what this is for, eval is usually not a very good idea in a sense that it can be slow.
+    This is a better bet for most conditioning. Basically the advantage is speed...
     """
     # 
     # Iff is used to hold and solve an if statement later, instead of immediately.

@@ -1,3 +1,26 @@
+# Temp code, should be moved to items funcs:
+init python:
+    def build_str_for_eq(eqtarget, dummy, stat, tempc):
+        temp = getattr(dummy, stat) - getattr(eqtarget, stat) if dummy else False
+        tempmax = dummy.get_max(stat) - eqtarget.get_max(stat) if dummy else False
+        if temp: # Case: Any Change to stat
+            # The first is the absolute change, we want it to be colored green if it is positive, and red if it is not.
+            tempstr = "{color=[green]}%s{/color}"%getattr(eqtarget, stat) if temp > 0 else "{color=[red]} %d{/color}"%temp
+            # Next is the increase:
+            tempstr = tempstr + "{color=[lawngreen]} +%d{/color}"%temp if temp > 0 else tempstr + "{size=-8}{color=[yellow]} (%d){/color}/(size)"%temp
+        else: # No change at all...
+            tempstr = "{color=[tempc]}%s{/color}"%getattr(eqtarget, stat)
+            
+        tempstr = tempstr + "{color=[tempc]}/{/color}"
+            
+        if tempmax:
+            # Absolute change of the max values, same rules as the actual values apply:
+            tempstr = tempstr + "{color=[green]}%s{/color}"%eqtarget.get_max(stat) if tempmax > 0 else tempstr + "{color=[red]} %d{/color}"%tempmax
+            tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[yellow]}{size=-8}{ (%d){/color}(/size)"%tempmax
+        else:
+            tempstr = tempstr + "{color=[tempc]}%s{/color}"%eqtarget.get_max(stat)
+        return tempstr
+
 label char_equip:
     python:
         focusitem = False
@@ -23,6 +46,9 @@ label char_equip:
         while 1:
             
             result = ui.interact()
+            
+            if not result:
+                continue
             
             if result[0] == "jump":
                 renpy.hide_screen("pyt_char_equip")
@@ -56,7 +82,6 @@ label char_equip:
                                     else:
                                         equip_item(focusitem, eqtarget)
                                         dummy = None
-                                        # eqtarget.equip(focusitem)
                                 else:
                                     if all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
                                         eqtarget.say(choice(["No way!", "I do not want this!", "No way in hell!"]))
@@ -70,22 +95,21 @@ label char_equip:
                             hero.unequip(focusitem)
                             dummy = None
                         else:
-                            if eqtarget.status != "slave" and eqtarget.disposition < 850:
-                                eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
-                            else:
-                                if inv_source == hero and eqtarget.status != "slave":
-                                    if any([(focusitem.slot == "misc" and item.mdestruct), eqtarget.given_items.get(focusitem.id, 0) - 1 < 0]):
-                                        eqtarget.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
-                                                                 "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
-                                    else:
-                                        eqtarget.unequip(focusitem)
-                                        dummy = None
-                                        transfer_items(eqtarget, hero, focusitem)
-                                else: # Slave condition:
+                            if eqtarget.status != "slave" and inv_source == hero:
+                                if any([(focusitem.slot == "misc" and focusitem.mdestruct), eqtarget.given_items.get(focusitem.id, 0) - 1 < 0]):
+                                    eqtarget.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
+                                                             "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                                else:
                                     eqtarget.unequip(focusitem)
+                                    transfer_items(eqtarget, hero, focusitem)
                                     dummy = None
-                                    eqtarget.inventory.remove(focusitem)
-                                    inv_source.inventory.append(focusitem)
+                            elif eqtarget.status != "slave" and eqtarget.disposition < 850:
+                                eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
+                            else: # Slave condition:
+                                eqtarget.unequip(focusitem)
+                                dummy = None
+                                eqtarget.inventory.remove(focusitem)
+                                inv_source.inventory.append(focusitem)
                             
                     selectedslot = False
                     focusitem = False
@@ -175,6 +199,7 @@ screen pyt_equip_for(pos=()):
                 else:
                     textbutton "[t]":
                         xminimum 200
+                        # action NullAction()
                         action [Function(eqtarget.equip_for, t), Hide("pyt_equip_for")]
             textbutton "Close":
                 action Hide("pyt_equip_for")
@@ -253,7 +278,7 @@ screen pyt_char_equip():
             else:
                 xpos 79
             label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)] ypos 173
-            label "{color=#CDAD00}[inv_source.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)] ypos 173
+            label "{color=#CDAD00}[eqtarget.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)] ypos 173
         
         # Left Frame Buttons: =====================================>
         hbox:
@@ -295,24 +320,11 @@ screen pyt_char_equip():
                         frame:
                             xalign 0.5
                             xysize (215, 35)
-                            left_padding 9
-                            right_padding 11
-                            top_padding 4
-                            bottom_padding 1
-                            xmargin 0
-                            ymargin 0
+                            style "base_stats_frame"
                             text "{color=#CD4F39}Health:" xalign (0.02)
-                            $ tempc = renpy.easy.color(red) if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
+                            $ tempc = red if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
                             if dummy:
-                                python:
-                                    temp = getattr(dummy, "health") - getattr(eqtarget, "health") if dummy else False
-                                    tempmax = dummy.get_max("health") - eqtarget.get_max("health") if dummy else False
-                                    tempstr = "{color=[tempc]}%s{/color}"%eqtarget.health
-                                    if temp:
-                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
-                                    tempstr = tempstr + "{color=#F5F5DC}/%s{/color}"%eqtarget.get_max("health")
-                                    if tempmax:
-                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                $ tempstr = build_str_for_eq(eqtarget, dummy, "health", tempc)
                                 text tempstr style "stats_value_text" xalign 1.0 yoffset 3
                             else:
                                 text u"[eqtarget.health]/{}".format(eqtarget.get_max("health")) style "stats_value_text" xalign 1.0 color tempc  yoffset 3
@@ -327,17 +339,9 @@ screen pyt_char_equip():
                             xmargin 0
                             ymargin 0
                             text "{color=#43CD80}Vitality:" xalign (0.02)
-                            $ tempc = renpy.easy.color(red) if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
+                            $ tempc = red if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
                             if dummy:
-                                python:
-                                    temp = getattr(dummy, "vitality") - getattr(eqtarget, "vitality") if dummy else False
-                                    tempmax = dummy.get_max("vitality") - eqtarget.get_max("vitality") if dummy else False
-                                    tempstr = "{color=[tempc]}%s{/color}"%eqtarget.vitality
-                                    if temp:
-                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
-                                    tempstr = tempstr + "{color=#F5F5DC}/%s{/color}"%eqtarget.get_max("vitality")
-                                    if tempmax:
-                                        tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                $ tempstr = build_str_for_eq(eqtarget, dummy, "vitality", tempc)
                                 text tempstr style "stats_value_text" xalign 1.0 yoffset 3
                             else:
                                 text u"[eqtarget.vitality]/{}".format(eqtarget.get_max("vitality")) style "stats_value_text" xalign 1.0 color tempc  yoffset 3
@@ -346,23 +350,10 @@ screen pyt_char_equip():
                             frame:
                                 xalign 0.5
                                 xysize (215, 35)
-                                left_padding 9
-                                right_padding 11
-                                top_padding 4
-                                bottom_padding 1
-                                xmargin 0
-                                ymargin 0
+                                style "base_stats_frame"
                                 text "{color=#79CDCD}%s"%stat.capitalize() xalign (0.02)
                                 if dummy:
-                                    python:
-                                        temp = getattr(dummy, stat) - getattr(eqtarget, stat) if dummy else False
-                                        tempmax = dummy.get_max(stat) - eqtarget.get_max(stat) if dummy else False
-                                        tempstr = "{color=[ivory]}%s{/color}"%getattr(eqtarget, stat)
-                                        if temp:
-                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
-                                        tempstr = tempstr + "{color=[ivory]}/%s{/color}"%eqtarget.get_max(stat)
-                                        if tempmax:
-                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                    $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
                                     text tempstr style "stats_value_text" xalign 1.0 yoffset 3
                                 else:
                                     text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) style "stats_value_text" xalign 1.0 color ivory yoffset 3
@@ -386,30 +377,17 @@ screen pyt_char_equip():
                     
                         for stat, color in stats:
                             frame:
+                                style "base_stats_frame"
                                 xalign 0.5
                                 xysize (215, 35)
-                                left_padding 9
-                                right_padding 11
-                                top_padding 4
-                                bottom_padding 1
-                                xmargin 0
-                                ymargin 0
                                 text "[stat]" color color size 16 xalign (0.02)
                                 $ stat = stat.lower()
                                 if stat == "mp":
-                                    $ tempc = renpy.easy.color(red) if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
+                                    $ tempc = red if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
                                 else:
                                     $ tempc = color
                                 if dummy:
-                                    python:
-                                        temp = getattr(dummy, stat) - getattr(eqtarget, stat) if dummy else False
-                                        tempmax = dummy.get_max(stat) - eqtarget.get_max(stat) if dummy else False
-                                        tempstr = "{color=[tempc]}%s{/color}"%getattr(eqtarget, stat)
-                                        if temp:
-                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%temp if temp > 0 else tempstr + "{color=[red]} %d"%temp
-                                        tempstr = tempstr + "{color=[color]}/%s{/color}"%eqtarget.get_max(stat)
-                                        if tempmax:
-                                            tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[red]} %d"%tempmax
+                                    $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
                                     text tempstr style "stats_value_text" xalign 1.0 yoffset 3
                                 else:
                                     text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) style "stats_value_text" color color  xalign 1.0  yoffset 3
@@ -458,9 +436,9 @@ screen pyt_char_equip():
                     
                     $ t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
                     
-                    if (not tt.value and inv_source == eqtarget) and eqtarget.status == "slave":
+                    if not tt.value and eqtarget.status == "slave":
                         text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
-                    elif (not tt.value and inv_source == eqtarget) and eqtarget.status == "free":
+                    elif not tt.value and eqtarget.status == "free":
                         text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
                     
                     #if isinstance(tt.value, BE_Action):

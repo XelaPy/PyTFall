@@ -296,6 +296,14 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         color black
         
     # Style used for Stats.
+    style base_stats_frame: # This one is presiently used in the equipment screen. It overrides silly theme settings to allow for a better positioning and more convinient use.
+        left_padding 9
+        right_padding 11
+        top_padding 4
+        bottom_padding 1
+        xmargin 0
+        ymargin 0
+    
     style stats_frame:
         is frame
         xysize (307, 31)
