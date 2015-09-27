@@ -185,7 +185,7 @@ init -9 python:
 
         def get_item_count(self, item):
             """
-            Returns total amount of any particular item in the inventory
+            Returns total amount of any particular item in the inventory.
             """
             if isinstance(item, Item):
                 item = item.id
@@ -195,8 +195,8 @@ init -9 python:
         def append(self, item, amount=1):
             """
             Add and item to inv and recalc max page.
-            After rescaling, both remove and append methods are overkill
-            In case of game code review, one should prolly be removed
+            After rescaling, both remove and append methods are overkill.
+            In case of game code review, one should prolly be removed.
             """
             if isinstance(item, basestring):
                 item = store.items[item]
@@ -220,7 +220,7 @@ init -9 python:
                         self.items.remove(item)
                 self.set_max_page()
                 return True
-            return False    
+            return False
 
         def clear(self):
             """

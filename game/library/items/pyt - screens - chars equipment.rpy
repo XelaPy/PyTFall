@@ -1,13 +1,48 @@
 # Temp code, should be moved to items funcs:
+init:
+    style positive_item_eqeffects_change:
+        is text
+        size 9
+        color lawngreen
+        
+    style negative_item_eqeffects_chage:
+        is positive_item_eqeffects_change
+        color "#ff1a1a"
+        
+    screen discard_item(char, item):
+        zorder 10
+        modal True
+        frame:
+            align (0.5, 0.5)
+            xysize (500, 300)
+            has vbox spacing 30 xfill True
+            null height 10
+            text "Discard [item.id]?" xalign 0.5
+            hbox:
+                xfill True
+                spacing 10
+                xalign 0.5
+                textbutton "Yes":
+                    xalign 0
+                    action Function(char.inventory.remove, item), Hide("discard_item"), With(dissolve)
+                $ amount = char.inventory.get_item_count(item)
+                textbutton "Discard All":
+                    xalign 0.5
+                    action SensitiveIf(amount > 1), Function(char.inventory.remove, item, amount), Hide("discard_item"), With(dissolve)
+                textbutton "No":
+                    xalign 1.0
+                    action Hide("discard_item"), With(dissolve)
+                
+
 init python:
     def build_str_for_eq(eqtarget, dummy, stat, tempc):
         temp = getattr(dummy, stat) - getattr(eqtarget, stat) if dummy else False
         tempmax = dummy.get_max(stat) - eqtarget.get_max(stat) if dummy else False
         if temp: # Case: Any Change to stat
             # The first is the absolute change, we want it to be colored green if it is positive, and red if it is not.
-            tempstr = "{color=[green]}%s{/color}"%getattr(eqtarget, stat) if temp > 0 else "{color=[red]} %d{/color}"%temp
+            tempstr = "{color=[green]}%s{/color}"%getattr(dummy, stat) if temp > 0 else "{color=[red]} %d{/color}"%getattr(dummy, stat)
             # Next is the increase:
-            tempstr = tempstr + "{color=[lawngreen]} +%d{/color}"%temp if temp > 0 else tempstr + "{size=-8}{color=[yellow]} (%d){/color}/(size)"%temp
+            tempstr = tempstr + "{=positive_item_eqeffects_change}(+%d){/=}"%temp if temp > 0 else tempstr + "{=negative_item_eqeffects_chage}(%d){/=}"%temp
         else: # No change at all...
             tempstr = "{color=[tempc]}%s{/color}"%getattr(eqtarget, stat)
             
@@ -15,8 +50,8 @@ init python:
             
         if tempmax:
             # Absolute change of the max values, same rules as the actual values apply:
-            tempstr = tempstr + "{color=[green]}%s{/color}"%eqtarget.get_max(stat) if tempmax > 0 else tempstr + "{color=[red]} %d{/color}"%tempmax
-            tempstr = tempstr + "{color=[lawngreen]} +%d"%tempmax if tempmax > 0 else tempstr + "{color=[yellow]}{size=-8}{ (%d){/color}(/size)"%tempmax
+            tempstr = tempstr + "{color=[green]}%s{/color}"%dummy.get_max(stat) if tempmax > 0 else tempstr + "{color=[red]} %d{/color}"%dummy.get_max(stat)
+            tempstr = tempstr + "{=positive_item_eqeffects_change}(+%d){/=}"%tempmax if tempmax > 0 else tempstr + "{=negative_item_eqeffects_chage}(%d){/=}"%tempmax
         else:
             tempstr = tempstr + "{color=[tempc]}%s{/color}"%eqtarget.get_max(stat)
         return tempstr
@@ -67,53 +102,63 @@ label char_equip:
                         # Common to any eqtarget:
                         if not can_equip(focusitem, eqtarget, silent=False):
                             focusitem = False
+                            dummy = None
+                            selectedslot = False
                             continue
                         if eqtarget == hero: # Simpler MCs logic:
                             equip_item(focusitem, eqtarget)
-                            dummy = None
                         else: # Actors: Maybe it's a good idea to encapsulate this:
                             if eqtarget.status == "slave" and focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
                                 renpy.show_screen('pyt_message_screen', "Slaves are forbidden to equip large weapons by law!")
-                                focusitem = False
                             else:
                                 if inv_source == eqtarget:
                                     if all([eqtarget.status != "slave", eqtarget.disposition < 850]) or all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
                                         eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
                                     else:
                                         equip_item(focusitem, eqtarget)
-                                        dummy = None
                                 else:
                                     if all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
                                         eqtarget.say(choice(["No way!", "I do not want this!", "No way in hell!"]))
                                     else:
                                         if transfer_items(inv_source, eqtarget, focusitem):
                                             equip_item(focusitem, eqtarget)
-                                            dummy = None
                             
                     elif item_direction == 'unequip':
                         if eqtarget == hero:
                             hero.unequip(focusitem)
-                            dummy = None
-                        else:
-                            if eqtarget.status != "slave" and inv_source == hero:
-                                if any([(focusitem.slot == "misc" and focusitem.mdestruct), eqtarget.given_items.get(focusitem.id, 0) - 1 < 0]):
-                                    eqtarget.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
-                                                             "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
-                                else:
-                                    eqtarget.unequip(focusitem)
-                                    transfer_items(eqtarget, hero, focusitem)
-                                    dummy = None
-                            elif eqtarget.status != "slave" and eqtarget.disposition < 850:
-                                eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
-                            else: # Slave condition:
+                        else: # Not MC
+                            if eqtarget.status == "slave": # Slave condition:
                                 eqtarget.unequip(focusitem)
-                                dummy = None
                                 eqtarget.inventory.remove(focusitem)
                                 inv_source.inventory.append(focusitem)
-                            
+                            else: # Free Girl
+                                if inv_source == hero:
+                                    eqtarget.unequip(focusitem)
+                                    if not transfer_items(eqtarget, hero, focusitem, silent=False):
+                                        eqtarget.equip(focusitem)
+                                        eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
+                                elif eqtarget.disposition < 850:
+                                    eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
+                                else:
+                                    eqtarget.unequip(focusitem)
+                                    
+                    dummy = None
                     selectedslot = False
                     focusitem = False
                      
+                elif result[1] == "discard":
+                    if inv_source == hero:
+                        renpy.call_screen("discard_item", inv_source, focusitem)
+                    else:
+                        if eqtarget.disposition < 850:
+                            eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
+                        else:
+                            renpy.call_screen("discard_item", inv_source, focusitem)
+                            
+                    dummy = None
+                    selectedslot = False
+                    focusitem = False
+                        
                 elif result[1] == 'equip':
                     focusitem = result[2]
                     selectedslot = focusitem.slot
@@ -160,7 +205,7 @@ label char_equip:
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
         if eqtarget.location == "After Life":
-            renpy.call_screen("pyt_message_screen", "Either your 'awesome' item handling or my 'brilliant' programming have killed %s..." % eqtarget.fullname)
+            renpy.show_screen("pyt_message_screen", "Either your 'awesome' item handling or my 'brilliant' programming have killed %s..." % eqtarget.fullname)
             jump("mainscreen")
             
     if came_to_equip_from:
@@ -589,6 +634,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
             vbox:
                 align (0.5, 0.5)
                 yfill True
+                # Discard/Close buttons and the Item ID:
                 hbox:
                     align (0.5, 0.5)
                     xfill True
@@ -599,7 +645,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         idle ("content/gfx/interface/buttons/discard.png")
                         hover ("content/gfx/interface/buttons/discard_h.png")
                         #hovered tt.Action("Discard item") ## (need to do) The girl equipment screen has its own Tooltip, need fix to show on him :Gismo
-                        action NullAction() ## (need to do) Need to add ability to discard :Gismo
+                        action Return(["item", "discard"]) ## (need to do) Need to add ability to discard :Gismo
                     frame:
                         align (1.0, 0.5)
                         xoffset -29
@@ -614,6 +660,8 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         hover ("content/gfx/interface/buttons/close3_h.png")
                         action Return(['con', 'return']) ## (need to do) In addition, need to add the ability to close with right-click  :Gismo
                         #hovered tt.Action("Close item info")
+                
+                # Left Items Info and some graphics, Equip Buttons, Icon, etc:
                 vbox:
                     yfill True
                     align (0.5, 0.5)
@@ -654,6 +702,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                     if item.sex == 'unisex':
                                         label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) style "stats_value_text" xalign 1.0 align (1.0, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         
+                        # Transfer button?
                         button:
                             style_group "pb"
                             align (0.0, 0.5)
@@ -677,10 +726,14 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                             if item_direction == 'unequip':
                                 $ temp = "Unequip"
                             elif item_direction == 'equip':
-                                $ temp = "Equip"
+                                if item.slot == "consumable":
+                                    $ temp = "Use"
+                                else:
+                                    $ temp = "Equip"
                             action Return(['item', 'equip/unequip'])
                             text "[temp]" style "pb_button_text" align (0.5, 0.5)
-                    
+                            
+                        # Right items info:
                         frame:
                             background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
                             xysize (180, 130)
@@ -732,6 +785,8 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     
                     null height -14
                     label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text" align (0.5, 0.5)
+                    
+                    # Bottom info:
                     hbox:
                         align (0.5, 0.5)
                         xfill True

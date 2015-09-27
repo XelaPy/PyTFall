@@ -89,36 +89,46 @@ init -11 python:
             elif jobtype == "Whore":
                 girl.equip_for("Sex")
                 
-    def transfer_items(source, target, item, amount=1):
+    def can_transfer(source, target, item, amount=1, silent=True):
+        """Checks if it is legal for a character to transfer the item.
+        
+        @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
-        Attempts to transfer amount of items from source to target.
-        Returns True in case of sucess and False if it fails.
-        """
-        if isinstance(item, basestring):
-            item = items[item]
+        if all([item.unique, isinstance(target, Player), item.unique != "mc"]) or all([item.unique, item.unique != target.id]):
+            if not silent:
+                renpy.show_screen("pyt_message_screen", "This unique item cannot be given to {}!".format(char.name))
+            return
         if item.slot == "quest":
-            renpy.call_screen('pyt_message_screen', "Quest items cannot be transferred!")
-            return False
-        if item.unique and item.unqiue == target.id:
-            renpy.call_screen('pyt_message_screen', "%s cannot be transferred to this character!" % item.id)
-            return False
+            if not silent:
+                renpy.show_screen('pyt_message_screen', "Quest items cannot be transferred!")
+            return
         # Free girls should always refuse giving up their items unless MC gave it to them.
         if all([isinstance(source, Char), source.status != "slave"]):
             if any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), source.given_items.get(item.id, 0) - amount < 0]):
-                # She will not give up the item:
-                return False
-            else:
-                if source.inventory.remove(item, amount):
-                    source.given_items[item.id] = source.given_items.get(item.id, 0) - amount
-                    if all([isinstance(target, Char), target.status != "slave"]):
-                        target.given_items[item.id] = target.given_items.get(item.id, 0) + amount
-                    target.inventory.append(item, amount)
-                    return True
-                    
+                if not silent:
+                    source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
+                                                   "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                return
+        return True
+                
+    def transfer_items(source, target, item, amount=1, silent=False):
+        """Transfers items between characters. 
+        
+        This will also log a fact of transfer between a character and MC is appropriate.
+        """
+        if isinstance(item, basestring):
+            item = items[item]
+            
+        if not can_transfer(source, target, item, amount=1, silent=silent):
+            return
+            
+        cond = any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)])
         if source.inventory.remove(item, amount):
-            if all([isinstance(target, Char), target.status != "slave"]) or not any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), isinstance(target, Player)]):
-                target.given_items[item.id] = target.given_items.get(item.id, 0) + amount 
+            if all([isinstance(source, Char), source.status != "slave"]) and not cond:
+                source.given_items[item.id] = source.given_items.get(item.id, 0) - amount
+            if all([isinstance(target, Char), target.status != "slave"]) and not cond:
+                target.given_items[item.id] = target.given_items.get(item.id, 0) + amount
             target.inventory.append(item, amount)
             return True
-            
+                    
         return False
