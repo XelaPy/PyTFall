@@ -950,7 +950,6 @@ init: # PyTFall:
                         align = ()
                         # Get a proper placement:
                         allx, ally = list(), list()
-                        # maxx, minx, maxy, miny = 0, 0, 0, 0
                         
                         for t in i["xy"]:
                             allx.append(t[0])
@@ -980,18 +979,16 @@ init: # PyTFall:
             
                 button:
                     background Null()
-                    focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
+                    focus_mask func(i["xy"])
                     action Return(i["id"])      
                     hovered [SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]}),
                                    Show("show_poly_matrix_tt", pos=pos, anchor=anchor, align=align, text=i["tooltip"]), With(dissolve)]
-                                   # SetScreenVariable("tooltip", (i["tooltip"], align, pos))]
                     unhovered [SetField(config, "mouse", None),
                                        Hide("show_poly_matrix_tt"), With(dissolve)]
-                                       # SetScreenVariable("tooltip", False)]
             else:
                 button:
                     background Null()
-                    focus_mask func(i["xy"]) # Function(point_in_poly, mp[0], mp[1], i["xy"])
+                    focus_mask func(i["xy"])
                     action Return(i["id"])
                     hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
                     unhovered SetField(config, "mouse", None)
@@ -1001,15 +998,6 @@ init: # PyTFall:
                 align show_exit_button
                 action Return(False)
                 
-        # if tooltip:
-            # frame:
-                # if tooltip[2]:
-                    # pos tooltip[2]
-                    # anchor tooltip[3]
-                # elif tooltip[1]:
-                    # align tooltip[1]
-                # text tooltip[0] + ", ".join(str(i) for i in tooltip[2])
-                
     screen show_poly_matrix_tt(pos=(), anchor=(), align=(), text=""):
         zorder 1
         frame:
@@ -1018,7 +1006,7 @@ init: # PyTFall:
             if pos:
                 pos pos
                 anchor anchor
-            text text  # + "pos".join(str(i) for i in pos)  + "align".join(str(i) for i in align)
+            text text
         
     ##############################################################################
     screen notify:
