@@ -191,6 +191,7 @@ label char_equip:
                 if result[1] == 'return':
                     selectedslot = False
                     focusitem = False
+                    dummy = None
             
             elif result[0] == 'control':
                 if result[1] == 'return':
@@ -475,13 +476,98 @@ screen pyt_char_equip():
                     xoffset -2
                     xpadding 10
                     xysize (346, 110)
-                    has hbox spacing 1
-                    xfill True
-                    yfill True
+                    # has hbox spacing 1
+                    # xfill True
+                    # yfill True
                     
                     $ t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
                     
-                    if not tt.value and eqtarget.status == "slave":
+                    if dummy:
+                        # Traits and skills:
+                        vbox:
+                            hbox:
+                                add "content/gfx/interface/images/add.png" yalign 0.7
+                                add "content/gfx/interface/images/remove.png" yalign 0.9
+                                label ('Traits:') text_size 16 text_color gold style "stats_label"
+                            viewport:
+                                mousewheel True
+                                has vbox
+                                style_group "stats"
+                                python:
+                                    t_old = set(t.id for t in eqtarget.traits)
+                                    for effect in eqtarget.effects:
+                                        if eqtarget.effects[effect]['active']:
+                                            t_old.add(effect)
+                                    t_new = set(t.id for t in dummy.traits)
+                                    for effect in dummy.effects:
+                                        if dummy.effects[effect]['active']:
+                                            t_new.add(effect)
+                                    temp = t_new.difference(t_old)
+                                    temp = sorted(list(temp))
+                                            
+                                if (not eqtarget == hero and temp):
+                                    vbox:
+                                        spacing -7
+                                        xfill True
+                                        for trait in temp:
+                                            frame:
+                                                xsize 142
+                                                text u'{color=#43CD80}%s'%trait.capitalize() size 16 yalign 0.5
+                                                
+                                python:
+                                    t_old = set(t.id for t in dummy.traits)
+                                    t_new = set(t.id for t in eqtarget.traits)
+                                    temp = t_new.difference(t_old)
+                                    temp = sorted(list(temp))
+                                if (not eqtarget == hero and temp):
+                                    vbox:
+                                        spacing -7
+                                        xfill True
+                                        for trait in temp:
+                                            frame:
+                                                xsize 142
+                                                text u'{color=#CD4F39}%s'%trait.capitalize() size 16 yalign 0.5
+                                            
+                        vbox:
+                            xoffset 165
+                            hbox:
+                                add "content/gfx/interface/images/add.png" yalign 0.7
+                                add "content/gfx/interface/images/remove.png" yalign 0.9
+                                label ('Skills:') text_size 16 text_color gold style "stats_label"
+                            viewport:
+                                mousewheel True
+                                has vbox
+                                style_group "stats"
+                                python:
+                                    s_old = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
+                                    s_new = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
+                                    temp = s_new.difference(s_old)
+                                    temp = sorted(list(temp)) 
+                                if (not eqtarget == hero and temp):
+                                    vbox:
+                                        spacing -7
+                                        xfill True
+                                        for skill in temp:
+                                            frame:
+                                                xsize 142
+                                                text u'{color=#43CD80}%s'%skill.capitalize() size 16 yalign 0.5
+                                                
+                                python:
+                                    s_old = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
+                                    s_new = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
+                                    temp = s_new.difference(s_old)
+                                    temp = sorted(list(temp))
+                                if (not eqtarget == hero and temp):
+                                    vbox:
+                                        spacing -7
+                                        xfill True
+                                        for skill in temp:
+                                            frame:
+                                                xsize 142
+                                                text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
+                                
+                                
+                    elif not tt.value and eqtarget.status == "slave":
                         text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
                     elif not tt.value and eqtarget.status == "free":
                         text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5

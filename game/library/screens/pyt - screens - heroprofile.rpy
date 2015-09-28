@@ -150,7 +150,6 @@ screen pyt_hero_profile():
     # BASE FRAME 2 "bottom layer" and portrait ====================================>
     add "content/gfx/frame/h_profile.png"
     add (hero.show("cportrait", resize=(100, 100))) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
-    # Alex: I do not understand what this means...
     
     # BATTLE STATS ====================================>
     fixed:
