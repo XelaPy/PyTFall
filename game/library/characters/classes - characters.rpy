@@ -733,6 +733,7 @@ init -9 python:
         # Skills:
         # anal, bartending, bdsm, cleaning, dancing, exploration, group, management, oral, refinement, service, strip, teaching, vaginal, waiting
         
+        # Max Stats: Maximum can now no longer go below 10.
         """
         Holds and manages stats for PytCharacter Classes.
         The idea is to scale down Character class (currently Huge)
@@ -796,7 +797,7 @@ init -9 python:
             else: return self.skills[key.lower()][1]
             
         def get_stat(self, key):
-            maxval = min(self.max[key], self.lvl_max[key])
+            maxval = self.get_max(key)
             val = self.stats[key] + self.imod[key]
             
             if val > maxval:
@@ -822,8 +823,8 @@ init -9 python:
         def get_max(self, key):
             val = min(self.max[key], self.lvl_max[key])
             if key not in ["disposition"]:
-                if val < 0:
-                    val = 0
+                if val < 10:
+                    val = 10
             return val
         
         def is_skill(self, key):
@@ -926,7 +927,7 @@ init -9 python:
                             hero.team.remove(girl)
                         return
                         
-                maxval = min(self.max[key], self.lvl_max[key])
+                maxval = self.get_max(key)
                 
                 if val >= maxval:
                     self.stats[key] = maxval
