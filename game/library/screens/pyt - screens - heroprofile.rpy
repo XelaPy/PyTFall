@@ -142,6 +142,8 @@ screen pyt_hero_profile():
     default lframe_display = "status"
     default rframe_display = "skills"
     
+    key "mousedown_3" action Return(['control', 'return'])
+    
     # HERO SPRITE ====================================>
     add Transform(hero.show("sprofile", resize=(550, 550)), alpha=0.97) align(0.65, 0.9)
     
@@ -631,93 +633,131 @@ screen pyt_hero_team():
     zorder 1
     modal True
     
+    key "mousedown_3" action Hide("pyt_hero_team"), With(dissolve)
+    
     default tt = Tooltip("Welcome to MC profile screen!")
     
-    # Hero team ---------------------------------------------->
+    # Hero team ====================================>
     frame:
         style_group "content"
-        align (0.5, 0.5)
+        align (0.54, 0.4)
         background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, black), alpha=0.7), 10, 10)
-        # xysize (400, 500)
-        ypadding 20
-        xpadding 20
-        has vbox
-        null height 5
-        label ("[hero.team.name]") align(0.5, 0.02) text_size 30 text_color ivory
-        null height 5
-        vbox:
-            # xysize (350, 450)
-            spacing 10
-            for member in hero.team:
+        ypadding 10
+        xpadding 0
+        xmargin 0
+        ymargin 0
+        yminimum 230
+        xsize 360
+        has vbox spacing 10 align (0.5, 0.5)
+        
+        label ("{color=#CDAD00}{size=30}[hero.team.name]") align(0.5, 1.0)
+        
+        null height -14
+        for member in hero.team:
+            $ img = member.show("portrait", resize=(120, 120), cache=True)
+            hbox spacing 7:
+                
+                # Portrait:
+                imagebutton:
+                    ypadding 1
+                    xpadding 1
+                    xmargin 0
+                    ymargin 0
+                    align (0.5, 0.5)
+                    style "basic_choice2_button"
+                    idle img
+                    hover img
+                    selected_idle Transform(img, alpha=1.05)
+                    action NullAction()
+                
+                # Name/Status:
                 frame:
-                    background Frame("content/gfx/frame/p_frame2.png", 10, 10)
-                    xpadding 20
-                    ypadding 10
-                    has hbox
-                    frame:
-                        background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                        xysize (10, 10)
-                        add (member.show("portrait", resize=(120, 120))) align (0.5, 0.5)
-                    null width 10
-                    vbox:
-                        style_group "stats"
-                        spacing 1
-                        vbox:
-                            text "HP:" color ivory style "stats_value_text"
-                            bar:
-                                value member.health
-                                range member.get_max("health")
-                                left_bar im.Twocolor(im.Scale("content/gfx/interface/bars/cryslider_full.png", 110, 20), red, red)
-                                right_bar im.Twocolor(im.Scale("content/gfx/interface/bars/cryslider_empty.png", 110, 20), red, red)
-                                thumb None
-                                maximum (110, 20)
-                        vbox:
-                            text "MP:" color ivory style "stats_value_text"
-                            bar:
-                                value member.mp
-                                range member.get_max("mp")
-                                left_bar im.Twocolor(im.Scale("content/gfx/interface/bars/cryslider_full.png", 110, 20), green, green)
-                                right_bar im.Twocolor(im.Scale("content/gfx/interface/bars/cryslider_empty.png", 110, 20), green, green)
-                                thumb None
-                                maximum (110, 20)
-                        vbox:
-                            text "Vitality:" color ivory style "stats_value_text"
-                            bar:
-                                value member.vitality
-                                range member.get_max("vitality")
-                                left_bar im.Twocolor(im.Scale("content/gfx/interface/bars/cryslider_full.png", 110, 20), blue, blue)
-                                right_bar im.Twocolor(im.Scale("content/gfx/interface/bars/cryslider_empty.png", 110, 20), blue, blue)
-                                thumb None
-                                maximum (110, 20)
-                                
-                    null width 25
-                    vbox:
-                        yalign 0.5
-                        ysize 50
-                        spacing 10
-                        text "AP: [member.AP]" xalign 0.5 size 16 color ivory style "stats_value_text"
-                        button:
-                            style_group "basic"
-                            xalign 0.5
-                            if member == hero:
-                                action Return(["rename_team", "set_name"])
-                                hovered tt.Action("Rename Heroes team!")
-                                text "RT"
-                            else:
-                                action Return(["remove_from_team", member])
-                                hovered tt.Action("Remove %s for %s!"%(member.nickname, hero.team.name))
-                                text "RM"
-          
-        null height 20
+                    style_group "stats"
+                    xmargin 0
+                    ymargin 0
+                    xpadding 0
+                    ypadding 7
+                    xysize (165, 120)
+                    align (0.5, 0.5)
+                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
+                    has vbox spacing 4 xfill True
+                    text "{=TisaOTMolxm}[member.name]" align (0.5, 0.5)
+                    
+                    # HP
+                    fixed:
+                        xysize (152, 22)
+                        align (0.85, 1.0)
+                        bar:
+                            align (0.5, 1.0)
+                            left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
+                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            value member.health
+                            range member.get_max("health")
+                            thumb None
+                            maximum (150, 20)
+                        text "{color=#F5F5DC}HP" size 14 bold True align (0.1, 0.9)
+                        $ tmb = red if member.health <= member.get_max("health")*0.3 else "#F5F5DC"
+                        text "[member.health]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
+                    
+                    # MP # Need fix, if char.mp and char.max.mp == 0 bar is full. In the BE also :Gismo
+                    fixed:
+                        xysize (152, 22)
+                        align (0.85, 1.0)
+                        bar:
+                            align (0.5, 1.0)
+                            left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
+                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            value member.mp
+                            range member.get_max("mp")
+                            thumb None
+                            maximum (150, 20)
+                        text "{color=#F5F5DC}MP" size 14 bold True align (0.1, 0.9)
+                        $ tmb = red if member.mp <= member.get_max("mp")*0.3 else "#F5F5DC"
+                        text "[member.mp]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
+                        
+                    # VP
+                    fixed:
+                        xysize (152, 22)
+                        align (0.85, 1.0)
+                        bar:
+                            align (0.5, 1.0)
+                            left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            value member.vitality
+                            range member.get_max("vitality")
+                            thumb None
+                            maximum (150, 20)
+                        text "{color=#F5F5DC}VP" size 14 bold True align (0.1, 0.9)
+                        $ tmb = red if member.vitality <= member.get_max("vitality")*0.3 else "#F5F5DC"
+                        text "[member.vitality]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
+                
+                imagebutton:
+                    xalign 0.5
+                    if member == hero:
+                        idle "content/gfx/interface/buttons/edit.png"
+                        hover "content/gfx/interface/buttons/edit_h.png"
+                        action Return(["rename_team", "set_name"])
+                        hovered tt.Action("Rename Heroes team!")
+                        yalign 0.65
+                    else:
+                        idle "content/gfx/interface/buttons/close4.png"
+                        hover "content/gfx/interface/buttons/close4_h.png"
+                        action Return(["remove_from_team", member])
+                        hovered tt.Action("Remove %s for %s!"%(member.nickname, hero.team.name))
+                        yalign 0.68
+        
         button:
-            style_group "basic"
+            style_group "pb"
             xalign 0.5
-            action Hide("pyt_hero_team")
-            text "Close"
+            xsize 120
+            action Hide("pyt_hero_team"), With(dissolve)
+            text "Close" style "pb_button_text"
 
 screen pyt_hero_finances():
     modal True
     zorder 1
+    
+    key "mousedown_3" action Hide("pyt_hero_finances"), With(dissolve)
     
     frame at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height)):
         background Frame (Transform("content/gfx/frame/arena_d.png", alpha=1.2), 5, 5)

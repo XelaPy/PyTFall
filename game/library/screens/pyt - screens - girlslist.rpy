@@ -42,6 +42,9 @@ label girls_list:
     jump mainscreen
 
 screen pyt_girlslist(source=None, page=0, total_pages=1):
+    
+    key "mousedown_3" action Return(['control', 'return'])
+    
     frame:
         background Frame("content/gfx/frame/framegp2.png", 10, 10)
         pos (5, 46)
