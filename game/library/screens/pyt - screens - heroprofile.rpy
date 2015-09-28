@@ -150,6 +150,7 @@ screen pyt_hero_profile():
     # BASE FRAME 2 "bottom layer" and portrait ====================================>
     add "content/gfx/frame/h_profile.png"
     add (hero.show("cportrait", resize=(100, 100))) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
+    # Alex: I do not understand what this means...
     
     # BATTLE STATS ====================================>
     fixed:
@@ -699,7 +700,8 @@ screen pyt_hero_team():
                         $ tmb = red if member.health <= member.get_max("health")*0.3 else "#F5F5DC"
                         text "[member.health]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
                     
-                    # MP # Need fix, if char.mp and char.max.mp == 0 bar is full. In the BE also :Gismo
+                    # MP # Need fix, if char.mp and char.max.mp == 0 bar is full. In the BE also :/fGismo
+                    # MP should never be 0... this can be fixed but Dark's base should traits be fixed instead.
                     fixed:
                         xysize (152, 22)
                         align (0.85, 1.0)

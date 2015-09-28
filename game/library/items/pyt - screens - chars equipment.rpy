@@ -158,6 +158,12 @@ label char_equip:
                     dummy = None
                     selectedslot = False
                     focusitem = False
+                    
+                elif result[1] == "transfer":
+                    if inv_source == hero:
+                        transfer_items(hero, eqtarget, focusitem, silent=False)
+                    else:
+                        transfer_items(eqtarget, hero, focusitem, silent=False)
                         
                 elif result[1] == 'equip':
                     focusitem = result[2]
@@ -165,13 +171,7 @@ label char_equip:
                     item_direction = 'equip'
                     
                     # # To Calc the effects:
-                    # if reset_dummy:
                     dummy = copy_char(eqtarget)
-                    # else:
-                        # for slot in eqtarget.eqslots:
-                            # if eqtarget.eqslots[slot] != dummy.eqslots[slot]:
-                                # if not 
-                                # dummy.unequip(dummy.eqslots[slot])
                     equip_item(focusitem, dummy, silent=True)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
                         
@@ -295,7 +295,7 @@ screen pyt_char_equip():
                 at fade_in_out()
                 background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
                 xysize (710, 296)
-                use itemstats2(item=focusitem, size=(710, 296))
+                use itemstats2(item=focusitem, size=(710, 296), tt=tt)
         
     # Left Frame: =====================================>
     fixed:
@@ -584,12 +584,12 @@ screen pyt_char_equip():
     # BASE FRAME 1 "top layer" ====================================>
     add "content/gfx/frame/h1.png"
     
-    #imagebutton: # Add this button when the screen is ready :Gismo
-        #pos (178, 70)
-        #idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-        #hover im.Scale("content/gfx/interface/buttons/close2h.png", 35, 35)
-        #action Return(['control', 'return'])
-        #hovered tt.Action("Return to previous screen!")
+    imagebutton:
+        pos (178, 70)
+        idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
+        hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
+        action Return(['control', 'return'])
+        hovered tt.Action("Return to previous screen!")
     
 screen pyt_girls_list1(source=None, page=0, total_pages=1):
     modal True
@@ -627,7 +627,10 @@ screen pyt_girls_list1(source=None, page=0, total_pages=1):
                     action Hide("pyt_girls_list1")
                 
                     
-screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False):
+screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):
+    
+    key "mousedown_3" action Return(['con', 'return'])
+    
     if item:
         fixed:
             maximum (size[0], size[1])
@@ -644,8 +647,9 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         align (0.0, 0.5)
                         idle ("content/gfx/interface/buttons/discard.png")
                         hover ("content/gfx/interface/buttons/discard_h.png")
-                        #hovered tt.Action("Discard item") ## (need to do) The girl equipment screen has its own Tooltip, need fix to show on him :Gismo
-                        action Return(["item", "discard"]) ## (need to do) Need to add ability to discard :Gismo
+                        if tt:
+                            hovered tt.Action("Discard item")
+                        action Return(["item", "discard"])
                     frame:
                         align (1.0, 0.5)
                         xoffset -29
@@ -658,8 +662,9 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         align (1.0, 0.5)
                         idle ("content/gfx/interface/buttons/close3.png")
                         hover ("content/gfx/interface/buttons/close3_h.png")
-                        action Return(['con', 'return']) ## (need to do) In addition, need to add the ability to close with right-click  :Gismo
-                        #hovered tt.Action("Close item info")
+                        action Return(['con', 'return'])
+                        if tt:
+                            hovered tt.Action("Close item info")
                 
                 # Left Items Info and some graphics, Equip Buttons, Icon, etc:
                 vbox:
@@ -707,11 +712,13 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                             style_group "pb"
                             align (0.0, 0.5)
                             xysize (80, 45)
-                            action SensitiveIf(False), Return(['item', 'equip/unequip'])
-                            if inv_source == hero: ## Item transfer - amount 1 :Gismo
+                            action SensitiveIf(eqtarget != hero), Return(['item', 'transfer'])
+                            if inv_source == hero:
+                                hovered tt.Action("Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname))
                                 text "Give to\n {color=#FFAEB9}Girl{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
                             else:
                                 text "Give to\n {color=#FFA54F}Hero{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                                hovered tt.Action("Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname))
                         
                         frame:
                             align (0.5, 0.5)
@@ -719,17 +726,23 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                             xysize (120, 120)
                             add (ProportionalScale(item.icon, 100, 100)) align(0.5, 0.5)
                     
+                            
+                        if item_direction == 'unequip':
+                            $ temp = "Unequip"
+                            $ temp_msg = "Unequip {}".format(item.id)
+                        elif item_direction == 'equip':
+                            if item.slot == "consumable":
+                                $ temp = "Use"
+                                $ temp_msg = "Use {}".format(item.id)
+                            else:
+                                $ temp = "Equip"
+                                $ temp_msg = "Equip {}".format(item.id)
                         button:
                             style_group "pb"
                             align (1.0, 0.5)
                             xysize (80, 45)
-                            if item_direction == 'unequip':
-                                $ temp = "Unequip"
-                            elif item_direction == 'equip':
-                                if item.slot == "consumable":
-                                    $ temp = "Use"
-                                else:
-                                    $ temp = "Equip"
+                            if tt:
+                               hovered tt.Action(temp_msg)
                             action Return(['item', 'equip/unequip'])
                             text "[temp]" style "pb_button_text" align (0.5, 0.5)
                             
@@ -878,6 +891,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                             null height 7
                                         
                                         if item.add_be_spells or item.remove_be_spells: ## Need to check whether or not working :Gismo
+                                            # Looks like it's working...
                                             hbox:
                                                 align (0.8, 0.5)
                                                 label ('Skills:') text_size 16 text_color gold xoffset 8
