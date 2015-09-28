@@ -618,16 +618,18 @@ screen pyt_hero_equip():
 screen pyt_ht_input():
     zorder 1
     modal True
-
-    fixed:
+    
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+    frame:
+        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+        style_group "content"
         align(0.5, 0.5)
         xysize (350, 150)
-        add im.Scale("content/gfx/frame/frame_bg.png", 350, 150)
         vbox:
-            spacing 30
+            spacing 20
             align(0.5, 0.5)
-            text "{color=[ivory]}Enter your team name:" xalign 0.5
-            input default "Player Team" length 20 xalign 0.5
+            label "{color=#F5F5DC}{size=28}Enter your team name:" xalign 0.5
+            input default "Player Team" length 20 xalign 0.5 style "content_label_text" color "#CDAD00" size 22
 
 screen pyt_hero_team():
     zorder 1
@@ -636,6 +638,7 @@ screen pyt_hero_team():
     key "mousedown_3" action Hide("pyt_hero_team"), With(dissolve)
     
     default tt = Tooltip("Welcome to MC profile screen!")
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
     
     # Hero team ====================================>
     frame:
@@ -643,14 +646,26 @@ screen pyt_hero_team():
         align (0.54, 0.4)
         background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, black), alpha=0.7), 10, 10)
         ypadding 10
-        xpadding 0
+        left_padding 5
+        right_padding 0
         xmargin 0
         ymargin 0
         yminimum 230
-        xsize 360
+        xsize 340
         has vbox spacing 10 align (0.5, 0.5)
         
-        label ("{color=#CDAD00}{size=30}[hero.team.name]") align(0.5, 1.0)
+        hbox spacing 2 align (0.5, 1.0):
+            label ("{color=#CDAD00}{size=30}[hero.team.name]") align(0.5, 1.0)
+            imagebutton:
+                ypadding 0
+                xpadding 0
+                xmargin 0
+                ymargin 0
+                xalign 1.0
+                idle im.Scale("content/gfx/interface/buttons/edit.png", 24, 30)
+                hover im.Scale("content/gfx/interface/buttons/edit_h.png", 24, 30)
+                action Return(["rename_team", "set_name"]), With(dissolve)
+                hovered tt.Action("Rename Heroes team!")
         
         null height -14
         for member in hero.team:
@@ -676,12 +691,23 @@ screen pyt_hero_team():
                     xmargin 0
                     ymargin 0
                     xpadding 0
-                    ypadding 7
+                    top_padding 0
+                    bottom_padding 3
                     xysize (165, 120)
                     align (0.5, 0.5)
                     background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
                     has vbox spacing 4 xfill True
-                    text "{=TisaOTMolxm}[member.name]" align (0.5, 0.5)
+                    fixed:
+                        xysize (158, 32)
+                        xalign 0.5
+                        text "{=TisaOTMolxm}[member.name]" align (0.5, 1.0) yoffset 2
+                        if not member == hero:
+                            imagebutton:
+                                xalign 1.0
+                                idle im.Scale("content/gfx/interface/buttons/close4.png", 24, 30)
+                                hover im.Scale("content/gfx/interface/buttons/close4_h.png", 24, 30)
+                                action Return(["remove_from_team", member])
+                                hovered tt.Action("Remove %s for %s!"%(member.nickname, hero.team.name))
                     
                     # HP
                     fixed:
@@ -731,21 +757,6 @@ screen pyt_hero_team():
                         text "{color=#F5F5DC}VP" size 14 bold True align (0.1, 0.9)
                         $ tmb = red if member.vitality <= member.get_max("vitality")*0.3 else "#F5F5DC"
                         text "[member.vitality]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
-                
-                imagebutton:
-                    xalign 0.5
-                    if member == hero:
-                        idle "content/gfx/interface/buttons/edit.png"
-                        hover "content/gfx/interface/buttons/edit_h.png"
-                        action Return(["rename_team", "set_name"])
-                        hovered tt.Action("Rename Heroes team!")
-                        yalign 0.65
-                    else:
-                        idle "content/gfx/interface/buttons/close4.png"
-                        hover "content/gfx/interface/buttons/close4_h.png"
-                        action Return(["remove_from_team", member])
-                        hovered tt.Action("Remove %s for %s!"%(member.nickname, hero.team.name))
-                        yalign 0.68
         
         button:
             style_group "pb"
@@ -760,8 +771,10 @@ screen pyt_hero_finances():
     
     key "mousedown_3" action Hide("pyt_hero_finances"), With(dissolve)
     
-    frame at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height)):
-        background Frame (Transform("content/gfx/frame/arena_d.png", alpha=1.2), 5, 5)
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+    frame:
+        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+        style_group "content"
         align (0.5, 0.5)
         xysize (1120, 600)
         # side "c r":
