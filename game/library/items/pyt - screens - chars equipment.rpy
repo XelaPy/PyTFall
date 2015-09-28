@@ -476,9 +476,6 @@ screen pyt_char_equip():
                     xoffset -2
                     xpadding 10
                     xysize (346, 110)
-                    # has hbox spacing 1
-                    # xfill True
-                    # yfill True
                     
                     $ t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
                     
@@ -495,13 +492,15 @@ screen pyt_char_equip():
                                 style_group "stats"
                                 python:
                                     t_old = set(t.id for t in eqtarget.traits)
-                                    for effect in eqtarget.effects:
-                                        if eqtarget.effects[effect]['active']:
-                                            t_old.add(effect)
+                                    if hasattr(eqtarget, "effects"):
+                                        for effect in eqtarget.effects:
+                                            if eqtarget.effects[effect]['active']:
+                                                t_old.add(effect)
                                     t_new = set(t.id for t in dummy.traits)
-                                    for effect in dummy.effects:
-                                        if dummy.effects[effect]['active']:
-                                            t_new.add(effect)
+                                    if hasattr(eqtarget, "effects"):
+                                        for effect in dummy.effects:
+                                            if dummy.effects[effect]['active']:
+                                                t_new.add(effect)
                                     temp = t_new.difference(t_old)
                                     temp = sorted(list(temp))
                                             
