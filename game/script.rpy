@@ -236,7 +236,8 @@
     if "testBrothel" in store.__dict__:
         $ del store.__dict__["testBrothel"]
     
-    $ shop_items = list(item for item in items.values() if (set(pytfall.shops) & set(item.locations)))
+    $ shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
+    $ auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
     
     #  --------------------------------------
     # Put here to facilitate testing:

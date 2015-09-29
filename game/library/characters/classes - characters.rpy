@@ -93,6 +93,9 @@ init -9 python:
                 trait = store.traits[trait]
             char = self.instance
             
+            if trait.sex not in ["unisex", char.gender]:
+                return
+            
             # We cannot allow "Neutral" element to be applied if there is at least one element present already:
             if trait.elemental and trait.id == "Neutral":
                 if self.instance.elements:
@@ -244,6 +247,9 @@ init -9 python:
             if not isinstance(trait, Trait):
                 trait = store.traits[trait]
             char = self.instance
+            
+            if trait.sex not in ["unisex", char.gender]:
+                return
             
             # We Never want to remove a base trait:
             if trait in self.basetraits:
@@ -1410,7 +1416,7 @@ init -9 python:
             if isinstance(item, basestring):
                 item = items[item]
             # we handle request to auto-buy any specific item!
-            if item and item in shop_items:
+            if item and item in auto_buy_items:
                 if self.gold >= item.price:
                     while self.take_money(item.price) and amount:
                         amount = amount - 1
@@ -1425,7 +1431,7 @@ init -9 python:
             # if it's just a request to buy an item randomly:
             # We make sure that she'll NEVER buy an items that is in badtraits:
             # This assumes that a free! girl! is buying :)
-            pool = list(item for item in shop_items if not (set(item.badtraits) & set(self.traits)))
+            pool = list(item for item in auto_buy_items if not (set(item.badtraits) & set(self.traits)))
             # First, lets see if a girl can buy an item that she really likes based on traits!
             if dice(80):
                 newpool = list(item for item in pool if (set(item.goodtraits) & set(self.traits)))
@@ -1700,12 +1706,16 @@ init -9 python:
                         
                     if set(self.traits) & set(item.badtraits):
                         continue
+                        
+                    if not can_equip(item):
+                        continue
                     
                     if slot == "consumable":    
                         if any([item.ceffect, item.type == "permanent",  item.sex not in (self.gender, "unisex"),
                                   item.id in self.consblock, item.id in self.constemp, not item.eqchance,
                                   item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
                             continue
+                            
                     elif slot == "misc":
                         # If item that selfdestructs or will be blocked after one use is equipped, there is no reason to equip another:
                         # This will end the method, not just move to a different item!!!
@@ -1971,9 +1981,8 @@ init -9 python:
                     msg = "'%s' item tried to apply unknown skill: %s!"
                     devlog.warning(str(msg % (item.id, key)))
                 
-            # Taking care of traits/effects (only for girls obviously): ---------------------------------------->
-            if isinstance(self, Char):
-                # Traits:
+            # Traits:
+            if hasattr(self, "traits"):
                 for entry in item.removetraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
@@ -1981,7 +1990,7 @@ init -9 python:
                         else:
                             self.remove_trait(traits[entry])
                     else:
-                        devlog.warning(str("Item: %s has tried to remove an invalid trait: %s!" % (item.id, entry)))
+                        devlog.warning(str("Item: {} has tried to remove an invalid trait: {}!".format(item.id, entry)))
                     
                 for entry in item.addtraits:
                     if entry in traits:
@@ -1992,20 +2001,24 @@ init -9 python:
                     else:
                         devlog.warning(str("Item: %s has tried to apply an invalid trait: %s!" % (item.id, entry)))
                         
-                # Effects:        
+            # Effects:
+            if hasattr(self, "effects"):
                 if item.slot == 'consumable' and item.type == 'food':
                     self.effects['Food Poisoning']['activation_count'] += 1
                     if self.effects['Food Poisoning']['activation_count'] == 10:
                         self.enable_effect('Food Poisoning')
-                        
+                    
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:
                         self.enable_effect(entry)
-                        
+                    
                 for entry in item.removeeffects:
                     if self.effects[entry]['active']:
                         self.disable_effect(entry)
-                    
+                        
+            if item.jump_to_label:
+                jump(item.jump_to_label)
+                
         def remove_item_effects(self, item):
             # Attacks/Magic:
             if hasattr(item, "attacks"):

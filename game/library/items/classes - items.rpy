@@ -21,6 +21,7 @@ init -9 python:
             self.badtraits = []
 
             self.hidden = True # Not used atm, decides if we should hide the effects.
+            self.jump_to_label = ""
             self.usable = True
             self.price = 0
             self.sex = 'unisex'
