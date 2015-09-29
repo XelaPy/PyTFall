@@ -1,7 +1,8 @@
 init -9 python:
-
     ####### Equipment Classes ########
     class Item(_object):
+        NOT_USABLE = set(["gift", "quest", "loot"])
+        CONS_AND_MISC = set(['consumable', 'misc'])
 
         def __init__(self):
             self.desc = ''
@@ -19,7 +20,8 @@ init -9 python:
             self.goodtraits = []
             self.badtraits = []
 
-            self.hidden = True
+            self.hidden = True # Not used atm, decides if we should hide the effects.
+            self.usable = True
             self.price = 0
             self.sex = 'unisex'
             self.unique = "" # Should be girls id in case of unique item.
@@ -32,6 +34,9 @@ init -9 python:
             self.badness = 0
 
         def init(self):
+            if self.slot in self.NOT_USABLE:
+                self.usable = False
+            
             if not hasattr(self, "eqchance"):
                 self.eqchance = self.badness
                 
@@ -60,10 +65,9 @@ init -9 python:
                 if not hasattr(self, 'mreusable'):
                     self.mreusable = False
 
-            # Insures normal behaviour:     
-            if self.statmax and self.slot not in ['consumable', 'misc']:
+            # Ensures normal behaviour:     
+            if (self.statmax or self.skillmax) and self.slot not in self.CONS_AND_MISC:
                 self.statmax = False
-            if self.skillmax and self.slot not in ['consumable', 'misc']:
                 self.skillmax = False
                 
             if self.sex == "Male": self.sex = 'male'

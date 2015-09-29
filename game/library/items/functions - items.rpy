@@ -9,17 +9,13 @@ init -11 python:
             if not silent:
                 renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on {}!".format(char.name))
             return
-        elif item.sex != char.gender and item.sex != "unisex":
+        elif item.sex not in ["unisex", char.gender]:
             if not silent:
-                renpy.show_screen('pyt_message_screen', "{} item cannot be equipped on a eqtargetacter of {} gender!".format(item.id, char.gender))
+                renpy.show_screen('pyt_message_screen', "{} item cannot be equipped on a character of {} gender!".format(item.id, char.gender))
             return
-        elif item.slot == "quest":
+        elif not item.usable:
             if not silent:
-                renpy.show_screen("pyt_message_screen", "Quest items cannot be equipped!")
-            return
-        elif item.slot == "gift":
-            if not silent:
-                renpy.call_screen("pyt_message_screen", "Gift slot items only serve purpose during girl meets!")
+                renpy.show_screen("pyt_message_screen", "This item cannot be used or equipped!")
             return
         return True
         

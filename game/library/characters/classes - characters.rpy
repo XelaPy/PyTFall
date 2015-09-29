@@ -199,7 +199,7 @@ init -9 python:
             for key in trait.mod:
                 # We prevent disposition from being changed by the traits or it will mess with girl_meets:
                 if key == "disposition":
-                    stats.disposition += trait.mod[key]
+                    char.disposition += trait.mod[key]
                 elif key == 'upkeep':
                     char.upkeep += trait.mod[key]
                 for level in xrange(char.level+1):
@@ -208,7 +208,7 @@ init -9 python:
             for key in trait.mod_stats:
                 # We prevent disposition from being changed by the traits or it will mess with girl_meets:
                 if key == "disposition":
-                    stats.disposition += trait.mod_stats[key][0]
+                    char.disposition += trait.mod_stats[key][0]
                 elif key == 'upkeep':
                     char.upkeep += trait.mod_stats[key][0]
                 for level in xrange(char.level+1):
