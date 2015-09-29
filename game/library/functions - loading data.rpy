@@ -121,7 +121,7 @@ init -11 python:
                                 for trait in char.traits.basetraits:
                                     char.apply_trait(trait)
                                     
-                            for key in ("personality", "breasts", "body", "base_race"):
+                            for key in ("personality", "breasts", "body", "race"):
                                 if key in gd:
                                     trait = gd[key]
                                     if trait in traits:
@@ -195,7 +195,7 @@ init -11 python:
                                             color = ivory
                                         char.say_style[key] = color
                                             
-                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height"):
+                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height", "full_race"):
                                 if key in gd:
                                     setattr(char, key, gd[key])
                             

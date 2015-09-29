@@ -985,6 +985,7 @@ init -9 python:
             self.fullname = ""
             self.nickname = ""
             self.height = "average"
+            self.full_race = ""
             
             self.AP = 3
             self.baseAP = 3
@@ -3012,6 +3013,10 @@ init -9 python:
                 self.apply_trait(traits["Average Boobs"])
             if not list(t for t in self.traits if t.body):
                 self.apply_trait(traits["Slim"])
+                
+            # Dark's Full Race Flag:
+            if not self.full_race:
+                self.full_race = str(self.race)
             
             # Second round of stats normalization:
             for stat in ["health", "joy", "mp", "vitality"]:

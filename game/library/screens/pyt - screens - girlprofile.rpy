@@ -360,7 +360,13 @@ screen pyt_girl_profile():
                         frame:
                             text (u"[char.origin]") color "#43CD80" xpos 20 xmaximum 220 size 22
                             
-                    null height 2
+                        if char.full_race != str(char.race):
+                            null height 8
+                            label "Full Race:" xpos 20
+                            frame:
+                                text "[char.full_race]" color blue xpos 20 xmaximum 220 size 22
+                            
+                    null height 3
                     
                     # Basetraits:
                     vbox:
@@ -375,7 +381,7 @@ screen pyt_girl_profile():
                                 
                     null height 4
                     
-                    # Personality/Race:
+                    # Personality/Race
                     fixed:
                         xysize (300, 120)
                         $ trait = char.personality
