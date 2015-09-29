@@ -12,6 +12,9 @@ init -9 python:
             self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing.
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             
+        def set_instance(self, instance):
+            self.instance = instance
+            
         def append(self, item, normal=True):
             # Overwriting default list method, always assumed normal game operations and never adding through items.
             # ==> For battle & magic skills:
@@ -189,28 +192,27 @@ init -9 python:
                 
             #TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
-            if isinstance(char, Char):
+            if hasattr(char, "effects"):
                 for entry in trait.effects:
                     char.enable_effect(entry)
                 
-            # Rewrite this bit of code so upkeep to look/work better
             for key in trait.mod:
                 # We prevent disposition from being changed by the traits or it will mess with girl_meets:
                 if key == "disposition":
                     stats.disposition += trait.mod[key]
                 elif key == 'upkeep':
                     char.upkeep += trait.mod[key]
-                elif key in stats:
-                    value = trait.mod[key]
-                    mod_value = 0
-                    # 10% per every 5 levels applied:
-                    for level in xrange(char.level+1):
-                        if not level%5:
-                            mod_value += int(round(value*0.1))
-                    char.mod(key, mod_value)
-                else:
-                    msg = "'%s' trait tried to apply unknown stat: %s!"
-                    devlog.warning(str(msg % (trait.id, key)))
+                for level in xrange(char.level+1):
+                    char.stats.apply_traits_mod_on_levelup()
+                
+            for key in trait.mod_stats:
+                # We prevent disposition from being changed by the traits or it will mess with girl_meets:
+                if key == "disposition":
+                    stats.disposition += trait.mod_stats[key][0]
+                elif key == 'upkeep':
+                    char.upkeep += trait.mod_stats[key][0]
+                for level in xrange(char.level+1):
+                    char.stats.apply_traits_mod_on_levelup()
                     
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
@@ -294,17 +296,9 @@ init -9 python:
                     stats -= trait.mod[key]
                 elif key == 'upkeep':
                     char.upkeep -= trait.mod[key]
-                elif key in stats:
-                    value = trait.mod[key]
-                    mod_value = 0
-                    # 10% per every 5 levels applied:
-                    for level in xrange(char.level+1):
-                        if not level%5:
-                            mod_value += int(round(value*0.1))
-                    char.mod(key, mod_value*-1)
-                else:
-                    msg = "'%s' trait tried to remove unknown stat: %s!"
-                    devlog.warning(str(msg % (trait.id, key)))
+                
+                for level in xrange(char.level+1):
+                   char.stats.apply_traits_mod_on_levelup(reverse=True)
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
@@ -814,6 +808,18 @@ init -9 python:
                 
             return val
                 
+        def is_skill(self, key):
+            """
+            Easy check for skills.
+            """
+            return key.lower() in self.skills
+            
+        def is_stat(self, key):
+            """
+            Easy check for stats.
+            """
+            return key.lower() in self.stats
+            
         def __getitem__(self, key):
             return self.get_stat(key)
             
@@ -826,18 +832,6 @@ init -9 python:
                 if val < 10:
                     val = 10
             return val
-        
-        def is_skill(self, key):
-            """
-            Easy check for skills.
-            """
-            return key.lower() in self.skills
-        
-        def is_stat(self, key):
-            """
-            Easy check for stats.
-            """
-            return key.lower() in self.stats
         
         def mod_item_stat(self, key, value):
             self.imod[key] += value
@@ -855,19 +849,10 @@ init -9 python:
                 self.goal += self.goal_increase
                 self.level += 1
                 
-                if isinstance(self.instance, Char):
-                    _traits = list()
-                    for trait in self.instance.traits:
-                        if trait not in _traits:
-                            _traits.append(trait)
-                    for trait in _traits:
-                        if not self.level%5:
-                            for key in trait.mod:
-                                if key not in ["disposition", "upkeep"]:
-                                    if key in self.stats:
-                                        mod_value = int(round(trait.mod[key]*0.05))
-                                        self.mod(key, mod_value)
+                # Bonuses from traits:
+                self.apply_traits_mod_on_levelup()
                 
+                # Normal Max stat Bonuses:
                 for stat in self.stats:
                     if stat not in self.FIXED_MAX:
                         self.lvl_max[stat] += 5
@@ -879,19 +864,19 @@ init -9 python:
                             if dice(val):
                                 self.max[stat] +=1
                         
+                # Super Bonuses from Base Traits:
                 if hasattr(self.instance, "traits"):
                     traits = self.instance.traits.basetraits
                     multiplier = 2 if len(traits) == 1 else 1
                     for trait in traits:
                         # Super Stat Bonuses:
                         for stat in trait.leveling_stats:
-                            if stat not in self.FIXED_MAX:
-                                if stat in self.stats:
-                                    self.lvl_max[stat] += trait.leveling_stats[stat][0] * multiplier
-                                    self.max[stat] += trait.leveling_stats[stat][1] * multiplier
-                                else:
-                                    msg = "'%s' stat applied on leveling up (max mods) to %s (%s)!"
-                                    devlog.warning(str(msg % (stat, self.instance.__class__, trait.id)))
+                            if stat not in self.FIXED_MAX and stat in self.stats:
+                                self.lvl_max[stat] += trait.leveling_stats[stat][0] * multiplier
+                                self.max[stat] += trait.leveling_stats[stat][1] * multiplier
+                            else:
+                                msg = "'%s' stat applied on leveling up (max mods) to %s (%s)!"
+                                devlog.warning(str(msg % (stat, self.instance.__class__, trait.id)))
                               
                         # Super Skill Bonuses:
                         for skill in trait.init_skills:
@@ -908,7 +893,26 @@ init -9 python:
                 self.stats["mp"] = self.get_max("mp")
                 self.stats["vitality"] = self.get_max("vitality")
                 
+        def apply_traits_mod_on_levelup(self, reverse=False):
+            """Applies "mod" field on characters levelup.
+            
+            """
+            if hasattr(self.instance, "traits"):
+                for trait in self.instance.traits:
+                    for key in trait.mod: # This needs to be removed:
+                        if key not in ["disposition", "upkeep"]:
+                            if not self.level%5:
+                                mod_value = int(round(trait.mod[key]*0.05))
+                                self.mod(key, mod_value) if not reverse else self.mod(key, mod_value*-1)
+                                
+                    for key in trait.mod_stats:
+                        if key not in ["disposition", "upkeep"]:
+                            if not self.level%trait.mod[key][1]:
+                                self.mod(key, trait.mod[key][0]) if not reverse else self.mod(key, trait.mod[key][0]*-1)
+                
         def mod(self, key, value):
+            """Modifies a stat.
+            """
             if key in self.stats:
                 val = self.stats[key] + value
                 
@@ -945,6 +949,8 @@ init -9 python:
                 devlog.warning(str("Tried to apply an unknown stat: %s to %s" % (key, self.instance.__class__.__name__)))
                 
         def mod_skill(self, key, value):
+            """Modifies a skill.
+            """
             # DevNote: THIS SHOULD NOT BE USED DIRECTLY! ASSUMES INPUT FROM __setattr__
             if key.islower():
                 value = value - self.skills[key][0]
@@ -4119,7 +4125,8 @@ init -9 python:
             self.desc = ''
             self.icon = None
             self.hidden = False
-            self.mod = dict()
+            self.mod = dict() # To be removed!
+            self.mod_stats = dict()
             self.mod_skills = dict()
             self.max = dict()
             self.min = dict()
