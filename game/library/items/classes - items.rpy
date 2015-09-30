@@ -2,6 +2,8 @@ init -9 python:
     ####### Equipment Classes ########
     class Item(_object):
         NOT_USABLE = set(["gift", "quest", "loot"])
+        NOT_TRANSFERABLE = set(["gift", "quest", "loot"])
+        NOT_SELLABLE = set(["quest"])
         CONS_AND_MISC = set(['consumable', 'misc'])
 
         def __init__(self):
@@ -20,9 +22,13 @@ init -9 python:
             self.goodtraits = []
             self.badtraits = []
 
+            # Rules:
+            self.usable = None
+            self.transferable = None
+            self.sellable = None
+            
             self.hidden = True # Not used atm, decides if we should hide the effects.
             self.jump_to_label = ""
-            self.usable = True
             self.price = 0
             self.sex = 'unisex'
             self.unique = "" # Should be girls id in case of unique item.
@@ -35,8 +41,24 @@ init -9 python:
             self.badness = 0
 
         def init(self):
-            if self.slot in self.NOT_USABLE:
-                self.usable = False
+            # Rules:
+            if self.usable is None:
+                if self.slot in self.NOT_USABLE:
+                    self.usable = False
+                else:
+                    self.usable = True
+                    
+            if self.transferable is None:
+                if self.slot in self.NOT_TRANSFERABLE:
+                    self.transferable = False
+                else:
+                    self.transferable = True
+                    
+            if self.sellable is None:
+                if self.slot in self.NOT_SELLABLE:
+                    self.sellable = False
+                else:
+                    self.sellable = True
             
             if not hasattr(self, "eqchance"):
                 self.eqchance = self.badness

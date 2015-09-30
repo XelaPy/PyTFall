@@ -992,6 +992,7 @@ init -9 python:
             self.nickname = ""
             self.height = "average"
             self.full_race = ""
+            self.gender = "female"
             
             self.AP = 3
             self.baseAP = 3
@@ -2135,7 +2136,7 @@ init -9 python:
                     devlog.warning(str(msg % (item.id, key)))
                             
             # Taking care of traits/effect (for girls):
-            if isinstance(self, Char):
+            if hasattr(self, "traits"):
                 for entry in item.addtraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
@@ -2154,6 +2155,7 @@ init -9 python:
                     else:
                         devlog.warning(str("Item: %s has tried to apply an invalid trait: %s!" % (item.id, entry)))
                         
+            if hasattr(self, "effects"):
                 for entry in item.addeffects:
                     if self.effects[entry]['active']:
                         self.disable_effect(entry)
@@ -2162,7 +2164,6 @@ init -9 python:
                     if not self.effects[entry]['active']:
                         self.activate_effect(entry)
                     
-                        
         def item_counter(self):
             # Timer to clear consumable blocks
             for key in self.consblock.keys():
