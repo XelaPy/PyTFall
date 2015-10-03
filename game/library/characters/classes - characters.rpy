@@ -913,8 +913,8 @@ init -9 python:
                                 
                     for key in trait.mod_stats:
                         if key not in ["disposition", "upkeep"]:
-                            if not self.level%trait.mod[key][1]:
-                                self.mod(key, trait.mod[key][0]) if not reverse else self.mod(key, trait.mod[key][0]*-1)
+                            if not self.level%trait.mod_stats[key][1]:
+                                self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, trait.mod_stats[key][0]*-1)
                 
         def mod(self, key, value):
             """Modifies a stat.
