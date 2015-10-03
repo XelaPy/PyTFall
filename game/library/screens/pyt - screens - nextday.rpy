@@ -658,7 +658,7 @@ screen pyt_next_day():
                                     python:
                                         clients = 0
                                         for brothel in hero.brothels:
-                                            clients = clients + brothel.get_clients()
+                                            clients = clients + brothel.get_client_count()
                                     hbox:
                                         xpos 115
                                         xmaximum 40
@@ -1235,7 +1235,7 @@ screen pyt_next_day():
                                                         xpos 2
                                                         xysize (405, 33)
                                                         text "Customers:" yalign 0.5 xpos 3
-                                                        text ("%d" % brothel.get_clients()) style "stats_value_text" ypos 1 xpos 115
+                                                        text ("%d" % brothel.get_client_count()) style "stats_value_text" ypos 1 xpos 115
                                     
                 vbar value YScrollValue("Reports")
         

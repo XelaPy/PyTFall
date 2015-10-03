@@ -691,7 +691,7 @@ init -9 python:
             # TODO: Move to WarriorQuarters!
             # if self.upgrades['mainhall']['2']['active']: self.security_rating -= self.get_clients()
             # elif self.upgrades['mainhall']['1']['active']: self.security_rating -= self.get_clients() * 2
-            self.security_rating -= self.get_clients() * 3
+            self.security_rating -= self.get_client_count() * 3
             if self.security_rating < 0: self.security_rating = 0
             
             security_power = 0

@@ -226,7 +226,7 @@ screen pyt_hero_profile():
             vbox:
                 yoffset -30
                 hbox:
-                    $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "libido"]
+                    $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"]
                     ypos 40
                     vbox:
                         style_group "stats"

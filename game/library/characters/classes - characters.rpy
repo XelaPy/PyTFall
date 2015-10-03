@@ -1708,7 +1708,7 @@ init -9 python:
                     if set(self.traits) & set(item.badtraits):
                         continue
                         
-                    if not can_equip(item):
+                    if not can_equip(item, self):
                         continue
                     
                     if slot == "consumable":    

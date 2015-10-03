@@ -75,7 +75,7 @@ init -11 python:
             item = items[item]
             
         if not can_transfer(source, target, item, amount=1, silent=silent):
-            return
+            return False
             
         cond = any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)])
         if source.inventory.remove(item, amount):
