@@ -835,8 +835,8 @@ init -9 python:
         def get_max(self, key):
             val = min(self.max[key], self.lvl_max[key])
             if key not in ["disposition"]:
-                if val < 10:
-                    val = 10
+                if val < 0:
+                    val = 0
             return val
         
         def mod_item_stat(self, key, value):
@@ -918,6 +918,8 @@ init -9 python:
                 
         def mod(self, key, value):
             """Modifies a stat.
+            
+            This directly changes the value, can be used from anywhere.
             """
             if key in self.stats:
                 val = self.stats[key] + value
