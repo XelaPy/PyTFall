@@ -801,16 +801,21 @@ init -9 python:
             val = self.stats[key] + self.imod[key]
             
             if val > maxval:
+                # Extra normalization routine:
+                if self.stats[key] > self.get_max(key):
+                    self.stats[key] = self.get_max(key)
                 val = maxval
+                
             elif val < self.min[key]:
+                # Extra normalization routine:
+                if self.stats[key] < self.min[key]:
+                    self.stats[key] = self.min[key]
                 val = self.min[key]
                 
             # Normalize for displaying (if less than 0):
-            if key not in ["disposition"]:
+            if key not in ["disposition", "luck"]:
                 if val < 0:
                     val = 0
-            # if self.battle_mode:
-                # val = val + self.battle_overlay.get(key, 0)
                 
             return val
                 
@@ -843,6 +848,10 @@ init -9 python:
             self.imod[key] += value
         
         def mod_base_stat(self, key, value):
+            """Modified primary stats dict.
+            
+            Input from __setattr__ of self.instance is expected.
+            """
             value = value - self.get_stat(key)
             # if self.battle_mode:
                 # value = value - self.battle_overlay.get(key, 0)
@@ -1109,7 +1118,7 @@ init -9 python:
             
         def __getattr__(self, key):
             if key in self.STATS:
-                val = self.__dict__["stats"][key]
+                val = self.__dict__["stats"].get_stat(key)
             elif key.lower() in self.SKILLS:
                 val = self.__dict__["stats"].get_skill(key)
             elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
