@@ -181,7 +181,6 @@ init -9 python:
             for key in trait.min:
                 # Preventing traits from messing up minimums of stats by pushing them into negative territory. @Review: No longer required as per new stats code.
                 if key in stats.min:
-                    # if (stats.min[key] + trait.min[key]) >= 0:
                     stats.min[key] += trait.min[key]
                 else:
                     msg = "'%s' trait tried to apply unknown min stat: %s!"
@@ -237,6 +236,9 @@ init -9 python:
             if trait.elemental:
                 if trait.id != "Neutral" and traits["Neutral"] in self:
                     self.remove(traits["Neutral"])
+                    
+            # Finally, make sure stats are working:
+            char.stats.normalize_stats()
                         
         def remove(self, trait, truetrait=True):  # Removes trait effects
             """
@@ -330,6 +332,9 @@ init -9 python:
             # We add the Neutral element if there are no elements left at all...
             if not self.instance.elements:
                 self.apply("Neutral")
+                
+            # Finally, make sure stats are working:
+            char.stats.normalize_stats()
     
     class Rank(_object): # Will not be used for the next release...
         """
@@ -826,10 +831,18 @@ init -9 python:
             return key.lower() in self.skills
             
         def is_stat(self, key):
-            """
-            Easy check for stats.
+            """Easy check for stats.
             """
             return key.lower() in self.stats
+            
+        def normalize_stats(self):
+            """ Makes sure main stats dict is properly aligned to max/min values
+            """
+            for stat in self.stats:
+                if self.stats[stat] > self.get_max(stat):
+                    self.stats[stat] = self.get_max(stat)
+                if self.stats[stat] < self.min[stat]:
+                    self.stats[stat] = self.min[stat]
             
         def __getitem__(self, key):
             return self.get_stat(key)
