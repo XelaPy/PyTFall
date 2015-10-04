@@ -148,6 +148,27 @@ init -11 python:
                                 initial_levelup(char, gd["level"])
                                 del gd["level"]
                                 
+                            if "stats" in gd:
+                                for stat in gd["stats"]:
+                                    if stat in char.STATS:
+                                        value = gd["stats"][stat]
+                                        if stat != "luck":
+                                            value = int(round(float(value)*char.get_max(stat))/100)
+                                        char.mod(stat, value)
+                                    else:
+                                        devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
+                                del gd["stats"]
+                                
+                            if "skills" in gd:
+                                for skill in gd["skills"]:
+                                    if skill in char.stats.skills:
+                                        value = gd["skills"][skill]
+                                        setattr(char, skill.lower(), value * (2/3.0))
+                                        setattr(char, skill.capitalize(), value * (1/3.0))
+                                    else:
+                                        devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
+                                del gd["skills"]
+                                
                             for key in ("magic_skills", "attack_skills"):
                                 if key in gd:
                                     # Skills can be either a list or a dict:
@@ -202,27 +223,6 @@ init -11 python:
                                         
                             char.init() # Normalize!
                             content[char.id] = char
-                            
-                            if "stats" in gd:
-                                for stat in gd["stats"]:
-                                    if stat in char.STATS:
-                                        value = gd["stats"][stat]
-                                        if stat != "luck":
-                                            value = int(round(float(value)*char.get_max(stat))/100)
-                                        char.mod(stat, value)
-                                    else:
-                                        devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
-                                del gd["stats"]
-                                
-                            if "skills" in gd:
-                                for skill in gd["skills"]:
-                                    if skill in char.stats.skills:
-                                        value = gd["skills"][skill]
-                                        setattr(char, skill.lower(), value * (2/3.0))
-                                        setattr(char, skill.capitalize(), value * (1/3.0))
-                                    else:
-                                        devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
-                                del gd["skills"]
                                     
         return content
         
