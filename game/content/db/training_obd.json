@@ -138,7 +138,7 @@
                 "reqs": [{"flags": {"ge": {"obey": 2}}},
                          {"traits": ["Broken"]}
                         ],
-                "primary": {"mod": {"joy": [2, 2, 3], "disposition": 20, "normalsex": [0, 0, 0, 1]},
+                "primary": {"mod": {"joy": [2, 2, 3], "disposition": 20},
                             "flags": {"obey": -2}
                            },
                 "AP": 1,
@@ -183,7 +183,7 @@
                 "reqs": [{"flags": {"ge": {"disobey": 2}}},
                          {"traits": ["Broken"]}
                         ],
-                "primary": {"mod": {"joy": [-2, -2, -3], "disposition": -20, "normalsex": [0, 0, 0, -1]},
+                "primary": {"mod": {"joy": [-2, -2, -3], "disposition": -20},
                             "flags": {"disobey": -2}
                            },
                 "AP": 1,

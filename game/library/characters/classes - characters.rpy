@@ -503,47 +503,47 @@ init -9 python:
             # TODO: To be revised after SKILLS!
             char = self.instance
             
-            wage = 0
-            
-            if traits['Prostitute'] in char.occupations:
-                bw = 5 # Base wage
-                sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
-                osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
-
-                wage =  (sm*osm)/5 + bw
-
-            elif traits['Stripper'] in char.occupations:
-                bw = 2
-                sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
-                osm = char.strip*char.agility/100
-
-                wage = (sm+osm)/5 + bw
-
-            elif 'Server' in char.occupations:
-                bw = 10
-                sm = char.charisma/5 + char.agility/2 + char.refinement/4
-                osm = char.service*bw
-
-                wage = sm/2+osm/100
-
-            elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
-                # Here we include MC for the attack event as well.
-                bw = 15
-                sm = char.agility/100+char.fame/4 + char.reputation/3
-                osm = (char.attack + char.defence + char.magic/2)/100 + bw
-
-                wage = bw+sm*osm
-
-            else:
-                for stat in char.stats:
-                    if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                        wage += getattr(char, stat)
-                wage = wage/2
-
-            # Normalize:    
-            wage = int(wage)
-            if wage < 20:
-                wage = 20
+            wage = 100
+             
+            # if traits['Prostitute'] in char.occupations:
+                # bw = 5 # Base wage
+                # sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
+                # osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
+ 
+                # wage =  (sm*osm)/5 + bw
+ 
+            # elif traits['Stripper'] in char.occupations:
+                # bw = 2
+                # sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
+                # osm = char.strip*char.agility/100
+ 
+                # wage = (sm+osm)/5 + bw
+ 
+            # elif 'Server' in char.occupations:
+                # bw = 10
+                # sm = char.charisma/5 + char.agility/2 + char.refinement/4
+                # osm = char.service*bw
+ 
+                # wage = sm/2+osm/100
+ 
+            # elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
+                # # Here we include MC for the attack event as well.
+                # bw = 15
+                # sm = char.agility/100+char.fame/4 + char.reputation/3
+                # osm = (char.attack + char.defence + char.magic/2)/100 + bw
+ 
+                # wage = bw+sm*osm
+ 
+            # else:
+                # for stat in char.stats:
+                    # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                        # wage += getattr(char, stat)
+                # wage = wage/2
+ 
+            # # Normalize:    
+            # wage = int(wage)
+            # if wage < 20:
+                # wage = 20
                 
             return wage
             
@@ -597,98 +597,103 @@ init -9 python:
         def get_price(self):
             # TODO: To be revised after skills are added!
             char = self.instance
-            if char.status == 'slave':
-                if traits['Prostitute'] in char.occupations:
-                    bp = 3000 # Base Price
-                    sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
-                    ssp = 2 * (char.anal + char.normalsex + char.blowjob + char.lesbian) # Sex Price
-                    if sp > 1200:
-                        sp = sp * 1.2
-                    if ssp > 850:
-                        ssp = ssp * 1.4
-                    price = bp + sp + ssp
-                    return int(price)
-                elif traits['Stripper'] in char.occupations:
-                    bp = 3900 # Base Price
-                    sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
-                    ssp = 2 * 4 * (char.strip) # Sex Price
-                    if sp > 1200:
-                        sp = sp * 1.2
-                    if ssp > 850:
-                        ssp = ssp * 1.4
-                    price = bp + sp + ssp
-                    return int(price)
-                elif 'Server' in char.occupations:
-                    bp = 3500 # Base Price
-                    sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
-                    ssp = 2 * 4 * (char.service) # Sex Price
-                    if sp > 1200:
-                        sp = sp * 1.2
-                    if ssp > 850:
-                        ssp = ssp * 1.4
-                    price = bp + sp + ssp
-                    return int(price)
-                else:
-                    bp = 3000 # Base Price
-                    sp = 0
-                    for stat in char.stats:
-                        if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                            sp += getattr(char, stat)
-                    
-                    if sp > 1200:
-                        sp = sp * 1.2
-
-                    price = bp + sp
-                    return int(price)
-                    
-            else:
-                devlog.warning("get_price for {} was ran even though character is free !".format(char.id))
-                return 0
+            # if char.status == 'slave':
+                # if traits['Prostitute'] in char.occupations:
+                    # bp = 3000 # Base Price
+                    # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
+                    # ssp = 2 * (char.anal + char.normalsex + char.blowjob + char.lesbian) # Sex Price
+                    # if sp > 1200:
+                        # sp = sp * 1.2
+                    # if ssp > 850:
+                        # ssp = ssp * 1.4
+                    # price = bp + sp + ssp
+                    # return int(price)
+                # elif traits['Stripper'] in char.occupations:
+                    # bp = 3900 # Base Price
+                    # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
+                    # ssp = 2 * 4 * (char.strip) # Sex Price
+                    # if sp > 1200:
+                        # sp = sp * 1.2
+                    # if ssp > 850:
+                        # ssp = ssp * 1.4
+                    # price = bp + sp + ssp
+                    # return int(price)
+                # elif 'Server' in char.occupations:
+                    # bp = 3500 # Base Price
+                    # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
+                    # ssp = 2 * 4 * (char.service) # Sex Price
+                    # if sp > 1200:
+                        # sp = sp * 1.2
+                    # if ssp > 850:
+                        # ssp = ssp * 1.4
+                    # price = bp + sp + ssp
+                    # return int(price)
+                # else:
+                    # bp = 3000 # Base Price
+                    # sp = 0
+                    # for stat in char.stats:
+                        # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                            # sp += getattr(char, stat)
+                     
+                    # if sp > 1200:
+                        # sp = sp * 1.2
+ 
+                    # price = bp + sp
+                    # return int(price)
+                     
+            # else:
+                # devlog.warning("get_price for {} was ran even though character is free !".format(char.id))
+            return 1000
                 
 
         def get_upkeep(self):
             # TODO: To be revised after skills are added!
             char = self.instance
+            
             if char.status == 'slave':
-                if traits['Prostitute'] in char.occupations:
-                    bu = 20 * char.rank
-                    su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
-                    ssu = char.anal/8 + char.normalsex/8 + char.blowjob/8 + char.lesbian/8
-                    
-                    return int(bu + su + ssu + char.upkeep)
-
-                elif traits['Stripper'] in char.occupations:
-                    bu = 3 * char.strip
-                    su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
-
-                    return int(bu + su + char.upkeep)
-
-                elif 'Server' in char.occupations:
-                    bu = 3 * char.service
-                    su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
-
-                    return int(bu + su + char.upkeep)
-
-                else:
-                    bu = 20
-                    su = 0 # Stats Upkeep
-                    for stat in char.stats:
-                        if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                            su += getattr(char, stat)
-
-                    return int(bu + su + char.upkeep)
-
-            elif char.status == 'free':
-                return char.upkeep
-
-            else: # This is for any unknown types
-                bu = 50
-                su = 0 # Stats Upkeep
-                for stat in char.stats:
-                    if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
-                        su += getattr(char, stat)
-
-                return int(bu + su + char.upkeep)
+                return 50
+            else:
+                return 0
+            # if char.status == 'slave':
+                # if traits['Prostitute'] in char.occupations:
+                    # bu = 20 * char.rank
+                    # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
+                    # ssu = char.anal/8 + char.normalsex/8 + char.blowjob/8 + char.lesbian/8
+                     
+                    # return int(bu + su + ssu + char.upkeep)
+ 
+                # elif traits['Stripper'] in char.occupations:
+                    # bu = 3 * char.strip
+                    # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
+ 
+                    # return int(bu + su + char.upkeep)
+ 
+                # elif 'Server' in char.occupations:
+                    # bu = 3 * char.service
+                    # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
+ 
+                    # return int(bu + su + char.upkeep)
+ 
+                # else:
+                    # bu = 20
+                    # su = 0 # Stats Upkeep
+                    # for stat in char.stats:
+                        # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                            # su += getattr(char, stat)
+ 
+                    # return int(bu + su + char.upkeep)
+ 
+            # elif char.status == 'free':
+                # return char.upkeep
+ 
+            # else: # This is for any unknown types
+                # bu = 50
+                # su = 0 # Stats Upkeep
+                # for stat in char.stats:
+                    # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                        # su += getattr(char, stat)
+ 
+                # return int(bu + su + char.upkeep)
 
         def get_whore_price(self):
             """
@@ -697,16 +702,16 @@ init -9 python:
             # TODO: To be revised after skills are added!
             char = self.instance
             
-            if char.rank < 4:
-                bp = 10 * char.rank # Base Price
-            elif char.rank < 7 :
-                bp = 15 * char.rank
-            else:
-                bp = 20 * char.rank
-            sp = char.charisma/2 + char.refinement/3 + char.reputation/4 + char.fame/4 # Stats Price
-            ssp = (char.anal + char.normalsex + char.blowjob + char.lesbian)/4*(1+(char.rank*0.1)) # Sex Stats Price
+            # if char.rank < 4:
+                # bp = 10 * char.rank # Base Price
+            # elif char.rank < 7 :
+                # bp = 15 * char.rank
+            # else:
+                # bp = 20 * char.rank
+            # sp = char.charisma/2 + char.refinement/3 + char.reputation/4 + char.fame/4 # Stats Price
+            # ssp = (char.anal + char.normalsex + char.blowjob + char.lesbian)/4*(1+(char.rank*0.1)) # Sex Stats Price
 
-            return int(bp + sp + ssp)
+            return 100 # int(bp + sp + ssp)
             
         def next_day(self):    
             self.game_fin_log[str(day)] = (self.daily_income_log, self.daily_expense_log)
@@ -1134,9 +1139,9 @@ init -9 python:
                 val = self.__dict__["stats"].get_stat(key)
             elif key.lower() in self.SKILLS:
                 val = self.__dict__["stats"].get_skill(key)
-            elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
-                # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS! # TODO
-                val = 0
+            # elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
+                # # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS! # TODO
+                # val = 0
             elif key in set(["".join([skill, "skill"]) for skill in self.SKILLS]):
                 val = self.get_skill(key[:-5])
             else:
@@ -1150,9 +1155,9 @@ init -9 python:
                 self.__dict__["stats"].mod_base_stat(key, value)
             elif key.lower() in self.SKILLS:
                 val = self.__dict__["stats"].mod_skill(key, value)
-            elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
-                # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS! # TODO: Remove this!
-                pass
+            # elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
+                # # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS! # TODO: Remove this!
+                # pass
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 

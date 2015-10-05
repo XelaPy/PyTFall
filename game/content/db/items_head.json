@@ -257,7 +257,7 @@
     "infinite": false,
     "slot": "head",
     "type": "dress",
-    "mod": {"charisma": 10, "refinement": 25, "normalsex": 10},
+    "mod": {"charisma": 10, "refinement": 25},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.03, 0, 0], "bdsm": [0, 0, 0.02, 0, 0], "teaching": [0, 0, 0.03, 0, 0]},
     "locations": ["Exploration"]
     },
