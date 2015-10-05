@@ -64,7 +64,8 @@
     {
     "id": "Heavy Drinker",
     "desc": "She just can't hold her liquor.",
-    "mod": {"upkeep": 15},
+    "mod": {"upkeep": 10},
+    "mod_stats": {"character": [1, 15]},
     "mod_skills": {"refinement": [0, 0, -0.01]},
     "character_trait": true,
     "client": true
@@ -72,8 +73,9 @@
     {
     "id": "Always Hungry",
     "desc": "There is never enough for this girl's appetite.",
-    "mod": {"upkeep": 10, "constitution": 10},
+    "mod": {"upkeep": 10},
     "mod_skills": {"refinement": [0, 0, -0.04]},
+    "mod_stats": {"constitution": [1, 15]},
     "character_trait": true,
     "client": true
     },
