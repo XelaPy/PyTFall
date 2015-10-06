@@ -16,11 +16,6 @@ label mc_setup:
         
         if result[0] == "control":
             if result[1] == "build_mc":
-                # hero.stats.max = mc_max
-                # hero.stats.lvl_max = mc_lvl_max
-                # hero.occupation = mc_class
-                # for stat in mc_stats:
-                    # setattr(hero, stat, mc_stats[stat])
                 python:
                     for key in mc_pics.keys():
                         if mc_pics[key] == hero.img_db:

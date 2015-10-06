@@ -45,7 +45,6 @@
         # This should be reorganized later:
         tgs = object() # TraitGoups!
         tgs.breasts = [i for i in traits.values() if i.breasts]
-        #TODO: Come up with better name for permennt traits?
         tgs.body = [i for i in traits.values() if i.body]
         tgs.base = [i for i in traits.values() if i.basetrait and not i.mob_only]
         tgs.elemental = [i for i in traits.values() if i.elemental]

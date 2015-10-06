@@ -211,8 +211,8 @@ init -1 python:
         
         # Interactions/GM Flow Controls:
         def jump(self, label, free=False, allow_unique=True, **kwargs):
-            """
-            Jumps to a GMIT label with the most specific name.
+            """Jumps to a GMIT label with the most specific name.
+            
             label = The label to jump to.
             free = Whether the interaction is free.
             allow_unique Whether to allow girl.id specific labels.
@@ -225,18 +225,18 @@ init -1 python:
                 # If we are allowed unique labels
                 if allow_unique:
                     # Add the mode specific girl unique label
-                    ls.append("%s_%s_%s"%(self.mode, label, self.char.id))
+                    ls.append("{}_{}_{}".format(self.mode, label, self.char.id))
                 
                 # Add the mode specific label
-                ls.append("%s_%s"%(self.mode, label))
+                ls.append("{}_{}".format(self.mode, label))
             
             # If we are allowed unique labels
             if allow_unique:
                 # Add the girl unique label
-                ls.append("%s_%s"%(label, gm.char.id))
+                ls.append("{}_{}".format(label, gm.char.id))
             
             # Add the generic label
-            ls.append("interactions_%s"%label)
+            ls.append("interactions_{}".format(label))
             
             # If we have labels
             for l in ls:
@@ -245,25 +245,22 @@ init -1 python:
                     self.jump_cache = l
                     break
             else:
-                # Notify and stop @Review: One last try!        
-                # Else we have no labels
                 # Try just the label name...:
-                # TODO: Improve?
                 if renpy.has_label(label):
                     self.jump_cache = label
                     l = label
                 else:
-                    notify("Unable to find GM label %s."%label)
+                    # Notify and stop:
+                    notify("Unable to find GM label {}.".format(label))
                     self.jump_cache = ""
                     return
             
-            # If we aren't a free action
+            # If the action costs AP:
             if not free:
                 # If we have no more points
-                if not self.gm_points and not hero.AP:
+                if not self.gm_points and hero.AP <= 0:
                     renpy.show_screen("pyt_message_screen", "You have no Action Points left!")
                     return
-                
                 else:
                     # Take AP
                     if not self.gm_points:
@@ -278,8 +275,8 @@ init -1 python:
             renpy.jump(l)
             
         def start(self, mode, girl, img=None, exit=None, bg=None):
-            """
-            Starts a girl meet scenario.
+            """Starts a girl meet scenario.
+            
             mode = The mode to use.
             girl = The girl to use.
             img = The image to use.

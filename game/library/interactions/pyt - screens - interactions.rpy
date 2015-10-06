@@ -20,8 +20,6 @@ init python:
 
 label girl_interactions:
     python:
-        # We need to recreate this in order to update the menu accordingly! TODO: Improve!
-        # pytfall.world_actions = WorldActionsManager()
         if "girl_meets" in pytfall.world_actions.locations:
             del pytfall.world_actions.locations["girl_meets"]
         pytfall.world_actions.clear()

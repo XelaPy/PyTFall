@@ -192,7 +192,6 @@ init -9 python:
                 else:
                     devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
                 
-            #TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
             if hasattr(char, "effects"):
                 for entry in trait.effects:
@@ -293,7 +292,6 @@ init -9 python:
             for entry in self:
                 self.blocked_traits = self.blocked_traits.union(entry.blocks)
 
-            # TODO: Make this into dictionary and set the effects with custom values?:
             # For now just the girls get effects...
             if isinstance(char, Char):
                 for entry in trait.effects:
@@ -1139,9 +1137,6 @@ init -9 python:
                 val = self.__dict__["stats"].get_stat(key)
             elif key.lower() in self.SKILLS:
                 val = self.__dict__["stats"].get_skill(key)
-            # elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
-                # # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS! # TODO
-                # val = 0
             elif key in set(["".join([skill, "skill"]) for skill in self.SKILLS]):
                 val = self.get_skill(key[:-5])
             else:
@@ -1155,9 +1150,6 @@ init -9 python:
                 self.__dict__["stats"].mod_base_stat(key, value)
             elif key.lower() in self.SKILLS:
                 val = self.__dict__["stats"].mod_skill(key, value)
-            # elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
-                # # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS! # TODO: Remove this!
-                # pass
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 
@@ -2359,7 +2351,6 @@ init -9 python:
                 self.nickname = self.name
                 
             # If there are no basetraits, we add Warrior by default:
-            # TODO: This is not likely required.
             if not self.traits.basetraits:
                 self.traits.basetraits.add(traits["Warrior"])
                 self.apply_trait(traits["Warrior"])
@@ -2389,7 +2380,6 @@ init -9 python:
             self.fullname = 'Player'
             self.nickname = 'Player'
             self._location = locations["Streets"]
-            self.occupation = "Warrior" # TODO: THIS NEEDS TO GO
             self.status = "free"
             self.gender = "male"
             
@@ -3025,7 +3015,7 @@ init -9 python:
             if self.status == "slave" and (self.location == "city" or not self.location):
                 set_location(self, pytfall.sm)
 
-            # *** No girls land themselves in the city :( TODO: Fix city string to be an object.
+            # TODO: Fix city string to be an object.
             if self.status == "free" and self.location == pytfall.sm:
                 set_location(self, "city")
                 
@@ -3066,8 +3056,7 @@ init -9 python:
                 setattr(self, stat, self.get_max(stat))
             
             # Arena:
-            # TODO: Must be update for all warrior classes and moved to init()
-            if traits["Warrior"] in self.occupations and self not in hero.girls and self.arena_willing != False:
+            if "Warrior" in self.occupations and self not in hero.girls and self.arena_willing is not False:
                 self.arena_willing = True
                 
             # AP:
@@ -3305,7 +3294,7 @@ init -9 python:
             original_tags = tags[:]
             imgpath = ""
             
-            if not any([maxw, maxh]): # @TODO: Remove adding self.id to tags after we're done with Debugging!!! and update the code accordingly.
+            if not any([maxw, maxh]):
                 raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
             
             if label_cache:
@@ -3658,17 +3647,7 @@ init -9 python:
                 
                 self.mech_relay['daysemployed'] += 1
                 
-                # TODO: Restore with the new code!
-                # if isinstance(self.location, Brothel) and self.location.upgrades['garden']['1']['active']:
-                    # if dice(50):
-                        # self.joy += 2
-                        # txt += "Her mood improved slightly as she passed by beautiful flowerbeds!\n\n"
-                if isinstance(self.location, Brothel):
-                    if dice(50):
-                        self.joy += 2
-                        txt += "*Old Code! Her mood improved slightly as she passed by beautiful flowerbeds!\n\n"
-                
-                elif self.location == "Streets" and self.status == "slave":
+                if self.location == "Streets" and self.status == "slave":
                     self.health -= randint(3, 5)
                     txt += "\n{color=[red]}This girl is a slave and curretly has no shelter! Find a place for her to live.{/color}\n\n"
                     flag_red = True

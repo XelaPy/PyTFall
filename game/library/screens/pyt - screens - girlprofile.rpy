@@ -84,28 +84,28 @@ label girl_profile:
                         else:
                             jump girls_profile_end
                             
-                elif result[1] == 'buyrank':
-                    # Should prolly move this to the Girl method at some point:
-                    # TODO: Update to skills (Refinement!)
-                    # No Longer in use!!!
-                    python:
-                        targetrank = char.rank + 1
-                        maxrank = max(b.maxrank for b in hero.brothels)
-                        if targetrank > 3 and char.status == "slave":
-                            renpy.call_screen('pyt_message_screen', "Slave Girls cannot be pushed past rank 3!")
-                        elif targetrank > maxrank:
-                            renpy.call_screen('pyt_message_screen', "You do not currently own any brothels to justify ranking a prostitute to Rank %d" % targetrank)
-                        else:    
-                            rankinfo = char.wranks['r%d' % targetrank]
+                # elif result[1] == 'buyrank':
+                    # # Should prolly move this to the Girl method at some point:
+                    # # TODO: Update to skills (Refinement!)
+                    # # No Longer in use!!!
+                    # python:
+                        # targetrank = char.rank + 1
+                        # maxrank = max(b.maxrank for b in hero.brothels)
+                        # if targetrank > 3 and char.status == "slave":
+                            # renpy.call_screen('pyt_message_screen', "Slave Girls cannot be pushed past rank 3!")
+                        # elif targetrank > maxrank:
+                            # renpy.call_screen('pyt_message_screen', "You do not currently own any brothels to justify ranking a prostitute to Rank %d" % targetrank)
+                        # else:    
+                            # rankinfo = char.wranks['r%d' % targetrank]
                 
-                            if char.exp >= rankinfo['exp']:
-                                if char.refinement >= rankinfo['ref']:
-                                    if hero.take_money(rankinfo['price'], reason="Prositute Ranks"):
-                                        char.rank += 1
-                                        char.stats.max['refinement'] += 15
-                                
-                        del maxrank
-                        del targetrank
+                            # if char.exp >= rankinfo['exp']:
+                                # if char.refinement >= rankinfo['ref']:
+                                    # if hero.take_money(rankinfo['price'], reason="Prositute Ranks"):
+                                        # char.rank += 1
+                                        # char.stats.max['refinement'] += 15
+                                 
+                        # del maxrank
+                        # del targetrank
                         
             elif result[0] == "rename":
                 if result[1] == "name":

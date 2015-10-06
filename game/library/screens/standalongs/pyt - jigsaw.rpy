@@ -8,7 +8,6 @@
 #    
 #####################################################################################################
 
-# TODO: MOVE THIS WHO BLOODY THING ONTO A CLASS!!!!
 init python:
     
     def piece_dragged(drags, drop):
