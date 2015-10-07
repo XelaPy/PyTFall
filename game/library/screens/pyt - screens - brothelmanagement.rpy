@@ -322,7 +322,7 @@ screen pyt_brothel_management():
                     hovered tt.action("Next ==>")
                     text "Next" style "wood_text" xalign(0.39)
         ## Security Bar:
-        if brothel.gui_security_bar()[0]:
+        if hasattr(brothel, "gui_security_bar") and brothel.gui_security_bar()[0]:
             frame:
                 xalign 0.490
                 ypos 561
@@ -443,17 +443,17 @@ screen pyt_brothel_management():
                                                 background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                                                 if brothel.upgrades[key][ukey]['active']:
                                                     use rtt_lightbutton(img=im.Scale(brothel.upgrades[key][ukey]['img'], 43, 43),
-                                                                                    return_value=['do_nothing'],
-                                                                                      tooltip=brothel.upgrades[key][ukey]['desc'])
-                                
+                                                                                  return_value=['do_nothing'],
+                                                                                  tooltip=brothel.upgrades[key][ukey]['desc'])
+                                                    
                 frame:
-                    background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                     xysize (317, 160)
                     xanchor 5
                     yanchor 10
                     style_group "stats"
                     label "Active Advertisements:" text_color ivory xalign 0.5
-                    if brothel.use_adverts:
+                    if hasattr(brothel, "use_adverts") and brothel.use_adverts:
                         vbox:
                             null height 35
                             spacing -6
@@ -468,11 +468,11 @@ screen pyt_brothel_management():
             ypos 37
             xalign 1.0
             xysize (345, 592)
-            background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             frame:
                 yalign 0.5
                 xysize (330, 95)
-                background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
                 hbox:
                     style_group "wood"
                     xalign 0.5
@@ -480,12 +480,12 @@ screen pyt_brothel_management():
                     null height 16
                     vbox:
                         spacing 5
-                        button:
-                            xysize (150, 40)
-                            action Return(['brothel', "buyroom"])
-                            hovered tt.action('Add rooms to this Brothel. Price = %d.' % brothel.get_room_price())
-                            text "Add Room"
-                        if isinstance(brothel, UpgradableBuilding) and brothel.use_adverts:
+                        # button:
+                            # xysize (150, 40)
+                            # action Return(['brothel', "buyroom"])
+                            # hovered tt.action('Add rooms to this Brothel. Price = %d.' % brothel.get_room_price())
+                            # text "Add Room"
+                        if hasattr(brothel, "use_adverts") and brothel.use_adverts:
                             button:
                                 xysize (150, 40)
                                 action Show("pyt_brothel_adverts")

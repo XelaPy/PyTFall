@@ -464,9 +464,9 @@ screen pyt_hero_profile():
                 xysize (160, 389)
                 
                 # Traits (Baseclasses for now):
-                #has vbox
-                #for t in hero.traits:
-                    #textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
+                has vbox
+                for t in hero.traits:
+                    textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
     
     # EQUIPMENT   -------------------------------------------------->
     # showif not renpy.get_screen('pyt_hero_equip'):

@@ -373,7 +373,6 @@ init -9 python:
                     
                     delattr(self, key)
         
-        @property
         def use_adverts(self):
             """
             Whether this building has any adverts.
@@ -524,7 +523,7 @@ init -9 python:
                 return
                 
             # Check is there is already this type of an upgrade:
-            if list(up for up in self.upgrades if up.__class__ == upgrade.__class__):
+            if list(up for up in self._upgrades if up.__class__ == upgrade.__class__):
                 return
                 
             # If we want to build the upgrade as well:

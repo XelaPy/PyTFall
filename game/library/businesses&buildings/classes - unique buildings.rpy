@@ -375,7 +375,7 @@ init -9 python:
             self.fin.next_day()
         
     
-    class Brothel(UpgradableBuilding, NewStyleUpgradableBuilding, DirtyBuilding, FamousBuilding):
+    class Brothel(NewStyleUpgradableBuilding, DirtyBuilding, FamousBuilding, Flags):
         """
         The building that represents Brothels.
         """
@@ -519,39 +519,6 @@ init -9 python:
             
             # ND Report
             self.logged_clients = False
-        
-        # Brothel flags control *Not used atm
-        def setEvent(self, par, value=True):
-            """
-            Sets an event for the brothel.
-            par = The event.
-            value = The value.
-            """
-            self.events.set(par,value)
-        
-        def modEvent(self, par, value=True):
-            """
-            Modifies an event for the brothel.
-            par = The event.
-            value = The value.
-            """
-            self.events.mod(par, value)
-        
-        def delEvent(self, par, value=False):
-            """
-            Deletes an event from the brothel.
-            par = The event.
-            value = The value.
-            """
-            self.events.set(par, value)
-        
-        def getEvent(self, par):
-            """
-            Returns an event from the brothel.
-            par = The event.
-            """
-            if self.events.has(par):
-                return self.events.get(par)
         
         def free_rooms(self):
             """

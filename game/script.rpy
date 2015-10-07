@@ -72,7 +72,7 @@
         tl.timer("Loading: SimpleJobs")
         
         tl.timer("Loading: Brothels")
-        brothels = load_brothels()
+        # brothels = load_brothels() # Disabling for now, should be renamed soon to businesses.
         # pytWhoringActs = build_whoring_acts()
         tl.timer("Loading: Brothels")
         
