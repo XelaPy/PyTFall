@@ -1,7 +1,12 @@
+init:
+    image scroll = ProportionalScale("content/gfx/frame/library_page.jpg", 700, 600)
+    image blueprint = ProportionalScale("content/events/StoryI/blueprint.png", 660, 540)
 label test_matrix:
     stop music
     stop world
-    show bg library with dissolve
+    scene black
+    show scroll at truecenter with dissolve
+    show blueprint at truecenter with dissolve
     call screen poly_matrix("library/screens/locations/coordinates_library.json", show_exit_button=(1.0, 1.0))
     "Result: [_return]"
     

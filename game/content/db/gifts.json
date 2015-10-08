@@ -3,25 +3,25 @@
     "id": "Exotic Bouquet",
     "icon": "content/items/gift/eb.png",
     "desc": "This tastefully-arranged bouquet is comprised of many types of flowers that usually only grow in faraway lands. It's colorful, it's gorgeous, and it shows that you're willing to spend a lot of money to impress.",
-    "price": 300,
+    "price": 150,
     "chance": 65,
-    "dismod": 30,
+    "dismod": 20,
     "cblock": 5,
     "infinite": false,
     "locations": ["General Store"],
-    "traits": {"Ill-mannered": 40, "Not Human": 45, "Tomboy": -20, "Noble": 15}
+    "traits": {"Not Human": 5, "Elf": 10, "Bokukko": -10, "Kamidere": -5}
     },
     {
     "id": "Red Rose",
     "icon": "content/items/gift/rr.png",
     "desc": "A single red rose is worth a lot to a girl.",
-    "price": 900,
+    "price": 300,
     "chance": 15,
-    "dismod": 75,
+    "dismod": 35,
     "cblock": 10,
     "infinite": false,
     "locations": ["General Store"],
-    "traits": {"Yandere": 95, "Shy": 80, "Not Human": 90, "Noble": 30}
+    "traits": {"Yandere": 10, "Shy": 5, "Not Human": 5, "Elf": 10}
     },
     {
     "id": "Wild Flowers",
@@ -33,19 +33,19 @@
     "cblock": 10,
     "infinite": true,
     "locations": ["General Store"],
-    "traits": {"Ill-mannered": -10, "Impersonal": 0, "Noble": -5, "Not Human": 5}
+    "traits": {"Ill-mannered": -10, "Impersonal": -14, "Kamidere": -25, "Elf": 5}
     },
     {
     "id": "Gold Pendant",
     "icon": "content/items/gift/gp.png",
     "desc": "A finely crafted heart pendant that hangs on a fine golden chain.",
-    "price": 550,
+    "price": 250,
     "chance": 45,
-    "dismod": 55,
-    "cblock": 14,
+    "dismod": 20,
+    "cblock": 10,
     "infinite": false,
     "locations": ["General Store"],
-    "traits": {"Lolita": 65, "Tomboy": 50, "Manly": 30}
+    "traits": {"Imouto": 10, "Ane": 5, "Manly": -5}
     },
     {
     "id": "Forest Brooch",
@@ -53,11 +53,11 @@
     "desc": "Manufactured for sale by druids, these small brooches serve as a decoration and a light source.",
     "price": 180,
     "chance": 60,
-    "dismod": 20,
+    "dismod": 5,
     "cblock": 14,
     "infinite": false,
     "locations": ["General Store", "Forest"],
-    "traits": {"Impersonal": 35, "Edgy": 40}
+    "traits": {"Impersonal": 5, "Coward": 40}
     },
     {
     "id": "Set of Knives",
@@ -65,12 +65,12 @@
     "desc": "Hardened steel, gilded hilt and diamond dusted edge. Diamond grindstone is not included.",
     "price": 450,
     "chance": 60,
-    "dismod": -40,
+    "dismod": -15,
     "cblock": 14,
     "infinite": false,
     "locations": ["Work Shop"],
-    "traits": {"Former Assassin": 45, "Yandere": 45},
-    "occupations": {"Warrior": 30}
+    "traits": {"Assassin": 30, "Yandere": 35},
+    "occupations": {"Warrior": 25}
     },
     {
     "id": "Aged Liquor",
@@ -78,11 +78,11 @@
     "desc": "An expensive, rare, and aged liquor. For adults only.",
     "price": 750,
     "chance": 25,
-    "dismod": 40,
+    "dismod": 20,
     "cblock": 5,
     "infinite": false,
     "locations": ["General Shop"],
-    "traits": {"Heavy Drinker": 80, "Curious": 50, "Lolita": -60, "Strict Morals": -40}
+    "traits": {"Heavy Drinker": 20, "Curious": 10, "Imouto": -20, "Shy": -10}
     },
     {
     "id": "Suntan Cream",
@@ -90,11 +90,11 @@
     "desc": "Protects your skin from sun's harmful rays and provides an even tan.",
     "price": 95,
     "chance": 85,
-    "dismod": 20,
+    "dismod": 5,
     "cblock": 4,
     "infinite": true,
     "locations": ["General Shop"],
-    "traits": {"Artificial Body": -25, "Athletic": 25, "Sensitive": 30}
+    "traits": {"Artificial Body": -25, "Athletic": 5, "Undead": 5}
     },
     {
     "id": "Fish Cookies",
@@ -102,11 +102,11 @@
     "desc": "Crunchy cookies with flavor and aroma of fresh sea fish.",
     "price": 55,
     "chance": 90,
-    "dismod": 3,
+    "dismod": 1,
     "cblock": 4,
     "infinite": true,
     "locations": ["General Shop"],
-    "traits": {"Mind Fucked": 20, "Alien": 10}
+    "traits": {"Alien": 5}
     },
     {
     "id": "Compass",
@@ -114,11 +114,11 @@
     "desc": "Map of the city and its environs. A beautiful trinket for some, a useful tool for other.",
     "price": 280,
     "chance": 70,
-    "dismod": 25,
+    "dismod": 10,
     "cblock": 10,
     "infinite": false,
     "locations": ["General Shop"],
-    "traits": {"Alien": 50, "Adventurer": 35}
+    "traits": {"Alien": 5, "Adventurer": 10}
     },
     {
     "id": "Ocarina",
@@ -126,35 +126,35 @@
     "desc": "A simple yet elegant wind instrument.",
     "price": 45,
     "chance": 80,
-    "dismod": 8,
+    "dismod": 4,
     "cblock": 7,
     "infinite": false,
     "locations": ["General Shop"],
-    "traits": {"Clumsy": 25, "Meek": 20}
+    "traits": {"Clumsy": 5, "Shy": 6}
     },
     {
     "id": "Keychain",
     "icon": "content/items/gift/k.png",
     "desc": "A colorful cheap bauble.",
-    "price": 25,
+    "price": 20,
     "chance": 95,
-    "dismod": 4,
+    "dismod": 2,
     "cblock": 7,
     "infinite": true,
     "locations": ["General Shop"],
-    "traits": {"Optimist": 8, "Lolita": 10, "Retarded": 15, "Pessimist": -8}
+    "traits": {"Optimist": 3, "Imouto": 4, "Pessimist": -3}
     },
     {
     "id": "Silver Chronometer",
     "icon": "content/items/gift/chr.png",
     "desc": "A beautiful, expensive and useful mechanism.",
-    "price": 950,
+    "price": 650,
     "chance": 10,
-    "dismod": 90,
+    "dismod": 25,
     "cblock": 20,
     "infinite": false,
     "locations": ["General Shop"],
-    "traits": {"Dawdler": 100, "Professional Maid": 110, "Serious": -10, "Pessimist": -15}
+    "traits": {"Dawdler": 15, "Maid": 25, "Serious": -10, "Pessimist": -15}
     },
     {
     "id": "Lollipop",
@@ -162,24 +162,24 @@
     "desc": "A big, tasty lollipop with historically sexual innuendo.",
     "price": 85,
     "chance": 80,
-    "dismod": 5,
+    "dismod": 1,
     "cblock": 2,
     "infinite": false,
     "locations": ["Cafe"],
-    "traits": {"Nymphomaniac": 30, "Frigid": -30, "Sexy Air": 15, "Strict Morals": -20, "Lolita": 10, "Always Hungry": 10},
+    "traits": {"Nymphomaniac": 10, "Frigid": -10, "Sexy Air": 5, "Imouto": 3, "Always Hungry": 4},
     "occupations": {"Whore": 15}
     },
     {
     "id": "Candy Box",
     "icon": "content/items/gift/cb.png",
     "desc": "A heart shaped candy box.",
-    "price": 400,
+    "price": 200,
     "chance": 50,
-    "dismod": 40,
+    "dismod": 10,
     "cblock": 7,
     "infinite": false,
     "locations": ["Cafe"],
-    "traits": {"Always Hungry": 55, "Artificial Body": -30}
+    "traits": {"Always Hungry": 15, "Artificial Body": -15}
     },
     {
     "id": "Emerald Ring",
@@ -187,7 +187,7 @@
     "icon": "content/items/gift/er.png",
     "price": 2000,
     "chance": 15,
-    "dismod": 100,
+    "dismod": 50,
     "cblock": 30,
     "infinite": false,
     "locations": ["General Store"]
@@ -196,9 +196,9 @@
     "id": "Ruby Ring",
     "desc": "A very expensive and stylish gift.",
     "icon": "content/items/gift/rur.png",
-    "price": 4000,
+    "price": 2500,
     "chance": 10,
-    "dismod": 150,
+    "dismod": 60,
     "cblock": 30,
     "infinite": false,
     "locations": ["General Store"]
@@ -207,9 +207,9 @@
     "id": "Diamond Ring",
     "desc": "As they say, diamonds are a girl's best friend.",
     "icon": "content/items/gift/dr.png",
-    "price": 6000,
-    "chance": 5,
-    "dismod": 200,
+    "price": 3000,
+    "chance": 1,
+    "dismod": 70,
     "cblock": 30,
     "infinite": false,
     "locations": ["General Store"]
@@ -218,9 +218,9 @@
     "id": "Five Eyes",
     "desc": "Thin gold ring with five little diamonds. Really high price for this little thing. But still a rally petty sum of money for get to feel like royalty.",
     "icon": "content/items/gift/kring (5).png",
-    "price": 5000,
-    "chance": 5,
-    "dismod": 250,
+    "price": 4000,
+    "chance": 0.1,
+    "dismod": 80,
     "cblock": 30,
     "infinite": false,
     "locations": ["Exploration"]
