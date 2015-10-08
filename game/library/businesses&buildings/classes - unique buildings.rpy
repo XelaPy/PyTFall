@@ -3,7 +3,7 @@ init -9 python:
     # UNIQUE BUILDING CLASSES
     # The classes for actual buildings with the customisations they require.
     #
-    class CityJail(Building):
+    class CityJail(BaseBuilding):
         """
         The jail where escaped slaves can turn up. May do other things later.
         """
@@ -202,7 +202,7 @@ init -9 python:
             if not self.girls_list:
                 renpy.hide_screen("pyt_slave_shopping")
         
-    class Apartment(Building):
+    class Apartment(BaseBuilding):
         """Useless class really, but I may require to check for this during interation in the future."""
         #
         # Do we want to remove this to completely replace it with the Training Dungeon?
@@ -375,19 +375,19 @@ init -9 python:
             self.fin.next_day()
         
     
-    class Brothel(NewStyleUpgradableBuilding, DirtyBuilding, FamousBuilding, Flags):
+    class Building(NewStyleUpgradableBuilding, DirtyBuilding, FamousBuilding):
         """
-        The building that represents Brothels.
+        The building that represents Business Buildings.
         """
         
         ACTIONS = ['Whore', 'ServiceGirl', 'Rest', 'Stripper', 'Guard']
         
         def __init__(self, *args, **kwargs):
             """
-            Creates a new Brothel.
+            Creates a new Building.
             maxrank = The maximum rank this brothel can achieve.
             """
-            super(Brothel, self).__init__(*args, **kwargs)
+            super(Building, self).__init__(*args, **kwargs)
             
             self.fin = Finances(self)
             
@@ -396,7 +396,7 @@ init -9 python:
             self.stats_mod = {}
             self.nd_events_report = list()
             
-            # Brothel class related:
+            # Building class related:
             # self.stripresults = {'clients': 0, 'satisfaction': 0}
             # self.clientsr = {'bar': 0, 'club': 0}
             # self.servicer = {
@@ -416,7 +416,7 @@ init -9 python:
             self.maxrank = kwargs.pop("maxrank", 0)
             
             self.baseclients = 2
-            self.actions = Brothel.ACTIONS
+            self.actions = Building.ACTIONS
             
             # Upgrades
             self.used_upgrade_slots = 0
@@ -746,7 +746,7 @@ init -9 python:
             
             txt += "In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep)
             
-            if spentcash and not hero.take_money(spentcash, reason="Brothel Ads"):
+            if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
                 rep_hit = max(10, spentcash/10)
                 self.modrep(rep_hit * -1)
                 txt += "{color=[red]}And yet, you did not have enought money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name
@@ -1045,7 +1045,7 @@ init -9 python:
             NextDayList.append(evt)
         
     
-    class School(Building):
+    class School(BaseBuilding):
         """
         Building that represents the school.
         """

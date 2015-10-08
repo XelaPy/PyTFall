@@ -12,7 +12,7 @@ init -11 python:
             if not item.ceffect:
                 char.equip(item)
             elif item.ceffect == 'brothelgirls':
-                if char.location in hero.brothels:
+                if char.location in hero.buildings:
                     char.inventory.remove(item)
                     for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         girl.equip(item)
@@ -20,7 +20,7 @@ init -11 python:
                     renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "% char.nickname)
 
             elif item.ceffect == 'brothelfree':
-                if char.location in hero.brothels:
+                if char.location in hero.buildings:
                     char.inventory.remove(item)
                     for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         if girl.status != 'slave':
@@ -29,7 +29,7 @@ init -11 python:
                     renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%char.nickname)
 
             elif item.ceffect == 'brothelslave':
-                if char.location in hero.brothels:
+                if char.location in hero.buildings:
                     char.inventory.remove(item)
                     for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         if girl.status == 'slave':

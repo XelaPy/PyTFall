@@ -1,7 +1,7 @@
 init -9 python:
     #################################################################
     # CORE BUILDING CLASSES
-    # Building = Base class, needed if no other.
+    # BaseBuilding = Base class, needed if no other.
     # FamousBuilding = Adds fame and reputation mechanics to the building.
     # DirtyBuilding = Adds dirt and cleaning to the building.
     # UpgradableBuilding = Adds upgrades and adverts to the building.
@@ -11,9 +11,8 @@ init -9 python:
     # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
-    class Building(Location, Flags):
-        """
-        The super class for all Building logic.
+    class BaseBuilding(Location, Flags):
+        """The super class for all Building logic.
         """
         def __init__(self, id=None, name=None, desc=None, price=1, minrooms=0, maxrooms=1, roomprice=250, mod=1, **kwargs):
             """
@@ -28,7 +27,7 @@ init -9 python:
             mod = The modifier for the building.
             **kwargs = Excess arguments.
             """
-            super(Building, self).__init__()
+            super(BaseBuilding, self).__init__()
             self.id = id
             self.name = name
             self.desc = desc
@@ -118,7 +117,7 @@ init -9 python:
             return float(self.security_rating) / 1000.0
         
     
-    class FamousBuilding(Building):
+    class FamousBuilding(BaseBuilding):
         """
         A Building that has Fame and Reputation properties.
         """
@@ -174,7 +173,7 @@ init -9 python:
             self.rep += value
         
     
-    class DirtyBuilding(Building):
+    class DirtyBuilding(BaseBuilding):
         """
         A building that has Dirt and Cleaning mechanics.
         """
@@ -250,7 +249,7 @@ init -9 python:
                 self.dirt = 0
         
     
-    class UpgradableBuilding(Building):
+    class UpgradableBuilding(BaseBuilding):
         """
         An extension to Buildings that allows them to be upgradable.
         """
@@ -386,12 +385,11 @@ init -9 python:
             """
             return len(self.upgrades) > 0
         
-    class NewStyleUpgradableBuilding(Building):
+    class NewStyleUpgradableBuilding(BaseBuilding):
         def __init__(self, *args, **kwargs):
             """
             @ Last review:
-            Alex: I've moved everything except adverts and methods from Brothel class here.
-            Soon Brothel class needs to die off...
+            Alex: I've moved everything except adverts and methods from Building class here.
             """
             super(NewStyleUpgradableBuilding, self).__init__(*args, **kwargs)
             self._upgrades = list() #  New style Upgrades!
@@ -591,7 +589,7 @@ init -9 python:
                     for upgrade in ups:
                         # TODO: Brothel block check needs to be worked out of here.
                         if isinstance(upgrade, BrothelBlock) and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
-                            # Assumes a single worker at this stage... This part if for upgrades like Brothel.
+                            # Assumes a single worker at this stage... This part if for upgrades like Building.
                             if upgrade.requires_workers():
                                 char = None
                                 while self.workers:

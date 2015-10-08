@@ -461,13 +461,14 @@ init -9 python:
         def get_total_taxes(self, days):
             char = self.instance
             income = dict()
-            for brothel in char.brothels:
-                for _day in brothel.fin.game_fin_log:
+            businesses = [b for b in char.buildings if hasattr(b, "fin")]
+            for b in businesses:
+                for _day in b.fin.game_fin_log:
                     if int(_day) > day - days:
-                        for key in brothel.fin.game_fin_log[_day][0]["private"]:
-                            income[key] = income.get(key, 0) + brothel.fin.game_fin_log[_day][0]["private"][key]
-                        for key in brothel.fin.game_fin_log[_day][0]["work"]:
-                            income[key] = income.get(key, 0) + brothel.fin.game_fin_log[_day][0]["work"][key]
+                        for key in b.fin.game_fin_log[_day][0]["private"]:
+                            income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["private"][key]
+                        for key in b.fin.game_fin_log[_day][0]["work"]:
+                            income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
                              
             income = sum(income.values())
  
@@ -484,8 +485,8 @@ init -9 python:
             else:
                 tax = int(round(income*0.45))
                  
-            for brothel in char.brothels:
-                tax += int(brothel.price*0.04)
+            for b in businesses:
+                tax += int(b.price*0.04)
             for girl in char.girls:
                 if girl.status == "slave":
                     tax += int(girl.fin.get_price()*0.05)
@@ -2452,13 +2453,13 @@ init -9 python:
             if building not in self._buildings:
                 self._buildings.append(building)
             
-            if isinstance(building, Brothel):
-                if building not in self._brothels:
-                    self._brothels.append(building)
+            # if isinstance(building, Brothel):
+                # if building not in self._brothels:
+                    # self._brothels.append(building)
         
         def remove_building(self, building):
-            if building in self._brothels:
-                self._brothels.remove(building)
+            # if building in self._brothels:
+                # self._brothels.remove(building)
             
             if building in self._buildings:
                 self._buildings.remove(building)
@@ -2466,27 +2467,27 @@ init -9 python:
             else:
                 raise Error, "This building does not belong to the player!!!"
         
-        @property
-        def brothels(self):
-            """List of owned brothels
-            :returns: list
+        # @property
+        # def brothels(self):
+            # """List of owned brothels
+            # :returns: list
+ 
+            # """
+            # return self._brothels
 
-            """
-            return self._brothels
-
-        def add_brothel(self, brothel):
-            if brothel not in self.brothels:
-                self._brothels.append(brothel)
-            if brothel not in self._buildings:
-                self.add_building(brothel)
+        # def add_brothel(self, brothel):
+            # if brothel not in self.brothels:
+                # self._brothels.append(brothel)
+            # if brothel not in self._buildings:
+                # self.add_building(brothel)
             
-        def remove_brothel(self, brothel):
-            if brothel in self._brothels:
-                self._brothels.remove(brothel)
-            if brothel in self._buildings:
-                self._buildings.remove(brothel)
-            else:
-                raise Error, "This brothel does not belong to the player!!!"
+        # def remove_brothel(self, brothel):
+            # if brothel in self._brothels:
+                # self._brothels.remove(brothel)
+            # if brothel in self._buildings:
+                # self._buildings.remove(brothel)
+            # else:
+                # raise Error, "This brothel does not belong to the player!!!"
             
         @property
         def girls(self):
@@ -2539,60 +2540,8 @@ init -9 python:
             return img
         
         # ----------------------------------------------------------------------------------
-        # Next Day"
-        def next_day(self):
-            # ND Logic....
-            # Relay from GuardJob:
-            
-            img = 'profile'
-            txt = "" # For future reports...
-            flag_red = False
-            
-            for event in self.guard_relay:
-                for stat in self.guard_relay[event]["stats"]:
-                    if stat == "exp":
-                        self.exp += self.guard_relay[event]["stats"][stat]
-                    elif stat in self.STATS:
-                        self.mod(stat, self.guard_relay[event]["stats"][stat])
-                        
-            # -------------------->
-            txt += "MC Report:\n\n"
-                        
-            if self.location == "Streets":
-                self.health -= randint(1, 2)
-                flag_red = True
-                txt += "{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n"
-            
-            # If in own dungeon
-            elif self.location == TrainingDungeon.NAME:
-                txt += "You've spent a night at your training dungeon."
-                
-                if self.AP > 0:
-                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
-                    for ap in xrange(self.AP):
-                        self.health += randint(5, 10)
-                        self.vitality += randint(50, 70)
-                        self.mp += randint(5, 10)
-                        for stat in self.STATS:
-                            if stat not in ["luck", "alignment", "vitality"]:
-                                if dice(1 + int(round(self.luck/20.0))):
-                                        self.mod(stat, 1)
-            
-            else:
-                txt += "You've comfortably spent a night under the roof of your dwelling."
-
-                if self.AP > 0:
-                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
-                    for ap in xrange(self.AP):
-                        self.health += randint(5, 10)
-                        self.vitality += randint(50, 70)
-                        self.mp += randint(5, 10)
-                        for stat in self.STATS:
-                            if stat not in ["luck", "alignment", "vitality"]:
-                                if dice(1 + int(round(self.luck/20.0))):
-                                        self.mod(stat, 1)
-                                
-            # Training with NPCs --------------------------------------->
+        # Next Day:
+        def nd_auto_train(self):
             if self.flag("train_with_witch"):
                 if self.get_free_ap():
                     if self.take_money(self.get_training_price(), "Training"):
@@ -2629,21 +2578,18 @@ init -9 python:
                 else:
                     txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
                     
-            # -------------
-            # Finances related
-            self.fin.next_day()
-            
-            # Taxes:
+        def nd_pay_taxes(self):
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
                 txt += "\nIt's time to pay taxes!\n"
                 income = dict()
-                for brothel in self.brothels:
-                    for _day in brothel.fin.game_fin_log:
+                businesses = [b for b in self.buildings if hasattr(b, "fin")]
+                for b in businesses:
+                    for _day in b.fin.game_fin_log:
                         if int(_day) > day - 7:
-                            for key in brothel.fin.game_fin_log[_day][0]["private"]:
-                                income[key] = income.get(key, 0) + brothel.fin.game_fin_log[_day][0]["private"][key]
-                            for key in brothel.fin.game_fin_log[_day][0]["work"]:
-                                income[key] = income.get(key, 0) + brothel.fin.game_fin_log[_day][0]["work"][key]
+                            for key in b.fin.game_fin_log[_day][0]["private"]:
+                                income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["private"][key]
+                            for key in b.fin.game_fin_log[_day][0]["work"]:
+                                income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
                                 
                 income = sum(income.values())
                 txt += "Over the past week your taxable income accounted for: {color=[gold]}%d Gold{/color}. " % income
@@ -2721,8 +2667,8 @@ init -9 python:
                 txt += choice(["\nWe're not done yet...\n", "\nProperty tax:\n", "\nProperty taxes next!\n"])
                 b_tax = 0
                 s_tax = 0
-                for brothel in hero.brothels:
-                    b_tax += int(brothel.price*0.04)
+                for b in businesses:
+                    b_tax += int(b.price*0.04)
                 for girl in self.girls:
                     if girl.status == "slave":
                         s_tax += int(girl.fin.get_price()*0.05)
@@ -2755,13 +2701,13 @@ init -9 python:
                     for girl in hero.girls:
                         if girl.status == "slave":
                             all_properties.append(girl)
-                    for brothel in hero.brothels:
-                        all_properties.append(brothel)
+                    for b in businesses:
+                        all_properties.append(b)
                     shuffle(all_properties)
                     while total_debt and all_properties:
                         multiplier = choice([0.4, 0.5, 0.6])
                         confiscate = all_properties.pop()
-                        if isinstance(confiscate, Brothel):
+                        if isinstance(confiscate, Building): # TODO: This may need to be revised.
                             price = confiscate.price
                             if self.location == confiscate:
                                 self.location = hero
@@ -2795,8 +2741,69 @@ init -9 python:
                             txt += " You've been declared bankrupt and your debt is now Null and Void!"
                         self.fin.income_tax_debt = 0
                         self.fin.property_tax_debt = 0
-                        
                     
+        def next_day(self):
+            # ND Logic....
+            # Relay from GuardJob:
+            
+            img = 'profile'
+            txt = "" # For future reports...
+            flag_red = False
+            
+            for event in self.guard_relay:
+                for stat in self.guard_relay[event]["stats"]:
+                    if stat == "exp":
+                        self.exp += self.guard_relay[event]["stats"][stat]
+                    elif stat in self.STATS:
+                        self.mod(stat, self.guard_relay[event]["stats"][stat])
+                        
+            # -------------------->
+            txt += "MC Report:\n\n"
+                        
+            if self.location == "Streets":
+                self.health -= randint(1, 2)
+                flag_red = True
+                txt += "{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n"
+            
+            # If in own dungeon
+            elif self.location == TrainingDungeon.NAME:
+                txt += "You've spent a night at your training dungeon."
+                
+                if self.AP > 0:
+                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
+                    for ap in xrange(self.AP):
+                        self.health += randint(5, 10)
+                        self.vitality += randint(50, 70)
+                        self.mp += randint(5, 10)
+                        for stat in self.STATS:
+                            if stat not in ["luck", "alignment", "vitality"]:
+                                if dice(1 + int(round(self.luck/20.0))):
+                                        self.mod(stat, 1)
+            
+            else:
+                txt += "You've comfortably spent a night under the roof of your dwelling."
+
+                if self.AP > 0:
+                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
+                    for ap in xrange(self.AP):
+                        self.health += randint(5, 10)
+                        self.vitality += randint(50, 70)
+                        self.mp += randint(5, 10)
+                        for stat in self.STATS:
+                            if stat not in ["luck", "alignment", "vitality"]:
+                                if dice(1 + int(round(self.luck/20.0))):
+                                        self.mod(stat, 1)
+                                
+            # Training with NPCs --------------------------------------->
+            self.nd_auto_train()
+
+            # -------------
+            # Finances related
+            self.fin.next_day()
+            
+            # Taxes:
+            self.nd_pay_taxes()
+            
             # ------------
             # Stats log:
             statmod = dict()
@@ -3692,7 +3699,7 @@ init -9 python:
                     elif hero.take_money(amount, reason="Girls Upkeep"):
                         self.fin.log_cost(amount, "Upkeep")
                         
-                        if isinstance(self.location, Brothel):
+                        if hasattr(self.location, "fin"):
                             self.location.fin.log_work_expense(amount, "Girls Upkeep")
                         
                         txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount

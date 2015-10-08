@@ -175,7 +175,7 @@ screen pyt_realtor_agency:
                                             text "Reputation:" yalign 0.5
                                             label (u"%s/%s" % (focus.rep, focus.maxrep)) style "stats_value_text" align (1.0, 0.5)
                                 
-                                    if isinstance(focus, Brothel):
+                                    if isinstance(focus, Building):
                                         frame:
                                             text "Max Rank:" yalign 0.5
                                             label (u"%s" % (focus.maxrank)) style "stats_value_text" align (1.0, 0.5)

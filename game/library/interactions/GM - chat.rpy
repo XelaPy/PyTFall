@@ -726,7 +726,7 @@ label interactions_interests:
 #        elif cgo("Warrior"):
 #            $rc("The Arena, where else?", "Window shopping at the blacksmith's!")
 #        elif cgo("SIW"):
-#            $rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Brothel...Don't look at me like that!")
+#            $rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Building...Don't look at me like that!")
 #        elif ct("Dancer"):
 #            $rc("Exotic Dancing academy", "Close to a pole and not any of the two you're thinking.", "Strip Club.")
 #        elif cgo("Server"):

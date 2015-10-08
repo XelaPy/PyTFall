@@ -117,7 +117,7 @@ label brothel_management:
                         renpy.show_screen("pyt_message_screen", "You do not have the required funds!")
                 
                 elif result[1] == "rename_brothel":
-                    brothel.name = renpy.call_screen("pyt_input", default=brothel.name, text="Enter Brothel name:")
+                    brothel.name = renpy.call_screen("pyt_input", default=brothel.name, text="Enter Building name:")
                 
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
@@ -159,7 +159,7 @@ screen pyt_brothel_maintenance():
                     xysize(200, 32)
                     action Return(['maintenance', "clean"])
                     hovered tt.action("Hire cleaners to completely clean this building for %d Gold."%brothel.get_cleaning_price())
-                    text "Clean: Brothel"
+                    text "Clean: Building"
 
                 python:
                     price = 0
@@ -171,7 +171,7 @@ screen pyt_brothel_maintenance():
                     xysize(200, 32)
                     action Return(['maintenance', "clean_all", price])
                     hovered tt.action("Hire cleaners to completely clean all brothels for [price] Gold.")
-                    text "Clean: All Brothels"
+                    text "Clean: All Buildings"
                 
                 button:
                             xysize (200, 32)
@@ -190,8 +190,8 @@ screen pyt_brothel_maintenance():
                     xysize (120, 100)
                     xalign 0.5
                     action Return(['maintenance', "rename_brothel"])
-                    hovered tt.Action("Give new name to your Brothel!")
-                    text "Rename Brothel"      
+                    hovered tt.Action("Give new name to your Building!")
+                    text "Rename Building"      
                     
         if brothel.name == TrainingDungeon.NAME:
             button:
@@ -276,7 +276,7 @@ screen pyt_brothel_adverts():
             text  "OK"
     
 screen pyt_brothel_management():
-    default tt = Tooltip("Manage your Brothels here")
+    default tt = Tooltip("Manage your Buildings here")
     
     if hero.upgradable_buildings:
         # Nameframe, pic and control buttons/security bar
@@ -304,8 +304,8 @@ screen pyt_brothel_management():
             xysize (628, 74)
             hbox:
                 align(0.46, 0.5)
-                #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_leftt.png", 140, 40), return_value=['control', 'left'], tooltip="Previous Brothel")
-                #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 60, 60), return_value=['control', 'right'], tooltip="Next Brothel")
+                #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_leftt.png", 140, 40), return_value=['control', 'left'], tooltip="Previous Building")
+                #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 60, 60), return_value=['control', 'right'], tooltip="Next Building")
                 button:
                     xysize (140, 40)
                     style "left_wood_button"
@@ -483,7 +483,7 @@ screen pyt_brothel_management():
                         # button:
                             # xysize (150, 40)
                             # action Return(['brothel', "buyroom"])
-                            # hovered tt.action('Add rooms to this Brothel. Price = %d.' % brothel.get_room_price())
+                            # hovered tt.action('Add rooms to this Building. Price = %d.' % brothel.get_room_price())
                             # text "Add Room"
                         if hasattr(brothel, "use_adverts") and brothel.use_adverts:
                             button:

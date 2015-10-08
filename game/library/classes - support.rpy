@@ -122,12 +122,13 @@ init -9 python:
             # Arena:
             self.arena.next_day()
             
-            # Girls, Brothels income and Hero:
+            # Girls, Buildings income and Hero:
             for girl in hero.girls:
                 girl.next_day()
             
-            for brothel in hero.brothels:
-                brothel.nd_log_income()
+            businesses = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
+            for b in businesses:
+                b.nd_log_income()
             
             hero.next_day()
             

@@ -743,9 +743,10 @@ init: # PyTFall:
                             # Without Equipping for the job!
                             action [SetField(char, "action", i), Hide("set_action_dropdown")]
                             
-                # Brothels
-                elif isinstance(char.location, Brothel):
-                    for entry in Brothel.ACTIONS:
+                # Buildings:
+                # TODO: This needs to be rewritten:
+                elif isinstance(char.location, Building):
+                    for entry in Building.ACTIONS:
                         if entry == 'Stripper':
                             if char.location.upgrades['stripclub']['1']['active']:
                                 textbutton "[entry]":
@@ -846,8 +847,8 @@ init: # PyTFall:
                                 action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
                     elif building.free_rooms():
                         $ can_keep_action = False
-                        if isinstance(building, Brothel):
-                            if char.action in Brothel.ACTIONS:
+                        if isinstance(building, Building):
+                            if char.action in Building.ACTIONS:
                                 $ can_keep_action = True
                         elif isinstance(building, FighterGuild):
                             if char.action in FighterGuild.ACTIONS:

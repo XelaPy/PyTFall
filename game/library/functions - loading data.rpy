@@ -421,6 +421,7 @@ init -11 python:
         return mobs
 
     def load_brothels():
+        # Outdated, may not be used in the future...
         # Load json content
         in_file = content_path('db/buildings.json')
         with open(in_file) as f:

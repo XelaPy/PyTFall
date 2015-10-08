@@ -1421,10 +1421,10 @@ init python:
             self.env = env
             
             # Bad way of handing Brothel Upgrade:
-            self.brothel = object()
-            self.brothel.res = simpy.Resource(env, 2)
-            self.brothel.time = 5
-            self.brothel.cap = 2
+            self.building = object()
+            self.building.res = simpy.Resource(env, 2)
+            self.building.time = 5
+            self.building.cap = 2
             
             self.sc = object()
             self.sc.res = simpy.Resource(env, 10)
@@ -1432,14 +1432,14 @@ init python:
             self.sc.cap = 10 # Capacity
             self.sc.cash = 0
             
-        def brothel_client_dispatcher(self, evn, client):
+        def building_client_dispatcher(self, evn, client):
             """The client_dispatcher process arrives at the building
             and requests a a room.
         
             It then starts the washing process, waits for it to finish and
             leaves to never come back...
             """
-            with self.brothel.res.request() as request:
+            with self.building.res.request() as request:
                 yield request
                 
                 while store.nd_chars:
@@ -1468,7 +1468,7 @@ init python:
                     temp = "{} and {} enter the room at {}".format(client.name, char.name, env.now)
                     store.building.nd_events_report.append(temp)
                     
-                    yield env.process(self.run_brothel_job(client, char))
+                    yield env.process(self.run_building_job(client, char))
                     
                     temp = "{} leaves at {}".format(client.name, env.now)
                     store.building.nd_events_report.append(temp)
@@ -1505,13 +1505,13 @@ init python:
                 # store.building.nd_events_report.append(temp)
                 # env.process(self.kick_client(client))
             
-        def run_brothel_job(self, client, char):
+        def run_building_job(self, client, char):
             """
             This should be a job...
             """
-            yield self.env.timeout(self.brothel.time)
+            yield self.env.timeout(self.building.time)
             if config.debug:
-                temp = "Debug: {} Brothel Resource in use!".format(set_font_color(self.brothel.res.count, "red"))
+                temp = "Debug: {} Brothel Resource in use!".format(set_font_color(self.building.res.count, "red"))
                 store.building.nd_events_report.append(temp)
             
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
@@ -1565,7 +1565,7 @@ init python:
             # store.client = store.nd_clients.pop()
             # store.client.name = "Client {}".format(i)
             # # if self.room.
-            # env.process(upgrade.brothel_client_dispatcher(env, store.client))
+            # env.process(upgrade.building_client_dispatcher(env, store.client))
         # Create more clients while the simulation is running if such are availible...
         
         i = 0
@@ -1586,8 +1586,8 @@ init python:
                 whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
                 strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
                 servers = list(i for i in store.nd_chars if "Server" in i.occupations)
-                if upgrade.brothel.res.count < upgrade.brothel.cap and (store.nd_chars):
-                    env.process(upgrade.brothel_client_dispatcher(env, store.client))
+                if upgrade.building.res.count < upgrade.building.cap and (store.nd_chars):
+                    env.process(upgrade.building_client_dispatcher(env, store.client))
                 elif upgrade.sc.res.count < upgrade.sc.cap:
                     env.process(upgrade.sc_client_dispatcher(env, store.client))
                 else:
@@ -1602,7 +1602,7 @@ label temp_jobs_loop:
     $ store.building.nd_events_report.append("\n\n")
     $ store.building.nd_events_report.append(set_font_color("===================", "lawngreen"))
     $ store.building.nd_events_report.append("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-    $ store.building.nd_events_report.append("{}".format(set_font_color("Testing a Brothel with two rooms:", "lawngreen")))
+    $ store.building.nd_events_report.append("{}".format(set_font_color("Testing a Building with two rooms:", "lawngreen")))
     # $ random.seed(RANDOM_SEED)  # This helps reproducing the results
     
     # Create an environment and start the setup process

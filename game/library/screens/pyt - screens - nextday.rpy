@@ -20,14 +20,13 @@ label next_day:
         list(girl.restore() for girl in list(g for g in hero.girls if g.action != "Exploring"))
         tl.timer("Char.restore for all MC girls")
         
-        ################## Brothel events Start ##################
+        ################## Building events Start ##################
         """
         Complete Rewrite! This should become a manager for jobs! Preferably partly in Ren'Py script!
         """
     $ tl.timer("Buildings")
     # Ren'Py script:
-    $ nd_buildings = list(hero.brothels)
-    # for brothel in hero.brothels:
+    $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
     
     # Since Resting is no longer buildings bound, we make one pass over all MCs chars here:
     # In order to test:
@@ -48,21 +47,21 @@ label next_day:
         $ building = nd_buildings.pop()
         python:
             pass
-            ###### Rest job in brothels #######
+            ###### Rest job in buildings #######
             # tl.timer("Rest (1)")
-            # girls = brothel.get_girls()
+            # girls = building.get_girls()
             # # Auto-Rest intervention as people reported girls causing problems during the stripper job. This is currently not reported anywhere in NDR :(
             # for girl in girls:
                 # rest = girl.auto_rest()
                 # if rest:
                     # girl.txt.append(rest)
-            # resting = list(girl for girl in hero.girls if girl.location == brothel and girl.action in ['Rest', 'AutoRest'])
+            # resting = list(girl for girl in hero.girls if girl.location == building and girl.action in ['Rest', 'AutoRest'])
             # for girl in resting:
-                # Rest(girl, brothel, resting)
+                # Rest(girl, building, resting)
             # tl.timer("Rest (1)")
             
             # tl.timer("Adding info to B report")
-            # # Add some info to the Brothel report...
+            # # Add some info to the Building report...
             # girls = list(girl for girl in building.get_girls() if girl.action in ["Stripper", "Whore", "ServiceGirl"])
             # strippers = list(girl for girl in girls if girl.action == "Stripper")
             # service_girls = list(girl for girl in girls if girl.action == "ServiceGirl")
@@ -116,11 +115,11 @@ label next_day:
                 tl.timer("StripJob")
                 girls = strippers
                 if strippers:
-                    brothel.servicer['strippers'] = len(strippers)
+                    building.servicer['strippers'] = len(strippers)
                 
                 while strippers:
                     girl = choice(strippers)
-                    StripJob(girl, brothel, strippers, clients)
+                    StripJob(girl, building, strippers, clients)
                 
                 tl.timer("StripJob")
                 
@@ -129,7 +128,7 @@ label next_day:
                 girls = service_girls
                 while service_girls:
                     girl = choice(service_girls)
-                    ServiceJob(girl, brothel, service_girls, clients)
+                    ServiceJob(girl, building, service_girls, clients)
                 
                 tl.timer("ServiceJob(1)")
                 
@@ -148,48 +147,48 @@ label next_day:
                     else:
                         whore = choice(whores)
                     
-                    WhoreJob(whore, client, brothel, whores, clients)
+                    WhoreJob(whore, client, building, whores, clients)
                 
                 tl.timer("WhoreJob")
                 
                 ##### Second round for Service Girls (Just cleaning this time) #####
                 tl.timer("ServiceJob(2)")
-                service_girls = list(girl for girl in hero.girls if girl.location == brothel and girl.action == 'ServiceGirl')
+                service_girls = list(girl for girl in hero.girls if girl.location == building and girl.action == 'ServiceGirl')
                 girls = service_girls
-                brothel.servicer['second_round'] = True
+                building.servicer['second_round'] = True
                 while service_girls:
                     girl = choice(service_girls)
-                    ServiceJob(girl, brothel, service_girls, clients)
+                    ServiceJob(girl, building, service_girls, clients)
                 
                 tl.timer("ServiceJob(2)")
                 
                 ##### Guard Job events and reports #####
                 tl.timer("GuardJob")
-                guards = list(girl for girl in hero.girls if girl.location == brothel and girl.action == 'Guard')
+                guards = list(girl for girl in hero.girls if girl.location == building and girl.action == 'Guard')
                 girls = guards
                 while guards:
                     girl = choice(guards)
-                    GuardJob(girl, brothel, guards)
+                    GuardJob(girl, building, guards)
                 
                 tl.timer("GuardJob")
                 
-                ###### Rest job in brothels #######
+                ###### Rest job in buildings #######
                 tl.timer("RestJob")
-                resting = list(girl for girl in hero.girls if girl.location == brothel and girl.action in ['Rest', 'AutoRest'])
+                resting = list(girl for girl in hero.girls if girl.location == building and girl.action in ['Rest', 'AutoRest'])
                 girls = resting
                 for girl in resting:
-                    Rest(girl, brothel, resting)
+                    Rest(girl, building, resting)
                 
                 tl.timer("RestJob")
                 
     python:
-        # Append brothel report to the list
+        # Append building report to the list
         tl.timer("Building.next_day")
         building.next_day()
         tl.timer("Building.next_day")
             
     $ tl.timer("Buildings")
-        ################## Brothel events END ##################
+        ################## Building events END ##################
         #   
         #
         ################## Training events Start ##################
@@ -344,14 +343,14 @@ label next_day_controls:
                     else:
                         FilteredList = NextDayList
                         
-            elif result[1] == 'brothel':
+            elif result[1] == 'building':
                 python:
-                    brothel = result[2]
+                    building = result[2]
                     FilteredList = []
                     for entry in NextDayList:
-                        if entry.type == 'brothelreport' and entry.loc == brothel:
+                        if entry.type == 'buildingreport' and entry.loc == building:
                             FilteredList.insert(0, entry)
-                        elif entry.type == 'girlreport' and entry.loc == brothel:
+                        elif entry.type == 'girlreport' and entry.loc == building:
                             FilteredList.append(entry)
                     event = FilteredList[0]
                     index = FilteredList.index(event)
@@ -393,7 +392,7 @@ screen pyt_next_day():
 
     default tt = Tooltip("Review days events here!")
     default show_summary = True
-    default summary_filter = "brothels" # Not applicable atm
+    default summary_filter = "buildings" # Not applicable atm
     default report_stats = False
 
     key "mousedown_3" action [Return(['control', 'return'])]
@@ -513,6 +512,7 @@ screen pyt_next_day():
                                                     sgs.append(__)
                                                 elif "Warrior" in __.girl.occupations:
                                                     guards.append(__)
+                                                    
                                     hbox:
                                         xpos 115
                                         xmaximum 40
@@ -536,7 +536,6 @@ screen pyt_next_day():
                                                 text "{color=[red]}!" style "next_day_summary_text"
                                                 action NullAction()
 
-                                        
                                         if green_flag:
                                             button:
                                                 xpadding 1
@@ -569,7 +568,6 @@ screen pyt_next_day():
                                                 text "{color=[red]}!" style "next_day_summary_text"
                                                 action NullAction()
 
-                                        
                                         if green_flag:
                                             button:
                                                 xpadding 1
@@ -602,7 +600,6 @@ screen pyt_next_day():
                                                 text "{color=[red]}!" style "next_day_summary_text"
                                                 action NullAction()
 
-                                        
                                         if green_flag:
                                             button:
                                                 xpadding 1
@@ -611,7 +608,6 @@ screen pyt_next_day():
                                                 text "{color=[green]}!" style "next_day_summary_text"
                                                 action NullAction()
 
-                                
                                     hbox:
                                         xpos 235
                                         xmaximum 40
@@ -635,7 +631,6 @@ screen pyt_next_day():
                                                 text "{color=[red]}!" style "next_day_summary_text"
                                                 action NullAction()
 
-
                                         if green_flag:
                                             button:
                                                 xpadding 1
@@ -644,20 +639,19 @@ screen pyt_next_day():
                                                 text "{color=[green]}!" style "next_day_summary_text"
                                                 action NullAction()
 
-                                
-                                        
                                 frame:
                                     xpos 2
                                     xysize (285, 33)
                                     text "Customers:" yalign 0.5 xpos 3
                                     python:
                                         clients = 0
-                                        for brothel in hero.brothels:
-                                            clients = clients + brothel.get_client_count()
+                                        businesses = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
+                                        for b in businesses:
+                                            clients = clients + b.get_client_count()
                                     hbox:
                                         xpos 115
                                         xmaximum 40
-                                        text ("%d" % clients) style "stats_value_text" ypos 1
+                                        text "[clients]" style "stats_value_text" ypos 1
                                 
                         null width 4
                         # View all red flagged events:
@@ -695,7 +689,7 @@ screen pyt_next_day():
                     draggable True
                     mousewheel True
                     vbox:
-                        if summary_filter == "brothels":
+                        if summary_filter == "buildings":
                         
                             # Buildings ------------------------------------------------>>>
                             # FightersGuild ------------------------------------------>>>
@@ -965,10 +959,11 @@ screen pyt_next_day():
                                                 # hbox: Not applicable
                                                     # text "Customers:" style "next_day_summary_text"
                                                     # null width 8
-                                                    # text ("%d" % brothel.get_clients()) style "next_day_summary_text"
+                                                    # text ("%d" % building.get_clients()) style "next_day_summary_text"
                     
-                            # Brothels ------------------------------------------------->>>
-                            for brothel in hero.brothels:
+                            # Buildings ------------------------------------------------->>>
+                            $ buildings = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
+                            for building in buildings:
                                 
                                 # Prepear the data:
                                 python:
@@ -978,7 +973,7 @@ screen pyt_next_day():
                                     guards = list()
                                     
                                     for girl in hero.girls:
-                                        if girl.location == brothel:
+                                        if girl.location == building:
                                             if traits["Stripper"] in girl.occupations:
                                                 strippers.append(girl)
                                             elif traits["Prostitute"] in girl.occupations:
@@ -992,12 +987,12 @@ screen pyt_next_day():
                                 null height 5
                                 hbox:
                                     null width 10
-                                    text ("%s" % brothel.name) style "stats_label_text"
+                                    text "[building.name]" style "stats_label_text"
                                 null height 5
                                 frame:
                                     xalign 1.0
                                     xysize (555, 134)
-                                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                     hbox:
                                         yalign 0.5
                                         null width 10
@@ -1005,14 +1000,14 @@ screen pyt_next_day():
                                             yalign 0.5
                                             xysize (95, 95)
                                             background Frame("content/gfx/frame/MC_bg3.png", 5 ,5)
-                                            $ img = im.Scale(brothel.img, 95, 95)
+                                            $ img = im.Scale(building.img, 95, 95)
                                             imagebutton:
                                                 align (0.5, 0.5)
                                                 idle (img)
                                                 hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
-                                                action [Return(['filter', 'brothel', brothel]), SetScreenVariable("show_summary", None)]
-                                                hovered tt.action(u"View Events in %s brothel." % brothel.name)
-                                            if brothel.flag_red:
+                                                action [Return(['filter', 'building', building]), SetScreenVariable("show_summary", None)]
+                                                hovered tt.action(u"View Events in %s building." % building.name)
+                                            if building.flag_red:
                                                 button:
                                                     align (0.95, 0.95)
                                                     background Null()
@@ -1045,7 +1040,7 @@ screen pyt_next_day():
                                                             text ("%d" % len(list(girl for girl in sgs if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 195 yalign 0.6
                                                             text ("%d" % len(list(girl for girl in guards if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 235 yalign 0.6
                                                             text "Dirt" yalign 0.5 xpos 275
-                                                            text ("%d%%" % brothel.get_dirt_percentage()[0]) style "stats_value_text" xalign 1.0 yalign 0.9
+                                                            text ("%d%%" % building.get_dirt_percentage()[0]) style "stats_value_text" xalign 1.0 yalign 0.9
                                           
                                                 # Rest:
                                                 hbox:
@@ -1060,7 +1055,7 @@ screen pyt_next_day():
                                                             text ("%d" % len(list(girl for girl in sgs if girl.action in ("Rest",  "AutoRest")))) style "stats_value_text" xpos 195 yalign 0.6
                                                             text ("%d" % len(list(girl for girl in guards if girl.action in ("Rest", "AutoRest")))) style "stats_value_text" xpos 235 yalign 0.6
                                                             text "Fame" yalign 0.5 xpos 275
-                                                            text ("%d/%d" % (brothel.fame, brothel.maxfame)) style "stats_value_text" xalign 1.0 yalign 0.9
+                                                            text ("%d/%d" % (building.fame, building.maxfame)) style "stats_value_text" xalign 1.0 yalign 0.9
                                              
                                                 # Events:
                                                 frame:
@@ -1076,7 +1071,7 @@ screen pyt_next_day():
                                                         guards = list()
                                                     
                                                         for __ in NextDayList:
-                                                            if isinstance(__.girl, Char) and __.girl.location == brothel:
+                                                            if isinstance(__.girl, Char) and __.girl.location == building:
                                                                 if traits["Stripper"] in __.girl.occupations:
                                                                     strippers.append(__)
                                                                 elif traits["Prostitute"] in __.girl.occupations:
@@ -1230,12 +1225,12 @@ screen pyt_next_day():
                                                         xpos 2
                                                         xysize (405, 33)
                                                         text "Customers:" yalign 0.5 xpos 3
-                                                        text ("%d" % brothel.get_client_count()) style "stats_value_text" ypos 1 xpos 115
+                                                        text ("%d" % building.get_client_count()) style "stats_value_text" ypos 1 xpos 115
                                     
                 vbar value YScrollValue("Reports")
         
         # Buttons will be drawn over the frame +==============================>>>
-        if summary_filter == "brothels":
+        if summary_filter == "buildings":
             $ start_pos = 844
             for i in ("Strippers", "Whores", "Service G.", "Warriors"):
                 $ start_pos = start_pos + 42
@@ -1780,7 +1775,7 @@ screen pyt_next_day():
                                                     label (u"{size=-5}{color=[red]}%d"%event.girlmod[key]) style "stats_value_text" align (1.0, 0.5)
                                                         
             
-            # Brothels Stats Frame:
+            # Buildings Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
                              so2=(0, 0), eo2=(136, 0), t2=0.3)
@@ -1797,7 +1792,7 @@ screen pyt_next_day():
                                 xalign 0.5
                                 xysize (136, 40)
                                 background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
-                                label (u"Brothel Stats:") text_size 18 text_color ivory align(0.5, 0.5)
+                                label (u"Building Stats:") text_size 18 text_color ivory align(0.5, 0.5)
                             null height 10
                             vbox:
                                 spacing -7

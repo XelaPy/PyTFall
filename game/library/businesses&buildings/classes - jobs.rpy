@@ -216,7 +216,7 @@
                     self.loc.modrep(self.locmod[stat])
                 
                 else:
-                    raise Error, "Stat: %s does not exits for Brothels"%stat
+                    raise Exception("Stat: {} does not exits for Brothels".format(stat))
         
         def auto_clean(self):
             """
@@ -421,7 +421,7 @@
                                                                                                                             # self.char.name))
                 # self.payout = int(self.payout * 1.3)
             
-            # Brothel room upgrades modifiers, simple version for now
+            # Building room upgrades modifiers, simple version for now
             # Might have to be improved to match customers expectations based on their castes later
             # bru = self.loc.get_upgrade_mod("room_upgrades")
             # if bru == 3:
@@ -1000,7 +1000,7 @@
                                                                                                                             self.girl.name))
                 self.payout = int(self.payout * 1.3)
             
-            # Brothel room upgrades modifiers, simple version for now
+            # Building room upgrades modifiers, simple version for now
             # Might have to be improved to match customers expectations based on their castes later
             # bru = self.loc.get_upgrade_mod("room_upgrades")
             # if bru == 3:
@@ -1254,7 +1254,7 @@
             self.girl.fin.log_tips(tippayout, "StripJob")
             self.loc.fin.log_work_income(tippayout, "StripJob")
             
-            # Brothel
+            # Building
             # self.logloc('dirt', min(300, len_clients * 4))
             # raise Exception("Meow")
             # Clients
@@ -2079,7 +2079,7 @@
 
     class GuardJob(Job):
         """
-        The class that solve Brothel guard jobs.
+        The class that solve Building guard jobs.
         """
         def __init__(self, girl, loc, girls):
             """

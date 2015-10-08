@@ -71,7 +71,7 @@ init -9 python:
         def requires_workers(self, amount=1):
             """
             Returns True if this upgrade requires a Worker to run this job.
-            Example: Brothel
+            Example: Building
             Strip Club on the other hand may nor require one or one would be requested later.
             It may be a better bet to come up with request_worker method that evaluates the same ealier, we'll see.
             """
@@ -197,7 +197,7 @@ init -9 python:
             """
             yield self.env.timeout(self.time)
             if config.debug:
-                temp = "Debug: {} Brothel Resource in use!".format(set_font_color(self.res.count, "red"))
+                temp = "Debug: {} Building Resource in use!".format(set_font_color(self.res.count, "red"))
                 self.log(temp)
             
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)

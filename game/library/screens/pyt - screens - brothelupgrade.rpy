@@ -20,7 +20,7 @@ label brothel_upgrade:
                                      yes_action=Return(True), no_action=Return(False)):
                     
                     if brothel.used_upgrade_slots < brothel.upgrade_slots:
-                        if hero.take_money(brothel.get_upgrade_price(confirm_purchase), reason="Brothel Upgrades"):
+                        if hero.take_money(brothel.get_upgrade_price(confirm_purchase), reason="Building Upgrades"):
                             confirm_purchase["active"] = True
                             brothel.used_upgrade_slots += 1
                         
