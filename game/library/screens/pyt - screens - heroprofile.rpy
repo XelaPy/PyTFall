@@ -673,17 +673,34 @@ screen pyt_hero_team():
             hbox spacing 7:
                 
                 # Portrait:
-                imagebutton:
-                    ypadding 1
-                    xpadding 1
-                    xmargin 0
-                    ymargin 0
+                fixed:
                     align (0.5, 0.5)
-                    style "basic_choice2_button"
-                    idle img
-                    hover img
-                    selected_idle Transform(img, alpha=1.05)
-                    action NullAction()
+                    xysize (120, 120)
+                    imagebutton:
+                        ypadding 1
+                        xpadding 1
+                        xmargin 0
+                        ymargin 0
+                        align (0.5, 0.5)
+                        style "basic_choice2_button"
+                        idle img
+                        hover img
+                        selected_idle Transform(img, alpha=1.05)
+                        action NullAction()
+                    
+                    python:
+                        if member.front_row:
+                            img = ProportionalScale("content/gfx/interface/buttons/row_switch.png", 40, 20)
+                        else:
+                            img = im.Flip(ProportionalScale("content/gfx/interface/buttons/row_switch.png", 40, 20), horizontal=True)
+                            
+                    imagebutton:
+                        align (0, 1.0)
+                        idle Transform(img, alpha=0.9)
+                        hover Transform(img, alpha=1.05)
+                        insensitive im.Sepia(img)
+                        action If(member.status != "slave", true=ToggleField(member, "front_row"))
+                        
                 
                 # Name/Status:
                 frame:

@@ -791,7 +791,7 @@ screen pyt_girl_control():
                         xmaximum 130
                         xfill True
                         text (u"{color=[ivory]}Wage percentage:") outlines [(1, "#424242", 0, 0)]
-                    vbox:    
+                    vbox:
                         text (u"{color=[ivory]}%d %%" % char.mech_relay['wagemod']) outlines [(1, "#424242", 0, 0)]
                 bar:
                     align (0.5, 1.0)
