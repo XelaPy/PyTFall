@@ -641,7 +641,7 @@ init -9 python:
             TODO: Split this over parent classes!
             """
             # Local vars
-            type = 'brothelreport'
+            type = 'buildingreport'
             img = self.img
             
             txt = self.txt

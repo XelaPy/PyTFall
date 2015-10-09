@@ -444,11 +444,11 @@ init -11 python:
         For now it just randomly picks any fitting job or sets to None.
         In the future, this should find the best possible job and set the char to it.
         """
-        all_occs = set()
+        all_jobs = set()
         for up in building._upgrades:
-            all_occs = all_occs.union(up.all_occs)
+            all_jobs = all_jobs.union(up.jobs)
             
-        available_occs = list(all_occs & char.occupations)
+        available_jobs = list(j for j in all_jobs if j.all_occs & char.occupations)
         
-        char.action = choice(available_occs) if available_occs else None
+        char.action = choice(available_jobs) if available_jobs else None
         
