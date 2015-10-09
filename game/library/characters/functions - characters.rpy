@@ -413,7 +413,6 @@ init -11 python:
         # if hasattr(char, "effects"):
             # new.effects = char.effects.copy()
         
-        
         # Traits copy:
         real_traits = list(traits[t] for t in [trait.id for trait in char.traits])
         new.traits[:] = real_traits
@@ -438,3 +437,18 @@ init -11 python:
         new.magic_skills.items = char.magic_skills.items.copy()
         
         return new
+        
+    def set_char_to_work(char, building):
+        """Attempts to find the best possible job to the char in given building.
+        
+        For now it just randomly picks any fitting job or sets to None.
+        In the future, this should find the best possible job and set the char to it.
+        """
+        all_occs = set()
+        for up in building._upgrades:
+            all_occs = all_occs.union(up.all_occs)
+            
+        available_occs = list(all_occs & char.occupations)
+        
+        char.action = choice(available_occs) if available_occs else None
+        
