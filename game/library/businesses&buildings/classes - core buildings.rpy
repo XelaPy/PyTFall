@@ -406,6 +406,7 @@ init -9 python:
             self.regular_clients = set() # Subset of self.all_clients.
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
             # Chars:
+            self.manager = None
             self.workers = list() # All Workers...
                 
             # SimPy and etc follows (L33t stuff :) ):

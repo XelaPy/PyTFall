@@ -106,7 +106,7 @@ init -9 python:
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
             self.type = "personal_type"
-            self.jobs = set([simple_jobs["Whore Job"], simple_jobs["Testing Job"]])
+            self.jobs = set([simple_jobs["Whore Job"]])
             self.workable = True
             
             # SimPy and etc follows (L33t stuff :) ):
