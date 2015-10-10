@@ -3183,7 +3183,7 @@ init -9 python:
             if self.flag("fixed_portrait"):
                 return self.flag("fixed_portrait"), None
             else:
-                return self.show("portrait", self.get_mood_tag(), cache=True, resize=(120, 120)), None
+                return self.show("portrait", self.get_mood_tag(), type="first_default", add_mood=False, cache=True, resize=(120, 120)), None
                 
         def override_portrait(self, *args, **kwargs):
             kwargs["resize"] = kwargs.get("resize", (120, 120))

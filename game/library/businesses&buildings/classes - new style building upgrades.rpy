@@ -130,6 +130,7 @@ init -9 python:
             """
             workers = list()
             
+            # TODO: Left off here, ALL SIW Occupations make it, this needs to be narrowed down somehow to return only a proper occupation.
             # First gets the workers assigned directly to this upgrade as a priority.
             priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations)
             for i in xrange(amount):
