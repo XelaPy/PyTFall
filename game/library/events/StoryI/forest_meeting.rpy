@@ -16,7 +16,6 @@ init:
     image box = ProportionalScale("content/items/quest/box.png", 150, 150)
     
 label forest_begining:
-label intro_story:
     python:
         for i in chars.values():
             if i.origin == "Naruto":

@@ -1,0 +1,47 @@
+[
+    {
+        "id": "black_guard",
+        "name": "Guard",
+        "fullname": "Black Guard",
+        "desc": "A tall, dangerous man in black armor.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "male",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 100,
+        
+        "level": 30,
+        "basetraits": ["Warrior"],
+        
+        "stats": {
+            "charisma": 10,
+            "constitution": 80,
+            "luck": 20,
+            "character": 75,
+            "intelligence": 25,
+            "attack": 80,
+            "magic": 10,
+            "defence": 85,
+            "agility": 30
+        },
+        "blocked_traits": [
+        
+        ],
+        "ab_traits": [
+        
+        ],
+        
+        "traits": [
+
+        ],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+
+        ]
+    }
+]
