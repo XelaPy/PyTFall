@@ -4,10 +4,10 @@ init:
 label test_matrix:
     stop music
     stop world
-    scene black
+    scene bg story prison
     show scroll at truecenter with dissolve
     show blueprint at truecenter with dissolve
-    call screen poly_matrix("library/screens/locations/coordinates_library.json", show_exit_button=(1.0, 1.0))
+    call screen poly_matrix("library/events/StoryI/coordinates_1.json", show_exit_button=(1.0, 1.0))
     "Result: [_return]"
     
     menu:
