@@ -4,6 +4,7 @@
 #  1 - givegift - bad
 #  2 - givegift - good
 #  3 - givegift - perfect
+#  4 - givegift - refuse
 
 ###### j1
 label interactions_badgift:
@@ -96,3 +97,11 @@ label interactions_perfectgift:
     $ char.restore_portrait()
     jump girl_interactions
     
+    
+###### j4
+label interactions_refusegift:
+    $ char.override_portrait("portrait", "angry")
+    $ rc("I don't want another one of these!", "Didn't you give me a {} not so long ago?".format(item.id))
+    $ char.restore_portrait()
+    $ char.disposition -= 25
+    jump girl_interactions

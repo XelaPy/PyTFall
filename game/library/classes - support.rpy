@@ -123,8 +123,8 @@ init -9 python:
             self.arena.next_day()
             
             # Girls, Buildings income and Hero:
-            for girl in hero.girls:
-                girl.next_day()
+            for char in chars.values():
+                char.next_day()
             
             businesses = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
             for b in businesses:

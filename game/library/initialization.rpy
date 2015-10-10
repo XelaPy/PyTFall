@@ -165,12 +165,49 @@ init -999 python:
         """
         def __init__(self):
             self.flags = dict()
+            
+        def __iter__(self):
+            return iter(self.flags)
         
         def set_flag(self, flag, value=True):
             self.flags[flag] = value
             
+        def up_counter(self, flag, value=1, max=None, delete=False):
+            """A more advanced version of a counter than mod_flag.
+            
+            This can keep track of max and min.
+            """
+            if flag in self.flags:
+                f = self.flags[flag]
+                new_value = f + value
+                if (max is not None) and new_value >= max:
+                    self.flags[flag] = max
+                    if delete:
+                        self.del_flag(flag)
+                else:
+                    self.flags[flag] = new_value
+            else:
+                self.flags[flag] = value
+                
+        def down_counter(self, flag, value=1, min=None, delete=False):
+            """A more advanced version of a counter than mod_flag.
+            
+            This can keep track of max and min.
+            """
+            if flag in self.flags:
+                f = self.flags[flag]
+                new_value = f - value
+                if (min is not None) and new_value <= min:
+                    self.flags[flag] = min
+                    if delete:
+                        self.del_flag(flag)
+                else:
+                    self.flags[flag] = new_value
+            else:
+                self.flags[flag] = value
+            
         def mod_flag(self, flag, value):
-            """Can be used as counter for integer based flags.
+            """Can be used as a simple counter for integer based flags.
             
             Simply changes the value of the flag otherwise.
             """

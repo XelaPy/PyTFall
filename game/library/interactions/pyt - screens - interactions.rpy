@@ -268,7 +268,7 @@ label girl_interactions_control:
                 # Give gift:
                 else:
                     item = result[1]
-                    dismod = 0
+                    dismod = item.dismod if hasattr(item, "dismod") else 0
                     
                     if hasattr(item, "traits"):
                         for t in item.traits:
@@ -277,17 +277,28 @@ label girl_interactions_control:
                          
                     if hasattr(item, "occupations"):
                         for occ in item.occupations:
-                            if char.occupations.intersection([occ]):
+                            if occ in char.occupations:
                                 dismod += item.occupations[occ]
                      
-                    if not dismod:
-                        dismod = item.dismod
-                     
+                    flag_name = "_day_countdown_{}".format(item.id)
+                    flag_value = int(char.flag(flag_name))
+                    
+                    # Add the appropriate dismod value:
+                    if flag_value != 0:
+                        if flag_value < item.cblock:
+                            char.disposition = int(round(float(dismod)*(item.cblock-flag_value)/item.cblock))
+                        elif flag_value >= item.cblock:
+                            setattr(gm, "show_menu", True)
+                            setattr(gm, "show_menu_givegift", False)
+                            gm.jump("refusegift")
+                    else:
+                        char.disposition += dismod
+                        
                     hero.inventory.remove(item)
-                    char.disposition += dismod
                     setattr(gm, "show_menu", True)
                     setattr(gm, "show_menu_givegift", False)
-                     
+                    
+                    char.up_counter(flag_name, item.cblock)
                     if dismod < 0:
                         gm.jump("badgift")
                     elif dismod < 50:
