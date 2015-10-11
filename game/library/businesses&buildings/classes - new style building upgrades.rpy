@@ -84,8 +84,8 @@ init -9 python:
         @property
         def all_occs(self):
             s = set()
-            for i in self.jobs:
-                s = s | i.all_occs
+            for j in self.jobs:
+                s = s | j.all_occs
             return s
         
         def post_nd_reset(self):
@@ -105,13 +105,14 @@ init -9 python:
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
-            self.type = "personal_type"
+            self.type = "personal_service"
             self.jobs = set([simple_jobs["Whore Job"]])
             self.workable = True
             
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job...
             self.time = 5 # Same
+            self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
             
         def get_client_count(self):
             # Returns amount of workers we expect to come here.
@@ -130,9 +131,10 @@ init -9 python:
             """
             workers = list()
             
-            # TODO: Left off here, ALL SIW Occupations make it, this needs to be narrowed down somehow to return only a proper occupation.
+            # TODO: Left off here: This needs to be adapted, currently only girls that are set to do the exact job are used. This needs to change to any girl who may be willing.
+            # Possibly, this can be achieved with a running a job bound to this business instead of chars action... Maybe this is a managers thing as well!
             # First gets the workers assigned directly to this upgrade as a priority.
-            priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations)
+            priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations and i.action in self.jobs)
             for i in xrange(amount):
                 try:
                     w = self.find_best_match(client, workers)
@@ -145,7 +147,7 @@ init -9 python:
             
             if len(workers) < amount:
                 # Next try to get anyone availible:
-                anyw = list(i for i in self.instance.workers if self.all_occs & i.occupations)
+                anyw = list(i for i in self.instance.workers if self.all_occs & i.occupations and i.action in self.jobs)
                 for i in xrange(amount-len(workers)):
                     try:
                         w = self.find_best_match(client, workers)
@@ -210,6 +212,7 @@ init -9 python:
             
         def post_nd_reset(self):
             self.res = None
+            self.is_running = False
             
             
     class StripClub(MainUpgrade):
@@ -217,10 +220,10 @@ init -9 python:
             super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Striptease Job"]])
             self.workable = True
-            self.type = "club_type"
+            self.type = "public_service"
             
             self.capacity = in_slots
-            self.active = set() # On duty Strippers.
+            self.active_workers = set() # On duty Strippers.
             self.clients = set() # Clients watching the stripshows.
             
             # SimPy and etc follows (L33t stuff :) ):
@@ -258,21 +261,21 @@ init -9 python:
         def run_job(self, end):
             # See if there are any strip girls, that may be added to Resource at some point of the development:
             while 1:
-                if not self.active or len(self.active) < self.res.count/3:
+                if not self.active_workers or len(self.active_workers) < self.res.count/3:
                     workers = self.instance.workers
                     # Get all candidates:
                     aw = self.all_workers
                     if aw:
                         shuffle(aw)
                         worker = aw.pop()
-                        self.active.add(worker)
+                        self.active_workers.add(worker)
                         workers.remove(worker)
                         self.env.process(self.use_worker(worker))
                     
                 yield self.env.timeout(self.time)
                 
                 # Handle the cash/tips:
-                cash = self.res.count*len(self.active)*randint(8, 12)
+                cash = self.res.count*len(self.active_workers)*randint(8, 12)
                 self.earned_cash += cash
                 
                 # Manage clients...
@@ -302,14 +305,14 @@ init -9 python:
             else:
                 temp = "No clients came to see {}".format(worker.name)
                 self.log(temp)
-            self.active.remove(worker)
+            self.active_workers.remove(worker)
             temp = "{} is done entertaining for the day!".format(set_font_color(worker.name, "red"))
             self.log(temp)
             
         def post_nd_reset(self):
             self.res = None
             self.is_running = False
-            self.active = set()
+            self.active_workers = set()
             self.clients = set()
             self.earned_cash = 0
             
