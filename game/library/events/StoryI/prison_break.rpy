@@ -3,9 +3,42 @@ init python:
         return x**1.33
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
     eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
+    
+    def storyi_randomfight():  # makes random enemy teams
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        rand_mobs = ["Infantryman", "Archer", "Soldier"]
+        for i in range(randint(1, 3)):
+            mob = build_mob(id=choice(rand_mobs), level=randint(1, 2))
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+        return enemy_team
 init:
     $ point = "content/gfx/interface/icons/move15.png"
     $ enemy_soldier = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/ct1.png", 120, 120))
+    $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
+    # $ sakura_bdsm = chars["Sakura"].show("002D-sx-ea-ee-c8-l4-ld-ma-m4-m8-bd-b2-b7.jpg", resize=(800, 600))
+    
+label storyi_fight: # calls battle for random teams, makes storyi_fight_check if the battle is lost
+    $ storyi_fight_check = False
+    $ battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+    $ your_team = Team(name="Your Team", max_size=3)
+    $ your_team.add(k)
+    python:
+        for member in your_team:
+            member.controller = BE_AI(member)
+    # your_team.add(hero)
+    $ storyi_randomfight()
+    $ battle.teams.append(your_team)
+    $ battle.teams.append(storyi_randomfight())
+    $ battle.start_battle()
+    $ your_team.reset_controller()
+    if battle.winner != your_team:
+        $ storyi_fight_check = True
+    else:
+        $ storyi_fight_check = False
+        jump game_over
+    return
+    
 label intro_story:
 label prison_storyi_event:
     stop world
@@ -76,6 +109,8 @@ label prison_storyi_event:
     "She gives you a carelessly drawn map."
     k.say "This dungeon used to be slaves training ground before the riot. They use it as a prison now, but blueprints are still the same."
     $ k_is_here = True
+    $ sol_is_here = 0
+    $ storyi_disguise = False
     jump storyi_map
     
 label storyi_map:
@@ -102,38 +137,121 @@ label storyi_map:
         if storyi_prison_location == 2:
             "This is the prison block. There are many cells, but they are empty."
             jump storyi_map
-        elif storyi_prison_location <> 1 and storyi_prison_location <> 3 and storyi_prison_location <> 4 and storyi_prison_location <> 5:
+        elif not(storyi_prison_location in [1, 3, 4]):
             "You are too far to go there."
             jump storyi_map
         else:
             jump prison_storyi_event_prisonblock
     elif _return == "Infirmary":
-        if storyi_prison_location <> 2 and storyi_prison_location <> 3:
+        if storyi_prison_location == 3:
+            "This is prison infirmary. They store there a huge amount of medical supplies."
+            jump storyi_map
+        elif storyi_prison_location <> 2:
             "You are too far to go there."
             jump storyi_map
-        elif storyi_prison_location == 3:
-            "This is prison infirmary. They store there a huge amount of medical supplies."
         else:
             jump prison_storyi_event_infirmary
     elif _return == "GRoom_2":
         if storyi_prison_location == 4:
             "This is a small guard post."
             jump storyi_map
-        elif storyi_prison_location <> 2 and storyi_prison_location <> 5:
+        elif sol_is_here == 1:
+            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
+            jump storyi_map
+        elif not(storyi_prison_location in [2, 5, 6]):
             "You are too far to go there."
             jump storyi_map
         elif storyi_prison_stage == 2:
             k.say "Are you ready? There will be guards for sure. We will have to fight."
             menu:
                 "Yes":
-                    k.say "Good, let's go."
                     jump prison_storyi_event_groom2
                 "No":
-                    k.say "Be quick. The Village prefers to avoid drawing attention, we should do it quickly."
                     jump storyi_map
         else:
             jump prison_storyi_event_groom2
-        
+    elif _return == "Barracks":
+        if storyi_prison_location == 5:
+            "This is the main guards barracks. Most of prison guards are located here."
+            jump storyi_map
+        elif not(storyi_prison_location in [4, 6, 7, 8, 9, 13]):
+            "You are too far to go there."
+            jump storyi_map
+        elif storyi_prison_stage <= 3:
+            k.say "Not there. It's the main barracks, we should avoid drawing too much attention."
+            jump storyi_map
+        else:
+            jump prison_storyi_event_barracks
+    elif _return == "Dung":
+        if storyi_prison_location == 6:
+            "This is the entrance to prison dungeon. Most prisoners contained there."
+        elif not(storyi_prison_location in [4, 5, 7]):
+            "You are too far to go there."
+            jump storyi_map
+        elif sol_is_here == 1:
+            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
+            jump storyi_map
+        else:
+            jump prison_storyi_event_dungentr
+    elif _return == "Storage":
+        if storyi_prison_location == 7:
+            "It's a small storage filled with old armour ans household accessories."
+            jump storyi_map
+        elif not(storyi_prison_location in [6, 5]):
+            "You are too far to go there."
+            jump storyi_map
+        elif sol_is_here == 1:
+            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
+            jump storyi_map
+        else:
+            jump prison_storyi_event_storage
+    elif _return == "MEntrance":
+        if storyi_prison_location == 8:
+            "The main entrance to the prison. It's usually well guarded."
+            jump storyi_map
+        elif storyi_prison_location <> 5:
+            "You are too far to go there."
+            jump storyi_map
+        elif sol_is_here == 1:
+            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
+            jump storyi_map
+    elif _return == "IRoom":
+        if storyi_prison_location == 9:
+            "This is the interrogation room for preliminary inquests."
+            jump storyi_map
+        elif not(storyi_prison_location in [10, 5, 11, 12]):
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_event_iroom
+    elif _return == "TRoom":
+        if storyi_prison_location == 10:
+            "This is the torturing room. It has all kinds of devices, from vibrators and clamps to whips and scissors."
+            jump storyi_map
+        elif storyi_prison_location <> 9:
+            "You are too far to go there."
+            jump storyi_map
+    elif _return == "WRoom":
+        if storyi_prison_location == 11:
+            "This is the weaponry. It has a good selection of weapons, including the weapons confiscated from the prisoners."
+            jump storyi_map
+        elif not(storyi_prison_location in [9, 5, 12]):
+            "You are too far to go there."
+            jump storyi_map
+    elif _return == "CRoom":
+        if storyi_prison_location == 12:
+            "This is the local kitchen. Here slaves prepare food for guards and prisoners."
+            jump storyi_map
+        elif not(storyi_prison_location in [10, 5, 11, 13]):
+            "You are too far to go there."
+            jump storyi_map
+    elif _return == "GRoom_1":
+        if storyi_prison_location == 13:
+            "This is another small guard post."
+            jump storyi_map
+        elif not(storyi_prison_location in [12, 5]):
+            "You are too far to go there."
+            jump storyi_map
 label prison_storyi_event_prisonblock:
     hide scroll
     hide blueprint
@@ -174,11 +292,6 @@ label prison_storyi_event_groom2:
     if storyi_prison_stage == 2:
         $ storyi_prison_stage = 3
         enemy_soldier "What the ..? Who the hell are you?!"
-        $ k.override_portrait("portrait", "angry")
-        k.say "We are angels of death!"
-        $ k.override_portrait("portrait", "indifferent")
-        "...What?"
-        scene black
         $ enemy_team = Team(name="Enemy Team", max_size=1)
         $ your_team = Team(name="Your Team", max_size=2)
         $ mob_1 = build_mob("Infantryman", level=1)
@@ -199,11 +312,81 @@ label prison_storyi_event_groom2:
         play world "Theme2.ogg" fadein 2.0 loop
         show expression k_spr at center with dissolve
         k.say "We are done here."
-        menu:
-            "...angels of death?":
-                $ k.override_portrait("portrait", "shy")
-                k.say "Never mind that. Let's go."
-                $ k.override_portrait("portrait", "indifferent")
-            "Let's go.":
-                $ pass
     jump storyi_map
+    
+label prison_storyi_event_dungentr:
+    hide scroll
+    hide blueprint
+    hide expression point
+    show bg story prison with dissolve
+    $ storyi_prison_location = 6
+    play events2 "events/prison_cell_door.mp3"
+    if storyi_prison_stage <= 3:
+        $ storyi_prison_stage = 4
+        $ k_is_here = False
+        k.say "Dungeons. This is where they keep most of the prisoners. We should look here too."
+        k.say "We have to split up here. I'll search the dungeon, you'll search this floor."
+        menu:
+            "Alright":
+                k.say "Wait, I have a plan."
+            "This is a bad idea":
+                $ k.override_portrait("portrait", "happy")
+                k.say "You can return to your cell and wait for my return. But it won't help Sakura and Ino."
+                $ k.override_portrait("portrait", "indifferent")
+        k.say "There is a storage nearby, they keep there a set of armour. If you wear it, they won't attack you on sight. Just avoid talking to other guards."
+        k.say "Of course you can also take down everyone on your way, but it won't be easy."
+        k.say "Well, be careful."
+        play events2 "events/prison_cell_door.mp3"
+        hide expression k_spr with dissolve
+        "She left. Now you are on your own."
+    jump storyi_map
+    
+label prison_storyi_event_storage:
+    hide scroll
+    hide blueprint
+    hide expression point
+    show bg story storage with dissolve
+    $ storyi_prison_location = 7
+    play events2 "events/door_open.mp3"
+    menu:
+        "Look around":
+            if storyi_prison_stage <= 4 and storyi_disguise == False:
+                "After rummaging in closets, you found an old set of armour. It's too old and heavy to be helpful in battle, but it will be a great disguise."
+                "Equip it?" 
+                menu:
+                    "Yes":
+                        "You equip the armour."
+                        $ storyi_disguise = True
+                    "No":
+                        $ pass
+                jump storyi_map
+            else:
+                "There is nothing useful."
+        "Keep going":
+            jump storyi_map
+            
+label prison_storyi_event_barracks:
+    hide scroll
+    hide blueprint
+    hide expression point
+    show bg story barracks with dissolve
+    play events2 "events/prison_cell_door.mp3"
+    $ storyi_prison_location = 5
+    jump storyi_map
+    
+label prison_storyi_event_iroom:
+    hide scroll
+    hide blueprint
+    hide expression point
+    show bg dungeoncell with dissolve
+    play events2 "events/prison_cell_door.mp3"
+    $ storyi_prison_location = 9
+
+        
+label prison_storyi_event_troom:
+    hide scroll
+    hide blueprint
+    hide expression point
+    show bg dung_2 with dissolve
+    play events2 "events/prison_cell_door.mp3"
+    $ storyi_prison_location = 10
