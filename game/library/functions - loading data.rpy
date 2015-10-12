@@ -331,44 +331,45 @@ init -11 python:
         
         # Loading all rgirls into the game:
         for packfolder in dirlist:
-            girlfolders = os.listdir(os.sep.join([dir, packfolder]))
-            for file in girlfolders:
-                if file.startswith('data') and file.endswith('.json'):
-                    in_file = os.sep.join([dir, packfolder, file])
-                    devlog.info("Loading from %s!"%str(in_file)) # Str call to avoid unicode
-                    with open(in_file) as f:
-                        rgirls = json.load(f)
-                        
-                    for gd in rgirls:
-                        # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
-                        # rg = rChar()
-                        if "id" not in gd:
-                            # Only time we throw an error instead of writing to log.
-                            raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
-                                
-                        random_girls[gd["id"]] = gd
-                
-                        folder = gd["id"]
-                        
-                        # Set the path to the folder:
-                        random_girls[gd["id"]]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
-                        # We load the new tags!:
-                        for fn in os.listdir(os.sep.join([dir, packfolder, folder])):
-                            if fn.endswith((".jpg", ".png", ".gif")):
-                                rp_path = "/".join(["content/rchars", packfolder, folder, fn])
-                                tags = fn.split("-")
-                                # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
-                                try:
-                                    del tags[0]
-                                    tags[-1] = tags[-1][:-4]
-                                except IndexError:
-                                    raise Error("Invalid file path for image: %s" % rp_path)   
-                                for tag in tags:
-                                    if tag not in tags_dict:
-                                        raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                    tagdb.tagmap[tags_dict[tag]].add(fn)
-                                # Adding filenames to girls id:
-                                tagdb.tagmap.setdefault(folder, set()).add(fn)
+            if os.path.isdir(os.sep.join([dir, packfolder])): #if not packfolder.endswith('.gitignore'):
+                girlfolders = os.listdir(os.sep.join([dir, packfolder]))
+                for file in girlfolders:
+                    if file.startswith('data') and file.endswith('.json'):
+                        in_file = os.sep.join([dir, packfolder, file])
+                        devlog.info("Loading from %s!"%str(in_file)) # Str call to avoid unicode
+                        with open(in_file) as f:
+                            rgirls = json.load(f)
+                            
+                        for gd in rgirls:
+                            # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
+                            # rg = rChar()
+                            if "id" not in gd:
+                                # Only time we throw an error instead of writing to log.
+                                raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
+                                    
+                            random_girls[gd["id"]] = gd
+                    
+                            folder = gd["id"]
+                            
+                            # Set the path to the folder:
+                            random_girls[gd["id"]]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
+                            # We load the new tags!:
+                            for fn in os.listdir(os.sep.join([dir, packfolder, folder])):
+                                if fn.endswith((".jpg", ".png", ".gif")):
+                                    rp_path = "/".join(["content/rchars", packfolder, folder, fn])
+                                    tags = fn.split("-")
+                                    # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
+                                    try:
+                                        del tags[0]
+                                        tags[-1] = tags[-1][:-4]
+                                    except IndexError:
+                                        raise Error("Invalid file path for image: %s" % rp_path)   
+                                    for tag in tags:
+                                        if tag not in tags_dict:
+                                            raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
+                                        tagdb.tagmap[tags_dict[tag]].add(fn)
+                                    # Adding filenames to girls id:
+                                    tagdb.tagmap.setdefault(folder, set()).add(fn)
                                     
         return random_girls
 

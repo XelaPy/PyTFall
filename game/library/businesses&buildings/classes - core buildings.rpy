@@ -510,6 +510,8 @@ init -9 python:
         def log(self, item):
             # Logs the text to log...
             self.nd_events_report.append(item)
+            if config.debug and True:
+                devlog.info(item)
             
         def normalize_jobs(self):
             self.jobs = self.jobs.union(self.building_jobs)
@@ -567,84 +569,82 @@ init -9 python:
         def run_jobs(self, end=40):
             upgrades = list(up for up in self._upgrades if up.workable)
             for u in upgrades:
-                if hasattr(u, "is_running"):
-                    u.is_running = True # Prolly redundant...
-                    self.env.process(u.run_job(end))
+                if u.has_workers():
+                    u.is_running = True
             
             i = 0
-            while self.clients:
-                if self.env.now + 5 <= end: # This is a bit off... should we decide which action should be taken first?
-                    if i > 4:
-                        yield self.env.timeout(randint(1, 3))
-                    i += 1
-                    client = self.clients.pop()
-                    client.name = "Client {}".format(i)
-                    
-                    # Register the fact that client arrived at the building:
-                    temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
-                    self.log(temp)
-                    
-                    # Take an action!
-                    ups = upgrades[:]
-                    shuffle(ups)
-                    for upgrade in ups:
-                        # TODO: Brothel block check needs to be worked out of here.
-                        if isinstance(upgrade, BrothelBlock) and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
-                            # Assumes a single worker at this stage... This part if for upgrades like Building.
-                            if upgrade.requires_workers():
-                                char = None
-                                while self.workers:
-                                    
-                                    # Here we should attempt to find the best match for the client!
-                                    char = upgrade.get_workers(client)
-                                    
-                                    if not char:
-                                        break
-                                   
-                                    # First check is the char is still well and ready:
-                                    if not check_char(char):
-                                        if char in self.workers:
-                                            self.workers.remove(char)
-                                        temp = set_font_color('{} is done with this job for the day.'.format(char.name), "aliceblue")
-                                        self.log(temp)
-                                        continue
-                                    
-                                    if char.action in upgrade.jobs: # Check if current chars action is valid for the upgrade and remove it otherwise.
-                                        # We to make sure that the girl is willing to do the job:
-                                        temp = char.action.id
-                                        if not char.action.check_occupation(char):
-                                            if char in self.workers:
-                                                self.workers.remove(char)
-                                            temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
-                                            self.log(temp)
-                                            continue
-                                    else:
-                                        if config.debug:
-                                            temp = set_font_color('Debug: {} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
-                                            self.log(temp)
-                                        if char in self.workers:
-                                            self.workers.remove(char)
-                                        continue
-                                        
-                                    break # Breaks the while loop.
+            while self.clients and upgrades and self.env.now <= end:
+                if i > 4:
+                    yield self.env.timeout(randint(1, 3))
+                i += 1
+                client = self.clients.pop()
+                client.name = "Client {}".format(i)
+                
+                # Register the fact that client arrived at the building:
+                temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
+                self.log(temp)
+                
+                # Take an action!
+                ups = upgrades[:]
+                shuffle(ups)
+                for upgrade in ups:
+                    # TODO: Brothel block check needs to be worked out of here.
+                    if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
+                        # Assumes a single worker at this stage... This part if for upgrades like Building.
+                        char = None
+                        while self.workers:
                             
-                                if char:
+                            # Here we should attempt to find the best match for the client!
+                            char = upgrade.get_workers(client)
+                            
+                            if not char:
+                                break
+                           
+                            # if char.action != simple_jobs["Whore Job"]:
+                                # raise Exception(char.action)
+                            # First check is the char is still well and ready:
+                            if not check_char(char):
+                                if char in self.workers:
+                                    self.workers.remove(char)
+                                temp = set_font_color('{} is done with this job for the day.'.format(char.name), "aliceblue")
+                                self.log(temp)
+                                continue
+                            
+                            # We to make sure that the girl is willing to do the job:
+                            if False:
+                                if not char.action.check_occupation(char):
                                     if char in self.workers:
                                         self.workers.remove(char)
-                                    store.client = client
-                                    self.env.process(upgrade.request(client, char))
-                                    break
-                                else:
+                                    temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
+                                    self.log(temp)
                                     continue
-                        # Jobs like the Club:
-                        elif isinstance(upgrade, StripClub) and upgrade.res.count < upgrade.capacity:
-                            self.env.process(upgrade.request(client))
-                            break
+                                
+                            # else:
+                                # if config.debug:
+                                    # temp = set_font_color('Debug: {} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
+                                    # self.log(temp)
+                                # if char in self.workers:
+                                    # self.workers.remove(char)
+                                # continue
                             
-                    else: # If nothing was found, kick the client:
-                        self.env.process(self.kick_client(client))
-                else:
-                    break
+                            break # Breaks the while loop.
+                    
+                        if char:
+                            if char in self.workers:
+                                self.workers.remove(char)
+                            store.client = client
+                            self.env.process(upgrade.request(client, char))
+                            break # Breaks the for loop.
+                        else:
+                            continue
+                            
+                    # Jobs like the Club:
+                    elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
+                        self.env.process(upgrade.request(client))
+                        break
+                        
+                else: # If nothing was found, kick the client:
+                    self.env.process(self.kick_client(client))
             
         def post_nd_reset(self):
             self.env = None

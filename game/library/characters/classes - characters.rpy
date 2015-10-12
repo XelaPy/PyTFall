@@ -2250,8 +2250,9 @@ init -9 python:
                 if flag.startswith("_day_countdown"):
                     self.down_counter(flag, value=1, min=0, delete=True)
             
-            # Log stats to display changes on the next day:
-            self.log_stats()
+            # Log stats to display changes on the next day (Only for chars to whom it's useful):
+            if self in hero.girls:
+                self.log_stats()
 
             
     class ArenaFighter(PytCharacter):

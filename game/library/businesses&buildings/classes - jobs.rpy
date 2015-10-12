@@ -1148,7 +1148,7 @@
             
             self.strip()
             
-        def check_occupation(self):
+        def check_occupation(self, char=None):
             """
             Checks the girls occupation against the job.
             """
