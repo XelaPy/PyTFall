@@ -408,6 +408,8 @@ init -9 python:
             # Chars:
             self.manager = None
             self.workers = list() # All Workers...
+            # Upgrades:
+            self.nd_ups = list() # Upgrades active during the next day...
                 
             # SimPy and etc follows (L33t stuff :) ):
             self.env = None
@@ -567,13 +569,17 @@ init -9 python:
             self.log(temp)
             
         def run_jobs(self, end=40):
-            upgrades = list(up for up in self._upgrades if up.workable)
-            for u in upgrades:
-                if u.has_workers():
+            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses!
+            for u in self.nd_ups:
+                # Trigger all public businesses:
+                if u.type == "public_service":
+                    self.env.process(u.run_job(end))
+                
+                if u.has_workers(): # <== This bit is prolly useless.
                     u.is_running = True
             
             i = 0
-            while self.clients and upgrades and self.env.now <= end:
+            while self.clients and self.nd_ups and self.env.now <= end:
                 if i > 4:
                     yield self.env.timeout(randint(1, 3))
                 i += 1
@@ -585,11 +591,10 @@ init -9 python:
                 self.log(temp)
                 
                 # Take an action!
-                ups = upgrades[:]
-                shuffle(ups)
-                for upgrade in ups:
+                shuffle(self.nd_ups)
+                for upgrade in self.nd_ups:
                     # TODO: Brothel block check needs to be worked out of here.
-                    if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
+                    if False and upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
                         # Assumes a single worker at this stage... This part if for upgrades like Building.
                         char = None
                         while self.workers:
@@ -611,13 +616,12 @@ init -9 python:
                                 continue
                             
                             # We to make sure that the girl is willing to do the job:
-                            if False:
-                                if not char.action.check_occupation(char):
-                                    if char in self.workers:
-                                        self.workers.remove(char)
-                                    temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
-                                    self.log(temp)
-                                    continue
+                            if not char.action.check_occupation(char):
+                                if char in self.workers:
+                                    self.workers.remove(char)
+                                temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
+                                self.log(temp)
+                                continue
                                 
                             # else:
                                 # if config.debug:
@@ -648,6 +652,7 @@ init -9 python:
             
         def post_nd_reset(self):
             self.env = None
+            self.nd_ups = list()
             
             for _ in self._upgrades:
                 _.post_nd_reset()

@@ -259,6 +259,10 @@ init -9 python:
                 self.log(temp)
                 
         def run_job(self, end):
+            """This runs the club as a SimPy process from start to the end.
+            
+            - 
+            """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
             while 1:
                 if not self.active_workers or len(self.active_workers) < self.res.count/3:
@@ -287,6 +291,14 @@ init -9 python:
                 if config.debug:
                     temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
                     self.log(temp)
+                    
+                if not self.all_workers and not self.active_workers:
+                    break
+                    
+            # We remove the business from nd if there are no more strippers to entertain:
+            temp = "There are no Strippers available to entertain in {} so club is shutting down!".format(self.name)
+            self.log(temp)
+            self.instance.nd_ups.remove(self)
             
         def use_worker(self, worker):
             temp = "{} comes out to do a stripshow!".format(worker.name)
