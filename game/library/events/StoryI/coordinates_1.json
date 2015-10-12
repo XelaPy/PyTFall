@@ -26,7 +26,7 @@
     {
     "id": "CRoom",
     "xy": [[407, 324], [534, 321], [534, 371], [409, 374]],
-    "tooltip": "Canteen",
+    "tooltip": "Kitchen",
     "place": "left"
     },
     {

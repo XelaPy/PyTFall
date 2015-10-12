@@ -43,6 +43,12 @@ label realtor_agency:
         "Room is still bright and filled with the same sweet scent."
         show npc rose
         
+        
+    # Added the next three lines to disable this feature without crashing the game   --fenec250
+    g "disabled until Buisnesses are finished" 
+    hide screen pyt_realtor_agency
+    jump pyt_city
+    
     $ market_buildings = sorted(set(chain(brothels.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
     
     show screen pyt_realtor_agency
@@ -69,7 +75,7 @@ label realtor_agency:
                 if result[1] == 'return':
                     break
                 
-    $ renpy.music.stop(channel="world")                
+    $ renpy.music.stop(channel="world")
     hide screen pyt_realtor_agency
     jump pyt_city
     
