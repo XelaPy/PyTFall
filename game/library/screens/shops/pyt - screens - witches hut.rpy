@@ -162,8 +162,8 @@ label witch_menu:
                 menu:
                     "Pay [training_price] Gold" if hero.AP > 0:
                         if hero.take_money(training_price, "Training"):
-                            $ hero.AP -= 1
-                            $ hero.auto_training("train_with_witch")
+                            $ char.AP -= 1
+                            $ char.auto_training("train_with_witch")
                             w "All done! Be sure to use your new powers only on wicked stuff! :)"
                         else:
                             w "Errr, you can't really pay me, can you?"
