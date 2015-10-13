@@ -20,7 +20,7 @@ init -9 python:
             self.ex_slots = ex_slots # External slots
             self.cost = cost # Price in gold.
             
-            self.jobs = set() # Jobs this upgrade can add. *We add job instances here!
+            self.jobs = set() # Jobs this upgrade can add. *We add job instances here!  # It may be a good idea to turn this into a direct job assignment instead of a set...
             self.workers = set() # List of on duty characters.
             
             self._rep = 0
@@ -205,7 +205,10 @@ init -9 python:
             
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
             self.log(temp)
-            char.action(char, client)
+            
+            # Best use local jobs here instead of chars action:
+            # char.action(char, client)
+            random.sample(self.jobs, 1).pop()(char, client)
             
             # We return the char to the nd list:
             self.instance.workers.insert(0, char)
@@ -258,6 +261,18 @@ init -9 python:
                 self.clients.remove(client)
                 self.log(temp)
                 
+        def send_in_workers(self):
+            if not self.active_workers or len(self.active_workers) < self.res.count/4:
+                workers = self.instance.workers
+                # Get all candidates:
+                aw = self.all_workers
+                if aw:
+                    shuffle(aw)
+                    worker = aw.pop()
+                    self.active_workers.add(worker)
+                    workers.remove(worker)
+                    self.env.process(self.use_worker(worker))
+                
         def run_job(self, end):
             """This runs the club as a SimPy process from start to the end.
             
@@ -265,17 +280,6 @@ init -9 python:
             """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
             while 1:
-                if not self.active_workers or len(self.active_workers) < self.res.count/3:
-                    workers = self.instance.workers
-                    # Get all candidates:
-                    aw = self.all_workers
-                    if aw:
-                        shuffle(aw)
-                        worker = aw.pop()
-                        self.active_workers.add(worker)
-                        workers.remove(worker)
-                        self.env.process(self.use_worker(worker))
-                    
                 yield self.env.timeout(self.time)
                 
                 # Handle the cash/tips:
@@ -290,6 +294,7 @@ init -9 python:
                 
                 if config.debug:
                     temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
+                    temp = temp + " {} Workers are currently doing streaptease!".format(set_font_color(len(self.active_workers), "red"))
                     self.log(temp)
                     
                 if not self.all_workers and not self.active_workers:
@@ -308,7 +313,7 @@ init -9 python:
                 worker.set_union("jobs_strip_clients", self.clients)
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
-                worker.mod_flag("jobs_" + worker.action.id + "_tips", tips)
+                worker.mod_flag("jobs_" + random.sample(self.jobs, 1).pop().id + "_tips", tips)
                 temp = "{} gets {} in tips from {} clients!".format(worker.name, tips, self.res.count)
                 self.log(temp)
                 
