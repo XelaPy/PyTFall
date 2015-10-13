@@ -133,8 +133,8 @@ label aine_menu:
                 menu:
                     "Pay [training_price] Gold" if hero.AP > 0:
                         if hero.take_money(training_price, "Training"):
-                            $ hero.AP -= 1
-                            $ hero.auto_training("train_with_aine")
+                            $ char.AP -= 1
+                            $ char.auto_training("train_with_aine")
                             a "All done! Don't you dare misuse skills you've learned here!"
                         else:
                             a "Payment is still required I am afraid."

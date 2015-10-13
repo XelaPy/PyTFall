@@ -12,9 +12,6 @@ label arena_outside:
     with dissolve
     
     # Texts: ---------------------------------------------------------->
-    if not global_flags.has_flag("wants_to_see_xeona"):    
-        $ global_flags.set_flag("wants_to_see_xeona", value=False)
-        
     if not global_flags.flag("visited_arena"):
         $ global_flags.set_flag("visited_arena")
         define ax = Character('Xeona', color=ivory, show_two_window=True)
@@ -109,115 +106,13 @@ label arena_outside:
         $ del heard_about_arena
         $ del arena_date
             
-    if global_flags.flag("wants_to_see_xeona"):
-        $ global_flags.set_flag("wants_to_see_xeona", value=False)
-        define ax = Character('Xeona', color=ivory, show_two_window=True)
-        show npc xeona
-        with dissolve
-        
-        ax "Hi again! Is there something you want?"
-        # $ devlog.info("renpy.is_seen returned: %s (%s)" % (renpy.is_seen(), renpy.game.context().current))
-        $ a_skip = True
-        while a_skip:
-            menu:
-                ax "Anytime now..."
-                "Xeona Main":
-                    $ pass
-                "How about that Arena Permit?" if not hero.arena_permit:
-                    if hero.arena_rep > 15000:
-                        ax "Looks like you've managed to gain enough reputation!"
-                        ax "Congratulations are in order!"
-                        menu:
-                            ax "Would you like to buy an Arena permit?"
-                            "Yes":
-                                if hero.take_money(10000, reason="Arena Permit"):
-                                    $ hero.arena_permit = True
-                                    ax "There you go! You can now participate in official Arena Matches!"
-                                else:
-                                    ax "It's priced at {color=[gold]}10 000 Gold{/color}. Do you really have that much on you?"
-                                    ax "Didn't think so..."
-                            "No":
-                                $ pass
-                    elif hero.arena_rep > 7500:
-                        ax "You've managed to improve your reputation, but you are not quite there yet :)"
-                    else:
-                        ax "With the amount of reputation you have, No chance in hell!!!"
-                        
-                "How about some training?":
-                    if len(hero.team) > 1:
-                        ax "Sure thing! Who will it be?"
-                        call screen character_pick_screen
-                        $ char = _return
-                    else:
-                        $ char = hero
-                        
-                    if not global_flags.has_flag("xeona_training_explained"):    
-                        ax "As you may have already guessed, I train battle skills."
-                        ax "It will cost you 1000 (+1000 per 5 levels) Gold per training session."
-                        ax "Don't expect to learn any magic, I am not into Arcane Arts..."
-                        extend " but I can teach you how to fight on level with any silly magician!"
-                        ax "Due to my the nature of training, there is always a chance of your consitution increasing as well."
-                        ax "Potions we drink to increase stamina during the training might also increase your HP!"
-                        $ global_flags.set_flag("xeona_training_explained")
-                    else:
-                        ax "I am ready if you are!"
-                        
-                    $ training_price = char.get_training_price()    
-                    menu:
-                        "Pay [training_price] Gold" if hero.AP > 0:
-                            if hero.take_money(training_price, "Training"):
-                                $ hero.AP -= 1
-                                $ hero.auto_training("train_with_xeona")
-                                ax "All done! Be sure to think of me whenever you kick @ss! :)"
-                            else:
-                                ax "No cash Hah?"
-                                extend " You could always go and beat the crap out of some looser in the Arena!"
-                                ax "Who knows, you may even learn something while at it :)"
-                            
-                        "Maybe next time...":
-                            $ pass
-                    $ del training_price
-                
-                "Schedule training sessions":
-                    if not global_flags.has_flag("training_sessions_explained"):
-                        "Here you can arrange for daily training sessions at cost of 1AP and 1000 (+1000 per 5 levels) Gold per day."
-                        "This will be automatically terminated if you lack the gold to continue."
-                        "Sessions can be arranged with multiple trainers at the same day"
-                        extend " however you'd be running a risk of not leaving AP to do anything else!"
-                        $ global_flags.set_flag("training_sessions_explained")
-                    
-                    if len(hero.team) > 1:
-                        "Pick a character!"
-                        call screen character_pick_screen
-                        $ char = _return
-                    else:
-                        $ char = hero
-                        
-                    menu:
-                        "Setup sessions" if not char.has_flag("train_with_xeona"):
-                            $ char.set_flag("train_with_xeona")
-                        "Cancel sessions" if char.flag("train_with_xeona"):
-                            $ char.del_flag("train_with_xeona")
-                        "Do Nothing...":
-                            $ pass
-                                
-                "Talk about weather...":
-                    ax "Err.. this is getting really awkward..."
-                    ax "Is there anything else???"
-                                
-                "That's all for now.":
-                    ax "Goodbye :)"
-                    $ a_skip = False
-                    
-        hide npc xeona
-        with dissolve
-        $ del a_skip
+    
     
     python:
         # Build the actions
         if pytfall.world_actions.location("arena_outside"):
             pytfall.world_actions.work(Iff(global_flag_complex("visited_arena")))
-            pytfall.world_actions.add("xeona", "Find Xeona", [SetField(global_flags, "wants_to_see_xeona", True), Jump("arena_outside")])
+            pytfall.world_actions.add("xeona", "Find Xeona", Jump("find_xeona"))
             pytfall.world_actions.add("arena", "Enter Arena", Return(["control", "enter_arena"]))
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
@@ -278,6 +173,110 @@ label work_in_arena:
     
     return
     
+label find_xeona:
+    define ax = Character('Xeona', color=ivory, show_two_window=True)
+    show npc xeona
+    with dissolve
+    
+    ax "Hi again! Is there something you want?"
+    # $ devlog.info("renpy.is_seen returned: %s (%s)" % (renpy.is_seen(), renpy.game.context().current))
+    $ a_skip = True
+    while a_skip:
+        menu:
+            ax "Anytime now..."
+            "Xeona Main":
+                $ pass
+            "How about that Arena Permit?" if not hero.arena_permit:
+                if hero.arena_rep > 15000:
+                    ax "Looks like you've managed to gain enough reputation!"
+                    ax "Congratulations are in order!"
+                    menu:
+                        ax "Would you like to buy an Arena permit? It's priced at {color=[gold]}10 000 Gold{/color}."
+                        "Yes":
+                            if hero.take_money(10000, reason="Arena Permit"):
+                                $ hero.arena_permit = True
+                                ax "There you go! You can now participate in official Arena Matches!"
+                            else:
+                                ax "Do you really have {color=[gold]}10 000 Gold{/color} much on you?"
+                                ax "Didn't think so..."
+                        "No":
+                            $ pass
+                elif hero.arena_rep > 7500:
+                    ax "You've managed to improve your reputation, but you are not quite there yet :)"
+                else:
+                    ax "With the amount of reputation you have, No chance in hell!!!"
+                    
+            "How about some training?":
+                if len(hero.team) > 1:
+                    ax "Sure thing! Who will it be?"
+                    call screen character_pick_screen
+                    $ char = _return
+                else:
+                    $ char = hero
+                    
+                if not global_flags.has_flag("xeona_training_explained"):    
+                    ax "As you may have already guessed, I train battle skills."
+                    ax "It will cost you 1000 (+1000 per 5 levels) Gold per training session."
+                    ax "Don't expect to learn any magic, I am not into Arcane Arts..."
+                    extend " but I can teach you how to fight on level with any silly magician!"
+                    ax "Due to my the nature of training, there is always a chance of your consitution increasing as well."
+                    ax "Potions we drink to increase stamina during the training might also increase your HP!"
+                    $ global_flags.set_flag("xeona_training_explained")
+                else:
+                    ax "I am ready if you are!"
+                    
+                $ training_price = char.get_training_price()    
+                menu:
+                    "Pay [training_price] Gold" if hero.AP > 0:
+                        if hero.take_money(training_price, "Training"):
+                            $ char.AP -= 1
+                            $ char.auto_training("train_with_xeona")
+                            ax "All done! Be sure to think of me whenever you kick @ss! :)"
+                        else:
+                            ax "No cash Hah?"
+                            extend " You could always go and beat the crap out of some looser in the Arena!"
+                            ax "Who knows, you may even learn something while at it :)"
+                        
+                    "Maybe next time...":
+                        $ pass
+                $ del training_price
+            
+            "Schedule training sessions":
+                if not global_flags.has_flag("training_sessions_explained"):
+                    "Here you can arrange for daily training sessions at cost of 1AP and 1000 (+1000 per 5 levels) Gold per day."
+                    "This will be automatically terminated if you lack the gold to continue."
+                    "Sessions can be arranged with multiple trainers at the same day"
+                    extend " however you'd be running a risk of not leaving AP to do anything else!"
+                    $ global_flags.set_flag("training_sessions_explained")
+                
+                if len(hero.team) > 1:
+                    "Pick a character!"
+                    call screen character_pick_screen
+                    $ char = _return
+                else:
+                    $ char = hero
+                    
+                menu:
+                    "Setup sessions" if not char.has_flag("train_with_xeona"):
+                        $ char.set_flag("train_with_xeona")
+                    "Cancel sessions" if char.flag("train_with_xeona"):
+                        $ char.del_flag("train_with_xeona")
+                    "Do Nothing...":
+                        $ pass
+                            
+            "Talk about weather...":
+                ax "Err.. this is getting really awkward..."
+                ax "Is there anything else???"
+                            
+            "That's all for now.":
+                ax "Goodbye :)"
+                $ a_skip = False
+                
+    hide npc xeona
+    with dissolve
+    $ del a_skip
+    
+    $ jump("arena_outside")
  
 screen pyt_arena_outside:
     
