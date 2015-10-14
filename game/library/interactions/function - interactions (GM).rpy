@@ -1,5 +1,79 @@
 init -11 python:
     # Interactions (Girlsmeets Helper Functions):
+    def interactions_check_for_bad_stuff(char_name): # we check major issues when the character will refuse almost anything
+        if char_name.effects["Food Poisoning"]['active']:
+            char_name.override_portrait("portrait", "indifferent")
+            rc("But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts.")
+            char_name.restore_portrait()
+            char_name.disposition -= 2
+            renpy.jump("girl_interactions_end")
+        elif char_name.vitality <= 20:
+            char_name.override_portrait("portrait", "indifferent")
+            rc("But she was too tired to even talk.", "She was not very happy that you interrupted her rest.")
+            char_name.restore_portrait()
+            char_name.disposition -= 2
+            char_name.vitality -= 2
+            renpy.jump("girl_interactions_end")
+        elif char_name.health < (round(char_name.get_max("health")*0.2)):
+            char_name.override_portrait("portrait", "indifferent")
+            rc("But she is too wounded for that.", "But her wounds completely occupy her thoughts.")
+            char_name.restore_portrait()
+            char_name.disposition -= 5
+            char_name.vitality -= 2
+            renpy.jump("girl_interactions_end")
+    
+    def interactions_check_for_minor_bad_stuff(char_name): # we check minor issues when character might refuse to do something based on dice
+        if (not("Pessimist" in char_name.traits) and char_name.joy <= 15) or (("Pessimist" in char_name.traits) and char_name.joy < 5):
+            if dice(60):
+                narrator(choice(["She is in a bad mood today, however you managed to cheer her up."]))
+                char_name.disposition += 1
+                char_name.joy += randint(3, 6)
+            else:
+                narrator(choice(["She is in a bad mood today and not does not want to do anything."]))
+                renpy.jump("girl_interactions_end")
+        elif char_name.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
+            if dice(60):
+                narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
+                char_name.disposition += 2
+                char_name.joy += randint(3, 6)
+            else:
+                narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
+                renpy.jump("girl_interactions_end")
+        elif char_name.vitality < 35 and dice (30):
+            narrator(choice(["But she is simply too tired to pay any serious attention to you.", "But she so tired she almost falls asleep on the move."]))
+            char_name.disposition -= randint(0, 1)
+            char_name.vitality -= 3
+            renpy.jump("girl_interactions_end")
+            
+    def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
+        if char_name.effects["Food Poisoning"]['active']:
+            char_name.override_portrait("portrait", "indifferent")
+            rc("She does not look good...")
+            char_name.restore_portrait()
+            return True
+        elif char_name.vitality <= 10:
+            char_name.override_portrait("portrait", "indifferent")
+            rc("She looks very tired...")
+            char_name.restore_portrait
+            return True
+        elif char_name.health < (round(char_name.get_max("health")*0.2)):
+            char_name.override_portrait("portrait", "indifferent")
+            rc("She does not look good...")
+            char_name.restore_portrait()
+            return True
+        elif char_name.effects["Down with Cold"]['active']:
+            char_name.override_portrait("portrait", "indifferent")
+            rc("She looks a bit pale...")
+            char_name.restore_portrait
+            return False
+        elif char_name.joy <= 20:
+            char_name.override_portrait("portrait", "sad")
+            rc("She looks pretty sad...")
+            char_name.restore_portrait()
+            return False
+        else:
+            return False
+            
     def rc(*args):
         """
         random choice function

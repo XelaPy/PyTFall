@@ -1,13 +1,3 @@
-###### j0
-# quick navigation, search "j" + number, example: j0 - this panel
-# 
-#  1 - sex - fuck - GI
-#  2 - sex - blowjob - GI
-#  3 - sex - anal - GI
-#  4 - sex - lesbo - GI
-#  5 - sex - sex - GM
-
-###### j1
 label interactions_virgin_check:
     $ char.set_flag("raped", value="false")
     if check_lovers(hero, char) or (check_friends(hero, char) and char.disposition >= 600) or (char.flag("quest_sex_anytime") == True and char.disposition >= 300):
@@ -72,9 +62,7 @@ label interactions_virgin_check:
     
 label interactions_hireforsex:
     "You propose to pay her for sex."
-    call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
     if char.flag("quest_cannot_be_fucked") == True:
         call int_sex_nope
         jump girl_interactions
@@ -108,8 +96,8 @@ label interactions_hireforsex:
                     jump girl_interactions
 label interactions_sex:
     "You proposing to have sex."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
     if char.flag("quest_cannot_be_fucked") == True:
         call int_sex_nope
         jump girl_interactions
