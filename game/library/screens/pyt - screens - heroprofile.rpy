@@ -307,12 +307,12 @@ screen pyt_hero_profile():
                     background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
                     xysize (210, 120)
                     xalign 0.5
-                    xoffset -10
+                    xoffset -5
                     
                     $ x = 0
                     $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
                     $ f = Fixed(*els, xysize=(90, 90))
-                    add f xcenter 150 ycenter 50
+                    add f xcenter 150 ycenter 55
                     
                     viewport:
                         draggable True
@@ -322,7 +322,7 @@ screen pyt_hero_profile():
                         # yoffset 33
                         has vbox spacing -4
                         for e in hero.elements:
-                            textbutton "{=TisaOTM}{size=15}[e.id]":
+                            textbutton "{=TisaOTM}{size=14}[e.id]":
                                 background None
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)

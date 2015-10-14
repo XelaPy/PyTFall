@@ -4180,7 +4180,7 @@ init -9 python:
             self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
             self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
             
-            self.sex = "female" # Untill we set this up in traits: this should be "unisex" by default.
+            self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
             
             # Types:
             self.type = "" # Specific type if specified.

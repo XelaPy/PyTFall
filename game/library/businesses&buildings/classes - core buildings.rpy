@@ -408,6 +408,8 @@ init -9 python:
             # Chars:
             self.manager = None
             self.workers = list() # All Workers...
+            # Upgrades:
+            self.nd_ups = list() # Upgrades active during the next day...
                 
             # SimPy and etc follows (L33t stuff :) ):
             self.env = None
@@ -563,20 +565,35 @@ init -9 python:
             temp = "There is not much for the {} to do...".format(client.name)
             self.log(temp)
             yield self.env.timeout(1)
-            temp = "So {} leaves the hotel cursing...".format(client.name)
+            temp = "So {} leaves your establishment cursing...".format(client.name)
             self.log(temp)
             
         def run_jobs(self, end=40):
-            upgrades = list(up for up in self._upgrades if up.workable)
-            for u in upgrades:
-                if u.has_workers():
+            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses!
+            for u in self.nd_ups:
+                # Trigger all public businesses:
+                if u.type == "public_service":
+                    self.env.process(u.run_job(end))
+                
+                if u.has_workers(): # <== This bit is prolly useless.
                     u.is_running = True
             
             i = 0
-            while self.clients and upgrades and self.env.now <= end:
-                if i > 4:
-                    yield self.env.timeout(randint(1, 3))
+            ii = 0
+            if self.clients:
+                iii = randint(3, len(self.clients)/20)
+            else:
+                iii = 0
+            while self.clients and self.nd_ups and self.env.now <= end:
+                if ii > iii:
+                    delay = randint(1, 3)
+                    yield self.env.timeout(delay)
+                    # Ensure a steady stream if clients:
+                    ii = 0
+                    if len(self.clients) > end - self.env.now:
+                        iii = (len(self.clients) / (end - self.env.now))
                 i += 1
+                ii += 1
                 client = self.clients.pop()
                 client.name = "Client {}".format(i)
                 
@@ -585,11 +602,10 @@ init -9 python:
                 self.log(temp)
                 
                 # Take an action!
-                ups = upgrades[:]
-                shuffle(ups)
-                for upgrade in ups:
+                shuffle(self.nd_ups)
+                for upgrade in self.nd_ups:
                     # TODO: Brothel block check needs to be worked out of here.
-                    if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity and upgrade.has_workers():
+                    if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
                         # Assumes a single worker at this stage... This part if for upgrades like Building.
                         char = None
                         while self.workers:
@@ -611,13 +627,14 @@ init -9 python:
                                 continue
                             
                             # We to make sure that the girl is willing to do the job:
-                            if False:
-                                if not char.action.check_occupation(char):
-                                    if char in self.workers:
-                                        self.workers.remove(char)
-                                    temp = set_font_color('{} is not willing to do {}.'.format(char.name, temp), "red")
-                                    self.log(temp)
-                                    continue
+                            # Same as with the job, it's not a good idea to check char.action here:
+                            # if not char.action.check_occupation(char):
+                            if not random.sample(upgrade.jobs, 1).pop().check_occupation(char):
+                                if char in self.workers:
+                                    self.workers.remove(char)
+                                temp = set_font_color('{} is not willing to do {}.'.format(char.name, random.sample(upgrade.jobs, 1).pop().id), "red")
+                                self.log(temp)
+                                continue
                                 
                             # else:
                                 # if config.debug:
@@ -641,6 +658,7 @@ init -9 python:
                     # Jobs like the Club:
                     elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
                         self.env.process(upgrade.request(client))
+                        upgrade.send_in_workers()
                         break
                         
                 else: # If nothing was found, kick the client:
@@ -648,6 +666,7 @@ init -9 python:
             
         def post_nd_reset(self):
             self.env = None
+            self.nd_ups = list()
             
             for _ in self._upgrades:
                 _.post_nd_reset()
