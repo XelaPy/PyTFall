@@ -175,10 +175,8 @@
     
 label interactions_eattogether:
     "You invite her to eat together somewhere."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
-    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
     if char.flag("gm_eat_together") != day:
         $char.set_flag("gm_eat_together", value=day)
     else:

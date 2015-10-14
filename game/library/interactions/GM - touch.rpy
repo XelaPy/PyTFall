@@ -1,17 +1,6 @@
-###### j0
-# quick navigation, search "j" + number, example: j0 - this panel
-# 
-#  1 - touch - hug
-#  2 - touch - hold hands
-#  3 - touch - slap butt
-#  4 - touch - grab breasts
-
-###### j1
 label interactions_hug:
     "You trying to hug her."
-    call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
     if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -53,6 +42,7 @@ label interactions_hug:
     
     if gm_last_success:
         $ char.override_portrait("portrait", "confident")
+        $ hero.exp += randint(5, 10)
         if ct("Impersonal"):
             $rc("Yes?", "Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm...")
         elif ct("Shy") and dice(30):
@@ -106,6 +96,9 @@ label interactions_hug:
         else:
             $rc("<Steps back> Don't think so.", "! What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "Maybe later.", "That's no good.", "No, cut it out!", "<Shrinks back> Don't get weird.", "What are you doing! Please don't bother me!", "I'm not in the mood.")    
     $ char.restore_portrait()
+    $ del gm_last_success
+    $ del gm_dice
+    $ del gm_disp_mult
     jump girl_interactions
     
 
@@ -114,9 +107,7 @@ label interactions_hug:
 ###### j3    
 label interactions_slapbutt:
     "You trying to slap her butt."
-    call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
     if char.disposition > 600:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -161,6 +152,7 @@ label interactions_slapbutt:
     
     if gm_last_success:
         $ char.override_portrait("portrait", "confident")
+        $ hero.exp += randint(5, 10)
         if ct("Yandere"):
             $rc("<She smiles and slapes you back.>", "Ha... That touching... so lewd...", "How lewd...", "Blossoming youth?", "Such a perverted hand...")
         elif ct("Impersonal"):
@@ -212,15 +204,16 @@ label interactions_slapbutt:
         else:
             $rc("...Hey! Why are you touching me!", "Why are you touching me without permission!?", "Geez! If you don't stop, I'm gonna get mad!", "Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "Aahn! Stop it!", "Ow! How dare you!", "Hey~! Stop that~!", "[hero.name]...! I'd rather you do this sort of thing with someone else...!", "If you have the free time to be doing that, I'm leaving.", "What? Don't touch me that much.", "Hey! Quit it, already!", "Aah! C...cut it out! ","What are you doing over there, you sneak?", "Kyaa-! Y... you idiot!", "What?! What is the meaning of this? Hey!", "Hmph, how unromantic! Know some shame!", "Don't touch me.", "What are you doing, weirdo???", "Don't anger me...", "Jeez～, gimme a break already～...")   
     $ char.restore_portrait()
+    $ del gm_last_success
+    $ del gm_dice
+    $ del gm_disp_mult
     jump girl_interactions
     
 
 ###### j4
 label interactions_grabbreasts:
     "You trying to grab her breasts."
-    call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
     if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -264,6 +257,7 @@ label interactions_grabbreasts:
     
     if gm_last_success:
         $ char.override_portrait("portrait", "shy")
+        $ hero.exp += randint(5, 10)
         if ct("Impersonal"):
             $rc("This is...unexpectedly embarrassing.", "...Do you like my tits?", "You're rubbing my nipples.", "Uh... my chest, it feels so tight...", "Hnn, no matter how hard you squeeze, nothing will come out, auh.", "Hnn, you don't need to rub so hard...", "Can't control yourself?")
         elif ct("Half-Sister") and dice(30):
@@ -316,5 +310,8 @@ label interactions_grabbreasts:
         else:
             $rc("You certainly have courage, asshole!", "The hell!?", "Hey! I won't let you touch me that easily.", "You graceless swine! Can you not calm down a little?", "<steps back> Wow. No need to hurry like that.", "Huh? Stop it! Where are you touching!?", "<Screams> What are you doing!!! They are not an invitation, asshole!", "Hey! Where are those hands of yours going?", "<Angrily> Don't touch me, asshole!", "You're... terrible! Must you do such a thing!", "Don't ever think about it!", "What are you trying to...?! To hell with you!", "You filthy pig! Who gave you permission to touch me?!")   
     $ char.restore_portrait()
+    $ del gm_last_success
+    $ del gm_dice
+    $ del gm_disp_mult
     jump girl_interactions
     

@@ -1,5 +1,6 @@
 label girl_interactions_greeting:
-    call interactions_checks_for_bad_stuff_greetings
+    if interactions_checks_for_bad_stuff_greetings(char):
+        return
     if char.status != "slave":
         if check_lovers(hero, char):
             $ char.override_portrait("portrait", "shy")
@@ -267,7 +268,8 @@ label girl_trainings_greeting:
     return
 
 label girl_meets_greeting:
-    call interactions_checks_for_bad_stuff_greetings
+    if interactions_checks_for_bad_stuff_greetings(char):
+        return
     if check_lovers(hero, char):
         $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(35):
@@ -390,7 +392,6 @@ label girl_meets_greeting:
         else:
             $rc("...Is there something you need?", "Ohhh… What seems to be the matter…? You over there. Is there something you would like to ask?", "You called?", "Hmm?", "...I don't like being stared at. Go away.", "...What? You're bothering me.", "Is something the matter?", "? What do you need from me?", "What is it, I'm busy here...", "What is it? If you need something, then say it.", "You have business with me...?", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Hm? Yes?", "Yes, what is it...?", "Hm? What's up?", "Ah, sorry. Did you call me?")
         $ char.restore_portrait()
-    # Accessed through call rather then jump
     return
     
 label girl_never_come: 
@@ -532,27 +533,4 @@ label after_good_sex:
     else:
         $rc("Ahh～... My hips are all worn out... Ahahaー", "It kinda feels like we're one body one mind now一♪", "Haah... Well done... Was it good for you...?", "Haah... Your sexual technique is simply admirable...") 
     $ char.restore_portrait()
-    return
-    
-label interactions_checks_for_bad_stuff_greetings:
-    if char.effects["Food Poisoning"]['active']:
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("She does not look good...")
-        $ char.restore_portrait()
-    elif char.vitality <= 10:
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("She looks very tired...")
-        $ char.restore_portrait()
-    elif char.health < (round(char.get_max("health")*0.2)):
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("She does not look good...")
-        $ char.restore_portrait()
-    elif char.effects["Down with Cold"]['active']:
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("She looks a bit pale...")
-        $ char.restore_portrait()
-    elif char.joy <= 25 or (ct("Pessimist") and char.joy <= 10):
-        $ char.override_portrait("portrait", "sad")
-        $ rc("She looks pretty sad...")
-        $ char.restore_portrait()
     return

@@ -1,11 +1,3 @@
-###### j0
-# quick navigation, search "j" + number, example: j0 - this panel
-# 
-#  1 - proposition - friends
-#  2 - proposition - girlfriend
-#  3 - proposition - hire
-
-###### j1
 label interactions_friends:
     "You proposing to become friends."
     if check_friends(char, hero):
@@ -40,6 +32,9 @@ label interactions_friends:
         $ fr_ch += 70
     if (char.disposition >= (250 - fr_ch)) and (dice(round((fr_ch + char.disposition)*0.25))):
         $ set_friends(hero, char)
+        $ hero.exp += randint(10, 30)
+        $ char.exp += randint(10, 30)
+        $ char.joy += 20
         $ char.override_portrait("portrait", "happy")
         if ct("Impersonal"):
             $rc("Very well.", "Alright.")
@@ -88,6 +83,7 @@ label interactions_friends:
         else:
             $rc("Maybe some other time.", "Something about this seems kinda suspicious... I think I'll pass.", "Nope", "Sorry. Maybe some other time.")
     $ char.restore_portrait()
+    $ del fr_ch
     jump girl_interactions
     
 
@@ -158,8 +154,11 @@ label interactions_girlfriend:
     else:
         $ l_ch += 70
     
-    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.15))):
+    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.2))):
         $ set_lovers(hero, char)
+        $ hero.exp += randint(15, 35)
+        $ char.exp += randint(15, 35)
+        $ char.joy += 25
         $ char.override_portrait("portrait", "shy")
         if ct("Impersonal") in  char.traits:
             $rc("You want me to have an affair with you. Understood.", "As you wish. I'm yours.", "I understand. I suppose we're now lovers.")
@@ -208,6 +207,7 @@ label interactions_girlfriend:
         else: 
             $rc("I-I'm sorry! Let's just be good friends!", "That's... I'm sorry! Please let's continue being good friends!", "What's your problem? Saying that out of nowhere.", "That's nice of you to say, but... I can't help you there.")
     $ char.restore_portrait()
+    $ del l_ch
     jump girl_interactions
 
 ##### j3    

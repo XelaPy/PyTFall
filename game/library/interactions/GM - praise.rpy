@@ -1,38 +1,45 @@
 label interactions_clever:
-    if (day - char.flag("gm_praise_day")) > 1 or char.flag("gm_praise_day") == 0: # you can do it once per 3 days, no matter the result
+    if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
         "You trying to compliment her intelligence."
-        call interactions_check_for_bad_stuff
-        if calling_interactions_end == 1:
-            jump girl_interactions_end
-        $ inter_praise_1 = 0
-        $ inter_praise_2 = 0
-        $ inter_praise_3 = 0
+        $ interactions_check_for_bad_stuff(char)
+        $ char.set_flag("gm_praise_day", value=day)
+        $ inter_praise = 0
         $ stats = ["charisma", "intelligence", "character", "constitution"]
         $ mean = sum(getattr(char, i) for i in stats)/len(stats) # we check the difference between the stat and average stats value
         $ int_differ = mean - char.intelligence
         if int_differ >= 0:
-            $ inter_praise_1 = 1
+            $ inter_praise += 1
       
         $ characters = [hero, char]
         $ char_with_the_highest_stat = max(characters, key=attrgetter("intelligence")) # we check who has higher stat
         if char_with_the_highest_stat != char:
-            $ inter_praise_2 = 1
+            $ inter_praise += 1
 
         $ statsmore = {s: getattr(char, s) for s in stats}
         $ stat_with_min_value = min(statsmore.iteritems(), key=itemgetter(1))[0] # we check if the stat is a min stat
         if stat_with_min_value == "intelligence":
-            $ inter_praise_3 = 1
-
-        $ inter_praise = inter_praise_1 + inter_praise_2 + inter_praise_3 # the more checks are true, the better result
+            $ inter_praise += 1
+            
+        $ del stats
+        $ del mean
+        $ del int_differ
+        $ del characters
+        $ del char_with_the_highest_stat
+        $ del statsmore
+        $ del stat_with_min_value
+        
         if inter_praise == 3:
             "She looks very happy."
+            $ hero.exp += randint(1, 10)
         elif inter_praise == 2:
             "She looks happy."
+            $ hero.exp += randint(1, 5)
         elif inter_praise == 1:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
-            jump praise_nope
+            call praise_nope
+            jump girl_interactions
         if char.disposition < 250:
             if char.character*2 > hero.refinement: # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
@@ -45,48 +52,56 @@ label interactions_clever:
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
-        $char.set_flag("gm_praise_day", value=day)
         call praise_yes
+        $ del inter_praise
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
         jump praise_nope
         
 label interactions_strong:
-    if (day - char.flag("gm_praise_day")) > 1 or char.flag("gm_praise_day") == 0: # you can do it once per 3 days, no matter the result
+    if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
         "You trying to compliment her physique."
-        call interactions_check_for_bad_stuff
-        if calling_interactions_end == 1:
-            jump girl_interactions_end
-        $ inter_praise_1 = 0
-        $ inter_praise_2 = 0
-        $ inter_praise_3 = 0
+        $ interactions_check_for_bad_stuff(char)
+        $ char.set_flag("gm_praise_day", value=day)
+        $ inter_praise = 0
         $ stats = ["charisma", "intelligence", "character", "constitution"]
         $ mean = sum(getattr(char, i) for i in stats)/len(stats) # we check the difference between the stat and average stats value
         $ int_differ = mean - char.constitution
         if int_differ >= 0:
-            $ inter_praise_1 = 1
+            $ inter_praise += 1
       
         $ characters = [hero, char]
         $ char_with_the_highest_stat = max(characters, key=attrgetter("constitution")) # we check who has higher stat
         if char_with_the_highest_stat != char:
-            $ inter_praise_2 = 1
+            $ inter_praise += 1
 
         $ statsmore = {s: getattr(char, s) for s in stats}
         $ stat_with_min_value = min(statsmore.iteritems(), key=itemgetter(1))[0] # we check if the stat is a min stat
         if stat_with_min_value == "constitution":
-            $ inter_praise_3 = 1
+            $ inter_praise += 1
+            
+        $ del stats
+        $ del mean
+        $ del int_differ
+        $ del characters
+        $ del char_with_the_highest_stat
+        $ del statsmore
+        $ del stat_with_min_value
 
-        $ inter_praise = inter_praise_1 + inter_praise_2 + inter_praise_3 # the more checks are true, the better result
         if inter_praise == 3:
             "She looks very happy."
+            $ hero.exp += randint(1, 10)
         elif inter_praise == 2:
-            "She looks happy."
+            "She looks happy"
+            $ hero.exp += randint(1, 5)
         elif inter_praise == 1:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
-            jump praise_nope
+            call praise_nope
+            jump girl_interactions
+            
         if char.disposition < 250:
             if char.character*2 > hero.refinement: # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
@@ -99,48 +114,55 @@ label interactions_strong:
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
-        $char.set_flag("gm_praise_day", value=day)
         call praise_yes
+        $ del inter_praise
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
         jump praise_nope
         
 label interactions_cute:
-    if (day - char.flag("gm_praise_day")) > 1 or char.flag("gm_praise_day") == 0: # you can do it once per 3 days, no matter the result
+    if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
         "You trying to compliment her appearance."
-        call interactions_check_for_bad_stuff
-        if calling_interactions_end == 1:
-            jump girl_interactions_end
-        $ inter_praise_1 = 0
-        $ inter_praise_2 = 0
-        $ inter_praise_3 = 0
+        $ interactions_check_for_bad_stuff(char)
+        $ char.set_flag("gm_praise_day", value=day)
+        $ inter_praise = 0
         $ stats = ["charisma", "intelligence", "character", "constitution"]
         $ mean = sum(getattr(char, i) for i in stats)/len(stats) # we check the difference between the stat and average stats value
         $ int_differ = mean - char.charisma
         if int_differ >= 0:
-            $ inter_praise_1 = 1
+            $ inter_praise += 1
       
         $ characters = [hero, char]
         $ char_with_the_highest_stat = max(characters, key=attrgetter("charisma")) # we check who has higher stat
         if char_with_the_highest_stat != char:
-            $ inter_praise_2 = 1
+            $ inter_praise += 1
 
         $ statsmore = {s: getattr(char, s) for s in stats}
         $ stat_with_min_value = min(statsmore.iteritems(), key=itemgetter(1))[0] # we check if the stat is a min stat
         if stat_with_min_value == "charisma":
-            $ inter_praise_3 = 1
+            $ inter_praise += 1
 
-        $ inter_praise = inter_praise_1 + inter_praise_2 + inter_praise_3 # the more checks are true, the better result
+        $ del stats
+        $ del mean
+        $ del int_differ
+        $ del characters
+        $ del char_with_the_highest_stat
+        $ del statsmore
+        $ del stat_with_min_value
+            
         if inter_praise == 3:
             "She looks very happy."
+            $ hero.exp += randint(1, 10)
         elif inter_praise == 2:
             "She looks happy."
+            $ hero.exp += randint(1, 5)
         elif inter_praise == 1:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
             jump praise_nope
+
         if char.disposition < 250:
             if char.character*2 > hero.refinement: # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
@@ -153,14 +175,17 @@ label interactions_cute:
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
-        $char.set_flag("gm_praise_day", value=day)
+        
         call praise_yes
+        $ del inter_praise
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
-        jump praise_nope
+        call praise_nope
+        jump girl_interactions
         
 label praise_nope:     
+    $ char.override_portrait("portrait", "indifferent") 
     if ct("Impersonal"):
         $rc("Bigmouth.", "...What'd you want?", "…?", "What a bother...", "...You talk too much.", "Pathetic...", "<She completely ignores you>", "...and?")
     elif ct("Shy") and dice(50):
@@ -183,7 +208,8 @@ label praise_nope:
         $rc("I don't understand, what?", "That's not true!", "Don't try too hard, you'll hurt yourself.", "That's definitely not true, so relax, okay?", "Please, don't bother me.")
     else:
         $ rc("Sorry, not interested.", "How many girls have you said that to today?", "Please, stop.", "Does that usually work?", "Don't mock me.", "...I'm sorry, did you say something?", "Can we end this conversation here?", "That doesn't sound sincere at all.", "You don't have to say things you don't mean.", "Too bad. I'm not going to fall for that.", "I've heard it all.", "Huhn, you're far too obvious.", "...What? Don't look at me", "What is it? I don't get what you mean.", "Stop it already...", "Well... guess so. <unimpressed>", "You don't sound as if you mean it.", "......What?", "*sigh*…  I don't really have time for this.", "And so?", "That gets you nowhere!", "I won't be fooled by beautiful words.", "Save your breath!")
-    jump girl_interactions
+    $ char.restore_portrait()
+    return
     
 label praise_yes:
     $ char.override_portrait("portrait", "shy") 

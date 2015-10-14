@@ -1,12 +1,3 @@
-###### j0
-# quick navigation, search "j" + number, example: j0 - this panel
-# 
-#  1 - givegift - bad
-#  2 - givegift - good
-#  3 - givegift - perfect
-#  4 - givegift - refuse
-
-###### j1
 label interactions_badgift:
     $ char.override_portrait("portrait", "sad")
     if ct("Impersonal"):
@@ -34,8 +25,6 @@ label interactions_badgift:
     $ char.restore_portrait()
     jump girl_interactions
     
-
-###### j2
 label interactions_goodgift:
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
@@ -62,9 +51,7 @@ label interactions_goodgift:
         $ rc("Thank you so much!", "Yes, you have my thanks.", "Thank you...! I'm happy.", "Uhm, I greatly appreciate it!", "Many thanks!", "Haha. Can't say 'no' to that.",  "No! I won't take it! Just kidding~", "Well, that's nice.")
     $ char.restore_portrait()
     jump girl_interactions
-    
 
-###### j3
 label interactions_perfectgift:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -97,8 +84,6 @@ label interactions_perfectgift:
     $ char.restore_portrait()
     jump girl_interactions
     
-    
-###### j4
 label interactions_refusegift:
     $ char.override_portrait("portrait", "angry")
     $ rc("I don't want another one of these!", "Didn't you give me a {} not so long ago?".format(item.id))
