@@ -1,9 +1,7 @@
 label interactions_kiss:
     "You trying to kiss her."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
-    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
     if char.disposition > 700:
         $ gm_dice = 98
         $ gm_disp_mult = 0.2
@@ -50,6 +48,8 @@ label interactions_kiss:
         $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
     
     if gm_last_success:
+        $ hero.exp += randint(3, 10)
+        $ char.exp += randint(3, 10)
         $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(40):
             if ct("Dandere", "Impersonal", "Yandere"):
@@ -97,5 +97,7 @@ label interactions_kiss:
     else:
         "She refuses."
     $ char.restore_portrait()
+    $ del gm_dice
+    $ del gm_disp_mult
     jump girl_interactions
     

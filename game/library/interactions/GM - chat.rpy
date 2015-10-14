@@ -1,68 +1,20 @@
-label interactions_check_for_bad_stuff: # we check major issues when the character will refuse almost anything
-    $ calling_interactions_end = 0
-    if char.effects["Food Poisoning"]['active']:
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts.")
-        $ char.restore_portrait()
-        $ char.disposition -= 2
-        $ calling_interactions_end = 1
-    elif char.vitality <= 10:
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("But she was too tired to even talk.", "She was not very happy that you interrupted her rest.")
-        $ char.restore_portrait()
-        $ char.disposition -= 2
-        $ char.vitality -= 2
-        $ calling_interactions_end = 1
-    elif char.health < (round(char.get_max("health")*0.2)):
-        $ char.override_portrait("portrait", "indifferent")
-        $ rc("But she is too wounded for that.", "But her wounds completely occupy her thoughts.")
-        $ char.restore_portrait()
-        $ char.disposition -= 5
-        $ char.vitality -= 2
-        $ calling_interactions_end = 1
-    return
-    
-label interactions_check_for_minor_bad_stuff: # we check minor issues when character might refuse to do something based on dice
-    $ calling_interactions_end_minor = 0
-    if (not(ct("Pessimist")) and char.joy <= 15) or (ct("Pessimist") and char.joy < 5):
-        if dice(60):
-            $narrator(choice(["She is in a bad mood today, however you managed to cheer her up."]))
-            $ char.disposition += 1
-            $ char.joy += randint(3, 6)
-        else:
-            $narrator(choice(["She is in a bad mood today and not does not want to do anything."]))
-            $ calling_interactions_end_minor = 1
-    if char.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
-        if dice(60):
-            $narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
-            $ char.disposition += 2
-            $ char.joy += randint(3, 6)
-        else:
-            $narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
-            $ calling_interactions_end_minor = 1
-    elif char.vitality < 35 and dice (30):
-        $narrator(choice(["But she is simply too tired to pay any serious attention to you.", "But she so tired she almost falls asleep on the move."]))
-        $ char.disposition -= randint(0, 1)
-        $ char.vitality -= 3
-        $ calling_interactions_end_minor = 1
-    return
-    
 # general chat
 label interactions_general:
     "You had a conversation with [char.nickname]."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
-    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
     if dice (40) and dice(int(round(hero.charisma*0.5))):
         if char.disposition > 0:
             $ narrator(choice(["You feel especially close today."]))
+            $ hero.exp += randint(1, 2)
+            $ char.exp += randint(1, 2)
             $ char.disposition += randint(2, 4)
         else:
             $ narrator(choice(["She was much more approachable today."]))
+            $ hero.exp += randint(1, 2)
+            $ char.exp += randint(1, 2)
             $ char.disposition += randint(1, 3)
 
-    #main part      
     if char.disposition > 150:
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
@@ -77,14 +29,15 @@ label interactions_general:
         $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
     $ char.disposition += randint(1, 3)
     $ char.joy += randint(0, 3)
+    $ hero.exp += randint(0, 1)
+    $ char.exp += randint(0, 1)
     jump girl_interactions
     
 # ask about job
 label girl_interactions_aboutjob:
     "You asking about her job."
-    call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ hero.exp += randint(0, 1)
     if char.disposition <= -350:
         $ char.override_portrait("portrait", "sad")
         if char.status != "slave":
@@ -116,8 +69,8 @@ label girl_interactions_aboutjob:
         if dice(int(round(hero.charisma*0.3))):
             $ char.joy += 3
             $ char.disposition += randint(1, 2)
-            $ hero.exp += adjust_exp(hero, randint(1, 5))
-            $ char.exp += adjust_exp(char, randint(1, 5))
+            $ hero.exp += randint(1, 5)
+            $ char.exp += randint(1, 5)
         $ char.restore_portrait()
     elif char.disposition <= -50:
         $ char.override_portrait("portrait", "indifferent")
@@ -158,8 +111,8 @@ label girl_interactions_aboutjob:
             $ char.refinement += 1
             $ char.joy += 3
             $ char.disposition += randint(1, 2)
-            $ hero.exp += adjust_exp(hero, randint(1, 5))
-            $ char.exp += adjust_exp(char, randint(1, 5))
+            $ hero.exp += randint(1, 3)
+            $ char.exp += randint(1, 3)
 
     else:
         $ char.override_portrait("portrait", "happy")
@@ -200,8 +153,8 @@ label girl_interactions_aboutjob:
         if dice(int(round(hero.charisma*0.5))):
             $ char.refinement += 1
             $ char.joy += 3
-            $ hero.exp += adjust_exp(hero, randint(5, 10))
-            $ char.exp += adjust_exp(char, randint(5, 10))
+            $ hero.exp += randint(5, 10)
+            $ char.exp += randint(5, 10)
 
     jump girl_interactions
 
@@ -274,15 +227,15 @@ label interactions_howshefeels:
 # ask about her
 label interactions_abouther:
     "You trying to learn a bit about her."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
-    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
     $ gm_abouther_list = []
     
     if char.disposition > 200:
         $ gm_dice = 100
         $ gm_disp_mult = 0.1
+        $ hero.exp += randint(0, 4)
+        $ char.exp += randint(0, 4)
     
     elif char.disposition > 150:
         $ gm_dice = 90
@@ -332,6 +285,8 @@ label interactions_abouther:
     if dice(gm_dice):
         $ char.disposition += (randint(5, 10)*(gm_disp_mult))
         $ gm.abouther_count = 0
+        $ hero.exp += randint(1, 5)
+        $ char.exp += randint(1, 5)
         
         if ct("Big Boobs", "Abnormally Large Boobs"):
             if dice(90):
@@ -517,24 +472,29 @@ label interactions_abouther:
         if ct("Always Hungry"):
             $gm_abouther_list.append(choice(["I'm still hungry, no matter how much I eat.", "I can eat nonstop, is there something wrong with that?", "No matter how much I devour, my stomach is still empty. Am I still growing or something?", "I'm feeling hungry...", "There's so much delicious food at this time of year... It's dangerous!", "You'll get heat fatigue if you don't eat properly.", "I wonder why I'm always so hungry. I'm not gaining much weight, so it's fine, but...", "I really do eat too much but I still manage to keep in shape, so....", "Have I gained some weight? No, that's just my imagination....", "I've got a craving for sweets just now...", "I've had a huge appetite lately. If this continues then I might gain weight... This has to stop."]))
         
-        # if there is not enough specific aswers, a vague one is added to the list
+        # if there is not enough specific answers, a vague one is added to the list
         if len(gm_abouther_list) < 3:
             $gm_abouther_list.append(choice(["Hm? A little of this, a little of that?", "...I don't really have much to say.", "Nothing much, there's nothing worth mentioning.", "What I'm doing? The usual stuff...", "I'm just normal, I guess.", "I like just about anything.", "Hmm, there's not much to talk about.", "Now that I think about it... am I just boring?", "I'm just about average, I guess."]))
     
     else:
         $ char.disposition -= (randint(1, 7)*(gm_disp_mult))
+        $ del gm_dice
+        $ del gm_disp_mult
         jump interactions_refused
     
     $ g(choice(gm_abouther_list))
+    $ hero.exp += randint(0, 3)
+    $ char.exp += randint(0, 3)
+    $ del gm_dice
+    $ del gm_disp_mult
     $ gm_abouther_list = None
     jump girl_interactions
 
 # ask about occupation
 label interactions_aboutoccupation:
     "You asking about her occupation."
-    call interactions_check_for_bad_stuff
-    if calling_interactions_end == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ hero.exp += randint(0, 1)
     if char.disposition > 200:
         $ gm_dice = 100
     
@@ -599,15 +559,15 @@ label interactions_aboutoccupation:
             $rc("I don't really have a profession...")
     else:
         $ char.disposition -= randint(0, 3)
+        $ del gm_dice
         jump interactions_refused
+    $ del gm_dice
     jump girl_interactions
 
 label interactions_interests:
     "You asking about her interests."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
-    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
 #    if ct("Exhibitionist") and dice(35):
 #        $rc("Showing off my 'goods' to the crowd,", "Just being one with nature, if you catch my meaning.")
 #        if d(80) and char.flag("gm_stripped_today") != day:
@@ -683,6 +643,8 @@ label interactions_interests:
         })
         
         "[line]"
+        $ del line
+        $ del gm_dice
         if char.joy <= 30 and dice(40):
             $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
             $ char.joy += randint(2, 5)
@@ -692,6 +654,8 @@ label interactions_interests:
                 $ gm_joy = 100
                 $ char.joy += randint(0, 2)
                 $ char.disposition += randint(1, 2)
+                $ hero.exp += randint(1, 3)
+                $ char.exp += randint(1, 3)
             else:
                 "You had a pretty lively conversation."
                 $ gm_joy = 75
@@ -707,11 +671,13 @@ label interactions_interests:
         else:
             "It was a short and not very pleasant conversation."
             $ gm_joy = 0
-        if dice(round(gm_joy*10 - char.disposition)):
+        if dice(round(gm_joy*10 - char.disposition)) and (char.joy > 30):
             $ char.disposition += randint(4, 8)
+            $ del gm_joy
             "You two became a bit closer."
         jump girl_interactions
     else:
+        $ del gm_dice
         jump interactions_refused
 ###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
 #label interactions_hangouts:
@@ -737,16 +703,17 @@ label interactions_interests:
 # ask about love
 label interactions_romance:
     "You asking her about love and romantic stuff."
-    call interactions_check_for_bad_stuff
-    call interactions_check_for_minor_bad_stuff
-    if calling_interactions_end == 1 or calling_interactions_end_minor == 1:
-        jump girl_interactions_end
+    $ interactions_check_for_bad_stuff(char)
+    $ interactions_check_for_minor_bad_stuff(char)
     if char.disposition < 100:
         jump interactions_refused
     else:
         $ gm_dice = (round(char.disposition * 0.4))
         $ char.override_portrait("portrait", "shy")
     if dice(gm_dice):
+        $ hero.exp += randint(2, 8)
+        $ char.exp += randint(2, 8)
+        $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
         if ct("Impersonal"):
             $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.")
         elif ct("Shy") and dice(40):
@@ -773,10 +740,12 @@ label interactions_romance:
             $rc("Huhu, a girl in love is invincible~", "Nothing motivates you quite like 'love', huh...", "If it's just with their mouth, everyone can talk about love. Even though none of them know how hard it is in reality...")
         else:
             $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love～...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Love... sure is a good thing...", "Everyone wants to fall in love.")
-    $ char.restore_portrait()           
-    $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
-    jump girl_interactions
-
+        $ char.restore_portrait()
+        $ del gm_dice
+        jump girl_interactions
+    else:
+        $ del gm_dice
+        jump interactions_refused
 # interaction check fail
 label interactions_refused:
     $ char.override_portrait("portrait", "confident")
@@ -809,7 +778,7 @@ label interactions_refused:
 
 # changin occupation
 label interactions_occupation:
-    # TODO: Remove this from the game completely???
+    # TODO: Remove this from the game completely??? Dark: yeap, it's too easy to do it via small talk
     menu:
         "Ask her to switch to:"
         "Prostitute" if char.occupation != "Prostitute":

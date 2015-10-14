@@ -4,40 +4,30 @@ init python:
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
     eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
     
-    def storyi_randomfight():  # makes random enemy teams
+    def storyi_randomfight():  # initiates fight with random enemy team
         enemy_team = Team(name="Enemy Team", max_size=3)
+        your_team = Team(name="Your Team", max_size=3)
         rand_mobs = ["Infantryman", "Archer", "Soldier"]
         for i in range(randint(1, 3)):
             mob = build_mob(id=choice(rand_mobs), level=randint(1, 2))
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
-        return enemy_team
+        your_team.add(k)
+        for member in your_team:
+            member.controller = BE_AI(member)
+        # your_team.add(hero)
+        store.battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        battle = store.battle
+        battle.teams.append(your_team)
+        battle.teams.append(enemy_team)
+        battle.start_battle()
+        your_team.reset_controller()
+        if battle.winner != your_team:
+            renpy.jump("game_over")
 init:
     $ point = "content/gfx/interface/icons/move15.png"
     $ enemy_soldier = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/ct1.png", 120, 120))
     $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
-    # $ sakura_bdsm = chars["Sakura"].show("002D-sx-ea-ee-c8-l4-ld-ma-m4-m8-bd-b2-b7.jpg", resize=(800, 600))
-    
-label storyi_fight: # calls battle for random teams, makes storyi_fight_check if the battle is lost
-    $ storyi_fight_check = False
-    $ battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
-    $ your_team = Team(name="Your Team", max_size=3)
-    $ your_team.add(k)
-    python:
-        for member in your_team:
-            member.controller = BE_AI(member)
-    # your_team.add(hero)
-    $ storyi_randomfight()
-    $ battle.teams.append(your_team)
-    $ battle.teams.append(storyi_randomfight())
-    $ battle.start_battle()
-    $ your_team.reset_controller()
-    if battle.winner != your_team:
-        $ storyi_fight_check = True
-    else:
-        $ storyi_fight_check = False
-        jump game_over
-    return
     
 label intro_story:
 label prison_storyi_event:
@@ -61,16 +51,16 @@ label prison_storyi_event:
     play world "Theme2.ogg" fadein 2.0 loop
     show bg dung_1 with eye_open
     "When you slowly walked up, your weapon was gone, you hands were chained, and your head hurted as hell."
-    label prison_eventi_actions_1:
-    menu:
-        "Check you head":
-            "You carefully touch back of the head. Hair matted with dried blood. Your head is buzzing like a bell, you might have a concussion. Not good..."
-            jump prison_eventi_actions_1
-        "Check your pockets":
-            "Nothing. They are empty."
-            jump prison_eventi_actions_1
-        "Call someone":
-            "You need to find out what's going on. You begin to shout. Soon enough you hear footsteps."
+    $ i = 1
+    while i == 1:
+        menu:
+            "Check you head":
+                "You carefully touch back of the head. Hair matted with dried blood. Your head is buzzing like a bell, you might have a concussion. Not good..."
+            "Check your pockets":
+                "Nothing. They are empty."
+            "Call someone":
+                "You need to find out what's going on. You begin to shout. Soon enough you hear footsteps"
+                $ i = 2
     play events2 "events/prison_cell_door.mp3"
     show expression g1s with dissolve
     g1 "I'll say it only one time, prisoner. If you going make noise, there will be unpleasant consequences."
@@ -155,9 +145,6 @@ label storyi_map:
         if storyi_prison_location == 4:
             "This is a small guard post."
             jump storyi_map
-        elif sol_is_here == 1:
-            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
-            jump storyi_map
         elif not(storyi_prison_location in [2, 5, 6]):
             "You are too far to go there."
             jump storyi_map
@@ -178,7 +165,7 @@ label storyi_map:
             "You are too far to go there."
             jump storyi_map
         elif storyi_prison_stage <= 3:
-            k.say "Not there. It's the main barracks, we should avoid drawing too much attention."
+            k.say "Not there. It's the main barracks, I've already been there."
             jump storyi_map
         else:
             jump prison_storyi_event_barracks
@@ -187,9 +174,6 @@ label storyi_map:
             "This is the entrance to prison dungeon. Most prisoners contained there."
         elif not(storyi_prison_location in [4, 5, 7]):
             "You are too far to go there."
-            jump storyi_map
-        elif sol_is_here == 1:
-            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
             jump storyi_map
         else:
             jump prison_storyi_event_dungentr
@@ -200,9 +184,6 @@ label storyi_map:
         elif not(storyi_prison_location in [6, 5]):
             "You are too far to go there."
             jump storyi_map
-        elif sol_is_here == 1:
-            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
-            jump storyi_map
         else:
             jump prison_storyi_event_storage
     elif _return == "MEntrance":
@@ -211,9 +192,6 @@ label storyi_map:
             jump storyi_map
         elif storyi_prison_location <> 5:
             "You are too far to go there."
-            jump storyi_map
-        elif sol_is_here == 1:
-            enemy_soldier "Hey, where are you going? We should go to the interrogation room quickly."
             jump storyi_map
     elif _return == "IRoom":
         if storyi_prison_location == 9:
@@ -328,13 +306,11 @@ label prison_storyi_event_dungentr:
         k.say "We have to split up here. I'll search the dungeon, you'll search this floor."
         menu:
             "Alright":
-                k.say "Wait, I have a plan."
+                k.say "I'll find you later."
             "This is a bad idea":
                 $ k.override_portrait("portrait", "happy")
                 k.say "You can return to your cell and wait for my return. But it won't help Sakura and Ino."
                 $ k.override_portrait("portrait", "indifferent")
-        k.say "There is a storage nearby, they keep there a set of armour. If you wear it, they won't attack you on sight. Just avoid talking to other guards."
-        k.say "Of course you can also take down everyone on your way, but it won't be easy."
         k.say "Well, be careful."
         play events2 "events/prison_cell_door.mp3"
         hide expression k_spr with dissolve
