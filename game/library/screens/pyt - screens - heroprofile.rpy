@@ -301,18 +301,18 @@ screen pyt_hero_profile():
                 null height 10
                 
                 # ELEMENTAL ALIGNMENT ====================================>
-                $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
+                $ els = [Transform(e.icon, size=(100, 100)) for e in hero.elements]
                 frame:
                     style_group "content"
                     background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
                     xysize (210, 120)
                     xalign 0.5
-                    xoffset -10
+                    xoffset -5
                     
                     $ x = 0
-                    $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
-                    $ f = Fixed(*els, xysize=(90, 90))
-                    add f xcenter 150 ycenter 50
+                    $ els = [Transform(i, crop=(110/len(els)*els.index(i), 0, 110/len(els), 110), subpixel=True, xpos=(x + 110/len(els)*els.index(i))) for i in els]
+                    $ f = Fixed(*els, xysize=(100, 100))
+                    add f xcenter 150 ycenter 55
                     
                     viewport:
                         draggable True
@@ -322,7 +322,7 @@ screen pyt_hero_profile():
                         # yoffset 33
                         has vbox spacing -4
                         for e in hero.elements:
-                            textbutton "{=TisaOTM}{size=15}[e.id]":
+                            textbutton "{=TisaOTM}{size=14}[e.id]":
                                 background None
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)
