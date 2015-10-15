@@ -629,7 +629,7 @@ init -9 python:
                             # We to make sure that the girl is willing to do the job:
                             # Same as with the job, it's not a good idea to check char.action here:
                             # if not char.action.check_occupation(char):
-                            if not random.sample(upgrade.jobs, 1).pop().check_occupation(char):
+                            if not upgrade.job.check_occupation(char):
                                 if char in self.workers:
                                     self.workers.remove(char)
                                 temp = set_font_color('{} is not willing to do {}.'.format(char.name, random.sample(upgrade.jobs, 1).pop().id), "red")

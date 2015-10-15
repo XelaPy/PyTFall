@@ -34,6 +34,12 @@ init -9 python:
             # Returns amount of workers we expect to come here.
             return 2 + self._rep*0.01*self.all_workers
             
+        @property
+        def job(self):
+            # This may not be required if we stick to a single job per business scenario:
+            if self.jobs:
+                return random.sample(self.jobs, 1).pop()
+            
         # Reputation:
         @property
         def rep(self):
@@ -208,7 +214,7 @@ init -9 python:
             
             # Best use local jobs here instead of chars action:
             # char.action(char, client)
-            random.sample(self.jobs, 1).pop()(char, client)
+            self.job(char, client)
             
             # We return the char to the nd list:
             self.instance.workers.insert(0, char)
@@ -313,7 +319,7 @@ init -9 python:
                 worker.set_union("jobs_strip_clients", self.clients)
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
-                worker.mod_flag("jobs_" + random.sample(self.jobs, 1).pop().id + "_tips", tips)
+                worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
                 temp = "{} gets {} in tips from {} clients!".format(worker.name, tips, self.res.count)
                 self.log(temp)
                 
