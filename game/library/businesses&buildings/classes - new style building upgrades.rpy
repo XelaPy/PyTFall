@@ -201,8 +201,7 @@ init -9 python:
                 self.log(temp)
                 
         def run_job(self, client, char):
-            """
-            This should be a job...
+            """This should be a job...
             """
             yield self.env.timeout(self.time)
             if config.debug:
