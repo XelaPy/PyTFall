@@ -523,6 +523,7 @@ screen pyt_girl_profile():
                                     background None
                                     action NullAction()
                                     hovered tt.Action("%s" % e.desc)
+                        add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (185, 12)
                                         
                 elif stats_display == "skillstest":
                     viewport:
