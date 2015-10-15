@@ -326,6 +326,7 @@ screen pyt_hero_profile():
                                 background None
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)
+                    add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
     
         elif lframe_display == "friends":
             # FRIEND LIST ====================================>
