@@ -3278,7 +3278,7 @@ init -9 python:
                      - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
                      - any = will try to find an image with any of the tags chozen at random
                      - first_default = will use first tag as a default instead of a profile and only than switch to profile
-                     - pop = try all tags first, if that fails, pop the last tag and try without it. Repeat until none remains and fall back to profile or default.
+                     - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
                 add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
             '''
             maxw, maxh = kwargs.get("resize", (None, None))
@@ -3348,20 +3348,16 @@ init -9 python:
                             imgpath = self.select_image(main_tag, self.id, exclude=exclude)
                             
                 elif type == "reduce":
-                        if not imgpath:
-                            tags = pure_tags[:]
-                            main_tag = tags.pop(0)
-                            imgpath = self.select_image(self.id, main_tag, *tags, exclude=exclude)
-                            while tags and not imgpath:
-                                tags.pop()
-                                
-                                # We will try mood tag on the last lookup as well, it can do no harm here:
-                                if not tags:
-                                    imgpath = self.select_image(self.id, main_tag, mood_tag, *tags, exclude=exclude)
-                                if not imgpath:
-                                    imgpath = self.select_image(self.id, main_tag, descriptor_tag, self.id, exclude=exclude)
-                                    
-                            tags = original_tags[:]
+                    if not imgpath:
+                        tags = pure_tags[:]
+                        while tags and not imgpath:
+                            if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here:
+                                imgpath = self.select_image(self.id, tags[0], mood_tag, exclude=exclude)
+                            if not imgpath:
+                                imgpath = self.select_image(self.id, *tags, exclude=exclude)
+                            tags.pop()
+                            
+                        tags = original_tags[:]
                         
             elif type == "any":
                 tags = pure_tags[:]

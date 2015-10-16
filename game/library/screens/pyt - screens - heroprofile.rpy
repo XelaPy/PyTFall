@@ -326,44 +326,44 @@ screen pyt_hero_profile():
                                 background None
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)
+                    add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
     
         elif lframe_display == "friends":
             # FRIEND LIST ====================================>
             null height 26
             viewport:
-                xysize (190, 500)
+                xysize (200, 500)
                 scrollbars "vertical"
                 draggable True
                 mousewheel True
                 xalign 0.5
-                has vbox spacing 2
+                has vbox spacing 4 xfill True
                 $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
                 for char in temp:
-                    button:
-                        xalign 0.5
-                        xysize (180, 170)
-                        action NullAction()
-                        has fixed xysize (175, 170) xalign 0.5
-                        add char.show("portrait", resize=(123, 123), cache=True) align (1.0, 0)
-                        frame:
-                            align (1.0, 1.0)
-                            xysize (155, 25)
-                            if char in hero.lovers:
-                                text "lover" color pink xalign 0.5
-                            else:
-                                text "Friend" color blue xalign 0.5
-                        text char.nickname:
-                            pos (0, 0)
-                            xoffset -10
-                            yoffset - 15
-                            layout "subtitle"
-                            text_align 0.5
-                            vertical True
-                            ymaximum 160
-                            if len(char.nickname) > 8:
-                                size 12
-                            else:
-                                size 15
+                    frame:
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.6), 5, 5)
+                        top_padding 10
+                        bottom_padding 3
+                        xpadding 5
+                        xmargin 0
+                        ymargin 0
+                        xminimum 180
+                        align (0.5, 0.5)
+                        has vbox spacing 1 xalign 0.5
+                        button:
+                            ypadding 1
+                            xpadding 1
+                            xmargin 0
+                            ymargin 0
+                            align (0.5, 0.5)
+                            style "basic_choice2_button"
+                            action NullAction()
+                            add char.show("portrait", resize=(120, 120), cache=True) align (0.5, 0.5)
+                        text "{=TisaOTMolxm}[char.nickname]" align (0.5, 1.0) yoffset 5 xmaximum 190
+                        if char in hero.lovers:
+                            add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign 0.5
+                        else:
+                            add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign 0.5
         
     # BUTTONS on the "bottom layer" ------------------------------------>
     hbox:
