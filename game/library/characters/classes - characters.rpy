@@ -3278,7 +3278,7 @@ init -9 python:
                      - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
                      - any = will try to find an image with any of the tags chozen at random
                      - first_default = will use first tag as a default instead of a profile and only than switch to profile
-                     - last_to_first = try all tags first, if that fails, pop the last tag and try without it. Repeat until none remains and fall back to profile or default.
+                     - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
                 add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
             '''
             maxw, maxh = kwargs.get("resize", (None, None))
@@ -3321,7 +3321,7 @@ init -9 python:
                          return ProportionalScale(entry[1], maxw, maxh)
             
             # Select Image (set imgpath)
-            if type in ["normal", "first_default", "last_to_first"]:
+            if type in ["normal", "first_default", "reduce"]:
                 if add_mood:
                     imgpath = self.select_image(self.id, *tags, exclude=exclude)
                 if not imgpath:
@@ -3347,7 +3347,7 @@ init -9 python:
                         else:
                             imgpath = self.select_image(main_tag, self.id, exclude=exclude)
                             
-                elif type == "last_to_first":
+                elif type == "reduce":
                     if not imgpath:
                         tags = pure_tags[:]
                         while tags and not imgpath:
