@@ -90,36 +90,12 @@ label interactions_friends:
 ###### j2    
 label interactions_girlfriend:
     "You proposing to become lovers."
-    if check_lovers(char, hero):
+    if check_lovers(char, hero): # you never know
         "But you already are!"
         jump girl_interactions
     if ct("Lesbian"):
-        $ char.override_portrait("portrait", "indifferent")
-        if ct("Impersonal"):
-            $rc("Opposite sex... Dismissed.")
-        elif ct("Shy") and dice(30):  
-            $rc("Ah, I'm sorry, I can't do that with a boy...")
-        elif ct("Imouto"):
-            $rc("If you were a girl...it'd be alright, but...")
-        elif ct("Dandere"):
-            $rc("Guys are...not for me.")
-        elif ct("Kuudere"):
-            $rc("Men for me are...well...")
-        elif ct("Tsundere"):
-            $rc("Hmph. And that's why I don't like men.")
-        elif ct("Bokukko"):  
-            $rc("Ew, don't wanna. You're a guy.")
-        elif ct("Ane"):
-            $rc("My apologies, I'm a lesbian.", "I'm terribly sorry, but... I can't do that with a man.")
-        elif ct("Yandere"):  
-            $rc("Sorry, I only like girls.")
-        elif ct("Kamidere"):
-            $rc("I have no interest in men.")
-        else: 
-            $rc("Sorry. I'm weird, so... I'm not into guys.")
-        $ char.restore_portrait()
-        jump girl_interactions
-        
+        call lesbian_refuse_because_of_gender
+        jump girl_interactions 
     $ l_ch = 0
     if ct("Shy"):  
         $ l_ch -= 10

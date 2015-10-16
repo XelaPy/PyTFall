@@ -1,100 +1,70 @@
-label interactions_virgin_check:
-    $ char.set_flag("raped", value="false")
-    if check_lovers(hero, char) or (check_friends(hero, char) and char.disposition >= 600) or (char.flag("quest_sex_anytime") == True and char.disposition >= 300):
-        menu:
-            "Looks like this is her first time. Do you want to continue?"
-                        
-            "Yes":
-                call girl_virgin
-                "You deflower her. Congratulations!"
-                jump interactions_virgin_check_goon
-                        
-            "No":
-                jump interaction_scene_choice
-                    
-    elif char.status == "slave" and (char.flag("quest_sex_anytime") == "True" or char.disposition >= 250 or (cgo("SIW") and char.disposition >= 50)):
-        menu: 
-            "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
-            
-            "Yes":
-                call girl_virgin
-                "You deflower her. Congratulations!"
-                jump interactions_virgin_check_goon
-                        
-            "No":
-                jump interaction_scene_choice
-                    
-    elif char.status == "slave":
-        menu: 
-            "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
-            
-            "Yes":
-                "You violated her."
-                $ char.set_flag("raped", value="true")
-                if ct("Masochist"):
-                    $ libido += 10
-                    $ char.joy += 5
-                    $ char.disposition += 10
-                else:
-                    $ char.disposition -= 150
-                    $ char.joy -= 50
-                jump interactions_virgin_check_goon
-                        
-            "No":
-                jump interaction_scene_choice
-    else:
-        "Unfortunately she's still a virgin, and not ready to cease to be her yet."
-        jump interaction_scene_choice
-    label interactions_virgin_check_goon:
-        $ char.disposition += 20
-        $ char.remove_trait(traits["Virgin"])
-        if char.health >=20:
-            $ char.health -= 10
-        else:
-            $ char.vitality -= 20
-        if char.flag("s_bg") == "beach":
-            jump interactions_virgin_ok_beach
-        elif char.flag("s_bg") == "park":
-            jump interactions_virgin_ok_park
-        else:
-            jump interactions_virgin_ok_room
-    jump interaction_scene_choice
-    
-label interactions_hireforsex:
+label interactions_hireforsex: # we go to this label from GM menu hire for sex
     "You propose to pay her for sex."
     $ interactions_check_for_bad_stuff(char)
     if char.flag("quest_cannot_be_fucked") == True:
         call int_sex_nope
         jump girl_interactions
-    if char.disposition < -500:
+    if char.disposition <= -300:
         call int_sex_nope
-        $ char.disposition -= randint(25, 45)
+        $ char.disposition -= randint(15, 35)
         jump girl_interactions
     elif char.vitality < 60:
         "But she is too tired."
         jump girl_interactions
     $ price = round((char.oral + char.anal + char.vaginal + char.sex) * 0.5) - hero.charisma + char.charisma*5 - round(char.disposition * 0.1)
-    if ct("Lesbian"):
-        $ price = round((price+100) * 1.5)
     if price <= 0:
         "You managed to charm her and get free service."
-        jump scene_sex_hired
     else:
+        if check_friends(char, hero):
+            $ price = round(price * 0.7)
+        if ct("Lesbian"):
+            $ price = round(price * 1.5)
+        if ct("Nymphomaniac"):
+            $ price = round(price * 0.9)
+        elif ct("Frigid"):
+            $ price = round(price * 1.1)
         if hero.gold < price:
             "She wants [price] G. You don't have so much money."
+            $ del price
             jump girl_interactions
         else:
             menu:
-                "She wants [price] G. Continue?"
+                "She wants [price] G. Do you want to pay her?"
             
                 "Yes":
                     if hero.take_money(price):
                         $ char.add_money(price)
-                    $ char.set_flag("forced", value="false")
-                    jump scene_sex_hired
+                    else:
+                        "You don't have so much money."
+                        $ del price
+                        jump girl_interactions
                 "No":
+                    "You changed your mind. She looks unimpressed."
+                    $ char.disposition -= randint(1, 3)
+                    $ del price
                     jump girl_interactions
-label interactions_sex:
+    $ del price
+    if ct("Shy") or ct("Dandere"):
+        "She's too shy to do it anywhere. You go to her room."
+        show bg girl_room with fade
+        $ sex_scene_location="room"
+    else:
+        menu:
+            "Where would you like to do it?"
+            
+            "Beach":
+                show bg city_beach with fade
+                $ sex_scene_location=="beach"
+            "Park":
+                show bg city_park with fade
+                $ sex_scene_location=="park"
+            "Room":
+                show bg girl_room with fade
+                $ sex_scene_location=="room"
+    $ sex_scene_libido = 0
+    jump interactions_sex_scene_begins   
+                    
+label interactions_sex: # we go to this label from GM menu propose sex
     "You proposing to have sex."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
@@ -102,120 +72,145 @@ label interactions_sex:
         call int_sex_nope
         jump girl_interactions
     if ct("Lesbian"):
-        "But she is not interested in men."
+        call lesbian_refuse_because_of_gender
         jump girl_interactions
-    if (char.disposition >= 500 and check_friends(char, hero)) or (ct("Nymphomaniac") and char.disposition >= 300) or check_lovers(char, hero) or (char.flag("quest_sex_anytime") == True and char.disposition >= 200):
-        if char.vitality < 60:
-            "But she is too tired."
-            jump girl_interactions
+    if char.vitality < 60:
+        "But she is too tired."
+        jump girl_interactions
+        
+    if check_lovers(char, hero): # a clear way to calculate how much disposition is needed to make her agree
+        $ disposition_level_for_sex = -200
+    elif check_friends(char, hero):
+        $ disposition_level_for_sex = 400
     else:
+        $ disposition_level_for_sex = 700
+        
+    if ct("Frigid"):
+        $ disposition_level_for_sex += randint(100, 200)
+    elif ct("Nymphomaniac"):
+        $ disposition_level_for_sex -= randint(100, 200)
+    
+    if char.status == "slave":
+        $ disposition_level_for_sex -= randint(180, 220)
+    
+    if char.flag("quest_sex_anytime"):
+        $ disposition_level_for_sex -= 800
+        
+    if cgo("SIW"):
+        if disposition_level_for_sex > 500:
+            $ disposition_level_for_sex += randint(40, 90)
+        else:
+            $ disposition_level_for_sex -= randint(40, 90)
+    
+    if char.disposition < disposition_level_for_sex:
         call int_sex_nope
-        $ char.disposition -= randint(25, 45)
+        $ del disposition_level_for_sex
+        $ char.disposition -= randint(1, 5)
         jump girl_interactions
-    $ char.set_flag("forced", value="false")
-
-    if (char.disposition >= 600 and check_friends(char, hero)) or ct("Nymphomaniac") or check_lovers(char, hero):
-        label scene_sex_hired:
+    $ del disposition_level_for_sex
+    $ sex_scene_libido = 0
+    if check_friends(char, hero) or ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600:
         menu:
             "Where would you like to do it?"
             
             "Beach":
                 show bg city_beach with fade
-                $ char.set_flag("s_bg", value="beach")
+                $ sex_scene_location=="beach"
             "Park":
                 show bg city_park with fade
-                $ char.set_flag("s_bg", value="park")
+                $ sex_scene_location=="park"
             "Room":
                 show bg girl_room with fade
-                $ char.set_flag("s_bg", value="room")
+                $ sex_scene_location=="room"
     elif (char.status == "slave") and (ct("Shy") or ct("Dandere")):
         "She is too shy to it anywhere. You can force her nevertheless, but the prefers her room."
         menu:
             "Where would you like to do it?"
-            
             "Beach":
                 show bg city_beach with fade
-                $ char.set_flag("s_bg", value="beach")
-                $ char.set_flag("forced", value="true")
+                $ sex_scene_location="beach"
+                if ct("Masochist"):
+                    $ sex_scene_libido = 10
+                else:
+                    $ sex_scene_libido = -10
             "Park":
                 show bg city_park with fade
-                $ char.set_flag("s_bg", value="park")
-                $ char.set_flag("forced", value="true")
+                $ sex_scene_location=="park"
+                if ct("Masochist"):
+                    $ sex_scene_libido = 10
+                else:
+                    $ sex_scene_libido = -10
             "Room":
                 show bg girl_room with fade
-                $ char.set_flag("s_bg", value="room")
-    elif char.status == "slave":
-        "She is not comfortable with doing it outdoors. You can force her nevertheless, but the prefers her room."
-        menu:
-            "Where would you like to do it?"
-            
-            "Beach":
-                show bg city_beach with fade
-                $ char.set_flag("s_bg", value="beach")
-                $ char.set_flag("forced", value="true")
-            "Park":
-                show bg city_park with fade
-                $ char.set_flag("s_bg", value="park")
-                $ char.set_flag("forced", value="true")
-            "Room":
-                show bg girl_room with fade
-                $ char.set_flag("s_bg", value="room")
+                $ sex_scene_location=="room"
     elif ct("Shy") or ct("Dandere"):
-        "She's too shy to do it anywhere. You go into her room."
+        "She's too shy to do it anywhere. You go to her room."
         show bg girl_room with fade
-        $ char.set_flag("s_bg", value="room")
+        $ sex_scene_location="room"
     elif ct("Homebody"):
         "She doesn't want to do it outdoors, so you go to her room."
         show bg girl_room with fade
-        $ char.set_flag("s_bg", value="room")
+        $ sex_scene_location="room"
     else:
         "She wants to do it in her room."
         show bg girl_room with fade
-        $ char.set_flag("s_bg", value="room")
+        $ sex_scene_location="room"
 
-    if char.flag("s_bg") == "beach":
-        if dice(50):
-            $ gm.generate_img("beach", "nude", "swimsuit", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
+label interactions_sex_scene_begins: # here we set initial picture before the scene and starting libido
+    if sex_scene_location == "beach":
+        if char.has_image("beach", "swimsuit", type="first_default"):
+            if char.has_image("swimsuit", "simple bg", type="first_default"):
+                if dice(50):
+                    $ gm.generate_img("beach", "swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
+                else:
+                    $ gm.generate_img("swimsuit", "simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
+            else:
+                $ gm.generate_img("beach", "swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
         else:
-            $ gm.generate_img("swimsuit", "nude", "simple bg",  exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
-    elif char.flag("s_bg") == "park":
-        if dice(50):
-            $ gm.generate_img("nature", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
-        else:
-            $ gm.generate_img("nude", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default")
-    else:
-        if dice(30):
-            $ gm.generate_img("living", "nude", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
-        elif dice(30):
-            $ gm.generate_img("living", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
-        else:
-            $ gm.generate_img("nude", "no clothes", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="first_default")
+            $ gm.generate_img("swimsuit", "simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
             
-    $ sex_count = 0
-    $ les_count = 0
-    $ guy_count = 0
-    $ girl_count = 0
-    $ together_count = 0
-    $ cum_count = 0
-    if ct("Nymphomaniac"):
-        $libido = 55
-    elif ct("Frigid"):
-        $libido = 20
+    elif sex_scene_location == "park":
+        if char.has_image("nature", type="first_default"):
+            $ gm.generate_img("nature", "nude", "urban", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
+        else:
+            $ gm.generate_img("nude", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
     else:
-        $libido = 35
+        if char.has_image("living", "lingerie", type="first_default"):
+            if char.has_image("living", "no clothes", type="first_default"):
+                if dice(50):
+                    $ gm.generate_img("living", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+                else:
+                    $ gm.generate_img("living", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+            else:
+                $ gm.generate_img("living", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+        else:
+            if char.has_image("simple bg", "lingerie", type="first_default"):
+                if char.has_image("simple bg", "no clothes", type="first_default"):
+                    if dice(50):
+                        $ gm.generate_img("simple bg", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+                    else:
+                        $ gm.generate_img("simple bg", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+                else:
+                    $ gm.generate_img("simple bg", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+            else:
+                $ gm.generate_img("simple bg", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+            
+    $ sex_count = les_count = guy_count = girl_count = together_count = cum_count = 0
+
+    if ct("Nymphomaniac"):
+        $ sex_scene_libido += 70
+    elif ct("Frigid"):
+        $ sex_scene_libido += 30
+    else:
+        $ sex_scene_libido += 50
     if ct ("Messy"):
-        $libido += 5
+        $ sex_scene_libido += 5
     if check_lovers(hero, char):
-        $libido += 20
-    if char.flag("forced") == "true" and ct("Masochist"):
-        $libido += 10
-    elif char.flag("forced") == "true":
-        $libido -= 10
-        $ char.joy -= 15
+        $ sex_scene_libido += 20
     if cgo("SIW"):
-        $libido += 10
-    call int_sex_ok    
-label interaction_scene_choice:
+        $ sex_scene_libido += 10
+
+label interaction_scene_choice: # here we select specific scene, show needed image, jump to scene logic and return here after every scene
     if char.vitality <=0:
         jump interaction_scene_finish_sex
     if hero.vitality <= 20:
@@ -226,7 +221,7 @@ label interaction_scene_choice:
             "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
         if char.joy <= 10:
             "She looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
-        if char.vitality <= 40:
+        if char.vitality <= 30:
             "She looks very tired. You can force her, but it's probably for the best to let her rest."
     else:
         if libido <= 0:
@@ -235,38 +230,37 @@ label interaction_scene_choice:
         elif char.joy <= 10:
             "She looks upset. Not the best mood for sex."
             jump interaction_scene_finish_sex
-        if char.vitality < 50:
+        if char.vitality < 30:
             "She is too tired to continue."
             jump interaction_scene_finish_sex
     
     menu:
         "What would you like to do now?"
         
-        "Ask for striptease" if char.flag("s_bg") == "beach" and (char.has_image("stripping", "beach", type="first_default") or char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default") or char.has_image("nude", "beach", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default")):
-            if char.has_image("stripping", "beach", type="first_default"):
-                $ gm.set_img("stripping", "beach", type="first_default")
-            elif char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default"):
-                $ gm.set_img("stripping", "simple bg", type="first_default")
+        "Ask for striptease":
+            if sex_scene_location == "beach":
+                if char.has_image("stripping", "beach", type="first_default"):
+                    $ gm.set_img("stripping", "beach", type="reduce")
+                elif char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default"):
+                    $ gm.set_img("stripping", "simple bg", type="reduce")
+                else:
+                    $ gm.set_img("nude", "beach", exclude=["sleeping", "angry", "in pain", "sad"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("stripping", "nature", type="first_default"):
+                    $ gm.set_img("stripping", "nature", "urban", type="reduce")
+                elif char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default"):
+                    $ gm.set_img("stripping", "simple bg", type="reduce")
+                else:
+                    $ gm.set_img("nude", "nature", "urban", exclude=["sleeping", "angry", "in pain", "sad"], type="reduce")
             else:
-                $ gm.set_img("nude", "beach", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default")
-            jump interaction_scene_strip
-        "Ask for striptease" if char.flag("s_bg") == "park" and (char.has_image("stripping", "nature", type="first_default") or char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default") or char.has_image("nude", "nature", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default")):
-            if char.has_image("stripping", "nature", type="first_default"):
-                $ gm.set_img("stripping", "nature", type="first_default")
-            elif char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default"):
-                $ gm.set_img("stripping", "simple bg", type="first_default")
-            else:
-                $ gm.set_img("nude", "nature", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default")
-            jump interaction_scene_strip
-        "Ask for striptease" if char.flag("s_bg") == "room" and (char.has_image("stripping", "living", type="first_default") or char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default") or char.has_image("nude", "living", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default") or char.has_image("stripping", "indoors", exclude=["sleeping", "angry", "in pain", "sad", "dungeon", "public"], type="first_default")):
-            if char.has_image("stripping", "living", type="first_default"):
-                $ gm.set_img("stripping", "living", type="first_default")
-            elif char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default"):
-                $ gm.set_img("stripping", "simple bg", exclude=["stage"], type="first_default")
-            elif char.has_image("nude", "living", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default"):
-                $ gm.set_img("nude", "living", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default")
-            else:
-                $ gm.set_img("stripping", "indoors", exclude=["sleeping", "angry", "in pain", "sad", "dungeon", "public"], type="first_default")
+                if char.has_image("stripping", "living", type="first_default"):
+                    $ gm.set_img("stripping", "indoors", "living", type="reduce")
+                elif char.has_image("stripping", "simple bg", exclude=["stage"], type="first_default"):
+                    $ gm.set_img("stripping", "simple bg", exclude=["stage"], type="reduce")
+                elif char.has_image("nude", "living", exclude=["sleeping", "angry", "in pain", "sad"], type="first_default"):
+                    $ gm.set_img("nude", "living", exclude=["sleeping", "angry", "in pain", "sad"], type="reduce")
+                else:
+                    $ gm.set_img("stripping", "indoors", exclude=["sleeping", "angry", "in pain", "sad", "dungeon", "public"], type="reduce")
             jump interaction_scene_strip
         "Ask to play with herself" if char.flag("s_bg") == "beach" and (char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
             if char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default"):
@@ -965,7 +959,59 @@ label interaction_scene_mast:
     $ girl_count +=1
     jump interaction_scene_choice
     
-label interaction_scene_vaginal:
+label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
+    if ct("Virgin"):
+        if char.status == "slave":
+            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 50)) or char.disposition >= 250 or check_lovers(hero, char) or check_friends(hero, char):
+                menu:
+                    "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
+                    "Yes":
+                        "You deflower her. Congratulations!"
+                    "No":
+                        if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
+                            "You changed your mind. She looks a bit dissapointed."
+                        else:
+                            "You changed your mind."
+                        jump interaction_scene_choice
+            else:
+                menu: 
+                    "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
+                    "Yes":
+                        "You violated her."
+                        if char.health >=20:
+                            $ char.health -= 10
+                        else:
+                            $ char.vitality -= 20
+                        if ct("Masochist"):
+                            $ libido += 10
+                            $ char.joy += 5
+                            $ char.disposition -= 50
+                        else:
+                            $ char.disposition -= 150
+                            $ char.joy -= 50
+                            $ libido -= 20
+                    "No":
+                        "You agreed to do something else instead. She sighs with relief."
+                        jump interaction_scene_choice
+        else:
+            if check_lovers(hero, char) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 400)):
+                menu:
+                    "Looks like this is her first time, and she does not mind. Do you want to continue?"
+                    "Yes":
+                        "You deflower her. Congratulations!"
+                    "No":
+                        "You changed your mind. She looks a bit dissapointed."
+                        jump interaction_scene_choice
+            else:
+                "Unfortunately she's still a virgin, and is not ready to cease to be her yet."
+                jump interaction_scene_choice
+        $ char.disposition += 50
+        $ char.remove_trait(traits["Virgin"])
+        if char.health >=20:
+            $ char.health -= 10
+        else:
+            $ char.vitality -= 20
+label interaction_scene_vaginal: 
     if libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
