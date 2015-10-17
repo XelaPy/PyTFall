@@ -207,3 +207,5 @@ init -999 python:
     'z2': 'night',
     'z3': 'autumn'
     }
+    
+    loc_tags = list(tags_dict[t] for t in tags_dict if t.startswith("l"))

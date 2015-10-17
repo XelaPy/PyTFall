@@ -452,3 +452,49 @@ init -11 python:
         
         char.action = choice(available_jobs) if available_jobs else None
         
+    def get_sex_img_4int(char, *args, **kwargs):
+        """Tries to find the best possible sex image following a complex set of logic.
+        http://www.pinkpetal.org/index.php?topic=1291.msg37131#msg37131
+        
+        Coded for interactions module.
+        """
+        # First check if we have a perfect match of all tags:
+        if char.has_image(*args, **kwargs):
+            return char.show(*args, **kwargs)
+        
+        tags = list(args)
+        exclude = kwargs.get()
+            
+        # Next we give priority to partner_hidden logic:
+        if "partner_hidden" in tags:
+            ptags = list(t for t in tags if t not in loc_tags)
+            result = substitute_show_bg(ptags)
+            if result:
+                return result
+            
+            # No parter_hidden tags found... we subsitute partner_hidden with after_sex
+            ptags = tags[:]
+            ptags.remove("partner_hidden")
+            if "after_sex" not in ptags:
+                ptags.append("after_sex")
+                
+            if char.has_image(*ptags, **kwargs):
+                return char.show(*ptags, **kwargs)
+                
+            ptags = list(t for t in ptags if t not in loc_tags)
+            result = substitute_show_bg(ptags)
+            if result:
+                return result
+            
+    def substitute_show_bg(tags):
+        # Try it with the simple_bg:
+        _tags = tags[:]
+        _tags.append("simple_bg")
+        if char.has_image(*_tags, **kwargs):
+            return char.show(*_tags, **kwargs)
+            
+        # Try it with no_bg:
+        _tags = tags[:]
+        _tags.append("no_bg")
+        if char.has_image(*_tags, **kwargs):
+            return char.show(*_tags, **kwargs)
