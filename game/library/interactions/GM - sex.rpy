@@ -262,201 +262,183 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                 else:
                     $ gm.set_img("stripping", "indoors", exclude=["sleeping", "angry", "in pain", "sad", "dungeon", "public"], type="reduce")
             jump interaction_scene_strip
-        "Ask to play with herself" if char.flag("s_bg") == "beach" and (char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
-            if char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default"):
-                $ gm.set_img("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            else:
-                $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            jump interaction_scene_mast
-        "Ask to play with herself" if char.flag("s_bg") == "park" and (char.has_image("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")):
-            if char.has_image("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default"):
-                $ gm.set_img("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            else:
-                $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            jump interaction_scene_mast
-        "Ask to play with herself" if char.flag("s_bg") == "room" and (char.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default") or char.has_image("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered", "dungeon", "public"], type="first_default")):
-            if char.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default"):
-                $ gm.set_img("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            elif char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default"):
-                $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-            else:
-                $ gm.set_img("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered", "dungeon", "public"], type="first_default")
-            jump interaction_scene_mast
-        "Ask for blowjob" if char.flag("s_bg") == "beach" and (char.has_image("bc blowjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc blowjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc blowjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_blowjob
-        "Ask for blowjob" if char.flag("s_bg") == "park" and (char.has_image("bc blowjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc blowjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc blowjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_blowjob
-        "Ask for blowjob" if char.flag("s_bg") == "room" and (char.has_image("bc blowjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc blowjob", "indoors", exclude=["rape", "angry", "in pain", "dungeon", "public"], type="first_default") or char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc blowjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc blowjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc blowjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_blowjob
-        "Ask for titsjob" if char.flag("s_bg") == "beach" and (char.has_image("bc titsjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc titsjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc titsjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_titsjob
-        "Ask for titsjob" if char.flag("s_bg") == "park" and (char.has_image("bc titsjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc titsjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc titsjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_titsjob
-        "Ask for titsjob" if char.flag("s_bg") == "room" and (char.has_image("bc titsjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc titsjob", "indoors", exclude=["rape", "angry", "in pain", "dungeon", "public"], type="first_default") or char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc titsjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc titsjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc titsjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_titsjob
-        "Ask for handjob" if char.flag("s_bg") == "beach" and (char.has_image("bc handjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc handjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc handjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_handjob
-        "Ask for handjob" if char.flag("s_bg") == "park" and (char.has_image("bc handjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc handjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc handjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_handjob
-        "Ask for handjob" if char.flag("s_bg") == "room" and (char.has_image("bc handjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc handjob", "indoors", exclude=["rape", "angry", "in pain", "dungeon", "public"], type="first_default") or char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc handjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc handjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc handjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_handjob
-        "Ask for footjob" if char.flag("s_bg") == "beach" and (char.has_image("bc footjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc footjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc footjob", "partnerhidden", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_footjob
-        "Ask for footjob" if char.flag("s_bg") == "park" and (char.has_image("bc footjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc footjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc footjob", "partnerhidden", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "nature", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_footjob
-        "Ask for footjob" if char.flag("s_bg") == "room" and (char.has_image("bc footjob", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("bc footjob", "indoors", exclude=["rape", "angry", "in pain", "dungeon", "public"], type="first_default") or char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("bc footjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc footjob", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("bc footjob", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            elif char.has_image("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_footjob
-        "Ask for vaginal sex" if char.flag("s_bg") == "beach" and (char.has_image("2c vaginal", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if ct("Virgin"):
-                jump interactions_virgin_check
-            label interactions_virgin_ok_beach:
-                if char.has_image("2c vaginal", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                    $ gm.set_img("2c vaginal", "partnerhidden", "beach", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
+            
+        "Ask to play with herself" if char.has_image("masturbation", type="forced", "normalsex", "group", "bdsm"):
+            if sex_scene_location == "beach":
+                if char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"], type="first_default"):
+                    $ gm.set_img("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
                 else:
-                    $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-                jump interaction_scene_vaginal
-        "Ask for vaginal sex" if char.flag("s_bg") == "park" and (char.has_image("2c vaginal", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c vaginal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if ct("Virgin"):
-                jump interactions_virgin_check
-            label interactions_virgin_ok_park:
-                if char.has_image("2c vaginal", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                    $ gm.set_img("2c vaginal", "partnerhidden", "nature", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
+                    $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm"], type="first_default"):
+                    $ gm.set_img("masturbation", "nature", "urban", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
                 else:
-                    $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-                jump interaction_scene_vaginal
-        "Ask for vaginal sex" if char.flag("s_bg") == "room":
-            if ct("Virgin"):
-                jump interactions_virgin_check
-            label interactions_virgin_ok_room:
-                if char.has_image("2c vaginal", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                    $ gm.set_img("2c vaginal", "partnerhidden", "living", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-                elif char.has_image("2c vaginal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                    $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-                elif char.has_image("2c vaginal", "indoors", "straight", exclude=["rape", "angry", "in pain", "dungeon", "public"], type="first_default"):
-                    $ gm.set_img("2c vaginal", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain", "gay", "dungeon", "public"], type="first_default")
+                    $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "indoors"], type="reduce")
+            else:
+                if char.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm"], type="first_default"):
+                    $ gm.set_img("masturbation", "indoors", "living", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
+                elif char.has_image("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm"], type="first_default"):
+                    $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
                 else:
-                    $ gm.set_img("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default")
+                    $ gm.set_img("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "dungeon", "public"], type="reduce")
+            jump interaction_scene_mast
+            
+        "Ask for blowjob" if (char.has_image("bc blowjob", exclude=["rape", "angry", "in pain"], type="first_default") or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default"))):
+            if sex_scene_location == "beach":
+                if char.has_image("bc blowjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc blowjob", "beach", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("bc blowjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc blowjob", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            else:
+                if char.has_image("bc blowjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc blowjob", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc blowjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            jump interaction_scene_blowjob
+            
+        "Ask for titsjob" if (char.has_image("bc titsjob", exclude=["rape", "angry", "in pain"], type="first_default") or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default"))):
+            if sex_scene_location == "beach":
+                if char.has_image("bc titsjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc titsjob", "beach", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("bc titsjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc titsjob", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            else:
+                if char.has_image("bc titsjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc titsjob", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc titsjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            jump interaction_scene_titsjob
+            
+        "Ask for handjob" if (char.has_image("bc handjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+            if sex_scene_location == "beach":
+                if char.has_image("bc handjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc handjob", "beach", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("bc handjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc handjob", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            else:
+                if char.has_image("bc handjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc handjob", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc handjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            jump interaction_scene_handjob
+            
+        "Ask for footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+            if sex_scene_location == "beach":
+                if char.has_image("bc footjob", "beach", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc footjob", "beach", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["rape", "angry", "in pain"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("bc footjob", "nature", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc footjob", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            else:
+                if char.has_image("bc footjob", "living", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc footjob", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("bc footjob", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default"):
+                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain"], type="reduce")
+                elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            jump interaction_scene_footjob
+            
+        "Ask for vaginal sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "in pain", "gay"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+            if ct("Virgin"):
+                jump interaction_check_for_virginity
+            else:
                 jump interaction_scene_vaginal
-        "Ask for anal sex" if char.flag("s_bg") == "beach" and (char.has_image("2c anal", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("2c anal", "beach", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("2c anal", "partnerhidden", "beach", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
+                
+        "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "in pain", "gay"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+            if sex_scene_location == "beach":
+                if char.has_image("2c anal", "beach", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                    $ gm.set_img("2c anal", "beach", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+                elif char.has_image("2c anal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                    $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+                elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+            elif sex_scene_location == "park":
+                if char.has_image("2c anal", "nature", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                    $ gm.set_img("2c anal", "partnerhidden", "nature", "urban", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+                elif char.has_image("2c anal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                    $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+                elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
             else:
-                $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-            jump interaction_scene_anal
-        "Ask for anal sex" if char.flag("s_bg") == "park" and (char.has_image("2c anal", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default") or char.has_image("2c anal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default")):
-            if char.has_image("2c anal", "nature", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("2c anal", "partnerhidden", "nature", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-            else:
-                $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-            jump interaction_scene_anal
-        "Ask for anal sex" if char.flag("s_bg") == "room":
-            if char.has_image("2c anal", "living", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("2c anal", "partnerhidden", "living", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-            elif char.has_image("2c anal", "simple bg", "straight", exclude=["rape", "angry", "in pain"], type="first_default"):
-                $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default")
-            elif char.has_image("2c anal", "indoors", "straight", exclude=["rape", "angry", "in pain", "dungeon", "public"], type="first_default"):
-                $ gm.set_img("2c anal", "partnerhidden", "indoors", exclude=["rape", "angry", "in pain", "gay", "dungeon", "public"], type="first_default")
-            else:
-                $ gm.set_img("after sex", "living", exclude=["rape", "angry", "in pain"], type="first_default")
-            jump interaction_scene_anal
-        "Ask for some hot lesbo action" if find_les_partners() and char.flag("s_bg") == "room":
-            jump interactions_lesbian_choice
+                if char.has_image("2c anal", "living", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                    $ gm.set_img("2c anal", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+                elif char.has_image("2c anal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+                elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
+                    $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+                else:
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+                jump interaction_scene_anal
+                
         "That's all.":
             "You decided to finish."
             
@@ -962,7 +944,7 @@ label interaction_scene_mast:
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
         if char.status == "slave":
-            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 50)) or char.disposition >= 250 or check_lovers(hero, char) or check_friends(hero, char):
+            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 50) or (char.disposition >= 250) or (check_lovers(hero, char)) or (check_friends(hero, char)):
                 menu:
                     "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                     "Yes":
@@ -994,7 +976,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         "You agreed to do something else instead. She sighs with relief."
                         jump interaction_scene_choice
         else:
-            if check_lovers(hero, char) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 400)):
+            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 400):
                 menu:
                     "Looks like this is her first time, and she does not mind. Do you want to continue?"
                     "Yes":
@@ -1007,11 +989,42 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                 jump interaction_scene_choice
         $ char.disposition += 50
         $ char.remove_trait(traits["Virgin"])
-        if char.health >=20:
+        if char.health >=15:
             $ char.health -= 10
         else:
-            $ char.vitality -= 20
-label interaction_scene_vaginal: 
+            $ char.vitality -= 20      
+        
+label interaction_scene_vaginal:
+    if sex_scene_location == "beach": # since we don't like labels in labels, we have to move all checks for vaginal from usual place here
+        if char.has_image("2c vaginal", "beach", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+            $ gm.set_img("2c vaginal", "beach", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+        elif char.has_image("2c vaginal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+            $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+        else:
+            $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+    elif sex_scene_location == "park":
+        if char.has_image("2c vaginal", "nature", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+                $ gm.set_img("2c vaginal", "partnerhidden", "nature", "urban", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+        elif char.has_image("2c vaginal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+            $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+        else:
+            $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+    else:
+        if char.has_image("2c vaginal", "living", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+            $ gm.set_img("2c vaginal", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+        elif char.has_image("2c vaginal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
+            $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
+            $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+        else:
+            $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+
+
+ 
     if libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
