@@ -534,3 +534,30 @@ label after_good_sex:
         $rc("Ahh～... My hips are all worn out... Ahahaー", "It kinda feels like we're one body one mind now一♪", "Haah... Well done... Was it good for you...?", "Haah... Your sexual technique is simply admirable...") 
     $ char.restore_portrait()
     return
+    
+label lesbian_refuse_because_of_gender:
+        $ char.override_portrait("portrait", "indifferent")
+        if ct("Impersonal"):
+            $rc("Opposite sex... Dismissed.")
+        elif ct("Shy") and dice(50):  
+            $rc("Ah, I'm sorry, I can't do that with a boy...")
+        elif ct("Imouto"):
+            $rc("If you were a girl...it'd be alright, but...")
+        elif ct("Dandere"):
+            $rc("Guys are...not for me.")
+        elif ct("Kuudere"):
+            $rc("Men for me are...well...")
+        elif ct("Tsundere"):
+            $rc("Hmph. And that's why I don't like men.")
+        elif ct("Bokukko"):  
+            $rc("Ew, don't wanna. You're a guy.")
+        elif ct("Ane"):
+            $rc("My apologies, I'm a lesbian.", "I'm terribly sorry, but... I can't do that with a man.")
+        elif ct("Yandere"):  
+            $rc("Sorry, I only like girls.")
+        elif ct("Kamidere"):
+            $rc("I have no interest in men.")
+        else: 
+            $rc("Sorry. I'm weird, so... I'm not into guys.")
+        $ char.restore_portrait()
+        return
