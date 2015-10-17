@@ -463,12 +463,12 @@ init -11 python:
             return char.show(*args, **kwargs)
         
         tags = list(args)
-        exclude = kwargs.get()
+        exclude = kwargs.get("exclude", None)
             
         # Next we give priority to partner_hidden logic:
         if "partner_hidden" in tags:
             ptags = list(t for t in tags if t not in loc_tags)
-            result = substitute_show_bg(ptags)
+            result = substitute_show_bg(char, ptags, **kwargs)
             if result:
                 return result
             
@@ -482,11 +482,54 @@ init -11 python:
                 return char.show(*ptags, **kwargs)
                 
             ptags = list(t for t in ptags if t not in loc_tags)
-            result = substitute_show_bg(ptags)
+            result = substitute_show_bg(char, ptags, **kwargs)
             if result:
                 return result
+                
+        # If threre was no partner_hidden or everything failed:
+        if "partner_hidden" in tags:
+            tags.remove("partner_hidden")
             
-    def substitute_show_bg(tags):
+        if char.has_image(*tags, **kwargs):
+            return char.show(*tags, **kwargs)
+            
+        ptags = list(t for t in tags if t not in loc_tags)
+        result = substitute_show_bg(char, ptags, **kwargs)
+        if result:
+            return result
+            
+        # We could not find an image with the correct location/bgs, so we go with after_sex:
+        ptags = list(t for t in tags if t not in sex_action_tags)
+        if "after_sex" not in ptags:
+            ptags.append("after_sex")
+            
+        if char.has_image(*ptags, **kwargs):
+            return char.show(*ptags, **kwargs)
+        
+        ptags = list(t for t in tags if t not in loc_tags)
+        result = substitute_show_bg(char, ptags, **kwargs)
+        if result:
+            return result
+            
+        # Still nothing... We try to get a picture just with the after_sex and a location followed by no_bg/simple_bg if no loc was found:
+        locs = list(t for t in tags if t in loc_tags)
+        if char.has_image("after_sex", *locs, **kwargs):
+            return char.show("after_sex", *locs, **kwargs)
+            
+        result = substitute_show_bg(char, ["after_sex"], **kwargs)
+        if result:
+            return result
+            
+        # I have no idea what this means:
+        """
+        5) Finally, if we don't have even pictures from 3),  we show closest possible location, ie if we have indoors+living room+anal, 
+        let's try to show indoors+anal at very least.
+        """
+        
+        # Finally, we just run the normal show:
+        return char.show(*args, **kwargs)
+            
+    def substitute_show_bg(char, tags, **kwargs):
         # Try it with the simple_bg:
         _tags = tags[:]
         _tags.append("simple_bg")

@@ -209,3 +209,4 @@ init -999 python:
     }
     
     loc_tags = list(tags_dict[t] for t in tags_dict if t.startswith("l"))
+    sex_action_tags = []
