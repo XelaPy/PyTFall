@@ -396,23 +396,6 @@ init -9 python:
             self.stats_mod = {}
             self.nd_events_report = list()
             
-            # Building class related:
-            # self.stripresults = {'clients': 0, 'satisfaction': 0}
-            # self.clientsr = {'bar': 0, 'club': 0}
-            # self.servicer = {
-                # 'strippers': False,
-                # 'clients': False,
-                # 'barclients': False,
-                # 'clubclients': False,
-                # 'clientsset': False,
-                # 'barclientsleft': False,
-                # 'clubclientsleft': False,
-                # 'second_round': False,
-            # }
-            
-            # if hasattr(self, "building_jobs"):
-                # self.building_jobs = self.building_jobs.union(self.building_jobs)
-            
             self.maxrank = kwargs.pop("maxrank", 0)
             
             self.baseclients = 2
