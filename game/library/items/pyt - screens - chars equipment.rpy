@@ -12,25 +12,31 @@ init:
     screen discard_item(char, item):
         zorder 10
         modal True
+        
+        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
         frame:
-            align (0.5, 0.5)
-            xysize (500, 300)
-            has vbox spacing 30 xfill True
-            null height 10
-            text "Discard [item.id]?" xalign 0.5
+            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.75), 10, 10)
+            style_group "dropdown_gm2"
+            align (0.42, 0.61)
+            xsize 500
+            xpadding 10
+            ypadding 10
+            xmargin 0
+            ymargin 0
+            has vbox spacing 5 xfill True
+            text "{=TisaOTM}{size=-3}Discard {color=#ffd700}[item.id]{/color}?" xalign 0.52 color "#ecc88a"
             hbox:
-                xfill True
-                spacing 10
                 xalign 0.5
-                textbutton "Yes":
-                    xalign 0
+                spacing 10
+                textbutton "{size=-1}Yes":
+                    xalign 0.5
                     action Function(char.inventory.remove, item), Hide("discard_item"), With(dissolve)
                 $ amount = char.inventory.get_item_count(item)
-                textbutton "Discard All":
+                textbutton "{size=-1}Discard All":
                     xalign 0.5
                     action SensitiveIf(amount > 1), Function(char.inventory.remove, item, amount), Hide("discard_item"), With(dissolve)
-                textbutton "No":
-                    xalign 1.0
+                textbutton "{size=-1}No":
+                    xalign 0.5
                     action Hide("discard_item"), With(dissolve)
                 
 
