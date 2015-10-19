@@ -526,6 +526,40 @@ init -11 python:
         let's try to show indoors+anal at very least.
         """
         
+        # After Dark clarified the concept, this is the part 5), comments should be deleted if this works as intended.
+        # //This can be cleaned up and refactored one working correctly!!
+        # Drop Nature First:
+        if any([t for t in ["outdoors", "urban", "wildness", "suburb", "nature"] if t in tags]):
+            ptags = [t for t in tags if t not in ["nature"]]
+            if char.has_image(*ptags, **kwargs):
+                return char.show(*ptags, **kwargs)
+                
+        if any([t for t in ["urban", "wildness", "suburb"] if t in tags]):
+            ptags = [t for t in tags if t not in ["urban", "wildness", "suburb"]]
+            if "outdoors" not in ptags:
+                ptags.append("outdoors")
+            if char.has_image(*ptags, **kwargs):
+                return char.show(*ptags, **kwargs)
+                
+        if any([t for t in ["dungeon", "living", "public"] if t in tags]):
+            ptags = [t for t in tags if t not in ["dungeon", "living", "public"]]
+            if "indoors" not in ptags:
+                ptags.append("indoors")
+            if char.has_image(*ptags, **kwargs):
+                return char.show(*ptags, **kwargs)
+                
+        if any([t for t in ["indoors", "outdoors"] if t in tags]):
+            ptags = [t for t in tags if t not in ["indoors", "outdoors", "simple bg", "no bg"]]
+            result = substitute_show_bg(char, ptags, **kwargs)
+            if result:
+                return result
+                
+        if any([t for t in ["beach", "onsen", "pool", "stage"] if t in tags]):
+            ptags = [t for t in tags if t not in ["beach", "onsen", "pool", "stage", "simple bg", "no bg"]]
+            result = substitute_show_bg(char, ptags, **kwargs)
+            if result:
+                return result
+        
         # Finally, we just run the normal show:
         return char.show(*args, **kwargs)
             
