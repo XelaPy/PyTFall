@@ -29,6 +29,8 @@ label temari_first_meeting:
     $ t.restore_portrait()
     scene black with dissolve
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("You met Temari, a weird kunoichi who loves her family too much. Perhaps you have to know each other better for a start?..")
+    $ del t
+    $ del t_spr
     jump hiddenvillage_entrance
     
 label temari_second_meeting:
@@ -44,6 +46,8 @@ label temari_second_meeting:
     hide expression t_spr with dissolve
     $ t.restore_portrait()
     scene black with dissolve
+    $ del t
+    $ del t_spr
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("Temari wants you fight her at the Training Grounds. She is going to hold back, but you still better be prepared.")
     jump hiddenvillage_entrance
     
@@ -78,10 +82,14 @@ label temari_before_fight:
                 show expression t_spr at center
                 t.say "Well, that was disappointing... Good luck next time, I guess."
                 $ t.restore_portrait()
+                $ del t
+                $ del t_spr
                 jump hiddenvillage_entrance
         "No":
             t.say "Alright, no rush. Come when you will be prepeared."
             $ t.restore_portrait()
+            $ del t
+            $ del t_spr
             jump hiddenvillage_entrance
             
 label temari_final_meeting:
@@ -103,6 +111,8 @@ label temari_final_meeting:
     hide expression t_spr with dissolve
     $ t.restore_portrait()
     $ pytfall.world_quests.get("Stubborn Kunoichi").next_in_label("You managed to impress her. Perhaps now she will be more appeasable?")
+    $ del t
+    $ del t_spr
     scene black with dissolve
     jump hiddenvillage_entrance
     

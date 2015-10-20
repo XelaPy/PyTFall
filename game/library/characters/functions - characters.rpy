@@ -460,7 +460,7 @@ init -11 python:
         """
         # First check if we have a perfect match of all tags:
         if char.has_image(*args, **kwargs):
-            return char.show(*args, **kwargs)
+            return gm.set_img(*args, **kwargs)
         
         tags = list(args)
         exclude = kwargs.get("exclude", None)
@@ -479,7 +479,7 @@ init -11 python:
                 ptags.append("after_sex")
                 
             if char.has_image(*ptags, **kwargs):
-                return char.show(*ptags, **kwargs)
+                return gm.set_img(*ptags, **kwargs)
                 
             ptags = list(t for t in ptags if t not in loc_tags)
             result = substitute_show_bg(char, ptags, **kwargs)
@@ -491,7 +491,7 @@ init -11 python:
             tags.remove("partner_hidden")
             
         if char.has_image(*tags, **kwargs):
-            return char.show(*tags, **kwargs)
+            return gm.set_img(*tags, **kwargs)
             
         ptags = list(t for t in tags if t not in loc_tags)
         result = substitute_show_bg(char, ptags, **kwargs)
@@ -504,7 +504,7 @@ init -11 python:
             ptags.append("after_sex")
             
         if char.has_image(*ptags, **kwargs):
-            return char.show(*ptags, **kwargs)
+            return gm.set_img(*ptags, **kwargs)
         
         ptags = list(t for t in tags if t not in loc_tags)
         result = substitute_show_bg(char, ptags, **kwargs)
@@ -514,7 +514,7 @@ init -11 python:
         # Still nothing... We try to get a picture just with the after_sex and a location followed by no_bg/simple_bg if no loc was found:
         locs = list(t for t in tags if t in loc_tags)
         if char.has_image("after_sex", *locs, **kwargs):
-            return char.show("after_sex", *locs, **kwargs)
+            return gm.set_img("after_sex", *locs, **kwargs)
             
         result = substitute_show_bg(char, ["after_sex"], **kwargs)
         if result:
@@ -532,21 +532,21 @@ init -11 python:
         if any([t for t in ["outdoors", "urban", "wildness", "suburb", "nature"] if t in tags]):
             ptags = [t for t in tags if t not in ["nature"]]
             if char.has_image(*ptags, **kwargs):
-                return char.show(*ptags, **kwargs)
+                return gm.set_img(*ptags, **kwargs)
                 
         if any([t for t in ["urban", "wildness", "suburb"] if t in tags]):
             ptags = [t for t in tags if t not in ["urban", "wildness", "suburb"]]
             if "outdoors" not in ptags:
                 ptags.append("outdoors")
             if char.has_image(*ptags, **kwargs):
-                return char.show(*ptags, **kwargs)
+                return gm.set_img(*ptags, **kwargs)
                 
         if any([t for t in ["dungeon", "living", "public"] if t in tags]):
             ptags = [t for t in tags if t not in ["dungeon", "living", "public"]]
             if "indoors" not in ptags:
                 ptags.append("indoors")
             if char.has_image(*ptags, **kwargs):
-                return char.show(*ptags, **kwargs)
+                return gm.set_img(*ptags, **kwargs)
                 
         if any([t for t in ["indoors", "outdoors"] if t in tags]):
             ptags = [t for t in tags if t not in ["indoors", "outdoors", "simple bg", "no bg"]]
@@ -561,17 +561,17 @@ init -11 python:
                 return result
         
         # Finally, we just run the normal show:
-        return char.show(*args, **kwargs)
+        return gm.set_img(*args, **kwargs)
             
     def substitute_show_bg(char, tags, **kwargs):
         # Try it with the simple_bg:
         _tags = tags[:]
-        _tags.append("simple_bg")
+        _tags.append("simple bg")
         if char.has_image(*_tags, **kwargs):
-            return char.show(*_tags, **kwargs)
+            return gm.set_img(*_tags, **kwargs)
             
         # Try it with no_bg:
         _tags = tags[:]
-        _tags.append("no_bg")
+        _tags.append("no bg")
         if char.has_image(*_tags, **kwargs):
-            return char.show(*_tags, **kwargs)
+            return gm.set_img(*_tags, **kwargs)

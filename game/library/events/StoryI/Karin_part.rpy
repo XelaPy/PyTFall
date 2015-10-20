@@ -4,16 +4,14 @@ init python:
 label Karin_can_heal:
     $ k = chars["Karin"]
     $ k.override_portrait("portrait", "indifferent")
-    if k.disposition <= - 100 and k.status != "slave":
+    if k.disposition <= -50 and k.status != "slave":
         k.say "I refuse. You're not worth my time."
-    if hero.health >= hero.get_max('health'):
+    elif hero.health >= hero.get_max('health'):
         k.say "Hm? You seems pretty healthy to me, [hero.name]."
         $ k.restore_portrait()
-        jump girl_interactions
     elif k.vitality <= 25:
         k.say "I'm too tired for that technique right now."
         $ k.restore_portrait()
-        jump girl_interactions
     else:
         $ heal = hero.get_max('health') - hero.health
         if k.vitality >= heal:
@@ -21,37 +19,41 @@ label Karin_can_heal:
         else:
             k.say "I'm afraid I don't have enough strength to heal you completely. But I'll do what I can."
             $ heal = heal - k.vitality
-    if k.status != "slave" and not(check_lovers(char, hero)):
-        $ heal_money = heal * 5
-        k.say "It will be [heal_money]G."
-        if heal_money > hero.gold:
-            "You don't have such amount of gold..."
-            k.say "Pathetic..."
-            $ k.restore_portrait()
-            jump girl_interactions
-        else:
-            menu:
-                "Are you ready to pay [heal_money]G?"
+        if k.status != "slave" and not(check_lovers(char, hero)):
+            $ heal *= 5
+            k.say "It will be [heal_money]G."
+            if heal > hero.gold:
+                "You don't have such amount of gold..."
+                k.say "Pathetic..."
+                $ k.restore_portrait()
+                jump girl_interactions
+            else:
+                menu:
+                    "Are you ready to pay [heal_money]G?"
                 
-                "Yes":
-                    if hero.take_money(heal_money):
-                        $ k.add_money(heal_money)
-                "No":
-                    k.say "As you wish."
-                    $ k.restore_portrait()
-                    jump girl_interactions
-    $ k.override_portrait("portrait", "suggestive")
-    k.say "Well, you know what to do."
-    "She rolls her sleeve and gives you hand. You bite through her soft skin, feeling the taste of blood."
-    k.say "..."
-    $ hero.health += heal
-    $ k.vitality -= heal
-    "She obviously enjoys it despite the pain. You feel like her energy flows into you, healing your wounds."
-    $ k.disposition += 10
-    k.say "Alright, we are done here. Come again when you'll need a treatment."
-    $ k.restore_portrait()
+                    "Yes":
+                        if hero.take_money(heal):
+                            $ k.add_money(heal)
+                    "No":
+                        k.say "As you wish."
+                        $ k.restore_portrait()
+                        jump girl_interactions
+        $ k.override_portrait("portrait", "suggestive")
+        k.say "Well, you know what to do."
+        "She rolls her sleeve and gives you hand. You bite through her soft skin, feeling the taste of blood."
+        k.say "..."
+        $ hero.health += heal
+        $ k.vitality -= heal
+        "She obviously enjoys it despite the pain. You feel like her energy flows into you, healing your wounds."
+        $ k.disposition += 10
+        k.say "Alright, we are done here. Come again when you'll need a treatment."
+        $ k.restore_portrait()
+        $ del heal
+    $ del k
+    $ del k_spr
     jump girl_interactions
-label karin_first_meeting:
+    
+label storyi_karin_first_meeting:
     scene black
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
@@ -91,11 +93,13 @@ label karin_first_meeting:
     hide expression k_spr with dissolve
     "She leaves. You feel moderately offended. Maybe there is a way to make your, er, 'chakra' more attractive or something?"
     $ k.restore_portrait()
+    $ del k
+    $ del k_spr
     scene black with dissolve
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("You met Karin, one of ninja medics. She wants you to improve your chakra before she will agree to do anything with you.")
     jump hiddenvillage_entrance
 
-label karin_second_meeting:
+label storyi_karin_second_meeting:
     $ k = chars["Karin"]
     $ k_spr = chars["Karin"].get_vnsprite()
     show expression k_spr at center with dissolve
@@ -110,9 +114,11 @@ label karin_second_meeting:
     $ k.set_flag("quest_cannot_be_fucked", value=False)
     k.say "Very well, I'll give you a chance."
     $ pytfall.world_quests.get("Sixth Sense").next_in_label("Now you can try sex with her, providing that she likes you enough of course...")
+    $ del k
+    $ del k_spr
     return
     
-label karin_finish_quest:
+label storyi_karin_finish_quest:
     "It was a bit strange because of her masochistic tendencies, but pleasant in general..."
     $ pytfall.world_quests.get("Sixth Sense").finish_in_label("You took care of Karin's virginity.", "complete")
     jump hiddenvillage_entrance

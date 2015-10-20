@@ -34,6 +34,10 @@ label tenten_first_meeting:
     $ tem.restore_portrait()
     "Looks like a severe case. The best approach would be to find her equipment for a start."
     $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You met Tenten, a tomboyish kunoichi who lost her weapon scrolls. Here we give a quest find them in SE -_-")
+    $ del ten
+    $ del ten_spr
+    $ del tem
+    $ del tem_spr
     scene black with dissolve
     jump hiddenvillage_entrance
     
@@ -142,6 +146,11 @@ label tenten_second_meeting: # after finding the summon scroll
     $ ten.set_flag("quest_cannot_be_lover", value=False)
     $ ten.set_flag("quest_cannot_be_fucked", value=False)
     $ pytfall.world_quests.get("Weapons Specialist").next_in_label("You managed to get closer to her. Now it's up to your charisma.")
+    $ del ten
+    $ del ten_spr
+    $ del tem
+    $ del tem_spr
+    $ del b
     scene black with dissolve
     jump hiddenvillage_entrance
 
@@ -155,7 +164,6 @@ label tenten_bonus_scene: # random scene after doing it with both temari and ten
     stop world
     play world "park.mp3" fadein 2.0 loop
     scene black
-    $ b = Character("Bandit", color=white, what_color=white, show_two_window=True)
     $ ten = chars["Tenten"]
     $ tem = chars["Temari"]
     show bg story training_ground with dissolve
@@ -170,5 +178,7 @@ label tenten_bonus_scene: # random scene after doing it with both temari and ten
     "It's not safe to stay, so you quickly leave before they will notice (and probably kill) you."
     $ ten.restore_portrait()
     $ tem.restore_portrait()
+    $ del ten
+    $ del tem
     scene black with dissolve
     stop world
