@@ -566,12 +566,12 @@ init -11 python:
     def substitute_show_bg(char, tags, **kwargs):
         # Try it with the simple_bg:
         _tags = tags[:]
-        _tags.append("simple_bg")
+        _tags.append("simple bg")
         if char.has_image(*_tags, **kwargs):
             return gm.set_img(*_tags, **kwargs)
             
         # Try it with no_bg:
         _tags = tags[:]
-        _tags.append("no_bg")
+        _tags.append("no bg")
         if char.has_image(*_tags, **kwargs):
             return gm.set_img(*_tags, **kwargs)

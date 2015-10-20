@@ -33,7 +33,7 @@ label Karin_can_heal:
                 
                     "Yes":
                         if hero.take_money(heal):
-                        $ k.add_money(heal)
+                            $ k.add_money(heal)
                     "No":
                         k.say "As you wish."
                         $ k.restore_portrait()
