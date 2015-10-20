@@ -1,11 +1,9 @@
 init python:
     narukoquest = register_quest("Uzumaki Clan", manual=True)
 
-label naruko_first_meeting:
+label storyi_naruko_first_meeting:
     scene black
     show bg hiddenvillage_entrance with dissolve
-    $ k = chars["Kushina_Uzumaki"]
-    $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
     show expression n_spr at center with dissolve
@@ -47,10 +45,12 @@ label naruko_first_meeting:
     "She left. What a weird girl."
     "Well, if she is telling the truth, it will be simple enough."
     $ n.restore_portrait()
+    $ del n
+    $ del n_spr
     $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You met Naruko, a cheerful and lively kunoichi. She proposed to give away her virginity if you treat her for a week in her favourite eatery.")
     jump hiddenvillage_entrance
 
-label eat_with_Naruko:
+label storyi_eat_with_Naruko:
     if hero.gold <= 200:
         "You don't have enough money for that."
         jump girl_interactions
@@ -66,8 +66,6 @@ label eat_with_Naruko:
     $ gm.set_img("eating", type="first_default")
     "You treat her in her favourite eatery."
     $ chars["Naruko_Uzumaki"].mod_flag("naruko_eat", 1)
-    if pytfall.world_quests.check_stage("Uzumaki Clan") == 1:
-        $ narrator(choice(["The food is clearly unhealthy, like any fastfood. But she enjoys it anyway.", "The food is cheap here, but she eats a lot, meaning you have to pay a lot too.", "She proposes you to try the local food too, but you politely refuse. It's unwise to eat unfamiliar food in unfamiliar place."]))
     $ n.disposition += 40
     $ temp = randint (90, 250)
     if hero.take_money(temp):
@@ -83,9 +81,11 @@ label eat_with_Naruko:
         $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You paid her bills for another week. Time to pay her a visit.")
     elif (chars["Naruko_Uzumaki"].flag("naruko_eat") >= 7) and (pytfall.world_quests.check_stage("Uzumaki Clan") == 5):
         $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You paid her bills for one more week. You are pretty close to her now, after three weeks of eating together. Another try?")
+    $ del n
+    $ del n_spr
     jump girl_interactions
         
-label naruko_second_meeting:
+label storyi_naruko_second_meeting:
     $ flash = Fade(.25, 0, .75, color=green)
     scene black
     stop music
@@ -134,40 +134,37 @@ label naruko_second_meeting:
     $ k.override_portrait("portrait", "shy")
     k.say "I suppose you have many questions. We have some time before she returns, so I can answer them."
     $ a = 0
-    label kushina_after_sex:
     $ k.override_portrait("portrait", "shy")
-    menu:
-        "Where is Naruko?":
-            k.say "It's a bit complicated. You could say she is resting inside of me right now. She will be back very soon."
-            jump kushina_after_sex
-        "Who are you?":
-            k.say "I'm Naruko's mother, Kushina Uzumaki. Nice to meet you, [hero.name]! Before you ask how do I know you, I can hear my daughter's thoughts sometimes."
-            jump kushina_after_sex
-        "What's going on?":
-            k.say "You have been tricked by my daughter, of course. It wasn't the first time when she got free meal from strangers promising sex in return."
-            k.say "Though it's pretty lonely inside, so I don't mind to take her place at all."
-            jump kushina_after_sex
-        "How can you change places?":
-            $ k.override_portrait("portrait", "sad")
-            k.say "Ah, it's a long and old story. In short, we sealed a powerful and dangerous creature inside Naruko's body immediately after her birth."
-            k.say "And I became a part of the seal inside her. My job is to keep the seal intact, but as you can see, there are some side effects as well."
-            $ k.override_portrait("portrait", "shy")
-            k.say "During sex your chakras immediately begin to mix. It affects the seal, my chakra suppress hers in order to protect it, and we changing places."
-            $ a = 1
-            jump kushina_after_sex
-        "Is there any way to take her virginity?" if a == 1:
-            k.say "You obviously can do it if we will be separated by force, but then most likely the beast will be free and the village will be destroyed."
-            k.say "But..."
-            play sound "content/sfx/sound/be/light1.mp3"
-            show bg girl_room_4 with flash
-            k.say "Ah, we don't have much time left, I'm afraid..."
-            play sound "content/sfx/sound/be/light1.mp3"
-            show bg girl_room_4 with flash
-            hide xxx
-            show expression n.show("nude", "simple bg", "everyday", "confident", "stripping", resize=(800, 600), type="first_default") as xxx at truecenter with flash
-            $ n.override_portrait("portrait", "happy")
-            n.say "<yawns> That was a good nap. How did it go, [hero.name]? You had your fun? We could do it again later if you want, with the same condition..."
-    label naruko_after_sex:
+    $ i = 1
+    while i == 1:
+        menu:
+            "Where is Naruko?":
+                k.say "It's a bit complicated. You could say she is resting inside of me right now. She will be back very soon."
+            "Who are you?":
+                k.say "I'm Naruko's mother, Kushina Uzumaki. Nice to meet you, [hero.name]!"
+            "What's going on?":
+                k.say "You have been tricked by my daughter, of course. It wasn't the first time when she got free meal from strangers promising sex in return."
+                k.say "Though it's pretty lonely inside, so I don't mind to take her place at all."
+            "How can you change places?":
+                $ k.override_portrait("portrait", "sad")
+                k.say "Ah, it's a long and old story. In short, we sealed a powerful and dangerous creature inside Naruko's body immediately after her birth."
+                k.say "And I became a part of the seal inside her. My job is to keep the seal intact, but as you can see, there are some side effects as well."
+                $ k.override_portrait("portrait", "shy")
+                k.say "During sex your chakras immediately begin to mix. It affects the seal, my chakra suppress hers in order to protect it, and we changing places."
+                $ a = 1
+            "Is there any way to take her virginity?" if a == 1:
+                $ i = 0
+                k.say "You obviously can do it if we will be separated by force, but then most likely the beast will be free and the village will be destroyed."
+                k.say "But..."
+                play sound "content/sfx/sound/be/light1.mp3"
+                show bg girl_room_4 with flash
+                k.say "Ah, we don't have much time left, I'm afraid..."
+                play sound "content/sfx/sound/be/light1.mp3"
+                show bg girl_room_4 with flash
+                hide xxx
+                show expression n.show("nude", "simple bg", "everyday", "confident", "stripping", resize=(800, 600), type="first_default") as xxx at truecenter with flash
+                $ n.override_portrait("portrait", "happy")
+                n.say "<yawns> That was a good nap. How did it go, [hero.name]? You had your fun? We could do it again later if you want, with the same condition..."
     $ n.override_portrait("portrait", "happy")
     menu:
         "You tricked me!":
@@ -185,13 +182,18 @@ label naruko_second_meeting:
     $ n.restore_portrait()
     $ k.restore_portrait()
     $ del a
+    $ del i
+    $ del n
+    $ del n_spr
+    $ del k
+    $ del k_spr
     $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=0)
     $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("This turned out not as you expected... In order to try again you need to treat her for a week once more.")
     scene black with dissolve
     stop world
     jump hiddenvillage_entrance
     
-label naruko_third_meeting:
+label storyi_naruko_third_meeting:
     $ flash = Fade(.25, 0, .75, color=green)
     stop music
     stop world
@@ -285,13 +287,17 @@ label naruko_third_meeting:
     $ n.restore_portrait()
     $ k.restore_portrait()
     $ del a
+    $ del n
+    $ del n_spr
+    $ del k
+    $ del k_spr
     $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=0)
     $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You have to keep treating her. Hopefully, it will pay off eventually.")
     scene black with dissolve
     stop world
     jump hiddenvillage_entrance
     
-label naruko_final_meeting: 
+label storyi_naruko_final_meeting: 
     $ flash = Fade(.25, 0, .75, color=green)
     stop music
     stop world
@@ -426,6 +432,11 @@ label naruko_final_meeting:
     $ n.set_flag("quest_cannot_be_fucked", value=False)
     $ chars["Naruko_Uzumaki"].del_flag("naruko_eat")
     $ chars["Naruko_Uzumaki"].del_flag("event_to_interactions_eatwithnarukotogether")
+    $ del a
+    $ del n
+    $ del n_spr
+    $ del k
+    $ del k_spr
     scene black with dissolve
     stop world
     jump hiddenvillage_entrance

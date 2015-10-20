@@ -1,4 +1,3 @@
-# after a couple days mc gets a paper airplane with instructions written to meet with kunoichi ub the forest
 init python:
     qtsunade = register_quest("Medic's Request")
     register_event("intro_storyi_entervillage", quest="Medic's Request", run_conditions=[qtsunade.condition(0, True)], locations=["forest_entrance"], dice=100, max_runs=1)
