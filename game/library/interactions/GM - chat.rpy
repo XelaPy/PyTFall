@@ -576,14 +576,14 @@ label interactions_interests:
 #                
 #                "Strongly agree":
 #                    g "You're weird... but I'm weird too ;)"
-#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=["sex"]))
 #                    g "So, what do you think?"
 #                    $gm.restore_img()
 #                    $ char.disposition += 10
 #                    $ char.set_flag("gm_stripped_today", value=day)
 #                
 #                "Agree":
-#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=main_sex_tags))
+#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=["sex"]))
 #                    g "You like?"
 #                    $gm.restore_img()
 #                    $ char.disposition += 5

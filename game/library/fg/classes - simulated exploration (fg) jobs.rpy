@@ -40,10 +40,10 @@ init python:
                     self.girl.AP -= 1
                 
                 self.img = Fixed(ProportionalScale(fg.upgrades["healing onsen"][1], 740, 685, align=(0.5, 0.5)),
-                                 HBox(self.girl.show("onsen", "rest", exclude=main_sex_tags, type="any", resize=(300, 250)), align=(0.5, 1.0)),
+                                 HBox(self.girl.show("onsen", "rest", exclude=["sex"], type="any", resize=(300, 250)), align=(0.5, 1.0)),
                                  xysize=(740, 685))
                 
-                self.img = self.girl.show("onsen", "rest", exclude=main_sex_tags, type="any", resize=(740, 685))
+                self.img = self.girl.show("onsen", "rest", exclude=["sex"], type="any", resize=(740, 685))
                 self.txt.append("%s spent some time resting and recovering in the healing onsens! " % self.girl.name)
             
             else:
