@@ -115,13 +115,13 @@ label interactions_sex: # we go to this label from GM menu propose sex
             
             "Beach":
                 show bg city_beach with fade
-                $ sex_scene_location=="beach"
+                $ sex_scene_location = "beach"
             "Park":
                 show bg city_park with fade
-                $ sex_scene_location=="park"
+                $ sex_scene_location = "park"
             "Room":
                 show bg girl_room with fade
-                $ sex_scene_location=="room"
+                $ sex_scene_location = "room"
     elif (char.status == "slave") and (ct("Shy") or ct("Dandere")):
         "She is too shy to it anywhere. You can force her nevertheless, but the prefers her room."
         menu:
@@ -217,14 +217,14 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         "You are too tired to continue."
         jump interaction_scene_finish_sex
     if char.status == "slave":
-        if libido <= 0:
+        if sex_scene_libido <= 0:
             "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
         if char.joy <= 10:
             "She looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
         if char.vitality <= 30:
             "She looks very tired. You can force her, but it's probably for the best to let her rest."
     else:
-        if libido <= 0:
+        if sex_scene_libido <= 0:
             "She doesn't want to do it any longer."
             jump interaction_scene_finish_sex
         elif char.joy <= 10:
@@ -263,7 +263,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                     $ gm.set_img("stripping", "indoors", exclude=["sleeping", "angry", "in pain", "sad", "dungeon", "public"], type="reduce")
             jump interaction_scene_strip
             
-        "Ask to play with herself" if char.has_image("masturbation", type="forced", "normalsex", "group", "bdsm"):
+        "Ask to play with herself" if char.has_image("masturbation", exclude=["forced", "normalsex", "group", "bdsm"], type="first_default"):
             if sex_scene_location == "beach":
                 if char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"], type="first_default"):
                     $ gm.set_img("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
@@ -443,7 +443,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
             "You decided to finish."
             
             label interaction_scene_finish_sex:
-                if libido >= 15 and char.vitality >= 35:
+                if sex_scene_libido >= 15 and char.vitality >= 35:
                     if char.flag("s_bg") == "beach":
                         if dice(50):
                             $ gm.set_img("masturbation", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
@@ -461,7 +461,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         else:
                             $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
                     "She is not satisfied yet, so she quickly masturbates to decrease libido."
-                    $ char.disposition -= round(libido*0.5)
+                    $ char.disposition -= round(sex_scene_libido*0.5)
                 if char.vitality <=0:
                     if char.flag("s_bg") == "beach":
                         $ gm.set_img("rest", "beach", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
@@ -640,7 +640,7 @@ label interactions_lesbian_choice:
 
     show expression char2.get_vnsprite() at left as char_sprite2 with dissolve
     show expression char.get_vnsprite() at right as char_sprite with dissolve
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
     if char.joy <= 10:
@@ -655,7 +655,7 @@ label interactions_lesbian_choice:
         $ char2.sex += randint (0,1)
         $ char.vitality -= 20
         $ char2.vitality -= 20
-        $ libido -= 5
+        $ sex_scene_libido -= 5
         char2.say "..."
         char.say "Sorry..."
     elif char.oral < 100 and char.sex < 100:
@@ -666,7 +666,7 @@ label interactions_lesbian_choice:
         $ char2.sex += randint (0,1)
         $ char.vitality -= 20
         $ char2.vitality -= 15
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         char.say "Sorry..."
         char2.say "Don't worry. You'll become better in time."
     elif char2.oral < 100 and char2.sex < 100:
@@ -677,7 +677,7 @@ label interactions_lesbian_choice:
         $ char2.sex += randint (0,1)
         $ char.vitality -= 20
         $ char2.vitality -= 15
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         char2.say "I'm sorry..."
         char.say "Don't be. We had our fun (*looking at you*)."
     else:
@@ -688,7 +688,7 @@ label interactions_lesbian_choice:
         $ char2.sex += randint (2,4)
         $ char.vitality -= 15
         $ char2.vitality -= 15
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ char.joy += 5
         $ char2.joy += 5
         char2.say "That... wasn't so bad."
@@ -715,7 +715,7 @@ label interactions_lesbian_choice:
     
 
 label interaction_scene_blowjob:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
     if char.joy <= 10:
@@ -729,7 +729,7 @@ label interaction_scene_blowjob:
         $ hero.oral += randint (0, 1)
         $ char.vitality -= 30
         $ hero.vitality -= 30
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.oral < 300:
         "It was pretty good."
         $ char.oral += randint (2, 4)
@@ -737,7 +737,7 @@ label interaction_scene_blowjob:
         $ char.vitality -= 25
         $ hero.vitality -= 25
         $ char.joy += 1
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.oral < 1000:
         "It was very good."
         $ char.oral += randint (1, 3)
@@ -752,7 +752,7 @@ label interaction_scene_blowjob:
         $ char.vitality -= 20
         $ hero.vitality -= 20
         $ char.joy += 2
-        $ libido += 5
+        $ sex_scene_libido += 5
         $ sex_count += 1
         $ guy_count +=1
     if (char.oral - hero.oral) > 200:
@@ -767,7 +767,7 @@ label interaction_scene_blowjob:
     jump interaction_scene_choice
         
 label interaction_scene_titsjob:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
     if char.joy <= 10:
@@ -782,7 +782,7 @@ label interaction_scene_titsjob:
         $ hero.sex += randint (0, 1)
         $ char.vitality -= 30
         $ hero.vitality -= 30
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.oral < 300 or  char.sex < 300:
         "It was pretty good."
         $ char.oral += randint (1, 3)
@@ -791,7 +791,7 @@ label interaction_scene_titsjob:
         $ char.vitality -= 25
         $ hero.vitality -= 25
         $ char.joy += 1
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.oral < 1000 or char.sex < 1000:
         "It was very good."
         $ char.oral += randint (1, 2)
@@ -808,7 +808,7 @@ label interaction_scene_titsjob:
         $ char.vitality -= 20
         $ hero.vitality -= 20
         $ char.joy += 2
-        $ libido += 5
+        $ sex_scene_libido += 5
     if (char.oral - hero.oral) > 200 or (char.sex - hero.sex) > 200:
         "You learned something new about titsjob as well. A pleasure to deal with professionals."
         $ hero.oral += 1
@@ -823,7 +823,7 @@ label interaction_scene_titsjob:
     jump interaction_scene_choice
     
 label interaction_scene_handjob:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
     if char.joy <= 10:
@@ -837,7 +837,7 @@ label interaction_scene_handjob:
         $ hero.sex += randint (0, 1)
         $ char.vitality -= 30
         $ hero.vitality -= 30
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.sex < 300:
         "It was pretty good."
         $ char.sex += randint (2, 4)
@@ -845,7 +845,7 @@ label interaction_scene_handjob:
         $ char.vitality -= 25
         $ hero.vitality -= 25
         $ char.joy += 1
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.sex < 1000:
         "It was very good."
         $ char.sex += randint (1, 3)
@@ -860,7 +860,7 @@ label interaction_scene_handjob:
         $ char.vitality -= 20
         $ hero.vitality -= 20
         $ char.joy += 2
-        $ libido += 5
+        $ sex_scene_libido += 5
     if (char.sex - hero.sex) > 200:
         "You learned something new about handjob as well. A pleasure to deal with professionals."
         $ hero.sex += 2
@@ -873,7 +873,7 @@ label interaction_scene_handjob:
     jump interaction_scene_choice
     
 label interaction_scene_footjob:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
     if char.joy <= 10:
@@ -887,7 +887,7 @@ label interaction_scene_footjob:
         $ hero.sex += randint (0, 1)
         $ char.vitality -= 30
         $ hero.vitality -= 30
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.sex < 300:
         "It was pretty good."
         $ char.sex += randint (2, 4)
@@ -895,7 +895,7 @@ label interaction_scene_footjob:
         $ char.vitality -= 25
         $ hero.vitality -= 25
         $ char.joy += 1
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.sex < 1000:
         "It was very good."
         $ char.sex += randint (1, 3)
@@ -910,7 +910,7 @@ label interaction_scene_footjob:
         $ char.vitality -= 20
         $ hero.vitality -= 20
         $ char.joy += 2
-        $ libido += 5
+        $ sex_scene_libido += 5
     if (char.sex - hero.sex) > 200:
         "You learned something new about footjob as well. A pleasure to deal with professionals."
         $ hero.sex += 2
@@ -923,7 +923,7 @@ label interaction_scene_footjob:
     jump interaction_scene_choice
     
 label interaction_scene_mast:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
             $ char.health -= 10
@@ -933,10 +933,10 @@ label interaction_scene_mast:
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
     "She masturbates in front of you. Although it cannot be considered as a sexual act, you both are more aroused now."
-    if libido <= 10:
-        $ libido += 10
+    if sex_scene_libido <= 10:
+        $ sex_scene_libido += 10
     else:
-        $ libido += 5
+        $ sex_scene_libido += 5
     $ char.vitality -= 20
     $ girl_count +=1
     jump interaction_scene_choice
@@ -965,13 +965,13 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         else:
                             $ char.vitality -= 20
                         if ct("Masochist"):
-                            $ libido += 10
+                            $ sex_scene_libido += 10
                             $ char.joy += 5
                             $ char.disposition -= 50
                         else:
                             $ char.disposition -= 150
                             $ char.joy -= 50
-                            $ libido -= 20
+                            $ sex_scene_libido -= 20
                     "No":
                         "You agreed to do something else instead. She sighs with relief."
                         jump interaction_scene_choice
@@ -1025,7 +1025,7 @@ label interaction_scene_vaginal:
 
 
  
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
             $ char.health -= 10
@@ -1042,7 +1042,7 @@ label interaction_scene_vaginal:
         $ hero.vaginal += randint (0, 1)
         $ char.vitality -= 50
         $ hero.vitality -= 60
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ girl_count +=1
     elif char.vaginal >= 50 and hero.vaginal < 50:
@@ -1051,7 +1051,7 @@ label interaction_scene_vaginal:
         $ char.vitality -= 60
         $ hero.vitality -= 50
         $ char.joy -= 10
-        $ libido -= 5
+        $ sex_scene_libido -= 5
         $ sex_count += 1
         $ guy_count +=1
     elif char.vaginal < 50 and hero.vaginal < 50:
@@ -1060,7 +1060,7 @@ label interaction_scene_vaginal:
         $ hero.vaginal += randint (0, 1)
         $ char.vitality -= 60
         $ hero.vitality -= 60
-        $ libido -= 5
+        $ sex_scene_libido -= 5
         $ char.joy -= 10
         $ sex_count += 1
     elif char.vaginal < 500 and hero.vaginal < 500:
@@ -1070,7 +1070,7 @@ label interaction_scene_vaginal:
         $ char.vitality -= 50
         $ hero.vitality -= 50
         $ char.joy += 5
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1081,7 +1081,7 @@ label interaction_scene_vaginal:
         $ char.vitality -= 40
         $ hero.vitality -= 50
         $ char.joy += 5
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1092,7 +1092,7 @@ label interaction_scene_vaginal:
         $ char.vitality -= 50
         $ hero.vitality -= 40
         $ char.joy += 10
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1109,7 +1109,7 @@ label interaction_scene_vaginal:
         $ char.vitality -= 45
         $ hero.vitality -= 45
         $ char.joy += 10
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1121,7 +1121,7 @@ label interaction_scene_vaginal:
         $ char.vitality -= 40
         $ hero.vitality -= 40
         $ char.joy += 15
-        $ libido -= 15
+        $ sex_scene_libido -= 15
         $ sex_count += 1
         $ guy_count +=2
         $ girl_count +=2
@@ -1134,7 +1134,7 @@ label interaction_scene_vaginal:
     jump interaction_scene_choice
     
 label interaction_scene_anal:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         if char.health >= 30:
             $ char.health -= 10
@@ -1152,7 +1152,7 @@ label interaction_scene_anal:
         $ char.joy -=10
         if char.health > 30:
             $ char.health -= 5
-        $ libido -= 5
+        $ sex_scene_libido -= 5
         $ sex_count += 1
         $ girl_count +=1
     elif char.anal >= 50 and hero.anal < 50:
@@ -1161,7 +1161,7 @@ label interaction_scene_anal:
         $ char.vitality -= 60
         $ hero.vitality -= 55
         $ char.joy -= 20
-        $ libido -= 5
+        $ sex_scene_libido -= 5
         if char.health > 30:
             $ char.health -= 5
         $ sex_count += 1
@@ -1172,7 +1172,7 @@ label interaction_scene_anal:
         $ hero.anal += randint (1, 3)
         $ char.vitality -= 60
         $ hero.vitality -= 60
-        $ libido -= 5
+        $ sex_scene_libido -= 5
         $ char.joy -= 25
         $ sex_count += 1
         if char.health > 35:
@@ -1184,7 +1184,7 @@ label interaction_scene_anal:
         $ char.vitality -= 50
         $ hero.vitality -= 50
         $ char.joy += 5
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1195,7 +1195,7 @@ label interaction_scene_anal:
         $ char.vitality -= 45
         $ hero.vitality -= 50
         $ char.joy += 5
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1206,7 +1206,7 @@ label interaction_scene_anal:
         $ char.vitality -= 50
         $ hero.vitality -= 45
         $ char.joy += 10
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1223,7 +1223,7 @@ label interaction_scene_anal:
         $ char.vitality -= 45
         $ hero.vitality -= 45
         $ char.joy += 10
-        $ libido -= 10
+        $ sex_scene_libido -= 10
         $ sex_count += 1
         $ guy_count +=1
         $ girl_count +=1
@@ -1235,7 +1235,7 @@ label interaction_scene_anal:
         $ char.vitality -= 40
         $ hero.vitality -= 40
         $ char.joy += 15
-        $ libido += -15
+        $ sex_scene_libido += -15
         $ sex_count += 1
         $ guy_count +=2
         $ girl_count +=2
@@ -1248,7 +1248,7 @@ label interaction_scene_anal:
     jump interaction_scene_choice
     
 label interaction_scene_strip:
-    if libido <= 0:
+    if sex_scene_libido <= 0:
         $ char.vitality -= 20
         $ char.joy -= 5
     if char.joy <= 10:
@@ -1259,27 +1259,27 @@ label interaction_scene_strip:
         $ char.strip += randint (3, 5)
         $ char.joy -= 10
         $ char.vitality -= 30
-        $ libido -= 5
+        $ sex_scene_libido -= 5
     elif char.strip < 300:
         "It's nice to look at her graceful and elegant moves."
         $ char.strip += randint (1, 3)
         $ hero.strip += randint (0, 1)
         $ char.vitality -= 35
-        $ libido += 5
+        $ sex_scene_libido += 5
     elif char.strip < 1000:
         "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
         $ char.strip += randint (1, 2)
         $ hero.strip += randint (1, 2)
         $ char.vitality -= 20
         $ char.joy += 10
-        $ libido += 5
+        $ sex_scene_libido += 5
     else:
         "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in the eyes."
         $ char.strip += randint (0, 1)
         $ hero.strip += randint (1, 4)
         $ char.vitality -= 20
         $ char.joy += 15
-        $ libido += 10
+        $ sex_scene_libido += 10
         $ guy_count +=1
     if (char.strip - hero.strip) > 200:
         "You learned something new about striptease as well. A pleasure to deal with professionals."
