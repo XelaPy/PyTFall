@@ -57,7 +57,7 @@ label girl_interactions_aboutjob:
             $ char.joy += 3
             $ char.disposition += randint(1, 2)
         $ char.restore_portrait()
-    elif char.mech_relay["daysemployed"] < 10:
+    elif char.flag("daysemployed") < 10:
         # Less than 10 days in service:
         $ char.override_portrait("portrait", "indifferent")
         if char.status != "slave":

@@ -2891,8 +2891,8 @@ init -9 python:
             self.img_cache = list()
             self.picture_base = dict()
 
-            self.nickname = ''
-            self.fullname = ''
+            self.nickname = ""
+            self.fullname = ""
             self.origin = ""
 
             # Relays for game mechanics
@@ -2900,8 +2900,7 @@ init -9 python:
             # wagemod = Percentage to change wage payout
             self.mech_relay = {
                 "keeps_tips": True,
-                'wagemod': 100,
-                'daysemployed': 0
+                'wagemod': 100
             }
             
             # Guard job relay:
@@ -3649,13 +3648,13 @@ init -9 python:
                 
                 else:
                     # Front text
-                    if not self.mech_relay['daysemployed']:
-                        txt += "%s has started working for you today! "%self.fullname
+                    if not self.flag("daysemployed"):
+                        txt += "{} has started working for you today! ".format(self.fullname)
                     
-                    else:    
-                        txt += "%s has been working for you for %d %s. " % (self.nickname, self.mech_relay['daysemployed'], plural("day", self.mech_relay['daysemployed']))
+                    else:
+                        txt += "{} has been working for you for {} {}. ".format(self.nickname, self.flag("daysemployed"), plural("day", self.flag("daysemployed")))
                     
-                    self.mech_relay['daysemployed'] += 1
+                    self.up_counter("daysemployed")
                     
                     if self.location == "Streets" and self.status == "slave":
                         self.health -= randint(3, 5)
