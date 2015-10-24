@@ -2899,9 +2899,6 @@ init -9 python:
             # courseid = specific course id girl is currently taking -- DEPRECATED: Training now uses flags
             # wagemod = Percentage to change wage payout
             self.wagemod = 100
-            self.mech_relay = {
-                "keeps_tips": True
-            }
             
             # Guard job relay:
             self.guard_relay = {
@@ -3110,15 +3107,6 @@ init -9 python:
                 else:
                     self.picture_base["sex"]["missionary"] = False
                     
-        # Properties!
-        # @property
-        # def wagemod(self):
-            # return self.mech_relay['wagemod']
-            
-        # @wagemod.setter
-        # def wagemod(self, value):
-            # self.mech_relay['wagemod'] = value
-            
         def __setattr__(self, key, value):
             if key in self.STATS:
                 if key == 'disposition':
