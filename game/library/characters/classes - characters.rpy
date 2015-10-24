@@ -559,19 +559,19 @@ init -9 python:
                 hero.add_money(total_wage, reason="Brothels")
                 
                 if char.status != "slave":
-                    if char.mech_relay["wagemod"] >= 100:
-                        amount = int(self.expects_wage() + int(round(self.expects_wage()*0.01*(char.mech_relay['wagemod']-100))))
+                    if char.wagemod >= 100:
+                        amount = int(self.expects_wage() + int(round(self.expects_wage()*0.01*(char.wagemod-100))))
                         if hero.take_money(amount, reason="Wages"):
                             self.add_money(amount, reason="Wages")
                             self.log_cost(amount, "Wages")
                             if isinstance(char.location, Building):
                                 char.location.fin.log_work_expense(amount, "Wages")
                             if char.disposition < 700:
-                                char.disposition += int(round((char.mech_relay['wagemod']-100)*0.1))
-                            char.joy += int(round((char.mech_relay['wagemod']-100)*0.1))
+                                char.disposition += int(round((char.wagemod-100)*0.1))
+                            char.joy += int(round((char.wagemod-100)*0.1))
         
-                    elif char.mech_relay['wagemod'] < 100:
-                        amount = int(self.expects_wage() - int(round(self.expects_wage()*0.01*(100-char.mech_relay['wagemod']))))
+                    elif char.wagemod< 100:
+                        amount = int(self.expects_wage() - int(round(self.expects_wage()*0.01*(100-char.wagemod))))
                         if hero.take_money(amount, reason="Wages"):
                             self.log_cost(amount, "Wages")
                             self.add_money(amount, reason="Wages")
@@ -579,15 +579,15 @@ init -9 python:
                                 char.location.fin.log_work_expense(amount, "Wages")
                                 
                 else:
-                    amount = int(self.expects_wage()*0.01*(char.mech_relay['wagemod']))
+                    amount = int(self.expects_wage()*0.01*(char.wagemod))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
                         self.log_cost(amount, "Wages")
                         if isinstance(char.location, Building):
                             char.location.fin.log_work_expense(amount, "Wages")
                         if char.disposition < 700:
-                            char.disposition += int(round((char.mech_relay['wagemod'])*0.2))
-                        char.joy += int(round((char.mech_relay['wagemod'])*0.2))
+                            char.disposition += int(round((char.wagemod)*0.2))
+                        char.joy += int(round((char.wagemod)*0.2))
                                      
         def wage_conditions(self):
             char = self.instance
@@ -2898,9 +2898,9 @@ init -9 python:
             # Relays for game mechanics
             # courseid = specific course id girl is currently taking -- DEPRECATED: Training now uses flags
             # wagemod = Percentage to change wage payout
+            self.wagemod = 100
             self.mech_relay = {
-                "keeps_tips": True,
-                'wagemod': 100
+                "keeps_tips": True
             }
             
             # Guard job relay:
@@ -3040,9 +3040,9 @@ init -9 python:
             
             # Wagemod:
             if self.status == 'slave':
-                self.mech_relay["wagemod"] = 0
+                self.wagemod = 0
             else:
-                self.mech_relay["wagemod"] = 100
+                self.wagemod = 100
                 
             # Battle and Magic skills:
             if not self.attack_skills:
@@ -3111,13 +3111,13 @@ init -9 python:
                     self.picture_base["sex"]["missionary"] = False
                     
         # Properties!
-        @property
-        def wagemod(self):
-            return self.mech_relay['wagemod']
+        # @property
+        # def wagemod(self):
+            # return self.mech_relay['wagemod']
             
-        @wagemod.setter
-        def wagemod(self, value):
-            self.mech_relay['wagemod'] = value
+        # @wagemod.setter
+        # def wagemod(self, value):
+            # self.mech_relay['wagemod'] = value
             
         def __setattr__(self, key, value):
             if key in self.STATS:
