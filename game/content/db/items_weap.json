@@ -262,7 +262,7 @@
     {
     "id": "Tower Shield",
     "desc": "A very large heavy shield utilized by only the strongest foot soldiers.",
-    "icon": "content/items/sweapon/tower_shield_II.png",
+    "icon": "content/items/weapon/ts.png",
     "price": 1000,
     "sex": "unisex",
     "chance": 15,
