@@ -171,8 +171,8 @@
     "locations": ["Work Shop"]
     },
     {
-    "id": "Small Cane",
-    "desc": "Mages can use it to help focus and direct arcane energy. It can also deliver a good whack if need be.",
+    "id": "Glass Cane",
+    "desc": "This simple cane is topped with a small sphere of clear glass. Mages can use it to help focus and direct arcane energy. It can also deliver a good whack if need be.",
     "icon": "content/items/sweapon/gc.png",
     "price": 110,
     "sex": "unisex",

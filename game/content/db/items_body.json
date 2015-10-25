@@ -1,5 +1,24 @@
 [
     {
+    "id": "Slave Rags",
+    "desc": "Wearing these worn rags is an unpleasant and humbling experience, and it certainly does nothing for one's looks.",
+    "icon": "content/items/body/sr.png",
+    "price": 5,
+    "sex": "female",
+    "chance": 100,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": true,
+    "slot": "body",
+    "type": "other",
+    "max": {"character": -20, "joy": -20},
+    "mod": {"charisma": -20, "character": -50},
+    "mod_skills": {"refinement": [-0.1, 0, -0.1, 0, 0], "management": [-0.1, 0, -0.1, 0, 0], "bdsm": [0.05, 0, 0.05, 0, 0]},
+    "removetraits": ["Optimist"],
+    "locations": ["Tailor Store", "Look around"]
+    },
+    {
     "id": "Worn Clothes",
     "desc": "This clothes have seen a better days...",
     "icon": "content/items/body/wc.png",
@@ -754,7 +773,7 @@
     {
     "id": "Female Casual Clothes",
     "desc": "There is a law prohibiting to appear naked in some parts of the city, so you better stick to your clothes, even if it's cheap and old fashioned.",
-    "icon": "content/items/body/ccf1.png",
+    "icon": "content/items/else/casual/ccf1.png",
     "price": 20,
     "sex": "female",
     "chance": 90,
