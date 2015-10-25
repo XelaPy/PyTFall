@@ -684,208 +684,194 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
     modal True
     zorder 2
     
+    default wteam_display = "w_team[0]"
+    
     default play_music = True
     # TODO: Fix Direct use of a function in a screen.
     if play_music and condition == "Victory":
         $ renpy.music.play("content/sfx/sound/world/win_screen.mp3", channel="music")
         $ play_music = False
     
-    timer 10.5 action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
+    if hero.team == w_team:
+        add "content/gfx/images/battle/victory_l.png"
+        add "content/gfx/images/battle/victory_r.png"
+        add "content/gfx/images/battle/battle_c.png"
+        add "content/gfx/images/battle/victory.png"
+    else:
+        add "content/gfx/images/battle/defeat_l.png"
+        add "content/gfx/images/battle/defeat_r.png"
+        add "content/gfx/images/battle/battle_c.png"
+        add "content/gfx/images/battle/defeat.png"
+    
+    for member in w_team : # Just for test
+        if member == wteam_display:
+            add(member.show("sprite", resize=(200, 200), cache=True)) align(0.2, 0.2)
+    
+    timer 10000.5 action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
     frame:
-        at move_bpwe(start_pos=(0, config.screen_height), end_pos=(0, config.screen_height/2), t=0.7)
-        xysize (config.screen_width, config.screen_height/2)
-        background Solid((100, 100, 250, 150))
+        #at move_bpwe(start_pos=(0, config.screen_height), end_pos=(0, config.screen_height/2), t=0.7)
+        #xysize (config.screen_width, config.screen_height/2)
+        #background Solid((100, 100, 250, 150))
+        #at slide(eo2=(600, 0), t1=0.7, so1=(1300, 0), t2=0.7)
+        background Null()
+        xsize 95
+        xpos 2
+        yalign 0.5
+        xpadding 8
+        ypadding 8
+        xmargin 0
+        ymargin 0
+        
         hbox:
             align(0.5, 0.5)
-            if len(w_team) == 1:
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    add(ProportionalScale("content/gfx/interface/images/swords-shield.png", 426, 376)) align(0.5, 0.5)
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if w_team[0].has_image("fighting"):
-                        add(w_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(w_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(w_team[0])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    add(ProportionalScale("content/gfx/interface/images/swords-shield.png", 426, 376)) align(0.5, 0.5)
-                    
-            if len(w_team) == 2:
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if w_team[0].has_image("fighting"):
-                        add(w_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(w_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(w_team[0])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    add(ProportionalScale("content/gfx/interface/images/swords-shield.png", 426, 376)) align(0.5, 0.5)
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if w_team[1].has_image("fighting"):
-                        add(w_team[1].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(w_team[1].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(w_team[1])
-                    
-            if len(w_team) == 3:
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if w_team[1].has_image("fighting"):
-                        add(w_team[1].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(w_team[1].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(w_team[1])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if w_team[0].has_image("fighting"):
-                        add(w_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(w_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(w_team[0])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if w_team[2].has_image("fighting"):
-                        add(w_team[2].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(w_team[2].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(w_team[2])
-                    
+            vbox spacing 5 align(0.5, 0.5) box_reverse True:
+            
+                for member in w_team :
+                    $ img = member.show("portrait", resize=(70, 70), cache=True)
+                
+                    # Portrait:
+                    fixed:
+                        align (0.5, 0.5)
+                        xysize (70, 70)
+                        imagebutton:
+                            ypadding 1
+                            xpadding 1
+                            xmargin 0
+                            ymargin 0
+                            align (0.5, 0.5)
+                            style "basic_choice2_button"
+                            idle img
+                            hover img
+                            selected_idle Transform(img, alpha=1.05)
+                            action SetScreenVariable("wteam_display", member)
+                            #action NullAction()
+            
+            #if len(w_team) == 1:
+                #frame:
+                    #background Null()
+                    #minimum(426, 376)
+                    #maximum(426, 376)
+                    #xfill True
+                    #if w_team[0].has_image("fighting"):
+                        #add(w_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(w_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(w_team[0])
         
     frame:
-        at move_bpwe(start_pos=(0, -400), end_pos=(0, 0), t=0.7)
-        xysize(config.screen_width, config.screen_height/2)
-        background Solid((100, 100, 250, 150))
+        #at slide(so2=(600, 0), t1=0.7, eo1=(564, 0), t2=0.1)
+        background Null()
+        xsize 95
+        align (1.0, 0.5)
+        xpadding 8
+        ypadding 8
+        xmargin 0
+        ymargin 0
+        
         hbox:
             align(0.5, 0.5)
-            if len(l_team) == 1:
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    add(ProportionalScale("content/gfx/interface/images/swords-shield.png", 426, 376)) align(0.5, 0.5)
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if l_team[0].has_image("fighting"):
-                        add(l_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(l_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(l_team[0])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    add(ProportionalScale("content/gfx/interface/images/swords-shield.png", 426, 376)) align(0.5, 0.5)
+            vbox spacing 5 align(0.5, 0.5) box_reverse True:
+            
+                for member in l_team:
+                    $ img = member.show("portrait", resize=(70, 70), cache=True)
+                
+                    # Portrait:
+                    fixed:
+                        align (0.5, 0.5)
+                        xysize (70, 70)
+                        imagebutton:
+                            ypadding 1
+                            xpadding 1
+                            xmargin 0
+                            ymargin 0
+                            align (0.5, 0.5)
+                            style "basic_choice2_button"
+                            idle img
+                            hover img
+                            selected_idle Transform(img, alpha=1.05)
+                            action NullAction()
+            
+            #if len(l_team) == 1:
+                #frame:
+                    #background Null()
+                    #minimum(100, 100)
+                    #maximum(100, 100)
+                    #xfill True
+                    #if l_team[0].has_image("fighting"):
+                        #add(l_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(l_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(l_team[0])
                     
-            if len(l_team) == 2:
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if l_team[0].has_image("fighting"):
-                        add(l_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(l_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(l_team[0])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    add(ProportionalScale("content/gfx/interface/images/swords-shield.png", 426, 376)) align(0.5, 0.5)
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if l_team[1].has_image("fighting"):
-                        add(l_team[1].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(l_team[1].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(l_team[1])
+            #if len(l_team) == 2:
+                #frame:
+                    #background Null()
+                    #minimum(426, 376)
+                    #maximum(426, 376)
+                    #xfill True
+                    #if l_team[0].has_image("fighting"):
+                        #add(l_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(l_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(l_team[0])
+                #frame:
+                    #background Null()
+                    #minimum(426, 376)
+                    #maximum(426, 376)
+                    #xfill True
+                    #if l_team[1].has_image("fighting"):
+                        #add(l_team[1].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(l_team[1].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(l_team[1])
                     
-            if len(l_team) == 3:
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if l_team[1].has_image("fighting"):
-                        add(l_team[1].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(l_team[1].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(l_team[1])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if l_team[0].has_image("fighting"):
-                        add(l_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(l_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(l_team[0])
-                frame:
-                    background Null()
-                    minimum(426, 376)
-                    maximum(426, 376)
-                    xfill True
-                    if l_team[2].has_image("fighting"):
-                        add(l_team[2].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    else:
-                        add(l_team[2].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-                    use pyt_arena_stats(l_team[2])
-                    
-    $ img=im.Scale("content/gfx/interface/buttons/close.png", 60, 60)       
-    imagebutton:
-        align (1.0, 0.0)
-        idle (img)
-        hover (im.MatrixColor(img,im.matrix.brightness(0.15)))
+            #if len(l_team) == 3:
+                #frame:
+                    #background Null()
+                    #minimum(426, 376)
+                    #maximum(426, 376)
+                    #xfill True
+                    #if l_team[1].has_image("fighting"):
+                        #add(l_team[1].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(l_team[1].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(l_team[1])
+                #frame:
+                    #background Null()
+                    #minimum(426, 376)
+                    #maximum(426, 376)
+                    #xfill True
+                    #if l_team[0].has_image("fighting"):
+                        #add(l_team[0].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(l_team[0].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(l_team[0])
+                #frame:
+                    #background Null()
+                    #minimum(426, 376)
+                    #maximum(426, 376)
+                    #xfill True
+                    #if l_team[2].has_image("fighting"):
+                        #add(l_team[2].show("fighting", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #else:
+                        #add(l_team[2].show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
+                    #use pyt_arena_stats(l_team[2])
+                       
+    button:
+        align (0.5, 0.63)
+        style_group "pb"
         action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
+        text "Continue" style "pb_button_text"
                     
-    fixed:
-        at arena_textslide
-        pos(600, 350)
-        if condition == "Victory":
-            text("{color=[red]}{size=+80}{font=fonts/Rubius.ttf}VICTORY!!!")
-        else:
-            text("{color=[red]}{size=+80}{font=fonts/Rubius.ttf}Defeat...")
+    #fixed:
+        #at arena_textslide
+        #align (0.5, 0.5)
+        #pos(600, 350)
+        #if condition == "Victory":
+            #text("{color=[red]}{size=+80}{font=fonts/Rubius.ttf}VICTORY!!!") align (0.5, 0.585)
+        #else:
+            #text("{color=[red]}{size=+80}{font=fonts/Rubius.ttf}Defeat...") align (0.5, 0.585)
+    add "content/gfx/frame/h1.png"
 
 screen pyt_confirm_match():
     modal True
