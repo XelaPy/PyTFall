@@ -35,7 +35,7 @@
     {
     "id": "Crystal",
     "desc": "Inspired and formed from crystal formations, founded deep inside one of the multiple mines.",
-    "icon": "content/items/ring/kring (4).png",
+    "icon": "content/items/ring/c.png",
     "price": 350,
     "sex": "female",
     "chance": 75,
@@ -132,7 +132,7 @@
     {
     "id": "Aquamarine Eye",
     "desc": "Classical design, nice bright stone on a small silver loop. This ring will look good on any ladies slender finger.",
-    "icon": "content/items/ring/kring (10).png",
+    "icon": "content/items/ring/ae.png",
     "price": 850,
     "sex": "female",
     "chance": 9,
@@ -180,7 +180,7 @@
     {
     "id": "Flower Ring",
     "desc": "Seven big gems in the middle part strictly together, creating an illusion of one, big, well cut rock. All that planted on a thick golden hoop. Unfortunately it’s a well made imitation.",
-    "icon": "content/items/ring/kring (3).png",
+    "icon": "content/items/ring/fr.png",
     "price": 850,
     "sex": "female",
     "chance": 9,
@@ -223,23 +223,6 @@
     "slot": "ring",
     "mod_skills": {"vaginal": [0.02, 0.02, 0, 0, 0], "group": [0.02, 0.02, 0, 0, 0], "anal": [0.02, 0.02, 0, 0, 0], "oral": [0.02, 0.02, 0, 0, 0], "bdsm": [0.02, 0.02, 0, 0, 0], "sex": [0.02, 0.02, 0, 0, 0]},
     "locations": ["Exploration"]
-    },
-    {
-    "id": "Petal Ring",
-    "desc": "Well done design of stylized gold hoop with flower like petals made out of pearl mass.",
-    "icon": "content/items/ring/kring (1).png",
-    "price": 200,
-    "sex": "unisex",
-    "chance": 85,
-    "badness": 60,
-    "eqchance": 60,
-    "bg_color": "dark",
-    "hidden": false,
-    "infinite": true,
-    "slot": "ring",
-    "mod": {"constitution": 10, "charisma": 5},
-    "max": {"constitution": 5, "charisma": 10},
-    "locations": ["General Store"]
     },
     {
     "id": "Minor Ring of Physique",
@@ -421,7 +404,7 @@
     {
     "id": "Divergent Ring",
     "desc": "Some people express their feelings with an engagement ring. The Divergent Ring was created for those who can’t tell straight up that they want to break up.",
-    "icon": "content/items/ring/kring (2).png",
+    "icon": "content/items/ring/dr.png",
     "price": 170,
     "sex": "female",
     "chance": 30,
@@ -436,8 +419,8 @@
     },
     {
     "id": "The Scratch",
-    "desc": "Simple golden ring with a platinum accented stripe with three small diamonds.",
-    "icon": "content/items/ring/kring (6).png",
+    "desc": "Simple golden ring with a platinum accented stripe with three small rubies.",
+    "icon": "content/items/ring/ts.png",
     "price": 900,
     "sex": "female",
     "chance": 14,
@@ -453,7 +436,7 @@
     {
     "id": "Onyx Ring",
     "desc": "Ring made for fighters that like to look stylish. Set of this rings could be used as a brass knuckles. Blood comes off really easily!",
-    "icon": "content/items/ring/kring (8).png",
+    "icon": "content/items/ring/or.png",
     "price": 750,
     "sex": "unisex",
     "chance": 55,
@@ -469,7 +452,7 @@
     {
     "id": "Orion Ring",
     "desc": "Look at the night sky and remember that image. Now look at the ring. Inspired by a star constellation this ring was created to shine when the stars can’t.",
-    "icon": "content/items/ring/kring (9).png",
+    "icon": "content/items/ring/orr.png",
     "price": 1200,
     "sex": "female",
     "chance": 40,
@@ -486,7 +469,7 @@
     {
     "id": "Golden Wrap",
     "desc": "Thick golden loop is perfect for all those wanting to showoff theirs wealth.",
-    "icon": "content/items/ring/kring (11).png",
+    "icon": "content/items/ring/gw.png",
     "price": 850,
     "sex": "unisex",
     "chance": 40,
@@ -504,7 +487,7 @@
     {
     "id": "Silver Skull",
     "desc": "Skull Ring made of silver. Now anyone can be really scary.",
-    "icon": "content/items/ring/kring (13).png",
+    "icon": "content/items/ring/ss.png",
     "price": 1400,
     "sex": "unisex",
     "chance": 15,
@@ -521,7 +504,7 @@
     {
     "id": "The Clit",
     "desc": "This ring is really popular with the daughters of nobles. They use it as a sign of wanting some “special attention” from their male (sometimes female) friends.",
-    "icon": "content/items/ring/kring (16).png",
+    "icon": "content/items/ring/tc.png",
     "price": 600,
     "sex": "female",
     "chance": 50,
@@ -540,7 +523,7 @@
     {
     "id": "Golden Hoop",
     "desc": "Simple, classic design golden ring. Some buy this as their wedding rings.",
-    "icon": "content/items/ring/kring (17).png",
+    "icon": "content/items/ring/gh.png",
     "price": 140,
     "sex": "female",
     "chance": 90,
@@ -557,7 +540,7 @@
     {
     "id": "Frozen Tear",
     "desc": "There is a really interesting story behind the origin of these rings. But somehow everyone forgot it long ago.",
-    "icon": "content/items/ring/kring (18).png",
+    "icon": "content/items/ring/ft.png",
     "price": 1800,
     "sex": "female",
     "chance": 10,
@@ -571,9 +554,9 @@
     "locations": ["Exploration"]
     },
     {
-    "id": "Golden Ribbon Ring",
-    "desc": "Six platinum strings, tight together with a golden band. Rumors says that they are wore by members of some fighters organization.",
-    "icon": "content/items/ring/kring (22).png",
+    "id": "Ribbon Ring",
+    "desc": "Rumors says that these rings are wore by members of some fighters organization.",
+    "icon": "content/items/ring/rbr.png",
     "price": 2000,
     "sex": "unisex",
     "chance": 9,
@@ -588,9 +571,9 @@
     "locations": ["Exploration", "Ninja Shop"]
     },
     {
-    "id": "Emerald Heart",
+    "id": "Emerald Ribbon",
     "desc": "Well shaped emerald in a gold ring. Ideal accessory for young ladies.",
-    "icon": "content/items/ring/kring (23).png",
+    "icon": "content/items/ring/er.png",
     "price": 220,
     "sex": "female",
     "chance": 80,
