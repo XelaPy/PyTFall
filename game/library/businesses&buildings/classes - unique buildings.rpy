@@ -309,7 +309,7 @@ init -9 python:
                         evt.type = 'fg_job'
                         evt.girl = g
                         self.loc = fg
-                        evt.img = g.show("maid", "cleaning", exclude=main_sex_tags, resize=(740, 685), type="any")
+                        evt.img = g.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
                         evt.txt = choice(["[g.name] is taking care of the girls in the Guild.", "[g.nickname] keeping the Guild running, clean and happy :)"])
                         NextDayList.append(evt)
                 
@@ -328,7 +328,7 @@ init -9 python:
                         evt.type = 'fg_job'
                         evt.girl = g
                         self.loc = fg
-                        evt.img = g.show("waitress", "maid", exclude=main_sex_tags, resize=(740, 685), type="any")
+                        evt.img = g.show("waitress", "maid", exclude=["sex"], resize=(740, 685), type="any")
                         evt.txt = choice(["[g.name] took care of the Bar and the guild, making sure all of the members were happy.", "[g.nickname] keeping the Bar running and the Guild clean and happy :)"])
                         NextDayList.append(evt)
                 

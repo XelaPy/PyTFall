@@ -3,7 +3,6 @@ init -11 python:
     def equip_item(item, char, silent=False, area_effect=False):
         """
         First level of checks, all items should be equiped through this function!
-        TODO: Move this to Chracter equipment method? And Restore AREA EFFECT!
         """
         if not can_equip(item, char, silent=silent):
             return

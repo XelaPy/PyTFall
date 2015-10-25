@@ -1416,7 +1416,7 @@
                     elif "Athletic" == rt:
                         if self.girl.status != 'slave':
                             self.txt.append("She spent her resting day on the beach taking occasional swims in the ocean. \n")
-                            self.img = self.girl.show("beach", "bikini", "topless", exclude=main_sex_tags, resize=(740, 685))
+                            self.img = self.girl.show("beach", "bikini", "topless", exclude=["sex"], resize=(740, 685))
                             self.girlmod['constitution'] += choice([0, 0, 0, 0, 1])
                         
                         else:
@@ -1476,7 +1476,7 @@
                     elif rt in ['Long legs', 'Big Boobs', 'Abnormally Large Boobs', 'Great Arse', 'Great Figure']:
                         if self.girl.status != 'slave':
                             self.txt.append("She spent her time enjoying sunbathing as well as receiving envious and admiring glances on a local beach. Too bad you were too busy to join her. \n")
-                            self.img = self.girl.show("beach", "bikini", "topless", exclude=main_sex_tags, resize=(740, 685))
+                            self.img = self.girl.show("beach", "bikini", "topless", exclude=["sex"], resize=(740, 685))
                             self.girlmod['reputation'] += choice([0, 0, 0, 0, 1])
                         
                         else:
@@ -1497,7 +1497,7 @@
                         if dice(70):
                             self.txt.append("Since she is going to walk around with barely any clothes on anyway, you asked her to do it around the brothel this time. "+ \
                                             "Free advertising is good for business, and she will have less problems with the city guards this way. \n")
-                            self.img = self.girl.show("strip", "exposed", "topless", "nude", "undress", exclude=main_sex_tags, resize=(740, 685), type="any")
+                            self.img = self.girl.show("strip", "exposed", "topless", "nude", "undress", exclude=["sex"], resize=(740, 685), type="any")
                             
                             if dice(10):
                                 self.girlmod['strip'] += 1
@@ -1714,7 +1714,7 @@
             
             self.txt.append(".{/color}\n")
             
-            self.img = self.girl.show("bunny", "waitress", exclude=main_sex_tags, resize=(740, 685), type="any")
+            self.img = self.girl.show("bunny", "waitress", exclude=["sex"], resize=(740, 685), type="any")
             
             # Finances:
             self.girl.fin.log_wage(clubfees, "Waitress")
@@ -1848,7 +1848,7 @@
             
             self.txt.append(".{/color}")
             
-            self.img = self.girl.show("waitress", "maid", exclude=main_sex_tags, resize=(740, 685), type="any")
+            self.img = self.girl.show("waitress", "maid", exclude=["sex"], resize=(740, 685), type="any")
             
             # Finances:
             self.girl.fin.log_wage(barfees, "Barmaid")
@@ -1878,7 +1878,7 @@
                 elif self.loc.dirt - cleffect > 0:
                     self.txt.append("She spent a good amount of time cleaning the building so girls and customers would be happy. \n")
                 
-                self.img = self.girl.show("maid", "cleaning", exclude=main_sex_tags, resize=(740, 685), type="any")
+                self.img = self.girl.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
                 
                 # Stat mods
                 self.locmod['dirt'] -= cleffect

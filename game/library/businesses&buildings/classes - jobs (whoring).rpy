@@ -870,8 +870,8 @@ init -9 python:
                     entry.vitality -= randint(30, 60)
                     entry.AP -= 3
                 
-                if event.girl.has_image("hurt", exclude=main_sex_tags):
-                    event.img = event.girl.show("hurt", exclude=main_sex_tags, resize=(740, 685))
+                if event.girl.has_image("hurt", exclude=["sex"]):
+                    event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 
                 else:
                     event.img = event.girl.show("profile", "sad", resize=(740, 685))
@@ -892,8 +892,8 @@ init -9 python:
                     event.girlmod["vitality"] -= randint(150, 250)
                     event.girlmod["disposition"] -= 50
                     event.girl.AP = 0
-                    if event.girl.has_image("hurt", exclude=main_sex_tags):
-                        event.img = event.girl.show("hurt", exclude=main_sex_tags, resize=(740, 685))
+                    if event.girl.has_image("hurt", exclude=["sex"]):
+                        event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 
                     else:
                         event.img = event.girl.show("profile", "sad", resize=(740, 685))
@@ -933,8 +933,8 @@ init -9 python:
                         event.girlmod["vitality"] -= randint(150, 250)
                         event.girlmod["disposition"] -= 200
                         event.girl.AP = 0
-                        if event.girl.has_image("hurt", exclude=main_sex_tags):
-                            event.img = event.girl.show("hurt", exclude=main_sex_tags, resize=(740, 685))
+                        if event.girl.has_image("hurt", exclude=["sex"]):
+                            event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 
                         else:
                             event.img = event.girl.show("profile", "sad", resize=(740, 685))
@@ -958,8 +958,8 @@ init -9 python:
                         event.girlmod["vitality"] -= randint(150, 250)
                         event.girlmod["disposition"] -= 100
                         event.girl.AP = 0
-                        if event.girl.has_image("hurt", exclude=main_sex_tags):
-                            event.img = event.girl.show("hurt", exclude=main_sex_tags, resize=(740, 685))
+                        if event.girl.has_image("hurt", exclude=["sex"]):
+                            event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 
                         else:
                             event.img = event.girl.show("profile", "sad", resize=(740, 685))
@@ -983,8 +983,8 @@ init -9 python:
                         event.girlmod["vitality"] -= randint(150, 250)
                         event.girlmod["disposition"] -= 100
                         event.girl.AP = 0
-                        if event.girl.has_image("hurt", exclude=main_sex_tags):
-                            event.img = event.girl.show("hurt", exclude=main_sex_tags, resize=(740, 685))
+                        if event.girl.has_image("hurt", exclude=["sex"]):
+                            event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 
                         else:
                             event.img = event.girl.show("profile", "sad", resize=(740, 685))
@@ -1020,8 +1020,8 @@ init -9 python:
                     
                     hero.add_money(event.payout, "WhoreJob")
                     event.loc.fin.log_work_income(event.payout, "WhoreJob")
-                    if event.girl.has_image("hurt", exclude=main_sex_tags):
-                        event.img = event.girl.show("hurt", exclude=main_sex_tags, resize=(740, 685))
+                    if event.girl.has_image("hurt", exclude=["sex"]):
+                        event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 
                     else:
                         event.img = event.girl.show("profile", "sad", resize=(740, 685))

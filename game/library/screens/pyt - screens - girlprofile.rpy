@@ -793,7 +793,7 @@ screen pyt_girl_control():
                         xfill True
                         text (u"{color=[ivory]}Wage percentage:") outlines [(1, "#424242", 0, 0)]
                     vbox:
-                        text (u"{color=[ivory]}%d %%" % char.mech_relay['wagemod']) outlines [(1, "#424242", 0, 0)]
+                        text "{color=[ivory]}[char.wagemod]%" outlines [(1, "#424242", 0, 0)]
                 bar:
                     align (0.5, 1.0)
                     value FieldValue(char, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)

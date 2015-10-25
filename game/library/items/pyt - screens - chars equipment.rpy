@@ -112,7 +112,7 @@ label char_equip:
                             selectedslot = False
                             continue
                         if eqtarget == hero: # Simpler MCs logic:
-                            equip_item(focusitem, eqtarget)
+                            equip_item(focusitem, eqtarget, area_effect=True)
                         else: # Actors: Maybe it's a good idea to encapsulate this:
                             if eqtarget.status == "slave" and focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
                                 renpy.show_screen('pyt_message_screen', "Slaves are forbidden to equip large weapons by law!")
@@ -121,13 +121,13 @@ label char_equip:
                                     if all([eqtarget.status != "slave", eqtarget.disposition < 850]) or all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
                                         eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
                                     else:
-                                        equip_item(focusitem, eqtarget)
+                                        equip_item(focusitem, eqtarget, area_effect=True)
                                 else:
                                     if all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
                                         eqtarget.say(choice(["No way!", "I do not want this!", "No way in hell!"]))
                                     else:
                                         if transfer_items(inv_source, eqtarget, focusitem):
-                                            equip_item(focusitem, eqtarget)
+                                            equip_item(focusitem, eqtarget, area_effect=True)
                             
                     elif item_direction == 'unequip':
                         if eqtarget == hero:

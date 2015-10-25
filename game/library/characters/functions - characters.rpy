@@ -460,7 +460,8 @@ init -11 python:
         """
         # First check if we have a perfect match of all tags:
         if char.has_image(*args, **kwargs):
-            return gm.set_img(*args, **kwargs)
+            gm.set_img(*args, **kwargs)
+            return
         
         tags = list(args)
         exclude = kwargs.get("exclude", None)
@@ -468,9 +469,8 @@ init -11 python:
         # Next we give priority to partner_hidden logic:
         if "partner_hidden" in tags:
             ptags = list(t for t in tags if t not in loc_tags)
-            result = substitute_show_bg(char, ptags, **kwargs)
-            if result:
-                return result
+            if substitute_show_bg(char, ptags, **kwargs):
+                return
             
             # No parter_hidden tags found... we subsitute partner_hidden with after_sex
             ptags = tags[:]
@@ -479,24 +479,24 @@ init -11 python:
                 ptags.append("after_sex")
                 
             if char.has_image(*ptags, **kwargs):
-                return gm.set_img(*ptags, **kwargs)
+                gm.set_img(*ptags, **kwargs)
+                return
                 
             ptags = list(t for t in ptags if t not in loc_tags)
-            result = substitute_show_bg(char, ptags, **kwargs)
-            if result:
-                return result
+            if substitute_show_bg(char, ptags, **kwargs):
+                return
                 
         # If threre was no partner_hidden or everything failed:
         if "partner_hidden" in tags:
             tags.remove("partner_hidden")
             
         if char.has_image(*tags, **kwargs):
-            return gm.set_img(*tags, **kwargs)
+            gm.set_img(*tags, **kwargs)
+            return
             
         ptags = list(t for t in tags if t not in loc_tags)
-        result = substitute_show_bg(char, ptags, **kwargs)
-        if result:
-            return result
+        if substitute_show_bg(char, ptags, **kwargs):
+            return
             
         # We could not find an image with the correct location/bgs, so we go with after_sex:
         ptags = list(t for t in tags if t not in sex_action_tags)
@@ -504,74 +504,70 @@ init -11 python:
             ptags.append("after_sex")
             
         if char.has_image(*ptags, **kwargs):
-            return gm.set_img(*ptags, **kwargs)
+            gm.set_img(*ptags, **kwargs)
+            return
         
         ptags = list(t for t in tags if t not in loc_tags)
-        result = substitute_show_bg(char, ptags, **kwargs)
-        if result:
-            return result
+        if substitute_show_bg(char, ptags, **kwargs):
+            return
             
         # Still nothing... We try to get a picture just with the after_sex and a location followed by no_bg/simple_bg if no loc was found:
         locs = list(t for t in tags if t in loc_tags)
         if char.has_image("after_sex", *locs, **kwargs):
-            return gm.set_img("after_sex", *locs, **kwargs)
+            gm.set_img("after_sex", *locs, **kwargs)
+            return
             
-        result = substitute_show_bg(char, ["after_sex"], **kwargs)
-        if result:
-            return result
+        if substitute_show_bg(char, ["after_sex"], **kwargs):
+            return
             
-        # I have no idea what this means:
-        """
-        5) Finally, if we don't have even pictures from 3),  we show closest possible location, ie if we have indoors+living room+anal, 
-        let's try to show indoors+anal at very least.
-        """
-        
-        # After Dark clarified the concept, this is the part 5), comments should be deleted if this works as intended.
         # //This can be cleaned up and refactored one working correctly!!
         # Drop Nature First:
         if any([t for t in ["outdoors", "urban", "wildness", "suburb", "nature"] if t in tags]):
             ptags = [t for t in tags if t not in ["nature"]]
             if char.has_image(*ptags, **kwargs):
-                return gm.set_img(*ptags, **kwargs)
+                gm.set_img(*ptags, **kwargs)
+                return
                 
         if any([t for t in ["urban", "wildness", "suburb"] if t in tags]):
             ptags = [t for t in tags if t not in ["urban", "wildness", "suburb"]]
             if "outdoors" not in ptags:
                 ptags.append("outdoors")
             if char.has_image(*ptags, **kwargs):
-                return gm.set_img(*ptags, **kwargs)
+                gm.set_img(*ptags, **kwargs)
+                return
                 
         if any([t for t in ["dungeon", "living", "public"] if t in tags]):
             ptags = [t for t in tags if t not in ["dungeon", "living", "public"]]
             if "indoors" not in ptags:
                 ptags.append("indoors")
             if char.has_image(*ptags, **kwargs):
-                return gm.set_img(*ptags, **kwargs)
+                gm.set_img(*ptags, **kwargs)
+                return
                 
         if any([t for t in ["indoors", "outdoors"] if t in tags]):
             ptags = [t for t in tags if t not in ["indoors", "outdoors", "simple bg", "no bg"]]
-            result = substitute_show_bg(char, ptags, **kwargs)
-            if result:
-                return result
+            if substitute_show_bg(char, ptags, **kwargs):
+                return
                 
         if any([t for t in ["beach", "onsen", "pool", "stage"] if t in tags]):
             ptags = [t for t in tags if t not in ["beach", "onsen", "pool", "stage", "simple bg", "no bg"]]
-            result = substitute_show_bg(char, ptags, **kwargs)
-            if result:
-                return result
+            if substitute_show_bg(char, ptags, **kwargs):
+                return
         
         # Finally, we just run the normal show:
-        return gm.set_img(*args, **kwargs)
+        gm.set_img(*args, **kwargs)
             
     def substitute_show_bg(char, tags, **kwargs):
         # Try it with the simple_bg:
         _tags = tags[:]
         _tags.append("simple bg")
         if char.has_image(*_tags, **kwargs):
-            return gm.set_img(*_tags, **kwargs)
+            gm.set_img(*_tags, **kwargs)
+            return True
             
         # Try it with no_bg:
         _tags = tags[:]
         _tags.append("no bg")
         if char.has_image(*_tags, **kwargs):
-            return gm.set_img(*_tags, **kwargs)
+            gm.set_img(*_tags, **kwargs)
+            return True

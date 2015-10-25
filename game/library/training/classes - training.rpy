@@ -544,17 +544,11 @@ init -9 python:
             
             if imageTags is not None:
                 for i in imageTags:
-                    if i == "main_sex_tags": self.imageTags.extend(main_sex_tags)
-                    elif i == "all_indoor_tags": self.imageTags.extend(all_indoor_tags)
-                    elif i == "all_outdoor_tags": self.imageTags.extend(all_outdoor_tags)
-                    else: self.imageTags.append(i)
+                    self.imageTags.append(i)
             
             if noImageTags is not None:
                 for i in noImageTags:
-                    if i == "main_sex_tags": self.noImageTags.extend(main_sex_tags)
-                    elif i == "all_indoor_tags": self.noImageTags.extend(all_indoor_tags)
-                    elif i == "all_outdoor_tags": self.noImageTags.extend(all_outdoor_tags)
-                    else: self.noImageTags.append(i)
+                    self.noImageTags.append(i)
             
             if scale is not None:
                 if scale in PytTrainingLesson.POS_FLAGS: self.scale = PytTrainingLesson.POS_EFFECT

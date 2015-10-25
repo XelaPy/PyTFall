@@ -437,13 +437,6 @@ init -1 python: # Constants:
     equipSlotsPositions['misc'] = [u'Misc', 0.035, 0.51]
     equipSlotsPositions['wrist'] = [u'Wrist', 0.2, 0.8]
     
-    # TODO: Remove most of this after retagging effort.
-    main_sex_tags = ["sex", "anal", "les", "blowjob", "bdsm", "group", "mast"]
-    for_gm_selection = ["sex", "anal", "les", "blowjob", "bdsm", "group", "mast", "strip", "nude", "ripped", "battle", "cosplay", "cooking", "waitress", "musician", "singer", "studying", "hurt", "pajamas", "lingerie", "scared", "angry"]
-    water_selection = ["beach", "onsen", "pool", "swimsuit", "bikini"]
-    all_indoor_tags = ["generic indoor", "arena", "bar", "bathroom", "bedroom", "classroom", "kitchen", "living room", "library", "shop", "stage"]
-    all_outdoor_tags = ["generic outdoor", "beach", "forest", "meadow", "onsen", "park", "pool", "road", "ruin", "urban", "wilderness", "yard"]
-
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     devlogfile.flush()
