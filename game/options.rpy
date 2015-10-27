@@ -187,12 +187,6 @@ init -1 python hide:
     ## should take up the full height and width of the screen.
     # gm_root = "content/gfx/bg/gallery.jpg",
 
-    # style.mm_menu_frame.xpos = 0.5
-    # style.mm_menu_frame.xanchor = 0.5
-    # style.mm_menu_frame.ypos = 0.75
-    # style.mm_menu_frame.yanchor = 0.5
-
-
     #########################################
     ## These let you customize the default font used for text in Ren'Py.
 
