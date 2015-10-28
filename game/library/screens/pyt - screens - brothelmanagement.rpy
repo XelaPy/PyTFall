@@ -290,11 +290,11 @@ screen pyt_brothel_management():
                 xalign 0.5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [brothel.name] __") text_size 23 text_color ivory align(0.5, 0.6)
+                label (u"__ [brothel.name] __") text_size 23 text_color ivory align (0.5, 0.6)
             null height 1
             frame:
                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                add (ProportionalScale(brothel.img, 600, 444)) align(0.5, 0.5)
+                add ProportionalScale(brothel.img, 600, 444) align (0.5, 0.5)
             
         frame:
             style_group "content"
@@ -303,7 +303,7 @@ screen pyt_brothel_management():
             ypos 552
             xysize (628, 74)
             hbox:
-                align(0.46, 0.5)
+                align (0.46, 0.5)
                 #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_leftt.png", 140, 40), return_value=['control', 'left'], tooltip="Previous Building")
                 #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 60, 60), return_value=['control', 'right'], tooltip="Next Building")
                 button:
@@ -311,7 +311,7 @@ screen pyt_brothel_management():
                     style "left_wood_button"
                     action Return(['control', 'left'])
                     hovered tt.action("<== Previous")
-                    text "Previous" style "wood_text" xalign(0.69)
+                    text "Previous" style "wood_text" xalign 0.69
                 
                 null width 280
                 
@@ -320,7 +320,7 @@ screen pyt_brothel_management():
                     style "right_wood_button"
                     action Return(['control', 'right'])
                     hovered tt.action("Next ==>")
-                    text "Next" style "wood_text" xalign(0.39)
+                    text "Next" style "wood_text" xalign 0.39
         ## Security Bar:
         if hasattr(brothel, "gui_security_bar") and brothel.gui_security_bar()[0]:
             frame:
@@ -369,53 +369,51 @@ screen pyt_brothel_management():
                             xmaximum 153
                             xfill True
                             frame:
-                                text "{color=[ivory]}Rooms:" xalign (0.02)
+                                text "{color=[ivory]}Rooms:" xalign 0.02
                             frame:
-                                text "{color=[ivory]}Free Rooms:" xalign (0.02)
+                                text "{color=[ivory]}Free Rooms:" xalign 0.02
                             if isinstance(brothel, UpgradableBuilding):
                                 if brothel.use_upgrades:
                                     frame:
-                                        text "{color=[ivory]}Slots:" xalign (0.02)
+                                        text "{color=[ivory]}Slots:" xalign 0.02
                                 if brothel.get_upgrade_mod("guards") > 0:
                                     frame:
-                                        text "{color=[ivory]}Guard Quarters:" xalign (0.02)
+                                        text "{color=[ivory]}Guard Quarters:" xalign 0.02
                             frame:
-                                text "{color=[ivory]}Security Rating:" xalign (0.02)
+                                text "{color=[ivory]}Security Rating:" xalign 0.02
                             if isinstance(brothel, DirtyBuilding):
                                 frame:
-                                    text "{color=[ivory]}Dirt:" xalign (0.02)
+                                    text "{color=[ivory]}Dirt:" xalign 0.02
                             if isinstance(brothel, FamousBuilding):
                                 frame:
-                                    text "{color=[ivory]}Fame:" xalign (0.02)
+                                    text "{color=[ivory]}Fame:" xalign 0.02
                                 frame:
-                                    text "{color=[ivory]}Reputation:" xalign (0.02)
-                                # frame:
-                                    # text "{color=[ivory]}Max Rank:" xalign (0.02)
+                                    text "{color=[ivory]}Reputation:" xalign 0.02
+                                    
                         vbox:
                             yalign (0.6)
                             spacing 9
                             xfill True
                             xminimum 142
                             xmaximum 142
-                            text (u"%s/%s" % (brothel.rooms, brothel.maxrooms)) style "stats_value_text" xalign (1.0)
-                            text (u"%d/%d" % (brothel.free_rooms(), brothel.rooms)) style "stats_value_text" xalign (1.0)
+                            text (u"%s/%s" % (brothel.rooms, brothel.maxrooms)) style "stats_value_text" xalign 1.0
+                            text (u"%d/%d" % (brothel.free_rooms(), brothel.rooms)) style "stats_value_text" xalign 1.0
                                 
                             if isinstance(brothel, UpgradableBuilding):
                                 if brothel.use_upgrades:
-                                    text (u"%s/%s" % (brothel.used_upgrade_slots, brothel.upgrade_slots)) style "stats_value_text" xalign (1.0)
+                                    text (u"%s/%s" % (brothel.used_upgrade_slots, brothel.upgrade_slots)) style "stats_value_text" xalign 1.0
                                     
                                 if brothel.get_upgrade_mod("guards") > 0:
-                                    text (u"%d/5  " % min(len([girl for girl in hero.girls if girl.location == brothel and "Warrior" in girl.occupations]), 5) ) style "stats_value_text" xalign (1.0)
+                                    text u"%d/5  " % min(len([girl for girl in hero.girls if girl.location == brothel and "Warrior" in girl.occupations]), 5) style "stats_value_text" xalign 1.0
                                 
-                            text (u"%s/1000" % (brothel.security_rating)) style "stats_value_text" xalign (1.0)
+                            text (u"%s/1000" % (brothel.security_rating)) style "stats_value_text" xalign 1.0
                                 
                             if isinstance(brothel, DirtyBuilding):
                                 text (u"%s (%s %%)" % (brothel.get_dirt_percentage()[1], brothel.get_dirt_percentage()[0])) style "stats_value_text" xalign (1.0)
                                 
                             if isinstance(brothel, FamousBuilding):
-                                text (u"%s/%s" % (brothel.fame, brothel.maxfame)) style "stats_value_text" xalign (1.0)
-                                text (u"%s/%s" % (brothel.rep, brothel.maxrep)) style "stats_value_text" xalign (1.0)
-                                # text (u"%s" % (brothel.maxrank)) style "stats_value_text" xalign (1.0)
+                                text (u"%s/%s" % (brothel.fame, brothel.maxfame)) style "stats_value_text" xalign 1.0
+                                text (u"%s/%s" % (brothel.rep, brothel.maxrep)) style "stats_value_text" xalign 1.0
                         
                 null height 5
                 frame:

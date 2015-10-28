@@ -119,7 +119,8 @@ label slave_market:
                 jump slave_market_club
             
             elif result[1] == "return":
-                $ loop = False
+                if not renpy.get_screen("pyt_slave_shopping"):
+                    $ loop = False
         
         $ renpy.hide("_tag")
     
@@ -231,7 +232,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                         
                 null height 5
                         
-                if traits['Prostitute'] in store.girl.occupations:
+                if False and traits['Prostitute'] in store.girl.occupations:
                     frame:
                         xanchor -0.01
                         xysize(313, 47)
@@ -447,6 +448,7 @@ screen pyt_slave_shopping(store, tt_text, buy_button, buy_tt):
                             hovered tt.Action("" + buy_tt % store.girlfin.get_price())
                     textbutton "Back":
                         action Hide("pyt_slave_shopping", transition=Dissolve(1.0))
+                        hovered tt.Action("All Done!")
             
                 null width 10
             
