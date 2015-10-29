@@ -542,7 +542,6 @@
     "locations": ["Cafe"],
     "traits": {"Always Hungry": 5}
     },
-    },
     {
     "id": "Blanket",
     "icon": "content/items/gift/bl.png",
