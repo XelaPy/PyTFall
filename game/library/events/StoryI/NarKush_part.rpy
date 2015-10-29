@@ -4,25 +4,31 @@ init python:
 label storyi_naruko_first_meeting:
     scene black
     show bg hiddenvillage_entrance with dissolve
+    
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
+    
     show expression n_spr at center with dissolve
+    
     $ n.override_portrait("portrait", "happy")
     n.say "Hey, you are [hero.name]!"
     "A cheerful girl suddenly approached you."
     n.say "Nice to meet ya! I'm Naruko Uzumaki."
+    
     menu:
         "How do you know my name?":
             n.say "Who doesn't? I mean, you are the guy who is supposed to take care of everyone here."
             "You have to wonder if you were the only one who did suspect Tsunade's plan to remain a secret?"
         "What do you want?":
             n.say "Nothin' special. Just wanna say hi and maybe speed up things."
+            
     n.say "I don't like complicating things. I trust granny, so I think you are not a bad person."
     $ n.override_portrait("portrait", "shy")
     n.say "But I want something in return for my, you know..."
     $ n.override_portrait("portrait", "happy")
     n.say "So here's a deal: you treat me five times, and I will allow you to do your thing. Deal?"
     "That sounds very simple. Prices shouldn't be high either."
+    
     menu:
         "Deal":
             n.say "Awesome!"
@@ -37,13 +43,18 @@ label storyi_naruko_first_meeting:
             n.say "I dunno, it seems fair. Sex is not a big deal, yeah?"
             $ n.override_portrait("portrait", "shy")
             n.say "I mean, ladies in the city do it for a small fee every day."
+            
     $ n.override_portrait("portrait", "happy")
     n.say "Let me know when you are ready to treat me. See ya!"
+    
     hide expression n_spr with dissolve
+    
     $ chars["Naruko_Uzumaki"].set_flag("event_to_interactions_eatwithnarukotogether", value={"label": "eat_with_Naruko", "button_name": "Treat Her", "condition": "True"})
     $ chars["Naruko_Uzumaki"].set_flag("naruko_eat", value=0)
+    
     "She left. What a weird girl."
     "Well, if she is telling the truth, it will be simple enough."
+    
     $ n.restore_portrait()
     $ del n
     $ del n_spr
@@ -54,6 +65,7 @@ label storyi_eat_with_Naruko:
     if hero.gold <= 200:
         "You don't have enough money for that."
         jump girl_interactions
+        
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
     if n.flag("gm_eat_together") != day:
@@ -61,26 +73,34 @@ label storyi_eat_with_Naruko:
     else:
         "You already did it today. She's not hungry."
         jump girl_interactions
+        
     scene black
     show bg cafe with dissolve
+    
     $ gm.set_img("eating", type="first_default")
+    
     "You treat her in her favourite eatery."
+    
     $ chars["Naruko_Uzumaki"].mod_flag("naruko_eat", 1)
     $ n.disposition += 40
     $ temp = randint (90, 250)
+    
     if hero.take_money(temp):
         "You pay her bill, it was [temp] G. Not bad for a slim girl..."
     $ n.override_portrait("portrait", "happy")
     n.say "Thanksies for the meal! ♪"
+    
     $ del temp
     $ n.restore_portrait()
     $ gm.set_img("vnsprite", type="first_default")
+    
     if (chars["Naruko_Uzumaki"].flag("naruko_eat") >= 7) and (pytfall.world_quests.check_stage("Uzumaki Clan") == 1):
         $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You paid her bills for a week. Time to visit her and demand you reward!")
     elif (chars["Naruko_Uzumaki"].flag("naruko_eat") >= 7) and (pytfall.world_quests.check_stage("Uzumaki Clan") == 3):
         $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You paid her bills for another week. Time to pay her a visit.")
     elif (chars["Naruko_Uzumaki"].flag("naruko_eat") >= 7) and (pytfall.world_quests.check_stage("Uzumaki Clan") == 5):
         $ pytfall.world_quests.get("Uzumaki Clan").next_in_label("You paid her bills for one more week. You are pretty close to her now, after three weeks of eating together. Another try?")
+        
     $ del n
     $ del n_spr
     jump girl_interactions
@@ -91,31 +111,42 @@ label storyi_naruko_second_meeting:
     stop music
     stop world
     play world "Town2.ogg" fadein 2.0 loop
+    
     $ k = chars["Kushina_Uzumaki"]
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
+    
     show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
+    
     $ n.override_portrait("portrait", "happy")
     n.say "Phew, I'm full. Thanksies♪"
     n.say "Alright, time to do it! Follow me."
+    
     show bg girl_room_4 with dissolve
     stop world
+    
     "She brought you to a small house on the edge of the village. Outside it looks shabby, but inside it is quite cozy."
+    
     hide expression n_spr
     show expression n.show("nude", "simple bg", "everyday", "confident", "stripping", resize=(800, 600), type="first_default") as xxx at truecenter
+    
     "She quickly unbuttoning clothes."
     n.say "C'mon, c'mon, I have other things to do!"
     "Well, if she insists... "
     "You carefully enter inside. Slowly moving forward, eventually you feel a resistance. Just a bit more..."
+    
     play sound "content/sfx/sound/be/light1.mp3"
     show bg girl_room_4 with flash
+    
     "Huh?"
+    
     play sound "content/sfx/sound/be/light1.mp3"
     show bg girl_room_4 with flash
     hide xxx
     show expression k.show("sex", "straight", "partnerhidden", "doggy", "living", "no clothes", resize=(600, 800), type="first_default") as xxx at truecenter with flash
+    
     "Suddenly the resistance disappears. You look down and see an unknown woman instead of Naruko."
     $ k.override_portrait("portrait", "ecstatic")
     k.say "Um, hi there. Could you please begin moving already?"
@@ -126,16 +157,20 @@ label storyi_naruko_second_meeting:
             $ pass
         "Where is Naruko?":
             $ pass
+            
     k.say "Could it wait? I'd like to have a proper sex while I can."
     "Damn, it was suspicious from the beginning. As you continue to move, the woman loudly moans. Looks like she is very horny, so maybe she won't be angry at you for, er, appearing around you dick..."
+    
     hide xxx with dissolve
     show expression k.show("nude", "living", "no clothes", "confident", "happy", resize=(800, 600), type="first_default") as xxx at truecenter
+    
     "After a few minutes you both come. The woman happily resting now."
     $ k.override_portrait("portrait", "shy")
     k.say "I suppose you have many questions. We have some time before she returns, so I can answer them."
     $ a = 0
     $ k.override_portrait("portrait", "shy")
     $ i = 1
+    
     while i == 1:
         menu:
             "Where is Naruko?":
@@ -156,16 +191,22 @@ label storyi_naruko_second_meeting:
                 $ i = 0
                 k.say "You obviously can do it if we will be separated by force, but then most likely the beast will be free and the village will be destroyed."
                 k.say "But..."
+                
                 play sound "content/sfx/sound/be/light1.mp3"
                 show bg girl_room_4 with flash
+                
                 k.say "Ah, we don't have much time left, I'm afraid..."
+                
                 play sound "content/sfx/sound/be/light1.mp3"
                 show bg girl_room_4 with flash
                 hide xxx
                 show expression n.show("nude", "simple bg", "everyday", "confident", "stripping", resize=(800, 600), type="first_default") as xxx at truecenter with flash
+                
                 $ n.override_portrait("portrait", "happy")
                 n.say "<yawns> That was a good nap. How did it go, [hero.name]? You had your fun? We could do it again later if you want, with the same condition..."
+                
     $ n.override_portrait("portrait", "happy")
+    
     menu:
         "You tricked me!":
             n.say "<she grins> I told you I'll let you do me, and I did. It's not my fault that mom gets lonely and comes out."
@@ -173,12 +214,16 @@ label storyi_naruko_second_meeting:
             jump naruko_after_sex
         "Can I talk to your mother again?":
             n.say "Ooh? You getting along or something? Well, you know the drill, it will be a weak of meals."
+            
     hide xxx with dissolve
     show expression n_spr at center with dissolve
+    
     "She quickly dresses up."
     n.say "Ok, see ya later. I have to run now, I have a mission soon."
+    
     hide expression n_spr with dissolve
     "She left... You probably need to talk to Kushina again." #yup, another quest to treat her 5 times
+    
     $ n.restore_portrait()
     $ k.restore_portrait()
     $ del a
@@ -194,17 +239,21 @@ label storyi_naruko_second_meeting:
     jump hiddenvillage_entrance
     
 label storyi_naruko_third_meeting:
+    
     $ flash = Fade(.25, 0, .75, color=green)
     stop music
     stop world
     play world "Town2.ogg" fadein 2.0 loop
     scene black
+    
     $ k = chars["Kushina_Uzumaki"]
     $ k_spr = chars["Kushina_Uzumaki"].get_vnsprite()
     $ n = chars["Naruko_Uzumaki"]
     $ n_spr = chars["Naruko_Uzumaki"].get_vnsprite()
+    
     show bg hiddenvillage_entrance with dissolve
     show expression n_spr at center with dissolve
+    
     $ n.override_portrait("portrait", "happy")
     n.say "Aahh, it feels good to eat for free, hehe."
     "This time she ate much more than before, as if on purpose."

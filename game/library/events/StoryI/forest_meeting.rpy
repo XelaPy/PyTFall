@@ -47,16 +47,16 @@ label storyi_forest_begining:
         pos (250, 400)
     "The air is rapidly getting colder and you hurried to light a fire."
     show bg camp with wipeup
-    $ intro_mast = 0
-    $ i = 1
-    while i == 1:
+    $ intro_mast = False
+    $ i = True
+    while i:
         menu:
             "You need a good rest, but you do not want to sleep yet. What do you want to do?"
             "Check your travel bag.":
                 show bag at center with dissolve 
                 "You don't have much besides your equipment and money."
-                $ j = 1
-                while j == 1:
+                $ j = True
+                while j:
                     menu:
                         "Read letter":
                             show letter at truecenter with dissolve
@@ -73,8 +73,9 @@ label storyi_forest_begining:
                             hide box with dissolve
                         "Enough with bag.":
                             hide bag with dissolve
-                            $ j = 0
+                            $ j = not j
                 $ del j
+                
             "Jerk off":
                 "Nobody's here, might as well to. You unzip your pants."
                 "..."
@@ -83,8 +84,8 @@ label storyi_forest_begining:
                 menu:
                     "Yes, it's too early to give up!":
                         "You trying to imagine something sexy."
-                        if intro_mast == 0:
-                            $ intro_mast = 1
+                        if not intro_mast:
+                            $ intro_mast = not intro_mast
                             show imag at center with noisedissolve 
                             "Ooohkey, a bit weird, but it will do. You continue your business, trying to focus on your new imaginary friend."
                             "..."
@@ -113,17 +114,18 @@ label storyi_forest_begining:
                                     "You managed to come simultaneously, even at a distance. Nice."
                                     $ mast_while_attack = True
                                     "You quickly pull the clothes back."
-                                    $ i = 0
+                                    $ i = not i
                                 "Put on the pants would be a good start.":
                                     "You quickly pull the clothes back."
                                     $ mast_while_attack = False
-                                    $ i = 0   
+                                    $ i = not i
                     "Nah, better to not force it":
                         "Well, there always will be another day for that if you won't find a girl soon."
+                        
             "Go to sleep":
                 "It's about time. Tomorrow will be a tough day."
                 $ mast_while_attack = False
-                $ i = 0
+                $ i = False
                 scene black
                 with eye_shut
                 "You slowly sink to sleep."
@@ -131,6 +133,7 @@ label storyi_forest_begining:
                 "Mmmm... Z-Z-Z"
                 b "Help! Somebo... Aah!"
                 show bg camp with eye_open
+                
                 menu:
                     "You hear screams nearby."
         
@@ -171,23 +174,26 @@ label storyi_forest_begining:
     play music "content/sfx/music/be/battle (8).mp3" loop
     show sakura_rape at truecenter with zoomin
     "You see a girl caught by forest tentacles!"
+    
     $ intro_war = False
+    
     "She tries to break free, but vines firmly hold her. One of the tentacles is already deep in her ass, and another one in close proximity to her pussy."
-    if mast_while_attack == True:
+    
+    if mast_while_attack:
         "You notice how heavily she breathes. She already came at least once. You don't have much time left."
-    if intro_torch == True:
+    if intro_torch:
         "She notices you and tries to say something, but you can only hear moans from her mouth. The monster noticed you too and threateningly raised armoured tentacles."
     else:
         "She didn't noticed you yet, as well as the monster. Time to act quickly."
-    if intro_torch == True:
+    if intro_torch:
         $ i = 1
-        while i == 1:
+        while i:
             menu:
                 "Recall what do you know about forest tentacles":
                     "Forest tentacles are predators, so to speak. They don't eat meat, instead they consume... certain female human body fluids. They brought victims to orgasm over and over again, releasing a huge amount of aphrodisiac inside."
                     "While it seems like a great experience at first sight, such loads quickly incapacitate the higher nervous system, turning victims into mindless sex slaves."
                     "They also die quickly without tentacle's control, what makes them useless for slaves market."
-                "Try to attack it": # for warriors only
+                "Try to attack it" if "Warrior" in : # for warriors only
                     "You uncover your weapon, jump ahead and to strike at the congestion of vines."
                     $ i = 0
                     $ hero.attack += 5
@@ -208,7 +214,7 @@ label storyi_forest_begining:
         "It wasn't very effective, but you managed to distract the creature. It weakened the grip, and the girl managed to get her own weapon."
     else:
         $ i = 1
-        while i == 1:
+        while i:
             menu:
                 "Recall what do you know about forest tentacles.":
                     "Forest tentacles are predators, so to speak. They don't eat meat, instead they consume... certain female human body fluids. They brought victims to orgasm over and over again, releasing a huge amount of aphrodisiac inside."
@@ -239,29 +245,37 @@ label storyi_forest_begining:
                     "You shrug your shoulders, carefully take aim and throw the bottle at the monster with the full force."
                     "The bottle breaks on impact, a viscous liquid spills on tentacles. The creature begins to twitch erratically. It weakened the grip, and the girl managed to get her own weapon."
                     $ i = 0
+                    
     play sound "content/sfx/sound/be/dagger_attack_1.mp3"
     pause 0.5
     play sound "content/sfx/sound/be/dagger_attack_1.mp3"
+    
     "With fast and precise movements she cuts off remaining vines and frees herself. The creature produces frustrated sound and collapses."
+    
     hide sakura_rape with dissolve
     stop music fadeout 2.0
     play world "Theme2.ogg" fadein 2.0 loop
     play events "events/night_forest.mp3" loop
+    
     if poison_intro == True:
         "You give her the bag you found earlier. Gratefully nod, she takes it."
     else:
         "She quickly picks up the bag from the bushes nearby."
+        
     "She tries to look calm, but you notice how quickly and heavily she breathes."
     "The lower part of her clothes was torn apart. She gets out of the bag spare clothes and changes in the bushes."
     "Although it's too late to be modest after what you saw, but whatever..."
     "..."
     $ sakspr = chars["Sakura"].get_vnsprite()
     $ s.override_portrait("portrait", "indifferent")
+    
     show expression sakspr at center with dissolve
+    
     s.say "Thanks for the help. My name is Sakura."
     "You introduce yourself."
     s.say "I see. Nice to meet you, [hero.name]."
     $ s.disposition += 100
+    
     menu:
         "Offer to rest in your camp":
             $ s.override_portrait("portrait", "happy")
@@ -312,6 +326,7 @@ label storyi_forest_begining:
                     s.say "It's called kunai. I have a spare one, so you can take it."
                     $ hero.add_item("Kunai")
                     "You tell her about your camp nearby, and together you go there."
+                    
     show bg camp with slideawayleft
     $ s.override_portrait("portrait", "indifferent")
     if intro_be_nice == True:
@@ -371,6 +386,7 @@ label storyi_forest_begining:
                 "You explain her that you understand how she feels, and propose to help with burning out remains of aphrodisiac."
                 "As you talk, she blushes even more, but doesn't interrupt you."
                 s.say "I... accept your offer. Please lay down."
+                
     $ s.oral += 10
     hide sakspr
     show expression s.show("sex", "confident", "suggestive", "indoors", "living", "bc blowjob", "partnerhidden", resize=(800, 600), type="first_default") as xxx at truecenter
