@@ -28,84 +28,16 @@ label next_day:
     # Ren'Py script:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
     
-    # Since Resting is no longer buildings bound, we make one pass over all MCs chars here:
-    # In order to test:
-    # python:
-        # for c in hero.girls:
-            # if dice(40):
-                # c.action = Rest()
     $ tl.timer("Rest (1)")
     $ ndr_chars = list(c for c in hero.girls if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
     # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
-        
     $ tl.timer("Rest (1)")
     
     while nd_buildings:
         $ building = nd_buildings.pop()
-        python:
-            pass
-            ###### Rest job in buildings #######
-            # tl.timer("Rest (1)")
-            # girls = building.get_girls()
-            # # Auto-Rest intervention as people reported girls causing problems during the stripper job. This is currently not reported anywhere in NDR :(
-            # for girl in girls:
-                # rest = girl.auto_rest()
-                # if rest:
-                    # girl.txt.append(rest)
-            # resting = list(girl for girl in hero.girls if girl.location == building and girl.action in ['Rest', 'AutoRest'])
-            # for girl in resting:
-                # Rest(girl, building, resting)
-            # tl.timer("Rest (1)")
-            
-            # tl.timer("Adding info to B report")
-            # # Add some info to the Building report...
-            # girls = list(girl for girl in building.get_girls() if girl.action in ["Stripper", "Whore", "ServiceGirl"])
-            # strippers = list(girl for girl in girls if girl.action == "Stripper")
-            # service_girls = list(girl for girl in girls if girl.action == "ServiceGirl")
-            # whores = list(girl for girl in girls if girl.action == "Whore")
-            # if girls:
-                # building.txt += "\nYou currently have:\n"
-                # if len(strippers):
-                    # building.txt += "%d %s\n"%(len(strippers), plural("Stripper", len(strippers)))
-                # if len(service_girls):
-                    # building.txt += "%d %s\n"%(len(service_girls), plural("ServiceGirl", len(service_girls)))
-                # if len(whores):
-                    # building.txt += "%d %s\n"%(len(whores), plural("Prostitute", len(whores)))
-                # building.txt += "working here.\n\n"
-            # tl.timer("Adding info to B report")
-            
-        python:
-            """
-            ===
-            Will be testing out new simpy module in favor of this conceptual while loops setup.
-            ===
-            
-            # Test of new Jobs Manager:
-            # We go over each upgrade that has valid jobs one by one.
-            $ upgrades = list(up for up in building._upgrades if up.jobs) # Only add the upgrades that have true job attrs.
-            while upgrades:
-                $ upgrade = upgrades.pop()
-                python:
-                    # Testing Mode!:
-                    _nd_chars = list(g for g in hero.girls if g.action in upgrade.jobs) # Needs to be rewritten... to include ["SIW", "Warrior"]
-                # $ raise Exception(list(i.id for i in _nd_chars))
-                $ loop = 3 # This should be a property of Building and modified through Managers Job!
-                # NOTE: THIS MAY NOT BE GOOD ENOUGHT FOR THE TASK, SWITCH BACK TO PYTHON in that case!
-                while loop: 
-                    # First, make sure all the girls are healthy and ready for work + copy the full clients list:
-                    $ nd_chars = list(c for c in _nd_chars if check_char(c))
-                    $ clients = nd_clients[:]
-                    while nd_chars and clients:
-                        $ char = nd_chars.pop()
-                        # Make sure we're dealing with a Job here:
-                        if isinstance(char.action, Job):
-                            $ char.action()
-                    $ loop = loop - 1
-            """
-        
         $ building.run_nd()
         
         # Old jobs:
@@ -350,7 +282,7 @@ label next_day_controls:
                     for entry in NextDayList:
                         if entry.type == 'buildingreport' and entry.loc == building:
                             FilteredList.insert(0, entry)
-                        elif entry.type == 'girlreport' and entry.loc == building:
+                        elif entry.type == "jobreport" and entry.loc == building:
                             FilteredList.append(entry)
                     event = FilteredList[0]
                     index = FilteredList.index(event)
@@ -1747,7 +1679,7 @@ screen pyt_next_day():
                     xysize (136, 400)
                     # draggable True
                     # mousewheel True
-                    # if event.type in ["girlreport", "schoolreport", "girlndreport", "mcndreport", "exploration_report"]: # <-- Not usefull???
+                    # if event.type in ["jobreport", "schoolreport", "girlndreport", "mcndreport", "exploration_report"]: # <-- Not usefull???
                     if event.girlmod:    
                         vbox:
                             null height 25
@@ -1784,7 +1716,7 @@ screen pyt_next_day():
                     xysize (136, 305)
                     #draggable False
                     #mousewheel True
-                    if event.type=="girlreport":
+                    if event.type=="jobreport":
                         vbox:
                             null height 5
                             frame:

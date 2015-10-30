@@ -28,7 +28,7 @@
         """
         Baseclass for jobs and other next day actions with some defaults.
         """
-        def __init__(self, girl=None, girls=None, loc=None, event_type="girlreport"):
+        def __init__(self, girl=None, girls=None, loc=None, event_type="jobreport"):
             """
             Creates a new Job.
             girl = The girl the job is for.
@@ -55,7 +55,7 @@
             
             self.event_type = event_type
             
-        def __call__(self, girl, girls, loc=None, event_type="girlreport"):
+        def __call__(self, girl, girls, loc=None, event_type="jobreport"):
             self.girl = girl
             self.girls = girls
             self.loc = loc
@@ -293,7 +293,7 @@
         def __call__(self, char, client):
             self.reset()
             
-            self.event_type = "girlreport"
+            self.event_type = "jobreport"
             self.char, self.client, self.loc = char, client, char.location
             self.girl = self.char
             self.girlmod, self.locmod = {}, {}
@@ -356,9 +356,9 @@
             if not char:
                 char = self.char
             
-            if [t for t in self.occupation_traits if t in char.occupations]:
+            if not [t for t in self.all_occs if t in char.occupations]:
                 if char.status != 'slave' and char.disposition > 900:
-                    self.txt.append("%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % char.nickname)
+                    char.set_flag("jobs_whoreintro", "%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % char.nickname)
                     self.loggs('disposition', -randint(10, 30))
                 
                 elif char.status != 'slave':
@@ -368,7 +368,7 @@
                     self.char = char
                     self.girl = char
                     self.loc = store.building
-                    self.event_type = "girlreport"
+                    self.event_type = "jobreport"
                     self.girlmod, self.locmod = {}, {}
                     
                     self.loggs('disposition', -50)
@@ -380,19 +380,15 @@
                     return
                 
                 else:
-                    self.txt.append(choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % char.name,
-                                                         "She'll do as she is told, doesn't mean that she'll be happy about.",
-                                                         "%s will do as you command but you cannot expect her to enjoy this..." % char.fullname]))
-                    
+                    char.set_flag("jobs_whoreintro", choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % char.name,
+                                                                                    "She'll do as she is told, doesn't mean that she'll be happy about.",
+                                                                                    "%s will do as you command but you cannot expect her to enjoy this..." % char.fullname]))
                     self.loggs('joy', -randint(1, 3))
             
             else:
-                self.txt.append(choice(["{} is doing her shift as Prostitute!".format(char.name),
-                                                     "%s does her shift as a Prostitute!" % char.fullname,
-                                                     "{color=[red]}Whore?{/color} WTF?? I am a {color=[pink]}Fancy Girl!!!{/color}"]))
-                
-            
-            self.txt.append("\n\n")
+                char.set_flag("jobs_whoreintro", choice(["{} is doing her shift as Prostitute:".format(char.name),
+                                                                                "%s gets busy with a client:" % char.fullname,
+                                                                                "Whore Job:"]))
             return True
                     
         # I need to rebuild relay so it makes more sense and then rewrite this method
@@ -461,16 +457,9 @@
                         
                         
         def acts(self):
-            # Blocks by girl/player
-            # if self.client.act == 'lesbian' and not self.char.autocontrol["Acts"]["lesbian"]:
-                # txt += "%s refused to perform lesbian, unblock it in her control options or raise disposition until she allows you to do so. \n"%(self.char.nickname)
-                # txt += "You've otherwise lost this customer :( "
-                # self.img = "profile"
-                # self.apply_stats()
-                # self.finish_job()
-                # return
-                 
-
+            self.txt.append(self.char.flag("jobs_whoreintro"))
+            self.txt.append("\n\n")
+            
             width = 820
             height = 705
             
@@ -872,7 +861,7 @@
         def __call__(self):
             self.reset()
             
-            self.event_type = "girlreport"
+            self.event_type = "jobreport"
             self.girl, self.client, self.loc = store.char, store.clients.pop(), store.char.location
             self.girlmod, self.locmod = {}, {}
             self.skill = None
@@ -1150,50 +1139,52 @@
             
         def check_occupation(self, char=None):
             """
-            Checks the girls occupation against the job.
+            Checks if the worker is willing to do this job.
             """
             if not char:
                 char = self.char
             
-            if [t for t in self.all_occs if t in self.girl.occupations]:
-                if self.girl.status != 'slave' and self.girl.disposition > 900:
-                    self.txt.append("%s: I am not thrilled about having to dance in front of a bunch of pervs, but you've been really good to me so I owe you a favor... "%self.girl.nickname)
-                    self.loggs('disposition', -randint(5, 10))
-                    self.loggs('joy', -randint(3, 6)) 
+            if not [t for t in self.all_occs if t in char.occupations]:
+                if char.status != 'slave' and char.disposition > 900: # Free char with very high disposition.
+                    char.set_flag("jobs_stripintro", "%s: I am not thrilled about having to dance in front of a bunch of pervs, but you've been really good to me so I owe you a favor... "%char.nickname)
+                    self.loggs('disposition', -randint(10, 15))
+                    self.loggs('joy', -randint(3, 6))
                 
-                elif self.girl.status != 'slave':
-                    self.txt.append(choice(["%s: I refuse to do work as a Stripper!"%char.nickname,
-                                                         "Stripping? You're kidding me right?",
-                                                         "Find someone else to strip for those perves!"]))
+                elif char.status != 'slave':
+                    temp = choice(["%s refuses to do work as a Stripper!"%char.nickname,
+                                             "Stripping? You're kidding me right?",
+                                             "Find someone else to strip for those perves!"])
+                    temp = set_font_color(temp, "red")
+                    self.txt.append(temp)
                     self.loggs('disposition', -50)
-                    self.img = self.girl.show("profile", "angry", resize=(740, 685))
+                    self.img = char.show("profile", "angry", resize=(740, 685))
                     
                     char.action = None
                     self.char = char
-                    self.girl = char
+                    char = char
                     self.loc = store.building
-                    self.girlmod, self.locmod = {}, {}
-                    self.event_type = "girlreport"
+                    charmod, self.locmod = {}, {}
+                    self.event_type = "jobreport"
                     self.apply_stats()
-                    self.girls.remove(self.girl)
+                    chars.remove(char)
                     self.finish_job()
-                    return
+                    return False
                     
                 else:
-                    self.txt.append(choice(["%s is a slave so she'll do as she's told. Doesn't mean that she's happy about it... \n"%char.name,
-                                                        "Being a slave, %s had no choice but to do as she's told."%char.name,
-                                                        "Even though %s is a slave and will do as she's told, consider giving poor girl a task better suited to her profession."%char.name]))
+                    char.set_flag("jobs_stripintro", choice(["%s is a slave so she'll do as she's told. Doesn't mean that she's happy about it... \n"%char.name,
+                                                                                 "Being a slave, %s had no choice but to do as she's told."%char.name,
+                                                                                 "Even though %s is a slave and will do as she's told, consider giving poor girl a task better suited to her profession."%char.name]))
                     self.loggs('joy', -randint(5, 10))
             
             else:
-                self.txt.append(choice(["%s is doing her thing as a stripper!"%char.fullname,
-                                                     "%s works as a stripper!"%char.fullname]))
-                
-            self.txt.append("\n\n")
+                char.set_flag("jobs_stripintro", choice(["{} is doing her thing as a Stripper:".format(char.fullname),
+                                                                             "{} works as a Stripper:".format(char.fullname),
+                                                                             "Striptease Job:"]))
             return True
         
         def strip(self):
-            self.txt.append("\n")
+            self.txt.append(self.char.flag("jobs_stripintro"))
+            self.txt.append("\n\n")
             
             # TODO: LEFT OFF HERE: Rewrite this bit, ADD TIPS, CLEAN UP
             len_clients = len(self.clients)
@@ -1591,7 +1582,7 @@
             # Next thing is to make this work with Rest Job!
             self.reset()
             
-            self.event_type = "girlreport"
+            self.event_type = "jobreport"
             self.girl, self.loc = char, char.location
             
             self.client = client

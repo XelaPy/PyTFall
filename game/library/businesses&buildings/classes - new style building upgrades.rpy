@@ -272,12 +272,14 @@ init -9 python:
                 workers = self.instance.workers
                 # Get all candidates:
                 aw = self.all_workers
-                if aw:
-                    shuffle(aw)
+                shuffle(aw)
+                while aw:
                     worker = aw.pop()
-                    self.active_workers.add(worker)
-                    workers.remove(worker)
-                    self.env.process(self.use_worker(worker))
+                    if self.job.check_occupation(worker):
+                        self.active_workers.add(worker)
+                        workers.remove(worker)
+                        self.env.process(self.use_worker(worker))
+                        break
                 
         def run_job(self, end):
             """This runs the club as a SimPy process from start to the end.
