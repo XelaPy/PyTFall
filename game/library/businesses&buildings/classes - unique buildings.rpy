@@ -10,16 +10,16 @@ init -9 python:
         
         def __init__(self):
             super(CityJail, self).__init__()
-            self.girl = None
+            self.worker = None
             self.index = 0
-            self.girls_list = list()
+            self.workers_list = list()
             self.auto_sell_captured = False # Do we auto-sell SE captured slaves?
         
         def __contains__(self, girl):
             """
             Checks whether a girl has runaway.
             """
-            return girl in self.girls_list
+            return girl in self.workers_list
         
         def add_prisoner(self, girl, flag=None):
             """
@@ -28,7 +28,7 @@ init -9 python:
             """
             if girl not in self:
                 if girl in hero.team: hero.team.remove(girl)
-                self.girls_list.append(girl)
+                self.workers_list.append(girl)
                 
                 # Flag to determine how the girl is handled in the jail:
                 if flag:
@@ -36,8 +36,8 @@ init -9 python:
                     if flag == "SE_capture":
                         girl.set_flag("days_in_jail", 0)
                 
-                if self.girl is None:
-                    self.girl = girl
+                if self.worker is None:
+                    self.worker = girl
                     self.index = 0
         
         def buy_girl(self):
@@ -47,14 +47,14 @@ init -9 python:
             if hero.take_ap(1):
                 if hero.take_money(self.get_price(), reason="Slave Repurchase"):
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    self.remove_prisoner(self.girl)
+                    self.remove_prisoner(self.worker)
                 else:
                     renpy.call_screen('pyt_message_screen', "You don't have enough money for this purchase!")
             
             else:
                 renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!")
             
-            if not self.girls_list:
+            if not self.workers_list:
                 renpy.hide_screen("pyt_slave_shopping")
         
         def get_price(self):
@@ -62,19 +62,19 @@ init -9 python:
             Returns the price to retrieve the girl.
             """
             # In case of non-slave girl, use 3000 as base price
-            return (self.girl.fin.get_price() or 3000) / 2
+            return (self.worker.fin.get_price() or 3000) / 2
         
         def get_whore_price(self):
             """
             Return the whore cost for the girl.
             """
-            return self.girl.fin.get_whore_price()
+            return self.worker.fin.get_whore_price()
         
         def get_upkeep(self):
             """
             Return the upkeep cost for the girl.
             """
-            return self.girl.fin.get_upkeep()
+            return self.worker.fin.get_upkeep()
         
         @property
         def girlfin(self):
@@ -87,15 +87,15 @@ init -9 python:
             """
             Sets the next index for the slavemarket.
             """
-            self.index = (self.index+1) % len(self.girls_list)
-            self.girl = self.girls_list[self.index]
+            self.index = (self.index+1) % len(self.workers_list)
+            self.worker = self.workers_list[self.index]
         
         def previous_index(self):
             """
             Sets the previous index for the slavemarket.
             """
-            self.index = (self.index-1) % len(self.girls_list)
-            self.girl = self.girls_list[self.index]
+            self.index = (self.index-1) % len(self.workers_list)
+            self.worker = self.workers_list[self.index]
         
         def remove_prisoner(self, girl, set_location=True):
             """
@@ -105,15 +105,15 @@ init -9 python:
             if girl in self:
                 girl.del_flag("sentence_type")
                 girl.del_flag("days_in_jail")
-                self.girls_list.remove(girl)
+                self.workers_list.remove(girl)
                 
-                if self.girls_list:
-                    self.index %= len(self.girls_list)
-                    self.girl = self.girls_list[self.index]
+                if self.workers_list:
+                    self.index %= len(self.workers_list)
+                    self.worker = self.workers_list[self.index]
                 
                 else:
                     self.index = 0
-                    self.girl = None
+                    self.worker = None
                 
                 if set_location:
                     if schools[TrainingDungeon.NAME] in hero.buildings:
@@ -126,9 +126,9 @@ init -9 python:
             Sets the girl to be the index for the slavemarket.
             girl = The girl to set.
             """
-            if self.girls_list and girl in self.girls_list:
-                self.girl = girl
-                self.index = self.girls_list.index(self.girl)
+            if self.workers_list and girl in self.workers_list:
+                self.worker = girl
+                self.index = self.workers_list.index(self.worker)
         
         # Deals with girls captured during SE:
         def sell_captured(self, girl=None, auto=False):
@@ -138,7 +138,7 @@ init -9 python:
             auto: Auto Selloff during next day.
             """
             if not girl:
-                girl = self.girl
+                girl = self.worker
             
             if auto or hero.take_ap(1):
                 if not auto:
@@ -151,11 +151,11 @@ init -9 python:
                 renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!")
             
             if not auto:    
-                if not self.girls_list:
+                if not self.workers_list:
                     renpy.hide_screen("pyt_slave_shopping")
         
         def next_day(self):
-            for i in self.girls_list:
+            for i in self.workers_list:
                 if i.flag("sentence_type") == "SE_capture":
                     i.mod_flag("days_in_jail")
                     if self.auto_sell_captured:
@@ -172,7 +172,7 @@ init -9 python:
         def get_fees4captured(self, girl=None):
             # 200 for registration with city hall + 30 per day for "rent"
             if not girl:
-                girl = self.girl
+                girl = self.worker
             return 200 + girl.flag("days_in_jail") * 30
         
         def retrieve_captured(self, direction=None):
@@ -183,13 +183,13 @@ init -9 python:
             if hero.take_ap(1):
                 if hero.take_money(self.get_fees4captured(), reason="Jail Fees"):
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    self.girl.del_flag("sentence_type")
-                    self.girl.del_flag("days_in_jail")
+                    self.worker.del_flag("sentence_type")
+                    self.worker.del_flag("days_in_jail")
                     if direction == "STinTD":
                         self.remove_prisoner()
                     elif direction == "Blue":
                         if hero.take_money(2000, reason="Blue's Fees"):
-                            pytfall.sm.blue_girls[self.girl] = 0
+                            pytfall.sm.blue_girls[self.worker] = 0
                             self.remove_prisoner(set_location=False)
                         else:
                             hero.give_money(self.get_fees4captured(), reason="Jail Fees")
@@ -199,7 +199,7 @@ init -9 python:
             else:
                 renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!")
             
-            if not self.girls_list:
+            if not self.workers_list:
                 renpy.hide_screen("pyt_slave_shopping")
         
     class Apartment(BaseBuilding):
@@ -305,9 +305,9 @@ init -9 python:
                         self.clean(cleffect)
                         sg = g
                         
-                        evt = Event()
+                        evt = NDEvent()
                         evt.type = 'fg_job'
-                        evt.girl = g
+                        evt.char = g
                         self.loc = fg
                         evt.img = g.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
                         evt.txt = choice(["[g.name] is taking care of the girls in the Guild.", "[g.nickname] keeping the Guild running, clean and happy :)"])
@@ -324,9 +324,9 @@ init -9 python:
                         self.clean(cleffect)
                         sg = g
                         
-                        evt = Event()
+                        evt = NDEvent()
                         evt.type = 'fg_job'
-                        evt.girl = g
+                        evt.char = g
                         self.loc = fg
                         evt.img = g.show("waitress", "maid", exclude=["sex"], resize=(740, 685), type="any")
                         evt.txt = choice(["[g.name] took care of the Bar and the guild, making sure all of the members were happy.", "[g.nickname] keeping the Bar running and the Guild clean and happy :)"])
@@ -361,12 +361,12 @@ init -9 python:
                 i.next_day()
             
             # Create the event:
-            evt = Event()
+            evt = NDEvent()
             evt.red_flag = self.flag_red
             evt.green_flag = self.flag_green
             #evt.girlmod = stats
             evt.type = 'fg_report'
-            evt.girl = None
+            evt.char = None
             self.loc = fg
             evt.img = self.img
             evt.txt = "".join(txt)
@@ -737,11 +737,11 @@ init -9 python:
             
             self.fin.log_expense(spentcash, "Ads")
             
-            evt = Event()
+            evt = NDEvent()
             evt.type = type
             evt.red_flag = self.flag_red
             evt.loc = self
-            evt.girl = char
+            evt.char = char
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)
@@ -1020,9 +1020,9 @@ init -9 python:
             while self.one_off_events:
                 NextDayList.append(self.one_off_events.pop())
             
-            evt = Event()
+            evt = NDEvent()
             evt.type = type
-            evt.girl = char
+            evt.char = char
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)
@@ -1232,9 +1232,9 @@ init -9 python:
             while self.one_off_events:
                 NextDayList.append(self.one_off_events.pop())
             
-            evt = Event()
+            evt = NDEvent()
             evt.type = type
-            evt.girl = char
+            evt.char = char
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)

@@ -435,14 +435,14 @@ screen pyt_next_day():
                                         guards = list()
                                 
                                         for __ in NextDayList:
-                                            if isinstance(__.girl, Char):
-                                                if traits["Stripper"] in __.girl.occupations:
+                                            if isinstance(__.char, Char):
+                                                if traits["Stripper"] in __.char.occupations:
                                                     strippers.append(__)
-                                                elif traits["Prostitute"] in __.girl.occupations:
+                                                elif traits["Prostitute"] in __.char.occupations:
                                                     whores.append(__)
-                                                elif "Server" in __.girl.occupations:
+                                                elif "Server" in __.char.occupations:
                                                     sgs.append(__)
-                                                elif "Warrior" in __.girl.occupations:
+                                                elif "Warrior" in __.char.occupations:
                                                     guards.append(__)
                                                     
                                     hbox:
@@ -739,14 +739,14 @@ screen pyt_next_day():
                                                         guards = list()
                                                 
                                                         for __ in NextDayList:
-                                                            if isinstance(__.girl, Char) and __.girl.location == fg:
-                                                                if traits["Stripper"] in __.girl.occupations:
+                                                            if isinstance(__.char, Char) and __.char.location == fg:
+                                                                if traits["Stripper"] in __.char.occupations:
                                                                     strippers.append(__)
-                                                                elif traits["Prostitute"] in __.girl.occupations:
+                                                                elif traits["Prostitute"] in __.char.occupations:
                                                                     whores.append(__)
-                                                                elif "Server" in __.girl.occupations:
+                                                                elif "Server" in __.char.occupations:
                                                                     sgs.append(__)
-                                                                elif "Warrior" in __.girl.occupations:
+                                                                elif "Warrior" in __.char.occupations:
                                                                     guards.append(__)
                                                         
                                                     hbox:
@@ -1003,14 +1003,14 @@ screen pyt_next_day():
                                                         guards = list()
                                                     
                                                         for __ in NextDayList:
-                                                            if isinstance(__.girl, Char) and __.girl.location == building:
-                                                                if traits["Stripper"] in __.girl.occupations:
+                                                            if isinstance(__.char, Char) and __.char.location == building:
+                                                                if traits["Stripper"] in __.char.occupations:
                                                                     strippers.append(__)
-                                                                elif traits["Prostitute"] in __.girl.occupations:
+                                                                elif traits["Prostitute"] in __.char.occupations:
                                                                     whores.append(__)
-                                                                elif "Server" in __.girl.occupations:
+                                                                elif "Server" in __.char.occupations:
                                                                     sgs.append(__)
-                                                                elif "Warrior" in __.girl.occupations:
+                                                                elif "Warrior" in __.char.occupations:
                                                                     guards.append(__)
                                                             
                                                     hbox:
@@ -1680,7 +1680,7 @@ screen pyt_next_day():
                     # draggable True
                     # mousewheel True
                     # if event.type in ["jobreport", "schoolreport", "girlndreport", "mcndreport", "exploration_report"]: # <-- Not usefull???
-                    if event.girlmod:    
+                    if event.charmod:    
                         vbox:
                             null height 25
                             frame:
@@ -1694,17 +1694,17 @@ screen pyt_next_day():
                                 spacing -7
                                 style_group "stats"
                                 xmaximum 140
-                                for key in event.girlmod:
-                                    if event.girlmod[key] != 0:
+                                for key in event.charmod:
+                                    if event.charmod[key] != 0:
                                         vbox:
                                             frame:
                                                 background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.7), 5, 5)
                                                 xsize 136
                                                 text (u"{size=-1}%s:"%str(key).capitalize()) pos (3, -4)
-                                                if event.girlmod[key] > 0:
-                                                    label (u"{size=-5}{color=[lawngreen]}%d"%event.girlmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                                if event.charmod[key] > 0:
+                                                    label (u"{size=-5}{color=[lawngreen]}%d"%event.charmod[key]) style "stats_value_text" align (1.0, 0.5)
                                                 else:
-                                                    label (u"{size=-5}{color=[red]}%d"%event.girlmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                                    label (u"{size=-5}{color=[red]}%d"%event.charmod[key]) style "stats_value_text" align (1.0, 0.5)
                                                         
             
             # Buildings Stats Frame:

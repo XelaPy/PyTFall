@@ -307,13 +307,13 @@ init -9 python:
                 phase = "waning crescent"
             return phase
 
-    class Event(_object):
-        '''Next Day Reports Event Method
+    class NDEvent(_object):
+        '''Next Day Report. Logs in a single event to be read in next_day label.
 
         The load_image method will always return the same image. If you want to
         do another search, you have to set the 'img' attribute to 'None'.
         '''
-        def __init__(self, type='', txt='', img='', girl=None, girlmod={}, loc=None, locmod={}, red_flag=False, green_flag=False, **kwargs):
+        def __init__(self, type='', txt='', img='', char=None, charmod={}, loc=None, locmod={}, red_flag=False, green_flag=False, **kwargs):
             # describes the type of event
             self.type = type
             # the description of the event
@@ -321,11 +321,11 @@ init -9 python:
             # information on the event image or a displayable
             self.img = img
             # the character involved in the event (optional)
-            self.girl = girl
+            self.char = char
             # the location of the event (optional)
             self.loc = loc
             # stat changes of that girl (optional)
-            self.girlmod = girlmod.copy()
+            self.charmod = charmod.copy()
             # stat changes of that location (optional)
             self.locmod = locmod.copy()
             
@@ -354,7 +354,7 @@ init -9 python:
                 elif "." in d:
                     return ProportionalScale(d, width, height)
                 else:
-                    return self.girl.show(self.img, resize=size, cache=True)
+                    return self.char.show(self.img, resize=size, cache=True)
             devlog.warning("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img))
             return ProportionalScale("content/gfx/interface/images/no_image.png", width, height)
             

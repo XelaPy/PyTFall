@@ -7,9 +7,9 @@ init -9 python:
         Prevents removal when unequipping items and/or other types of ralated errors/bugs.
         """
         def __init__(self, instance, be_skill=True):
-            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker()
+            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
             self.normal = set() # Normal we concider anything that's been applied by normal game operations like events, loading routines and etc.
-            self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing.
+            self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             
         def set_instance(self, instance):
@@ -2823,11 +2823,11 @@ init -9 python:
                     
             # ------------
             # Create the event:        
-            evt = Event()
+            evt = NDEvent()
             evt.red_flag = flag_red
-            evt.girlmod = statmod
+            evt.charmod = statmod
             evt.type = 'mcndreport'
-            evt.girl = self
+            evt.char = self
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)
@@ -3956,11 +3956,11 @@ init -9 python:
                 txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
                 
                 # Create the event:
-                evt = Event()
+                evt = NDEvent()
                 evt.red_flag = flag_red
-                evt.girlmod = girlmod
+                evt.charmod = girlmod
                 evt.type = 'girlndreport'
-                evt.girl = self
+                evt.char = self
                 evt.img = img
                 evt.txt = txt
                 NextDayList.append(evt)
