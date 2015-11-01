@@ -282,7 +282,14 @@ label girl_interactions_control:
                      
                     flag_name = "_day_countdown_{}".format(item.id)
                     flag_value = int(char.flag(flag_name))
-                    
+                    if dismod > 70:
+                        dismod = 70
+                    if char.disposition > 50:
+                        if dismod*10 > char.disposition:
+                            dismod = round(char.disposition * 0.1)
+                    else:
+                        if dismod > 5:
+                            dismod = 5
                     # Add the appropriate dismod value:
                     if flag_value != 0:
                         if flag_value < item.cblock:
@@ -299,12 +306,14 @@ label girl_interactions_control:
                     setattr(gm, "show_menu_givegift", False)
                     
                     char.up_counter(flag_name, item.cblock)
-                    if dismod < 0:
+                    if dismod <= 0:
                         gm.jump("badgift")
-                    elif dismod < 50:
+                    elif dismod <= 30:
                         gm.jump("goodgift")
                     else:
                         gm.jump("perfectgift")
+                        
+                    
         
         # Controls
         elif result[0] == "control":
