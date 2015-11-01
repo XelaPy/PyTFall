@@ -230,4 +230,5 @@ class Environment(BaseEnvironment):
             # Create a copy of the failure exception with a new traceback.
             exc = type(event._value)(*event._value.args)
             exc.__cause__ = event._value
+            raise Exception(exc, event._value, event._value.args)
             raise exc

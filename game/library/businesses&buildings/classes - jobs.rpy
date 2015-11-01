@@ -106,8 +106,8 @@
             return NDEvent(type=self.event_type,
                                  img=self.img,
                                  txt=self.txt,
-                                 char=self.girl, # TODO: Rename girl in Event class to char
-                                 charmod=self.girlmod,  # TODO: Rename girl in Event class to char
+                                 char=self.girl,
+                                 charmod=self.girlmod,
                                  loc=self.loc,
                                  locmod=self.locmod,
                                  green_flag=self.flag_green,
@@ -286,7 +286,7 @@
             self.occupation_traits = list() # Corresponing traits...
             
             self.txt = list()
-            
+            self.img = ""
             self.flag_red = False
             self.flag_green = False
             
@@ -301,6 +301,10 @@
             return str(self.id)
             
         def reset(self):
+            # New, we reset any flags that start with "job_" that a character might have.
+            for f in self.worker.flags.keys():
+                if f.startswith("jobs"):
+                    self.worker.del_flag(f)
             self.worker = None
             self.loc = None
             self.client = None
@@ -408,46 +412,6 @@
                 else:
                     raise Exception("Stat: {} does not exits for Brothels".format(stat))
         
-        def auto_clean(self):
-            """
-            Auto cleans the building if needed.
-            """
-            if isinstance(self.loc, DirtyBuilding):
-                if self.loc.auto_clean and self.loc.get_dirt_percentage()[0] > 80:
-                    price = self.loc.get_cleaning_price()
-                    if hero.take_money(price, reason="Pro-Cleaning"):
-                        self.loc.fin.log_expense(price, "Pro-Cleaning")
-                        self.loc.dirt = 0
-                        self.txt.append("Cleaners were hired to tidy up your building. Cost: {color=[gold]} %s Gold.{/color}\n\n"%price)
-                    
-                    else:
-                        self.txt.append("You did not have enough funds to pay for the professional cleaning service (%d Gold).\n\n"%price)
-        
-        def check_dirt(self):
-            """
-            Checks the dirt for the building and reports it.
-            """
-            if isinstance(self.loc, DirtyBuilding):
-                if self.loc.get_dirt_percentage()[0] > 80:
-                    self.txt.append(choice(["Your building looks like a pigstall, fix this or keep losing your clients!",
-                                                         "Your building is to dirty to do business!",
-                                                         "Clean your damn establishment or keep losing money and rep!"]))
-                    
-                    if dice(self.loc.get_dirt_percentage()[0]):
-                        self.locmod["reputation"] -= randint(2, 5)
-                    
-                    self.apply_stats()
-                    self.img = self.worker.show("profile", "angry", resize=(740, 685))
-                    self.finish_job()
-                    
-                    return True
-                
-                else:
-                    return False
-            
-            else:
-                return False
-        
         def loggs(self, s, value):
             # Logs workers stat/skill to a dict:
             self.workermod[s] = self.workermod.get(s, 0) + value
@@ -512,68 +476,8 @@
             return True
                     
         def payout_mod(self):
-            # No matched traits
             self.payout = 1
             
-            # TODO: UPDATE THIS TO BE WRITTEN FROM LOOP AND WITH likes AND dislikes
-            # if not self.client.traitmatched:
-                # if self.client.favtraits:
-                    # self.txt.append("%s came to the %s looking for a girl with a %s traits but didn't find one so %s picked %s randomly. \n"%(self.client.caste,
-                                                                                                                                              # self.loc.name, ", ".join(self.client.favtraits),
-                                                                                                                                              # self.client.pronoun.lower(),
-                                                                                                                                              # self.worker.fullname))
-                # else:
-                    # self.txt.append("%s came to the %s brothel. Not wanting any kind of girl in particular %s went for %s. \n"%(self.client.caste,
-                                                                                                                                # self.loc.name,
-                                                                                                                                # self.client.pronoun.lower(),
-                                                                                                                                # self.worker.name))
-            # else:
-                # self.txt.append("%s came into %s and was looking for a girl with %s traits so %s went straight for %s. \n"%(self.client.caste,
-                                                                                                                            # self.loc.name,
-                                                                                                                            # ", ".join(self.client.favtraits),
-                                                                                                                            # self.client.pronoun.lower(),
-                                                                                                                            # self.worker.name))
-                # self.payout = int(self.payout * 1.3)
-            
-            # Building room upgrades modifiers, simple version for now
-            # Might have to be improved to match customers expectations based on their castes later
-            # bru = self.loc.get_upgrade_mod("room_upgrades")
-            # if bru == 3:
-                # self.txt.append("Any of your customers would be willing to chop off a finger just to spend a couple of hours in room so fine. "+ \
-                                # "The companionship that %s provides is just a bonus. \n"%self.worker.nickname)
-                # self.workermod['joy'] += choice([0,0,3])
-                # self.workermod['refinement'] += choice([0,0,0,0,3])
-                # self.payout = int(self.payout * 1.6)
-            # elif bru == 2:
-                # self.txt.append("Luxury rooms had every convenience that could possibly spice up the upcoming intercource, this was definitely a sound investment on your part. \n")
-                # self.workermod['joy'] += choice([0,0,2])
-                # self.workermod['refinement'] += choice([0,0,0,0,2])
-                # self.payout = int(self.payout * 1.3)
-            # elif bru == 1:
-                # self.txt.append("Improved rooms interior with an exotic sexual theme were much appreciated by your girl and her client. \n")
-                # self.workermod['joy'] += choice([0,0,1])
-                # self.workermod['refinement'] += choice([0,0,0,1])
-                # self.payout = int(self.payout * 1.2)
-            
-            # self.txt.append("\n")
-            
-        def guard_event(self):
-            """
-            Solves guard events for agressive clients.
-            """
-            if "Aggressive" in self.client.traits and self.loc.guardevents["prostituteattackedevents"] < int(self.loc.id * 1.5) and not dice(self.loc.security_rating/10):
-                # Relay
-                self.loc.guardevents["prostituteattackedevents"] += 1
-                self.txt.append("{color=[red]}Getting ready for some action with %s, %s became violent and threatened to beat the shit out of your girl.{/color} \n"%(self.worker.name,
-                                                                                                                                                                      self.client.pronoun.lower()))
-                
-                # If conflict is not resolved, act ends here, else act goes on to interactions.
-                # Function calls girls.remove(girl) for us. # TODO: Get Rid of this!
-                if not solve_job_guard_event(self, "whore_event", enemies=self.client):
-                    self.apply_stats()
-                    self.finish_job()
-                        
-                        
         def acts(self):
             # Pass the flags from occupation_checks:
             self.txt.append(self.worker.flag("jobs_whoreintro"))
@@ -1048,6 +952,8 @@
             tippayout = self.worker.flag("jobs_" + self.id + "_tips")
             cl_strip = 0
             cl_char = 0
+            stripskill = self.worker.get_skill("strip")
+            charisma = self.worker.charisma
             
             for c in self.clients:
                 # We get the highest skills a character has to match vs strip skill, assumption is that proffessional can appriciate another profi :)
@@ -1056,32 +962,32 @@
             cl_strip = cl_strip / len_clients
             cl_char = cl_char / len_clients
             
-            if self.worker.strip > cl_strip*1.5 and self.worker.charisma > cl_char*1.5:
+            if stripskill > cl_strip*1.5 and charisma > cl_char*1.5:
                 self.txt.append("Your girl gave a performance worthy of kings and queens as the whole hall was cheering for her. \n")
                 self.loggs('joy', 3)
-            elif cl_strip*1.3 <= self.worker.strip and cl_char*1.3 <= self.worker.charisma:
+            elif cl_strip*1.3 <= stripskill and cl_char*1.3 <= charisma:
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. \n")
                 self.loggs('joy', 2)
-            elif cl_strip*1.15 <= self.worker.strip and cl_char*1.15 <= self.worker.charisma:
+            elif cl_strip*1.15 <= stripskill and cl_char*1.15 <= charisma:
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. "+ \
                                          "Overall it was a more than decent performance.  \n")
                 self.loggs('joy', 1)
-            elif cl_strip <= self.worker.strip and cl_char <= self.worker.charisma:
+            elif cl_strip <= stripskill and cl_char <= charisma:
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, some mildly drunk clients cheered for her. Overall it was a decent performance. \n")
-            elif 0 <= self.worker.strip <= cl_strip and 0 <= self.worker.charisma <= cl_char:
+            elif 0 <= stripskill <= cl_strip and 0 <= charisma <= cl_char:
                 self.txt.append("%s certainly did not shine as she clumsily 'danced' on the floor. Neither her looks nor her skill could save the performance... "%self.worker.nickname + \
                                         "calls for a different stripper could be heard from all over the club! ")
                 self.loggs('joy', -2)
-            elif self.worker.strip < cl_strip and self.worker.charisma > cl_char:
+            elif stripskill < cl_strip and charisma > cl_char:
                 self.txt.append("Your girl tripped several times while trying to undress herself as she 'stripdanced' on the floor, noone really complained because even if her skill was inadequate, " + \
                                         "she was pretty enough to arouse most men and women in the club. Overall it was a decent performance. \n")
                 self.loggs('joy', -1)
-            elif self.worker.strip > cl_strip and self.worker.charisma < cl_char:
+            elif stripskill > cl_strip and charisma < cl_char:
                 self.txt.append("%s may not be the prettiest girl in town but noone really complained because what she lacked in looks, she made up in skill. "%self.worker.name + \
                                         "Overall it was a decent performance. \n")
                 self.loggs('joy', -1)
             else:
-                self.txt.append('Dev Note: >>>I missed something!<<< Charisma = %d, Strip = %d \n'%(self.worker.charisma, self.worker.strip))
+                self.txt.append('Dev Note: >>>I missed something!<<< Charisma = %d, Strip = %d \n'%(charisma, stripskill))
             
             self.txt.append("\n")
             
@@ -1093,13 +999,14 @@
             if dice(35):
                 self.loggs('strip', 1)
             
-            self.loggs('reputation', choice([0, 0, 0, 0, 0, 1, 0]) + int(round(0.01 * self.worker.charisma)) + int(round(0.005 * self.worker.strip)))
-            self.loggs('fame', choice([0, 0, 1, 1, 0, 0, 0]) + int(round(0.02 * self.worker.charisma)) + int(round(0.02 * self.worker.strip)))
+            self.loggs('reputation', choice([0, 0, 0, 0, 0, 1, 0]) + int(round(0.01 * charisma)) + int(round(0.005 * stripskill)))
+            self.loggs('fame', choice([0, 0, 1, 1, 0, 0, 0]) + int(round(0.02 * charisma)) + int(round(0.02 * stripskill)))
             self.loggs('agility', choice([0, 0, 0, 1]) * 1)
             self.loggs('vitality', randrange(15, 31))
             
             # Finances:
             self.worker.fin.log_tips(tippayout, "StripJob")
+            
             self.loc.fin.log_work_income(tippayout, "StripJob")
             
             # Building
@@ -1134,44 +1041,15 @@
         def __call__(self, char):
             self.worker = char
             self.loc = self.worker.home
-            
-            self.img = None
-            self.txt = list()
-            self.workermod = {}
-            self.locmod = {}
-            
-            self.check_life()
-            if not self.finished:
-                self.rest()
-                # self.trait_events()
-                self.after_rest()
+            self.rest()
+            self.after_rest()
             
         def rest(self):
             """Rests the worker.
             """
-            # If there is garden/landscape design:
-            # gbu = self.loc.get_upgrade_mod("garden")
-            # if gbu == 3:
-                # self.workermod['vitality'] += self.worker.AP * randint(9, 15)
-                # self.workermod['joy'] += self.worker.AP * randint(1, 2)
-                # self.txt.append("Breathtaking landscape design had a very positive effects on all resting girls! \n")
-                # if dice(70):
-                    # self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", "park", resize=(740, 685))
-                # else:
-                    # self.img = "rest"
-            # elif gbu == 2:
-                # self.workermod['vitality'] += self.worker.AP * randint(5, 10)
-                # self.workermod['joy'] += self.worker.AP
-                # self.txt.append("Taking a walk in the garden had a very positive effect on your girl! \n")
-                # if dice(70):
-                    # self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685))
-                # else:
-                    # self.img = "rest"
-            # else:
-                # # If there is no garden...
-                # self.img = "rest"
             # Stat Mods:
-            self.txt.append(choice(["{} is resting.".format(self.worker.name), "{} is taking a break to recover.".format(self.worker.name)]))
+            self.txt.append(choice(["{} is resting.".format(self.worker.name),
+                                                 "{} is taking a break to recover.".format(self.worker.name)]))
             
             while self.worker.AP and not all([(self.worker.vitality + self.workermod.get('vitality', 0) >= self.worker.get_max("vitality") - 50),
                                                           (self.worker.health + self.workermod.get('health', 0) >= self.worker.get_max('health') - 5)]):
@@ -1188,203 +1066,6 @@
         def is_rested(self):
             if (self.worker.vitality >= self.worker.get_max("vitality") - 50) and (self.worker.health >= self.worker.get_max('health') - 5):
                 return True
-        
-        def trait_events(self):
-            """
-            Solve events for certain traits.
-            TODO: Currently disabled due to being useless anyhow... restore when ready.
-            """
-            # Prepear the lists:
-            rgList = list(entry for entry in hero.girls if entry.location == self.loc and entry.action in ['Rest', 'AutoRest'])
-            rgList.remove(self.worker)
-            gl = rgList * 1
-            
-            evcount = 0
-            loopcount = 0
-            
-            while self.worker.traits and evcount == 0 and loopcount < 5:
-                tgl = list() # Temporary Girls List...
-                rt = choice(self.worker.traits)
-                
-                if evcount < 1: # rt = randomtrait
-                    if "Magic Gift" == rt:
-                        for girl in gl:
-                            if set(["Magic Gift" , "Magic Talent"]).intersection(girl.traits) and girl.action in ["Rest", "AutoRest"]:
-                                tgl.append(girl)
-                        
-                        if tgl:
-                            secondgirl = choice(tgl)
-                            self.txt.append("She took some time idly discussing the finer aspects of magic with %s. \n"%secondgirl.name)
-                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
-                            secondgirl.magic += choice([0, 0, 0, 1])
-                        
-                        elif dice(75) and self.loc.upgrades['garden']['2']['active']:
-                            self.txt.append("She used her day off to harvest ingredients for her spells in the garden. \n")
-                            self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685))
-                        
-                        elif self.worker.reputation > 75 and self.worker.status != "slave":
-                            self.txt.append("She decided to take a walk in the city, ending up showing magic tricks to local children. \n")
-                            self.img = self.worker.show("profile", "urban", resize=(740, 685))
-                            
-                            if dice(20):
-                                self.workermod["reputation"] += 1
-                            
-                            self.workermod["joy"] += 1
-                        
-                        else:
-                            self.txt.append("She spent her time reading her Arcane book and unfriendly staring at passersby. \n")
-                            self.img = self.worker.show("reading", resize=(740, 685))
-                        
-                        evcount += 1
-                    
-                    elif "Magic Talent" == rt:
-                        for girl in gl:
-                            if "Magic Talent" in girl.traits:
-                                tgl.append(girl)
-                        
-                        if tgl:
-                            secondgirl = choice(tgl)
-                            self.txt.append("With a little reluctance she shared a bit of her Arcane knowledge with %s in exchange for an evening dessert. \n"%secondgirl.name)
-                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
-                            secondgirl.magic += choice([0, 0, 0, 1])
-                        
-                        elif self.worker.status != 'slave' and self.loc.upgrades['garden']['2']['active']:
-                            self.txt.append("Some customer tried to get it on with her and wouldn't leave her alone as she was resting in the garden, "+ \
-                                            "until she summoned a small fireball and threatened to burn his hair. \n")
-                            self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685), type="first_default")
-                        
-                        else:
-                            self.txt.append("She spent her day in her pocket dimension with every possible comfort. \n")
-                            self.img = "rest"
-                        
-                        evcount += 1
-                    
-                    elif "Athletic" == rt:
-                        if self.worker.status != 'slave':
-                            self.txt.append("She spent her resting day on the beach taking occasional swims in the ocean. \n")
-                            self.img = self.worker.show("beach", "bikini", "topless", exclude=["sex"], resize=(740, 685))
-                            self.workermod['constitution'] += choice([0, 0, 0, 0, 1])
-                        
-                        else:
-                            self.txt.append("She spent her day off exercising, occasionally taking a break, believing that to be the best rest for her.  \n")                          
-                            self.img = self.worker.show("exercising", "sport", resize=(740, 685), type="any")
-                            self.workermod['constitution'] += choice([0, 0, 0, 0, 1])
-                        
-                        evcount += 1
-                    
-                    elif "Smart" == rt:
-                        for girl in gl:
-                            if set(["Smart" , "Genius"]).intersection(girl.traits) and girl.action in ["Rest", 'AutoRest']:
-                                tgl.append(girl)
-                        
-                        if tgl:
-                            secondgirl = choice(tgl)
-                            self.txt.append("She spent some time playing board games with %s. \n"%secondgirl.name)
-                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
-                            self.workermod['intelligence'] += choice([0, 0, 0, 0, 1])
-                            secondgirl.intelligence += choice([0, 0, 0, 0, 1])
-                        
-                        else:
-                            self.txt.append("She spent part of her rest day translating some runes from ancient looking books. \n")
-                            self.img = self.worker.show("reading", "studying", resize=(740, 685), type="any")
-                        
-                        evcount += 1    
-                    
-                    elif "Nerd" == rt:
-                        if dice(60) and self.loc.upgrades['garden']['2']['active']:
-                            self.txt.append("She used her day off trying to get some strange device in the garden to work. \n")
-                            self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685), type="first_default")
-                        
-                        else:
-                            self.txt.append("She spent all day reading books in her room. \n")
-                            self.img = self.worker.show("reading", "studying", resize=(740, 685), type="any")
-                        
-                        evcount += 1
-                    
-                    elif "Genius" == rt:
-                        for girl in gl:
-                            if set(["Smart", "Genius"]).intersection(girl.traits) and girl.action in ["Rest", 'AutoRest']:
-                                tgl.append(girl)
-                        
-                        if len(tgl) > 0:
-                            secondgirl = choice(tgl)
-                            self.txt.append("She spent some time playing board games with %s. \n"%secondgirl.name)
-                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
-                            self.workermod['intelligence'] += choice([0,0,0,0,1])
-                            secondgirl.intelligence += choice([0,0,0,0,1])
-                        
-                        else:
-                            self.txt.append("She spent part of her rest day translating some runes from ancient looking books. \n")
-                            self.img = self.worker.show("reading", "studying", resize=(740, 685))
-                        
-                        evcount += 1
-                    
-                    elif rt in ['Long legs', 'Big Boobs', 'Abnormally Large Boobs', 'Great Arse', 'Great Figure']:
-                        if self.worker.status != 'slave':
-                            self.txt.append("She spent her time enjoying sunbathing as well as receiving envious and admiring glances on a local beach. Too bad you were too busy to join her. \n")
-                            self.img = self.worker.show("beach", "bikini", "topless", exclude=["sex"], resize=(740, 685))
-                            self.workermod['reputation'] += choice([0, 0, 0, 0, 1])
-                        
-                        else:
-                            self.txt.append("She spent better part of her rest day trying to figure out how to use her heavenly body features to her advantage. \n")
-                            self.img = self.worker.show("profile", "exposed", "beauty", resize=(740, 685))
-                            if dice(10):
-                                self.workermod['charisma'] += 1
-                        
-                        evcount += 1
-                    
-                    elif "Nymphomaniac" == rt:
-                        self.workermod['libido'] += 20
-                        self.txt.append("She spent some of her day having fun with herself in her room. \n")
-                        self.img = 'mast'
-                        evcount += 1
-                    
-                    elif "Exhibitionist" == rt:
-                        if dice(70):
-                            self.txt.append("Since she is going to walk around with barely any clothes on anyway, you asked her to do it around the brothel this time. "+ \
-                                            "Free advertising is good for business, and she will have less problems with the city guards this way. \n")
-                            self.img = self.worker.show("strip", "exposed", "topless", "nude", "undress", exclude=["sex"], resize=(740, 685), type="any")
-                            
-                            if dice(10):
-                                self.workermod['strip'] += 1
-                            
-                            if dice(25):
-                                self.workermod['joy'] += 3
-                            
-                            if dice(75):
-                                self.locmod["fame"] += 1
-                            
-                            evcount += 1
-                        
-                        else:
-                            evcount += 1
-                    
-                    elif "Professional Maid" == rt:
-                        self.txt.append("Even though today is her day off, she insisted on doing some cleaning. \n")
-                        self.img = self.worker.show("cleaning", resize=(740, 685))
-                        
-                        if dice(10):
-                            self.workermod['service'] += 1
-                        
-                        self.locmod['dirt'] -= int(self.worker.serviceskill*0.2)
-                        
-                        evcount += 1
-                    
-                    loopcount += 1
-            
-            # If girl is down with cold:
-            if self.worker.effects['Down with Cold']['active']:
-                self.worker.effects['Down with Cold']['count'] += 2
-                self.txt.append("Allowing her to rest is a really good idea considering that she has a cold! \n ")
-            
-            if self.worker.effects['Food Poisoning']['active']:
-                self.worker.effects['Food Poisoning']['count'] += 2
-                self.txt.append("Allowing her to rest is a really good idea considering that she has food poisoning! \n ")
-            
-            if evcount == 0:
-                self.txt.append(choice(['%s took a break today. '%(self.worker.name),
-                                        'She spent the day relaxing. ',
-                                        '%s comfortably rested in her room. '%(self.worker.name)]))
         
         def after_rest(self):
             """
@@ -1411,11 +1092,10 @@
             """
             self.apply_stats()
             
-            # TODO: A REWRITE???? *Check if previous action is availible and act accordingly!
             if self.is_rested():
                 self.txt.append("\n\nShe is now both well rested and healthy, so she goes back to work as %s!" % self.worker.previousaction)
                 self.worker.action = self.worker.previousaction
-                self.worker.previousaction = None  # This is redundant but just in case
+                self.worker.previousaction = None
                 
                 if self.worker.autoequip:
                     # **Adapt to new code structure...
@@ -1737,8 +1417,9 @@
     
 
     class ServiceJob(NewStyleJob):
-        """
-        The class that solves Bartending, Waitressing and Cleaning.
+        """The class that solves Bartending, Waitressing and Cleaning.
+        
+        TODO: Rewrite to work with SimPy!
         """
         def __init__(self):
             """
@@ -1785,10 +1466,6 @@
             if not self.finished: self.set_task()
             # tl.timer("Setting task")
             
-            # tl.timer("Bar Brawl Event")
-            # if not self.finished: self.bar_brawl_event() TODO: Restore
-            # tl.timer("Bar Brawl Event")
-            
             # tl.timer("Bar")
             if self.task == "Bar" and not self.finished: self.bar_task()
             # tl.timer("Bar")
@@ -1831,13 +1508,12 @@
                                         "Cleaning, cooking, bartending...",
                                         "%s will clean or tend to customers next!"%self.worker.fullname]))
                 
-            if isinstance(self.txt, list): # TODO: Raised an Error
+            if isinstance(self.txt, list):
                 self.txt.append("\n")
         
         def set_task(self):
             """
             Sets the task for the girl.
-            TODO: Rewrite this whole bit!
             """
             if self.loc.servicer['second_round']:
                 if not self.worker.autocontrol['S_Tasks']['clean']:

@@ -430,9 +430,13 @@ init -9 python:
             self.daily_income_log["tips"][kind] = self.daily_income_log["tips"].get(kind, 0) + int(round(value))
             
         def log_income(self, value, kind):
+            """Logs Private Income.
+            """
             self.daily_income_log["private"][kind] = self.daily_income_log["private"].get(kind, 0) + int(round(value))
             
         def log_expense(self, value, kind):
+            """Logs private expence.
+            """
             self.daily_expense_log["private"][kind] = self.daily_expense_log["private"].get(kind, 0) + int(round(value))
             
         def log_cost(self, value, kind):
@@ -712,7 +716,7 @@ init -9 python:
 
             return 100 # int(bp + sp + ssp)
             
-        def next_day(self):    
+        def next_day(self):
             self.game_fin_log[str(day)] = (self.daily_income_log, self.daily_expense_log)
             self.daily_income_log = dict(work=dict(), tips=dict(), private=dict())
             self.daily_expense_log = dict(work=dict(), private=dict(), cost=dict())

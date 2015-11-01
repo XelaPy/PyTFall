@@ -134,7 +134,7 @@ init -9 python:
         def get_workers(self, client, amount=1):
             """This is quite possibly an overkill for this stage of the game development.
             
-            For now we just work with one clients.
+            For now we just work with one client.
             """
             workers = list()
             
@@ -144,7 +144,7 @@ init -9 python:
             priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations and i.action in self.jobs)
             for i in xrange(amount):
                 try:
-                    w = self.find_best_match(client, workers)
+                    w = self.find_best_match(client, priority)
                     if w:
                         workers.append(w)
                     else:
@@ -157,7 +157,7 @@ init -9 python:
                 anyw = list(i for i in self.instance.workers if self.all_occs & i.occupations and i.action in self.jobs)
                 for i in xrange(amount-len(workers)):
                     try:
-                        w = self.find_best_match(client, workers)
+                        w = self.find_best_match(client, anyw)
                         if w:
                             workers.append(w)
                         else:
@@ -175,13 +175,11 @@ init -9 python:
             for w in workers:
                 likes = client.likes.intersection(w.traits)
                 if likes:
-                    if len(likes) == 1:
-                        likes = likes.pop()
-                    else:
-                        likes = ", ".join(likes)
-                    temp = '{} liked {} for {}.'.format(client.name, w.nickname, likes)
-                    self.instance.log(temp)
+                    slikes = ", ".join([str(l) for l in likes])
+                    temp = '{} liked {} for {}.'.format(client.name, w.nickname, slikes)
+                    self.log(temp)
                     worker = w
+                    client.set_flag("jobs_matched_traits", likes)
                     break
             return worker
             

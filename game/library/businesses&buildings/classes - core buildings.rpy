@@ -13,7 +13,6 @@ init -9 python:
     #
     """
     Core order for SimPy jobs loop:
-    TODO: See if anything deletes flags that start with jobs_ from workers, if not, add it.
     
     BUILDING:
         # Holds Businesses and data/properties required for operation.
