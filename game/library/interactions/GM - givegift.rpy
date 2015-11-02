@@ -2,7 +2,7 @@ label interactions_badgift:
     $ char.override_portrait("portrait", "sad")
     if ct("Impersonal"):
         $rc("I don't need it.", "Can I return it later?", "What's it for?")
-    elif ct("Shy") and dice(30):
+    elif ct("Shy") and dice(50):
         $rc("But ... what?... <sigh>", "It's ... for me? ... <she looks sad>", "<She takes it, but there are tears in her eyes>")
     elif ct("Tsundere"):
         $rc("Hmph! What an idiot!", "Whaaat? What am I supposed to do with this?!", "How stupid are you?! <she looks ready to throw it at you>")
@@ -29,7 +29,7 @@ label interactions_goodgift:
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $rc("Don't mind if I do.", "Thank you. I'll take it.", "I suddenly feel better now.", "I'll take that off your hands, if you don't mind.")
-    elif ct("Shy") and dice(30):
+    elif ct("Shy") and dice(50):
         $ rc("Oh... th-thank you.", "Er, um... Thank you!", "<Blush> Is it ok if I take this?...", "That's ... very nice.")
     elif ct("Tsundere"):
         $rc("What's this? To do something for someone like me... A-alright then.", "I was just thinking that I wanted one of these.", "Isn't this... too fancy for me?", "Hmm? Not bad. Thank you.",)
@@ -56,8 +56,8 @@ label interactions_perfectgift:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("You really know what I like, don't you?", "It's incredible. Thank you.", "It ... it's perfect.")
-    elif ct("Shy"):
-        $rc("Oh!! ... A-amazing!.", "<Blush> Is it alright if I have something this incredible?...", "Waaaa!? Is it worth it? .... Giving me something this valuable?")
+    elif ct("Shy") and dice(50):
+        $rc("Oh!! ... A-amazing!", "<Blush> Is it alright if I have something this incredible?...", "Waaaa!? Is it worth it? .... Giving me something this valuable?")
     elif ct("Tsundere"):
         $rc("I-if you keep giving me things like this ... <she's blushing>", "Am I really that special to you? ... I see <her face is completely red>", "I-it's not like I like it a lot!")
     elif ct("Kuudere"):
@@ -79,14 +79,35 @@ label interactions_perfectgift:
     
     if check_lovers(char, hero) and ct("Nymphomaniac"):
         g "I think you deserve a reward."
-        $gm.generate_img("blowjob", "partner hidden", "simple bg", type="first_default")
+        $gm.generate_img("blowjob", "partner hidden", "simple bg", type="reduce")
         $ g("Did you like it? ♥")
     $ char.restore_portrait()
     jump girl_interactions
     
 label interactions_refusegift:
     $ char.override_portrait("portrait", "angry")
-    $ rc("I don't want another one of these!", "Didn't you give me a {} not so long ago?".format(item.id))
+    if ct("Impersonal"):
+        $rc("This particular item is not required at the moment.", "I have one of these already.")
+    elif ct("Shy") and dice(50):
+        $rc("Um... I-I think you gave it to me already...", "It's... I already have one, sorry...")
+    elif ct("Tsundere"):
+        $rc("As expected from an idiot like you.", "Again? Really? What's wrong with your head?")
+    elif ct("Kuudere"):
+        $rc("What do you think you doing? You already gave it.", "Stop it. I have this already.")
+    elif ct("Yandere"):
+        $rc("Don't you remember? I have this already.", "Huh? You want to give me this again?")
+    elif ct("Dandere"):
+        $rc("Again?..", "One more? Why?")
+    elif ct("Ane"):
+        $rc("I appreciate the thought, but giving the same gift again and again is not a good idea.", "Oh, but I have this already. Don't you remember?")
+    elif ct("Imouto"):
+        $rc("Wha? I have it already!", "Ugh. I have this already. Boring!")
+    elif ct("Kamidere"):
+        $rc("You can't remember something so simple? Pathetic.", "Pfft. Naturally, I have no need for another one of these.")
+    elif ct("Bokukko"):
+        $rc("Man, really? Another one of these?", "Another one? Do you have a collection or something?")
+    else:
+        $rc("Sorry, I don't want another one of these.", "Didn't you give me it not so long ago?")
     $ char.restore_portrait()
-    $ char.disposition -= 25
+    $ char.disposition -= 10
     jump girl_interactions
