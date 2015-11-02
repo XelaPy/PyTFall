@@ -93,12 +93,12 @@ init python:
                 else:
                     self.girl.mod(stat, self.girlmod[stat])
             
-            evt = Event()
+            evt = NDEvent()
             # evt.red_flag = self.flag_red
             # evt.green_flag = self.flag_green
-            evt.girlmod = self.girlmod
+            evt.charmod = self.girlmod
             evt.type = 'fg_job'
-            evt.girl = self.girl
+            evt.char = self.girl
             self.loc = fg
             evt.img = self.img
             evt.txt = "".join(self.txt)
@@ -220,10 +220,10 @@ init python:
                 else:
                     self.girl.mod(stat, self.girlmod[stat])
             
-            evt = Event()
-            evt.girlmod = self.girlmod
+            evt = NDEvent()
+            evt.charmod = self.girlmod
             evt.type = 'fg_job'
-            evt.girl = self.girl
+            evt.char = self.girl
             self.loc = fg
             evt.img = self.img
             evt.txt = "".join(self.txt)
@@ -663,12 +663,12 @@ init python:
                 fg.flag_red = True
             
             # Create the event:
-            evt = Event()
+            evt = NDEvent()
             evt.red_flag = self.flag_red
             evt.green_flag = self.flag_green
-            evt.girlmod = self.stats
+            evt.charmod = self.stats
             evt.type = 'exploration_report'
-            evt.girl = None
+            evt.char = None
             self.loc = fg
             # evt.img = self.area.img <-- Old style
             

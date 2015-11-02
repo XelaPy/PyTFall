@@ -11,6 +11,118 @@ init -9 python:
     # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
+    """
+    Core order for SimPy jobs loop:
+    
+    BUILDING:
+        # Holds Businesses and data/properties required for operation.
+        run_nd():
+            # Setups and starts the simulation.
+            *Generates Clients if required.
+            *Builds workers list.
+            *Logs the init data to the building.
+            *Runs pre_day for all updates.
+            *Creates SimPy Envoronment and runs it (run_jobs being the main controlling process)
+            *Runs the post_nd.
+            
+        run_jobs():
+            # Main controller for all businesses.
+            *Builds a list of all workable business.
+            *Adds run_job for all public_service businesses to Env
+            *Adds a steady/conditioned stream of clients to the appropriate businesses and manages them:
+                TODO: Management of clients in case of lack of the capacity needs to be added there and to child checkups:
+                *Personal Service:
+                    - Finds best client match using update.get_workers() TODO: Make sure direct action assignments to the girl are also being checks or prevent such assignments from happening in the interface.
+                    - Checks if a char is capable TODO: Should be a part of get_workers?
+                    - Checks if a char is willing  TODO: Should be a part of get_workers?
+                    - Runs the job using: self.env.process(upgrade.request(client, char)) TODO: Rename appropriately.
+                    
+                *Public Service:
+                    - Simply sends client to business.
+                    - Sends in Workers to serve/entertain the clients.
+                    
+                *Kicks clients if nothing could be arranged for them.
+                    
+    BUSINESS: (aka Upgrade)
+        # Hold all data/methods required for business to operate.
+        TODO: all_occs should return a constant instead of creating a set every time they are called.
+        TODO: Businesses or Building should control clients that wish to remain for moar action.
+        *workers = On duty characters
+        *habitabe/workable = selfexplanotory
+        *clients = clients used locally (maybe useful only for the public service?)
+        *capacity = cap of the building such as amount of rooms/workspace
+        *jobs = only for businesses
+        
+        SimPy Stuff:
+            *res = Resource
+            *time = cycle TODO: Prolly should be controled by the manager
+            *is_running = May be useless
+        
+        *Personal Service:
+            *find_best_match = finds a best client/worker combination.
+            *request:
+                - requests a room for worker/client. TODO: should be renamed accordingly
+                - adds a run_job process to Env
+                - logs it all to main log
+            *run_job:
+                TODO: This may not be required together with request...
+                - Waits for self.time delay
+                - Calls the job so it can form an NDEvent
+                - Manages workers
+        
+        *Public Service:
+            TODO: Concider that run_job/use_worker may not overlap in times which can cause lack of earnings/tips.
+            *active_workers = Does this not simply double the normal workers? TODO: Find out.
+            *request = plainly adds a client and keeps it in the business based on "ready_to_leave" flag set directly to the client.
+            *send_in_workers:
+                # Adds workers to business to serve clients.
+                # TODO: This should also check for life/health/Ap and etc.
+                # TODO: This should also attempt to get the best worker trying to match occs perfectly! before falling back to other occs
+                - Checks willingness to do the job.
+                - Adds workers as required.
+                - self.env.process(self.use_worker(worker)) Possible the most important part, this adds a process to Env.
+                - Removes from general instance workers list in order to reserve the worker for this business
+            *run_job:
+                # main method/SimPy event that manages the job from start to end.
+                - Runs for as long there are active workers
+                - Waits for self.time delay
+                - Manages clients in the business
+                - Calculates amount of earnings! Tips are being calced in use_worker!
+                TODO: Seems that atm this just calcs the earning and waits for delays, it should be restructured appropriately and possibly merged with other methods.
+            *use_worker:
+                # Env Process, manages each individual worker.
+                - Runs while there are clients and worker has AP in self.time delays.
+                - Logs all active clients as flags to a worker.
+                - Logs tips to the worker.
+                - Runs the Job once AP had been exhausted or there are no more clients availible.
+                - Removes the worker from active workers # TODO: Might be a good idea to move the worker back to self.instance_workers in case update simply ran out of clients.
+    
+    NewStyleJob:
+        # Classes that hold funcitons and some default data.
+        # We keep one instance of a job for the whole game whenever possible.
+        *workermod = Any Stats/Skills changed during this Jobs execution
+        *locmod = Same for the Building
+        *occupations = Base occs like SIW/Server
+        *occupation_traits = Direct Traits of chars that would be willing to do this job (currently we just use basetraits)
+        
+        *__call__ = Executes the job to do whatever it is supposed to.
+        *reset = Resets the base properties for the job
+        *all_occs = set(self.occupations + self.occupation_traits) # TODO: Should be a contant, no point in rebuilding the set every time.
+        *get_clients = Returns the amount of clients required to properly run this job, not used afaik
+        *get_upgrade = Business active atm, Not used and will prolly never be used: TODO: Confirm and remove.
+        *create_event = Creates an event for the next day that will hold all the data required to display in reports.
+        **check_occupation = ***Very important one, checks if the worker if willing to do the job.
+        *check_life = Not used atm. TODO: Confirm and remove!
+        **apply_stats = Applies Stats and Skills and Building mods accordingly.
+        *auto_clean = Automatically cleans the building for a fee: TODO: May No longer be useful!
+            - checks if the building is dirty enough.
+        *check_dirt = TODO: May no longer be useful, should be a part of Building management run!
+        *loggs/logloc = Cool way to log the required stats to worker/building in order to have them applied later.
+        **finish_job = Another really important one, this:
+            - Creates the NDEvent
+            - Resets the Job
+    """
+    
     class BaseBuilding(Location, Flags):
         """The super class for all Building logic.
         """
@@ -424,9 +536,7 @@ init -9 python:
             tl.timer("Temp Jobs Loop")
             # Setup and start the simulation
             self.flag_red = False
-            # self.clients = nd_clients
             
-            self.log("\n\n")
             self.log(set_font_color("===================", "lawngreen"))
             self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
             self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
@@ -604,7 +714,6 @@ init -9 python:
                 # Take an action!
                 shuffle(self.nd_ups)
                 for upgrade in self.nd_ups:
-                    # TODO: Brothel block check needs to be worked out of here.
                     if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
                         # Assumes a single worker at this stage... This part if for upgrades like Building.
                         char = None
@@ -616,33 +725,28 @@ init -9 python:
                             if not char:
                                 break
                            
-                            # if char.action != simple_jobs["Whore Job"]:
-                                # raise Exception(char.action)
                             # First check is the char is still well and ready:
                             if not check_char(char):
                                 if char in self.workers:
                                     self.workers.remove(char)
-                                temp = set_font_color('{} is done with this job for the day.'.format(char.name), "aliceblue")
+                                temp = set_font_color('{} is done working for the day.'.format(char.name), "aliceblue")
                                 self.log(temp)
                                 continue
                             
                             # We to make sure that the girl is willing to do the job:
                             # Same as with the job, it's not a good idea to check char.action here:
                             # if not char.action.check_occupation(char):
-                            if not upgrade.job.check_occupation(char):
+                            job = upgrade.job
+                            if not job.check_occupation(char):
                                 if char in self.workers:
                                     self.workers.remove(char)
-                                temp = set_font_color('{} is not willing to do {}.'.format(char.name, random.sample(upgrade.jobs, 1).pop().id), "red")
+                                temp = set_font_color('{} is not willing to do {}.'.format(char.name, job.id), "red")
                                 self.log(temp)
                                 continue
                                 
-                            # else:
-                                # if config.debug:
-                                    # temp = set_font_color('Debug: {} char with action: {} made it this far due to bad coding.'.format(char.name, char.action), "red")
-                                    # self.log(temp)
-                                # if char in self.workers:
-                                    # self.workers.remove(char)
-                                # continue
+                            if config.debug:
+                                temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} is doing {}.'.format(char.nickname, ", ".join(list(str(t) for t in char.occupations)), char.action, job.id), "lawngreen")
+                                self.log(temp)
                             
                             break # Breaks the while loop.
                     

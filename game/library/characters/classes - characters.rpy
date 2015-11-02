@@ -7,9 +7,9 @@ init -9 python:
         Prevents removal when unequipping items and/or other types of ralated errors/bugs.
         """
         def __init__(self, instance, be_skill=True):
-            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker()
+            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
             self.normal = set() # Normal we concider anything that's been applied by normal game operations like events, loading routines and etc.
-            self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing.
+            self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             
         def set_instance(self, instance):
@@ -430,9 +430,13 @@ init -9 python:
             self.daily_income_log["tips"][kind] = self.daily_income_log["tips"].get(kind, 0) + int(round(value))
             
         def log_income(self, value, kind):
+            """Logs Private Income.
+            """
             self.daily_income_log["private"][kind] = self.daily_income_log["private"].get(kind, 0) + int(round(value))
             
         def log_expense(self, value, kind):
+            """Logs private expence.
+            """
             self.daily_expense_log["private"][kind] = self.daily_expense_log["private"].get(kind, 0) + int(round(value))
             
         def log_cost(self, value, kind):
@@ -712,7 +716,7 @@ init -9 python:
 
             return 100 # int(bp + sp + ssp)
             
-        def next_day(self):    
+        def next_day(self):
             self.game_fin_log[str(day)] = (self.daily_income_log, self.daily_expense_log)
             self.daily_income_log = dict(work=dict(), tips=dict(), private=dict())
             self.daily_expense_log = dict(work=dict(), private=dict(), cost=dict())
@@ -2823,11 +2827,11 @@ init -9 python:
                     
             # ------------
             # Create the event:        
-            evt = Event()
+            evt = NDEvent()
             evt.red_flag = flag_red
-            evt.girlmod = statmod
+            evt.charmod = statmod
             evt.type = 'mcndreport'
-            evt.girl = self
+            evt.char = self
             evt.img = img
             evt.txt = txt
             NextDayList.append(evt)
@@ -3956,11 +3960,11 @@ init -9 python:
                 txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
                 
                 # Create the event:
-                evt = Event()
+                evt = NDEvent()
                 evt.red_flag = flag_red
-                evt.girlmod = girlmod
+                evt.charmod = girlmod
                 evt.type = 'girlndreport'
-                evt.girl = self
+                evt.char = self
                 evt.img = img
                 evt.txt = txt
                 NextDayList.append(evt)

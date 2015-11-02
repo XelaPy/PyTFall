@@ -1,0 +1,562 @@
+# Old Code that may not be immidiatly useful any longer but can still be used for referencing or in future development.    class NextGenWhoreJob(Job):
+        """
+        The class that solves whoring jobs.
+        @ Abandoned until 1.0 due to complexity of adding new content.
+        """
+        def __init__(self):
+            """
+            Creates a new WhoreJob.
+            worker = The worker this job is for.
+            client = The client this worker is servicing.
+            loc = The brothel this worker is in.
+            workers = The list of workers this worker is in.
+            clients = The list of clients this client is in.
+            """
+            super(WhoreJob, self).__init__()
+            self.id = "Whore Job"
+            
+            # Traits/Job-types associated with this job:
+            self.occupations = list() # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Prostitute"]] # Corresponing traits...
+            
+            # TODO: Rewrite for skills? Or simply leave it like this and add skills with a check in this dict...
+            self.workermod = {}
+            
+            self.locmod = 0
+            
+        def __call__(self):
+            self.reset()
+            
+            self.event_type = "jobreport"
+            self.worker, self.client, self.loc = store.char, store.clients.pop(), store.char.location
+            self.workermod, self.locmod = {}, {}
+            self.skill = None
+            
+            # if not self.finished: self.check_injury()
+            # if not self.finished: self.check_vitality()
+            
+            # Returning client to the list if girl wasn't actually availible TODO:
+            # if self.finished:
+                # self.client.traitmatched = False
+                # self.clients.append(client)
+                # return
+            
+            # if self.check_dirt(): TODO:
+                # global stop_whore_job
+                # stop_whore_job = True
+            
+            if not self.finished: self.check_occupation()
+            
+            # AP cost of the job if all checks for refusals have failed.
+            if not self.finished:
+                self.worker.AP -= 1
+                self.payout_mod()
+            
+            # if not self.finished: self.guard_event()
+            
+            if not self.finished: self.acts()
+        
+        def check_rank(self):
+            """
+            @Review: We are disabling ranks until better times :)
+            Checks the whore rank against the client rank.
+            """
+            if self.worker.rank < self.client.rank - 2 and self.worker.status == 'free':
+                self.txt.append("The customer quickly realized that %s was too poor of a whore rank to bother with her, "%self.worker.name + \
+                                "%s pushed her out of the way as if she was not even there and left pissed at the establishment... \n"%self.client.pronoun)
+                
+                self.txt.append("You should not forget that people in PyTFall take prostitute ranks very seriously and all workers who choose that lifestyle or were forced into it, "+ \
+                                "should strive to improve rank. Being told that she was not good enough is not likely to increase your workers happiness... ")
+                
+                self.locmod['reputation'] -= (randint(1, 5) + self.client.rank)
+                self.workermod['joy'] -= randint(4, 10)
+                
+                self.img = self.worker.show("profile", "sad", resize=(740, 685))
+                
+                self.apply_stats()
+                self.finish_job()
+                return
+            
+            elif self.client.rank < self.worker.rank - 2 and self.worker.status != 'slave':
+                self.txt.append("This customer of yours can go to hell! %s is not worthy of even kissing my feet!  \n"%self.client.pronoun)
+                self.txt.append("Even if an event like this was to damage your brothels reputation, such damage would be insignificant because noone would want to brag about a girl refusing them. \n")
+                
+                self.locmod['reputation'] -= randint(0, 1)
+                
+                self.img = self.worker.show("profile", "angry", resize=(740, 685))
+                
+                self.apply_stats()
+                self.finish_job()
+                return
+            
+            elif self.client.rank < self.worker.rank - 2 and self.worker.status == 'slave':
+                self.txt.append("%s didn't want to fuck someone so far below her own hard earned rank, but slaves have little choice...' "%self.worker.name)
+                self.workermod['joy'] -= 10
+        
+        def check_occupation(self):
+            """
+            Checks the workers occupation.
+            # TODO: We need to check this when assigning to Job! Not during it!
+            # Still, we'll check this...
+            """
+            if [t for t in self.occupation_traits if t in self.worker.occupations]:
+                if self.worker.status != 'slave' and self.worker.disposition > 900:
+                    self.txt.append("%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % self.worker.nickname)
+                    self.loggs('disposition', -randint(10, 30))
+                
+                elif self.worker.status != 'slave':
+                    self.txt.append(choice(["%s: I am not some cheap whore that will do whatever you please! Find someone else for this debauchery! " % self.worker.nickname,
+                                                         "Don't be absurd, I am not fucking anyone for you!"]))
+                    
+                    self.loggs('disposition', -50)
+                    self.img = self.worker.show("profile", "angry", resize=(740, 685))
+                    self.worker.action = None
+                    
+                    self.apply_stats()
+                    self.finish_job()
+                    return
+                
+                else:
+                    self.txt.append(choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % self.worker.name,
+                                                         "She'll do as she is told, doesn't mean that she'll be happy about.",
+                                                         "%s will do as you command but you cannot expect her to enjoy this..." % self.worker.fullname]))
+                    
+                    self.loggs('joy', -randint(1, 3))
+            
+            else:
+                self.txt.append(choice(["{} is doing her shift as Prostitute!".format(self.worker.name),
+                                                     "%s does her shift as a Prostitute!" % self.worker.fullname,
+                                                     "{color=[red]}Whore?{/color} WTF?? I am a {color=[pink]}Fancy Girl!!!{/color}"]))
+            
+            self.txt.append("\n\n")
+        
+        # I need to rebuild relay so it makes more sense and then rewrite this method
+        # Doing it now :)
+        def payout_mod(self):
+            # No matched traits
+            self.payout = 1
+            
+            if not self.client.traitmatched:
+                if self.client.favtraits:
+                    self.txt.append("%s came to the %s looking for a girl with a %s traits but didn't find one so %s picked %s randomly. \n"%(self.client.caste,
+                                                                                                                                                                                                                  self.loc.name, ", ".join(self.client.favtraits),
+                                                                                                                                                                                                                  self.client.pronoun.lower(),
+                                                                                                                                                                                                                  self.worker.fullname))
+                else:
+                    self.txt.append("%s came to the %s brothel. Not wanting any kind of girl in particular %s went for %s. \n"%(self.client.caste,
+                                                                                                                                self.loc.name,
+                                                                                                                                self.client.pronoun.lower(),
+                                                                                                                                self.worker.name))
+            else:
+                self.txt.append("%s came into %s and was looking for a girl with %s traits so %s went straight for %s. \n"%(self.client.caste,
+                                                                                                                            self.loc.name,
+                                                                                                                            ", ".join(self.client.favtraits),
+                                                                                                                            self.client.pronoun.lower(),
+                                                                                                                            self.worker.name))
+                self.payout = int(self.payout * 1.3)
+            
+            # Building room upgrades modifiers, simple version for now
+            # Might have to be improved to match customers expectations based on their castes later
+            # bru = self.loc.get_upgrade_mod("room_upgrades")
+            # if bru == 3:
+                # self.txt.append("Any of your customers would be willing to chop off a finger just to spend a couple of hours in room so fine. "+ \
+                                # "The companionship that %s provides is just a bonus. \n"%self.worker.nickname)
+                # self.workermod['joy'] += choice([0,0,3])
+                # self.workermod['refinement'] += choice([0,0,0,0,3])
+                # self.payout = int(self.payout * 1.6)
+            # elif bru == 2:
+                # self.txt.append("Luxury rooms had every convenience that could possibly spice up the upcoming intercource, this was definitely a sound investment on your part. \n")
+                # self.workermod['joy'] += choice([0,0,2])
+                # self.workermod['refinement'] += choice([0,0,0,0,2])
+                # self.payout = int(self.payout * 1.3)
+            # elif bru == 1:
+                # self.txt.append("Improved rooms interior with an exotic sexual theme were much appreciated by your girl and her client. \n")
+                # self.workermod['joy'] += choice([0,0,1])
+                # self.workermod['refinement'] += choice([0,0,0,1])
+                # self.payout = int(self.payout * 1.2)
+            
+            self.txt.append("\n")
+            
+            # Statisfaction is determined by dividing total satisfaction by the number of strippers.
+            # Can run high since strippers can go more than for one round a day but that shouldn't be a problem or can be balanced out later.
+            # if self.client.seenstrip:
+                # satisfaction = self.client.stripsatisfaction / self.loc.servicer['strippers']
+                # if satisfaction <= 0:
+                    # self.txt.append('Customer seemed really put off by an earlier stripper performance, this will cost you a lot of income, consider doing something about your strippers! \n ')
+                    # self.payout = int(self.payout*0.5)
+                # elif satisfaction <= 25:
+                    # self.client.libido -= 80 
+                    # self.txt.append("Client is in a bad mood due to a strippers poor performance in your club! This will cost you some income. \n")
+                    # self.payout = int(self.payout*0.7)
+                # elif satisfaction <= 50:
+                    # self.txt.append("Client is definitely not disappointed with the strippers performance in your club! This means a bit of extra income for you. \n")
+                    # self.payout = int(self.payout*1.1)
+                # elif satisfaction <= 75:
+                    # self.txt.append("Client was really pleased with the strippers performance in the club and craving for a good fuck as a result! This means extra income for you. \n")
+                    # self.payout = int(self.payout*1.2) 
+                # elif satisfaction <= 100:
+                    # self.txt.append("Customer was crazed with passion after seeing the most amazing stripper performance in your club! This means a lot of extra income for you. \n")
+                    # self.payout = int(self.payout*1.5)
+                # self.txt.append("\n")
+        
+        def guard_event(self):
+            """
+            Solves guard events for agressive clients.
+            """
+            if "Aggressive" in self.client.traits and self.loc.guardevents["prostituteattackedevents"] < int(self.loc.id * 1.5) and not dice(self.loc.security_rating/10):
+                # Relay
+                self.loc.guardevents["prostituteattackedevents"] += 1
+                self.txt.append("{color=[red]}Getting ready for some action with %s, %s became violent and threatened to beat the shit out of your girl.{/color} \n"%(self.worker.name,
+                                                                                                                                                                      self.client.pronoun.lower()))
+                
+                # If conflict is not resolved, act ends here, else act goes on to interactions.
+                # Function calls girls.remove(girl) for us. # TODO: Get Rid of this!
+                if not solve_job_guard_event(self, "whore_event", enemies=self.client):
+                    self.apply_stats()
+                    self.finish_job()
+        
+        def acts(self):
+            """Solves the sexual acts performed by the worker.
+            """
+            # Get the unique sex case
+            if self.client.act in pytWhoringActs: act = pytWhoringActs[self.client.act].for_girl(self.worker)
+            else: act = pytWhoringActs["sex"].for_girl(self.worker)
+            
+            # Act text and image
+            if act.has_preface: self.txt.append(act.get_preface())
+            self.txt.append(act.get_text())
+            self.img = act.get_image()
+            
+            # Virginity checks
+            if act.is_vaginal and "Virgin" in self.worker.traits:
+                tips = self.worker.charisma * 10
+                self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} The customer thought it was super hot so he left a tip of {color=[gold]}%d Gold{/color}.\n\n"%(self.worker.nickname, tips))
+                self.worker.remove_trait(traits["Virgin"])
+                self.worker.fin.log_tips(tips, "WhoreJob")
+                self.loc.fin.log_work_income(tips, "WhoreJob")
+            
+            else:
+                self.txt.append("\n")
+            
+            # Skill
+            t, m = act.get_skill()
+            self.txt.append(t + "\n")
+            self.loggs("exp", randint(15, 25))
+            self.loggs("joy", m)
+            
+            # Improvement:
+            sexmod = 1 if dice(20) else 0
+            constmod = 1 if dice(12) else 0
+            # TODO: Rewrite to work with skillz!
+            self.loggs("normalsex", sexmod)
+            self.loggs("constitution", constmod)
+            self.loggs("vitality", -randint(18, 28))
+            
+            if sexmod + constmod > 0:
+                self.txt.append("\n%s feels like she learned something! \n"%self.worker.name)
+                self.loggs("joy", 1)
+            
+            # Dirt:
+            self.logloc("dirt", randint(2, 5))
+            
+            # Log income for girl and MC:
+            self.txt.append("{color=[gold]}\nA total of %d Gold was earned!{/color}"%self.payout)
+            self.worker.fin.log_wage(self.payout, "WhoreJob")
+            self.loc.fin.log_work_income(self.payout, "WhoreJob")
+            
+            self.apply_stats()
+            self.finish_job()
+        
+            
+    class NewStyleJob(Job):
+        # Whole Job:
+        def check_rank(self):
+            """
+            @Review: We are disabling ranks until better times :)
+            Checks the whore rank against the client rank.
+            """
+            if self.char.rank < self.client.rank - 2 and self.char.status == 'free':
+                self.txt.append("The customer quickly realized that %s was too poor of a whore rank to bother with her, "%self.char.name + \
+                                "%s pushed her out of the way as if she was not even there and left pissed at the establishment... \n"%self.client.pronoun)
+                
+                self.txt.append("You should not forget that people in PyTFall take prostitute ranks very seriously and all workers who choose that lifestyle or were forced into it, "+ \
+                                "should strive to improve rank. Being told that she was not good enough is not likely to increase your girls happiness... ")
+                
+                self.locmod['reputation'] -= (randint(1, 5) + self.client.rank)
+                self.workermod['joy'] -= randint(4, 10)
+                
+                self.img = self.char.show("profile", "sad", resize=(740, 685))
+                
+                self.apply_stats()
+                self.finish_job()
+                return
+            
+            elif self.client.rank < self.char.rank - 2 and self.char.status != 'slave':
+                self.txt.append("This customer of yours can go to hell! %s is not worthy of even kissing my feet!  \n"%self.client.pronoun)
+                self.txt.append("Even if an event like this was to damage your brothels reputation, such damage would be insignificant because noone would want to brag about a girl refusing them. \n")
+                
+                self.locmod['reputation'] -= randint(0, 1)
+                
+                self.img = self.char.show("profile", "angry", resize=(740, 685))
+                
+                self.apply_stats()
+                self.finish_job()
+                return
+            
+            elif self.client.rank < self.char.rank - 2 and self.char.status == 'slave':
+                self.txt.append("%s didn't want to fuck someone so far below her own hard earned rank, but slaves have little choice...' "%self.char.name)
+                self.workermod['joy'] -= 10
+                
+        def guard_event(self):
+            """
+            Solves guard events for agressive clients.
+            """
+            if "Aggressive" in self.client.traits and self.loc.guardevents["prostituteattackedevents"] < int(self.loc.id * 1.5) and not dice(self.loc.security_rating/10):
+                # Relay
+                self.loc.guardevents["prostituteattackedevents"] += 1
+                self.txt.append("{color=[red]}Getting ready for some action with %s, %s became violent and threatened to beat the shit out of your girl.{/color} \n"%(self.worker.name,
+                                                                                                                                                                      self.client.pronoun.lower()))
+                
+                # If conflict is not resolved, act ends here, else act goes on to interactions.
+                # Function calls girls.remove(girl) for us. # TODO: Get Rid of this!
+                if not solve_job_guard_event(self, "whore_event", enemies=self.client):
+                    self.apply_stats()
+                    self.finish_job()
+                    
+        def auto_clean(self):
+            """
+            Auto cleans the building if needed.
+            """
+            if isinstance(self.loc, DirtyBuilding):
+                if self.loc.auto_clean and self.loc.get_dirt_percentage()[0] > 80:
+                    price = self.loc.get_cleaning_price()
+                    if hero.take_money(price, reason="Pro-Cleaning"):
+                        self.loc.fin.log_expense(price, "Pro-Cleaning")
+                        self.loc.dirt = 0
+                        self.txt.append("Cleaners were hired to tidy up your building. Cost: {color=[gold]} %s Gold.{/color}\n\n"%price)
+                    
+                    else:
+                        self.txt.append("You did not have enough funds to pay for the professional cleaning service (%d Gold).\n\n"%price)
+        
+        def check_dirt(self):
+            """
+            Checks the dirt for the building and reports it.
+            """
+            if isinstance(self.loc, DirtyBuilding):
+                if self.loc.get_dirt_percentage()[0] > 80:
+                    self.txt.append(choice(["Your building looks like a pigstall, fix this or keep losing your clients!",
+                                                         "Your building is to dirty to do business!",
+                                                         "Clean your damn establishment or keep losing money and rep!"]))
+                    
+                    if dice(self.loc.get_dirt_percentage()[0]):
+                        self.locmod["reputation"] -= randint(2, 5)
+                    
+                    self.apply_stats()
+                    self.img = self.worker.show("profile", "angry", resize=(740, 685))
+                    self.finish_job()
+                    
+                    return True
+                
+                else:
+                    return False
+            
+            else:
+                return False
+                
+        # REST JOB:
+        def trait_events(self):
+            """
+            Solve events for certain traits.
+            TODO: Currently disabled due to being useless anyhow... restore when ready.
+            """
+            # Prepear the lists:
+            rgList = list(entry for entry in hero.girls if entry.location == self.loc and entry.action in ['Rest', 'AutoRest'])
+            rgList.remove(self.worker)
+            gl = rgList * 1
+            
+            evcount = 0
+            loopcount = 0
+            
+            while self.worker.traits and evcount == 0 and loopcount < 5:
+                tgl = list() # Temporary Girls List...
+                rt = choice(self.worker.traits)
+                
+                if evcount < 1: # rt = randomtrait
+                    if "Magic Gift" == rt:
+                        for girl in gl:
+                            if set(["Magic Gift" , "Magic Talent"]).intersection(girl.traits) and girl.action in ["Rest", "AutoRest"]:
+                                tgl.append(girl)
+                        
+                        if tgl:
+                            secondgirl = choice(tgl)
+                            self.txt.append("She took some time idly discussing the finer aspects of magic with %s. \n"%secondgirl.name)
+                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
+                            secondgirl.magic += choice([0, 0, 0, 1])
+                        
+                        elif dice(75) and self.loc.upgrades['garden']['2']['active']:
+                            self.txt.append("She used her day off to harvest ingredients for her spells in the garden. \n")
+                            self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685))
+                        
+                        elif self.worker.reputation > 75 and self.worker.status != "slave":
+                            self.txt.append("She decided to take a walk in the city, ending up showing magic tricks to local children. \n")
+                            self.img = self.worker.show("profile", "urban", resize=(740, 685))
+                            
+                            if dice(20):
+                                self.workermod["reputation"] += 1
+                            
+                            self.workermod["joy"] += 1
+                        
+                        else:
+                            self.txt.append("She spent her time reading her Arcane book and unfriendly staring at passersby. \n")
+                            self.img = self.worker.show("reading", resize=(740, 685))
+                        
+                        evcount += 1
+                    
+                    elif "Magic Talent" == rt:
+                        for girl in gl:
+                            if "Magic Talent" in girl.traits:
+                                tgl.append(girl)
+                        
+                        if tgl:
+                            secondgirl = choice(tgl)
+                            self.txt.append("With a little reluctance she shared a bit of her Arcane knowledge with %s in exchange for an evening dessert. \n"%secondgirl.name)
+                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
+                            secondgirl.magic += choice([0, 0, 0, 1])
+                        
+                        elif self.worker.status != 'slave' and self.loc.upgrades['garden']['2']['active']:
+                            self.txt.append("Some customer tried to get it on with her and wouldn't leave her alone as she was resting in the garden, "+ \
+                                            "until she summoned a small fireball and threatened to burn his hair. \n")
+                            self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685), type="first_default")
+                        
+                        else:
+                            self.txt.append("She spent her day in her pocket dimension with every possible comfort. \n")
+                            self.img = "rest"
+                        
+                        evcount += 1
+                    
+                    elif "Athletic" == rt:
+                        if self.worker.status != 'slave':
+                            self.txt.append("She spent her resting day on the beach taking occasional swims in the ocean. \n")
+                            self.img = self.worker.show("beach", "bikini", "topless", exclude=["sex"], resize=(740, 685))
+                            self.workermod['constitution'] += choice([0, 0, 0, 0, 1])
+                        
+                        else:
+                            self.txt.append("She spent her day off exercising, occasionally taking a break, believing that to be the best rest for her.  \n")                          
+                            self.img = self.worker.show("exercising", "sport", resize=(740, 685), type="any")
+                            self.workermod['constitution'] += choice([0, 0, 0, 0, 1])
+                        
+                        evcount += 1
+                    
+                    elif "Smart" == rt:
+                        for girl in gl:
+                            if set(["Smart" , "Genius"]).intersection(girl.traits) and girl.action in ["Rest", 'AutoRest']:
+                                tgl.append(girl)
+                        
+                        if tgl:
+                            secondgirl = choice(tgl)
+                            self.txt.append("She spent some time playing board games with %s. \n"%secondgirl.name)
+                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
+                            self.workermod['intelligence'] += choice([0, 0, 0, 0, 1])
+                            secondgirl.intelligence += choice([0, 0, 0, 0, 1])
+                        
+                        else:
+                            self.txt.append("She spent part of her rest day translating some runes from ancient looking books. \n")
+                            self.img = self.worker.show("reading", "studying", resize=(740, 685), type="any")
+                        
+                        evcount += 1    
+                    
+                    elif "Nerd" == rt:
+                        if dice(60) and self.loc.upgrades['garden']['2']['active']:
+                            self.txt.append("She used her day off trying to get some strange device in the garden to work. \n")
+                            self.img = self.worker.show("rest", "generic outdoor", "forest", "meadow", resize=(740, 685), type="first_default")
+                        
+                        else:
+                            self.txt.append("She spent all day reading books in her room. \n")
+                            self.img = self.worker.show("reading", "studying", resize=(740, 685), type="any")
+                        
+                        evcount += 1
+                    
+                    elif "Genius" == rt:
+                        for girl in gl:
+                            if set(["Smart", "Genius"]).intersection(girl.traits) and girl.action in ["Rest", 'AutoRest']:
+                                tgl.append(girl)
+                        
+                        if len(tgl) > 0:
+                            secondgirl = choice(tgl)
+                            self.txt.append("She spent some time playing board games with %s. \n"%secondgirl.name)
+                            self.img = self.worker.show("profile", "happy", resize=(740, 685))
+                            self.workermod['intelligence'] += choice([0,0,0,0,1])
+                            secondgirl.intelligence += choice([0,0,0,0,1])
+                        
+                        else:
+                            self.txt.append("She spent part of her rest day translating some runes from ancient looking books. \n")
+                            self.img = self.worker.show("reading", "studying", resize=(740, 685))
+                        
+                        evcount += 1
+                    
+                    elif rt in ['Long legs', 'Big Boobs', 'Abnormally Large Boobs', 'Great Arse', 'Great Figure']:
+                        if self.worker.status != 'slave':
+                            self.txt.append("She spent her time enjoying sunbathing as well as receiving envious and admiring glances on a local beach. Too bad you were too busy to join her. \n")
+                            self.img = self.worker.show("beach", "bikini", "topless", exclude=["sex"], resize=(740, 685))
+                            self.workermod['reputation'] += choice([0, 0, 0, 0, 1])
+                        
+                        else:
+                            self.txt.append("She spent better part of her rest day trying to figure out how to use her heavenly body features to her advantage. \n")
+                            self.img = self.worker.show("profile", "exposed", "beauty", resize=(740, 685))
+                            if dice(10):
+                                self.workermod['charisma'] += 1
+                        
+                        evcount += 1
+                    
+                    elif "Nymphomaniac" == rt:
+                        self.workermod['libido'] += 20
+                        self.txt.append("She spent some of her day having fun with herself in her room. \n")
+                        self.img = 'mast'
+                        evcount += 1
+                    
+                    elif "Exhibitionist" == rt:
+                        if dice(70):
+                            self.txt.append("Since she is going to walk around with barely any clothes on anyway, you asked her to do it around the brothel this time. "+ \
+                                            "Free advertising is good for business, and she will have less problems with the city guards this way. \n")
+                            self.img = self.worker.show("strip", "exposed", "topless", "nude", "undress", exclude=["sex"], resize=(740, 685), type="any")
+                            
+                            if dice(10):
+                                self.workermod['strip'] += 1
+                            
+                            if dice(25):
+                                self.workermod['joy'] += 3
+                            
+                            if dice(75):
+                                self.locmod["fame"] += 1
+                            
+                            evcount += 1
+                        
+                        else:
+                            evcount += 1
+                    
+                    elif "Professional Maid" == rt:
+                        self.txt.append("Even though today is her day off, she insisted on doing some cleaning. \n")
+                        self.img = self.worker.show("cleaning", resize=(740, 685))
+                        
+                        if dice(10):
+                            self.workermod['service'] += 1
+                        
+                        self.locmod['dirt'] -= int(self.worker.serviceskill*0.2)
+                        
+                        evcount += 1
+                    
+                    loopcount += 1
+            
+            # If girl is down with cold:
+            if self.worker.effects['Down with Cold']['active']:
+                self.worker.effects['Down with Cold']['count'] += 2
+                self.txt.append("Allowing her to rest is a really good idea considering that she has a cold! \n ")
+            
+            if self.worker.effects['Food Poisoning']['active']:
+                self.worker.effects['Food Poisoning']['count'] += 2
+                self.txt.append("Allowing her to rest is a really good idea considering that she has food poisoning! \n ")
+            
+            if evcount == 0:
+                self.txt.append(choice(['%s took a break today. '%(self.worker.name),
+                                        'She spent the day relaxing. ',
+                                        '%s comfortably rested in her room. '%(self.worker.name)]))

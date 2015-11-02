@@ -307,17 +307,17 @@ init -9 python:
             girl = The girl the job is for.
             """
             self.job = job
-            self.girl = girl
+            self.worker = girl
             self.is_vaginal = self.job.is_vaginal
             self.is_variant = False
             
             choices = list()
             for i in self.job.variants:
                 if isinstance(self.job.variants[i], PytWhoringVariant):
-                    b,v = self.job.variants[i](self.job.act, self.girl)
+                    b,v = self.job.variants[i](self.job.act, self.worker)
                     if b: choices.append((i,v))
                 
-                elif self.girl.has_image(self.job.act, i):
+                elif self.worker.has_image(self.job.act, i):
                     choices.append(i)
             
             if choices:
@@ -334,13 +334,13 @@ init -9 python:
             Returns the image.
             """
             if self.act == "_":
-                return self.girl.show(self.job.act, exclude=["bdsm", "mast", "group"], resize=(740, 685))
+                return self.worker.show(self.job.act, exclude=["bdsm", "mast", "group"], resize=(740, 685))
             
             elif self.is_variant:
-                return self.job.variants[self.act].get_image(self.job.act, self.girl, exclude=["bdsm", "mast", "group"], resize=(740, 685))
+                return self.job.variants[self.act].get_image(self.job.act, self.worker, exclude=["bdsm", "mast", "group"], resize=(740, 685))
             
             else:
-                return self.girl.show(self.job.act, self.act, exclude=["bdsm", "mast", "group"], resize=(740, 685))
+                return self.worker.show(self.job.act, self.act, exclude=["bdsm", "mast", "group"], resize=(740, 685))
         
         def get_preface(self):
             """
@@ -349,7 +349,7 @@ init -9 python:
             t = self.job.preface
             if isinstance(t, (list,tuple)): t = choice(t)
             if "%s" in t:
-                return t%self.girl.nickname
+                return t%self.worker.nickname
             
             else:
                 return t
@@ -358,8 +358,8 @@ init -9 python:
             """
             Gets the skill text and modifier.
             """
-            skill = self.girl.get_skill(self.sex_skill)
-            char = self.girl.charisma
+            skill = self.worker.get_skill(self.sex_skill)
+            char = self.worker.charisma
             
             if skill > 300 and char > 300:
                 return self.job.get_skill_text("perfect"), 3
@@ -413,7 +413,7 @@ init -9 python:
             
             # Interpolate
             if "%s" in t:
-                return t%self.girl.nickname
+                return t%self.worker.nickname
             
             else:
                 return t

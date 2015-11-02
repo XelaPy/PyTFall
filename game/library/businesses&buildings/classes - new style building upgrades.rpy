@@ -134,7 +134,7 @@ init -9 python:
         def get_workers(self, client, amount=1):
             """This is quite possibly an overkill for this stage of the game development.
             
-            For now we just work with one clients.
+            For now we just work with one client.
             """
             workers = list()
             
@@ -144,7 +144,7 @@ init -9 python:
             priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations and i.action in self.jobs)
             for i in xrange(amount):
                 try:
-                    w = self.find_best_match(client, workers)
+                    w = self.find_best_match(client, priority)
                     if w:
                         workers.append(w)
                     else:
@@ -157,7 +157,7 @@ init -9 python:
                 anyw = list(i for i in self.instance.workers if self.all_occs & i.occupations and i.action in self.jobs)
                 for i in xrange(amount-len(workers)):
                     try:
-                        w = self.find_best_match(client, workers)
+                        w = self.find_best_match(client, anyw)
                         if w:
                             workers.append(w)
                         else:
@@ -175,13 +175,11 @@ init -9 python:
             for w in workers:
                 likes = client.likes.intersection(w.traits)
                 if likes:
-                    if len(likes) == 1:
-                        likes = likes.pop()
-                    else:
-                        likes = ", ".join(likes)
-                    temp = '{} liked {} for {}.'.format(client.name, w.nickname, likes)
-                    self.instance.log(temp)
+                    slikes = ", ".join([str(l) for l in likes])
+                    temp = '{} liked {} for {}.'.format(client.name, w.nickname, slikes)
+                    self.log(temp)
                     worker = w
+                    client.set_flag("jobs_matched_traits", likes)
                     break
             return worker
             
@@ -202,7 +200,7 @@ init -9 python:
                 self.log(temp)
                 
         def run_job(self, client, char):
-            """This should be a job...
+            """Waits for self.time delay and calls the job...
             """
             yield self.env.timeout(self.time)
             if config.debug:
@@ -212,8 +210,7 @@ init -9 python:
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
             self.log(temp)
             
-            # Best use local jobs here instead of chars action:
-            # char.action(char, client)
+            # Execute the job:
             self.job(char, client)
             
             # We return the char to the nd list:
@@ -237,7 +234,7 @@ init -9 python:
             
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job...
-            self.time = 5 # Same
+            self.time = 5
             self.is_running = False
             
             self.earned_cash = 0
@@ -272,12 +269,21 @@ init -9 python:
                 workers = self.instance.workers
                 # Get all candidates:
                 aw = self.all_workers
-                if aw:
-                    shuffle(aw)
+                shuffle(aw)
+                while aw:
                     worker = aw.pop()
-                    self.active_workers.add(worker)
-                    workers.remove(worker)
-                    self.env.process(self.use_worker(worker))
+                    if self.job.check_occupation(worker):
+                        self.active_workers.add(worker)
+                        workers.remove(worker)
+                        self.env.process(self.use_worker(worker))
+                        if config.debug:
+                            temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} is doing {}.'.format(worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, self.job.id), "lawngreen")
+                            self.log(temp)
+                        break
+                    else:
+                        if config.debug:
+                            temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} is doing {}.'.format(worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, self.job.id), "red")
+                            self.log(temp)
                 
         def run_job(self, end):
             """This runs the club as a SimPy process from start to the end.
@@ -288,7 +294,7 @@ init -9 python:
             while 1:
                 yield self.env.timeout(self.time)
                 
-                # Handle the cash/tips:
+                # Handle the earnings:
                 cash = self.res.count*len(self.active_workers)*randint(8, 12)
                 self.earned_cash += cash
                 
@@ -315,7 +321,7 @@ init -9 python:
             temp = "{} comes out to do a stripshow!".format(worker.name)
             self.log(temp)
             while worker.AP and self.res.count:
-                yield self.env.timeout(5) # This is a single shift a worker can take for cost of 1 AP.
+                yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
                 worker.set_union("jobs_strip_clients", self.clients)
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
@@ -324,7 +330,7 @@ init -9 python:
                 self.log(temp)
                 
             if worker.flag("jobs_strip_clients"):
-                simple_jobs["Striptease Job"](worker, self) # BETTER BET TO ACCESS Class directly...
+                simple_jobs["Striptease Job"](worker) # better bet to access Class directly...
             else:
                 temp = "No clients came to see {}".format(worker.name)
                 self.log(temp)
