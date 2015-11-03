@@ -74,6 +74,61 @@ init -9 python:
         def all_workers(self):
             return list(i for i in self.instance.workers if self.all_occs & i.occupations)
             
+        def action_priority_workers(self, job):
+            return list(i for i in self.instance.workers if i.action == job)
+            
+        def get_workers(self, job, amount=1, match_to_client=None):
+            """Tries to find workers for any given job.
+            
+            - Tries to get a perfect match where action == job first.
+            - Tries to get any match trying to match any occupaiton at all.
+            
+            @param: match_to_client: Will try to find the a good match to client, expects a client (or any PytC instance with .likes set) object.
+            """
+            workers = list()
+            
+            priority = self.action_priority_workers(job)
+            shuffle(priority)
+            anyw = list(i for i in self.all_workers if i not in priority)
+            shuffle(anyw)
+            while len(workers) < amount and (priority or anyw):
+                while priority and len(workers) < amount:
+                    if match_to_client:
+                        w = self.find_best_match(match_to_client, priority) # This is not ideal as we may end up checking a worker who will soon be removed...
+                    else:
+                        w = priority.pop()
+                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
+                        workers.append(w)
+                        
+                while anyw and len(workers) < amount:
+                    if match_to_client:
+                        w = self.find_best_match(match_to_client, anyw) # This is not ideal as we may end up checking a worker who will soon be removed...
+                    else:
+                        w = anyw.pop()
+                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
+                        workers.append(w)
+                        
+            return workers
+            
+        def find_best_match(self, client, workers):
+            """Attempts to match a client to the best worker.
+            
+            Returns a worker at random if that fails.
+            """
+            for w in workers[:]:
+                likes = client.likes.intersection(w.traits)
+                if likes:
+                    slikes = ", ".join([str(l) for l in likes])
+                    temp = '{}: {} liked {} for {}.'.format(self.env.now, client.name, w.nickname, slikes)
+                    self.log(temp)
+                    worker = w
+                    workers.remove(w)
+                    client.set_flag("jobs_matched_traits", likes)
+                    break
+            else:
+                worker = workers.pop()
+            return worker
+            
         def requires_workers(self, amount=1):
             """
             Returns True if this upgrade requires a Worker to run this job.
@@ -83,6 +138,45 @@ init -9 python:
             """
             return False
             
+        def check_worker_willing(self, worker, job):
+            """Checks if the worker is willing to do the job.
+            
+            Removes worker from instances master list.
+            Returns True is yes, False otherwise.
+            """
+            if job.check_occupation(worker):
+                if config.debug:
+                    temp = set_font_color("{}: Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "lawngreen")
+                    self.log(temp)
+                return True
+            else:
+                if worker in self.instance.workers:
+                    self.instance.workers.remove(worker)
+                    
+                if config.debug:
+                    temp = set_font_color('{}: Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "red")
+                    self.log(temp)
+                else:
+                    temp = set_font_color('{} is refuses to do {}!'.format(worker.name, job.id), "red")
+                    self.log(temp)
+                    
+                return False
+        
+        def check_worker_capable(self, worker):
+            """Checks if the worker is capable of doing the job.
+            
+            Removes worker from instances master list.
+            Returns True is yes, False otherwise.
+            """
+            if check_char(worker):
+                return True
+            else:
+                if worker in self.instance.workers:
+                    self.instance.workers.remove(worker)
+                temp = set_font_color('{}: {} is done working for the day.'.format(self.env.now, worker.name), "aliceblue")
+                self.log(temp)
+                return False
+                
         def pre_nd(self):
             # Runs at the very start of execusion of SimPy loop during the next day.
             return
@@ -108,7 +202,6 @@ init -9 python:
             
             
     class BrothelBlock(MainUpgrade):
-        # TODO: Make new issues with checklists and get rid of useless properties in these classes.
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
@@ -116,7 +209,7 @@ init -9 python:
             self.jobs = set([simple_jobs["Whore Job"]])
             self.workable = True
             
-            # SimPy and etc follows (L33t stuff :) ):
+            # SimPy and etc follows:
             self.res = None # Restored before every job...
             self.time = 5 # Same
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
@@ -131,72 +224,20 @@ init -9 python:
         def requires_workers(self, amount=1):
             return True
             
-        def get_workers(self, client, amount=1):
-            """This is quite possibly an overkill for this stage of the game development.
-            
-            For now we just work with one client.
-            """
-            workers = list()
-            
-            # TODO: Left off here: This needs to be adapted, currently only girls that are set to do the exact job are used. This needs to change to any girl who may be willing.
-            # Possibly, this can be achieved with a running a job bound to this business instead of chars action... Maybe this is a managers thing as well!
-            # First gets the workers assigned directly to this upgrade as a priority.
-            priority = list(i for i in self.instance.workers if i.workplace == self and self.all_occs & i.occupations and i.action in self.jobs)
-            for i in xrange(amount):
-                try:
-                    w = self.find_best_match(client, priority)
-                    if w:
-                        workers.append(w)
-                    else:
-                        workers.append(priority.pop())
-                except:
-                    break
-            
-            if len(workers) < amount:
-                # Next try to get anyone availible:
-                anyw = list(i for i in self.instance.workers if self.all_occs & i.occupations and i.action in self.jobs)
-                for i in xrange(amount-len(workers)):
-                    try:
-                        w = self.find_best_match(client, anyw)
-                        if w:
-                            workers.append(w)
-                        else:
-                            workers.append(anyw.pop())
-                    except:
-                        break
-                        
-            if len(workers) == amount:
-                if len(workers) == 1:
-                    return workers.pop()
-            # When we'll have jobs that require moar than one worker, we'll add moar code here.
-            
-        def find_best_match(self, client, workers):
-            worker = None
-            for w in workers:
-                likes = client.likes.intersection(w.traits)
-                if likes:
-                    slikes = ", ".join([str(l) for l in likes])
-                    temp = '{} liked {} for {}.'.format(client.name, w.nickname, slikes)
-                    self.log(temp)
-                    worker = w
-                    client.set_flag("jobs_matched_traits", likes)
-                    break
-            return worker
-            
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
             
-        def request(self, client, char):
+        def request_room(self, client, char):
             with self.res.request() as request:
                 yield request
                         
                 # All is well and we create the event
-                temp = "{} and {} enter the room at {}".format(client.name, char.name, self.env.now)
+                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, char.name)
                 self.log(temp)
                 
                 yield self.env.process(self.run_job(client, char))
                 
-                temp = "{} leaves at {}".format(client.name, self.env.now)
+                temp = "{}: {} leaves.".format(self.env.now, client.name)
                 self.log(temp)
                 
         def run_job(self, client, char):
@@ -204,10 +245,10 @@ init -9 python:
             """
             yield self.env.timeout(self.time)
             if config.debug:
-                temp = "Debug: {} Building Resource in use!".format(set_font_color(self.res.count, "red"))
+                temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
                 self.log(temp)
             
-            temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
+            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(char.name, "pink"), client.name)
             self.log(temp)
             
             # Execute the job:
@@ -246,21 +287,23 @@ init -9 python:
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
             
-        def request(self, client):
+        def request_spot(self, client):
+            """Request for a spot for a client in the club is being made here.
+            """
             with self.res.request() as request:
                 yield request
                 
                 # All is well and we create the event
-                temp = "{} enters the Strip Club at {}".format(client.name, self.env.now)
+                temp = "{}: {} enters the Strip Club.".format(self.env.now, client.name)
                 self.clients.add(client)
                 self.log(temp)
                 
                 # TODO: LEFT OFF HERE, THIS IS A MESS.
                 while not client.flag("jobs_ready_to_leave"):
-                    yield self.env.timeout(2)
+                    yield self.env.timeout(1)
                 # yield self.env.process(self.run_job(client))
                 
-                temp = "{} leaves the Club at {}".format(client.name, self.env.now)
+                temp = "{}: {} leaves the Club.".format(self.env.now, client.name)
                 self.clients.remove(client)
                 self.log(temp)
                 
@@ -268,22 +311,13 @@ init -9 python:
             if not self.active_workers or len(self.active_workers) < self.res.count/4:
                 workers = self.instance.workers
                 # Get all candidates:
-                aw = self.all_workers
-                shuffle(aw)
-                while aw:
-                    worker = aw.pop()
-                    if self.job.check_occupation(worker):
-                        self.active_workers.add(worker)
-                        workers.remove(worker)
-                        self.env.process(self.use_worker(worker))
-                        if config.debug:
-                            temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} is doing {}.'.format(worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, self.job.id), "lawngreen")
-                            self.log(temp)
-                        break
-                    else:
-                        if config.debug:
-                            temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} is doing {}.'.format(worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, self.job.id), "red")
-                            self.log(temp)
+                job = self.job
+                ws = self.get_workers(job)
+                if ws:
+                    w = ws.pop()
+                    self.active_workers.add(w)
+                    workers.remove(w)
+                    self.env.process(self.use_worker(w))
                 
         def run_job(self, end):
             """This runs the club as a SimPy process from start to the end.
@@ -305,7 +339,7 @@ init -9 python:
                         c.set_flag("jobs_ready_to_leave")
                 
                 if config.debug:
-                    temp = "Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(set_font_color(self.res.count, "red"), cash, self.earned_cash)
+                    temp = "{}: Debug: {} places are currently in use in StripClub | Cash earned: {}, Total: {}!".format(self.env.now, set_font_color(self.res.count, "red"), cash, self.earned_cash)
                     temp = temp + " {} Workers are currently doing streaptease!".format(set_font_color(len(self.active_workers), "red"))
                     self.log(temp)
                     
@@ -318,7 +352,7 @@ init -9 python:
             self.instance.nd_ups.remove(self)
             
         def use_worker(self, worker):
-            temp = "{} comes out to do a stripshow!".format(worker.name)
+            temp = "{}: {} comes out to do a stripshow!".format(self.env.now, worker.name)
             self.log(temp)
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
@@ -326,7 +360,7 @@ init -9 python:
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
                 worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
-                temp = "{} gets {} in tips from {} clients!".format(worker.name, tips, self.res.count)
+                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now, worker.name, tips, self.res.count)
                 self.log(temp)
                 
             if worker.flag("jobs_strip_clients"):
@@ -335,7 +369,7 @@ init -9 python:
                 temp = "No clients came to see {}".format(worker.name)
                 self.log(temp)
             self.active_workers.remove(worker)
-            temp = "{} is done entertaining for the day!".format(set_font_color(worker.name, "red"))
+            temp = "{}: {} is done entertaining for the day!".format(self.env.now, set_font_color(worker.name, "red"))
             self.log(temp)
             
         def post_nd_reset(self):

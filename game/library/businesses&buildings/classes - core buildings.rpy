@@ -29,14 +29,11 @@ init -9 python:
             # Main controller for all businesses.
             *Builds a list of all workable business.
             *Adds run_job for all public_service businesses to Env
-            *Adds a steady/conditioned stream of clients to the appropriate businesses and manages them:
+            *Adds a steady/conditioned stream of clients to the appropriate businesses and manages their stream:
                 TODO: Management of clients in case of lack of the capacity needs to be added there and to child checkups:
                 *Personal Service:
-                    - Finds best client match using update.get_workers() TODO: Make sure direct action assignments to the girl are also being checks or prevent such assignments from happening in the interface.
-                    - Checks if a char is capable TODO: Should be a part of get_workers?
-                    - Checks if a char is willing  TODO: Should be a part of get_workers?
+                    - Finds best client match using update.get_workers()
                     - Runs the job using: self.env.process(upgrade.request(client, char)) TODO: Rename appropriately.
-                    
                 *Public Service:
                     - Simply sends client to business.
                     - Sends in Workers to serve/entertain the clients.
@@ -47,11 +44,15 @@ init -9 python:
         # Hold all data/methods required for business to operate.
         TODO: all_occs should return a constant instead of creating a set every time they are called.
         TODO: Businesses or Building should control clients that wish to remain for moar action.
-        *workers = On duty characters
-        *habitabe/workable = selfexplanotory
+        *workers = On duty characters.
+        *habitabe/workable = selfexplanotory.
         *clients = clients used locally (maybe useful only for the public service?)
-        *capacity = cap of the building such as amount of rooms/workspace
+        *capacity = cap of the building such as amount of rooms/workspace.
         *jobs = only for businesses
+        *get_workers:
+            - Checks if a char is capable.
+            - Checks if a char is willing.
+            - Can also try to match find the best client for the job.
         
         SimPy Stuff:
             *res = Resource
@@ -109,14 +110,10 @@ init -9 python:
         *reset = Resets the base properties for the job
         *all_occs = set(self.occupations + self.occupation_traits) # TODO: Should be a contant, no point in rebuilding the set every time.
         *get_clients = Returns the amount of clients required to properly run this job, not used afaik
-        *get_upgrade = Business active atm, Not used and will prolly never be used: TODO: Confirm and remove.
         *create_event = Creates an event for the next day that will hold all the data required to display in reports.
         **check_occupation = ***Very important one, checks if the worker if willing to do the job.
         *check_life = Not used atm. TODO: Confirm and remove!
         **apply_stats = Applies Stats and Skills and Building mods accordingly.
-        *auto_clean = Automatically cleans the building for a fee: TODO: May No longer be useful!
-            - checks if the building is dirty enough.
-        *check_dirt = TODO: May no longer be useful, should be a part of Building management run!
         *loggs/logloc = Cool way to log the required stats to worker/building in order to have them applied later.
         **finish_job = Another really important one, this:
             - Creates the NDEvent
@@ -603,17 +600,7 @@ init -9 python:
             if add_clients and write_to_nd:
                 self.log("{} clients came due to {} renoun!".format(add_clients, self.name))
             clients = clients + add_clients
-                
-                # Adding bonuses for girls in this brothel
-                # TODO: Review the code below:
-                # gfamebonus = 0
-                # for girl in self.get_girls(["Guard", "AutoRest", "Rest"], True): gfamebonus += 1 + int(girl.fame/20)
-                # if not self.logged_clients and gfamebonus:
-                    # self.txt += "and another %d attracted by your girlz :) \n" % gfamebonus
-                
-               #  clients = clients + gfamebonus
-               
-            #TODO: Add girl's customer-magnet traits.
+            
             if clients > 0:
                 return clients
             else:
@@ -688,6 +675,7 @@ init -9 python:
                 if u.has_workers(): # <== This bit is prolly useless.
                     u.is_running = True
             
+            # For Jobs that require clients to run:
             i = 0
             ii = 0
             if self.clients:
@@ -708,60 +696,30 @@ init -9 python:
                 client.name = "Client {}".format(i)
                 
                 # Register the fact that client arrived at the building:
-                temp = '{} arrives at the {} at {}.'.format(client.name, self.name, self.env.now)
+                temp = '{}: {} arrives at the {}.'.format(self.env.now, client.name, self.name)
                 self.log(temp)
                 
                 # Take an action!
                 shuffle(self.nd_ups)
                 for upgrade in self.nd_ups:
                     if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
-                        # Assumes a single worker at this stage... This part if for upgrades like Building.
-                        char = None
-                        while self.workers:
-                            
-                            # Here we should attempt to find the best match for the client!
-                            char = upgrade.get_workers(client)
-                            
-                            if not char:
-                                break
-                           
-                            # First check is the char is still well and ready:
-                            if not check_char(char):
-                                if char in self.workers:
-                                    self.workers.remove(char)
-                                temp = set_font_color('{} is done working for the day.'.format(char.name), "aliceblue")
-                                self.log(temp)
-                                continue
-                            
-                            # We to make sure that the girl is willing to do the job:
-                            # Same as with the job, it's not a good idea to check char.action here:
-                            # if not char.action.check_occupation(char):
-                            job = upgrade.job
-                            if not job.check_occupation(char):
-                                if char in self.workers:
-                                    self.workers.remove(char)
-                                temp = set_font_color('{} is not willing to do {}.'.format(char.name, job.id), "red")
-                                self.log(temp)
-                                continue
-                                
-                            if config.debug:
-                                temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} is doing {}.'.format(char.nickname, ", ".join(list(str(t) for t in char.occupations)), char.action, job.id), "lawngreen")
-                                self.log(temp)
-                            
-                            break # Breaks the while loop.
-                    
-                        if char:
-                            if char in self.workers:
-                                self.workers.remove(char)
-                            store.client = client
-                            self.env.process(upgrade.request(client, char))
-                            break # Breaks the for loop.
+                        # Personal Service (Brothel-like):
+                        job = upgrade.job
+                        workers = upgrade.get_workers(job, amount=1, match_to_client=client)
+                        
+                        if not workers:
+                            continue # Send to the next update.
                         else:
-                            continue
+                            # We presently work just with the one char only, so:
+                            worker = workers.pop()
+                            if worker in self.workers:
+                                self.workers.remove(worker)
+                            self.env.process(upgrade.request_room(client, worker))
+                            break
                             
                     # Jobs like the Club:
                     elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
-                        self.env.process(upgrade.request(client))
+                        self.env.process(upgrade.request_spot(client))
                         upgrade.send_in_workers()
                         break
                         
