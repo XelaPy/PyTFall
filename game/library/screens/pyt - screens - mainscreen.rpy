@@ -75,7 +75,7 @@ screen pyt_mainscreen():
     default tt = Tooltip("Welcome to PyTFall!\nHave a nice game!!!")
     
     # Main pic:
-    add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at sfade(0.0, 1.0, 2.0) ypos 40
+    add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at fade_from_to(0.0, 1.0, 2.0) ypos 40
 
     frame:
         align (0.995, 0.88)

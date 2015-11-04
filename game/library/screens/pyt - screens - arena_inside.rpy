@@ -692,15 +692,19 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
         $ renpy.music.play("content/sfx/sound/world/win_screen.mp3", channel="music")
         $ play_music = False
     if hero.team == w_team:
-        add "content/gfx/images/battle/victory_l.png" at move_bpwe(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-        add "content/gfx/images/battle/victory_r.png" at move_bpwe(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
         add "content/gfx/images/battle/battle_c.png"
-        add "content/gfx/images/battle/victory.png"
+        add "content/gfx/images/battle/victory.png":
+            align (0.5, 0.5)
+            at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
     else:
-        add "content/gfx/images/battle/defeat_l.png" at move_bpwe(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-        add "content/gfx/images/battle/defeat_r.png" at move_bpwe(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
         add "content/gfx/images/battle/battle_c.png"
-        add "content/gfx/images/battle/defeat.png"
+        add "content/gfx/images/battle/defeat.png":
+            align (0.5, 0.5)
+            at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
     
     for member in w_team : # Just for test
         if member == wteam_display:
@@ -708,7 +712,7 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
     
     timer 10000.5 action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
     frame:
-        #at move_bpwe(start_pos=(0, config.screen_height), end_pos=(0, config.screen_height/2), t=0.7)
+        #at move_from_to_pos_with_ease(start_pos=(0, config.screen_height), end_pos=(0, config.screen_height/2), t=0.7)
         #xysize (config.screen_width, config.screen_height/2)
         #background Solid((100, 100, 250, 150))
         #at slide(eo2=(600, 0), t1=0.7, so1=(1300, 0), t2=0.7)
@@ -1104,7 +1108,7 @@ init: # ChainFights vs Mobs:
         # ====================================================================================>>>            
         if pytfall.arena.cf_count and pytfall.arena.cf_mob:
             text("{b}{i}{color=[darkred]}Fight #[pytfall.arena.cf_count], proceed?"):
-                at move_bpwe(start_pos=(640, -100), end_pos=(640, 200), t=0.7)
+                at move_from_to_pos_with_ease(start_pos=(640, -100), end_pos=(640, 200), t=0.7)
                 
             frame at slide(so1=(-600, 0), t1=0.7, eo2=(-1300, 0), t2=0.7):
                 background Null()
@@ -1140,7 +1144,7 @@ init: # ChainFights vs Mobs:
         timer 9.0 action [Hide("pyt_arena_finished_chainfight"), Hide("pyt_arena_inside"), Hide("pyt_chain_fight"), Hide("pyt_confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
         
         text("{size=+25}{i}{color=[red]}{font=fonts/rubius.ttf}Congratulation! You've Survived!!! :)"):
-            at move_bpwe(start_pos=(100, config.screen_height), end_pos=(640, 600), t=0.7)
+            at move_from_to_pos_with_ease(start_pos=(100, config.screen_height), end_pos=(640, 600), t=0.7)
         
         frame at fade_in_out():
             background Frame(Transform(im.Twocolor("content/gfx/frame/window_frame.png", white, white), alpha=0.5), 30, 30)

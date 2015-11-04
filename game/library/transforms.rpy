@@ -10,30 +10,29 @@ init -997: # Transforms:
     
     # Other Transforms:
         
-    transform just_move_with_offset(pos, t):
+    transform move_to_pos_with_offset(pos, t):
         linear t offset pos
     
-    transform move_bpwe(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t=1.0):
-        # move_by_pos_with_ease
+    transform move_from_to_pos_with_ease(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t=1.0):
         # Moves the child from start position to end position in t sexconds
         subpixel True
         pos start_pos
         ease t pos end_pos
         
-    transform move_bawl(start_align=(0, 0), end_align=(1.0, 1.0), t=1.0):
+    transform move_from_to_align_with_linear(start_align=(0, 0), end_align=(1.0, 1.0), t=1.0):
         # Move_by_align_with_linear
         subpixel True
         align start_align
         linear t align end_align
         
-    transform align_with_easein(start_align=(0, 0), end_align=(1.0, 1.0), t=1.0):
+    transform move_from_to_align_with_easein(start_align=(0, 0), end_align=(1.0, 1.0), t=1.0):
         # Move_by_align_with_linear
         subpixel True
         align start_align
         easein t align end_align
         
-    transform move_bowe(start_offset=(-640, -400), end_offset=(0, 0), t=1.0):
-        # move_by_offset_with_ease
+    transform move_from_to_offset_with_ease(start_offset=(-640, -400), end_offset=(0, 0), t=1.0):
+        # move_from_to_offset_with_ease
         subpixel True
         offset start_offset
         ease t offset end_offset
@@ -43,9 +42,9 @@ init -997: # Transforms:
         # Slides in on show
         # Slide out in show
         on show:
-            move_bowe(so1, eo1, t1)
+            move_from_to_offset_with_ease(so1, eo1, t1)
         on hide:
-            move_bowe(so2, eo2, t2)
+            move_from_to_offset_with_ease(so2, eo2, t2)
             
     transform auto_slide(init_pos=(0, -40), show_pos=(0, 0), t1=0.25, hide_pos=(0, -40), t2=0.25):
         # Auto-Slide, default values are for the top_stripe
@@ -56,7 +55,7 @@ init -997: # Transforms:
         on hide:
             linear t2 pos hide_pos
             
-    transform sfade(start_val=1.0, end_val=0.0, t=1.0):
+    transform fade_from_to(start_val=1.0, end_val=0.0, t=1.0):
         # Setup as a fade out, reverse the values for the fade in
         # simple_fade (fade is reserved...)
         subpixel True
@@ -66,9 +65,9 @@ init -997: # Transforms:
     transform fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
                                         sv2=1.0, ev2=0.0, t2=1.0):
         on show:
-            sfade(sv1, ev1, t1)
+            fade_from_to(sv1, ev1, t1)
         on hide:
-            sfade(sv2, ev2, t2)
+            fade_from_to(sv2, ev2, t2)
         
     transform rotate_by(degrees):
         # When used with x/ycenter in SL, this will (or at leastshould) be positioned correctly!
@@ -85,44 +84,51 @@ init -997: # Transforms:
         subpixel True
         repeat
         
-    transform szoom(start_val=1.0, end_val=0.0, t=1.0):
+    transform simple_zoom_from_to_with_linear(start_val=1.0, end_val=0.0, t=1.0):
         # Simple zoom...
         subpixel True
         anchor (0.5, 0.5)
         zoom start_val
         linear t zoom end_val
         
+    transform simple_zoom_from_to_with_easein(start_val=1.0, end_val=0.0, t=1.0):
+        # Simple zoom...
+        subpixel True
+        anchor (0.5, 0.5)
+        zoom start_val
+        easein t zoom end_val
+        
     # Complex transforms(*):
     transform pers_effect():
         subpixel True
         parallel:
-            sfade(0.9, 1.1, 2.0)
-            sfade(1.1, 0.9, 2.0)
+            fade_from_to(0.9, 1.1, 2.0)
+            fade_from_to(1.1, 0.9, 2.0)
         parallel:
-            szoom(0.9, 1.1, 2.0)
-            szoom(1.1, 0.9, 2.0)
+            simple_zoom_from_to_with_linear(0.9, 1.1, 2.0)
+            simple_zoom_from_to_with_linear(1.1, 0.9, 2.0)
         repeat    
     
     transform arena_stats_slide:
         parallel:
-            move_bowe(start_offset=(0, 0), end_offset=(0, -200), t=8.0)
+            move_from_to_offset_with_ease(start_offset=(0, 0), end_offset=(0, -200), t=8.0)
         parallel:
             4.0
-            sfade(t=4)
+            fade_from_to(t=4)
     
     transform elements:
         subpixel True
         parallel:
             block:
                 parallel:
-                    sfade(0.3, 1.0, 5.0)
+                    fade_from_to(0.3, 1.0, 5.0)
                 parallel:
-                    szoom(1.2, 0.8, 5.0)
+                    simple_zoom_from_to_with_linear(1.2, 0.8, 5.0)
             block:
                 parallel:
-                    sfade(1.0, 0.3, 5.0)
+                    fade_from_to(1.0, 0.3, 5.0)
                 parallel:    
-                    szoom(0.8, 1.2, 5.0)
+                    simple_zoom_from_to_with_linear(0.8, 1.2, 5.0)
             repeat
         parallel:
             repeated_rotate(t=30.0)
@@ -131,14 +137,14 @@ init -997: # Transforms:
         # Slider for arena Vicroty/Defeat texts
         on show:
             parallel:
-                sfade(0.3, 1.0, 0.5)
+                fade_from_to(0.3, 1.0, 0.5)
             parallel:
                 xoffset 500
                 ease 0.5 xoffset -400
                 ease 0.5 xoffset -100
             linear 3.0 zoom 1.3 
         on hide:
-            sfade(t=0.5)
+            fade_from_to(t=0.5)
     
     # Also used for gm:    
     transform found_cash(x, y, t):
@@ -183,7 +189,7 @@ init -997: # Transforms:
         on idle:
             linear 0.3 xoffset 300
         
-    transform move_bpweo(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t):
+    transform move_from_to_pos_with_easeo(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t):
         # Move by pos with easeOut:
         subpixel True
         pos start_pos

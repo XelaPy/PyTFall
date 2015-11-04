@@ -317,12 +317,12 @@ init python:
             # """
             # char.betag: name (tag) assigned to this show command so we can hide/replace it.
             # what=char.besprite: This is the battle_sprite image.
-            # at_list=[move_bpwe(start_pos=char.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
+            # at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
             # You can find more about it in the Ren'Py Documentation.
             # zorder=char.besk["zorder"]: Ren'Py will show stuff with higher zorder infront of the stuff with lower zorder. It's as simple as that. char.best is the dict where we keep our dedault values for the character.
             # You can just follow the lead with zorders from the examples.
             # """
-            # renpy.show(char.betag, what=char.besprite, at_list=[move_bpwe(start_pos=char.dpos, end_pos=newpos, t=0.5)], zorder=char.besk["zorder"]) # So this moves the character slightly to the back.
+            # renpy.show(char.betag, what=char.besprite, at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)], zorder=char.besk["zorder"]) # So this moves the character slightly to the back.
             # renpy.pause(0.5) # Need to add pauses for effects to take place!
             ### >>> Now done through move method:
             battle.move(char, battle.get_cp(char, xo=50), 0.5)
@@ -356,8 +356,8 @@ init python:
             
             # Next lets do the flying animation:
             aimpos = battle.get_cp(target, type="center", yo=-20) # We want to aim slight above the center of the enemy sprite, which is usually the heart :)
-            # move_bpweo are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
-            renpy.show("fly", what=arrowsprite, at_list=[move_bpweo(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
+            # move_from_to_pos_with_easeo are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
+            renpy.show("fly", what=arrowsprite, at_list=[move_from_to_pos_with_easeo(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
             renpy.pause(0.4)
             
             renpy.hide("fly")
@@ -441,7 +441,7 @@ init python:
                 
             initpos = battle.get_cp(char, type="fc", xo=60)
             aimpos = battle.get_cp(target, type="center")
-            renpy.show("launch", what=missle, at_list=[move_bpweo(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
+            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeo(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
             renpy.pause(self.pause)
             
             renpy.hide("launch")

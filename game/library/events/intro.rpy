@@ -117,7 +117,7 @@ label intro:
         crop (0, 0, config.screen_width, config.screen_height)
         linear 10 crop (config.screen_width/2, config.screen_height/2, config.screen_width/16, config.screen_height/16)
     pause 0.5
-    $ renpy.show("logo", at_list=[szoom(0.5, 2, 8), Transform(pos=(0.5, 0.75), subpixel=True)])
+    $ renpy.show("logo", at_list=[simple_zoom_from_to_with_linear(0.5, 2, 8), Transform(pos=(0.5, 0.75), subpixel=True)])
     $ renpy.with_statement(dissolve)
     pause 4.5
     return

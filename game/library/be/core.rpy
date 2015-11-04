@@ -237,7 +237,7 @@ init -1 python: # Core classes:
             Move character to new position...
             """
             renpy.hide(char.betag)
-            renpy.show(char.betag, what=char.besprite, at_list=[move_bpwe(start_pos=char.cpos, end_pos=pos, t=t)], zorder=char.besk["zorder"])
+            renpy.show(char.betag, what=char.besprite, at_list=[move_from_to_pos_with_ease(start_pos=char.cpos, end_pos=pos, t=t)], zorder=char.besk["zorder"])
             char.cpos = pos
             if pause:
                 renpy.pause(t)
