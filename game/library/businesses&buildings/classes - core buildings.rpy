@@ -61,8 +61,8 @@ init -9 python:
         
         *Personal Service:
             *find_best_match = finds a best client/worker combination.
-            *request:
-                - requests a room for worker/client. TODO: should be renamed accordingly
+            *request_room:
+                - requests a room for worker/client.
                 - adds a run_job process to Env
                 - logs it all to main log
             *run_job:
@@ -77,8 +77,6 @@ init -9 python:
             *request = plainly adds a client and keeps it in the business based on "ready_to_leave" flag set directly to the client.
             *send_in_workers:
                 # Adds workers to business to serve clients.
-                # TODO: This should also check for life/health/Ap and etc.
-                # TODO: This should also attempt to get the best worker trying to match occs perfectly! before falling back to other occs
                 - Checks willingness to do the job.
                 - Adds workers as required.
                 - self.env.process(self.use_worker(worker)) Possible the most important part, this adds a process to Env.
@@ -468,8 +466,8 @@ init -9 python:
                 return False
         
         def init(self):
-            """
-            Activate any upgrades from plain properties in the instance, then remove them.
+            """Activate any upgrades from plain properties in the instance, then remove them.
+            
             Meant for json completion.
             """
             for key in self.upgrades:
@@ -482,15 +480,13 @@ init -9 python:
                     delattr(self, key)
         
         def use_adverts(self):
-            """
-            Whether this building has any adverts.
+            """Whether this building has any adverts.
             """
             return len(self.adverts) > 0
         
         @property
         def use_upgrades(self):
-            """
-            Whether this building has any upgrades.
+            """Whether this building has any upgrades.
             """
             return len(self.upgrades) > 0
         
@@ -557,7 +553,7 @@ init -9 python:
             for up in self._upgrades:
                 up.pre_nd()
                 
-            self.env.process(self.run_jobs(end=100))
+            self.env.process(self.run_businesses(end=100))
             self.env.run(until=100)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
@@ -569,8 +565,7 @@ init -9 python:
             self.post_nd_reset()
             
         def get_client_count(self, write_to_nd=False):
-            """
-            Get the amount of clients that will visit the brothel the next day.
+            """Get the amount of clients that will visit the brothel the next day.
             """
             
             if not self.fame and not self.rep and not self.adverts['sign']['active']:
@@ -634,8 +629,7 @@ init -9 python:
             return True
                 
         def add_upgrade(self, upgrade):
-            """
-            Add upgrade to the building.
+            """Add upgrade to the building.
             """
             upgrade.instance = self
             self._upgrades.append(upgrade)
@@ -649,30 +643,19 @@ init -9 python:
             
         @property
         def workable(self):
-            """
-            Returns True if this building has upgrades that are businesses.
+            """Returns True if this building has upgrades that are businesses.
             """
             return any(i.workable for i in self._upgrades)
             
         # SimPy:
-        def kick_client(self, client):
-            """
-            Gets rid of this client...
-            """
-            temp = "There is not much for the {} to do...".format(client.name)
-            self.log(temp)
-            yield self.env.timeout(1)
-            temp = "So {} leaves your establishment cursing...".format(client.name)
-            self.log(temp)
-            
-        def run_jobs(self, end=40):
-            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses!
+        def run_businesses(self, end=40):
+            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 if u.type == "public_service":
                     self.env.process(u.run_job(end))
                 
-                if u.has_workers(): # <== This bit is prolly useless.
+                if u.has_workers():
                     u.is_running = True
             
             # For Jobs that require clients to run:
@@ -682,6 +665,7 @@ init -9 python:
                 iii = randint(3, len(self.clients)/20)
             else:
                 iii = 0
+                
             while self.clients and self.nd_ups and self.env.now <= end:
                 if ii > iii:
                     delay = randint(1, 3)
@@ -693,39 +677,86 @@ init -9 python:
                 i += 1
                 ii += 1
                 client = self.clients.pop()
-                client.name = "Client {}".format(i)
-                
-                # Register the fact that client arrived at the building:
-                temp = '{}: {} arrives at the {}.'.format(self.env.now, client.name, self.name)
-                self.log(temp)
-                
-                # Take an action!
-                shuffle(self.nd_ups)
-                for upgrade in self.nd_ups:
-                    if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
-                        # Personal Service (Brothel-like):
-                        job = upgrade.job
-                        workers = upgrade.get_workers(job, amount=1, match_to_client=client)
-                        
-                        if not workers:
-                            continue # Send to the next update.
-                        else:
-                            # We presently work just with the one char only, so:
-                            worker = workers.pop()
-                            if worker in self.workers:
-                                self.workers.remove(worker)
-                            self.env.process(upgrade.request_room(client, worker))
-                            break
-                            
-                    # Jobs like the Club:
-                    elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
-                        self.env.process(upgrade.request_spot(client))
-                        upgrade.send_in_workers()
-                        break
-                        
-                else: # If nothing was found, kick the client:
-                    self.env.process(self.kick_client(client))
+                client.name = "Client {}".format(i) # TODO: Should be expanded to cover new clients pushed on top of existing list OR names should be used.
+                self.env.process(self.client_manager(client))
             
+        # def kick_client(self, client):
+            # """Gets rid of this client...
+            # """
+            # temp = "{}: There is not much for the {} to do...".format(self.env.now, client.name)
+            # self.log(temp)
+             
+            # yield self.env.timeout(0)
+             
+            # temp = "{}: So {} leaves your establishment cursing...".format(self.env.now, client.name)
+            # self.log(temp)
+            
+        def client_manager(self, client):
+            """Manages a client using SimPy.
+            
+            - Picks a business
+            - Tries other businesses if the original choice fails
+            - Kicks the client if all fails
+            """
+            # Register the fact that client arrived at the building:
+            temp = '{}: {} arrives at the {}.'.format(self.env.now, client.name, self.name)
+            self.log(temp)
+            
+            # Prepear data:
+            businesses = self.nd_ups[:]
+            shuffle(businesses)
+            
+            visited = 0 # Amount of businesses client has successfully visited.
+            while businesses: # Manager effects should be a part of this loop as well!
+                # Here we pick an upgrade if a client has one in preferences:
+                upgrade = businesses.pop()
+                
+                if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
+                    # Personal Service (Brothel-like):
+                    job = upgrade.job
+                    workers = upgrade.get_workers(job, amount=1, match_to_client=client)
+                    
+                    if not workers:
+                        continue # Send to the next update.
+                    else:
+                        # We presently work just with the one char only, so:
+                        worker = workers.pop()
+                        if worker in self.workers:
+                            self.workers.remove(worker)
+                            
+                        # We bind the process to a flag and wait until it is interrupted:
+                        visited += 1
+                        # client.set_flag("jobs_busy", self.env.process(upgrade.request_room(client, worker)))
+                        # raise Exception(client.flag("jobs_busy").__dict__)
+                        # while self.env.process(upgrade.request_room(client, worker)).is_alive:
+                            # yield self.env.timeout(1)
+                        self.env.process(upgrade.request_room(client, worker))
+                        client.set_flag("jobs_busy")
+                        while client.flag("jobs_busy"):
+                            yield self.env.timeout(1)
+                        # raise Exception("Meow")
+                            
+                        
+                # Jobs like the Club:
+                elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
+                    self.env.process(upgrade.request_spot(client))
+                    upgrade.send_in_workers()
+                    visited += 1
+                    client.set_flag("jobs_busy")
+                    while client.flag("jobs_busy"):
+                        yield self.env.timeout(1)
+                    
+            if not visited:
+                temp = "{}: There is not much for the {} to do...".format(self.env.now, client.name)
+                self.log(temp)
+                temp = "{}: So {} leaves your establishment cursing...".format(self.env.now, client.name)
+                self.log(temp)
+                yield self.env.timeout(0) # To make sure this is a generator :)
+            else:
+                temp = '{}: {} is leaving after visiting {} businesses.'.format(self.env.now, client.name, visited)
+                self.log(temp)
+            
+                    
         def post_nd_reset(self):
             self.env = None
             self.nd_ups = list()

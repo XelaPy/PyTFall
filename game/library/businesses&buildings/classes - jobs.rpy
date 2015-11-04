@@ -96,7 +96,10 @@
             Returns an event depicting the current state of this job.
             """
             if isinstance(self.txt, (list, tuple)):
-                self.txt = "".join(self.txt)
+                try:
+                    self.txt = "".join(self.txt)
+                except TypeError:
+                    self.txt = "".join(str(i) for i in self.txt)
             
             return NDEvent(type=self.event_type,
                                  img=self.img,
@@ -327,7 +330,10 @@
             Returns an event depicting the current state of this job.
             """
             if isinstance(self.txt, (list, tuple)):
-                self.txt = "".join(self.txt)
+                try:
+                    self.txt = "".join(self.txt)
+                except TypeError:
+                    self.txt = "".join(str(i) for i in self.txt)
             
             return NDEvent(type=self.event_type,
                                       img=self.img,

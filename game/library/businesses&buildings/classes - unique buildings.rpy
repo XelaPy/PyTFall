@@ -369,7 +369,12 @@ init -9 python:
             evt.char = None
             self.loc = fg
             evt.img = self.img
-            evt.txt = "".join(txt)
+            if isinstance(txt, (list, tuple)):
+                try:
+                    evt.txt = "".join(txt)
+                except TypeError:
+                    evt.txt = "".join(str(i) for i in txt)
+            # evt.txt = "".join(txt)
             NextDayList.append(evt)
             
             self.fin.next_day()

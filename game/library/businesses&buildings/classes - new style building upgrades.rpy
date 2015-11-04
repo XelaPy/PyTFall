@@ -237,8 +237,10 @@ init -9 python:
                 
                 yield self.env.process(self.run_job(client, char))
                 
-                temp = "{}: {} leaves.".format(self.env.now, client.name)
+                temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
                 self.log(temp)
+                # client.flag("jobs_busy").interrupt()
+            client.del_flag("jobs_busy")
                 
         def run_job(self, client, char):
             """Waits for self.time delay and calls the job...
@@ -306,6 +308,7 @@ init -9 python:
                 temp = "{}: {} leaves the Club.".format(self.env.now, client.name)
                 self.clients.remove(client)
                 self.log(temp)
+                client.del_flag("jobs_busy")
                 
         def send_in_workers(self):
             if not self.active_workers or len(self.active_workers) < self.res.count/4:
