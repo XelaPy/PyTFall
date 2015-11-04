@@ -114,7 +114,6 @@
     "badness": 60,
     "eqchance": 50,
     "hidden": false,
-    "bg_color": "dark",
     "infinite": false,
     "slot": "cape",
     "type": "dress",
