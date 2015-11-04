@@ -90,11 +90,6 @@
         def get_clients(self):
             # This returns a correct amount of clients used for the job
             return 0
-            
-        def get_upgrade(self):
-            # This returns a correct upgrade girl is working atm.
-            # In case none was logged to her, upgrade that makes the most sense should be picked.
-            return
         
         def create_event(self):
             """
@@ -326,11 +321,6 @@
         def get_clients(self):
             # This returns a correct amount of clients used for the job
             return 0
-            
-        def get_upgrade(self):
-            # This returns a correct upgrade worker is working atm.
-            # In case none was logged to her, upgrade that makes the most sense should be picked.
-            return
         
         def create_event(self):
             """
@@ -947,7 +937,6 @@
                 self.loggs('joy', flag)
                 self.worker.del_flag("jobs_introjoy")
             
-            # TODO: LEFT OFF HERE: Rewrite this bit, ADD TIPS, CLEAN UP, replace strip with proper skill access!
             len_clients = len(self.clients)
             tippayout = self.worker.flag("jobs_" + self.id + "_tips")
             cl_strip = 0
@@ -1001,25 +990,12 @@
             
             self.loggs('reputation', choice([0, 0, 0, 0, 0, 1, 0]) + int(round(0.01 * charisma)) + int(round(0.005 * stripskill)))
             self.loggs('fame', choice([0, 0, 1, 1, 0, 0, 0]) + int(round(0.02 * charisma)) + int(round(0.02 * stripskill)))
-            self.loggs('agility', choice([0, 0, 0, 1]) * 1)
-            self.loggs('vitality', randrange(15, 31))
+            self.loggs('agility', choice([0, 0, 0, 1]))
+            self.loggs('vitality', randrange(-31, -15))
             
             # Finances:
             self.worker.fin.log_tips(tippayout, "StripJob")
-            
             self.loc.fin.log_work_income(tippayout, "StripJob")
-            
-            # Building
-            # self.logloc('dirt', min(300, len_clients * 4))
-            # raise Exception("Meow")
-            # Clients
-            # matchedclients = 0
-            # sat = int(self.worker.charisma / 4 + self.worker.strip / 8)
-            # for client in self.clients:
-                # if client.favtraits & set(self.worker.traits):
-                    # client.stripsatisfaction += sat
-                    # matchedclients += 1
-            # self.txt.append("\n{color=[blue]}Extra satisfaction bonus for %d %s on behalf of matched traits!!! {/color}"%(matchedclients, plural("client", matchedclients)))
             
             self.img = 'strip'
             self.apply_stats()
@@ -1419,7 +1395,7 @@
     class ServiceJob(NewStyleJob):
         """The class that solves Bartending, Waitressing and Cleaning.
         
-        TODO: Rewrite to work with SimPy!
+        TODO: Rewrite to work with SimPy! *Or this actually should prolly be split into three Jobs...
         """
         def __init__(self):
             """

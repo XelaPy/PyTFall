@@ -213,7 +213,7 @@ init -999 python:
             """
             if not flag in self.flags:
                 self.flags[flag] = value
-                if config.debug:
+                if config.debug and "next" not in last_label: # Not logged during last day for clearer logs.
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
                 return
                 
@@ -229,7 +229,7 @@ init -999 python:
             """
             if not flag in self.flags:
                 self.flags[flag] = set(value)
-                if config.debug:
+                if config.debug and "next" not in last_label: # Not logged during last day for clearer logs.
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
                 return
                 
