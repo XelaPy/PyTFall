@@ -322,7 +322,7 @@ init -9 python:
                     workers.remove(w)
                     self.env.process(self.use_worker(w))
                 
-        def run_job(self, end):
+        def run_business(self, end):
             """This runs the club as a SimPy process from start to the end.
             
             - 

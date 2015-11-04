@@ -653,7 +653,7 @@ init -9 python:
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 if u.type == "public_service":
-                    self.env.process(u.run_job(end))
+                    self.env.process(u.run_business(end))
                 
                 if u.has_workers():
                     u.is_running = True

@@ -26,6 +26,12 @@ init -997: # Transforms:
         align start_align
         linear t align end_align
         
+    transform align_with_easein(start_align=(0, 0), end_align=(1.0, 1.0), t=1.0):
+        # Move_by_align_with_linear
+        subpixel True
+        align start_align
+        easein t align end_align
+        
     transform move_bowe(start_offset=(-640, -400), end_offset=(0, 0), t=1.0):
         # move_by_offset_with_ease
         subpixel True

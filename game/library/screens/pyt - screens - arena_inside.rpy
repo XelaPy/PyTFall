@@ -691,15 +691,14 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
     if play_music and condition == "Victory":
         $ renpy.music.play("content/sfx/sound/world/win_screen.mp3", channel="music")
         $ play_music = False
-    
     if hero.team == w_team:
-        add "content/gfx/images/battle/victory_l.png"
-        add "content/gfx/images/battle/victory_r.png"
+        add "content/gfx/images/battle/victory_l.png" at move_bpwe(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/victory_r.png" at move_bpwe(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
         add "content/gfx/images/battle/battle_c.png"
         add "content/gfx/images/battle/victory.png"
     else:
-        add "content/gfx/images/battle/defeat_l.png"
-        add "content/gfx/images/battle/defeat_r.png"
+        add "content/gfx/images/battle/defeat_l.png" at move_bpwe(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/defeat_r.png" at move_bpwe(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
         add "content/gfx/images/battle/battle_c.png"
         add "content/gfx/images/battle/defeat.png"
     
