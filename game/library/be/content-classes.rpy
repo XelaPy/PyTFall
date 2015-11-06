@@ -356,8 +356,8 @@ init python:
             
             # Next lets do the flying animation:
             aimpos = battle.get_cp(target, type="center", yo=-20) # We want to aim slight above the center of the enemy sprite, which is usually the heart :)
-            # move_from_to_pos_with_easeo are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
-            renpy.show("fly", what=arrowsprite, at_list=[move_from_to_pos_with_easeo(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
+            # move_from_to_pos_with_easeout are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
+            renpy.show("fly", what=arrowsprite, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
             renpy.pause(0.4)
             
             renpy.hide("fly")
@@ -441,7 +441,7 @@ init python:
                 
             initpos = battle.get_cp(char, type="fc", xo=60)
             aimpos = battle.get_cp(target, type="center")
-            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeo(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
+            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
             renpy.pause(self.pause)
             
             renpy.hide("launch")

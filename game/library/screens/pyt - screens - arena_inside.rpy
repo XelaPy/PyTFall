@@ -692,16 +692,16 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
         $ renpy.music.play("content/sfx/sound/world/win_screen.mp3", channel="music")
         $ play_music = False
     if hero.team == w_team:
-        add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
+        add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7, wait=0)
         add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-        add "content/gfx/images/battle/battle_c.png"
+        add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=0)
         add "content/gfx/images/battle/victory.png":
             align (0.5, 0.5)
             at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
     else:
         add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
         add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-        add "content/gfx/images/battle/battle_c.png"
+        add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=0)
         add "content/gfx/images/battle/defeat.png":
             align (0.5, 0.5)
             at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)

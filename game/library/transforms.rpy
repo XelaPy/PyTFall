@@ -13,11 +13,18 @@ init -997: # Transforms:
     transform move_to_pos_with_offset(pos, t):
         linear t offset pos
     
-    transform move_from_to_pos_with_ease(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t=1.0):
-        # Moves the child from start position to end position in t sexconds
+    transform move_from_to_pos_with_ease(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t=1.0, wait=0):
+        # Moves the child from start position to end position in t seconds
         subpixel True
         pos start_pos
+        pause wait
         ease t pos end_pos
+        
+    transform move_from_to_pos_with_easeout(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t):
+        # Move by pos with easeOut:
+        subpixel True
+        pos start_pos
+        easeout t pos end_pos
         
     transform move_from_to_align_with_linear(start_align=(0, 0), end_align=(1.0, 1.0), t=1.0):
         # Move_by_align_with_linear
@@ -55,11 +62,12 @@ init -997: # Transforms:
         on hide:
             linear t2 pos hide_pos
             
-    transform fade_from_to(start_val=1.0, end_val=0.0, t=1.0):
+    transform fade_from_to(start_val=1.0, end_val=0.0, t=1.0, wait=0):
         # Setup as a fade out, reverse the values for the fade in
         # simple_fade (fade is reserved...)
         subpixel True
         alpha start_val
+        pause wait
         linear t alpha end_val
         
     transform fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
@@ -188,12 +196,6 @@ init -997: # Transforms:
             linear 0.3 xoffset 100
         on idle:
             linear 0.3 xoffset 300
-        
-    transform move_from_to_pos_with_easeo(start_pos=(0, 0), end_pos=(config.screen_width, config.screen_height), t):
-        # Move by pos with easeOut:
-        subpixel True
-        pos start_pos
-        easeout t pos end_pos
         
     transform circle_around(t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
         subpixel True
