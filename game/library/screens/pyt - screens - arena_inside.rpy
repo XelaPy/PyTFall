@@ -19,7 +19,7 @@ label arena_inside:
         
         if result[0] == 'control':
             if result[1] == "hide_vic":
-                hide screen pyt_arena_af_popup
+                hide screen arena_aftermatch
             if result[1] == 'return':
                 jump arena_inside_end
                 
@@ -680,37 +680,32 @@ screen pyt_arena_bestiary():
     textbutton "{color=[red]}Ok" action [Hide("pyt_arena_bestiary"), Show("pyt_arena_inside")] minimum(50, 30) align(0.5, 0.985)
     key "mousedown_3" action [Hide("pyt_arena_bestiary"), Show("pyt_arena_inside")]
       
-screen pyt_arena_af_popup(w_team, l_team, condition):
+screen arena_aftermatch(w_team, l_team, condition):
     modal True
     zorder 2
     
-    default wteam_display = "w_team[0]"
+    on "show" action If(condition=="Victory", true=Play("music", "content/sfx/sound/world/win_screen.mp3"))
     
-    default play_music = True
-    # TODO: Fix Direct use of a function in a screen.
-    if play_music and condition == "Victory":
-        $ renpy.music.play("content/sfx/sound/world/win_screen.mp3", channel="music")
-        $ play_music = False
+    default winner = w_team[0]
+    default loser = l_team[0]
+        
     if hero.team == w_team:
         add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7, wait=0)
         add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-        add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=0)
+        add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
         add "content/gfx/images/battle/victory.png":
             align (0.5, 0.5)
             at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
     else:
         add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
         add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-        add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=0)
+        add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
         add "content/gfx/images/battle/defeat.png":
             align (0.5, 0.5)
             at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
+            
+    # timer 10 action Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])
     
-    for member in w_team : # Just for test
-        if member == wteam_display:
-            add(member.show("sprite", resize=(200, 200), cache=True)) align(0.2, 0.2)
-    
-    timer 10000.5 action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
     frame:
         background Null()
         xsize 95
@@ -775,6 +770,38 @@ screen pyt_arena_af_popup(w_team, l_team, condition):
         style_group "pb"
         action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
         text "Continue" style "pb_button_text"
+     
+    # Winner Details Display on the left:
+    if winner.combat_stats == "K.O.":
+        add im.Sepia(winner.show("sprite", resize=(200, 200), cache=True)) align (0.2, 0.2)
+    else:
+        add winner.show("sprite", resize=(200, 200), cache=True) align (0.2, 0.2)
+        if hero.team == w_team: # Show only if we won...
+            frame:
+                style_group "proper_stats"
+                align (0.2, 0.5)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                xpadding 12
+                ypadding 12
+                xmargin 0
+                ymargin 0
+                has vbox spacing 1
+                for stat in winner.combat_stats:
+                    frame:
+                        xalign 0.5
+                        xpadding 0
+                        ypadding 0
+                        xmargin 0
+                        ymargin 0
+                        xysize (190, 27)
+                        text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
+                        label str(winner.combat_stats[stat]) xalign 1.0 yoffset -1
+    
+    # Looser Details Display on the left:
+    if loser.combat_stats == "K.O.":
+        add im.Sepia(loser.show("sprite", resize=(200, 200), cache=True)) align (0.2, 0.2)
+    else:
+        add loser.show("sprite", resize=(200, 200), cache=True) align (0.8, 0.2)
         
     add "content/gfx/frame/h1.png"
     

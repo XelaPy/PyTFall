@@ -295,15 +295,13 @@ init -9 python:
             with self.res.request() as request:
                 yield request
                 
-                # All is well and we create the event
+                # All is well and we create the event:
                 temp = "{}: {} enters the Strip Club.".format(self.env.now, client.name)
                 self.clients.add(client)
                 self.log(temp)
                 
-                # TODO: LEFT OFF HERE, THIS IS A MESS.
                 while not client.flag("jobs_ready_to_leave"):
                     yield self.env.timeout(1)
-                # yield self.env.process(self.run_job(client))
                 
                 temp = "{}: {} leaves the Club.".format(self.env.now, client.name)
                 self.clients.remove(client)
@@ -324,8 +322,6 @@ init -9 python:
                 
         def run_business(self, end):
             """This runs the club as a SimPy process from start to the end.
-            
-            - 
             """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
             while 1:

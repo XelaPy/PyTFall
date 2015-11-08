@@ -1269,7 +1269,7 @@ init -9 python:
                     renpy.show_screen("pyt_arena_finished_chainfight", hero.team)
                     return
                 else:
-                    renpy.call_screen("pyt_arena_af_popup", hero.team, team, "Victory")
+                    renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
                     self.setup_chainfight()
                     return
                             
@@ -1383,7 +1383,7 @@ init -9 python:
                     member.arena_rep -= max(50, (team.get_rep()/30))
                     self.remove_team_from_dogfights(member)
 
-                renpy.call_screen("pyt_arena_af_popup", hero.team, team, "Victory")
+                renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
                             
             else:# Player lost -->
                 for member in team:
@@ -1473,7 +1473,7 @@ init -9 python:
                     member.arena_rep -= max(50, (hero.team.get_rep()/20))
                     self.remove_team_from_dogfights(member)
 
-                renpy.call_screen("pyt_arena_af_popup", hero.team, team, "Victory")
+                renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
                             
             else: # Player lost -->
                 winner = setup[1]
