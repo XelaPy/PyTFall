@@ -1003,7 +1003,14 @@
             self.worker.fin.log_tips(tippayout, "StripJob")
             self.loc.fin.log_work_income(tippayout, "StripJob")
             
-            self.img = 'strip'
+            if self.worker.has_image("strip", "indoors", exclude=["sex"]):
+                self.img = self.worker.show("strip", "indoors", exclude=["sex"])
+            elif self.worker.has_image("strip", "simple bg", exclude=["sex"]):
+                self.img = self.worker.show("strip", "simple bg", exclude=["sex"])
+            elif self.worker.has_image("strip", "no bg", exclude=["sex"]):
+                self.img = self.worker.show("strip", "no bg", exclude=["sex"])
+            else:
+                self.img = "strip"
             self.apply_stats()
             self.finish_job()
         

@@ -789,10 +789,6 @@ screen arena_aftermatch(w_team, l_team, condition):
                 for stat in winner.combat_stats:
                     frame:
                         xalign 0.5
-                        xpadding 0
-                        ypadding 0
-                        xmargin 0
-                        ymargin 0
                         xysize (190, 27)
                         text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
                         label str(winner.combat_stats[stat]) xalign 1.0 yoffset -1
