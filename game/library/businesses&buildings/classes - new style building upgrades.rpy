@@ -363,10 +363,13 @@ init -9 python:
                 self.log(temp)
                 
             if worker.flag("jobs_strip_clients"):
+                temp = "{}: Logging StripJob for {}!".format(self.env.now, worker.name)
+                self.log(temp)
                 simple_jobs["Striptease Job"](worker) # better bet to access Class directly...
             else:
-                temp = "No clients came to see {}".format(worker.name)
+                temp = "{}: No clients came to see {}".format(self.env.now, worker.name)
                 self.log(temp)
+                
             self.active_workers.remove(worker)
             temp = "{}: {} is done entertaining for the day!".format(self.env.now, set_font_color(worker.name, "red"))
             self.log(temp)

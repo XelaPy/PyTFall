@@ -958,7 +958,7 @@
             cl_char = cl_char / len_clients
             
             if stripskill > cl_strip*1.5 and charisma > cl_char*1.5:
-                self.txt.append("Your girl gave a performance worthy of kings and queens as the whole hall was cheering for her. \n")
+                self.txt.append("{} gave a performance worthy of kings and queens as the whole hall was cheering for her. \n".format(self.worker.name))
                 self.loggs('joy', 3)
             elif cl_strip*1.3 <= stripskill and cl_char*1.3 <= charisma:
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. \n")
@@ -1011,6 +1011,9 @@
                 self.img = self.worker.show("strip", "no bg", exclude=["sex"])
             else:
                 self.img = "strip"
+                
+            self.event_type = "jobreport"
+            self.kind = self.id
             self.apply_stats()
             self.finish_job()
         

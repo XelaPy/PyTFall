@@ -308,11 +308,11 @@ init -9 python:
             return phase
 
     class NDEvent(_object):
-        '''Next Day Report. Logs in a single event to be read in next_day label.
+        """Next Day Report. Logs in a single event to be read in next_day label.
 
         The load_image method will always return the same image. If you want to
         do another search, you have to set the 'img' attribute to 'None'.
-        '''
+        """
         def __init__(self, type='', txt='', img='', char=None, charmod={}, loc=None, locmod={}, red_flag=False, green_flag=False, **kwargs):
             # describes the type of event
             self.type = type
@@ -328,6 +328,8 @@ init -9 python:
             self.charmod = charmod.copy()
             # stat changes of that location (optional)
             self.locmod = locmod.copy()
+            
+            self.kind = kwargs.get("kind", None)
             
             self.green_flag = green_flag
             self.red_flag = red_flag
