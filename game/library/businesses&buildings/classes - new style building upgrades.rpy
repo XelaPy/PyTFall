@@ -390,6 +390,117 @@ init -9 python:
             super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set(["Waitress"])
             self.workable = True
+            self.type = "public_service"
+            
+            self.capacity = in_slots
+            self.active_workers = set() # On duty Bartenders.
+            self.clients = set() # Clients at the bar.
+            
+            # SimPy and etc follows (L33t stuff :) ):
+            self.res = None # Restored before every job...
+            self.time = 5
+            self.is_running = False
+            
+            self.earned_cash = 0
+            
+        def get_client_count(self):
+            # Returns amount of workers we expect to come here.
+            return int(round(3 + self._rep*0.05*max(len(self.all_workers), self.capacity)))
+            
+        def pre_nd(self):
+            self.res = simpy.Resource(self.env, self.capacity)
+            
+        def request_spot(self, client):
+            """Request for a spot for a client in thebar is being made here.
+            """
+            with self.res.request() as request:
+                yield request
+                
+                # All is well and we create the event:
+                temp = "{}: {} enters the {}.".format(self.env.now, client.name, self.name)
+                self.clients.add(client)
+                self.log(temp)
+                
+                while not client.flag("jobs_ready_to_leave"):
+                    yield self.env.timeout(1)
+                
+                temp = "{}: {} leaves the Bar.".format(self.env.now, client.name)
+                self.clients.remove(client)
+                self.log(temp)
+                client.del_flag("jobs_busy")
+                
+        def send_in_workers(self):
+            if not self.active_workers or len(self.active_workers) < self.res.count/4:
+                workers = self.instance.workers
+                # Get all candidates:
+                job = self.job
+                ws = self.get_workers(job)
+                if ws:
+                    w = ws.pop()
+                    self.active_workers.add(w)
+                    workers.remove(w)
+                    self.env.process(self.use_worker(w))
+                
+        def run_business(self, end):
+            """This runs the club as a SimPy process from start to the end.
+            """
+            # See if there are any strip girls, that may be added to Resource at some point of the development:
+            while 1:
+                yield self.env.timeout(self.time)
+                
+                # Handle the earnings:
+                cash = self.res.count*len(self.active_workers)*randint(8, 12)
+                self.earned_cash += cash
+                
+                # Manage clients...
+                for c in self.clients:
+                    c.mod_flag("jobs_spent_in_bar", self.time)
+                    if c.flag("jobs_spent_in_bar") >= self.time*2:
+                        c.set_flag("jobs_ready_to_leave")
+                
+                if config.debug:
+                    temp = "{}: Debug: {} places are currently in use in Bar | Cash earned: {}, Total: {}!".format(self.env.now, set_font_color(self.res.count, "red"), cash, self.earned_cash)
+                    temp = temp + " {} Workers are currently tending the bar!".format(set_font_color(len(self.active_workers), "red"))
+                    self.log(temp)
+                    
+                if not self.all_workers and not self.active_workers:
+                    break
+                    
+            # We remove the business from nd if there are no more strippers to entertain:
+            temp = "There are no bartenders available in the {} so it is shutting down!".format(self.name)
+            self.log(temp)
+            self.instance.nd_ups.remove(self)
+            
+        def use_worker(self, worker):
+            temp = "{}: {} comes out to serve customers!".format(self.env.now, worker.name)
+            self.log(temp)
+            while worker.AP and self.res.count:
+                yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
+                worker.set_union("jobs_strip_clients", self.clients)
+                worker.AP -= 1
+                tips = randint(4, 7) * self.res.count
+                worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
+                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now, worker.name, tips, self.res.count)
+                self.log(temp)
+                
+            if worker.flag("jobs_strip_clients"):
+                temp = "{}: Logging StripJob for {}!".format(self.env.now, worker.name)
+                self.log(temp)
+                simple_jobs["Striptease Job"](worker) # better bet to access Class directly...
+            else:
+                temp = "{}: No clients came to see {}".format(self.env.now, worker.name)
+                self.log(temp)
+                
+            self.active_workers.remove(worker)
+            temp = "{}: {} is done entertaining for the day!".format(self.env.now, set_font_color(worker.name, "red"))
+            self.log(temp)
+            
+        def post_nd_reset(self):
+            self.res = None
+            self.is_running = False
+            self.active_workers = set()
+            self.clients = set()
+            self.earned_cash = 0
             
             
     class Garden(MainUpgrade):

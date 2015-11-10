@@ -1243,6 +1243,10 @@
             self.finish_job()
     
     class Bartending(NewStyleJob):
+        def __init__(self):
+            super(StripJob, self).__init__()
+            self.id = "Bartending"
+            
         def bar_task(self):
             """
             Solves the job as a bar server.
