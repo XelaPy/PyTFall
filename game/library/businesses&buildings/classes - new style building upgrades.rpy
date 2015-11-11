@@ -383,8 +383,7 @@ init -9 python:
             
             
     class Bar(MainUpgrade):
-        """
-        Bar Main Upgrade.
+        """Bar Main Upgrade.
         """
         def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!", img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
             super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
@@ -476,15 +475,15 @@ init -9 python:
             self.log(temp)
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
-                worker.set_union("jobs_strip_clients", self.clients)
+                worker.set_union("jobs_bar_clients", self.clients)
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
                 worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
                 temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now, worker.name, tips, self.res.count)
                 self.log(temp)
                 
-            if worker.flag("jobs_strip_clients"):
-                temp = "{}: Logging StripJob for {}!".format(self.env.now, worker.name)
+            if worker.flag("jobs_bar_clients"):
+                temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
                 self.log(temp)
                 simple_jobs["Striptease Job"](worker) # better bet to access Class directly...
             else:
@@ -492,7 +491,7 @@ init -9 python:
                 self.log(temp)
                 
             self.active_workers.remove(worker)
-            temp = "{}: {} is done entertaining for the day!".format(self.env.now, set_font_color(worker.name, "red"))
+            temp = "{}: {} is done bar tending for the day!".format(self.env.now, set_font_color(worker.name, "red"))
             self.log(temp)
             
         def post_nd_reset(self):

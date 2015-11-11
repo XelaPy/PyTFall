@@ -1140,6 +1140,18 @@
     class Waiting(NewStyleJob):
         def __init__(self):
             super(Waiting, self).__init__()
+            self.id = "Waiting Job"
+            
+            # Traits/Job-types associated with this job:
+            self.occupations = [] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [] # Corresponing traits...
+            
+            # Relevant skills and stats:
+            self.skills = []
+            self.stats = []
+            
+            self.workermod = {}
+            self.locmod = {}
         
         def __call__(self, char):
             pass
@@ -1247,14 +1259,65 @@
             super(StripJob, self).__init__()
             self.id = "Bartending"
             
-        def bar_task(self):
-            """
-            Solves the job as a bar server.
-            """
-            self.auto_clean()
-            if self.check_dirt():
-                return
+            # Traits/Job-types associated with this job:
+            self.occupations = [] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [] # Corresponing traits...
             
+            # Relevant skills and stats:
+            self.skills = []
+            self.stats = []
+            
+            self.workermod = {}
+            self.locmod = {}
+            
+        def __call__(self, char):
+            self.worker, self.loc = char, char.location
+            self.clients = char.flag("jobs_bar_clients")
+            self.bar_task()
+            
+        def check_occupation(self, char):
+            """Checks the workers occupation against the job.
+            """
+            if not [t for t in self.all_occs if t in char.occupations]:
+                if char.status == 'slave':
+                    temp = choice(["%s has no choice but to agree to tend the bar."%char.fullname,
+                                            "She'll tend the bar for customer, does not mean she'll enjoy it.",
+                                            "%s is a slave so she'll do as she is told. However you might want to concider giving her work fit to her profession."%char.name])
+                    char.set_flag("jobs_barintro", temp)
+                    char.set_flag("jobs_introjoy", -3)
+                
+                elif self.worker.disposition < 800:
+                    temp = choice(["%s refused to serve! It's not what she wishes to do in life."%char.name,
+                                             "%s will not work as a Service Girl, find better suited task for her!"%char.fullname])
+                    temp = set_font_color(temp, "red")
+                    self.txt.append(temp)
+                    
+                    self.worker = char
+                    self.loc = char.location
+                    self.event_type = "jobreport"
+                    
+                    self.loggs('disposition', -50)
+                    self.img = char.show("profile", "angry", resize=(740, 685))
+                    char.action = None
+                    
+                    self.apply_stats()
+                    self.finish_job()
+                    return False
+                
+                else: # self.worker.disposition > 800:
+                    temp = "%s reluctently agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. "%char.name
+                    char.set_flag("jobs_barintro", temp)
+            
+            else:
+                temp = choice(["%s will work as a service girl!"%char.name,
+                                         "Cleaning, cooking, bartending...",
+                                         "%s will clean or tend to customers next!"%char.fullname])
+                char.set_flag("jobs_barintro", temp)
+            return True
+            
+        def bar_task(self):
+            """Solves the job as a bar tender.
+            """
             # Business as usual
             beer = self.loc.get_upgrade_mod("bar") == 2
             tapas = self.loc.get_upgrade_mod("bar") == 3
