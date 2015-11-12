@@ -146,7 +146,7 @@ init -1 python: # Core classes:
             """
             Returns the next battle events to the game.
             (Re)Calculates the queue of events.
-            Currently we're calculating one turn where everyone get's to go once.
+            Currently we're calculating one turn where everyone gets to go once.
             Last index is the next in line.
             """
             if not self.queue:
@@ -510,15 +510,17 @@ init -1 python: # Core classes:
             
             # Get the attack power:
             attack = self.get_attack()
+            name = self.name
             
             for t in targets:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the mupliplier and any effects that those may bring.
-                    effects, multiplier = self.get_attributes_multiplier(t, attributes)
+                    effects, multiplier = self.get_attributes_multiplier(t, attributes, name)
                     
                     # Get the damage:
-                    damage = self.default_damage_calculator(t, attack, multiplier)
+                    defense = self.get_defense(t)
+                    damage = self.default_damage_calculator(t, attack, defense, multiplier)
                     
                     # Rows Damage:
                     effects_append, damage = self.get_row_damage(t, damage)
@@ -581,14 +583,13 @@ init -1 python: # Core classes:
                 
             return s
                 
-        def default_damage_calculator(self, t, attack, multiplier):
+        def default_damage_calculator(self, t, attack, defense, multiplier):
             damage = 0
             # Calculate damage same as usual
-            if (t.defence < 1):
-                defence = 2 - t.defence
-                damage = attack * defence
+            if (defense < 1):
+                damage = attack * 1.5
             else:
-                damage = (attack/t.defence) + 0.5
+                damage = (attack/defense) + 0.5
                 
             # Get a random number between 0.8 and 1.2
             rand = (random.random() * 0.4) + 0.8
@@ -639,8 +640,20 @@ init -1 python: # Core classes:
             else:
                 attack = self.effect + 20
             return attack    
+            
+        def get_defense(self, target):
+            """
+            A method to get defence value vs current attack.
+            """
+            if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
+                defense = round(target.defence + target.constitution*0.2)
+            elif "magic" in self.attributes:
+                defense = round(target.magic*0.4 + target.defence*0.4 + target.constitution*0.2 + target.intelligence*0.2)
+            else:
+                defense = target.defence
+            return defense  
                 
-        def get_attributes_multiplier(self, t, attributes):
+        def get_attributes_multiplier(self, t, attributes, name):
             """
             This calculates the multiplier to use with damage.
             """
@@ -652,8 +665,33 @@ init -1 python: # Core classes:
                 if dice(10):
                     if (a.luck >= t.luck and dice(max(50, a.luck*2))) or dice(50):
                         multiplier += 1.5
+                        if name == "CrossbowAttack":  #different weapons have different power of crit
+                            multiplier += 0.2
+                        elif name == "KnifeAttack":
+                            multiplier += 1.0
+                        elif name == "ClawAttack":
+                            multiplier += 0.4
+                        elif name == "FistAttack":
+                            multiplier -= 0.4
+                        elif name == "CannonAttack":
+                            multiplier -= 0.6
+                        elif name == "RodAttack":
+                            multiplier -= 1.1
+                        elif name == "AxeAttack":
+                            multiplier -= 0.2
+                        elif name == "BiteAttack":
+                            multiplier += 0.5
+                        elif name == "GunAttack":
+                            multiplier += 0.3
+                        elif name == "ScytheAttack":
+                            multiplier += 0.6
+                        elif name == "SprayAttack":
+                            multiplier -= 0.7
+                        elif name == "ThrowAttack":
+                            multiplier -= 0.1
+                        elif name == "WhipAttack":
+                            multiplier += 0.4
                         effects.append("critical_hit")
-                
             # Magic/Attribute alignment:
             for al in attributes:
                 # Damage first:
