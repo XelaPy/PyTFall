@@ -39,7 +39,7 @@ label mainscreen:
     $ pytfall.world_events.run_events("auto") # Run current events
     $ pytfall.world_quests.next_day() # Garbage collect quests
     
-    while True:
+    while 1:
         $ result = ui.interact()
         
         if len(result) > 1:
@@ -48,6 +48,7 @@ label mainscreen:
                 renpy.hide_screen("pyt_mainscreen")
                 pytfall.arena.seen_report = True
                 jump(result[1])
+                
         elif result[0] == "girls_list":
             stop world
             $ renpy.hide_screen("pyt_mainscreen")
@@ -55,6 +56,7 @@ label mainscreen:
             # scene bg gallery
             # with irisin
             $ jump(result[0])
+            
         elif result[0] == "pyt_city":
             $ global_flags.set_flag("keep_playing_music")
             $ renpy.hide_screen("pyt_mainscreen")
@@ -62,6 +64,7 @@ label mainscreen:
             scene bg humans
             # with irisin
             $ jump(result[0])
+            
         else:
             python:
                 renpy.hide_screen("pyt_mainscreen")
@@ -96,7 +99,6 @@ screen pyt_mainscreen():
             ypos 305
             spacing 15
             textbutton "Girls":
-                # action Return(["girls_list"])
                 action Stop("world"), Hide("pyt_mainscreen"), Show("pyt_girlslist", dissolve, source=GuiGirlsList(), page=0, total_pages=1), Jump("girls_list")
                 hovered tt.Action('Here you can see a list of all girls you possess, their stats and characteristics.\nIt is also here you can change their equipment and sell them.')
             textbutton "Buildings":
@@ -122,8 +124,9 @@ screen pyt_mainscreen():
             style_group "dropdown_gm"
             spacing 1
             align (0.01, 0.5)
+            textbutton "Arena Inside":
+                action Hide("pyt_mainscreen"), Jump("arena_inside")
             textbutton "Test BE":
-                # action Function(renpy.show_screen, "pyt_display_disposition", str(random.random()), 1000, 40, 530, 400, 5)
                 action Hide("pyt_mainscreen"), Jump("test_be")
             textbutton "Test Forest Exploration":
                 action [Hide("pyt_mainscreen"), Jump("forest_exploration")]

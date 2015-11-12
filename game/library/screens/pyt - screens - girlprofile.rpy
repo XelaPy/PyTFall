@@ -212,7 +212,7 @@ screen pyt_girl_profile():
         # Left Frame with most of the info ====================================>
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-            xysize(330, 780)
+            xysize (330, 780)
             xanchor 0.01
             ypos 30
             style_group "content"
@@ -337,10 +337,8 @@ screen pyt_girl_profile():
                         
             null height 4
             vbox:
-                style_group "stats"
-                pos(0.015, 10)
+                style_group "proper_stats"
                 xsize 318
-                xfill True
                 if stats_display == "main":
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -409,45 +407,42 @@ screen pyt_girl_profile():
                 elif stats_display == "stats":
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 100)
-                        xanchor 5
-                        yanchor 10
-                        hbox:
-                            $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
-                            vbox:
-                                spacing -7
-                                xanchor 0
-                                xmaximum 153
-                                xfill True
-                                frame:
-                                    text "Health:" xalign (0.02) color "#CD4F39"
-                                frame:
-                                    text "Vitality:" xalign (0.02) color "#43CD80"
-                                for stat in stats:
-                                    frame:
-                                        text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
-                                frame:
-                                    text "Gold:" xalign (0.02) color gold
-                            vbox:
-                                yalign (0.6)
-                                spacing 9
-                                xfill True
-                                xminimum 142
-                                xmaximum 142
-                                if char.health <= char.get_max("health")*0.3:
-                                    text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) style "stats_value_text" xalign (1.0)
-                                else:
-                                    text (u"%s/%s"%(char.health, char.get_max("health"))) style "stats_value_text" xalign (1.0)
-                                if char.vitality < char.get_max("vitality")*0.3:
-                                    text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                                else:
-                                    text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                                for stat in stats:
-                                    text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) style "stats_value_text" xalign (1.0)
-                                text (u"{color=[gold]}%s"%char.gold) style "stats_value_text" xalign (1.0)
+                        xsize 300
+                        xpadding 12
+                        ypadding 12
+                        xmargin 0
+                        ymargin 0
+                        has vbox spacing 1
+                        $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
+                        frame:
+                            xysize (290, 27)
+                            xalign 0.5
+                            text "Health:" xalign 0.02 color "#CD4F39"
+                            if char.health <= char.get_max("health")*0.3:
+                                text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                            else:
+                                text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign 0.5
+                            text "Vitality:" xalign 0.02 color "#43CD80"
+                            if char.vitality < char.get_max("vitality")*0.3:
+                                text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                            else:
+                                text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                        for stat in stats:
+                            frame:
+                                xysize (290, 27)
+                                xalign 0.5
+                                text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
+                                text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign 0.5
+                            text "Gold:" xalign 0.02 color gold
+                            text (u"{color=[gold]}[char.gold]") xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
                             
-                    null height -8
-                    label (u"{size=20}{color=[ivory]}{b}Info:") xalign(0.48) text_outlines [(2, "#424242", 0, 0)]
+                    label (u"{size=20}{color=[ivory]}{b}Info:") xalign (0.48) text_outlines [(2, "#424242", 0, 0)]
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         xysize (317, 10)

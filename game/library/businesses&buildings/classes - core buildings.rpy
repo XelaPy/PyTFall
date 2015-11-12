@@ -734,8 +734,6 @@ init -9 python:
                         client.set_flag("jobs_busy")
                         while client.flag("jobs_busy"):
                             yield self.env.timeout(1)
-                        # raise Exception("Meow")
-                            
                         
                 # Jobs like the Club:
                 elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:

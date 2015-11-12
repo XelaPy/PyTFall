@@ -26,7 +26,7 @@ label test_be():
             h.mod(stat, 1000)
         h.front_row = False
         n = chars["Nami"]
-        h.status = "free"
+        n.status = "free"
         n.apply_trait("Air")
         for skill in battle_skills.values():
             if isinstance(skill, SimpleAttack):

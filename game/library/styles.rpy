@@ -322,7 +322,21 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         is della_respira
         outlines [(1, "#3a3a3a", 0, 0)]
         size 14
-        color ivory 
+        color ivory
+        
+    style proper_stats_frame:
+        is frame
+        xpadding 0
+        ypadding 0
+        xmargin 0
+        ymargin 0
+        background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
+    style proper_stats_text:
+        is stats_text
+    style proper_stats_label_text:
+        is stats_label_text
+    style proper_stats_value_text:
+        is stats_value_text
     
     # Style for profile buttons "pb"
     # Pretty and advanced style used in Heros Profile:

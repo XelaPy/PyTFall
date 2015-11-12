@@ -958,7 +958,7 @@
             cl_char = cl_char / len_clients
             
             if stripskill > cl_strip*1.5 and charisma > cl_char*1.5:
-                self.txt.append("Your girl gave a performance worthy of kings and queens as the whole hall was cheering for her. \n")
+                self.txt.append("{} gave a performance worthy of kings and queens as the whole hall was cheering for her. \n".format(self.worker.name))
                 self.loggs('joy', 3)
             elif cl_strip*1.3 <= stripskill and cl_char*1.3 <= charisma:
                 self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. \n")
@@ -1003,7 +1003,17 @@
             self.worker.fin.log_tips(tippayout, "StripJob")
             self.loc.fin.log_work_income(tippayout, "StripJob")
             
-            self.img = 'strip'
+            if self.worker.has_image("strip", "indoors", exclude=["sex"]):
+                self.img = self.worker.show("strip", "indoors", exclude=["sex"])
+            elif self.worker.has_image("strip", "simple bg", exclude=["sex"]):
+                self.img = self.worker.show("strip", "simple bg", exclude=["sex"])
+            elif self.worker.has_image("strip", "no bg", exclude=["sex"]):
+                self.img = self.worker.show("strip", "no bg", exclude=["sex"])
+            else:
+                self.img = "strip"
+                
+            self.event_type = "jobreport"
+            self.kind = self.id
             self.apply_stats()
             self.finish_job()
         
@@ -1130,6 +1140,18 @@
     class Waiting(NewStyleJob):
         def __init__(self):
             super(Waiting, self).__init__()
+            self.id = "Waiting Job"
+            
+            # Traits/Job-types associated with this job:
+            self.occupations = [] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [] # Corresponing traits...
+            
+            # Relevant skills and stats:
+            self.skills = []
+            self.stats = []
+            
+            self.workermod = {}
+            self.locmod = {}
         
         def __call__(self, char):
             pass
@@ -1233,14 +1255,69 @@
             self.finish_job()
     
     class Bartending(NewStyleJob):
-        def bar_task(self):
-            """
-            Solves the job as a bar server.
-            """
-            self.auto_clean()
-            if self.check_dirt():
-                return
+        def __init__(self):
+            super(StripJob, self).__init__()
+            self.id = "Bartending"
             
+            # Traits/Job-types associated with this job:
+            self.occupations = [] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [] # Corresponing traits...
+            
+            # Relevant skills and stats:
+            self.skills = []
+            self.stats = []
+            
+            self.workermod = {}
+            self.locmod = {}
+            
+        def __call__(self, char):
+            self.worker, self.loc = char, char.location
+            self.clients = char.flag("jobs_bar_clients")
+            self.bar_task()
+            
+        def check_occupation(self, char):
+            """Checks the workers occupation against the job.
+            """
+            if not [t for t in self.all_occs if t in char.occupations]:
+                if char.status == 'slave':
+                    temp = choice(["%s has no choice but to agree to tend the bar."%char.fullname,
+                                            "She'll tend the bar for customer, does not mean she'll enjoy it.",
+                                            "%s is a slave so she'll do as she is told. However you might want to concider giving her work fit to her profession."%char.name])
+                    char.set_flag("jobs_barintro", temp)
+                    char.set_flag("jobs_introjoy", -3)
+                
+                elif self.worker.disposition < 800:
+                    temp = choice(["%s refused to serve! It's not what she wishes to do in life."%char.name,
+                                             "%s will not work as a Service Girl, find better suited task for her!"%char.fullname])
+                    temp = set_font_color(temp, "red")
+                    self.txt.append(temp)
+                    
+                    self.worker = char
+                    self.loc = char.location
+                    self.event_type = "jobreport"
+                    
+                    self.loggs('disposition', -50)
+                    self.img = char.show("profile", "angry", resize=(740, 685))
+                    char.action = None
+                    
+                    self.apply_stats()
+                    self.finish_job()
+                    return False
+                
+                else: # self.worker.disposition > 800:
+                    temp = "%s reluctently agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. "%char.name
+                    char.set_flag("jobs_barintro", temp)
+            
+            else:
+                temp = choice(["%s will work as a service girl!"%char.name,
+                                         "Cleaning, cooking, bartending...",
+                                         "%s will clean or tend to customers next!"%char.fullname])
+                char.set_flag("jobs_barintro", temp)
+            return True
+            
+        def bar_task(self):
+            """Solves the job as a bar tender.
+            """
             # Business as usual
             beer = self.loc.get_upgrade_mod("bar") == 2
             tapas = self.loc.get_upgrade_mod("bar") == 3
