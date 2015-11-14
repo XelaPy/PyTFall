@@ -650,7 +650,7 @@ init -1 python: # Core classes:
                 defense = round(target.magic*0.4 + target.defence*0.4 + target.constitution*0.2 + target.intelligence*0.2)
             else:
                 defense = target.defence
-            return defense  
+            return defense if defense != 0 else 1
                 
         def get_attributes_multiplier(self, t, attributes):
             """
