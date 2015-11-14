@@ -609,7 +609,7 @@ init python:
                         effects.append("absorbed")
                     effects.insert(0, damage)
                     
-                    battle.start_turn_events.append(PoisonEvent(t, a, damage))
+                    battle.mid_turn_events.append(PoisonEvent(t, a, damage))
                     
                     t.beeffects = effects
                     # String for the log:
