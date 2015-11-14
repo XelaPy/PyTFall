@@ -198,21 +198,21 @@ init -1: # Images and Animations
 # Skillz:
 init 2 python:
     # Weapons:
-    SimpleAttack("SwordAttack", attributes=["melee"], effect=5, range=1, menuname="Sword", gfx=ProportionalScale("content/gfx/be/swords.png", 150, 150), sfx="content/sfx/sound/be/sword.mp3")
-    SimpleAttack("BowAttack", attributes=["ranged"], effect=5, range=3, menuname="Bow", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
-    SimpleAttack("CrossbowAttack", attributes=["ranged"], effect=7, range=4, menuname="Crossbow",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
-    SimpleAttack("KnifeAttack", attributes=["melee"], effect=4, menuname="Stab", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3")
-    SimpleAttack("ClawAttack", attributes=["melee"], effect=5, menuname="Claws", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
-    SimpleAttack("FistAttack", attributes=["melee"], effect=3, menuname="Fists", gfx=ProportionalScale("content/gfx/be/fists.png", 150, 150), sfx=list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)))
-    SimpleAttack("CannonAttack", attributes=["ranged"], effect=6, range=3, menuname="Cannon", gfx=ProportionalScale("content/gfx/be/cannons.png", 150, 150), sfx=["content/sfx/sound/be/cannon_1.mp3", "content/sfx/sound/be/cannon_2.mp3", "content/sfx/sound/be/cannon_3.mp3"])
-    SimpleAttack("RodAttack", attributes=["melee"], effect=2, menuname="Mace", gfx=ProportionalScale("content/gfx/be/rods.png", 150, 150), sfx="content/sfx/sound/be/rod_attack.mp3")
-    SimpleAttack("AxeAttack", attributes=["melee"], effect=5, menuname="Axe", gfx=ProportionalScale("content/gfx/be/axes.png", 150, 150), sfx="content/sfx/sound/be/axe_attack.mp3")
-    SimpleAttack("BiteAttack", attributes=["melee"], effect=3, menuname="Bite", gfx=ProportionalScale("content/gfx/be/bites.png", 150, 150), sfx="content/sfx/sound/be/bite_attack.mp3")
-    SimpleAttack("GunAttack", attributes=["ranged"], effect=5, menuname="Gun", gfx=ProportionalScale("content/gfx/be/shoots.png", 150, 150), sfx="content/sfx/sound/be/gun_attack.mp3")
-    SimpleAttack("ScytheAttack", attributes=["melee"], effect=6, menuname="Scythe", gfx=ProportionalScale("content/gfx/be/scythe.png", 150, 150), sfx="content/sfx/sound/be/scythe_attack.mp3")
-    SimpleAttack("SprayAttack", attributes=["ranged"], effect=5, menuname="Spray", gfx=ProportionalScale("content/gfx/be/spray.png", 150, 150), sfx="content/sfx/sound/be/spray_attack.mp3")
-    SimpleAttack("ThrowAttack", attributes=["ranged"], effect=5, menuname="Throw", gfx=ProportionalScale("content/gfx/be/throw.png", 150, 150), sfx=["content/sfx/sound/be/throwing_attack_1.mp3", "content/sfx/sound/be/throwing_attack_2.mp3"])
-    SimpleAttack("WhipAttack", attributes=["melee"], effect=4, menuname="Whip", gfx=ProportionalScale("content/gfx/be/whip.png", 150, 150), sfx=["content/sfx/sound/be/whip_attack_1.mp3", "content/sfx/sound/be/whip_attack_2.mp3"])
+    SimpleAttack("SwordAttack", attributes=["melee"], critpower=0, effect=5, range=1, menuname="Sword", gfx=ProportionalScale("content/gfx/be/swords.png", 150, 150), sfx="content/sfx/sound/be/sword.mp3")
+    SimpleAttack("BowAttack", attributes=["ranged"], critpower=0, effect=5, range=3, menuname="Bow", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
+    SimpleAttack("CrossbowAttack", attributes=["ranged"], critpower=0.2, effect=7, range=4, menuname="Crossbow",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
+    SimpleAttack("KnifeAttack", attributes=["melee"], critpower=1.0, effect=4, menuname="Stab", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3")
+    SimpleAttack("ClawAttack", attributes=["melee"], critpower=0.4, effect=5, menuname="Claws", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
+    SimpleAttack("FistAttack", attributes=["melee"], critpower=-0.4, effect=3, menuname="Fists", gfx=ProportionalScale("content/gfx/be/fists.png", 150, 150), sfx=list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)))
+    SimpleAttack("CannonAttack", attributes=["ranged"], critpower=-0.6, effect=6, range=3, menuname="Cannon", gfx=ProportionalScale("content/gfx/be/cannons.png", 150, 150), sfx=["content/sfx/sound/be/cannon_1.mp3", "content/sfx/sound/be/cannon_2.mp3", "content/sfx/sound/be/cannon_3.mp3"])
+    SimpleAttack("RodAttack", attributes=["melee"], critpower=-1.1, effect=2, menuname="Mace", gfx=ProportionalScale("content/gfx/be/rods.png", 150, 150), sfx="content/sfx/sound/be/rod_attack.mp3")
+    SimpleAttack("AxeAttack", attributes=["melee"], critpower=-0.2, effect=5, menuname="Axe", gfx=ProportionalScale("content/gfx/be/axes.png", 150, 150), sfx="content/sfx/sound/be/axe_attack.mp3")
+    SimpleAttack("BiteAttack", attributes=["melee"], critpower=0.5, effect=3, menuname="Bite", gfx=ProportionalScale("content/gfx/be/bites.png", 150, 150), sfx="content/sfx/sound/be/bite_attack.mp3")
+    SimpleAttack("GunAttack", attributes=["ranged"], critpower=0.3, effect=5, menuname="Gun", gfx=ProportionalScale("content/gfx/be/shoots.png", 150, 150), sfx="content/sfx/sound/be/gun_attack.mp3")
+    SimpleAttack("ScytheAttack", attributes=["melee"], critpower=0.6, effect=6, menuname="Scythe", gfx=ProportionalScale("content/gfx/be/scythe.png", 150, 150), sfx="content/sfx/sound/be/scythe_attack.mp3")
+    SimpleAttack("SprayAttack", attributes=["ranged"], critpower=-0.7, effect=5, menuname="Spray", gfx=ProportionalScale("content/gfx/be/spray.png", 150, 150), sfx="content/sfx/sound/be/spray_attack.mp3")
+    SimpleAttack("ThrowAttack", attributes=["ranged"], critpower=-0.1, effect=5, menuname="Throw", gfx=ProportionalScale("content/gfx/be/throw.png", 150, 150), sfx=["content/sfx/sound/be/throwing_attack_1.mp3", "content/sfx/sound/be/throwing_attack_2.mp3"])
+    SimpleAttack("WhipAttack", attributes=["melee"], critpower=0.4, effect=4, menuname="Whip", gfx=ProportionalScale("content/gfx/be/whip.png", 150, 150), sfx=["content/sfx/sound/be/whip_attack_1.mp3", "content/sfx/sound/be/whip_attack_2.mp3"])
     
     # Magic:
     # Fire:

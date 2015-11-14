@@ -360,7 +360,7 @@ init -1 python: # Core classes:
         Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
-                           menuname=None, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
+                           menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
                            add2skills=True, td_gfx=None, desc="", death_effect=None, **kwrags):
             """
             range: range of the spell, 1 is minimum.
@@ -381,6 +381,7 @@ init -1 python: # Core classes:
             self.range = range
             self.source = source
             self.type = type
+            self.critpower = critpower
             self.piercing = piercing
             self.true_pierce = true_pierce # Does full damage to back rows.
             self.attributes = attributes
@@ -516,7 +517,7 @@ init -1 python: # Core classes:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the mupliplier and any effects that those may bring.
-                    effects, multiplier = self.get_attributes_multiplier(t, attributes, name)
+                    effects, multiplier = self.get_attributes_multiplier(t, attributes)
                     
                     # Get the damage:
                     defense = self.get_defense(t)
@@ -653,7 +654,7 @@ init -1 python: # Core classes:
                 defense = target.defence
             return defense  
                 
-        def get_attributes_multiplier(self, t, attributes, name=""):
+        def get_attributes_multiplier(self, t, attributes):
             """
             This calculates the multiplier to use with damage.
             """
@@ -662,35 +663,9 @@ init -1 python: # Core classes:
             a = self.source
             # Critical hit:
             if any(list(i for i in ["melee", "ranged"] if i in attributes)):
-                if dice(10):
-                    if (a.luck >= t.luck and dice(max(50, a.luck*2))) or dice(50):
-                        multiplier += 1.5
-                        if name == "CrossbowAttack":  #different weapons have different power of crit
-                            multiplier += 0.2
-                        elif name == "KnifeAttack":
-                            multiplier += 1.0
-                        elif name == "ClawAttack":
-                            multiplier += 0.4
-                        elif name == "FistAttack":
-                            multiplier -= 0.4
-                        elif name == "CannonAttack":
-                            multiplier -= 0.6
-                        elif name == "RodAttack":
-                            multiplier -= 1.1
-                        elif name == "AxeAttack":
-                            multiplier -= 0.2
-                        elif name == "BiteAttack":
-                            multiplier += 0.5
-                        elif name == "GunAttack":
-                            multiplier += 0.3
-                        elif name == "ScytheAttack":
-                            multiplier += 0.6
-                        elif name == "SprayAttack":
-                            multiplier -= 0.7
-                        elif name == "ThrowAttack":
-                            multiplier -= 0.1
-                        elif name == "WhipAttack":
-                            multiplier += 0.4
+                if (a.luck >= t.luck):
+                    if dice(round(((a.luck+50)-(t.luck+50))*0.35)):
+                        multiplier += 1.5 + self.critpower #different weapons have different power of crit
                         effects.append("critical_hit")
             # Magic/Attribute alignment:
             for al in attributes:
