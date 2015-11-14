@@ -2,7 +2,7 @@ init -1 python: # Core classes:
     battle_skills = {}
     """
     This is our version of turnbased BattleEngine.
-    I think that we can use zorders on master layer instead of messing with layers.
+    I think that we can use zorders on master layer instead of messing with multiple layers.
     """
     
     BDP = {} # BE DEFAULT POSITIONS *Postions are tuples in lists that go from top to bottom.
@@ -13,8 +13,7 @@ init -1 python: # Core classes:
     
     
     class BE_Core(object):
-        """
-        Main BE controls and the loop!
+        """Main BE attrs, data and the loop!
         """
         def __init__(self, bg, music=None, row_pos=None, start_sfx=None, end_sfx=None):
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
@@ -88,7 +87,7 @@ init -1 python: # Core classes:
                     if event():
                         self.end_turn_events.remove(event)
                 
-                # We check the conditions for terminating the game, this should prolly be end turn event as well, but I've added this before I've added events :)       
+                # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)       
                 if self.check_conditions():
                     break
             
@@ -122,8 +121,7 @@ init -1 python: # Core classes:
             self.main_loop()
             
         def end_battle(self):
-            """
-            Ends the battle, trying to normalize any variables that may have been used during the battle.
+            """Ends the battle, trying to normalize any variables that may have been used during the battle.
             """
             # We'll have to reset any attributes of the charcters classes:
             renpy.hide_screen("be_test")
