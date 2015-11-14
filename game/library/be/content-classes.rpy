@@ -48,7 +48,10 @@ init python:
         def __init__(self, target, source, effect):
             self.target = target
             self.source = source
-            self.counter = 6 # We remove the event if counter reaches 0.
+            if target.constitution <= 0:
+                self.counter = source.intelligence+2
+            else:
+                self.counter = round(source.intelligence/target.constitution)+2 # We remove the event if counter reaches 0.
             self.effect = effect / 1000.0
             self.attributes = ['status', 'poison']
             
@@ -66,7 +69,7 @@ init python:
             
             # Damage Calculations:
             damage = t.get_max("health") * self.effect
-            damage = max(randint(18, 22), int(damage) + randint(-4, 4))
+            damage = max(randint(15, 20), int(damage) + randint(-4, 4))
             
             # GFX:
             gfx = Transform("poison_2", zoom=1.5)
@@ -586,7 +589,7 @@ init python:
                     t.beeffects = [0]
                     continue
                 # Target resisted due to stats being too l33t:
-                elif (t.magic + t.intelligence) > (a.magic + a.intelligence) * 1.3:
+                elif (t.intelligence + t.luck) > (a.intelligence + a.luck) * 1.3:
                     battle.log.append("%s not skilled enough to poison %s!" % (a.nickname, t.nickname))
                     t.beeffects = [0]
                     continue
@@ -600,7 +603,7 @@ init python:
                     effects, multiplier = self.get_attributes_multiplier(t, self.attributes)
                     
                     damage = t.get_max("health") * (self.effect/1000.0)
-                    damage = max(randint(18, 22), int(damage) + randint(-4, 4))
+                    damage = max(randint(15, 20), int(damage) + randint(-4, 4))
                     
                     # Lets check the absobtion:
                     result = self.check_absorbtion(t)
