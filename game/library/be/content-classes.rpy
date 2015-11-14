@@ -19,7 +19,7 @@ init python:
             self.target = target
             self.death_effect = death_effect
             if not msg:
-                self.msg = "{color=[red]}%s was (heroically?!?) knocked out!\n{/color}" % self.target.name
+                self.msg = "{color=[red]}%s was (heroically?!?) knocked out!{/color}" % self.target.name
             else:
                 self.msg = msg    
             
@@ -80,13 +80,17 @@ init python:
             
             if t.health - damage > 0:
                 t.mod("health", damage * -1)
-                msg = "{color=[red]}%s is poisoned!! DMG: %d\n{/color}" % (self.target.name, damage)
+                msg = "{color=[red]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
                 battle.log.append(msg)
             else:
                 death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name)
                 death.apply_effects()
                 
             self.counter -= 1
+            
+            if self.counter <= 0:
+                msg = "{color=[red]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
+                battle.log.append(msg)
             
     
     class SimpleAttack(BE_Action):
@@ -565,8 +569,8 @@ init python:
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             
         def effects_resolver(self, targets):
-            """
-            Logical effect of the action. More often than not, it calculates the damage.
+            """Logical effect of the action. More often than not, it calculates the damage.
+            
             Expects a list or tuple with targets.
             This should return it's results through PytCharacters property called damage so the show_gfx method can be adjusted accordingly.
             But it is this method that writes to the log to be displayed later... (But you can change even this :D)
@@ -592,8 +596,7 @@ init python:
                         battle.log.append("%s is already poisoned!" % (t.nickname))
                         t.beeffects = [0]
                         break
-                else:
-                    # Damage Calculations:
+                else: # Damage Calculations:
                     effects, multiplier = self.get_attributes_multiplier(t, self.attributes)
                     
                     damage = t.get_max("health") * (self.effect/1000.0)
@@ -605,6 +608,8 @@ init python:
                         damage = damage * -1 * result
                         effects.append("absorbed")
                     effects.insert(0, damage)
+                    
+                    battle.start_turn_events.append(PoisonEvent(t, a, damage))
                     
                     t.beeffects = effects
                     # String for the log:

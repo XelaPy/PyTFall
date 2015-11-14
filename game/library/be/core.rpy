@@ -653,7 +653,7 @@ init -1 python: # Core classes:
                 defense = target.defence
             return defense  
                 
-        def get_attributes_multiplier(self, t, attributes, name):
+        def get_attributes_multiplier(self, t, attributes, name=""):
             """
             This calculates the multiplier to use with damage.
             """
