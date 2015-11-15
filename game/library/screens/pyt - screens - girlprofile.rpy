@@ -341,28 +341,31 @@ screen pyt_girl_profile():
                 xsize 318
                 if stats_display == "main":
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 100)
-                        xanchor 5
-                        has vbox spacing -6 xsize 250 xfill True
-                        label "Full Name:" xpos 20
+                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        xsize 300
+                        xpadding 12
+                        ypadding 12
+                        xmargin 0
+                        ymargin 0
+                        has vbox spacing 1
+                        label "Full Name:" xpos 5
                         frame:
-                            xmaximum 310
+                            xpos 20
                             textbutton (u"{color=[gold]}[char.fullname]"):
-                                xpos 10
                                 background None
                                 action Show("char_rename", char=char)
                                 hovered tt.action("Rename {}!".format(char.name))
                         null height 8
-                        label "Origin:" xpos 20
+                        label "Origin:" xpos 5
                         frame:
-                            text (u"[char.origin]") color "#43CD80" xpos 20 xmaximum 220 size 22
-                            
+                            xpos 20
+                            text " [char.origin] " color "#43CD80" size 22
                         if char.full_race != str(char.race):
                             null height 8
-                            label "Full Race:" xpos 20
+                            label "Full Race:" xpos 5
                             frame:
-                                text "[char.full_race]" color blue xpos 20 xmaximum 220 size 22
+                                xpos 20
+                                text " [char.full_race] " color blue size 22
                             
                     null height 3
                     
@@ -444,51 +447,50 @@ screen pyt_girl_profile():
                             
                     label (u"{size=20}{color=[ivory]}{b}Info:") xalign (0.48) text_outlines [(2, "#424242", 0, 0)]
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 10)
-                        xanchor 5
-                        hbox:
-                            vbox:
-                                spacing -7
-                                xanchor 0
-                                xmaximum 153
-                                xfill True
-                                if char.status == "slave":
-                                    frame:
-                                        text "{color=#79CDCD}Market Price:" xalign (0.02)
-                                if traits['Prostitute'] in char.occupations:
-                                    frame:
-                                        text "{color=#79CDCD}Work Price:" xalign (0.02)
-                                frame:
-                                    text "{color=#79CDCD}Upkeep:" xalign (0.02)
-                            vbox:
-                                yalign (0.5)
-                                xfill True
-                                xminimum 142
-                                xmaximum 142
-                                spacing 9
-                                if char.status == "slave":
-                                    text (u"%s"%(char.fin.get_price())) style "stats_value_text" xalign (1.0)
-                                if traits['Prostitute'] in char.occupations:
-                                    text (u"%s"%(char.fin.get_whore_price())) style "stats_value_text" xalign (1.0)
-                                text (u"%s"%(char.fin.get_upkeep())) style "stats_value_text" xalign (1.0)
+                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        xsize 300
+                        xpadding 12
+                        ypadding 12
+                        xmargin 0
+                        ymargin 0
+                        has vbox spacing 1
+                        frame:
+                            xysize (290, 27)
+                            xalign 0.5
+                            text "{color=#79CDCD}Upkeep:" xalign 0.02
+                            text u"%s"%(char.fin.get_upkeep()) style "stats_value_text" xalign 1.0 xoffset 12 yoffset 4
+                        if char.status == "slave":
+                            frame:
+                                xysize (290, 27)
+                                xalign 0.5                                
+                                text "{color=#79CDCD}Market Price:" xalign 0.02
+                                text (u"%s"%(char.fin.get_price())) style "stats_value_text" xalign 1.0  xoffset 12 yoffset 4
+                        if traits['Prostitute'] in char.occupations:
+                            frame:
+                                xysize (290, 27)
+                                xalign 0.5
+                                text "{color=#79CDCD}Work Price:" xalign 0.02
+                                text (u"%s"%(char.fin.get_whore_price())) style "stats_value_text" xalign 1.0 xoffset 12 yoffset 4
                             
                 ##############################################################################
                 # Stats 2 (pro)
                 elif stats_display == "pro_stats": 
                     label (u"{size=20}{color=[ivory]}{b}Battle Stats:") xalign(0.48) text_outlines [(2, "#424242", 0, 0)]
                     frame:
-                        xoffset -5
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (315, 180)
-                        xalign 0.5
-                        has vbox spacing -8
+                        xsize 300
+                        xpadding 12
+                        ypadding 12
+                        xmargin 0
+                        ymargin 0
+                        has vbox spacing 1
                         $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
                         for stat, color in stats:
                             frame:
-                                xysize (300, 35)
-                                text "[stat]" color color size 16 align (0.02, 0.5)
-                                text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style "stats_value_text" color color size 16 align (0.98, 0.5)
+                                xysize (290, 27)
+                                xalign 0.5
+                                text "[stat]" color color xalign 0.02 
+                                text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style "stats_value_text" color color xalign 1.0 xoffset 12 yoffset 4
                                 
                     null height 4
                     
