@@ -17,7 +17,9 @@
             "magic": 30,
             "agility": 40,
             "luck": 10,
-            "charisma": 40
+            "charisma": 40,
+            "constitution": 70,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Water", "Slime"],
@@ -47,7 +49,9 @@
             "magic": 10,
             "agility": 15,
             "luck": -15,
-            "charisma": 5
+            "charisma": 5,
+            "constitution": 50,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Water", "Slime"],
@@ -76,7 +80,9 @@
             "magic": 0,
             "agility": 5,
             "luck": -50,
-            "charisma": 0
+            "charisma": 0,
+            "constitution": 40,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Water", "Slime"],
@@ -104,7 +110,9 @@
             "magic": 30,
             "agility": 10,
             "luck": -20,
-            "charisma": 50
+            "charisma": 50,
+            "constitution": 50,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Water", "Slime"],
@@ -133,7 +141,9 @@
             "magic": 0,
             "agility": 20,
             "luck": 0,
-            "charisma": 40
+            "charisma": 40,
+            "constitution": 60,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Water", "Slime"],
@@ -162,7 +172,9 @@
             "magic": 10,
             "agility": 20,
             "luck": -45,
-            "charisma": 20
+            "charisma": 20,
+            "constitution": 60,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Water", "Slime"],
@@ -189,9 +201,11 @@
             "attack": 30,
             "defence": 15,
             "magic": 15,
-            "agility": 25,
+            "agility": 65,
             "luck": 15,
-            "charisma": 15
+            "charisma": 15,
+            "constitution": 30,
+            "intelligence": 35
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -219,7 +233,9 @@
             "magic": 0,
             "agility": 15,
             "luck": -10,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 40,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -247,7 +263,9 @@
             "magic": 2,
             "agility": 20,
             "luck": -6,
-            "charisma": 12
+            "charisma": 12,
+            "constitution": 20,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -275,7 +293,9 @@
             "magic": 0,
             "agility": 20,
             "luck": -8,
-            "charisma": 17
+            "charisma": 17,
+            "constitution": 45,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -303,7 +323,9 @@
             "magic": 0,
             "agility": 25,
             "luck": 16,
-            "charisma": 0
+            "charisma": 0,
+            "constitution": 50,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -331,7 +353,9 @@
             "magic": 0,
             "agility": 20,
             "luck": -40,
-            "charisma": 0
+            "charisma": 0,
+            "constitution": 70,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -359,7 +383,9 @@
             "magic": 15,
             "agility": 35,
             "luck": 20,
-            "charisma": 55
+            "charisma": 55,
+            "constitution": 40,
+            "intelligence": 65
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -387,7 +413,9 @@
             "magic": 10,
             "agility": 30,
             "luck": -20,
-            "charisma": 40
+            "charisma": 40,
+            "constitution": 75,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -415,7 +443,9 @@
             "magic": 4,
             "agility": 40,
             "luck": 12,
-            "charisma": 35
+            "charisma": 35,
+            "constitution": 60,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -443,7 +473,9 @@
             "magic": 20,
             "agility": 30,
             "luck": 35,
-            "charisma": 25
+            "charisma": 25,
+            "constitution": 30,
+            "intelligence": 85
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -471,7 +503,9 @@
             "magic": 40,
             "agility": 30,
             "luck": -10,
-            "charisma": 30
+            "charisma": 30,
+            "constitution": 80,
+            "intelligence": 35
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -499,7 +533,9 @@
             "magic": 10,
             "agility": 34,
             "luck": -20,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 40,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Darkness", "Monster"],
@@ -527,7 +563,9 @@
             "magic": 10,
             "agility": 34,
             "luck": -25,
-            "charisma": 20
+            "charisma": 20,
+            "constitution": 100,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Darkness", "Undead", "Darkness Immunity"],
@@ -555,7 +593,9 @@
             "magic": 32,
             "agility": 25,
             "luck": 0,
-            "charisma": 25
+            "charisma": 25,
+            "constitution": 20,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Furry", "Air"],
@@ -583,7 +623,9 @@
             "magic": 40,
             "agility": 30,
             "luck": 0,
-            "charisma": 30
+            "charisma": 30,
+            "constitution": 40,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Furry", "Air"],
@@ -611,7 +653,9 @@
             "magic": 61,
             "agility": 35,
             "luck": 0,
-            "charisma": 35
+            "charisma": 35,
+            "constitution": 50,
+            "intelligence": 35
         },
         "skills": {},
         "traits": ["Furry", "Air"],
@@ -639,7 +683,9 @@
             "magic": 0,
             "agility": 6,
             "luck": -50,
-            "charisma": 0
+            "charisma": 0,
+            "constitution": 10,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -667,7 +713,9 @@
             "magic": 0,
             "agility": 9,
             "luck": -48,
-            "charisma": 0
+            "charisma": 0,
+            "constitution": 5,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -695,7 +743,9 @@
             "magic": 0,
             "agility": 7,
             "luck": -49,
-            "charisma": 5
+            "charisma": 5,
+            "constitution": 10,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -723,7 +773,9 @@
             "magic": 10,
             "agility": 8,
             "luck": -46,
-            "charisma": 8
+            "charisma": 8,
+            "constitution": 5,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Monster", "Fire"],
@@ -751,7 +803,9 @@
             "magic": 0,
             "agility": 19,
             "luck": -10,
-            "charisma": 5
+            "charisma": 5,
+            "constitution": 65,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -779,7 +833,9 @@
             "magic": 0,
             "agility": 31,
             "luck": -5,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 55,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -807,7 +863,9 @@
             "magic": 40,
             "agility": 31,
             "luck": -5,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 45,
+            "intelligence": 60
         },
         "skills": {},
         "traits": ["Slime", "Water", "Water Immunity"],
@@ -835,7 +893,9 @@
             "magic": 50,
             "agility": 30,
             "luck": 0,
-            "charisma": 30
+            "charisma": 30,
+            "constitution": 40,
+            "intelligence": 75
         },
         "skills": {},
         "traits": ["Slime", "Water", "Darkness", "Water Immunity"],
@@ -863,7 +923,9 @@
             "magic": 70,
             "agility": 65,
             "luck": 0,
-            "charisma": 30
+            "charisma": 30,
+            "constitution": 45,
+            "intelligence": 65
         },
         "skills": {},
         "traits": ["Slime", "Water", "Electricity", "Water Immunity", "Electricity Absorption"],
@@ -891,7 +953,9 @@
             "magic": 30,
             "agility": 25,
             "luck": -15,
-            "charisma": 35
+            "charisma": 35,
+            "constitution": 50,
+            "intelligence": 35
         },
         "skills": {},
         "traits": ["Monster", "Water", "Ice", "Ice Immunity"],
@@ -919,7 +983,9 @@
             "magic": 20,
             "agility": 25,
             "luck": -45,
-            "charisma": 5
+            "charisma": 5,
+            "constitution": 60,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Monster", "Earth"],
@@ -947,7 +1013,9 @@
             "magic": 30,
             "agility": 35,
             "luck": -35,
-            "charisma": 15
+            "charisma": 15,
+            "constitution": 66,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Monster", "Earth", "Earth Immunity"],
@@ -975,7 +1043,9 @@
             "magic": 20,
             "agility": 30,
             "luck": -25,
-            "charisma": 15
+            "charisma": 15,
+            "constitution": 74,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption"],
@@ -1003,7 +1073,9 @@
             "magic": 50,
             "agility": 25,
             "luck": -35,
-            "charisma": 25
+            "charisma": 25,
+            "constitution": 90,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Undead", "Light", "Light Immunity"],
@@ -1031,7 +1103,9 @@
             "magic": 40,
             "agility": 8,
             "luck": -50,
-            "charisma": 15
+            "charisma": 15,
+            "constitution": 86,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Monster", "Earth", "Earth Absorption"],
@@ -1059,7 +1133,9 @@
             "magic": 33,
             "agility": 33,
             "luck": 33,
-            "charisma": 33
+            "charisma": 33,
+            "constitution": 60,
+            "intelligence": 60
         },
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Immunity"],
@@ -1087,7 +1163,9 @@
             "magic": 50,
             "agility": 50,
             "luck": 33,
-            "charisma": 50
+            "charisma": 50,
+            "constitution": 70,
+            "intelligence": 70
         },
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Absorption"],
@@ -1115,7 +1193,9 @@
             "magic": 72,
             "agility": 42,
             "luck": 33,
-            "charisma": 80
+            "charisma": 80,
+            "constitution": 80,
+            "intelligence": 80
         },
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Absorption"],
@@ -1143,7 +1223,9 @@
             "magic": 10,
             "agility": 30,
             "luck":-30,
-            "charisma": 20
+            "charisma": 20,
+            "constitution": 90,
+            "intelligence": 30
         },
         "skills": {},
         "traits": ["Monster", "Earth Immunity", "Neutral"],
@@ -1171,7 +1253,9 @@
             "magic": 30,
             "agility": 35,
             "luck":-10,
-            "charisma": 40
+            "charisma": 40,
+            "constitution": 50,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Monster", "Fire"],
@@ -1199,7 +1283,9 @@
             "magic": 0,
             "agility": 40,
             "luck":20,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 10,
+            "intelligence": 2
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -1227,7 +1313,9 @@
             "magic": 0,
             "agility": 80,
             "luck":45,
-            "charisma": 30
+            "charisma": 30,
+            "constitution": 15,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Darkness"],
@@ -1255,7 +1343,9 @@
             "magic": 0,
             "agility": 80,
             "luck":10,
-            "charisma": 20
+            "charisma": 20,
+            "constitution": 30,
+            "intelligence": 3
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -1283,7 +1373,9 @@
             "magic": 0,
             "agility": 60,
             "luck":0,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 30,
+            "intelligence": 3
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -1311,7 +1403,9 @@
             "magic": 0,
             "agility": 20,
             "luck":-10,
-            "charisma": 20
+            "charisma": 20,
+            "constitution": 30,
+            "intelligence": 3
         },
         "skills": {},
         "traits": ["Monster", "Water"],
@@ -1339,7 +1433,9 @@
             "magic": 50,
             "agility": 40,
             "luck":-20,
-            "charisma": 30
+            "charisma": 30,
+            "constitution": 85,
+            "intelligence": 75
         },
         "skills": {},
         "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity"],
@@ -1367,7 +1463,9 @@
             "magic": 0,
             "agility": 2,
             "luck":-30,
-            "charisma": 10
+            "charisma": 10,
+            "constitution": 30,
+            "intelligence": 3
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -1395,7 +1493,9 @@
             "magic": 30,
             "agility": 25,
             "luck":0,
-            "charisma": 50
+            "charisma": 50,
+            "constitution": 40,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Demonic Creature", "Darkness"],
@@ -1423,7 +1523,9 @@
             "magic": 40,
             "agility": 40,
             "luck":20,
-            "charisma": 65
+            "charisma": 65,
+            "constitution": 50,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Immunity"],
@@ -1451,7 +1553,9 @@
             "magic": 50,
             "agility": 40,
             "luck":30,
-            "charisma": 80
+            "charisma": 80,
+            "constitution": 60,
+            "intelligence": 60
         },
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
@@ -1479,7 +1583,9 @@
             "magic": 66,
             "agility": 66,
             "luck":50,
-            "charisma":66
+            "charisma":66,
+            "constitution": 66,
+            "intelligence": 66
         },
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
@@ -1507,7 +1613,9 @@
             "magic": 66,
             "agility": 66,
             "luck":50,
-            "charisma":100
+            "charisma":100,
+            "constitution": 66,
+            "intelligence": 66
         },
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
@@ -1535,7 +1643,9 @@
             "magic": 0,
             "agility": 10,
             "luck":-50,
-            "charisma":0
+            "charisma":0,
+            "constitution": 10,
+            "intelligence": 4
         },
         "skills": {},
         "traits": ["Furry", "Neutral"],
@@ -1563,7 +1673,9 @@
             "magic": 0,
             "agility": 20,
             "luck":-40,
-            "charisma":5
+            "charisma":5,
+            "constitution": 15,
+            "intelligence": 6
         },
         "skills": {},
         "traits": ["Furry", "Neutral"],
@@ -1591,7 +1703,9 @@
             "magic": 0,
             "agility": 15,
             "luck":-35,
-            "charisma":0
+            "charisma":0,
+            "constitution": 25,
+            "intelligence": 6
         },
         "skills": {},
         "traits": ["Furry", "Neutral"],
@@ -1619,7 +1733,9 @@
             "magic": 5,
             "agility": 35,
             "luck":-30,
-            "charisma":15
+            "charisma":15,
+            "constitution": 35,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Monster", "Darkness"],
@@ -1647,7 +1763,9 @@
             "magic": 15,
             "agility": 15,
             "luck":-20,
-            "charisma":15
+            "charisma":15,
+            "constitution": 20,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Furry", "Fire", "Earth"],
@@ -1675,7 +1793,9 @@
             "magic": 25,
             "agility": 15,
             "luck":0,
-            "charisma":10
+            "charisma":10,
+            "constitution": 20,
+            "intelligence": 30
         },
         "skills": {},
         "traits": ["Furry", "Earth"],
@@ -1703,7 +1823,9 @@
             "magic": 25,
             "agility": 15,
             "luck":0,
-            "charisma":25
+            "charisma":25,
+            "constitution": 20,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Elf", "Earth", "Earth Immunity", "Water Absorption"],
@@ -1731,7 +1853,9 @@
             "magic": 35,
             "agility": 15,
             "luck":-10,
-            "charisma":20
+            "charisma":20,
+            "constitution": 25,
+            "intelligence": 45
         },
         "skills": {},
         "traits": ["Human", "Earth", "Water", "Air"],
@@ -1759,7 +1883,9 @@
             "magic": 45,
             "agility": 15,
             "luck":-30,
-            "charisma":30
+            "charisma":30,
+            "constitution": 100,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Undead", "Darkness", "Darkness Absorption"],
@@ -1787,7 +1913,9 @@
             "magic": 0,
             "agility": 75,
             "luck":-40,
-            "charisma":0
+            "charisma":0,
+            "constitution": 30,
+            "intelligence": 0
         },
         "skills": {},
         "traits": ["Undead", "Darkness Immunity"],
@@ -1815,7 +1943,9 @@
             "magic": 0,
             "agility": 65,
             "luck":-40,
-            "charisma":0
+            "charisma":0,
+            "constitution": 40,
+            "intelligence": 0
         },
         "skills": {},
         "traits": ["Undead", "Darkness Immunity"],
@@ -1843,7 +1973,9 @@
             "magic": 60,
             "agility": 35,
             "luck":-40,
-            "charisma":15
+            "charisma":15,
+            "constitution": 50,
+            "intelligence": 0
         },
         "skills": {},
         "traits": ["Undead", "Darkness", "Darkness Immunity"],
@@ -1871,7 +2003,9 @@
             "magic": 0,
             "agility": 25,
             "luck":-40,
-            "charisma":25
+            "charisma":25,
+            "constitution": 55,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Furry", "Ice"],
@@ -1899,7 +2033,9 @@
             "magic": 0,
             "agility": 25,
             "luck":-40,
-            "charisma":25
+            "charisma":25,
+            "constitution": 40,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Furry", "Ice"],
@@ -1927,7 +2063,9 @@
             "magic": 0,
             "agility": 15,
             "luck":-40,
-            "charisma":15
+            "charisma":15,
+            "constitution": 20,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Monster", "Ice Immunity"],
@@ -1955,7 +2093,9 @@
             "magic": 0,
             "agility": 15,
             "luck":-30,
-            "charisma":15
+            "charisma":15,
+            "constitution": 40,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Monster", "Ice Immunity"],
@@ -1983,7 +2123,9 @@
             "magic": 0,
             "agility": 5,
             "luck":-30,
-            "charisma":15
+            "charisma":15,
+            "constitution": 60,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Monster", "Ice Immunity"],
@@ -2011,7 +2153,9 @@
             "magic": 40,
             "agility": 15,
             "luck":-10,
-            "charisma":25
+            "charisma":25,
+            "constitution": 40,
+            "intelligence": 65
         },
         "skills": {},
         "traits": ["Human", "Ice Absorption", "Ice"],
@@ -2039,7 +2183,9 @@
             "magic": 0,
             "agility": 5,
             "luck":-20,
-            "charisma":0
+            "charisma":0,
+            "constitution": 90,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Ice Absorption", "Ice"],
@@ -2067,7 +2213,9 @@
             "magic": 70,
             "agility": 35,
             "luck":10,
-            "charisma":0
+            "charisma":0,
+            "constitution": 70,
+            "intelligence": 85
         },
         "skills": {},
         "traits": ["Monster", "Ice Absorption", "Ice"],
@@ -2095,7 +2243,9 @@
             "magic": 15,
             "agility": 85,
             "luck":30,
-            "charisma":0
+            "charisma":0,
+            "constitution": 30,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Demonic Creature", "Darkness"],
@@ -2123,7 +2273,9 @@
             "magic": 5,
             "agility": 70,
             "luck":0,
-            "charisma":70
+            "charisma":70,
+            "constitution": 30,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Furry", "Darkness"],
@@ -2151,7 +2303,9 @@
             "magic": 25,
             "agility": 30,
             "luck":0,
-            "charisma":40
+            "charisma":40,
+            "constitution": 35,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Furry", "Earth"],
@@ -2179,7 +2333,9 @@
             "magic": 5,
             "agility": 30,
             "luck":-5,
-            "charisma":30
+            "charisma":30,
+            "constitution": 65,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Furry", "Neutral"],
@@ -2207,7 +2363,9 @@
             "magic": 85,
             "agility": 40,
             "luck":-25,
-            "charisma":40
+            "charisma":40,
+            "constitution": 100,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Unknown", "Electricity", "Electricity Absorption"],
@@ -2235,7 +2393,9 @@
             "magic": 85,
             "agility": 40,
             "luck":-25,
-            "charisma":40
+            "charisma":40,
+            "constitution": 100,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Unknown", "Water", "Fire", "Water Absorption"],
@@ -2263,7 +2423,9 @@
             "magic": 15,
             "agility": 40,
             "luck":-5,
-            "charisma":50
+            "charisma":50,
+            "constitution": 90,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -2291,7 +2453,9 @@
             "magic": 5,
             "agility": 10,
             "luck":5,
-            "charisma":10
+            "charisma":10,
+            "constitution": 40,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Monster", "Earth", "Earth Immunity"],
@@ -2319,7 +2483,9 @@
             "magic": 45,
             "agility": 70,
             "luck":25,
-            "charisma":20
+            "charisma":20,
+            "constitution": 20,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Demonic Creature", "Neutral"],
@@ -2347,7 +2513,9 @@
             "magic": 0,
             "agility": 50,
             "luck":-25,
-            "charisma":40
+            "charisma":40,
+            "constitution": 40,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -2359,7 +2527,7 @@
     },
     {
         "name": "Seraph",
-        "desc": "A high-ranked archangel, master of the Light magic and seasoned spearman.",
+        "desc": "A high-ranked archangel, a master of the Light magic and a seasoned warrior.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/cj.png",
         "portrait": "content/npc/mobs/cj1.png",
@@ -2375,7 +2543,9 @@
             "magic": 77,
             "agility": 77,
             "luck":50,
-            "charisma":77
+            "charisma":77,
+            "constitution": 77,
+            "intelligence": 77
         },
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity"],
@@ -2403,7 +2573,9 @@
             "magic": 100,
             "agility": 0,
             "luck":50,
-            "charisma":0
+            "charisma":0,
+            "constitution": 100,
+            "intelligence": 0
         },
         "skills": {},
         "traits": ["Unknown", "Neutral"],
@@ -2431,7 +2603,9 @@
             "magic": 0,
             "agility": 30,
             "luck":-30,
-            "charisma":20
+            "charisma":20,
+            "constitution": 35,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -2459,7 +2633,9 @@
             "magic": 0,
             "agility": 100,
             "luck":-20,
-            "charisma":20
+            "charisma":20,
+            "constitution": 30,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -2487,7 +2663,9 @@
             "magic": 80,
             "agility": 80,
             "luck":0,
-            "charisma":60
+            "charisma":60,
+            "constitution": 85,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Absorption", "Darkness", "Darkness Immunity", "Air Immunity"],
@@ -2515,7 +2693,9 @@
             "magic": 10,
             "agility": 10,
             "luck":-40,
-            "charisma":10
+            "charisma":10,
+            "constitution": 40,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Immunity"],
@@ -2527,7 +2707,7 @@
     },
     {
         "name": "Griffin",
-        "desc": "A flying predator feeding cattle. Unwelcomed by farmers, species is on the verge of destruction.",
+        "desc": "A flying predator feeding cattle. Unwelcomed by farmers, they is on the verge of destruction.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cp.png",
         "portrait": "content/npc/mobs/cp1.png",
@@ -2543,7 +2723,9 @@
             "magic": 10,
             "agility": 10,
             "luck":-40,
-            "charisma":10
+            "charisma":10,
+            "constitution": 50,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Monster", "Wind"],
@@ -2571,7 +2753,9 @@
             "magic": 0,
             "agility": 20,
             "luck":-40,
-            "charisma":10
+            "charisma":10,
+            "constitution": 60,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -2599,7 +2783,9 @@
             "magic": 0,
             "agility": 60,
             "luck":-30,
-            "charisma":30
+            "charisma":30,
+            "constitution": 40,
+            "intelligence": 60
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -2627,7 +2813,9 @@
             "magic": 0,
             "agility": 30,
             "luck":-50,
-            "charisma":0
+            "charisma":0,
+            "constitution": 40,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Android", "Neutral", "Electricity Immunity"],
@@ -2655,7 +2843,9 @@
             "magic": 20,
             "agility": 35,
             "luck":-40,
-            "charisma":0
+            "charisma":0,
+            "constitution": 30,
+            "intelligence": 20
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -2683,7 +2873,9 @@
             "magic": 20,
             "agility": 35,
             "luck":-40,
-            "charisma":0
+            "charisma":0,
+            "constitution": 90,
+            "intelligence": 10
         },
         "skills": {},
         "traits": ["Undead", "Darkness Immunity", "Darkness"],
@@ -2711,7 +2903,9 @@
             "magic": 20,
             "agility": 35,
             "luck":-40,
-            "charisma":0
+            "charisma":0,
+            "constitution": 100,
+            "intelligence": 50
         },
         "skills": {},
         "traits": ["Slime", "Magic Immunity"],
@@ -2739,7 +2933,9 @@
             "magic": 40,
             "agility": 35,
             "luck":-40,
-            "charisma":0
+            "charisma":0,
+            "constitution": 20,
+            "intelligence": 60
         },
         "skills": {},
         "traits": ["Monster", "Electricity"],
@@ -2767,7 +2963,9 @@
             "magic": 10,
             "agility": 55,
             "luck":-10,
-            "charisma":20
+            "charisma":20,
+            "constitution": 40,
+            "intelligence": 40
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -2795,7 +2993,9 @@
             "magic": 80,
             "agility": 65,
             "luck":-40,
-            "charisma":40
+            "charisma":40,
+            "constitution": 75,
+            "intelligence": 30
         },
         "skills": {},
         "traits": ["Monster", "Darkness Absorption", "Darkness"],
@@ -2807,7 +3007,7 @@
     },
     {
         "name": "Fiery Shadow",
-        "desc": "The shadow of a former magician who killed himself while using fire magic against someone.",
+        "desc": "The shadow of a former magician who killed himself while using fire magic against someone. Be careful with your fireballs.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cz.png",
         "portrait": "content/npc/mobs/cz1.png",
@@ -2823,7 +3023,9 @@
             "magic": 70,
             "agility": 45,
             "luck":-40,
-            "charisma":20
+            "charisma":20,
+            "constitution": 75,
+            "intelligence": 80
         },
         "skills": {},
         "traits": ["Slime", "Fire", "Darkness"],
@@ -2835,7 +3037,7 @@
     },
     {
         "name": "Thunderous Shadow",
-        "desc": "The shadow of a former magician who killed himself while using electricity magic against someone.",
+        "desc": "The shadow of a former magician who killed himself while using electricity magic against someone. Be careful with your lighting.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/da.png",
         "portrait": "content/npc/mobs/da1.png",
@@ -2851,7 +3053,9 @@
             "magic": 70,
             "agility": 45,
             "luck":-40,
-            "charisma":20
+            "charisma":20,
+            "constitution": 75,
+            "intelligence": 80
         },
         "skills": {},
         "traits": ["Slime", "Electricity", "Darkness"],
@@ -2879,7 +3083,9 @@
             "magic": 80,
             "agility": 35,
             "luck":-30,
-            "charisma":25
+            "charisma":25,
+            "constitution": 65,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Immunity"],
@@ -2907,7 +3113,9 @@
             "magic": 80,
             "agility": 35,
             "luck":-30,
-            "charisma":25
+            "charisma":25,
+            "constitution": 65,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Monster", "Electricity", "Electricity Immunity"],
@@ -2935,7 +3143,9 @@
             "magic": 80,
             "agility": 35,
             "luck":-30,
-            "charisma":25
+            "charisma":25,
+            "constitution": 65,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Monster", "Darkness", "Darkness Immunity"],
@@ -2963,7 +3173,9 @@
             "magic": 80,
             "agility": 35,
             "luck":-30,
-            "charisma":25
+            "charisma":25,
+            "constitution": 65,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Monster", "Water", "Water Immunity"],
@@ -2991,7 +3203,9 @@
             "magic": 80,
             "agility": 35,
             "luck":-30,
-            "charisma":25
+            "charisma":25,
+            "constitution": 65,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Monster", "Air", "Air Immunity"],
@@ -3019,7 +3233,9 @@
             "magic": 20,
             "agility": 60,
             "luck":-20,
-            "charisma":35
+            "charisma":35,
+            "constitution": 40,
+            "intelligence": 25
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -3047,7 +3263,9 @@
             "magic": 10,
             "agility": 100,
             "luck":-10,
-            "charisma":5
+            "charisma":5,
+            "constitution": 0,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -3075,7 +3293,9 @@
             "magic": 40,
             "agility": 70,
             "luck":-10,
-            "charisma":0
+            "charisma":0,
+            "constitution": 90,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -3103,7 +3323,9 @@
             "magic": 20,
             "agility": 90,
             "luck":-10,
-            "charisma":60
+            "charisma":60,
+            "constitution": 50,
+            "intelligence": 30
         },
         "skills": {},
         "traits": ["Monster", "Neutral"],
@@ -3131,7 +3353,9 @@
             "magic": 20,
             "agility": 30,
             "luck":-30,
-            "charisma":50
+            "charisma":50,
+            "constitution": 40,
+            "intelligence": 35
         },
         "skills": {},
         "traits": ["Undead", "Darkness"],
@@ -3159,7 +3383,9 @@
             "magic": 70,
             "agility": 50,
             "luck":-40,
-            "charisma":20
+            "charisma":20,
+            "constitution": 25,
+            "intelligence": 15
         },
         "skills": {},
         "traits": ["Monster", "Fire", "Ice Immunity"],
@@ -3187,7 +3413,9 @@
             "magic": 10,
             "agility": 20,
             "luck":-30,
-            "charisma":30
+            "charisma":30,
+            "constitution": 95,
+            "intelligence": 55
         },
         "skills": {},
         "traits": ["Monster", "Fire Immunity", "Ice Immunity"],
@@ -3215,7 +3443,9 @@
             "magic": 40,
             "agility": 70,
             "luck":0,
-            "charisma":20
+            "charisma":20,
+            "constitution": 15,
+            "intelligence": 75
         },
         "skills": {},
         "traits": ["Furry", "Air Immunity", "Ice Immunity"],
@@ -3243,7 +3473,9 @@
             "magic": 100,
             "agility": 100,
             "luck":50,
-            "charisma":100
+            "charisma":100,
+            "constitution": 65,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity"],
@@ -3255,7 +3487,7 @@
     },
     {
         "name": "Angry Rabber",
-        "desc": "Anything that once lived and died can be raised as undead. Uncontrolled growth of the population of these creatures led to a ban on condoms.",
+        "desc": "Anything that once lived and died can be raised as undead. This specific creature is the result of rape.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dp.png",
         "portrait": "content/npc/mobs/dp1.png",
@@ -3271,7 +3503,9 @@
             "magic": 100,
             "agility": 100,
             "luck":50,
-            "charisma":100
+            "charisma":100,
+            "constitution": 100,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity"],
@@ -3299,7 +3533,9 @@
             "magic": 30,
             "agility": 60,
             "luck":10,
-            "charisma":70
+            "charisma":70,
+            "constitution": 35,
+            "intelligence": 85
         },
         "skills": {},
         "traits": ["Elf", "Darkness"],
@@ -3327,7 +3563,9 @@
             "magic": 80,
             "agility": 60,
             "luck":-10,
-            "charisma":70
+            "charisma":70,
+            "constitution": 55,
+            "intelligence": 80
         },
         "skills": {},
         "traits": ["Furry", "Air"],
@@ -3355,7 +3593,9 @@
             "magic": 10,
             "agility": 40,
             "luck":-30,
-            "charisma":30
+            "charisma":30,
+            "constitution": 70,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Furry", "Neutral"],
@@ -3383,7 +3623,9 @@
             "magic": 60,
             "agility": 70,
             "luck":-30,
-            "charisma":30
+            "charisma":30,
+            "constitution": 15,
+            "intelligence": 5
         },
         "skills": {},
         "traits": ["Monster", "Water", "Air"],
@@ -3411,7 +3653,9 @@
             "magic": 20,
             "agility": 10,
             "luck":-40,
-            "charisma":10
+            "charisma":10,
+            "constitution": 70,
+            "intelligence": 45
         },
         "skills": {},
         "traits": ["Monster", "Fire"],
@@ -3439,7 +3683,9 @@
             "magic": 40,
             "agility": 90,
             "luck":-50,
-            "charisma":0
+            "charisma":0,
+            "constitution": 50,
+            "intelligence": 45
         },
         "skills": {},
         "traits": ["Android", "Electricity"],
@@ -3467,7 +3713,9 @@
             "magic": 70,
             "agility": 50,
             "luck":-20,
-            "charisma":30
+            "charisma":30,
+            "constitution": 25,
+            "intelligence": 75
         },
         "skills": {},
         "traits": ["Monster", "Water"],
@@ -3495,7 +3743,9 @@
             "magic": 30,
             "agility": 30,
             "luck":-10,
-            "charisma":20
+            "charisma":20,
+            "constitution": 35,
+            "intelligence": 85
         },
         "skills": {},
         "traits": ["Human", "Electricity"],
@@ -3523,7 +3773,9 @@
             "magic": 30,
             "agility": 80,
             "luck":10,
-            "charisma":50
+            "charisma":50,
+            "constitution": 40,
+            "intelligence": 80
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -3551,7 +3803,9 @@
             "magic": 30,
             "agility": 80,
             "luck":10,
-            "charisma":50
+            "charisma":50,
+            "constitution": 30,
+            "intelligence": 85
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -3579,7 +3833,9 @@
             "magic": 10,
             "agility": 80,
             "luck":20,
-            "charisma":50
+            "charisma":50,
+            "constitution": 60,
+            "intelligence": 30
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
@@ -3607,7 +3863,9 @@
             "magic": 10,
             "agility": 80,
             "luck":20,
-            "charisma":60
+            "charisma":60,
+            "constitution": 60,
+            "intelligence": 30
         },
         "skills": {},
         "traits": ["Human", "Neutral"],
