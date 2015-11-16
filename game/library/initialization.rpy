@@ -1,14 +1,4 @@
 init -999 python:
-    # TODO:
-    """
-    This is a general todo list with stuff that needs to get fixed, adapted to modernt done or otherwise improved:
-    1) Define contants to use with SL2
-    2) Parametarize screens to kwargs instead of globals so they run faster
-    3) Modernize Arena screens
-    4) Go through the game making sure as many images are predicted before shown whenever sensible (or even possible)
-    """
-    
-    
     ##################### Import Modules #####################
     import os
     import sys
