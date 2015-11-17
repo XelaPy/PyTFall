@@ -520,7 +520,10 @@ init -9 python:
             self.env = None
             self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
             
+            
+            
             self.logged_clients = False
+            self.total_clients = 0 # This is the amount of clients that will visit the brothel, this is set by get_client_count method.
             self.mod = 1
             
             self.fin = Finances(self)
@@ -536,7 +539,8 @@ init -9 python:
             
             # Clietns:
             tl.timer("Generating clients")
-            clnts = self.get_client_count(write_to_nd=True)
+            self.get_client_count(write_to_nd=True)
+            clnts = self.total_clients
             # TODO: Generate and add regulars!
             if len(self.all_clients) < clnts:
                 for i in xrange(clnts - len(self.all_clients)):
@@ -596,10 +600,7 @@ init -9 python:
                 self.log("{} clients came due to {} renoun!".format(add_clients, self.name))
             clients = clients + add_clients
             
-            if clients > 0:
-                return clients
-            else:
-                return 0
+            self.total_clients = clients if clients > 0 else 0
             
         def log(self, item):
             # Logs the text to log...
@@ -679,17 +680,6 @@ init -9 python:
                 client = self.clients.pop()
                 client.name = "Client {}".format(i) # TODO: Should be expanded to cover new clients pushed on top of existing list OR names should be used.
                 self.env.process(self.client_manager(client))
-            
-        # def kick_client(self, client):
-            # """Gets rid of this client...
-            # """
-            # temp = "{}: There is not much for the {} to do...".format(self.env.now, client.name)
-            # self.log(temp)
-             
-            # yield self.env.timeout(0)
-             
-            # temp = "{}: So {} leaves your establishment cursing...".format(self.env.now, client.name)
-            # self.log(temp)
             
         def client_manager(self, client):
             """Manages a client using SimPy.

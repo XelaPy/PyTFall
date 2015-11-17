@@ -325,6 +325,8 @@ init -11 python:
             _traits.append(traits["Prostitute"])
         elif pattern == "Stripper":
             _traits.append(traits["Stripper"])
+        elif pattern == "Manager":
+            _traits.append(traits["Manager"])
         else:
             raise Exception("Cannot create base traits list from pattern: {}".format(pattern))
             

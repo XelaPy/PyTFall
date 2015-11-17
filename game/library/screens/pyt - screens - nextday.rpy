@@ -579,7 +579,7 @@ screen pyt_next_day():
                                         clients = 0
                                         businesses = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
                                         for b in businesses:
-                                            clients = clients + b.get_client_count()
+                                            clients = clients + b.total_clients
                                     hbox:
                                         xpos 115
                                         xmaximum 40
@@ -1157,7 +1157,7 @@ screen pyt_next_day():
                                                         xpos 2
                                                         xysize (405, 33)
                                                         text "Customers:" yalign 0.5 xpos 3
-                                                        text ("%d" % building.get_client_count()) style "stats_value_text" ypos 1 xpos 115
+                                                        text "[building.total_clients]" style "stats_value_text" ypos 1 xpos 115
                                     
                 vbar value YScrollValue("Reports")
         
