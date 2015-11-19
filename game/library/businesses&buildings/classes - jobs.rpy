@@ -1260,12 +1260,12 @@
             self.id = "Bartending"
             
             # Traits/Job-types associated with this job:
-            self.occupations = [] # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = [] # Corresponing traits...
+            self.occupations = ["Server"] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Bartender"]] # Corresponing traits...
             
             # Relevant skills and stats:
-            self.skills = []
-            self.stats = []
+            self.skills = ["bartending"]
+            self.stats = ["charisma"]
             
             self.workermod = {}
             self.locmod = {}
@@ -1309,116 +1309,107 @@
                     char.set_flag("jobs_barintro", temp)
             
             else:
-                temp = choice(["%s will work as a service girl!"%char.name,
-                                         "Cleaning, cooking, bartending...",
-                                         "%s will clean or tend to customers next!"%char.fullname])
+                temp = choice(["%s will work as a Bartender!"%char.name,
+                                         "Tending the Bar:"])
                 char.set_flag("jobs_barintro", temp)
             return True
             
         def bar_task(self):
-            """Solves the job as a bar tender.
-            """
-            # Business as usual
-            beer = self.loc.get_upgrade_mod("bar") == 2
-            tapas = self.loc.get_upgrade_mod("bar") == 3
+            # Pass the flags from occupation_checks:
+            self.txt.append(self.worker.flag("jobs_barintro"))
+            self.txt.append("\n\n")
             
-            clientsmax = self.APr * (4 + (self.worker.agility * 0.1 + self.worker.serviceskill * 0.08))
-            clients = plural("customer", clientsmax)
+            flag = self.worker.flag("jobs_introdis")
+            if flag:
+                self.loggs('disposition', flag)
+                self.worker.del_flag("jobs_introdis")
+                
+            flag = self.worker.flag("jobs_introjoy")
+            if flag:
+                self.loggs('joy', flag)
+                self.worker.del_flag("jobs_introjoy")
+                
+            # Old Code:
+            # beer = self.loc.get_upgrade_mod("bar") == 2
+            # tapas = self.loc.get_upgrade_mod("bar") == 3
+            # clientsmax = self.APr * (4 + (self.worker.agility * 0.1 + self.worker.serviceskill * 0.08))
+            # clients = plural("customer", clientsmax)
+            # if self.loc.servicer['barclientsleft'] - clientsmax <= 0:
+                # clientsserved = self.loc.servicer['barclientsleft']
+                # if tapas:
+                    # self.txt.append("Your girl finished serving cold beer and tasty snacks to customers for the day! She even managed a small break at the end of her shift! \n")
+                # elif beer:
+                    # self.txt.append("Remaining bar customers enjoyed cold draft beer. %s got a little break at the end of her shift! \n"%self.worker.nickname)
+                # else:
+                    # self.txt.append("Your girl wrapped up the day at the bar by serving drinks to %d remaining customers. At least she got a small break.  \n"%self.loc.servicer['barclientsleft'])
+                # self.loc.servicer['barclientsleft'] = 0
+                # self.workermod['vitality'] += self.APr * randint(1, 5)
             
-            if self.loc.servicer['barclientsleft'] - clientsmax <= 0:
-                clientsserved = self.loc.servicer['barclientsleft']
-                
-                if tapas:
-                    self.txt.append("Your girl finished serving cold beer and tasty snacks to customers for the day! She even managed a small break at the end of her shift! \n")
-                
-                elif beer:
-                    self.txt.append("Remaining bar customers enjoyed cold draft beer. %s got a little break at the end of her shift! \n"%self.worker.nickname)
-                
-                else:
-                    self.txt.append("Your girl wrapped up the day at the bar by serving drinks to %d remaining customers. At least she got a small break.  \n"%self.loc.servicer['barclientsleft'])
-                
-                self.loc.servicer['barclientsleft'] = 0
-                self.workermod['vitality'] += self.APr * randint(1, 5)
+            # elif self.loc.servicer['barclientsleft'] - clientsmax > 0:
+                # clientsserved = clientsmax
+                # if tapas:
+                    # self.txt.append("She served cold draft beer and mouthwatering snacks to %d %s. \n"%(clientsmax, clients))
+                # elif beer:
+                    # self.txt.append("She served cold and refreshing tapbeer to %d %s. \n"%(clientsmax, clients))
+                # else:
+                    # self.txt.append("She served snacks and drinks at the bar to %d %s. \n" % (clientsmax, clients))
+                # self.loc.servicer['barclientsleft'] = self.loc.servicer['barclientsleft'] - clientsserved
+                # self.workermod['vitality'] -= 4 * clientsmax
             
-            elif self.loc.servicer['barclientsleft'] - clientsmax > 0:
-                clientsserved = clientsmax
-                
-                if tapas:
-                    self.txt.append("She served cold draft beer and mouthwatering snacks to %d %s. \n"%(clientsmax, clients))
-                
-                elif beer:
-                    self.txt.append("She served cold and refreshing tapbeer to %d %s. \n"%(clientsmax, clients))
-                
-                else:
-                    self.txt.append("She served snacks and drinks at the bar to %d %s. \n" % (clientsmax, clients))
-                
-                self.loc.servicer['barclientsleft'] = self.loc.servicer['barclientsleft'] - clientsserved
-                self.workermod['vitality'] -= 4 * clientsmax
+            len_clients = len(self.clients)
+            tippayout = self.worker.flag("jobs_" + self.id + "_tips")
             
-            barfees = clientsserved * self.loc.rep * 0.05 + clientsserved * 0.5*(self.worker.refinement * 0.05 + self.worker.charisma * 0.1 + self.worker.serviceskill * 0.05)
-            tips = 0 # Will be 0 - 15% of the total bill depending on workers skillz and looks.
-            
-            if tapas:
-                barfees = barfees * 1.5
-            
-            elif beer:
-                barfees = barfees * 1.2
-            
-            self.txt.append("\n")
+            serviceskill = self.worker.get_skill("bartending")
+            charisma = self.worker.charisma
             
             # Skill checks
-            if self.worker.serviceskill > 2000:
-                self.locmod['reputation'] += choice([0, 1])
-                barfees = barfees * 1.5
-                tips = barfees * 0.10
+            if serviceskill > 2000:
+                self.locmod['reputation'] += choice([0, 1, 2])
                 self.txt.append("She was a godlike bartender, customers kept spending their money just for the pleasure of her company. \n")
             
-            elif self.worker.serviceskill >= 1000:
+            elif serviceskill >= 1000:
                 self.locmod['reputation'] += choice([0, 1])
-                barfees = barfees * 1.2
-                tips = barfees * 0.07
                 self.txt.append("Customers were pleased with her company and kept asking for more booze. \n")
             
-            elif self.worker.serviceskill >= 500:
-                tips = barfees * 0.03
+            elif serviceskill >= 500:
                 self.locmod['reputation'] += choice([0, 0, 0, 0, 0, 1])
                 self.txt.append("She was skillful enough not to mess anything up during her job. \n")
             
-            elif self.worker.serviceskill >= 100:
-                self.locmod['reputation'] += choice([0, 0, -1, 0, 0, -1])
-                barfees = barfees * 0.8
+            elif serviceskill >= 100:
+                self.locmod['reputation'] -= 1
                 self.txt.append("Her performance was rather poor and it most definitely has cost you income. \n")
             
-            if self.worker.charisma > 300:
-                tips = tips + barfees*0.05
+            else:
+                self.locmod['reputation'] -= 2
+                self.txt.append("She is a very unskilled bartender, this girl definitely needs training \n")
+                
+            if charisma > 300:
                 self.locmod['fame'] += choice([0,1,1])
                 self.workermod['fame'] += choice([0,0,1])
                 self.txt.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
             
-            elif self.worker.charisma > 150:
-                tips = tips + barfees * 0.03
+            elif charisma > 150:
                 self.locmod['fame'] += choice([0,0,1])
                 self.workermod['fame'] += choice([0,0,0,1])
                 self.txt.append("Your girl looked beautiful, this will not go unnoticed. \n")
             
-            elif self.worker.charisma > 45:
-                tips = tips + barfees*0.02
-                self.locmod['fame'] += choice([0,0,0,1])
-                self.workermod['fame'] += choice([0,0,0,0,1])
+            elif charisma > 45:
+                self.locmod['fame'] += choice([0, 0, 0, 1])
+                self.workermod['fame'] += choice([0, 0, 0, 0, 1])
                 self.txt.append("Your girl was easy on the eyes, not bad for a bartender. \n")
             
-            elif self.worker.charisma > 0:
-                self.locmod['fame'] += choice([0,-1,-1])
-                self.workermod['fame'] += choice([0,0,-1])
+            else:
+                self.locmod['fame'] -= 2
+                self.workermod['fame'] -= 2
                 self.txt.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school. \n")
             
             self.txt.append("\n")
             
             #Stat Mods
-            self.workermod['exp'] += self.APr * randint(15, 25)
-            self.workermod['service'] += choice([0, 0, 1]) * self.APr
-            self.workermod['refinement'] += choice([0, 0, 0, 0, 1]) * self.APr
-            self.workermod['vitality'] -= clientsserved * 3
+            self.loggs('exp', randint(15, 25))
+            self.loggs('bartending', choice([0, 0, 1]))
+            self.loggs('refinement' += choice([0, 0, 0, 0, 1]))
+            self.loggs('vitality', clientsserved * 3)
             
             self.locmod['dirt'] += clientsserved * 2
             

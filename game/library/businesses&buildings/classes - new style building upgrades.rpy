@@ -487,7 +487,7 @@ init -9 python:
                 self.log(temp)
                 simple_jobs["Striptease Job"](worker) # better bet to access Class directly...
             else:
-                temp = "{}: No clients came to see {}".format(self.env.now, worker.name)
+                temp = "{}: No clients bought drinks from {}".format(self.env.now, worker.name)
                 self.log(temp)
                 
             self.active_workers.remove(worker)
