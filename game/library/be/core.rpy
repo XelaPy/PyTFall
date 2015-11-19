@@ -562,22 +562,24 @@ init -1 python: # Core classes:
                     s.append(" {color=[red]}ElDmg-! {/color}")
                 if "elemental_defence_bonus" in effects:
                     # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (negatevely) with one or more if the defenders elements
-                    s.append(" {color=[lawngreen]}ElDef-! {/color}")
+                    s.append(" {color=[lawngreen]}ElDef- {/color}")
                 if "elemental_defence_penalty" in effects:
                     # The opposite of the above
-                    s.append(" {color=[red]}ElDef+! {/color}")
+                    s.append(" {color=[red]}ElDef+ {/color}")
                 if "backrow_penalty" in effects:
                     # Damage halved due to the target being in the back row!
                     s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
                 if "critical_hit" in effects:
-                    s.append(" {color=[lawngreen]}Critical Hit!!! {/color}")
+                    s.append(" {color=[lawngreen]}Critical Hit {/color}")
+                if "missed_hit" in effects:
+                    s.append(" {color=[lawngreen]}Attack Missed {/color}")
                 if "absorbed" in effects:
-                    s.append(" {color=[lawngreen]}Absorbed DMG!{/color}")
+                    s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
                     s.append(self.set_dmg_font_color(t, attributes, color="green"))
                 else:
                     s.append(self.set_dmg_font_color(t, attributes, color=default_color))    
             else: # If resisted:
-                s.append(" {color=[crimson]}Resisted the attack!{/color}")
+                s.append(" {color=[crimson]}Resisted the attack{/color}")
                 s.append(self.set_dmg_font_color(t, attributes, color="green"))
                 
             return s
@@ -659,11 +661,17 @@ init -1 python: # Core classes:
             multiplier = 1.0
             effects = list()
             a = self.source
-            # Critical hit:
-            if any(list(i for i in ["melee", "ranged"] if i in attributes)):
-                if (a.luck >= t.luck):
+            if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
+                evasion_chance = round (0.5*t.level + t.agility - 0.5*a.level - a.agility)
+                if evasion_chance > 0: # evasion
+                    if evasion_chance > 90:
+                        evasion_chance = 90
+                    if dice(evasion_chance):
+                        multiplier = 0
+                        effects.append("missed_hit")
+                elif (a.luck >= t.luck): # Critical hit, cannot be done now on higher level or too agile targets
                     if dice(round(((a.luck+50)-(t.luck+50))*0.35)):
-                        multiplier += 1.5 + self.critpower #different weapons have different power of crit
+                        multiplier += 1.5 + self.critpower # different weapons have different power of crit
                         effects.append("critical_hit")
             # Magic/Attribute alignment:
             for al in attributes:
