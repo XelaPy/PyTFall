@@ -1408,7 +1408,7 @@
             #Stat Mods
             self.loggs('exp', randint(15, 25))
             self.loggs('bartending', choice([0, 0, 1]))
-            self.loggs('refinement' += choice([0, 0, 0, 0, 1]))
+            self.loggs('refinement', choice([0, 0, 0, 0, 1]))
             self.loggs('vitality', clientsserved * 3)
             
             self.locmod['dirt'] += clientsserved * 2
