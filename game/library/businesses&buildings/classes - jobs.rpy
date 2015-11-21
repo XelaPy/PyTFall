@@ -1364,43 +1364,43 @@
             
             # Skill checks
             if serviceskill > 2000:
-                self.locmod['reputation'] += choice([0, 1, 2])
-                self.txt.append("She was a godlike bartender, customers kept spending their money just for the pleasure of her company. \n")
+                self.logloc('reputation', choice([0, 1, 2]))
+                self.txt.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")
             
             elif serviceskill >= 1000:
-                self.locmod['reputation'] += choice([0, 1])
+                self.logloc('reputation', choice([0, 1]))
                 self.txt.append("Customers were pleased with her company and kept asking for more booze. \n")
             
             elif serviceskill >= 500:
-                self.locmod['reputation'] += choice([0, 0, 0, 0, 0, 1])
+                self.logloc('reputation', choice([0, 0, 0, 0, 0, 1]))
                 self.txt.append("She was skillful enough not to mess anything up during her job. \n")
             
             elif serviceskill >= 100:
-                self.locmod['reputation'] -= 1
+                self.logloc('reputation', -1)
                 self.txt.append("Her performance was rather poor and it most definitely has cost you income. \n")
             
             else:
-                self.locmod['reputation'] -= 2
+                self.logloc('reputation', -2)
                 self.txt.append("She is a very unskilled bartender, this girl definitely needs training \n")
                 
             if charisma > 300:
-                self.locmod['fame'] += choice([0,1,1])
-                self.workermod['fame'] += choice([0,0,1])
+                self.logloc('fame', choice([0,1,1]))
+                self.loggs('fame', choice([0,0,1]))
                 self.txt.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
             
             elif charisma > 150:
-                self.locmod['fame'] += choice([0,0,1])
-                self.workermod['fame'] += choice([0,0,0,1])
+                self.logloc('fame', choice([0,0,1]))
+                self.loggs('fame', choice([0,0,0,1]))
                 self.txt.append("Your girl looked beautiful, this will not go unnoticed. \n")
             
             elif charisma > 45:
-                self.locmod['fame'] += choice([0, 0, 0, 1])
-                self.workermod['fame'] += choice([0, 0, 0, 0, 1])
+                self.logloc('fame', choice([0, 0, 0, 1]))
+                self.loggs('fame',  choice([0, 0, 0, 0, 1]))
                 self.txt.append("Your girl was easy on the eyes, not bad for a bartender. \n")
             
             else:
-                self.locmod['fame'] -= 2
-                self.workermod['fame'] -= 2
+                self.logloc('fame', -2)
+                self.loggs('fame', -2)
                 self.txt.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school. \n")
             
             self.txt.append("\n")
@@ -1411,7 +1411,7 @@
             self.loggs('refinement', choice([0, 0, 0, 0, 1]))
             self.loggs('vitality', clientsserved * 3)
             
-            self.locmod['dirt'] += clientsserved * 2
+            self.logloc('dirt', clientsserved * 2)
             
             # Integers:
             barfees = int(round(barfees))
