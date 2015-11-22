@@ -1305,7 +1305,7 @@
                     return False
                 
                 else: # self.worker.disposition > 800:
-                    temp = "%s reluctently agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. "%char.name
+                    temp = "%s reluctently agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. " % char.name
                     char.set_flag("jobs_barintro", temp)
             
             else:
@@ -1357,7 +1357,6 @@
                 # self.workermod['vitality'] -= 4 * clientsmax
             
             len_clients = len(self.clients)
-            tippayout = self.worker.flag("jobs_" + self.id + "_tips")
             
             serviceskill = self.worker.get_skill("bartending")
             charisma = self.worker.charisma
@@ -1414,8 +1413,8 @@
             self.logloc('dirt', clientsserved * 2)
             
             # Integers:
-            barfees = int(round(barfees))
-            tips = int(round(tips))
+            barfees = int(round(self.worker.earned_cash))
+            tips = int(round(self.worker.flag("jobs_" + self.id + "_tips")))
             
             self.txt.append("{color=[gold]}%s brought in %d Gold during her shift"%(self.worker.nickname, barfees))
             
@@ -1428,7 +1427,6 @@
             
             # Finances:
             self.worker.fin.log_wage(barfees, "Barmaid")
-            
             if tips:
                 self.worker.fin.log_tips(tips, "Barmaid")
             
