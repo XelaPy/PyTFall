@@ -387,7 +387,7 @@ init -9 python:
         """
         def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!", img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
             super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
-            self.jobs = set(["Waitress"])
+            self.jobs = set([simple_jobs["Bartending"]])
             self.workable = True
             self.type = "public_service"
             

@@ -66,7 +66,7 @@
         
         tl.timer("Loading: SimpleJobs")
         # This jobs are usually normal, most common type that we have in PyTFall
-        temp = [TestingJob(), WhoreJob(), StripJob(), ServiceJob()]
+        temp = [TestingJob(), WhoreJob(), StripJob(), ServiceJob(), BarJob()]
         simple_jobs = {j.id: j for j in temp}
         del temp
         tl.timer("Loading: SimpleJobs")

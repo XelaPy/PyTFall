@@ -441,27 +441,22 @@ init -9 python:
             """
             if name in self.upgrades:
                 up = self.upgrades[name]
-                
                 if isinstance(index, int):
                     for i in up:
                         if up[i]["id"] == index:
                             return up[i]["active"]
-                    
                     else:
                         return False
                 
                 else:
                     if index in up:
                         return up[index]["active"]
-                    
                     else:
                         for i in up:
                             if up[i]["name"] == index:
                                 return up[i]["active"]
-                        
                         else:
                             return False
-            
             else:
                 return False
         
@@ -519,8 +514,6 @@ init -9 python:
             # SimPy and etc follows (L33t stuff :) ):
             self.env = None
             self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
-            
-            
             
             self.logged_clients = False
             self.total_clients = 0 # This is the amount of clients that will visit the brothel, this is set by get_client_count method.

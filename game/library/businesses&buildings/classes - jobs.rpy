@@ -1254,9 +1254,9 @@
             self.apply_stats()
             self.finish_job()
     
-    class Bartending(NewStyleJob):
+    class BarJob(NewStyleJob):
         def __init__(self):
-            super(StripJob, self).__init__()
+            super(BarJob, self).__init__()
             self.id = "Bartending"
             
             # Traits/Job-types associated with this job:
