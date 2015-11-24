@@ -56,17 +56,4 @@ screen pyt_city_beach_cafe:
             spacing 70
             
             for entry in gm.display_girls():
-                    if not entry.flag("beach_cafe_tags") or entry.flag("beach_cafe_tags")[0] < day:
-                        $beach_cafe_tags_list = []  
-
-                        if entry.has_image("girlmeets","simple bg"):
-                            $beach_cafe_tags_list.append(("girlmeets","simple bg"))    
-                        if entry.has_image("girlmeets","outdoors"):
-                            $beach_cafe_tags_list.append(("girlmeets","outdoors"))   
-                        # giveup    
-                        if not beach_cafe_tags_list:
-                            $beach_cafe_tags_list.append(("girlmeets"))   
-                        
-                        $ entry.set_flag("beach_cafe_tags", (day, choice(beach_cafe_tags_list)))
-                    
-                    use rg_lightbutton(img=entry.show(*entry.flag("beach_cafe_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 

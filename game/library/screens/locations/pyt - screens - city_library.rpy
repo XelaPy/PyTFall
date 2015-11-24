@@ -114,7 +114,7 @@ init python:
         return books
         
 label academy_town:
-    $ gm.enter_location(goodtraits=["Nerd", "Shy", "Dandere", "Impersonal", "Serious"], badtraits=["Aggressive", "Adventurer", "Ill-mannered", "Slime", "Monster"], curious_priority=True)
+    $ gm.enter_location(goodtraits=["Nerd", "Dandere", "Impersonal", "Serious"], badtraits=["Aggressive", "Adventurer", "Ill-mannered", "Slime", "Monster", "Elf"], curious_priority=True)
     if not "library" in ilists.world_music:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -162,7 +162,7 @@ screen pyt_academy_town_entrance():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                 
 label library_read_matrix:
     hide screen pyt_academy_town_entrance

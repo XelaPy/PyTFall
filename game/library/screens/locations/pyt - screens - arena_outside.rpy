@@ -294,4 +294,4 @@ screen pyt_arena_outside:
                         
             for entry in gm.display_girls():
                  
-                    use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny"], label_cache=True, resize=(300, 400), type="first_default"), return_value=['jump', entry])
+                    use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
