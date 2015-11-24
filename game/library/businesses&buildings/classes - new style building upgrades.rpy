@@ -449,7 +449,7 @@ init -9 python:
                 
                 # Handle the earnings:
                 cash = self.res.count*len(self.active_workers)*randint(8, 12)
-                self.earned_cash += cash
+                self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
                 
                 # Manage clients...
                 for c in self.clients:
@@ -485,7 +485,7 @@ init -9 python:
             if worker.flag("jobs_bar_clients"):
                 temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
                 self.log(temp)
-                simple_jobs["Striptease Job"](worker) # better bet to access Class directly...
+                simple_jobs["Bartending"](worker) # better bet to access Class directly...
             else:
                 temp = "{}: No clients bought drinks from {}".format(self.env.now, worker.name)
                 self.log(temp)

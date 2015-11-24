@@ -1408,29 +1408,34 @@
             self.loggs('exp', randint(15, 25))
             self.loggs('bartending', choice([0, 0, 1]))
             self.loggs('refinement', choice([0, 0, 0, 0, 1]))
-            self.loggs('vitality', clientsserved * 3)
+            self.loggs('vitality', len_clients * 3)
             
-            self.logloc('dirt', clientsserved * 2)
+            self.logloc('dirt', len_clients * 2)
             
             # Integers:
-            barfees = int(round(self.worker.earned_cash))
+            # barfees = int(round(self.worker.earned_cash))
             tips = int(round(self.worker.flag("jobs_" + self.id + "_tips")))
             
-            self.txt.append("{color=[gold]}%s brought in %d Gold during her shift"%(self.worker.nickname, barfees))
+            # self.txt.append("{color=[gold]}%s brought in %d Gold during her shift"%(self.worker.nickname, barfees))
             
             if tips:
                 self.txt.append(" and got %d in tips" % tips)
             
-            self.txt.append(".{/color}")
+            # self.txt.append(".{/color}")
             
-            self.img = self.worker.show("waitress", "maid", exclude=["sex"], resize=(740, 685), type="any")
+            if self.worker.has_image("waitress", exclude=["sex"]):
+                self.img = self.worker.show("waitress", exclude=["sex"], resize=(740, 685))
+            elif self.worker.has_image("maid", exclude=["sex"]):
+                self.img = self.worker.show("maid", exclude=["sex"], resize=(740, 685))
+            else:
+                self.img = self.worker.show("profile", exclude=["sex", "nude"], resize=(740, 685))
             
             # Finances:
-            self.worker.fin.log_wage(barfees, "Barmaid")
+            # self.worker.fin.log_wage(barfees, "Barmaid")
             if tips:
                 self.worker.fin.log_tips(tips, "Barmaid")
             
-            self.loc.fin.log_work_income(barfees + tips, "Barmaid")
+            self.loc.fin.log_work_income(tips, "Barmaid")
             
             self.apply_stats()
             self.finish_job()
