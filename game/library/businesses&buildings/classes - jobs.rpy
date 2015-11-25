@@ -1410,7 +1410,7 @@
             self.loggs('refinement', choice([0, 0, 0, 0, 1]))
             self.loggs('vitality', len_clients * 3)
             
-            self.logloc('dirt', len_clients * 2)
+            # self.logloc('dirt', len_clients * 2) # TODO: THIS CANNOT WORK FROM HERE! MOVE to Bar()
             
             # Integers:
             # barfees = int(round(self.worker.earned_cash))

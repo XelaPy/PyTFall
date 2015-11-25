@@ -322,12 +322,15 @@ init -9 python:
                 
         def run_business(self, end):
             """This runs the club as a SimPy process from start to the end.
+            
+            Called once for a building and yields self.time timeouts writing reports.
             """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
             while 1:
                 yield self.env.timeout(self.time)
                 
                 # Handle the earnings:
+                # It's prolly better to handle earnings in clients methods (Since they do the actual paying)
                 cash = self.res.count*len(self.active_workers)*randint(8, 12)
                 self.earned_cash += cash
                 
@@ -424,6 +427,8 @@ init -9 python:
                     yield self.env.timeout(1)
                 
                 temp = "{}: {} leaves the Bar.".format(self.env.now, client.name)
+                # self.instance.logloc("dirt", randint(3, 5)) TODO: ADD DIRT HANDLING!
+                self.earned_cash += randint(8, 12) # Paying we should take care of here, should be conditioned in the future.
                 self.clients.remove(client)
                 self.log(temp)
                 client.del_flag("jobs_busy")
@@ -448,8 +453,8 @@ init -9 python:
                 yield self.env.timeout(self.time)
                 
                 # Handle the earnings:
-                cash = self.res.count*len(self.active_workers)*randint(8, 12)
-                self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
+                # cash = self.res.count*len(self.active_workers)*randint(8, 12)
+                # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
                 
                 # Manage clients...
                 for c in self.clients:
