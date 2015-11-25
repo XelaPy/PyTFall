@@ -414,6 +414,9 @@ init -9 python:
             
         def request_spot(self, client):
             """Request for a spot for a client in thebar is being made here.
+            
+            Clients pay for the service here.
+            We add dirt here.
             """
             with self.res.request() as request:
                 yield request
@@ -425,10 +428,14 @@ init -9 python:
                 
                 while not client.flag("jobs_ready_to_leave"):
                     yield self.env.timeout(1)
+                    
+                # This stuff should be better conditioned later:
+                cash = randint(8, 12)
+                dirt = randint(5, 7)
+                self.earned_cash += cash
+                self.instance.dirt += dirt
                 
-                temp = "{}: {} leaves the Bar.".format(self.env.now, client.name)
-                # self.instance.logloc("dirt", randint(3, 5)) TODO: ADD DIRT HANDLING!
-                self.earned_cash += randint(8, 12) # Paying we should take care of here, should be conditioned in the future.
+                temp = "{}: {} exits the Bar leaving {} Gold and {} Dirt behind.".format(self.env.now, client.name, cash, dirt)
                 self.clients.remove(client)
                 self.log(temp)
                 client.del_flag("jobs_busy")
@@ -463,7 +470,7 @@ init -9 python:
                         c.set_flag("jobs_ready_to_leave")
                 
                 if config.debug:
-                    temp = "{}: Debug: {} places are currently in use in Bar | Cash earned: {}, Total: {}!".format(self.env.now, set_font_color(self.res.count, "red"), cash, self.earned_cash)
+                    temp = "{}: Debug: {} places are currently in use in Bar | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.earned_cash)
                     temp = temp + " {} Workers are currently tending the bar!".format(set_font_color(len(self.active_workers), "red"))
                     self.log(temp)
                     
