@@ -1,5 +1,31 @@
 init -11 python:
     # Characters related:
+    def get_first_name(sex="female"):
+        """Gets a randomly generated first name.
+        
+        sex: male/female
+        """
+        if sex == "female":
+            if not store.female_first_names:
+                store.female_first_names = load_female_first_names(200)
+            return store.female_first_names.pop()
+        elif sex == "male":
+            if not store.male_first_names:
+                store.male_first_names = load_male_first_names(200)
+            return store.male_first_names.pop()
+        else:
+            raise Exception("Unknow argument passed to get_first_name func!")
+            
+    def get_last_name():
+        if not store.random_last_names:
+            store.random_last_names = load_random_last_names(200)
+        return random_last_names.pop()
+        
+    def get_team_name():
+        if not store.random_team_names:
+            store.random_team_names = load_random_team_names(50)
+        return random_team_names.pop()
+    
     def build_mob(id=None, level=1):
         mob = Mob()
         Stats = mob.STATS
@@ -107,8 +133,7 @@ init -11 python:
         return mob
         
     def build_rc(id=None, name=None, last_name=None, pattern=None, level=1, add_to_gameworld=True):
-        '''
-        Creates a random character!
+        ''' Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data from JSON files, will be chosen at random if none availible.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
@@ -155,16 +180,14 @@ init -11 python:
         
         # Names/Origin:
         if not name:
-            if not store.random_names:
-                store.random_names = load_random_names(200)
-            rg.name = random_names.pop()
+            if not store.female_first_names:
+                store.female_first_names = load_female_first_names(200)
+            rg.name = get_first_name()
         else:
             rg.name = name
             
         if not last_name:
-            if not store.random_last_names:
-                store.random_last_names = load_random_last_names(200)
-            rg.fullname = " ".join([rg.name, random_last_names.pop()])
+            rg.fullname = " ".join([rg.name, get_last_name()])
             
         rg.nickname = rg.name
         
@@ -345,10 +368,16 @@ init -11 python:
         
         if not id:
             client.id = "Client" + str(random.random())
+            
         if name:
             client.name = name
+        else:
+            client.name = get_first_name(gender)
+            
         if last_name:
             client.fullname = client.name + " " + last_name
+        else:
+            client.fullname = client.name + " " + get_last_name()
             
         # Patterns:
         if not pattern:
@@ -454,122 +483,4 @@ init -11 python:
         
         char.action = choice(available_jobs) if available_jobs else None
         
-    def get_sex_img_4int(char, *args, **kwargs):
-        """Tries to find the best possible sex image following a complex set of logic.
-        http://www.pinkpetal.org/index.php?topic=1291.msg37131#msg37131
-        
-        Coded for interactions module.
-        """
-        # First check if we have a perfect match of all tags:
-        if char.has_image(*args, **kwargs):
-            gm.set_img(*args, **kwargs)
-            return
-        
-        tags = list(args)
-        exclude = kwargs.get("exclude", None)
-            
-        # Next we give priority to partner_hidden logic:
-        if "partner_hidden" in tags:
-            ptags = list(t for t in tags if t not in loc_tags)
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-            
-            # No parter_hidden tags found... we subsitute partner_hidden with after_sex
-            ptags = tags[:]
-            ptags.remove("partner_hidden")
-            if "after_sex" not in ptags:
-                ptags.append("after_sex")
-                
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-            ptags = list(t for t in ptags if t not in loc_tags)
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-                
-        # If threre was no partner_hidden or everything failed:
-        if "partner_hidden" in tags:
-            tags.remove("partner_hidden")
-            
-        if char.has_image(*tags, **kwargs):
-            gm.set_img(*tags, **kwargs)
-            return
-            
-        ptags = list(t for t in tags if t not in loc_tags)
-        if substitute_show_bg(char, ptags, **kwargs):
-            return
-            
-        # We could not find an image with the correct location/bgs, so we go with after_sex:
-        ptags = list(t for t in tags if t not in sex_action_tags)
-        if "after_sex" not in ptags:
-            ptags.append("after_sex")
-            
-        if char.has_image(*ptags, **kwargs):
-            gm.set_img(*ptags, **kwargs)
-            return
-        
-        ptags = list(t for t in tags if t not in loc_tags)
-        if substitute_show_bg(char, ptags, **kwargs):
-            return
-            
-        # Still nothing... We try to get a picture just with the after_sex and a location followed by no_bg/simple_bg if no loc was found:
-        locs = list(t for t in tags if t in loc_tags)
-        if char.has_image("after_sex", *locs, **kwargs):
-            gm.set_img("after_sex", *locs, **kwargs)
-            return
-            
-        if substitute_show_bg(char, ["after_sex"], **kwargs):
-            return
-            
-        # //This can be cleaned up and refactored one working correctly!!
-        # Drop Nature First:
-        if any([t for t in ["outdoors", "urban", "wildness", "suburb", "nature"] if t in tags]):
-            ptags = [t for t in tags if t not in ["nature"]]
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-        if any([t for t in ["urban", "wildness", "suburb"] if t in tags]):
-            ptags = [t for t in tags if t not in ["urban", "wildness", "suburb"]]
-            if "outdoors" not in ptags:
-                ptags.append("outdoors")
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-        if any([t for t in ["dungeon", "living", "public"] if t in tags]):
-            ptags = [t for t in tags if t not in ["dungeon", "living", "public"]]
-            if "indoors" not in ptags:
-                ptags.append("indoors")
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-        if any([t for t in ["indoors", "outdoors"] if t in tags]):
-            ptags = [t for t in tags if t not in ["indoors", "outdoors", "simple bg", "no bg"]]
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-                
-        if any([t for t in ["beach", "onsen", "pool", "stage"] if t in tags]):
-            ptags = [t for t in tags if t not in ["beach", "onsen", "pool", "stage", "simple bg", "no bg"]]
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-        
-        # Finally, we just run the normal show:
-        gm.set_img(*args, **kwargs)
-            
-    def substitute_show_bg(char, tags, **kwargs):
-        # Try it with the simple_bg:
-        _tags = tags[:]
-        _tags.append("simple bg")
-        if char.has_image(*_tags, **kwargs):
-            gm.set_img(*_tags, **kwargs)
-            return True
-            
-        # Try it with no_bg:
-        _tags = tags[:]
-        _tags.append("no bg")
-        if char.has_image(*_tags, **kwargs):
-            gm.set_img(*_tags, **kwargs)
-            return True
+

@@ -514,6 +514,12 @@ init -9 python:
             self.earned_cash = 0
             
             
+    class Cleaners(MainUpgrade):
+        """This will be the first upgrade that will take care clearing some workload.
+        """
+        pass
+            
+            
     class Garden(MainUpgrade):
         def __init__(self, name="Garden", instance=None, desc="Relax!", img="content/buildings/upgrades/garden.jpg", build_effort=0, materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):
             super(Garden, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)

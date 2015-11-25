@@ -276,7 +276,7 @@ init -9 python:
                 for __ in xrange(max(30, len(self.teams_2v2))):
                     if len(templist) >= 2:
                         team = Team(max_size=2)
-                        team.name = randomTeamNames.pop().replace('\n', '')
+                        team.name = get_team_name()
                         team.add(templist.pop())
                         team.add(templist.pop())
                         self.teams_2v2.append(team)
@@ -290,7 +290,7 @@ init -9 python:
                 for __ in xrange(max(30, len(self.teams_3v3))):
                     if len(templist) >= 3:
                         team = Team(max_size=3)
-                        team.name = randomTeamNames.pop().replace('\n', '')
+                        team.name = get_team_name()
                         team.add(templist.pop())
                         team.add(templist.pop())
                         team.add(templist.pop())
@@ -1010,7 +1010,7 @@ init -9 python:
             shuffle(templist)    
             for i in xrange(10):
                 if len(templist) >= 2 and not self.lineup_2v2[i]:
-                    self.lineup_2v2[i].name = randomTeamNames.pop().replace('\n', '')
+                    self.lineup_2v2[i].name = get_team_name()
                     self.lineup_2v2[i].add(templist.pop())
                     self.lineup_2v2[i].add(templist.pop())
                     
@@ -1032,7 +1032,7 @@ init -9 python:
             shuffle(templist)    
             for i in xrange(10):
                 if len(templist) >= 3 and not self.lineup_3v3[i]:
-                    self.lineup_3v3[i].name = randomTeamNames.pop().replace('\n', '')
+                    self.lineup_3v3[i].name = get_team_name()
                     self.lineup_3v3[i].add(templist.pop())
                     self.lineup_3v3[i].add(templist.pop())
                     self.lineup_3v3[i].add(templist.pop())

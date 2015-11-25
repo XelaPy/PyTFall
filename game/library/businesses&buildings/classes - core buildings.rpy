@@ -671,7 +671,7 @@ init -9 python:
                 i += 1
                 ii += 1
                 client = self.clients.pop()
-                client.name = "Client {}".format(i) # TODO: Should be expanded to cover new clients pushed on top of existing list OR names should be used.
+                # client.name = "Client {}".format(i) # This is an overwrite used for testing...
                 self.env.process(self.client_manager(client))
             
         def client_manager(self, client):

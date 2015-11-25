@@ -10,9 +10,10 @@
         
         # Load random names selections for rGirls:
         tl.timer("Loading: Random Name Files")
-        random_names = load_random_names(200)
+        female_first_names = load_female_first_names(200)
+        male_first_names = load_male_first_names(200)
         random_last_names = load_random_last_names(200)
-        
+        random_team_names = load_team_names(50)
         # Load random names selections for Teams:
         file = open(renpy.loader.transfn(content_path("db/RandomTeamNames_1.txt")))
         randomTeamNames = file.readlines()

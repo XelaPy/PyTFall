@@ -1410,18 +1410,12 @@
             self.loggs('refinement', choice([0, 0, 0, 0, 1]))
             self.loggs('vitality', len_clients * 3)
             
-            # self.logloc('dirt', len_clients * 2) # TODO: THIS CANNOT WORK FROM HERE! MOVE to Bar()
-            
             # Integers:
             # barfees = int(round(self.worker.earned_cash))
             tips = int(round(self.worker.flag("jobs_" + self.id + "_tips")))
             
-            # self.txt.append("{color=[gold]}%s brought in %d Gold during her shift"%(self.worker.nickname, barfees))
-            
             if tips:
-                self.txt.append(" and got %d in tips" % tips)
-            
-            # self.txt.append(".{/color}")
+                self.txt.append("She got %d in tips! " % tips)
             
             if self.worker.has_image("waitress", exclude=["sex"]):
                 self.img = self.worker.show("waitress", exclude=["sex"], resize=(740, 685))

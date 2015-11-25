@@ -4,28 +4,28 @@ init -11 python:
         return renpy.loader.transfn('content/' + path)
         
     # ---------------------- Loading game data:
-    def load_random_names(amount):
-        # Loads random amount of names from our name files:
-        file = open(renpy.loader.transfn(content_path("db/RandomGirlNames_1.txt")))
-        randomNames = file.readlines()
-        file.close()
-        file = open(renpy.loader.transfn(content_path("db/RandomGirlNames_2.txt")))
-        randomNames.extend(file.readlines())
-        file.close()
+    def load_team_names(amount):
+        with open(content_path("db/names/team_names.json")) as f:
+            rn = json.load(f)
+        return random.sample(rn, amount)
         
-        # @Review: Remove empty space:
-        randomNames = list(n.replace('\n', '') for n in randomNames)
-        return random.sample(randomNames, amount)
+    def load_male_first_names(amount):
+        with open(content_path("db/names/male_first_names.json")) as f:
+            rn = json.load(f)
+        return random.sample(rn, amount)
+    
+    def load_female_first_names(amount):
+        with open(content_path("db/names/female_first_names_1.json")) as f:
+            rn1 = json.load(f)
+        with open(content_path("db/names/female_first_names_2.json")) as f:
+            rn2 = json.load(f)
+        rn = rn1 + rn2
+        return random.sample(rn, amount)
         
     def load_random_last_names(amount):
-        # Loads random amount of last names from our last names file:
-        file = open(renpy.loader.transfn(content_path("db/RandomLastNames.txt")))
-        randomLastNames = file.readlines()
-        file.close()
-        
-        # @Review: Remove empty space:
-        randomLastNames = list(n.replace('\n', '') for n in randomLastNames)
-        return random.sample(randomLastNames, amount)
+        with open(content_path("db/names/last_names.json")) as f:
+            rn = json.load(f)
+        return random.sample(rn, amount)
         
     def load_mc_images():
         dir = content_path("gfx/sprites/mc")
