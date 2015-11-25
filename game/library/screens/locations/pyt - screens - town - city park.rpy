@@ -66,5 +66,5 @@ screen pyt_city_park:
             
             for entry in gm.display_girls():
 
-                    use rg_lightbutton(img=entry.show('girlmeets',"simple bg","outdoors","nature", exclude=["swimsuit", "wildness", "urban","stage", "beach", "pool", "onsen", "indoors"], label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                    use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                         
