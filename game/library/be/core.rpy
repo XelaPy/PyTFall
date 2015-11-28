@@ -15,7 +15,11 @@ init -1 python: # Core classes:
     class BE_Core(object):
         """Main BE attrs, data and the loop!
         """
-        def __init__(self, bg, music=None, row_pos=None, start_sfx=None, end_sfx=None):
+        def __init__(self, bg, music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False):
+            """Creates an instance of BE scenario.
+            
+            logical: Just the calculations, without pause/gfx/sfx. Does not work yet.
+            """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.bg = bg # Background we'll use.
@@ -36,6 +40,8 @@ init -1 python: # Core classes:
             self.end_turn_events = list() # Events we execute on start of the turn.
             self.start_turn_events = list() # Events we execute on the end of the turn.
             self.mid_turn_events = list() # Events to execute after controller was set.
+            
+            self.logical = logical
             
             self.start_sfx = start_sfx
             self.end_sfx = end_sfx
