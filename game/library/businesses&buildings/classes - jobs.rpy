@@ -2,7 +2,7 @@
     def check_char(c):
         """Checks whether the character is injured and sets her/him to auto rest.
         """
-        if c.health < 60:
+        if c.health < c.get_max("health")*0.25:
             # self.txt.append("%s is injured and in need of medical attention! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
@@ -10,7 +10,7 @@
                 c.action = AutoRest()
                 # self.txt.append("She is going to take few days off to heal her wounds. ")
             return    
-        if c.vitality < 35:
+        if c.vitality < 30:
             # self.txt.append("%s is to tired to work today! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
@@ -147,7 +147,7 @@
         def check_injury(self):
             """Checks whether the girl is injured and sets her to auto rest.
             """
-            if self.girl.health < 60:
+            if self.girl.health < self.girl.get_max("health")*0.25:
                 self.txt.append("%s is injured and in need of medical attention! "%self.girl.name)
                 self.img = self.girl.show("profile", "sad", resize=(740, 685))
                 
@@ -163,7 +163,7 @@
             """
             Checks whether the girl is tired and sets her to auto rest.
             """
-            if self.girl.vitality < 35:
+            if self.girl.vitality < 30:
                 self.txt.append("%s is to tired to work today! "%self.girl.name)
                 self.img = self.girl.show("profile", "sad", resize=(740, 685))
                 
@@ -187,8 +187,11 @@
                 # After a long conversation with Dark and CW, we've decided to prevent girls dieing during jobs
                 # I am leaving the code I wrote before that decision was reached in case
                 # we change our minds or add jobs like exploration where it makes more sense.
+                # On the other hand just ignoring it is bad, so let's at least reduce some stuff, pretending that she lost consciousness for example.
                 elif stat == 'health' and (self.girl.health + self.girlmod[stat]) <= 0:
                     self.girl.health = 1
+                    if self.girl.constitution > 5:
+                        self.girl.constitution -= 5
                 
                 else:
                     if self.girl.stats.is_stat(stat):
@@ -200,7 +203,7 @@
             
             for stat in self.locmod:
                 if stat == 'fame':
-                    self.loc.modfame(self.locmod[stat])
+                    self.loc.modfame(self.locmod[stat])    
                 
                 elif stat == 'dirt':
                     if self.locmod[stat] < 0:
@@ -380,9 +383,11 @@
                 # After a long conversation with Dark and CW, we've decided to prevent workers dieing during jobs
                 # I am leaving the code I wrote before that decision was reached in case
                 # we change our minds or add jobs like exploration where it makes more sense.
+                # On the other hand just ignoring it is bad, so let's at least reduce some stuff, pretending that she lost consciousness for example.
                 elif stat == 'health' and (self.worker.health + self.workermod[stat]) <= 0:
                     self.worker.health = 1
-                
+                    if self.worker.constitution > 5:
+                        self.worker.constitution -= 5
                 else:
                     if self.worker.stats.is_stat(stat):
                         self.worker.stats.mod(stat, self.workermod[stat])
@@ -440,7 +445,7 @@
             """Checks if the worker is willing to do this job.
             """
             if not [t for t in self.all_occs if t in char.occupations]:
-                if char.status != 'slave' and char.disposition > 900:
+                if char.status != 'slave' and char.disposition > 800:
                     char.set_flag("jobs_whoreintro", "%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % char.nickname)
                     char.set_flag("jobs_introdis", -randint(10, 30))
                     
@@ -892,7 +897,7 @@
             """Checks if the worker is willing to do this job.
             """
             if not [t for t in self.all_occs if t in char.occupations]:
-                if char.status != 'slave' and char.disposition > 900: # Free char with very high disposition.
+                if char.status != 'slave' and char.disposition > 800: # Free char with very high disposition.
                     char.set_flag("jobs_stripintro", "%s: I am not thrilled about having to dance in front of a bunch of pervs, but you've been really good to me so I owe you a favor... "%char.nickname)
                     char.set_flag("jobs_introdis", -randint(10, 15))
                     char.set_flag("jobs_introjoy", -randint(3, 6))
@@ -1536,7 +1541,7 @@
                     
                     self.loggs("joy", -3) 
                 
-                elif self.worker.disposition < 800:
+                elif self.worker.disposition < 700:
                     self.txt.append(choice(["%s refused to serve! It's not what she wishes to do in life."%self.worker.name,
                                             "%s will not work as a Service Girl, find better suited task for her!"%self.worker.fullname]))
                     
@@ -1547,7 +1552,7 @@
                     self.apply_stats()
                     self.finish_job()
                 
-                elif self.worker.disposition > 800:
+                else:
                     self.txt.append("%s reluctently agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. "%self.worker.name)
             
             else:
