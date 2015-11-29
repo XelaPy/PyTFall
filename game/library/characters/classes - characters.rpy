@@ -1584,6 +1584,7 @@ init -9 python:
                 if item.ctemp:
                     self.constemp[item.id] = item.ctemp
                 self.apply_item_effects(item)
+                
                 # To prevent game trying to remove item on area effect.
                 if item.ceffect:
                     pass
@@ -1593,67 +1594,55 @@ init -9 python:
             elif item.slot == 'misc':
                 if item.id in self.miscblock:
                     return
-                elif not self.eqslots['misc']:
-                    self.eqslots['misc'] = item
-                    self.miscitems[item.id] = item.mtemp
-                    self.inventory.remove(item)
-                else:
+                    
+                if self.eqslots['misc']: # Unequip if equipped.
                     self.inventory.append(self.eqslots['misc'])
                     del(self.miscitems[self.eqslots['misc'].id])
-                    self.eqslots['misc'] = item
-                    self.miscitems[item.id] = item.mtemp
-                    self.inventory.remove(item)
+                self.eqslots['misc'] = item
+                self.miscitems[item.id] = item.mtemp
+                self.inventory.remove(item)
 
-            elif item.slot == 'belt':
-                if not self.eqslots['belt']:
-                    self.eqslots['belt'] = item
-                    self.inventory.remove(item)
-                elif not self.eqslots['belt1']:
-                    self.eqslots['belt1'] = item
-                    self.inventory.remove(item)
-                elif not self.eqslots['belt2']:
-                    self.eqslots['belt2'] = item
-                    self.inventory.remove(item)
-                else:
-                    self.inventory.append(self.eqslots['belt'])
-                    self.eqslots['belt2'] = self.eqslots['belt1']
-                    self.eqslots['belt1'] = self.eqslots['belt0']
-                    self.eqslots['belt'] = item
-                    self.inventory.remove(item)
+            # elif item.slot == 'belt':
+                # if not self.eqslots['belt']:
+                    # self.eqslots['belt'] = item
+                    # self.inventory.remove(item)
+                # elif not self.eqslots['belt1']:
+                    # self.eqslots['belt1'] = item
+                    # self.inventory.remove(item)
+                # elif not self.eqslots['belt2']:
+                    # self.eqslots['belt2'] = item
+                    # self.inventory.remove(item)
+                # else:
+                    # self.inventory.append(self.eqslots['belt'])
+                    # self.eqslots['belt2'] = self.eqslots['belt1']
+                    # self.eqslots['belt1'] = self.eqslots['belt0']
+                    # self.eqslots['belt'] = item
+                    # self.inventory.remove(item)
 
             elif item.slot == 'ring':
                 if not self.eqslots['ring']:
                     self.eqslots['ring'] = item
-                    self.apply_item_effects(item)
-                    self.inventory.remove(item)
                 elif not self.eqslots['ring1']:
                     self.eqslots['ring1'] = item
-                    self.apply_item_effects(item)
-                    self.inventory.remove(item)
                 elif not self.eqslots['ring2']:
                     self.eqslots['ring2'] = item
-                    self.apply_item_effects(item)
-                    self.inventory.remove(item)
                 else:
                     self.remove_item_effects(self.eqslots['ring'])
                     self.inventory.append(self.eqslots['ring'])
                     self.eqslots['ring'] = self.eqslots['ring1']
                     self.eqslots['ring1'] = self.eqslots['ring2']
                     self.eqslots['ring2'] = item
-                    self.apply_item_effects(item)
-                    self.inventory.remove(item)
+                self.apply_item_effects(item)
+                self.inventory.remove(item)
+                
             else:
                 # Any other slot:
-                if not self.eqslots[item.slot]:
-                    self.eqslots[item.slot] = item
-                    self.apply_item_effects(item)
-                    self.inventory.remove(item)
-                else:
-                    self.remove_item_effects(self.eqslots[item.slot])
-                    self.inventory.append(self.eqslots[item.slot])
-                    self.eqslots[item.slot] = item
-                    self.apply_item_effects(item)
-                    self.inventory.remove(item)
+                if self.eqslots[item.slot]: # If there is any item equiped:
+                    self.remove_item_effects(self.eqslots[item.slot]) # Remove equiped item effects
+                    self.inventory.append(self.eqslots[item.slot]) # Add unequipped item back to inventory
+                self.eqslots[item.slot] = item # Assign new item to the slot
+                self.apply_item_effects(item) # Apply item effects
+                self.inventory.remove(item) # Remove item from the inventory
 
 
         def unequip(self, item):
@@ -1662,28 +1651,23 @@ init -9 python:
                 del(self.miscitems[item.id])
                 self.inventory.append(item)
             # This prolly has to be rewritten!
-            elif item.slot == 'belt':
-                for entry in [self.eqslots['belt'], self.eqslots['belt1'], self.eqslots['belt2']]:
-                    if entry == item:
-                        self.inventory.append(item)
-                        entry = None
-                        return
-
+            # elif item.slot == 'belt':
+                # for entry in [self.eqslots['belt'], self.eqslots['belt1'], self.eqslots['belt2']]:
+                    # if entry == item:
+                        # self.inventory.append(item)
+                        # entry = None
+                        # return
             elif item.slot == 'ring':
                 if self.eqslots['ring'] == item:
-                    self.inventory.append(item)
-                    self.remove_item_effects(item)
                     self.eqslots['ring'] = None
                 elif self.eqslots['ring1'] == item:
-                    self.inventory.append(item)
-                    self.remove_item_effects(item)
                     self.eqslots['ring1'] = None
                 elif self.eqslots['ring2'] == item:
-                    self.inventory.append(item)
-                    self.remove_item_effects(item)
                     self.eqslots['ring2'] = None
                 else:
-                    raise Error, "Error while unequiping a ring! (Girl)"
+                    raise Exception("Error while unequiping a ring! (Girl)")
+                self.inventory.append(item)
+                self.remove_item_effects(item)
 
             else:
                 # Other slots:
