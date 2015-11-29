@@ -64,15 +64,17 @@ init python:
 
 label char_equip:
     python:
-        focusitem = False
+        focusitem = None
         selectedslot = None
+        unequip_slot = None
         item_direction = None
+        dummy = None
+        
         eqtarget.inventory.set_page_size(16)
         # eqtarget.inventory.famale_filter = True
         hero.inventory.set_page_size(16)
         # hero.inventory.famale_filter = True
         inv_source = eqtarget
-        dummy = None
     
     scene bg gallery3
     
@@ -109,9 +111,11 @@ label char_equip_loop:
                     if item_direction == 'equip':
                         # Common to any eqtarget:
                         if not can_equip(focusitem, eqtarget, silent=False):
-                            focusitem = False
+                            focusitem = None
+                            selectedslot = None
+                            unequip_slot = None
+                            item_direction = None
                             dummy = None
-                            selectedslot = False
                             jump("char_equip_loop")
                         if eqtarget == hero: # Simpler MCs logic:
                             equip_item(focusitem, eqtarget, area_effect=True)
@@ -133,26 +137,28 @@ label char_equip_loop:
                             
                     elif item_direction == 'unequip':
                         if eqtarget == hero:
-                            hero.unequip(focusitem)
+                            hero.unequip(focusitem, unequip_slot)
                         else: # Not MC
                             if eqtarget.status == "slave": # Slave condition:
-                                eqtarget.unequip(focusitem)
+                                eqtarget.unequip(focusitem, unequip_slot)
                                 eqtarget.inventory.remove(focusitem)
                                 inv_source.inventory.append(focusitem)
                             else: # Free Girl
                                 if inv_source == hero:
-                                    eqtarget.unequip(focusitem)
+                                    eqtarget.unequip(focusitem, unequip_slot)
                                     if not transfer_items(eqtarget, hero, focusitem, silent=False):
                                         eqtarget.equip(focusitem)
                                         eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
                                 elif eqtarget.disposition < 850:
                                     eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
                                 else:
-                                    eqtarget.unequip(focusitem)
-                                    
+                                    eqtarget.unequip(focusitem, unequip_slot)
+                                
+                    focusitem = None
+                    selectedslot = None
+                    unequip_slot = None
+                    item_direction = None
                     dummy = None
-                    selectedslot = False
-                    focusitem = False
                  
             elif result[1] == "discard":
                 python:
@@ -164,9 +170,11 @@ label char_equip_loop:
                         else:
                             renpy.call_screen("discard_item", inv_source, focusitem)
                             
+                    focusitem = None
+                    selectedslot = None
+                    unequip_slot = None
+                    item_direction = None
                     dummy = None
-                    selectedslot = False
-                    focusitem = False
                 
             elif result[1] == "transfer":
                 python:
@@ -188,6 +196,9 @@ label char_equip_loop:
                     
             elif result[1] == 'unequip':
                 python:
+                    if len(result) == 4:
+                        unequip_slot = result[3]
+                        
                     selectedslot = result[2].slot
                     if selectedslot:
                         focusitem = result[2]
@@ -196,16 +207,18 @@ label char_equip_loop:
                     # To Calc the effects:
                     dummy = copy_char(eqtarget)
                     dummy.eqslots[selectedslot] = focusitem
-                    dummy.unequip(focusitem)
+                    dummy.unequip(focusitem, unequip_slot)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
         
         elif result[0] == 'con':
             if result[1] == 'return':
                 python:
-                    selectedslot = False
-                    focusitem = False
+                    focusitem = None
+                    selectedslot = None
+                    unequip_slot = None
+                    item_direction = None
                     dummy = None
-        
+                    
         elif result[0] == 'control':
             if result[1] == 'return':
                 jump char_equip_finish

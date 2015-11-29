@@ -28,14 +28,14 @@ init: # Items:
         # char = source of equipment slots.
         # Slots and the doll ------------------------------------------------------------>
         if char == hero:
-            #add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(0.5, 1.0)
+            # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(0.5, 1.0)
             add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (0.5, 0.5)
         else:
-            #frame:
-                #align (0.5, 0.5)
-                #background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+            #f rame:
+                # align (0.5, 0.5)
+                # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             add (char.show("vnsprite", resize=(288, 400), cache=True)) alpha 0.9 align (0.5, 1.0)
-            #add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (0.25, 0.23)
+            # add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (0.25, 0.23)
             
         fixed:
             style_group "content"
@@ -47,6 +47,7 @@ init: # Items:
                     if char.eqslots[key]:
                         img = char.eqslots[key].icon
                         # Frame background:
+                        # Old dark/light frame codes, to be removed at review.
                         if char.eqslots[key].bg_color == "dark":
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
@@ -85,7 +86,8 @@ init: # Items:
                     background bg
                     xysize (frame_size[0], frame_size[1])
                     if active_mode and char.eqslots[key]:
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
+                        # We add extra return to return value to control which ring exactly is removed...
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key], key])
                     elif char.eqslots[key]:
                         add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
                     else:
