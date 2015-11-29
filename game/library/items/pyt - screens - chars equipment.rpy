@@ -80,37 +80,39 @@ label char_equip:
     $ renpy.retain_after_load()
     show screen pyt_char_equip
     
-    python:
+    $ inv_source.inventory.apply_filter("all")
+    
+label char_equip_loop:
+    while 1:
         
-        inv_source.inventory.apply_filter("all")
+        $ result = ui.interact()
         
-        while 1:
-            
-            result = ui.interact()
-            
-            if not result:
-                continue
-            
-            if result[0] == "jump":
+        if not result:
+            jump char_equip_loop
+        
+        if result[0] == "jump":
+            python:
                 renpy.hide_screen("pyt_char_equip")
                 if result[1] == "item_transfer":
                     renpy.hide_screen("pyt_girl_control")
                     pytfall.it = GuiItemsTransfer("personal_transfer", char=eqtarget, last_label=last_label)
                     jump("items_transfer")
-                    
-            elif result[0] == "equip_for":
+                
+        elif result[0] == "equip_for":
+            python:
                 renpy.show_screen("pyt_equip_for", renpy.get_mouse_pos())
                 dummy = None
-                
-            elif result[0] == "item":
-                if result[1] == 'equip/unequip':
+            
+        elif result[0] == "item":
+            if result[1] == 'equip/unequip':
+                python:
                     if item_direction == 'equip':
                         # Common to any eqtarget:
                         if not can_equip(focusitem, eqtarget, silent=False):
                             focusitem = False
                             dummy = None
                             selectedslot = False
-                            continue
+                            jump("char_equip_loop")
                         if eqtarget == hero: # Simpler MCs logic:
                             equip_item(focusitem, eqtarget, area_effect=True)
                         else: # Actors: Maybe it's a good idea to encapsulate this:
@@ -151,8 +153,9 @@ label char_equip:
                     dummy = None
                     selectedslot = False
                     focusitem = False
-                     
-                elif result[1] == "discard":
+                 
+            elif result[1] == "discard":
+                python:
                     if inv_source == hero:
                         renpy.call_screen("discard_item", inv_source, focusitem)
                     else:
@@ -164,14 +167,16 @@ label char_equip:
                     dummy = None
                     selectedslot = False
                     focusitem = False
-                    
-                elif result[1] == "transfer":
+                
+            elif result[1] == "transfer":
+                python:
                     if inv_source == hero:
                         transfer_items(hero, eqtarget, focusitem, silent=False)
                     else:
                         transfer_items(eqtarget, hero, focusitem, silent=False)
-                        
-                elif result[1] == 'equip':
+                    
+            elif result[1] == 'equip':
+                python:
                     focusitem = result[2]
                     selectedslot = focusitem.slot
                     item_direction = 'equip'
@@ -180,8 +185,9 @@ label char_equip:
                     dummy = copy_char(eqtarget)
                     equip_item(focusitem, dummy, silent=True)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
-                        
-                elif result[1] == 'unequip':
+                    
+            elif result[1] == 'unequip':
+                python:
                     selectedslot = result[2].slot
                     if selectedslot:
                         focusitem = result[2]
@@ -192,17 +198,19 @@ label char_equip:
                     dummy.eqslots[selectedslot] = focusitem
                     dummy.unequip(focusitem)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
-            
-            elif result[0] == 'con':
-                if result[1] == 'return':
+        
+        elif result[0] == 'con':
+            if result[1] == 'return':
+                python:
                     selectedslot = False
                     focusitem = False
                     dummy = None
-            
-            elif result[0] == 'control':
-                if result[1] == 'return':
-                    break
+        
+        elif result[0] == 'control':
+            if result[1] == 'return':
+                jump char_equip_finish
     
+label char_equip_finish:
     hide screen pyt_char_equip
     $ global_flags.del_flag("hero_equip")
     

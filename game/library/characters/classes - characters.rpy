@@ -1645,7 +1645,7 @@ init -9 python:
                 self.inventory.remove(item) # Remove item from the inventory
 
 
-        def unequip(self, item):
+        def unequip(self, item, slot=None):
             if item.slot == 'misc':
                 self.eqslots['misc'] = None
                 del(self.miscitems[item.id])
@@ -1658,7 +1658,9 @@ init -9 python:
                         # entry = None
                         # return
             elif item.slot == 'ring':
-                if self.eqslots['ring'] == item:
+                if slot:
+                    self.eqslots[slot] = None
+                elif self.eqslots['ring'] == item:
                     self.eqslots['ring'] = None
                 elif self.eqslots['ring1'] == item:
                     self.eqslots['ring1'] = None
