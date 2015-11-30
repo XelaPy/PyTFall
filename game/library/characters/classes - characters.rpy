@@ -3328,8 +3328,8 @@ init -9 python:
                     if not imgpath:
                         tags = pure_tags[:]
                         while tags and not imgpath:
-                            if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here:
-                                imgpath = self.select_image(self.id, tags[0], mood_tag, exclude=exclude)
+                            # if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here: # Resulted in Errors bacause mood_tag is not set properly... removed for now.
+                                # imgpath = self.select_image(self.id, tags[0], mood_tag, exclude=exclude)
                             if not imgpath:
                                 imgpath = self.select_image(self.id, *tags, exclude=exclude)
                             tags.pop()
