@@ -806,6 +806,10 @@ init: # PyTFall:
                     textbutton "None":
                         action [SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
                 
+                textbutton "Rest":
+                    # TODO: Temporary way to set action to Rest, this needs to be rewritten completely.
+                    action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
+                        
                 textbutton "Close":
                     action [Hide("set_action_dropdown")]
                 

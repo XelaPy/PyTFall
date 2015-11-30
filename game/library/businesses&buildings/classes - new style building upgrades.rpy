@@ -430,7 +430,7 @@ init -9 python:
                     yield self.env.timeout(1)
                     
                 # This stuff should be better conditioned later:
-                if self.instance.matron: # add more conditioning:
+                if self.instance.manager: # add more conditioning:
                     cash = randint(10, 14)
                 else:
                     cash = randint(8, 12)
