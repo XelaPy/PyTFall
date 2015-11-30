@@ -247,7 +247,7 @@
                         self.locmod["reputation"] -= randint(2, 5)
                     
                     self.apply_stats()
-                    self.img = self.girl.show("profile", "angry", resize=(740, 685))
+                    self.img = self.girl.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
                     self.finish_job()
                     
                     return True
@@ -457,7 +457,7 @@
                     self.event_type = "jobreport"
                     
                     self.loggs('disposition', -50)
-                    self.img = char.show("profile", "angry", resize=(740, 685))
+                    self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
                     char.action = None
                     
                     self.apply_stats()
@@ -914,7 +914,7 @@
                     self.event_type = "jobreport"
                     
                     self.loggs('disposition', -50)
-                    self.img = char.show("profile", "angry", resize=(740, 685))
+                    self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
                     char.action = None
                     
                     self.apply_stats()
@@ -1302,7 +1302,7 @@
                     self.event_type = "jobreport"
                     
                     self.loggs('disposition', -50)
-                    self.img = char.show("profile", "angry", resize=(740, 685))
+                    self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
                     char.action = None
                     
                     self.apply_stats()
@@ -1546,7 +1546,7 @@
                                             "%s will not work as a Service Girl, find better suited task for her!"%self.worker.fullname]))
                     
                     self.loggs('disposition', -50)
-                    self.img = self.worker.show("profile", "angry", resize=(740, 685))
+                    self.img = self.worker.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
                     
                     self.worker.action = None
                     self.apply_stats()
