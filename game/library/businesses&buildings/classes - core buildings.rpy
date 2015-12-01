@@ -11,8 +11,7 @@ init -9 python:
     # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
-    """
-    Core order for SimPy jobs loop:
+    """Core order for SimPy jobs loop:
     
     BUILDING:
         # Holds Businesses and data/properties required for operation.
@@ -554,7 +553,9 @@ init -9 python:
             self.env.run(until=100)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
-            # self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+            # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
+            
+            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_work_income()), "red")))
             self.log("{}".format(set_font_color("===================", "red")))
             self.log("\n\n")
             tl.timer("Temp Jobs Loop")

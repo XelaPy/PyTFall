@@ -2,8 +2,7 @@ init -9 python:
     #################################################################
     # BUILDING UPGRADE CLASSES
     class BuildingUpgrade(_object):
-        """
-        BaseClass for any building expansion!
+        """BaseClass for any building expansion! (aka Business)
         """
         def __init__(self, name="", instance=None, desc="", img="", build_effort=0, materials=None, in_slots=1, ex_slots=0, cost=0):
             self.name = name # name, a string.
@@ -31,7 +30,7 @@ init -9 python:
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
         
         def get_client_count(self):
-            # Returns amount of workers we expect to come here.
+            # Returns amount of clients we expect to come here.
             return 2 + self._rep*0.01*self.all_workers
             
         @property
@@ -41,6 +40,7 @@ init -9 python:
                 return random.sample(self.jobs, 1).pop()
             
         # Reputation:
+        # Prolly not a good idea to mess with this on per business basis, at least at first...
         @property
         def rep(self):
             return self._rep
@@ -59,7 +59,7 @@ init -9 python:
             return self.instance.env
         
         def log(self, item):
-            # Logs the text to log...
+            # Logs the text for next day event...
             self.instance.nd_events_report.append(item)
             
         def has_workers(self, amount=1):
@@ -111,8 +111,10 @@ init -9 python:
             return workers
             
         def find_best_match(self, client, workers):
-            """Attempts to match a client to the best worker.
+            """Attempts to match a client to a worker.
             
+            This intersects worker traits with clients likes and acts accordingly.
+            Right now it will not try to find the very best match and instead will break on the first match found.
             Returns a worker at random if that fails.
             """
             for w in workers[:]:
@@ -130,8 +132,8 @@ init -9 python:
             return worker
             
         def requires_workers(self, amount=1):
-            """
-            Returns True if this upgrade requires a Worker to run this job.
+            """Returns True if this upgrade requires a Worker to run this job.
+            
             Example: Building
             Strip Club on the other hand may nor require one or one would be requested later.
             It may be a better bet to come up with request_worker method that evaluates the same ealier, we'll see.
@@ -188,14 +190,21 @@ init -9 python:
                 s = s | j.all_occs
             return s
         
+        def log_income(self, amount, reason=None):
+            # Plainly logs income to the main building finances.
+            if not reason:
+                reason = self.name
+            self.instance.fin.log_work_income(amount, reason)
+            
         def post_nd_reset(self):
             # Resets all flags and variables after next day calculations are finished.
             pass
         
         
     class MainUpgrade(BuildingUpgrade):
-        """
-        Usually suggests a business of some kind and unlocks jobs and other upgrades!
+        """Usually suggests a business of some kind and unlocks jobs and other upgrades!
+        
+        Completely useless at the moment :(
         """
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
@@ -216,27 +225,34 @@ init -9 python:
             
         def get_client_count(self):
             # Returns amount of workers we expect to come here.
+            # We may not use this at all and handle everything on level of the main building instead!
             return int(round(2 + self._rep*0.01*max(len(self.all_workers), self.capacity)))
             
         def has_workers(self):
+            # Check if the building still has someone availbile to do the job.
             return list(i for i in self.instance.workers if self.all_occs & i.occupations)
             
         def requires_workers(self, amount=1):
+            # May not be useful, we now handle this with type.
             return True
             
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
             
         def request_room(self, client, char):
+            """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms avalible...
+            """
             with self.res.request() as request:
                 yield request
                         
-                # All is well and we create the event
+                # All is well and the client enters:
                 temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, char.name)
                 self.log(temp)
                 
+                # This line will make sure code halts here until run_job ran it's course...
                 yield self.env.process(self.run_job(client, char))
                 
+                # Action (Job) ran it's cource and client is leaving...
                 temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
                 self.log(temp)
                 # client.flag("jobs_busy").interrupt()
@@ -436,6 +452,7 @@ init -9 python:
                     cash = randint(8, 12)
                 dirt = randint(5, 7)
                 self.earned_cash += cash
+                self.log_income(cash)
                 self.instance.dirt += dirt
                 
                 temp = "{}: {} exits the Bar leaving {} Gold and {} Dirt behind.".format(self.env.now, client.name, cash, dirt)
@@ -493,6 +510,7 @@ init -9 python:
                 worker.set_union("jobs_bar_clients", self.clients)
                 worker.AP -= 1
                 tips = randint(4, 7) * self.res.count
+                self.log_income(tips)
                 worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
                 temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now, worker.name, tips, self.res.count)
                 self.log(temp)
