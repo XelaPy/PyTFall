@@ -201,7 +201,6 @@ screen pyt_hero_profile():
             text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
     
     # LEFT FRAME ====================================>
-    
     vbox:
         xsize 217
         pos (8, 110)
@@ -223,110 +222,94 @@ screen pyt_hero_profile():
             
         if lframe_display == "status":
             # STATS ====================================>
+            null height 20
+            $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"]
             vbox:
-                yoffset -30
-                hbox:
-                    $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"]
-                    ypos 40
-                    vbox:
-                        style_group "stats"
-                        spacing -7
-                        xanchor 2
-                        xmaximum 113
-                        frame:
-                            xysize (215, 8)
-                            text "{color=#CD4F39}Health:" xalign (0.02)
-                        frame:
-                            xysize (215, 8)
-                            text "{color=#009ACD}MP:" size 16 xalign (0.02)
-                        frame:
-                            xysize (215, 8)
-                            text "{color=#43CD80}Vitality:" xalign (0.02)
-                        for stat in stats:
-                            frame:
-                                xysize (215, 8)
-                                text ('{color=#79CDCD}%s'%stat.capitalize()) color ivory size 17 xalign (0.02) 
-                    vbox:
-                        yalign (0.65)
-                        spacing 8
-                        xanchor 20
-                        xfill True
-                        xminimum 0
-                        xmaximum 120
-                    
-                        if hero.health <= hero.get_max("health")*0.3:
-                            text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
-                        else:
-                            text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) style "stats_value_text" xalign (1.0)
-    
-                        if hero.mp <= hero.get_max("mp")*0.3:
-                            text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) style "stats_value_text" xalign (1.0)
-                        else:
-                            text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) style "stats_value_text" xalign (1.0)
-    
-                        if hero.vitality <= hero.get_max("vitality")*0.3:
-                            text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                        else:
-                            text (u"{color=#F5F5DC}%s/%s"%(hero.vitality, hero.get_max("vitality"))) style "stats_value_text" xalign (1.0)
-                        
-                        for stat in stats:
-                            text ('{color=#F5F5DC}%d/%d'%(getattr(hero, stat), hero.get_max(stat))) style "stats_value_text" xalign (1.0)
-                    
-                # LOCATION ====================================>
-                vbox:
-                    pos (10, 8)
-                    button:
-                        ypos 35
-                        style_group "ddlist"
-                        action Return(["dropdown", "loc"])
-                        alternate Return(["dropdown", "home"])
-                        text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
-                            if len(str(hero.location)) > 18:
-                                size 15
-                            else:
-                                size 16
-                        hovered tt.Action("Change MCs Home/Location.")
-                        
-                    # AP ====================================>
-                    frame:
-                        ypos 37
-                        xysize (100, 80)
-                        background ProportionalScale("content/gfx/frame/frame_ap2.png", 190, 80)
-                        label "[hero.AP]":
-                            pos (130, -2)
-                            style "content_label"
-                            text_color ivory
-                            text_size 22
-                            
-                null height 10
-                
-                # ELEMENTAL ALIGNMENT ====================================>
-                $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
+                style_group "proper_stats"
+                spacing 1
+                xsize 212
                 frame:
-                    style_group "content"
-                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-                    xysize (210, 120)
+                    xysize (212, 27)
                     xalign 0.5
-                    xoffset -5
+                    text "Health:" xalign 0.02 color "#CD4F39"
+                    if hero.health <= hero.get_max("health")*0.3:
+                        text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                    else:
+                        text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                frame:
+                    xysize (212, 27)
+                    xalign 0.5
+                    text "MP:" xalign 0.02 color "#009ACD"
+                    if hero.mp <= hero.get_max("mp")*0.3:
+                        text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                    else:
+                        text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                frame:
+                    xysize (212, 27)
+                    xalign 0.5
+                    text "{color=#43CD80}Vitality:" xalign (0.02)
+                    if hero.vitality <= hero.get_max("vitality")*0.3:
+                        text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                    else:
+                        text (u"{color=#F5F5DC}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                for stat in stats:
+                    frame:
+                        xysize (212, 27)
+                        xalign 0.5
+                        text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
+                        text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        
+            # LOCATION ====================================>
+            vbox:
+                pos (10, 8)
+                button:
+                    style_group "ddlist"
+                    action Return(["dropdown", "loc"])
+                    alternate Return(["dropdown", "home"])
+                    text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
+                        if len(str(hero.location)) > 18:
+                            size 15
+                        else:
+                            size 16
+                    hovered tt.Action("Change MCs Home/Location.")
                     
-                    $ x = 0
-                    $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
-                    $ f = Fixed(*els, xysize=(90, 90))
-                    add f xcenter 150 ycenter 55
-                    
-                    viewport:
-                        draggable True
-                        edgescroll (15, 10)
-                        xysize (200, 110)
-                        align (0, 0.5)
-                        # yoffset 33
-                        has vbox spacing -4
-                        for e in hero.elements:
-                            textbutton "{=TisaOTM}{size=14}[e.id]":
-                                background None
-                                action NullAction()
-                                hovered tt.Action("%s" % e.desc)
-                    add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
+                # AP ====================================>
+                frame:
+                    xysize (100, 80)
+                    background ProportionalScale("content/gfx/frame/frame_ap2.png", 190, 80)
+                    label "[hero.AP]":
+                        pos (130, -2)
+                        style "content_label"
+                        text_color ivory
+                        text_size 22
+                        
+            # ELEMENTAL ALIGNMENT ====================================>
+            $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
+            frame:
+                style_group "content"
+                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
+                xysize (210, 120)
+                xalign 0.5
+                xoffset -5
+                
+                $ x = 0
+                $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+                $ f = Fixed(*els, xysize=(90, 90))
+                add f xcenter 150 ycenter 55
+                
+                viewport:
+                    draggable True
+                    edgescroll (15, 10)
+                    xysize (200, 110)
+                    align (0, 0.5)
+                    # yoffset 33
+                    has vbox spacing -4
+                    for e in hero.elements:
+                        textbutton "{=TisaOTM}{size=14}[e.id]":
+                            background None
+                            action NullAction()
+                            hovered tt.Action("%s" % e.desc)
+                add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
     
         elif lframe_display == "friends":
             # FRIEND LIST ====================================>
@@ -380,26 +363,23 @@ screen pyt_hero_profile():
     # RIGHT FRAME ====================================>
     vbox:
         pos (1124, 60)
-        xysize (153, 140)
+        xsize 153
         frame:
             xalign 0.5
             yfill True
             background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
             xysize (153, 60)
             text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.6)
-        null height -8
         frame:
             xalign 0.5
-            xsize 140
-            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.8), 10, 10)
-            hbox:
-                xfill True
-                text "{color=#DAA520}Gold:" size 14  outlines [(1, "#3a3a3a", 0, 0)] align (0.0, 0.5)
-                text (u"{color=#DAA520}%d"%int(hero.gold)) size 14 outlines [(1, "#3a3a3a", 0, 0)] align (1.0, 0.5)
+            xsize 142
+            style_group "proper_stats"
+            has hbox xfill True
+            text "{color=#DAA520}Gold:" size 16  outlines [(1, "#3a3a3a", 0, 0)] align (0.08, 0.5)
+            text (u"{color=#DAA520}%d"%int(hero.gold)) size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.92, 0.5) yoffset -2
         
+    # ATTACKS/MAGIC SKILLS ====================================>
     if rframe_display == "skills":
-            
-        # ATTACKS/MAGIC ====================================>
         vbox:
             pos (1125, 205)
             style_group "stats"
@@ -451,9 +431,8 @@ screen pyt_hero_profile():
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                                 hovered tt.action(entry)# , With(dissolve)
     
+    # TRAITS ====================================>
     elif rframe_display == "traits":
-        
-        # TRAITS ====================================>
         vbox:
             pos (1125, 205)
             style_group "stats"
