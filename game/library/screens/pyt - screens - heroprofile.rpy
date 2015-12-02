@@ -257,7 +257,7 @@ screen pyt_hero_profile():
                         xysize (212, 27)
                         xalign 0.5
                         text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
-                        text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
                         
             # LOCATION ====================================>
             vbox:
