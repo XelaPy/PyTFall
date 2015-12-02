@@ -226,6 +226,21 @@ init -999 python:
             width = int(round(ratio * width))
             height = int(round(ratio * height))
             return width, height
+            
+        def get_image_name(self):
+            """Returns the name of an image bound to the ProportionalScale.
+            """
+            path = self.image.filename
+            image_name = path.split("/")[-1]
+            return image_name
+            
+        def get_image_tags(self):
+            """Returns a list of tags bound to the image.
+            """
+            image_name = self.get_image_name()
+            image_name_base = image_name.split(".")[0]
+            obfuscated_tags = image_name_base.split("-")[1:]
+            return [tags_dict[tag] for tag in obfuscated_tags]
 
         def predict_files(self):
             return self.image.predict_files()

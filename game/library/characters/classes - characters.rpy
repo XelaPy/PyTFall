@@ -386,8 +386,10 @@ init -9 python:
         
     
     class Finances(_object):
-        """
-        Helper class that handles finance related matters in order to reduce the size of Characters/Buildings classes.
+        """Helper class that handles finance related matters in order to reduce the size of Characters/Buildings classes.
+        
+        TODO: This is fairly old, I should be able to do better now.
+        TODO: Naming of methods could be better.
         """
         def __init__(self, *args, **kwargs):
             """
@@ -410,14 +412,12 @@ init -9 python:
             
         # Logging data:
         def log_work_income(self, value, kind):
-            """
-            This is for Buildings.
+            """This is for Buildings.
             """
             self.daily_income_log["work"][kind] = self.daily_income_log["work"].get(kind, 0) + int(round(value))
          
         def log_work_expense(self, value, kind):
-            """
-            This is for Buildings.
+            """This is for Buildings.
             """
             self.daily_expense_log["work"][kind] = self.daily_expense_log["work"].get(kind, 0) + int(round(value))
         
@@ -430,7 +430,7 @@ init -9 python:
             self.daily_income_log["tips"][kind] = self.daily_income_log["tips"].get(kind, 0) + int(round(value))
             
         def log_income(self, value, kind):
-            """Logs Private Income.
+            """Logs private Income.
             """
             self.daily_income_log["private"][kind] = self.daily_income_log["private"].get(kind, 0) + int(round(value))
             
@@ -461,7 +461,27 @@ init -9 python:
             self.log_income(value, reason)
             self.instance.gold += value
         
-        # Retrieving data:    
+        # Retrieving data:
+        def get_work_income(self, kind="all", day=None):
+            """Retrieve work income (for buildings/chars?)
+            
+            kind = "all" means any income earned on the day.
+            """
+            if day and day >= store.day:
+                raise Exception("Day on income retrieval must be lower than the current day!")
+                
+            if not day:
+                d = self.daily_income_log["work"]
+            else:
+                d = self.game_fin_log[str(day)][0]["work"]
+                
+            if kind == "all":
+                return sum(val for val in d.values())
+            elif kind in d:
+                return d[kind]
+            else:
+                raise Exception("Income kind: {} is not valid!".format(kind))
+        
         def get_total_taxes(self, days):
             char = self.instance
             income = dict()
