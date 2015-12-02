@@ -429,7 +429,7 @@
             
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = [traits["Prostitute"]] # Corresponing traits...
+            self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
             
             self.workermod = {}
             self.locmod = {}
@@ -499,41 +499,39 @@
             height = 705
             
             size = (width, height)
-            
+            kwargs = dict(exclude=["rape", "angry", "in pain"], resize=size, type="reduce", add_mood=False)
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if self.client.act == 'sex':
                 
                 self.skill = "vaginal"
                 
-                # Temporarely done here, should be moved to game init and after_load to improve performance:
+                # Temporarily done here, should be moved to game init and after_load to improve performance:
                 tags = (("2c vaginal", "ontop"), ("2c vaginal", "doggy"), ("2c vaginal", "missionary"), ("2c vaginal", "onside"), ("2c vaginal", "standing"), ("2c vaginal", "spooning"))
                 act = self.get_act(tags)
-
                 if act == tags[0]:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[2]:
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your pussy is wrapping around me so tight!' \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[3]:
                     self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[4]:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[5]:
                     self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 else:
                     self.txt.append(choice(['He wanted some old-fashioned straight fucking. \n',
                                                          'He was in the mood for some pussy pounding. \n',
                                                          'He asked for some playtime with her vagina.\n']))
-                    self.img = self.worker.show("2c vaginal", resize=size)
-                    
+                    self.img = self.worker.show("2c vaginal", **kwargs)
                 # Virgin trait check:
                 self.take_virginity()
 
@@ -553,27 +551,27 @@
                 
                 if act == tags[0]:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl on top' position. \n")
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[2]:
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your anus is wrapping around me so tight!' \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[3]:
                     self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[4]:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[5]:
                     self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 else:
                     self.txt.append(choice(['He took her in the ass right there and then. \n',
                                                           'He got his dose of it. \n',
                                                           'And so he took her in her butt. \n']))
-                    self.img = self.worker.show("2c anal", resize=size)
+                    self.img = self.worker.show("2c anal", **kwargs)
                 
             # Suck a Dick act    
             elif self.client.act == 'blowjob':
@@ -585,13 +583,13 @@
                 
                 if act == tags[0]:
                     self.txt.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He told %s to give him a good handjob.\n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[2]:
                     self.txt.append(choice(["He asked her for a foodjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
-                    self.img = self.worker.show(*act["tags"], resize=size)                    
+                    self.img = self.worker.show(*act["tags"], **kwargs)                    
                 elif act == tags[3]:
                     if trats["Big Boobs"] in self.worker.traits or traits["Abnormally Large Boobs"] in self.worker.traits:
                         self.txt.append(choice(["He went straight for her big boobs. \n", "Seeing her knockers, customer wanted notning else then to park his dick between them. \n", "Lustfully gazing on your girl's burst, he asked for a titsjob. \n", "He put his manhood between her big tits. \n" , "He showed his cock between %s's enormous breasts. \n"%self.worker.nickname]))
@@ -602,16 +600,16 @@
                             self.txt.append(choice(["He placed his cock between her breasts, clearly enyoing her flat chest. \n", "Even when knowing that her breasts are small, he wanted to be carresed by them. \n"]))
                     else:
                         self.txt.append(choice(["He asked for a titsjob. \n", "He let %s to carres him with her breasts. \n", "He showed his cock between %s's tits. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[4]:
                     self.txt.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejactuate on her face. \n", "He wanked himself hard in efford to cover her with his cum. \n"]))
-                    self.img = self.worker.show(*act["tags"], resize=size)        
+                    self.img = self.worker.show(*act["tags"], **kwargs)        
                 elif act == tags[5]:
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 else: # I do not thing that this will ever be reached...
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
-                    self.img = self.worker.show("bc blowjob", resize=size)
+                    self.img = self.worker.show("bc blowjob", **kwargs)
 
             # Lesbian Act
             elif self.client.act == 'lesbian':
@@ -657,64 +655,64 @@
                 if act == tags[0]:
                     self.txt.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n"%self.worker.nickname,
                                                          "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[1]:
                     self.txt.append(choice(["All hot and bothered, she ordered %s to lick her cunt. \n"%self.worker.nickname,
                                                          "As if she had an itch, she quickly told %s to tong her pussy. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[2]:
                     self.txt.append(choice(["She licked %ss anus clean.\n"%self.worker.nickname,
                                                                                     "She told %s to be still and started licking her asshole with her hot tong. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[3]:
                     self.txt.append(choice(["All hot and bothered, she ordered %s to lick her asshole. \n"%self.worker.nickname,
                                                          "As if she had an itch, she quickly told %s to tong her anus. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[4]:
                     self.txt.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls pussy. \n",
                                                          "She watched %s moan as she stuck fingers in her pussy. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[5]:
                     self.txt.append(choice(["Quite horny, she ordered your girl to finger her cunt. \n",
                                                          "Clearly in the mood, she told %s to finger her until she cums. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[6]:
                     self.txt.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls anus. \n",
                                                          "She watched %s moan as she stuck fingers in her asshole. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[7]:
                     self.txt.append(choice(["Quite horny, she ordered your girl to finger her anus. \n",
                                                          "Clearly in the mood, she told %s to finger her asshole until she cums. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[8]:
                     self.txt.append(choice(["Liking your girls breasts, she had some good time caressing them. \n",
                                                          "She enjoyed herself by caressing your girls breasts. \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[9]:
                     self.txt.append(choice(["She asked your girl to caress her tits. \n",
                                                          "She told your girl to put a squeeze on her breasts. \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[10]:
                     self.txt.append(choice(["Girls lost themselves in eachothers embrace.\n",
                                                          "Any good lesbo action should start with a hug, don't you think??? \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[11]:
                     self.txt.append(choice(["She put on a strapon and fucked your girl in her cunt. \n",
                                                           "Equipping herself with a strap-on, she lustfully shoved it in %ss pussy. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                     self.take_virginity()
                 elif act == tags[12]:
                     self.txt.append(choice(["She ordered %s to put on a strapon and fuck her silly with it. \n"%self.worker.nickname,
                                                           "She equipped %s with a strapon and told her that she was 'up' for a good fuck! \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[13]:
                     self.txt.append(choice(["She put on a strapon and fucked your girl in her butt. \n",
                                                           "Equipping herself with a strapon, she lustfully shoved it in %ss asshole. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[14]:
                     self.txt.append(choice(["She ordered %s to put on a strapon and butt-fuck her silly with it. \n"%self.worker.nickname,
                                                          "She equipped %s with a strapon and told her that she was 'up' for a good anal fuck! \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 # elif act == "les_anal_beads":
                     # self.txt.append(choice(["They got their hands on some anal beads and shoved it up %ss butt. \n"%self.worker.nickname,
                                                           # "She had some fun with your girls asshole and some anal beads \n"]))
@@ -726,29 +724,29 @@
                 elif act == tags[15]:
                     self.txt.append(choice(["She played with a dildo and %ss pussy. \n"%self.worker.nickname,
                                                          "She stuck a dildo up %s cunt. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                     self.take_virginity()
                 elif act == tags[16]:
                     self.txt.append(choice(["Without further ado, %s fucked her with a dildo. \n"%self.worker.nickname,
                                                          "She asked your girl to fuck her pussy with a dildo. \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[17]:
                     self.txt.append(choice(["After some foreplay, she stuck a dildo up your girls butt. \n",
                                                                                    "For her money, she had some fun playing with a dildo and your girls asshole. \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[18]:
                     self.txt.append(choice(["After some foreplay, she asked %s to shove a dildo up her ass. \n"%self.worker.nickname,
                                                          "This female customer of your brothel clearly believed that there is no greater pleasure than a dildo up her butt. \n"]))
-                    self.img = self.worker.show(*act, resize=size)
+                    self.img = self.worker.show(*act, **kwargs)
                 else:
                     self.txt.append(choice(["She was in the mood for some girl on girl action. \n", "She asked for a good lesbian sex. \n"]))
-                    self.img = self.worker.show("gay", resize=size)
+                    self.img = self.worker.show("gay", **kwargs)
                     # Last fallback!
             
             else:
                 self.txt.append("Whore Job\n\nMissed All acts!\n\n")
                 self.skill = "vaginal"
-                self.img = self.worker.show("sex", resize=size)
+                self.img = self.worker.show("sex", **kwargs)
                 
             self.check_skills(self.skill)
                 
@@ -1009,18 +1007,19 @@
             self.loc.fin.log_work_income(tippayout, "StripJob")
             
             available = list()
-            if self.worker.has_image("strip", "stage"):
-                available += "stage"
-            if self.worker.has_image("strip", "simple bg"):
-                available += "simple bg"
-            if self.worker.has_image("strip", "no bg"):
-                available += "no bg"
+            kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685), type="first_default", add_mood=False)
+            if self.worker.has_image("stripping", "stage", exclude=["sad", "angry", "in pain"]):
+                available.append("stage")
+            if self.worker.has_image("stripping", "simple bg", exclude=["sad", "angry", "in pain"]):
+                available.append("simple bg")
+            if self.worker.has_image("stripping", "no bg", exclude=["sad", "angry", "in pain"]):
+                available.append("no bg")
             if available:
-                self.img = self.worker.show("strip", choice(available))
-            elif self.worker.has_image("strip", "indoors"):
-                self.img = self.worker.show("strip", "indoors")
+                self.img = self.worker.show("stripping", choice(available), **kwargs)
+            elif self.worker.has_image("stripping", "indoors"):
+                self.img = self.worker.show("stripping", "indoors", **kwargs)
             else:
-                self.img = "strip"
+                self.img = self.worker.show("stripping", **kwargs)
                 
             self.event_type = "jobreport"
             self.kind = self.id
@@ -1050,9 +1049,98 @@
             """Rests the worker.
             """
             # Stat Mods:
-            self.txt.append(choice(["{} is resting.".format(self.worker.name),
-                                                 "{} is taking a break to recover.".format(self.worker.name)]))
+
+                                                 
+            available = list()
+            if self.worker.disposition < 250:
+                kwargs = dict(exclude=["dungeon", "nude", "sad", "angry", "in pain"], add_mood=False) # with not too low disposition nude pics become available during rest
+            else:
+                kwargs = dict(exclude=["dungeon", "sad", "angry", "in pain"], add_mood=False)
+            if self.worker.has_image("sleeping", **kwargs):
+                available.append("sleeping")
+            if self.worker.has_image("reading", **kwargs):
+                available.append("reading")
+            if self.worker.vitality > 50:
+                if self.worker.has_image("shopping", **kwargs) and (self.worker.gold >= 200):
+                    available.append("shopping")
+            if self.worker.vitality > 150:
+                if self.worker.has_image("sport", **kwargs):
+                    available.append("sport")
+                if self.worker.has_image("exercising", **kwargs):
+                    available.append("exercising")
+            if self.worker.has_image("eating", **kwargs):
+                available.append("eating")
+            if self.worker.has_image("bathing", **kwargs):
+                available.append("bathing")
+            if self.worker.has_image("rest", **kwargs):
+                available.append("rest") # there always will be a simple rest, providing non-empty list. The only exception is a lack of any non nude pics, in which case we will allow to them with any disposition
+            if not(available):
+                available.append("rest")
+            if not(available):
+                available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
             
+            if ("sleeping" in available) and (self.worker.vitality <= 50):
+                    self.img = self.worker.show("sleeping", resize=(740, 685), **kwargs)
+                    self.txt.append("{} is very tired so she cannot do anything but sleep.".format(self.worker.name))
+            else:
+                self.img = self.worker.show(choice(available), resize=(740, 685), **kwargs)
+                image_tags = self.img.get_image_tags()
+                if "sleeping" in image_tags:
+                    if "living" in image_tags:
+                        self.txt.append("{} is enjoying additional bedtime.".format(self.worker.name))
+                    elif "beach" in image_tags:
+                        self.txt.append("{} takes a small nap at the local beach.".format(self.worker.name))
+                    elif "nature" in image_tags:
+                        self.txt.append("{} takes a small nap in the local park.".format(self.worker.name))
+                    else:
+                        self.txt.append("{} takes a small nap during her free time.".format(self.worker.name))
+                elif "onsen" in image_tags:
+                    self.txt.append("{} relaxes in the onsen. The perfect remedy for stress!".format(self.worker.name))
+                elif "reading" in image_tags:
+                    self.txt.append(choice(["{} spends her free time reading.".format(self.worker.name),
+                                                 "{} is enjoying a book and relaxing.".format(self.worker.name)]))
+                elif "shopping" in image_tags:
+                    self.txt.append(choice(["{} spends her free time to visit some shops.".format(self.worker.name),
+                                                 "{} is enjoying a small shopping tour.".format(self.worker.name)]))
+                elif "exercising" in image_tags:
+                    self.txt.append("{} keeps herself in shape doing some exercises during her free time.".format(self.worker.name))
+                elif "sport" in image_tags:
+                    self.txt.append("{} is in a good shape today, so she spends her free time doing sports.".format(self.worker.name))
+                elif "eating" in image_tags:
+                    self.txt.append(choice(["{} has a snack during her free time.".format(self.worker.name),
+                                                 "{} spends her free time enjoying a meal.".format(self.worker.name)]))
+                elif "bathing" in image_tags:
+                    if "pool" in image_tags:
+                        self.txt.append("{} spends her free time enjoying swimming in the local swimming pool.".format(self.worker.name))
+                    elif "beach" in image_tags:
+                        self.txt.append("{} spends her free time enjoying swimming at the local beach.".format(self.worker.name))
+                    elif "living" in image_tags:
+                        self.txt.append("{} spends her free time enjoying a bath.".format(self.worker.name))
+                    else:
+                        self.txt.append("{} spends her free time relaxing in a water.".format(self.worker.name))
+                else:
+                    if "living" in image_tags:
+                        self.txt.append(choice(["{} is resting in her room.".format(self.worker.name),
+                                                 "{} is taking a break in her room to recover.".format(self.worker.name)]))
+                    elif "beach" in image_tags:
+                            self.txt.append(choice(["{} is relaxing at the local beach.".format(self.worker.name),
+                                                    "{} is taking a break at the local beach.".format(self.worker.name)]))
+                    elif "pool" in image_tags:
+                            self.txt.append(choice(["{} is relaxing in the local swimming pool.".format(self.worker.name),
+                                                    "{} is taking a break in the local swimming pool.".format(self.worker.name)]))
+                    elif "nature" in image_tags:
+                        if ("wildness" in image_tags):
+                            self.txt.append(choice(["{} is resting in the local forest.".format(self.worker.name),
+                                                    "{} is taking a break in the local forest.".format(self.worker.name)]))
+                        else:
+                            self.txt.append(choice(["{} is resting in the local park.".format(self.worker.name),
+                                                    "{} is taking a break in the local park.".format(self.worker.name)]))
+                    elif ("urban" in image_tags) or ("public" in image_tags):
+                            self.txt.append(choice(["{} is relaxing somewhere in the city.".format(self.worker.name),
+                                                    "{} is taking a break somewhere in the city.".format(self.worker.name)]))
+                    else:
+                            self.txt.append(choice(["{} is relaxing during her free time.".format(self.worker.name),
+                                                    "{} is taking a break during her free time.".format(self.worker.name)]))
             while self.worker.AP and not all([(self.worker.vitality + self.workermod.get('vitality', 0) >= self.worker.get_max("vitality") - 50),
                                                           (self.worker.health + self.workermod.get('health', 0) >= self.worker.get_max('health') - 5)]):
                 self.loggs('health', randint(2, 3))
