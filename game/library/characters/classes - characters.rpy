@@ -3258,7 +3258,7 @@ init -9 python:
             '''Returns an image with the supplied tags.
             
             Under normal type of images lookup (default):
-            First tag is concidered to be most improtant.
+            First tag is considered to be most important.
             If no image with all tags is found,
             game will look for a combination of first and any other tag from second to last.
             
@@ -3273,7 +3273,7 @@ init -9 python:
                 type = type of image lookup order (normal by default)
                 types:
                      - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
-                     - any = will try to find an image with any of the tags chozen at random
+                     - any = will try to find an image with any of the tags chosen at random
                      - first_default = will use first tag as a default instead of a profile and only than switch to profile
                      - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
                 add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
