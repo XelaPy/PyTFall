@@ -1052,17 +1052,20 @@
 
                                                  
             available = list()
-            if self.worker.disposition < 250:
-                kwargs = dict(exclude=["dungeon", "nude", "sad", "angry", "in pain"], add_mood=False) # with not too low disposition nude pics become available during rest
+            if (self.worker.disposition >= 250) or ("Exhibitionist" in self.worker.traits):
+                kwargs = dict(exclude=["dungeon", "sad", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False) # with not too low disposition nude pics become available during rest
             else:
-                kwargs = dict(exclude=["dungeon", "sad", "angry", "in pain"], add_mood=False)
+                kwargs = dict(exclude=["dungeon", "sad", "nude", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False)
             if self.worker.has_image("sleeping", **kwargs):
                 available.append("sleeping")
             if self.worker.has_image("reading", **kwargs):
                 available.append("reading")
             if self.worker.vitality > 50:
-                if self.worker.has_image("shopping", **kwargs) and (self.worker.gold >= 200):
+                if self.worker.has_image("shopping", **kwargs) and (self.worker.gold >= 200): # eventually there should be a real existing event about going to shop and buy a random item there for gold. after all we do have an algorithm for that. but atm it might be broken, so...
                     available.append("shopping")
+                if "Nymphomaniac" in self.worker.traits and self.worker.disposition < 300: # if we'll have some kind of high libido flags, they could be used here too
+                    if self.worker.has_image("masturbation", **kwargs):
+                        available.append("masturbation")
             if self.worker.vitality > 150:
                 if self.worker.has_image("sport", **kwargs):
                     available.append("sport")
@@ -1075,25 +1078,29 @@
             if self.worker.has_image("rest", **kwargs):
                 available.append("rest") # there always will be a simple rest, providing non-empty list. The only exception is a lack of any non nude pics, in which case we will allow to them with any disposition
             if not(available):
-                available.append("rest")
-            if not(available):
-                available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
+                if self.worker.has_image("rest"):
+                    available.append("rest")
+                else:
+                    available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
             
             if ("sleeping" in available) and (self.worker.vitality <= 50):
                     self.img = self.worker.show("sleeping", resize=(740, 685), **kwargs)
-                    self.txt.append("{} is very tired so she cannot do anything but sleep.".format(self.worker.name))
+                    self.txt.append("{} is too tired to do anything but sleep at her free time.".format(self.worker.name))
             else:
                 self.img = self.worker.show(choice(available), resize=(740, 685), **kwargs)
                 image_tags = self.img.get_image_tags()
                 if "sleeping" in image_tags:
                     if "living" in image_tags:
-                        self.txt.append("{} is enjoying additional bedtime.".format(self.worker.name))
+                        self.txt.append("{} is enjoying additional bedtime in her room.".format(self.worker.name))
                     elif "beach" in image_tags:
                         self.txt.append("{} takes a small nap at the local beach.".format(self.worker.name))
                     elif "nature" in image_tags:
                         self.txt.append("{} takes a small nap in the local park.".format(self.worker.name))
                     else:
                         self.txt.append("{} takes a small nap during her free time.".format(self.worker.name))
+                elif "masturbation" in image_tags:
+                    self.txt.append(choice(["{} has some fun with herself during her free time.".format(self.worker.name),
+                                                 "{} is relieving her sexual tension at free time.".format(self.worker.name)]))
                 elif "onsen" in image_tags:
                     self.txt.append("{} relaxes in the onsen. The perfect remedy for stress!".format(self.worker.name))
                 elif "reading" in image_tags:
@@ -1113,7 +1120,7 @@
                     if "pool" in image_tags:
                         self.txt.append("{} spends her free time enjoying swimming in the local swimming pool.".format(self.worker.name))
                     elif "beach" in image_tags:
-                        self.txt.append("{} spends her free time enjoying swimming at the local beach.".format(self.worker.name))
+                        self.txt.append("{} spends her free time enjoying swimming at the local beach. The water is great today!".format(self.worker.name))
                     elif "living" in image_tags:
                         self.txt.append("{} spends her free time enjoying a bath.".format(self.worker.name))
                     else:
