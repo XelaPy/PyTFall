@@ -473,225 +473,204 @@ screen pyt_char_equip():
                     ymaximum 460
     
     # Right Frame: =====================================>
-    vbox:
-        align (1.0, 1.0)
-        fixed:
-            xalign 0.5
-            xysize (350, 260)
+    # TOOLTIP TEXT ====================================>
+    frame:
+        pos (930, 4)
+        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.4), 10, 10)
+        xpadding 10
+        xysize (345, 110)
+        
+        python:
+            if len(eqtarget.traits.basetraits) == 1:
+                classes = list(eqtarget.traits.basetraits)[0].id
+            elif len(eqtarget.traits.basetraits) == 2:
+                classes = list(eqtarget.traits.basetraits)
+                classes.sort()
+                classes = ", ".join([str(c) for c in classes])
+            else:
+                if eqtarget != hero:
+                    raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
+                else:
+                    classes = "MC baseclasses are still AFK :("
+        
+        $ t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
+        
+        if dummy:
+            # Traits and skills:
             vbox:
-                yoffset 3
-                xalign 0.55
-                yfill True
-                style_group "pb"
-                
-                python:
-                    if len(eqtarget.traits.basetraits) == 1:
-                        classes = list(eqtarget.traits.basetraits)[0].id
-                    elif len(eqtarget.traits.basetraits) == 2:
-                        classes = list(eqtarget.traits.basetraits)
-                        classes.sort()
-                        classes = ", ".join([str(c) for c in classes])
-                    else:
-                        if eqtarget != hero:
-                            raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
-                        else:
-                            classes = "MC baseclasses are still AFK :("
-                
-                # TOOLTIP TEXT ====================================>
-                frame:
-                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.4), 10, 10)
-                    xoffset -2
-                    xpadding 10
-                    xysize (346, 110)
-                    
-                    $ t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
-                    
-                    if dummy:
-                        # Traits and skills:
-                        vbox:
-                            hbox:
-                                add "content/gfx/interface/images/add.png" yalign 0.7
-                                add "content/gfx/interface/images/remove.png" yalign 0.9
-                                label ('Traits:') text_size 16 text_color gold style "stats_label"
-                            viewport:
-                                mousewheel True
-                                has vbox
-                                style_group "stats"
-                                python:
-                                    t_old = set(t.id for t in eqtarget.traits)
-                                    if hasattr(eqtarget, "effects"):
-                                        for effect in eqtarget.effects:
-                                            if eqtarget.effects[effect]['active']:
-                                                t_old.add(effect)
-                                    t_new = set(t.id for t in dummy.traits)
-                                    if hasattr(eqtarget, "effects"):
-                                        for effect in dummy.effects:
-                                            if dummy.effects[effect]['active']:
-                                                t_new.add(effect)
-                                    temp = t_new.difference(t_old)
-                                    temp = sorted(list(temp))
-                                            
-                                if (not eqtarget == hero and temp):
-                                    vbox:
-                                        spacing -7
-                                        xfill True
-                                        for trait in temp:
-                                            frame:
-                                                xsize 142
-                                                text u'{color=#43CD80}%s'%trait.capitalize() size 16 yalign 0.5
-                                                
-                                python:
-                                    t_old = set(t.id for t in dummy.traits)
-                                    t_new = set(t.id for t in eqtarget.traits)
-                                    temp = t_new.difference(t_old)
-                                    temp = sorted(list(temp))
-                                if (not eqtarget == hero and temp):
-                                    vbox:
-                                        spacing -7
-                                        xfill True
-                                        for trait in temp:
-                                            frame:
-                                                xsize 142
-                                                text u'{color=#CD4F39}%s'%trait.capitalize() size 16 yalign 0.5
-                                            
-                        vbox:
-                            xoffset 165
-                            hbox:
-                                add "content/gfx/interface/images/add.png" yalign 0.7
-                                add "content/gfx/interface/images/remove.png" yalign 0.9
-                                label ('Skills:') text_size 16 text_color gold style "stats_label"
-                            viewport:
-                                mousewheel True
-                                has vbox
-                                style_group "stats"
-                                python:
-                                    s_old = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
-                                    s_new = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
-                                    temp = s_new.difference(s_old)
-                                    temp = sorted(list(temp)) 
-                                if (not eqtarget == hero and temp):
-                                    vbox:
-                                        spacing -7
-                                        xfill True
-                                        for skill in temp:
-                                            frame:
-                                                xsize 142
-                                                text u'{color=#43CD80}%s'%skill.capitalize() size 16 yalign 0.5
-                                                
-                                python:
-                                    s_old = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
-                                    s_new = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
-                                    temp = s_new.difference(s_old)
-                                    temp = sorted(list(temp))
-                                if (not eqtarget == hero and temp):
-                                    vbox:
-                                        spacing -7
-                                        xfill True
-                                        for skill in temp:
-                                            frame:
-                                                xsize 142
-                                                text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
-                                
-                                
-                    elif not tt.value and eqtarget.status == "slave":
-                        text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
-                    elif not tt.value and eqtarget.status == "free":
-                        text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
-                    
-                    #if isinstance(tt.value, BE_Action):
-                        #$ element = tt.value.get_element()
-                        #if element:
-                            #fixed:
-                                #xysize (80, 80)
-                                #yalign 0.5
-                                #if element.icon:
-                                    #$ img = ProportionalScale(element.icon, 70, 70)
-                                    #add img align (0.5, 0.5)
-                        #text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign 0.1
-                    
-                    elif tt.value:
-                        text (u"{color=#ecc88a}%s" % tt.value) size 14 align (0.5, 0.5) font "fonts/TisaOTM.otf" line_leading -5
-                
-                # Right Frame Buttons ====================================>
                 hbox:
-                    xalign 0.5
-                    ypos 3
-                    spacing 2
-                    button:
-                        align (0.5, 0.5)
-                        xsize 70
-                        action SelectedIf(eqtarget == hero or inv_source == hero), If(eqtarget != hero, true=[SetVariable("inv_source", hero), Function(eqtarget.inventory.apply_filter, hero.inventory.filter), Return(['con', 'return']), With(dissolve)]) 
-                        hovered tt.Action("Equip from [hero.nickname]'s Inventory")
-                        text "Hero" style "pb_button_text"
-                    null width 100
-                    button:
-                        align (0.5, 0.5)
-                        xsize 70
-                        action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.filter), Return(['con', 'return']), With(dissolve)])
-                        hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
-                        text "Girl" style "pb_button_text"
-                button:
-                    ypos 17
-                    align (0.5, 0.5)
-                    xysize (110, 30)
-                    action If(eqtarget != hero, true=Show("pyt_girls_list1"))
-                    text "Girls List" style "pb_button_text"
-                
-                frame:
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
-                    align (0.5, 1.0)
-                    xysize (345, 80)
-                    vbox:
-                        align (0.55, 0.5)
-                        spacing 1
-                        hbox:
-                            button:
-                                align (0.5, 0.5)
-                                xysize (140, 30)
-                                action Return(["equip_for"])
-                                text "Auto Equip" style "pb_button_text"
-                            button:
-                                align (0.5, 0.5)
-                                xysize (140, 30)
-                                action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
-                                text "Items Transfer" style "pb_button_text"
-                        
-                        # Paging: ====================================>
-                        use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(0.5, 0.5))
+                    add "content/gfx/interface/images/add.png" yalign 0.7
+                    add "content/gfx/interface/images/remove.png" yalign 0.9
+                    label ('Traits:') text_size 16 text_color gold style "stats_label"
+                viewport:
+                    mousewheel True
+                    has vbox
+                    style_group "stats"
+                    python:
+                        t_old = set(t.id for t in eqtarget.traits)
+                        if hasattr(eqtarget, "effects"):
+                            for effect in eqtarget.effects:
+                                if eqtarget.effects[effect]['active']:
+                                    t_old.add(effect)
+                        t_new = set(t.id for t in dummy.traits)
+                        if hasattr(eqtarget, "effects"):
+                            for effect in dummy.effects:
+                                if dummy.effects[effect]['active']:
+                                    t_new.add(effect)
+                        temp = t_new.difference(t_old)
+                        temp = sorted(list(temp))
+                                
+                    if (not eqtarget == hero and temp):
+                        vbox:
+                            spacing -7
+                            xfill True
+                            for trait in temp:
+                                frame:
+                                    xsize 142
+                                    text u'{color=#43CD80}%s'%trait.capitalize() size 16 yalign 0.5
+                                    
+                    python:
+                        t_old = set(t.id for t in dummy.traits)
+                        t_new = set(t.id for t in eqtarget.traits)
+                        temp = t_new.difference(t_old)
+                        temp = sorted(list(temp))
+                    if (not eqtarget == hero and temp):
+                        vbox:
+                            spacing -7
+                            xfill True
+                            for trait in temp:
+                                frame:
+                                    xsize 142
+                                    text u'{color=#CD4F39}%s'%trait.capitalize() size 16 yalign 0.5
+                                
+            vbox:
+                xoffset 165
+                hbox:
+                    add "content/gfx/interface/images/add.png" yalign 0.7
+                    add "content/gfx/interface/images/remove.png" yalign 0.9
+                    label ('Skills:') text_size 16 text_color gold style "stats_label"
+                viewport:
+                    mousewheel True
+                    has vbox
+                    style_group "stats"
+                    python:
+                        s_old = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
+                        s_new = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
+                        temp = s_new.difference(s_old)
+                        temp = sorted(list(temp)) 
+                    if (not eqtarget == hero and temp):
+                        vbox:
+                            spacing -7
+                            xfill True
+                            for skill in temp:
+                                frame:
+                                    xsize 142
+                                    text u'{color=#43CD80}%s'%skill.capitalize() size 16 yalign 0.5
+                                    
+                    python:
+                        s_old = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
+                        s_new = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
+                        temp = s_new.difference(s_old)
+                        temp = sorted(list(temp))
+                    if (not eqtarget == hero and temp):
+                        vbox:
+                            spacing -7
+                            xfill True
+                            for skill in temp:
+                                frame:
+                                    xsize 142
+                                    text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
+                    
+                    
+        elif not tt.value and eqtarget.status == "slave":
+            text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+        elif not tt.value and eqtarget.status == "free":
+            text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
         
-        # Filters: ====================================>
-        frame:
-            style_group "dropdown_gm"
-            background Null()
+        #if isinstance(tt.value, BE_Action):
+            #$ element = tt.value.get_element()
+            #if element:
+                #fixed:
+                    #xysize (80, 80)
+                    #yalign 0.5
+                    #if element.icon:
+                        #$ img = ProportionalScale(element.icon, 70, 70)
+                        #add img align (0.5, 0.5)
+            #text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign 0.1
+        
+        elif tt.value:
+            text "{color=#ecc88a}%s"%tt.value size 14 align (0.5, 0.5) font "fonts/TisaOTM.otf" line_leading -5
+            
+    # Right Frame Buttons ====================================>
+    vbox:
+        pos (931, 118)
+        xsize 345
+        spacing 4
+        style_group "pb"
+        hbox:
             xalign 0.5
-            hbox:
-                spacing 4
-                xalign 0.5
-                xminimum 350
-                xmaximum 350
-                box_wrap True
-                for filter in inv_source.inventory.ALL_FILTERS:
-                    frame:
-                        xpadding 0
-                        ymargin -8
-                        background Null() 
-                        $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
-                        $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 44, 44)
-                        $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 44, 44)
-                        imagebutton:
-                            idle img
-                            hover Transform(img_hover, alpha=1.1)
-                            selected_idle img_selected
-                            selected_hover Transform(img_selected, alpha=1.15)
-                            action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.filter)], With(dissolve)
-                            focus_mask True
+            spacing 100
+            button:
+                xsize 70
+                action SelectedIf(eqtarget == hero or inv_source == hero), If(eqtarget != hero, true=[SetVariable("inv_source", hero), Function(eqtarget.inventory.apply_filter, hero.inventory.filter), Return(['con', 'return']), With(dissolve)]) 
+                hovered tt.Action("Equip from [hero.nickname]'s Inventory")
+                text "Hero" style "pb_button_text"
+            button:
+                xsize 70
+                action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.filter), Return(['con', 'return']), With(dissolve)])
+                hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
+                text "Girl" style "pb_button_text"
+        button:
+            xalign 0.5
+            xysize (110, 30)
+            action If(eqtarget != hero, true=Show("pyt_girls_list1"))
+            text "Girls List" style "pb_button_text"
+            
+    # Auto-Equip/Item Transfer Buttons and Paging: ================>
+    frame:
+        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+        pos (931, 184)
+        xysize (345, 80)
+        has vbox spacing 1 xalign 0.5
+        hbox:
+            button:
+                xysize (140, 30)
+                action Return(["equip_for"])
+                text "Auto Equip" style "pb_button_text"
+            button:
+                xysize (140, 30)
+                action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
+                text "Items Transfer" style "pb_button_text"
+        use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(0.5, 0.5))
         
-        # Inventory: ====================================>
-        frame:
-            xalign 0.55
-            background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
-            use items_inv(char=inv_source, main_size=(333, 333), frame_size=(80, 80), return_value=['item', 'equip'])
-            ypos -2
+    # Filters: ====================================>
+    hbox:
+        pos (935, 268)
+        box_wrap True
+        style_group "dropdown_gm"
+        xsize 340
+        spacing 2 
+        for filter in inv_source.inventory.ALL_FILTERS:
+            frame:
+                xpadding 0
+                ymargin -8
+                background Null() 
+                $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
+                $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 44, 44)
+                $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 44, 44)
+                imagebutton:
+                    idle img
+                    hover Transform(img_hover, alpha=1.1)
+                    selected_idle img_selected
+                    selected_hover Transform(img_selected, alpha=1.15)
+                    action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.filter)], With(dissolve)
+                    focus_mask True
+        
+    # Inventory: ====================================>
+    frame:
+        pos (931, 372)
+        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+        use items_inv(char=inv_source, main_size=(333, 333), frame_size=(80, 80), return_value=['item', 'equip'])
         
     # BASE FRAME 1 "top layer" ====================================>
     add "content/gfx/frame/h1.png"
