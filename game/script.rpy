@@ -86,6 +86,7 @@
         # maps = xml_to_dict(content_path('db/map.xml'))
         calendar = Calendar(day=28, month=2, year=125)
         global_flags = Flags()
+        girlslist_last_page_viewed = 0
         
         # import cPickle as pickle
         # tl.timer("Loading: Binary Tag Database")

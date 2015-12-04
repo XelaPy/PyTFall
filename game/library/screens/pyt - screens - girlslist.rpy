@@ -3,7 +3,7 @@ label girls_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
     if not renpy.get_screen("pyt_girlslist"):
-        show screen pyt_girlslist(source=GuiGirlsList(), page=0)
+        show screen pyt_girlslist(source=GuiGirlsList(), page=girlslist_last_page_viewed)
     with dissolve
     
     python:
@@ -59,11 +59,14 @@ screen pyt_girlslist(source=None, page=0, total_pages=1):
                 total_pages = max(int(math.ceil(len(girl_list[0]) / float(page_lenght))), int(math.ceil(len(girl_list[1]) / float(page_lenght))))
                 gs = renpy.get_screen("pyt_girlslist").scope["_kwargs"]
                 gs["total_pages"] = total_pages
+                
+                # Per Dark's request, we remember the page:
                 if page < 0:
                     gs["page"] = 0
                 if page > total_pages:
                     gs["page"] = total_pages
                 page = gs["page"]
+                store.girlslist_last_page_viewed = page
                 girl_list[0] = girl_list[0][page*page_lenght:page*page_lenght+page_lenght]
                 girl_list[1] = girl_list[1][page*page_lenght:page*page_lenght+page_lenght]
                 
