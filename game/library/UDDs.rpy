@@ -89,39 +89,57 @@ init -999 python:
     
     
     class FilmStrip(renpy.Displayable):
-        def __init__(self, image, framesize, gridsize, delay, frames=None, loop=True, reverse=False, **kwargs):
+        """Simple UDD that cuts a spreadsheet and animates it.
+        """
+        def __init__(self, displayable, framesize, gridsize, delay, include_frames=None, exclude_frames=None, loop=True, reverse=False, **kwargs):
+            """Creates a list of Transforms ready to be rendered. This may take up a little bit more memory than doing the same on the fly but it should be faster.
+            
+            @params:
+            displayable: Displayable we will cut, usually a path to image.
+            framesize: A size of a single frame in pixels.
+            gridsize: Height and width of the grid as a tuple: (5, 5) means 5 by 5 frames.
+            delay: Time between each frame in seconds.
+            include_frames: If not None, espects a list of frames from the sheet that should be incuded in animation. Frames are numbered 0 to z where 0 is the top-left frame and z id the bottom-right frame.
+            exclude_frames: If not None, frames to exclude. Rules same as above. Included frame will exclude all but themselves and excuded frames will never be shown.
+            loop: Loop endlessly if True, will show the animation once if False.
+            reverse: Reverse the order of frames in animation.
+            """
             super(FilmStrip, self).__init__(**kwargs)
+            self.displayable = renpy.easy.displayable(displayable)
             width, height = framesize
-            self.image = Image(image)
             cols, rows = gridsize
-        
-            if frames is None:
-                frames = cols * rows
+            
+            total_frames = cols * rows
         
             i = 0
         
             # Arguments to Animation
-            args = [ ]
-        
+            args = []
+            
             for r in range(0, rows):
                 for c in range(0, cols):
-        
+                    if include_frames and i not in include_frames:
+                        i = i + 1
+                        continue
+                    if exclude_frames and i in exclude_frames:
+                        i = i + 1
+                        continue
+                        
                     x = c * width
                     y = r * height
-        
-                    args.append(Transform(self.image, crop=(x, y, width, height)))
-        
-                    i += 1
-                    if i == frames:
+                    args.append(Transform(self.displayable, crop=(x, y, width, height)))
+                    
+                    i = i + 1
+                    
+                    if i == total_frames:
                         break
-        
-                if i == frames:
+                        
+                if i == total_frames:
                     break
                     
             # Reverse the list:
             if reverse:
                 args.reverse()
-                
                 
             self.width, self.height = width, height
             self.frames = args
@@ -140,15 +158,15 @@ init -999 python:
                     self.index = 0
             else:
                 self.index = self.index + 1
-            
-            child_render = renpy.render(t, width, height, st, at)
+                
             render = renpy.Render(self.width, self.height)
+            child_render = t.render(width, height, st, at)
             render.blit(child_render, (0, 0))
             renpy.redraw(self, self.delay)
             return render
             
-        def visit(self):
-            return [self.image]
+        # def visit(self):
+            # return [self.image]
             
             
     class AnimateFromList(renpy.Displayable):

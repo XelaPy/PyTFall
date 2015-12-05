@@ -1627,3 +1627,14 @@ label some_Hinata_label:
     "Don't forget to delete/change the flag one you're done!"
     $ chars["Hinata"].del_flag("event_to_interactions_10012adacx2134s")
     jump girl_interactions
+    
+screen testing_new_filmstrip():
+    hbox:
+        pos (10, 200)
+        textbutton "Done":
+            action Return()
+        add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(3), loop=True)
+        add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(7, 14), loop=True)
+        add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(14, 20), loop=True)
+        add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(21, 25), loop=True)
+        add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(28, 35), loop=True)

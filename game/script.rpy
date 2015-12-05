@@ -183,6 +183,8 @@
                 call test_matrix
             "Test Vortex":
                 call test_vortex
+            "Test FilmStrip":
+                call screen testing_new_filmstrip
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()
