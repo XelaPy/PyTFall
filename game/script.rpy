@@ -185,6 +185,8 @@
                 call test_vortex
             "Test FilmStrip":
                 call screen testing_new_filmstrip
+            "Test Robert Penners Easing":
+                call screen test_penners_easing
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()
