@@ -413,9 +413,6 @@ init -1 python: # Constants:
     # for f in renpy.list_files():
         # if f.endswith((".png", ".jpg")):
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)))
-    
-    blank = "content/gfx/interface/images/blank.png"
-
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', 0.2, 0.2]
     equipSlotsPositions['body'] = [u'Body', 0.2, 0.4]
@@ -426,6 +423,10 @@ init -1 python: # Constants:
     equipSlotsPositions['feet'] = [u'Feet', 1.0, 0.8]
     equipSlotsPositions['misc'] = [u'Misc', 0.035, 0.51]
     equipSlotsPositions['wrist'] = [u'Wrist', 0.2, 0.8]
+    
+init:
+    default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}
+    default SKILLS_THRESHOLD = {k:2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
     
 init 999 python:
     # ensure that all initialization debug messages have been written to disk

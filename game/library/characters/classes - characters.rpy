@@ -816,9 +816,10 @@ init -9 python:
             # self.battle_mode = False # Do we use Battle mod for the overlay or not.
             
         def get_skill(self, key):
-            """
-            Do not mix up with the same methos of PytCharcter classes!!!
-            Returns pure skills, for proper modified return value, call PytCharacter method.
+            """Returns pure skills, for proper modified return value, call PytCharacter method of the same name!
+            
+            !!! = Do not mix up with the same methos of PytCharcter classes = !!!
+            
             0: Action counter (Practical knowledge)
             1: Training counter (Theoretical knowledge)
             """
@@ -1008,16 +1009,43 @@ init -9 python:
                 
         def mod_skill(self, key, value):
             """Modifies a skill.
+            
+            # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharcter.__setattr__
+            
+            Do we get the most needlessly complicated skills system award? :)
+            Maybe we'll simplify this greatly in the future...
             """
-            # DevNote: THIS SHOULD NOT BE USED DIRECTLY! ASSUMES INPUT FROM __setattr__
-            if key.islower():
+            skill_name = key.lower()
+            current_full_value = self.instance.get_skill(skill_name)
+            threshold = SKILLS_THRESHOLD[skill_name]
+            skill_max = SKILLS_MAX[skill_name]
+            
+            if key.islower(): # Action Skill...
                 value = value - self.skills[key][0]
-                self.skills[key][0] += value * max(0.5, min(self.skills_multipliers[key][0], 1.5))
-            else:
-                # Assumes that we're modding a training skill...
+                value = value * max(0.5, min(self.skills_multipliers[key][0], 1.5))
+                if current_full_value >= skill_max: # Maxed out...
+                    return
+                elif current_full_value <= threshold: # Too low... so we add the full value.
+                    self.skills[key][0] += value
+                else: 
+                    at_zero = skill_max - threshold
+                    at_zero_current = current_full_value - threshold
+                    mod = max(0.1, 1 - float(at_zero_current)/at_zero)
+                    self.skills[key][0] += value*mod
+                    
+            else: # Assumes that we're modding a training (knowledge part) skill...
                 key = key.lower()
                 value = value - self.skills[key][1]
-                self.skills[key.lower()][1] += value * max(0.5, min(self.skills_multipliers[key][1], 1.5))
+                value = value * max(0.5, min(self.skills_multipliers[key][1], 1.5))
+                if current_full_value >= skill_max: # Maxed out...
+                    return
+                elif current_full_value <= threshold: # Too low... so we add the full value.
+                    self.skills[key][1] += value
+                else: 
+                    at_zero = skill_max - threshold
+                    at_zero_current = current_full_value - threshold
+                    mod = max(0.1, 1 - float(at_zero_current)/at_zero)
+                    self.skills[key][1] += value*mod
         
                 
     ###### Character Classes ######
