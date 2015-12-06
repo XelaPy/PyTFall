@@ -315,79 +315,77 @@ screen pyt_arena_matches(container=None, vs_img=None):
             viewport id "vp_matches":
                 draggable True
                 mousewheel True
-                vbox:
-                    ysize 10000
-                    spacing 5
+                child_size (710, 1000)
+                has vbox spacing 5
                 
-                    # for lineup in pytfall.arena.matches_3v3:
-                    for lineup in container:
-                        if lineup[1]:
-                            frame:
-                                style_group "content"
-                                xalign 0.5
-                                xysize (690, 150)
-                                background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
-                                # Day of the fight:
-                                hbox:
-                                    xalign 0.5
-                                    fixed:
-                                        xysize (50, 50)
-                                        label "[lineup[2]]":
-                                            align (0.5, 0.5)
-                                            text_color red
-                                            text_size 35
-                                    # Challenge button:
-                                    if not lineup[0]:
-                                        textbutton "{size=+10}{color=[red]}Challenge!":
-                                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                            hover_background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=1), 10, 10)
-                                            yalign 0.5
-                                            xysize (250, 150)
-                                            action Return(["challenge", "match", lineup])
-                                    # Or we show the team that challenged:
-                                    else:
-                                        frame:
-                                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                            xysize (250, 150)
-                                            xpadding 10
-                                            ypadding 10
-                                            yalign 0.5
-                                            frame:
-                                                xfill True
-                                                align (0.5, 0.01)
-                                                background Frame("content/gfx/frame/stat_box.png", 5, 5)
-                                                $ name = lineup[0][0].nickname if len(lineup[0]) == 1 else lineup[0].name
-                                                label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
-                                            hbox:
-                                                spacing 3
-                                                align (0.5, 1.0)
-                                                for fighter in lineup[0]:
-                                                    frame:
-                                                        background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                                                        add fighter.show("portrait", resize=(60, 60))
-                                        
-                                    add vs_img yalign 0.5
-                                
-                                    # Waiting for the challenge or been challenged by former:
+                # for lineup in pytfall.arena.matches_3v3:
+                for lineup in container:
+                    if lineup[1]:
+                        frame:
+                            style_group "content"
+                            xalign 0.5
+                            xysize (690, 150)
+                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            # Day of the fight:
+                            has hbox xalign 0.5
+                            fixed:
+                                xysize (50, 50)
+                                label "[lineup[2]]":
+                                    align (0.5, 0.5)
+                                    text_color red
+                                    text_size 35
+                            # Challenge button:
+                            if not lineup[0]:
+                                textbutton "{size=+10}{color=[red]}Challenge!":
+                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                                    hover_background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=1), 10, 10)
+                                    yalign 0.5
+                                    xysize (250, 150)
+                                    action Return(["challenge", "match", lineup])
+                            # Or we show the team that challenged:
+                            else:
+                                frame:
+                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                                    xysize (250, 150)
+                                    xpadding 10
+                                    ypadding 10
+                                    yalign 0.5
                                     frame:
-                                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                        xysize (250, 150)
-                                        xpadding 10
-                                        ypadding 10
-                                        yalign 0.5
+                                        xfill True
+                                        align (0.5, 0.01)
+                                        background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                        $ name = lineup[0][0].nickname if len(lineup[0]) == 1 else lineup[0].name
+                                        label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
+                                    hbox:
+                                        spacing 3
+                                        align (0.5, 1.0)
+                                        for fighter in lineup[0]:
+                                            frame:
+                                                background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                                add fighter.show("portrait", resize=(60, 60))
+                                
+                            add vs_img yalign 0.5
+                        
+                            # Waiting for the challenge or been challenged by former:
+                            frame:
+                                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                                xysize (250, 150)
+                                xpadding 10
+                                ypadding 10
+                                yalign 0.5
+                                frame:
+                                    xfill True
+                                    align (0.5, 0.01)
+                                    background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                    $ name = lineup[1][0].nickname if len(lineup[1]) == 1 else lineup[1].name
+                                    label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
+                                hbox:
+                                    spacing 3
+                                    align (0.5, 1.0)
+                                    for fighter in lineup[1]:
                                         frame:
-                                            xfill True
-                                            align (0.5, 0.01)
-                                            background Frame("content/gfx/frame/stat_box.png", 5, 5)
-                                            $ name = lineup[1][0].nickname if len(lineup[1]) == 1 else lineup[1].name
-                                            label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
-                                        hbox:
-                                            spacing 3
-                                            align (0.5, 1.0)
-                                            for fighter in lineup[1]:
-                                                frame:
-                                                    background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                                                    add fighter.show("portrait", resize=(60, 60))
+                                            background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                            add fighter.show("portrait", resize=(60, 60))
                 
             vbar value YScrollValue("vp_matches")
         
@@ -416,40 +414,39 @@ screen pyt_arena_lineups(container):
             viewport id "arena_lineups":
                 draggable True
                 mousewheel True
-                vbox:
-                    ysize 10000
-                    spacing 5
-                    for index, team in enumerate(container):
-                        $ index = index+1
-                        frame:
-                            xalign 0.5
-                            xysize (695, 60)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
-                            has hbox spacing 5
-                            fixed:
-                                xysize (60, 60)
+                child_size (700, 1000)
+                has vbox spacing 5
+                for index, team in enumerate(container):
+                    $ index = index+1
+                    frame:
+                        xalign 0.5
+                        xysize (695, 60)
+                        background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                        has hbox spacing 5
+                        fixed:
+                            xysize (60, 60)
+                            align (0.5, 0.5)
+                            label "[index]":
+                                text_color red
+                                text_size 35
                                 align (0.5, 0.5)
-                                label "[index]":
-                                    text_color red
-                                    text_size 35
-                                    align (0.5, 0.5)
-                            if team:
-                                $ name = team[0].nickname if len(team) == 1 else team.name
-                                hbox:
-                                    align (0.5, 0.5)
-                                    spacing 3
-                                    ysize 55
-                                    for fighter in team:
-                                        frame:
-                                            background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                                            add fighter.show("portrait", resize=(60, 60), cache=True) yalign 0.5
-                                null width 12
-                                frame:
-                                    xfill True
-                                    align (0.5, 0.5)
-                                    xminimum 300
-                                    background Frame("content/gfx/frame/stat_box.png", 5, 5)
-                                    label "[name]" align (0.5, 0.5) text_size 25 text_style "stats_text" text_color gold
+                        if team:
+                            $ name = team[0].nickname if len(team) == 1 else team.name
+                            hbox:
+                                align (0.5, 0.5)
+                                spacing 3
+                                ysize 55
+                                for fighter in team:
+                                    frame:
+                                        background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                        add fighter.show("portrait", resize=(60, 60), cache=True) yalign 0.5
+                            null width 12
+                            frame:
+                                xfill True
+                                align (0.5, 0.5)
+                                xminimum 300
+                                background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                label "[name]" align (0.5, 0.5) text_size 25 text_style "stats_text" text_color gold
                                 
             vbar value YScrollValue("arena_lineups")
             
@@ -477,35 +474,32 @@ screen pyt_arena_rep_ladder():
             viewport id "arena_rep_vp":
                 draggable True
                 mousewheel True
-                
-                vbox:
-                    ysize 10000
-                    spacing 5
-                    for index, fighter in enumerate(pytfall.arena.ladder):
-                        $index = index+1
-                        frame:
-                            style_group "content"
-                            xalign 0.5
-                            xysize (690, 60)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
-                            hbox:
-                                spacing(20)
-                                textbutton "{color=[red]}[index]":
-                                    ypadding 5
-                                    background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-                                    xysize (50, 50)
-                                    text_size 20
+                child_size (700, 1000)
+                has vbox spacing 5
+                for index, fighter in enumerate(pytfall.arena.ladder):
+                    $index = index+1
+                    frame:
+                        style_group "content"
+                        xalign 0.5
+                        xysize (690, 60)
+                        background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                        has hbox spacing 20
+                        textbutton "{color=[red]}[index]":
+                            ypadding 5
+                            background Frame("content/gfx/frame/p_frame5.png", 10, 10)
+                            xysize (50, 50)
+                            text_size 20
+                            xfill True
+                        if fighter:    
+                            frame:
+                                xfill True
+                                align (0.5, 0.5)
+                                background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                hbox:
                                     xfill True
-                                if fighter:    
-                                    frame:
-                                        xfill True
-                                        align (0.5, 0.5)
-                                        background Frame("content/gfx/frame/stat_box.png", 5, 5)
-                                        hbox:
-                                            xfill True
-                                            align (0.5, 0.5)
-                                            text("[fighter.name]") align (0.03, 0.5) size 25 style "stats_text" color gold
-                                            text("[fighter.arena_rep]") align (0.99, 0.5) size 20 style "stats_value_text" color gold
+                                    align (0.5, 0.5)
+                                    text("[fighter.name]") align (0.03, 0.5) size 25 style "stats_text" color gold
+                                    text("[fighter.arena_rep]") align (0.99, 0.5) size 20 style "stats_value_text" color gold
                 
             vbar value YScrollValue("arena_rep_vp")
         
@@ -531,52 +525,50 @@ screen pyt_arena_dogfights(container={}):
         side "c r":
             pos (5, 5)
             maximum (710, 515)
-            viewport id "vp_dogfights":
+            viewport:
+                id "vp_dogfights"
                 draggable True
                 mousewheel True
-                vbox:
-                    ysize 10000
-                    spacing 5
-                    for team in container:
-                        frame:
-                            style_group "content"
-                            xalign 0.5
-                            xysize (695, 150)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
-                            hbox:
-                                xalign 0.5
-
-                                textbutton "{size=+7}Ask for a Fight":
-                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                    hover_background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=1), 10, 10)
-                                    xysize (250, 150)
-                                    yalign 0.5
-                                    action Return(["challenge", "dogfights", team])
-                                    text_color bisque
-                                    text_outlines [(1, "#3a3a3a", 0, 0)]
-                                    
-                                add ProportionalScale("content/gfx/interface/images/vs_1.png", 130, 130) yalign 0.5
+                child_size (700, 1000)
+                has vbox spacing 5
+                for team in container:
+                    frame:
+                        style_group "content"
+                        xalign 0.5
+                        xysize (695, 150)
+                        background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                        has hbox xalign 0.5
+                        textbutton "{size=+7}Ask for a Fight":
+                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                            hover_background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=1), 10, 10)
+                            xysize (250, 150)
+                            yalign 0.5
+                            action Return(["challenge", "dogfights", team])
+                            text_color bisque
+                            text_outlines [(1, "#3a3a3a", 0, 0)]
                             
-                                frame:
-                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                    xysize (250, 150)
-                                    xpadding 10
-                                    ypadding 10
-                                    yalign 0.5
-                                
+                        add ProportionalScale("content/gfx/interface/images/vs_1.png", 130, 130) yalign 0.5
+                    
+                        frame:
+                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                            xysize (250, 150)
+                            xpadding 10
+                            ypadding 10
+                            yalign 0.5
+                        
+                            frame:
+                                xfill True
+                                align (0.5, 0.01)
+                                background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                $ name = team[0].nickname if len(team) == 1 else team.name
+                                label ("[name]") align(0.5, 0.0) text_size 25 text_style "stats_text" text_color gold
+                            hbox:
+                                spacing 3
+                                align(0.5, 1.0)
+                                for fighter in team:
                                     frame:
-                                        xfill True
-                                        align (0.5, 0.01)
-                                        background Frame("content/gfx/frame/stat_box.png", 5, 5)
-                                        $ name = team[0].nickname if len(team) == 1 else team.name
-                                        label ("[name]") align(0.5, 0.0) text_size 25 text_style "stats_text" text_color gold
-                                    hbox:
-                                        spacing 3
-                                        align(0.5, 1.0)
-                                        for fighter in team:
-                                            frame:
-                                                background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                                                add fighter.show("portrait", resize=(60, 60))
+                                        background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                        add fighter.show("portrait", resize=(60, 60))
                 
             vbar value YScrollValue("vp_dogfights")
         
