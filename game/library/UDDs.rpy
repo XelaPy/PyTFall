@@ -197,8 +197,8 @@ init -999 python:
             except IndexError:
                 return renpy.Render(0, 0)
             
-        def visit(self):
-            return [img[0] for img in self.images]
+        # def visit(self):
+            # return [img[0] for img in self.images]
             
     
     class ProportionalScale(im.ImageBase):

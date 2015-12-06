@@ -234,7 +234,7 @@ init 2 python:
                                        desc="Sends towards the target a small piece of solar plazma.")
     MagicArrows(u"Fire Arrow", attributes=['magic', 'fire'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["default_1", "default"], gfx='Fire Arrow cast', gfx2='Fire Arrow fly', gfx3='Fire Arrow impact', sfx="content/sfx/sound/be/fire_arrow.mp3", piercing=True,
                                        desc="Creates a bow and arrow of scorching air.")
-    SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, casting_effects=["orb", "default"], true_pierce=True, gfx='cataclysm', zoom=2.0, pause=4.9, td_gfx=[2.0, "shake", 2.5], sfx="content/sfx/sound/be/fire2.mp3", type="all_enemies", piercing=True,
+    SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, casting_effects=["orb", "default"], true_pierce=True, gfx='cataclysm', zoom=2.0, pause=5.5, td_gfx=[2.0, "shake", 2.5], sfx="content/sfx/sound/be/fire2.mp3", type="all_enemies", piercing=True,
                                        aim="bc", anchor=(0.5, 0.8), yo=0,
                                        desc="Summons flaming fragments of meteors from the atmosphere directly above the target.")
 
