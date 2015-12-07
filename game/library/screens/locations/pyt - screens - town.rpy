@@ -119,14 +119,15 @@ screen pyt_city_screen():
     
     add "content/gfx/images/m_2.png"
     
-    ### ----> Lower buttons <---- ###
+    ### ----> Lower buttons (Locations) <---- ###
     side "c r":
         pos (1104, 132)
         xysize(172, 188)
         viewport id "locations":
             draggable True
             mousewheel True
-            has vbox style_group "dropdown_gm2" spacing 2 ysize 10000
+            child_size (170, 1000)
+            has vbox style_group "dropdown_gm2" spacing 2
             $ prefix = "content/gfx/interface/buttons/locations/"
             for loc in pytfall.maps("pytfall"):
                 if loc["id"] in loc_list and not key.get("hidden", False):

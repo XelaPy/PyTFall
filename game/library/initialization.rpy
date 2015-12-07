@@ -405,7 +405,7 @@ screen debugTools():
                 action ui.callsinnewcontext("_save_reload_game")
 
         add (DynamicDisplayable(cursorPositionFunction)) xpos 10
-        text("{size=10}[last_label]") xpos 10
+        text("[last_label]") xpos 10 size 10
 
 
 
