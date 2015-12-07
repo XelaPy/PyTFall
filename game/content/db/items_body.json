@@ -11,7 +11,7 @@
     "hidden": false,
     "infinite": true,
     "slot": "body",
-    "type": "armor",
+    "type": "dress",
     "max": {"defence": 5},
     "mod": {"defence": 10},
     "mod_skills": {"refinement": [0, 0, -0.06, 0, 0]},

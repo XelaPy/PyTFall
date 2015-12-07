@@ -184,7 +184,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "cape",
-    "type": "other",
+    "type": "armor",
     "max": {"mp": 10, "defence": 30, "magic": 20, "attack": -80},
     "mod": {"defence": 40, "magic": 30},
     "locations": ["Exploration", "General Store"],
