@@ -295,7 +295,7 @@ init -999 python:
         
     # Returns the position of cursor if show cursorPosition is called
     # show cursorPosition on bottom
-    def cursorPositionFunction(st, at):
+    def dd_cursor_position(st, at):
         x,y = pygame.mouse.get_pos()
         return Text("{size=-5}%d - %d"%(x,y)), .1
         # -------------------------------------------------------------------------------------------------------- Ends here    
@@ -404,8 +404,8 @@ screen debugTools():
                 text "R"
                 action ui.callsinnewcontext("_save_reload_game")
 
-        add (DynamicDisplayable(cursorPositionFunction)) xpos 10
-        text("[last_label]") xpos 10 size 10
+        add DynamicDisplayable(dd_cursor_position) xpos 10
+        text "[last_label]"  xpos 10 size 10
 
 
 

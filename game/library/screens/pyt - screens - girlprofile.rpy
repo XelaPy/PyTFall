@@ -743,6 +743,9 @@ screen pyt_girl_control():
     modal True
     zorder 1
     
+    default cb_checked = im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)
+    default cd_unchecked = im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)
+    
     frame:
         style_group "content"
         at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
@@ -773,12 +776,12 @@ screen pyt_girl_control():
                 xysize (150, 33)
                 align (0.5, 0.05)
                 action ToggleDict(char.autocontrol, "Tips")
-                hovered tt.action("Allow girls to keep their tips!")
+                hovered tt.action("Allow workers to keep their tips!")
                 text "Tips:" align (0.0, 0.5)
                 if char.autocontrol['Tips']:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                    add cb_checked align (1.0, 0.5)
                 else:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                    add cd_unchecked align (1.0, 0.5)
 
             fixed:
                 align (0.5, 1.0)
@@ -806,18 +809,18 @@ screen pyt_girl_control():
                 xysize (200, 32)
                 text "Front Row" align (0.0, 0.5)
                 if char.front_row:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                    add cb_checked align (1.0, 0.5)
                 elif not char.front_row:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                    add cd_unchecked align (1.0, 0.5)
             
             button:
                 action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
                 text "Auto Rest" align (0.0, 0.5)
                 if char.autocontrol['Rest']:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                    add cb_checked align (1.0, 0.5)
                 elif not char.autocontrol['Rest']:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                    add cd_unchecked align (1.0, 0.5)
              
             # Autobuy: 
             button:
@@ -825,9 +828,9 @@ screen pyt_girl_control():
                 xysize (200, 32)
                 text "Auto Buy" align (0.0, 0.5)
                 if char.autobuy:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                    add cb_checked align (1.0, 0.5)
                 else:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                    add cd_unchecked align (1.0, 0.5)
                     
             # Autoequip
             button:
@@ -835,9 +838,9 @@ screen pyt_girl_control():
                 action If(char.status == "slave" or (char.status != "slave" and char.disposition > 850), true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (0.0, 0.5)
                 if char.autoequip:
-                    add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                    add cb_checked align (1.0, 0.5)
                 else:
-                    add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                    add cd_unchecked align (1.0, 0.5)
             # ------------------------------------------------------------------------------------------------------------------------------------->>>        
                
             # Disabled until Beta release        
@@ -852,7 +855,7 @@ screen pyt_girl_control():
                             # minimum(150, 20)
                             # maximum(150, 20)
                             # xfill true
-                        # add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) yalign 0.5
+                        # add cb_checked yalign 0.5
                     # elif not char.autocontrol['SlaveDriver']:
                         # textbutton "Slave Driver":
                             # yalign 0.5
@@ -860,7 +863,7 @@ screen pyt_girl_control():
                             # minimum(150, 20)
                             # maximum(150, 20)
                             # xfill true
-                        # add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) yalign 0.5
+                        # add cd_unchecked yalign 0.5
 
             null height 30
             
@@ -874,9 +877,9 @@ screen pyt_girl_control():
                             # action Return(['girl_cntr', 'set_act', key])
                             # minimum(150, 20)
                         # if char.autocontrol['Acts'][key]:
-                            # add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) yalign 0.5
+                            # add cb_checked yalign 0.5
                         # elif not char.autocontrol['Acts'][key]:
-                            # add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) yalign 0.5
+                            # add cd_unchecked yalign 0.5
             
             if char.action == "ServiceGirl":
                 for key in char.autocontrol['S_Tasks']:
@@ -885,9 +888,9 @@ screen pyt_girl_control():
                         xysize (200, 30)
                         text (key.capitalize()) align (0.0, 0.5)
                         if char.autocontrol['S_Tasks'][key]:
-                            add (im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                            add cb_checked align (1.0, 0.5)
                         elif not char.autocontrol['S_Tasks'][key]:
-                            add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                            add cd_unchecked align (1.0, 0.5)
         
         button:
             style_group "basic"
@@ -908,7 +911,7 @@ screen confirm_girl_sale():
         yfill True
         
         if char.status == "slave":
-            text("{size=-5}Are you sure you want to sell %s for %d Gold?"%(char.name, int(char.fin.get_price()*0.8))) align(0.5, 0.1)
+            text("{size=-5}Are you sure you want to sell [char.name] for %d Gold?"%(int(char.fin.get_price()*0.8))) align(0.5, 0.1)
             
             hbox:
                 align(0.5, 0.85)
