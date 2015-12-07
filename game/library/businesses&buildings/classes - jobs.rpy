@@ -1063,7 +1063,7 @@
             if self.worker.vitality > 50:
                 if self.worker.has_image("shopping", **kwargs) and (self.worker.gold >= 200): # eventually there should be a real existing event about going to shop and buy a random item there for gold. after all we do have an algorithm for that. but atm it might be broken, so...
                     available.append("shopping")
-                if "Nymphomaniac" in self.worker.traits and self.worker.disposition < 300: # if we'll have some kind of high libido flags, they could be used here too
+                if "Nymphomaniac" in self.worker.traits and self.worker.disposition >= 300: # if we'll have some kind of high libido flags, they could be used here too
                     if self.worker.has_image("masturbation", **kwargs):
                         available.append("masturbation")
             if self.worker.vitality > 150:
