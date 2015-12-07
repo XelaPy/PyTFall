@@ -19,8 +19,8 @@ init -9 python:
             self.remove_be_spells = []
             self.addeffects = []
             self.removeeffects = []
-            self.goodtraits = []
-            self.badtraits = []
+            self.goodtraits = set()
+            self.badtraits = set()
 
             # Rules:
             self.usable = None

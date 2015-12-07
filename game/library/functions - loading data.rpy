@@ -512,7 +512,10 @@ init -11 python:
         for item in content:
             i = Item()
             for attr in item:
-                setattr(i, attr, item[attr])
+                if attr in ("badtraits", "goodtraits"):
+                    setattr(i, attr, set(item[attr])) # More convinient to have these as sets...
+                else:
+                    setattr(i, attr, item[attr])
             i.init()
             items[i.id] = i
             

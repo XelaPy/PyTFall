@@ -1485,7 +1485,7 @@ init -9 python:
             self.inventory.remove(item, amount=amount)
         
         def auto_buy(self, item=None, amount=1, equip=False):
-            # NOTE: There is is need to adapt this to skills since it works off baddness.
+            # NOTE: There is a need to adapt this to skills since it works off baddness.
             items = store.items
             returns = list()
             if isinstance(item, basestring):
@@ -1506,23 +1506,20 @@ init -9 python:
                                 
             # and now if it's just a request to buy an item randomly
             # we make sure that she'll NEVER buy an items that is in badtraits, and also filter out too expensive ones
-            
             if self.status == "slave": # for slaves we exclude all weapons, spells and armor immediately
-                pool = list(item for item in auto_buy_items if not(set(item.badtraits) & set(self.traits)) and item.price <= self.gold and not(item.slot in ("weapon", "smallweapon")) and not(item.type in ("armor", "scroll")))
+                pool = list(item for item in auto_buy_items if not item.badtraits.intersection(self.traits) and item.price <= self.gold and not(item.slot in ("weapon", "smallweapon")) and not(item.type in ("armor", "scroll")))
             else:
-                pool = list(item for item in auto_buy_items if not(set(item.badtraits) & set(self.traits)) and (item.price <= self.gold))
+                pool = list(item for item in auto_buy_items if not item.badtraits.intersection(self.traits) and (item.price <= self.gold))
             
-            if self.inventory: # we form inventory list anyway
-                hasitems = set(list(items[i] for i in self.inventory))
-            else:
-                hasitems = set()
+            # we form inventory set anyway
+            hasitems = set([items[i] for i in self.inventory]) if self.inventory else set()
             for key in self.eqslots:
                 if self.eqslots[key]:
                     hasitems.add(self.eqslots[key])
 
             # Now lets see if a girl can buy one item that she really likes based on traits
             if dice(80):
-                newpool = list(item for item in pool if (set(item.goodtraits) & set(self.traits)))
+                newpool = list(item for item in pool if item.goodtraits.intersection(self.traits))
                 if newpool:
                     selected_item = choice(newpool)
                     if selected_item not in hasitems:
@@ -1537,9 +1534,9 @@ init -9 python:
                     newpool = set()
             else:
                 newpool = set()
+                
             # Ok, so if we made it here, we cannot buy any of the trait items...
             # Or the dice has failed, we remove all trait items either way:
-            
             pool = list(i for i in pool if ((i not in newpool) and (i.type != "permanent"))) # also we remove all all permanent type items. the only way to autobuy them is to have a suitable goodtrait.
             
             if not(any([i for i in hasitems if i.slot == "body"])): # if she has zero body slot items, she will try to buy one dress
@@ -1561,7 +1558,7 @@ init -9 python:
                     if dice(100 - selected_item.badness) and self.take_money(selected_item.price, "Items"):
                         self.inventory.append(selected_item)
                         returns.append(selected_item.id)
-                        amount -= 1
+                        amount = amount - 1
                     if not amount:
                         return returns
                         
@@ -1578,10 +1575,10 @@ init -9 python:
             if self.status != "slave": # we already excluded all battle items for slaves, so...
                 if not("Warrior" in self.occupations):
                     pool = list(i for i in pool if ((i.slot != "weapon") and (i.type != "armor"))) # non-warriors will never attempt to buy a big weapon or an armor
-                elif len(self.occupations) > 1: # if the character has Warrior occupation, yet has other occupations too
+                elif len(self.occupations) > 1: # if the character has Warrior occupation, yet has other occupations too # Alex: This will always be True, since all classes have both tarait object and general class string.
                     if dice(40):
                         pool = list(i for i in pool if i.type != "dress") # then sometimes she ignores non armors
-                else:
+                else: # Alex: So it will never get this far...
                     if dice(75):
                         pool = list(i for i in pool if i.type != "dress") # and pure warriors ignore non armors quite often
                 if ("Caster" in self.occupations) and dice(25): # mages have a small chance to try to buy a scroll. why small? because we don't want them to quickly get all sellable spells in the game without MC's help
@@ -1601,9 +1598,10 @@ init -9 python:
                 if dice(100 - i.badness - mod) and self.take_money(i.price, "Items"):
                     self.inventory.append(i)
                     returns.append(i.id)
-                    amount -= 1
+                    amount = amount - 1
                 if not amount:
                     break
+                    
             return returns
             
         def equip_for(self, purpose):
