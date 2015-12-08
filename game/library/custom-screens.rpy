@@ -1038,272 +1038,269 @@ init: # Settings:
         # default s_menu = "Settings"
         
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.8)
+        
         frame:
-            #at fade_in_out(sv1=0.0, ev1=1.0, t1=0.7,
-                                    #sv2=1.0, ev2=0.0, t2=0.5)
+            # at fade_in_out(sv1=0.0, ev1=1.0, t1=0.7,
+                                    # sv2=1.0, ev2=0.0, t2=0.5)
             background Frame (Transform("content/gfx/frame/framegp2.png", alpha=0.8), 10, 10)
             align (0.315, 0.5)
             xysize (690, 414)
             style_group "smenu"
-            hbox:
-                align (0.5, 0.5)
-                xfill True
-                if s_menu == "Settings":
-                    grid 3 1:
+            has hbox align (0.5, 0.5) xfill True
+            
+            if s_menu == "Settings":
+                grid 3 1:
+                    align (0.5, 0.5)
+                    spacing 7
+                    # Left column...
+                    frame:
                         align (0.5, 0.5)
-                        spacing 7
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        xpadding 10
+                        ypadding 10
+                        has vbox spacing 5
+                        # frame:
+                            # background Frame(Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            # xsize 194
+                            # ypadding 8
+                            # style_group "dropdown_gm2"
+                            # has vbox align (0.5, 0.5)
+                            
                         frame:
-                            align (0.5, 0.5)
-                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
-                            xpadding 10
-                            ypadding 10
-                            vbox:
-                                spacing 5
-                                frame:
-                                    background Frame(Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Display -") style "TisaOTMolxm"
-                                        textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
-                                        textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Transitions -") style "TisaOTMolxm"
-                                        textbutton _("All") action Preference("transitions", "all") xsize 150 xalign 0.5 text_size 16
-                                        textbutton _("None") action Preference("transitions", "none") xsize 150 xalign 0.5 text_size 16
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 10
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Text Speed -") style "TisaOTMolxm"
-                                        null height 8
-                                        bar value Preference("text speed") align (0.5, 0.5)
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
-                        frame:
-                            align (0.5, 0.5)
-                            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
-                            xpadding 10
-                            ypadding 10
-                            vbox:
-                                spacing 5
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Skip -") style "TisaOTMolxm"
-                                        textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign 0.5 text_size 16
-                                        textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign 0.5 text_size 16
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- After Choices -") style "TisaOTMolxm"
-                                        textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign 0.5 text_size 16
-                                        textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign 0.5 text_size 16
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 10
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- A-Forward Time -") style "TisaOTMolxm"
-                                        null height 8
-                                        bar value Preference("auto-forward time") align (0.5, 0.5)
-                                        if config.has_voice:
-                                            textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign 0.5 text_size 16
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        textbutton _("Begin Skipping") action Skip() xsize 150 text_size 16
-                        frame:
-                            align (0.5, 0.5)
-                            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
-                            xpadding 10
-                            ypadding 10
-                            vbox:
-                                spacing 5
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 8
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Mute -") style "TisaOTMolxm"
-                                        textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign 0.5 text_size 16
-                                        textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign 0.5 text_size 16
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 10
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Music Volume -") align (0.5, 0.0) style "TisaOTMolxm"
-                                        null height 8
-                                        bar value Preference("music volume") align (0.5, 0.5)
-                                frame:
-                                    background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                    xsize 194
-                                    ypadding 10
-                                    style_group "dropdown_gm2"
-                                    vbox:
-                                        align (0.5, 0.5)
-                                        frame:
-                                            xsize 184
-                                            align (0.5, 0.5)
-                                            background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-                                            text _("- Sound Volume -") style "TisaOTMolxm"
-                                        null height 8
-                                        bar value Preference("sound volume") align (0.5, 0.5)
-                                        if config.sample_sound:
-                                            textbutton _("Test"):
-                                                action Play("sound", config.sample_sound)
-                                                style "soundtest_button"
-
-                elif s_menu in ("Save", "Load"):
-                    vbox:
-                        yfill True
-                        xfill True
-                        spacing 5
-                        null height 5
-                        hbox:
-                            spacing 3
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
                             style_group "dropdown_gm2"
-                            align (0.5, 0.5)
-                            textbutton _("Previous") action FilePagePrevious(), With(dissolve) text_size 16
-                            textbutton _("Auto") action FilePage("auto"), With(dissolve) text_size 16
-                            textbutton _("Quick") action FilePage("quick"), With(dissolve) text_size 16
-                            for i in range(1, 9):
-                                textbutton str(i):
-                                    action FilePage(i), With(dissolve)
-                            textbutton _("Next") action FilePageNext(), With(dissolve) text_size 16
-                        $ columns = 2
-                        $ rows = 3
-                        grid columns rows:
-                            transpose True
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Display -") style "TisaOTMolxm"
+                            textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
+                                
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
                             style_group "dropdown_gm2"
-                            xfill True
-                            yfill True
-                            spacing -10
-                            for i in range(1, columns * rows + 1):
-                
-                                $ file_name = FileSlotName(i, columns * rows)
-                                $ file_time = FileTime(i, empty=_("Empty Slot"))
-                                $ json_info = FileJson(i, empty= _(""))
-                                $ save_name = FileSaveName(i)
-                
-                                hbox:
-                                    align (0.5, 0.5)
-                                    if "portrait" in json_info:
-                                        frame:
-                                            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                            align (0.5, 0.5)
-                                            add ProportionalScale(json_info["portrait"], 90, 90) align (0.5, 0.5)
-                                    else:
-                                        frame:
-                                            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                            align (0.5, 0.5)
-                                            xysize (102, 102)
-                                    button:
-                                        style "smenu2_button"
-                                        align (0.5, 0.5)
-                                        if s_menu == "Save":
-                                            action FileSave(i)
-                                            text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                            text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
-                                        elif s_menu == "Load":
-                                            action FileLoad(i)
-                                            text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                            text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
-                                        # action FileAction(i)
-                                        # add FileScreenshot(i)
-                                        xysize (220, 100)
-                                        #add "save" align (1.1, 0.6)
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Transitions -") style "TisaOTMolxm"
+                            textbutton _("All") action Preference("transitions", "all") xsize 150 xalign 0.5 text_size 16
+                            textbutton _("None") action Preference("transitions", "none") xsize 150 xalign 0.5 text_size 16
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 10
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Text Speed -") style "TisaOTMolxm"
+                            null height 8
+                            bar value Preference("text speed") align (0.5, 0.5)
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
+                                
+                    # Middle column...
+                    frame:
+                        align (0.5, 0.5)
+                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        xpadding 10
+                        ypadding 10
+                        has vbox spacing 5
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Skip -") style "TisaOTMolxm"
+                            textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign 0.5 text_size 16
+                            textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign 0.5 text_size 16
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- After Choices -") style "TisaOTMolxm"
+                            textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign 0.5 text_size 16
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 10
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- A-Forward Time -") style "TisaOTMolxm"
+                            null height 8
+                            bar value Preference("auto-forward time") align (0.5, 0.5)
+                            if config.has_voice:
+                                textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign 0.5 text_size 16
+                                
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            textbutton _("Begin Skipping") action Skip() xsize 150 text_size 16
                                     
-                                        vbox:
-                                            xpos 0
-                                            yalign 0.5
-                                            spacing -7
-                                            if "name" in json_info:
-                                                text "[json_info[name]]" style "TisaOTMol" color gold size 17
-                                                
-                                            if "level" in json_info:
-                                                text "Level: [json_info[level]]" style "TisaOTMol" ypos 0
-                                            if "chars" in json_info:
-                                                text "Chars: [json_info[chars]]" style "TisaOTMol" ypos 0
-                                            if "gold" in json_info:
-                                                text "Gold: [json_info[gold]]" style "TisaOTMol" ypos 0
-                                            if "gold" in json_info:
-                                                text "Buildings: [json_info[buildings]]" style "TisaOTMol" ypos 0
-                                            # for i in ("name", "level", "chars", "gold", "buildings"):
-                                                # if i in json_info:
-                                                    # $ key = i.capitalize()
-                                                    # $ val = json_info[i]
-                                                    # text "[key]: [val]" color "#ecc88a" font "fonts/TisaOTM.otf" size 15 outlines [(1, "#3a3a3a", 0, 0)]
+                    # Right column...
+                    frame:
+                        align (0.5, 0.5)
+                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        xpadding 10
+                        ypadding 10
+                        has vbox spacing 5
+                        
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Mute -") style "TisaOTMolxm"
+                            textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign 0.5 text_size 16
+                            textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign 0.5 text_size 16
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 10
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Music Volume -") align (0.5, 0.0) style "TisaOTMolxm"
+                            null height 8
+                            bar value Preference("music volume") align (0.5, 0.5)
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 10
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                text _("- Sound Volume -") style "TisaOTMolxm"
+                            null height 8
+                            bar value Preference("sound volume") align (0.5, 0.5)
+                            if config.sample_sound:
+                                textbutton _("Test"):
+                                    action Play("sound", config.sample_sound)
+                                    style "soundtest_button"
 
-                                        key "save_delete" action FileDelete(i)
+            elif s_menu in ("Save", "Load"):
+                vbox:
+                    yfill True
+                    xfill True
+                    spacing 5
+                    null height 5
+                    hbox:
+                        spacing 3
+                        style_group "dropdown_gm2"
+                        align (0.5, 0.5)
+                        textbutton _("Previous") action FilePagePrevious(), With(dissolve) text_size 16
+                        textbutton _("Auto") action FilePage("auto"), With(dissolve) text_size 16
+                        textbutton _("Quick") action FilePage("quick"), With(dissolve) text_size 16
+                        for i in range(1, 9):
+                            textbutton str(i):
+                                action FilePage(i), With(dissolve)
+                        textbutton _("Next") action FilePageNext(), With(dissolve) text_size 16
+                    $ columns = 2
+                    $ rows = 3
+                    grid columns rows:
+                        transpose True
+                        style_group "dropdown_gm2"
+                        xfill True
+                        yfill True
+                        spacing -10
+                        for i in range(1, columns * rows + 1):
+            
+                            $ file_name = FileSlotName(i, columns * rows)
+                            $ file_time = FileTime(i, empty=_("Empty Slot"))
+                            $ json_info = FileJson(i, empty= _(""))
+                            $ save_name = FileSaveName(i)
+            
+                            hbox:
+                                align (0.5, 0.5)
+                                if "portrait" in json_info:
+                                    frame:
+                                        background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                                        align (0.5, 0.5)
+                                        add ProportionalScale(json_info["portrait"], 90, 90) align (0.5, 0.5)
+                                else:
+                                    frame:
+                                        background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                                        align (0.5, 0.5)
+                                        xysize (102, 102)
+                                button:
+                                    style "smenu2_button"
+                                    align (0.5, 0.5)
+                                    xysize (220, 100)
+                                    if s_menu == "Save":
+                                        action FileSave(i)
+                                        text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                        text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
+                                    elif s_menu == "Load":
+                                        action FileLoad(i)
+                                        text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                        text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
+                                    vbox:
+                                        xpos 0
+                                        yalign 0.5
+                                        spacing -7
+                                        if "name" in json_info:
+                                            text "[json_info[name]]" style "TisaOTMol" color gold size 17
+                                        if "level" in json_info:
+                                            text "Level: [json_info[level]]" style "TisaOTMol" ypos 0
+                                        if "chars" in json_info:
+                                            text "Chars: [json_info[chars]]" style "TisaOTMol" ypos 0
+                                        if "gold" in json_info:
+                                            text "Gold: [json_info[gold]]" style "TisaOTMol" ypos 0
+                                        if "buildings" in json_info:
+                                            text "Buildings: [json_info[buildings]]" style "TisaOTMol" ypos 0
+
+                                    key "save_delete" action FileDelete(i)
 
         frame:
             # at fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
@@ -1313,46 +1310,44 @@ init: # Settings:
             xysize (150, 409)
             style_group "smenu"
             xpadding 8
+            has vbox spacing 5 align (0.5, 0.5)
+            null height 3            
             vbox:
-                null height 3
-                spacing 5
+                xfill True
+                spacing -10
                 align (0.5, 0.5)
-                vbox:
-                    xfill True
-                    spacing -10
-                    align (0.5, 0.5)
-                    text "-------------" style "TisaOTMol" size 20 align (0.5, 0.5)
-                    if s_menu == "Settings":
-                        text "Settings" style "TisaOTMol" size 26 align (0.5, 0.5)
-                    elif s_menu == "Save":
-                        text "Save" style "TisaOTMol" size 26 align (0.5, 0.5)
-                    elif s_menu == "Load":
-                        text "Load" style "TisaOTMol" size 26 align (0.5, 0.5)
-                    text "----------" style "TisaOTMol" size 20 align (0.5, 0.5)
-                button:
-                    yalign 0.5
-                    action Hide("s_menu"), With(dissolve)
-                    text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
-                button:
-                    yalign 0.5
-                    action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
-                    text "Settings" size 18 align (0.5, 0.5) # style "mmenu_button_text"
-                button:
-                    yalign 0.5
-                    action SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
-                    text "Save" size 18 align (0.5, 0.5) # style "mmenu_button_text"
-                button:
-                    yalign 0.5
-                    action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load"), With(dissolve)#, SetScreenVariable("s_menu", "Load")
-                    text "Load" size 18 align (0.5, 0.5) # style "mmenu_button_text"
-                button:
-                    yalign 0.5
-                    action MainMenu()
-                    text "Main Menu" size 18 align (0.5, 0.5) #  style "mmenu_button_text"
-                button:
-                    yalign 1.0
-                    action Quit()
-                    text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
-                null height 3
+                text "-------------" style "TisaOTMol" size 20 align (0.5, 0.5)
+                if s_menu == "Settings":
+                    text "Settings" style "TisaOTMol" size 26 align (0.5, 0.5)
+                elif s_menu == "Save":
+                    text "Save" style "TisaOTMol" size 26 align (0.5, 0.5)
+                elif s_menu == "Load":
+                    text "Load" style "TisaOTMol" size 26 align (0.5, 0.5)
+                text "----------" style "TisaOTMol" size 20 align (0.5, 0.5)
+            button:
+                yalign 0.5
+                action Hide("s_menu"), With(dissolve)
+                text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+            button:
+                yalign 0.5
+                action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
+                text "Settings" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+            button:
+                yalign 0.5
+                action SensitiveIf(not main_menu), SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
+                text "Save" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+            button:
+                yalign 0.5
+                action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load"), With(dissolve)#, SetScreenVariable("s_menu", "Load")
+                text "Load" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+            button:
+                yalign 0.5
+                action MainMenu()
+                text "Main Menu" size 18 align (0.5, 0.5) #  style "mmenu_button_text"
+            button:
+                yalign 1.0
+                action Quit()
+                text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+            null height 3
         
     
