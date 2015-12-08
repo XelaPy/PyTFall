@@ -1491,7 +1491,7 @@ init -9 python:
             if isinstance(item, basestring):
                 item = items[item]
             # we handle request to auto-buy any specific item!
-            # it won't filter out forbidden for slaves items, since it might be useful to
+            # it won't filter out forbidden for slaves items, since it might be useful to do so
             if item and item in auto_buy_items:
                 if self.gold >= item.price:
                     while self.take_money(item.price) and amount:
@@ -1507,9 +1507,9 @@ init -9 python:
             # and now if it's just a request to buy an item randomly
             # we make sure that she'll NEVER buy an items that is in badtraits, and also filter out too expensive ones
             if self.status == "slave": # for slaves we exclude all weapons, spells and armor immediately
-                pool = list(item for item in auto_buy_items if not item.badtraits.intersection(self.traits) and item.price <= self.gold and not(item.slot in ("weapon", "smallweapon")) and not(item.type in ("armor", "scroll")))
+                pool = list(item for item in auto_buy_items if not(item.badtraits.intersection(self.traits)) and (item.price <= self.gold) and not(item.slot in ("weapon", "smallweapon")) and not(item.type in ("armor", "scroll")))
             else:
-                pool = list(item for item in auto_buy_items if not item.badtraits.intersection(self.traits) and (item.price <= self.gold))
+                pool = list(item for item in auto_buy_items if not(item.badtraits.intersection(self.traits)) and (item.price <= self.gold))
             
             # we form inventory set anyway
             hasitems = set([items[i] for i in self.inventory]) if self.inventory else set()
@@ -1537,7 +1537,7 @@ init -9 python:
                 
             # Ok, so if we made it here, we cannot buy any of the trait items...
             # Or the dice has failed, we remove all trait items either way:
-            pool = list(i for i in pool if ((i not in newpool) and (i.type != "permanent"))) # also we remove all all permanent type items. the only way to autobuy them is to have a suitable goodtrait.
+            pool = list(i for i in pool if ((i not in newpool) and (i.type != "permanent"))) # also we remove all all permanent type items. the only way to autobuy them is to have a suitable goodtrait
             
             if not(any([i for i in hasitems if i.slot == "body"])): # if she has zero body slot items, she will try to buy one dress
                 newpool = list(item for item in pool if ((item.type != "armor") and (item.slot == "body")))
@@ -1575,10 +1575,10 @@ init -9 python:
             if self.status != "slave": # we already excluded all battle items for slaves, so...
                 if not("Warrior" in self.occupations):
                     pool = list(i for i in pool if ((i.slot != "weapon") and (i.type != "armor"))) # non-warriors will never attempt to buy a big weapon or an armor
-                elif len(self.occupations) > 1: # if the character has Warrior occupation, yet has other occupations too # Alex: This will always be True, since all classes have both tarait object and general class string.
+                elif ("SIW" in self.occupations) or ("Server" in self.occupations) or ("Specialist" in self.occupations): # if the character has Warrior occupation, yet has other occupations too
                     if dice(40):
                         pool = list(i for i in pool if i.type != "dress") # then sometimes she ignores non armors
-                else: # Alex: So it will never get this far...
+                else:
                     if dice(75):
                         pool = list(i for i in pool if i.type != "dress") # and pure warriors ignore non armors quite often
                 if ("Caster" in self.occupations) and dice(25): # mages have a small chance to try to buy a scroll. why small? because we don't want them to quickly get all sellable spells in the game without MC's help
@@ -1771,13 +1771,13 @@ init -9 python:
             """
             targetstats: expects a list of stats to pick the item
             targetskills: expects a list of skills to pick the item
-            exclude_on_stats: items will not be used if stats in this list are being deminished by use of the item *Decreased the chance of picking this item
-            exclude_on_skills: items will not be used if stats in this list are being deminished by use of the item *Decreased the chance of picking this item
+            exclude_on_stats: items will not be used if stats in this list are being diminished by use of the item *Decreased the chance of picking this item
+            exclude_on_skills: items will not be used if stats in this list are being diminished by use of the item *Decreased the chance of picking this item
             *default: All Stats - targetstats
             slot: slot
             source: list of inventories to draw from (We assume that only consumable items are to be equipped from other inventory than that of an instance of self)
             *Check the above statement to be True in the future?
-            real_weapons: Do we equip real weapon types (*Broom is now concidered a weapon as well)
+            real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             """
             if not source:
                 source = [self.inventory]
@@ -1794,7 +1794,7 @@ init -9 python:
             # Maximum raising should be coded in at some point as well
             # Here we need the best item to increase the stat:
             # ------------->
-            # Get all items availible for the task:
+            # Get all items available for the task:
             # ** We assume characters own inventory for any item except consumables, otherwise gameplay may get screwed up
             for inv in source:
                 d = dict()
