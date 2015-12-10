@@ -1832,7 +1832,7 @@ init -9 python:
                         if item.statmax:
                             for s in item.mod:
                                 if s in self.stats:
-                                    if s not in ["vitality", "health", "mp", "gold", "exp"]:
+                                    if s not in ["vitality", "health", "mp", "gold", "exp", "joy"]:
                                         if self.stats[s] < item.statmax:
                                             l.append(True)
                                             break
