@@ -1648,7 +1648,7 @@ init -9 python:
                     
         def equip(self, item, remove=True): # Equips the item
             """
-            Equips an item to a corresponding slop or consumes it.
+            Equips an item to a corresponding slot or consumes it.
             remove: Removes from the inventory (Should be False if item is equiped from directly from a foreign inventory)
             **Note that the remove is only applicable when dealing with consumables, game will not expect any other kind of an item.
             """
@@ -1656,10 +1656,10 @@ init -9 python:
                 devlog.warning(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
                 return
                 
-            # This is a temporary check, to make sur nothing goes wrong:
+            # This is a temporary check, to make sure nothing goes wrong:
             # Code checks during the equip method should make sure that the unique items never make it this far:
             if item.unique and item.unique != item.id:
-                raise Error("A character attempted to equip unqiue item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
+                raise Error("A character attempted to equip unqiue item that was not meant for him/her. This is a flaw in game design, please report to our development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
 
             if item.sex not in ["unisex", self.gender]:
                 devlog.warning(str("False charachter sex value: %s, %s,  %s" % (item.sex, item.id, self.__class__.__name__)))
