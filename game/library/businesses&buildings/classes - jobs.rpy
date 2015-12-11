@@ -445,36 +445,108 @@
             """Checks if the worker is willing to do this job.
             """
             if not [t for t in self.all_occs if t in char.occupations]:
-                if char.status != 'slave' and char.disposition > 800:
-                    char.set_flag("jobs_whoreintro", "%s: I am not thrilled about having some stranger 'do' me but you've been really good to me so... " % char.nickname)
-                    char.set_flag("jobs_introdis", -randint(10, 30))
+                if char.status != 'slave':
+                    if "Shy" in char.traits and dice(50):
+                        self.txt.append("When %s found out that she has to do it with a stranger even though it's not a part of her job, she blushed and ran away." % char.nickname)
+                        self.loggs('joy', -5)
+                        self.loggs('disposition', -30)
+                        self.worker = char
+                        self.loc = char.location
+                        self.event_type = "jobreport"
+                        self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
+                        char.action = None
                     
-                elif char.status != 'slave':
-                    self.txt.append(choice(["%s: I am not some cheap whore that will do whatever you please! Find someone else for this debauchery! " % char.nickname,
-                                                         "Don't be absurd, I am not fucking anyone for you!"]))
-                    self.worker = char
-                    self.loc = char.location
-                    self.event_type = "jobreport"
+                        self.apply_stats()
+                        self.finish_job()
+                        return
+                    if "Nymphomaniac" in char.traits:
+                        if char.disposition >= 650 and joy >= 50:
+                            char.set_flag("jobs_whoreintro", "It's not really a part of her job, but on the other hand %s doesn't mind to have some fun." % char.nickname)
+                            char.set_flag("jobs_introdis", -randint(5, 10))
+                            char.set_flag("jobs_introjoy", randint(4, 7))
+                        elif char.disposition >= 650:
+                            self.txt.append("Normally she wouldn't mind to have some fun even though it's not a part of her job, but %s is not in the mood for that right now." % char.nickname)
+                            self.loggs('disposition', -20)
+                            self.worker = char
+                            self.loc = char.location
+                            self.event_type = "jobreport"
+                            self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
+                            char.action = None
                     
-                    self.loggs('disposition', -50)
-                    self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                    char.action = None
+                            self.apply_stats()
+                            self.finish_job()
+                            return
+                        else:
+                            self.txt.append("%s refuses to do it with some stranger since it's not a part of her job. Oh well, at least she is not mad at you." % char.nickname)
+                            self.loggs('disposition', -30)
+                            self.worker = char
+                            self.loc = char.location
+                            self.event_type = "jobreport"
+                            self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
+                            char.action = None
                     
-                    self.apply_stats()
-                    self.finish_job()
-                    return
-                
+                            self.apply_stats()
+                            self.finish_job()
+                            return
+                    elif check_lovers(char, hero):
+                        char.set_flag("jobs_whoreintro", "%s doesn't like the idea to do it with some stranger when she has a lover, but she doesn't want to argue with you." % char.nickname)
+                        char.set_flag("jobs_introdis", -randint(5, 15))
+                    elif "Frigid" in char.traits:
+                        self.txt.append("%s angrily refuses to work as a whore for you, especially since it's not a part of her job.")
+                        self.loggs('disposition', -80)
+                        self.loggs('joy', -15)
+                        self.worker = char
+                        self.loc = char.location
+                        self.event_type = "jobreport"
+                        self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
+                        char.action = None
+                    
+                        self.apply_stats()
+                        self.finish_job()
+                        return
+                    elif char.disposition >= 800:
+                        char.set_flag("jobs_whoreintro", "%s is not thrilled about having some stranger 'do' her, but she likes you too much to refuse." % char.nickname)
+                        char.set_flag("jobs_introdis", -randint(10, 35))
+                    else:
+                        self.txt.append("%s refuses to do it with strangers since it's not a part of her job." % char.nickname)
+                        self.loggs('disposition', -50)
+                        self.worker = char
+                        self.loc = char.location
+                        self.event_type = "jobreport"
+                        self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
+                        char.action = None
+                    
+                        self.apply_stats()
+                        self.finish_job()
+                        return
                 else:
-                    char.set_flag("jobs_whoreintro", choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % char.name,
-                                                                                    "She'll do as she is told, doesn't mean that she'll be happy about.",
-                                                                                    "%s will do as you command but you cannot expect her to enjoy this..." % char.fullname]))
-                    char.set_flag("jobs_introjoy", -randint(1, 3))
-            
+                    if check_lovers(char, hero):
+                        char.set_flag("jobs_whoreintro", "%s obediently follows the order, even though she prefers to do it with you rather than with some stranger." % char.nickname)
+                        char.set_flag("jobs_introjoy", -randint(5, 15))
+                    elif "Nymphomaniac" in char.traits:
+                        if char.disposition >= 600:
+                            char.set_flag("jobs_whoreintro", "Even though she's not a whore, %s doesn't mind to have some fun sometimes, so she obeys you." % char.nickname)
+                            char.set_flag("jobs_introjoy", randint(4, 8))
+                            char.set_flag("jobs_introdis", -randint(5, 15))
+                        else:
+                            self.txt.append("%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % char.nickname)
+                            char.set_flag("jobs_introjoy", -randint(5, 15))
+                    elif check_lovers(char, hero):
+                        char.set_flag("jobs_whoreintro", "%s doesn't like the idea to do it with some stranger when she has a lover, but she likes you too much to complain." % char.nickname)
+                        char.set_flag("jobs_introjoy", -randint(3, 10))
+                    elif "Frigid" in char.traits:
+                        char.set_flag("jobs_whoreintro", "%s will do as you command, but she will hate every second of it..." % char.nickname)
+                        char.set_flag("jobs_introdis", -randint(15, 25))
+                    else: 
+                        char.set_flag("jobs_whoreintro", "%s will do as she is told, but doesn't mean that she'll be happy about." % char.nickname)
+                        char.set_flag("jobs_introdis", -randint(15, 25))
             else:
                 char.set_flag("jobs_whoreintro", choice(["{} is doing her shift as Prostitute:".format(char.name),
                                                                                 "%s gets busy with a client:" % char.fullname,
                                                                                 "Whore Job:"]))
             return True
+               
+
                     
         def payout_mod(self):
             self.payout = 1
