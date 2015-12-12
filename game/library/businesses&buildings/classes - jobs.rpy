@@ -540,6 +540,7 @@
             self.payout = 1
             
         def acts(self):
+            skill = 0
             # Pass the flags from occupation_checks:
             self.txt.append(self.worker.flag("jobs_whoreintro"))
             self.txt.append("\n\n")
@@ -564,8 +565,11 @@
             # Straight Sex Act
             if self.client.act == 'sex':
                 
-                self.skill = "vaginal"
-                
+
+                if "Lesbian" in self.worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
+                    skill = round(self.worker.get_skill("vaginal")*0.6 + self.worker.get_skill("sex")*0.15)
+                else:
+                    skill = round(self.worker.get_skill("vaginal")*0.75 + self.worker.get_skill("sex")*0.25)
                 # Temporarily done here, should be moved to game init and after_load to improve performance:
                 tags = (("2c vaginal", "ontop"), ("2c vaginal", "doggy"), ("2c vaginal", "missionary"), ("2c vaginal", "onside"), ("2c vaginal", "standing"), ("2c vaginal", "spooning"))
                 act = self.get_act(tags)
@@ -599,8 +603,11 @@
             # Anal Sex Act
             elif self.client.act == 'anal':
                 
-                self.skill = "anal"
-                
+
+                if "Lesbian" in self.worker.traits:
+                    skill = round(self.worker.get_skill("anal")*0.6 + self.worker.get_skill("sex")*0.15)
+                else:
+                    skill = round(self.worker.get_skill("anal")*0.75 + self.worker.get_skill("sex")*0.25)
                 self.txt.append(choice(["Anal sex is the best, customer thought... ",
                                                       "I am in the mood for a good anal fuck, customer said. ",
                                                       "Customer's dick got harder and harder just from the thought of %s's asshole! "%self.worker.nickname]))
@@ -635,22 +642,37 @@
                 
             # Suck a Dick act    
             elif self.client.act == 'blowjob':
-                
-                self.skill = "oral"
-                
+
+                # here we will have to choose skills depending on selected act
                 tags = (('bc deepthroat'), ('bc handjob'), {"tags": ['bc footjob'], "dice": 80}, ('bc titsjob'), {"tags": ["after sex"], "dice": 10}, ("bc blowjob"))
                 act = self.get_act(tags)
                 
                 if act == tags[0]:
                     self.txt.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
+                    if "Lesbian" in self.worker.traits:
+                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.65)
+                    else:
+                        skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
                     self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He told %s to give him a good handjob.\n"%self.worker.nickname)
+                    if "Lesbian" in self.worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
+                        skill = round(self.worker.get_skill("sex")*0.6 + self.worker.get_skill("sex")*0.1)
+                    else:
+                        skill = round(self.worker.get_skill("oral")*0.75 + self.worker.get_skill("sex")*0.25)
                     self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[2]:
                     self.txt.append(choice(["He asked her for a foodjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
+                    if "Lesbian" in self.worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
+                        skill = round(self.worker.get_skill("sex")*0.6 + self.worker.get_skill("sex")*0.1)
+                    else:
+                        skill = round(self.worker.get_skill("oral")*0.75 + self.worker.get_skill("sex")*0.25)
                     self.img = self.worker.show(*act["tags"], **kwargs)                    
                 elif act == tags[3]:
+                    if "Lesbian" in self.worker.traits:
+                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.65)
+                    else:
+                        skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
                     if trats["Big Boobs"] in self.worker.traits or traits["Abnormally Large Boobs"] in self.worker.traits:
                         self.txt.append(choice(["He went straight for her big boobs. \n", "Seeing her knockers, customer wanted notning else then to park his dick between them. \n", "Lustfully gazing on your girl's burst, he asked for a titsjob. \n", "He put his manhood between her big tits. \n" , "He showed his cock between %s's enormous breasts. \n"%self.worker.nickname]))
                     elif traits["Small Boobs"] in self.worker.traits:
@@ -662,10 +684,18 @@
                         self.txt.append(choice(["He asked for a titsjob. \n", "He let %s to carres him with her breasts. \n", "He showed his cock between %s's tits. \n"%self.worker.nickname]))
                     self.img = self.worker.show(*act, **kwargs)
                 elif act == tags[4]:
+                    if "Lesbian" in self.worker.traits:
+                        skill = round(self.worker.get_skill("sex")*0.75)
+                    else:
+                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.9)
                     self.txt.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejactuate on her face. \n", "He wanked himself hard in efford to cover her with his cum. \n"]))
                     self.img = self.worker.show(*act["tags"], **kwargs)        
                 elif act == tags[5]:
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
+                    if "Lesbian" in self.worker.traits:
+                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.65)
+                    else:
+                        skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
                     self.img = self.worker.show(*act, **kwargs)
                 else: # I do not thing that this will ever be reached...
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
@@ -674,8 +704,8 @@
             # Lesbian Act
             elif self.client.act == 'lesbian':
                 
-                self.skill = "vaginal" # May be overwriten!...
-                
+
+                skill = self.worker.get_skill("vaginal")
                 tags = (("gay", '2c lickpussy'),
                             ("gay", "bc lickpussy"),
                             ("gay", "2c lickanus"),
@@ -805,15 +835,16 @@
             
             else:
                 self.txt.append("Whore Job\n\nMissed All acts!\n\n")
-                self.skill = "vaginal"
+
+                skill = self.worker.get_skill("sex")
                 self.img = self.worker.show("sex", **kwargs)
                 
-            self.check_skills(self.skill)
+            self.check_skills(skill)
                 
             # Take care of stats mods
             sexmod = 1 if dice(20) else 0
             constmod = 1 if dice(12) else 0
-            self.loggs(self.skill, sexmod)
+            self.loggs(skill, sexmod)
             self.loggs("constitution", constmod)
             self.loggs("vitality", -randint(18, 28))
             
@@ -857,9 +888,7 @@
                 self.worker.fin.log_tips(tips, "WhoreJob")
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
-        def check_skills(self, skill=None):
-            if not skill:
-                skill = self.skill
+        def check_skills(self, skill=0):
             if skill > 300 and self.worker.charisma > 300:
 
                 self.txt.append("The client was at your girls mercy. Her beauty enchanting, she playfully took him into her embrace and made him forget about the rest of the world until they were finished. \n")
