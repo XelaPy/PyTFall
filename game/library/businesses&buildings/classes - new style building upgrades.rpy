@@ -132,6 +132,7 @@ init -9 python:
             return worker
             
         def requires_workers(self, amount=1):
+            # TODO: Get rid of this?
             """Returns True if this upgrade requires a Worker to run this job.
             
             Example: Building
@@ -210,15 +211,81 @@ init -9 python:
             super(MainUpgrade, self).__init__(*args, **kwargs)
             
             
-    class PublicUpgrade(BuildingUpgrade):
+    class PrivateBusinessUpgrade(MainUpgrade):
+        def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+            super(PrivateBusinessUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            self.capacity = in_slots
+            self.type = "personal_service"
+            self.jobs = set()
+            self.workable = True
+            
+            # SimPy and etc follows:
+            self.res = None # Restored before every job...
+            self.time = 5 # Same
+            self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
+            
+        def get_client_count(self):
+            # Returns amount of workers we expect to come here.
+            # We may not use this at all and handle everything on level of the main building instead!
+            return int(round(2 + self._rep*0.01*max(len(self.all_workers), self.capacity)))
+            
+        def has_workers(self):
+            # Check if the building still has someone availbile to do the job.
+            return list(i for i in self.instance.workers if self.all_occs & i.occupations)
+            
+        def pre_nd(self):
+            self.res = simpy.Resource(self.env, self.capacity)
+            
+        def request_room(self, client, char):
+            """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms avalible...
+            """
+            with self.res.request() as request:
+                yield request
+                        
+                # All is well and the client enters:
+                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, char.name)
+                self.log(temp)
+                
+                # This line will make sure code halts here until run_job ran it's course...
+                yield self.env.process(self.run_job(client, char))
+                
+                # Action (Job) ran it's cource and client is leaving...
+                temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
+                self.log(temp)
+                # client.flag("jobs_busy").interrupt()
+            client.del_flag("jobs_busy")
+                
+        def run_job(self, client, char):
+            """Waits for self.time delay and calls the job...
+            """
+            yield self.env.timeout(self.time)
+            if config.debug:
+                temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
+                self.log(temp)
+            
+            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(char.name, "pink"), client.name)
+            self.log(temp)
+            
+            # Execute the job:
+            self.job(char, client)
+            
+            # We return the char to the nd list:
+            self.instance.workers.insert(0, char)
+            
+        def post_nd_reset(self):
+            self.res = None
+            self.is_running = False
+            
+            
+    class PublicBusinessUpgrade(BuildingUpgrade):
         """Public Business Upgrade.
         
         This usually assumes the following:
         - Clients are handled in one general pool.
-        - 
+        - Workers randonly serve them.
         """
         def __init__(self, name="Public Default", instance=None, desc="Client is always right!?!", img=Null(), build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
-            super(PublicUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            super(PublicBusinessUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set() # Job bound to this update.
             self.workable = True
             self.type = "public_service"
@@ -242,7 +309,7 @@ init -9 python:
             # Whatever we need to do at start of Next Day calculations.
             self.res = simpy.Resource(self.env, self.capacity)
             
-        def request_spot(self, client):
+        def client_control(self, client):
             """Request for a spot for a client...
             
             Clients pay for the service here.
@@ -274,7 +341,7 @@ init -9 python:
                 self.log(temp)
                 client.del_flag("jobs_busy")
                 
-        def send_in_workers(self):
+        def worker_control(self):
             if not self.active_workers or len(self.active_workers) < self.res.count/4:
                 workers = self.instance.workers
                 # Get all candidates:
@@ -286,7 +353,7 @@ init -9 python:
                     workers.remove(w)
                     self.env.process(self.use_worker(w))
                 
-        def run_business(self, end):
+        def business_control(self, end):
             """This runs the club as a SimPy process from start to the end.
             """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
@@ -352,7 +419,7 @@ init -9 python:
             self.earned_cash = 0
             
             
-    class BrothelBlock(MainUpgrade):
+    class BrothelBlock(PrivateBusinessUpgrade):
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
@@ -365,64 +432,8 @@ init -9 python:
             self.time = 5 # Same
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
             
-        def get_client_count(self):
-            # Returns amount of workers we expect to come here.
-            # We may not use this at all and handle everything on level of the main building instead!
-            return int(round(2 + self._rep*0.01*max(len(self.all_workers), self.capacity)))
             
-        def has_workers(self):
-            # Check if the building still has someone availbile to do the job.
-            return list(i for i in self.instance.workers if self.all_occs & i.occupations)
-            
-        def requires_workers(self, amount=1):
-            # May not be useful, we now handle this with type.
-            return True
-            
-        def pre_nd(self):
-            self.res = simpy.Resource(self.env, self.capacity)
-            
-        def request_room(self, client, char):
-            """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms avalible...
-            """
-            with self.res.request() as request:
-                yield request
-                        
-                # All is well and the client enters:
-                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, char.name)
-                self.log(temp)
-                
-                # This line will make sure code halts here until run_job ran it's course...
-                yield self.env.process(self.run_job(client, char))
-                
-                # Action (Job) ran it's cource and client is leaving...
-                temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
-                self.log(temp)
-                # client.flag("jobs_busy").interrupt()
-            client.del_flag("jobs_busy")
-                
-        def run_job(self, client, char):
-            """Waits for self.time delay and calls the job...
-            """
-            yield self.env.timeout(self.time)
-            if config.debug:
-                temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
-                self.log(temp)
-            
-            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(char.name, "pink"), client.name)
-            self.log(temp)
-            
-            # Execute the job:
-            self.job(char, client)
-            
-            # We return the char to the nd list:
-            self.instance.workers.insert(0, char)
-            
-        def post_nd_reset(self):
-            self.res = None
-            self.is_running = False
-            
-            
-    class StripClub(PublicUpgrade):
+    class StripClub(PublicBusinessUpgrade):
         def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!", img="content/buildings/upgrades/strip_club.jpg", build_effort=0, materials=None, in_slots=5, cost=500, **kwargs):
             super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Striptease Job"]])
@@ -441,7 +452,7 @@ init -9 python:
             self.earned_cash = 0
             
             
-    class Bar(PublicUpgrade):
+    class Bar(PublicBusinessUpgrade):
         """Bar Main Upgrade.
         """
         def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!", img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
