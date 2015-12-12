@@ -1583,8 +1583,8 @@
             
             #Stat Mods
             self.loggs('exp', randint(15, 25))
-            self.loggs('bartending', choice([0, 0, 1]))
-            self.loggs('refinement', choice([0, 0, 0, 0, 1]))
+            self.loggs('bartending', choice([1, 2]))
+            self.loggs('refinement', choice([0, 0, 0, 1]))
             self.loggs('vitality', len_clients * -3)
             
             # Integers:
