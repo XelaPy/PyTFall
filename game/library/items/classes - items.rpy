@@ -93,10 +93,28 @@ init -9 python:
                 self.statmax = False
                 self.skillmax = False
                 
-            if self.sex == "Male": self.sex = 'male'
-            if self.sex == "Female": self.sex = 'female'
-            if self.sex == "Unisex": self.sex = 'unisex'
+            # Gets rid of possible caps:
+            self.sex = self.sex.lower()
 
+        def get_stat_eq_bonus(self, char, stat):
+            """Simple method that tries to get the real bonus an item can offer for the stat.
+            
+            This method assumes that item can offer a bonus to the stat!
+            Presently used in auto_equip method.
+            Does not take traits into concideration, just max/lvl_max and stats.
+            """
+            stats = char.stats
+            if stat in self.max:
+                new_max = stats.max[stat] + self.max[stat]
+                new_max = min(new_max, stats.lvl_max[stat])
+            else:
+                new_max = char.get_max(stat)
+            new_stat = stats.stats[stat] + stats.imod[stat] + self.mod[stat]
+            if new_stat > new_max:
+                new_stat = new_max
+            return new_stat - stats.get_stat(stat)
+            
+            
     # Inventory with listing
     # this is used together with a specialized screens/functions
     class Inventory(_object):

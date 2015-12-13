@@ -82,8 +82,9 @@ init -1 python: # Core classes:
                         # Ok, so now we got the skll... so we call it.
                         s()
                 
-                renpy.hide_screen("pick_skill")
-                renpy.hide_screen("target_practice")
+                if not self.logical:
+                    renpy.hide_screen("pick_skill")
+                    renpy.hide_screen("target_practice")
                     
                 # if config.developer:
                     # renpy.show_screen("be_test", ev) # If I need to know whats going on atm, I am using this in the dev mode...
@@ -100,28 +101,29 @@ init -1 python: # Core classes:
             self.end_battle()
         
         def start_battle(self):
-            if self.music:
-                renpy.music.stop()
-                renpy.music.stop(channel="world")
-                renpy.music.play(self.music)
+            if not self.logical:
+                if self.music:
+                    renpy.music.stop()
+                    renpy.music.stop(channel="world")
+                    renpy.music.play(self.music)
+                    
+                # Show the BG:
+                renpy.scene()
                 
-            # Show the BG:
-            renpy.scene()
-            
-            # Lets render the teammembers:
-            # First the left team:
-            team = self.teams[0]
-            for i in team:
-                self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
-                
-            team = self.teams[1]
-            for i in team:
-                self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
-                
-            renpy.show("bg", what=self.bg)
-            renpy.show_screen("battle_overlay")
-            if self.start_sfx: # Special Effects:
-                renpy.with_statement(self.start_sfx)
+                # Lets render the teammembers:
+                # First the left team:
+                team = self.teams[0]
+                for i in team:
+                    self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                    
+                team = self.teams[1]
+                for i in team:
+                    self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                    
+                renpy.show("bg", what=self.bg)
+                renpy.show_screen("battle_overlay")
+                if self.start_sfx: # Special Effects:
+                    renpy.with_statement(self.start_sfx)
             
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()
@@ -129,17 +131,19 @@ init -1 python: # Core classes:
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
             """
-            # We'll have to reset any attributes of the charcters classes:
-            renpy.hide_screen("be_test")
-            renpy.hide_screen("target_practice")
-            renpy.hide_screen("pick_skill")
-            renpy.hide_screen("battle_overlay")
-            renpy.scene()
-            if self.end_sfx:
-                renpy.with_statement(self.end_sfx)
-
-            if self.music:
-                renpy.music.stop()
+            if not self.logical:
+                # We'll have to reset any attributes of the charcters classes:
+                renpy.hide_screen("be_test")
+                renpy.hide_screen("target_practice")
+                renpy.hide_screen("pick_skill")
+                renpy.hide_screen("battle_overlay")
+                renpy.scene()
+                if self.end_sfx:
+                    renpy.with_statement(self.end_sfx)
+    
+                if self.music:
+                    renpy.music.stop()
+                
             for team in self.teams:
                 for i in team:
                     i.betag = None
@@ -161,8 +165,8 @@ init -1 python: # Core classes:
             return self.queue.pop()
             
         def get_icp(self, team, char):
-            """
-            Get Initial Character Position
+            """Get Initial Character Position
+            
             Basically this is what sets the characters up at the start of the battle-round.
             Returns inicial position of the character based on row/team!
             Positions should always be retrieved using this method or errors may occur.

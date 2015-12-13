@@ -92,7 +92,7 @@ init -11 python:
         
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
-        if all([item.unique, isinstance(char, Player), item.unique != "mc"]) or all([item.unique, item.unique != char.id]):
+        if item.unique and item.unique != char.id:
             if not silent:
                 renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on {}!".format(char.name))
             return

@@ -74,7 +74,7 @@ init -9 python:
             TODO: Concider that run_job/use_worker may not overlap in times which can cause lack of earnings/tips.
             *active_workers = Does this not simply double the normal workers? TODO: Find out.
             *request = plainly adds a client and keeps it in the business based on "ready_to_leave" flag set directly to the client.
-            *send_in_workers:
+            *worker_control:
                 # Adds workers to business to serve clients.
                 - Checks willingness to do the job.
                 - Adds workers as required.
@@ -549,7 +549,7 @@ init -9 python:
             for up in self._upgrades:
                 up.pre_nd()
                 
-            self.env.process(self.run_businesses(end=100))
+            self.env.process(self.clients_dispatcher(end=100))
             self.env.run(until=100)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
@@ -643,12 +643,14 @@ init -9 python:
             return any(i.workable for i in self._upgrades)
             
         # SimPy:
-        def run_businesses(self, end=40):
+        def clients_dispatcher(self, end=40):
+            """This method provides stream of clients to the building following it's own algorithm.
+            """
             self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 if u.type == "public_service":
-                    self.env.process(u.run_business(end))
+                    self.env.process(u.business_control(end))
                 
                 if u.has_workers():
                     u.is_running = True
@@ -681,6 +683,10 @@ init -9 python:
             - Picks a business
             - Tries other businesses if the original choice fails
             - Kicks the client if all fails
+            
+            So this basically sends the client into the businesses within this building or keeps them waiting/rotating.
+            Once in, client is handled and managed by the Business itself until control is returned here!
+            Once this method is terminated, client has completely left the building!
             """
             # Register the fact that client arrived at the building:
             temp = '{}: {} arrives at the {}.'.format(self.env.now, client.name, self.name)
@@ -721,8 +727,8 @@ init -9 python:
                         
                 # Jobs like the Club:
                 elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
-                    self.env.process(upgrade.request_spot(client))
-                    upgrade.send_in_workers()
+                    self.env.process(upgrade.client_control(client))
+                    upgrade.worker_control()
                     visited += 1
                     client.set_flag("jobs_busy")
                     while client.flag("jobs_busy"):
