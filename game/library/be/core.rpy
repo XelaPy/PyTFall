@@ -436,13 +436,10 @@ init -1 python: # Core classes:
             else:
                 char = self.source
                 
-            l = battle.get_fighters()
-            in_range = set()
             # First figure out all targets within the range:
             # We calculate this by assigning.
-            for fighter in l:
-                if fighter.row in xrange(char.row - self.range, char.row + 1 + self.range):
-                    in_range.add(fighter)
+            target_rows = range(char.row - self.range, char.row + 1 + self.range)
+            in_range = set(f for f in battle.get_fighters() if f.row in target_rows)
                     
             # Lets handle the piercing (Or not piercing since piercing attacks incude everyone in range already):
             if not self.piercing:
@@ -452,60 +449,54 @@ init -1 python: # Core classes:
                     if battle.get_fighters(rows=[2]):
                         # opfor has a defender:
                         # we need to remove everyone from the back row:
-                        for fighter in in_range.copy():
-                            if fighter.row == 3:
-                                in_range.remove(fighter)
+                        in_range = [f for f in in_range if f.row != 3]
                 else:
                     if battle.get_fighters(rows=[1]):
-                        for fighter in in_range.copy():
-                            if fighter.row == 0:
-                                in_range.remove(fighter)
+                        in_range = [f for f in in_range if f.row != 0]
                                 
-            # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
-            # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
-            if char.row == 0:
-                # Case: Fighter in backrow and no defenders on opfor.
-                if not battle.get_fighters(rows=[2]) and self.range > 1:
-                    # We add everyone in the back row for target practice :)
-                    in_range = in_range.union(battle.get_fighters(rows=[3]))
-                # Case: Fighter in backrow and there is no defender on own team,
-                if not battle.get_fighters(rows=[1]):
-                    # but there is at least one on the opfor:
-                    if battle.get_fighters(rows=[2]):
-                        in_range = in_range.union(battle.get_fighters(rows=[2]))
-                    # else, there is are no defenders at all anywhere...
-                    else:
+            # In a perfect world, we're done, however we have to overwrite normal rules if no targets are found and backrow can hit over it's own range (for example):
+            if not in_range:
+                # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
+                # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
+                if char.row == 0:
+                    # Case: Fighter in backrow and no defenders on opfor.
+                    if not battle.get_fighters(rows=[2]) and self.range > 1:
+                        # We add everyone in the back row for target practice :)
                         in_range = in_range.union(battle.get_fighters(rows=[3]))
-            elif char.row == 1:
-                if not battle.get_fighters(rows=[2]):
-                    # We add everyone in the back row for target practice :)
-                    in_range = in_range.union(battle.get_fighters(rows=[3]))
-            elif char.row == 2:
-                if not battle.get_fighters(rows=[1]):
-                    # We add everyone in the back row for target practice :)
-                    in_range = in_range.union(battle.get_fighters(rows=[0]))
-            elif char.row == 3:
-                if not battle.get_fighters(rows=[1]) and self.range > 1:
-                    # We add everyone in the back row for target practice :)
-                    in_range = in_range.union(battle.get_fighters(rows=[0]))
-                # Case: Fighter in backrow and there is no defender on own team,
-                if not battle.get_fighters(rows=[2]):
-                    # but there is at least one on the opfor:
-                    if battle.get_fighters(rows=[1]):
-                        in_range = in_range.union(battle.get_fighters(rows=[1]))
-                    # else, there is are no defenders at all anywhere...
-                    else:
+                    # Case: Fighter in backrow and there is no defender on own team,
+                    if not battle.get_fighters(rows=[1]):
+                        # but there is at least one on the opfor:
+                        if battle.get_fighters(rows=[2]):
+                            in_range = in_range.union(battle.get_fighters(rows=[2]))
+                        # else, there is are no defenders at all anywhere...
+                        else:
+                            in_range = in_range.union(battle.get_fighters(rows=[3]))
+                elif char.row == 1:
+                    if not battle.get_fighters(rows=[2]):
+                        # We add everyone in the back row for target practice :)
+                        in_range = in_range.union(battle.get_fighters(rows=[3]))
+                elif char.row == 2:
+                    if not battle.get_fighters(rows=[1]):
+                        # We add everyone in the back row for target practice :)
                         in_range = in_range.union(battle.get_fighters(rows=[0]))
+                elif char.row == 3:
+                    if not battle.get_fighters(rows=[1]) and self.range > 1:
+                        # We add everyone in the back row for target practice :)
+                        in_range = in_range.union(battle.get_fighters(rows=[0]))
+                    # Case: Fighter in backrow and there is no defender on own team,
+                    if not battle.get_fighters(rows=[2]):
+                        # but there is at least one on the opfor:
+                        if battle.get_fighters(rows=[1]):
+                            in_range = in_range.union(battle.get_fighters(rows=[1]))
+                        # else, there is are no defenders at all anywhere...
+                        else:
+                            in_range = in_range.union(battle.get_fighters(rows=[0]))
                 
             # Now the type, we just care about friends and enemies:
             if self.type in ["all_enemies", "se"]:
-                for fighter in in_range.copy():
-                    if char.allegiance == fighter.allegiance:
-                        in_range.remove(fighter)
-            if self.type in ["all_allies", "sa"]:
-                for fighter in in_range.copy():
-                    if char.allegiance != fighter.allegiance:
-                        in_range.remove(fighter)
+                in_range = [f for f in in_range if char.allegiance != f.allegiance]
+            elif self.type in ["all_allies", "sa"]:
+                in_range = [f for f in in_range if char.allegiance == f.allegiance]
                     
             return list(in_range) # So we can support indexing...
             
@@ -832,25 +823,16 @@ init -1 python: # Core classes:
                 skill()
         
         def get_skills(self):
-            skills = self.source.attack_skills + self.source.magic_skills
-            # for skill in self.source.attack_skills:
-                # skills.append(skill)
-            # for skill in self.source.magic_skills:
-                # skills.append(skill)
-            # temp = list()    
-            # for i in skills:
-                # if i in battle_skills:
-                    # i = battle_skills[i]
-                    # temp.append(i)
-            # How that we have all the skills, lets see what we can acutally use.
-            temp = skills[:]
-            skills = list()
-            for skill in temp:
-                t = skill.get_targets(source=self.source)
-                if t:
-                    skills.append(skill)
-            for skill in skills[:]:
-                skill.source = self.source
-                if not skill.check_conditions():
-                    skills.remove(skill)
+            allskills = self.source.attack_skills + self.source.magic_skills
+            skills = [s for s in allskills if s.check_conditions(self.source)]
+            
+            # for skill in allskills:
+                # t = skill.get_targets(source=self.source)
+                # if t:
+                    # skills.append(skill)
+                     
+            # for skill in skills[:]:
+                # skill.source = self.source
+                # if not skill.check_conditions():
+                    # skills.remove(skill)
             return skills

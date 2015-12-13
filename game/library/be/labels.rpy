@@ -59,6 +59,7 @@ label test_be:
     jump mainscreen
     
 label test_be_logical:
+    $ tl.timer("Logical BE Scenario with Setup!")
     python:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -86,19 +87,19 @@ label test_be_logical:
         h.exp += 2000000
         for stat in h.stats:
             h.mod(stat, 1000)
-        h.front_row = False
+        h.front_row = True
         n = chars["Nami"]
         n.status = "free"
         n.controller = BE_AI(n)
         n.apply_trait("Air")
-        for skill in battle_skills.values():
-            if isinstance(skill, SimpleAttack):
-                h.attack_skills.append(skill)
-                n.attack_skills.append(skill)
-            else:
-                h.magic_skills.append(skill)
-                n.magic_skills.append(skill)
-        n.front_row = False
+        # for skill in battle_skills.values():
+            # if isinstance(skill, SimpleAttack):
+                # h.attack_skills.append(skill)
+                # n.attack_skills.append(skill)
+            # else:
+                # h.magic_skills.append(skill)
+                # n.magic_skills.append(skill)
+        n.front_row = True
         n.exp += 2000000
         
         for i in hero.team:
@@ -116,13 +117,17 @@ label test_be_logical:
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, logical=1)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
-
+        
+        tl.timer("Logical BE Scenario without Setup!")
         battle.start_battle()
+        tl.timer("Logical BE Scenario without Setup!")
         
         # Reset Controller:
         hero.controller = "player"
         n.controller = "player"
         h.controller = "player"
+        
+    $ tl.timer("Logical BE Scenario with Setup!")
     
     scene black
     call screen battle_report
