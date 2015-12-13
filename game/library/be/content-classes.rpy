@@ -1,4 +1,5 @@
 init python:
+    # Plain Events:
     class BE_Skip(BE_Event):
         """
         Simplest possible class that just skips the turn for the player and logs that fact.
@@ -99,7 +100,8 @@ init python:
                 msg = "{color=[red]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
                 battle.log(msg)
             
-    
+    # Actions:
+    # Simple Attack:
     class SimpleAttack(BE_Action):
         """
         Simplest attack, usually weapons.

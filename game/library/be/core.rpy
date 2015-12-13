@@ -130,8 +130,16 @@ init -1 python: # Core classes:
                 if self.start_sfx: # Special Effects:
                     renpy.with_statement(self.start_sfx)
             
+            self.set_allegiance()
+            
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()
+            
+        def set_allegiance(self):
+            # Plainly sets allegiance of chars to their teams. Allegiance may change during the fight (confusion skill for example once we have one).
+            for team in self.teams:
+                for char in team:
+                    char.allegiance = team.name
             
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -197,7 +205,6 @@ init -1 python: # Core classes:
             # First, lets get correct sprites:
             sprite = char.show("battle_sprite", resize=char.get_sprite_size("battle_sprite"))
             char.besprite_size = sprite.true_size()
-            char.allegiance = team.name # Character always remains on the same team but allegiance may change with confusion skill for example.
             
             # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
             if team_index == "l":
@@ -234,7 +241,7 @@ init -1 python: # Core classes:
                 
                 
             char.besk["what"] = char.besprite
-            # Zorder defaults to characters (index + 1) * 100 so we could theoretically show 100 extras with this design :)
+            # Zorder defaults to characters (index + 1) * 100
             char.besk["zorder"] = (char_index + 1) * 100
             
             # ---------------------------------------------------->>>
@@ -805,7 +812,7 @@ init -1 python: # Core classes:
                 
     class BE_AI(object):
         # Not sure this even needs to be a class...
-        def __init__(self, source=None):
+        def __init__(self, source):
             self.source = source
         
         def __call__(self):
