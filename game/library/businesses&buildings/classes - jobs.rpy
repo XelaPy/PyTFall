@@ -1194,9 +1194,7 @@
             self.check_skills(skill)
                 
             # Take care of stats mods
-            sexmod = 1 if dice(20) else 0
             constmod = 1 if dice(12) else 0
-            self.loggs("sex", sexmod)
             self.loggs("constitution", constmod)
             self.loggs("vitality", -randint(14, 28))
             
