@@ -34,7 +34,7 @@ init -1 python: # Core classes:
                 
             self.controller = None # Whatever controls the current queue of the loop is the controller. Usually it's player or AI combatants.
             self.winner = None
-            self.log = list()
+            self.combat_log = list()
             
             # Events:
             self.end_turn_events = list() # Events we execute on start of the turn.
@@ -45,6 +45,11 @@ init -1 python: # Core classes:
             
             self.start_sfx = start_sfx
             self.end_sfx = end_sfx
+            
+        def log(self, report):
+            if config.debug:
+                devlog.info(report)
+            self.combat_log.append(report)
             
         def get_faction(self, char):
             # Since factions are simply teams:
@@ -193,7 +198,8 @@ init -1 python: # Core classes:
             sprite = char.show("battle_sprite", resize=char.get_sprite_size("battle_sprite"))
             char.besprite_size = sprite.true_size()
             char.allegiance = team.name # Character always remains on the same team but allegiance may change with confusion skill for example.
-            # We'll assign ranges from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
+            
+            # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
             if team_index == "l":
                 char.row = int(char.front_row)
                 
@@ -556,7 +562,7 @@ init -1 python: # Core classes:
                 
                 s = s + self.effects_for_string(t)
                 
-                battle.log.append("".join(s))
+                battle.log("".join(s))
         
         def effects_for_string(self, t, default_color="red"):
             # String for the log:

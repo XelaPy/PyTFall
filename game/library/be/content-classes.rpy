@@ -8,7 +8,8 @@ init python:
             self.source = source
         
         def __call__(self):
-            battle.log.append("%s skips a turn!" % self.source.nickname)
+            msg = "{} skips a turn!".format(self.source.nickname)
+            battle.log(msg)
             
 
     class RPG_Death(BE_Event):
@@ -43,7 +44,7 @@ init python:
                 if self.target == target:
                     store.battle.queue.remove(self.target)
             
-            battle.log.append(self.msg)
+            battle.log(self.msg)
             
             
     class PoisonEvent(BE_Event):
@@ -87,7 +88,7 @@ init python:
             if t.health - damage > 0:
                 t.mod("health", damage * -1)
                 msg = "{color=[red]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
-                battle.log.append(msg)
+                battle.log(msg)
             else:
                 death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name)
                 death.apply_effects()
@@ -96,7 +97,7 @@ init python:
             
             if self.counter <= 0:
                 msg = "{color=[red]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
-                battle.log.append(msg)
+                battle.log(msg)
             
     
     class SimpleAttack(BE_Action):
@@ -527,7 +528,7 @@ init python:
                 
                 s = s + self.effects_for_string(t, default_color="green")
                 
-                battle.log.append("".join(s))
+                battle.log("".join(s))
             
         def apply_effects(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -548,6 +549,7 @@ init python:
             
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
+            
             if not battle.logical:
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
@@ -603,18 +605,18 @@ init python:
             for t in targets:
                 # Make sure target does not resist poison by nature:
                 if "poison" in t.resist:
-                    battle.log.append("%s resisted poison!" % t.nickname)
+                    battle.log("%s resisted poison!" % t.nickname)
                     t.beeffects = [0]
                     continue
                 # Target resisted due to stats being too l33t:
                 elif (t.intelligence + t.luck) > (a.intelligence + a.luck) * 1.3:
-                    battle.log.append("%s not skilled enough to poison %s!" % (a.nickname, t.nickname))
+                    battle.log("%s not skilled enough to poison %s!" % (a.nickname, t.nickname))
                     t.beeffects = [0]
                     continue
                 # And last, in case target is already poisoned:
                 for ev in store.battle.mid_turn_events:
                     if t == ev.target and "poison" in ev.attributes:
-                        battle.log.append("%s is already poisoned!" % (t.nickname))
+                        battle.log("%s is already poisoned!" % (t.nickname))
                         t.beeffects = [0]
                         break
                 else: # Damage Calculations:
@@ -639,7 +641,7 @@ init python:
                     
                     s = s + self.effects_for_string(t)
                     
-                    battle.log.append("".join(s))
+                    battle.log("".join(s))
  
             
 init python: # Helper Functions:
