@@ -128,6 +128,8 @@ screen pyt_mainscreen():
                 action Hide("pyt_mainscreen"), Jump("arena_inside")
             textbutton "Test BE":
                 action Hide("pyt_mainscreen"), Jump("test_be")
+            textbutton "Test BE Logical":
+                action Hide("pyt_mainscreen"), Jump("test_be_logical")
             textbutton "Test Forest Exploration":
                 action [Hide("pyt_mainscreen"), Jump("forest_exploration")]
             textbutton "Free Test":

@@ -32,9 +32,11 @@ init python:
             
         def apply_effects(self):
             battle.corpses.add(self.target)
-            renpy.hide(self.target.betag)
-            if self.death_effect == "dissolve":
-                renpy.with_statement(dissolve)
+            
+            if not battle.logical:
+                renpy.hide(self.target.betag)
+                if self.death_effect == "dissolve":
+                    renpy.with_statement(dissolve)
             
             # Forgot to remove poor sods from the queue:
             for target in battle.queue[:]:
@@ -72,14 +74,15 @@ init python:
             damage = max(randint(15, 20), int(damage) + randint(-4, 4))
             
             # GFX:
-            gfx = Transform("poison_2", zoom=1.5)
-            renpy.show("poison", what=gfx, at_list=[Transform(pos=battle.get_cp(t, type="center"), anchor=(0.5, 0.5))], zorder=t.besk["zorder"]+1)
-            txt = Text("%d"%damage, style="content_label", color=red, size=15)
-            renpy.show("bb", what=txt, at_list=[battle_bounce(store.battle.get_cp(t, type="tc", yo=-10))], zorder=t.besk["zorder"]+2)
-            renpy.pause(1.5)
-            renpy.hide("poison")
-            renpy.pause(0.2)
-            renpy.hide("bb")
+            if not battle.logical:
+                gfx = Transform("poison_2", zoom=1.5)
+                renpy.show("poison", what=gfx, at_list=[Transform(pos=battle.get_cp(t, type="center"), anchor=(0.5, 0.5))], zorder=t.besk["zorder"]+1)
+                txt = Text("%d"%damage, style="content_label", color=red, size=15)
+                renpy.show("bb", what=txt, at_list=[battle_bounce(store.battle.get_cp(t, type="tc", yo=-10))], zorder=t.besk["zorder"]+2)
+                renpy.pause(1.5)
+                renpy.hide("poison")
+                renpy.pause(0.2)
+                renpy.hide("bb")
             
             if t.health - damage > 0:
                 t.mod("health", damage * -1)
@@ -115,40 +118,45 @@ init python:
             # Simple effects for the sword attack:
             char = self.source
             
-            battle.move(char, battle.get_cp(char, xo=50), 0.5)
+            if not battle.logical:
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
-            gfxtag = "attack"
-            bbtag = "battle_bouce"
+                gfxtag = "attack"
+                bbtag = "battle_bouce"
+                
+            # This we can run elsewhere so this whole method can be skipped:
             self.effects_resolver([target]) # This can also be moved elsewhere. This causes the actual damage.
             self.apply_effects([target]) # This can also be moved elsewhere. This causes the actual damage.
-            s = "%s"%target.beeffects[0]
-            if "critical_hit" in target.beeffects:
-                s = "\n".join([s, "Critical hit!"])
-            txt = Text(s, style="content_label", color=red, size=15)  # This I should (prolly) move to a separate class/function. For now it is here:
-            if self.sfx:
-                if isinstance(self.sfx, (list, tuple)):
-                    sfx = choice(self.sfx)
-                else:
-                    sfx = self.sfx
-                renpy.sound.play(sfx)
             
-            # Zoom (If any):
-            if self.zoom is not None:
-                gfx = Transform(self.gfx, zoom=self.zoom)
-            else:
-                gfx = self.gfx
+            if not battle.logical:
+                s = "%s"%target.beeffects[0]
+                if "critical_hit" in target.beeffects:
+                    s = "\n".join([s, "Critical hit!"])
+                txt = Text(s, style="content_label", color=red, size=15)  # This I should (prolly) move to a separate class/function. For now it is here:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
                 
-            if self.gfx:
-                renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+1)
-            renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
-            
-            battle.move(char, char.dpos, 0.5, pause=False)
-            
-            renpy.pause(self.pause)
-            renpy.hide(gfxtag)
-            renpy.with_statement(dissolve)
-            renpy.pause(1.4-self.pause)
-            renpy.hide(bbtag)
+                # Zoom (If any):
+                if self.zoom is not None:
+                    gfx = Transform(self.gfx, zoom=self.zoom)
+                else:
+                    gfx = self.gfx
+                    
+                if self.gfx:
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+1)
+                renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
+                
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                renpy.pause(self.pause)
+                renpy.hide(gfxtag)
+                renpy.with_statement(dissolve)
+                renpy.pause(1.4-self.pause)
+                renpy.hide(bbtag)
             
             
     # Simple Magic:
@@ -177,6 +185,7 @@ init python:
                 char = source
             else:
                 char = self.source
+                
             # We need to make sure that we have enought mp for this one:
             if char.mp - self.cost >= 0:
                 if self.get_targets(char):
@@ -208,78 +217,81 @@ init python:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             
-            # Inicial movement of the sprtite:
-            battle.move(char, battle.get_cp(char, xo=50), 0.5)
+            if not battle.logical:
+                # Inicial movement of the sprtite:
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
             # if self.casting_effects[1] == "default":
                 # renpy.sound.play("content/sfx/sound/be/cannon_3.mp3")
             
-            if self.casting_effects[0]:
-                casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+                if self.casting_effects[0]:
+                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             died = self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
-            if self.sfx:
-                if isinstance(self.sfx, (list, tuple)):
-                    sfx = choice(self.sfx)
+            
+            if not battle.logical:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                
+                # Zoom (If any):
+                if self.zoom is not None:
+                    gfx = Transform(self.gfx, zoom=self.zoom)
                 else:
-                    sfx = self.sfx
-                renpy.sound.play(sfx)
-            
-            # Zoom (If any):
-            if self.zoom is not None:
-                gfx = Transform(self.gfx, zoom=self.zoom)
-            else:
-                gfx = self.gfx
+                    gfx = self.gfx
+                    
+                # Showing the impact effects:  
+                if self.gfx:
+                    for index, target in enumerate(targets):
+                        gfxtag = "attack" + str(index)
+                        renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+                        
+                # Pause before battle bounce + damage on target effects:
+                renpy.pause(self.td_gfx[0])
                 
-            # Showing the impact effects:  
-            if self.gfx:
                 for index, target in enumerate(targets):
-                    gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+                    self.show_gfx_dmg(target)
+                    if len(self.td_gfx) > 1:
+                        self.show_gfx_td(target, 0.5, self.td_gfx[1])
+                
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                # Pause before termination of damage on target effects, if there are any:
+                # @Review: OR Pause before application of special death effects!
+                # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
+                # **This will always assume 
+                if self.death_effect or len(self.td_gfx) > 1:
+                    if len(self.td_gfx) > 1:
+                        renpy.pause(self.td_gfx[2])
+                        for target in targets:
+                            renpy.hide(target.betag)
+                            renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
                     
-            # Pause before battle bounce + damage on target effects:
-            renpy.pause(self.td_gfx[0])
-            
-            for index, target in enumerate(targets):
-                self.show_gfx_dmg(target)
-                if len(self.td_gfx) > 1:
-                    self.show_gfx_td(target, 0.5, self.td_gfx[1])
-            
-            battle.move(char, char.dpos, 0.5, pause=False)
-            
-            # Pause before termination of damage on target effects, if there are any:
-            # @Review: OR Pause before application of special death effects!
-            # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
-            # **This will always assume 
-            if self.death_effect or len(self.td_gfx) > 1:
-                if len(self.td_gfx) > 1:
-                    renpy.pause(self.td_gfx[2])
-                    for target in targets:
+                # Shatter or some other death effect we want to handle in this method:
+                if died and self.death_effect == "shatter":
+                    for target in died:
                         renpy.hide(target.betag)
-                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                        renpy.show(target.betag, what=HitlerKaputt(target.besprite, 30), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                
+                total_pause = self.td_gfx[0]
+                if len(self.td_gfx) > 1:
+                    total_pause = total_pause + self.td_gfx[2]
                     
-            # Shatter or some other death effect we want to handle in this method:
-            if died and self.death_effect == "shatter":
-                for target in died:
-                    renpy.hide(target.betag)
-                    renpy.show(target.betag, what=HitlerKaputt(target.besprite, 30), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-            
-            total_pause = self.td_gfx[0]
-            if len(self.td_gfx) > 1:
-                total_pause = total_pause + self.td_gfx[2]
-                
-            # Check we need any more pause:
-            if self.pause > total_pause:
-                renpy.pause(self.pause - total_pause)
-                
-            for i in xrange(len(targets)):
-                gfxtag = "attack" + str(i)
-                renpy.hide(gfxtag)
-                
-            # Check if we need any more pause before we kill the battle bounce:
-            if self.pause - total_pause < 1.7:
-                renpy.pause(1.7 - (self.pause - total_pause))
+                # Check we need any more pause:
+                if self.pause > total_pause:
+                    renpy.pause(self.pause - total_pause)
+                    
+                for i in xrange(len(targets)):
+                    gfxtag = "attack" + str(i)
+                    renpy.hide(gfxtag)
+                    
+                # Check if we need any more pause before we kill the battle bounce:
+                if self.pause - total_pause < 1.7:
+                    renpy.pause(1.7 - (self.pause - total_pause))
                 
                 
     class MagicArrows(SimpleMagicalAttack):
@@ -314,85 +326,87 @@ init python:
             char = self.source # Just a simple reasignment for convinience, this is the source of the attack (Attacker).
             target = targets[0] # We can do this since we're sure that there is only one target for this spell.
             
-            # This returns the position of battle sprite (To be exact, it return the position of TOP, LEFT CORNER of the battle sprite, this is it's default behavior).
-            # xo is means we want to adjust position alogn the x axis. xo with value of -30 plainly means 30 pixels backwards (to the side characters back is pointed to).
-            newpos = battle.get_cp(char, xo=-30)
-            
-            # Inicial movement of the sprtite:
-            # renpy.hide(char.betag) # We need to hide the sprite that we're looking at (this will not create any kind of visible effect, just a programming thing).
-            # # Renpy show function is what we use here to display stuff on the screen where:
-            # """
-            # char.betag: name (tag) assigned to this show command so we can hide/replace it.
-            # what=char.besprite: This is the battle_sprite image.
-            # at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
-            # You can find more about it in the Ren'Py Documentation.
-            # zorder=char.besk["zorder"]: Ren'Py will show stuff with higher zorder infront of the stuff with lower zorder. It's as simple as that. char.best is the dict where we keep our dedault values for the character.
-            # You can just follow the lead with zorders from the examples.
-            # """
-            # renpy.show(char.betag, what=char.besprite, at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)], zorder=char.besk["zorder"]) # So this moves the character slightly to the back.
-            # renpy.pause(0.5) # Need to add pauses for effects to take place!
-            ### >>> Now done through move method:
-            battle.move(char, battle.get_cp(char, xo=50), 0.5)
+            if not battle.logical:
+                # This returns the position of battle sprite (To be exact, it return the position of TOP, LEFT CORNER of the battle sprite, this is it's default behavior).
+                # xo is means we want to adjust position alogn the x axis. xo with value of -30 plainly means 30 pixels backwards (to the side characters back is pointed to).
+                newpos = battle.get_cp(char, xo=-30)
+                
+                # Inicial movement of the sprtite:
+                # renpy.hide(char.betag) # We need to hide the sprite that we're looking at (this will not create any kind of visible effect, just a programming thing).
+                # # Renpy show function is what we use here to display stuff on the screen where:
+                # """
+                # char.betag: name (tag) assigned to this show command so we can hide/replace it.
+                # what=char.besprite: This is the battle_sprite image.
+                # at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
+                # You can find more about it in the Ren'Py Documentation.
+                # zorder=char.besk["zorder"]: Ren'Py will show stuff with higher zorder infront of the stuff with lower zorder. It's as simple as that. char.best is the dict where we keep our dedault values for the character.
+                # You can just follow the lead with zorders from the examples.
+                # """
+                # renpy.show(char.betag, what=char.besprite, at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)], zorder=char.besk["zorder"]) # So this moves the character slightly to the back.
+                # renpy.pause(0.5) # Need to add pauses for effects to take place!
+                ### >>> Now done through move method:
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
             
             # This two functions do the actual calculation of the damage:
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
             
-            # Sound: We don't really need the checks here since all our arrow spells have sound... but I copied this from elsewhere :)
-            if self.sfx:
-                if isinstance(self.sfx, (list, tuple)):
-                    sfx = choice(self.sfx)
+            if not battle.logical:
+                # Sound: We don't really need the checks here since all our arrow spells have sound... but I copied this from elsewhere :)
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                    
+                # We need to make sure that attack sprites are facing the correct way:
+                if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
+                    castsprite = Transform(self.gfx, zoom=-1, xanchor=1.0) # We also need to add yanchor here for obvious reasons.
+                    arrowsprite = Transform(self.gfx2, zoom=-1, xanchor=1.0)
                 else:
-                    sfx = self.sfx
-                renpy.sound.play(sfx)
+                    castsprite = self.gfx
+                    arrowsprite = self.gfx2
+                    
+                # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)
+                castpos = battle.get_cp(char, type="fc", xo=-60) # Ok, so get_cp method we've covered. "fc" returns front center position of the image. We add a xo as well because we've moved the sprite and this animation has a large empty space space...
+                # I think the bow looks looker infront of the sprite but feel free to change this.
+                renpy.show("casting", what=castsprite, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=char.besk["zorder"]+50)
+                renpy.pause(0.6)
+    
                 
-            # We need to make sure that attack sprites are facing the correct way:
-            if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
-                castsprite = Transform(self.gfx, zoom=-1, xanchor=1.0) # We also need to add yanchor here for obvious reasons.
-                arrowsprite = Transform(self.gfx2, zoom=-1, xanchor=1.0)
-            else:
-                castsprite = self.gfx
-                arrowsprite = self.gfx2
+                # Next lets do the flying animation:
+                aimpos = battle.get_cp(target, type="center", yo=-20) # We want to aim slight above the center of the enemy sprite, which is usually the heart :)
+                # move_from_to_pos_with_easeout are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
+                renpy.show("fly", what=arrowsprite, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
+                renpy.pause(0.4)
                 
-            # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)
-            castpos = battle.get_cp(char, type="fc", xo=-60) # Ok, so get_cp method we've covered. "fc" returns front center position of the image. We add a xo as well because we've moved the sprite and this animation has a large empty space space...
-            # I think the bow looks looker infront of the sprite but feel free to change this.
-            renpy.show("casting", what=castsprite, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=char.besk["zorder"]+50)
-            renpy.pause(0.6)
-
-            
-            # Next lets do the flying animation:
-            aimpos = battle.get_cp(target, type="center", yo=-20) # We want to aim slight above the center of the enemy sprite, which is usually the heart :)
-            # move_from_to_pos_with_easeout are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
-            renpy.show("fly", what=arrowsprite, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
-            renpy.pause(0.4)
-            
-            renpy.hide("fly")
-            # renpy.with_statement(Dissolve(0.2))
-            renpy.pause(0.01)
-            
-            # Last we can just add the impact, it doesn't need to be flipped and can be put right at the aiming position:
-            renpy.show("impact", what=self.gfx3, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+52)
-            renpy.pause(0.01) # We'll wait for 0.2 seconds and add the bouncing effect
-            
-            # txt = Text("%s"%target.beeffects[0], style="content_label", color=crimson, size=20) # We'll make it larger and in crimson color cause it's a cool attack :)
-            # renpy.show("bounce", what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+53)
-            # renpy.pause(0.01)
-            # @Review, replaced with:
-            self.show_gfx_dmg(target)
-            
-            renpy.hide("casting")
-            renpy.with_statement(Dissolve(1.0)) # Cool effect for hiding :)
-            
-            renpy.pause(0.1)
-            # Time to move character back to it's positions as well:
-            battle.move(char, char.dpos, 0.5, pause=False)
-            
-            renpy.pause(0.7)
-            renpy.hide("impact")
-            renpy.with_statement(Dissolve(0.3))
-            # renpy.pause(0.2) # Just for the good count :)
-            # renpy.hide("bounce")
+                renpy.hide("fly")
+                # renpy.with_statement(Dissolve(0.2))
+                renpy.pause(0.01)
+                
+                # Last we can just add the impact, it doesn't need to be flipped and can be put right at the aiming position:
+                renpy.show("impact", what=self.gfx3, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+52)
+                renpy.pause(0.01) # We'll wait for 0.2 seconds and add the bouncing effect
+                
+                # txt = Text("%s"%target.beeffects[0], style="content_label", color=crimson, size=20) # We'll make it larger and in crimson color cause it's a cool attack :)
+                # renpy.show("bounce", what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+53)
+                # renpy.pause(0.01)
+                # @Review, replaced with:
+                self.show_gfx_dmg(target)
+                
+                renpy.hide("casting")
+                renpy.with_statement(Dissolve(1.0)) # Cool effect for hiding :)
+                
+                renpy.pause(0.1)
+                # Time to move character back to it's positions as well:
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                renpy.pause(0.7)
+                renpy.hide("impact")
+                renpy.with_statement(Dissolve(0.3))
+                # renpy.pause(0.2) # Just for the good count :)
+                # renpy.hide("bounce")
             
             
     class P2P_MagicAttack(SimpleMagicalAttack):
@@ -425,46 +439,48 @@ init python:
             char = self.source
             target = targets[0]
             
-            # Inicial char move
-            battle.move(char, battle.get_cp(char, xo=50), 0.5)
-            
-            if self.casting_effects[0]:
-                casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+            if not battle.logical:
+                # Inicial char move
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
+                
+                if self.casting_effects[0]:
+                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
             self.effects_resolver(targets)
             self.apply_effects(targets)
             
-            if self.sfx:
-                if isinstance(self.sfx, (list, tuple)):
-                    sfx = choice(self.sfx)
+            if not battle.logical:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                    
+                if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
+                    missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
                 else:
-                    sfx = self.sfx
-                renpy.sound.play(sfx)
+                    missle = self.gfx
+                    
+                initpos = battle.get_cp(char, type="fc", xo=60)
+                aimpos = battle.get_cp(target, type="center")
+                renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
+                renpy.pause(self.pause)
                 
-            if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
-                missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
-            else:
-                missle = self.gfx
+                renpy.hide("launch")
+                renpy.with_statement(Dissolve(0.2))
+                renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
+                renpy.pause(0.1)
+                self.show_gfx_dmg(target)
                 
-            initpos = battle.get_cp(char, type="fc", xo=60)
-            aimpos = battle.get_cp(target, type="center")
-            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
-            renpy.pause(self.pause)
-            
-            renpy.hide("launch")
-            renpy.with_statement(Dissolve(0.2))
-            renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
-            renpy.pause(0.1)
-            self.show_gfx_dmg(target)
-            
-            renpy.pause(self.pause2)
-            # Time to move character back to it's positions as well:
-            battle.move(char, char.dpos, 0.5, pause=False)
-            
-            renpy.hide("impact")
-            # renpy.with_statement(dissolve)
-            # renpy.pause(1.5)
-            # renpy.hide("bounce")
+                renpy.pause(self.pause2)
+                # Time to move character back to it's positions as well:
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                renpy.hide("impact")
+                # renpy.with_statement(dissolve)
+                # renpy.pause(1.5)
+                # renpy.hide("bounce")
             
             
     class BasicHealingSpell(SimpleMagicalAttack):
@@ -526,45 +542,47 @@ init python:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
                 
-            if self.casting_effects[0]:
-                casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+            if not battle.logical:
+                if self.casting_effects[0]:
+                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
-            if self.sfx:
-                if isinstance(self.sfx, (list, tuple)):
-                    sfx = choice(self.sfx)
+            if not battle.logical:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                
+                # Zoom (If any):
+                if self.zoom is not None:
+                    gfx = Transform(self.gfx, zoom=self.zoom)
                 else:
-                    sfx = self.sfx
-                renpy.sound.play(sfx)
-            
-            # Zoom (If any):
-            if self.zoom is not None:
-                gfx = Transform(self.gfx, zoom=self.zoom)
-            else:
-                gfx = self.gfx
-                
-            # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)    
-            if self.gfx:
+                    gfx = self.gfx
+                    
+                # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)    
+                if self.gfx:
+                    for index, target in enumerate(targets):
+                        gfxtag = "heal" + str(index)
+                        renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+                renpy.pause(0.1)
                 for index, target in enumerate(targets):
-                    gfxtag = "heal" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
-            renpy.pause(0.1)
-            for index, target in enumerate(targets):
-                bbtag = "bb" + str(index)
-                txt = Text("%s"%target.beeffects[0], style="content_label", color=green, size=15)
-                renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
-            
-            renpy.pause(self.pause - 0.1)
-            for i in xrange(len(targets)):
-                gfxtag = "heal" + str(i)
-                renpy.hide(gfxtag)
+                    bbtag = "bb" + str(index)
+                    txt = Text("%s"%target.beeffects[0], style="content_label", color=green, size=15)
+                    renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
                 
-            if self.pause - 0.1 < 1.7:
-                renpy.pause(1.7 - (self.pause - 0.1))
-            for i in xrange(len(targets)):
-                bbtag = "bb" + str(i)
-                renpy.hide(bbtag)
+                renpy.pause(self.pause - 0.1)
+                for i in xrange(len(targets)):
+                    gfxtag = "heal" + str(i)
+                    renpy.hide(gfxtag)
+                    
+                if self.pause - 0.1 < 1.7:
+                    renpy.pause(1.7 - (self.pause - 0.1))
+                for i in xrange(len(targets)):
+                    bbtag = "bb" + str(i)
+                    renpy.hide(bbtag)
                 
                 
     class BasicPoisonSpell(SimpleMagicalAttack):
