@@ -1649,20 +1649,20 @@ init -9 python:
         def equip(self, item, remove=True): # Equips the item
             """
             Equips an item to a corresponding slop or consumes it.
-            remove: Removes from the inventory (Should be False if item is equiped from directly from a foreign inventory)
+            remove: Removes from the inventory (Should be False if item is equipped from directly from a foreign inventory)
             **Note that the remove is only applicable when dealing with consumables, game will not expect any other kind of an item.
             """
             if item.slot not in self.eqslots:
                 devlog.warning(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
                 return
                 
-            # This is a temporary check, to make sur nothing goes wrong:
+            # This is a temporary check, to make sure nothing goes wrong:
             # Code checks during the equip method should make sure that the unique items never make it this far:
             if item.unique and item.unique != item.id:
-                raise Error("A character attempted to equip unqiue item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
+                raise Error("A character attempted to equip unique item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
 
             if item.sex not in ["unisex", self.gender]:
-                devlog.warning(str("False charachter sex value: %s, %s,  %s" % (item.sex, item.id, self.__class__.__name__)))
+                devlog.warning(str("False character sex value: %s, %s,  %s" % (item.sex, item.id, self.__class__.__name__)))
                 return
 
             if item.slot == 'consumable':
@@ -1727,8 +1727,8 @@ init -9 python:
                 
             else:
                 # Any other slot:
-                if self.eqslots[item.slot]: # If there is any item equiped:
-                    self.remove_item_effects(self.eqslots[item.slot]) # Remove equiped item effects
+                if self.eqslots[item.slot]: # If there is any item equipped:
+                    self.remove_item_effects(self.eqslots[item.slot]) # Remove equipped item effects
                     self.inventory.append(self.eqslots[item.slot]) # Add unequipped item back to inventory
                 self.eqslots[item.slot] = item # Assign new item to the slot
                 self.apply_item_effects(item) # Apply item effects
@@ -1820,7 +1820,7 @@ init -9 python:
                             continue
                             
                     elif slot == "misc":
-                        # If item that selfdestructs or will be blocked after one use is equipped, there is no reason to equip another:
+                        # If item that self-destructs or will be blocked after one use is equipped, there is no reason to equip another:
                         # This will end the method, not just move to a different item!!!
                         if item.id in self.miscitems:
                             if item.mdestruct or not item.mreusable:
@@ -1844,7 +1844,7 @@ init -9 python:
                                         break
                         if item.skillmax:
                             for s in item.mod_skills:
-                                if s in self.SKILLS: # This is far from perfect due to mupliplier :(
+                                if s in self.SKILLS: # This is far from perfect due to multiplier :(
                                     if self.get_skill(s) < item.skillmax:
                                         l.append(True)
                                         break
@@ -1878,7 +1878,7 @@ init -9 python:
                     penalty = 0 # Total penalty
                     # Normal stats:
                     for stat in item.mod:
-                        if stat in self.stats: # Not usefull?
+                        if stat in self.stats: # Not useful?
                             if item.mod[stat] > 0:
                                 possible_bonus += item.mod[stat]
                                 if stat in target_stats:
@@ -1892,14 +1892,14 @@ init -9 python:
                                     penalty += item.mod[stat]
                     # We do the same thing for max stats:
                     for stat in item.max:
-                        if stat in self.stats: # Not usefull?
+                        if stat in self.stats: # Not useful?
                             if item.max[stat] > 0:
                                 possible_bonus += item.max[stat]
                                 if stat in target_stats:
                                     # This is not perfect, but it shouldn't matter (max at the game start issue)
                                     if self.stats.max[stat] + item.max[stat] < self.stats.lvl_max[stat]:
                                         bonus += max(0, item.max[stat])
-                                        # For equippables, we want this to tripple as being extra useful!
+                                        # For equippables, we want this to triple as being extra useful!
                                         if slot not in ["misc", "consumable"]:
                                             bonus = bonus + item.max[stat] * 2
                                     else:
@@ -1909,7 +1909,7 @@ init -9 python:
                                     penalty += item.max[stat]
                     # And for skills:                
                     for skill, effect in item.mod_skills.iteritems():
-                        if skill in self.SKILLS: # Not usefull after we finish stats/skills?
+                        if skill in self.SKILLS: # Not useful after we finish stats/skills?
                             # First thee (multipliers):
                             for i in effect[:3]:
                                 if i >= 0:
@@ -1951,7 +1951,7 @@ init -9 python:
                             while self.get_max(stat) - self.stats[stat] > 0:
                                 # apply the actual item effects, do checks and repeat until stat is maxed out.
                                 
-                                # Break out immidiatly if item is not capable of increasing this stat:
+                                # Break out immediately if item is not capable of increasing this stat:
                                 if stat not in item.mod or item.mod[stat] < 0:
                                     break
                                 
@@ -1980,7 +1980,7 @@ init -9 python:
                                        item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
                                 continue
                             
-                            # contnue if item is not capable of increasing this skill:
+                            # continue if item is not capable of increasing this skill:
                             if skill not in item.mod_skills:
                                 continue
                             # Bad items we don't use at all.   
