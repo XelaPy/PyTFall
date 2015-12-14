@@ -185,10 +185,10 @@ init -997: # Transforms:
         alpha 1
         pos pos # Initial position.
         xanchor 0.5
-        easein 0.3 yoffset -60
-        easeout 0.3 yoffset 0
-        easein 0.3 yoffset -35
-        easeout 0.3 yoffset 0
+        easein_circ 0.3 yoffset -100
+        easeout_circ 0.3 yoffset 0
+        easein_circ 0.3 yoffset -70
+        easeout_circ 0.3 yoffset 0
         linear 0.5 alpha 0
         
     transform be_stats_slideout():
