@@ -106,6 +106,9 @@ init -1 python: # Core classes:
             self.end_battle()
         
         def start_battle(self):
+            
+            self.prepear_teams()
+            
             if not self.logical:
                 if self.music:
                     renpy.music.stop()
@@ -129,17 +132,29 @@ init -1 python: # Core classes:
                 renpy.show_screen("battle_overlay")
                 if self.start_sfx: # Special Effects:
                     renpy.with_statement(self.start_sfx)
-            
-            self.set_allegiance()
-            
+                    
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()
             
-        def set_allegiance(self):
+        def prepear_teams(self):
             # Plainly sets allegiance of chars to their teams. Allegiance may change during the fight (confusion skill for example once we have one).
+            # I've also included part of team/char positioning logic here. 
             for team in self.teams:
+                team.position = "l" if not self.teams.index(team) else "r"
                 for char in team:
+                    # Position:
+                    char_index = team.members.index(char)
+                    if len(team) == 3 and char_index < 2:
+                        char_index = not int(bool(char_index))
+                    char.beinx = char_index
+                    if team.position == "l":
+                        char.row = int(char.front_row)
+                    else: # Case "r"
+                        char.row = 2 if char.front_row else 3
+                    
+                    # Allegiance:
                     char.allegiance = team.name
+            
             
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -184,20 +199,6 @@ init -1 python: # Core classes:
             Returns inicial position of the character based on row/team!
             Positions should always be retrieved using this method or errors may occur.
             """
-            team_index = self.teams.index(team)
-            char_index = team.members.index(char)
-            
-            if len(team) == 3:
-                if char_index == 0:
-                    char_index = 1
-                elif char_index == 1:
-                    char_index = 0
-            
-            if team_index == 0:
-                team_index = "l"
-            else:
-                team_index = "r"
-                
             # We want different behavior for 3 member teams putting the leader in the middle:
             char.besk = dict()
             # Supplied to the show method.
@@ -207,10 +208,10 @@ init -1 python: # Core classes:
             char.besprite_size = sprite.true_size()
             
             # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
-            if team_index == "l":
-                char.row = int(char.front_row)
-                
-                if char.__class__ in [Mob]:
+            team_index = team.position
+            char_index = char.beinx
+            if team_index:
+                if char.__class__ == Mob:
                     char.besprite = im.Flip(sprite, horizontal=True)
                 else:
                     char.besprite = sprite
@@ -219,15 +220,9 @@ init -1 python: # Core classes:
                 # This makes more sense for all purposes:
                 char.dpos = self.row_pos[team_index + str(int(char.front_row))][char_index]
                 char.cpos = char.dpos
-                # Now the offset:
-                # xpos = pos[0] + char.besprite_size[0] / 2
-                # ypos = pos[1] + char.besprite_size[1]
-                # char.dpos = (xpos, pos[1])
                 
             if team_index == "r":
-                char.row = 2 if char.front_row else 3
-
-                if char.__class__ in [Player, Char, rChar, ArenaFighter]:
+                if char.__class__ != Mob:
                     char.besprite = im.Flip(sprite, horizontal=True)
                 else:
                     char.besprite = sprite
@@ -235,7 +230,6 @@ init -1 python: # Core classes:
                 pos = self.row_pos[team_index + str(int(char.front_row))][char_index]
                 # Now the offset:
                 xpos = pos[0] - char.besprite_size[0]
-                # ypos = pos[1] + char.besprite_size[1]
                 char.dpos = (xpos, pos[1])
                 char.cpos = char.dpos
                 
