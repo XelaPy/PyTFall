@@ -188,7 +188,7 @@ init python:
                 
                 else:
                     # Weird Stuff:
-                    raise Error, "Training job called without any training girls! (Fighters Guild)"
+                    raise Exception, "Training job called without any training girls! (Fighters Guild)"
             
             else:
                 self.txt.append("%s did some rudamentory training. \n"  % self.girl.name)

@@ -467,7 +467,7 @@ init -9 python:
                     del self.lineup_3v3[index]
                         
             else:
-                raise Error, "Invalid team size for Automatic Arena Combat Resolver: %d"%len(winner)
+                raise Exception, "Invalid team size for Automatic Arena Combat Resolver: %d"%len(winner)
                         
         def find_opfor(self):
             """
@@ -779,9 +779,9 @@ init -9 python:
                 team = teams[teams.index(team)]
                 teamsize = len(team["members"])
                 if teamsize > 3:
-                    raise Error, "Arena Teams are not allowed to include more than 3 members!"
+                    raise Exception, "Arena Teams are not allowed to include more than 3 members!"
                 if teamsize == 1 and not team["lineups"]:
-                    raise Error, "Single member teams are only avalible for lineups! Adjust data.xml files if you just wish girls to participate in the Arena!"
+                    raise Exception, "Single member teams are only avalible for lineups! Adjust data.xml files if you just wish girls to participate in the Arena!"
                 a_team = Team(name=team["name"], max_size=teamsize)
                 for member in team["members"]:
                     if member == "random_girl":
@@ -795,17 +795,17 @@ init -9 python:
                         if chars[member] in hero.girls:
                             hero.remove_girl(chars[member])
                         if chars[member] in self.get_teams_fighters(teams="2v2"):
-                            raise Error, "You've added unique girl %s to 2v2 Arena teams twice!"%chars[member].name
+                            raise Exception, "You've added unique girl %s to 2v2 Arena teams twice!"%chars[member].name
                         if chars[member] in self.get_teams_fighters(teams="3v3"):
-                            raise Error, "You've added unique girl %s to 3v3 Arena teams more than once!"%chars[member].name
+                            raise Exception, "You've added unique girl %s to 3v3 Arena teams more than once!"%chars[member].name
                         a_team.add(chars[member])
                     elif member in pytfall.arena.ac:
                         member = pytfall.arena.ac[member]
                         if member.unique:
                             if member in self.get_teams_fighters(teams="2v2"):
-                                raise Error, "You've added an unique Arena Fighter %s to 2v2 Arena teams twice!"%member.name
+                                raise Exception, "You've added an unique Arena Fighter %s to 2v2 Arena teams twice!"%member.name
                             if member in self.get_teams_fighters(teams="3v3"):
-                                raise Error, "You've added an unique Arena Fighter %s to 3v3 Arena teams more than once!"%member.name
+                                raise Exception, "You've added an unique Arena Fighter %s to 3v3 Arena teams more than once!"%member.name
                             member.arena_active = True
                             self.arena_fighters.append(member)
                             a_team.add(member)
@@ -822,27 +822,27 @@ init -9 python:
                         member.arena_active = True
                         a_team.add(member)
                     else:
-                        raise Error, "Team Fighter %s is of unknown origin!"%member
+                        raise Exception, "Team Fighter %s is of unknown origin!"%member
                 if team["lineups"]:
                     if teamsize == 1:
                         if team["lineups"] == 1:
-                            raise Error, "Number one spot for 1v1 ladder (lineup) is reserved by the game!"
+                            raise Exception, "Number one spot for 1v1 ladder (lineup) is reserved by the game!"
                         if not self.lineup_1v1[team["lineups"]-1]:
                             self.lineup_1v1[team["lineups"]-1] = a_team
                         else:
-                            raise Error, "Team %s failed to take place %d in 1v1 lineups is already taken by another team (%s), check your arena_teams.json file."%(a_team.name, team["lineups"], self.lineup_1v1[team["lineups"]-1].name)
+                            raise Exception, "Team %s failed to take place %d in 1v1 lineups is already taken by another team (%s), check your arena_teams.json file."%(a_team.name, team["lineups"], self.lineup_1v1[team["lineups"]-1].name)
                     if teamsize == 2:
                         if not self.lineup_2v2[team["lineups"]-1]:
                             self.lineup_2v2[team["lineups"]-1] = a_team
                             self.teams_2v2.append(a_team)
                         else:
-                            raise Error, "Team %s failed to take place %d in 2v2 lineups is already taken by another team (%s), check your arena_teams.json file."%(a_team.name, team["lineups"], self.lineup_2v2[team["lineups"]-1].name)
+                            raise Exception, "Team %s failed to take place %d in 2v2 lineups is already taken by another team (%s), check your arena_teams.json file."%(a_team.name, team["lineups"], self.lineup_2v2[team["lineups"]-1].name)
                     if teamsize == 3:
                         if not self.lineup_3v3[team["lineups"]-1]:
                             self.lineup_3v3[team["lineups"]-1] = a_team
                             self.teams_3v3.append(a_team)
                         else:
-                            raise Error, "Team %s failed to take place %d in 3v3 lineups is already taken by another team (%s), check your arena_teams.json file."%(a_team.name, team["lineups"], self.lineup_3v3[team["lineups"]-1].name)
+                            raise Exception, "Team %s failed to take place %d in 3v3 lineups is already taken by another team (%s), check your arena_teams.json file."%(a_team.name, team["lineups"], self.lineup_3v3[team["lineups"]-1].name)
                 else:
                     if teamsize == 2:
                         self.teams_2v2.append(a_team)
@@ -1534,7 +1534,7 @@ init -9 python:
             
             for y in xrange(tilemap.height):
                 for x in xrange(tilemap.width):
-                    # raise Error, map.col
+                    # raise Exception, map.col
                     if tilemap.map[y*(tilemap.height+(tilemap.width-tilemap.height)) + x] in tilemap.col:
                         battlefield.RemoveSpace((x, y))
             

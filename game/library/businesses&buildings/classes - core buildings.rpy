@@ -336,7 +336,7 @@ init -9 python:
                     dirt_string = key
             
             if not dirt_string:
-                raise Error, "No valid string for dirt percentage of %s was found!" % self.id
+                raise Exception, "No valid string for dirt percentage of %s was found!" % self.id
             
             return int(round(dirt)), dirt_string
         

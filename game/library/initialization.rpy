@@ -102,7 +102,7 @@ init -999 python:
     # false = False
     # none = None
     # result = True
-    Error = Exception
+    Exception = Exception
     
     # Object to specify a lack of value when None can be considered valid.
     # Use as "x is undefined".

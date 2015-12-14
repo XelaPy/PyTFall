@@ -11,6 +11,18 @@ init -1 python: # Core classes:
     BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # Right (Usually enemy).
     BDP["r1"] = list((config.screen_width-t[0], t[1]) for t in BDP["l1"]) # Right (Usually enemy).
     
+    # We need to get perfect middle positioning:
+    # Get the perfect middle x:
+    perfect_middle_xl = BDP["l1"][1][0] + (BDP["l1"][1][0] - BDP["l0"][1][0])
+    perfect_middle_yl = BDP["l1"][1][1]
+    perfect_middle_xr = BDP["r1"][1][0] + (BDP["r1"][1][0] - BDP["r0"][1][0])
+    perfect_middle_yr = BDP["r1"][1][1]
+    BDP["perfect_middle_right"] = (perfect_middle_xl, perfect_middle_yl)
+    BDP["perfect_middle_left"] = (perfect_middle_xr, perfect_middle_yr)
+    del perfect_middle_xl
+    del perfect_middle_yl
+    del perfect_middle_xr
+    del perfect_middle_yr
     
     class BE_Core(object):
         """Main BE attrs, data and the loop!
@@ -258,8 +270,8 @@ init -1 python: # Core classes:
                 renpy.pause(t)
             
         def get_cp(self, char, type="pos", xo=0, yo=0):
-            """
-            I am not sure how this is supposed to work yet in the grand scheme of things.
+            """I am not sure how this is supposed to work yet in the grand scheme of things.
+            
             Old Comment: For now it will report initial position + types:
             **Updated to using Current Position + Types.
             pos: Character position (pos)
@@ -272,7 +284,7 @@ init -1 python: # Core classes:
             yo = offset for y
             """
             if not char.cpos or not char.besprite_size:
-                raise Error([char.cpos, char.besprite_size])
+                raise Exception([char.cpos, char.besprite_size])
             if type == "pos":
                 xpos = char.cpos[0]
                 ypos = char.cpos[1] + yo

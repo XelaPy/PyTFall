@@ -223,7 +223,7 @@ label next_day_controls:
                     FilteredList = NextDayList * 1
                     event = FilteredList[0]
                     index = FilteredList.index(event)
-                    # raise Error, [event, type(event), event.__class__, event.__dict__]
+                    # raise Exception, [event, type(event), event.__class__, event.__dict__]
                     gimg = event.load_image()
                 
             if result[1] == 'red_flags':
@@ -234,7 +234,7 @@ label next_day_controls:
                             FilteredList.append(event)
                     event = FilteredList[0]
                     index = FilteredList.index(event)
-                    # raise Error, [event, type(event), event.__class__, event.__dict__]
+                    # raise Exception, [event, type(event), event.__class__, event.__dict__]
                     gimg = event.load_image()
                 
             elif result[1] == 'mc':
@@ -266,7 +266,7 @@ label next_day_controls:
                         if entry.type == 'girlndreport':
                             FilteredList.append(entry)
                     
-                # Preventing Index Error on empty filter
+                # Preventing Index Exception on empty filter
                 python:
                     if FilteredList:
                         event = FilteredList[0]

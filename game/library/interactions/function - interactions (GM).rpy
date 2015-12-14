@@ -118,7 +118,7 @@ init -11 python:
             else:
                 if eval(key):
                     l.extend(d[key])
-        # raise Error, l
+        # raise Exception, l
         if l:
             g(choice(l))
             return True

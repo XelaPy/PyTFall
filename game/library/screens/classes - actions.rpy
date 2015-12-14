@@ -650,7 +650,7 @@ init -9 python:
             if tree:
                 for i in xrange(len(tree)):
                     if lvl == 6:
-                        raise Error, "WorldActionMenus can only have a depth of 6."
+                        raise Exception, "WorldActionMenus can only have a depth of 6."
                     
                     t = tree[i]
                     if t not in level:

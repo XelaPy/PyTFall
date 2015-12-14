@@ -1014,7 +1014,7 @@ init: # ChainFights vs Mobs:
                         # level = newlevel
                         # newlevel = newlevel + d["white"]
                         # bonus["bupkis_2"] = (level, newlevel)
-                        # # raise Error, bonus
+                        # # raise Exception, bonus
             
                         # for i in bonus:
                             # if bonus[i][0] <= v <= bonus[i][1]:
