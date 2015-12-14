@@ -295,11 +295,184 @@ init python:
                 # Check if we need any more pause before we kill the battle bounce:
                 if self.pause - total_pause < 1.7:
                     renpy.pause(1.7 - (self.pause - total_pause))
-                
-                
-    class MagicArrows(SimpleMagicalAttack):
+                    
+                    
+    class ArealMagicalAttack(SimpleMagicalAttack):
         """
-        This is the class I am going to comment out really well because this spell was not originally created by me.
+        Simplest attack, usually simple magic.
+        """
+        def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=["default_1", "default"], **kwargs):
+            super(ArealMagicalAttack, self).__init__(name, **kwargs)
+            
+            # Aiming properties:
+            self.aim = aim
+            self.xo = xo
+            self.yo = yo
+            
+            # Rest:
+            self.cost = cost
+            self.anchor = anchor
+            self.pause = pause
+            
+            # Casting effects:
+            self.casting_effects = casting_effects
+
+        def show_gfx(self, targets):
+            # Simple effects for the magic attack:
+            char = self.source
+            
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            
+            if not battle.logical:
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
+                if self.casting_effects[0]:
+                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+            
+            self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
+            died = self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
+            
+            if not battle.logical:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                
+                # Zoom (If any):
+                if self.zoom is not None:
+                    gfx = Transform(self.gfx, zoom=self.zoom)
+                else:
+                    gfx = self.gfx
+                    
+                # Showing the impact effects:  
+                if self.gfx:
+                    for index, target in enumerate(targets):
+                        gfxtag = "attack" + str(index)
+                        renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+                        
+                # Pause before battle bounce + damage on target effects:
+                renpy.pause(self.td_gfx[0])
+                
+                for index, target in enumerate(targets):
+                    self.show_gfx_dmg(target)
+                    if len(self.td_gfx) > 1:
+                        self.show_gfx_td(target, 0.5, self.td_gfx[1])
+                
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                # Pause before termination of damage on target effects, if there are any:
+                # @Review: OR Pause before application of special death effects!
+                # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
+                # **This will always assume 
+                if self.death_effect or len(self.td_gfx) > 1:
+                    if len(self.td_gfx) > 1:
+                        renpy.pause(self.td_gfx[2])
+                        for target in targets:
+                            renpy.hide(target.betag)
+                            renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                    
+                # Shatter or some other death effect we want to handle in this method:
+                if died and self.death_effect == "shatter":
+                    for target in died:
+                        renpy.hide(target.betag)
+                        renpy.show(target.betag, what=HitlerKaputt(target.besprite, 30), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                
+                total_pause = self.td_gfx[0]
+                if len(self.td_gfx) > 1:
+                    total_pause = total_pause + self.td_gfx[2]
+                    
+                # Check we need any more pause:
+                if self.pause > total_pause:
+                    renpy.pause(self.pause - total_pause)
+                    
+                for i in xrange(len(targets)):
+                    gfxtag = "attack" + str(i)
+                    renpy.hide(gfxtag)
+                    
+                # Check if we need any more pause before we kill the battle bounce:
+                if self.pause - total_pause < 1.7:
+                    renpy.pause(1.7 - (self.pause - total_pause))
+                
+                
+    class P2P_MagicAttack(SimpleMagicalAttack):
+        """ ==> @Review: There may not be a good reason for this to be a magical attack instead of any attack at all!
+        Point to Point magical strikes without any added effects. This is one step simpler than the MagicArrows attack.
+        Used to attacks like FireBall.
+        """
+        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, pause2=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, casting_effects=["default_1", "default"], **kwargs):
+            super(P2P_MagicAttack, self).__init__(name, **kwargs)
+            
+            self.aim = aim
+            self.xo = xo
+            self.yo = yo
+            self.anchor = anchor
+            
+            # Rest:
+            self.cost = cost
+            self.pause = pause
+            self.pause2 = pause2
+            
+            self.gfx2 = gfx2
+            self.casting_effects = casting_effects
+    
+        def show_gfx(self, targets):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            else:
+                targets = list(targets)
+            
+            char = self.source
+            target = targets[0]
+            
+            if not battle.logical:
+                # Inicial char move
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
+                
+                if self.casting_effects[0]:
+                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+            
+            self.effects_resolver(targets)
+            self.apply_effects(targets)
+            
+            if not battle.logical:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                    
+                if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
+                    missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
+                else:
+                    missle = self.gfx
+                    
+                initpos = battle.get_cp(char, type="fc", xo=60)
+                aimpos = battle.get_cp(target, type="center")
+                renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
+                renpy.pause(self.pause)
+                
+                renpy.hide("launch")
+                renpy.with_statement(Dissolve(0.2))
+                renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
+                renpy.pause(0.1)
+                self.show_gfx_dmg(target)
+                
+                renpy.pause(self.pause2)
+                # Time to move character back to it's positions as well:
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                renpy.hide("impact")
+                # renpy.with_statement(dissolve)
+                # renpy.pause(1.5)
+                # renpy.hide("bounce")
+            
+                
+    class MagicArrows(P2P_MagicAttack):
+        """This is the class I am going to comment out really well because this spell was not originally created by me
+        and yet I had to rewrite it completely for new BE.
         """
         def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, gfx3=None, **kwargs):
             super(MagicArrows, self).__init__(name, **kwargs)
@@ -411,81 +584,7 @@ init python:
                 # renpy.pause(0.2) # Just for the good count :)
                 # renpy.hide("bounce")
             
-            
-    class P2P_MagicAttack(SimpleMagicalAttack):
-        """
-        Point to Point magical strikes without any added effects. This is one step simpler than the MagicArrows attack.
-        Used to attacks like FireBall.
-        """
-        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, pause2=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, casting_effects=["default_1", "default"], **kwargs):
-            super(P2P_MagicAttack, self).__init__(name, **kwargs)
-            
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
-            self.anchor = anchor
-            
-            # Rest:
-            self.cost = cost
-            self.pause = pause
-            self.pause2 = pause2
-            
-            self.gfx2 = gfx2
-            self.casting_effects = casting_effects
-    
-        def show_gfx(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            else:
-                targets = list(targets)
-            
-            char = self.source
-            target = targets[0]
-            
-            if not battle.logical:
-                # Inicial char move
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
                 
-                if self.casting_effects[0]:
-                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-            
-            self.effects_resolver(targets)
-            self.apply_effects(targets)
-            
-            if not battle.logical:
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                    
-                if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
-                    missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
-                else:
-                    missle = self.gfx
-                    
-                initpos = battle.get_cp(char, type="fc", xo=60)
-                aimpos = battle.get_cp(target, type="center")
-                renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
-                renpy.pause(self.pause)
-                
-                renpy.hide("launch")
-                renpy.with_statement(Dissolve(0.2))
-                renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
-                renpy.pause(0.1)
-                self.show_gfx_dmg(target)
-                
-                renpy.pause(self.pause2)
-                # Time to move character back to it's positions as well:
-                battle.move(char, char.dpos, 0.5, pause=False)
-                
-                renpy.hide("impact")
-                # renpy.with_statement(dissolve)
-                # renpy.pause(1.5)
-                # renpy.hide("bounce")
-            
-            
     class BasicHealingSpell(SimpleMagicalAttack):
         def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), type="sa", casting_effects=["default_1", "default"], **kwargs):
             super(SimpleMagicalAttack, self).__init__(name, type=type, **kwargs)
