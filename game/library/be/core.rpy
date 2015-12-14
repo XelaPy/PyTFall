@@ -8,15 +8,15 @@ init -1 python: # Core classes:
     BDP = {} # BE DEFAULT POSITIONS *Postions are tuples in lists that go from top to bottom.
     BDP["l0"] = [(160, 360), (120, 410), (80, 460)] # Left (Usually player) teams backrow default positions.
     BDP["l1"] = [(260, 360), (220, 410), (180, 460)] # Left (Usually player) teams frontrow default positions.
-    BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # Right (Usually enemy).
-    BDP["r1"] = list((config.screen_width-t[0], t[1]) for t in BDP["l1"]) # Right (Usually enemy).
+    BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # BackRow, Right (Usually enemy).
+    BDP["r1"] = list((config.screen_width-t[0], t[1]) for t in BDP["l1"]) # FrontRow, Right (Usually enemy).
     
     # We need to get perfect middle positioning:
     # Get the perfect middle x:
-    perfect_middle_xl = BDP["l1"][1][0] + (BDP["l1"][1][0] - BDP["l0"][1][0])
-    perfect_middle_yl = BDP["l1"][1][1]
+    perfect_middle_xl = BDP["l0"][1][0] + (BDP["l1"][1][0] - BDP["l0"][1][0])
+    perfect_middle_yl = BDP["l0"][1][1] + (BDP["l1"][1][0] - BDP["l0"][1][0])
     perfect_middle_xr = BDP["r1"][1][0] + (BDP["r1"][1][0] - BDP["r0"][1][0])
-    perfect_middle_yr = BDP["r1"][1][1]
+    perfect_middle_yr = perfect_middle_yl
     BDP["perfect_middle_right"] = (perfect_middle_xl, perfect_middle_yl)
     BDP["perfect_middle_left"] = (perfect_middle_xr, perfect_middle_yr)
     del perfect_middle_xl
@@ -155,6 +155,7 @@ init -1 python: # Core classes:
                 team.position = "l" if not self.teams.index(team) else "r"
                 for char in team:
                     # Position:
+                    char.beteampos = team.position
                     char_index = team.members.index(char)
                     if len(team) == 3 and char_index < 2:
                         char_index = not int(bool(char_index))
@@ -269,7 +270,7 @@ init -1 python: # Core classes:
             if pause:
                 renpy.pause(t)
             
-        def get_cp(self, char, type="pos", xo=0, yo=0):
+        def get_cp(self, char, type="pos", xo=0, yo=0, override=False):
             """I am not sure how this is supposed to work yet in the grand scheme of things.
             
             Old Comment: For now it will report initial position + types:
@@ -283,33 +284,42 @@ init -1 python: # Core classes:
             xo = offset for x
             yo = offset for y
             """
-            if not char.cpos or not char.besprite_size:
-                raise Exception([char.cpos, char.besprite_size])
-            if type == "pos":
-                xpos = char.cpos[0]
-                ypos = char.cpos[1] + yo
-            elif type == "center":
-                xpos = char.cpos[0] + char.besprite_size[0] / 2
-                ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
-            elif type == "tc":
-                xpos = char.cpos[0] + char.besprite_size[0] / 2
-                ypos = char.cpos[1] + yo
-            elif type == "bc":
-                xpos = char.cpos[0] + char.besprite_size[0] / 2
-                ypos = char.cpos[1] + char.besprite_size[1] + yo
-            elif type == "fc":
-                if char.row in [0, 1]:
-                    xpos = char.cpos[0] + char.besprite_size[0]
-                    ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
-                else:
+            if not override:
+                if not char.cpos or not char.besprite_size:
+                    raise Exception([char.cpos, char.besprite_size])
+                if type == "pos":
                     xpos = char.cpos[0]
+                    ypos = char.cpos[1] + yo
+                elif type == "center":
+                    xpos = char.cpos[0] + char.besprite_size[0] / 2
                     ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
-                    
-            # While yoffset is the same, x offset depends on the team position:
+                elif type == "tc":
+                    xpos = char.cpos[0] + char.besprite_size[0] / 2
+                    ypos = char.cpos[1] + yo
+                elif type == "bc":
+                    xpos = char.cpos[0] + char.besprite_size[0] / 2
+                    ypos = char.cpos[1] + char.besprite_size[1] + yo
+                elif type == "fc":
+                    if char.row in [0, 1]:
+                        xpos = char.cpos[0] + char.besprite_size[0]
+                        ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
+                    else:
+                        xpos = char.cpos[0]
+                        ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
+                        
+
+            
+            # in case we do not care about position of a target/caster and just provide "overwrite" we should use instead:
+            else:
+                xpos, ypos = override
+                if yo:
+                    ypos = ypos + yo # Same as for comment below (Maybe I just forgot how offsets work and why...)
+                
+            # While yoffset is the same, x offset depends on the team position: @REVIEW: AM I TOO WASTED OR DOES THIS NOT MAKE ANY SENSE???
             if char.row in [0, 1]:
                 xpos = xpos + xo
             else:
-                xpos = xpos - xo
+                xpos = xpos - xo # Is this a reasonable approach instead of providing correct (negative/positive) offsets? Something to concider during the code review...
                     
             return xpos, ypos
                     

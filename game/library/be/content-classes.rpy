@@ -346,11 +346,17 @@ init python:
                 else:
                     gfx = self.gfx
                     
-                # Showing the impact effects:  
+                # Showing the impact effects:
+                # In this case, we do not even remotely care about which target we attack (at least before "confusion" skill which may mess this up), we just get it's teams position:
+                target = targets[0]
+                teampos = target.beteampos
                 if self.gfx:
-                    for index, target in enumerate(targets):
-                        gfxtag = "attack" + str(index)
-                        renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+                    gfxtag = str(random.random())
+                    if teampos == "l":
+                        teampos = BDP["perfect_middle_right"]
+                    else:
+                        teampos = BDP["perfect_middle_left"]
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo, override=teampos), anchor=self.anchor)], zorder=1000) # Zorder should prolly be absolute in this case...
                         
                 # Pause before battle bounce + damage on target effects:
                 renpy.pause(self.td_gfx[0])
@@ -387,9 +393,7 @@ init python:
                 if self.pause > total_pause:
                     renpy.pause(self.pause - total_pause)
                     
-                for i in xrange(len(targets)):
-                    gfxtag = "attack" + str(i)
-                    renpy.hide(gfxtag)
+                renpy.hide(gfxtag)
                     
                 # Check if we need any more pause before we kill the battle bounce:
                 if self.pause - total_pause < 1.7:
@@ -459,6 +463,90 @@ init python:
                 renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
                 renpy.pause(0.1)
                 self.show_gfx_dmg(target)
+                
+                renpy.pause(self.pause2)
+                # Time to move character back to it's positions as well:
+                battle.move(char, char.dpos, 0.5, pause=False)
+                
+                renpy.hide("impact")
+                # renpy.with_statement(dissolve)
+                # renpy.pause(1.5)
+                # renpy.hide("bounce")
+                
+                
+    class P2P_ArealMagicalAttack(P2P_MagicAttack):
+        """ ==> @Review: There may not be a good reason for this to be a magical attack instead of any attack at all!
+        Point to Point magical strikes without any added effects. This is one step simpler than the MagicArrows attack.
+        Used to attacks like FireBall.
+        """
+        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, pause2=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, casting_effects=["default_1", "default"], **kwargs):
+            super(P2P_ArealMagicalAttack, self).__init__(name, **kwargs)
+            
+            self.aim = aim
+            self.xo = xo
+            self.yo = yo
+            self.anchor = anchor
+            
+            # Rest:
+            self.cost = cost
+            self.pause = pause
+            self.pause2 = pause2
+            
+            self.gfx2 = gfx2
+            self.casting_effects = casting_effects
+    
+        def show_gfx(self, targets):
+            char = self.source
+            
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            
+            if not battle.logical:
+                # Inicial char move
+                battle.move(char, battle.get_cp(char, xo=50), 0.5)
+                
+                if self.casting_effects[0]:
+                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+            
+            self.effects_resolver(targets)
+            self.apply_effects(targets)
+            
+            if not battle.logical:
+                if self.sfx:
+                    if isinstance(self.sfx, (list, tuple)):
+                        sfx = choice(self.sfx)
+                    else:
+                        sfx = self.sfx
+                    renpy.sound.play(sfx)
+                    
+                target = targets[0]
+                
+                # Invert the attack if standing on the right!
+                if target.beteampos == "r":
+                    missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
+                else:
+                    missle = self.gfx
+                    
+                initpos = battle.get_cp(char, type="fc", xo=60)
+                teampos = target.beteampos
+                if teampos == "l":
+                    teampos = BDP["perfect_middle_right"]
+                else:
+                    teampos = BDP["perfect_middle_left"]
+                    
+                aimpos = teampos
+                renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=1000)
+                renpy.pause(self.pause)
+                
+                renpy.hide("launch")
+                renpy.with_statement(Dissolve(0.2))
+                renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=1000)
+                renpy.pause(0.1)
+                
+                for index, target in enumerate(targets):
+                    self.show_gfx_dmg(target)
+                    if len(self.td_gfx) > 1:
+                        self.show_gfx_td(target, 0.5, self.td_gfx[1])
                 
                 renpy.pause(self.pause2)
                 # Time to move character back to it's positions as well:

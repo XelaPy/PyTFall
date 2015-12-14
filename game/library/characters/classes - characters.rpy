@@ -1160,6 +1160,7 @@ init -9 python:
             # BE Bridge assets
             self.besprite = None # Used to keep track of sprite displayable in the BE.
             self.beinx = 0 # Passes index from logical execution to SFX setup.
+            self.beteampos = None # This manages team position bound to target (left or right on the screen).
             self.row = 1 # row on the battlefield, used to calculate range of weapons.
             self.front_row = True # 1 for front row and 0 for back row.
             self.betag = None # Tag to keep track of the sprite.
