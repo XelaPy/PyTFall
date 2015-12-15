@@ -564,7 +564,7 @@
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if self.client.act == 'sex':
-                gender = "male"
+                self.txt.append("%s hired her for some good old straight sex. " % self.client.name)
                 if "Lesbian" in self.worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
                     skill = round(self.worker.get_skill("vaginal")*0.6 + self.worker.get_skill("sex")*0.15)
                     vaginalmod = 1 if dice(20) else 0
@@ -605,9 +605,8 @@
 
             # Anal Sex Act
             elif self.client.act == 'anal':
-                gender = "male"
                 
-
+                self.txt.append("%s hired her for proper anal penetration. " % self.client.name)
                 if "Lesbian" in self.worker.traits:
                     skill = round(self.worker.get_skill("anal")*0.6 + self.worker.get_skill("sex")*0.15)
                     analmod = 1 if dice(20) else 0
@@ -650,8 +649,7 @@
                 
             # Suck a Dick act    
             elif self.client.act == 'blowjob':
-                gender = "male"
-
+                self.txt.append("%s hired her for some side job on his thing. " % self.client.name)
                 # here we will have to choose skills depending on selected act
                 tags = (('bc deepthroat'), ('bc handjob'), {"tags": ['bc footjob'], "dice": 80}, ('bc titsjob'), {"tags": ["after sex"], "dice": 10}, ("bc blowjob"))
                 act = self.get_act(tags)
@@ -737,8 +735,7 @@
 
             # Lesbian Act
             elif self.client.act == 'lesbian':
-                gender = "female"
-
+                self.txt.append("%s hired her for some hot girl on girl action. " % self.client.name)
                 skill = self.worker.get_skill("vaginal")
                 tags = (("gay", '2c lickpussy'),
                             ("gay", "bc lickpussy"),
@@ -763,19 +760,6 @@
                     )
                 act = self.get_act(tags)
                 # We'll be adding "les" here as Many lesbian pics do not fall in any of the categories and will never be called...
-                # if self.worker.has_image("gay", "dildo joined"):
-                    # acts.append("dildo joined")
-                # if self.worker.has_image("gay", "anal beads"):
-                    # acts.append("les_anal_beads")
-                # if self.worker.has_image("gay", "do anal beads"):
-                    # acts.append("les_do_anal_beads")
-                    
-                # act = choice(acts)
-
-                # if act == "dildo joined":
-                    # self.txt.append(choice(["She've asked your girl to lend her a double-ended dildo.\n",
-                                                         # "She brought a twin-ended dildo for the party so %s could have some fun as well.\n"%self.worker.nickname]))
-                    # self.img = self.worker.show("les", "dildo joined", resize=size)
                 if act == tags[0]:
                     self.txt.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n"%self.worker.nickname,
                                                          "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n"%self.worker.nickname]))
@@ -1020,14 +1004,6 @@
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     self.img = self.worker.show(*act, **kwargs)
-                # elif act == "les_anal_beads":
-                    # self.txt.append(choice(["They got their hands on some anal beads and shoved it up %ss butt. \n"%self.worker.nickname,
-                                                          # "She had some fun with your girls asshole and some anal beads \n"]))
-                    # self.img = self.worker.show("les", "anal beads", resize=size)
-                # elif act == "les_do_anal_beads":
-                    # self.txt.append(choice(["She had %s stick some anal beads up her butt. \n"%self.worker.nickname,
-                                                         # "She told %s to get some anal beads to play with her anus. \n"%self.worker.nickname]))
-                    # self.img = self.worker.show("les", "do anal beads", resize=size)
                 elif act == tags[15]:
                     self.txt.append(choice(["She played with a toy and %ss pussy. \n"%self.worker.nickname,
                                                          "She stuck a toy up %s cunt. \n"%self.worker.nickname]))
@@ -1113,7 +1089,7 @@
                 skill = self.worker.get_skill("sex")
                 self.img = self.worker.show("sex", **kwargs)
                 
-            self.check_skills(skill, gender)
+            self.check_skills(skill)
                 
             # Take care of stats mods
             constmod = 1 if dice(12) else 0
@@ -1165,28 +1141,31 @@
                 
             return act
             
-        def take_virginity(self):
+        def take_virginity(self): # let's just assume that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
             if traits["Virgin"] in self.worker.traits:
                 tips = 100 + self.worker.charisma * 3
-                self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot so she left a tip of {color=[gold]}%d Gold{/color} for your girl.\n\n"%(self.worker.nickname, tips))
+                self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(self.worker.nickname, tips))
                 self.worker.remove_trait(traits["Virgin"])
                 self.worker.fin.log_tips(tips, "WhoreJob")
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
-        def check_skills(self, skill=0, gender="male"):
+        def check_skills(self, skill=0):
         # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
         # first is charisma, as initial impression
             if self.worker.charisma >= 1500:
                 self.txt.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %self.worker.name)
                 self.loggs("joy", 1)
                 self.logloc("fame", choice([0, 1, 1, 1]))
+                self.logloc("reputation", choice([0, 1]))
             elif self.worker.charisma >= 800:
                 self.txt.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our brothels..." %self.worker.name)
                 self.loggs("joy", 1)
                 self.logloc("fame", choice([0, 1]))
+                self.logloc("reputation", choice([0, 0, 1]))
             elif self.worker.charisma >= 500:
                 self.txt.append("%s completely enchanted the customer with her stunning beauty." %self.worker.name)
                 self.logloc("fame", choice([0, 0, 1]))
+                self.logloc("reputation", choice([0, 0, 0, 1]))
             elif self.worker.charisma >= 200:
                 self.txt.append("The client was happy to be alone with such a breathtakingly beautiful girl as %s." %self.worker.name)
                 self.logloc("fame", choice([0, 0, 0, 1]))
@@ -1198,7 +1177,7 @@
             else:
                 self.loggs("joy", -2)
                 self.logloc("fame", choice([-1, 0]))
-                if gender == male:
+                if self.client.gender == "male":
                     self.txt.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." %self.worker.name)
                 else:
                     self.txt.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." %self.worker.name)
@@ -1209,18 +1188,20 @@
             # then we check for skill level
             self.txt.append("\n")
             if skill >= 4000:
-                if gender == "male":
+                if self.client.gender == "male":
                     self.txt.append("The client was at the girls mercy. $s brought him to the heavens and left there, unconscious due to sensory overload.")
                 else:
                     self.txt.append("The client was at the girls mercy. $s brought her to the heavens and left there, unconscious due to sensory overload.")
                 self.loggs("exp", randint(250, 500))
+                self.logloc("reputation", choice([0, 1]))
                 self.loggs("joy", 3)
             elif skill >= 2000:
-                if gender == "male":
+                if self.client.gender == "male":
                     self.txt.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished." %self.worker.name)
                 else:
                     self.txt.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished." %self.worker.name)
                 self.loggs("exp", randint(100, 200))
+                self.logloc("reputation", choice([0, 0, 1]))
                 self.loggs("joy", 2)
             elif skill >= 1000:
                 self.txt.append("She performed wonderfully with her unmatched carnal skill, making the customer exhausted and completely satisfied.")
@@ -1239,9 +1220,15 @@
             else:
                 self.loggs("exp", randint(15, 25))
                 if self.worker.charisma >= 200:
-                    self.txt.append("A cold turkey sandwich would have made a better sex partner than %s. Her performance was however saved by her looks." %self.worker.name)
+                    self.txt.append("A cold turkey sandwich would have made a better sex partner than %s. Her performance was however somewhat saved by her looks." %self.worker.name)
                 else:
                     self.txt.append("Unfortunately, %s barely knew what she was doing. Her looks were not likely to be of any help to her either." %self.worker.name)
+            if ("Lesbian" in self.worker.traits) and (self.client.gender == "male"):
+                self.txt.append(" It was a bit difficult for %s to do it with a man due to her sexual orientation..." %self.worker.name)
+                self.loggs("vitality", randint(-25, -5))
+            elif (self.client.gender == "female") and not("Lesbian" in self.worker.traits) and not("Bisexual" in self.worker.traits):
+                self.txt.append(" It was a bit difficult for %s to do it with a woman due to her sexual orientation..." %self.worker.name)
+                self.loggs("vitality", randint(-25, -5))
             self.txt.append("\n")
     
     class AnalWhore(NewStyleJob):
