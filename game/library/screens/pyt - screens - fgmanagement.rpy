@@ -123,7 +123,7 @@ init python:
                 char = girl
                 break
         else:
-            raise Error, "Unknown drag name: %s!" % drags[0].drag_name
+            raise Exception, "Unknown drag name: %s!" % drags[0].drag_name
                 
         index = content.index(char)
         x = fg_drags.pos[index][0]
@@ -145,7 +145,7 @@ init python:
                 team = team
                 break
         else:
-            raise Error, ["Team unknown during drag/drop!", drop.drag_name, team.name]
+            raise Exception, ["Team unknown during drag/drop!", drop.drag_name, team.name]
             
         for t in fg.teams:
             if t and t[0] == char:

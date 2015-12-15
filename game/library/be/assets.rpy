@@ -237,6 +237,9 @@ init 2 python:
     SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, casting_effects=["orb", "default"], true_pierce=True, gfx='cataclysm', zoom=2.0, pause=5.5, td_gfx=[2.0, "shake", 2.5], sfx="content/sfx/sound/be/fire2.mp3", type="all_enemies", piercing=True,
                                        aim="bc", anchor=(0.5, 0.8), yo=0,
                                        desc="Summons flaming fragments of meteors from the atmosphere directly above the target.")
+    ArealMagicalAttack("Pure Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, casting_effects=["orb", "default"], true_pierce=True, gfx='cataclysm', zoom=2.2, pause=5.5, td_gfx=[2.0, "shake", 2.5], sfx="content/sfx/sound/be/fire2.mp3", type="all_enemies", piercing=True,
+                                       aim="bc", anchor=(0.5, 1.0), xo=-50, yo=320,
+                                       desc="Summons flaming fragments of meteors from the atmosphere directly above the target.")
 
 
     
@@ -352,7 +355,9 @@ init 2 python:
                                        desc="Takes control over charged particles inside the target, causing severe internal injuries.")
 
     P2P_MagicAttack(u"Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ion_1', gfx2='ion', pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
-                                       desc="Sends towards the target a raging cloud of charged particles.")
+                                  desc="Sends towards the target a raging cloud of charged particles.")
+    P2P_ArealMagicalAttack(u"Pure Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ion_1', gfx2=Transform('ion', zoom=2.5), pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
+                                            type="all_enemies", desc="Sends towards the target a raging cloud of charged particles.")
     # Light:
     SimpleMagicalAttack(u"Holy", attributes=['magic', 'light'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["light_1", "default"], gfx='light_1', zoom=1.5, pause=1.25, td_gfx=[0.1, "shake", 1.1], sfx="content/sfx/sound/be/light1.mp3", type="all_enemies",
                                        aim="center", anchor=(0.5, 0.5),

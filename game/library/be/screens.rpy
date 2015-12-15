@@ -73,7 +73,7 @@ init: # screens:
                     try:
                         magic.sort(key=attrgetter("name"))
                     except AttributeError:
-                        raise Error, char.name
+                        raise Exception, char.name
                     
                     # We'll also try to figure out if there is at least one usable attack for them:
                     active_attacks = list() # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!

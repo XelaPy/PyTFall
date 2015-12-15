@@ -242,7 +242,7 @@ init -9 python:
             
             renpy.music.stop(fadeout = 1.0)
             if battle.Won == "Player":
-                #raise Error, battle._fighters[0]._name
+                #raise Exception, battle._fighters[0]._name
                 for member in hero.team:
                     for fighter in battle._fighters:
                         if member.name == fighter._name:
@@ -252,7 +252,7 @@ init -9 python:
                             member.mod('magic', randint(0,2))
                             member.mod('agility', randint(0,2))
             else:
-                raise Error, "Game Over!!!"
+                raise Exception, "Game Over!!!"
     
             renpy.show_screen("pyt_forest_exploration")
             

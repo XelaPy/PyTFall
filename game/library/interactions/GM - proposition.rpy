@@ -270,7 +270,7 @@ label interactions_hire:
             if mod_chance > 400: mod_chance = 400
     
     else:
-        $ raise Error, "Unknown occupation @ girl_interactions/hire"
+        $ raise Exception, "Unknown occupation @ girl_interactions/hire"
     
     python:
        del girlskillz

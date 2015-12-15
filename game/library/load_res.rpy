@@ -92,7 +92,7 @@ label load_json_tags:
         del jsonfiles
         del rg_jsonfiles
          
-        # raise Error, tagdb.__dict__["tagmap"].keys()[1:10]
+        # raise Exception, tagdb.__dict__["tagmap"].keys()[1:10]
         for tag in jsontagdb.tagmap.keys():
             if tag.startswith("("):
                 del jsontagdb.tagmap[tag]

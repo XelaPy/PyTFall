@@ -82,7 +82,7 @@ init -11 python:
                             
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
-                                raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
+                                raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
                             char.id = gd["id"]
                             
                             # Check if there is a gender:
@@ -213,10 +213,10 @@ init -11 python:
                                             del tags[0]
                                             tags[-1] = tags[-1][:-4]
                                         except IndexError:
-                                            raise Error("Invalid file path for image: %s" % rp_path)
+                                            raise Exception("Invalid file path for image: %s" % rp_path)
                                         for tag in tags:
                                             if tag not in tags_dict:
-                                                raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
+                                                raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
                                             tagdb.tagmap[tags_dict[tag]].add(fn)
                                         # Adding filenames to girls id:
                                         tagdb.tagmap.setdefault(folder, set()).add(fn)
@@ -311,13 +311,13 @@ init -11 python:
         for key in content:
             for entry in content[key].xml:
                 if entry.tag == 'Trait':
-                    # raise Error, entry.__dict__
+                    # raise Exception, entry.__dict__
                     if entry.attrib["Name"] in traits.keys():
                         content[key].init_traits.append(entry.attrib["Name"])
             setattr(content[key], "name", content[key].id)
             del content[key].__dict__['xml']
             content[key].init()
-        # raise Error, [key.name for key in content.values()]
+        # raise Exception, [key.name for key in content.values()]
             
         return content
 
@@ -345,7 +345,7 @@ init -11 python:
                             # rg = rChar()
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
-                                raise Error("No id was specified in %s JSON Datafile!" % str(in_file))
+                                raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
                                     
                             random_girls[gd["id"]] = gd
                     
@@ -363,10 +363,10 @@ init -11 python:
                                         del tags[0]
                                         tags[-1] = tags[-1][:-4]
                                     except IndexError:
-                                        raise Error("Invalid file path for image: %s" % rp_path)   
+                                        raise Exception("Invalid file path for image: %s" % rp_path)   
                                     for tag in tags:
                                         if tag not in tags_dict:
-                                            raise Error("Unknown image tag: %s, path: %s" % (tag, rp_path))
+                                            raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
                                         tagdb.tagmap[tags_dict[tag]].add(fn)
                                     # Adding filenames to girls id:
                                     tagdb.tagmap.setdefault(folder, set()).add(fn)

@@ -112,7 +112,7 @@ init -10 python:
                             key = key.lower()
                             dictionary[entry].mod(key, value)
                         else:
-                            raise Error, "During loading of unique girls in load_database function. key.lower() = %s"%key
+                            raise Exception, "During loading of unique girls in load_database function. key.lower() = %s"%key
                     elif key == "Desc":
                         dictionary[entry].__dict__["desc"] = parse(db[entry][key])
                     elif key == "location":

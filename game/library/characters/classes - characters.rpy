@@ -1160,6 +1160,7 @@ init -9 python:
             # BE Bridge assets
             self.besprite = None # Used to keep track of sprite displayable in the BE.
             self.beinx = 0 # Passes index from logical execution to SFX setup.
+            self.beteampos = None # This manages team position bound to target (left or right on the screen).
             self.row = 1 # row on the battlefield, used to calculate range of weapons.
             self.front_row = True # 1 for front row and 0 for back row.
             self.betag = None # Tag to keep track of the sprite.
@@ -1377,7 +1378,7 @@ init -9 python:
                     devlog.warning("Unknown height setting for %s" % self.id)
                     resize = (1000, 500)
             else:
-                raise Error("get_sprite_size got unknown type for resizing!")
+                raise Exception("get_sprite_size got unknown type for resizing!")
             return resize
             
         def has_image(self, *tags):
@@ -1660,7 +1661,7 @@ init -9 python:
             # This is a temporary check, to make sure nothing goes wrong:
             # Code checks during the equip method should make sure that the unique items never make it this far:
             if item.unique and item.unique != item.id:
-                raise Error("A character attempted to equip unique item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
+                raise Exception("A character attempted to equip unique item that was not meant for him/her. This is a flaw in game design, please report to out development team! Character: %s/%s, Item:%s" % self.id, self.__class__, item.id)
 
             if item.sex not in ["unisex", self.gender]:
                 devlog.warning(str("False character sex value: %s, %s,  %s" % (item.sex, item.id, self.__class__.__name__)))
@@ -2562,7 +2563,7 @@ init -9 python:
                 self._buildings.remove(building)
             
             else:
-                raise Error, "This building does not belong to the player!!!"
+                raise Exception, "This building does not belong to the player!!!"
         
         # @property
         # def brothels(self):
@@ -2584,7 +2585,7 @@ init -9 python:
             # if brothel in self._buildings:
                 # self._buildings.remove(brothel)
             # else:
-                # raise Error, "This brothel does not belong to the player!!!"
+                # raise Exception, "This brothel does not belong to the player!!!"
             
         @property
         def girls(self):
@@ -2601,7 +2602,7 @@ init -9 python:
             if girl in self._girls:
                 self._girls.remove(girl)
             else:
-                raise Error, "This girl (ID: %s) is not in service to the player!!!" % self.id
+                raise Exception, "This girl (ID: %s) is not in service to the player!!!" % self.id
         # ----------------------------------------------------------------------------------
         # Show to mimic girls method behaviour:
         def has_image(self, *tags):
@@ -3429,7 +3430,7 @@ init -9 python:
                     if not imgpath:
                         tags = pure_tags[:]
                         while tags and not imgpath:
-                            # if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here: # Resulted in Errors bacause mood_tag is not set properly... removed for now.
+                            # if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here: # Resulted in Exceptions bacause mood_tag is not set properly... removed for now.
                                 # imgpath = self.select_image(self.id, tags[0], mood_tag, exclude=exclude)
                             if not imgpath:
                                 imgpath = self.select_image(self.id, *tags, exclude=exclude)
