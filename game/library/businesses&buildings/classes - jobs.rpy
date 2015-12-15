@@ -564,6 +564,7 @@
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if self.client.act == 'sex':
+                gender = "male"
                 if "Lesbian" in self.worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
                     skill = round(self.worker.get_skill("vaginal")*0.6 + self.worker.get_skill("sex")*0.15)
                     vaginalmod = 1 if dice(20) else 0
@@ -604,6 +605,7 @@
 
             # Anal Sex Act
             elif self.client.act == 'anal':
+                gender = "male"
                 
 
                 if "Lesbian" in self.worker.traits:
@@ -648,6 +650,7 @@
                 
             # Suck a Dick act    
             elif self.client.act == 'blowjob':
+                gender = "male"
 
                 # here we will have to choose skills depending on selected act
                 tags = (('bc deepthroat'), ('bc handjob'), {"tags": ['bc footjob'], "dice": 80}, ('bc titsjob'), {"tags": ["after sex"], "dice": 10}, ("bc blowjob"))
@@ -734,7 +737,7 @@
 
             # Lesbian Act
             elif self.client.act == 'lesbian':
-                
+                gender = "female"
 
                 skill = self.worker.get_skill("vaginal")
                 tags = (("gay", '2c lickpussy'),
@@ -1110,7 +1113,7 @@
                 skill = self.worker.get_skill("sex")
                 self.img = self.worker.show("sex", **kwargs)
                 
-            self.check_skills(skill)
+            self.check_skills(skill, gender)
                 
             # Take care of stats mods
             constmod = 1 if dice(12) else 0
@@ -1170,59 +1173,75 @@
                 self.worker.fin.log_tips(tips, "WhoreJob")
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
-        def check_skills(self, skill=0):
-            if skill > 300 and self.worker.charisma > 300:
-
-                self.txt.append("The client was at your girls mercy. Her beauty enchanting, she playfully took him into her embrace and made him forget about the rest of the world until they were finished. \n")
-
-                self.loggs("exp", randint(15, 25))
-                self.loggs("joy", 3)
-                
-            elif 200 <= skill and 200 <= self.worker.charisma:
-                
-                self.txt.append("Your girl performed wonderfully with her breathtaking beauty and matching carnal skill. \n")
-
-                self.loggs("exp", randint(15, 25))
-                self.loggs("joy", 2)
-                
-            elif 80 <= skill and 80 <= self.worker.charisma:
-
-                self.txt.append("Her well honed sexual skills and good looks both were pleasing to the customer. \n")
-
-                self.loggs("exp", randint(15, 25))
+        def check_skills(self, skill=0, gender="male"):
+        # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
+        # first is charisma, as initial impression
+            if self.worker.charisma >= 1500:
+                self.txt.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %self.worker.name)
                 self.loggs("joy", 1)
-                
-            elif 30 <= skill and 30 <= self.worker.charisma:
-
-                self.txt.append("Your girl did the job to the best of her ability but her skills could definitely be improved and her beauty enhanced. \n")
-
-                self.loggs("exp", randint(15, 25))
-                
-            elif -100 <= skill <= 30 and -100 <= self.worker.charisma <= 30:
-
-                self.txt.append("Your girl barely knew what she was doing. Her looks were not likely to be of any help to her either. \n")
-                self.txt.append("Still, the customer explained that he preferred fucking her over a horse. Hearing that from him however, was not encouraging for your girl at all... \n")
-
-                self.loggs("exp", randint(15, 25))
-                self.loggs("joy", -2)
-                
-            elif skill < 30 and self.worker.charisma > 30:
-
-                self.txt.append("A cold turkey sandwich would have made a better sex partner than her. Her performance was however saved by her somewhat pleasing looks. \n")
-
-                self.loggs("exp", randint(15, 25))
-                self.loggs("joy", -2)
-                
-            elif skill > 30 and self.worker.charisma < 30:
-
-                self.txt.append("Her ability to please him sexually managed to help the client overlook the fact that she looked like a hag. \n")
-
-                self.loggs("exp", randint(15, 25))
-                self.loggs("joy", -1)
-                
+                self.logloc("fame", choice([0, 1, 1, 1]))
+            elif self.worker.charisma >= 800:
+                self.txt.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our brothels..." %self.worker.name)
+                self.loggs("joy", 1)
+                self.logloc("fame", choice([0, 1]))
+            elif self.worker.charisma >= 500:
+                self.txt.append("%s completely enchanted the customer with her stunning beauty." %self.worker.name)
+                self.logloc("fame", choice([0, 0, 1]))
+            elif self.worker.charisma >= 200:
+                self.txt.append("The client was happy to be alone with such a breathtakingly beautiful girl as %s." %self.worker.name)
+                self.logloc("fame", choice([0, 0, 0, 1]))
+            elif self.worker.charisma >= 100:
+                self.txt.append("%s good looks clearly was pleasing to the customer." %self.worker.name)
+            elif self.worker.charisma >= 50:
+                self.txt.append("%s did her best to make the customer like her, but her beauty could definitely be enhanced." %self.worker.name)
+                self.logloc("fame", choice([-1, 0, 0, 1]))
             else:
-                self.txt.append('Dev Note: >>>I missed something!<<< Charisma = %d, Sex = %d \n'%(self.worker.charisma, skill))
-               
+                self.loggs("joy", -2)
+                self.logloc("fame", choice([-1, 0]))
+                if gender == male:
+                    self.txt.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." %self.worker.name)
+                else:
+                    self.txt.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." %self.worker.name)
+            # then a small refinement check, useless with low charisma
+            if dice(self.worker.get_skill("refinement")*0.1) and self.worker.charisma >= 150:
+                self.txt.append(" Her impeccable manners also made a very good impression." %self.worker.name)
+                self.logloc("reputation", choice([0, 0, 1]))
+            # then we check for skill level
+            self.txt.append("\n")
+            if skill >= 4000:
+                if gender == "male":
+                    self.txt.append("The client was at the girls mercy. $s brought him to the heavens and left there, unconscious due to sensory overload.")
+                else:
+                    self.txt.append("The client was at the girls mercy. $s brought her to the heavens and left there, unconscious due to sensory overload.")
+                self.loggs("exp", randint(250, 500))
+                self.loggs("joy", 3)
+            elif skill >= 2000:
+                if gender == "male":
+                    self.txt.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished." %self.worker.name)
+                else:
+                    self.txt.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished." %self.worker.name)
+                self.loggs("exp", randint(100, 200))
+                self.loggs("joy", 2)
+            elif skill >= 1000:
+                self.txt.append("She performed wonderfully with her unmatched carnal skill, making the customer exhausted and completely satisfied.")
+                self.loggs("exp", randint(50, 120))
+                self.loggs("joy", 2)
+            elif skill >= 500:
+                self.txt.append("Her well honed sexual tricks and techniques were very pleasing to the customer, and she was quite pleased in return by client's praises.")
+                self.loggs("exp", randint(40, 75))
+                self.loggs("joy", 1)
+            elif skill >= 200:
+                self.txt.append("$s did the job to the best of her ability but her skills could definitely be improved." %self.worker.name)
+                self.loggs("exp", randint(35, 45))
+            elif skill >= 50:
+                self.txt.append("The girl barely knew what she was doing. Still, %s somewhat managed to provide basic service, following impatient instructions of the client." %self.worker.name)
+                self.loggs("exp", randint(20, 35))
+            else:
+                self.loggs("exp", randint(15, 25))
+                if self.worker.charisma >= 200:
+                    self.txt.append("A cold turkey sandwich would have made a better sex partner than %s. Her performance was however saved by her looks." %self.worker.name)
+                else:
+                    self.txt.append("Unfortunately, %s barely knew what she was doing. Her looks were not likely to be of any help to her either." %self.worker.name)
             self.txt.append("\n")
     
     class AnalWhore(NewStyleJob):
