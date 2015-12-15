@@ -184,11 +184,14 @@ init -999 python:
             # We just need to animate once over the list, no need for any calculations:
             try:
                 t = self.images[self.index][0]
-                child_render = renpy.render(t, width, height, st, at)
-                self.width, self.height = child_render.get_size()
-                render = renpy.Render(self.width, self.height)
+                child_render = t.render(width, height, st, at)
+                
+                w, h = child_render.get_size()
+                
+                render = renpy.Render(w, h)
                 render.blit(child_render, (0, 0))
                 renpy.redraw(self, self.images[self.index][1])
+                
                 self.index = self.index + 1
                 if self.loop:
                     if self.index > len(self.images) - 1:
