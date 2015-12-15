@@ -168,6 +168,7 @@
             "Skip":
                 pass
             
+label dev_testing_menu:
     if config.developer:
         menu:
             "MC Setup Screen":
@@ -179,14 +180,28 @@
                 $ initial_levelup(hero, 100, max_out_stats=True)
             "Test Story":
                 jump intro_story
+                jump dev_testing_menu
             "Test Matrix":
                 call test_matrix
+                jump dev_testing_menu
             "Test Vortex":
                 call test_vortex
-            "Test FilmStrip":
-                call screen testing_new_filmstrip
+                jump dev_testing_menu
+            "Test Display":
+                menu:
+                    "FilmStrip":
+                        call screen testing_new_filmstrip
+                        jump dev_testing_menu
+                    "Animation":
+                        scene black
+                        show expression Transform("cataclysm", yzoom=2.5, xzoom=1.5) as cataclysm
+                        pause 5.5
+                        hide cataclysm
+                        "Done"
+                        jump dev_testing_menu
             "Test Robert Penners Easing":
                 call screen test_penners_easing
+                jump dev_testing_menu
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()
