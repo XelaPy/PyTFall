@@ -1198,7 +1198,7 @@
             else:
                 self.loggs("joy", -2)
                 self.logloc("fame", choice([-1, 0]))
-                if gender == male:
+                if gender == "male":
                     self.txt.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." %self.worker.name)
                 else:
                     self.txt.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." %self.worker.name)

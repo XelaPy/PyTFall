@@ -536,7 +536,10 @@ init -9 python:
             # TODO: Generate and add regulars!
             if len(self.all_clients) < clnts:
                 for i in xrange(clnts - len(self.all_clients)):
-                    self.all_clients.add(build_client())
+                    if dice(80):
+                        self.all_clients.add(build_client())
+                    else:
+                        self.all_clients.add(build_client(gender="female"))
             self.clients = self.all_clients.copy()
             self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
             tl.timer("Generating clients")

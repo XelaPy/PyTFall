@@ -398,7 +398,7 @@ init -1 python: # Core classes:
         """
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, td_gfx=None, desc="", death_effect=None, **kwrags):
+                           add2skills=True, target_damage_gfx=None, desc="", death_effect=None, **kwrags):
             """
             range: range of the spell, 1 is minimum.
             damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases
@@ -429,10 +429,10 @@ init -1 python: # Core classes:
             
             self.sfx = sfx # This is for really simple attacks.
             self.gfx = gfx # This is for really simple attacks.
-            if td_gfx:
-                self.td_gfx = td_gfx # A list of pause --> kind of effect --> end of effect. **If this gets any more complicated, gfx method might have to become at/st funciton.
+            if target_damage_gfx:
+                self.target_damage_gfx = target_damage_gfx # A list of pause --> kind of effect --> end of effect. **If this gets any more complicated, gfx method might have to become at/st funciton.
             else:
-                self.td_gfx = [0.1] # This will be used to control damage bounce.
+                self.target_damage_gfx = [0.1] # This will be used to control damage bounce.
             # Zoom:
             # Zoom factors the size of the main displayable of the attack (if there is one). Use floats, 1.0 represents original size, -1 will invert (flip) the image.
             self.zoom = zoom
@@ -796,14 +796,13 @@ init -1 python: # Core classes:
                 renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
         
         def show_gfx_dmg(self, target, type="bb"):
-            """
-            Easy way to show damage like the bouncing damage effect.
+            """Easy way to show damage like the bouncing damage effect.
             """
             if type == "bb":
                 bbtag = "bb" + str(random.random())
                 self.tags_to_hide.append(bbtag)
-                txt = Text("%s"%target.beeffects[0], style="content_label", color=getattr(store, target.dmg_font), size=15)
-                renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
+                txt = Text("%s"%target.beeffects[0], style="TisaOTM", min_width=200, text_align=0.5, color=getattr(store, target.dmg_font), size=18)
+                renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-20))], zorder=target.besk["zorder"]+2)
                 target.dmg_font = "red"
                 
         def get_element(self):

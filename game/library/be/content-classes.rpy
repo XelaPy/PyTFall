@@ -195,7 +195,6 @@ init python:
                     return True
                     
         def apply_effects(self, targets):
-            # **At Review, Returns target, True if target dies!
             # Not 100% for that this will be required...
             # Here it is simple since we are only focusing on damaging health:
             # prepare the variables:
@@ -204,7 +203,7 @@ init python:
                 targets = [targets]
             for t in targets:
                 if t.health - t.beeffects[0] > 0:
-                    t.mod("health", t.beeffects[0] * -1)
+                    t.mod("health", -t.beeffects[0])
                 else:
                     battle.end_turn_events.append(RPG_Death(t))
                     died.append(t)
@@ -213,23 +212,39 @@ init python:
             self.source.mp -= self.cost
             return died
             
+        def move_back(self, battle, char, delay=0):
+            time.sleep(2.0)
+            battle.move(char, char.dpos, 0.5, pause=False)
+            
+        def attackers_first_action_and_effect(self, battle, attacker):
+            renpy.invoke_in_thread(self.move_back, battle, attacker)
+            battle.move(attacker, battle.get_cp(attacker, xo=50), 0.5)
+            if self.casting_effects[0]:
+                casting_effect(attacker, self.casting_effects[0], sfx=self.casting_effects[1])
+                
+        def show_impact_gfx(self, gfx, targets, battle):
+            for index, target in enumerate(targets):
+                gfxtag = "attack" + str(index)
+                renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+            renpy.invoke_in_thread(self.hide_main_gfx, targets, self.pause)
+                
+        def hide_main_gfx(self, targets, delay):
+            time.sleep(delay)
+            for i in xrange(len(targets)):
+                gfxtag = "attack" + str(i)
+                renpy.hide(gfxtag)
+            
         def show_gfx(self, targets):
             # Simple effects for the magic attack:
             char = self.source
+            battle = store.battle
             
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             
             if not battle.logical:
-                # Inicial movement of the sprtite:
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
-            
-            # if self.casting_effects[1] == "default":
-                # renpy.sound.play("content/sfx/sound/be/cannon_3.mp3")
-            
-                if self.casting_effects[0]:
-                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-            
+                self.attackers_first_action_and_effect(battle, char)
+                
             self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
             died = self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
             
@@ -241,35 +256,29 @@ init python:
                         sfx = self.sfx
                     renpy.sound.play(sfx)
                 
+                # Showing the impact effects:
                 # Zoom (If any):
-                if self.zoom is not None:
-                    gfx = Transform(self.gfx, zoom=self.zoom)
-                else:
-                    gfx = self.gfx
-                    
-                # Showing the impact effects:  
-                if self.gfx:
-                    for index, target in enumerate(targets):
-                        gfxtag = "attack" + str(index)
-                        renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
+                gfx = Transform(self.gfx, zoom=self.zoom) if self.zoom is not None else self.gfx
+                if gfx:
+                    self.show_impact_gfx(gfx, targets, battle)
                         
                 # Pause before battle bounce + damage on target effects:
-                renpy.pause(self.td_gfx[0])
+                renpy.pause(self.target_damage_gfx[0])
                 
                 for index, target in enumerate(targets):
                     self.show_gfx_dmg(target)
-                    if len(self.td_gfx) > 1:
-                        self.show_gfx_td(target, 0.5, self.td_gfx[1])
+                    if len(self.target_damage_gfx) > 1:
+                        self.show_gfx_td(target, 0.5, self.target_damage_gfx[1])
                 
-                battle.move(char, char.dpos, 0.5, pause=False)
+                # battle.move(char, char.dpos, 0.5, pause=False)
                 
                 # Pause before termination of damage on target effects, if there are any:
                 # @Review: OR Pause before application of special death effects!
                 # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
                 # **This will always assume 
-                if self.death_effect or len(self.td_gfx) > 1:
-                    if len(self.td_gfx) > 1:
-                        renpy.pause(self.td_gfx[2])
+                if self.death_effect or len(self.target_damage_gfx) > 1:
+                    if len(self.target_damage_gfx) > 1:
+                        renpy.pause(self.target_damage_gfx[2])
                         for target in targets:
                             renpy.hide(target.betag)
                             renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
@@ -278,11 +287,11 @@ init python:
                 if died and self.death_effect == "shatter":
                     for target in died:
                         renpy.hide(target.betag)
-                        renpy.show(target.betag, what=HitlerKaputt(target.besprite, 30), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                        renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
                 
-                total_pause = self.td_gfx[0]
-                if len(self.td_gfx) > 1:
-                    total_pause = total_pause + self.td_gfx[2]
+                total_pause = self.target_damage_gfx[0]
+                if len(self.target_damage_gfx) > 1:
+                    total_pause = total_pause + self.target_damage_gfx[2]
                     
                 # Check we need any more pause:
                 if self.pause > total_pause:
@@ -359,12 +368,12 @@ init python:
                     renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo, override=teampos), anchor=self.anchor)], zorder=1000) # Zorder should prolly be absolute in this case...
                         
                 # Pause before battle bounce + damage on target effects:
-                renpy.pause(self.td_gfx[0])
+                renpy.pause(self.target_damage_gfx[0])
                 
                 for index, target in enumerate(targets):
                     self.show_gfx_dmg(target)
-                    if len(self.td_gfx) > 1:
-                        self.show_gfx_td(target, 0.5, self.td_gfx[1])
+                    if len(self.target_damage_gfx) > 1:
+                        self.show_gfx_td(target, 0.5, self.target_damage_gfx[1])
                 
                 battle.move(char, char.dpos, 0.5, pause=False)
                 
@@ -372,9 +381,9 @@ init python:
                 # @Review: OR Pause before application of special death effects!
                 # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
                 # **This will always assume 
-                if self.death_effect or len(self.td_gfx) > 1:
-                    if len(self.td_gfx) > 1:
-                        renpy.pause(self.td_gfx[2])
+                if self.death_effect or len(self.target_damage_gfx) > 1:
+                    if len(self.target_damage_gfx) > 1:
+                        renpy.pause(self.target_damage_gfx[2])
                         for target in targets:
                             renpy.hide(target.betag)
                             renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
@@ -385,9 +394,9 @@ init python:
                         renpy.hide(target.betag)
                         renpy.show(target.betag, what=HitlerKaputt(target.besprite, 30), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
                 
-                total_pause = self.td_gfx[0]
-                if len(self.td_gfx) > 1:
-                    total_pause = total_pause + self.td_gfx[2]
+                total_pause = self.target_damage_gfx[0]
+                if len(self.target_damage_gfx) > 1:
+                    total_pause = total_pause + self.target_damage_gfx[2]
                     
                 # Check we need any more pause:
                 if self.pause > total_pause:
@@ -545,8 +554,8 @@ init python:
                 
                 for index, target in enumerate(targets):
                     self.show_gfx_dmg(target)
-                    if len(self.td_gfx) > 1:
-                        self.show_gfx_td(target, 0.5, self.td_gfx[1])
+                    if len(self.target_damage_gfx) > 1:
+                        self.show_gfx_td(target, 0.5, self.target_damage_gfx[1])
                 
                 renpy.pause(self.pause2)
                 # Time to move character back to it's positions as well:
