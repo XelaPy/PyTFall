@@ -117,7 +117,7 @@ init python:
             # Rest:
             self.pause = pause # Animation length
 
-        def show_gfx(self, target):
+        def show_gfx(self, target, died):
             # Simple effects for the sword attack:
             char = self.source
             
@@ -127,11 +127,6 @@ init python:
                 gfxtag = "attack"
                 bbtag = "battle_bouce"
                 
-            # This we can run elsewhere so this whole method can be skipped:
-            self.effects_resolver([target]) # This can also be moved elsewhere. This causes the actual damage.
-            self.apply_effects([target]) # This can also be moved elsewhere. This causes the actual damage.
-            
-            if not battle.logical:
                 s = "%s"%target.beeffects[0]
                 if "critical_hit" in target.beeffects:
                     s = "\n".join([s, "Critical hit!"])
@@ -234,7 +229,7 @@ init python:
                 gfxtag = "attack" + str(i)
                 renpy.hide(gfxtag)
             
-        def show_gfx(self, targets):
+        def show_gfx(self, targets, died):
             # Simple effects for the magic attack:
             char = self.source
             battle = store.battle
@@ -245,10 +240,6 @@ init python:
             if not battle.logical:
                 self.attackers_first_action_and_effect(battle, char)
                 
-            self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
-            died = self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
-            
-            if not battle.logical:
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
                         sfx = choice(self.sfx)
@@ -326,7 +317,7 @@ init python:
             # Casting effects:
             self.casting_effects = casting_effects
 
-        def show_gfx(self, targets):
+        def show_gfx(self, targets, died):
             # Simple effects for the magic attack:
             char = self.source
             
@@ -337,11 +328,7 @@ init python:
                 battle.move(char, battle.get_cp(char, xo=50), 0.5)
                 if self.casting_effects[0]:
                     casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-            
-            self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
-            died = self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
-            
-            if not battle.logical:
+                    
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
                         sfx = choice(self.sfx)
@@ -430,7 +417,7 @@ init python:
             self.gfx2 = gfx2
             self.casting_effects = casting_effects
     
-        def show_gfx(self, targets):
+        def show_gfx(self, targets, died):
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             else:
@@ -445,11 +432,7 @@ init python:
                 
                 if self.casting_effects[0]:
                     casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-            
-            self.effects_resolver(targets)
-            self.apply_effects(targets)
-            
-            if not battle.logical:
+                    
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
                         sfx = choice(self.sfx)
@@ -504,7 +487,7 @@ init python:
             self.gfx2 = gfx2
             self.casting_effects = casting_effects
     
-        def show_gfx(self, targets):
+        def show_gfx(self, targets, died):
             char = self.source
             
             if not isinstance(targets, (list, tuple, set)):
@@ -517,10 +500,7 @@ init python:
                 if self.casting_effects[0]:
                     casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
             
-            self.effects_resolver(targets)
-            self.apply_effects(targets)
-            
-            if not battle.logical:
+                    
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
                         sfx = choice(self.sfx)
@@ -588,7 +568,7 @@ init python:
             self.gfx3 = gfx3 # Since we want to reuse this for Fire and Ice arrows, we'll add two new properties. Since delays are always the same, we're not going to add those.
             
 
-        def show_gfx(self, targets):
+        def show_gfx(self, targets, died):
             # ALL of the graphical effects are handled in this method. This is also the only method we'll override from the parent since we're happy with everything else!
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
@@ -619,12 +599,7 @@ init python:
                 # renpy.pause(0.5) # Need to add pauses for effects to take place!
                 ### >>> Now done through move method:
                 battle.move(char, battle.get_cp(char, xo=50), 0.5)
-            
-            # This two functions do the actual calculation of the damage:
-            self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
-            self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
-            
-            if not battle.logical:
+                
                 # Sound: We don't really need the checks here since all our arrow spells have sound... but I copied this from elsewhere :)
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
@@ -734,7 +709,7 @@ init python:
             for t in targets:
                 t.mod("health", t.beeffects[0])
                     
-        def show_gfx(self, targets):
+        def show_gfx(self, targets, *args):
             # Simple effects for the magic attack:
             char = self.source
             
@@ -744,11 +719,7 @@ init python:
             if not battle.logical:
                 if self.casting_effects[0]:
                     casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-            
-            self.effects_resolver(targets) # This can also be moved elsewhere. This causes the actual damage.
-            self.apply_effects(targets) # This can also be moved elsewhere. This causes the actual damage.
-            
-            if not battle.logical:
+                    
                 if self.sfx:
                     if isinstance(self.sfx, (list, tuple)):
                         sfx = choice(self.sfx)

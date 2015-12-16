@@ -773,7 +773,10 @@ init -1 python: # Core classes:
             # Call the targeting screen:
             targets = self.get_targets()
             t = renpy.call_screen("target_practice", self, targets)
-            self.show_gfx(t)
+            
+            self.effects_resolver(targets)
+            died = self.apply_effects(targets)
+            self.show_gfx(t, died)
             
             for tag in self.tags_to_hide:
                 renpy.hide(tag)
@@ -828,10 +831,14 @@ init -1 python: # Core classes:
                 # So we have a skill... not lets pick a taget(s):
                 skill.source = self.source
                 targets = skill.get_targets()
+                
+                skill.effects_resolver(targets)
+                died = skill.apply_effects(targets)
+                
                 if "all" in skill.type:
-                    skill.show_gfx(targets)
+                    skill.show_gfx(targets, died)
                 else:
-                    skill.show_gfx(choice(targets))
+                    skill.show_gfx(choice(targets), died)
                 
             else:
                 skill = BE_Skip(source=self.source)
