@@ -819,8 +819,7 @@ init python: # Helper Functions:
             pass
     
     def casting_effect(char, kind, sfx="default", pause=True):
-        """
-        GFX and SFX effects on the caster of any attack (usually magic).
+        """GFX and SFX effects on the caster of any attack (usually magic).
         """
         if sfx and sfx == "default":
             sfx = "content/sfx/sound/be/casting_1.mp3"
