@@ -575,5 +575,23 @@
     "mod": {"luck": 5},
     "locations": ["General Shop", "Look around"],
     "goodtraits": ["Lolita"]
+    },
+    {
+    "id": "Mysterious Gray Ring",
+    "desc": "«If early day, or late at night it's not my problem, I'll be alright. No cause you name is worth the fight, but if I'm bored, then yeah, I might.»",
+    "icon": "content/items/ring/gray_l.png",
+    "price": 5000,
+    "sex": "female",
+    "chance": 0.001,
+    "badness": 0,
+    "eqchance": 5,
+    "hidden": false,
+    "infinite": false,
+    "slot": "ring",
+    "max": {"joy": -50, "magic": 50, "mp": 50},
+    "mod": {"luck": 5, "defence": 50},
+    "min": {"joy": 50},
+    "locations": ["Exploration"],
+    "goodtraits": ["Indifferent"]
     }
   ]
