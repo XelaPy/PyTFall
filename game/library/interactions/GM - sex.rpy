@@ -1,3 +1,22 @@
+init python:
+
+    def get_act(character, tags): # copypaste from jobs without the self part
+            acts = list()
+            for t in tags:
+                if isinstance(t, tuple):
+                    if character.has_image(*t):
+                        acts.append(t)
+                elif isinstance(t, dict):
+                    if character.has_image(*t.get("tags", []), exclude=t.get("exclude", [])) and dice(t.get("dice", 100)):
+                        acts.append(t)
+                
+            if acts:
+                act = choice(acts)
+            else:
+                act = None
+                
+            return act
+
 label interactions_hireforsex: # we go to this label from GM menu hire for sex
     "You propose to pay her for sex."
     $ interactions_check_for_bad_stuff(char)
@@ -156,44 +175,45 @@ label interactions_sex: # we go to this label from GM menu propose sex
         show bg girl_room with fade
         $ sex_scene_location="room"
 
-label interactions_sex_scene_begins: # here we set initial picture before the scene and starting libido
-    if sex_scene_location == "beach":
-        if char.has_image("beach", "swimsuit", type="first_default"):
-            if char.has_image("swimsuit", "simple bg", type="first_default"):
-                if dice(50):
-                    $ gm.generate_img("beach", "swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
-                else:
-                    $ gm.generate_img("swimsuit", "simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
-            else:
-                $ gm.generate_img("beach", "swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
+label interactions_sex_scene_begins: # here we set initial picture before the scene
+    if sex_scene_location == "beach": # here we make sure that all suitable pics with swimsuit have a chance to be shown
+        $ tags = ({"tags": ["beach", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple bg", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["no bg", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
+        $ result = get_act(char, tags)
+        if result == tags[0]:
+            $ gm.generate_img("beach", "swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+        elif result == tags[1]:
+            $ gm.generate_img("swimsuit", "simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+        elif result == tags[2]:
+            $ gm.generate_img("swimsuit", "no bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
         else:
-            $ gm.generate_img("swimsuit", "simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
-            
+            $ gm.generate_img("swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("nature", type="first_default"):
-            $ gm.generate_img("nature", "nude", "urban", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
+        if char.has_image("nature", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"]):
+            $ gm.generate_img("nature", "nude", "urban", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
         else:
-            $ gm.generate_img("nude", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
-    else:
-        if char.has_image("living", "lingerie", type="first_default"):
-            if char.has_image("living", "no clothes", type="first_default"):
-                if dice(50):
-                    $ gm.generate_img("living", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
-                else:
-                    $ gm.generate_img("living", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+            $ gm.generate_img("nude", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "indoors", "beach", "onsen", "pool", "stage", "dungeon"], type="reduce")
+    else: # it's a living room
+        $ tags = ({"tags": ["living", "nude"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["living", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
+        $ result = get_act(char, tags)
+        if result: # we prefer to show living pics
+            if result == tags[0]:
+                $ gm.generate_img("living", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
             else:
-                $ gm.generate_img("living", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
-        else:
-            if char.has_image("simple bg", "lingerie", type="first_default"):
-                if char.has_image("simple bg", "no clothes", type="first_default"):
-                    if dice(50):
-                        $ gm.generate_img("simple bg", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
-                    else:
-                        $ gm.generate_img("simple bg", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+                $ gm.generate_img("living", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+        else: # no living pics, proceed to no bgs
+            $ tags = ({"tags": ["no bg", "nude"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["no bg", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple bg", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
+            $ result = get_act(char, tags)
+            if result:
+                if result == tags[0]:
+                    $ gm.generate_img("no bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+                elif result == tags[1]:
+                    $ gm.generate_img("no bg", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+                elif result == tags[2]:
+                    $ gm.generate_img("simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
                 else:
-                    $ gm.generate_img("simple bg", "lingerie", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
-            else:
-                $ gm.generate_img("simple bg", "no clothes", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
+                    $ gm.generate_img("simple bg", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+            else: # screw it, show the closest possible of remained ones
+                $ gm.generate_img("indoors", "living", "indoor", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
             
     $ sex_count = les_count = guy_count = girl_count = together_count = cum_count = 0
 
