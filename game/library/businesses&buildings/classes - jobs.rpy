@@ -740,7 +740,7 @@
                 skill = self.worker.get_skill("vaginal")
                 tags = (("gay", '2c lickpussy'),
                             ("gay", "bc lickpussy"),
-                            ("gay", "2c lickanus"),
+                            ("gay", "2c lickanus"),   
                             ("gay", "bc lickanus"),
                             ("gay", "2c vaginalfingering"),
                             ("gay", "bc vagnalhandjob"), # @Inconsistent tagnames!
@@ -1151,8 +1151,8 @@
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
         def check_skills(self, skill=0):
-        # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
-        # first is charisma, as initial impression
+            # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
+            # first is charisma, as initial impression
             if self.worker.charisma >= 1500:
                 self.txt.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %self.worker.name)
                 self.loggs("joy", 1)
