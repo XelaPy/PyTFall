@@ -161,16 +161,11 @@
     # Loading apartments/guilds:
     call load_resources
     
+label dev_testing_menu:
     if config.developer:
         menu:
             "Test Intro":
                 call intro
-            "Skip":
-                pass
-            
-label dev_testing_menu:
-    if config.developer:
-        menu:
             "MC Setup Screen":
                 call mc_setup
                 $ neow = True
@@ -184,11 +179,11 @@ label dev_testing_menu:
             "Test Matrix":
                 call test_matrix
                 jump dev_testing_menu
-            "Test Vortex":
-                call test_vortex
-                jump dev_testing_menu
-            "Test Display":
+            "Test UDD/SFX":
                 menu:
+                    "Test Vortex":
+                        call test_vortex
+                        jump dev_testing_menu
                     "FilmStrip":
                         call screen testing_new_filmstrip
                         jump dev_testing_menu
@@ -199,9 +194,17 @@ label dev_testing_menu:
                         hide cataclysm
                         "Done"
                         jump dev_testing_menu
-            "Test Robert Penners Easing":
-                call screen test_penners_easing
-                jump dev_testing_menu
+                    "Particle":
+                        scene black
+                        show expression ParticleBurst([Solid("#%06x"%renpy.random.randint(0, 0xFFFFFF), xysize=(5, 5)) for i in xrange(50)], mouse_sparkle_mode=True) as pb
+                        pause
+                        hide pb
+                        jump dev_testing_menu
+                    "Test Robert Penners Easing":
+                        call screen test_penners_easing
+                        jump dev_testing_menu
+                        
+                        
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()

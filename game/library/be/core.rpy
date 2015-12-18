@@ -469,16 +469,22 @@ init -1 python: # Core classes:
                 else:
                     if battle.get_fighters(rows=[1]):
                         in_range = [f for f in in_range if f.row != 0]
-                                
+                             
+            # Now the type, we just care about friends and enemies:
+            if self.type in ["all_enemies", "se"]:
+                in_range = set([f for f in in_range if char.allegiance != f.allegiance])
+            elif self.type in ["all_allies", "sa"]:
+                in_range = set([f for f in in_range if char.allegiance == f.allegiance])
+                
             # In a perfect world, we're done, however we have to overwrite normal rules if no targets are found and backrow can hit over it's own range (for example):
-            if not in_range:
+            if not in_range: # <== We need to run "frenemy code prior to this!"
                 # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
                 # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
                 if char.row == 0:
                     # Case: Fighter in backrow and no defenders on opfor.
                     if not battle.get_fighters(rows=[2]) and self.range > 1:
                         # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[3]))
+                        in_range = in_range.union(battle.get_fighters(rows=[3])) # TODO: Union is prolly utterly useless here, confirm and remove!
                     # Case: Fighter in backrow and there is no defender on own team,
                     if not battle.get_fighters(rows=[1]):
                         # but there is at least one on the opfor:
@@ -508,12 +514,6 @@ init -1 python: # Core classes:
                         else:
                             in_range = in_range.union(battle.get_fighters(rows=[0]))
                 
-            # Now the type, we just care about friends and enemies:
-            if self.type in ["all_enemies", "se"]:
-                in_range = [f for f in in_range if char.allegiance != f.allegiance]
-            elif self.type in ["all_allies", "sa"]:
-                in_range = [f for f in in_range if char.allegiance == f.allegiance]
-                    
             return list(in_range) # So we can support indexing...
             
         def check_conditions(self, source=None):
@@ -774,8 +774,8 @@ init -1 python: # Core classes:
             targets = self.get_targets()
             t = renpy.call_screen("target_practice", self, targets)
             
-            self.effects_resolver(targets)
-            died = self.apply_effects(targets)
+            self.effects_resolver(t)
+            died = self.apply_effects(t)
             self.show_gfx(t, died)
             
             for tag in self.tags_to_hide:
@@ -828,17 +828,14 @@ init -1 python: # Core classes:
             skills = self.get_skills()
             if skills:
                 skill = choice(skills)
-                # So we have a skill... not lets pick a taget(s):
+                # So we have a skill... now lets pick a taget(s):
                 skill.source = self.source
-                targets = skill.get_targets()
+                targets = skill.get_targets() # Get all targets in range.
+                targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
                 
                 skill.effects_resolver(targets)
                 died = skill.apply_effects(targets)
-                
-                if "all" in skill.type:
-                    skill.show_gfx(targets, died)
-                else:
-                    skill.show_gfx(choice(targets), died)
+                skill.show_gfx(targets, died)
                 
             else:
                 skill = BE_Skip(source=self.source)

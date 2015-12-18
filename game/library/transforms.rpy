@@ -244,3 +244,11 @@ init -997: # Transforms:
         radius start_radius
         easeout t radius end_radius clockwise circles circles
         Null()
+        
+    transform particle(d, delay, speed=1.0, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
+        d
+        pause delay
+        subpixel True
+        around around
+        radius 0
+        linear speed radius radius angle angle

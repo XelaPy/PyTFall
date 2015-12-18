@@ -460,7 +460,7 @@
                         self.finish_job()
                         return
                     elif "Nymphomaniac" in char.traits:
-                        if char.disposition >= 600 and dice(char.joy-20):
+                        if dice(char.disposition - 550) and dice(char.joy-20): 
                             char.set_flag("jobs_whoreintro", choice(["It's not really a part of her job, but on the other hand %s doesn't mind to have some fun." % char.nickname, "Even though she is not a prostitute, %s isn't against quick sex with a random person today." % char.nickname]))
                             char.set_flag("jobs_introdis", -randint(1, 5))
                             char.set_flag("jobs_introjoy", randint(1, 5))
@@ -498,7 +498,7 @@
                         self.apply_stats()
                         self.finish_job()
                         return
-                    elif (check_lovers(char, hero) and char.disposition >= 750) or char.disposition >= 800:
+                    elif (check_lovers(char, hero) and char.disposition >= 750) or dice(char.disposition - 750):
                         char.set_flag("jobs_whoreintro", choice(["%s is not thrilled about having some stranger 'do' her, but she likes you too much to refuse." % char.nickname, "%s doesn't like the idea to do it with some stranger, but she doesn't want to argue with you either." % char.nickname]))
                         char.set_flag("jobs_introdis", -randint(20, 35))
                     else:
@@ -515,11 +515,11 @@
                         return
                 else:
                     if "Nymphomaniac" in char.traits:
-                        if char.disposition >= 600 and dice(char.joy-10):
+                        if dice (char.disposition - 550) and dice(char.joy-10):
                             char.set_flag("jobs_whoreintro", choice(["It's not really a part of her job, but on the other hand %s doesn't mind to have some fun." % char.nickname, "Even though she is not a prostitute, %s isn't against quick sex with a random person today." % char.nickname]))
                             char.set_flag("jobs_introjoy", randint(1, 5))
                             char.set_flag("jobs_introdis", -randint(1, 5))
-                        elif check_lovers(char, hero) or char.disposition >= 800:
+                        elif check_lovers(char, hero) or dice(char.disposition - 700):
                             char.set_flag("jobs_whoreintro", choice(["%s doesn't like the idea to do it with some stranger, but she likes you too much to object." % char.nickname, "As a loyal slave, %s will do as you command, even if she doesn't like the order." % char.nickname]))
                             char.set_flag("jobs_introdis", -randint(10, 20))
                             char.set_flag("jobs_introjoy", -randint(5, 15))
@@ -740,7 +740,7 @@
                 skill = self.worker.get_skill("vaginal")
                 tags = (("gay", '2c lickpussy'),
                             ("gay", "bc lickpussy"),
-                            ("gay", "2c lickanus"),
+                            ("gay", "2c lickanus"),   
                             ("gay", "bc lickanus"),
                             ("gay", "2c vaginalfingering"),
                             ("gay", "bc vagnalhandjob"), # @Inconsistent tagnames!
@@ -1151,8 +1151,8 @@
                 self.loc.fin.log_work_income(tips, "WhoreJob")
             
         def check_skills(self, skill=0):
-        # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
-        # first is charisma, as initial impression
+            # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
+            # first is charisma, as initial impression
             if self.worker.charisma >= 1500:
                 self.txt.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %self.worker.name)
                 self.loggs("joy", 1)
