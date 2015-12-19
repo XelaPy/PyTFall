@@ -561,10 +561,10 @@
             height = 705
             
             size = (width, height)
-            kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if self.client.act == 'sex':
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
                 self.txt.append(choice(["%s hired her for some good old straight sex. " % self.client.name, "%s is willing to pay for her pussy. " % self.client.name]))
                 if "Lesbian" in self.worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
                     skill = round(self.worker.get_skill("vaginal")*0.6 + self.worker.get_skill("sex")*0.15)
@@ -606,7 +606,7 @@
 
             # Anal Sex Act
             elif self.client.act == 'anal':
-                
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
                 self.txt.append(choice(["%s hired her for some anal fun. " % self.client.name, "%s is willing to pay her for backdoor action. " % self.client.name]))
                 if "Lesbian" in self.worker.traits:
                     skill = round(self.worker.get_skill("anal")*0.6 + self.worker.get_skill("sex")*0.15)
@@ -650,6 +650,7 @@
                 
             # Various job acts   
             elif self.client.act == 'blowjob':
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
                 self.txt.append(choice(["%s hired her for some side job on his thing. " % self.client.name, "%s is paying her today for naughty service. " % self.client.name]))
                 # here we will have to choose skills depending on selected act
                 tags = ({"tags": ["bc deepthroat"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc handjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc footjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc titsjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc blowjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["after sex"], "exclude": ["angry", "in pain", "dungeon", "sad"], "dice":20})
