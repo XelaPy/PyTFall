@@ -73,13 +73,13 @@ label interactions_friends:
         elif ct("Imouto"):
             $rc("Umm, uh... Sorry. Tehe♪", "Sure... Pfft... Just kidding, I lied～!", "I... don't trust you.")
         elif ct("Yandere"):
-           $rc("Maybe laterー", "Eeeh～...?")
+           $rc("Maybe later", "Eeeh～...?")
         elif ct("Ane"):
             $rc("Could you perhaps not get me involved in this? It is quite the bother.")
         elif ct("Kamidere"):
             $rc("I don't think I should...", "No way! You're looking at me all lewd!")
         elif ct("Bokukko"):
-            $rc("Ahー... This's kind of a huge pain...", "Mm, sounds kinda boring, y'know?")
+            $rc("Ah... This's kind of a huge pain...", "Mm, sounds kinda boring, y'know?")
         else:
             $rc("Maybe some other time.", "Something about this seems kinda suspicious... I think I'll pass.", "Nope", "Sorry. Maybe some other time.")
     $ char.restore_portrait()
@@ -141,7 +141,7 @@ label interactions_girlfriend:
         elif ct("Shy") and dice(20):  
             $rc("I-If you're okay with me...", "V-very well...  I-I'll work hard to be a woman fit to be with you.", "F-fine then...")
         elif ct("Imouto"):
-            $rc("Mufufu... Behold, the birth of a new lovey-dovey couple!", "I-I um, I like you too, actuallyー, ehehe♪", "Yes... Give me lots of love, please♪")
+            $rc("Mufufu... Behold, the birth of a new lovey-dovey couple!", "I-I um, I like you too, actually, ehehe♪", "Yes... Give me lots of love, please♪")
         elif ct("Dandere"):
             $rc("Okay. From this moment on, we are completely bound by destiny... Ehe.", "I will dedicate all of my passionate feelings to you.")
         elif ct("Kuudere"):  

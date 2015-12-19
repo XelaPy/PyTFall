@@ -230,7 +230,7 @@ label praise_yes:
     elif ct("Kamidere"):
         $rc("Thanks.", "Be a little serious please. …eh… you are?", "What was that? Are you planning to ask me out?", "You can say that all you want, I'm not going to give you anything～")
     elif ct("Bokukko"):
-        $rc("Hey, I really might be cool <giggles>.", "Well, I am cool! Hmph!", "Hehe, did you fall for me?", "Eh? You're interested in me~? That's some good taste, really good!", "Hm-hmm! That's right, respect me lots!", "Well, that's just the way it goes, y'know?", "Thanksiesー♪")
+        $rc("Hey, I really might be cool <giggles>.", "Well, I am cool! Hmph!", "Hehe, did you fall for me?", "Eh? You're interested in me~? That's some good taste, really good!", "Hm-hmm! That's right, respect me lots!", "Well, that's just the way it goes, y'know?", "Thanksies♪")
     elif ct("Yandere"):
         $rc("I'm not used to compliments…", "Is that so...?", "…ok.", "<smiles dreamilly> Mhm...", "...I'm happy.", "<gives you a faint smile> Nn...")
     else:

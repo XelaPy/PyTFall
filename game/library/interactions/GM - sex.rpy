@@ -17,7 +17,7 @@ init python:
                 
             return act
 
-label interactions_hireforsex: # we go to this label from GM menu hire for sex
+label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
     "You propose to pay her for sex."
     $ interactions_check_for_bad_stuff(char)
     if char.flag("quest_cannot_be_fucked") == True:
@@ -28,41 +28,68 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex
             call int_sex_nope
             $ char.disposition -= randint(15, 35)
             jump girl_interactions
-    elif char.vitality < 60:
+    elif char.vitality < 60: # no sex with low vitality
         call int_refused_because_tired
         jump girl_interactions
-    $ price = round((char.oral + char.anal + char.vaginal + char.sex) * 0.5) - hero.charisma + char.charisma*5 - round(char.disposition * 0.1)
+    $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
     if price <= 0:
         "You managed to charm her and get free service."
-    else:
-        if check_friends(char, hero):
-            $ price = round(price * 0.7)
-        if ct("Lesbian"):
-            $ price = round(price * 1.5)
-        if ct("Nymphomaniac"):
-            $ price = round(price * 0.9)
-        elif ct("Frigid"):
-            $ price = round(price * 1.1)
-        if hero.gold < price:
-            "She wants [price] G. You don't have so much money."
-            $ del price
-            jump girl_interactions
-        else:
-            menu:
-                "She wants [price] G. Do you want to pay her?"
+    # else:
+        # if check_friends(char, hero):
+            # $ price = round(price * 0.7)
+        # if ct("Lesbian"):
+            # $ price = round(price * 1.5)
+        # if ct("Nymphomaniac"):
+            # $ price = round(price * 0.9)
+        # elif ct("Frigid"):
+            # $ price = round(price * 1.1)
             
-                "Yes":
-                    if hero.take_money(price):
-                        $ char.add_money(price)
-                    else:
-                        "You don't have so much money."
-                        $ del price
-                        jump girl_interactions
-                "No":
-                    "You changed your mind. She looks unimpressed."
-                    $ char.disposition -= randint(1, 3)
+label int_whore_girl_says_her_price_for_sex: # who knows, maybe we'll need it somewhere else, so I put a label just in case
+    if ct("Impersonal"): 
+        $rc("Affirmative. It will be %d G." % price, "Calculations completed. %d G to proceed." % price)
+    elif ct("Shy") and dice(50):
+        $rc("S-sure. %d G, please." % price, "*blushes* I-i-it will be %d G..." % price)
+    elif ct("Imouto"):
+        $rc("Mmm, I think it should be %d G... No, wait, it will be %d G. I'm not very good with this stuff, hehe ♪" % (abs(price-randint(15,35)), price), "Ooh, you want to do 'it' with me, don't you? Ok, but it will cost you %d G." % price) 
+    elif ct("Dandere"):
+        $rc("I see. I shall do it for %d G." % price, "*she nods* %d G." % price)
+    elif ct("Tsundere"):
+        $rc("I'll do it for %d G. You better be thankful for my low prices." % price, "Fine, fine. I hope you have %d G then." % price)
+    elif ct("Kuudere"):
+        $rc("It will be %d. And no funny business, understood?" % price, "It will cost you %d G. Do you have so much money?" % price)
+    elif ct("Kamidere"):
+        $rc("What's that? You want to hire me? I want %d G then, money up front." % price, "Hm? You want my body? Well of course you do. %d G, and you can have it." % price)
+    elif ct("Bokukko"):
+        $rc("Sure thing. That will cost ya %d G." % price, "What'ya wanna? Ohoh, you wanna me, don't you? ♪ Alrighty, %d G and we good to go.")
+    elif ct("Ane"):
+        $rc("Let's see... How about %d G? Can you afford me? ♪" % price, "Hm? What's the matter? Need some... special service? For you my price is %d G ♪" % price)
+    elif ct("Yandere"):
+        $rc("Fine, I want %d G. No bargaining." % price, "Well, I suppose we can, if you want to... It will cost %d G." % price)
+    else:
+        $rc("You want to hire me? Very well, it will be %d G." % price, "Of course. For you my body costs %d G." % price)
+    if hero.gold < price:
+        "You don't have so much money."
+        call int_girl_dissapointed
+        $ del price
+        jump girl_interactions
+    else:
+        menu:
+            "She wants [price] G. Do you want to pay her?"
+            
+            "Yes":
+                if hero.take_money(price):
+                    $ char.add_money(price)
+                else:
+                    "You don't have so much money."
+                    call int_girl_dissapointed
                     $ del price
                     jump girl_interactions
+            "No":
+                "You changed your mind."
+                $ char.disposition -= randint(1, 3)
+                call int_girl_dissapointed
+                $ del price
+                jump girl_interactions
     $ del price
     if ct("Shy") or ct("Dandere"):
         "She's too shy to do it anywhere. You go to her room."
@@ -1653,7 +1680,7 @@ label int_sex_ok:
     elif ct("Shy") and dice(40):
         $rc("D-do you mean…  Ah, y-yes…  If I'm good enough…", "Eeh?! Th-that's... uh... W- well... I do... want to...", "O...okay. I'll do my best.", "I-I was thinking… That I wanted to be one with you…", "If it's you, I'm fine with anything...", "I too... wanted to be touched by you... ","I want my feelings…  To reach you…", "It's... it's... o-okay to... have... s--s-sex... with me...", "Uh... I... h...how should I say this... It... it'll be great if you could do it gently...", "Aah... p... please... I... I want it... I... I can't think of anything else now!", "I-I'll do my best... for your sake!", "Uhm... I want you... to be gentle...", "Um, I-I want to do it… Please treat me well…", "Uh, uhm, how should I...? Eh? You want it like this...? O-okay! Then, h-here I go…", "Eeh, i-is it ok with someone like me...?", "Sorry if I'm no good at this...", "Uh... p... please... d...do it for me... my whole body's aching right now...", "Umm... anything is fine as long as it's you...", "Umm… please do perverted things to me…", "I don't know how well I will do...")
     elif ct("Nymphomaniac") and dice(40):
-        $rc("Come on, I'll do the same for you, so please hurry and do me.", "Ahh, I can't wait anymore... quickly... please do me fast…", "I've been waiting for you all this time, so hurry up.", "Ready anytime you are.", "Please fill my naughty holes with your hot shaft.", " Let's do it all night long, okay? ...What, I'm just a dirty-minded girl~ ♪", "I don't mind. I really loooove to have sex. ♪", "Just watching is boring, right?  So… ♪", "...Shit! Now I'm horny as hell! ...Hey? You up for a go?", "Whenever, wherever…", "If you'd made me wait any longer I would have violated you myself.", "You know, had you kept me waiting any longer I would probably have jumped you myself.", "I hope you know how to handle a pussy...", "Man, who'd have thought that you are as perverted as I am...", "Ah... actually, I have been feeling sexually frustrated lately...", "Aah~~ Geez, I can't hold it anymore! Let's fuck!", "Hyauh…  Geez, do you have any idea how long I've been wet?", "Finally!", "You can ask me as much as you like... We can do it again... and again...", "...These perverted feelings... You can make them go away, can't you...?", "Umm, I-I'm always ready for it, so...!", "Turn me into a sloppy mess...!", "Let's do it! Right now! Take off your clothes! Hurry!", "Hmmm, what should I do～? ...Do you wanna do it THAT much～? I guess there's no stopping it～", "eah, it's okay. If that's what you want. Besides... I kinda like this stuff.", "Whatー, you want to do it tooー... Sure, let's do itー♪", "Mm, I might be able to learn some new tricks... Okay, fine by me!")
+        $rc("Come on, I'll do the same for you, so please hurry and do me.", "Ahh, I can't wait anymore... quickly... please do me fast…", "I've been waiting for you all this time, so hurry up.", "Ready anytime you are.", "Please fill my naughty holes with your hot shaft.", " Let's do it all night long, okay? ...What, I'm just a dirty-minded girl~ ♪", "I don't mind. I really loooove to have sex. ♪", "Just watching is boring, right?  So… ♪", "...Shit! Now I'm horny as hell! ...Hey? You up for a go?", "Whenever, wherever…", "If you'd made me wait any longer I would have violated you myself.", "You know, had you kept me waiting any longer I would probably have jumped you myself.", "I hope you know how to handle a pussy...", "Man, who'd have thought that you are as perverted as I am...", "Ah... actually, I have been feeling sexually frustrated lately...", "Aah~~ Geez, I can't hold it anymore! Let's fuck!", "Hyauh…  Geez, do you have any idea how long I've been wet?", "Finally!", "You can ask me as much as you like... We can do it again... and again...", "...These perverted feelings... You can make them go away, can't you...?", "Umm, I-I'm always ready for it, so...!", "Turn me into a sloppy mess...!", "Let's do it! Right now! Take off your clothes! Hurry!", "Hmmm, what should I do～? ...Do you wanna do it THAT much～? I guess there's no stopping it～", "eah, it's okay. If that's what you want. Besides... I kinda like this stuff.", "What, you want to do it too... Sure, let's do it♪", "Mm, I might be able to learn some new tricks... Okay, fine by me!")
     elif ct("Masochist") and dice (25):
         $rc("Feel free to make me your personal bitch slave!", "Geez～, you could have just taken me by force～...", "Kya~... I - am - being - molested -... Oh come on, at least play along a little bit...")
     elif ct("Sadist") and dice(25):
@@ -1669,7 +1696,7 @@ label int_sex_ok:
     elif ct("Ane"):
         $rc("Hmhm, what is going to happen to me, I wonder?", "Come on, show me what you've got...", "This looks like it will be enjoyable.", "If you can do this properly... I'll give you a nice pat on the head.", "Seems like you can't help it, huh...", "Fufufu, please don't overdo it, okay?", "Go ahead and do it as you like, it's okay.", "Very well, I can show you a few things... Hmhm.")
     elif ct("Bokukko"):
-        $rc("Right, yeah... As long as you don't just cum on your own, sure, let's do it", "Y-yeah… I sort of want to do it, too... ehehe…", "Wha!? C-can you read my mind...?", "Ah, eh, right now?", "Okay... but I'll do it like I want, kay?" ,"...Okay, that's it! I can't stand it! I've gotta fuck ya!", "S-sure… Ehehe, I'm, uh, kind of interested, too…", "Hey, let's do it while we got some time to kill...?", "Hehee, just leave it all to me! I'll make this awesome!", "Gotcha, sounds like a plan!", "Hey, maybe… The two of us could have an anatomy lesson?", "Is that ok? Ehehe... I wanted to do it too…", "Huhu… I want to do it with a pervert like you.", "Ehehe… In that case, let's go hog wild~", "Ehehe… So... let's do it. ♪", "Hmph... if you'd like, I'll give ya' some lovin'. ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Y-yeah... if we're going to do it, we should do it now...", "Huhuh, I sort of want to do it now...", "Hey, er…  Wanna try doing it with me...?", "Well, I s'pose once in a while wouldn't hurtー♪")
+        $rc("Right, yeah... As long as you don't just cum on your own, sure, let's do it", "Y-yeah… I sort of want to do it, too... ehehe…", "Wha!? C-can you read my mind...?", "Ah, eh, right now?", "Okay... but I'll do it like I want, kay?" ,"...Okay, that's it! I can't stand it! I've gotta fuck ya!", "S-sure… Ehehe, I'm, uh, kind of interested, too…", "Hey, let's do it while we got some time to kill...?", "Hehee, just leave it all to me! I'll make this awesome!", "Gotcha, sounds like a plan!", "Hey, maybe… The two of us could have an anatomy lesson?", "Is that ok? Ehehe... I wanted to do it too…", "Huhu… I want to do it with a pervert like you.", "Ehehe… In that case, let's go hog wild~", "Ehehe… So... let's do it. ♪", "Hmph... if you'd like, I'll give ya' some lovin'. ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Y-yeah... if we're going to do it, we should do it now...", "Huhuh, I sort of want to do it now...", "Hey, er…  Wanna try doing it with me...?", "Well, I s'pose once in a while wouldn't hurt♪")
     elif ct("Yandere"):
         $rc("Yes, let's have passionate sex, locked together♪", "Hehe. How should I make you feel good?", "If we have sex you will never forget me, right?♪", "Please do your best... if it's you, it'll be okay.", "Heh heh... You're going to feel a lot of pleasure. Try not to break on me.", "Alright, I'll just kill some time playing around with your body...", "Feel grateful for even having the opportunity to touch my body.", "Huhuh, I'll kill you with my tightness...", "You're lewd～♪")
     elif ct("Kamidere"):
@@ -1708,7 +1735,7 @@ label int_sex_nope:
     elif ct("Shy") and dice(40):
         $rc("I... I don't want that! ","W-we can't do that. ","I-I don't want to. ...sorry.")
     elif ct("Imouto"):
-        $rc("Noooo way!", "I, I think perverted things are bad!", "That only happens after you've made your vows to be together forever, right?", "...I-I'm gonna get mad if you say that stuff, you know? Jeez!", "Y-you dummyー! You should be talking about stuff like s-s-sexー!") 
+        $rc("Noooo way!", "I, I think perverted things are bad!", "That only happens after you've made your vows to be together forever, right?", "...I-I'm gonna get mad if you say that stuff, you know? Jeez!", "Y-you dummy! You should be talking about stuff like s-s-sex!") 
     elif ct("Dandere"):
         $rc("Keep sexual advances to a minimum.", "No.", "...pathetic.", "...you're no good.")
     elif ct("Tsundere"):
@@ -1718,7 +1745,7 @@ label int_sex_nope:
     elif ct("Kamidere"):
         $rc("Wh-who do you think you are!?", "W-what are you talking about… Of course I'm against that!", "What?! How could you think that I... NO!", "What? Asking that out of the blue? Know some shame!", "You should really settle down.", "What? Dying wish? You want to die?", "The meaning of 'not knowing your place' must be referring to this, eh...?", "I don't know how anyone so despicable as you could exist outside of hell.")
     elif ct("Bokukko"):
-        $rc("He- Hey, Settle down a bit, okay?", "You should keep it in your pants, okay?", "Y-you're talking crazy...", "Hmph! Well no duhー!")
+        $rc("He- Hey, Settle down a bit, okay?", "You should keep it in your pants, okay?", "Y-you're talking crazy...", "Hmph! Well no duh!")
     elif ct("Ane"):
         $rc("If I was interested in that sort of thing I might, but unfortunately...", "Sorry... I'm not ready for that...", "Oh my, can't you think of a better way to seduce me?", "No. I have decided that it would not be appropriate.", "I'm sorry, it's too early for that.", "I don't think our relationship has progressed to that point yet.", "I think that you are being way too aggressive.", "I'm not attracted to you in ‘that’ way.")
     elif ct("Yandere"):
@@ -1726,29 +1753,4 @@ label int_sex_nope:
     else:
         $rc("No! Absolutely NOT!", "With you? Don't make me laugh.", "Yeah right, dickhead.", "Yeah, get the fuck away from me, you disgusting perv.", "Get lost, pervert!", "Woah, hold on there, killer. Maybe after we get to know each other better.", "Don't tell me that you thought I was a slut...?", "I'm just really tired... ok?", "How about you fix that 'anytime's fine' attitude of yours, hmm?")  
     $ char.restore_portrait()
-    return
-
-label int_refused_because_tired:
-    if ct("Impersonal"):
-        $rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
-    elif ct("Shy") and dice(50):
-        $rc("W-well, I'm a bit tired right now... Maybe some other time...", "Um, I-I don't think I can do it, I'm exhausted. Sorry...")
-    elif ct("Imouto"):
-        $rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*") 
-    elif ct("Dandere"):
-        $rc("No. Too tired.", "Not enough strength. I need to rest.")
-    elif ct("Tsundere"):
-        $rc("I must rest at first. Can't you tell?", "I'm too tired, don't you see?! Honestly, some people...")
-    elif ct("Kuudere"):
-        $rc("I'm quite exhausted. Maybe some other time.", "I really could use some rest right now, my body is tired.")
-    elif ct("Kamidere"):
-        $rc("I'm tired, and have to intentions to do anything but rest.", "I need some rest. Please don't bother me.")
-    elif ct("Bokukko"):
-        $rc("Naah, don't wanna. Too tired.", "*yawns* I could use a nap first...")
-    elif ct("Ane"):
-        $rc("Unfortunately I'm quite tired at the moment. I'd like to rest a bit.", "Sorry, I'm quite sleepy. Let's do it another time.")
-    elif ct("Yandere"):
-        $rc("Ahh, my whole body aches... I'm way too tired.", "The only thing I can do properly now is to take a good nap...")
-    else:
-        $rc("*sign* I'm soo tired lately, all I can think about is a cozy warm bed...", "I am ready to drop. Some other time perhaps.")
     return

@@ -65,7 +65,7 @@ label interactions_hug:
         elif ct("Ane"):
             $rc("I wanted to stay together for a bit longer... just kidding...", "Hm? You're kind of close... Oh, so that's what this is all about...", "Fufu, you're like a spoiled kid...♪", "Come on, hold me tighter.", "There's no helping it. Only a little longer, got it?", "Hn… Yeah, alright, if it's just a hug…", "Heh... I never thought I'd be comforted by you...")
         elif ct("Yandere"):
-            $rc("Mhmhmー♪　Go aheadー, come a little closer♪", "Nnh...more, squeeze me tighter...", "Ehehe, looks like you really calm down when I give you a rub-rub～♪", "Um... Don't hold out on me, okay...? Go a little harder...", "It's just a hug, but... It feels so nice♪", "I'm for you to embrace.")
+            $rc("Mhmhm♪　Go ahead, come a little closer♪", "Nnh...more, squeeze me tighter...", "Ehehe, looks like you really calm down when I give you a rub-rub～♪", "Um... Don't hold out on me, okay...? Go a little harder...", "It's just a hug, but... It feels so nice♪", "I'm for you to embrace.")
         elif ct("Bokukko"):
             $rc("How's it feel, holding me...?", "Wha... What's this? Heartbeat?", "Doesn't this make you happy?", "mh～ Yeah. It really feels nice to embrace you～♪", "Geez, quit flailing around～. It's just a hug!", "Ah, hey... Fine, just a little...")
         else:
@@ -86,7 +86,7 @@ label interactions_hug:
         elif ct("Kamidere"):
             $rc("<Steps back> W...what are you... doing!?", "<Escapes your embrace> This... This is embarrassing after all… Stop it.", "I'm fine… so just leave me alone!", "S... Stop it. What else? This is embarrassing.")
         elif ct("Imouto"):
-            $rc("Kya! He- hey, Let go of me...", "Huhuh, Not right now.", "No waay~!", "<slipped away from you> Hehe, you won't catch me ♪", "Uuu... I'm booooredー! Let's do something elseー!")
+            $rc("Kya! He- hey, Let go of me...", "Huhuh, Not right now.", "No waay~!", "<slipped away from you> Hehe, you won't catch me ♪", "Uuu... I'm boooored! Let's do something else!")
         elif ct("Tsundere"):
             $rc("W-What's with you all of a sudden!?", "W-Why do we have to do that!?")
         elif ct("Bokukko"):
@@ -177,7 +177,7 @@ label interactions_slapbutt:
         elif ct("Ane"):
             $rc("Hmhm, don't feel like you have to hold back, hey?", "Hmhm, are you getting turned on?", "Your appetite for lust is proof of your health.")
         else:
-            $rc("Hya! If you keep doing that, Hnn! I'll get in the mood…", "Geez, you're hopeless.", "Even if you touch me, nothing interesting is going to happen.", "Teasing people isn't good, you know~", "*giggle* How troublesome♪", "Such a surprise attack is not fair!", "Kya…  Doing this all of sudden, that surprised me.", "So pushy…  Are you proposing or something?", "Is touching me really that fun? I don't really get it... but if you're enjoying it, then sure, I guess.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn") 
+            $rc("Hya! If you keep doing that, Hnn! I'll get in the mood…", "Geez, you're hopeless.", "Even if you touch me, nothing interesting is going to happen.", "Teasing people isn't good, you know~", "*giggle* How troublesome ♪", "Such a surprise attack is not fair!", "Kya…  Doing this all of sudden, that surprised me.", "So pushy…  Are you proposing or something?", "Is touching me really that fun? I don't really get it... but if you're enjoying it, then sure, I guess.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn") 
 
     else:
         $ char.override_portrait("portrait", "angry")
@@ -279,7 +279,7 @@ label interactions_grabbreasts:
         elif ct("Ane"):
             $rc("Mm... You're considerably skilled.　Ah...oh yes, please, over there too...", "Be as spoiled as you like. I'll accept all of it...", "Nnh, how do I feel, hmm?", "There... When you fondle gently, it feels really good...", "Nn... I want to be touched by you...", "Ah... please keep rubbing me like that...", "Gently rubbing me like this... It's very good.", "When you play with my breasts like that my body feels so light." ,"Yes, like that. Be gentle with them...")
         elif ct("Yandere"):
-            $rc("Mmhー, little to the left... Ahーyes, yes, right there, oh god...", "Hyah! Ahn... please, spare me from this lewdness～", "Ah... Wait! When did you...?")
+            $rc("Mmh, little to the left... Ahyes, yes, right there, oh god...", "Hyah! Ahn... please, spare me from this lewdness～", "Ah... Wait! When did you...?")
         else:
             $rc("Nnn… It's okay to rub it just a little.", "Mm~ Being touched every now and then isn't so bad, I guess?", "...You're surprisingly bold. I like that", "Kya, Hnn, Geez~, you've got such perverted hands!", "Hmm, *moan*, phew... It feels good, even over the clothes…", "My soft tits feel good, don't they?", "Oh my~ You're even touching there!?", "Ah... fondle my breasts...", "You like my breasts, don't you?", "Y... Yes... Continue massaging...like that.", "Aah... my chest... it feels so good.", "No... This is no good... Ahhh... Doing a thing like this... But... I…", "I... Ah… Do you like my boobs...?", "Ahhh, that feels so good.", "Hnnn, you've got... some naughty hands... uhn!", "Hnn, you don't need to rub so hard...", "With this... my breasts... are very easy to stimulate...", "Rubbing my tits... I love this!", "It feels good... m...my nipples... What you did just now felt so good!", "You're pretty damn good... ", "This feeling... from your massage... is so good.", "God you are such a perve! <Smiles>", "Aahhh... you can do it harder if you want～") 
 
@@ -304,7 +304,7 @@ label interactions_grabbreasts:
         elif ct("Bokukko"):
             $rc("Hey! Where do ya think you're touching, you pervert!", "Whoah, wait! Where are you touching me?", "Hya! ...What are you, a molester!?", "What?! You dumbass, what are you doing?!", "Hey! Don't be such a dick.", "W-wait, not there, hnn, hey, you're going too far...")
         elif ct("Imouto"):
-            $rc("Kyaa! Geez! Help! There's a lewd molester here~!", "Oww..! You've made me mad..!", "Hyauuu! Noo, youuu, boob freak!", "Ueh. Hey, get away from me~", "Jeez, don't be doing lewd stuff, okayー?", "Whoa, what're you trying to doー")
+            $rc("Kyaa! Geez! Help! There's a lewd molester here~!", "Oww..! You've made me mad..!", "Hyauuu! Noo, youuu, boob freak!", "Ueh. Hey, get away from me~", "Jeez, don't be doing lewd stuff, okay?", "Whoa, what're you trying to do")
         elif ct("Kamidere"):
             $rc("What an idiot. What do you mean by 'Oops'?", "How dare you?! Know your place your filthy piece of trash!", "Piss off you fucktard!", "<jumps away> Ha! Like I'll ever let a loser like you touch me.", "Huhuhuh… I wonder how warm it would be to bathe in your blood...?")
         else:
