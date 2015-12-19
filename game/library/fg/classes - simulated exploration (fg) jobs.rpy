@@ -366,7 +366,7 @@ init python:
                 self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
                 for char in self.team:
                     for stat in self.hazard:
-                        char.mod(stat, self.hazard[stat]*-1)
+                        char.mod(stat, -self.hazard[stat])
             
             ap = sum(list(girl.AP for girl in self.team))
             

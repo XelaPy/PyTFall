@@ -208,7 +208,7 @@
                 
                 elif stat == 'dirt':
                     if self.locmod[stat] < 0:
-                        self.loc.clean(self.locmod[stat]*-1)
+                        self.loc.clean(-self.locmod[stat])
                     
                     else:
                         self.loc.dirt += self.locmod[stat]
@@ -403,7 +403,7 @@
                 
                 elif stat == 'dirt':
                     if self.locmod[stat] < 0:
-                        self.loc.clean(self.locmod[stat]*-1)
+                        self.loc.clean(-self.locmod[stat])
                     
                     else:
                         self.loc.dirt += self.locmod[stat]

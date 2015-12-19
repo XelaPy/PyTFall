@@ -20,8 +20,8 @@ label test_be:
             enemy_team.add(mob)
         # Add new attack types to see how they look on the other side:
         for m in enemy_team:
-            m.magic_skills.append(battle_skills["Pure Cataclysm"])
-            m.magic_skills.append(battle_skills["Pure Ion Storm"])
+            m.magic_skills.append(battle_skills["Cataclysm"])
+            # m.magic_skills.append(battle_skills["Pure Ion Storm"])
             
         
         h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
