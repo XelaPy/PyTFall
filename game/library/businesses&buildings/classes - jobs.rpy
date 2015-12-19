@@ -561,7 +561,7 @@
             height = 705
             
             size = (width, height)
-            kwargs = dict(exclude=["rape", "angry", "in pain"], resize=size, type="reduce", add_mood=False)
+            kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if self.client.act == 'sex':
@@ -575,26 +575,26 @@
                     vaginalmod = 1 if dice(25) else 0
                     sexmod = 1 if dice(10) else 0
                 # Temporarily done here, should be moved to game init and after_load to improve performance:
-                tags = (("2c vaginal", "ontop"), ("2c vaginal", "doggy"), ("2c vaginal", "missionary"), ("2c vaginal", "onside"), ("2c vaginal", "standing"), ("2c vaginal", "spooning"))
+                tags = ({"tags": ["2c vaginal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]})
                 act = self.get_act(tags)
                 if act == tags[0]:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c vaginal", "ontop", **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c vaginal", "doggy", **kwargs)
                 elif act == tags[2]:
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your pussy is wrapping around me so tight!' \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c vaginal", "missionary", **kwargs)
                 elif act == tags[3]:
                     self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c vaginal", "onside", **kwargs)
                 elif act == tags[4]:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c vaginal", "standing", **kwargs)
                 elif act == tags[5]:
                     self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c vaginal", "spooning", **kwargs)
                 else:
                     self.txt.append(choice(['He wanted some old-fashioned straight fucking. \n',
                                                          'He was in the mood for some pussy pounding. \n',
@@ -621,27 +621,27 @@
                                                       "Customer's dick got harder and harder just from the thought of %s's asshole! "%self.worker.nickname]))
                 
                 # Temporarely done here, should be moved to game init and after_load to improve performance:
-                tags = (("2c anal", "ontop"), ("2c anal", "doggy"), ("2c anal", "missionary"), ("2c anal", "onside"), ("2c anal", "standing"), ("2c anal", "spooning"))
+                tags = ({"tags": ["2c anal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]})
                 act = self.get_act(tags)
                 
                 if act == tags[0]:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl on top' position. \n")
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c anal", "ontop", **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c anal", "doggy", **kwargs)
                 elif act == tags[2]:
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your anus is wrapping around me so tight!' \n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c anal", "missionary", **kwargs)
                 elif act == tags[3]:
                     self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c anal", "onside", **kwargs)
                 elif act == tags[4]:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c anal", "standing", **kwargs)
                 elif act == tags[5]:
                     self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("2c anal", "spooning", **kwargs)
                 else:
                     self.txt.append(choice(['He took her in the ass right there and then. \n',
                                                           'He got his dose of it. \n',
@@ -650,11 +650,10 @@
                 
             # Various job acts   
             elif self.client.act == 'blowjob':
-                self.txt.append(choice(["%s hired her for some side job on his thing. " % self.client.name, "%s is paying her today for naughty service ." % self.client.name]))
+                self.txt.append(choice(["%s hired her for some side job on his thing. " % self.client.name, "%s is paying her today for naughty service. " % self.client.name]))
                 # here we will have to choose skills depending on selected act
-                tags = (('bc deepthroat'), ('bc handjob'), {"tags": ['bc footjob'], "dice": 80}, ('bc titsjob'), {"tags": ["after sex"], "dice": 10}, ("bc blowjob"))
+                tags = ({"tags": ["bc deepthroat"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc handjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc footjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc titsjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc blowjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["after sex"], "exclude": ["angry", "in pain", "dungeon", "sad"], "dice":20})
                 act = self.get_act(tags)
-                
                 if act == tags[0]:
                     self.txt.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
                     if "Lesbian" in self.worker.traits:
@@ -665,7 +664,7 @@
                         skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("bc deepthroat", **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He told %s to give him a good handjob.\n"%self.worker.nickname)
                     if "Lesbian" in self.worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
@@ -676,9 +675,9 @@
                         skill = round(self.worker.get_skill("oral")*0.75 + self.worker.get_skill("sex")*0.25)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("bc handjob", **kwargs)
                 elif act == tags[2]:
-                    self.txt.append(choice(["He asked her for a foodjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
+                    self.txt.append(choice(["He asked her for a footjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
                     if "Lesbian" in self.worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
                         skill = round(self.worker.get_skill("oral")*0.6 + self.worker.get_skill("sex")*0.1)
                         oralmod = 1 if dice(20) else 0
@@ -687,7 +686,7 @@
                         skill = round(self.worker.get_skill("oral")*0.75 + self.worker.get_skill("sex")*0.25)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
-                    self.img = self.worker.show(*act["tags"], **kwargs)                    
+                    self.img = self.worker.show("bc footjob", **kwargs)                    
                 elif act == tags[3]:
                     if "Lesbian" in self.worker.traits:
                         skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.65)
@@ -697,16 +696,16 @@
                         skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
-                    if trats["Big Boobs"] in self.worker.traits or traits["Abnormally Large Boobs"] in self.worker.traits:
-                        self.txt.append(choice(["He went straight for her big boobs. \n", "Seeing her knockers, customer wanted notning else then to park his dick between them. \n", "Lustfully gazing on your girl's burst, he asked for a titsjob. \n", "He put his manhood between her big tits. \n" , "He showed his cock between %s's enormous breasts. \n"%self.worker.nickname]))
+                    if traits["Big Boobs"] in self.worker.traits or traits["Abnormally Large Boobs"] in self.worker.traits:
+                        self.txt.append(choice(["He went straight for her big boobs. \n", "Seeing her knockers, customer wanted nothing else then to park his dick between them. \n", "Lustfully gazing on your girl's burst, he asked for a titsjob. \n", "He put his manhood between her big tits. \n" , "He showed his cock between %s's enormous breasts. \n"%self.worker.nickname]))
                     elif traits["Small Boobs"] in self.worker.traits:
                         if dice(15):
-                            self.txt.append("With a smirk on his face, customer asked for a titsjob. He was having fun from her vain effords. \n")
+                            self.txt.append("With a smirk on his face, customer asked for a titsjob. He was having fun from her vain efforts. \n")
                         else:    
-                            self.txt.append(choice(["He placed his cock between her breasts, clearly enyoing her flat chest. \n", "Even when knowing that her breasts are small, he wanted to be carresed by them. \n"]))
+                            self.txt.append(choice(["He placed his cock between her breasts, clearly enjoining her flat chest. \n", "Even when knowing that her breasts are small, he wanted to be caressed by them. \n"]))
                     else:
-                        self.txt.append(choice(["He asked for a titsjob. \n", "He let %s to carres him with her breasts. \n", "He showed his cock between %s's tits. \n"%self.worker.nickname]))
-                    self.img = self.worker.show(*act, **kwargs)
+                        self.txt.append(choice(["He asked for a titsjob. \n", "He let %s to caress him with her breasts. \n", "He showed his cock between %s's tits. \n"%self.worker.nickname]))
+                    self.img = self.worker.show("bc titsjob", **kwargs)
                 elif act == tags[4]:
                     if "Lesbian" in self.worker.traits:
                         skill = round(self.worker.get_skill("sex")*0.75)
@@ -715,8 +714,8 @@
                         skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.9)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(5) else 0
-                    self.txt.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejactuate on her face. \n", "He wanked himself hard in efford to cover her with his cum. \n"]))
-                    self.img = self.worker.show(*act["tags"], **kwargs)        
+                    self.txt.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejaculate on her face. \n", "He wanked himself hard in effort to cover her with his cum. \n"]))
+                    self.img = self.worker.show("after sex", **kwargs)        
                 elif act == tags[5]:
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
                     if "Lesbian" in self.worker.traits:
@@ -727,7 +726,7 @@
                         skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("bc blowjob", **kwargs)
                 else: # I do not thing that this will ever be reached...
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
                     skill = self.worker.get_skill("oral")
@@ -736,29 +735,11 @@
 
             # Lesbian Act
             elif self.client.act == 'lesbian':
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad"], resize=size, type="reduce", add_mood=False)
                 self.txt.append("%s hired her for some hot girl on girl action. " % self.client.name)
                 skill = self.worker.get_skill("vaginal")
-                tags = (("gay", '2c lickpussy'),
-                            ("gay", "bc lickpussy"),
-                            ("gay", "2c lickanus"),   
-                            ("gay", "bc lickanus"),
-                            ("gay", "2c vaginalfingering"),
-                            ("gay", "bc vagnalhandjob"), # @Inconsistent tagnames!
-                            ("gay", "2c analfingering"),
-                            ("gay", "bc analhandjob"),  # @Inconsistent tagnames!
-                            ("gay", "2c caresstits"),
-                            ("gay", "bc caresstits"),
-                            ("gay", "bc hug", "2c hug"),
-                            ("gay", "2c vaginal"),
-                            ("gay", "bc vaginal"),
-                            ("gay", "2c anal"),
-                            ("gay", "bc anal"),
-                            ("gay", "2c vaginaltoy"),
-                            ("gay", "bc toypussy"),  # @Inconsistent tagnames!
-                            ("gay", "2c analtoy"),
-                            ("gay", "bc toyanal"),  # @Inconsistent tagnames!
-                            {"tags": ["gay"], "exclude": ["2c vaginal", "2c vaginaltoy"]}
-                    )
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad"], resize=size, type="reduce", add_mood=False)
+                tags = ({"tags": ["gay", "2c lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c vaginalfingering"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc vagnalhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c analfingering"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc analhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc hug", "2c hug"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c anal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc anal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c vaginaltoy"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc toypussy"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c analtoy"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc toyanal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "scissors"], "exclude": ["angry", "in pain", "dungeon", "sad"]})
                 act = self.get_act(tags)
                 # We'll be adding "les" here as Many lesbian pics do not fall in any of the categories and will never be called...
                 if act == tags[0]:
@@ -779,7 +760,7 @@
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c lickpussy", **kwargs)
                 elif act == tags[1]:
                     self.txt.append(choice(["All hot and bothered, she ordered %s to lick her cunt. \n"%self.worker.nickname,
                                                          "As if she had an itch, she quickly told %s to tong her pussy. \n"%self.worker.nickname]))
@@ -798,7 +779,7 @@
                         sexmod = 1 if dice(8) else 0
                         oralmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc lickpussy", **kwargs)
                 elif act == tags[2]:
                     self.txt.append(choice(["She licked %ss anus clean.\n"%self.worker.nickname,
                                                                                     "She told %s to be still and started licking her asshole with her hot tong. \n"%self.worker.nickname]))
@@ -817,7 +798,7 @@
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c lickanus", **kwargs)
                 elif act == tags[3]:
                     self.txt.append(choice(["All hot and bothered, she ordered %s to lick her asshole. \n"%self.worker.nickname,
                                                          "As if she had an itch, she quickly told %s to tong her anus. \n"%self.worker.nickname]))
@@ -836,7 +817,7 @@
                         sexmod = 1 if dice(8) else 0
                         oralmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc lickanus", **kwargs)
                 elif act == tags[4]:
                     self.txt.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls pussy. \n",
                                                          "She watched %s moan as she stuck fingers in her pussy. \n"%self.worker.nickname]))
@@ -852,7 +833,7 @@
                         skill = round(self.worker.get_skill("vaginal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c vaginalfingering", **kwargs)
                 elif act == tags[5]:
                     self.txt.append(choice(["Quite horny, she ordered your girl to finger her cunt. \n",
                                                          "Clearly in the mood, she told %s to finger her until she cums. \n"%self.worker.nickname]))
@@ -868,7 +849,7 @@
                         skill = round(self.worker.get_skill("vaginal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc vagnalhandjob", **kwargs)
                 elif act == tags[6]:
                     self.txt.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls anus. \n",
                                                          "She watched %s moan as she stuck fingers in her asshole. \n"%self.worker.nickname]))
@@ -884,7 +865,7 @@
                         skill = round(self.worker.get_skill("anal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c analfingering", **kwargs)
                 elif act == tags[7]:
                     self.txt.append(choice(["Quite horny, she ordered your girl to finger her anus. \n",
                                                          "Clearly in the mood, she told %s to finger her asshole until she cums. \n"%self.worker.nickname]))
@@ -900,7 +881,7 @@
                         skill = round(self.worker.get_skill("anal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc analhandjob", **kwargs)
                 elif act == tags[8]:
                     self.txt.append(choice(["Liking your girls breasts, she had some good time caressing them. \n",
                                                          "She enjoyed herself by caressing your girls breasts. \n"]))
@@ -913,7 +894,7 @@
                     else:
                         skill = round(self.worker.get_skill("sex")*0.9)
                         sexmod = 1 if dice(20) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c caresstits", **kwargs)
                 elif act == tags[9]:
                     self.txt.append(choice(["She asked your girl to caress her tits. \n",
                                                          "She told your girl to put a squeeze on her breasts. \n"]))
@@ -926,7 +907,7 @@
                     else:
                         skill = round(self.worker.get_skill("sex")*0.9)
                         sexmod = 1 if dice(20) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc caresstits", **kwargs)
                 elif act == tags[10]:
                     self.txt.append(choice(["Girls lost themselves in eachothers embrace.\n",
                                                          "Any good lesbo action should start with a hug, don't you think??? \n"]))
@@ -939,7 +920,7 @@
                     else:
                         skill = round(self.worker.get_skill("sex")*0.9)
                         sexmod = 1 if dice(20) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc hug", "2c hug", **kwargs)
                 elif act == tags[11]:
                     self.txt.append(choice(["She put on a strapon and fucked your girl in her cunt. \n",
                                                           "Equipping herself with a strap-on, she lustfully shoved it in %ss pussy. \n"%self.worker.nickname]))
@@ -955,11 +936,11 @@
                         skill = round(self.worker.get_skill("vaginal")*0.7 + self.worker.get_skill("sex")*0.2)
                         vaginalmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c vaginal", **kwargs)
                     self.take_virginity()
                 elif act == tags[12]:
                     self.txt.append(choice(["She ordered %s to put on a strapon and fuck her silly with it. \n"%self.worker.nickname,
-                                                          "She equipped %s with a strapon and told her that she was 'up' for a good fuck! \n"]))
+                                                          "She equipped %s with a strapon and told her that she was 'up' for a good fuck! \n" %self.worker.nickname]))
                     if "Lesbian" in self.worker.traits:
                         skill = round(self.worker.get_skill("sex")*0.9 + self.worker.get_skill("vaginal")*0.3)
                         sexmod = 1 if dice(25) else 0
@@ -972,10 +953,10 @@
                         skill = round(self.worker.get_skill("sex")*0.6 + self.worker.get_skill("vaginal")*0.15)
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc vaginal", **kwargs)
                 elif act == tags[13]:
                     self.txt.append(choice(["She put on a strapon and fucked your girl in her butt. \n",
-                                                          "Equipping herself with a strapon, she lustfully shoved it in %ss asshole. \n"%self.worker.nickname]))
+                                                          "Equipping herself with a strapon, she lustfully shoved it in %s's asshole. \n"%self.worker.nickname]))
                     if "Lesbian" in self.worker.traits:
                         skill = round(self.worker.get_skill("anal")*0.9 + self.worker.get_skill("sex")*0.3)
                         analmod = 1 if dice(25) else 0
@@ -988,7 +969,7 @@
                         skill = round(self.worker.get_skill("anal")*0.6 + self.worker.get_skill("sex")*0.2)
                         analmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c anal", **kwargs)
                 elif act == tags[14]:
                     self.txt.append(choice(["She ordered %s to put on a strapon and butt-fuck her silly with it. \n"%self.worker.nickname,
                                                          "She equipped %s with a strapon and told her that she was 'up' for a good anal fuck! \n"]))
@@ -1004,7 +985,7 @@
                         skill = round(self.worker.get_skill("sex")*0.6 + self.worker.get_skill("anal")*0.15)
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc anal", **kwargs)
                 elif act == tags[15]:
                     self.txt.append(choice(["She played with a toy and %ss pussy. \n"%self.worker.nickname,
                                                          "She stuck a toy up %s cunt. \n"%self.worker.nickname]))
@@ -1020,7 +1001,7 @@
                         skill = round(self.worker.get_skill("vaginal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c vaginaltoy", **kwargs)
                     self.take_virginity()
                 elif act == tags[16]:
                     self.txt.append(choice(["Without further ado, %s fucked her with a toy. \n"%self.worker.nickname,
@@ -1037,7 +1018,7 @@
                         skill = round(self.worker.get_skill("vaginal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc toypussy", **kwargs)
                 elif act == tags[17]:
                     self.txt.append(choice(["After some foreplay, she stuck a toy up your girls butt. \n",
                                                                                    "For her money, she had some fun playing with a toy and your girls asshole. \n"]))
@@ -1053,7 +1034,7 @@
                         skill = round(self.worker.get_skill("anal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "2c analtoy", **kwargs)
                 elif act == tags[18]:
                     self.txt.append(choice(["After some foreplay, she asked %s to shove a toy up her ass. \n"%self.worker.nickname,
                                                          "This female customer of your brothel clearly believed that there is no greater pleasure than a toy up her butt. \n"]))
@@ -1069,7 +1050,23 @@
                         skill = round(self.worker.get_skill("anal")*0.15 + self.worker.get_skill("sex")*0.65)
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
-                    self.img = self.worker.show(*act, **kwargs)
+                    self.img = self.worker.show("gay", "bc toyanal", **kwargs)
+                elif act == tags[19]:
+                    self.txt.append(choice(["She was hoping to get some clit to clit action, and she got it. \n",
+                                                         "The female customer asked for a session of hot, sweaty tribadism. \n"]))
+                    if "Lesbian" in self.worker.traits:
+                        skill = round(self.worker.get_skill("anal")*0.4 + self.worker.get_skill("sex")*0.8)
+                        sexmod = 1 if dice(25) else 0
+                        analmod = 1 if dice(10) else 0
+                    elif "Bisexual" in self.worker.traits:
+                        skill = round(self.worker.get_skill("anal")*0.2 + self.worker.get_skill("sex")*0.8)
+                        sexmod = 1 if dice(22) else 0
+                        analmod = 1 if dice(9) else 0
+                    else:
+                        skill = round(self.worker.get_skill("anal")*0.15 + self.worker.get_skill("sex")*0.65)
+                        sexmod = 1 if dice(20) else 0
+                        analmod = 1 if dice(8) else 0
+                    self.img = self.worker.show("gay", "scissors", **kwargs)
                 else:
                     self.txt.append(choice(["She was in the mood for some girl on girl action. \n", "She asked for a good lesbian sex. \n"]))
                     if "Lesbian" in self.worker.traits:
