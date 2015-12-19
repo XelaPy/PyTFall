@@ -23,12 +23,13 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex
     if char.flag("quest_cannot_be_fucked") == True:
         call int_sex_nope
         jump girl_interactions
-    if char.disposition <= -300:
-        call int_sex_nope
-        $ char.disposition -= randint(15, 35)
-        jump girl_interactions
+    if char.disposition<0: # for negative disposition
+        if dice(abs(char.disposition)-200): # if it's low enough to make the dice work she refuses, 100% chance at -300 disposition
+            call int_sex_nope
+            $ char.disposition -= randint(15, 35)
+            jump girl_interactions
     elif char.vitality < 60:
-        "But she is too tired."
+        call int_refused_because_tired
         jump girl_interactions
     $ price = round((char.oral + char.anal + char.vaginal + char.sex) * 0.5) - hero.charisma + char.charisma*5 - round(char.disposition * 0.1)
     if price <= 0:
@@ -230,6 +231,132 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     if cgo("SIW"):
         $ sex_scene_libido += 10
 
+label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
+    if ct("Virgin"):
+        if char.status == "slave":
+            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 50) or (char.disposition >= 250) or (check_lovers(hero, char)) or (check_friends(hero, char)):
+                menu:
+                    "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
+                    "Yes":
+                        "You deflower her. Congratulations!"
+                    "No":
+                        if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
+                            "You changed your mind. She looks a bit dissapointed."
+                        else:
+                            "You changed your mind."
+                        jump interaction_scene_choice
+            else:
+                menu: 
+                    "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
+                    "Yes":
+                        "You violated her."
+                        if char.health >=20:
+                            $ char.health -= 10
+                        else:
+                            $ char.vitality -= 20
+                        if ct("Masochist"):
+                            $ sex_scene_libido += 10
+                            $ char.joy += 5
+                            $ char.disposition -= 50
+                        else:
+                            $ char.disposition -= 150
+                            $ char.joy -= 50
+                            $ sex_scene_libido -= 20
+                    "No":
+                        "You agreed to do something else instead. She sighs with relief."
+                        jump interaction_scene_choice
+        else:
+            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 400):
+                menu:
+                    "Looks like this is her first time, and she does not mind. Do you want to continue?"
+                    "Yes":
+                        "You deflower her. Congratulations!"
+                    "No":
+                        "You changed your mind. She looks a bit dissapointed."
+                        jump interaction_scene_choice
+            else:
+                "Unfortunately she's still a virgin, and is not ready to cease to be her yet."
+                jump interaction_scene_choice
+        $ char.disposition += 50
+        $ char.remove_trait(traits["Virgin"])
+        if char.health >=15:
+            $ char.health -= 10
+        else:
+            $ char.vitality -= 20      
+        
+label interaction_scene_vaginal:
+    if sex_scene_location == "beach": # since we don't like labels in labels, we have to move all checks for vaginal from usual place here
+        if char.has_image("2c vaginal", "beach", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
+            $ gm.set_img("2c vaginal", "beach", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"])
+        else:
+            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ result = get_act(char, tags)
+            if result:
+                if result == tags[0]:
+                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                else:
+                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+            else:
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ result = get_act(char, tags)
+                if result:
+                    if result == tags[0]:
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                    else:
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                else:
+                    $ gm.set_img("2c vaginal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+    elif sex_scene_location == "park":
+        if char.has_image("2c vaginal", "nature", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
+            $ gm.set_img("2c vaginal", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        else:
+            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ result = get_act(char, tags)
+            if result:
+                if result == tags[0]:
+                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                else:
+                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+            else:
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ result = get_act(char, tags)
+                if result:
+                    if result == tags[0]:
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                    else:
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                else:
+                    $ gm.set_img("2c vaginal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+    else:
+        if char.has_image("2c vaginal", "living", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
+            $ gm.set_img("2c vaginal", "living", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        else:
+            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ result = get_act(char, tags)
+            if result:
+                if result == tags[0]:
+                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                else:
+                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+            else:
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ result = get_act(char, tags)
+                if result:
+                    if result == tags[0]:
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                    else:
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                else:
+                    $ gm.set_img("2c vaginal", "indoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+
+        
+        
 label interaction_scene_choice: # here we select specific scene, show needed image, jump to scene logic and return here after every scene
     if char.vitality <=0:
         jump interaction_scene_finish_sex
@@ -580,7 +707,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("bc handjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
             jump interaction_scene_handjob
             
-        "Ask for footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+        "Ask for footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             if sex_scene_location == "beach":
                 if char.has_image("bc footjob", "beach", exclude=["rape", "in pain"]):
                     $ gm.set_img("bc footjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
@@ -644,44 +771,87 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("bc footjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
             jump interaction_scene_footjob
             
-        "Ask for vaginal sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "in pain", "gay"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+        "Ask for vaginal sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             if ct("Virgin"):
                 jump interaction_check_for_virginity
             else:
                 jump interaction_scene_vaginal
                 
-        "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "in pain", "gay"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain"], type="first_default")):
+        "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             if sex_scene_location == "beach":
-                if char.has_image("2c anal", "beach", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                    $ gm.set_img("2c anal", "beach", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-                elif char.has_image("2c anal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                    $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-                elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
-                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
+                if char.has_image("2c anal", "beach", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
+                    $ gm.set_img("2c anal", "beach", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
+                    $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+                    $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+                    $ result = get_act(char, tags)
+                    if result:
+                        if result == tags[0]:
+                            $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                        else:
+                            $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    else:
+                        $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                        $ result = get_act(char, tags)
+                        if result:
+                            if result == tags[0]:
+                                $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                            else:
+                                $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        else:
+                            $ gm.set_img("2c anal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
             elif sex_scene_location == "park":
-                if char.has_image("2c anal", "nature", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                    $ gm.set_img("2c anal", "partnerhidden", "nature", "urban", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-                elif char.has_image("2c anal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                    $ gm.set_img("2c anal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-                elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
-                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
+                if char.has_image("2c anal", "nature", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
+                    $ gm.set_img("2c anal", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
+                    $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
+                    $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+                    $ result = get_act(char, tags)
+                    if result:
+                        if result == tags[0]:
+                            $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                        else:
+                            $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    else:
+                        $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                        $ result = get_act(char, tags)
+                        if result:
+                            if result == tags[0]:
+                                $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                            else:
+                                $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        else:
+                            $ gm.set_img("2c anal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
             else:
-                if char.has_image("2c anal", "living", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                    $ gm.set_img("2c anal", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-                elif char.has_image("2c anal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-                elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
-                    $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
+                if char.has_image("2c anal", "living", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
+                    $ gm.set_img("2c anal", "living", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
+                    $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
-                jump interaction_scene_anal
+                    $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+                    $ result = get_act(char, tags)
+                    if result:
+                        if result == tags[0]:
+                            $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                        else:
+                            $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    else:
+                        $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                        $ result = get_act(char, tags)
+                        if result:
+                            if result == tags[0]:
+                                $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                            else:
+                                $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        else:
+                            $ gm.set_img("2c anal", "indoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+            jump interaction_scene_anal
                 
         "That's all.":
             "You decided to finish."
+
             
             label interaction_scene_finish_sex:
                 if sex_scene_libido >= 15 and char.vitality >= 35:
@@ -1182,87 +1352,6 @@ label interaction_scene_mast:
     $ girl_count +=1
     jump interaction_scene_choice
     
-label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
-    if ct("Virgin"):
-        if char.status == "slave":
-            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 50) or (char.disposition >= 250) or (check_lovers(hero, char)) or (check_friends(hero, char)):
-                menu:
-                    "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
-                    "Yes":
-                        "You deflower her. Congratulations!"
-                    "No":
-                        if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
-                            "You changed your mind. She looks a bit dissapointed."
-                        else:
-                            "You changed your mind."
-                        jump interaction_scene_choice
-            else:
-                menu: 
-                    "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
-                    "Yes":
-                        "You violated her."
-                        if char.health >=20:
-                            $ char.health -= 10
-                        else:
-                            $ char.vitality -= 20
-                        if ct("Masochist"):
-                            $ sex_scene_libido += 10
-                            $ char.joy += 5
-                            $ char.disposition -= 50
-                        else:
-                            $ char.disposition -= 150
-                            $ char.joy -= 50
-                            $ sex_scene_libido -= 20
-                    "No":
-                        "You agreed to do something else instead. She sighs with relief."
-                        jump interaction_scene_choice
-        else:
-            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 400):
-                menu:
-                    "Looks like this is her first time, and she does not mind. Do you want to continue?"
-                    "Yes":
-                        "You deflower her. Congratulations!"
-                    "No":
-                        "You changed your mind. She looks a bit dissapointed."
-                        jump interaction_scene_choice
-            else:
-                "Unfortunately she's still a virgin, and is not ready to cease to be her yet."
-                jump interaction_scene_choice
-        $ char.disposition += 50
-        $ char.remove_trait(traits["Virgin"])
-        if char.health >=15:
-            $ char.health -= 10
-        else:
-            $ char.vitality -= 20      
-        
-label interaction_scene_vaginal:
-    if sex_scene_location == "beach": # since we don't like labels in labels, we have to move all checks for vaginal from usual place here
-        if char.has_image("2c vaginal", "beach", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-            $ gm.set_img("2c vaginal", "beach", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-        elif char.has_image("2c vaginal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-            $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain"], type="first_default"):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain"], type="reduce")
-        else:
-            $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
-    elif sex_scene_location == "park":
-        if char.has_image("2c vaginal", "nature", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-                $ gm.set_img("2c vaginal", "partnerhidden", "nature", "urban", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-        elif char.has_image("2c vaginal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-            $ gm.set_img("2c vaginal", "partnerhidden", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain"], type="first_default"):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain"], type="reduce")
-        else:
-            $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
-    else:
-        if char.has_image("2c vaginal", "living", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-            $ gm.set_img("2c vaginal", "indoors", "partnerhidden", "living", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-        elif char.has_image("2c vaginal", "simple bg", exclude=["rape", "angry", "in pain", "gay"], type="first_default"):
-            $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain"], type="first_default"):
-            $ gm.set_img("after sex", "indoors", "living", exclude=["angry", "in pain"], type="reduce")
-        else:
-            $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain"], type="reduce")
 
 
  
@@ -1635,6 +1724,31 @@ label int_sex_nope:
     elif ct("Yandere"):
         $rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.")
     else:
-        $rc("No! Absolutely NOT!", "With you? Don't make me laugh.", "Yeah right, dickhead.", "Yeah, get the fuck away from me, you disgusting perve.", "Get lost, pervert!", "Woah, hold on there, killer. Maybe after we get to know each other better.", "Don't tell me that you thought I was a slut...?", "I'm just really tired... ok?", "How about you fix that 'anytime's fine' attitude of yours, hmm?")  
+        $rc("No! Absolutely NOT!", "With you? Don't make me laugh.", "Yeah right, dickhead.", "Yeah, get the fuck away from me, you disgusting perv.", "Get lost, pervert!", "Woah, hold on there, killer. Maybe after we get to know each other better.", "Don't tell me that you thought I was a slut...?", "I'm just really tired... ok?", "How about you fix that 'anytime's fine' attitude of yours, hmm?")  
     $ char.restore_portrait()
+    return
+
+label int_refused_because_tired:
+    if ct("Impersonal"):
+        $rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
+    elif ct("Shy") and dice(50):
+        $rc("W-well, I'm a bit tired right now... Maybe some other time...", "Um, I-I don't think I can do it, I'm exhausted. Sorry...")
+    elif ct("Imouto"):
+        $rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*") 
+    elif ct("Dandere"):
+        $rc("No. Too tired.", "Not enough strength. I need to rest.")
+    elif ct("Tsundere"):
+        $rc("I must rest at first. Can't you tell?", "I'm too tired, don't you see?! Honestly, some people...")
+    elif ct("Kuudere"):
+        $rc("I'm quite exhausted. Maybe some other time.", "I really could use some rest right now, my body is tired.")
+    elif ct("Kamidere"):
+        $rc("I'm tired, and have to intentions to do anything but rest.", "I need some rest. Please don't bother me.")
+    elif ct("Bokukko"):
+        $rc("Naah, don't wanna. Too tired.", "*yawns* I could use a nap first...")
+    elif ct("Ane"):
+        $rc("Unfortunately I'm quite tired at the moment. I'd like to rest a bit.", "Sorry, I'm quite sleepy. Let's do it another time.")
+    elif ct("Yandere"):
+        $rc("Ahh, my whole body aches... I'm way too tired.", "The only thing I can do properly now is to take a good nap...")
+    else:
+        $rc("*sign* I'm soo tired lately, all I can think about is a cozy warm bed...", "I am ready to drop. Some other time perhaps.")
     return
