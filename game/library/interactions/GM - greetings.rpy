@@ -571,6 +571,7 @@ label lesbian_refuse_because_of_gender:
         
 
 label int_refused_because_tired: # a universal answer for tired characters, when they don't want to do something
+    $ char.override_portrait("portrait", "tired")
     if ct("Impersonal"):
         $rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
     elif ct("Shy") and dice(50):
@@ -593,9 +594,11 @@ label int_refused_because_tired: # a universal answer for tired characters, when
         $rc("Ahh, my whole body aches... I'm way too tired.", "The only thing I can do properly now is to take a good nap...")
     else:
         $rc("*sign* I'm soo tired lately, all I can think about is a cozy warm bed...", "I am ready to drop. Some other time perhaps.")
+    $ char.restore_portrait()
     return
     
 label int_girl_dissapointed: # a universal answer when character is displeased by something
+    $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $rc("... *you see disappointment in her eyes before she turns away*", "I see. A waste of time after all.")
     elif ct("Shy") and dice(50):
@@ -618,4 +621,5 @@ label int_girl_dissapointed: # a universal answer when character is displeased b
         $rc("My time is precious for something like it, you know?", "Could you refrain from acting so in the future?")
     else:
         $rc("*sign* No wonder my horoscope predicted a bad day.", "What a nuisance...")
+    $ char.restore_portrait()
     return
