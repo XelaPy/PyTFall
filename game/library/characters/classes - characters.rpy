@@ -960,12 +960,12 @@ init -9 python:
                         if key not in ["disposition", "upkeep"]:
                             if not self.level%5:
                                 mod_value = int(round(trait.mod[key]*0.05))
-                                self.mod(key, mod_value) if not reverse else self.mod(key, mod_value*-1)
+                                self.mod(key, mod_value) if not reverse else self.mod(key, -mod_value)
                                 
                     for key in trait.mod_stats:
                         if key not in ["disposition", "upkeep"]:
                             if not self.level%trait.mod_stats[key][1]:
-                                self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, trait.mod_stats[key][0]*-1)
+                                self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, -trait.mod_stats[key][0])
                 
         def mod(self, key, value):
             """Modifies a stat.
@@ -2184,14 +2184,14 @@ init -9 python:
                         if key in ['gold', 'exp']:
                             pass
                         elif key in ['health', 'mp', 'vitality', 'joy']:
-                            self.mod(key, item.mod[key]*-1)
+                            self.mod(key, -item.mod[key])
                         else:
                             self.stats.imod[key] -= item.mod[key]
                     else:
                         if key == 'gold':
                             self.gold -= item.mod[key]
                         else:    
-                            self.mod(key, item.mod[key]*-1)
+                            self.mod(key, -item.mod[key])
                 else:
                     devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
                 
@@ -2830,7 +2830,7 @@ init -9 python:
                         else:
                             txt += "Your debt has been payed in full!"
                             if total_debt <= 0:
-                                total_debt = total_debt  * -1
+                                total_debt = -total_debt
                                 txt += " You get a sum of %d Gold returned to you from the last repo!" % total_debt
                                 hero.add_money(total_debt, reason="Other")
                                 total_debt = 0
@@ -3513,7 +3513,7 @@ init -9 python:
                 self.effects['Unstable']['day_target'] = day + randint(2,4)
                 self.effects['Unstable']['joy_mod'] = randint(20, 30)
                 if dice(50):
-                    self.effects['Unstable']['joy_mod'] = self.effects['Unstable']['joy_mod'] * -1
+                    self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
                     
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
@@ -3631,7 +3631,7 @@ init -9 python:
                     self.effects['Unstable']['day_target'] = day + randint(2,4)
                     self.effects['Unstable']['joy_mod'] = randint(20, 30)
                     if dice(50):
-                        self.effects['Unstable']['joy_mod'] = self.effects['Unstable']['joy_mod'] * -1
+                        self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
     
             elif effect == "Optimist":
                 if self.joy < 80:
@@ -3775,8 +3775,8 @@ init -9 python:
                         amount = self.fin.get_upkeep()
                         
                         if amount < 0:
-                            txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (amount*-1)
-                            hero.add_money(amount*-1, reason="Girls Upkeep")
+                            txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
+                            hero.add_money(-amount, reason="Girls Upkeep")
                         
                         elif hero.take_money(amount, reason="Girls Upkeep"):
                             self.fin.log_cost(amount, "Upkeep")
