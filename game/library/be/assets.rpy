@@ -257,7 +257,7 @@ init 2 python:
     
     SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", desc="Summons flaming fragments of meteor from the atmosphere directly above the target.",
                                        attacker_effects={"gfx": "orb", "sfx": "default"},
-                                       main_effect={"gfx": Transform('cataclysm', yzoom=1.2, xzoom=1.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 0.8), "yo": 0}, "start_at": 0},
+                                       main_effect={"gfx": Transform('cataclysm', yzoom=1.2, xzoom=1.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"point": "bc", "anchor": (0.5, 0.8), "yo": 0}, "start_at": 0},
                                        target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 2.0, "duration": 2.5},
                                        target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                        target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9})

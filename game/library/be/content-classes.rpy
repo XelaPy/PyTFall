@@ -17,13 +17,13 @@ init python:
         """
         Used to instantiate death and kill off a player at the end of any turn...
         """
-        def __init__(self, target, death_effect="dissolve", msg=None, apply_death_effect=False):
+        def __init__(self, target, death_effect=None, msg=None):
             self.target = target
             self.death_effect = death_effect
             if not msg:
                 self.msg = "{color=[red]}%s was (heroically?!?) knocked out!{/color}" % self.target.name
             else:
-                self.msg = msg    
+                self.msg = msg
             
         def check_conditions(self):
             # We want to run this no matter the f*ck what or we'll have fighting corpses on our hands :)
@@ -91,7 +91,7 @@ init python:
                 msg = "{color=[red]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
                 battle.log(msg)
             else:
-                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name, apply_death_effect="dissolve")
+                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name, death_effect="dissolve")
                 death.apply_effects()
                 
             self.counter -= 1
@@ -121,7 +121,7 @@ init python:
             self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.2} if not attacker_action else attacker_action
             self.attacker_effects = {"gfx": None, "sfx": None} if not attacker_effects else attacker_effects
             self.main_effect = {"gfx": None, "sfx": None, "duration": 0.1, "aim": {"point": "center", "anchor": (0.5, 0.5)}, "start_at": 0} if not main_effect else main_effect
-            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
+            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.2, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
             self.target_damage_effect = {"gfx": "battle_bounce", "sfx": None, "initial_pause": 0.1} if not target_damage_effect else target_damage_effect
             self.target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.5} if not target_death_effect else target_death_effect
             
@@ -158,12 +158,11 @@ init python:
             
             self.show_main_gfx(targets, battle)
             renpy.invoke_in_thread(self.wait_for_target_death_effect, died, death_pause)
-            renpy.invoke_in_thread(self.wait_for_target_sprite_damage_effect, targets, sprite_damage_pause)
             renpy.invoke_in_thread(self.wait_for_target_damage_effect, targets, died, damage_pause)
+            renpy.invoke_in_thread(self.wait_for_target_sprite_damage_effect, targets, sprite_damage_pause)
             
             pause = max(damage_pause, death_pause, sprite_damage_pause)
-            
-            renpy.pause(pause + self.main_effect["duration"])
+            renpy.pause(10)
             
     # Simple Magic:
     # class SimpleMagicalAttack(SimpleAttack):
@@ -190,20 +189,20 @@ init python:
         """Simplest attack, usually simple magic.
         """
         def __init__(self, name,
-                           attacker_action=None,
+                           attacker_action=None, cost=5,
                            attacker_effects=None,
                            main_effect=None, # Start @ is not working atm.
                            target_sprite_damage_effect=None,
                            target_damage_effect=None,
                            target_death_effect=None,
-                           sfx=None, gfx=None, zoom=None, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
+                           sfx=None, gfx=None, zoom=None, aim=None, xo=0, yo=0, pause=None, anchor=None, casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
                            **kwargs):
             super(SimpleMagicalAttack, self).__init__(name, **kwargs)
             
-            self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.2} if not attacker_action else attacker_action
+            self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.5} if not attacker_action else attacker_action
             self.attacker_effects = {"gfx": None, "sfx": None} if not attacker_effects else attacker_effects
             self.main_effect = {"gfx": None, "sfx": None, "duration": 0.1, "aim": {"point": "center", "anchor": (0.5, 0.5)}, "start_at": 0} if not main_effect else main_effect
-            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
+            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.2, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
             self.target_damage_effect = {"gfx": "battle_bounce", "sfx": None, "initial_pause": 0.1} if not target_damage_effect else target_damage_effect
             self.target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.5} if not target_death_effect else target_death_effect
             
