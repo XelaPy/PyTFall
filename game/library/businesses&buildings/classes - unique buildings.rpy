@@ -736,7 +736,7 @@ init -9 python:
             
             if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
                 rep_hit = max(10, spentcash/10)
-                self.modrep(rep_hit * -1)
+                self.modrep(-rep_hit)
                 txt += "{color=[red]}And yet, you did not have enought money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name
                 self.flag_red = True
             

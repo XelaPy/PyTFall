@@ -342,7 +342,7 @@ screen pyt_girl_interactions():
         python:
             # Trying to invert the values (bar seems messed up with negative once):
             if gm.char.disposition < 0:
-                inverted_disposition = gm.char.disposition * -1
+                inverted_disposition = -gm.char.disposition
             else:
                 inverted_disposition = 0
         
@@ -350,7 +350,7 @@ screen pyt_girl_interactions():
             bar_invert True
             top_gutter 12
             bottom_gutter 0
-            value AnimatedValue(value=inverted_disposition, range=gm.char.stats.min["disposition"]*-1, delay=4.0)
+            value AnimatedValue(value=inverted_disposition, range=-gm.char.stats.min["disposition"], delay=4.0)
             bottom_bar im.Flip("content/gfx/interface/bars/progress_bar_1.png", vertical=True)
             top_bar "content/gfx/interface/bars/bar_mine.png"
             thumb None

@@ -393,12 +393,11 @@ init -1 python: # Core classes:
             
         
     class BE_Action(BE_Event):
-        """
-        Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
+        """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, target_damage_gfx=None, desc="", death_effect=None, **kwrags):
+                           add2skills=True, desc="", **kwrags):
             """
             range: range of the spell, 1 is minimum.
             damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases
@@ -409,12 +408,15 @@ init -1 python: # Core classes:
             *se: Single enemy within range.
             *sa: Single ally within range.
             """
+            # Naming/Sorting:
             self.name = name
             if not menuname:
                 self.mn = self.name
             else:
                 self.mn = menuname
-            self.manucat = menucat    
+            self.manucat = menucat
+            
+            # Logic:
             self.range = range
             self.source = source
             self.type = type
@@ -427,15 +429,14 @@ init -1 python: # Core classes:
             self.death_effect = death_effect
             self.desc = desc
             
-            self.sfx = sfx # This is for really simple attacks.
-            self.gfx = gfx # This is for really simple attacks.
-            if target_damage_gfx:
-                self.target_damage_gfx = target_damage_gfx # A list of pause --> kind of effect --> end of effect. **If this gets any more complicated, gfx method might have to become at/st funciton.
-            else:
-                self.target_damage_gfx = [0.1] # This will be used to control damage bounce.
+            # GFX/SFX:
+            self.sfx = sfx # This is for really simple attacks. ==> Now declared differently for ALL NORMAL ATTACK TYPES!
+            self.gfx = gfx # This is for really simple attacks. ==> Now declared differently for ALL NORMAL ATTACK TYPES!
             # Zoom:
             # Zoom factors the size of the main displayable of the attack (if there is one). Use floats, 1.0 represents original size, -1 will invert (flip) the image.
-            self.zoom = zoom
+            # I am reluctant of supporting this in the future as it can be plainly added to declaration with a Transform...
+            if zoom:
+                self.sfx = Transform(self.sfx, zoom=zoom)
             
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
@@ -456,7 +457,10 @@ init -1 python: # Core classes:
             # We calculate this by assigning.
             target_rows = range(char.row - self.range, char.row + 1 + self.range)
             in_range = set(f for f in battle.get_fighters() if f.row in target_rows)
-                    
+            
+            if any(t for t in in_range if isinstance(t, basestring)):
+                raise Exception(in_range)
+            
             # Lets handle the piercing (Or not piercing since piercing attacks incude everyone in range already):
             if not self.piercing:
                 if char.row in [0, 1]:
@@ -558,7 +562,7 @@ init -1 python: # Core classes:
                     # Lets check the absobtion:
                     result = self.check_absorbtion(t)
                     if result:
-                        damage = damage * -1 * result
+                        damage = -damage * result
                         effects.append("absorbed")
                 else: # resisted
                     damage = 0
@@ -761,7 +765,7 @@ init -1 python: # Core classes:
                 targets = [targets]
             for t in targets:
                 if t.health - t.beeffects[0] > 0:
-                    t.mod("health", t.beeffects[0] * -1)
+                    t.mod("health", -t.beeffects[0])
                 else:
                     if t.can_die:
                         t.health = 0
@@ -769,44 +773,180 @@ init -1 python: # Core classes:
                         t.health = 1
                     battle.end_turn_events.append(RPG_Death(t))
             
-        def __call__(self):
+        def __call__(self, ai=False, t=None):
             # Call the targeting screen:
-            targets = self.get_targets()
-            t = renpy.call_screen("target_practice", self, targets)
+            if not battle.logical and not ai:
+                targets = self.get_targets()
+                t = renpy.call_screen("target_practice", self, targets)
             
             self.effects_resolver(t)
             died = self.apply_effects(t)
-            self.show_gfx(t, died)
             
-            for tag in self.tags_to_hide:
-                renpy.hide(tag)
-            self.tags_to_hide= list()
-                    
+            if not battle.logical:
+                self.show_gfx(t, died)
+            
+                for tag in self.tags_to_hide:
+                    renpy.hide(tag)
+                self.tags_to_hide= list()
+                
+        # GFX/SFX:
         def show_gfx(self):
-            """
-            All graphical effects for the action.
+            """All graphical effects for the action.
             """
             pass
         
-        def show_gfx_td(self, target, t, type="shake"):
-            """
-            This is separated from the show gfx function... Maybe setup for the attack should be separated as well... TODO: Decide!
-            Target damage graphical effects.
-            t: Time
-            type: Which effect to apply.
-            """
-            if type == "shake":
-                renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
+        def attackers_first_action_and_effect(self, battle, attacker):
+            if self.attacker_action["gfx"] == "step_forward":
+                battle.move(attacker, battle.get_cp(attacker, xo=50), 0.5)
+                renpy.invoke_in_thread(self.move_back, battle, attacker)
+                
+                gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
+                casting_effect(attacker, gfx, sfx)
+                
+        def move_back(self, battle, char):
+            t = time.time() + self.attacker_action.get("restore_to_original_delay", 2.0)
+            while 1:
+                if time.time() >= t:
+                    battle.move(char, char.dpos, 0.5, pause=False)
+                    break
+                    
+        def show_main_gfx(self, targets, battle):
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            # GFX:
+            if gfx:
+                pause = self.main_effect["duration"]
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
+                
+                for index, target in enumerate(targets):
+                    gfxtag = "attack" + str(index)
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                renpy.invoke_in_thread(self.hide_impact_gfx, targets, pause)
+                
+        def hide_impact_gfx(self, targets, delay):
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    for i in xrange(len(targets)):
+                        gfxtag = "attack" + str(i)
+                        renpy.hide(gfxtag)
+                    break
+            renpy.pause()
+                
+        def wait_for_target_death_effect(self, died, delay):
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    self.show_target_death_effect(died)
+                    break
+            renpy.pause()
+                
+        def show_target_death_effect(self, died):
+            gfx = self.target_death_effect["gfx"]
+            sfx = self.target_death_effect["sfx"]
+            duration = self.target_death_effect["duration"]
+            
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            if gfx == "dissolve":
+                for t in died:
+                    renpy.hide(self.target.betag)
+                    renpy.with_statement(Dissolve(duration))
+            elif gfx == "shatter":
+                for target in died:
+                    renpy.hide(target.betag)
+                    renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                renpy.invoke_in_thread(self.hide_target_death_effect, died, duration)
+                    
+        def hide_target_death_effect(self, died, delay):
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    for target in died:
+                        renpy.hide(target.betag)
+                    break
+            renpy.pause()
         
-        def show_gfx_dmg(self, target, type="bb"):
+        def wait_for_target_sprite_damage_effect(self, targets, delay):
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    self.show_target_sprite_damage_effect(targets)
+                    break
+            renpy.pause()
+                
+        def show_target_sprite_damage_effect(self, targets):
+            """Target damage graphical effects.
+            """
+            type = self.target_sprite_damage_effect.get("gfx", "shake")
+            # if type == "shake":
+            if True:
+                for target in targets:
+                    renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
+                renpy.invoke_in_thread(self.hide_target_sprite_damage_effect, targets)
+                    
+        def hide_target_sprite_damage_effect(self, targets):
+            # Hides damage effects applied to targets:
+            delay = self.target_sprite_damage_effect.get("duration", 0.5)
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    for target in targets:
+                        renpy.hide(target.betag)
+                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                    break
+            renpy.pause()
+        
+        def wait_for_target_damage_effect(self, targets, died, delay):
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    self.show_target_damage_effect(targets, died)
+                    break
+            renpy.pause()
+                
+        def show_target_damage_effect(self, targets, died):
             """Easy way to show damage like the bouncing damage effect.
             """
-            if type == "bb":
-                bbtag = "bb" + str(random.random())
-                self.tags_to_hide.append(bbtag)
-                txt = Text("%s"%target.beeffects[0], style="TisaOTM", min_width=200, text_align=0.5, color=getattr(store, target.dmg_font), size=18)
-                renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-20))], zorder=target.besk["zorder"]+2)
-                target.dmg_font = "red"
+            type = self.target_damage_effect.get("gfx", "battle_bounce")
+            force = self.target_damage_effect.get("force", False)
+            if type == "battle_bounce":
+                tags = list()
+                for target in targets:
+                    if target not in died or force:
+                        bbtag = "bb" + str(random.random())
+                        tags.append(bbtag)
+                        
+                        s = "%s"%target.beeffects[0]
+                        if "critical_hit" in target.beeffects:
+                            s = "\n".join([s, "Critical hit!"])
+                        txt = Text(s, style="TisaOTM", min_width=200, text_align=0.5, color=getattr(store, target.dmg_font), size=18)
+                        renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-20))], zorder=target.besk["zorder"]+2)
+                        
+                        target.dmg_font = "red"
+                        
+                renpy.invoke_in_thread(self.hide_gfx_dmg, tags, 1.7)
+                
+        def hide_target_damage_effect(self, tags, delay):
+            # Hides the damage (like BB).
+            t = time.time() + delay
+            while 1:
+                if time.time() >= t:
+                    for t in tags:
+                        renpy.hide(tags)
+                    break
                 
         def get_element(self):
             # Returns (if any) an element bound to spell or attack:
@@ -833,9 +973,7 @@ init -1 python: # Core classes:
                 targets = skill.get_targets() # Get all targets in range.
                 targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
                 
-                skill.effects_resolver(targets)
-                died = skill.apply_effects(targets)
-                skill.show_gfx(targets, died)
+                skill(ai=True, t=targets)
                 
             else:
                 skill = BE_Skip(source=self.source)

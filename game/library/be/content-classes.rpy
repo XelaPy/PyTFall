@@ -17,13 +17,13 @@ init python:
         """
         Used to instantiate death and kill off a player at the end of any turn...
         """
-        def __init__(self, target, death_effect="dissolve", msg=None):
+        def __init__(self, target, death_effect=None, msg=None):
             self.target = target
             self.death_effect = death_effect
             if not msg:
                 self.msg = "{color=[red]}%s was (heroically?!?) knocked out!{/color}" % self.target.name
             else:
-                self.msg = msg    
+                self.msg = msg
             
         def check_conditions(self):
             # We want to run this no matter the f*ck what or we'll have fighting corpses on our hands :)
@@ -35,7 +35,7 @@ init python:
         def apply_effects(self):
             battle.corpses.add(self.target)
             
-            if not battle.logical:
+            if self.death_effect == "dissolve":
                 renpy.hide(self.target.betag)
                 if self.death_effect == "dissolve":
                     renpy.with_statement(dissolve)
@@ -87,11 +87,11 @@ init python:
                 renpy.hide("bb")
             
             if t.health - damage > 0:
-                t.mod("health", damage * -1)
+                t.mod("health", -damage)
                 msg = "{color=[red]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
                 battle.log(msg)
             else:
-                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name)
+                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name, death_effect="dissolve")
                 death.apply_effects()
                 
             self.counter -= 1
@@ -103,80 +103,133 @@ init python:
     # Actions:
     # Simple Attack:
     class SimpleAttack(BE_Action):
+        """Simplest attack, usually weapons.
+        
+        @Review: This will be the base for all attacks from here on out and accept all default properties relevant to Attack Skills! 
         """
-        Simplest attack, usually weapons.
-        """
-        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.1, **kwargs):
+        def __init__(self, name,
+                           attacker_action=None,
+                           attacker_effects=None,
+                           main_effect=None, # Start @ is not working atm.
+                           target_sprite_damage_effect=None,
+                           target_damage_effect=None,
+                           target_death_effect=None,
+                           sfx=None, gfx=None, zoom=None, # <=== These two should die off in time!
+                           **kwargs):
             super(SimpleAttack, self).__init__(name, **kwargs)
             
-            # Aiming properties:
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
+            self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.2} if not attacker_action else attacker_action
+            self.attacker_effects = {"gfx": None, "sfx": None} if not attacker_effects else attacker_effects
+            self.main_effect = {"gfx": None, "sfx": None, "duration": 0.1, "aim": {"point": "center", "anchor": (0.5, 0.5)}, "start_at": 0} if not main_effect else main_effect
+            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.2, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
+            self.target_damage_effect = {"gfx": "battle_bounce", "sfx": None, "initial_pause": 0.1} if not target_damage_effect else target_damage_effect
+            self.target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.5} if not target_death_effect else target_death_effect
             
-            # Rest:
-            self.pause = pause # Animation length
-
-        def show_gfx(self, target, died):
-            # Simple effects for the sword attack:
-            char = self.source
-            
-            if not battle.logical:
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
-            
-                gfxtag = "attack"
-                bbtag = "battle_bouce"
-                
-                s = "%s"%target.beeffects[0]
-                if "critical_hit" in target.beeffects:
-                    s = "\n".join([s, "Critical hit!"])
-                txt = Text(s, style="content_label", color=red, size=15)  # This I should (prolly) move to a separate class/function. For now it is here:
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                
-                # Zoom (If any):
-                if self.zoom is not None:
-                    gfx = Transform(self.gfx, zoom=self.zoom)
-                else:
-                    gfx = self.gfx
+            if sfx:
+                self.main_effect["sfx"] = sfx
                     
-                if self.gfx:
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+1)
-                renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
-                
-                battle.move(char, char.dpos, 0.5, pause=False)
-                
-                renpy.pause(self.pause)
-                renpy.hide(gfxtag)
-                renpy.with_statement(dissolve)
-                renpy.pause(1.4-self.pause)
-                renpy.hide(bbtag)
+            if gfx:
+                self.main_effect["gfx"] = Transform(gfx, zoom=zoom) if zoom else gfx
             
+        def show_gfx(self, targets, died):
+            """Executes GFX part of an attack. Diregarded during logical combat.
+            
+            Usually, this has the following order:
+                - Intro (attacker sprite manipulation) + Effect (attacker_effects)
+                - Attack itself. (main_effects) = which is usually impact effect!
+                - Visual damage effect to the target(s) (sprites shaking for example). (target_sprite_gamage_effects)
+                - Some form of visual representation of damage amount (like battle bounce). (target_damage_effects)
+                - Events such as death (GFX Part, event itself can be handled later). (death_effect)
+                
+            Through complex system currently in design we handle showing gfx/hiding gfx and managing sfx (also here).
+            """
+            # Simple effects for the magic attack:
+            char = self.source
+            battle = store.battle
+            
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            
+            self.attackers_first_action_and_effect(battle, char)
+            
+            damage_pause = self.target_damage_effect.get("initial_pause", 0.2)
+            death_pause = self.target_death_effect.get("initial_pause", 0.5)
+            sprite_damage_pause = self.target_sprite_damage_effect.get("initial_pause", 0.1)
+            
+            self.show_main_gfx(targets, battle)
+            renpy.invoke_in_thread(self.wait_for_target_death_effect, died, death_pause)
+            renpy.invoke_in_thread(self.wait_for_target_damage_effect, targets, died, damage_pause)
+            renpy.invoke_in_thread(self.wait_for_target_sprite_damage_effect, targets, sprite_damage_pause)
+            
+            pause = max(damage_pause, death_pause, sprite_damage_pause)
+            renpy.pause(10)
             
     # Simple Magic:
-    class SimpleMagicalAttack(BE_Action):
+    # class SimpleMagicalAttack(SimpleAttack):
+        # """Simplest attack, usually simple magic.
+        # """
+        # def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=["default_1", "default"], **kwargs):
+            # super(SimpleMagicalAttack, self).__init__(name, **kwargs)
+             
+            # # Aiming properties:
+            # self.aim = aim
+            # self.xo = xo
+            # self.yo = yo
+             
+            # # Rest:
+            # self.cost = cost
+            # self.anchor = anchor
+            # self.pause = pause
+             
+            # # Casting effects:
+            # self.casting_effects = casting_effects
+            
+    # Simple Magic:
+    class SimpleMagicalAttack(SimpleAttack):
+        """Simplest attack, usually simple magic.
         """
-        Simplest attack, usually simple magic.
-        """
-        def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=["default_1", "default"], **kwargs):
+        def __init__(self, name,
+                           attacker_action=None, cost=5,
+                           attacker_effects=None,
+                           main_effect=None, # Start @ is not working atm.
+                           target_sprite_damage_effect=None,
+                           target_damage_effect=None,
+                           target_death_effect=None,
+                           sfx=None, gfx=None, zoom=None, aim=None, xo=0, yo=0, pause=None, anchor=None, casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
+                           **kwargs):
             super(SimpleMagicalAttack, self).__init__(name, **kwargs)
             
-            # Aiming properties:
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
+            self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.5} if not attacker_action else attacker_action
+            self.attacker_effects = {"gfx": None, "sfx": None} if not attacker_effects else attacker_effects
+            self.main_effect = {"gfx": None, "sfx": None, "duration": 0.1, "aim": {"point": "center", "anchor": (0.5, 0.5)}, "start_at": 0} if not main_effect else main_effect
+            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.2, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
+            self.target_damage_effect = {"gfx": "battle_bounce", "sfx": None, "initial_pause": 0.1} if not target_damage_effect else target_damage_effect
+            self.target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.5} if not target_death_effect else target_death_effect
             
+            # GFX properties:
+            if sfx:
+                self.main_effect["sfx"] = sfx
+            if gfx:
+                self.main_effect["gfx"] = Transform(gfx, zoom=zoom) if zoom else gfx
+            if aim:
+                self.main_effect["aim"]["point"] = aim
+            if xo:
+                self.main_effect["aim"]["xo"] = xo
+            if yo:
+                self.main_effect["aim"]["yo"] = yo
+            if anchor:
+                self.main_effect["aim"]["anchor"] = anchor
+            if pause:
+                self.main_effect["duration"] = pause
+            if casting_effects:
+                self.attacker_effects["gfx"] = casting_effects[0]
+                self.attacker_effects["sfx"] = casting_effects[1]
+            if target_damage_gfx:
+                self.target_sprite_damage_effect["initial_pause"] = target_damage_gfx[0]
+                self.target_sprite_damage_effect["gfx"] = target_damage_gfx[1]
+                self.target_sprite_damage_effect["duration"] = target_damage_gfx[2]
             # Rest:
             self.cost = cost
-            self.anchor = anchor
-            self.pause = pause
-            
-            # Casting effects:
-            self.casting_effects = casting_effects
 
         def check_conditions(self, source=None):
             if source:
@@ -207,95 +260,6 @@ init python:
             self.source.mp -= self.cost
             return died
             
-        def move_back(self, battle, char, delay=0):
-            time.sleep(2.0)
-            battle.move(char, char.dpos, 0.5, pause=False)
-            
-        def attackers_first_action_and_effect(self, battle, attacker):
-            renpy.invoke_in_thread(self.move_back, battle, attacker)
-            battle.move(attacker, battle.get_cp(attacker, xo=50), 0.5)
-            if self.casting_effects[0]:
-                casting_effect(attacker, self.casting_effects[0], sfx=self.casting_effects[1])
-                
-        def show_impact_gfx(self, gfx, targets, battle):
-            for index, target in enumerate(targets):
-                gfxtag = "attack" + str(index)
-                renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
-            renpy.invoke_in_thread(self.hide_main_gfx, targets, self.pause)
-                
-        def hide_main_gfx(self, targets, delay):
-            time.sleep(delay)
-            for i in xrange(len(targets)):
-                gfxtag = "attack" + str(i)
-                renpy.hide(gfxtag)
-            
-        def show_gfx(self, targets, died):
-            # Simple effects for the magic attack:
-            char = self.source
-            battle = store.battle
-            
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            
-            if not battle.logical:
-                self.attackers_first_action_and_effect(battle, char)
-                
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                
-                # Showing the impact effects:
-                # Zoom (If any):
-                gfx = Transform(self.gfx, zoom=self.zoom) if self.zoom is not None else self.gfx
-                if gfx:
-                    self.show_impact_gfx(gfx, targets, battle)
-                        
-                # Pause before battle bounce + damage on target effects:
-                renpy.pause(self.target_damage_gfx[0])
-                
-                for index, target in enumerate(targets):
-                    self.show_gfx_dmg(target)
-                    if len(self.target_damage_gfx) > 1:
-                        self.show_gfx_td(target, 0.5, self.target_damage_gfx[1])
-                
-                # battle.move(char, char.dpos, 0.5, pause=False)
-                
-                # Pause before termination of damage on target effects, if there are any:
-                # @Review: OR Pause before application of special death effects!
-                # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
-                # **This will always assume 
-                if self.death_effect or len(self.target_damage_gfx) > 1:
-                    if len(self.target_damage_gfx) > 1:
-                        renpy.pause(self.target_damage_gfx[2])
-                        for target in targets:
-                            renpy.hide(target.betag)
-                            renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                    
-                # Shatter or some other death effect we want to handle in this method:
-                if died and self.death_effect == "shatter":
-                    for target in died:
-                        renpy.hide(target.betag)
-                        renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                
-                total_pause = self.target_damage_gfx[0]
-                if len(self.target_damage_gfx) > 1:
-                    total_pause = total_pause + self.target_damage_gfx[2]
-                    
-                # Check we need any more pause:
-                if self.pause > total_pause:
-                    renpy.pause(self.pause - total_pause)
-                    
-                for i in xrange(len(targets)):
-                    gfxtag = "attack" + str(i)
-                    renpy.hide(gfxtag)
-                    
-                # Check if we need any more pause before we kill the battle bounce:
-                if self.pause - total_pause < 1.7:
-                    renpy.pause(1.7 - (self.pause - total_pause))
-                    
                     
     class ArealMagicalAttack(SimpleMagicalAttack):
         """
@@ -797,7 +761,7 @@ init python:
                     # Lets check the absobtion:
                     result = self.check_absorbtion(t)
                     if result:
-                        damage = damage * -1 * result
+                        damage = -damage * result
                         effects.append("absorbed")
                     effects.insert(0, damage)
                     
@@ -818,65 +782,39 @@ init python: # Helper Functions:
         if kind == "shatter":
             pass
     
-    def casting_effect(char, kind, sfx="default", pause=True):
+    def casting_effect(char, gfx=None, sfx="content/sfx/sound/be/casting_1.mp3", pause=True):
         """GFX and SFX effects on the caster of any attack (usually magic).
         """
-        if sfx and sfx == "default":
-            sfx = "content/sfx/sound/be/casting_1.mp3"
-        if kind == "orb":
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_orb_1", zoom=1.85),  at_list=[Transform(pos=battle.get_cp(char, type="center"), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
-            if pause:
-                renpy.pause(0.84)
-                renpy.hide("casting")
-        elif kind in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_" + kind, zoom=1.5),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-75), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
-            if pause:
-                renpy.pause(0.84)
-                renpy.hide("casting")
-        elif kind in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_" + kind, zoom=0.9),  at_list=[Transform(pos=battle.get_cp(char, type="center"), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
-            if pause:
-                renpy.pause(1.4)
-                renpy.hide("casting")
-        elif kind == "default_1":
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_default_1", zoom=1.6),  at_list=[Transform(pos=battle.get_cp(char, type="bc"), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
-            if pause:
-                renpy.pause(1.12)
-                renpy.hide("casting")
-        elif kind == "circle_1":
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_circle_1", zoom=1.9),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-10), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
-            if pause:
-                renpy.pause(1.05)
-                renpy.hide("casting")
-        elif kind == "circle_2":
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_circle_2", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-100), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
-            if pause:
-                renpy.pause(1.1)
-                renpy.hide("casting")
-        elif kind == "circle_3":
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_circle_3", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-100), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
-            if pause:
-                renpy.pause(1.03)
-                renpy.hide("casting")
-        elif kind == "runes_1":
-            if sfx:
-                renpy.sound.play(sfx)
-            renpy.show("casting", what=Transform("cast_runes_1", zoom=1.1),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-50), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
-            if pause:
-                renpy.pause(0.75)
-                renpy.hide("casting")
+        if sfx == "default":
+            sfx="content/sfx/sound/be/casting_1.mp3"
         
+        if gfx == "orb":
+            renpy.show("casting", what=Transform("cast_orb_1", zoom=1.85),  at_list=[Transform(pos=battle.get_cp(char, type="center"), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
+            pause = 0.84
+        elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
+            renpy.show("casting", what=Transform("cast_" + gfx, zoom=1.5),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-75), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
+            pause = 0.84
+        elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
+            renpy.show("casting", what=Transform("cast_" + gfx, zoom=0.9),  at_list=[Transform(pos=battle.get_cp(char, type="center"), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
+            pause = 1.4
+        elif gfx == "default_1":
+            renpy.show("casting", what=Transform("cast_default_1", zoom=1.6),  at_list=[Transform(pos=battle.get_cp(char, type="bc"), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
+            pause = 1.12
+        elif gfx == "circle_1":
+            renpy.show("casting", what=Transform("cast_circle_1", zoom=1.9),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-10), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
+            pause = 1.05
+        elif gfx == "circle_2":
+            renpy.show("casting", what=Transform("cast_circle_2", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-100), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
+            pause = 1.1
+        elif gfx == "circle_3":
+            renpy.show("casting", what=Transform("cast_circle_3", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-100), align=(0.5, 0.5))], zorder=char.besk["zorder"]+1)
+            pause = 1.03
+        elif gfx == "runes_1":
+            renpy.show("casting", what=Transform("cast_runes_1", zoom=1.1),  at_list=[Transform(pos=battle.get_cp(char, type="bc", yo=-50), align=(0.5, 0.5))], zorder=char.besk["zorder"]-1)
+            pause = 0.75
+            
+        if sfx:
+            renpy.sound.play(sfx)
+        if gfx:
+            renpy.pause(pause)
+            renpy.hide("casting")
