@@ -798,17 +798,11 @@ init -1 python: # Core classes:
         def attackers_first_action_and_effect(self, battle, attacker):
             if self.attacker_action["gfx"] == "step_forward":
                 battle.move(attacker, battle.get_cp(attacker, xo=50), 0.5)
-                renpy.invoke_in_thread(self.move_back, battle, attacker)
+                self.attacker_action.get("restore_to_original_delay", 2.0)
+                battle.move(char, char.dpos, 0.5, pause=False)
                 
                 gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
                 casting_effect(attacker, gfx, sfx)
-                
-        def move_back(self, battle, char):
-            t = time.time() + self.attacker_action.get("restore_to_original_delay", 2.0)
-            while 1:
-                if time.time() >= t:
-                    battle.move(char, char.dpos, 0.5, pause=False)
-                    break
                     
         def show_main_gfx(self, targets, battle):
             # Shows the MAIN part of the attack and handles appropriate sfx.
@@ -835,22 +829,12 @@ init -1 python: # Core classes:
                 renpy.invoke_in_thread(self.hide_impact_gfx, targets, pause)
                 
         def hide_impact_gfx(self, targets, delay):
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    for i in xrange(len(targets)):
-                        gfxtag = "attack" + str(i)
-                        renpy.hide(gfxtag)
-                    break
-            renpy.pause()
+            for i in xrange(len(targets)):
+                gfxtag = "attack" + str(i)
+                renpy.hide(gfxtag)
                 
         def wait_for_target_death_effect(self, died, delay):
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    self.show_target_death_effect(died)
-                    break
-            renpy.pause()
+            self.show_target_death_effect(died)
                 
         def show_target_death_effect(self, died):
             gfx = self.target_death_effect["gfx"]
@@ -868,24 +852,13 @@ init -1 python: # Core classes:
                 for target in died:
                     renpy.hide(target.betag)
                     renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                renpy.invoke_in_thread(self.hide_target_death_effect, died, duration)
                     
         def hide_target_death_effect(self, died, delay):
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    for target in died:
-                        renpy.hide(target.betag)
-                    break
-            renpy.pause()
+            for target in died:
+                renpy.hide(target.betag)
         
         def wait_for_target_sprite_damage_effect(self, targets, delay):
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    self.show_target_sprite_damage_effect(targets)
-                    break
-            renpy.pause()
+            self.show_target_sprite_damage_effect(targets)
                 
         def show_target_sprite_damage_effect(self, targets):
             """Target damage graphical effects.
@@ -900,22 +873,12 @@ init -1 python: # Core classes:
         def hide_target_sprite_damage_effect(self, targets):
             # Hides damage effects applied to targets:
             delay = self.target_sprite_damage_effect.get("duration", 0.5)
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    for target in targets:
-                        renpy.hide(target.betag)
-                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                    break
-            renpy.pause()
+            for target in targets:
+                renpy.hide(target.betag)
+                renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
         
         def wait_for_target_damage_effect(self, targets, died, delay):
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    self.show_target_damage_effect(targets, died)
-                    break
-            renpy.pause()
+            self.show_target_damage_effect(targets, died)
                 
         def show_target_damage_effect(self, targets, died):
             """Easy way to show damage like the bouncing damage effect.
@@ -937,16 +900,11 @@ init -1 python: # Core classes:
                         
                         target.dmg_font = "red"
                         
-                renpy.invoke_in_thread(self.hide_gfx_dmg, tags, 1.7)
+                renpy.invoke_in_thread(self.hide_target_damage_effect, tags, 1.7)
                 
         def hide_target_damage_effect(self, tags, delay):
-            # Hides the damage (like BB).
-            t = time.time() + delay
-            while 1:
-                if time.time() >= t:
-                    for t in tags:
-                        renpy.hide(tags)
-                    break
+            for t in tags:
+                renpy.hide(tags)
                 
         def get_element(self):
             # Returns (if any) an element bound to spell or attack:
