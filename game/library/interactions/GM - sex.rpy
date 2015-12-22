@@ -20,7 +20,7 @@ init python:
 label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
     "You propose to pay her for sex."
     $ interactions_check_for_bad_stuff(char)
-    if char.flag("quest_cannot_be_fucked") == True:
+    if char.flag("quest_cannot_be_fucked") == True: # special flag for quest chars, probably a placeholder, but who knows
         call int_sex_nope
         jump girl_interactions
     if char.disposition<0: # for negative disposition
@@ -31,7 +31,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     elif char.vitality < 60: # no sex with low vitality
         call int_refused_because_tired
         jump girl_interactions
-    $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
+    $ price = 100 # a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
     if price <= 0:
         "You managed to charm her and get free service."
     # else:

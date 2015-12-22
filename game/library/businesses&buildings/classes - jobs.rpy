@@ -23,7 +23,50 @@
             return
             
         return True
-    
+        
+    def check_submissivity(c):
+        """Here we determine how submissive the character is, thus if she's willing to do something she doesn't want to, or for example take the initiative in certain cases.
+        """        
+        char_mult = c.character/c.get_max("character") # the idea is based on the character stat, we check how close is she to max possible character at her level
+        if "Impersonal" in c.traits: # and traits
+            char_mult -= 0.1
+        elif "Imouto" in c.traits:
+            char_mult -= 0.05
+        elif "Dandere" in c.traits:
+            char_mult -= 0.15
+        elif "Tsundere" in c.traits:
+            char_mult += 0.2
+        elif "Kuudere" in c.traits:
+            char_mult += 0.15
+        elif "Kamidere" in c.traits:
+            char_mult += 0.23
+        elif "Bokukko" in c.traits:
+            char_mult += 0.2
+        elif "Ane" in c.traits:
+            char_mult += 0.05
+        elif "Yandere" in c.traits:
+            if c.disposition < 500:
+                char_mult += 0.25
+            else:
+                char_mult -= 0.25
+        if "Courageous" in c.traits:
+            char_mult += 0.05
+        elif "Coward" in c.traits:
+            char_mult -= 0.05
+        if "Shy" in c.traits:
+            char_mult -= 0.05
+        if "Aggressive" in c.traits:
+            char_mult += 0.05
+        if "Natural Leader" in c.traits:
+            char_mult += 0.05
+        elif "Natural Follower" in c.traits:
+            char_mult -= 0.05
+        if char_mult < 0: # normalization
+            char_mult = 0
+        if char_mult > 1:
+            char_mult = 1
+        return char_mult
+        
     class Job(_object):
         """ Baseclass for jobs and other next day actions with some defaults.
         

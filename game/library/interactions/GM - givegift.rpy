@@ -93,7 +93,7 @@ label interactions_refusegift:
     elif ct("Tsundere"):
         $rc("As expected from an idiot like you.", "Again? Really? What's wrong with your head?")
     elif ct("Kuudere"):
-        $rc("What do you think you doing? You already gave it.", "Stop it. I have this already.")
+        $rc("What do you think you're doing? You already gave it.", "Stop it. I have this already.")
     elif ct("Yandere"):
         $rc("Don't you remember? I have this already.", "Huh? You want to give me this again?")
     elif ct("Dandere"):
