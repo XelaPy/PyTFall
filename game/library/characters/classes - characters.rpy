@@ -3273,9 +3273,44 @@ init -9 python:
         def override_portrait(self, *args, **kwargs):
             kwargs["resize"] = kwargs.get("resize", (120, 120))
             kwargs["cache"] = kwargs.get("cache", True)
-            # First check is there is an image:
-            if self.has_image(*args, **kwargs):
+            if "confident" in args:
+                if not(self.has_image("portrait", "confident")):
+                    if self.has_image("portrait", "happy"):
+                        self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
+                else:
+                    self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif "suggestive" in args:
+                if not(self.has_image("portrait", "suggestive")):
+                    if self.has_image("portrait", "shy"):
+                        self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
+                    elif self.has_image("portrait", "happy"):
+                        self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
+                else:
+                    self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif "ecstatic" in args:
+                if not(self.has_image("portrait", "ecstatic")):
+                    if self.has_image("portrait", "happy"):
+                        self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
+                    elif self.set_flag("fixed_portrait", self.show("portrait", "shy")):
+                        self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
+                else:
+                    self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif "shy" in args:
+                if not(self.has_image("portrait", "shy")):
+                    if self.has_image("portrait", "uncertain"):
+                        self.set_flag("fixed_portrait", self.show("portrait", "uncertain", **kwargs))
+                else:
+                    self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif "uncertain" in args:
+                if not(self.has_image("portrait", "uncertain")):
+                    if self.has_image("portrait", "shy"):
+                        self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
+                else:
+                    self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif self.has_image(*args, **kwargs):
                 self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif self.has_image("portrait", "indifferent"):
+                self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
             # Otherwise we do nothing...
             
         def restore_portrait(self):
