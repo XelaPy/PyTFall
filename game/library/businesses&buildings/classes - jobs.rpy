@@ -1399,20 +1399,24 @@
             if flag:
                 self.loggs('joy', flag)
                 self.worker.del_flag("jobs_introjoy")
-            
-            len_clients = len(self.clients)
+                
+            # Determine the amount of clients who seen this girl strip. We check if we can do len because if flag wasn't set during the business execution, we get False instead of a set.
+            len_clients = len(self.clients) if self.clients else 0
+                
             tippayout = self.worker.flag("jobs_" + self.id + "_tips")
             cl_strip = 0
             cl_char = 0
             stripskill = self.worker.get_skill("strip")
             charisma = self.worker.charisma
             
-            for c in self.clients:
-                # We get the highest skills a character has to match vs strip skill, assumption is that proffessional can appriciate another profi :)
-                cl_strip = cl_strip + max(list(getattr(c, s + "skill") for s in c.stats.skills))
-                cl_char = cl_char + c.charisma
-            cl_strip = cl_strip / len_clients
-            cl_char = cl_char / len_clients
+            # This is a shitty way of handling stats/skills (I guess...):
+            if self.clients:
+                for c in self.clients:
+                    # We get the highest skills a character has to match vs strip skill, assumption is that proffessional can appriciate another profi :)
+                    cl_strip = cl_strip + max(list(getattr(c, s + "skill") for s in c.stats.skills))
+                    cl_char = cl_char + c.charisma
+            cl_strip = cl_strip / len_clients if len_clients else cl_strip
+            cl_char = cl_char / len_clients if len_clients else cl_char
             
             if stripskill > cl_strip*1.5 and charisma > cl_char*1.5:
                 self.txt.append("{} gave a performance worthy of kings and queens as the whole hall was cheering for her. \n".format(self.worker.name))
