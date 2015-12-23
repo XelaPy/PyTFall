@@ -14,10 +14,10 @@ label interactions_giftmoney:
         "You changed your mind."
         jump girl_interactions
     if temp > hero.gold:
-        "You don't have such amount of gold."
+        "You don't have that amount of gold."
         jump girl_interactions
     if round(char.gold/temp) > 5:
-        "She refuses to take your money. Looks like you have insulted her by such a small sum."
+        "She refuses to take your money. Looks like you have insulted her with such a small sum."
         $ char.disposition -= (randint(9, 25))
         jump girl_interactions
     if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
@@ -30,7 +30,7 @@ label interactions_giftmoney:
             $ hero.exp += randint(10, 20)
             $ char.exp += randint(10, 20)
         elif round(char.gold/temp) <= 3:
-            "She gratefully accepts money. It is hard times."
+            "She gratefully accepts your money. Times are tough."
             $ a = 10
             $ b = 25
             $ hero.exp += randint(5, 10)
@@ -46,7 +46,7 @@ label interactions_giftmoney:
         else:
             $ char.disposition += randint(a, b)
     else:
-        "You don't have such amount of gold."
+        "You don't have that amount of gold."
     $ del a
     $ del b
     $ del temp
@@ -61,18 +61,16 @@ label interactions_askmoney:
         jump girl_interactions
     "You asked her to help you with money."
     if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
-        if char.gold < 100:
+        if char.gold < 200:
             "But she's too poor to help you."
             jump girl_interactions
         elif char.gold > hero.gold*10:
             $ temp = randint (round(char.gold*0.2), round(char.gold*0.8))
-            label less_money_int:
-            if temp > 1000:
+            while temp >= 1000: # we will continue to divide it by 10 until it becomes less than 1000. a countermeasure against becoming too rich by persuading a high lvl rich character to give you money.
                 $ temp = round(temp*0.1)
-                jump less_money_int
             if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
                 $ hero.add_money(temp) # Same...
-                "You gave you [temp] G."
+                "She gave you [temp] G."
                 $ hero.exp += randint(3, 8)
                 $ char.disposition -= randint (20, 40)
         else:
@@ -98,7 +96,7 @@ label interactions_int_give_money:
         $ char.add_money(temp) # Same...
         "You gave her [temp] G."
     else:
-        "You don't have such amount of gold."
+        "You don't have that amount of gold."
     $ del temp
     jump girl_interactions
     
@@ -116,7 +114,7 @@ label interactions_int_take_money:
         $ hero.add_money(temp) # Same...
         "You took [temp] G."
     else:
-        "She doesn't have such amount of gold."
+        "She doesn't have that amount of gold."
     $ del temp
     jump girl_interactions
 

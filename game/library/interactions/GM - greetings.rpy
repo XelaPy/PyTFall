@@ -235,7 +235,7 @@ label girl_interactions_greeting:
             elif ct("Kuudere"):
                 $rc("I'm here, Master.", "I'm listening, Master.", "Yes, Master? Was there something you wanted?")
             elif ct("Dandere"):
-                $rc("...Master?", "You call, Master?", "...?", "...What is it, Master?")
+                $rc("...Master?", "You called, Master?", "...?", "...What is it, Master?")
             elif ct("Tsundere"):
                 $rc("Hmph. Y-yes, Master.", "Yes, Master. You want something or what?", "Well, I'm here, Master. Spit it out already.")
             elif ct("Imouto"):
@@ -618,8 +618,8 @@ label int_girl_dissapointed: # a universal answer when character is displeased b
     elif ct("Ane"):
         $rc("My, is that it? I expected something... better.", "*sigh* How troublesome...")
     elif ct("Yandere"):
-        $rc("My time is precious for something like it, you know?", "Could you refrain from acting so in the future?")
+        $rc("My time is precious for something like that, you know?", "Could you refrain from acting so in the future?")
     else:
-        $rc("*sign* No wonder my horoscope predicted a bad day.", "What a nuisance...")
+        $rc("*sign* No wonder, my horoscope predicted a bad day.", "What a nuisance...")
     $ char.restore_portrait()
     return

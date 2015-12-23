@@ -73,7 +73,7 @@ label interactions_shopping:
                                 if char.occupation=='Prostitute':
                                     for entry in focus.mod:
                                         if entry =='anal' or entry =='normalsex' or entry =='lesbian':
-                                            txt =="%s will definitly make me a better whore for master.\n"%focus.id
+                                            txt =="%s will definitly make me a better whore for Master.\n"%focus.id
                                             char.mod('disposition', 1)
                                 
                                 if char.occupation=='Stripper':
@@ -95,7 +95,7 @@ label interactions_shopping:
                                 if char.occupation=='Prostitute':
                                     for entry in focus.mod:
                                         if entry =='anal' or entry =='normalsex' or entry =='lesbian':
-                                            txt =="%s will definitly make me a better whore for master."%focus.id
+                                            txt =="%s will definitly make me a better whore for Master."%focus.id
                                             char.mod('disposition', 1)
                                 
                                 if char.occupation=='Stripper':

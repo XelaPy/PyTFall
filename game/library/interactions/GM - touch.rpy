@@ -1,5 +1,5 @@
 label interactions_hug:
-    "You trying to hug her."
+    "You try to hug her."
     $ interactions_check_for_bad_stuff(char)
     if char.disposition > 600:
         $ gm_dice = 98
@@ -106,7 +106,7 @@ label interactions_hug:
 
 ###### j3    
 label interactions_slapbutt:
-    "You trying to slap her butt."
+    "You try to slap her butt."
     $ interactions_check_for_bad_stuff(char)
     if char.disposition > 600:
         $ gm_dice = 98
@@ -154,7 +154,7 @@ label interactions_slapbutt:
         $ char.override_portrait("portrait", "confident")
         $ hero.exp += randint(5, 10)
         if ct("Yandere"):
-            $rc("<She smiles and slapes you back.>", "Ha... That touching... so lewd...", "How lewd...", "Blossoming youth?", "Such a perverted hand...")
+            $rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "How lewd...", "Blossoming youth?", "Such a perverted hand...")
         elif ct("Impersonal"):
             $rc("Aah... my hips... it feels... kind of strange.", "Hnn, fuaah... if you touch there, I won't be able to hold myself back...")
         elif ct("Nymphomaniac") and dice(20):
@@ -212,7 +212,7 @@ label interactions_slapbutt:
 
 ###### j4
 label interactions_grabbreasts:
-    "You trying to grab her breasts."
+    "You try to grab her breasts."
     $ interactions_check_for_bad_stuff(char)
     if char.disposition > 700:
         $ gm_dice = 98

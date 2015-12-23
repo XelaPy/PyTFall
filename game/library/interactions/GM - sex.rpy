@@ -68,7 +68,7 @@ label int_whore_girl_says_her_price_for_sex: # who knows, maybe we'll need it so
     else:
         $rc("You want to hire me? Very well, it will be %d G." % price, "Of course. For you my body costs %d G." % price)
     if hero.gold < price:
-        "You don't have so much money."
+        "You don't have that much money."
         call int_girl_dissapointed
         $ del price
         jump girl_interactions
@@ -80,7 +80,7 @@ label int_whore_girl_says_her_price_for_sex: # who knows, maybe we'll need it so
                 if hero.take_money(price):
                     $ char.add_money(price)
                 else:
-                    "You don't have so much money."
+                    "You don't have that much money."
                     call int_girl_dissapointed
                     $ del price
                     jump girl_interactions
@@ -112,7 +112,7 @@ label int_whore_girl_says_her_price_for_sex: # who knows, maybe we'll need it so
     jump interactions_sex_scene_begins   
                     
 label interactions_sex: # we go to this label from GM menu propose sex
-    "You proposing to have sex."
+    "You propose to have sex."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     if char.flag("quest_cannot_be_fucked") == True:
@@ -170,7 +170,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
                 show bg girl_room with fade
                 $ sex_scene_location = "room"
     elif (char.status == "slave") and (ct("Shy") or ct("Dandere")):
-        "She is too shy to it anywhere. You can force her nevertheless, but the prefers her room."
+        "She is too shy to do it anywhere. You can force her nevertheless, but she prefers her room."
         menu:
             "Where would you like to do it?"
             "Beach":
@@ -302,7 +302,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         "You changed your mind. She looks a bit dissapointed."
                         jump interaction_scene_choice
             else:
-                "Unfortunately she's still a virgin, and is not ready to cease to be her yet."
+                "Unfortunately she's still a virgin, and is not ready to pop her cherry yet."
                 jump interaction_scene_choice
         $ char.disposition += 50
         $ char.remove_trait(traits["Virgin"])
@@ -498,7 +498,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                             $ gm.set_img("nude", "indoors", exclude=["stage", "in pain", "scared", "dungeon"], type="reduce")
             jump interaction_scene_strip
             
-        "Ask to play with herself" if char.has_image("masturbation", exclude=["forced", "normalsex", "group", "bdsm"]):
+        "Ask her to play with herself" if char.has_image("masturbation", exclude=["forced", "normalsex", "group", "bdsm"]):
             if sex_scene_location == "beach": # for mast we try to show mast+needed location, then bgless, then simply mast
                 if char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"]):
                     $ gm.set_img("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"])
@@ -542,7 +542,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
             jump interaction_scene_mast
             
-        "Ask for blowjob" if (char.has_image("bc blowjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))): # for bj we use after_sex tag if needed, and partnerhidden is an optional tag, since it's quire rare in some packs
+        "Ask for a blowjob" if (char.has_image("bc blowjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))): # for bj we use after_sex tag if needed, and partnerhidden is an optional tag, since it's quire rare in some packs
             if sex_scene_location == "beach":
                 if char.has_image("bc blowjob", "beach", exclude=["rape", "in pain"]):
                     $ gm.set_img("bc blowjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
@@ -606,7 +606,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("bc blowjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
             jump interaction_scene_blowjob
             
-        "Ask for titsjob" if (char.has_image("bc titsjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))):
+        "Ask for paizuri" if (char.has_image("bc titsjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))):
             if sex_scene_location == "beach":
                 if char.has_image("bc titsjob", "beach", exclude=["rape", "in pain"]):
                     $ gm.set_img("bc titsjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
@@ -670,7 +670,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("bc titsjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
             jump interaction_scene_titsjob
             
-        "Ask for handjob" if (char.has_image("bc handjob", exclude=["rape", "in pain"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
+        "Ask for a handjob" if (char.has_image("bc handjob", exclude=["rape", "in pain"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             if sex_scene_location == "beach":
                 if char.has_image("bc handjob", "beach", exclude=["rape", "in pain"]):
                     $ gm.set_img("bc handjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
@@ -734,7 +734,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("bc handjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
             jump interaction_scene_handjob
             
-        "Ask for footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
+        "Ask for a footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             if sex_scene_location == "beach":
                 if char.has_image("bc footjob", "beach", exclude=["rape", "in pain"]):
                     $ gm.set_img("bc footjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
@@ -1248,7 +1248,7 @@ label interaction_scene_titsjob:
         $ char.joy += 2
         $ sex_scene_libido += 5
     if (char.oral - hero.oral) > 200 or (char.sex - hero.sex) > 200:
-        "You learned something new about titsjob as well. A pleasure to deal with professionals."
+        "You learned something new about paizuri as well. A pleasure to deal with professionals."
         $ hero.oral += 1
         $ hero.sex += 1
     elif (hero.oral - char.oral) > 200:
@@ -1392,7 +1392,7 @@ label interaction_scene_mast:
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
     if char.flag("raped") == "true":
-        "She crying with pain and grief when you deflower her. Soon, however, her slave training is doing its job, and her hips begin to move in rhythm with you."
+        "She cries with pain and grief when you deflower her. Soon, however, her slave training is doing its job, and her hips begin to move in rhythm with you."
     if char.vaginal < 50 and hero.vaginal >= 50:
         "You fuck her pussy until she comes. She's still too inexperienced, so you were unable to come properly. Oh well, at least she learned something new."
         $ char.vaginal += randint (3, 5)
@@ -1610,7 +1610,7 @@ label interaction_scene_strip:
         $ char.joy -= 5
     if char.joy <= 10:
         $ char.disposition -= 5
-    "You ask her to show you striptease."
+    "You ask her to show you a striptease."
     if char.strip < 50:
         "She tried her best, but the moves were clumsy and unnatural. At least she learned something new though."
         $ char.strip += randint (3, 5)
@@ -1631,7 +1631,7 @@ label interaction_scene_strip:
         $ char.joy += 10
         $ sex_scene_libido += 5
     else:
-        "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in the eyes."
+        "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in her eyes."
         $ char.strip += randint (0, 1)
         $ hero.strip += randint (1, 4)
         $ char.vitality -= 20
@@ -1659,9 +1659,9 @@ label int_sex_ok:
         elif ct("Imouto"):
             $rc("Teach me more things, brother!", "Brother, teach me how to feel good!", "Sis... will try her best.", "Sister's gonna show you her skills as a woman.")
         elif ct("Dandere"):
-            $rc("Ah... actually, your sister have been feeling sexually frustrated lately...", "Brother, please do me.", "Even though we're related, we can have sex if we love each other.", "I'm only doing this because you're my brother.", "I'll do whatever you want for you, brother.", "Brother can do anything with me...", "I-is it alright to do something like that with my brother?")
+            $rc("Ah... actually, your sister has been feeling sexually frustrated lately...", "Brother, please do me.", "Even though we're related, we can have sex if we love each other.", "I'm only doing this because you're my brother.", "I'll do whatever you want, brother.", "Brother can do anything with me...", "I-is it alright to do something like that with my brother?")
         elif ct("Kuudere"):
-            $rc("I... I can't believe I'm doing it with my brother...", "Y-you're lusting for your sister? O-okay, you can be my sex partner.", "I... I don't mind doing it although we're siblings, but...")
+            $rc("I... I can't believe I'm doing it with my brother...", "Y-you're lusting for your sister? O-okay, you can be my sex partner.", "I... I don't mind doing it even though we're siblings, but...")
         elif ct("Tsundere"):
             $rc("Ugh... I... I have such a lewd brother!", "O... only you are allowed to touch me, brother.", "I... I'm only doing this because you're hard, brother.", "Doing something like this... with my brother... But... truth be told...")
         elif ct("Kamidere"):

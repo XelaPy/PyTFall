@@ -389,7 +389,7 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["People say I'm quite charismatic. I bet I'd be a good leader, don't you thing? <smiles>"]))
             
         if ct("Well-mannered"):
-            $gm_abouther_list.append(choice(["They say nothing costs so cheap and valued so much as courtesy. I always keep that in mind."]))
+            $gm_abouther_list.append(choice(["They say nothing costs so little and is valued so much as courtesy. I always keep that in mind."]))
             
         if ct("Ill-mannered"):
             $gm_abouther_list.append(choice(["People often tell me that I lack politeness. Fucking hypocrites! I just say what I really think, nothing more."]))
@@ -530,13 +530,13 @@ label interactions_aboutoccupation:
         if cgo("SIW"):
             $rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
             if co("Anal Prostitute"):
-                $rc("Anal sex is my strong point.", "Anal is my specialty.", "I'm the best in anal sex.")
+                $rc("Anal sex is my strong point.", "I love it in my poop chute.", "I've got an onion booty, it makes men cry. haha.")
             if co("Oral Prostitute"):
-                $rc("Oral sex is my strong point.", "Oral is my specialty.", "I'm the best in oral sex.")
-            if co("Stright Prostitute"):
-                $rc("Vaginal sex is my strong point.", "Vaginal is my specialty.", "I'm the best in vaginal sex.")
+                $rc("Oral sex is my strong point.", "I'll give head until I'm dead.", "I can suck a golf ball through a garden hose.")
+            if co("Straight Prostitute"):
+                $rc("Vaginal sex is my strong point.", "My pussy's made of gold.", "I can milk a cock with my vaginal muscles alone.")
             if co("Mistress"):
-                $rc("I prefer S&M, myself. Wanna try sometime? ♪", "BDSM is my specialty.", "I'm the best in S&M.")
+                $rc("I prefer S&M, myself. Wanna try sometime? ♪", "Lick my boots worm!.", "I wanna tie you up and make you my bitch.")
             if co("Stripper"):
                 $rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
         if cgo("Server") and not(co("Stripper")):
@@ -598,20 +598,20 @@ label interactions_interests:
         jump interactions_refused
     if dice(gm_dice):
         $ line = rts(char, {
-        "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beach to pools because it's free."],
-        "Manly": ["She gives you a lection how to build your muscles properly. You feel a bit offended, but keep your cool.", "She casually remarks that you should exercise more often, and gives you some advices."],
+        "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beaches to pools because it's free."],
+        "Manly": ["She gives you a lecture on how to build your muscles properly. You feel a bit offended, but keep your cool.", "She casually remarks that you should exercise more often, and gives you some advice."],
         "Chubby": ["You have a lively discussion about your favorite local bakeries and pastry shops.", "Your conversation turns toward cooking, and she shares some of her recipes. They are all pretty high in calories..."],
-        "Slim": ["You do a compliment to her figure, and the conversation quickly turns toward healthy lifestyle. Ugh.", "She brags about her metabolism, allowing her to eat sweets and don't get fat. You envy."],
-        "Alien": ["She talks about her homeland. You are listening with big interest.", "You discuss local events she witnessed. She doesn't understand the meaning of some of them, and you spend some of your time to explain."],
-        "Half-Sister": ["You discuss your common father. The sad discussion quickly turns into a sarcastic one, when you try to count all his lovers and daughters.", "She tells you about her mother. You listen in silence, trying to imagine your.", "Together you reminiscing about fun and embarrassing moments from your childhood."],
-        "Scars": ["She complains about how her scars cause inconvenience. You comforting her."], 
+        "Slim": ["You compliment her figure, and the conversation quickly turns toward healthy lifestyle. Ugh.", "She brags about her metabolism, allowing her to eat sweets and not get fat. You envy her."],
+        "Alien": ["She talks about her homeland. You are listening with interest.", "You discuss local events she witnessed. She doesn't understand the meaning of some of them, and you spend some of your time to explain."],
+        "Half-Sister": ["You discuss your common father. The sad discussion quickly turns into a sarcastic one, when you try to count all his lovers and daughters.", "She tells you about her mother. You listen in silence, trying to imagine yours.", "You spend time together you reminiscing about fun and embarrassing moments from your childhood."],
+        "Scars": ["She complains about how her scars cause inconvenience. You comfort her."], 
         "Artificial Body": ["Tempted by curiosity, you ask about her artificial body. Her explanations are very long and confusing.", "You discuss the regular maintenance required by her body. It's a pretty complex, but piquant conversation."],
-        "Lolita": ["She complains about how hard to find adult clothes for her figure. You're trying to take her away from this sensitive topic.", "She tells you funny stories about disappointed (and imprisoned) pedophiles confused by her body size. What a strange topic."], 
-        "Strange Eyes": ["She notices how you look at her unusual eyes. Embarrassed, she refuses to look at you or discuss something."], 
-        "Great Arse": ["You try to keep small talk, trying not to think about her gorgeous butt and what would you do if you were behind her."], 
-        "Long Legs": ["During your small conversation you can't help but glance at her long feet. Looks like she got used to it and doesn't care much."], 
-        "Abnormally Large Boobs": ["You vaguely remember your conversation, paying most attention to her amazing chest.", "She complains about high costs for the purchase of new bra. It appears that the fabric is not strong enough to withstand such loads. Without knowing what reaction she expected, you keep your poker face."], 
-        "Big Boobs": ["She complains how big chest spoils the posture. You sympathize her, very convincingly and almost sincerely."], 
+        "Lolita": ["She complains about how hard it is to find adult clothes for her figure. You're trying to take her away from this sensitive topic.", "She tells you funny stories about disappointed (and imprisoned) pedophiles confused by her body size. What a strange topic."], 
+        "Strange Eyes": ["She notices how you look at her unusual eyes. Embarrassed, she refuses to look at you or discuss anything."], 
+        "Great Arse": ["You try to keep it to small talk, trying not to think about her gorgeous butt and what would you do if you were behind her."], 
+        "Long Legs": ["During your small conversation you can't help but glance at her long legs. Looks like she is used to it and doesn't care much."], 
+        "Abnormally Large Boobs": ["You vaguely remember your conversation, paying most of your attention to her amazing chest.", "She complains about high costs for the purchase of new bra. It appears that the fabric is not strong enough to withstand such loads. Without knowing what reaction she expected, you keep your poker face."], 
+        "Big Boobs": ["She complains how a big chest spoils the posture. You sympathize with her, very convincingly and almost sincerely."], 
         "Small Boobs": ["She starts a conversation about irrelevance of chest size. You carefully assent, trying to not piss her off."], 
         "Fire": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of fire."], 
         "Water": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of water."], 
@@ -623,21 +623,21 @@ label interactions_interests:
         "Darkness": ["Your conversation turns to magic, and she enthusiastically tells you the intricacies of dealing with the power of darkness."], 
         "Nerd": ["You discuss new books in local stores and libraries.", "Somehow your conversation comes to board games, and she enthusiastically explains to you the intricate rules of one of them."], 
         "Psychic": ["It's difficult to participate in the conversation when your interlocutor knows your words in advance. She seems to enjoy teasing you, however.", "She complains about headaches, dizziness and other neural disorders that are common for psychics."],
-        "Optimist": ["Looks like she is in a good mood. Laughing and joking during your conversation, she quickly turns it into a humorous one.", "You exchange freshest anecdotes."],
+        "Optimist": ["Looks like she is in a good mood. Laughing and joking during your conversation, she quickly turns it into a humorous one.", "You exchange your freshest anecdotes."],
         "Pessimist": ["Looks like she's not in the mood. Your conversation is pretty gloomy, though you managed to cheer her up a bit."],
-        "Serious": ["You have a very serious conversation about local politics and taxes. You feel squeezed like a lemon.", "She gives you a lecture about the importance of planning for the future. You heroically holding back a yawn."],
-        "Extremely Jealous": ["She inquires to your relationships with other girls. You carefully dispel her concern, trying not to make definitive statements."],
+        "Serious": ["You have a very serious conversation about local politics and taxes. You feel squeezed like a lemon.", "She gives you a lecture about the importance of planning for the future. You heroically hold back a yawn."],
+        "Extremely Jealous": ["She inquires about your relationships with other girls. You carefully dispel her concern, trying not to make definitive statements."],
         "Virtuous": ["She tells about her volunteer work. It's nice, but a bit boring."], 
-        "Vicious": ["She gossips with obvious pleasure about her acquaintances misfortunes."], 
-        "Dawdler": ["You have a lazy, indolent discussion. Looks like she's half asleep.", "She pensively tells about her recent dreams. You beginning to feel drowsy."],
-        "Clumsy": ["You talk about misfortunes caused by her clumsiness. You heroically holding back a smile and comforting her."],
+        "Vicious": ["She gossips with obvious pleasure about her acquaintance's misfortunes."], 
+        "Dawdler": ["You have a lazy, indolent discussion. Looks like she's half asleep.", "She pensively tells you about her recent dreams. You begin to feel drowsy."],
+        "Clumsy": ["You talk about misfortunes caused by her clumsiness. You heroically hold back a smile and comfort her instead."],
         "Nymphomaniac": ["An innocent conversation turns into the discussion about sexual positions. She's really into this stuff.", "She passionately talks about her recent sexual adventures. Wow."], 
         "Heavy Drinker": ["You discuss various types of alcohol, sharing your drinking experience."],
         "Always Hungry": ["You talk about food for some time. Looks like she can do it for hours, so you carefully interrupt the conversation."],
-        "Curious": ["You exchange the latest news and gossips. She really knows alot about it."],
+        "Curious": ["You exchange the latest news and gossip. She really knows a lot about it."],
         "cgo('Warrior')": ["You discuss the recent fights at the arena and their participants.", "You discuss a variety of fighting styles."], 
         "cgo('Caster')": ["She enthusiastically talks about mysteries of arcane arts.", "You discuss her magical studies."], 
-        "cgo('SIW')": ["You gossiping about the strangeness of some of her customers."], 
+        "cgo('SIW')": ["You gossip about the strangeness of some of her customers."], 
         "cgo('Server')": ["She recounts rumors that she heard from customers lately. People tend to not notice service workers when they are not needed."], 
         "default": ["You chat for some time."]
         })
@@ -666,7 +666,7 @@ label interactions_interests:
                 $ gm_joy = 50
                 $ char.disposition += randint(0, 1)
             else: 
-                "You had a bit short conversation."
+                "You had a short conversation."
                 $ gm_joy = 25
         else:
             "It was a short and not very pleasant conversation."
@@ -702,7 +702,7 @@ label interactions_interests:
 
 # ask about love
 label interactions_romance:
-    "You asking her about love and romantic stuff."
+    "You ask her about love and romantic stuff."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     if char.disposition < 100:
@@ -725,7 +725,7 @@ label interactions_romance:
         elif ct("Dandere"):
             $rc("If you like them, you like them. If you hate them, you hate them. That's all there is to it. Right?", "My dream yesterday... It was so lovey-dovey and erotic.", "I think it is a good thing to be loved by someone.", "Getting close to people other than the one you love is kind of...", "You can still live a good life without a lover, don't you think?")
         elif ct("Tsundere"):
-            $rc("M...men and women feels arousal differently.... F-f-forget what I just said!", "Thick and hard? What the... You idiot, what are you saying! That's not what you meant? ... You idiot!", "E-even I want to be a good bride someday, you know...?", "Things like l-love or affection, are all excuses.")
+            $rc("M...men and women feel arousal differently.... F-f-forget what I just said!", "Thick and hard? What the... You idiot, what are you saying! That's not what you meant? ... You idiot!", "E-even I want to be a good bride someday, you know...?", "Things like l-love or affection, are all excuses.")
         elif ct("Kuudere"):
             $rc("To feel the same feelings towards each other... To be partners for life... That's what I long for.", "Two people in love devoting themselves to each other, that sounds like pure bliss to me...", "True love isn't about showing off to everyone else... It's the small things you do for your partner that matter.", "There's gotta be someone willing to support me out there somewhere...", "Chance encounters only happen with both time and luck...Well, I suppose you could call it fate.")
         elif ct("Imouto"):
@@ -849,7 +849,7 @@ label interactions_occupation:
         "Warrior" if char.occupation != "Warrior" and char.status != "slave" and char.has_image("battle_sprite"):
                 # Case free girl:
                 if char.disposition < 950 + char.level:
-                    $ rc("Don't even thing of me in that way!", "Nope!", "I refuse")
+                    $ rc("Don't even think of me in that way!", "Nope!", "I refuse")
                 else:
                     g "Well... why not, I am willing to try new things..."
                     $ char.occupation = "Warrior"

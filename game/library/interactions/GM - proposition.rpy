@@ -1,5 +1,5 @@
 label interactions_friends:
-    "You proposing to become friends."
+    "You ask her to become your friend."
     if check_friends(char, hero):
         "But you already are!"
         python:
