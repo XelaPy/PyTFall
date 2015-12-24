@@ -806,9 +806,9 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                             action SensitiveIf(eqtarget != hero), Return(['item', 'transfer'])
                             if inv_source == hero:
                                 hovered tt.Action("Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname))
-                                text "Give to\n {color=#FFAEB9}Girl{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                                text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
                             else:
-                                text "Give to\n {color=#FFA54F}Hero{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                                text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
                                 hovered tt.Action("Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname))
                         
                         frame:

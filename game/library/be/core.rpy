@@ -795,14 +795,28 @@ init -1 python: # Core classes:
             """
             pass
         
-        def attackers_first_action_and_effect(self, battle, attacker):
+        def attackers_first_action_show(self, battle, attacker):
             if self.attacker_action["gfx"] == "step_forward":
                 battle.move(attacker, battle.get_cp(attacker, xo=50), 0.5)
+                
+                gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
+                casting_effect(attacker, gfx, sfx)
+                
+        def attackers_first_action_hide(self, battle, attacker):
+            if self.attacker_action["gfx"] == "step_forward":
                 self.attacker_action.get("restore_to_original_delay", 2.0)
                 battle.move(char, char.dpos, 0.5, pause=False)
                 
                 gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
                 casting_effect(attacker, gfx, sfx)
+                
+        def attackers_first_effect_show(self, battle, attacker):
+            gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
+            casting_effect(attacker, gfx, sfx) # <== Needs to be moved to this method.
+        
+        def attackers_first_effect_hide(self, battle, attacker):
+            gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
+            casting_effect(attacker, gfx, sfx) # <== Needs to be moved to this method.
                     
         def show_main_gfx(self, targets, battle):
             # Shows the MAIN part of the attack and handles appropriate sfx.
