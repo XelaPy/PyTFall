@@ -138,7 +138,7 @@
     },
     {
     "id": "Aromatic Pendant",
-    "desc": "This pendant is spreading around a light aphrodisiac that has a effect of both men and women.",
+    "desc": "This pendant is spreading around a light aphrodisiac that has an effect of both men and women.",
     "icon": "content/items/amulet/ap.png",
     "price": 400,
     "sex": "unisex",
@@ -283,7 +283,7 @@
     },
     {
     "id": "Darksome Trophy",
-    "desc": "Acquired from a slain barbarian. It suppose to increase the bearers strength, but it wasn’t very useful to the previous owner.",
+    "desc": "Acquired from a slain barbarian. It's supposed to increase the bearer's strength, but it wasn’t very useful to the previous owner.",
     "icon": "content/items/amulet/dt.png",
     "price": 150,
     "sex": "unisex",

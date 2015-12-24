@@ -18,7 +18,7 @@
     },
     {
     "id": "Mantle of the Healer",
-    "desc": "These mantles mainly used by acolyte healers. They are provide additional spirit energy for good deeds, and they are heavy as hell.",
+    "desc": "These mantles are mainly used by acolyte healers. They provide additional spirit energy for good deeds, and they are heavy as hell.",
     "icon": "content/items/cape/mh.png",
     "price": 140,
     "sex": "unisex",
@@ -157,7 +157,7 @@
     },
     {
     "id": "Mantle of the Priest",
-    "desc": "When a healer is gaining enough experience, he becomes a priest, receiving such a mantle.",
+    "desc": "When a healer gains enough experience, he becomes a priest, receiving such a mantle.",
     "icon": "content/items/cape/mp.png",
     "price": 350,
     "sex": "unisex",
@@ -248,7 +248,7 @@
     },
     {
     "id": "Fur Coat",
-    "desc": "Made from northern dears, thick hide. Guarantee protection from wind and cold. Perfect for traveling in snowy regions.",
+    "desc": "Made from northern dear's thick hide. Guaranteed protection from wind and cold. Perfect for traveling in snowy regions.",
     "icon": "content/items/cape/fr.png",
     "price": 250,
     "sex": "unisex",

@@ -1,7 +1,7 @@
 [
     {
     "id": "Worn Clothes",
-    "desc": "This clothes have seen a better days...",
+    "desc": "These clothes have seen a better days...",
     "icon": "content/items/body/wc.png",
     "price": 30,
     "sex": "unisex",
@@ -72,7 +72,7 @@
     },
     {
     "id": "Bunny Outfit",
-    "desc": "A perfect match for bunny years, and quite a common fetish.",
+    "desc": "A perfect match for bunny ears, and quite a common fetish.",
     "icon": "content/items/body/bunny.png",
     "price": 350,
     "sex": "female",
@@ -108,7 +108,7 @@
     },
     {
     "id": "Long Foreign Dress",
-    "desc": "An elegant dress from a faraway country with seductive cut along the leg.",
+    "desc": "An elegant dress from a faraway country with a seductive cut along the leg.",
     "icon": "content/items/body/asdress.png",
     "price": 825,
     "sex": "female",
@@ -256,7 +256,7 @@
     },
     {
     "id": "Viny-patterned Corset",
-    "desc": "Piece of the wardrobe created solely to make the waist look thinner. Sewn from green linen and padded with silk. For better visual effect, broidered with slimming floral motive in the front. At top and bottom finished with white lace and decorated with small taffeta ribbons. Beautifully underlining the wearers breasts and hips.",
+    "desc": "Piece of the wardrobe created solely to make the waist look thinner. Sewn from green linen and padded with silk. For better visual effect, embroidered with slimming floral motif in the front. At top and bottom, finished with white lace and decorated with small taffeta ribbons. Beautifully underlining the wearers breasts and hips.",
     "icon": "content/items/body/vc.png",
     "price": 800,
     "sex": "female",
@@ -611,7 +611,7 @@
     },
     {
     "id": "Summer Clothes",
-    "desc": "An ordinary summer clothing.",
+    "desc": "An ordinary summer clothing outfit.",
     "icon": "content/items/body/min_1.png",
     "price": 450,
     "sex": "female",
@@ -631,7 +631,7 @@
     },
     {
     "id": "Faerie Gown",
-    "desc": "This incredibly rare garment bears an otherworldly beauty; its magical origin is visible even to the untrained eye. Woven from the silk of unknown insects, it carries a powerful spell that enhancing the wearer's natural looks, and even though it seems heavy and difficult to move in it is actually much lighter than it appears.",
+    "desc": "This incredibly rare garment bears an otherworldly beauty; its magical origin is visible even to the untrained eye. Woven from the silk of unknown insects, it carries a powerful spell that enhances the wearer's natural looks, and even though it seems heavy and difficult to move in it is actually much lighter than it appears.",
     "icon": "content/items/body/fg.png",
     "price": 4000,
     "sex": "female",
@@ -650,7 +650,7 @@
     },
     {
     "id": "Godward Shell",
-    "desc": "This heavy armor is made from the shell of an ancient beast, said to have survived a duel with the god of war. The legends don't tell how the creature finally met its end, though.",
+    "desc": "This heavy armor is made from the shell of an ancient beast, said to have survived a duel with the God of War. The legends don't tell how the creature finally met its end, though.",
     "icon": "content/items/body/gs.png",
     "price": 6000,
     "sex": "unisex",
@@ -758,8 +758,8 @@
     "badtraits": ["Frigid"]
     },
     {
-    "id": "Succubus'Wardress",
-    "desc": "Mostly composed of thin leather, this otherworldly elegant suit of &quot;armor&quot; worn to battle by infernal temptresses seems to be more lingerie than protection. It carries a powerful warding enchantment that makes it stronger than most of mundane armors.",
+    "id": "Succubus' Wardress",
+    "desc": "Mostly composed of thin leather, this otherworldly elegant suit of &quot;armor&quot; worn to battle by infernal temptresses seems to be more lingerie than protection. It carries a powerful warding enchantment that makes it stronger than most mundane armors.",
     "icon": "content/items/body/sw.png",
     "price": 4000,
     "sex": "female",
@@ -799,7 +799,7 @@
     },
     {
     "id": "Casual Clothes",
-    "desc": "There is a law prohibiting to appear naked in some parts of the city, so you better stick to your clothes, even if it's cheap and old fashioned.",
+    "desc": "There is a law prohibiting people to appear naked in some parts of the city, so you'd better stick to your clothes, even if it's cheap and old fashioned.",
     "icon": "content/items/body/cc.png",
     "price": 90,
     "sex": "male",
@@ -816,7 +816,7 @@
     },
     {
     "id": "Artisan Outfit",
-    "desc": "Stylish but simple, such clothes usually worn by artisans, craftsmen and other representatives of the middle class.",
+    "desc": "Stylish but simple, such clothes are usually worn by artisans, craftsmen and other representatives of the middle class.",
     "icon": "content/items/body/ao.png",
     "price": 800,
     "sex": "male",
@@ -834,7 +834,7 @@
     },
     {
     "id": "Mercenary Clothes",
-    "desc": "Silver, chains and leather - that's how mercenaries supposed to look from the viewpoint of young noblemen that often could be seen in such clothes. Even though they are far from reality, thanks to them these clothes already came into fashion.",
+    "desc": "Silver, chains and leather - that's how mercenaries are supposed to look from the viewpoint of young noblemen that often could be seen in such clothes. Even though they are far from reality, thanks to them these clothes already came into fashion.",
     "icon": "content/items/body/mc.png",
     "price": 2000,
     "sex": "male",
@@ -868,7 +868,7 @@
     },
     {
     "id": "Imperial Leather Armor",
-    "desc": "This piece of fabric and skin is far from an ideal. Nevertheless it is a basic armor of Imperial soldiers. Lowest durability, but quite comfortable and not strongly constrains the movements. The Empire doesn't bear responsibility if you die earlier, than save up money for new armor.",
+    "desc": "This piece of fabric and skin is far from an ideal. Nevertheless it is the basic armor of Imperial soldiers. Lowest durability, but quite comfortable and does not constrain movement much. The Empire doesn't bear responsibility if you die earlier.",
     "icon": "content/items/else/imperial/iba2.png",
     "price": 280,
     "sex": "male",
@@ -885,7 +885,7 @@
     },
     {
     "id": "Female Casual Clothes",
-    "desc": "There is a law prohibiting to appear naked in some parts of the city, so you better stick to your clothes, even if it's cheap and old fashioned.",
+    "desc": "There is a law prohibiting people to appear naked in some parts of the city, so you'd better stick to your clothes, even if it's cheap and old fashioned.",
     "icon": "content/items/body/ccf1.png",
     "price": 20,
     "sex": "female",
