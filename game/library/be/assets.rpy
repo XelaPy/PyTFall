@@ -224,23 +224,23 @@ init 2 python:
     # target_damage_effect = {"gfx": "battle_bounce", "sfx": None}
     # target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9}
     SimpleMagicalAttack(u"Fire", attributes=['magic', 'fire'], effect=20, multiplier=1.2, type="all_enemies", cost=5, range=4, desc="Ignites a small plot of land.",
-                                       attacker_effects={"gfx": "fire_1"},
+                                       attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                        main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}},
-                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.9},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
     SimpleMagicalAttack(u"Fira", attributes=['magic', 'fire'], effect=30, multiplier=1.2, cost=7, range=4, desc="Ignites the air in a limited area.",
-                                       attacker_effects = {"gfx": "fire_1"},
+                                       attacker_effects = {"gfx": "fire_1", "sfx": "default"},
                                        main_effect={"gfx": Transform("fire_2", zoom=1.5), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
     SimpleMagicalAttack(u"Firaga", attributes=['magic', 'fire'], effect=25, multiplier=1.2, cost=6, range=4, piercing=True, desc="Creates liquid fire that envelopes the target, causing massive burns.",
-                                       attacker_effects={"gfx": "fire_2"},
+                                       attacker_effects={"gfx": "fire_2", "sfx": "default"},
                                        main_effect={"gfx": Transform("fire_4", zoom=1.5), "sfx": "content/sfx/sound/be/fire6.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
-                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.3, "duration": 3.2},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.3, "duration": 3.1},
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
     SimpleMagicalAttack(u"Firaja", attributes=['magic', 'fire'], effect=10, multiplier=1.2, cost=15, range=4, type="all_enemies", piercing=True, desc="Creates a rain of fire that hits all enemies.",
-                                       attacker_effects={"gfx": "fire_1"},
+                                       attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                        main_effect={"gfx": Transform("fire_3", zoom=1.5), "sfx": "content/sfx/sound/be/fire5.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.4},
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},

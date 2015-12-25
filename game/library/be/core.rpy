@@ -461,7 +461,7 @@ init -1 python: # Core classes:
             self.target_sprite_damage_effect["sfx"] = target_sprite_damage_effect.get("sfx", None)
             
             self.target_damage_effect = target_damage_effect.copy()
-            self.target_damage_effect["gfx"] = target_damage_effect.get("gfx", "battle bounce")
+            self.target_damage_effect["gfx"] = target_damage_effect.get("gfx", "battle_bounce")
             self.target_damage_effect["sfx"] = target_damage_effect.get("sfx", None)
             
             self.target_death_effect = target_death_effect.copy()
