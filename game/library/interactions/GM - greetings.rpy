@@ -541,30 +541,30 @@ label after_good_sex:
     $ char.restore_portrait()
     return
     
-label lesbian_refuse_because_of_gender:
+label lesbian_refuse_because_of_gender: # for lesbians, when they refuse lover or sex propositions
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
-            $rc("Opposite sex... Dismissed.")
+            $rc("Opposite sex... Dismissed.", "You are a male. Denied.")
         elif ct("Shy") and dice(50):  
-            $rc("Ah, I'm sorry, I can't do that with a boy...")
+            $rc("Ah, I'm sorry, I can't do that with a boy...", "Um, I-I like girls... Sorry!")
         elif ct("Imouto"):
-            $rc("If you were a girl...it'd be alright, but...")
+            $rc("If you were a girl...it'd be alright, but...", "I don't really like boys... So no.")
         elif ct("Dandere"):
-            $rc("Guys are...not for me.")
+            $rc("Guys are...not for me.", "Wrong gender. Consider changing it.")
         elif ct("Kuudere"):
-            $rc("Men for me are...well...")
+            $rc("Men for me are...well...", "I'm afraid men are not attractive to me.")
         elif ct("Tsundere"):
-            $rc("Hmph. And that's why I don't like men.")
+            $rc("Hmph. And that's why I don't like men.", "Ugh, not again... I like girls, understood?")
         elif ct("Bokukko"):  
-            $rc("Ew, don't wanna. You're a guy.")
+            $rc("Ew, don't wanna. You're a guy.", "Nah, I'm not interested in boys. Do you have a sister, by the way?")
         elif ct("Ane"):
             $rc("My apologies, I'm a lesbian.", "I'm terribly sorry, but... I can't do that with a man.")
         elif ct("Yandere"):  
-            $rc("Sorry, I only like girls.")
+            $rc("Sorry, I only like girls.", "I dislike men, nothing personal.")
         elif ct("Kamidere"):
-            $rc("I have no interest in men.")
+            $rc("I have no interest in men.", "Eww. I prefer girls, is it clear?")
         else: 
-            $rc("Sorry. I'm weird, so... I'm not into guys.")
+            $rc("Sorry. I'm weird, so... I'm not into guys.", "Well, I kinda prefer girls... If you know what I mean.")
         $ char.restore_portrait()
         return
         
