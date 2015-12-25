@@ -35,11 +35,15 @@ label test_be:
         n.apply_trait("Air")
         for skill in battle_skills.values():
             if isinstance(skill, SimpleAttack):
-                h.attack_skills.append(skill)
-                n.attack_skills.append(skill)
+                if skill not in h.attack_skills:
+                    h.attack_skills.append(skill)
+                if skill not in n.attack_skills:
+                    n.attack_skills.append(skill)
             else:
-                h.magic_skills.append(skill)
-                n.magic_skills.append(skill)
+                if skill not in h.magic_skills:
+                    h.magic_skills.append(skill)
+                if skill not in n.magic_skills:
+                    n.magic_skills.append(skill)
         n.front_row = False
         n.exp += 2000000
         
