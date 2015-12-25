@@ -111,7 +111,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                 "You are going to her room."
                 $ sex_scene_location=="room"
     $ sex_scene_libido = 0
-    jump interactions_sex_scene_begins   
+    jump interactions_sex_scene_begins
                     
 label interactions_sex: # we go to this label from GM menu propose sex
     "You propose to have sex."
@@ -128,36 +128,46 @@ label interactions_sex: # we go to this label from GM menu propose sex
         jump girl_interactions
         
     $ sub = check_submissivity(char)
-    
+    $ sex_scene_libido = 0 # local, internal libido stat, based on traits and flags
     if check_lovers(char, hero): # a clear way to calculate how much disposition is needed to make her agree
-        $ disposition_level_for_sex = randint(-200, 100) + sub*200
+        $ disposition_level_for_sex = randint(0, 100) + sub*200 # probably a placeholder until it becomes more difficult to keep lover status
     else:
-        $ disposition_level_for_sex = randint(600, 700) + sub*200
+        $ disposition_level_for_sex = randint(600, 700) + sub*200 # thus weak willed characters will need from 400 to 500 disposition, strong willed ones from 800 to 900, if there are no other traits that change it
         
     if ct("Frigid"):
-        $ disposition_level_for_sex += randint(100, 200)
+        $ disposition_level_for_sex += randint(100, 200) # and it's totally possible that with some traits and high character stat the character will never agree, unless lover status is involved
     elif ct("Nymphomaniac"):
         $ disposition_level_for_sex -= randint(100, 200)
     
     if char.status == "slave":
-        $ disposition_level_for_sex -= randint(100, 200)
+        $ disposition_level_for_sex -= randint(50, 100)
     
     if char.flag("quest_sex_anytime"): # special flag for cases when we don't want character to refuse unless disposition is ridiculously low
         $ disposition_level_for_sex -= 1000
         
     if cgo("SIW"): # SIWs won't be against it if they know MC well, but at the same time would prefer to be paid if they don't
-        if disposition_level_for_sex > 400:
-            $ disposition_level_for_sex += randint(40, 90)
+        if char.disposition >= 400:
+            $ disposition_level_for_sex += randint(50, 100)
         else:
-            $ disposition_level_for_sex -= randint(40, 90)
-    if disposition_level_for_sex < -50:
-        $ disposition_level_for_sex = -50 # normalisation, no willing sex with too low disposition no matter the character
+            $ disposition_level_for_sex -= randint(50, 100)
+    # so normal (without flag) required level could be from -400 to 1200
+    if disposition_level_for_sex < 100:
+        $ disposition_level_for_sex = 100 # normalisation, no free sex with too low disposition no matter the character
     if char.disposition < disposition_level_for_sex:
         call int_sex_nope
         $ del disposition_level_for_sex
-        $ char.disposition -= randint(1, 5)
+        $ dif = disposition_level_for_sex - char.disposition # the difference between required for sex and current disposition
+        if dif < 40:
+            $ char.disposition -= randint(1, dif+1) # if it's low, then disposition penalty will be low too
+        else:
+            $ char.disposition -= randint(15, (45+10*sub)) # otherwise it will be significant
+        $ del dif
         jump girl_interactions
+    else:
+        $ dif = (char.disposition - disposition_level_for_sex) // 300
+        $ sex_scene_libido += dif # the positive difference might give a bit of additional libido, 1 point per 300
     $ del disposition_level_for_sex
+    $ del dif
     if check_friends(char, hero) or ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600:
         menu:
             "Where would you like to do it?"
@@ -183,17 +193,17 @@ label interactions_sex: # we go to this label from GM menu propose sex
                 "You are going to the beach, to one of the secluded places away from people."
                 $ sex_scene_location="beach"
                 if ct("Masochist"):
-                    $ sex_scene_libido = 10
+                    $ sex_scene_libido += 1
                 else:
-                    $ sex_scene_libido = -10
+                    $ sex_scene_libido -= 2
             "Park":
                 show bg city_park with fade
                 "You are going to the park, to the thick bushes away from people."
                 $ sex_scene_location=="park"
                 if ct("Masochist"):
-                    $ sex_scene_libido = 10
+                    $ sex_scene_libido += 1
                 else:
-                    $ sex_scene_libido = -10
+                    $ sex_scene_libido -= 2
             "Room":
                 show bg girl_room with fade
                 "You are going to her room."
@@ -211,7 +221,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         show bg girl_room with fade
         $ sex_scene_location="room"
 
-label interactions_sex_scene_begins: # here we set initial picture before the scene
+label interactions_sex_scene_begins: # here we set initial picture before the scene and set local variables
     if sex_scene_location == "beach": # here we make sure that all suitable pics with swimsuit have a chance to be shown
         $ tags = ({"tags": ["beach", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple bg", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["no bg", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
         $ result = get_act(char, tags)
@@ -250,45 +260,45 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
                     $ gm.generate_img("simple bg", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
             else: # screw it, show the closest possible of remained ones
                 $ gm.generate_img("indoors", "living", "indoor", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
-            
+
     $ sex_count = les_count = guy_count = girl_count = together_count = cum_count = 0
-    $ sex_scene_libido = 0 # local, internal libido stat, based on traits and flags
     if ct("Nymphomaniac"):
-        $ sex_scene_libido += 70
+        $ sex_scene_libido += 6
     elif ct("Frigid"):
-        $ sex_scene_libido += 30
+        $ sex_scene_libido += 2
     else:
-        $ sex_scene_libido += 50
+        $ sex_scene_libido += 4
     if ct ("Messy"):
-        $ sex_scene_libido += 5
+        $ sex_scene_libido += 1
     if check_lovers(hero, char):
-        $ sex_scene_libido += 20
+        $ sex_scene_libido += 2
     if cgo("SIW"):
-        $ sex_scene_libido += 10
+        $ sex_scene_libido += 2
     if ct("Extremely Jealous"):
-        $ sex_scene_libido += 5
+        $ sex_scene_libido += 1
     if ct("Virgin"):
-        $ sex_scene_libido -= 10
+        $ sex_scene_libido -= 2
     elif ct("MILF"):
-        $ sex_scene_libido += 5
+        $ sex_scene_libido += 1
     if ct("Undead"):
-        $ sex_scene_libido -= 10
+        $ sex_scene_libido -= 2
     elif ct("Furry"):
-        $ sex_scene_libido += 5
+        $ sex_scene_libido += 1
     elif ct("Demonic Creature"):
-        $ sex_scene_libido += 10
+        $ sex_scene_libido += 2
     if ct("Indifferent"):
-        $ sex_scene_libido -= 10
+        $ sex_scene_libido -= 2
     if ct("Impersonal"):
-        $ sex_scene_libido -= 5
-    if sex_scene_libido < 10:
-        $ sex_scene_libido = 10 # normalization, at worst you will do it 1-2 times
+        $ sex_scene_libido -= 1
+    # so max possible libido is 20, min is -3
+    if sex_scene_libido < 2:
+        $ sex_scene_libido = 2 # normalization, at worst you will do it 1-2 times
     jump interaction_scene_choice
     
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
         if char.status == "slave":
-            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 100) or (char.disposition >= 250) or (check_lovers(hero, char)) or (check_friends(hero, char)):
+            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)):
                 menu:
                     "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                     "Yes":
@@ -309,13 +319,12 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         else:
                             $ char.vitality -= 20
                         if ct("Masochist"):
-                            $ sex_scene_libido += 10
-                            $ char.joy += 5
+                            $ sex_scene_libido += 1
                             $ char.disposition -= 50
                         else:
                             $ char.disposition -= 150
                             $ char.joy -= 50
-                            $ sex_scene_libido -= 20
+                            $ sex_scene_libido -= 2
                     "No":
                         "You agreed to do something else instead. She sighs with relief."
                         jump interaction_scene_choice
@@ -419,26 +428,26 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         jump interaction_scene_finish_sex
     if char.status == "slave":
         if sex_scene_libido <= 0:
-            "She doesn't want to do it any longer. You can force her, but it will not be without consequences."
+            "[char.name] doesn't want to do it any longer. You can force her, but it will not be without consequences."
         if char.joy <= 10:
-            "She looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
+            "[char.name] looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
         if char.vitality <= 30:
-            "She looks very tired. You can force her, but it's probably for the best to let her rest."
+            "[char.name] looks very tired. You can force her, but it's probably for the best to let her rest."
     else:
         if sex_scene_libido <= 0:
-            "She doesn't want to do it any longer."
+            "[char.name] doesn't want to do it any longer."
             jump interaction_scene_finish_sex
         elif char.joy <= 10:
-            "She looks upset. Not the best mood for sex."
+            "[char.name] looks upset. Not the best mood for sex."
             jump interaction_scene_finish_sex
         if char.vitality < 30:
-            "She is too tired to continue."
+            "[char.name] is too tired to continue."
             jump interaction_scene_finish_sex
     
     menu:
         "What would you like to do now?"
         
-        "Ask for striptease": # for striptease at first we try to get stripping or nude picture with neeeded bg
+        "Ask for striptease": # for striptease at first we try to get stripping or nude picture with needed bg
             if sex_scene_location == "beach":
                 if char.has_image("stripping", "beach", exclude=["in pain", "scared"]):
                     $ gm.set_img("stripping", "beach", exclude=["in pain", "scared"])
@@ -825,7 +834,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                         $ gm.set_img("bc footjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
             jump interaction_scene_footjob
             
-        "Ask for vaginal sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
+        "Ask for sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             if ct("Virgin"):
                 jump interaction_check_for_virginity
             else:
@@ -907,148 +916,171 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
             "You decided to finish."
 
             
-            label interaction_scene_finish_sex:
-                if sex_scene_libido >= 15 and char.vitality >= 35:
-                    if char.flag("s_bg") == "beach":
-                        if dice(50):
-                            $ gm.set_img("masturbation", "beach", exclude=["rape", "angry", "in pain"], type="first_default")
-                        else:
-                            $ gm.set_img("masturbation", "simple bg", exclude=["rape", "angry", "in pain"], type="first_default")
-
-                    elif char.flag("s_bg") == "park":
-                        if dice(50):
-                            $ gm.set_img("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-                        else:
-                            $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
+label interaction_scene_finish_sex:
+    if sex_scene_libido > 3 and char.vitality >= 70:
+        if sex_scene_location == "beach":
+            if char.has_image("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"]):
+                $ gm.set_img("masturbation", "beach", exclude=["forced", "normalsex", "group", "bdsm"])
+            else:
+                $ tags = ({"tags": ["simple bg", "masturbation"], "exclude": ["forced", "normalsex", "group", "bdsm"]}, {"tags": ["no bg", "masturbation"], "exclude": ["forced", "normalsex", "group", "bdsm"]})
+                $ result = get_act(char, tags)
+                if result:
+                    if result == tags[0]:
+                        $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm"])
                     else:
-                        if dice(50):
-                            $ gm.set_img("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-                        else:
-                            $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm", "cumcovered"], type="first_default")
-                    "She is not satisfied yet, so she quickly masturbates to decrease libido."
-                    $ char.disposition -= round(sex_scene_libido*0.5)
-                if char.vitality <=0:
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("rest", "beach", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("rest", "nature", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
-                    else:
-                        $ gm.set_img("rest", "living", "sleeping", "tired", exclude=["angry", "in pain"], type="first_default")
-                    "She fainted from fatigue. You cannot continue any longer."
-                    $ char.disposition = randint(4, 10)
-                if (together_count > 0 and sex_count >=2) or (sex_count >=4 and girl_count >=2 and guy_count >= 2):
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "happy", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "happy", "nature")
-                    else:
-                        $ gm.set_img("profile", "happy", "indoors", "living")
-                    call after_good_sex
-                    $ char.set_flag("allowed_sex", value="True")
-                    $ char.disposition += randint(40, 70)
-                    $ char.joy += randint(20, 50)
-                    $ char.vitality -= 30
-                elif girl_count < 1 and guy_count > 0:
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "sad", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "sad", "nature")
-                    else:
-                        $ gm.set_img("profile", "sad", "indoors", "living")
-                    "She's not statisfied at all."
-                    call girl_never_come
-                    $ char.disposition -= randint(20, 50)
-                    $ char.joy -= randint(20, 50)
-                    $ char.vitality -= 25
-                elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "shy", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "shy", "nature")
-                    else:
-                        $ gm.set_img("profile", "shy", "indoors", "living")
-                    "She was unable to satisfy you."
-                    call guy_never_came
-                    $ char.disposition += randint(10, 20)
-                    $ char.joy -= randint(10, 30)
-                    $ char.vitality -= 25
-                elif girl_count > 0 and (cum_count >=5 or (cum_count > girl_count)):
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "confident", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "confident", "nature")
-                    else:
-                        $ gm.set_img("profile", "confident", "indoors", "living")
-                    call guy_cum_alot
-                    $ char.disposition += randint(20, 40)
-                    $ char.joy += randint(20, 40)
-                    $ char.vitality -= 20
-                elif (sex_count < 1) and (guy_count < 1) and (girl_count < 1) and (les_count < 1):
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "sad", "angry", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "sad", "angry", "nature")
-                    else:
-                        $ gm.set_img("profile", "sad", "angry", "indoors", "living")
-                    if char.status == "slave":
-                        "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
-                    else:
-                        "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
-                    $ char.disposition -= randint(40, 70)
-                    $ char.joy -= randint(20, 50)
-                    $ char.vitality -= 5
-                elif girl_count > 0 and sex_count < 1 and les_count < 1:
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "shy", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "shy", "nature")
-                    else:
-                        $ gm.set_img("profile", "shy", "indoors", "living")
-                    "She did nothing but masturbated in front of you. Probably better than nothing, but be prepared for rumors about your impotence or orientation."
-                    $ char.disposition -= randint(30, 50)
-                    $ char.joy -= randint(15, 25)
-                    $ char.vitality -= 5
-                elif les_count > 0 and sex_count < 1:
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "shy", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "shy", "nature")
-                    else:
-                        $ gm.set_img("profile", "shy", "indoors", "living")
-                    "She wonders why you didn't do a thing except watching her and her partner."
-                    if ct("Lesbian") or ct("Bisexual"):
-                        "She had her fun though, so no hard feelings."
-                        $ char.joy = randint(5, 15)
-                        $ char.vitality -= 5
-                    else:
-                        "Without your involvement she's not satisfied at all."
-                        $ char.disposition -= randint(20, 50)
-                        $ char.joy -= randint(20, 50)
-                        $ char.vitality -= 25
+                        $ gm.set_img("masturbation", "no bg", exclude=["forced", "normalsex", "group", "bdsm"])
                 else:
-                    if char.flag("s_bg") == "beach":
-                        $ gm.set_img("profile", "happy", "beach")
-                    elif char.flag("s_bg") == "park":
-                        $ gm.set_img("profile", "happy", "nature")
+                    $ gm.set_img("masturbation", "outdoors", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
+        elif sex_scene_location == "park":
+            if char.has_image("masturbation", "nature", exclude=["forced", "normalsex", "group", "bdsm"]):
+                $ gm.set_img("masturbation", "nature", "urban", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
+            else:
+                $ tags = ({"tags": ["simple bg", "masturbation"], "exclude": ["forced", "normalsex", "group", "bdsm"]}, {"tags": ["no bg", "masturbation"], "exclude": ["forced", "normalsex", "group", "bdsm"]})
+                $ result = get_act(char, tags)
+                if result:
+                    if result == tags[0]:
+                        $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm"])
                     else:
-                        $ gm.set_img("profile", "happy", "indoors", "living")
-                    "It was pretty good, and she looks quite pleased and satisfied. But there is room for improvement."
-                    $ char.set_flag("allowed_sex", value="True")
-                    $ char.disposition += randint(20, 40)
-                    $ char.joy += randint(20, 30)
-                    $ char.vitality -= 20
+                        $ gm.set_img("masturbation", "no bg", exclude=["forced", "normalsex", "group", "bdsm"])
+                else:
+                    $ gm.set_img("masturbation", "outdoors", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
+        else:
+            if char.has_image("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm"]):
+                $ gm.set_img("masturbation", "living", exclude=["forced", "normalsex", "group", "bdsm"])
+            elif char.has_image("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "outdoors", "public", "dungeon"]):
+                    $ gm.set_img("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm", "outdoors", "public", "dungeon"])
+            else:
+                $ tags = ({"tags": ["simple bg", "masturbation"], "exclude": ["forced", "normalsex", "group", "bdsm"]}, {"tags": ["no bg", "masturbation"], "exclude": ["forced", "normalsex", "group", "bdsm"]})
+                $ result = get_act(char, tags)
+                if result:
+                    if result == tags[0]:
+                        $ gm.set_img("masturbation", "simple bg", exclude=["forced", "normalsex", "group", "bdsm"])
+                    else:
+                        $ gm.set_img("masturbation", "no bg", exclude=["forced", "normalsex", "group", "bdsm"])
+                else:
+                    $ gm.set_img("masturbation", "indoors", exclude=["forced", "normalsex", "group", "bdsm"], type="reduce")
+        "She is not satisfied at all yet, so she quickly masturbates to decrease libido."
+        $ char.disposition -= round(sex_scene_libido*5)
+    if char.vitality <=0:
+        if char.flag("s_bg") == "beach":
+            $ gm.set_img("rest", "beach", "sleeping", "tired", exclude=["angry", "in pain"], type="reduce")
+        elif char.flag("s_bg") == "park":
+            $ gm.set_img("rest", "nature", "sleeping", "tired", "urban", exclude=["angry", "in pain"], type="reduce")
+        else:
+            $ gm.set_img("rest", "indoors", "sleeping", "living", "tired", exclude=["angry", "in pain"], type="reduce")
+        "She fainted from fatigue. You cannot continue any longer."
+        $ char.disposition -= randint(15, 30)
+                # if (together_count > 0 and sex_count >=2) or (sex_count >=4 and girl_count >=2 and guy_count >= 2):
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "happy", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "happy", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "happy", "indoors", "living")
+                    # call after_good_sex
+                    # $ char.set_flag("allowed_sex", value="True")
+                    # $ char.disposition += randint(40, 70)
+                    # $ char.joy += randint(20, 50)
+                    # $ char.vitality -= 30
+                # elif girl_count < 1 and guy_count > 0:
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "sad", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "sad", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "sad", "indoors", "living")
+                    # "She's not statisfied at all."
+                    # call girl_never_come
+                    # $ char.disposition -= randint(20, 50)
+                    # $ char.joy -= randint(20, 50)
+                    # $ char.vitality -= 25
+                # elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "shy", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "shy", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "shy", "indoors", "living")
+                    # "She was unable to satisfy you."
+                    # call guy_never_came
+                    # $ char.disposition += randint(10, 20)
+                    # $ char.joy -= randint(10, 30)
+                    # $ char.vitality -= 25
+                # elif girl_count > 0 and (cum_count >=5 or (cum_count > girl_count)):
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "confident", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "confident", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "confident", "indoors", "living")
+                    # call guy_cum_alot
+                    # $ char.disposition += randint(20, 40)
+                    # $ char.joy += randint(20, 40)
+                    # $ char.vitality -= 20
+                # elif (sex_count < 1) and (guy_count < 1) and (girl_count < 1) and (les_count < 1):
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "sad", "angry", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "sad", "angry", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "sad", "angry", "indoors", "living")
+                    # if char.status == "slave":
+                        # "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
+                    # else:
+                        # "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
+                    # $ char.disposition -= randint(40, 70)
+                    # $ char.joy -= randint(20, 50)
+                    # $ char.vitality -= 5
+                # elif girl_count > 0 and sex_count < 1 and les_count < 1:
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "shy", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "shy", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "shy", "indoors", "living")
+                    # "She did nothing but masturbated in front of you. Probably better than nothing, but be prepared for rumors about your impotence or orientation."
+                    # $ char.disposition -= randint(30, 50)
+                    # $ char.joy -= randint(15, 25)
+                    # $ char.vitality -= 5
+                # elif les_count > 0 and sex_count < 1:
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "shy", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "shy", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "shy", "indoors", "living")
+                    # "She wonders why you didn't do a thing except watching her and her partner."
+                    # if ct("Lesbian") or ct("Bisexual"):
+                        # "She had her fun though, so no hard feelings."
+                        # $ char.joy = randint(5, 15)
+                        # $ char.vitality -= 5
+                    # else:
+                        # "Without your involvement she's not satisfied at all."
+                        # $ char.disposition -= randint(20, 50)
+                        # $ char.joy -= randint(20, 50)
+                        # $ char.vitality -= 25
+                # else:
+                    # if char.flag("s_bg") == "beach":
+                        # $ gm.set_img("profile", "happy", "beach")
+                    # elif char.flag("s_bg") == "park":
+                        # $ gm.set_img("profile", "happy", "nature")
+                    # else:
+                        # $ gm.set_img("profile", "happy", "indoors", "living")
+                    # "It was pretty good, and she looks quite pleased and satisfied. But there is room for improvement."
+                    # $ char.set_flag("allowed_sex", value="True")
+                    # $ char.disposition += randint(20, 40)
+                    # $ char.joy += randint(20, 30)
+                    # $ char.vitality -= 20
 
-                $ gm.restore_img()
-            jump girl_interactions_end
+        $ gm.restore_img()
+        jump girl_interactions_end
             
 label interactions_lesbian_choice:
     # The interactions itself.
-    # Since we called a funciton, we need to do so again (Consider making this func a method so it can be called just once)...
+    # Since we called a function, we need to do so again (Consider making this func a method so it can be called just once)...
     if ct("Lesbian") or ct("Bisexual"):
         if char.disposition <= 500 or not(check_friends(hero, char) or check_lovers(hero, char)):
-            "Unfortunately she does not want to do it for you."
-            if char.status == "slave":
-                "Even if you force her, it won't look natural. Too bad."
+            "Unfortunately she does not want to do it."
             jump interaction_scene_choice
         elif check_lovers(hero, char):
             "She gladly agrees to make a show for you."
@@ -1057,11 +1089,9 @@ label interactions_lesbian_choice:
     else:
         if char.disposition <= 600 or not(check_friends(hero, char) or check_lovers(hero, char)) or not(cgo("SIW")): 
             "Unfortunately she does not like girls in this way."
-            if char.status == "slave":
-                "Even if you force her and some other girl, it won't look natural. Too bad."
             jump interaction_scene_choice
         elif check_lovers(hero, char):
-                "She gladly agrees to make a show for you if there will be some stright sex as well today."
+                "She gladly agrees to make a show for you if there will be some straight sex as well today."
         elif (check_friends(hero, char) or char.disposition > 600) and cgo("SIW"):
                 "She prefers men, but agrees to make a show for you if there will be some straight sex as well today."
     $ les_count += 1
@@ -1070,7 +1100,7 @@ label interactions_lesbian_choice:
     # Single out one partner randomly from a set:
     $ char2 = random.sample(willing_partners, 1)[0]
     
-    # We painly hide the interactions screen to get rid of the image and gradient:
+    # We plainly hide the interactions screen to get rid of the image and gradient:
     hide screen pyt_girl_interactions
     
     $ char_sprite = char.get_vnsprite()
@@ -1674,7 +1704,7 @@ label interaction_scene_strip:
     jump interaction_scene_choice
         
 
-label int_sex_ok:
+label int_sex_ok: # the character agrees to do it
     $ char.override_portrait("portrait", "shy")
     if ct("Half-Sister") and dice(40):
         if ct("Impersonal"):
@@ -1734,7 +1764,7 @@ label int_sex_ok:
     return
 
 
-label int_sex_nope:
+label int_sex_nope: # the character disagrees to do it
     $ char.override_portrait("portrait", "angry")
     if ct("Half-Sister") and dice(60):
         if ct("Impersonal"):
