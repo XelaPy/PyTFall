@@ -108,62 +108,42 @@ init python:
         @Review: This will be the base for all attacks from here on out and accept all default properties relevant to Attack Skills! 
         """
         def __init__(self, name,
-                           attacker_action=None,
-                           attacker_effects=None,
-                           main_effect=None, # Start @ is not working atm.
-                           target_sprite_damage_effect=None,
-                           target_damage_effect=None,
-                           target_death_effect=None,
-                           sfx=None, gfx=None, zoom=None, # <=== These two should die off in time!
+                           attacker_action={},
+                           attacker_effects={},
+                           main_effect={}, # Start @ is not working atm.
+                           target_sprite_damage_effect={},
+                           target_damage_effect={},
+                           target_death_effect={},
+                           sfx=None, gfx=None, zoom=None, # <=== These three should die off in time!
                            **kwargs):
-            super(SimpleAttack, self).__init__(name, **kwargs)
+            super(SimpleAttack, self).__init__(name,
+                                                                   attacker_action=attacker_action,
+                                                                   attacker_effects=attacker_effects,
+                                                                   main_effect=main_effect,
+                                                                   target_sprite_damage_effect=target_sprite_damage_effect,
+                                                                   target_damage_effect=target_damage_effect,
+                                                                   target_death_effect=target_death_effect,
+                                                                   sfx=sfx,
+                                                                   gfx=gfx,
+                                                                   **kwargs)
             
-            self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.2} if not attacker_action else attacker_action
-            self.attacker_effects = {"gfx": None, "sfx": None} if not attacker_effects else attacker_effects
-            self.main_effect = {"gfx": None, "sfx": None, "duration": 0.1, "aim": {"point": "center", "anchor": (0.5, 0.5)}, "start_at": 0} if not main_effect else main_effect
-            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.2, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
-            self.target_damage_effect = {"gfx": "battle_bounce", "sfx": None, "initial_pause": 0.1} if not target_damage_effect else target_damage_effect
-            self.target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.5} if not target_death_effect else target_death_effect
+            self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
+            self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
             
-            if sfx:
-                self.main_effect["sfx"] = sfx
-                    
-            if gfx:
-                self.main_effect["gfx"] = Transform(gfx, zoom=zoom) if zoom else gfx
+            self.main_effect["duration"] = self.main_effect.get("duration", 0.1)
             
-        def show_gfx(self, targets, died):
-            """Executes GFX part of an attack. Diregarded during logical combat.
+            self.target_sprite_damage_effect["shake"] = self.target_sprite_damage_effect.get("gfx", "shake")
+            self.target_sprite_damage_effect["initial_pause"] = self.target_sprite_damage_effect.get("initial_pause", 0.1)
+            self.target_sprite_damage_effect["duration"] = self.target_sprite_damage_effect.get("duration", self.main_effect["duration"])
             
-            Usually, this has the following order:
-                - Intro (attacker sprite manipulation) + Effect (attacker_effects)
-                - Attack itself. (main_effects) = which is usually impact effect!
-                - Visual damage effect to the target(s) (sprites shaking for example). (target_sprite_gamage_effects)
-                - Some form of visual representation of damage amount (like battle bounce). (target_damage_effects)
-                - Events such as death (GFX Part, event itself can be handled later). (death_effect)
+            self.target_damage_effect["gfx"] = self.target_damage_effect.get("gfx", "battle_bounce")
+            self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.1)
+            
+            self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
+            self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
+            self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
                 
-            Through complex system currently in design we handle showing gfx/hiding gfx and managing sfx (also here).
-            """
-            # Simple effects for the magic attack:
-            char = self.source
-            battle = store.battle
-            
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            
-            self.attackers_first_action_and_effect(battle, char)
-            
-            damage_pause = self.target_damage_effect.get("initial_pause", 0.2)
-            death_pause = self.target_death_effect.get("initial_pause", 0.5)
-            sprite_damage_pause = self.target_sprite_damage_effect.get("initial_pause", 0.1)
-            
-            self.show_main_gfx(targets, battle)
-            renpy.invoke_in_thread(self.wait_for_target_death_effect, died, death_pause)
-            renpy.invoke_in_thread(self.wait_for_target_damage_effect, targets, died, damage_pause)
-            renpy.invoke_in_thread(self.wait_for_target_sprite_damage_effect, targets, sprite_damage_pause)
-            
-            pause = max(damage_pause, death_pause, sprite_damage_pause)
-            renpy.pause(10)
-            
+                
     # Simple Magic:
     # class SimpleMagicalAttack(SimpleAttack):
         # """Simplest attack, usually simple magic.
@@ -185,32 +165,29 @@ init python:
             # self.casting_effects = casting_effects
             
     # Simple Magic:
-    class SimpleMagicalAttack(SimpleAttack):
+    class SimpleMagicalAttack(BE_Action):
         """Simplest attack, usually simple magic.
         """
-        def __init__(self, name,
-                           attacker_action=None, cost=5,
-                           attacker_effects=None,
-                           main_effect=None, # Start @ is not working atm.
-                           target_sprite_damage_effect=None,
-                           target_damage_effect=None,
-                           target_death_effect=None,
+        def __init__(self, name, cost=5,
+                           attacker_action={},
+                           attacker_effects={},
+                           main_effect={},
+                           target_sprite_damage_effect={},
+                           target_damage_effect={},
+                           target_death_effect={},
                            sfx=None, gfx=None, zoom=None, aim=None, xo=0, yo=0, pause=None, anchor=None, casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
                            **kwargs):
-            super(SimpleMagicalAttack, self).__init__(name, **kwargs)
-            
-            self.attacker_action = {"gfx": "step_forward", "sfx": None, "restore_to_original_delay": 0.5} if not attacker_action else attacker_action
-            self.attacker_effects = {"gfx": None, "sfx": None} if not attacker_effects else attacker_effects
-            self.main_effect = {"gfx": None, "sfx": None, "duration": 0.1, "aim": {"point": "center", "anchor": (0.5, 0.5)}, "start_at": 0} if not main_effect else main_effect
-            self.target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.2, "duration": 0.5} if not target_sprite_damage_effect else target_sprite_damage_effect
-            self.target_damage_effect = {"gfx": "battle_bounce", "sfx": None, "initial_pause": 0.1} if not target_damage_effect else target_damage_effect
-            self.target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.5} if not target_death_effect else target_death_effect
+            super(SimpleMagicalAttack, self).__init__(name,
+                                                                               attacker_action=attacker_action,
+                                                                               attacker_effects=attacker_effects,
+                                                                               main_effect=main_effect,
+                                                                               target_sprite_damage_effect=target_sprite_damage_effect,
+                                                                               target_damage_effect=target_damage_effect,
+                                                                               target_death_effect=target_death_effect,
+                                                                               sfx=sfx, gfx=gfx, pause=pause, zoom=zoom,
+                                                                               **kwargs)
             
             # GFX properties:
-            if sfx:
-                self.main_effect["sfx"] = sfx
-            if gfx:
-                self.main_effect["gfx"] = Transform(gfx, zoom=zoom) if zoom else gfx
             if aim:
                 self.main_effect["aim"]["point"] = aim
             if xo:
@@ -219,8 +196,6 @@ init python:
                 self.main_effect["aim"]["yo"] = yo
             if anchor:
                 self.main_effect["aim"]["anchor"] = anchor
-            if pause:
-                self.main_effect["duration"] = pause
             if casting_effects:
                 self.attacker_effects["gfx"] = casting_effects[0]
                 self.attacker_effects["sfx"] = casting_effects[1]
@@ -228,8 +203,25 @@ init python:
                 self.target_sprite_damage_effect["initial_pause"] = target_damage_gfx[0]
                 self.target_sprite_damage_effect["gfx"] = target_damage_gfx[1]
                 self.target_sprite_damage_effect["duration"] = target_damage_gfx[2]
+                
             # Rest:
             self.cost = cost
+            
+            self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
+            self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
+            
+            self.main_effect["duration"] = self.main_effect.get("duration", 0.5)
+            
+            self.target_sprite_damage_effect["shake"] = self.target_sprite_damage_effect.get("gfx", "shake")
+            self.target_sprite_damage_effect["initial_pause"] = self.target_sprite_damage_effect.get("initial_pause", 0.2)
+            self.target_sprite_damage_effect["duration"] = self.target_sprite_damage_effect.get("duration", self.main_effect["duration"])
+            
+            self.target_damage_effect["gfx"] = self.target_damage_effect.get("gfx", "battle_bounce")
+            self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.21)
+            
+            self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
+            self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.3)
+            self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
 
         def check_conditions(self, source=None):
             if source:
@@ -260,26 +252,13 @@ init python:
             self.source.mp -= self.cost
             return died
             
-                    
+            
     class ArealMagicalAttack(SimpleMagicalAttack):
         """
         Simplest attack, usually simple magic.
         """
         def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=["default_1", "default"], **kwargs):
-            super(ArealMagicalAttack, self).__init__(name, **kwargs)
-            
-            # Aiming properties:
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
-            
-            # Rest:
-            self.cost = cost
-            self.anchor = anchor
-            self.pause = pause
-            
-            # Casting effects:
-            self.casting_effects = casting_effects
+            super(ArealMagicalAttack, self).__init__(name, aim=aim, xo=xo, yo=yo, pause=pause, cost=cost, anchor=anchor, casting_effects=casting_effects, **kwargs)
 
         def show_gfx(self, targets, died):
             # Simple effects for the magic attack:
