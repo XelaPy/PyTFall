@@ -166,6 +166,41 @@ init -997: # Transforms:
           
             
     # BE Transforms:
+    transform damage_color(img): # Note: Testing case, this should become a DD/UDD with moar options at some point.
+        im.MatrixColor(img, im.matrix.saturation(1))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.1))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.2))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.3))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.4))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.5))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.6))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.7))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.8))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.7))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.6))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.5))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.4))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.3))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.2))
+        0.05
+        im.MatrixColor(img, im.matrix.saturation(1.1))
+        0.05
+        repeat
+    
     transform damage_shake(t, random_range):
         subpixel True
         offset (0, 0)
@@ -196,7 +231,8 @@ init -997: # Transforms:
             linear 0.3 xoffset 100
         on idle:
             linear 0.3 xoffset 300
-        
+            
+    # GUI ===>>>    
     transform circle_around(t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
         subpixel True
         anchor (0.5, 0.5)
@@ -235,6 +271,7 @@ init -997: # Transforms:
         linear 1.0 alpha 0.3
         repeat
         
+    # UDD ===>>>    
     transform vortex_particle(displayable, t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, start_radius=200, end_radius=0, circles=3):
         displayable
         subpixel True

@@ -1093,6 +1093,10 @@ init -1 python: # Core classes:
             if type == "shake":
                 for target in targets:
                     renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
+            if type == "fire":
+                for target in targets:
+                    what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
+                    renpy.show(target.betag, what=what, zorder=target.besk["zorder"])
             renpy.with_statement(None)
                     
         def hide_target_sprite_damage_effect(self, targets, died):
@@ -1169,15 +1173,17 @@ init -1 python: # Core classes:
             
             if sfx:
                 renpy.sound.play(sfx)
-            
+                
+            renpy.with_statement(None)
             if gfx == "dissolve":
                 for t in died:
-                    renpy.hide(t.betag)
-                renpy.with_statement(Dissolve(duration))
+                    renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=0.0, t=duration)], zorder=t.besk["zorder"])
+                    # renpy.hide(t.betag)
+                # renpy.with_statement(Dissolve(duration))
             elif gfx == "shatter":
                 for target in died:
-                    renpy.hide(target.betag)
-                    renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                    # renpy.hide(target.betag)
+                    renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), zorder=target.besk["zorder"])
                 renpy.with_statement(None)
                 
         def hide_target_death_effect(self, died):

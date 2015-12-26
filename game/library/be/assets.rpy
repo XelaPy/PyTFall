@@ -236,7 +236,7 @@ init 2 python:
     SimpleMagicalAttack(u"Firaga", attributes=['magic', 'fire'], effect=25, multiplier=1.2, cost=6, range=4, piercing=True, desc="Creates liquid fire that envelopes the target, causing massive burns.",
                                        attacker_effects={"gfx": "fire_2", "sfx": "default"},
                                        main_effect={"gfx": Transform("fire_4", zoom=1.5), "sfx": "content/sfx/sound/be/fire6.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
-                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.3, "duration": 3.1},
+                                       target_sprite_damage_effect={"gfx": "fire", "initial_pause": 1.3, "duration": 3.6},
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
     SimpleMagicalAttack(u"Firaja", attributes=['magic', 'fire'], effect=10, multiplier=1.2, cost=15, range=4, type="all_enemies", piercing=True, desc="Creates a rain of fire that hits all enemies.",
