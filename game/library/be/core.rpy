@@ -920,7 +920,8 @@ init -1 python: # Core classes:
         def show_attackers_first_action(self, battle, attacker):
             if self.attacker_action["gfx"] == "step_forward":
                 battle.move(attacker, battle.get_cp(attacker, xo=50), 0.5, pause=False)
-                
+            renpy.with_statement(None)
+            
             sfx = self.attacker_action.get("sfx", None)
             if sfx:
                 renpy.sound.play(sfx)
@@ -934,7 +935,8 @@ init -1 python: # Core classes:
         def hide_attackers_first_action(self, battle, attacker):
             if self.attacker_action["gfx"] == "step_forward":
                 battle.move(attacker, attacker.dpos, 0.5, pause=False)
-                
+            renpy.with_statement(None)
+            
         def time_attackers_first_effect(self, battle, attacker):
             start = self.get_show_attackers_first_action_duration()
             if start in self.timestamps:
@@ -999,6 +1001,7 @@ init -1 python: # Core classes:
             
             if sfx:
                 renpy.sound.play(sfx)
+            renpy.with_statement(None)
         
         def get_attackers_first_effect_pause(self, battle, attacker):
             gfx = self.attacker_effects["gfx"]
@@ -1026,6 +1029,7 @@ init -1 python: # Core classes:
         def hide_attackers_first_effect(self, battle, attacker):
             # For now we just hide the tagged image here:
             renpy.hide("casting")
+            renpy.with_statement(None)
         
         def time_main_gfx(self, battle, attacker, targets, start):
             if start in self.timestamps:
@@ -1060,11 +1064,13 @@ init -1 python: # Core classes:
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
                     renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                renpy.with_statement(None)
                 
         def hide_main_gfx(self, targets):
             for i in xrange(len(targets)):
                 gfxtag = "attack" + str(i)
                 renpy.hide(gfxtag)
+            renpy.with_statement(None)
                 
         def time_target_sprite_damage_effect(self, targets, died, start):
             # We take previous start as baseppoint for execution:
@@ -1087,7 +1093,7 @@ init -1 python: # Core classes:
             if type == "shake":
                 for target in targets:
                     renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
-                renpy.invoke_in_thread(self.hide_target_sprite_damage_effect, targets)
+            renpy.with_statement(None)
                     
         def hide_target_sprite_damage_effect(self, targets, died):
             # Hides damage effects applied to targets:
@@ -1095,7 +1101,8 @@ init -1 python: # Core classes:
                 if target not in died:
                     renpy.hide(target.betag)
                     renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-        
+            renpy.with_statement(None)
+            
         def time_target_damage_effect(self, targets, died, start):
             damage_effect_start = start + self.target_damage_effect.get("initial_pause", 0.2)
             
@@ -1124,7 +1131,8 @@ init -1 python: # Core classes:
                         txt = Text(s, style="TisaOTM", min_width=200, text_align=0.5, color=getattr(store, target.dmg_font), size=18)
                         renpy.show(tag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-20))], zorder=target.besk["zorder"]+2)
                         target.dmg_font = "red"
-                
+            renpy.with_statement(None)
+            
         def get_target_damage_effect_duration(self):
             type = self.target_damage_effect.get("gfx", "battle_bounce")
             if type == "battle_bounce":
@@ -1139,7 +1147,8 @@ init -1 python: # Core classes:
                 if target not in died:
                     tag = "bb" + str(index)
                     renpy.hide(tag)
-                
+            renpy.with_statement(None)
+            
         def time_target_death_effect(self, died, start):
             death_effect_start = start + self.target_death_effect["initial_pause"]
             
@@ -1164,16 +1173,18 @@ init -1 python: # Core classes:
             if gfx == "dissolve":
                 for t in died:
                     renpy.hide(t.betag)
-                    renpy.with_statement(Dissolve(duration))
+                renpy.with_statement(Dissolve(duration))
             elif gfx == "shatter":
                 for target in died:
                     renpy.hide(target.betag)
                     renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                    
+                renpy.with_statement(None)
+                
         def hide_target_death_effect(self, died):
             for target in died:
                 renpy.hide(target.betag)
-                    
+            renpy.with_statement(None)
+            
         def get_element(self):
             # Returns (if any) an element bound to spell or attack:
             for t in traits:
