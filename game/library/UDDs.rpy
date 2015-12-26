@@ -165,8 +165,8 @@ init -999 python:
             renpy.redraw(self, self.delay)
             return render
             
-        # def visit(self):
-            # return [self.image]
+        def visit(self):
+            return [self.displayable]
             
             
     class AnimateFromList(renpy.Displayable):
@@ -181,6 +181,7 @@ init -999 python:
         def render(self, width, height, st, at):
             if not st:
                 self.index = 0
+                
             # We just need to animate once over the list, no need for any calculations:
             try:
                 t = self.images[self.index][0]
@@ -200,8 +201,8 @@ init -999 python:
             except IndexError:
                 return renpy.Render(0, 0)
             
-        # def visit(self):
-            # return [img[0] for img in self.images]
+        def visit(self):
+            return [img[0] for img in self.images]
             
     
     class ProportionalScale(im.ImageBase):

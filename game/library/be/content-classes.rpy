@@ -257,86 +257,38 @@ init python:
         """
         Simplest attack, usually simple magic.
         """
-        def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=["default_1", "default"], **kwargs):
-            super(ArealMagicalAttack, self).__init__(name, aim=aim, xo=xo, yo=yo, pause=pause, cost=cost, anchor=anchor, casting_effects=casting_effects, **kwargs)
+        def __init__(self, name, **kwargs):
+            super(ArealMagicalAttack, self).__init__(name, **kwargs)
 
-        def show_gfx(self, targets, died):
-            # Simple effects for the magic attack:
-            char = self.source
+        def show_main_gfx(self, battle, attacker, targets):
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
             
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
             
-            if not battle.logical:
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
-                if self.casting_effects[0]:
-                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-                    
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                
-                # Zoom (If any):
-                if self.zoom is not None:
-                    gfx = Transform(self.gfx, zoom=self.zoom)
-                else:
-                    gfx = self.gfx
-                    
-                # Showing the impact effects:
-                # In this case, we do not even remotely care about which target we attack (at least before "confusion" skill which may mess this up), we just get it's teams position:
+            # GFX:
+            if gfx:
                 target = targets[0]
                 teampos = target.beteampos
-                if self.gfx:
-                    gfxtag = str(random.random())
-                    if teampos == "l":
-                        teampos = BDP["perfect_middle_right"]
-                    else:
-                        teampos = BDP["perfect_middle_left"]
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo, override=teampos), anchor=self.anchor)], zorder=1000) # Zorder should prolly be absolute in this case...
-                        
-                # Pause before battle bounce + damage on target effects:
-                renpy.pause(self.target_damage_gfx[0])
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
                 
-                for index, target in enumerate(targets):
-                    self.show_gfx_dmg(target)
-                    if len(self.target_damage_gfx) > 1:
-                        self.show_gfx_td(target, 0.5, self.target_damage_gfx[1])
+                gfxtag = "areal"
+                if teampos == "l":
+                    teampos = BDP["perfect_middle_right"]
+                else:
+                    teampos = BDP["perfect_middle_left"]
+                renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo, override=teampos), anchor=anchor)], zorder=1000)
                 
-                battle.move(char, char.dpos, 0.5, pause=False)
-                
-                # Pause before termination of damage on target effects, if there are any:
-                # @Review: OR Pause before application of special death effects!
-                # Since it is not (very) plausible that any death effect should appear after the damage from a spell to the target:
-                # **This will always assume 
-                if self.death_effect or len(self.target_damage_gfx) > 1:
-                    if len(self.target_damage_gfx) > 1:
-                        renpy.pause(self.target_damage_gfx[2])
-                        for target in targets:
-                            renpy.hide(target.betag)
-                            renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                    
-                # Shatter or some other death effect we want to handle in this method:
-                if died and self.death_effect == "shatter":
-                    for target in died:
-                        renpy.hide(target.betag)
-                        renpy.show(target.betag, what=HitlerKaputt(target.besprite, 30), at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
-                
-                total_pause = self.target_damage_gfx[0]
-                if len(self.target_damage_gfx) > 1:
-                    total_pause = total_pause + self.target_damage_gfx[2]
-                    
-                # Check we need any more pause:
-                if self.pause > total_pause:
-                    renpy.pause(self.pause - total_pause)
-                    
-                renpy.hide(gfxtag)
-                    
-                # Check if we need any more pause before we kill the battle bounce:
-                if self.pause - total_pause < 1.7:
-                    renpy.pause(1.7 - (self.pause - total_pause))
+        def hide_main_gfx(self, targets):
+            renpy.hide("areal")
                 
                 
     class P2P_MagicAttack(SimpleMagicalAttack):
@@ -344,260 +296,190 @@ init python:
         Point to Point magical strikes without any added effects. This is one step simpler than the MagicArrows attack.
         Used to attacks like FireBall.
         """
-        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, pause2=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, casting_effects=["default_1", "default"], **kwargs):
+        def __init__(self, name, projectile_effects={}, **kwargs):
             super(P2P_MagicAttack, self).__init__(name, **kwargs)
             
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
-            self.anchor = anchor
+            self.projectile_effects = deepcopy(projectile_effects)
             
-            # Rest:
-            self.cost = cost
-            self.pause = pause
-            self.pause2 = pause2
+        def show_main_gfx(self, battle, attacker, targets):
+            # We simply want to add projectile effect here:
+            pro_gfx = self.projectile_effects["gfx"]
+            pro_sfx = self.projectile_effects["sfx"]
+            pro_sfx = choice(pro_sfx) if isinstance(pro_sfx, (list, tuple)) else pro_sfx
+            pause = self.projectile_effects["duration"]
             
-            self.gfx2 = gfx2
-            self.casting_effects = casting_effects
-    
-        def show_gfx(self, targets, died):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            else:
-                targets = list(targets)
+            missle = Transform(pro_gfx, zoom=-1, xanchor=1.0) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else pro_gfx
             
-            char = self.source
-            target = targets[0]
+            initpos = battle.get_cp(attacker, type="fc", xo=60)
             
-            if not battle.logical:
-                # Inicial char move
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
-                
-                if self.casting_effects[0]:
-                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-                    
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                    
-                if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
-                    missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
-                else:
-                    missle = self.gfx
-                    
-                initpos = battle.get_cp(char, type="fc", xo=60)
+            if pro_sfx:
+                renpy.sound.play(pro_sfx)
+            
+            for index, target in enumerate(targets):
                 aimpos = battle.get_cp(target, type="center")
-                renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
-                renpy.pause(self.pause)
+                renpy.show("launch" + str(index), what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
                 
-                renpy.hide("launch")
-                renpy.with_statement(Dissolve(0.2))
-                renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
-                renpy.pause(0.1)
-                self.show_gfx_dmg(target)
+            renpy.pause(pause)
                 
-                renpy.pause(self.pause2)
-                # Time to move character back to it's positions as well:
-                battle.move(char, char.dpos, 0.5, pause=False)
+            for index, target in enumerate(targets):
+                renpy.hide("launch" + str(index))
+            
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            # GFX:
+            if gfx:
+                # pause = self.main_effect["duration"]
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
                 
-                renpy.hide("impact")
-                # renpy.with_statement(dissolve)
-                # renpy.pause(1.5)
-                # renpy.hide("bounce")
+                for index, target in enumerate(targets):
+                    gfxtag = "attack" + str(index)
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+51)
                 
+        def hide_main_gfx(self, targets):
+            for i in xrange(len(targets)):
+                gfxtag = "attack" + str(i)
+                renpy.hide(gfxtag)
+            
                 
     class P2P_ArealMagicalAttack(P2P_MagicAttack):
         """ ==> @Review: There may not be a good reason for this to be a magical attack instead of any attack at all!
         Point to Point magical strikes without any added effects. This is one step simpler than the MagicArrows attack.
         Used to attacks like FireBall.
         """
-        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, pause2=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, casting_effects=["default_1", "default"], **kwargs):
+        def __init__(self, name, **kwargs):
             super(P2P_ArealMagicalAttack, self).__init__(name, **kwargs)
-            
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
-            self.anchor = anchor
-            
-            # Rest:
-            self.cost = cost
-            self.pause = pause
-            self.pause2 = pause2
-            
-            self.gfx2 = gfx2
-            self.casting_effects = casting_effects
     
-        def show_gfx(self, targets, died):
-            char = self.source
+        def show_main_gfx(self, battle, attacker, targets):
+            # We simply want to add projectile effect here:
+            pro_gfx = self.projectile_effects["gfx"]
+            pro_sfx = self.projectile_effects["sfx"]
+            pro_sfx = choice(pro_sfx) if isinstance(pro_sfx, (list, tuple)) else pro_sfx
+            pause = self.projectile_effects["duration"]
             
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
+            target = targets[0]
             
-            if not battle.logical:
-                # Inicial char move
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
-                
-                if self.casting_effects[0]:
-                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
+            missle = Transform(pro_gfx, zoom=-1, xanchor=1.0) if battle.get_cp(attacker)[0] > battle.get_cp(target)[0] else pro_gfx
             
-                    
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                    
-                target = targets[0]
+            initpos = battle.get_cp(attacker, type="fc", xo=60)
+            
+            if pro_sfx:
+                renpy.sound.play(pro_sfx)
+            
+            aimpos = BDP["perfect_middle_right"] if target.beteampos == "l" else BDP["perfect_middle_left"]
+            
+            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+1000)
+            renpy.pause(pause)
+            renpy.hide("launch")
+            
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            # GFX:
+            if gfx:
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
                 
-                # Invert the attack if standing on the right!
-                if target.beteampos == "r":
-                    missle = Transform(self.gfx, zoom=-1, xanchor=1.0)
-                else:
-                    missle = self.gfx
-                    
-                initpos = battle.get_cp(char, type="fc", xo=60)
-                teampos = target.beteampos
-                if teampos == "l":
-                    teampos = BDP["perfect_middle_right"]
-                else:
-                    teampos = BDP["perfect_middle_left"]
-                    
-                aimpos = teampos
-                renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=self.pause), Transform(anchor=(0.5, 0.5))], zorder=1000)
-                renpy.pause(self.pause)
+                renpy.show("projectile", what=gfx, at_list=[Transform(pos=aimpos, anchor=anchor)], zorder=target.besk["zorder"]+1001)
                 
-                renpy.hide("launch")
-                renpy.with_statement(Dissolve(0.2))
-                renpy.show("impact", what=self.gfx2, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=1000)
-                renpy.pause(0.1)
-                
-                for index, target in enumerate(targets):
-                    self.show_gfx_dmg(target)
-                    if len(self.target_damage_gfx) > 1:
-                        self.show_gfx_td(target, 0.5, self.target_damage_gfx[1])
-                
-                renpy.pause(self.pause2)
-                # Time to move character back to it's positions as well:
-                battle.move(char, char.dpos, 0.5, pause=False)
-                
-                renpy.hide("impact")
-                # renpy.with_statement(dissolve)
-                # renpy.pause(1.5)
-                # renpy.hide("bounce")
+        def hide_main_gfx(self, targets):
+            renpy.hide("projectile")
             
                 
     class MagicArrows(P2P_MagicAttack):
         """This is the class I am going to comment out really well because this spell was not originally created by me
         and yet I had to rewrite it completely for new BE.
         """
-        def __init__(self, name, aim="center", xo=0, yo=0, pause=0.4, cost=5, anchor=(0.5, 0.5), gfx2=None, gfx3=None, **kwargs):
+        def __init__(self, name, firing_effects={}, **kwargs):
             super(MagicArrows, self).__init__(name, **kwargs)
             
-            # Aiming properties: What these are will be explained in the show_gfx method.
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
-            self.anchor = anchor
+            self.firing_effects = deepcopy(firing_effects)
             
-            # Rest:
-            self.cost = cost # We add this because it is a magical spell, it's cost and damage will be resolved by Parent classes so we don't need to worry about that.
-            self.pause = pause # This is not particulary useful for this spell since it's custom made, but we'll keep it just in case. There is no requirement to ues it.
+        def show_main_gfx(self, battle, attacker, targets):
+            firing_gfx = self.firing_effects["gfx"]
+            firing_sfx = self.firing_effects["sfx"]
+            firing_sfx = choice(firing_sfx) if isinstance(firing_sfx, (list, tuple)) else firing_sfx
+            # pause = self.firing_effects["duration"]
             
-            self.gfx2 = gfx2
-            self.gfx3 = gfx3 # Since we want to reuse this for Fire and Ice arrows, we'll add two new properties. Since delays are always the same, we're not going to add those.
+            bow = Transform(firing_gfx, zoom=-1, xanchor=1.0) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else firing_gfx
             
-
-        def show_gfx(self, targets, died):
-            # ALL of the graphical effects are handled in this method. This is also the only method we'll override from the parent since we're happy with everything else!
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            else:
-                targets = list(targets)
-            # This is a check to see nothing goes wrong. It has no effect value.   
+            if firing_sfx:
+                renpy.sound.play(firing_sfx)
+                
+            castpos = battle.get_cp(attacker, type="fc", xo=30)
+                
+            renpy.show("casting", what=bow, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=attacker.besk["zorder"]+50)
+            renpy.pause(0.6)
             
-            char = self.source # Just a simple reasignment for convinience, this is the source of the attack (Attacker).
-            target = targets[0] # We can do this since we're sure that there is only one target for this spell.
+            # We simply want to add projectile effect here:
+            pro_gfx = self.projectile_effects["gfx"]
+            pro_sfx = self.projectile_effects["sfx"]
+            pro_sfx = choice(pro_sfx) if isinstance(pro_sfx, (list, tuple)) else pro_sfx
+            pause = self.projectile_effects["duration"]
             
-            if not battle.logical:
-                # This returns the position of battle sprite (To be exact, it return the position of TOP, LEFT CORNER of the battle sprite, this is it's default behavior).
-                # xo is means we want to adjust position alogn the x axis. xo with value of -30 plainly means 30 pixels backwards (to the side characters back is pointed to).
-                newpos = battle.get_cp(char, xo=-30)
+            missle = Transform(pro_gfx, zoom=-1, xanchor=1.0) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else pro_gfx
+            
+            if pro_sfx:
+                renpy.sound.play(pro_sfx)
+            
+            castpos = battle.get_cp(attacker, type="fc", xo=75)
                 
-                # Inicial movement of the sprtite:
-                # renpy.hide(char.betag) # We need to hide the sprite that we're looking at (this will not create any kind of visible effect, just a programming thing).
-                # # Renpy show function is what we use here to display stuff on the screen where:
-                # """
-                # char.betag: name (tag) assigned to this show command so we can hide/replace it.
-                # what=char.besprite: This is the battle_sprite image.
-                # at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)]: At list takes a set of ATL instructions and executes them. ATL is the Animation and Transformation Language of Ren'Py.
-                # You can find more about it in the Ren'Py Documentation.
-                # zorder=char.besk["zorder"]: Ren'Py will show stuff with higher zorder infront of the stuff with lower zorder. It's as simple as that. char.best is the dict where we keep our dedault values for the character.
-                # You can just follow the lead with zorders from the examples.
-                # """
-                # renpy.show(char.betag, what=char.besprite, at_list=[move_from_to_pos_with_ease(start_pos=char.dpos, end_pos=newpos, t=0.5)], zorder=char.besk["zorder"]) # So this moves the character slightly to the back.
-                # renpy.pause(0.5) # Need to add pauses for effects to take place!
-                ### >>> Now done through move method:
-                battle.move(char, battle.get_cp(char, xo=50), 0.5)
+            for index, target in enumerate(targets):
+                aimpos = battle.get_cp(target, type="center", yo=-20)
+                renpy.show("launch" + str(index), what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
                 
-                # Sound: We don't really need the checks here since all our arrow spells have sound... but I copied this from elsewhere :)
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                    
-                # We need to make sure that attack sprites are facing the correct way:
-                if battle.get_cp(char)[0] > battle.get_cp(target)[0]:
-                    castsprite = Transform(self.gfx, zoom=-1, xanchor=1.0) # We also need to add yanchor here for obvious reasons.
-                    arrowsprite = Transform(self.gfx2, zoom=-1, xanchor=1.0)
-                else:
-                    castsprite = self.gfx
-                    arrowsprite = self.gfx2
-                    
-                # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)
-                castpos = battle.get_cp(char, type="fc", xo=-60) # Ok, so get_cp method we've covered. "fc" returns front center position of the image. We add a xo as well because we've moved the sprite and this animation has a large empty space space...
-                # I think the bow looks looker infront of the sprite but feel free to change this.
-                renpy.show("casting", what=castsprite, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=char.besk["zorder"]+50)
-                renpy.pause(0.6)
-    
+            renpy.pause(pause)
                 
-                # Next lets do the flying animation:
-                aimpos = battle.get_cp(target, type="center", yo=-20) # We want to aim slight above the center of the enemy sprite, which is usually the heart :)
-                # move_from_to_pos_with_easeout are the transform instruction that tell something to start moving slow, going increasingly faster the closer they get to the target.
-                renpy.show("fly", what=arrowsprite, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=0.4), Transform(yanchor=0.5)], zorder=target.besk["zorder"]+51)
-                renpy.pause(0.4)
+            for index, target in enumerate(targets):
+                renpy.hide("launch" + str(index))
+            
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            # GFX:
+            if gfx:
+                # pause = self.main_effect["duration"]
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
                 
-                renpy.hide("fly")
-                # renpy.with_statement(Dissolve(0.2))
-                renpy.pause(0.01)
+                for index, target in enumerate(targets):
+                    gfxtag = "attack" + str(index)
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+52)
                 
-                # Last we can just add the impact, it doesn't need to be flipped and can be put right at the aiming position:
-                renpy.show("impact", what=self.gfx3, at_list=[Transform(pos=aimpos, anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+52)
-                renpy.pause(0.01) # We'll wait for 0.2 seconds and add the bouncing effect
-                
-                # txt = Text("%s"%target.beeffects[0], style="content_label", color=crimson, size=20) # We'll make it larger and in crimson color cause it's a cool attack :)
-                # renpy.show("bounce", what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+53)
-                # renpy.pause(0.01)
-                # @Review, replaced with:
-                self.show_gfx_dmg(target)
-                
-                renpy.hide("casting")
-                renpy.with_statement(Dissolve(1.0)) # Cool effect for hiding :)
-                
-                renpy.pause(0.1)
-                # Time to move character back to it's positions as well:
-                battle.move(char, char.dpos, 0.5, pause=False)
-                
-                renpy.pause(0.7)
-                renpy.hide("impact")
-                renpy.with_statement(Dissolve(0.3))
-                # renpy.pause(0.2) # Just for the good count :)
-                # renpy.hide("bounce")
+        def hide_main_gfx(self, targets):
+            renpy.hide("casting")
+            renpy.with_statement(Dissolve(0.5))
+            for i in xrange(len(targets)):
+                gfxtag = "attack" + str(i)
+                renpy.hide(gfxtag)
             
                 
     class BasicHealingSpell(SimpleMagicalAttack):
@@ -651,52 +533,6 @@ init python:
                 targets = [targets]
             for t in targets:
                 t.mod("health", t.beeffects[0])
-                    
-        def show_gfx(self, targets, *args):
-            # Simple effects for the magic attack:
-            char = self.source
-            
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-                
-            if not battle.logical:
-                if self.casting_effects[0]:
-                    casting_effect(char, self.casting_effects[0], sfx=self.casting_effects[1])
-                    
-                if self.sfx:
-                    if isinstance(self.sfx, (list, tuple)):
-                        sfx = choice(self.sfx)
-                    else:
-                        sfx = self.sfx
-                    renpy.sound.play(sfx)
-                
-                # Zoom (If any):
-                if self.zoom is not None:
-                    gfx = Transform(self.gfx, zoom=self.zoom)
-                else:
-                    gfx = self.gfx
-                    
-                # We need to apply all effects here simulteniously (Unline in Jake's BE where damage is aftereffect *Damage as aftereffect is obviously also perfectly possible to all or one by one as in Jake's BE)    
-                if self.gfx:
-                    for index, target in enumerate(targets):
-                        gfxtag = "heal" + str(index)
-                        renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=self.aim, xo=self.xo, yo=self.yo), anchor=self.anchor)], zorder=target.besk["zorder"]+1)
-                renpy.pause(0.1)
-                for index, target in enumerate(targets):
-                    bbtag = "bb" + str(index)
-                    txt = Text("%s"%target.beeffects[0], style="content_label", color=green, size=15)
-                    renpy.show(bbtag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-10))], zorder=target.besk["zorder"]+2)
-                
-                renpy.pause(self.pause - 0.1)
-                for i in xrange(len(targets)):
-                    gfxtag = "heal" + str(i)
-                    renpy.hide(gfxtag)
-                    
-                if self.pause - 0.1 < 1.7:
-                    renpy.pause(1.7 - (self.pause - 0.1))
-                for i in xrange(len(targets)):
-                    bbtag = "bb" + str(i)
-                    renpy.hide(bbtag)
                 
                 
     class BasicPoisonSpell(SimpleMagicalAttack):

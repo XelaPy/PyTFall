@@ -307,8 +307,6 @@ init -1 python: # Core classes:
                         xpos = char.cpos[0]
                         ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
                         
-
-            
             # in case we do not care about position of a target/caster and just provide "overwrite" we should use instead:
             else:
                 xpos, ypos = override
@@ -843,6 +841,11 @@ init -1 python: # Core classes:
                 
             Through complex system currently in design we handle showing gfx/hiding gfx and managing sfx (also here).
             """
+            # Try to predict the images:
+            renpy.start_predict(self.get_attackers_first_effect_gfx())
+            if self.main_effect["gfx"]:
+                renpy.start_predict(self.main_effect["gfx"])
+                
             # Simple effects for the magic attack:
             attacker = self.source
             battle = store.battle
@@ -871,7 +874,7 @@ init -1 python: # Core classes:
             
             # Main Effects!:
             if self.main_effect["gfx"] or self.main_effect["sfx"]:
-                self.time_main_gfx(battle, targets, start)
+                self.time_main_gfx(battle, attacker, targets, start)
                 
             # Now the damage effects to targets (like shaking):
             if self.target_sprite_damage_effect["gfx"] or self.target_sprite_damage_effect["sfx"]:
@@ -889,9 +892,14 @@ init -1 python: # Core classes:
             for index, stamp in enumerate(time_stamps):
                 self.timestamps[stamp]()
                 try:
-                    renpy.pause(time_stamps[index + 1] - stamp)
-                except:
+                    pause = time_stamps[index + 1] - stamp
+                    # We do not want to pause for a super small period cause it will not work properly anyway...
+                    if pause > 0.02:
+                        renpy.pause(pause)
+                except: # If we run out of indexes I guess...
                     pass
+                
+            self.timestamps = {}
         
         def time_attackers_first_action(self, battle, attacker):
             # Lets start with the very first part (attacker_action):
@@ -933,29 +941,53 @@ init -1 python: # Core classes:
                 return effects_delay
                 
             return 0
+            
+        def get_attackers_first_effect_gfx(self):
+            gfx = self.attacker_effects["gfx"]
+            if gfx == "orb":
+                what=Transform("cast_orb_1", zoom=1.85)
+            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
+                what=Transform("cast_" + gfx, zoom=1.5)
+            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
+                what=Transform("cast_" + gfx, zoom=0.9)
+            elif gfx == "default_1":
+                what=Transform("cast_default_1", zoom=1.6)
+            elif gfx == "circle_1":
+                what=Transform("cast_circle_1", zoom=1.9)
+            elif gfx == "circle_2":
+                what=Transform("cast_circle_2", zoom=1.8)
+            elif gfx == "circle_3":
+                what=Transform("cast_circle_3", zoom=1.8)
+            elif gfx == "runes_1":
+                what=Transform("cast_runes_1", zoom=1.1)
+            else:
+                what=Null()
                 
+            return what
+            
         def show_attackers_first_effect(self, battle, attacker):
             gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
+            what = self.get_attackers_first_effect_gfx()
             
             if sfx == "default":
                 sfx="content/sfx/sound/be/casting_1.mp3"
         
             if gfx == "orb":
-                renpy.show("casting", what=Transform("cast_orb_1", zoom=1.85),  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                renpy.show("casting", what=Transform("cast_" + gfx, zoom=1.5),  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                renpy.show("casting", what=Transform("cast_" + gfx, zoom=0.9),  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "default_1":
-                renpy.show("casting", what=Transform("cast_default_1", zoom=1.6),  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
             elif gfx == "circle_1":
-                renpy.show("casting", what=Transform("cast_circle_1", zoom=1.9),  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
+                renpy.show("casting", what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
             elif gfx == "circle_2":
-                renpy.show("casting", what=Transform("cast_circle_2", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "circle_3":
-                renpy.show("casting", what=Transform("cast_circle_3", zoom=1.8),  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "runes_1":
-                renpy.show("casting", what=Transform("cast_runes_1", zoom=1.1),  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
             
             if sfx:
                 renpy.sound.play(sfx)
@@ -987,10 +1019,10 @@ init -1 python: # Core classes:
             # For now we just hide the tagged image here:
             renpy.hide("casting")
         
-        def time_main_gfx(self, battle, targets, start):
+        def time_main_gfx(self, battle, attacker, targets, start):
             if start in self.timestamps:
                 start = start + random.uniform(0.001, 0.002)
-            self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, targets)
+            self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, attacker, targets)
             
             pause = start + self.main_effect["duration"]
             
@@ -998,7 +1030,7 @@ init -1 python: # Core classes:
                 pause = pause + random.uniform(0.001, 0.002)
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
             
-        def show_main_gfx(self, battle, targets):
+        def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
             sfx = self.main_effect["sfx"]

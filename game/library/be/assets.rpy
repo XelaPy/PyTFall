@@ -246,12 +246,25 @@ init 2 python:
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
     # TODO:
-    P2P_MagicAttack(u"Fireball", attributes=['magic', 'fire'], effect=50, multiplier=1.5, cost=10, range=4, casting_effects=["fire_2", "default"], gfx='fire_6', gfx2='fire_6_1', pause=1.0, pause2=1.2, sfx="content/sfx/sound/be/fire7.mp3", piercing=True,
-                                       desc="Launches an exploding fireball at one enemy.")
+    P2P_MagicAttack(u"Fireball", attributes=['magic', 'fire'], effect=50, multiplier=1.5, cost=10, range=4, gfx2='fire_6_1', pause=1.0, pause2=1.2, sfx="content/sfx/sound/be/fire7.mp3", piercing=True,
+                                  desc="Launches an exploding fireball at one enemy.",
+                                  projectile_effects={"gfx": 'fire_6', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
+                                  attacker_effects={"gfx": "fire_2", "sfx": "default"},
+                                  main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                                  target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
+                                  target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
+                                       
     P2P_MagicAttack(u"Solar Flash", attributes=['magic', 'fire'], effect=65, multiplier=1.5, cost=12, range=4, casting_effects=["fire_2", "default"], gfx='fire_5', gfx2='fire_5_1', pause=1.5, pause2=1, sfx="content/sfx/sound/be/fire7.mp3",
                                        desc="Sends towards the target a small piece of solar plazma.")
-    MagicArrows(u"Fire Arrow", attributes=['magic', 'fire'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["default_1", "default"], gfx='Fire Arrow cast', gfx2='Fire Arrow fly', gfx3='Fire Arrow impact', sfx="content/sfx/sound/be/fire_arrow.mp3", piercing=True,
-                                       desc="Creates a bow and arrow of scorching air.")
+    MagicArrows(u"Fire Arrow", attributes=['magic', 'fire'], effect=100, multiplier=1.8, cost=20, range=4, piercing=True,
+                          desc="Creates a bow and arrow of scorching air.",
+                          firing_effects={"gfx": 'Fire Arrow cast', "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
+                          projectile_effects={"gfx": 'Fire Arrow fly', "sfx": None, "duration": 0.4},
+                          attacker_effects={"gfx": "default_1", "sfx": "default"},
+                          target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
+                          main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                          target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
+                          target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
     
     SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", desc="Summons flaming fragments of meteor from the atmosphere directly above the target.",
                                        attacker_effects={"gfx": "orb", "sfx": "default"},
@@ -260,9 +273,13 @@ init 2 python:
                                        target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                        target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9})
     # TODO:
-    ArealMagicalAttack("Pure Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, casting_effects=["orb", "default"], true_pierce=True, gfx='cataclysm', zoom=2.2, pause=5.5, target_damage_gfx=[2.0, "shake", 2.5], sfx="content/sfx/sound/be/fire2.mp3", type="all_enemies", piercing=True,
-                                    aim="bc", anchor=(0.5, 1.0), xo=-50, yo=320,
-                                    desc="Summons flaming fragments of meteors from the atmosphere directly above the target.")
+    ArealMagicalAttack("Pure Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="Summons flaming fragments of meteors from the atmosphere directly above the target.",
+                                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                                    main_effect={"gfx": Transform("cataclysm", zoom=2.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
+                                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
+                                    target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
+                                    target_death_effect={"gfx": "hide", "initial_pause": 2.5, "duration": 0.0001})
 
 
     
@@ -388,8 +405,14 @@ init 2 python:
 
     P2P_MagicAttack(u"Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ion_1', gfx2='ion', pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
                                   desc="Sends towards the target a raging cloud of charged particles.")
-    P2P_ArealMagicalAttack(u"Pure Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ion_1', gfx2=Transform('ion', zoom=2.5), pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
-                                            type="all_enemies", desc="Sends towards the target a raging cloud of charged particles.")
+    P2P_ArealMagicalAttack(u"Pure Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
+                                            type="all_enemies", desc="Sends towards the target a raging cloud of charged particles.",
+                                            projectile_effects={"gfx": 'ion_1', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
+                                            attacker_effects={"gfx": "orb", "sfx": "default"},
+                                            main_effect={"gfx": Transform('ion', zoom=2.0), "sfx": None, "duration": 2.25, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.4},
+                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 0.5})
+                                            
     # Light:
     SimpleMagicalAttack(u"Holy", attributes=['magic', 'light'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["light_1", "default"], gfx='light_1', zoom=1.5, pause=1.25, target_damage_gfx=[0.1, "shake", 1.1], sfx="content/sfx/sound/be/light1.mp3", type="all_enemies",
                                        aim="center", anchor=(0.5, 0.5),
