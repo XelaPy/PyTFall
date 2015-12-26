@@ -288,6 +288,7 @@ init -999 python:
         # Stretch each scanline horizontally, oscillating from +amplitude to -amplitude across specified wavelength
         # Shift oscillation over time by st
         def render(self, width, height, st, at):
+            math = store.math
             render = renpy.Render(width, height)
              
             h = 1.0
@@ -295,7 +296,7 @@ init -999 python:
                 # math.sin(x) returns the sine of x radians
                 t = Transform(scanline[0], xzoom = self.x_zoom_factor + (math.sin(h / self.wavelength + st) * self.amplitude), yzoom = (1.01))
                 h += 1.0
-                child_render = renpy.render(t, 0, 0, st, at)
+                child_render = t.render(0, 0, st, at)
                 cW, cH = child_render.get_size()
                 # final amount subtracted from h sets y placement
                 render.blit(child_render, ((self.W2) - (cW * 0.5), scanline[1]))

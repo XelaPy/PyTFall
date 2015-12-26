@@ -30,11 +30,12 @@ init -1 python: # Core classes:
         def __init__(self, bg, music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False):
             """Creates an instance of BE scenario.
             
-            logical: Just the calculations, without pause/gfx/sfx. Does not work yet.
+            logical: Just the calculations, without pause/gfx/sfx.
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.bg = bg # Background we'll use.
+            self.miragebg = Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)
                 
             self.music = music
             self.corpses = set() # Anyone died in the BE.
@@ -402,6 +403,7 @@ init -1 python: # Core classes:
                            target_sprite_damage_effect={},
                            target_damage_effect={},
                            target_death_effect={},
+                           bg_main_effect={},
                            **kwrags):
             """
             range: range of the spell, 1 is minimum.
@@ -465,6 +467,12 @@ init -1 python: # Core classes:
             self.target_death_effect = target_death_effect.copy()
             self.target_death_effect["gfx"] = target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["sfx"] = target_death_effect.get("sfx", None)
+            
+            self.bg_main_effect = bg_main_effect.copy()
+            self.bg_main_effect["gfx"] = bg_main_effect.get("gfx", None)
+            if self.bg_main_effect["gfx"]:
+                self.bg_main_effect["initial_pause"] = self.bg_main_effect.get("initial_pause", self.main_effect["start_at"])
+                self.bg_main_effect["duration"] = self.bg_main_effect.get("duration", main_effect.get("duration", 0.4))
             
             if sfx:
                 self.main_effect["sfx"] = sfx # This is for really simple attacks. ==> Now declared differently for ALL NORMAL ATTACK TYPES!
@@ -830,6 +838,12 @@ init -1 python: # Core classes:
                     renpy.hide(tag)
                 self.tags_to_hide= list()
                 
+        def get_element(self):
+            # Returns (if any) an element bound to spell or attack:
+            for t in traits:
+                if t.lower() in self.attributes and t.lower() not in ["magic", "melee", "ranged"]:
+                    return traits[t]
+                
         # GFX/SFX:
         def show_gfx(self, targets, died):
             """Executes GFX part of an attack. Diregarded during logical combat.
@@ -890,7 +904,11 @@ init -1 python: # Core classes:
             # And Death Effect:
             if died and (self.target_death_effect["gfx"] or self.target_death_effect["sfx"]):
                 self.time_target_death_effect(died, start)
-                    
+                
+            # And possible BG effects:
+            if self.bg_main_effect["gfx"]:
+                self.time_bg_main_effect(start)
+                
             time_stamps = sorted(self.timestamps.keys())
             for index, stamp in enumerate(time_stamps):
                 self.timestamps[stamp]()
@@ -1065,7 +1083,7 @@ init -1 python: # Core classes:
             for i in xrange(len(targets)):
                 gfxtag = "attack" + str(i)
                 renpy.hide(gfxtag)
-                
+            
         def time_target_sprite_damage_effect(self, targets, died, start):
             # We take previous start as baseppoint for execution:
             damage_effect_start = start + self.target_sprite_damage_effect["initial_pause"]
@@ -1170,28 +1188,42 @@ init -1 python: # Core classes:
             if gfx == "dissolve":
                 for t in died:
                     renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=0.0, t=duration)], zorder=t.besk["zorder"])
-                    # renpy.hide(t.betag)
-                # renpy.with_statement(Dissolve(duration))
             elif gfx == "shatter":
                 for target in died:
-                    # renpy.hide(target.betag)
                     renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), zorder=target.besk["zorder"])
                 
         def hide_target_death_effect(self, died):
             for target in died:
                 renpy.hide(target.betag)
             
-        def get_element(self):
-            # Returns (if any) an element bound to spell or attack:
-            for t in traits:
-                if t.lower() in self.attributes and t.lower() not in ["magic", "melee", "ranged"]:
-                    return traits[t]
-            # element = set(["fire", "air", "water", "earth", "darkness", "light", "neutral"]) & set(self.attributes)
-            # if element:
-                # return element.pop()
+        def time_bg_main_effect(self, start):
+            effect_start = start + self.bg_main_effect["initial_pause"]
+            
+            if effect_start in self.timestamps:
+                effect_start = effect_start + random.uniform(0.001, 0.002)
+            self.timestamps[effect_start] = self.show_bg_main_effect
+            
+            delay = effect_start + self.bg_main_effect["duration"]
+            if delay in self.timestamps:
+                delay = delay + random.uniform(0.001, 0.002)
+            
+            self.timestamps[delay] = self.hide_bg_main_effect
+                    
+        def show_bg_main_effect(self):
+            gfx = self.bg_main_effect["gfx"]
+            sfx = self.bg_main_effect.get("sfx", None)
+            # duration = self.target_death_effect["duration"]
+            
+            if sfx:
+                renpy.sound.play(sfx)
                 
-        
+            if gfx == "mirrage":
+                renpy.show("bg", what=battle.miragebg)
                 
+        def hide_bg_main_effect(self):
+            renpy.show("bg", what=battle.bg)
+            
+            
     class BE_AI(object):
         # Not sure this even needs to be a class...
         def __init__(self, source):

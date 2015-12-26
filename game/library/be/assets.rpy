@@ -276,7 +276,7 @@ init 2 python:
                                        main_effect={"gfx": Transform('cataclysm', yzoom=1.3, xzoom=1.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"point": "bc", "anchor": (0.5, 0.8), "yo": 0}, "start_at": 0},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
-                                       target_death_effect={"gfx": "hide",  "initial_pause": 2.5, "duration": 0.001})
+                                       target_death_effect={"gfx": "hide",  "initial_pause": 3.5, "duration": 0.001})
     # TODO:
     ArealMagicalAttack("True Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                     desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
@@ -284,7 +284,8 @@ init 2 python:
                                     main_effect={"gfx": Transform("cataclysm", zoom=2.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
                                     target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
                                     target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
-                                    target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001})
+                                    target_death_effect={"gfx": "hide", "initial_pause": 3.5, "duration": 0.0001},
+                                    bg_main_effect={"gfx": "mirrage", "initial_pause": 2.9, "duration": 2.4})
 
 
     
