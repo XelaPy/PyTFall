@@ -483,20 +483,8 @@ init python:
             
                 
     class BasicHealingSpell(SimpleMagicalAttack):
-        def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), type="sa", casting_effects=["default_1", "default"], **kwargs):
-            super(SimpleMagicalAttack, self).__init__(name, type=type, **kwargs)
-            
-            # Aiming properties:
-            self.aim = aim
-            self.xo = xo
-            self.yo = yo
-            
-            # Rest:
-            self.cost = cost
-            self.anchor = anchor
-            self.pause = pause
-            
-            self.casting_effects = casting_effects
+        def __init__(self, name, **kwargs):
+            super(BasicHealingSpell, self).__init__(name, **kwargs)
             
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):

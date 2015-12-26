@@ -820,6 +820,8 @@ init -1 python: # Core classes:
             
             self.effects_resolver(t)
             died = self.apply_effects(t)
+            if not isinstance(died, (list, set, tuple)):
+                died = list()
             
             if not battle.logical:
                 self.show_gfx(t, died)
@@ -842,7 +844,8 @@ init -1 python: # Core classes:
             Through complex system currently in design we handle showing gfx/hiding gfx and managing sfx (also here).
             """
             # Try to predict the images:
-            renpy.start_predict(self.get_attackers_first_effect_gfx())
+            if self.attacker_effects["gfx"]:
+                renpy.start_predict(self.get_attackers_first_effect_gfx())
             if self.main_effect["gfx"]:
                 renpy.start_predict(self.main_effect["gfx"])
                 

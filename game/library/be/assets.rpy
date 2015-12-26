@@ -457,13 +457,28 @@ init 2 python:
                                        
                                        
     # Healing:
-    BasicHealingSpell(u"Light Heal", attributes=['magic', 'healing'], effect=25, cost=8, range=5, casting_effects=["runes_1", "default"], gfx='heal_1', zoom=1.4, pause=3.0, sfx="content/sfx/sound/be/heal1.mp3",
-                                  yo=25,
-                                       desc="Heals superficial wounds and accelerates the healing of internal ones.")
-    BasicHealingSpell(u"Light Mass Heal", attributes=['magic', 'healing'], effect=10, cost=10, range=5, casting_effects=["runes_1", "default"], gfx='heal_2', zoom=1.4, pause=2.5, sfx="content/sfx/sound/be/heal2.mp3", type="all_allies", piercing=True, true_pierce=True,
-                                  yo=25,
-                                       desc="Heals the whole party at once.")
+    BasicHealingSpell(u"Light Heal", attributes=['magic', 'healing'], effect=25, cost=8, range=5, type="sa",
+                                  desc="Heals superficial wounds and accelerates the healing of internal ones.",
+                                  attacker_action={"gfx": None},
+                                  attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                  main_effect={"gfx": Transform("heal_1", zoom=1.4), "sfx": "content/sfx/sound/be/heal1.mp3", "duration": 3.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
+                                  target_sprite_damage_effect={"gfx": None},
+                                  target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
+                                  target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
+    BasicHealingSpell(u"Light Mass Heal", attributes=['magic', 'healing'], effect=10, cost=10, range=5, type="all_allies", piercing=True, true_pierce=True,
+                                  desc="Heals the whole party at once.",
+                                  attacker_action={"gfx": None},
+                                  attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                  main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
+                                  target_sprite_damage_effect={"gfx": None},
+                                  target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
+                                  target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
                                   
     # Effects:
-    BasicPoisonSpell("Poison", attributes=['status', 'poison'], effect=100, multiplier=1.0, cost=30, range=4, casting_effects=["runes_1", "default"], gfx='poison_1', zoom=2.1, pause=1.0, sfx="content/sfx/sound/be/poison_01.ogg",
-                                       aim="center", anchor=(0.5, 0.5))
+    BasicPoisonSpell("Poison", attributes=['status', 'poison'], effect=100, multiplier=1.0, cost=30, range=4,
+                                 desc="Poisons the target causing additional damage each turn!",
+                                 attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                 main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo"=-25}},
+                                 target_sprite_damage_effect={"gfx": None},
+                                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
+                                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
