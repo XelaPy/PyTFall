@@ -903,6 +903,11 @@ init -1 python: # Core classes:
                     pass
                 
             self.timestamps = {}
+            # Try to predict the images:
+            if self.attacker_effects["gfx"]:
+                renpy.stop_predict(self.get_attackers_first_effect_gfx())
+            if self.main_effect["gfx"]:
+                renpy.stop_predict(self.main_effect["gfx"])
         
         def time_attackers_first_action(self, battle, attacker):
             # Lets start with the very first part (attacker_action):

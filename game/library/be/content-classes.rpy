@@ -220,7 +220,7 @@ init python:
             self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.21)
             
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
-            self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.3)
+            self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + 0.1)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
 
         def check_conditions(self, source=None):

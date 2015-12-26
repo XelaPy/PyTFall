@@ -252,7 +252,7 @@ init 2 python:
                                   attacker_effects={"gfx": "fire_2", "sfx": "default"},
                                   main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                                   target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
-                                  target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
+                                  target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5})
                                        
     P2P_MagicAttack(u"Solar Flash", attributes=['magic', 'fire'], effect=65, multiplier=1.5, cost=12, range=4, casting_effects=["fire_2", "default"], gfx='fire_5', gfx2='fire_5_1', pause=1.5, pause2=1, sfx="content/sfx/sound/be/fire7.mp3",
                                        desc="Sends towards the target a small piece of solar plazma.")
@@ -266,15 +266,15 @@ init 2 python:
                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
                           target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
     
-    SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", desc="Summons flaming fragments of meteor from the atmosphere directly above the target.",
+    SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor from the atmosphere directly above the target.",
                                        attacker_effects={"gfx": "orb", "sfx": "default"},
-                                       main_effect={"gfx": Transform('cataclysm', yzoom=1.2, xzoom=1.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"point": "bc", "anchor": (0.5, 0.8), "yo": 0}, "start_at": 0},
-                                       target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 2.0, "duration": 2.5},
-                                       target_damage_effect={"gfx": "battle_bounce", "sfx": None},
-                                       target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9})
+                                       main_effect={"gfx": Transform('cataclysm', yzoom=1.3, xzoom=1.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"point": "bc", "anchor": (0.5, 0.8), "yo": 0}, "start_at": 0},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
+                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
+                                       target_death_effect={"gfx": "hide",  "initial_pause": 2.5, "duration": 0.001})
     # TODO:
-    ArealMagicalAttack("Pure Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
-                                    desc="Summons flaming fragments of meteors from the atmosphere directly above the target.",
+    ArealMagicalAttack("True Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
                                     attacker_effects={"gfx": "orb", "sfx": "default"},
                                     main_effect={"gfx": Transform("cataclysm", zoom=2.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
                                     target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
@@ -317,8 +317,16 @@ init 2 python:
 
 
     # Ice:
-    MagicArrows("Ice Arrow", attributes=['magic', 'ice'], effect=50, multiplier=1.5, cost=10, range=4, casting_effects=["ice_2", "default"], gfx='Ice Arrow cast', gfx2='Ice Arrow fly', gfx3='Ice Arrow impact', sfx="content/sfx/sound/be/ice_arrow.mp3",
-                                       desc="Creates a an arrow of ice crystals that pierces through the target.")
+    MagicArrows("Ice Arrow", attributes=['magic', 'ice'], effect=50, multiplier=1.5, cost=10, range=4,
+                          desc="Creates a an arrow of ice crystals that pierces through the target.",
+                          firing_effects={"gfx": 'Ice Arrow cast', "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
+                          projectile_effects={"gfx": 'Ice Arrow fly', "sfx": None, "duration": 0.4},
+                          main_effect={"gfx": 'Ice Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                          attacker_effects={"gfx": "ice_2", "sfx": "default"},
+                          target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
+                          target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
+                          target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
+                                       
     SimpleMagicalAttack(u"Blizzard", attributes=['magic', 'ice'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["ice_1", "default"], gfx='ice_1', zoom=1.9, pause=2.9, target_damage_gfx=[0.2, "shake", 1.8], sfx="content/sfx/sound/be/ice3.mp3", type="all_enemies",
                                        aim="bc", anchor=(0.5, 1.0), yo=60,
                                        desc="Creates a cloud of sharp ice splinters.")
@@ -404,9 +412,9 @@ init 2 python:
                                        desc="Takes control over charged particles inside the target, causing severe internal injuries.")
 
     P2P_MagicAttack(u"Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ion_1', gfx2='ion', pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
-                                  desc="Sends towards the target a raging cloud of charged particles.")
-    P2P_ArealMagicalAttack(u"Pure Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
-                                            type="all_enemies", desc="Sends towards the target a raging cloud of charged particles.",
+                                  type="all_enemies", desc="Sends towards the target a raging cloud of charged particles.")
+    P2P_ArealMagicalAttack(u"True Ion Storm", attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, pause=1, pause2=1, sfx="content/sfx/sound/be/ion_storm.mp3", piercing=True, true_pierce=True,
+                                            type="all_enemies", desc="Hits all targets with raging cloud of charged particles.",
                                             projectile_effects={"gfx": 'ion_1', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
                                             attacker_effects={"gfx": "orb", "sfx": "default"},
                                             main_effect={"gfx": Transform('ion', zoom=2.0), "sfx": None, "duration": 2.25, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
@@ -423,16 +431,25 @@ init 2 python:
     SimpleMagicalAttack(u"Holyda", attributes=['magic', 'light'], effect=25, multiplier=1.2, cost=6, range=4, casting_effects=["light_1", "default"], gfx='light_3', zoom=2.5, pause=1.6, target_damage_gfx=[0.1, "shake", 1.5], sfx="content/sfx/sound/be/light4.mp3", piercing=True,
                                        aim="center", anchor=(0.5, 0.5),
                                        desc="A smallest particle of stellar energy burns the target.")
-    SimpleMagicalAttack(u"Holyja", attributes=['magic', 'light'], effect=10, multiplier=1.2, cost=4, range=4, casting_effects=["light_2", "default"], gfx='light_4', zoom=1.5, pause=2.04, target_damage_gfx=[0.5, "shake", 1.4], sfx="content/sfx/sound/be/light5.mp3", piercing=True, type="all_enemies", 
-                                       aim="bc", anchor=(0.5, 1.0), yo=70,
-                                       desc="Gathers light around targets and then instantly releases it in the form of light beams.")
+    SimpleMagicalAttack(u"Holyja", attributes=['magic', 'light'], effect=10, multiplier=1.2, cost=4, range=4, piercing=True, type="all_enemies", 
+                                       desc="Gathers holy energy around targets and releases it upwards like a pillar of light.",
+                                       attacker_effects={"gfx": "light_2", "sfx": "default"},
+                                       main_effect={"gfx": Transform("light_4", zoom=1.5), "sfx": "content/sfx/sound/be/light5.mp3", "duration": 2.04, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}},
+                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.04},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 1.4},
+                                       target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
+                                       
     SimpleMagicalAttack(u"Photon Blade", attributes=['magic', 'light'], effect=30, multiplier=1.5, cost=8, range=4, casting_effects=["light_2", "default"], gfx='light_5', zoom=1.9, pause=2.5, target_damage_gfx=[0.5, "shake", 1.4], sfx="content/sfx/sound/be/dawn.mp3", type="all_enemies", piercing=True,
                                        desc="Infinitely thin blades of pure light slices targets.")
     SimpleMagicalAttack(u"Star Light", attributes=['magic', 'light'], effect=50, multiplier=1.5, cost=10, range=4, casting_effects=["light_2", "default"], gfx='light_6', zoom=1.4, pause=1.8, target_damage_gfx=[0.1, "shake", 1.7], sfx="content/sfx/sound/be/light2.mp3", piercing=True,
                                        aim="center", anchor=(0.5, 0.5), desc="A powerful and painful flash of star light.")
-    SimpleMagicalAttack("Forced Dawn", attributes=['magic', 'light'], effect=70, multiplier=1.8, cost=15, range=4, casting_effects=["circle_3", "default"], gfx='dawn', zoom=2.5, pause=3.5, target_damage_gfx=[1.7, "shake", 1.2], sfx="content/sfx/sound/be/dawn.mp3", type="all_enemies", piercing=True,
-                                       aim="bc", anchor=(0.5, 1.0), yo=40,
-                                       desc="The energy of a whole sunrise quickly covers a small area.")
+    SimpleMagicalAttack("Forced Dawn", attributes=['magic', 'light'], effect=70, multiplier=1.8, cost=15, range=4, type="all_enemies", piercing=True,
+                                       desc="The energy of a whole sunrise quickly covers a small area.",
+                                       attacker_effects={"gfx": "circle_3", "sfx": "default"},
+                                       main_effect={"gfx": Transform("dawn", zoom=2.5), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50, "xo": -50}},
+                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.7},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 0.5},
+                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.6, "duration": 1.0})
     
     # Darkness:
     SimpleMagicalAttack(u"Dark", attributes=['magic', 'darkness'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["dark_1", "default"], gfx='darkness_1', zoom=1.3, pause=1.0, target_damage_gfx=[0.1, "shake", 0.9], sfx="content/sfx/sound/be/darkness1.mp3", type="all_enemies",
@@ -441,9 +458,14 @@ init 2 python:
     SimpleMagicalAttack(u"Darkra", attributes=['magic', 'darkness'], effect=30, multiplier=1.2, cost=7, range=4, casting_effects=["dark_1", "default"], gfx='darkness_2', zoom=1.4, pause=1.6, target_damage_gfx=[0.1, "shake", 1.4], sfx="content/sfx/sound/be/darkness2.mp3",
                                        aim="center", anchor=(0.5, 0.5),
                                        desc="Darkness envelops the target, slowly killing it.")
-    SimpleMagicalAttack(u"Darkga", attributes=['magic', 'darkness'], effect=25, multiplier=1.2, cost=6, range=4, casting_effects=["dark_1", "default"], gfx='darkness_3', zoom=1.4, pause=1.5, target_damage_gfx=[0.9, "shake", 0.6], sfx="content/sfx/sound/be/darkness3.mp3", piercing=True,
-                                       aim="center", anchor=(0.5, 0.5),
-                                       desc="Negative energy concentrates in a very small area and then explodes.")
+    SimpleMagicalAttack(u"Darkga", attributes=['magic', 'darkness'], effect=25, multiplier=1.2, cost=6, range=4, target_damage_gfx=[0.9, "shake", 0.6], piercing=True,
+                                      desc="Negative energy concentrates in a very small area and then explodes.",
+                                      attacker_effects={"gfx": "dark_1", "sfx": "default"},
+                                      main_effect={"gfx": Transform("darkness_3", zoom=1.4), "sfx": "content/sfx/sound/be/darkness3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.9},
+                                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.9, "duration": 0.6},
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
+                                       
     SimpleMagicalAttack(u"Darkja", attributes=['magic', 'darkness'], effect=10, multiplier=1.2, cost=4, range=4, casting_effects=["dark_2", "default"], gfx='darkness_4', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.2], sfx="content/sfx/sound/be/darkness2.mp3", piercing=True, type="all_enemies",
                                        aim="center", anchor=(0.5, 0.5),
                                        desc="Summons an abnormal and chaotic substances from a dark world that deforms targets.")
@@ -478,7 +500,7 @@ init 2 python:
     BasicPoisonSpell("Poison", attributes=['status', 'poison'], effect=100, multiplier=1.0, cost=30, range=4,
                                  desc="Poisons the target causing additional damage each turn!",
                                  attacker_effects={"gfx": "runes_1", "sfx": "default"},
-                                 main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo"=-25}},
+                                 main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -25}},
                                  target_sprite_damage_effect={"gfx": None},
                                  target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                  target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
