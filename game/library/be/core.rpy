@@ -1093,10 +1093,13 @@ init -1 python: # Core classes:
             if type == "shake":
                 for target in targets:
                     renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
-            if type == "fire":
+            if isinstance(type, basestring) and type.startswith("fire"):
                 for target in targets:
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
-                    renpy.show(target.betag, what=what, zorder=target.besk["zorder"])
+                    if type == "fire":
+                        renpy.show(target.betag, what=what, zorder=target.besk["zorder"])
+                    elif type == "fire_shake":
+                        renpy.show(target.betag, what=what, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
             renpy.with_statement(None)
                     
         def hide_target_sprite_damage_effect(self, targets, died):
