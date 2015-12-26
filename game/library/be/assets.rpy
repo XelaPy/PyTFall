@@ -246,7 +246,7 @@ init 2 python:
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
     # TODO:
-    P2P_MagicAttack(u"Fireball", attributes=['magic', 'fire'], effect=50, multiplier=1.5, cost=10, range=4, gfx2='fire_6_1', pause=1.0, pause2=1.2, sfx="content/sfx/sound/be/fire7.mp3", piercing=True,
+    P2P_MagicAttack(u"Fireball", attributes=['magic', 'fire'], effect=50, multiplier=1.5, cost=10, range=4, piercing=True,
                                   desc="Launches an exploding fireball at one enemy.",
                                   projectile_effects={"gfx": 'fire_6', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
                                   main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
@@ -284,7 +284,7 @@ init 2 python:
                                     main_effect={"gfx": Transform("cataclysm", zoom=2.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
                                     target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
                                     target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
-                                    target_death_effect={"gfx": "hide", "initial_pause": 2.5, "duration": 0.0001})
+                                    target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001})
 
 
     
