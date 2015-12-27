@@ -656,15 +656,15 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_scene_blowjob
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            "[char.name] seems to want your dick inside her mouth."
+            "[char.name] licks her lips, defiantly looking at your crotch."
             if "bc deepthroat" in image_tags:
-                extend " She shoved it all the way into her throat, sucking on it until you come."
+                extend " She shoves it all the way into her throat, sucking on it until you come."
             elif "after sex" in image_tags:
-                extend " She enthusiastically licks and sucks it. At the last moment she pulls it out from her mouth, covering her body with your thick liquid."
+                extend " She enthusiastically licks and sucks it. At the last moment she pulls it out from her mouth, covering herself with your thick liquid."
             else:
                 extend " She enthusiastically licks and sucks your dick until you come."
         elif sub < 0:
-            "[char.name] is waiting for your orders."
+            "Glancing at your crotch, [char.name] is patiently waiting for your orders."
             if "bc deepthroat" in image_tags:
                 extend " You told her to take your dick inside her mouth as deeply as she can, and she diligently sucked on it until you come."
             elif "after sex" in image_tags:
@@ -672,9 +672,9 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You told her to lick and suck your dick until you come, and she immediately obeyed."
         else:
-            "You asked her to do it with her mouth."
+            "After you proposed to pleasure you with her mouth, [char.name] slowly approached your crotch."
             if "bc deepthroat" in image_tags:
-                extend " She took your dick inside her mouth as deeply as she can, and sucked on it until you come."
+                extend " You shoved your dick deeply into her throat, and she sucked on it until you come."
             elif "after sex" in image_tags:
                 extend " She licks and sucks your dick. At the last moment she asked you to take it out from her mouth to cover her body with your thick liquid."
             else:
@@ -687,16 +687,27 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     elif current_action == "tits":
         call interaction_scene_titsjob
         $ image_tags = gm.img.get_image_tags()
-        if ct("Big Boobs"):
-            "She warps her soft big breasts around your dick and stimulates it until you come."
-        elif ct("Abnormally Large Boobs"):
-            "You almost lost your dick in her enormous breasts. She stimulates it until you come."
-        elif ct("Small Boobs"):
-            "She rubs her small boobs against your dick until you come."
+        if sub > 0:
+            "[char.name] massages her boobs, defiantly looking at your crotch."
+        elif sub < 0:
+            "Holding her boobs, [char.name] meekly approaches you."
         else:
-            "She squeeze your dick between her soft breasts until you come."
+            "[char.name] playfully grabs her boobs, looking at you."
+        if ct("Big Boobs"):
+            extend " She warps her soft big breasts around your dick and stimulates it until you come."
+        elif ct("Abnormally Large Boobs"):
+            extend " You almost lost your dick in her enormous breasts as they envelop you. She teases you until you come."
+        elif ct("Small Boobs"):
+            extend " She assiduously rubs her small boobs against your dick until you come."
+        else:
+            extend " She squeezes your dick between her soft breasts until you come."
         if "after sex" in image_tags:
-            extend " At the last moment you take it away from her chest, covering her body with your thick liquid."
+            if sub > 0:
+                "At the last moment she pulls away, covering herself with your thick liquid."
+            elif sub < 0:
+                "At the last moment you take it away from her chest, covering her body with your thick liquid."
+            else:
+                "At the last moment she asked you to take it away from her chest to cover her body with your thick liquid."
         if ct("Lesbian"):
             $ skill_for_checking = round(char.get_skill("oral")*0.6 + char.get_skill("sex")*0.1)
         else:
