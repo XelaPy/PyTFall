@@ -325,41 +325,38 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         "What would you like to do now?"
         
         "Ask for striptease": 
-            call interaction_scene_strip
             $ current_action = "strip"
-            jump interaction_strip_logic
+            jump interactions_sex_scene_logic_part
             
         "Ask her to play with herself" if char.has_image("masturbation", exclude=["forced", "normalsex", "group", "bdsm"]):
-            call interaction_scene_mast
             $ current_action = "mast"
-            jump interaction_mast_logic
+            jump interactions_sex_scene_logic_part
             
-        "Ask for a blowjob" if (char.has_image("bc blowjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))): 
+        "Ask for a blowjob" if (char.has_image("bc blowjob", exclude=["rape", "in pain", "restrained"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"]))): 
             $ current_action = "blow"
             jump interactions_sex_scene_logic_part
             
-        "Ask for paizuri" if (char.has_image("bc titsjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))):
+        "Ask for paizuri" if (char.has_image("bc titsjob", exclude=["rape", "in pain", "restrained"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"]))):
             $ current_action = "tits"
             jump interactions_sex_scene_logic_part
             
-        "Ask for a handjob" if (char.has_image("bc handjob", exclude=["rape", "in pain"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
-            call interaction_scene_handjob
-            jump interaction_handjob_logic
+        "Ask for a handjob" if (char.has_image("bc handjob", exclude=["rape", "in pain", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
+            $ current_action = "hand"
+            jump interactions_sex_scene_logic_part
             
-        "Ask for a footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
-            call interaction_scene_footjob
+        "Ask for a footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
             $ current_action = "foot"
-            jump interaction_footjob_logic
+            jump interactions_sex_scene_logic_part
             
-        "Ask for sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
+        "Ask for sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
             if ct("Virgin"):
                 jump interaction_check_for_virginity
             else:
                 call interaction_scene_vaginal
                 $ current_action = "vag"
-                jump interaction_vaginal_logic
+                jump interactions_sex_scene_logic_part
                 
-        "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
+        "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
             call interaction_scene_anal
             $ current_action = "anal"
             jump interaction_anal_logic
@@ -622,6 +619,7 @@ label interactions_lesbian_choice:
     
     
 label interactions_sex_scene_logic_part: # here we resolve all logic for changing stats and showing lines after picking a sex scene
+    $ sub = check_submissivity(char)
     if sex_scene_libido <= 0:
         $ char.vitality -= randint(5, 25)
         $ char.joy -= randint(3, 6)
@@ -630,15 +628,57 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
     $ sex_count += 1
-    if current_action == "blow":
+    if current_action == "mast":
+        call interaction_scene_mast
+        "She masturbates in front of you." 
+        if sex_scene_libido <= 2:
+            extend " Although it cannot be considered as a sexual act, she is more aroused now."
+            $ sex_scene_libido += 1
+        $ char.vitality -= randint(5, 10)
+        $ girl_count +=1
+    elif current_action == "strip":
+        call interaction_scene_strip
+        "You ask her to show you a striptease."
+        $ skill_for_checking = char.get_skill("strip")
+        if skill_for_checking >= 2000:
+            "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in her eyes."
+        elif skill_for_checking >= 1000:
+            "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
+        elif skill_for_checking >= 500:
+            "It's nice to look at her graceful and elegant moves."
+        elif skill_for_checking >= 200:
+            "She did her best to show you her body, but her skills could definitely be improved."
+        elif skill_for_checking >= 50:
+            "She tried her best, but the moves were quite clumsy and unnatural. At least she learned something new today."
+        else:
+            "Looks like [char.name] barely knows what she's doing. Even just standing still without clothes would made a better impression..."
+    elif current_action == "blow":
         call interaction_scene_blowjob
         $ image_tags = gm.img.get_image_tags()
-        if "bc deepthroat" in image_tags:
-            "She shoved your dick all the way into her throat, sucking on it until you come."
-        elif "after sex" in image_tags:
-            "She licks and sucks your dick. At the last moment you take it out from her mouth, covering her body with your thick liquid."
+        if sub > 0:
+            "[char.name] seems to want your dick inside her mouth."
+            if "bc deepthroat" in image_tags:
+                extend " She shoved it all the way into her throat, sucking on it until you come."
+            elif "after sex" in image_tags:
+                extend " She enthusiastically licks and sucks it. At the last moment she pulls it out from her mouth, covering her body with your thick liquid."
+            else:
+                extend " She enthusiastically licks and sucks your dick until you come."
+        elif sub < 0:
+            "[char.name] is waiting for your orders."
+            if "bc deepthroat" in image_tags:
+                extend " You told her to take your dick inside her mouth as deeply as she can, and she diligently sucked on it until you come."
+            elif "after sex" in image_tags:
+                extend " You told her to lick and suck your dick. At the last moment you take it out from her mouth, covering her body with your thick liquid."
+            else:
+                extend " You told her to lick and suck your dick until you come, and she immediately obeyed."
         else:
-            "She licks and sucks your dick until you come."
+            "You asked her to do it with her mouth."
+            if "bc deepthroat" in image_tags:
+                extend " She took your dick inside her mouth as deeply as she can, and sucked on it until you come."
+            elif "after sex" in image_tags:
+                extend " She licks and sucks your dick. At the last moment she asked you to take it out from her mouth to cover her body with your thick liquid."
+            else:
+                extend " She licks and sucks it until you come."
         if ct("Lesbian"):
             $ skill_for_checking = round(char.get_skill("oral")*0.65 + char.get_skill("sex")*0.1)
         else:
@@ -654,14 +694,115 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         elif ct("Small Boobs"):
             "She rubs her small boobs against your dick until you come."
         else:
-            "She caress your dick with her soft breasts until you come."
+            "She squeeze your dick between her soft breasts until you come."
         if "after sex" in image_tags:
-            "At the last moment you take it away from her chest, covering her body with your thick liquid."
+            extend " At the last moment you take it away from her chest, covering her body with your thick liquid."
         if ct("Lesbian"):
             $ skill_for_checking = round(char.get_skill("oral")*0.6 + char.get_skill("sex")*0.1)
         else:
             $ skill_for_checking = round(char.get_skill("oral")*0.75 + char.get_skill("sex")*0.25)
         call interaction_sex_scene_check_skill_jobs
+    elif current_action == "hand":
+        call interaction_scene_handjob
+        $ image_tags = gm.img.get_image_tags()
+        "She takes your dick in her soft hands and stimulates it until you come."
+        if "after sex" in image_tags:
+            extend " You generously cover her body with your thick liquid."
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("oral")*0.1 + char.get_skill("sex")*0.6)
+        else:
+            $ skill_for_checking = round(char.get_skill("oral")*0.25 + char.get_skill("sex")*0.75)
+        call interaction_sex_scene_check_skill_jobs
+    elif current_action == "foot":
+        call interaction_scene_footjob
+        if ct("Athletic"):
+            if ct("Long Legs"):
+                "She squeezes your dick her between her long muscular legs and stimulates it until you come."
+            else:
+                "She squeezes your dick her between her muscular legs and stimulates it until you come."
+        elif ct("Slim"):
+            if ct("Long Legs"):
+                "She squeezes your dick her between her long slim legs and stimulates it until you come."
+            else:
+                "She squeezes your dick her between her slim legs and stimulates it until you come."
+        elif ct("Lolita"):
+            if ct("Long Legs"):
+                "She squeezes your dick her between her long thin legs and stimulates it until you come."
+            else:
+                "She squeezes your dick her between her thin legs and stimulates it until you come."
+        else:
+            if ct("Long Legs"):
+                "She squeezes your dick her between her long legs and stimulates it until you come."
+            else:
+                "She squeezes your dick her between her legs and stimulates it until you come."
+        if "after sex" in image_tags:
+            extend " You generously cover her body with your thick liquid."
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("oral")*0.1 + char.get_skill("sex")*0.6)
+        else:
+            $ skill_for_checking = round(char.get_skill("oral")*0.25 + char.get_skill("sex")*0.75)
+        call interaction_sex_scene_check_skill_jobs
+    elif current_action == "vag":
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("vaginal")*0.6 + char.get_skill("sex")*0.15)
+        else:
+            $ skill_for_checking = round(char.get_skill("vaginal")*0.75 + char.get_skill("sex")*0.25)
+        call interaction_scene_vaginal
+        $ image_tags = gm.img.get_image_tags()
+        if sub > 0:
+            "[char.name] doesn't mind a 'D' inside her pussy."
+            if "ontop" in image_tags:
+                extend " She sits on top of you, immersing your dick inside."
+            elif "doggy" in image_tags:
+                extend " She bent over, pushing her crotch toward your dick."
+            elif "missionary" in image_tags:
+                extend " She lay on her back spreading her legs, awaiting for your dick."
+            elif "onside" in image_tags:
+                extend " She lay down on her side, waiting for you to join her."
+            elif "standing" in image_tags:
+                extend " She spreads her legs waiting for you, not even bothering to lay down."
+            elif "spooning" in image_tags:
+                extend " She snuggled to you, being in a mood for some spooning."
+            elif "sitting" in image_tags:
+                extend " She sat upon you knees, immersing your dick inside."
+            else:
+                extend " She confidently pushes your dick inside and starts to move."
+        elif sub < 0:
+            "[char.name] prepares herself, awaiting for further orders."
+            if "ontop" in image_tags:
+                extend " You ask her to sit on top of you, immersing your dick inside."
+            elif "doggy" in image_tags:
+                extend " You ask her to bent over, allowing you to take her from behind."
+            elif "missionary" in image_tags:
+                extend " You ask her to lay on her back and spread legs, allowing you to shove your dick inside."
+            elif "onside" in image_tags:
+                extend "  You asked her to lay down on her side, allowing you to get inside."
+            elif "standing" in image_tags:
+                extend " You asked her to spread her legs while standing, and pushed your dick inside."
+            elif "spooning" in image_tags:
+                extend " You asked her to snuggle to you, spooning her in the process."
+            elif "sitting" in image_tags:
+                extend " You asked her to sit upon you knees, immersing your dick inside."
+            else:
+                extend " You entered her and asked to start moving."
+        else:
+            "You propose [char.name] to do her pussy."
+            if "ontop" in image_tags:
+                extend " You invite her to sit on top of you, preparing your dick for some penetration."
+            elif "doggy" in image_tags:
+                extend " She bent over, welcoming your dick from behind."
+            elif "missionary" in image_tags:
+                extend " She lays on her back and spreads legs, inviting you to enter inside."
+            elif "onside" in image_tags:
+                extend " She lays down on her side, inviting you to enter inside."
+            elif "standing" in image_tags:
+                extend " You proceed to penetrate her not even bothering to lay down."
+            elif "spooning" in image_tags:
+                extend " You two snuggle to each other, trying out spooning."
+            elif "sitting" in image_tags:
+                extend " She sits upon you knees while you prepare your dick for going inside her."
+            else:
+                extend " You enter her pussy and you two begin to move."
     jump interaction_scene_choice
     
 label interaction_sex_scene_check_skill_jobs: # skill level check for one side actions
@@ -690,183 +831,34 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
     if skill_for_checking >= 50:
         $ guy_count +=1
     return
-        
-label interaction_titsjob_logic:
-    if sex_scene_libido <= 0:
-        $ char.vitality -= 20
-        $ char.joy -= 5
-    if char.joy <= 10:
-        $ char.disposition -= 5
-    if char.vitality <= 15 and char.health >= 50:
-        $ char.health -= 2
-    "She stimulates your dick with her soft breasts until you come."
-    if char.oral < 50 or char.sex < 50:
-        "She clearly needs more training, so it took some time. But at least she learned something new."
-        $ char.oral += randint (1, 4)
-        $ char.sex += randint (1, 4)
-        $ hero.sex += randint (0, 1)
-        $ char.vitality -= 30
-        $ hero.vitality -= 30
-        $ sex_scene_libido -= 5
-    elif char.oral < 300 or  char.sex < 300:
-        "It was pretty good."
-        $ char.oral += randint (1, 3)
-        $ char.sex += randint (1, 3)
-        $ hero.sex += randint (0, 1)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-        $ sex_scene_libido -= 5
-    elif char.oral < 1000 or char.sex < 1000:
-        "It was very good."
-        $ char.oral += randint (1, 2)
-        $ char.sex += randint (1, 2)
-        $ hero.sex += randint (1, 2)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-    else:
-        "She was so good that you came after a few seconds. Wow."
-        $ char.oral += randint (0, 2)
-        $ char.sex += randint (0, 2)
-        $ hero.sex += randint (1, 3)
-        $ char.vitality -= 20
-        $ hero.vitality -= 20
-        $ char.joy += 2
-        $ sex_scene_libido += 5
-    if (char.oral - hero.oral) > 200 or (char.sex - hero.sex) > 200:
-        "You learned something new about paizuri as well. A pleasure to deal with professionals."
-        $ hero.oral += 1
-        $ hero.sex += 1
-    elif (hero.oral - char.oral) > 200:
-        "You were able to show her some new tricks."
-        $ char.oral += 1
-        $ char.sex += 1
-    $ sex_count += 1
-    $ guy_count +=1
-    $ cum_count += 1
-    jump interaction_scene_choice
-    
-label interaction_handjob_logic:
-    if sex_scene_libido <= 0:
-        $ char.vitality -= 20
-        $ char.joy -= 5
-    if char.joy <= 10:
-        $ char.disposition -= 5
-    if char.vitality <= 15 and char.health >= 50:
-        $ char.health -= 2
-    "She stimulates your dick with her hands until you come."
-    if char.sex < 50:
-        "She clearly needs more training, so it took some time. But at least she learned something new."
-        $ char.sex += randint (3, 5)
-        $ hero.sex += randint (0, 1)
-        $ char.vitality -= 30
-        $ hero.vitality -= 30
-        $ sex_scene_libido -= 5
-    elif char.sex < 300:
-        "It was pretty good."
-        $ char.sex += randint (2, 4)
-        $ hero.sex += randint (0, 2)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-        $ sex_scene_libido -= 5
-    elif char.sex < 1000:
-        "It was very good."
-        $ char.sex += randint (1, 3)
-        $ hero.sex += randint (1, 2)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-    else:
-        "She was so good that you came after a few seconds. Wow."
-        $ char.sex += randint (0, 2)
-        $ hero.sex += randint (1, 3)
-        $ char.vitality -= 20
-        $ hero.vitality -= 20
-        $ char.joy += 2
-        $ sex_scene_libido += 5
-    if (char.sex - hero.sex) > 200:
-        "You learned something new about handjob as well. A pleasure to deal with professionals."
-        $ hero.sex += 2
-    elif (hero.sex - char.sex) > 200:
-        "You were able to show her some new tricks."
-        $ char.sex += 2
-    $ sex_count += 1
-    $ guy_count +=1
-    $ cum_count += 1
-    jump interaction_scene_choice
-    
-label interaction_footjob_logic:
-    if sex_scene_libido <= 0:
-        $ char.vitality -= 20
-        $ char.joy -= 5
-    if char.joy <= 10:
-        $ char.disposition -= 5
-    if char.vitality <= 15 and char.health >= 50:
-        $ char.health -= 2
-    "She stimulates your dick with her feet until you come."
-    if char.sex < 50:
-        "She clearly needs more training, so it took some time. But at least she learned something new."
-        $ char.sex += randint (3, 5)
-        $ hero.sex += randint (0, 1)
-        $ char.vitality -= 30
-        $ hero.vitality -= 30
-        $ sex_scene_libido -= 5
-    elif char.sex < 300:
-        "It was pretty good."
-        $ char.sex += randint (2, 4)
-        $ hero.sex += randint (0, 2)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-        $ sex_scene_libido -= 5
-    elif char.sex < 1000:
-        "It was very good."
-        $ char.sex += randint (1, 3)
-        $ hero.sex += randint (1, 2)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-    else:
-        "She was so good that you came after a few seconds. Wow."
-        $ char.sex += randint (0, 2)
-        $ hero.sex += randint (1, 3)
-        $ char.vitality -= 20
-        $ hero.vitality -= 20
-        $ char.joy += 2
-        $ sex_scene_libido += 5
-    if (char.sex - hero.sex) > 200:
-        "You learned something new about footjob as well. A pleasure to deal with professionals."
-        $ hero.sex += 2
-    elif (hero.sex - char.sex) > 200:
-        "You were able to show her some new tricks."
-        $ char.sex += 2
-    $ sex_count += 1
-    $ guy_count +=1
-    $ cum_count += 1
-    jump interaction_scene_choice
-    
-label interaction_mast_logic:
-    if sex_scene_libido <= 0:
-        $ char.vitality -= 20
-        if char.health >= 30:
-            $ char.health -= 10
-        $ char.joy -= 5
-    if char.joy <= 10:
-        $ char.disposition -= 5
-    if char.vitality <= 15 and char.health >= 50:
-        $ char.health -= 2
-    "She masturbates in front of you. Although it cannot be considered as a sexual act, you both are more aroused now."
-    if sex_scene_libido <= 10:
-        $ sex_scene_libido += 10
-    else:
-        $ sex_scene_libido += 5
-    $ char.vitality -= 20
-    $ girl_count +=1
-    jump interaction_scene_choice
-    
 
+label interaction_sex_scene_check_skill_acts: # skill level check for two sides actions
+    if skill_for_checking >= 4000:
+        "She was so good that you profusely came after a few seconds. Pretty impressive."
+        $ char.joy += (3, 5)
+    elif skill_for_checking >= 2000:
+        "You barely managed to hold out for half a minute in the face of her amazing skills."
+        $ char.joy += (2, 4)
+    elif skill_for_checking >= 1000:
+        "It was very fast and very satisfying."
+        $ char.joy += (1, 2)
+    elif skill_for_checking >= 500:
+        "Nothing extraordinary, but it wasn't half bad either."
+        $ char.joy += (0, 1)
+    elif skill_for_checking >= 200:
+        "It took some time and effort on her part, her skills could definitely be improved."
+    elif skill_for_checking >= 50:
+        "Looks like [char.name] barely knows what she's doing. Still, she somewhat managed to get the job done."
+        $ char.vitality -= randint(5, 10)
+    else:
+        $ char.vitality -= randint(10, 15)
+        "Her moves were clumsy and untimely. By the time she finished the moment had passed, bringing you no satisfaction."
+    if skill_for_checking >= 100:
+        $ cum_count += 1
+    if skill_for_checking >= 50:
+        $ guy_count +=1
+    return
+    
 
 label interaction_vaginal_logic:
     if sex_scene_libido <= 0:
@@ -1090,49 +1082,6 @@ label interaction_anal_logic:
         "You were able to show her some new tricks."
         $ char.anal += 2
     jump interaction_scene_choice
-    
-label interaction_strip_logic:
-    if sex_scene_libido <= 0:
-        $ char.vitality -= 20
-        $ char.joy -= 5
-    if char.joy <= 10:
-        $ char.disposition -= 5
-    "You ask her to show you a striptease."
-    if char.strip < 50:
-        "She tried her best, but the moves were clumsy and unnatural. At least she learned something new though."
-        $ char.strip += randint (3, 5)
-        $ char.joy -= 10
-        $ char.vitality -= 30
-        $ sex_scene_libido -= 5
-    elif char.strip < 300:
-        "It's nice to look at her graceful and elegant moves."
-        $ char.strip += randint (1, 3)
-        $ hero.strip += randint (0, 1)
-        $ char.vitality -= 35
-        $ sex_scene_libido += 5
-    elif char.strip < 1000:
-        "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
-        $ char.strip += randint (1, 2)
-        $ hero.strip += randint (1, 2)
-        $ char.vitality -= 20
-        $ char.joy += 10
-        $ sex_scene_libido += 5
-    else:
-        "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in her eyes."
-        $ char.strip += randint (0, 1)
-        $ hero.strip += randint (1, 4)
-        $ char.vitality -= 20
-        $ char.joy += 15
-        $ sex_scene_libido += 10
-        $ guy_count +=1
-    if (char.strip - hero.strip) > 200:
-        "You learned something new about striptease as well. A pleasure to deal with professionals."
-        $ hero.strip += 2
-    elif (hero.strip - char.strip) > 200:
-        "You were able to show her some new tricks."
-        $ char.strip += 2
-    jump interaction_scene_choice
-        
 
 label int_sex_ok: # the character agrees to do it
     $ char.override_portrait("portrait", "shy")
@@ -1380,330 +1329,330 @@ label interaction_scene_mast:
 label interaction_scene_blowjob:
     # for bj we use after_sex tag if needed, and partnerhidden is an optional tag, since it's quite rare in some packs
     if sex_scene_location == "beach":
-        if char.has_image("bc blowjob", "beach", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc blowjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc blowjob", "beach", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc blowjob", "beach", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc blowjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc blowjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc blowjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc blowjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc blowjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc blowjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc blowjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc blowjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("bc blowjob", "nature", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc blowjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc blowjob", "nature", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc blowjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc blowjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc blowjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc blowjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc blowjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc blowjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc blowjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc blowjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc blowjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     else:
-        if char.has_image("bc blowjob", "living", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc blowjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("bc blowjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("bc blowjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
-        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
+        if char.has_image("bc blowjob", "living", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc blowjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("bc blowjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("bc blowjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
+        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc blowjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc blowjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc blowjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc blowjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc blowjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc blowjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc blowjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc blowjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc blowjob", "indoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     return
     
 label interaction_scene_titsjob:
     if sex_scene_location == "beach":
-        if char.has_image("bc titsjob", "beach", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc titsjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc titsjob", "beach", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc titsjob", "beach", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc titsjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc titsjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc titsjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc titsjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc titsjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc titsjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc titsjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc titsjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("bc titsjob", "nature", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc titsjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc titsjob", "nature", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc titsjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc titsjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc titsjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc titsjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc titsjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc titsjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc titsjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc titsjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc titsjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     else:
-        if char.has_image("bc titsjob", "living", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc titsjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("bc titsjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("bc titsjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
-        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
+        if char.has_image("bc titsjob", "living", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc titsjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("bc titsjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("bc titsjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
+        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc titsjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc titsjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc titsjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc titsjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc titsjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc titsjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc titsjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc titsjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc titsjob", "indoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     return
     
 label interaction_scene_handjob:
     if sex_scene_location == "beach":
-        if char.has_image("bc handjob", "beach", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc handjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc handjob", "beach", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc handjob", "beach", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc handjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc handjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc handjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc handjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc handjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc handjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc handjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc handjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("bc handjob", "nature", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc handjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc handjob", "nature", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc handjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc handjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc handjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc handjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc handjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc handjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc handjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc handjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc handjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     else:
-        if char.has_image("bc handjob", "living", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc handjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("bc handjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("bc handjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
-        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
+        if char.has_image("bc handjob", "living", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc handjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("bc handjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("bc handjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
+        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc handjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc handjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc handjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc handjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc handjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc handjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc handjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc handjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc handjob", "indoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     return
                
 label interaction_scene_footjob:
     if sex_scene_location == "beach":
-        if char.has_image("bc footjob", "beach", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc footjob", "beach", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc footjob", "beach", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc footjob", "beach", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc footjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc footjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc footjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc footjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc footjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc footjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc footjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc footjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("bc footjob", "nature", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc footjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("bc footjob", "nature", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc footjob", "nature", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc footjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc footjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc footjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc footjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc footjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc footjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc footjob", "outdoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc footjob", "outdoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     else:
-        if char.has_image("bc footjob", "living", exclude=["rape", "in pain"]):
-            $ gm.set_img("bc footjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain"], type="reduce")
-        elif char.has_image("bc footjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("bc footjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
-        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"]):
-            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon"], type="reduce")
+        if char.has_image("bc footjob", "living", exclude=["rape", "in pain", "restrained"]):
+            $ gm.set_img("bc footjob", "living", "partnerhidden", "urban", exclude=["rape", "in pain", "restrained"], type="reduce")
+        elif char.has_image("bc footjob", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("bc footjob", "indoors", "partnerhidden", "urban", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
+        elif char.has_image("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"]):
+            $ gm.set_img("after sex", "indoors", exclude=["angry", "in pain", "sad", "scared", "public", "dungeon", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["bc footjob", "simple bg"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "bc footjob"], "exclude": ["rape", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared"]})
+            $ tags = ({"tags": ["bc footjob", "simple bg"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "bc footjob"], "exclude": ["rape", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]}, {"tags": ["simple bg", "after sex"], "exclude": ["angry", "in pain", "sad", "scared", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc footjob", "simple bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[1]:
-                    $ gm.set_img("bc footjob", "no bg", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                    $ gm.set_img("bc footjob", "no bg", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
                 elif result == tags[2]:
-                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "no bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
                 else:
-                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared"])
+                    $ gm.set_img("after sex", "simple bg", exclude=["angry", "in pain", "sad", "scared", "restrained"])
             else:
-                $ gm.set_img("bc footjob", "indoors", "partnerhidden", exclude=["rape", "in pain"], type="reduce")
+                $ gm.set_img("bc footjob", "indoors", "partnerhidden", exclude=["rape", "in pain", "restrained"], type="reduce")
     return
     
 label interaction_scene_anal:
     if sex_scene_location == "beach":
-        if char.has_image("2c anal", "beach", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
-            $ gm.set_img("2c anal", "beach", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"])
+        if char.has_image("2c anal", "beach", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]):
+            $ gm.set_img("2c anal", "beach", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"])
         else:
-            $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
                 else:
-                    $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
             else:
-                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]})
                 $ result = get_act(char, tags)
                 if result:
                     if result == tags[0]:
-                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                     else:
-                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                 else:
-                    $ gm.set_img("2c anal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("2c anal", "nature", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
-            $ gm.set_img("2c anal", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("2c anal", "nature", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]):
+            $ gm.set_img("2c anal", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
                 else:
-                    $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
             else:
-                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]})
                 $ result = get_act(char, tags)
                 if result:
                     if result == tags[0]:
-                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                     else:
-                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                 else:
-                    $ gm.set_img("2c anal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
     else:
-        if char.has_image("2c anal", "living", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
-            $ gm.set_img("2c anal", "living", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("2c anal", "living", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]):
+            $ gm.set_img("2c anal", "living", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ tags = ({"tags": ["2c anal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]}, {"tags": ["no bg", "2c anal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
                 else:
-                    $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
             else:
-                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]})
                 $ result = get_act(char, tags)
                 if result:
                     if result == tags[0]:
-                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                     else:
-                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                 else:
-                    $ gm.set_img("2c anal", "indoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c anal", "indoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
     return
 
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
@@ -1757,78 +1706,77 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
             $ char.health -= 10
         else:
             $ char.vitality -= 20      
-    call interaction_scene_vaginal
     $ current_action = "vag"
-    jump interaction_vaginal_logic
+    jump interactions_sex_scene_logic_part
     
 label interaction_scene_vaginal:
     if sex_scene_location == "beach":
-        if char.has_image("2c vaginal", "beach", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
-            $ gm.set_img("2c vaginal", "beach", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared"])
+        if char.has_image("2c vaginal", "beach", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]):
+            $ gm.set_img("2c vaginal", "beach", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
+        elif char.has_image("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "beach", exclude=["angry", "in pain", "sad", "scared", "restrained"])
         else:
-            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
                 else:
-                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
             else:
-                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]})
                 $ result = get_act(char, tags)
                 if result:
                     if result == tags[0]:
-                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                     else:
-                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                 else:
-                    $ gm.set_img("2c vaginal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
     elif sex_scene_location == "park":
-        if char.has_image("2c vaginal", "nature", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
-            $ gm.set_img("2c vaginal", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("2c vaginal", "nature", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]):
+            $ gm.set_img("2c vaginal", "nature", "partnerhidden", "urban", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
+        elif char.has_image("after sex", "nature", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "nature", "urban", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
                 else:
-                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
             else:
-                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]})
                 $ result = get_act(char, tags)
                 if result:
                     if result == tags[0]:
-                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                     else:
-                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                 else:
-                    $ gm.set_img("2c vaginal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "outdoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
     else:
-        if char.has_image("2c vaginal", "living", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"]):
-            $ gm.set_img("2c vaginal", "living", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
-        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared"]):
-            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared"], type="reduce")
+        if char.has_image("2c vaginal", "living", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]):
+            $ gm.set_img("2c vaginal", "living", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
+        elif char.has_image("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"]):
+            $ gm.set_img("after sex", "living", exclude=["angry", "in pain", "sad", "scared", "restrained"], type="reduce")
         else:
-            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay"]})
+            $ tags = ({"tags": ["2c vaginal", "simple bg"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]}, {"tags": ["no bg", "2c vaginal"], "exclude": ["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"]})
             $ result = get_act(char, tags)
             if result:
                 if result == tags[0]:
-                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "simple bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
                 else:
-                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "no bg", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
             else:
-                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain"]})
+                $ tags = ({"tags": ["after sex", "simple bg"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]}, {"tags": ["no bg", "after sex"], "exclude": ["angry", "sad", "scared", "in pain", "restrained"]})
                 $ result = get_act(char, tags)
                 if result:
                     if result == tags[0]:
-                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("after sex", "simple bg", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                     else:
-                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain"])
+                        $ gm.set_img("no bg", "after sex", exclude=["angry", "sad", "scared", "in pain", "restrained"])
                 else:
-                    $ gm.set_img("2c vaginal", "indoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay"], type="reduce")
+                    $ gm.set_img("2c vaginal", "indoors", "partnerhidden", exclude=["rape", "angry", "sad", "scared", "in pain", "gay", "restrained"], type="reduce")
     return

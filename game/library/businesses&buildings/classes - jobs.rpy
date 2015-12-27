@@ -593,6 +593,7 @@
                             self.apply_stats()
                             self.finish_job()
                             return
+            else:
                 char.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a harlot." % char.name, "%s gets busy with a client." % char.fullname, "%s serves customers as a whore." % char.nickname]))
             return True
                
@@ -625,7 +626,7 @@
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if self.client.act == 'sex':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
                 self.txt.append(choice(["%s hired her for some good old straight sex. " % self.client.name, "%s is willing to pay for her pussy. " % self.client.name]))
                 if "Lesbian" in self.worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
                     skill = round(self.worker.get_skill("vaginal")*0.6 + self.worker.get_skill("sex")*0.15)
@@ -636,7 +637,7 @@
                     vaginalmod = 1 if dice(25) else 0
                     sexmod = 1 if dice(10) else 0
                 # Temporarily done here, should be moved to game init and after_load to improve performance:
-                tags = ({"tags": ["2c vaginal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c vaginal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]})
+                tags = ({"tags": ["2c vaginal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]})
                 act = self.get_act(tags)
                 if act == tags[0]:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
@@ -667,7 +668,7 @@
 
             # Anal Sex Act
             elif self.client.act == 'anal':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
                 self.txt.append(choice(["%s hired her for some anal fun. " % self.client.name, "%s is willing to pay her for backdoor action. " % self.client.name]))
                 if "Lesbian" in self.worker.traits:
                     skill = round(self.worker.get_skill("anal")*0.6 + self.worker.get_skill("sex")*0.15)
@@ -682,7 +683,7 @@
                                                       "Customer's dick got harder and harder just from the thought of %s's asshole! "%self.worker.nickname]))
                 
                 # Temporarely done here, should be moved to game init and after_load to improve performance:
-                tags = ({"tags": ["2c anal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]}, {"tags": ["2c anal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay"]})
+                tags = ({"tags": ["2c anal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]})
                 act = self.get_act(tags)
                 
                 if act == tags[0]:
@@ -695,7 +696,7 @@
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your anus is wrapping around me so tight!' \n"%self.worker.nickname)
                     self.img = self.worker.show("2c anal", "missionary", **kwargs)
                 elif act == tags[3]:
-                    self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
+                    self.txt.append("%s lays on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
                     self.img = self.worker.show("2c anal", "onside", **kwargs)
                 elif act == tags[4]:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
@@ -711,10 +712,10 @@
                 
             # Various job acts   
             elif self.client.act == 'blowjob':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay"], resize=size, type="reduce", add_mood=False)
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
                 self.txt.append(choice(["%s hired her for some side job on his thing. " % self.client.name, "%s is paying her today for naughty service. " % self.client.name]))
                 # here we will have to choose skills depending on selected act
-                tags = ({"tags": ["bc deepthroat"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc handjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc footjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc titsjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["bc blowjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["after sex"], "exclude": ["angry", "in pain", "dungeon", "sad"], "dice":20})
+                tags = ({"tags": ["bc deepthroat"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc handjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc footjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc titsjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc blowjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["after sex"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"], "dice":20})
                 act = self.get_act(tags)
                 if act == tags[0]:
                     self.txt.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
@@ -797,11 +798,10 @@
 
             # Lesbian Act
             elif self.client.act == 'lesbian':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad"], resize=size, type="reduce", add_mood=False)
                 self.txt.append("%s hired her for some hot girl on girl action. " % self.client.name)
                 skill = self.worker.get_skill("vaginal")
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad"], resize=size, type="reduce", add_mood=False)
-                tags = ({"tags": ["gay", "2c lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c vaginalfingering"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc vagnalhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c analfingering"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc analhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc hug", "2c hug"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c anal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc anal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c vaginaltoy"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc toypussy"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "2c analtoy"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "bc toyanal"], "exclude": ["angry", "in pain", "dungeon", "sad"]}, {"tags": ["gay", "scissors"], "exclude": ["angry", "in pain", "dungeon", "sad"]})
+                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "restrained"], resize=size, type="reduce", add_mood=False)
+                tags = ({"tags": ["gay", "2c lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c vaginalfingering"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc vagnalhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c analfingering"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc analhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc hug", "2c hug"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c anal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc anal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c vaginaltoy"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc toypussy"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "2c analtoy"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "bc toyanal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["gay", "scissors"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]})
                 act = self.get_act(tags)
                 # We'll be adding "les" here as Many lesbian pics do not fall in any of the categories and will never be called...
                 if act == tags[0]:
