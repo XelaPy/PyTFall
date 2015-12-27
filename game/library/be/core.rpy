@@ -34,8 +34,8 @@ init -1 python: # Core classes:
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
-            self.bg = bg # Background we'll use.
-            self.miragebg = Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)
+            self.bg = ConsitionSwitcher("default", {"default": bg, "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
+            # self.miragebg = Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)
                 
             self.music = music
             self.corpses = set() # Anyone died in the BE.
@@ -400,6 +400,7 @@ init -1 python: # Core classes:
                            attacker_action={},
                            attacker_effects={},
                            main_effect={},
+                           dodge_effect={},
                            target_sprite_damage_effect={},
                            target_damage_effect={},
                            target_death_effect={},
@@ -455,6 +456,9 @@ init -1 python: # Core classes:
             self.main_effect["sfx"] = main_effect.get("sfx", None)
             self.main_effect["start_at"] = main_effect.get("start_at", 0)
             self.main_effect["aim"] = dp.get("aim", {})
+            
+            self.dodge_effect = dodge_effect.copy()
+            self.dodge_effect["gfx"] = dodge_effect.get("gfx", True)
             
             self.target_sprite_damage_effect = target_sprite_damage_effect.copy()
             self.target_sprite_damage_effect["gfx"] = target_sprite_damage_effect.get("gfx", None)
@@ -893,6 +897,10 @@ init -1 python: # Core classes:
             if self.main_effect["gfx"] or self.main_effect["sfx"]:
                 self.time_main_gfx(battle, attacker, targets, start)
                 
+            # Dodging:
+            if self.dodge_effect["gfx"]: # <== Presently always True...
+                self.time_dodge_effect(targets, attacker, start)
+                
             # Now the damage effects to targets (like shaking):
             if self.target_sprite_damage_effect["gfx"] or self.target_sprite_damage_effect["sfx"]:
                 self.time_target_sprite_damage_effect(targets, died, start)
@@ -1105,16 +1113,21 @@ init -1 python: # Core classes:
             """Target damage graphical effects.
             """
             type = self.target_sprite_damage_effect.get("gfx", "shake")
-            if type == "shake":
-                for target in targets:
-                    renpy.show(target.betag, what=target.besprite, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
-            if isinstance(type, basestring) and type.startswith("fire"):
-                for target in targets:
+            # We want to overwrite any damage to sprite in case of a miss!
+            
+            for target in targets:
+                if type == "shake":
+                    what = target.besprite
+                    at_list = [damage_shake(0.05, (-10, 10))]
+                elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":
-                        renpy.show(target.betag, what=what, zorder=target.besk["zorder"])
+                        at_list = []
                     elif type == "fire_shake":
-                        renpy.show(target.betag, what=what, at_list=[damage_shake(0.05, (-10, 10))], zorder=target.besk["zorder"])
+                        at_list=[damage_shake(0.05, (-10, 10))]
+                
+                if "what" in locals() and not "missed_hit" in target.beeffects:
+                    renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
                     
         def hide_target_sprite_damage_effect(self, targets, died):
             # Hides damage effects applied to targets:
@@ -1145,10 +1158,15 @@ init -1 python: # Core classes:
                 for index, target in enumerate(targets):
                     if target not in died or force:
                         tag = "bb" + str(index)
-                        s = "%s"%target.beeffects[0]
-                        if "critical_hit" in target.beeffects:
-                            s = "\n".join([s, "Critical hit!"])
-                        txt = Text(s, style="TisaOTM", min_width=200, text_align=0.5, color=getattr(store, target.dmg_font), size=18)
+                        if "missed_hit" in target.beeffects:
+                            s = "Missed"
+                            color = getattr(store, target.dmg_font)
+                        else:
+                            s = "%s"%target.beeffects[0]
+                            if "critical_hit" in target.beeffects:
+                                s = "\n".join([s, "Critical hit!"])
+                            color = getattr(store, target.dmg_font)
+                        txt = Text(s, style="TisaOTM", min_width=200, text_align=0.5, color=color, size=18)
                         renpy.show(tag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-20))], zorder=target.besk["zorder"]+2)
                         target.dmg_font = "red"
             
@@ -1215,16 +1233,45 @@ init -1 python: # Core classes:
         def show_bg_main_effect(self):
             gfx = self.bg_main_effect["gfx"]
             sfx = self.bg_main_effect.get("sfx", None)
-            # duration = self.target_death_effect["duration"]
             
             if sfx:
                 renpy.sound.play(sfx)
                 
             if gfx == "mirrage":
-                renpy.show("bg", what=battle.miragebg)
+                battle.bg.change("mirrage")
                 
         def hide_bg_main_effect(self):
-            renpy.show("bg", what=battle.bg)
+            battle.bg.change("default")
+            
+        def time_dodge_effect(self, targets, attacker, start):
+            effect_start = start - 0.3
+            if effect_start < 0:
+                effect_start = 0
+            
+            if effect_start in self.timestamps:
+                effect_start = effect_start + random.uniform(0.001, 0.002)
+            self.timestamps[effect_start] = renpy.curry(self.show_dodge_effect)(attacker, targets)
+            
+            # delay = effect_start + self.bg_main_effect["duration"]
+            # if delay in self.timestamps:
+                # delay = delay + random.uniform(0.001, 0.002)
+            
+            # self.timestamps[delay] = self.hide_bg_main_effect
+                    
+        def show_dodge_effect(self, attacker,  targets):
+            # gfx = self.dodge_effect["gfx"]
+            # sfx = self.dodge_effect.get("sfx", None)
+            
+            # if sfx:
+                # renpy.sound.play(sfx)
+                
+            for target in targets:
+                if "missed_hit" in target.beeffects:
+                    xoffset = -100 if battle.get_cp(attacker)[0] > battle.get_cp(target)[0] else 100
+                    renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset)], zorder=target.besk["zorder"])
+                
+        def hide_dodge_effect(self):
+            pass
             
             
     class BE_AI(object):
