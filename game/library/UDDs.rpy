@@ -416,6 +416,40 @@ init -999 python:
             return self.d
             
             
+    class ConsitionSwitcher(renpy.Displayable):
+        """This plainly switches conditions without reshowing the image/changing any variables by calling update_d() method.
+        
+        Presently this is only used in BE to handle BG conditioning.
+        This may have to be expanded to handle ATL instructions properly. Just a test for now.
+        """
+        def __init__(self, start_condition, conditions=None, **kwargs):
+            """Expects a dict of conditions={"string": displayable}
+            
+            Default is Null() unless specified otherwise.
+            """
+            super(ConsitionSwitcher, self).__init__(**kwargs)
+            if not isinstance(conditions, dict):
+                self.conditions = {"default": Null()}
+            else:
+                self.conditions = {c: renpy.easy.displayable(d) for c, d in conditions.iteritems()}
+                self.conditions["default"] = conditions.get("default", Null())
+                
+            self.d = self.conditions.get(start_condition, self.conditions["default"])
+            
+        def change(self, condition):
+            self.d = self.conditions.get(condition, self.conditions["default"])
+            
+        def render(self, width, height, st, at):
+            render = renpy.Render(width, height)
+            cr = self.d.render(width, height, st, at)
+            render.blit(cr, (0, 0))
+            renpy.redraw(self, 0)
+            return render
+            
+        def visit(self):
+            return self.conditions.values()
+            
+            
 init python:
     def get_size(d):
         d = renpy.easy.displayable(d)
