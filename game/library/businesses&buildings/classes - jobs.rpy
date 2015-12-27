@@ -719,33 +719,33 @@
                 if act == tags[0]:
                     self.txt.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
                     if "Lesbian" in self.worker.traits:
-                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.65)
+                        skill = round(self.worker.get_skill("oral")*0.65 + self.worker.get_skill("sex")*0.1)
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
-                        skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
+                        skill = round(self.worker.get_skill("oral")*0.8 + self.worker.get_skill("sex")*0.2)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     self.img = self.worker.show("bc deepthroat", **kwargs)
                 elif act == tags[1]:
                     self.txt.append("He told %s to give him a good handjob.\n"%self.worker.nickname)
                     if "Lesbian" in self.worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
-                        skill = round(self.worker.get_skill("oral")*0.6 + self.worker.get_skill("sex")*0.1)
+                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.6)
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
-                        skill = round(self.worker.get_skill("oral")*0.75 + self.worker.get_skill("sex")*0.25)
+                        skill = round(self.worker.get_skill("oral")*0.25 + self.worker.get_skill("sex")*0.75)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     self.img = self.worker.show("bc handjob", **kwargs)
                 elif act == tags[2]:
                     self.txt.append(choice(["He asked her for a footjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
                     if "Lesbian" in self.worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
-                        skill = round(self.worker.get_skill("oral")*0.6 + self.worker.get_skill("sex")*0.1)
+                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.6)
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
-                        skill = round(self.worker.get_skill("oral")*0.75 + self.worker.get_skill("sex")*0.25)
+                        skill = round(self.worker.get_skill("oral")*0.25 + self.worker.get_skill("sex")*0.75)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     self.img = self.worker.show("bc footjob", **kwargs)                    
@@ -781,11 +781,11 @@
                 elif act == tags[5]:
                     self.txt.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
                     if "Lesbian" in self.worker.traits:
-                        skill = round(self.worker.get_skill("oral")*0.1 + self.worker.get_skill("sex")*0.65)
+                        skill = round(self.worker.get_skill("oral")*0.65 + self.worker.get_skill("sex")*0.1)
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                     else:
-                        skill = round(self.worker.get_skill("oral")*0.2 + self.worker.get_skill("sex")*0.8)
+                        skill = round(self.worker.get_skill("oral")*0.8 + self.worker.get_skill("sex")*0.2)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
                     self.img = self.worker.show("bc blowjob", **kwargs)

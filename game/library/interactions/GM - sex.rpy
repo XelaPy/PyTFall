@@ -1,6 +1,6 @@
 init python:
 
-    def get_act(character, tags): # copypaste from jobs without the self part
+    def get_act(character, tags): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
             acts = list()
             for t in tags:
                 if isinstance(t, tuple):
@@ -34,15 +34,16 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
     if price <= 0:
         "You managed to charm her and get free service."
-    # else:
-        # if check_friends(char, hero):
-            # $ price = round(price * 0.7)
-        # if ct("Lesbian"):
-            # $ price = round(price * 1.5)
-        # if ct("Nymphomaniac"):
-            # $ price = round(price * 0.9)
-        # elif ct("Frigid"):
-            # $ price = round(price * 1.1)
+        jump interactions_sex_scene_select_place
+    else:
+        if check_friends(char, hero):
+            $ price = round(price * 0.7)
+        if ct("Lesbian"):
+            $ price = round(price * 1.5)
+        if ct("Nymphomaniac"):
+            $ price = round(price * 0.9)
+        elif ct("Frigid"):
+            $ price = round(price * 1.1)
            
     if ct("Impersonal"): 
         $rc("Affirmative. It will be %d G." % price, "Calculations completed. %d G to proceed." % price)
@@ -90,6 +91,8 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                 $ del price
                 jump girl_interactions
     $ del price
+    
+label interactions_sex_scene_select_place: # we go here if price for hiring is less than 0, ie no money checks and dialogues required; or after money check was successful
     if ct("Shy") or ct("Dandere"):
         "[char.name] is too shy to do it anywhere. You go to her room."
         show bg girl_room with fade
@@ -114,10 +117,10 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     jump interactions_sex_scene_begins
                     
 label interactions_sex: # we go to this label from GM menu propose sex
-    "You propose to have sex."
+    "You propose [char.name] to have sex."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-    if char.flag("quest_cannot_be_fucked") == True:
+    if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call int_sex_nope
         jump girl_interactions
     if ct("Lesbian"):
@@ -150,7 +153,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
             $ disposition_level_for_sex += randint(50, 100)
         else:
             $ disposition_level_for_sex -= randint(50, 100)
-    # so normal (without flag) required level could be from -400 to 1200
+    # so normal (without flag) required level of disposition could be from 200 to 1200 for non lovers
     if disposition_level_for_sex < 100:
         $ disposition_level_for_sex = 100 # normalisation, no free sex with too low disposition no matter the character
     if char.disposition < disposition_level_for_sex:
@@ -160,7 +163,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         if dif < 40:
             $ char.disposition -= randint(1, dif+1) # if it's low, then disposition penalty will be low too
         else:
-            $ char.disposition -= randint(15, (45+10*sub)) # otherwise it will be significant
+            $ char.disposition -= randint(15, (45+15*sub)) # otherwise it will be significant
         $ del dif
         jump girl_interactions
     else:
@@ -261,8 +264,8 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
             else: # screw it, show the closest possible of remained ones
                 $ gm.generate_img("indoors", "living", "indoor", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
 
-    $ sex_count = les_count = guy_count = girl_count = together_count = cum_count = 0
-    if ct("Nymphomaniac"):
+    $ sex_count = les_count = guy_count = girl_count = together_count = cum_count = 0 # these variable will decide the outcome of sex scene
+    if ct("Nymphomaniac"): # let's begin to modify libido based on traits
         $ sex_scene_libido += 4
     elif ct("Frigid"):
         $ sex_scene_libido += 2
@@ -271,9 +274,9 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     if ct ("Messy"):
         $ sex_scene_libido += 1
     if check_lovers(hero, char):
-        $ sex_scene_libido += 2
+        $ sex_scene_libido += 1
     elif cgo("SIW"):
-        $ sex_scene_libido += 2
+        $ sex_scene_libido += 1
     if ct("Extremely Jealous"):
         $ sex_scene_libido += 1
     if ct("Virgin"):
@@ -285,17 +288,14 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     elif ct("Furry"):
         $ sex_scene_libido += 1
     elif ct("Demonic Creature"):
-        $ sex_scene_libido += 2
+        $ sex_scene_libido += 1
     if ct("Indifferent"):
         $ sex_scene_libido -= 2
     if ct("Impersonal"):
         $ sex_scene_libido -= 1
     if sex_scene_libido < 2:
-        $ sex_scene_libido = 2 # normalization, at worst you will do it 1-2 times
+        $ sex_scene_libido = 2 # normalization, at worst you will do it 2 times
     jump interaction_scene_choice
-
-
-        
         
 label interaction_scene_choice: # here we select specific scene, show needed image, jump to scene logic and return here after every scene
     if char.vitality <=5:
@@ -326,19 +326,21 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         
         "Ask for striptease": 
             call interaction_scene_strip
+            $ current_action = "strip"
             jump interaction_strip_logic
             
         "Ask her to play with herself" if char.has_image("masturbation", exclude=["forced", "normalsex", "group", "bdsm"]):
             call interaction_scene_mast
+            $ current_action = "mast"
             jump interaction_mast_logic
             
         "Ask for a blowjob" if (char.has_image("bc blowjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))): 
-            call interaction_scene_blowjob
-            jump interaction_blowjob_logic
+            $ current_action = "blow"
+            jump interactions_sex_scene_logic_part
             
         "Ask for paizuri" if (char.has_image("bc titsjob", exclude=["rape", "in pain"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"]))):
-            call interaction_scene_titsjob
-            jump interaction_titsjob_logic
+            $ current_action = "tits"
+            jump interactions_sex_scene_logic_part
             
         "Ask for a handjob" if (char.has_image("bc handjob", exclude=["rape", "in pain"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             call interaction_scene_handjob
@@ -346,6 +348,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
             
         "Ask for a footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             call interaction_scene_footjob
+            $ current_action = "foot"
             jump interaction_footjob_logic
             
         "Ask for sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
@@ -353,13 +356,16 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                 jump interaction_check_for_virginity
             else:
                 call interaction_scene_vaginal
+                $ current_action = "vag"
                 jump interaction_vaginal_logic
                 
         "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared"])):
             call interaction_scene_anal
+            $ current_action = "anal"
             jump interaction_anal_logic
             
         "That's all.":
+            $ del current_action
             "You decided to finish."
 
             
@@ -615,58 +621,75 @@ label interactions_lesbian_choice:
     jump interaction_scene_choice
     
     
-
-label interaction_blowjob_logic:
+label interactions_sex_scene_logic_part: # here we resolve all logic for changing stats and showing lines after picking a sex scene
     if sex_scene_libido <= 0:
-        $ char.vitality -= 20
-        $ char.joy -= 5
+        $ char.vitality -= randint(5, 25)
+        $ char.joy -= randint(3, 6)
     if char.joy <= 10:
-        $ char.disposition -= 5
+        $ char.disposition -= randint(5, 10)
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
-    "She licks and sucks your dick until you come."
-    if char.oral < 50:
-        "She clearly needs more training, so it took some time. But at least she learned something new."
-        $ char.oral += randint (3, 5)
-        $ hero.oral += randint (0, 1)
-        $ char.vitality -= 30
-        $ hero.vitality -= 30
-        $ sex_scene_libido -= 5
-    elif char.oral < 300:
-        "It was pretty good."
-        $ char.oral += randint (2, 4)
-        $ hero.oral += randint (0, 2)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-        $ sex_scene_libido -= 5
-    elif char.oral < 1000:
-        "It was very good."
-        $ char.oral += randint (1, 3)
-        $ hero.oral += randint (1, 3)
-        $ char.vitality -= 25
-        $ hero.vitality -= 25
-        $ char.joy += 1
-    else:
-        "She was so good that you came after a few seconds. Wow."
-        $ char.oral += randint (0, 2)
-        $ hero.oral += randint (1, 4)
-        $ char.vitality -= 20
-        $ hero.vitality -= 20
-        $ char.joy += 2
-        $ sex_scene_libido += 5
-        $ sex_count += 1
-        $ guy_count +=1
-    if (char.oral - hero.oral) > 200:
-        "You learned something new about oral as well. A pleasure to deal with professionals."
-        $ hero.oral += 2
-    elif (hero.oral - char.oral) > 200:
-        "You were able to show her some new tricks."
-        $ char.oral += 2
     $ sex_count += 1
-    $ guy_count +=1
-    $ cum_count += 1
+    if current_action == "blow":
+        call interaction_scene_blowjob
+        $ image_tags = gm.img.get_image_tags()
+        if "bc deepthroat" in image_tags:
+            "She shoved your dick all the way into her throat, sucking on it until you come."
+        elif "after sex" in image_tags:
+            "She licks and sucks your dick. At the last moment you take it out from her mouth, covering her body with your thick liquid."
+        else:
+            "She licks and sucks your dick until you come."
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("oral")*0.65 + char.get_skill("sex")*0.1)
+        else:
+            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.2)
+        call interaction_sex_scene_check_skill_jobs
+    elif current_action == "tits":
+        call interaction_scene_titsjob
+        $ image_tags = gm.img.get_image_tags()
+        if ct("Big Boobs"):
+            "She warps her soft big breasts around your dick and stimulates it until you come."
+        elif ct("Abnormally Large Boobs"):
+            "You almost lost your dick in her enormous breasts. She stimulates it until you come."
+        elif ct("Small Boobs"):
+            "She rubs her small boobs against your dick until you come."
+        else:
+            "She caress your dick with her soft breasts until you come."
+        if "after sex" in image_tags:
+            "At the last moment you take it away from her chest, covering her body with your thick liquid."
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("oral")*0.6 + char.get_skill("sex")*0.1)
+        else:
+            $ skill_for_checking = round(char.get_skill("oral")*0.75 + char.get_skill("sex")*0.25)
+        call interaction_sex_scene_check_skill_jobs
     jump interaction_scene_choice
+    
+label interaction_sex_scene_check_skill_jobs: # skill level check for one side actions
+    if skill_for_checking >= 4000:
+        "She was so good that you profusely came after a few seconds. Pretty impressive."
+        $ char.joy += (3, 5)
+    elif skill_for_checking >= 2000:
+        "You barely managed to hold out for half a minute in the face of her amazing skills."
+        $ char.joy += (2, 4)
+    elif skill_for_checking >= 1000:
+        "It was very fast and very satisfying."
+        $ char.joy += (1, 2)
+    elif skill_for_checking >= 500:
+        "Nothing extraordinary, but it wasn't half bad either."
+        $ char.joy += (0, 1)
+    elif skill_for_checking >= 200:
+        "It took some time and effort on her part, her skills could definitely be improved."
+    elif skill_for_checking >= 50:
+        "Looks like [char.name] barely knows what she's doing. Still, she somewhat managed to get the job done."
+        $ char.vitality -= randint(5, 10)
+    else:
+        $ char.vitality -= randint(10, 15)
+        "Her moves were clumsy and untimely. By the time she finished the moment had passed, bringing you no satisfaction."
+    if skill_for_checking >= 100:
+        $ cum_count += 1
+    if skill_for_checking >= 50:
+        $ guy_count +=1
+    return
         
 label interaction_titsjob_logic:
     if sex_scene_libido <= 0:
@@ -1735,6 +1758,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
         else:
             $ char.vitality -= 20      
     call interaction_scene_vaginal
+    $ current_action = "vag"
     jump interaction_vaginal_logic
     
 label interaction_scene_vaginal:

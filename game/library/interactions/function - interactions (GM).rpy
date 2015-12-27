@@ -42,7 +42,7 @@ init -11 python:
         elif char_name.vitality < 35 and dice (30):
             narrator(choice(["But she is simply too tired to pay any serious attention to you.", "But she so tired she almost falls asleep on the move."]))
             char_name.disposition -= randint(0, 1)
-            char_name.vitality -= 3
+            char_name.vitality -= randint(1, 3)
             renpy.jump("girl_interactions_end")
             
     def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
