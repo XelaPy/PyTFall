@@ -184,6 +184,9 @@ label dev_testing_menu:
                     "Test Vortex":
                         call test_vortex
                         jump dev_testing_menu
+                    "Quality Test":
+                        call screen testing_image_quality
+                        jump dev_testing_menu
                     "FilmStrip":
                         call screen testing_new_filmstrip
                         jump dev_testing_menu
