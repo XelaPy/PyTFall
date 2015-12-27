@@ -1068,7 +1068,10 @@ init -1 python: # Core classes:
             
             # GFX:
             if gfx:
-                # pause = self.main_effect["duration"]
+                # Flip the attack image if required:
+                if self.main_effect.get("hflip", None):
+                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
                 anchor = aim.get("anchor", (0.5, 0.5))

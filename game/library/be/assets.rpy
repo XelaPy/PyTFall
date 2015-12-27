@@ -79,6 +79,7 @@ init -1: # Images and Animations
         FilmStrip('content/gfx/be/filmstrips/fire_6.png', (192, 192), (5, 6), 0.05, loop=True)
         rotate 0
         linear 1.5 rotate 360
+    image cataclysm_sideways = FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=False)
 
     image water_1 = FilmStrip('content/gfx/be/filmstrips/water_1.png', (192, 192), (5, 3), 0.1, loop=False)
     image water_2 = FilmStrip('content/gfx/be/filmstrips/water_2.png', (192, 192), (5, 4), 0.1, loop=False)
@@ -273,10 +274,10 @@ init 2 python:
     
     SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor from the atmosphere directly above the target.",
                                        attacker_effects={"gfx": "orb", "sfx": "default"},
-                                       main_effect={"gfx": Transform('cataclysm', yzoom=1.3, xzoom=1.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"point": "bc", "anchor": (0.5, 0.8), "yo": 0}, "start_at": 0},
-                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
-                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
-                                       target_death_effect={"gfx": "hide",  "initial_pause": 3.5, "duration": 0.001})
+                                       main_effect={"gfx": Transform('cataclysm_sideways', xzoom=-1), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
+                                       target_sprite_damage_effect={"gfx": "fire", "initial_pause": 1.2, "duration": 0.6},
+                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
+                                       target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5})
     # TODO:
     ArealMagicalAttack("True Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                     desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",

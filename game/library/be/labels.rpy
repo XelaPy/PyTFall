@@ -20,7 +20,7 @@ label test_be:
             enemy_team.add(mob)
         # Add new attack types to see how they look on the other side:
         for m in enemy_team:
-            m.magic_skills.append(battle_skills["True Cataclysm"])
+            m.magic_skills.append(battle_skills["Cataclysm"])
             # m.magic_skills.append(battle_skills["Pure Ion Storm"])
             
         
