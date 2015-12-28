@@ -655,6 +655,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     elif current_action == "blow":
         call interaction_scene_blowjob
         $ image_tags = gm.img.get_image_tags()
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("oral")*0.65 + char.get_skill("sex")*0.1)
+        else:
+            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.2)
         if sub > 0:
             "[char.name] licks her lips, defiantly looking at your crotch."
             if "bc deepthroat" in image_tags:
@@ -679,10 +683,6 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " She licks and sucks your dick. At the last moment she asked you to take it out from her mouth to cover her body with your thick liquid."
             else:
                 extend " She licks and sucks it until you come."
-        if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.65 + char.get_skill("sex")*0.1)
-        else:
-            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.2)
         call interaction_sex_scene_check_skill_jobs
     elif current_action == "tits":
         call interaction_scene_titsjob
@@ -694,20 +694,13 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         else:
             "[char.name] playfully grabs her boobs, looking at you."
         if ct("Big Boobs"):
-            extend " She warps her soft big breasts around your dick and stimulates it until you come."
+            extend " She warps her soft big breasts around you."
         elif ct("Abnormally Large Boobs"):
-            extend " You almost lost your dick in her enormous breasts as they envelop you. She teases you until you come."
+            extend " You almost lost yourself in her enormous breasts as they envelop you."
         elif ct("Small Boobs"):
-            extend " She assiduously rubs her small boobs against your dick until you come."
+            extend " She begins to assiduously rub her small breasts around you."
         else:
-            extend " She squeezes your dick between her soft breasts until you come."
-        if "after sex" in image_tags:
-            if sub > 0:
-                "At the last moment she pulls away, covering herself with your thick liquid."
-            elif sub < 0:
-                "At the last moment you take it away from her chest, covering her body with your thick liquid."
-            else:
-                "At the last moment she asked you to take it away from her chest to cover her body with your thick liquid."
+            extend " She squeezes you between her soft breasts."
         if ct("Lesbian"):
             $ skill_for_checking = round(char.get_skill("oral")*0.6 + char.get_skill("sex")*0.1)
         else:
@@ -716,9 +709,12 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     elif current_action == "hand":
         call interaction_scene_handjob
         $ image_tags = gm.img.get_image_tags()
-        "She takes your dick in her soft hands and stimulates it until you come."
-        if "after sex" in image_tags:
-            extend " You generously cover her body with your thick liquid."
+        if sub > 0:
+            "[char.name] grabs you with her soft hands."
+        elif sub < 0:
+            "[char.name] wraps her soft hands around your dick."
+        else:
+            "[char.name] takes your dick in her soft hands."
         if ct("Lesbian"):
             $ skill_for_checking = round(char.get_skill("oral")*0.1 + char.get_skill("sex")*0.6)
         else:
@@ -817,6 +813,59 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     jump interaction_scene_choice
     
 label interaction_sex_scene_check_skill_jobs: # skill level check for one side actions
+    if current_action == "hand":
+        if skill_for_checking <= 200:
+            if sub > 0:
+                $ narrator(choice(["She strokes you a bit too quickly, the friction is a bit uncomfortable.", "She begins to stroke you very quickly. But because of the speed your cock often slips out of her hand."]))
+            elif sub < 0:
+                $ narrator(choice(["She strokes you gently. She isn't quite sure however what to make of the balls.", "She makes up for her inexperience with determination, carefully stroking your cock."]))
+            else:
+                $ narrator(choice(["She squeezes one of your balls too tightly, but stops when you wince.", "She has a firm grip, and she's not letting go."]))
+        elif skill_for_checking <= 1000:
+            if sub > 0:
+                $ narrator(choice(["Her fingers cause tingles as they caress the shaft.", "She quickly strokes you, with a very deft pressure."]))
+            elif sub < 0:
+                $ narrator(choice(["She gently caresses the shaft, and cups the balls in her other hand, giving them a warm massage.", "She moves very smoothly, stroking casually and very gently."]))
+            else:
+                $ narrator(choice(["Her hands glide smoothly across it.", "She moves her hands up and down. She's a little rough at this, but at she tries her best."]))
+        else:
+            if sub > 0:
+                $ narrator(choice(["Her movements are masterful, her slightest touch starts you twitching.", "Her expert strokes will have you boiling over in seconds."]))
+            elif sub < 0:
+                $ narrator(choice(["She gently blows across the tip as her finger dance along the shaft.", "She slowly caresses you in a way that makes your blood boil, then pulls back at the last second."]))
+            else:
+                $ narrator(choice(["She knows what to do now, and rubs you with smooth strokes, focusing occasionally on the head.", "You can't tell where her hand is at any moment, all you know is that it works."]))
+        if "after sex" in image_tags:
+            "Soon you generously cover her body with your thick liquid."
+    elif current_action == "tits":
+        if skill_for_checking <= 200:
+            if sub > 0:
+                $ narrator(choice(["She kind of bounces her tits around your cock.", "She tries to quickly slide the cock up and down between her cleavage, but it tends to slide out."]))
+            elif sub < 0:
+                $ narrator(choice(["She slides the cock up and down between her cleavage.", "She squeezes her cleavage as tight as she can and rubs up and down."]))
+            else:
+                $ narrator(choice(["She sort of squishes her breasts back and forth around your cock.", "She slaps her tits against your dick, bouncing her whole body up and down."]))
+        elif skill_for_checking <= 1000:
+            if sub > 0:
+                $ narrator(choice(["She juggles her breasts up and down around your cock.", "She moves her boobs up and down in a fluid rocking motion."]))
+            elif sub < 0:
+                $ narrator(choice(["She gently caresses the shaft between her tits.", "She lightly brushes the head with her chin as it pops up between her tits."]))
+            else:
+                $ narrator(choice(["Sometimes she pauses to rub her nipples across the shaft.", "She rapidly slides the shaft between her tits"]))
+        else:
+            if sub > 0:
+                $ narrator(choice(["She rapidly rocks her breasts up and down around your cock, covering them with drool to keep things well lubed.", "In as she strokes faster and faster, she bends down to suck on the head."]))
+            elif sub < 0:
+                $ narrator(choice(["In between strokes she gently sucks on the head.", "She drips some spittle down to make sure you're properly lubed."]))
+            else:
+                $ narrator(choice(["She licks away at the head every time it pops up between her tits.", "She dancers her nipples across the shaft."]))
+        if "after sex" in image_tags:
+            if sub > 0:
+                "At the last moment she pulls away, covering herself with your thick liquid."
+            elif sub < 0:
+                "At the last moment you take it away from her chest, covering her body with your thick liquid."
+            else:
+                "At the last moment she asked you to take it away from her chest to cover her body with your thick liquid."
     if skill_for_checking >= 4000:
         "She was so good that you profusely came after a few seconds. Pretty impressive."
         $ char.joy += (3, 5)
