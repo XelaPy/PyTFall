@@ -376,8 +376,7 @@ init -1 python: # Core classes:
             return str(self.name)
                 
         def check_conditions(self):
-            """
-            Should return True/False to allow event execution.
+            """Should return True/False to allow event execution.
             """
             pass
         
@@ -396,7 +395,7 @@ init -1 python: # Core classes:
         """
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, desc="", pause=0,
+                           add2skills=True, desc="", pause=0, target_state="alive",
                            attacker_action={},
                            attacker_effects={},
                            main_effect={},
@@ -436,6 +435,7 @@ init -1 python: # Core classes:
             self.multiplier = multiplier
             self.death_effect = death_effect
             self.desc = desc
+            self.target_state = target_state
             
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
@@ -494,15 +494,13 @@ init -1 python: # Core classes:
             Gets tagets that can be hit with this action.
             Rows go [0, 1, 2, 3] from left to right of the battle-field.
             """
-            if source:
-                char = source
-            else:
-                char = self.source
-                
+            char = source if source else self.source
+            
             # First figure out all targets within the range:
             # We calculate this by assigning.
             target_rows = range(char.row - self.range, char.row + 1 + self.range)
-            in_range = set(f for f in battle.get_fighters() if f.row in target_rows)
+            all_targets = battle.get_fighters(self.target_state)
+            in_range = set(f for f in all_targets if f.row in target_rows)
             
             if any(t for t in in_range if isinstance(t, basestring)):
                 raise Exception(in_range)
@@ -563,8 +561,11 @@ init -1 python: # Core classes:
                         # else, there is are no defenders at all anywhere...
                         else:
                             in_range = in_range.union(battle.get_fighters(rows=[0]))
-                
-            return list(in_range) # So we can support indexing...
+            
+            # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
+            in_range = [i for i in in_range if i in all_targets]
+            
+            return in_range # List: So we can support indexing...
             
         def check_conditions(self, source=None):
             if source:

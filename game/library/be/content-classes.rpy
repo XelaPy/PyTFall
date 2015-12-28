@@ -142,29 +142,8 @@ init python:
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
-                
-                
-    # Simple Magic:
-    # class SimpleMagicalAttack(SimpleAttack):
-        # """Simplest attack, usually simple magic.
-        # """
-        # def __init__(self, name, aim="bc", xo=0, yo=0, pause=0.5, cost=5, anchor=(0.5, 1.0), casting_effects=["default_1", "default"], **kwargs):
-            # super(SimpleMagicalAttack, self).__init__(name, **kwargs)
-             
-            # # Aiming properties:
-            # self.aim = aim
-            # self.xo = xo
-            # self.yo = yo
-             
-            # # Rest:
-            # self.cost = cost
-            # self.anchor = anchor
-            # self.pause = pause
-             
-            # # Casting effects:
-            # self.casting_effects = casting_effects
             
-    # Simple Magic:
+            
     class SimpleMagicalAttack(BE_Action):
         """Simplest attack, usually simple magic.
         """
@@ -496,7 +475,7 @@ init python:
             
             for t in targets:
                 if not self.check_resistance(t):
-                    # We get the mupliplier and any effects that those may bring.
+                    # We get the multi and any effects that those may bring.
                     effects, multiplier = self.get_attributes_multiplier(t, attributes)
                     restore = int(restore*multiplier)
                 else: # resisted
@@ -506,8 +485,7 @@ init python:
                     
                 effects.insert(0, restore)
                 t.beeffects = effects
-            
-                # String for the log:
+                
                 # String for the log:
                 s = list()
                 s.append("%s used %s to restore HP of %s!" % (char.nickname, self.name, t.name))
@@ -578,8 +556,56 @@ init python:
                     s = s + self.effects_for_string(t)
                     
                     battle.log("".join(s))
- 
+                    
+                    
+    class ReviveSpell(SimpleMagicalAttack):
+        def __init__(self, name, **kwargs):
+            super(ReviveSpell, self).__init__(name, **kwargs)
             
+        def check_conditions(self, source=None):
+            char = source if source else self.source
+            if char.mp - self.cost >= 0:
+                if self.get_targets(char):
+                    return True
+                
+        def effects_resolver(self, targets):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            char = self.source
+            attributes = self.attributes
+            
+            for t in targets:
+                minh, maxh = int(t.get_max("health")*0.3), int(t.get_max("health")*0.5)
+                revive = randint(minh, maxh)
+                
+                effects = list()
+                effects.insert(0, revive)
+                t.beeffects = effects
+                
+                # String for the log:
+                s = list()
+                s.append("%s brings %s back!" % (char.nickname, t.name))
+                
+                s = s + self.effects_for_string(t, default_color="green")
+                
+                battle.log("".join(s))
+                
+        def apply_effects(self, targets):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+                
+            for t in targets:
+                battle.corpses.remove(t)
+                minh, maxh = int(t.get_max("health")*0.3), int(t.get_max("health")*0.5)
+                t.health = t.beeffects[0]
+            return []
+            
+        def show_main_gfx(self, battle, attacker, targets):
+            for target in targets:
+                renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(start_val=0, end_val=1.0, t=1.0, wait=0.5)], zorder=target.besk["zorder"])
+            super(ReviveSpell, self).show_main_gfx(battle, attacker, targets)
+        
+    
 init python: # Helper Functions:
     def death_effect(char, kind, sfx=None, pause=False):
         if kind == "shatter":

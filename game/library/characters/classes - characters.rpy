@@ -1,4 +1,4 @@
-# Characters classes and methods
+# Characters classes and methods:
 init -9 python:
     ###### Character Helpers ######
     class SmartTracker(_list):

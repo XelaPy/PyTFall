@@ -6,7 +6,7 @@ init: # screens:
             $ return_all = True
             
         for t in targets:
-            $ pos = battle.get_cp(t, type="tc", yo=-20)
+            $ pos = battle.get_cp(t, type="tc", yo=-40)
             imagebutton:
                 pos pos
                 xanchor 0.5
@@ -22,6 +22,9 @@ init: # screens:
                 if return_all: 
                     hovered SetScreenVariable("highlight_idle", True)
                     unhovered SetScreenVariable("highlight_idle", False)
+                    
+            if t in battle.corpses:
+                add Transform(t.besprite, pos=t.cpos, alpha=0.4)
                     
         if config.developer:
             textbutton "Terminate":

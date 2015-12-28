@@ -194,6 +194,7 @@ init -1: # Images and Animations
         linear 1.0 rotate 360
     image heal_1 = FilmStrip('content/gfx/be/filmstrips/heal_1.png', (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip('content/gfx/be/filmstrips/heal_2.png', (192, 192), (5, 5), 0.1, loop=False)
+    image resurrection = FilmStrip('content/gfx/be/filmstrips/resurrection2x.png', (288, 247), (5, 4), 0.1, loop=False)
     image bg test_grid = "content/gfx/bg/maps/map17x6.jpg"
 
 # Skillz:
@@ -531,6 +532,14 @@ init 2 python:
                                   target_sprite_damage_effect={"gfx": None},
                                   target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                   target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
+    ReviveSpell(u"Revive", attributes=['magic', 'revive'], effect=10, cost=10, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
+                         desc="Bring an ally back to the battlefield!",
+                         attacker_action={"gfx": None},
+                         attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                         main_effect={"gfx": Transform("resurrection", zoom=1.75), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -150}},
+                         target_sprite_damage_effect={"gfx": None},
+                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.0},
+                         target_death_effect={"gfx": None})
                                   
     # Effects:
     BasicPoisonSpell("Poison", attributes=['status', 'poison'], effect=100, multiplier=1.0, cost=30, range=4,
