@@ -107,6 +107,7 @@ label interactions_hug:
 ###### j3    
 label interactions_slapbutt:
     "You try to slap her butt."
+    $ narrator(choice(["You reach out and brush your hands across her ass.", "You put your hand against her firm rear and grind against it.", "You reach into her gap and she gasps as you slide your hand across and stroke her puckered hole.", "She gasps as you reach under her and lightly stroke her ass.", "You slide a hand up her inner thigh, she moans a little as it slides between her cheeks."]))
     $ interactions_check_for_bad_stuff(char)
     if char.disposition > 600:
         $ gm_dice = 98
@@ -212,7 +213,7 @@ label interactions_slapbutt:
 
 ###### j4
 label interactions_grabbreasts:
-    "You try to grab her breasts."
+    $ narrator(choice(["You reach out and massage her glorious breasts.", "You pass your hands gently over her warm breasts.", "Her nipples catch lightly on your fingers as you grasp her warm flesh, you can feel them stiffen.", "She gasps as you lightly thumb her rigid nipples."]))
     $ interactions_check_for_bad_stuff(char)
     if char.disposition > 700:
         $ gm_dice = 98

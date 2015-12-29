@@ -173,12 +173,13 @@ label dev_testing_menu:
                 $ pass
             "MC Level 100":
                 $ initial_levelup(hero, 100, max_out_stats=True)
-            "Test Story":
+            "Dark Test":
                 jump intro_story
                 jump dev_testing_menu
             "Test Matrix":
                 call test_matrix
                 jump dev_testing_menu
+
             "Test UDD/SFX":
                 menu:
                     "Test Vortex":

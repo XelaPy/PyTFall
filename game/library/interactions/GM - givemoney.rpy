@@ -42,7 +42,7 @@ label interactions_giftmoney:
             $ hero.exp += randint(2, 5)
             $ char.exp += randint(2, 5)
         if char.disposition >= 90:
-            $ char.disposition += randint(a, b)/(char.disposition*0.01)
+            $ char.disposition += round(randint(a, b)/(char.disposition*0.01))
         else:
             $ char.disposition += randint(a, b)
     else:

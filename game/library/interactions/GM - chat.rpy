@@ -593,7 +593,7 @@ label interactions_interests:
 #                    g "Well, screw you then..."
 #                    $ char.disposition -= 20
     if char.disposition > 2:
-        $ gm_dice = (round(char.disposition/2))
+        $ gm_dice = round(char.disposition/2)
     else:
         jump interactions_refused
     if dice(gm_dice):
@@ -606,7 +606,7 @@ label interactions_interests:
         "Half-Sister": ["You discuss your common father. The sad discussion quickly turns into a sarcastic one, when you try to count all his lovers and daughters.", "She tells you about her mother. You listen in silence, trying to imagine yours.", "You spend time together you reminiscing about fun and embarrassing moments from your childhood."],
         "Scars": ["She complains about how her scars cause inconvenience. You comfort her."], 
         "Artificial Body": ["Tempted by curiosity, you ask about her artificial body. Her explanations are very long and confusing.", "You discuss the regular maintenance required by her body. It's a pretty complex, but piquant conversation."],
-        "Lolita": ["She complains about how hard it is to find adult clothes for her figure. You're trying to take her away from this sensitive topic.", "She tells you funny stories about disappointed (and imprisoned) pedophiles confused by her body size. What a strange topic."], 
+        "Lolita": ["She complains about how hard it is to find adult clothes for her figure. You're trying to take her away from this sensitive topic.", "She tells you funny stories about disappointed (and imprisoned) paedophiles confused by her body size. What a strange topic."], 
         "Strange Eyes": ["She notices how you look at her unusual eyes. Embarrassed, she refuses to look at you or discuss anything."], 
         "Great Arse": ["You try to keep it to small talk, trying not to think about her gorgeous butt and what would you do if you were behind her."], 
         "Long Legs": ["During your small conversation you can't help but glance at her long legs. Looks like she is used to it and doesn't care much."], 
