@@ -34,7 +34,7 @@ init -1 python: # Core classes:
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
-            self.bg = ConsitionSwitcher("default", {"default": bg, "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
+            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
             # self.miragebg = Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)
                 
             self.music = music
@@ -440,7 +440,8 @@ init -1 python: # Core classes:
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
             if add2skills:
-                battle_skills[self.name] = self
+                if self.name not in battle_skills:
+                    battle_skills[self.name] = self
                 
             # GFX/SFX + Dicts:
             self.timestamps = {} # We keep all gfx effects here!
@@ -1120,6 +1121,9 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "fly_away":
+                    what = target.besprite
+                    at_list = [fly_away]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":
@@ -1238,11 +1242,23 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
                 
-            if gfx == "mirrage":
-                battle.bg.change("mirrage")
+            if gfx in ["mirrage"]:
+                battle.bg.change(gfx)
+            if gfx in ["black"]:
+                renpy.with_statement(None)
+                renpy.show("bg", what=Solid("#000000"))
+                renpy.with_statement(dissolve)
+                # renpy.pause(0.5)
                 
         def hide_bg_main_effect(self):
-            battle.bg.change("default")
+            gfx = self.bg_main_effect["gfx"]
+            if gfx in ["mirrage"]:
+                battle.bg.change("default")
+            if gfx in ["black"]:
+                renpy.with_statement(None)
+                renpy.show("bg", what=battle.bg)
+                renpy.with_statement(dissolve)
+            
             
         def time_dodge_effect(self, targets, attacker, start):
             effect_start = start - 0.3
