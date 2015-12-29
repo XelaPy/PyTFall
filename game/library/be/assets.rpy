@@ -96,6 +96,7 @@ init -1: # Images and Animations
     image earth_5 = FilmStrip('content/gfx/be/filmstrips/earth_5.png', (192, 192), (5, 8), 0.07, loop=False)
     image earth_6 = FilmStrip('content/gfx/be/filmstrips/earth_6.png', (192, 192), (5, 4), 0.1, loop=False)
     image magma = FilmStrip('content/gfx/be/filmstrips/magma.png', (192, 192), (5, 8), 0.08, loop=False)
+    image crushing_hand = FilmStrip('content/gfx/be/filmstrips/crushing_hand.png', (513, 297), (3, 6), 0.15, loop=False)
     
     image air_1 = FilmStrip('content/gfx/be/filmstrips/air_1.png', (192, 192), (5, 5), 0.06, loop=False)
     image air_2 = FilmStrip('content/gfx/be/filmstrips/air_2.png', (192, 192), (5, 5), 0.06, loop=False)
@@ -433,7 +434,14 @@ init 2 python:
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.7, "duration": 2.2},
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.8},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
-
+    ArealMagicalAttack("Fist of Bethel", attributes=['magic', 'earth'], effect=70, multiplier=3, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="Smite your enemies with might of a Stone itself!",
+                                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                                    main_effect={"gfx": Transform(Transform("crushing_hand", xzoom=-1.0), zoom=2), "sfx": "content/sfx/sound/be/rift_line.mp3", "duration": 2.7, "aim": {"anchor": (0.5, 1.0), "xo": 0 ,"yo": 150}, "hflip": True},
+                                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.7},
+                                    target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 1.7},
+                                    target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 0.5},
+                                    bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.7})
     
     # Air:
     SimpleMagicalAttack(u"Aero", attributes=['magic', 'air'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["air_1", "default"], gfx='air_1', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.3], sfx="content/sfx/sound/be/air2.mp3", type="all_enemies",
@@ -462,7 +470,7 @@ init 2 python:
                                     main_effect={"gfx": "tornado", "sfx": "content/sfx/sound/be/vortex.mp3", "duration": 3.5, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 150}},
                                     target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
                                     target_sprite_damage_effect={"gfx": "fly_away", "initial_pause": 0.2, "duration": 5.2},
-                                    target_death_effect={"gfx": "shatter", "initial_pause": 4.8, "duration": 0.2})
+                                    target_death_effect={"gfx": "shatter", "initial_pause": 4.7, "duration": 0.2})
 
     # Electricity:
     SimpleMagicalAttack(u"Thunder", attributes=['magic', 'electricity'], effect=20, multiplier=1.2, cost=5, range=5, casting_effects=["electricity_1", "default"], gfx='electricity_1', zoom=1.5, pause=1.0, target_damage_gfx=[0.2, "shake", 0.6], sfx="content/sfx/sound/be/thunder2.mp3", type="all_enemies",

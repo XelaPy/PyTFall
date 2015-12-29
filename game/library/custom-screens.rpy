@@ -1077,7 +1077,7 @@ init: # Settings:
                                 align (0.5, 0.5)
                                 background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
                                 text _("- Display -") style "TisaOTMolxm"
-                            textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Window") action Preference("display", "any window") xsize 150 xalign 0.5 text_size 16
                             textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
                                 
                         frame:
