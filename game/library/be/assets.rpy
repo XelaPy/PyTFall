@@ -208,6 +208,9 @@ init -1: # Images and Animations
         rotate 0
         linear 1.0 rotate 360
     image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
+    image thunder_storm_3:
+        VBox(Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 0, 507, 125)),
+                  Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 125, 507, 128), yzoom=3))
     
     image heal_1 = FilmStrip('content/gfx/be/filmstrips/heal_1.png', (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip('content/gfx/be/filmstrips/heal_2.png', (192, 192), (5, 5), 0.1, loop=False)
@@ -511,6 +514,15 @@ init 2 python:
                                     target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 1.6},
                                     target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": 0.5},
                                     bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.3})
+    ArealMagicalAttack("Might of Zeus", attributes=['magic', 'electricity'], effect=70, multiplier=4, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="The most powerful Lighting attack in the World!",
+                                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                                    main_effect={"gfx": Transform("thunder_storm_3", zoom=1.2), "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
+                                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
+                                    target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.9, "duration": 2.5},
+                                    target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": 0.5},
+                                    bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 3.4})
+    
     # Light:
     SimpleMagicalAttack(u"Holy", attributes=['magic', 'light'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["light_1", "default"], gfx='light_1', zoom=1.5, pause=1.25, target_damage_gfx=[0.1, "shake", 1.1], sfx="content/sfx/sound/be/light1.mp3", type="all_enemies",
                                        aim="center", anchor=(0.5, 0.5),
