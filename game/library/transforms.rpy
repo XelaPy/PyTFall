@@ -201,9 +201,10 @@ init -997: # Transforms:
         0.05
         repeat
     
-    transform damage_shake(t, random_range):
+    transform damage_shake(t, random_range, delay=0):
         subpixel True
         offset (0, 0)
+        pause delay
         choice:
             linear t offset(renpy.random.randint(*random_range), renpy.random.randint(*random_range))
         choice:

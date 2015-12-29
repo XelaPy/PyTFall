@@ -1121,6 +1121,9 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "fly_away":
+                    what = target.besprite
+                    at_list = [fly_away]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":

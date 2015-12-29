@@ -103,6 +103,16 @@ init -1: # Images and Animations
     image air_4 = FilmStrip('content/gfx/be/filmstrips/air_4.png', (192, 192), (5, 6), 0.05, loop=False)
     image air_6 = FilmStrip('content/gfx/be/filmstrips/air_6.png', (151, 151), (5, 7), 0.06, loop=False, reverse=True)
     image vortex = FilmStrip('content/gfx/be/filmstrips/vortex.png', (277, 277), (15, 1), 0.1, loop=True)
+    image tornado:
+        FilmStrip('content/gfx/be/filmstrips/tornado.png', (674, 592), (2, 3), 0.05, loop=True)
+        anchor (0.5, 1.0)
+        zoom 0.5
+        subpixel True
+        easeout 1.5 zoom 1.3
+        
+        on hide:
+            alpha 1.0
+            linear 0.5 alpha 0
     
     image light_1 = FilmStrip('content/gfx/be/filmstrips/light_1.png', (192, 192), (5, 5), 0.05, loop=False)
     image light_2 = FilmStrip('content/gfx/be/filmstrips/light_2.png', (192, 192), (5, 5), 0.05, loop=False)
@@ -110,6 +120,7 @@ init -1: # Images and Animations
     image light_5 = FilmStrip('content/gfx/be/filmstrips/light_5.png', (192, 192), (5, 5), 0.1, loop=False)
     image light_6 = FilmStrip('content/gfx/be/filmstrips/light_6.png', (153, 160), (4, 3), 0.15, loop=False)
     image dawn = FilmStrip('content/gfx/be/filmstrips/dawn.png', (192, 192), (5, 7), 0.1, loop=False)
+    image holy_blast = FilmStrip('content/gfx/be/filmstrips/holy_blast_2x_bm.png', (382, 336), (8, 5), 0.1, include_frames=range(36), loop=False)
 
     image darkness_1 = FilmStrip('content/gfx/be/filmstrips/darkness_1.png', (192, 192), (5, 4), 0.05, loop=False)
     image darkness_2 = FilmStrip('content/gfx/be/filmstrips/darkness_2.png', (192, 192), (5, 4), 0.08, loop=False)
@@ -118,6 +129,7 @@ init -1: # Images and Animations
     image darkness_5 = FilmStrip('content/gfx/be/filmstrips/darkness_5.png', (375, 500), (4, 3), 0.1, loop=False)
     image darkness_6 = FilmStrip('content/gfx/be/filmstrips/darkness_6.png', (192, 192), (5, 3), 0.1, loop=False)
     image darklight = FilmStrip('content/gfx/be/filmstrips/darklight.png', (144, 192), (5, 4), 0.1, loop=False)
+    image dominion = FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False)
 
     image poison_1 = FilmStrip('content/gfx/be/filmstrips/poison_1.png', (192, 192), (5, 6), 0.07, loop=False)
     image poison_2 = FilmStrip('content/gfx/be/filmstrips/poison_2.png', (192, 192), (5, 3), 0.1, loop=False)
@@ -176,7 +188,9 @@ init -1: # Images and Animations
         "content/gfx/be/animations/ice_arrow/IceArrow_I7.png"
         pause 0.12
         "content/gfx/be/animations/ice_arrow/IceArrow_I8.png"
-
+        
+    image ice_blast = FilmStrip('content/gfx/be/filmstrips/ice_blast.png', (393, 508), (5, 5), 0.1, include_frames=range(22), loop=False)
+    
     image electricity_1 = FilmStrip('content/gfx/be/filmstrips/electricity_1.png', (192, 192), (5, 2), 0.1, loop=False)
     image electricity_2 = FilmStrip('content/gfx/be/filmstrips/electricity_2.png', (192, 192), (5, 3), 0.08, loop=False)
     image electricity_3 = FilmStrip('content/gfx/be/filmstrips/electricity_3.png', (192, 192), (5, 3), 0.09, loop=False)
@@ -193,10 +207,23 @@ init -1: # Images and Animations
         rotate 0
         linear 1.0 rotate 360
     image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
+    
     image heal_1 = FilmStrip('content/gfx/be/filmstrips/heal_1.png', (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip('content/gfx/be/filmstrips/heal_2.png', (192, 192), (5, 5), 0.1, loop=False)
     image resurrection = FilmStrip('content/gfx/be/filmstrips/resurrection2x.png', (288, 247), (5, 4), 0.1, loop=False)
     image bg test_grid = "content/gfx/bg/maps/map17x6.jpg"
+    
+    transform fly_away():
+        easeout_bounce 1.5 yoffset -1000
+        pause 2.0
+        easeout_bounce 1.0 yoffset 0
+        parallel:
+            easeout_bounce 0.1 yzoom 0.95
+            easeout_bounce 0.1 yzoom 1.0
+        parallel:
+            easeout_bounce 0.1 yoffset 10
+            easeout_bounce 0.1 yoffset 0
+            
 
 # Skillz:
 init 2 python:
@@ -228,7 +255,7 @@ init 2 python:
     # target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9}
     SimpleMagicalAttack(u"Fire", attributes=['magic', 'fire'], effect=20, multiplier=1.2, type="all_enemies", cost=5, range=4, desc="Ignites a small plot of land.",
                                        attacker_effects={"gfx": "fire_1", "sfx": "default"},
-                                       main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}},
+                                       main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
     SimpleMagicalAttack(u"Fira", attributes=['magic', 'fire'], effect=30, multiplier=1.2, cost=7, range=4, desc="Ignites the air in a limited area.",
@@ -274,7 +301,7 @@ init 2 python:
                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
                           target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
     
-    SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor from the atmosphere directly above the target.",
+    SimpleMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                        attacker_effects={"gfx": "orb", "sfx": "default"},
                                        main_effect={"gfx": Transform('cataclysm_sideways', xzoom=-1), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
                                        target_sprite_damage_effect={"gfx": "fire", "initial_pause": 1.2, "duration": 0.6},
@@ -369,6 +396,13 @@ init 2 python:
     SimpleMagicalAttack("Hailstorm", attributes=['magic', 'ice'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ice_7', zoom=1.7, pause=2.0, target_damage_gfx=[0.1, "shake", 1.9], sfx="content/sfx/sound/be/Hailstorm.mp3", piercing=True, true_pierce=True,
                                        aim="bc", anchor=(0.5, 1.0), yo=50,
                                        desc="Puts the target in a middle of a small, but violent snow storm.")
+    SimpleMagicalAttack("Ice Blast", attributes=['magic', 'ice'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons frozen fragments of meteor.",
+                                       attacker_effects={"gfx": "orb", "sfx": "default"},
+                                       main_effect={"gfx": Transform('ice_blast', xzoom=-1), "sfx": "content/sfx/sound/be/ice3.mp3", "duration": 2.3, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 120, "yo": -370}, "hflip": True},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.2, "duration": 1.1},
+                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
+                                       target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5})
+    
     # Earth:
     SimpleMagicalAttack(u"Stone", attributes=['magic', 'earth'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["earth_1", "default"], gfx='earth_1', zoom=1.4, pause=2.0, target_damage_gfx=[0.1, "shake", 1.7], sfx="content/sfx/sound/be/earth.mp3", type="all_enemies",
                                        aim="bc", anchor=(0.5, 1.0), yo=40,
@@ -422,6 +456,13 @@ init 2 python:
     SimpleMagicalAttack("Vortex", attributes=['magic', 'air'], effect=85, multiplier=1.8, cost=18, range=4, casting_effects=["orb", "default"], gfx='vortex', zoom=2.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.4], sfx="content/sfx/sound/be/vortex.mp3", type="all_enemies",
                                        aim="center", anchor=(0.5, 0.5),
                                        desc="Creates a small, but very powerful sphere of hurricane winds around the target.")
+    ArealMagicalAttack("Tornado", attributes=['magic', 'air'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="Use a magical Tornado to wipe out your enemies!",
+                                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                                    main_effect={"gfx": "tornado", "sfx": "content/sfx/sound/be/vortex.mp3", "duration": 3.5, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 150}},
+                                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
+                                    target_sprite_damage_effect={"gfx": "fly_away", "initial_pause": 0.2, "duration": 5.2},
+                                    target_death_effect={"gfx": "shatter", "initial_pause": 4.8, "duration": 0.2})
 
     # Electricity:
     SimpleMagicalAttack(u"Thunder", attributes=['magic', 'electricity'], effect=20, multiplier=1.2, cost=5, range=5, casting_effects=["electricity_1", "default"], gfx='electricity_1', zoom=1.5, pause=1.0, target_damage_gfx=[0.2, "shake", 0.6], sfx="content/sfx/sound/be/thunder2.mp3", type="all_enemies",
@@ -491,6 +532,14 @@ init 2 python:
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.7},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 0.5},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 1.6, "duration": 1.0})
+    ArealMagicalAttack("Holy Blast", attributes=['magic', 'light'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="Concentrates all holy energy in the area into one point, forcing it to explode as it reaches critical levels!",
+                                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                                    main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
+                                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
+                                    target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
+                                    target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": 0.5})
+                                    # bg_main_effect={"gfx": "mirrage", "initial_pause": 2.9, "duration": 2.4})
     
     # Darkness:
     SimpleMagicalAttack(u"Dark", attributes=['magic', 'darkness'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["dark_1", "default"], gfx='darkness_1', zoom=1.3, pause=1.0, target_damage_gfx=[0.1, "shake", 0.9], sfx="content/sfx/sound/be/darkness1.mp3", type="all_enemies",
@@ -521,7 +570,14 @@ init 2 python:
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.2},
                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.8},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": 0.5})
-                                       
+    ArealMagicalAttack("Dominion", attributes=['magic', 'darkness'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                    desc="Cut the darkness itself!",
+                                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                                    main_effect={"gfx": Transform("dominion", zoom=1.2), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 2.5, "aim": {"anchor": (0.5, 0.5), "xo": 10 ,"yo": -75}},
+                                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
+                                    target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
+                                    target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
+                                    bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
                                        
     # Healing:
     BasicHealingSpell(u"Light Heal", attributes=['magic', 'healing'], effect=25, cost=8, range=5, type="sa",
