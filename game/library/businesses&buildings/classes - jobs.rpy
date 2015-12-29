@@ -27,7 +27,7 @@
     def check_submissivity(c):
         """Here we determine how submissive the character is, thus if she's willing to do something she doesn't want to, or for example take the initiative in certain cases.
         """        
-        mult = float(c.character)/float(c.get_max("character")) # the idea is based on the character stat, we check how close is she to max possible character at her level
+        mult = 1.0*c.character/c.get_max("character") # the idea is based on the character stat, we check how close is she to max possible character at her level
         if "Impersonal" in c.traits: # and traits, they can make mult more or less, so for example even low character tsundere might be more stubborn than high character dandere
             mult -= 0.1
         elif "Imouto" in c.traits:
@@ -44,7 +44,7 @@
             mult += 0.2
         elif "Ane" in c.traits:
             mult += 0.05
-        elif "Yandere" in c.traits: # in case of yandere disposition in everything
+        elif "Yandere" in c.traits: # in case of yandere disposition is everything
             if c.disposition <= 500:
                 mult += 0.25
             else:

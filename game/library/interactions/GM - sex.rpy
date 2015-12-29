@@ -16,7 +16,9 @@ init python:
                 act = None
                 
             return act
-
+# lines for the future male libido
+# You're a little out of juice at the moment, you might want to wait a bit.
+# The spirit is willing, but the flesh is spongy and bruised.
 label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
     "You propose to pay her for sex."
     $ interactions_check_for_bad_stuff(char)
@@ -92,6 +94,27 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                 jump girl_interactions
     $ del price
     
+label intro_story:
+    $ m = 800/300
+    "[m]"
+    $ m = 300/800
+    "[m]"
+    $ m = 800//300
+    "[m]"
+    $ m = (800*1.0)/300
+    "[m]"
+    $ m = (800*1.0)/(300*1.0)
+    "[m]"
+    $ m = 800/(300*1.0)
+    "[m]"
+    $ m = (800*1.0)//300
+    "[m]"
+    $ m = (800*1.0)//(300*1.0)
+    "[m]"
+    $ m = 800//(300*1.0)
+    "[m]"
+    $ del m
+    jump dev_testing_menu
 label interactions_sex_scene_select_place: # we go here if price for hiring is less than 0, ie no money checks and dialogues required; or after money check was successful
     if ct("Shy") or ct("Dandere"):
         "[char.name] is too shy to do it anywhere. You go to her room."
@@ -482,8 +505,8 @@ label interaction_scene_finish_sex:
                     # $ char.joy += randint(20, 30)
                     # $ char.vitality -= 20
 
-        $ gm.restore_img()
-        jump girl_interactions_end
+    $ gm.restore_img()
+    jump girl_interactions_end
             
 label interactions_lesbian_choice:
     # The interactions itself.
@@ -722,6 +745,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs
     elif current_action == "foot":
         call interaction_scene_footjob
+        $ image_tags = gm.img.get_image_tags()
         if ct("Athletic"):
             if ct("Long Legs"):
                 "She squeezes your dick her between her long muscular legs and stimulates it until you come."
@@ -866,6 +890,28 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 "At the last moment you take it away from her chest, covering her body with your thick liquid."
             else:
                 "At the last moment she asked you to take it away from her chest to cover her body with your thick liquid."
+    elif current_action == "blow":
+        if skill_for_checking <= 200:
+            if sub > 0:
+                $ narrator(choice(["Her head bobs rapidly, until she goes a bit too deep and starts to gag.", "She begins to suck very quickly. But because of the speed your cock often pops out of her mouth."]))
+            elif sub < 0:
+                $ narrator(choice(["She tentatively kisses and licks around the head.", "She licks all over your dick, but she doesn't really have a handle on it."]))
+            else:
+                $ narrator(choice(["She bobs quickly on your cock, but clamps down a bit too tight.", "She puts the tip in her mouth and starts suck in as hard as she can. She's a little rough at this, but at least she tries her best."]))
+        elif skill_for_checking <= 1000:
+            if sub > 0:
+                $ narrator(choice(["She licks her way down the shaft, and gently teases the balls.", "Her mouth envelopes the head, then she quickly draws it in and draws back with a pop."]))
+            elif sub < 0:
+                $ narrator(choice(["She gently caresses the shaft, and cups the balls in her other hand, giving them a warm massage.", "She moves her tongue very smoothly and very gently, keeping her teeth well clear, aside from a playful nip."]))
+            else:
+                $ narrator(choice(["She's settled into a gentle licking pace that washes over you like a warm bath.", "She licks up and down the shaft. A little rough, but at least she tries her best."]))
+        else:
+            if sub > 0:
+                $ narrator(choice(["She rapidly bobs up and down on your cock, a frenzy of motion.", "She puts the tip into her mouth and her tongue swirls rapidly around it."]))
+            elif sub < 0:
+                $ narrator(choice(["She gently blows across the head as she covers your cock in smooth licks.", "She moves very smoothly, tongue dancing casually and very gently."]))
+            else:
+                $ narrator(choice(["Her deft licks are masterful, your cock twitches with each stroke.", "She's really good at this, alternating between deep suction and gentle licks."]))
     if skill_for_checking >= 4000:
         "She was so good that you profusely came after a few seconds. Pretty impressive."
         $ char.joy += (3, 5)

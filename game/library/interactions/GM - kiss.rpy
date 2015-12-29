@@ -48,6 +48,14 @@ label interactions_kiss:
         $ char.disposition -= (randint(25, 45)*(gm_disp_mult))
     
     if gm_last_success:
+        if char.disposition < 250: # a placeholder to save lines, better checks will be needed
+            "You and [char.name] make out for a while."
+        elif char.disposition < 500:
+            "You kiss deeply and passionately.."
+        elif char.disposition < 750:
+            "She's really getting into it, there's some heavy tongue action."
+        else:
+            "She's all over you, kissing all over your face and grinding against you."
         $ hero.exp += randint(3, 10)
         $ char.exp += randint(3, 10)
         $ char.override_portrait("portrait", "shy")
@@ -65,7 +73,7 @@ label interactions_kiss:
             elif ct("Kuudere"):
                 $rc("I'm kissing my brother like this... I'll never be forgiven for doing this...")
             elif ct("Ane"):
-                $rc("*kiss* Brother, you taste so good! ♪")
+                $rc("*kiss* Brother, you taste so good! ♪", "You really like my lips, brother? ♪")
             elif ct("Bokukko"):
                 $rc("*kiss* What's it like to kiss your sister? Tastes good, doesn't it?")
             else:
