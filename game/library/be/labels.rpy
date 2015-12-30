@@ -4,6 +4,7 @@ label test_be:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Goblin Shaman", level=120)
         mob.apply_trait("Fire")
+        mob.front_row = True
         mob.controller = BE_AI(mob)
         if len(enemy_team) != 3:
             enemy_team.add(mob)
@@ -73,6 +74,7 @@ label test_be_logical:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Goblin Shaman", level=120)
+        mob.front_row = True
         mob.apply_trait("Fire")
         mob.controller = BE_AI(mob)
         if len(enemy_team) != 3:

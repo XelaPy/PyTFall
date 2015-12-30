@@ -241,12 +241,16 @@ screen testing_new_filmstrip():
         add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(28, 35), loop=True)
         
 screen testing_image_quality():
-        textbutton "Done":
-            align (0.5, 0)
-            action Return()
-        add FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=True) align (0.3, 0.2)
-        add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways2x.png', (240, 226), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=2) align (0.5, 0.2)
-        add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways4x.png', (120, 113), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=4) align (0.7, 0.2)
+    add "black"
+    textbutton "Done":
+        align (0.5, 0)
+        action Return()
+    add FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=True) align (0.3, 0.2)
+    add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways2x.png', (240, 226), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=2) align (0.5, 0.2)
+    add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways4x.png', (120, 113), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=4) align (0.7, 0.2)
+        
+    # Adding for testing and tweaking:
+    # add "thunder_storm_3" align (0.5, 0.5)
         
 transform battle_bounce_normal(pos):
     alpha 1
