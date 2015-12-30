@@ -90,15 +90,27 @@ init -1 python: # Core classes:
                 # If the controller was killed off during the mid_turn_events:
                 if ev not in self.corpses:
                     if ev.controller != "player":
-                        # This character is not controled by the player so we call the controller:
+                        # This character is not controled by the player so we call the (AI) controller:
                         ev.controller()
                     else:
                         # Controller is the player:
                         # Call the skill choice screen:
-                        s = renpy.call_screen("pick_skill", ev)
-                        s.source = ev
-                        # Ok, so now we got the skll... so we call it.
-                        s()
+                        s = None
+                        t = None
+                        while not (s and t):
+                            s = renpy.call_screen("pick_skill", ev)
+                            s.source = ev
+                            
+                            # Unique check for Skip Skill:
+                            if isinstance(s, BE_Skip):
+                                break
+                            
+                            # Call the targeting screen:
+                            targets = s.get_targets()
+                            
+                            t = renpy.call_screen("target_practice", s, targets)
+                            
+                        s(t=t)
                 
                 if not self.logical:
                     renpy.hide_screen("pick_skill")
@@ -827,13 +839,9 @@ init -1 python: # Core classes:
             return died
             
         def __call__(self, ai=False, t=None):
-            # Call the targeting screen:
-            if not battle.logical and not ai:
-                targets = self.get_targets()
-                t = renpy.call_screen("target_practice", self, targets)
-            
             self.effects_resolver(t)
             died = self.apply_effects(t)
+            
             if not isinstance(died, (list, set, tuple)):
                 died = list()
             

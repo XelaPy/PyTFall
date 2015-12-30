@@ -8,7 +8,7 @@ init python:
         def __init__(self, source=None):
             self.source = source
         
-        def __call__(self):
+        def __call__(self, *args, **kwargs):
             msg = "{} skips a turn!".format(self.source.nickname)
             battle.log(msg)
             
