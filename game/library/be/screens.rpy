@@ -318,5 +318,5 @@ init: # screens:
             vbox:
                 align (0.99, 0)
                 textbutton "Terminate":
-                    action Hide("be_test"), Hide("target_practice"), Hide("pick_skill"), Hide("battle_overlay"), Jump("mainscreen")
+                    action Hide("be_test"), Hide("target_practice"), Hide("pick_skill"), Hide("battle_overlay"), Stop("music"), Stop("sound"), Jump("mainscreen")
                 
