@@ -382,7 +382,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
             call interaction_scene_anal
             $ current_action = "anal"
-            jump interaction_anal_logic
+            jump interactions_sex_scene_logic_part
             
         "That's all.":
             $ del current_action
@@ -685,27 +685,27 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         if sub > 0:
             "[char.name] licks her lips, defiantly looking at your crotch."
             if "bc deepthroat" in image_tags:
-                extend " She shoves it all the way into her throat, sucking on it until you come."
+                extend " She shoves it all the way into her throat."
             elif "after sex" in image_tags:
-                extend " She enthusiastically licks and sucks it. At the last moment she pulls it out from her mouth, covering herself with your thick liquid."
+                extend " She enthusiastically begins to lick and suck it."
             else:
-                extend " She enthusiastically licks and sucks your dick until you come."
+                extend " She enthusiastically begins to lick and suck it."
         elif sub < 0:
             "Glancing at your crotch, [char.name] is patiently waiting for your orders."
             if "bc deepthroat" in image_tags:
-                extend " You told her to take your dick inside her mouth as deeply as she can, and she diligently sucked on it until you come."
+                extend " You told her to take your dick inside her mouth as deeply as she can, and she diligently obeyed."
             elif "after sex" in image_tags:
-                extend " You told her to lick and suck your dick. At the last moment you take it out from her mouth, covering her body with your thick liquid."
+                extend " You told her to lick and suck your dick."
             else:
-                extend " You told her to lick and suck your dick until you come, and she immediately obeyed."
+                extend " You told her to lick and suck your dick, and she immediately obeyed."
         else:
-            "After you proposed to pleasure you with her mouth, [char.name] slowly approached your crotch."
+            "[char.name] slowly approached your crotch."
             if "bc deepthroat" in image_tags:
-                extend " You shoved your dick deeply into her throat, and she sucked on it until you come."
+                extend " You shove your dick deeply into her throat."
             elif "after sex" in image_tags:
-                extend " She licks and sucks your dick. At the last moment she asked you to take it out from her mouth to cover her body with your thick liquid."
+                extend " She begins to lick and suck your dick."
             else:
-                extend " She licks and sucks it until you come."
+                extend " She begins to lick and suck your dick."
         call interaction_sex_scene_check_skill_jobs
     elif current_action == "tits":
         call interaction_scene_titsjob
@@ -746,6 +746,12 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     elif current_action == "foot":
         call interaction_scene_footjob
         $ image_tags = gm.img.get_image_tags()
+        if sub > 0:
+            "With a sly smile [char.name] gets closer to you."
+        elif sub < 0:
+            "You asked [char.name] to use her feet."
+        else:
+            "[char.name] sits next to you."
         if ct("Athletic"):
             if ct("Long Legs"):
                 "She squeezes your dick her between her long muscular legs and stimulates it until you come."
@@ -778,10 +784,11 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             $ skill_for_checking = round(char.get_skill("vaginal")*0.6 + char.get_skill("sex")*0.15)
         else:
             $ skill_for_checking = round(char.get_skill("vaginal")*0.75 + char.get_skill("sex")*0.25)
+        $ male_skill_for_checking = round(hero.get_skill("vaginal")*0.75 + hero.get_skill("sex")*0.25)
         call interaction_scene_vaginal
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            "[char.name] doesn't mind a 'D' inside her pussy."
+            "[char.name] looking forward to something big inside her pussy."
             if "ontop" in image_tags:
                 extend " She sits on top of you, immersing your dick inside."
             elif "doggy" in image_tags:
@@ -834,6 +841,71 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " She sits upon you knees while you prepare your dick for going inside her."
             else:
                 extend " You enter her pussy and you two begin to move."
+        call interaction_sex_scene_check_skill_acts
+        
+    elif current_action == "anal":
+        if ct("Lesbian"):
+            $ skill_for_checking = round(char.get_skill("anal")*0.6 + char.get_skill("sex")*0.15)
+        else:
+            $ skill_for_checking = round(char.get_skill("anal")*0.75 + char.get_skill("sex")*0.25)
+        $ male_skill_for_checking = round(hero.get_skill("anal")*0.75 + hero.get_skill("sex")*0.25)
+        call interaction_scene_anal
+        $ image_tags = gm.img.get_image_tags()
+        if sub > 0:
+            "[char.name] looking forward to something big inside her ass."
+            if "ontop" in image_tags:
+                extend " She sits on top of you, immersing your dick inside."
+            elif "doggy" in image_tags:
+                extend " She bent over, pushing her anus toward your dick."
+            elif "missionary" in image_tags:
+                extend " She lay on her back spreading her legs, awaiting for your dick."
+            elif "onside" in image_tags:
+                extend " She lay down on her side, waiting for you to join her."
+            elif "standing" in image_tags:
+                extend " She spreads her legs waiting for you, not even bothering to lay down."
+            elif "spooning" in image_tags:
+                extend " She snuggled to you, being in a mood for some spooning."
+            elif "sitting" in image_tags:
+                extend " She sat upon you knees, immersing your dick inside."
+            else:
+                extend " She confidently pushes your dick inside and starts to move."
+        elif sub < 0:
+            "[char.name] prepares herself, awaiting for further orders."
+            if "ontop" in image_tags:
+                extend " You ask her to sit on top of you, immersing your dick inside."
+            elif "doggy" in image_tags:
+                extend " You ask her to bent over, allowing you to take her from behind."
+            elif "missionary" in image_tags:
+                extend " You ask her to lay on her back and spread legs, allowing you to shove your dick inside."
+            elif "onside" in image_tags:
+                extend "  You asked her to lay down on her side, allowing you to get inside."
+            elif "standing" in image_tags:
+                extend " You asked her to spread her legs while standing, and pushed your dick inside."
+            elif "spooning" in image_tags:
+                extend " You asked her to snuggle to you, spooning her in the process."
+            elif "sitting" in image_tags:
+                extend " You asked her to sit upon you knees, immersing your dick inside."
+            else:
+                extend " You entered her and asked to start moving."
+        else:
+            "You propose [char.name] to do her ass."
+            if "ontop" in image_tags:
+                extend " You invite her to sit on top of you, preparing your dick for some penetration."
+            elif "doggy" in image_tags:
+                extend " She bent over, welcoming your dick from behind."
+            elif "missionary" in image_tags:
+                extend " She lays on her back and spreads legs, inviting you to enter inside."
+            elif "onside" in image_tags:
+                extend " She lays down on her side, inviting you to enter inside."
+            elif "standing" in image_tags:
+                extend " You proceed to penetrate her not even bothering to lay down."
+            elif "spooning" in image_tags:
+                extend " You two snuggle to each other, trying out spooning."
+            elif "sitting" in image_tags:
+                extend " She sits upon you knees while you prepare your dick for going inside her."
+            else:
+                extend " You enter her anus and you two begin to move."
+        call interaction_sex_scene_check_skill_acts
     jump interaction_scene_choice
     
 label interaction_sex_scene_check_skill_jobs: # skill level check for one side actions
@@ -845,7 +917,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She strokes you gently. She isn't quite sure however what to make of the balls.", "She makes up for her inexperience with determination, carefully stroking your cock."]))
             else:
                 $ narrator(choice(["She squeezes one of your balls too tightly, but stops when you wince.", "She has a firm grip, and she's not letting go."]))
-        elif skill_for_checking <= 1000:
+        elif skill_for_checking < 1000:
             if sub > 0:
                 $ narrator(choice(["Her fingers cause tingles as they caress the shaft.", "She quickly strokes you, with a very deft pressure."]))
             elif sub < 0:
@@ -869,7 +941,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She slides the cock up and down between her cleavage.", "She squeezes her cleavage as tight as she can and rubs up and down."]))
             else:
                 $ narrator(choice(["She sort of squishes her breasts back and forth around your cock.", "She slaps her tits against your dick, bouncing her whole body up and down."]))
-        elif skill_for_checking <= 1000:
+        elif skill_for_checking < 1000:
             if sub > 0:
                 $ narrator(choice(["She juggles her breasts up and down around your cock.", "She moves her boobs up and down in a fluid rocking motion."]))
             elif sub < 0:
@@ -898,7 +970,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She tentatively kisses and licks around the head.", "She licks all over your dick, but she doesn't really have a handle on it."]))
             else:
                 $ narrator(choice(["She bobs quickly on your cock, but clamps down a bit too tight.", "She puts the tip in her mouth and starts suck in as hard as she can. She's a little rough at this, but at least she tries her best."]))
-        elif skill_for_checking <= 1000:
+        elif skill_for_checking < 1000:
             if sub > 0:
                 $ narrator(choice(["She licks her way down the shaft, and gently teases the balls.", "Her mouth envelopes the head, then she quickly draws it in and draws back with a pop."]))
             elif sub < 0:
@@ -912,6 +984,13 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She gently blows across the head as she covers your cock in smooth licks.", "She moves very smoothly, tongue dancing casually and very gently."]))
             else:
                 $ narrator(choice(["Her deft licks are masterful, your cock twitches with each stroke.", "She's really good at this, alternating between deep suction and gentle licks."]))
+        if "after sex" in image_tags:
+            if sub > 0:
+                "At the last moment she pulls it out, covering herself with your thick liquid."
+            elif sub < 0:
+                "At the last moment you pull it out from her mouth, covering her body with your thick liquid."
+            else:
+                "She asked you to pull it out from her mouth at the last moment to cover her body with your thick liquid."
     if skill_for_checking >= 4000:
         "She was so good that you profusely came after a few seconds. Pretty impressive."
         $ char.joy += (3, 5)
@@ -932,37 +1011,86 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
     else:
         $ char.vitality -= randint(10, 15)
         "Her moves were clumsy and untimely. By the time she finished the moment had passed, bringing you no satisfaction."
-    if skill_for_checking >= 100:
-        $ cum_count += 1
     if skill_for_checking >= 50:
+        $ cum_count += 1
         $ guy_count +=1
     return
 
-label interaction_sex_scene_check_skill_acts: # skill level check for two sides actions
-    if skill_for_checking >= 4000:
-        "She was so good that you profusely came after a few seconds. Pretty impressive."
+label interaction_sex_scene_check_skill_acts: # skill level check for two sides actions, requires male skill level too
+    if current_action == "vag":
+        if skill_for_checking >= 4000:
+            "Her technique is brought to perfection, her body moves in perfect synchronisation with yours, and her pussy felt like velvet."
+            $ char.joy += (3, 5)
+        elif skill_for_checking >= 2000:
+            "Her refined skills, rhythmic movements, and wet hot pussy quickly brought you to the finish."
+            $ char.joy += (2, 4)
+        elif skill_for_checking >= 1000:
+            "Her pussy felt very good, her movement patterns and amazing skills quickly exhausted your ability to hold back."
+            $ char.joy += (1, 2)
+        elif skill_for_checking >= 500:
+            "Her movements were pretty good. Nothing extraordinary, but it wasn't half bad either."
+            $ char.joy += (0, 1)
+        elif skill_for_checking >= 200:
+            "It took some time and effort on her part, her pussy could use some training."
+            $ char.vitality -= randint(5, 10)
+        elif skill_for_checking >= 50:
+            "Looks like [char.name] barely knows what she's doing. Still, it's hard to screw up such a basic thing, so eventually she managed to get the job done."
+            $ char.vitality -= randint(10, 15)
+        else:
+            "Her moves were clumsy and untimely, and her pussy was too dry. Sadly, she was unable to properly satisfy you."
+            $ char.vitality -= randint(10, 15)
+    elif current_action == "anal":
+        if skill_for_checking >= 4000:
+            "Her technique is brought to perfection, her body moves in perfect synchronisation with yours, and her anus was fit and tight."
+            $ char.joy += (3, 5)
+        elif skill_for_checking >= 2000:
+            "Her refined skills, rhythmic movements, and tight hot ass quickly brought you to the finish."
+            $ char.joy += (2, 4)
+        elif skill_for_checking >= 1000:
+            "Her anus felt very good, her movement patterns and amazing skills quickly exhausted your ability to hold back."
+            $ char.joy += (1, 2)
+        elif skill_for_checking >= 500:
+            "Her movements were pretty good. Nothing extraordinary, but it wasn't half bad either."
+            $ char.joy += (0, 1)
+        elif skill_for_checking >= 200:
+            "It took some time and effort on her part, her anus could use some training."
+            $ char.vitality -= randint(5, 10)
+        elif skill_for_checking >= 50:
+            "Looks like [char.name] barely knows what she's doing. Still, it's hard to screw up such a basic thing, so eventually she managed to get the job done."
+            $ char.vitality -= randint(10, 15)
+        else:
+            "Her moves were clumsy and untimely, and her anus wasn't quite ready for that. Sadly, she was unable to properly satisfy you."
+            $ char.vitality -= randint(10, 15)
+
+    if male_skill_for_checking >= 4000:
+        extend " Your bodies merged into a single entity, filling each other with pleasure and satisfaction."
         $ char.joy += (3, 5)
-    elif skill_for_checking >= 2000:
-        "You barely managed to hold out for half a minute in the face of her amazing skills."
+    elif male_skill_for_checking >= 2000:
+        extend " In the end you both simultaneously come multiple times."
         $ char.joy += (2, 4)
-    elif skill_for_checking >= 1000:
-        "It was very fast and very satisfying."
+    elif male_skill_for_checking >= 1000:
+        extend " In the end you both simultaneously come."
         $ char.joy += (1, 2)
-    elif skill_for_checking >= 500:
-        "Nothing extraordinary, but it wasn't half bad either."
+    elif male_skill_for_checking >= 500:
+        extend " You fucked her until you both come. It was pretty good."
         $ char.joy += (0, 1)
-    elif skill_for_checking >= 200:
-        "It took some time and effort on her part, her skills could definitely be improved."
-    elif skill_for_checking >= 50:
-        "Looks like [char.name] barely knows what she's doing. Still, she somewhat managed to get the job done."
-        $ char.vitality -= randint(5, 10)
+    elif male_skill_for_checking >= 200:
+        extend " You fucked her until you both come."
+        $ hero.vitality -= randint(5, 10)
+    elif male_skill_for_checking >= 50:
+        extend " You had some difficulties with bringing her to orgasm, but managed to overcome them in the end."
+        $ hero.vitality -= randint(10, 15)
     else:
-        $ char.vitality -= randint(10, 15)
-        "Her moves were clumsy and untimely. By the time she finished the moment had passed, bringing you no satisfaction."
-    if skill_for_checking >= 100:
-        $ cum_count += 1
-    if skill_for_checking >= 50:
-        $ guy_count +=1
+        extend " Unfortunately you didn't have enough skill to properly satisfy her as well. [char.name] looks disappointed."
+        $ hero.vitality -= randint(10, 15)
+        
+    if "after sex" in image_tags:
+        if sub > 0:
+            "At the last moment she pulls it out, covering herself with your thick liquid."
+        elif sub < 0:
+            "At the last moment you pull it out from her, covering her body with your thick liquid."
+        else:
+            "She asked you to pull it out from her at the last moment to cover her body with your thick liquid."
     return
     
 
@@ -1017,7 +1145,7 @@ label interaction_vaginal_logic:
         $ guy_count +=1
         $ girl_count +=1
     elif char.vaginal >= 500 and hero.vaginal < 500:
-        "You fuck her wet pussy until you both come. You did it much earlier, and noticed a light self-confident smile on her face."
+        "You fuck her wet pussy until you both come. "
         $ char.vaginal += randint (1, 4)
         $ hero.vaginal += randint (1, 2)
         $ char.vitality -= 40
