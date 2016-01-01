@@ -240,15 +240,60 @@ screen testing_new_filmstrip():
         add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(21, 25), loop=True)
         add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(28, 35), loop=True)
         
+image exl_01:
+    "content/gfx/be/animations/explosion_0/00.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/01.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/02.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/03.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/04.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/05.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/06.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/07.png"
+    pause 0.1
+    "content/gfx/be/animations/explosion_0/08.png"
+    pause 0.1
+    repeat
+    
+image exl_02:
+    Fixed(Image("content/gfx/be/animations/explosion_0/00.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/01.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/02.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/03.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/04.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/05.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/06.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/07.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    Fixed(Image("content/gfx/be/animations/explosion_0/08.png", anchor=(0.5, 0.5)), xysize=(259, 218))
+    pause 0.1
+    repeat
+        
 screen testing_image_quality():
     add "black"
     textbutton "Done":
         align (0.5, 0)
         action Return()
-    add FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=True) align (0.3, 0.2)
-    add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways2x.png', (240, 226), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=2) align (0.5, 0.2)
-    add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways4x.png', (120, 113), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=4) align (0.7, 0.2)
-        
+    # add FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=True) align (0.3, 0.2)
+    # add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways2x.png', (240, 226), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=2) align (0.5, 0.2)
+    # add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways4x.png', (120, 113), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=4) align (0.7, 0.2)
+    
+    add "explosion_0" align (0.5, 0.5)
+    add "exl_01" pos (150, 400)
+    add "exl_02" pos (1100, 400)
     # Adding for testing and tweaking:
     # add "thunder_storm_3" align (0.5, 0.5)
         
