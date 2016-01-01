@@ -541,7 +541,8 @@ init python:
         transitions = list()
         path = content_path("gfx/masks")
         for file in os.listdir(path):
-            transitions.append("/".join(["content/gfx/masks", file]))
+            if file.endswith((".png", ".jpg", ".jpeg")):
+                transitions.append("/".join(["content/gfx/masks", file]))
         return ImageDissolve(choice(transitions), time)
             
 transform shake(dt=.4, dist=128):

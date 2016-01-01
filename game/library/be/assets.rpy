@@ -380,8 +380,9 @@ init 2 python:
     SimpleMagicalAttack(u"Blizzarga", attributes=['magic', 'ice'], effect=25, multiplier=1.2, cost=6, range=4, casting_effects=["ice_2", "default"], gfx='ice_4', zoom=1.5, pause=0.8, target_damage_gfx=[0.1, "shake", 0.75], sfx="content/sfx/sound/be/ice2.mp3", piercing=True,
                                        aim="bc", anchor=(0.5, 1.0), yo=40,
                                        desc="Freezes the air itself around the target, creating deadly ice blades.")
-    SimpleMagicalAttack(u"Blizzarja", attributes=['magic', 'ice'], effect=10, multiplier=1.2, cost=4, range=4, casting_effects=["ice_1", "default"], gfx='ice_3', zoom=1.7, pause=1.25, target_damage_gfx=[0.1, "shake", 1.1], sfx="content/sfx/sound/be/ice2.mp3", type="all_enemies", piercing=True,
+    SimpleMagicalAttack(u"Blizzarja", attributes=['magic', 'ice'], effect=10, multiplier=1.2, cost=4, range=4, casting_effects=["ice_1", "default"], gfx='ice_3', zoom=1.7, pause=1.25, sfx="content/sfx/sound/be/ice2.mp3", type="all_enemies", piercing=True,
                                        aim="bc", anchor=(0.5, 1.0), yo=60,
+                                       target_sprite_damage_effect={"gfx": "frozen", "initial_pause": 0.1, "duration": 1.1},
                                        desc="Quickly draws heat from a small area.")
     SimpleMagicalAttack(u"Zero Prism", attributes=['magic', 'ice'], effect=65, multiplier=1.5, cost=12, range=4,
                                        desc="Freezes the target into a solid ice block.",
