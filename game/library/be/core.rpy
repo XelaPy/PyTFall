@@ -1133,7 +1133,7 @@ init -1 python: # Core classes:
                     what = target.besprite
                     at_list = [fly_away]
                 elif type == "frozen":
-                    what = Transform(renpy.loader.transfn(content_path("gfx/be/frozen.png")), zoom=1.5)
+                    what = Transform("content/gfx/be/frozen.png", size=target.besprite_size)
                     at_list=[]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
