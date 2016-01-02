@@ -19,6 +19,23 @@ init python:
 # lines for the future male libido
 # You're a little out of juice at the moment, you might want to wait a bit.
 # The spirit is willing, but the flesh is spongy and bruised.
+screen int_libido_level(libido):
+    hbox:
+        xpos 5
+        ypos 55
+        vbox:
+            fixed:
+                xysize (150, 25)
+                yfill True
+                bar:
+                    yalign 1.0
+                    left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
+                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                    value libido
+                    range max_sex_scene_libido
+                    thumb None
+                    xysize (150, 20)
+                text "Libido" size 14 color ivory bold True yalign 0.2 xpos 7
 label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
     "You propose to pay her for sex."
     $ interactions_check_for_bad_stuff(char)
@@ -320,12 +337,14 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
         $ sex_scene_libido -= 1
     if sex_scene_libido < 2:
         $ sex_scene_libido = 2 # normalization, at worst you will do it 2 times
+    $ max_sex_scene_libido = sex_scene_libido
     # max is 12, min is 2
     call int_sex_ok
     jump interaction_scene_choice
 
     
 label interaction_scene_choice: # here we select specific scene, show needed image, jump to scene logic and return here after every scene
+    show screen int_libido_level(sex_scene_libido)
     if char.vitality <=10:
         jump interaction_scene_finish_sex
     if hero.vitality <= 30:
@@ -351,7 +370,6 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         if char.vitality < 30:
             "[char.name] is too tired to continue."
             jump interaction_scene_finish_sex
-    "libido is [sex_scene_libido]"
     if scene_picked == 0:
         $ scene_picked = 1
         if dice(sex_scene_libido*10 + 50*sub): # strong willed and/or very horny characters may pick action on their own from time to time
@@ -430,6 +448,7 @@ label interaction_sex_scene_choice:
 
             
 label interaction_scene_finish_sex:
+    hide screen int_libido_level
     if sex_scene_libido > 3 and char.vitality >= 70:
         call interaction_scene_mast
         "[char.name] is not satisfied yet, so she quickly masturbates to decrease libido."
@@ -722,8 +741,8 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if current_action == "mast":
         call interaction_scene_mast
         "She masturbates in front of you." 
-        if sex_scene_libido <= 2:
-            extend " Although it cannot be considered as a sexual act, she is more aroused now."
+        if max_sex_scene_libido > sex_scene_libido and dice(40):
+            extend " She is more aroused now."
             $ sex_scene_libido += 1
         $ char.vitality -= randint(5, 10)
         $ girl_count +=1
