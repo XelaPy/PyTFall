@@ -378,6 +378,9 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                 "She wants to try out with you something else."
             else:
                 "She wants to do something else with you."
+            if current_action == "vag":
+                if ct("Virgin"):
+                    jump interaction_check_for_virginity
             jump interactions_sex_scene_logic_part
 label interaction_sex_scene_choice:
     $ scene_picked = 0
@@ -1834,7 +1837,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                 menu:
                     "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                     "Yes":
-                        "You deflower her. Congratulations!"
+                        call girl_virgin
                     "No":
                         if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
                             "You changed your mind. She looks a bit disappointed."
@@ -1865,7 +1868,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                 menu:
                     "Looks like this is her first time, and she does not mind. Do you want to continue?"
                     "Yes":
-                        "You deflower her. Congratulations!"
+                        call girl_virgin
                     "No":
                         "You changed your mind. She looks a bit disappointed."
                         jump interaction_scene_choice
