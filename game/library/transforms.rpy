@@ -280,11 +280,20 @@ init -997: # Transforms:
     transform vortex_particle(displayable, t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, start_radius=200, end_radius=0, circles=3):
         displayable
         subpixel True
-        anchor (0.5, 0.5)
         around around
         angle angle
         radius start_radius
         easeout t radius end_radius clockwise circles circles
+        Null()
+        
+    transform vortex_particle_2(displayable, t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, start_radius=200, circles=3):
+        # This one keeps the radius constant
+        displayable
+        subpixel True
+        around around
+        angle angle
+        radius start_radius
+        easeout t clockwise circles circles
         Null()
         
     transform particle(d, delay, speed=1.0, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
