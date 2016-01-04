@@ -293,8 +293,9 @@ init -997: # Transforms:
         around around
         angle angle
         radius start_radius
-        easeout t clockwise circles circles
+        linear t clockwise circles 1
         Null()
+        repeat circles
         
     transform particle(d, delay, speed=1.0, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
         d

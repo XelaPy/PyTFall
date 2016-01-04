@@ -305,11 +305,26 @@ init -999 python:
             
             
     class Vortex(renpy.Displayable):
-        def __init__(self, displayable, amount=25, radius=300, adjust_radius=None, time=10, circles=3, reverse=False, **kwargs):
+        def __init__(self, displayable, amount=25, radius=300, limit_radius=0, adjust_radius=None, constant_radius=False, time=10, circles=3, reverse=False, **kwargs):
+            """Sends the particles flying in round "Vortex" patterns.
+            
+            @params:
+            -dispayable: A displayable to use.
+            -amount: Number of displayable to clone.
+            -radius: Radius of the vortex.
+            -limit_radius: This can be used to get the radius to start at something other than 0.
+            -constant_radius: Vorex will not make any inwards/outward movement, radius will be kept contant.
+            -adjust_radius: Expects a tuple of two ints, will plainly add a random between the to radius.
+            -time: Time animation takes place, in case of animation with constant radius, this is a time for one circle. Can be a float or a tuple of floats.
+            -circles: Amount of circles Vortex should make. Will take int ot a tuples of ints or floats.
+            -reverse: Reverses the movement outwards, does nothing in case of constant radius.
+            """
             super(Vortex, self).__init__(**kwargs)
             self.displayable = renpy.easy.displayable(displayable)
             self.amount = amount
             self.adjust_radius = adjust_radius
+            self.limit_radius = limit_radius
+            self.constant_radius = constant_radius
             self.time = time
             self.circles = circles
             self.vp = None
@@ -321,9 +336,17 @@ init -999 python:
             if not st:
                 self.args = None
             
+            if self.constant_radius:
+                tfunc = store.vortex_particle_2
+            else:
+                tfunc = store.vortex_particle
+                
             if not self.args:
                 self.args = list()
-                step = self.radius/self.amount
+                if not self.limit_radius:
+                    step = self.radius/self.amount
+                else:
+                    step = (self.radius-self.limit_radius)/self.amount
                 for i in xrange(1, self.amount+1):
                     if isinstance(self.time, (tuple, list)):
                         t = random.uniform(*self.time)
@@ -338,10 +361,11 @@ init -999 python:
                     r = self.radius - step*i
                     if self.adjust_radius:
                         r = r + randint(*self.adjust_radius)
+                        
                     if self.reverse:
-                        self.args.append(vortex_particle(self.displayable, t=t, angle=randint(0, 360), start_radius=0, end_radius=r, circles=c))
+                        self.args.append(tfunc(self.displayable, t=t, angle=randint(0, 360), start_radius=0, end_radius=r, circles=c))
                     else:
-                        self.args.append(vortex_particle(self.displayable, t=t, angle=randint(0, 360), start_radius=r, circles=c))
+                        self.args.append(tfunc(self.displayable, t=t, angle=randint(0, 360), start_radius=r, circles=c))
                     
             render = renpy.Render(width, height)
             for r in self.args:
