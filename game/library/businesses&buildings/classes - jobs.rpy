@@ -1249,17 +1249,17 @@
             self.txt.append("\n")
             if skill >= 4000:
                 if self.client.gender == "male":
-                    self.txt.append("The client was at the girls mercy. $s brought him to the heavens and left there, unconscious due to sensory overload.")
+                    self.txt.append("The client was at the girls mercy. She brought him to the heavens and left there, unconscious due to sensory overload.")
                 else:
-                    self.txt.append("The client was at the girls mercy. $s brought her to the heavens and left there, unconscious due to sensory overload.")
+                    self.txt.append("The client was at the girls mercy. She brought her to the heavens and left there, unconscious due to sensory overload.")
                 self.loggs("exp", randint(250, 500))
                 self.logloc("reputation", choice([0, 1]))
                 self.loggs("joy", 3)
             elif skill >= 2000:
                 if self.client.gender == "male":
-                    self.txt.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished." %self.worker.name)
+                    self.txt.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished.")
                 else:
-                    self.txt.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished." %self.worker.name)
+                    self.txt.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished.")
                 self.loggs("exp", randint(100, 200))
                 self.logloc("reputation", choice([0, 0, 1]))
                 self.loggs("joy", 2)
@@ -1318,7 +1318,7 @@
             self.clients = char.flag("jobs_strip_clients")
             self.strip()
             
-        def check_occupation(self, char=None): # checks here will be a bit lower than for whores, and SIWs but not strippers almost never refuse but will be unhappy
+        def check_occupation(self, char=None):
             """Checks if the worker is willing to do this job.
             """
             if not [t for t in self.all_occs if t in char.occupations]:
@@ -1465,59 +1465,79 @@
             len_clients = len(self.clients) if self.clients else 0
                 
             tippayout = self.worker.flag("jobs_" + self.id + "_tips")
-            cl_strip = 0
-            cl_char = 0
-            stripskill = self.worker.get_skill("strip")
+            skill = round(self.worker.get_skill("strip")*0.75 + self.worker.get_skill("dancing")*0.25)
             charisma = self.worker.charisma
             
-            # This is a shitty way of handling stats/skills (I guess...):
-            if self.clients:
-                for c in self.clients:
-                    # We get the highest skills a character has to match vs strip skill, assumption is that proffessional can appriciate another profi :)
-                    cl_strip = cl_strip + max(list(getattr(c, s + "skill") for s in c.stats.skills))
-                    cl_char = cl_char + c.charisma
-            cl_strip = cl_strip / len_clients if len_clients else cl_strip
-            cl_char = cl_char / len_clients if len_clients else cl_char
-            
-            if stripskill > cl_strip*1.5 and charisma > cl_char*1.5:
-                self.txt.append("{} gave a performance worthy of kings and queens as the whole hall was cheering for her. \n".format(self.worker.name))
-                self.loggs('joy', 3)
-            elif cl_strip*1.3 <= stripskill and cl_char*1.3 <= charisma:
-                self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. \n")
-                self.loggs('joy', 2)
-            elif cl_strip*1.15 <= stripskill and cl_char*1.15 <= charisma:
-                self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, the whole hall was cheering for her. "+ \
-                                         "Overall it was a more than decent performance.  \n")
-                self.loggs('joy', 1)
-            elif cl_strip <= stripskill and cl_char <= charisma:
-                self.txt.append("Your girl lost all of her clothing piece by piece as she stripdanced on the floor, some mildly drunk clients cheered for her. Overall it was a decent performance. \n")
-            elif 0 <= stripskill <= cl_strip and 0 <= charisma <= cl_char:
-                self.txt.append("%s certainly did not shine as she clumsily 'danced' on the floor. Neither her looks nor her skill could save the performance... "%self.worker.nickname + \
-                                        "calls for a different stripper could be heard from all over the club! ")
-                self.loggs('joy', -2)
-            elif stripskill < cl_strip and charisma > cl_char:
-                self.txt.append("Your girl tripped several times while trying to undress herself as she 'stripdanced' on the floor, noone really complained because even if her skill was inadequate, " + \
-                                        "she was pretty enough to arouse most men and women in the club. Overall it was a decent performance. \n")
-                self.loggs('joy', -1)
-            elif stripskill > cl_strip and charisma < cl_char:
-                self.txt.append("%s may not be the prettiest girl in town but noone really complained because what she lacked in looks, she made up in skill. "%self.worker.name + \
-                                        "Overall it was a decent performance. \n")
-                self.loggs('joy', -1)
+            if charisma >= 1500:
+                self.txt.append("%s supernal loveliness instantly captivated audiences. " %self.worker.name)
+                self.loggs("joy", 1)
+            elif self.worker.charisma >= 1000:
+                self.txt.append("The attention of customers was entirely focused on %s thanks to her prettiness. " %self.worker.name)
+                self.loggs("joy", 1)
+            elif self.worker.charisma >= 500:
+                self.txt.append("%s enchanted customers with her stunning beauty. " %self.worker.name)
+            elif self.worker.charisma >= 200:
+                self.txt.append("Customers were delighted with %s beauty. " %self.worker.name)
+            elif self.worker.charisma >= 100:
+                self.txt.append("%s good looks was pleasing to audiences. " %self.worker.name)
+            elif self.worker.charisma >= 50:
+                self.txt.append("%s did her best to make customers like her, but her beauty could definitely be enhanced. " %self.worker.name)
             else:
-                self.txt.append('Dev Note: >>>I missed something!<<< Charisma = %d, Strip = %d \n'%(charisma, stripskill))
-            
+                self.loggs("joy", -2)
+                self.txt.append("Customers clearly were unimpressed by %s looks, to say at least. Such a cold reception was not encouraging for the poor girl at all..." %self.worker.name)
+
             self.txt.append("\n")
+            if skill >= 4000:
+                self.txt.append("She gave an amazing performance, her sexy and elegant moves forced a few customers to come right away to their own embarrassment.")
+                self.loggs("exp", randint(250, 500))
+                self.logloc("reputation", choice([0, 1]))
+                self.loggs("joy", 3)
+            elif skill >= 2000:
+                self.txt.append("She gave a performance worthy of kings and queens as the whole hall was cheering for her.")
+                self.loggs("exp", randint(100, 200))
+                self.logloc("reputation", choice([0, 0, 1]))
+                self.loggs("joy", 2)
+            elif skill >= 1000:
+                self.txt.append("She lost all of her clothing piece by piece as she gracefully danced on the floor, the whole hall was cheering for her.")
+                self.loggs("exp", randint(50, 120))
+                self.loggs("joy", 2)
+            elif skill >= 500:
+                self.txt.append("She lost all of her clothing piece by piece as she danced on the floor, some mildly drunk clients cheered for her.")
+                self.loggs("exp", randint(40, 75))
+                self.loggs("joy", 1)
+            elif skill >= 200:
+                self.txt.append("She danced to the best of her ability but her skills could definitely be improved.")
+                self.loggs("exp", randint(35, 45))
+            elif skill >= 50:
+                self.txt.append("She barely knew what she was doing. Her performance can hardly be called a striptease, but at least she showed enough skin to arouse some men and women in the club.")
+                self.loggs("exp", randint(20, 35))
+            else:
+                self.loggs("exp", randint(15, 25))
+                if self.worker.charisma >= 200:
+                    self.txt.append("She tripped several times while trying to undress herself as she 'stripdanced' on the floor. Still, she was pretty enough to arouse some men and women in the club.")
+                else:
+                    self.txt.append("She certainly did not shine as she clumsily 'danced' on the floor. Neither her looks nor her skill could save the performance...")
+
+                    self.txt.append("\n")
             
-            # Girl
-            if dice(25):
-                self.loggs('charisma', 1)
-                self.txt.append("\nYour workers charisma increased as she learned a new trick on how to make herself pretty before the show! \n")
+            # Take care of stats mods                  
+            if "Exhibitionist" in self.worker.traits:
+                stripmod = 1 if dice(35) else 0
+            else:
+                stripmod = 1 if dice(25) else 0
+            dancemod = 1 if dice(15) else 0
+            agilemod = 1 if dice(9) else 0
+            charismamod = 1 if dice(20) else 0
             
-            if dice(35):
-                self.loggs('strip', 1)
-            
-            self.loggs('agility', choice([0, 0, 0, 1]))
+            self.loggs("agility", agilemod)
             self.loggs('vitality', randrange(-31, -15))
+            self.loggs("charisma", charismamod)
+            self.loggs("dancing", dancemod)
+            self.loggs("strip", stripmod)
+
+            if stripmod + agilemod + dancemod + charismamod > 0:
+                self.txt.append("\n%s feels like she learned something! \n"%self.worker.name)
+                self.loggs("joy", 1)
             
             # Finances:
             self.worker.fin.log_tips(tippayout, "StripJob")

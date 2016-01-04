@@ -237,7 +237,7 @@ init -9 python:
             self.res = simpy.Resource(self.env, self.capacity)
             
         def request_room(self, client, char):
-            """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms avalible...
+            """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
             """
             with self.res.request() as request:
                 yield request
@@ -249,7 +249,7 @@ init -9 python:
                 # This line will make sure code halts here until run_job ran it's course...
                 yield self.env.process(self.run_job(client, char))
                 
-                # Action (Job) ran it's cource and client is leaving...
+                # Action (Job) ran it's course and client is leaving...
                 temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
                 self.log(temp)
                 # client.flag("jobs_busy").interrupt()
@@ -282,7 +282,7 @@ init -9 python:
         
         This usually assumes the following:
         - Clients are handled in one general pool.
-        - Workers randonly serve them.
+        - Workers randomly serve them.
         """
         def __init__(self, name="Public Default", instance=None, desc="Client is always right!?!", img=Null(), build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
             super(PublicBusinessUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
