@@ -1,5 +1,4 @@
 init -1 python: # Core classes:
-    battle_skills = {}
     """
     This is our version of turnbased BattleEngine.
     I think that we can use zorders on master layer instead of messing with multiple layers.
@@ -452,8 +451,7 @@ init -1 python: # Core classes:
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
             if add2skills:
-                if self.name not in battle_skills:
-                    battle_skills[self.name] = self
+                battle_skills[self.name] = self
                 
             # GFX/SFX + Dicts:
             self.timestamps = {} # We keep all gfx effects here!

@@ -60,6 +60,12 @@
         items.update(load_gifts())
         tl.timer("Loading: Items")
         
+    $ tl.timer("Loading: Battle Skills")
+    $ battle_skills = dict()
+    call load_battle_skills
+    $ tl.timer("Loading: Battle Skills")
+    
+    python:    
         # MC:
         hero = Player()
         
