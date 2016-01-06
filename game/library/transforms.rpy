@@ -297,6 +297,14 @@ init -997: # Transforms:
         Null()
         repeat circles
         
+    # This bit is required for the Snowing effect:
+    transform snowlike_particle(d, delay, startpos, endpos, speed):
+        subpixel True
+        pause delay
+        d
+        pos startpos
+        linear speed pos endpos
+        
     transform particle(d, delay, speed=1.0, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
         d
         pause delay
@@ -304,3 +312,6 @@ init -997: # Transforms:
         around around
         radius 0
         linear speed radius radius angle angle
+        
+    transform shake(dt=.4, dist=128):
+        function renpy.curry(_shake_function)(dt=dt,dist=dist)
