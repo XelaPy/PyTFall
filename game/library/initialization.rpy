@@ -296,8 +296,8 @@ init -999 python:
     # Returns the position of cursor if show cursorPosition is called
     # show cursorPosition on bottom
     def dd_cursor_position(st, at):
-        x,y = pygame.mouse.get_pos()
-        return Text("{size=-5}%d - %d"%(x,y)), .1
+        x, y = renpy.get_mouse_pos()
+        return Text("{size=-5}%d - %d"%(x, y)), .1
         # -------------------------------------------------------------------------------------------------------- Ends here    
     
     ########################## Images ##########################
