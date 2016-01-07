@@ -251,6 +251,10 @@ init python:
             
             # GFX:
             if gfx:
+                # Flip the attack image if required:
+                if self.main_effect.get("hflip", False):
+                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                
                 target = targets[0]
                 teampos = target.beteampos
                 aim = self.main_effect["aim"]
@@ -460,6 +464,44 @@ init python:
                 gfxtag = "attack" + str(i)
                 renpy.hide(gfxtag)
             
+                
+    class WaterBlast(ArealMagicalAttack):
+        """Simple overwrite in order to use offsets from of the transform.
+        
+        It's prolly a good idea to come up with a better way to do this but not atm.
+        """
+        def __init__(self, name, **kwargs):
+            super(WaterBlast, self).__init__(name, **kwargs)
+            
+        def show_main_gfx(self, battle, attacker, targets):
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            # gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            # GFX:
+            gfx = water_combined(300, 1.8) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else water_combined(-300, -1.8)
+            
+            target = targets[0]
+            teampos = target.beteampos
+            aim = self.main_effect["aim"]
+            point = aim.get("point", "center")
+            anchor = aim.get("anchor", (0.5, 0.5))
+            xo = aim.get("xo", 0)
+            yo = aim.get("yo", 0)
+            
+            gfxtag = "areal"
+            if teampos == "l":
+                teampos = BDP["perfect_middle_right"]
+            else:
+                teampos = BDP["perfect_middle_left"]
+            
+            renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo, override=teampos), anchor=anchor)], zorder=1000)
+                
                 
     class BasicHealingSpell(SimpleMagicalAttack):
         def __init__(self, name, **kwargs):

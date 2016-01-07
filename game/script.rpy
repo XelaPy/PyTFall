@@ -279,9 +279,6 @@ label dev_testing_menu:
     
     jump mainscreen
     
-
-# This is very convinient, but could prove slow...
-# Disabled until 0.9...
 label after_load:
     stop music
     return

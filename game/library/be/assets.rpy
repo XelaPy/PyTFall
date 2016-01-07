@@ -14,6 +14,7 @@ init -1: # Images and Animations
     image cast_runes_1 = FilmStrip('content/gfx/be/filmstrips/cast_runes_1.png', (192, 192), (5, 1), 0.15, loop=False)
     
     # Magic:
+    # Fire:
     image fire_1 = FilmStrip('content/gfx/be/filmstrips/fire_1.png', (192, 192), (5, 4), 0.1, loop=False)
     image fire_2 = FilmStrip('content/gfx/be/filmstrips/fire_2.png', (192, 192), (5, 4), 0.1, loop=False)
     image fire_3 = FilmStrip('content/gfx/be/filmstrips/fire_3.png', (192, 192), (5, 7), 0.1, loop=False)
@@ -70,7 +71,6 @@ init -1: # Images and Animations
         FilmStrip('content/gfx/be/filmstrips/fire_5.png', (192, 192), (5, 6), 0.05, loop=True)
         rotate 0
         linear 1.5 rotate 360
-
     image fire_6_1:
         FilmStrip('content/gfx/be/filmstrips/fire_6_1.png', (192, 192), (5, 3), 0.08, loop=False)
         zoom 2.0
@@ -81,6 +81,7 @@ init -1: # Images and Animations
         linear 1.5 rotate 360
     image cataclysm_sideways = FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=False)
 
+    # Water:
     image water_1 = FilmStrip('content/gfx/be/filmstrips/water_1.png', (192, 192), (5, 3), 0.1, loop=False)
     image water_2 = FilmStrip('content/gfx/be/filmstrips/water_2.png', (192, 192), (5, 4), 0.1, loop=False)
     image water_3 = FilmStrip('content/gfx/be/filmstrips/water_3.png', (192, 192), (5, 5), 0.1, loop=False)
@@ -88,7 +89,46 @@ init -1: # Images and Animations
     image water_5 = FilmStrip('content/gfx/be/filmstrips/water_5.png', (192, 192), (5, 6), 0.1, loop=False)
     image water_6 = FilmStrip('content/gfx/be/filmstrips/water_6.png', (192, 192), (5, 10), 0.1, loop=False)
     image rain = FilmStrip('content/gfx/be/filmstrips/rain.png', (192, 192), (5, 10), 0.05, loop=True)
-
+    image water_wave = FilmStrip('content/gfx/be/filmstrips/water_wave.png', (531, 213), (3, 3), 0.15, include_frames=range(7), loop=False)
+    image water_attack:
+        "content/gfx/be/animations/water_attack/00.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/01.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/02.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/03.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/04.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/05.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/06.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/07.png"
+        pause 0.1
+        "content/gfx/be/animations/water_attack/08.png"
+        pause 0.1
+        Null()
+        
+    transform water_combined(xo, xz):
+        anchor (0.5, 1.0)
+        
+        parallel:
+            "water_attack"
+            zoom 1.0
+            xoffset xo # -300
+            yoffset -40
+            
+        parallel:    
+            pause 0.6
+            "water_wave"
+            xzoom xz # -1.8
+            yzoom 1.8
+            yoffset 0
+            xoffset 0
+        
+    # Earth:
     image earth_1 = FilmStrip('content/gfx/be/filmstrips/earth_1.png', (192, 192), (5, 4), 0.1, loop=False)
     image earth_2 = FilmStrip('content/gfx/be/filmstrips/earth_2.png', (192, 192), (5, 2), 0.1, loop=False)
     image earth_3 = FilmStrip('content/gfx/be/filmstrips/earth_3.png', (192, 192), (5, 3), 0.1, loop=False)
@@ -98,6 +138,7 @@ init -1: # Images and Animations
     image magma = FilmStrip('content/gfx/be/filmstrips/magma.png', (192, 192), (5, 8), 0.08, loop=False)
     image crushing_hand = FilmStrip('content/gfx/be/filmstrips/crushing_hand.png', (513, 297), (3, 6), 0.15, loop=False)
     
+    # Air:
     image air_1 = FilmStrip('content/gfx/be/filmstrips/air_1.png', (192, 192), (5, 5), 0.06, loop=False)
     image air_2 = FilmStrip('content/gfx/be/filmstrips/air_2.png', (192, 192), (5, 5), 0.06, loop=False)
     image air_3 = FilmStrip('content/gfx/be/filmstrips/air_3.png', (192, 192), (5, 5), 0.06, loop=False)
@@ -123,6 +164,7 @@ init -1: # Images and Animations
     image dawn = FilmStrip('content/gfx/be/filmstrips/dawn.png', (192, 192), (5, 7), 0.1, loop=False)
     image holy_blast = FilmStrip('content/gfx/be/filmstrips/holy_blast_2x_bm.png', (382, 336), (8, 5), 0.1, include_frames=range(36), loop=False)
 
+    # Darkness:
     image darkness_1 = FilmStrip('content/gfx/be/filmstrips/darkness_1.png', (192, 192), (5, 4), 0.05, loop=False)
     image darkness_2 = FilmStrip('content/gfx/be/filmstrips/darkness_2.png', (192, 192), (5, 4), 0.08, loop=False)
     image darkness_3 = FilmStrip('content/gfx/be/filmstrips/darkness_3.png', (192, 192), (5, 6), 0.05, loop=False)
@@ -132,10 +174,7 @@ init -1: # Images and Animations
     image darklight = FilmStrip('content/gfx/be/filmstrips/darklight.png', (144, 192), (5, 4), 0.1, loop=False)
     image dominion = FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False)
 
-    image poison_1 = FilmStrip('content/gfx/be/filmstrips/poison_1.png', (192, 192), (5, 6), 0.07, loop=False)
-    image poison_2 = FilmStrip('content/gfx/be/filmstrips/poison_2.png', (192, 192), (5, 3), 0.1, loop=False)
-    image poison_3 = FilmStrip('content/gfx/be/filmstrips/poison_3.png', (192, 192), (5, 5), 0.06, loop=False)
-
+    # Ice Arrow:
     image ice_1 = FilmStrip('content/gfx/be/filmstrips/ice_1.png', (192, 192), (5, 5), 0.08, loop=False)
     image ice_2 = FilmStrip('content/gfx/be/filmstrips/ice_2.png', (192, 192), (5, 5), 0.07, loop=False)
     image ice_3 = FilmStrip('content/gfx/be/filmstrips/ice_3.png', (192, 192), (5, 5), 0.05, loop=False)
@@ -192,6 +231,7 @@ init -1: # Images and Animations
         
     image ice_blast = FilmStrip('content/gfx/be/filmstrips/ice_blast.png', (393, 508), (5, 5), 0.1, include_frames=range(22), loop=False)
     
+    # Electricity:
     image electricity_1 = FilmStrip('content/gfx/be/filmstrips/electricity_1.png', (192, 192), (5, 2), 0.1, loop=False)
     image electricity_2 = FilmStrip('content/gfx/be/filmstrips/electricity_2.png', (192, 192), (5, 3), 0.08, loop=False)
     image electricity_3 = FilmStrip('content/gfx/be/filmstrips/electricity_3.png', (192, 192), (5, 3), 0.09, loop=False)
@@ -212,23 +252,16 @@ init -1: # Images and Animations
         VBox(Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 0, 507, 125)),
                   Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 125, 507, 128), yzoom=3))
     
+    image poison_1 = FilmStrip('content/gfx/be/filmstrips/poison_1.png', (192, 192), (5, 6), 0.07, loop=False)
+    image poison_2 = FilmStrip('content/gfx/be/filmstrips/poison_2.png', (192, 192), (5, 3), 0.1, loop=False)
+    image poison_3 = FilmStrip('content/gfx/be/filmstrips/poison_3.png', (192, 192), (5, 5), 0.06, loop=False)
+        
     image heal_1 = FilmStrip('content/gfx/be/filmstrips/heal_1.png', (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip('content/gfx/be/filmstrips/heal_2.png', (192, 192), (5, 5), 0.1, loop=False)
     image resurrection = FilmStrip('content/gfx/be/filmstrips/resurrection2x.png', (288, 247), (5, 4), 0.1, loop=False)
     image bg test_grid = "content/gfx/bg/maps/map17x6.jpg"
     
-    transform fly_away():
-        easeout_bounce 1.5 yoffset -1000
-        pause 2.0
-        easeout_bounce 1.0 yoffset 0
-        parallel:
-            easeout_bounce 0.1 yzoom 0.95
-            easeout_bounce 0.1 yzoom 1.0
-        parallel:
-            easeout_bounce 0.1 yoffset 10
-            easeout_bounce 0.1 yoffset 0
-            
-
+    
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
@@ -280,7 +313,6 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "fire_shake", "initial_pause": 0.2, "duration": 3.0},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
-        # TODO:
         P2P_MagicAttack(u"Fireball", attributes=['magic', 'fire'], effect=50, multiplier=1.5, cost=10, range=4, piercing=True,
                                       desc="Launches an exploding fireball at one enemy.",
                                       projectile_effects={"gfx": 'fire_6', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
@@ -288,7 +320,6 @@ label load_battle_skills:
                                       attacker_effects={"gfx": "fire_2", "sfx": "default"},
                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5})
-                                           
         P2P_MagicAttack(u"Solar Flash", attributes=['magic', 'fire'], effect=65, multiplier=1.5, cost=12, range=4,
                                       desc="Sends towards the target a small piece of solar plazma.",
                                       projectile_effects={"gfx": 'fire_5', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
@@ -305,14 +336,12 @@ label load_battle_skills:
                               main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
                               target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
-        
         SimpleMagicalAttack("Meteor", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform('cataclysm_sideways', xzoom=-1), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "fire", "initial_pause": 1.2, "duration": 0.6},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                            target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5})
-        # TODO:
         ArealMagicalAttack("Cataclysm", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
@@ -359,8 +388,14 @@ label load_battle_skills:
         SimpleMagicalAttack(u"Heavy Rain", attributes=['magic', 'water'], effect=70, multiplier=1.8, true_pierce=True, cost=15, range=6, casting_effects=["water_2", "default"], gfx='rain', zoom=2.0, pause=5.0, target_damage_gfx=[0.25, "shake", 4.75], sfx="content/sfx/sound/be/heavy_rain.mp3", type="all_enemies", piercing=True,
                                            aim="bc", anchor=(0.5, 1.0), yo=80,
                                            desc="Summons a rain of extra heavy water from another dimension.")
-    
-    
+        WaterBlast(u"Water Blast", attributes=['magic', 'water'], effect=100, multiplier=3.0, cost=30, piercing=True, range=6, type="all_enemies",
+                           desc="Hits the taget with a massive water blast!",
+                           attacker_effects={"gfx": "orb", "sfx": "default"},
+                           main_effect={"sfx": "content/sfx/sound/be/water5.mp3", "duration": 1.6, "aim": {"anchor": (0.5, 1.0), "xo": 50, "yo": 170}, "hflip": True},
+                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.3},
+                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
+                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": 0.5})
+        
         # Ice:
         MagicArrows("Ice Arrow", attributes=['magic', 'ice'], effect=50, multiplier=1.5, cost=10, range=4,
                               desc="Creates a an arrow of ice crystals that pierces through the target.",
@@ -370,8 +405,7 @@ label load_battle_skills:
                               attacker_effects={"gfx": "ice_2", "sfx": "default"},
                               target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
-                              target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
-                                           
+                              target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})   
         SimpleMagicalAttack(u"Blizzard", attributes=['magic', 'ice'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["ice_1", "default"], gfx='ice_1', zoom=1.9, pause=2.9, target_damage_gfx=[0.2, "shake", 1.8], sfx="content/sfx/sound/be/ice3.mp3", type="all_enemies",
                                            aim="bc", anchor=(0.5, 1.0), yo=60,
                                            desc="Creates a cloud of sharp ice splinters.")

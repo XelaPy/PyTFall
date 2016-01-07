@@ -299,9 +299,9 @@ init -997: # Transforms:
         
     # This bit is required for the Snowing effect:
     transform snowlike_particle(d, delay, startpos, endpos, speed):
-        subpixel True
-        pause delay
         d
+        pause delay
+        subpixel True
         pos startpos
         linear speed pos endpos
         
@@ -312,6 +312,17 @@ init -997: # Transforms:
         around around
         radius 0
         linear speed radius radius angle angle
+        
+    transform fly_away():
+        easeout_bounce 1.5 yoffset -1000
+        pause 2.0
+        easeout_bounce 1.0 yoffset 0
+        parallel:
+            easeout_bounce 0.1 yzoom 0.95
+            easeout_bounce 0.1 yzoom 1.0
+        parallel:
+            easeout_bounce 0.1 yoffset 10
+            easeout_bounce 0.1 yoffset 0
         
     transform shake(dt=.4, dist=128):
         function renpy.curry(_shake_function)(dt=dt,dist=dist)
