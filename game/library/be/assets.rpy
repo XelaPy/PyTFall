@@ -172,7 +172,7 @@ init -1: # Images and Animations
     image darkness_5 = FilmStrip('content/gfx/be/filmstrips/darkness_5.png', (375, 500), (4, 3), 0.1, loop=False)
     image darkness_6 = FilmStrip('content/gfx/be/filmstrips/darkness_6.png', (192, 192), (5, 3), 0.1, loop=False)
     image darklight = FilmStrip('content/gfx/be/filmstrips/darklight.png', (144, 192), (5, 4), 0.1, loop=False)
-    image dominion = FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (1785, 1062), (5, 5), 0.1, loop=False)
+    image dominion = FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False)
 
     # Ice Arrow:
     image ice_1 = FilmStrip('content/gfx/be/filmstrips/ice_1.png', (192, 192), (5, 5), 0.08, loop=False)
@@ -626,14 +626,14 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.2},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.8},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": 0.5})
-        ArealMagicalAttack("Dominion", attributes=['magic', 'darkness'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
-                                        desc="Cut the darkness itself!",
-                                        attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("dominion", zoom=1.1), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 2.5, "aim": {"anchor": (0.5, 0.5), "xo": 10 ,"yo": -75}},
-                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
-                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
-                                        bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
+        FullScreenCenteredArealMagicalAttack("Dominion", attributes=['magic', 'darkness'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                                                        desc="Cut the darkness itself!",
+                                                                        attacker_effects={"gfx": "orb", "sfx": "default"},
+                                                                        main_effect={"gfx": Transform("dominion", size=(config.screen_width, config.screen_height)), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 2.5},
+                                                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
+                                                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
+                                                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
+                                                                        bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
                                            
         # Healing:
         BasicHealingSpell(u"Cure", attributes=['magic', 'healing'], effect=25, cost=8, range=5, type="sa",

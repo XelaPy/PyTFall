@@ -501,7 +501,29 @@ init python:
                 teampos = BDP["perfect_middle_left"]
             
             renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo, override=teampos), anchor=anchor)], zorder=1000)
-                
+            
+            
+    class FullScreenCenteredArealMagicalAttack(ArealMagicalAttack):
+        """Simple overwrite, negates offsets and shows the attack over the whole screen aligning it to truecenter.
+        """
+        def __init__(self, name, **kwargs):
+            super(FullScreenCenteredArealMagicalAttack, self).__init__(name, **kwargs)
+            
+        def show_main_gfx(self, battle, attacker, targets):
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.sound.play(sfx)
+            
+            # GFX:
+            if gfx:
+                gfxtag = "areal"
+                renpy.show(gfxtag, what=gfx, at_list=[Transform(align=(0.5, 0.5))], zorder=1000)
+            
                 
     class BasicHealingSpell(SimpleMagicalAttack):
         def __init__(self, name, **kwargs):
