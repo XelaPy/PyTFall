@@ -325,8 +325,6 @@ screen testing_image_quality():
     # add "exl_02" pos (1100, 400)
     add "water_combined" pos (400, 400)
     add Transform("water_combined", zoom=-1) pos (400, 400)
-    # add "rain" align (0.8, 0.5)
-    # add "water_wave" align (0.5, 0.5)
     # Adding for testing and tweaking:
     # add "thunder_storm_3" align (0.5, 0.5)
         

@@ -410,6 +410,7 @@ init python:
         def render(self, width, height, st, at):
                 
             rp = store.renpy
+            random = store.random
                 
             if not st:
                 self.next = 0
@@ -419,34 +420,34 @@ init python:
             render = rp.Render(width, height)
             
             if self.next <= st:
-                speed = rp.random.uniform(self.speed[0], self.speed[1])  if isinstance(self.speed, (list, tuple)) else self.speed
+                speed = random.uniform(self.speed[0], self.speed[1])  if isinstance(self.speed, (list, tuple)) else self.speed
                     
                 posx = self.start_pos[0]
-                posx = rp.random.randint(posx[0], posx[1]) if isinstance(posx, (list, tuple)) else posx
+                posx = random.randint(posx[0], posx[1]) if isinstance(posx, (list, tuple)) else posx
                 
                 posy = self.start_pos[1]
-                posy = rp.random.randint(posy[0], posy[1]) if isinstance(posy, (list, tuple)) else posy
+                posy = random.randint(posy[0], posy[1]) if isinstance(posy, (list, tuple)) else posy
                 
                 endposx = self.end_pos[0]
                 if isinstance(endposx, dict):
                     offset = endposx.get("offset", 0)
-                    endposx = posx + rp.random.randint(offset[0], offset[1]) if isinstance(offset, (list, tuple)) else offset
+                    endposx = posx + random.randint(offset[0], offset[1]) if isinstance(offset, (list, tuple)) else offset
                 else:
-                    endposx = rp.random.randint(endposx[0], endposx[1]) if isinstance(endposx, (list, tuple)) else endposx
+                    endposx = random.randint(endposx[0], endposx[1]) if isinstance(endposx, (list, tuple)) else endposx
                 
                 endposy = self.end_pos[1]
                 if isinstance(endposy, dict):
                     offset = endposy.get("offset", 0)
                     endposy = posy + randint.randint(offset[0], offset[1]) if isinstance(offset, (list, tuple)) else offset
                 else:
-                    endposy = rp.random.randint(endposy[0], endposy[1]) if isinstance(endposy, (list, tuple)) else endposy
+                    endposy = random.randint(endposy[0], endposy[1]) if isinstance(endposy, (list, tuple)) else endposy
                 
                 self.shown[st + speed] = self.transform(self.d, st, (posx, posy), (endposx, endposy), speed)
                 if self.slow_start and st < self.slow_start[0]:
                     interval = self.slow_start[1]
-                    self.next = st + rp.random.uniform(interval[0], interval[1])
+                    self.next = st + random.uniform(interval[0], interval[1])
                 else:
-                    self.next = st + rp.random.uniform(self.interval[0], self.interval[1])
+                    self.next = st + random.uniform(self.interval[0], self.interval[1])
             
             for d in self.shown.keys():
                 if d < st:
