@@ -70,6 +70,14 @@ init -997: # Transforms:
         pause wait
         linear t alpha end_val
         
+    transform fade_from_to_with_easeout(start_val=1.0, end_val=0.0, t=1.0, wait=0):
+        # Setup as a fade out, reverse the values for the fade in
+        # simple_fade (fade is reserved...)
+        subpixel True
+        alpha start_val
+        pause wait
+        easeout t alpha end_val
+        
     transform fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
                                         sv2=1.0, ev2=0.0, t2=1.0):
         on show:

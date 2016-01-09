@@ -111,22 +111,24 @@ init -1: # Images and Animations
         pause 0.1
         Null()
         
-    transform water_combined(xo, xz):
-        anchor (0.5, 1.0)
-        
-        parallel:
+    transform water_combined(xz, xo):
+        # It's prolly a better design to work with the displayable directly using contains instead of replacing them with parallel...
+        contains:
             "water_attack"
-            zoom 1.0
-            xoffset xo # -300
-            yoffset -40
+            xalign 0.5
+            ypos 600
+            yanchor 1.0
             
-        parallel:    
+        contains:
             pause 0.6
             "water_wave"
-            xzoom xz # -1.8
+            xalign 0.5
+            ypos 650
+            yanchor 1.0
+            xzoom xz
+            xoffset xo
             yzoom 1.8
-            yoffset 0
-            xoffset 0
+            
         
     # Earth:
     image earth_1 = FilmStrip('content/gfx/be/filmstrips/earth_1.png', (192, 192), (5, 4), 0.1, loop=False)
@@ -230,6 +232,57 @@ init -1: # Images and Animations
         "content/gfx/be/animations/ice_arrow/IceArrow_I8.png"
         
     image ice_blast = FilmStrip('content/gfx/be/filmstrips/ice_blast.png', (393, 508), (5, 5), 0.1, include_frames=range(22), loop=False)
+    
+    image ice_twin_explosion = FilmStrip('content/gfx/be/filmstrips/ice_twin_explosion.png', (358, 312), (2, 4), 0.1, include_frames=range(7), loop=False)
+    image ice_strike = FilmStrip('content/gfx/be/filmstrips/ice_strike.png', (581, 511), (3, 4), 0.1, loop=False)
+    transform ice_storm(pos):
+        contains:
+            "ice_strike"
+            pos pos
+            anchor (0.5, 1.0)
+            pause 1.2
+            Null()
+        contains:
+            pause 0.6
+            "ice_twin_explosion"
+            pos pos
+            anchor (0.5, 1.0)
+            offset (-120, -10)
+            pause 0.7
+            Null()
+        contains:
+            pause 0.8
+            "ice_twin_explosion"
+            pos pos
+            anchor (0.5, 1.0)
+            offset (100, -60)
+            pause 0.7
+            Null()
+        contains:
+            pause 0.95
+            "ice_twin_explosion"
+            pos pos
+            anchor (0.5, 1.0)
+            offset (60, -140)
+            pause 0.7
+            Null()
+        contains:
+            pause 1.0
+            "ice_twin_explosion"
+            pos pos
+            anchor (0.5, 1.0)
+            offset (-60, -170)
+            pause 0.7
+            Null()
+        contains:
+            pause 1.0
+            "ice_twin_explosion"
+            pos pos
+            anchor (0.5, 1.0)
+            offset (40, -80)
+            pause 0.7
+            Null()
+    
     
     # Electricity:
     image electricity_1 = FilmStrip('content/gfx/be/filmstrips/electricity_1.png', (192, 192), (5, 2), 0.1, loop=False)
@@ -388,13 +441,13 @@ label load_battle_skills:
         SimpleMagicalAttack(u"Heavy Rain", attributes=['magic', 'water'], effect=70, multiplier=1.8, true_pierce=True, cost=15, range=6, casting_effects=["water_2", "default"], gfx='rain', zoom=2.0, pause=5.0, target_damage_gfx=[0.25, "shake", 4.75], sfx="content/sfx/sound/be/heavy_rain.mp3", type="all_enemies", piercing=True,
                                            aim="bc", anchor=(0.5, 1.0), yo=80,
                                            desc="Summons a rain of extra heavy water from another dimension.")
-        WaterBlast(u"Water Blast", attributes=['magic', 'water'], effect=100, multiplier=3.0, cost=30, piercing=True, range=6, type="all_enemies",
-                           desc="Hits the taget with a massive water blast!",
-                           attacker_effects={"gfx": "orb", "sfx": "default"},
-                           main_effect={"sfx": "content/sfx/sound/be/water5.mp3", "duration": 1.6, "aim": {"anchor": (0.5, 1.0), "xo": 50, "yo": 170}, "hflip": True},
-                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.3},
-                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
-                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": 0.5})
+        ATL_ArealMagicalAttack(u"Water Blast", attributes=['magic', 'water'], effect=100, multiplier=3.0, cost=30, piercing=True, range=6, type="all_enemies",
+                                                desc="Hits the taget with a massive water blast!",
+                                                attacker_effects={"gfx": "orb", "sfx": "default"},
+                                                main_effect={"atl": water_combined, "predict": ["water_attack", "water_wave"], "left_args": [1.8, -300], "right_args": [-1.8, 300], "sfx": "content/sfx/sound/be/water5.mp3", "duration": 1.6},
+                                                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.6, "duration": 0.9},
+                                                target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
+                                                target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         
         # Ice:
         MagicArrows("Ice Arrow", attributes=['magic', 'ice'], effect=50, multiplier=1.5, cost=10, range=4,
@@ -442,6 +495,13 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.2, "duration": 1.1},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                            target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5})
+        ATL_ArealMagicalAttack("Ice Storm", attributes=['magic', 'ice'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                                desc="Conjures a power ice storm from above!",
+                                                attacker_effects={"gfx": "orb", "sfx": "default"},
+                                                main_effect={"atl": ice_storm, "predict": ["ice_twin_explosion", "ice_strike"], "sfx": "content/sfx/sound/be/ice2.mp3", "duration": 1.7, "left_args": [(190, 700)], "right_args": [(1035, 700)]},
+                                                target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.7},
+                                                target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.6, "duration": 1.0},
+                                                target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         
         # Earth:
         SimpleMagicalAttack(u"Stone", attributes=['magic', 'earth'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["earth_1", "default"], gfx='earth_1', zoom=1.4, pause=2.0, target_damage_gfx=[0.1, "shake", 1.7], sfx="content/sfx/sound/be/earth.mp3", type="all_enemies",

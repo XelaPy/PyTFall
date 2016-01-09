@@ -1130,9 +1130,16 @@ init -1 python: # Core classes:
                 elif type == "fly_away":
                     what = target.besprite
                     at_list = [fly_away]
-                elif type == "frozen":
-                    what = Transform("content/gfx/be/frozen.png", size=target.besprite_size)
+                elif type == "iced":
+                    child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
+                    mask = target.besprite
+                    what = AlphaMask(child, mask)
                     at_list=[]
+                elif type == "frozen":
+                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
+                    what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":
@@ -1145,10 +1152,17 @@ init -1 python: # Core classes:
                     
         def hide_target_sprite_damage_effect(self, targets, died):
             # Hides damage effects applied to targets:
-            for target in targets:
-                if target not in died:
-                    renpy.hide(target.betag)
-                    renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+            type = self.target_sprite_damage_effect.get("gfx", "shake")
+            if type == "frozen":
+                for target in targets:
+                    if target not in died:
+                        renpy.hide(target.betag)
+                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(0.3, 1, 0.3)], zorder=target.besk["zorder"])
+            else:
+                for target in targets:
+                    if target not in died:
+                        renpy.hide(target.betag)
+                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
             
         def time_target_damage_effect(self, targets, died, start):
             damage_effect_start = start + self.target_damage_effect.get("initial_pause", 0.2)
