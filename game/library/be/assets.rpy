@@ -486,8 +486,9 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                            target_death_effect={"gfx": "shatter", "initial_pause": 0.2, "duration": 0.5})
-        SimpleMagicalAttack("Hailstorm", attributes=['magic', 'ice'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ice_7', zoom=1.7, pause=2.0, target_damage_gfx=[0.1, "shake", 1.9], sfx="content/sfx/sound/be/Hailstorm.mp3", piercing=True, true_pierce=True,
+        SimpleMagicalAttack("Hailstorm", attributes=['magic', 'ice'], effect=100, multiplier=1.8, cost=20, range=4, casting_effects=["orb", "default"], gfx='ice_7', zoom=1.7, pause=2.0, sfx="content/sfx/sound/be/Hailstorm.mp3", piercing=True, true_pierce=True,
                                            aim="bc", anchor=(0.5, 1.0), yo=50,
+                                           target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.2, "duration": 1.8},
                                            desc="Puts the target in a middle of a small, but violent snow storm.")
         SimpleMagicalAttack("Ice Blast", attributes=['magic', 'ice'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons frozen fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
