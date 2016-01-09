@@ -391,7 +391,7 @@ label load_battle_skills:
                               target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6})
         SimpleMagicalAttack("Meteor", attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
-                                           main_effect={"gfx": Transform('cataclysm_sideways', xzoom=-1), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
+                                           main_effect={"gfx": Transform('cataclysm_sideways', xzoom=-1), "sfx": "content/sfx/sound/be/fire8.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "fire", "initial_pause": 1.2, "duration": 0.6},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                            target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5})
@@ -444,7 +444,7 @@ label load_battle_skills:
         ATL_ArealMagicalAttack(u"Water Blast", attributes=['magic', 'water'], effect=100, multiplier=3.0, cost=30, piercing=True, range=6, type="all_enemies",
                                                 desc="Hits the taget with a massive water blast!",
                                                 attacker_effects={"gfx": "orb", "sfx": "default"},
-                                                main_effect={"atl": water_combined, "predict": ["water_attack", "water_wave"], "left_args": [1.8, -300], "right_args": [-1.8, 300], "sfx": "content/sfx/sound/be/water5.mp3", "duration": 1.6},
+                                                main_effect={"atl": water_combined, "predict": ["water_attack", "water_wave"], "left_args": [1.8, -300], "right_args": [-1.8, 300], "sfx": "content/sfx/sound/be/water7.mp3", "duration": 1.6},
                                                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.6, "duration": 0.9},
                                                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
                                                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
@@ -491,7 +491,7 @@ label load_battle_skills:
                                            desc="Puts the target in a middle of a small, but violent snow storm.")
         SimpleMagicalAttack("Ice Blast", attributes=['magic', 'ice'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="se", desc="Summons frozen fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
-                                           main_effect={"gfx": Transform('ice_blast', xzoom=-1), "sfx": "content/sfx/sound/be/ice3.mp3", "duration": 2.3, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 120, "yo": -370}, "hflip": True},
+                                           main_effect={"gfx": Transform('ice_blast', xzoom=-1), "sfx": "content/sfx/sound/be/ice5.mp3", "duration": 2.3, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 120, "yo": -370}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.2, "duration": 1.1},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                            target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5})
@@ -536,7 +536,7 @@ label load_battle_skills:
         ArealMagicalAttack("Fist of Bethel", menuname="FoB", attributes=['magic', 'earth'], effect=70, multiplier=3, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Smite your enemies with might of the Earth itself!",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform(Transform("crushing_hand", xzoom=-1.0), zoom=2), "sfx": "content/sfx/sound/be/rift_line.mp3", "duration": 2.7, "aim": {"anchor": (0.5, 1.0), "xo": 0 ,"yo": 150}, "hflip": True},
+                                        main_effect={"gfx": Transform(Transform("crushing_hand", xzoom=-1.0), zoom=2), "sfx": "content/sfx/sound/be/earth7.mp3", "duration": 2.7, "aim": {"anchor": (0.5, 1.0), "xo": 0 ,"yo": 150}, "hflip": True},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.7},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 1.7},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 0.5},
@@ -566,7 +566,7 @@ label load_battle_skills:
         ArealMagicalAttack("Tornado", attributes=['magic', 'air'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Use a magical Tornado to wipe out your enemies!",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": "tornado", "sfx": "content/sfx/sound/be/vortex.mp3", "duration": 3.5, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 150}},
+                                        main_effect={"gfx": "tornado", "sfx": "content/sfx/sound/be/air4.mp3", "duration": 3.5, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
                                         target_sprite_damage_effect={"gfx": "fly_away", "initial_pause": 0.2, "duration": 5.2},
                                         target_death_effect={"gfx": "shatter", "initial_pause": 4.7, "duration": 0.2})
@@ -613,7 +613,7 @@ label load_battle_skills:
         ArealMagicalAttack("Might of Zeus", menuname="MoZ", attributes=['magic', 'electricity'], effect=70, multiplier=4, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="The most powerful Lighting attack in the World!",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("thunder_storm_3", zoom=1.2), "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
+                                        main_effect={"gfx": Transform("thunder_storm_3", zoom=1.2), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.9, "duration": 2.5},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": 0.5},
@@ -651,7 +651,7 @@ label load_battle_skills:
         ArealMagicalAttack("Holy Blast", attributes=['magic', 'light'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Concentrates all holy energy in the area into one point, forcing it to explode as it reaches critical levels!",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
+                                        main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/light6.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": 0.5})
@@ -689,7 +689,7 @@ label load_battle_skills:
         FullScreenCenteredArealMagicalAttack("Dominion", attributes=['magic', 'darkness'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                                                         desc="Cut the darkness itself!",
                                                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                                                        main_effect={"gfx": Transform("dominion", size=(config.screen_width, config.screen_height)), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 2.5},
+                                                                        main_effect={"gfx": Transform("dominion", size=(config.screen_width, config.screen_height)), "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
                                                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
                                                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
