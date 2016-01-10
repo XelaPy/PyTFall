@@ -1140,6 +1140,17 @@ init -1 python: # Core classes:
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
+                elif type == "burning":
+                    child = Transform("fire_mask", size=target.besprite_size)
+                    mask = target.besprite
+                    what = AlphaMask(child, mask)
+                    at_list=[]
+                elif type == "on_fire":
+                    size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
+                    child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
+                    mask = Transform("flame_bm", size=size)
+                    what = AlphaMask(child, mask)
+                    at_list=[]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":
