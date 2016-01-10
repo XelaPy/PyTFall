@@ -346,7 +346,7 @@ label load_battle_skills:
         # target_sprite_damage_effect = {"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 0.9}
         # target_damage_effect = {"gfx": "battle_bounce", "sfx": None}
         # target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9}
-        SimpleMagicalAttack(u"Fire", attributes=['magic', 'fire'], effect=20, multiplier=1.2, type="all_enemies", cost=5, range=4, desc="Ignites a small plot of land.",
+        SimpleMagicalAttack(u"Fire", menu_pos=1, attributes=['magic', 'fire'], effect=20, multiplier=1.2, type="all_enemies", cost=5, range=4, desc="Ignites a small plot of land.",
                                            attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.1, "duration": 1.7},
@@ -417,13 +417,10 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.11, "duration": 0.9})
         SimpleMagicalAttack(u"Watera", attributes=['magic', 'water'], effect=30, multiplier=1.2, cost=7, range=4, desc="High pressure water jets pierce through the target.",
                                            attacker_effects={"gfx": "water_1", "sfx": "default"},
-                                           main_effect={"gfx": Transform('water_1', zoom=1.1), "sfx": "content/sfx/sound/be/water.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
+                                           main_effect={"gfx": Transform('water_2', zoom=1.4), "sfx": "content/sfx/sound/be/water.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                                            target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 1.4},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
-                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.11, "duration": 0.9})
-        SimpleMagicalAttack(u"Watera", attributes=['magic', 'water'], effect=30, multiplier=1.2, cost=7, range=4, casting_effects=["water_1", "default"], gfx='water_2', zoom=1.4, pause=2.0, target_damage_gfx=[0.1, "shake", 1.5], sfx="content/sfx/sound/be/water.mp3",
-                                           aim="bc", anchor=(0.5, 1.0), yo=40,
-                                           desc="High pressure water jets pierce through the target.")
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         SimpleMagicalAttack(u"Waterga", attributes=['magic', 'water'], effect=25, multiplier=1.2, cost=6, range=4, casting_effects=["water_1", "default"], gfx='water_3', zoom=1.5, pause=2.5, target_damage_gfx=[0.1, "shake", 2.0], sfx="content/sfx/sound/be/water2.mp3", piercing=True,
                                            aim="bc", anchor=(0.5, 1.0), yo=40,
                                            desc="A cloud of water droplets at high speed crashes into the target.")
