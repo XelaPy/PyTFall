@@ -81,8 +81,6 @@ init: # screens:
             # First we'll get all the skills and sort them into:
             # *Attack (battle) skills.
             # *Magic skills.
-            # *Skills (That use vitality) later?.?
-            # And then sort them in alphabetical order.
             python:
                 attacks = copy.copy(char.attack_skills)
                 attacks =  list(set(attacks)) # This will make sure that we'll never get two of the same attack skills.
