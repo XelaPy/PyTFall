@@ -129,7 +129,7 @@ init: # screens:
                 has hbox box_wrap True 
                 
                 at fade_in_out(t1=0.6, t2=0.3)
-                if les(attacks) == 1:
+                if len(attacks) == 1:
                     timer 0.01 action Return(attacks[0])
                 for skill in attacks:
                     textbutton "[skill.mn]":
