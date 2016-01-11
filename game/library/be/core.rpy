@@ -406,7 +406,7 @@ init -1 python: # Core classes:
         """
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, desc="", pause=0, target_state="alive",
+                           add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
                            attacker_action={},
                            attacker_effects={},
                            main_effect={},
@@ -447,6 +447,7 @@ init -1 python: # Core classes:
             self.death_effect = death_effect
             self.desc = desc
             self.target_state = target_state
+            self.menu_pos = menu_pos
             
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             

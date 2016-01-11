@@ -152,7 +152,7 @@ init: # screens:
                         
                 for e in d:
                     if d[e]:
-                        d[e].sort(key=attrgetter("effect"))
+                        d[e].sort(key=attrgetter("menu_pos"))
                             
             frame:
                 style_group "dropdown_gm"
