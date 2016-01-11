@@ -85,6 +85,7 @@ init: # screens:
             # And then sort them in alphabetical order.
             python:
                 attacks = copy.copy(char.attack_skills)
+                attacks =  list(set(attacks)) # This will make sure that we'll never get two of the same attack skills.
                 attacks.sort(key=attrgetter("name"))
                 magic = copy.copy(char.magic_skills)
                 try:
