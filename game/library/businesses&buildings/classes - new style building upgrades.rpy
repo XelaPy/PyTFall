@@ -231,10 +231,23 @@ init -9 python:
             
         def has_workers(self):
             # Check if the building still has someone availbile to do the job.
+            # We just check this for 
             return list(i for i in self.instance.workers if self.all_occs & i.occupations)
             
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
+            
+        def business_control(self):
+            while 1:
+                yield self.env.timeout(self.time)
+                
+                if self.res.count == 0 and not self.has_workers():
+                    break
+                    
+            # We remove the business from nd if there are no more strippers to entertain:
+            temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
+            self.log(temp)
+            self.instance.nd_ups.remove(self)
             
         def request_room(self, client, char):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
@@ -353,7 +366,7 @@ init -9 python:
                     workers.remove(w)
                     self.env.process(self.use_worker(w))
                 
-        def business_control(self, end):
+        def business_control(self):
             """This runs the club as a SimPy process from start to the end.
             """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
