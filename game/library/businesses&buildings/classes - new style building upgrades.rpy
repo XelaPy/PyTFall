@@ -336,7 +336,7 @@ init -9 python:
                 self.log_income(cash)
                 self.instance.dirt += dirt
                 
-                temp = "{}: {} exits the {} leaving {} Gold and {} Dirt behind.".format(self.env.now, self.name, client.name, cash, dirt)
+                temp = "{}: {} exits the {} leaving {} Gold and {} Dirt behind.".format(self.env.now, client.name, self.name, cash, dirt)
                 self.clients.remove(client)
                 self.log(temp)
                 client.del_flag("jobs_busy")
