@@ -636,32 +636,29 @@
                     skill = round(self.worker.get_skill("vaginal")*0.75 + self.worker.get_skill("sex")*0.25)
                     vaginalmod = 1 if dice(25) else 0
                     sexmod = 1 if dice(10) else 0
-                # Temporarily done here, should be moved to game init and after_load to improve performance:
-                tags = ({"tags": ["2c vaginal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c vaginal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]})
-                act = self.get_act(tags)
-                if act == tags[0]:
+                # Temporarily done here, should be moved to game init and after_load to improve performance
+                # probably not everything though, since now we don't form huge lists of pictures for some acts, using get_image_tags to figure out poses
+                if self.worker.has_image("2c vaginal", **kwargs):
+                    self.img = self.worker.show("2c vaginal", **kwargs)
+                else:
+                    self.img = self.worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"])
+                image_tags = self.img.get_image_tags()
+                if "ontop" in image_tags:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
-                    self.img = self.worker.show("2c vaginal", "ontop", **kwargs)
-                elif act == tags[1]:
+                elif "doggy" in image_tags:
                     self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.worker.nickname)
-                    self.img = self.worker.show("2c vaginal", "doggy", **kwargs)
-                elif act == tags[2]:
+                elif "missionary" in image_tags:
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your pussy is wrapping around me so tight!' \n"%self.worker.nickname)
-                    self.img = self.worker.show("2c vaginal", "missionary", **kwargs)
-                elif act == tags[3]:
+                elif "onside" in image_tags:
                     self.txt.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
-                    self.img = self.worker.show("2c vaginal", "onside", **kwargs)
-                elif act == tags[4]:
+                elif "standing" in image_tags:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
-                    self.img = self.worker.show("2c vaginal", "standing", **kwargs)
-                elif act == tags[5]:
+                elif "spooning" in image_tags:
                     self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
-                    self.img = self.worker.show("2c vaginal", "spooning", **kwargs)
                 else:
                     self.txt.append(choice(['He wanted some old-fashioned straight fucking. \n',
                                                          'He was in the mood for some pussy pounding. \n',
                                                          'He asked for some playtime with her vagina.\n']))
-                    self.img = self.worker.show("2c vaginal", **kwargs)
                 # Virgin trait check:
                 self.take_virginity()
 
@@ -682,33 +679,27 @@
                                                       "I am in the mood for a good anal fuck, customer said. ",
                                                       "Customer's dick got harder and harder just from the thought of %s's asshole! "%self.worker.nickname]))
                 
-                # Temporarely done here, should be moved to game init and after_load to improve performance:
-                tags = ({"tags": ["2c anal", "ontop"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "doggy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "missionary"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "onside"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "standing"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]}, {"tags": ["2c anal", "spooning"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"]})
-                act = self.get_act(tags)
-                
-                if act == tags[0]:
+                if self.worker.has_image("2c anal", **kwargs):
+                    self.img = self.worker.show("2c anal", **kwargs)
+                else:
+                    self.img = self.worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"])
+                image_tags = self.img.get_image_tags()
+                if "ontop" in image_tags:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl on top' position. \n")
-                    self.img = self.worker.show("2c anal", "ontop", **kwargs)
-                elif act == tags[1]:
+                elif "doggy" in image_tags:
                     self.txt.append("He ordered %s to bend over and took her from behind. \n"%self.worker.nickname)
-                    self.img = self.worker.show("2c anal", "doggy", **kwargs)
-                elif act == tags[2]:
+                elif "missionary" in image_tags:
                     self.txt.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your anus is wrapping around me so tight!' \n"%self.worker.nickname)
-                    self.img = self.worker.show("2c anal", "missionary", **kwargs)
-                elif act == tags[3]:
+                elif "onside" in image_tags:
                     self.txt.append("%s lays on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%self.worker.nickname)
-                    self.img = self.worker.show("2c anal", "onside", **kwargs)
-                elif act == tags[4]:
+                elif "standing" in image_tags:
                     self.txt.append("Not even bothering getting into a position, he took her standing up. \n")
-                    self.img = self.worker.show("2c anal", "standing", **kwargs)
-                elif act == tags[5]:
+                elif "spooning" in image_tags:
                     self.txt.append("Customer felt cuddly so he spooned the girl until they both cummed. \n")
-                    self.img = self.worker.show("2c anal", "spooning", **kwargs)
                 else:
                     self.txt.append(choice(['He took her in the ass right there and then. \n',
                                                           'He got his dose of it. \n',
                                                           'And so he took her in her butt. \n']))
-                    self.img = self.worker.show("2c anal", **kwargs)
                 
             # Various job acts   
             elif self.client.act == 'blowjob':
