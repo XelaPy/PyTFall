@@ -504,9 +504,11 @@ init -9 python:
             self.all_clients = set() # All clients of this building are maintained here.
             self.regular_clients = set() # Subset of self.all_clients.
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
+            
             # Chars:
             self.manager = None
             self.workers = list() # All Workers...
+            
             # Upgrades:
             self.nd_ups = list() # Upgrades active during the next day...
                 
@@ -529,23 +531,26 @@ init -9 python:
             self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
             self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
             
+            # All workers and workable businesses:
+            self.workers = list(c for c in hero.girls if c.location == self and c.action in self.jobs) # The last check may not be good enought, may need rewriting.
+            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
+            
             # Clietns:
             tl.timer("Generating clients")
             self.get_client_count(write_to_nd=True)
             clnts = self.total_clients
             # TODO: Generate and add regulars!
-            if len(self.all_clients) < clnts:
-                for i in xrange(clnts - len(self.all_clients)):
-                    if dice(80):
-                        self.all_clients.add(build_client())
-                    else:
-                        self.all_clients.add(build_client(gender="female"))
+            # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
+            if self.nd_ups and self.workers:
+                if len(self.all_clients) < clnts:
+                    for i in xrange(clnts - len(self.all_clients)):
+                        if dice(80):
+                            self.all_clients.add(build_client(likes=[choice(self.nd_ups)]))
+                        else:
+                            self.all_clients.add(build_client(gender="female", likes=[choice(self.nd_ups)]))
             self.clients = self.all_clients.copy()
             self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
             tl.timer("Generating clients")
-            
-            # All workers:
-            self.workers = list(c for c in hero.girls if c.location == self and c.action in self.jobs)
             
             # Create an environment and start the setup process:
             self.env = simpy.Environment()
@@ -651,8 +656,6 @@ init -9 python:
             """
             
             # TODO: Improve the function and add possibilities for "Rush hours"
-            
-            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 # if u.type == "public_service":
@@ -702,12 +705,27 @@ init -9 python:
             businesses = self.nd_ups[:]
             shuffle(businesses)
             
-            # TODO: Add Matron/client likes effects here and to client classes.
+            # TODO: Add Matron/Client likes effects here and to client classes.
+            fav_business = client.likes.intersection(self._upgrades)
+                
+            if not fav_business: # Case where clients fav business was removed from the building, we would the client to react appropriately.
+                self.all_clients.remove(client)
+                temp = "{}: {} leaves the building pissed off as his favorite business was removed!".format(self.env.now, client.name)
+                self.log(temp)
+                # We may be required to yield here due to SimPy structure!
+                return
+            else:
+                fav_business = fav_business.pop()
             
             visited = 0 # Amount of businesses client has successfully visited.
             while businesses: # Manager effects should be a part of this loop as well!
                 # Here we pick an upgrade if a client has one in preferences:
-                upgrade = businesses.pop()
+                if not visited and fav_business in businesses:
+                    # On the first run we'd want to pick the clients fav.
+                    upgrade = fav_business
+                    businesses.remove(upgrade)
+                else:
+                    upgrade = businesses.pop()
                 
                 if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
                     # Personal Service (Brothel-like):

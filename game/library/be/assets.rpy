@@ -21,6 +21,7 @@ init -1: # Images and Animations
     image fire_4 = FilmStrip('content/gfx/be/filmstrips/fire_4.png', (192, 192), (5, 10), 0.1, loop=False)
     image fire_mask = FilmStrip('content/gfx/be/filmstrips/fire_mask.jpg', (240, 180), (5, 5), 0.05, loop=True)
     image flame_bm = FilmStrip('content/gfx/be/filmstrips/fire_mask_bm.png', (240, 180), (5, 5), 0.05, loop=True)
+    
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png" 
         pause 0.06
@@ -48,6 +49,7 @@ init -1: # Images and Animations
         pause 0.12
         "content/gfx/be/animations/flame_arrow/FlameArrow_13.png"
         pause 0.12
+        
     image Fire Arrow fly:
         "content/gfx/be/animations/flame_arrow/FlameArrow.png"
         pause 0.3
