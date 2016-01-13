@@ -649,11 +649,14 @@ init -9 python:
         def clients_dispatcher(self, end=40):
             """This method provides stream of clients to the building following it's own algorithm.
             """
+            
+            # TODO: Improve the function and add possibilities for "Rush hours"
+            
             self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
             for u in self.nd_ups:
                 # Trigger all public businesses:
-                if u.type == "public_service":
-                    self.env.process(u.business_control(end))
+                # if u.type == "public_service":
+                self.env.process(u.business_control())
                 
                 if u.has_workers():
                     u.is_running = True
@@ -698,6 +701,8 @@ init -9 python:
             # Prepear data:
             businesses = self.nd_ups[:]
             shuffle(businesses)
+            
+            # TODO: Add Matron/client likes effects here and to client classes.
             
             visited = 0 # Amount of businesses client has successfully visited.
             while businesses: # Manager effects should be a part of this loop as well!

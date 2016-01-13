@@ -81,10 +81,9 @@ init: # screens:
             # First we'll get all the skills and sort them into:
             # *Attack (battle) skills.
             # *Magic skills.
-            # *Skills (That use vitality) later?.?
-            # And then sort them in alphabetical order.
             python:
                 attacks = copy.copy(char.attack_skills)
+                attacks =  list(set(attacks)) # This will make sure that we'll never get two of the same attack skills.
                 attacks.sort(key=attrgetter("name"))
                 magic = copy.copy(char.magic_skills)
                 try:
@@ -129,6 +128,8 @@ init: # screens:
                 has hbox box_wrap True 
                 
                 at fade_in_out(t1=0.6, t2=0.3)
+                if len(attacks) == 1:
+                    timer 0.01 action Return(attacks[0])
                 for skill in attacks:
                     textbutton "[skill.mn]":
                         action SensitiveIf(skill.check_conditions(char)), Return(skill)
@@ -150,7 +151,7 @@ init: # screens:
                         
                 for e in d:
                     if d[e]:
-                        d[e].sort(key=attrgetter("effect"))
+                        d[e].sort(key=attrgetter("menu_pos"))
                             
             frame:
                 style_group "dropdown_gm"

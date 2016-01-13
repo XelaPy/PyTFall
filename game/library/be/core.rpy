@@ -406,7 +406,7 @@ init -1 python: # Core classes:
         """
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, desc="", pause=0, target_state="alive",
+                           add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
                            attacker_action={},
                            attacker_effects={},
                            main_effect={},
@@ -447,6 +447,7 @@ init -1 python: # Core classes:
             self.death_effect = death_effect
             self.desc = desc
             self.target_state = target_state
+            self.menu_pos = menu_pos
             
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
@@ -1140,6 +1141,17 @@ init -1 python: # Core classes:
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
+                elif type == "burning":
+                    child = Transform("fire_mask", size=target.besprite_size)
+                    mask = target.besprite
+                    what = AlphaMask(child, mask)
+                    at_list=[]
+                elif type == "on_fire":
+                    size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
+                    child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
+                    mask = Transform("flame_bm", size=size)
+                    what = AlphaMask(child, mask)
+                    at_list=[]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":
