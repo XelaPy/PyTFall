@@ -727,6 +727,18 @@ init -9 python:
                 else:
                     upgrade = businesses.pop()
                 
+                # Matron case:
+                # Wait for the business to open in case of a favorite:
+                if self.manager and upgrade == fav_business:
+                    timer = 0
+                    if upgrade.res.count < upgrade.capacity:
+                        while timer < 7 and upgrade.res.count < upgrade.capacity: # Max wait time
+                            timer = timer + 1
+                            yield self.env.timeout(1)
+                            
+                            
+                        
+                    
                 if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
                     # Personal Service (Brothel-like):
                     job = upgrade.job
