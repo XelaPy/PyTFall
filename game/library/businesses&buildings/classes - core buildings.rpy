@@ -701,6 +701,9 @@ init -9 python:
             temp = '{}: {} arrives at the {}.'.format(self.env.now, client.name, self.name)
             self.log(temp)
             
+            # Visit counter:
+            client.up_counter("visited_building" + self.id)
+            
             # Prepear data:
             businesses = self.nd_ups[:]
             shuffle(businesses)
@@ -736,9 +739,6 @@ init -9 python:
                             timer = timer + 1
                             yield self.env.timeout(1)
                             
-                            
-                        
-                    
                 if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
                     # Personal Service (Brothel-like):
                     job = upgrade.job

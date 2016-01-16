@@ -279,6 +279,9 @@ init -9 python:
             temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(char.name, "pink"), client.name)
             self.log(temp)
             
+            # Visit counter:
+            client.up_counter("got_serviced_by" + char.id)
+            
             # Execute the job:
             self.job(char, client)
             
@@ -402,7 +405,12 @@ init -9 python:
             self.log(temp)
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
-                worker.set_union("jobs_bar_clients", self.clients)
+                worker.set_union("jobs_bar_clients", self.clients) # TODO: Maybe limit clients to worker routines?
+                
+                # Visit counter:
+                for client in self.clients:
+                    client.up_counter("got_serviced_by" + worker.id)
+                
                 worker.AP -= 1
                 tips = randint(1, 2) * self.res.count
                 self.log_income(tips)
