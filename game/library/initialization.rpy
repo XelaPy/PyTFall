@@ -38,6 +38,10 @@ init -999 python:
     # to the conventions of the local OS
     gamedir = os.path.normpath(config.gamedir)
     
+    def content_path(path):
+        '''Returns proper path for a file in the content directory *To be used with os module.'''
+        return renpy.loader.transfn('content/' + path)
+    
     # enable logging via the 'logging' module
     logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s %(name)-15s %(message)s')
     devlog = logging.getLogger(" ".join([config.name, config.version]))
@@ -135,10 +139,10 @@ init -999 python:
     
     ######################## Classes/Functions ###################################
     # Auto Animation from a folder:
-    def animate(path, delay=0.25, function=None, transition=None):
+    def animate(path, delay=0.25, function=None, transition=None, loop=False):
         # Build a list of all images:
-        dirs = os.listdir("".join([gamedir, path]))
-        images = list("".join([path[1:], "/", fn]) for fn in dirs if fn.endswith(('.png', '.gif')))
+        files = os.listdir("".join([gamedir, path]))
+        images = list("".join([path[1:], "/", fn]) for fn in files if fn.endswith(('.png', '.gif', ".jpg", ".jpeg")))
         # Build a list of arguments
         args = list()
         # for image in images:
@@ -146,7 +150,7 @@ init -999 python:
         # return anim.TransitionAnimation(*args)
         for image in images:
             args.append([image, delay])
-        return AnimateFromList(args)
+        return AnimateFromList(args, loop=loop)
 
     class Flags(_object):
         """Simple class to log all variables into a single namespace
@@ -369,17 +373,21 @@ init -999 python:
                         700))
             
     # Auto-Animations are last
-    for dir in os.listdir("".join([gamedir, '/content/gfx/animations/'])):
-        if " " in dir:
-            renpy.image(dir.split(" ")[0], animate("".join(["/content/gfx/animations/", dir]), float(dir.split(" ")[1])))
-        else:
-            renpy.image(dir, animate("".join(["/content/gfx/animations/", dir])))
+    def load_frame_by_frame_animations_from_dir(folder):
+        path = content_path(folder)
+        for dir in os.listdir(path):
+            split_dir = dir.split(" ")
+            len_split = len(split_dir)
             
-    for dir in os.listdir("".join([gamedir, '/content/gfx/be/auto-animations/'])):
-        if " " in dir:
-            renpy.image(dir.split(" ")[0], animate("".join(["/content/gfx/be/auto-animations/", dir]), float(dir.split(" ")[1])))
-        else:
-            renpy.image(dir, animate("".join(["/content/gfx/be/auto-animations/", dir])))
+            folder_path = "/".join(["/content", folder, dir])
+            img_name = split_dir[0]
+            delay = float(split_dir[1]) if len_split > 1 else 0.25
+            loop = bool(int(split_dir[2])) if len_split > 2 else False
+            
+            renpy.image(img_name, animate(folder_path, delay, loop=loop))
+            
+    load_frame_by_frame_animations_from_dir("gfx/animations")
+    load_frame_by_frame_animations_from_dir("gfx/be/auto-animations")
             
 # Additional 'constant' definements
 

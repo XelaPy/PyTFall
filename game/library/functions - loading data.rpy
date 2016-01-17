@@ -1,8 +1,4 @@
 init -11 python:
-    def content_path(path):
-        '''Returns proper path for a file in the content directory *To be used with os module.'''
-        return renpy.loader.transfn('content/' + path)
-        
     # ---------------------- Loading game data:
     def load_team_names(amount):
         with open(content_path("db/names/team_names.json")) as f:
