@@ -383,8 +383,7 @@ init -999 python:
 screen debugTools():
     zorder 5
     vbox:
-        xalign 0.02
-        yalign 0.98
+        align (0.02, 0.98)
         hbox:
             xalign 0
             button:
@@ -420,7 +419,9 @@ init:
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     devlogfile.flush()
+    
     # Build Maps:
     # tilemap = TileMap("my_map.json")
     # map_image = tilemap.build_map()
+    
     tl.timer("Ren'Py User Init!")

@@ -11,7 +11,8 @@ init -9 python:
     # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
-    """Core order for SimPy jobs loop:
+    """Core order for SimPy jobs loop:2
+    ***Needs update after restructuring/renaming.
     
     BUILDING:
         # Holds Businesses and data/properties required for operation.
@@ -683,7 +684,6 @@ init -9 python:
                 i += 1
                 ii += 1
                 client = self.clients.pop()
-                # client.name = "Client {}".format(i) # This is an overwrite used for testing...
                 self.env.process(self.client_manager(client))
             
         def client_manager(self, client):
