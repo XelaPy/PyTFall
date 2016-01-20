@@ -1,21 +1,20 @@
-label brothel_management:
+label building_management:
     python:
         if hero.upgradable_buildings:
             try:
                 index = index
-            
             except:
                 index = 0
             
             if index >= len(hero.upgradable_buildings):
                 index = 0
             
-            brothel = hero.upgradable_buildings[index]
+            building = hero.upgradable_buildings[index]
     
     scene bg scroll
     
     # $ renpy.retain_after_load() Causes weird save/load bug CW reported...
-    show screen pyt_brothel_management
+    show screen pyt_building_management
     with fade
     
     $ pytfall.world_quests.run_quests("auto") # Added for completion, unnecessary?
@@ -26,62 +25,62 @@ label brothel_management:
         
         while 1:
             if hero.upgradable_buildings:
-                brothel = hero.upgradable_buildings[index]
+                building = hero.upgradable_buildings[index]
             
             result = ui.interact()
             
-            if result[0] == "brothel":
+            if result[0] == "building":
                 if result[1] == 'buyroom':
-                    if brothel.rooms < brothel.maxrooms:
-                        if hero.take_money(brothel.get_room_price()):
-                            brothel.modrooms(1)
+                    if building.rooms < building.maxrooms:
+                        if hero.take_money(building.get_room_price()):
+                            building.modrooms(1)
                         
                         else:
                             renpy.call_screen('pyt_message_screen', "Not enough funds to buy new room!")
                     
                     else:
-                        renpy.call_screen('pyt_message_screen', "No more rooms can be added to this brothel!")
+                        renpy.call_screen('pyt_message_screen', "No more rooms can be added to this building!")
                 
                 elif result[1] == 'items_transfer':
-                    pytfall.it = GuiItemsTransfer(brothel, last_label=last_label)
+                    pytfall.it = GuiItemsTransfer(building, last_label=last_label)
                     jump(result[1])
                 
                 elif result[1] == "sign":
-                    if brothel.flag('bought_sign'):
+                    if building.flag('bought_sign'):
                         if hero.take_money(20, reason="Ads"):
-                            brothel.adverts[result[1]]['active'] = True
+                            building.adverts[result[1]]['active'] = True
                         
                         else:    
                             renpy.show_screen("pyt_message_screen", "Not enough cash on hand!")
                     
                     else:
                         if hero.take_money(200, reason="Ads"):
-                            brothel.set_flag('bought_sign')
-                            brothel.adverts[result[1]]['active'] = True
+                            building.set_flag('bought_sign')
+                            building.adverts[result[1]]['active'] = True
                         
                         else:    
                             renpy.show_screen("pyt_message_screen", "Not enough cash on hand!")
                 
                 elif result[1] == "sell":
-                    price = int(brothel.price*0.9)
+                    price = int(building.price*0.9)
                     
                     if renpy.call_screen("yesno_prompt",
-                                         message="Are you sure you wish to sell %s for %d Gold?" % (brothel.name, price),
+                                         message="Are you sure you wish to sell %s for %d Gold?" % (building.name, price),
                                          yes_action=Return(True), no_action=Return(False)):
-                        if hero.location == brothel:
+                        if hero.location == building:
                             hero.location = hero
                         
                         for girl in hero.girls:
-                            if girl.location == brothel:
+                            if girl.location == building:
                                 girl.location = hero
                                 girl.action = None
                         
                         hero.add_money(price, "Property")
-                        hero.remove_brothel(brothel)
+                        hero.remove_building(building)
                         
                         if hero.upgradable_buildings:
                             index = 0
-                            brothel = hero.upgradable_buildings[index]
+                            building = hero.upgradable_buildings[index]
                         
                         else:
                             break
@@ -99,10 +98,10 @@ label brothel_management:
             if result[0] == "maintenance":
                 # Cleaning controls
                 if result[1] == "clean":
-                    price = brothel.get_cleaning_price()
+                    price = building.get_cleaning_price()
                     if hero.take_money(price, reason="Pro-Cleaning"):
-                        brothel.fin.log_expense(price, "Pro-Cleaning")
-                        brothel.dirt = 0
+                        building.fin.log_expense(price, "Pro-Cleaning")
+                        building.dirt = 0
                     
                     else:
                         renpy.show_screen("pyt_message_screen", "You do not have the required funds!")
@@ -116,166 +115,16 @@ label brothel_management:
                     else:
                         renpy.show_screen("pyt_message_screen", "You do not have the required funds!")
                 
-                elif result[1] == "rename_brothel":
-                    brothel.name = renpy.call_screen("pyt_input", default=brothel.name, text="Enter Building name:")
+                elif result[1] == "rename_building":
+                    building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
                 
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
     
-    hide screen pyt_brothel_management
+    hide screen pyt_building_management
     jump mainscreen
 
-screen pyt_brothel_maintenance():
-    modal True
-    zorder 1
-    
-    frame:
-        style_group "content"
-        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)        
-        xpos 936
-        yalign 0.95
-        xysize(343, 675)
-        
-        label (u"{size=20}{color=[ivory]}{b}Maintenance!") align(0.5, 0.19) text_outlines [(2, "#424242", 0, 0)]
-        
-        # Tooltip related ---------------------------------->
-        default tt = Tooltip("Maintenance screen!")
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-            align(0.5, 0.88)
-            xysize (320, 120)
-            xpadding 13
-            ypadding 15
-            has vbox
-            text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
-        
-        # Controls themselves ---------------------------------->
-        vbox:
-            style_group "basic"
-            align(0.55, 0.5)
-            if isinstance(brothel, DirtyBuilding):
-                button:
-                    xysize(200, 32)
-                    action Return(['maintenance', "clean"])
-                    hovered tt.action("Hire cleaners to completely clean this building for %d Gold."%brothel.get_cleaning_price())
-                    text "Clean: Building"
-
-                python:
-                    price = 0
-                    for __ in hero.buildings:
-                        if isinstance(__, DirtyBuilding):
-                            price = price + __.get_cleaning_price()
-                    
-                button:
-                    xysize(200, 32)
-                    action Return(['maintenance', "clean_all", price])
-                    hovered tt.action("Hire cleaners to completely clean all brothels for [price] Gold.")
-                    text "Clean: All Buildings"
-                
-                button:
-                            xysize (200, 32)
-                            yalign 0.5
-                            action ToggleField(brothel, "auto_clean")
-                            hovered tt.action("Enable automatic hiring of cleaners if brothel gets to dirty!")
-                            text "Auto-Cleaning:" align (0.0, 0.5)
-                            if not brothel.auto_clean:
-                                add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
-                            else:
-                                add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-            
-            null height 30
-            if brothel.name != TrainingDungeon.NAME:
-                button:
-                    xysize (120, 100)
-                    xalign 0.5
-                    action Return(['maintenance', "rename_brothel"])
-                    hovered tt.Action("Give new name to your Building!")
-                    text "Rename Building"      
-                    
-        if brothel.name == TrainingDungeon.NAME:
-            button:
-                style_group "basic"
-                xysize (200, 32)
-                align (0.5, 0.5)
-                action Return(["maintenance", "retrieve_jail"])
-                hovered tt.action("Allow your guards to bail your escaped girls out of jail?")
-                text "Auto-bail" align (0.0, 0.5)
-                if not pytfall.ra.retrieve_jail:
-                    add im.Scale("content/gfx/interface/icons/checkbox_unchecked.png", 25, 25) align (1.0, 0.5)
-                else:
-                    add im.Scale("content/gfx/interface/icons/checkbox_checked.png", 25, 25) align (1.0, 0.5)
-        
-        button:
-            style_group "dropdown_gm"
-            action Hide("pyt_brothel_maintenance")
-            minimum(50, 30)
-            align (0.5, 0.97)
-            text  "OK"
-
-screen pyt_brothel_adverts():
-    modal True
-    zorder 1
-    
-    frame:
-        style_group "content"
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
-        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-        xpos 936
-        yalign 0.95
-        xysize(343, 675)
-        
-        label (u"{size=20}{color=[ivory]}{b}Advertise!") text_outlines [(2, "#424242", 0, 0)] align (0.5, 0.16)
-        
-        # Tooltip related ---------------------------------->
-        default tt = Tooltip("Attract more and better clients. Choose your advertisement budget carefully so your girls can keep up with quality and quantity of customers!")
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-            align(0.5, 0.88)
-            xysize (320, 140)
-            xpadding 13
-            ypadding 15
-            has vbox
-            text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
-        
-        # Buttons themselves ---------------------------------->
-        hbox:
-            align(0.5, 0.4)
-            box_wrap True
-            spacing 20
-            for name in brothel.adverts:
-                $ advert = brothel.adverts[name]
-                vbox:
-                    style_group "basic"
-                    align (0.5, 0.5)
-                    if advert['active']:
-                        button:
-                            xysize(280, 32)
-                            hovered tt.action(advert['desc'])
-                            action ToggleDict(advert, "active")
-                            text ("Stop %s!" % advert['name']) color black align (0.5, 0.5)
-                    else:
-                        if name == "sign":
-                            button:
-                                xysize(280, 32)
-                                hovered tt.action(advert['desc'])
-                                action Return(["brothel", "sign"])
-                                text "Put Up Sign!" color black align (0.5, 0.5) size 15
-                        else:
-                            button:
-                                xysize(280, 32)
-                                hovered tt.action(advert['desc'])
-                                action ToggleDict(advert, "active")
-                                text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (0.5, 0.5) size 15
-
-        button:
-            style_group "dropdown_gm"
-            action Hide("pyt_brothel_adverts")
-            minimum(50, 30)
-            align (0.5, 0.97)
-            text  "OK"
-    
-screen pyt_brothel_management():
+screen pyt_building_management():
     default tt = Tooltip("Manage your Buildings here")
     
     if hero.upgradable_buildings:
@@ -290,11 +139,11 @@ screen pyt_brothel_management():
                 xalign 0.5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [brothel.name] __") text_size 23 text_color ivory align (0.5, 0.6)
+                label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
             null height 1
             frame:
                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                add ProportionalScale(brothel.img, 600, 444) align (0.5, 0.5)
+                add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
             
         frame:
             style_group "content"
@@ -304,8 +153,6 @@ screen pyt_brothel_management():
             xysize (628, 74)
             hbox:
                 align (0.46, 0.5)
-                #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_leftt.png", 140, 40), return_value=['control', 'left'], tooltip="Previous Building")
-                #use rtt_lightbutton(img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 60, 60), return_value=['control', 'right'], tooltip="Next Building")
                 button:
                     xysize (140, 40)
                     style "left_wood_button"
@@ -322,7 +169,7 @@ screen pyt_brothel_management():
                     hovered tt.action("Next ==>")
                     text "Next" style "wood_text" xalign 0.39
         ## Security Bar:
-        if hasattr(brothel, "gui_security_bar") and brothel.gui_security_bar()[0]:
+        if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
             frame:
                 xalign 0.490
                 ypos 561
@@ -336,11 +183,11 @@ screen pyt_brothel_management():
                         xsize 135
                         text "Security Presence:" size 12
                     vbox:
-                        text (u"%d/%d"%(brothel.security_presence, brothel.gui_security_bar()[1])) size 12
+                        text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
                 null height 3
                 bar:
                     align (0.45, 0.8)
-                    value FieldValue(brothel, 'security_presence', brothel.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
+                    value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
                     xsize 170
                     thumb 'content/gfx/interface/icons/move15.png'
                     
@@ -372,19 +219,19 @@ screen pyt_brothel_management():
                                 text "{color=[ivory]}Rooms:" xalign 0.02
                             frame:
                                 text "{color=[ivory]}Free Rooms:" xalign 0.02
-                            if isinstance(brothel, UpgradableBuilding):
-                                if brothel.use_upgrades:
+                            if isinstance(building, UpgradableBuilding):
+                                if building.use_upgrades:
                                     frame:
                                         text "{color=[ivory]}Slots:" xalign 0.02
-                                if brothel.get_upgrade_mod("guards") > 0:
+                                if building.get_upgrade_mod("guards") > 0:
                                     frame:
                                         text "{color=[ivory]}Guard Quarters:" xalign 0.02
                             frame:
                                 text "{color=[ivory]}Security Rating:" xalign 0.02
-                            if isinstance(brothel, DirtyBuilding):
+                            if isinstance(building, DirtyBuilding):
                                 frame:
                                     text "{color=[ivory]}Dirt:" xalign 0.02
-                            if isinstance(brothel, FamousBuilding):
+                            if isinstance(building, FamousBuilding):
                                 frame:
                                     text "{color=[ivory]}Fame:" xalign 0.02
                                 frame:
@@ -396,24 +243,24 @@ screen pyt_brothel_management():
                             xfill True
                             xminimum 142
                             xmaximum 142
-                            text (u"%s/%s" % (brothel.rooms, brothel.maxrooms)) style "stats_value_text" xalign 1.0
-                            text (u"%d/%d" % (brothel.free_rooms(), brothel.rooms)) style "stats_value_text" xalign 1.0
+                            text (u"%s/%s" % (building.rooms, building.maxrooms)) style "stats_value_text" xalign 1.0
+                            text (u"%d/%d" % (building.free_rooms(), building.rooms)) style "stats_value_text" xalign 1.0
                                 
-                            if isinstance(brothel, UpgradableBuilding):
-                                if brothel.use_upgrades:
-                                    text (u"%s/%s" % (brothel.used_upgrade_slots, brothel.upgrade_slots)) style "stats_value_text" xalign 1.0
+                            if isinstance(building, UpgradableBuilding):
+                                if building.use_upgrades:
+                                    text (u"%s/%s" % (building.used_upgrade_slots, building.upgrade_slots)) style "stats_value_text" xalign 1.0
                                     
-                                if brothel.get_upgrade_mod("guards") > 0:
-                                    text u"%d/5  " % min(len([girl for girl in hero.girls if girl.location == brothel and "Warrior" in girl.occupations]), 5) style "stats_value_text" xalign 1.0
+                                if building.get_upgrade_mod("guards") > 0:
+                                    text u"%d/5  " % min(len([girl for girl in hero.girls if girl.location == building and "Warrior" in girl.occupations]), 5) style "stats_value_text" xalign 1.0
                                 
-                            text (u"%s/1000" % (brothel.security_rating)) style "stats_value_text" xalign 1.0
+                            text (u"%s/1000" % (building.security_rating)) style "stats_value_text" xalign 1.0
                                 
-                            if isinstance(brothel, DirtyBuilding):
-                                text (u"%s (%s %%)" % (brothel.get_dirt_percentage()[1], brothel.get_dirt_percentage()[0])) style "stats_value_text" xalign (1.0)
+                            if isinstance(building, DirtyBuilding):
+                                text (u"%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0])) style "stats_value_text" xalign (1.0)
                                 
-                            if isinstance(brothel, FamousBuilding):
-                                text (u"%s/%s" % (brothel.fame, brothel.maxfame)) style "stats_value_text" xalign 1.0
-                                text (u"%s/%s" % (brothel.rep, brothel.maxrep)) style "stats_value_text" xalign 1.0
+                            if isinstance(building, FamousBuilding):
+                                text (u"%s/%s" % (building.fame, building.maxfame)) style "stats_value_text" xalign 1.0
+                                text (u"%s/%s" % (building.rep, building.maxrep)) style "stats_value_text" xalign 1.0
                         
                 null height 5
                 frame:
@@ -421,28 +268,28 @@ screen pyt_brothel_management():
                     xysize (317, 230)
                     xanchor 5
                     yanchor 10
-                    if isinstance(brothel, UpgradableBuilding):
+                    if isinstance(building, UpgradableBuilding):
                         label 'Upgrades:' text_color ivory xalign 0.5
-                        if brothel.use_upgrades:
+                        if building.use_upgrades:
                             null height 5
                                 
                             hbox:
                                 spacing -5
                                     
-                                for key in brothel.upgrades:
+                                for key in building.upgrades:
                                     vbox:
                                         null height 30
                                         xpos 5
                                         #spacing 1
-                                        for ukey in sorted(brothel.upgrades[key].keys()):
+                                        for ukey in sorted(building.upgrades[key].keys()):
                                             frame:
                                                 xysize (10, 10)
                                                 xanchor 5
                                                 background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                                                if brothel.upgrades[key][ukey]['active']:
-                                                    use rtt_lightbutton(img=im.Scale(brothel.upgrades[key][ukey]['img'], 43, 43),
+                                                if building.upgrades[key][ukey]['active']:
+                                                    use rtt_lightbutton(img=im.Scale(building.upgrades[key][ukey]['img'], 43, 43),
                                                                                   return_value=['do_nothing'],
-                                                                                  tooltip=brothel.upgrades[key][ukey]['desc'])
+                                                                                  tooltip=building.upgrades[key][ukey]['desc'])
                                                     
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -451,11 +298,11 @@ screen pyt_brothel_management():
                     yanchor 10
                     style_group "stats"
                     label "Active Advertisements:" text_color ivory xalign 0.5
-                    if hasattr(brothel, "use_adverts") and brothel.use_adverts:
+                    if hasattr(building, "use_adverts") and building.use_adverts:
                         vbox:
                             null height 35
                             spacing -6
-                            for advert in brothel.adverts.values():
+                            for advert in building.adverts.values():
                                 if advert['active']:
                                     frame:
                                         xysize (305, 27)
@@ -480,13 +327,13 @@ screen pyt_brothel_management():
                         spacing 5
                         # button:
                             # xysize (150, 40)
-                            # action Return(['brothel', "buyroom"])
-                            # hovered tt.action('Add rooms to this Building. Price = %d.' % brothel.get_room_price())
+                            # action Return(['building', "buyroom"])
+                            # hovered tt.action('Add rooms to this Building. Price = %d.' % building.get_room_price())
                             # text "Add Room"
-                        if hasattr(brothel, "use_adverts") and brothel.use_adverts:
+                        if hasattr(building, "use_adverts") and building.use_adverts:
                             button:
                                 xysize (150, 40)
-                                action Show("pyt_brothel_adverts")
+                                action Show("pyt_building_adverts")
                                 hovered tt.action('Advertise this building to attract more and better customers.')
                                 text "Advertise"
                         else:
@@ -495,22 +342,22 @@ screen pyt_brothel_management():
                                 action NullAction()
                                 hovered tt.action('Advertise this building to attract more and better customers.')
                                 text "Advertise"
-                        if len(brothel.get_girls()) > 0:
+                        if len(building.get_girls()) > 0:
                             button:
                                 xysize (150, 40)
-                                action [Hide("pyt_brothel_management"), Return(['brothel', "items_transfer"])]
-                                hovered tt.action('Transfer items between characters in this brothel!')
+                                action [Hide("pyt_building_management"), Return(['building', "items_transfer"])]
+                                hovered tt.action('Transfer items between characters in this building!')
                                 text "Transfer Items"
                         else:
                             button:
                                 xysize (150, 40)
                                 action NullAction()
-                                hovered tt.action('Transfer items between characters in this brothel!')
+                                hovered tt.action('Transfer items between characters in this building!')
                                 text "Transfer Items"
-                        if isinstance(brothel, DirtyBuilding) or brothel.name == TrainingDungeon.NAME:
+                        if isinstance(building, DirtyBuilding) or building.name == TrainingDungeon.NAME:
                             button:
                                 xysize (150, 40)
-                                action Show("pyt_brothel_maintenance")
+                                action Show("pyt_building_maintenance")
                                 hovered tt.action('Perform maintenance of this building.')
                                 text "Maintenance"
                         else:
@@ -521,10 +368,10 @@ screen pyt_brothel_management():
                                 text "Maintenance"
                     vbox:
                         spacing 5
-                        if isinstance(brothel, UpgradableBuilding) and brothel.use_upgrades:
+                        if isinstance(building, UpgradableBuilding) and building.use_upgrades:
                             button:
                                 xysize (150, 40)
-                                action Jump("brothel_upgrade")
+                                action Jump("building_upgrade")
                                 hovered tt.action('Upgrade this building.')
                                 text "Upgrade"
                         else:
@@ -535,12 +382,12 @@ screen pyt_brothel_management():
                                 text "Upgrade"
                         button:
                             xysize (150, 40)
-                            action SetField(hero, "location", brothel)
-                            hovered tt.action('Place MC in this brothel!')
+                            action SetField(hero, "location", building)
+                            hovered tt.action('Place MC in this building!')
                             text "Settle MC"
                         button:
                             xysize (150, 40)
-                            action Show("pyt_brothel_finances")
+                            action Show("pyt_building_finances")
                             hovered tt.action('Show Finance log.')
                             text "Finance Log"
                         button:
@@ -559,8 +406,158 @@ screen pyt_brothel_management():
         text (u"{=content_text}{size=20}{color=[ivory]}%s" % tt.value) yalign 0.1
     
     use pyt_top_stripe(True)
+    
+screen pyt_building_maintenance():
+    modal True
+    zorder 1
+    
+    frame:
+        style_group "content"
+        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)        
+        xpos 936
+        yalign 0.95
+        xysize(343, 675)
+        
+        label (u"{size=20}{color=[ivory]}{b}Maintenance!") align(0.5, 0.19) text_outlines [(2, "#424242", 0, 0)]
+        
+        # Tooltip related ---------------------------------->
+        default tt = Tooltip("Maintenance screen!")
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            align(0.5, 0.88)
+            xysize (320, 120)
+            xpadding 13
+            ypadding 15
+            has vbox
+            text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
+        
+        # Controls themselves ---------------------------------->
+        vbox:
+            style_group "basic"
+            align(0.55, 0.5)
+            if isinstance(building, DirtyBuilding):
+                button:
+                    xysize(200, 32)
+                    action Return(['maintenance', "clean"])
+                    hovered tt.action("Hire cleaners to completely clean this building for %d Gold."%building.get_cleaning_price())
+                    text "Clean: Building"
 
-screen pyt_brothel_finances():
+                python:
+                    price = 0
+                    for __ in hero.buildings:
+                        if isinstance(__, DirtyBuilding):
+                            price = price + __.get_cleaning_price()
+                    
+                button:
+                    xysize(200, 32)
+                    action Return(['maintenance', "clean_all", price])
+                    hovered tt.action("Hire cleaners to completely clean all buildings for [price] Gold.")
+                    text "Clean: All Buildings"
+                
+                button:
+                            xysize (200, 32)
+                            yalign 0.5
+                            action ToggleField(building, "auto_clean")
+                            hovered tt.action("Enable automatic hiring of cleaners if building gets to dirty!")
+                            text "Auto-Cleaning:" align (0.0, 0.5)
+                            if not building.auto_clean:
+                                add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                            else:
+                                add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+            
+            null height 30
+            if building.name != TrainingDungeon.NAME:
+                button:
+                    xysize (120, 100)
+                    xalign 0.5
+                    action Return(['maintenance', "rename_building"])
+                    hovered tt.Action("Give new name to your Building!")
+                    text "Rename Building"      
+                    
+        if building.name == TrainingDungeon.NAME:
+            button:
+                style_group "basic"
+                xysize (200, 32)
+                align (0.5, 0.5)
+                action Return(["maintenance", "retrieve_jail"])
+                hovered tt.action("Allow your guards to bail your escaped girls out of jail?")
+                text "Auto-bail" align (0.0, 0.5)
+                if not pytfall.ra.retrieve_jail:
+                    add im.Scale("content/gfx/interface/icons/checkbox_unchecked.png", 25, 25) align (1.0, 0.5)
+                else:
+                    add im.Scale("content/gfx/interface/icons/checkbox_checked.png", 25, 25) align (1.0, 0.5)
+        
+        button:
+            style_group "dropdown_gm"
+            action Hide("pyt_building_maintenance")
+            minimum(50, 30)
+            align (0.5, 0.97)
+            text  "OK"
+
+screen pyt_building_adverts():
+    modal True
+    zorder 1
+    
+    frame:
+        style_group "content"
+        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+        xpos 936
+        yalign 0.95
+        xysize(343, 675)
+        
+        label (u"{size=20}{color=[ivory]}{b}Advertise!") text_outlines [(2, "#424242", 0, 0)] align (0.5, 0.16)
+        
+        # Tooltip related ---------------------------------->
+        default tt = Tooltip("Attract more and better clients. Choose your advertisement budget carefully so your girls can keep up with quality and quantity of customers!")
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            align(0.5, 0.88)
+            xysize (320, 140)
+            xpadding 13
+            ypadding 15
+            has vbox
+            text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
+        
+        # Buttons themselves ---------------------------------->
+        hbox:
+            align(0.5, 0.4)
+            box_wrap True
+            spacing 20
+            for name in building.adverts:
+                $ advert = building.adverts[name]
+                vbox:
+                    style_group "basic"
+                    align (0.5, 0.5)
+                    if advert['active']:
+                        button:
+                            xysize(280, 32)
+                            hovered tt.action(advert['desc'])
+                            action ToggleDict(advert, "active")
+                            text ("Stop %s!" % advert['name']) color black align (0.5, 0.5)
+                    else:
+                        if name == "sign":
+                            button:
+                                xysize(280, 32)
+                                hovered tt.action(advert['desc'])
+                                action Return(["building", "sign"])
+                                text "Put Up Sign!" color black align (0.5, 0.5) size 15
+                        else:
+                            button:
+                                xysize(280, 32)
+                                hovered tt.action(advert['desc'])
+                                action ToggleDict(advert, "active")
+                                text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (0.5, 0.5) size 15
+
+        button:
+            style_group "dropdown_gm"
+            action Hide("pyt_building_adverts")
+            minimum(50, 30)
+            align (0.5, 0.97)
+            text  "OK"
+    
+screen pyt_building_finances():
     modal True
     zorder 1
     
@@ -577,9 +574,9 @@ screen pyt_brothel_finances():
             draggable False
             mousewheel True
             
-            if day > 1 and str(day-1) in brothel.fin.game_fin_log:
-                $ fin_inc = brothel.fin.game_fin_log[str(day-1)][0]
-                $ fin_exp = brothel.fin.game_fin_log[str(day-1)][1]
+            if day > 1 and str(day-1) in building.fin.game_fin_log:
+                $ fin_inc = building.fin.game_fin_log[str(day-1)][0]
+                $ fin_exp = building.fin.game_fin_log[str(day-1)][1]
                 
                 if show_fin == 'day':
                     label (u"Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
@@ -660,12 +657,12 @@ screen pyt_brothel_finances():
                     label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
                     python:
                         income = dict()
-                        for _day in brothel.fin.game_fin_log:
-                            for key in brothel.fin.game_fin_log[_day][0]["private"]:
-                                income[key] = income.get(key, 0) + brothel.fin.game_fin_log[_day][0]["private"][key]
+                        for _day in building.fin.game_fin_log:
+                            for key in building.fin.game_fin_log[_day][0]["private"]:
+                                income[key] = income.get(key, 0) + building.fin.game_fin_log[_day][0]["private"][key]
                             
-                            for key in brothel.fin.game_fin_log[_day][0]["work"]:
-                                income[key] = income.get(key, 0) + brothel.fin.game_fin_log[_day][0]["work"][key]
+                            for key in building.fin.game_fin_log[_day][0]["work"]:
+                                income[key] = income.get(key, 0) + building.fin.game_fin_log[_day][0]["work"][key]
                     
                     # Income:
                     vbox:
@@ -685,12 +682,12 @@ screen pyt_brothel_finances():
                     
                     python:
                         expenses = dict()
-                        for _day in brothel.fin.game_fin_log:
-                            for key in brothel.fin.game_fin_log[_day][1]["private"]:
-                                expenses[key] = expenses.get(key, 0) + brothel.fin.game_fin_log[_day][1]["private"][key]
+                        for _day in building.fin.game_fin_log:
+                            for key in building.fin.game_fin_log[_day][1]["private"]:
+                                expenses[key] = expenses.get(key, 0) + building.fin.game_fin_log[_day][1]["private"][key]
                             
-                            for key in brothel.fin.game_fin_log[_day][1]["work"]:
-                                expenses[key] = expenses.get(key, 0) + brothel.fin.game_fin_log[_day][1]["work"][key]
+                            for key in building.fin.game_fin_log[_day][1]["work"]:
+                                expenses[key] = expenses.get(key, 0) + building.fin.game_fin_log[_day][1]["work"][key]
                     vbox:
                         pos (450, 100)
                         label "Expense:" text_size 20
@@ -732,7 +729,7 @@ screen pyt_brothel_finances():
                 
             button:
                 style_group "basic"
-                action Hide('pyt_brothel_finances')
+                action Hide('pyt_building_finances')
                 minimum (250, 30)
                 align (0.5, 0.96)
                 text "OK"

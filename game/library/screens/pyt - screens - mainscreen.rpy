@@ -102,7 +102,7 @@ screen pyt_mainscreen():
                 action Stop("world"), Hide("pyt_mainscreen"), Show("pyt_girlslist", dissolve, source=GuiGirlsList(), page=0, total_pages=1), Jump("girls_list")
                 hovered tt.Action('Here you can see a list of all girls you possess, their stats and characteristics.\nIt is also here you can change their equipment and sell them.')
             textbutton "Buildings":
-                action Return(["brothel_management"])
+                action Return(["building_management"])
                 hovered tt.Action('Here you can see a list of all your buildings. \nIt is also here you can you can upgrade your building and advertice them.')
             if fg in hero.buildings or config.developer:
                 textbutton "Fighters Guild":
