@@ -28,6 +28,8 @@ label building_management:
                 building = hero.upgradable_buildings[index]
             
             result = ui.interact()
+            if not result:
+                continue
             
             if result[0] == "building":
                 if result[1] == 'buyroom':
