@@ -23,7 +23,7 @@ init: # Items:
                         #if item.bg_color == "dark":
                             #text_color ivory
     
-    screen pyt_eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
+    screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
         # char = source of equipment slots.
         # Slots and the doll ------------------------------------------------------------>
@@ -93,7 +93,7 @@ init: # Items:
                     else:
                         text (u"{color=#CDCDC1}Ring") align (0.5, 0.5) size 14
     
-    screen pyt_shopping(left_ref=None, right_ref=None):
+    screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
         use shop_inventory(ref=right_ref, x=1.0)
         
@@ -482,7 +482,7 @@ init: # PyTFall:
             action Return(return_value)
             hovered tt.action(u"%s"%tooltip)
 
-    screen pyt_top_stripe(show_return_button=True, use_hide_transform=False, normal_op=True):
+    screen top_stripe(show_return_button=True, use_hide_transform=False, normal_op=True):
         default tt = Tooltip("")
         if not normal_op:
             mousearea:
@@ -492,16 +492,16 @@ init: # PyTFall:
                 unhovered SetField(pytfall, "city_dropdown", False)
     
         # Hotkeys:
-        if show_return_button and renpy.current_screen().tag not in ["pyt_girlslist", "pyt_hero_profile", "pyt_girl_interactions"]:
+        if show_return_button and renpy.current_screen().tag not in ["girlslist", "hero_profile", "girl_interactions"]:
             key "mousedown_3" action Return(['control', 'return'])
-        if renpy.current_screen().tag not in ["pyt_girl_interactions", "pyt_hero_profile", "pyt_quest_log"]:
+        if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log"]:
             if global_flags.flag("visited_arena"):
                 key "a" action [Function(hs), Jump("arena_inside")]
             if global_flags.flag("visited_city_beach"):
                 key "c" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
             key "g" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("general_store")] 
             key "m" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen")]
-            key "j" action ShowMenu("pyt_quest_log")
+            key "j" action ShowMenu("quest_log")
           
         # Top Stripe:
         showif normal_op or pytfall.city_dropdown:
@@ -546,7 +546,7 @@ init: # PyTFall:
                 hbox:
                     align(0.3, 0.5)
                     
-                    if renpy.get_screen("pyt_girl_profile") and char not in pytfall.ra:
+                    if renpy.get_screen("girl_profile") and char not in pytfall.ra:
                         if char in hero.team:
                             imagebutton:
                                 idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
@@ -561,28 +561,28 @@ init: # PyTFall:
                                 hovered tt.Action("Add [char.nickname] to player team!")
                   
                 # Girlslist paging buttons:
-                if renpy.current_screen().tag == "pyt_girlslist":
+                if renpy.current_screen().tag == "girlslist":
                     hbox:
                         style_group "basic"
                         align(0.3, 0.5)
                         spacing 3
                         
-                        $ gs = renpy.get_screen("pyt_girlslist").scope["_kwargs"]
+                        $ gs = renpy.get_screen("girlslist").scope["_kwargs"]
                         
                         textbutton "<--":
-                            action SensitiveIf(gs["page"] > 0), Show("pyt_girlslist", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"])
+                            action SensitiveIf(gs["page"] > 0), Show("girlslist", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"])
                         $ page_2_display = gs["page"] + 1
                         textbutton "[page_2_display]":
                             action NullAction()
                         textbutton "-->":
-                            action SensitiveIf(gs["page"] + 1 < gs["total_pages"]), Show("pyt_girlslist", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"])
+                            action SensitiveIf(gs["page"] + 1 < gs["total_pages"]), Show("girlslist", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"])
                     
                 # AP Frame/Next Day button:
-                if any([renpy.current_screen().tag == "pyt_next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["pyt_mainscreen", "pyt_girl_interactions"]:
+                if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"]:
                     button:
                         style_group "basic"
                         align (0.5, 0.6)
-                        action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("pyt_hero_equip"), Jump("next_day"))
+                        action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("hero_equip"), Jump("next_day"))
                         text "Next Day"
                 else:
                     add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (0.5, 0.7)
@@ -598,42 +598,42 @@ init: # PyTFall:
                             action Jump("fonts")
                             hovered tt.Action("View availible Fonts!")
                             
-                    if renpy.current_screen().tag not in ["pyt_quest_log"]:
+                    if renpy.current_screen().tag not in ["quest_log"]:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.25))
                             hovered tt.Action("Quest Journal!")
-                            action ShowMenu("pyt_quest_log")
+                            action ShowMenu("quest_log")
                             
-                    if renpy.current_screen().tag == "pyt_mainscreen":
+                    if renpy.current_screen().tag == "mainscreen":
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(0.25))
                             action Show("s_menu", transition=dissolve)
                             hovered tt.Action("Game Preferences!")
                             
-                    if renpy.current_screen().tag not in ["pyt_mainscreen", "pyt_girl_interactions", "pyt_quest_log"]:
+                    if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log"]:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
                             action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                             hovered tt.Action("Return to Main Screen!")
                             
-                    if renpy.current_screen().tag in ["pyt_girl_profile", "pyt_char_equip"] and char.action != "Exploring":
+                    if renpy.current_screen().tag in ["girl_profile", "char_equip"] and char.action != "Exploring":
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                             action Return(["jump", "item_transfer"])
                             hovered tt.Action("Transfer items between MC and and [char.nickname]!")
                             
-                    if renpy.get_screen("pyt_hero_profile") and hero.location == ap:
+                    if renpy.get_screen("hero_profile") and hero.location == ap:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                             action Return(["item", "transfer"])
                             hovered tt.Action("Leave your crap at your place (Inside of a safe chest)!")
                     
-                    if renpy.current_screen().tag not in ["pyt_hero_profile", "pyt_girl_interactions", "pyt_quest_log"]:
+                    if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"]:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.25))
@@ -663,7 +663,7 @@ init: # PyTFall:
                         hovered tt.Action("Return to previous screen!")
                     
                     
-    screen pyt_message_screen(msg, size=(500, 300), use_return=False):
+    screen message_screen(msg, size=(500, 300), use_return=False):
         modal True
         zorder 10
         
@@ -681,14 +681,14 @@ init: # PyTFall:
                 vbox:
                     xmaximum (size[0] - 50) 
                     text msg xalign 0.5
-                textbutton "Ok" action If(use_return, true=Return(), false=Hide("pyt_message_screen")) minimum(250, 30) xalign 0.5 style "yesno_button"
+                textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(250, 30) xalign 0.5 style "yesno_button"
         
-    screen pyt_display_disposition(tag, d, size, x, y, t):
+    screen display_disposition(tag, d, size, x, y, t):
         tag tag
         text "[d]" font "fonts/rubius.ttf" size size color crimson at found_cash(x, y, t)
-        timer t+0.2 action Hide("pyt_display_disposition")
+        timer t+0.2 action Hide("display_disposition")
         
-    screen pyt_input(default="", text="", length=20, size=(350, 150)):
+    screen input(default="", text="", length=20, size=(350, 150)):
         modal True
         zorder 10
     
@@ -793,7 +793,7 @@ init: # PyTFall:
                         
                         elif entry == "Take Course":
                             textbutton "[entry]":
-                                action [Hide("set_action_dropdown"), Hide("pyt_charslist"), Hide("pyt_char_profile"), # Hide the dropdown screen, the chars list and char profile screens
+                                action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"), # Hide the dropdown screen, the chars list and char profile screens
                                         SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
                                         Jump("char_training")] # Jump to the training screen
                         

@@ -962,7 +962,7 @@ init -9 python:
                     renpy.jump(gm_job.label)
                 
                 else:
-                    renpy.show_screen("pyt_message_screen", "%s cannot be trained in her current location!"%char.nickname)
+                    renpy.show_screen("message_screen", "%s cannot be trained in her current location!"%char.nickname)
             
             elif self.mode == "menu":
                 return self.lesson.can_train(char, hero, one_off_only=True)
@@ -1706,13 +1706,13 @@ init -9 python:
                     self.retrieve(self.girl)
                 
                 else:
-                    renpy.call_screen('pyt_message_screen', "You don't have enough money for this purchase!")
+                    renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
             
             else:
-                renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!!")
+                renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
             
             if not self.girls_list:
-                renpy.hide_screen("pyt_slave_shopping")
+                renpy.hide_screen("slave_shopping")
         
         def can_escape(self, girl, location, guards=None, girlmod=None, pos_traits=None, neg_traits=["Restrained"], use_be=True, simulate=True, be_kwargs=dict()):
             """

@@ -102,7 +102,7 @@ label tagger:
                         del alltagz
                         del nums
                         del inverted
-                        renpy.show_screen("pyt_message_screen", "Please check devlog.txt for any errors during the process!!")  
+                        renpy.show_screen("message_screen", "Please check devlog.txt for any errors during the process!!")  
             if result[0] == "control":
                 if result[1] == "return":
                     break

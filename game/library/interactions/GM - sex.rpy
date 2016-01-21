@@ -622,7 +622,7 @@ label interactions_lesbian_choice:
     $ char2 = random.sample(willing_partners, 1)[0]
     
     # We plainly hide the interactions screen to get rid of the image and gradient:
-    hide screen pyt_girl_interactions
+    hide screen girl_interactions
     
     $ char_sprite = char.get_vnsprite()
     $ char_sprite2 = char2.get_vnsprite()
@@ -715,7 +715,7 @@ label interactions_lesbian_choice:
     # Restore the gm image:
     
     # Show the screen again:
-    show screen pyt_girl_interactions
+    show screen girl_interactions
     
     # And finally clear all the variables for global scope:
     python:

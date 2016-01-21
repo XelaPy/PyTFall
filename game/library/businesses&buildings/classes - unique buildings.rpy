@@ -49,13 +49,13 @@ init -9 python:
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
                     self.remove_prisoner(self.worker)
                 else:
-                    renpy.call_screen('pyt_message_screen', "You don't have enough money for this purchase!")
+                    renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
             
             else:
-                renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!")
+                renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
             
             if not self.workers_list:
-                renpy.hide_screen("pyt_slave_shopping")
+                renpy.hide_screen("slave_shopping")
         
         def get_price(self):
             """
@@ -148,11 +148,11 @@ init -9 python:
                 girl.location = None
                 # TODO: What do we do with the girl sold? Let her fall into the void or become availible in SM after a while.
             else:
-                renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!")
+                renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
             
             if not auto:    
                 if not self.workers_list:
-                    renpy.hide_screen("pyt_slave_shopping")
+                    renpy.hide_screen("slave_shopping")
         
         def next_day(self):
             for i in self.workers_list:
@@ -193,14 +193,14 @@ init -9 python:
                             self.remove_prisoner(set_location=False)
                         else:
                             hero.give_money(self.get_fees4captured(), reason="Jail Fees")
-                            renpy.call_screen('pyt_message_screen', "You don't have enough money for upfront payment for Blue's services!")
+                            renpy.call_screen('message_screen', "You don't have enough money for upfront payment for Blue's services!")
                 else:
-                    renpy.call_screen('pyt_message_screen', "You don't have enough money!")
+                    renpy.call_screen('message_screen', "You don't have enough money!")
             else:
-                renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!")
+                renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
             
             if not self.workers_list:
-                renpy.hide_screen("pyt_slave_shopping")
+                renpy.hide_screen("slave_shopping")
         
     class Apartment(BaseBuilding):
         """Useless class really, but I may require to check for this during interation in the future."""

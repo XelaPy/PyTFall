@@ -138,7 +138,7 @@ init -9 python:
                 return True
                 
         def start_simple_encounter(self):
-            renpy.hide_screen("pyt_forest_exploration")
+            renpy.hide_screen("forest_exploration")
             if self.map[self.player_tile[0]][self.player_tile[1]].encounter_track:
                 renpy.music.play(self.map[self.player_tile[0]][self.player_tile[1]].encounter_track, fadein=0.5)
             
@@ -254,7 +254,7 @@ init -9 python:
             else:
                 raise Exception, "Game Over!!!"
     
-            renpy.show_screen("pyt_forest_exploration")
+            renpy.show_screen("forest_exploration")
             
     # Attempt to load tiles from Tiled into Jake's BE:
     class TileMap(_object):

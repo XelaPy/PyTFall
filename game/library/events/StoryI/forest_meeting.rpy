@@ -23,7 +23,7 @@ label storyi_forest_begining:
                 i.set_flag("quest_cannot_be_fucked", True)
                 i.set_flag("quest_cannot_be_lover", True)
     $ b = Character("???", color=white, what_color=white, show_two_window=True)
-    hide screen pyt_mainscreen
+    hide screen mainscreen
     scene black
     stop world
     stop music

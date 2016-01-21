@@ -3231,7 +3231,7 @@ init -9 python:
                         self.__dict__["stats"].exp += self.adjust_exp(randint(3, 6))
                         hero.exp += self.adjust_exp(randint(3, 6))
                         tag = str(random.random())
-                        renpy.show_screen("pyt_display_disposition", tag, value - self.__dict__["stats"]['disposition'], 40, 530, 400, 1)
+                        renpy.show_screen("display_disposition", tag, value - self.__dict__["stats"]['disposition'], 40, 530, 400, 1)
 
                 if key == 'joy' and self.__dict__['effects']['Impersonal']['active']:
                     value = value - int(round((value - self.__dict__["stats"]['joy'])*0.3))

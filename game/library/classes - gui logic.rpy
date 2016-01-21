@@ -83,7 +83,7 @@ init -1 python:
         def select_left_char(self, char):
             char.inventory.set_page_size(23)
             if char == self.right_char:
-                renpy.show_screen('pyt_message_screen', "Same character cannot be chozen from both sides!")
+                renpy.show_screen('message_screen', "Same character cannot be chozen from both sides!")
             else:
                 self.left_char = char
                 self.left_image_cache = self.left_char.show('portrait', resize=(205, 205))
@@ -91,7 +91,7 @@ init -1 python:
         def select_right_char(self, char):
             char.inventory.set_page_size(23)
             if char == self.left_char:
-                renpy.show_screen('pyt_message_screen', "Same character cannot be chozen from both sides!")
+                renpy.show_screen('message_screen', "Same character cannot be chozen from both sides!")
             else:
                 self.right_char = char
                 self.right_image_cache = self.right_char.show('portrait', resize=(205, 205))
@@ -328,13 +328,13 @@ init -1 python:
                         self.girl = None
                 
                 else:
-                    renpy.call_screen('pyt_message_screen', "You don't have enough money for this purchase!")
+                    renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
             
             else:
-                renpy.call_screen('pyt_message_screen', "You don't have enough AP left for this action!!")
+                renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
             
             if not self.girls_list:
-                renpy.hide_screen("pyt_slave_shopping")
+                renpy.hide_screen("slave_shopping")
         
         def next_day(self):
             """
@@ -445,7 +445,7 @@ init -1 python:
                     self.set_img()
                     
                 elif result[0] == "view_trans":
-                    pyt_gallery.trans_view()
+                    gallery.trans_view()
                     
                 # This is for the testing option (only in dev mode):
                 elif result[0] == "change_dict":
@@ -497,10 +497,10 @@ init -1 python:
             shuffle(images)
             images_copy = copy.copy(images)
             
-            renpy.hide_screen("pyt_gallery")
+            renpy.hide_screen("gallery")
             renpy.with_statement(dissolve)
             
-            renpy.show_screen("pyt_gallery_trans")
+            renpy.show_screen("gallery_trans")
             
             renpy.music.play("content/sfx/music/reflection.mp3", fadein=1.5)
             
@@ -558,8 +558,8 @@ init -1 python:
                     
                     
                     
-            renpy.hide_screen("pyt_gallery_trans")
+            renpy.hide_screen("gallery_trans")
             renpy.music.stop(fadeout=1.0)
             renpy.hide(tag)
-            renpy.show_screen("pyt_gallery")
+            renpy.show_screen("gallery")
             renpy.with_statement(dissolve)

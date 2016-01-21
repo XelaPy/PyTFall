@@ -250,7 +250,7 @@ init python:
             
             for char in team:
                 if char.action == "Exploring":
-                    renpy.show_screen("pyt_message_screen", "Team Member: %s is already on exploration run!" % char.name)
+                    renpy.show_screen("message_screen", "Team Member: %s is already on exploration run!" % char.name)
                     return
             
             for char in team:
@@ -299,7 +299,7 @@ init python:
             self.txt = list()
             
             fg.exploring.append(self)
-            renpy.show_screen("pyt_message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
+            renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             jump("fg_management")
         
         def start_day(self):

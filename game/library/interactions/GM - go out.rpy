@@ -103,7 +103,7 @@
 # label interactions_datefinish:
     # show bg wood
     
-    # show screen pyt_girl_interactions
+    # show screen girl_interactions
     
     # "Back at home:"
     

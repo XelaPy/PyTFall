@@ -259,7 +259,7 @@ init -1 python:
             if not free:
                 # If we have no more points
                 if not self.gm_points and hero.AP <= 0:
-                    renpy.show_screen("pyt_message_screen", "You have no Action Points left!")
+                    renpy.show_screen("message_screen", "You have no Action Points left!")
                     return
                 else:
                     # Take AP

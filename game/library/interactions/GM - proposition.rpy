@@ -289,7 +289,7 @@ label interactions_hire:
             "Hire her as [char.occupation].":
                 $gm.remove_girl(char)
                 $hero.add_girl(char)
-                hide screen pyt_girl_interactions
+                hide screen girl_interactions
                 
                 $ gm.see_greeting = True
                 

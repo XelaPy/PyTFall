@@ -74,7 +74,7 @@ init -9 python:
             
             if trigger_type != "auto":
                 if hero.AP < cost:
-                    renpy.show_screen("pyt_message_screen", "Not enough AP left")
+                    renpy.show_screen("message_screen", "Not enough AP left")
                     return
                 else:
                     hero.AP -= cost

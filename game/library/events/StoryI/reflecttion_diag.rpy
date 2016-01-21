@@ -86,7 +86,7 @@ label reflection_quest_part_one:
     stop world fadeout 2.0
     $ register_event_in_label("reflection_quest_part_two", quest="Settling in the city", locations=["mainscreen"], run_conditions=["hero.gold >= 3000"], dice=100, max_runs=1)
     scene black
-    jump pyt_city
+    jump city
     
 label reflection_quest_part_two:
     stop music

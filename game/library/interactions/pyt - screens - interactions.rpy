@@ -45,7 +45,7 @@ label girl_interactions:
         gm.show_menu_givegift = False
         
         # Show screen
-        renpy.show_screen("pyt_girl_interactions")
+        renpy.show_screen("girl_interactions")
         renpy.with_statement(dissolve)
     
     # Show greeting
@@ -225,7 +225,7 @@ label girl_interactions_end:
         
         # Reset scene
         renpy.scene()
-        renpy.hide_screen("pyt_girl_interactions")
+        renpy.hide_screen("girl_interactions")
         
         # End the GM
         gm.end()
@@ -322,7 +322,7 @@ label girl_interactions_control:
                 jump girl_interactions_end
     
 
-screen pyt_girl_interactions():
+screen girl_interactions():
     # BG
     add "content/gfx/images/bg_gradient.png" yalign 0.2
     
@@ -421,10 +421,10 @@ screen pyt_girl_interactions():
                     text_style "library_book_header_sub"
                     text_color ivory
     
-    use pyt_top_stripe(False)
+    use top_stripe(False)
     
 
-screen pyt_girl_interactions_old:
+screen girl_interactions_old:
     
     # Controls
     frame:
@@ -531,5 +531,5 @@ screen pyt_girl_interactions_old:
         yalign 0.2
         add ProportionalScale(gm.img, 900, 530)
     
-    use pyt_top_stripe(True)
+    use top_stripe(True)
     

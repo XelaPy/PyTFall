@@ -16,7 +16,7 @@ init -11 python:
                     for girl in [chars[key] for key in chars if chars[key].location == char.location]:
                         girl.equip(item)
                 else:
-                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "% char.nickname)
+                    renpy.call_screen('message_screen', "%s in not in any brothel! "% char.nickname)
 
             elif item.ceffect == 'brothelfree':
                 if char.location in hero.buildings:
@@ -25,7 +25,7 @@ init -11 python:
                         if girl.status != 'slave':
                             girl.equip(item)
                 else:
-                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%char.nickname)
+                    renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
 
             elif item.ceffect == 'brothelslave':
                 if char.location in hero.buildings:
@@ -34,7 +34,7 @@ init -11 python:
                         if girl.status == 'slave':
                             girl.equip(item)
                 else:
-                    renpy.call_screen('pyt_message_screen', "%s in not in any brothel! "%char.nickname)
+                    renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
 
             elif item.ceffect == 'allslaves':
                 char.inventory.remove(item)
@@ -94,15 +94,15 @@ init -11 python:
         """
         if item.unique and item.unique != char.id:
             if not silent:
-                renpy.show_screen("pyt_message_screen", "This unique item cannot be equipped on {}!".format(char.name))
+                renpy.show_screen("message_screen", "This unique item cannot be equipped on {}!".format(char.name))
             return
         elif item.sex not in ["unisex", char.gender]:
             if not silent:
-                renpy.show_screen('pyt_message_screen', "{} item cannot be equipped on a character of {} gender!".format(item.id, char.gender))
+                renpy.show_screen('message_screen', "{} item cannot be equipped on a character of {} gender!".format(item.id, char.gender))
             return
         elif not item.usable:
             if not silent:
-                renpy.show_screen("pyt_message_screen", "This item cannot be used or equipped!")
+                renpy.show_screen("message_screen", "This item cannot be used or equipped!")
             return
         return True
                 
@@ -113,11 +113,11 @@ init -11 python:
         """
         if all([item.unique, isinstance(target, Player), item.unique != "mc"]) or all([item.unique, item.unique != target.id]):
             if not silent:
-                renpy.show_screen("pyt_message_screen", "This unique item cannot be given to {}!".format(char.name))
+                renpy.show_screen("message_screen", "This unique item cannot be given to {}!".format(char.name))
             return
         if not item.transferable:
             if not silent:
-                renpy.show_screen('pyt_message_screen', "This item cannot be transferred!")
+                renpy.show_screen('message_screen', "This item cannot be transferred!")
             return
         # Free girls should always refuse giving up their items unless MC gave it to them.
         if all([isinstance(source, Char), source.status != "slave"]):
@@ -133,11 +133,11 @@ init -11 python:
         """
         if focus.unique:
             if not silent:
-                renpy.show_screen("pyt_message_screen", "Unique Items cannot be sold!")
+                renpy.show_screen("message_screen", "Unique Items cannot be sold!")
             return
         elif not item.sellable:
             if not silent:
-                renpy.show_screen("pyt_message_screen", "This item cannot be sold!")
+                renpy.show_screen("message_screen", "This item cannot be sold!")
             return
         return True
     

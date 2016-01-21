@@ -654,15 +654,15 @@ init -9 python:
             Checks if player team is ready for a dogfight.
             """
             if len(hero.team) != len(team):
-                renpy.call_screen("pyt_message_screen", "Make sure that your team has %d members!"%len(team))
+                renpy.call_screen("message_screen", "Make sure that your team has %d members!"%len(team))
                 return
             for member in hero.team:
                 if member != hero and member.status == "slave":
-                    renpy.call_screen("pyt_message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both slave and the owner!"%member.name)
+                    renpy.call_screen("message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both slave and the owner!"%member.name)
                     return
             for member in hero.team:
                 if member.AP < 2:
-                    renpy.call_screen("pyt_message_screen", "%s does not have enough Action Points for a fight (2 required)!"%member.name)
+                    renpy.call_screen("message_screen", "%s does not have enough Action Points for a fight (2 required)!"%member.name)
                     return
                     
             ht_strength = 0 # hero team*
@@ -692,10 +692,10 @@ init -9 python:
             for member in hero.team:
                 member.AP -= 2
                     
-            renpy.hide_screen("pyt_arena_inside")
-            renpy.hide_screen("pyt_arena_1v1_dogfights")
-            renpy.hide_screen("pyt_arena_2v2_dogfights")
-            renpy.hide_screen("pyt_arena_3v3_dogfights")
+            renpy.hide_screen("arena_inside")
+            renpy.hide_screen("arena_1v1_dogfights")
+            renpy.hide_screen("arena_2v2_dogfights")
+            renpy.hide_screen("arena_3v3_dogfights")
             
             team.leader.say("You seriously believe that you've got a chance?")
             hero.say(choice(["Talk is cheap!", "Defend yourself!"]))
@@ -713,18 +713,18 @@ init -9 python:
             if hero.arena_permit:
                 pass
             else:
-                renpy.call_screen("pyt_message_screen", "Arena Permit is required to fight in the official matches!")
+                renpy.call_screen("message_screen", "Arena Permit is required to fight in the official matches!")
                 return
             
             if n:
                 if self.setup[2] in hero.fighting_days:
-                    renpy.call_screen("pyt_message_screen", "You already have a fight planned for day %d. Having two official matches on the same day is not allowed!"%self.setup[2])
+                    renpy.call_screen("message_screen", "You already have a fight planned for day %d. Having two official matches on the same day is not allowed!"%self.setup[2])
                     return
                 
-                renpy.show_screen("pyt_confirm_match")
+                renpy.show_screen("confirm_match")
                 
             else:
-                renpy.hide_screen("pyt_confirm_match")
+                renpy.hide_screen("confirm_match")
                 self.setup[0] = hero.team
                 hero.fighting_days.append(self.setup[2])
         
@@ -739,25 +739,25 @@ init -9 python:
                     team = setup[1]
             
             if len(hero.team) != len(team):
-                renpy.call_screen("pyt_message_screen", "Make sure that your team has %d members!"%len(team))
+                renpy.call_screen("message_screen", "Make sure that your team has %d members!"%len(team))
                 return
             for member in hero.team:
                 if member != hero and member.status == "slave":
-                    renpy.call_screen("pyt_message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both slave and the owner!"%member.name)
+                    renpy.call_screen("message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both slave and the owner!"%member.name)
                     return
             for member in hero.team:
                 if member.AP < 3:
-                    renpy.call_screen("pyt_message_screen", "%s does not have enough Action Points for a fight (3 required)!"%member.name)
+                    renpy.call_screen("message_screen", "%s does not have enough Action Points for a fight (3 required)!"%member.name)
                     return
              
             # If we got this far, we can safely take AP off teammembers:
             for member in hero.team:
                 member.AP -= 3
                     
-            renpy.hide_screen("pyt_arena_inside")
-            renpy.hide_screen("pyt_arena_1v1_fights")
-            renpy.hide_screen("pyt_arena_2v2_fights")
-            renpy.hide_screen("pyt_arena_3v3_fights")
+            renpy.hide_screen("arena_inside")
+            renpy.hide_screen("arena_1v1_fights")
+            renpy.hide_screen("arena_2v2_fights")
+            renpy.hide_screen("arena_3v3_fights")
             
             team.leader.say("You seriously believe that you've got a chance?")
             hero.say("Talk is cheap!")
@@ -1052,14 +1052,14 @@ init -9 python:
             """
             Checks before chainfight.
             """
-            renpy.predict_screen("pyt_confirm_chainfight")
+            renpy.predict_screen("confirm_chainfight")
                 
             for member in hero.team:
                 if member.AP < 3:
-                    renpy.call_screen("pyt_message_screen", "%s does not have enough Action Points to start a chain fight (3 AP required)!"%member.name)
+                    renpy.call_screen("message_screen", "%s does not have enough Action Points to start a chain fight (3 AP required)!"%member.name)
                     return
                 if member.status == "slave":
-                    renpy.call_screen("pyt_message_screen", "%s is a Slave forbidden from participation in Combat!"%member.name)
+                    renpy.call_screen("message_screen", "%s is a Slave forbidden from participation in Combat!"%member.name)
                     return
                     
             # If we got this far, we can safely take AP off teammembers:
@@ -1076,15 +1076,15 @@ init -9 python:
             """
             # Case: First battle:
             if not pytfall.arena.cf_mob:
-                renpy.hide_screen("pyt_arena_inside")
-                renpy.call_screen("pyt_chain_fight")
+                renpy.hide_screen("arena_inside")
+                renpy.call_screen("chain_fight")
                 
                 result = self.result
         
                 if result == "break":
                     self.result = None
                     hero.AP += 3
-                    renpy.show_screen("pyt_arena_inside")
+                    renpy.show_screen("arena_inside")
                     return
                 
                 self.cf_setup = self.chain_fights[result]
@@ -1178,7 +1178,7 @@ init -9 python:
             if not bonus:
                 d = None
                 
-            renpy.show_screen("pyt_confirm_chainfight", 50, 0.01, 6, d)
+            renpy.show_screen("confirm_chainfight", 50, 0.01, 6, d)
             
         
         def start_chainfight(self):
@@ -1266,7 +1266,7 @@ init -9 python:
                     self.cf_setup = None
                     self.cf_count = 0
                     self.award = None
-                    renpy.show_screen("pyt_arena_finished_chainfight", hero.team)
+                    renpy.show_screen("arena_finished_chainfight", hero.team)
                     return
                 else:
                     renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1522,7 +1522,7 @@ init -9 python:
             Working out the kinks before I merge this into be bridge.
             """
             renpy.scene()
-            renpy.hide_screen("pyt_mainscreen")
+            renpy.hide_screen("mainscreen")
             renpy.music.stop(channel="world")
             renpy.music.play(choice(ilists.battle_tracks), fadein=1.5)
             

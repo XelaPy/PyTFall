@@ -7,7 +7,7 @@ label interactions_shopping:
     # TODO: Get rid of this or update it to modern PyTFall!
     #copied from tailor shop
     #then modified for own use
-    hide screen pyt_girl_interactions
+    hide screen girl_interactions
     
     scene bg tailor_store
     with dissolve
@@ -34,7 +34,7 @@ label interactions_shopping:
         char.inventory.set_page_size(18)
         char.inventory.apply_filter('all')
     
-    show screen pyt_tailor_store_shopping_girl
+    show screen tailor_store_shopping_girl
     with dissolve
     
     python:
@@ -183,7 +183,7 @@ label interactions_shopping:
                     focus = False
                     break
     
-    hide screen pyt_tailor_store_shopping_girl
+    hide screen tailor_store_shopping_girl
     with dissolve
     
     python:
@@ -198,7 +198,7 @@ label interactions_shopping:
     jump girl_interactions
     
 
-screen pyt_tailor_store_shopping_girl:
+screen tailor_store_shopping_girl:
     
     frame:
         align(0.5,0)
