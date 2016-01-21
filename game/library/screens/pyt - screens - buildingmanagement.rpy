@@ -28,7 +28,7 @@ label building_management:
                 building = hero.upgradable_buildings[index]
             
             result = ui.interact()
-            if not result:
+            if not result or not isinstance(result, (list, tuple)):
                 continue
             
             if result[0] == "building":
