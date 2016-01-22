@@ -8,7 +8,7 @@ label gallery:
     hide screen gallery
     with dissolve
     $ gallery = None
-    jump girl_profile
+    jump char_profile
     
 screen gallery():
     

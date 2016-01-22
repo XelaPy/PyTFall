@@ -240,7 +240,7 @@ label char_equip_finish:
         $ last_label, came_to_equip_from = came_to_equip_from, None
         jump expression last_label
     else:
-        jump girl_profile
+        jump char_profile
 
 screen equip_for(pos=()):
     zorder 3

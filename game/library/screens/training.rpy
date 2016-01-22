@@ -73,7 +73,7 @@ label girl_training:
                 break
     
     hide screen girl_training
-    jump girl_profile
+    jump char_profile
     
 
 screen girl_training:

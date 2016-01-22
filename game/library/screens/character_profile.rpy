@@ -1,11 +1,11 @@
-label girl_profile:
+label char_profile:
     
     if not hasattr(store, "girls") or girls is None or char not in girls:
         $ girls = list(girl for girl in hero.girls if girl.action != "Exploring")
     
     scene bg scroll
     $ renpy.retain_after_load()
-    show screen girl_profile
+    show screen char_profile
     with dissolve
     
     while 1:
@@ -29,7 +29,7 @@ label girl_profile:
                             $ index = (index+1) % len(girls)
                             $ char = girls[index]
                         else:
-                            jump girl_profile_end
+                            jump char_profile_end
                 else:
                     $ renpy.show_screen("message_screen", "This girl has run away!")
             
@@ -40,7 +40,7 @@ label girl_profile:
         else:
             if result[0] == "jump":
                 if result[1] == "item_transfer":
-                    hide screen girl_profile
+                    hide screen char_profile
                     $ pytfall.it = GuiItemsTransfer("personal_transfer", char=char, last_label=last_label)
                     jump items_transfer
             
@@ -125,20 +125,20 @@ label girl_profile:
                 $ char = girls[index]
                 
             elif result[1] == 'return':
-                jump girl_profile_end
+                jump char_profile_end
 
-label girl_profile_end:
-    hide screen girl_profile
+label char_profile_end:
+    hide screen char_profile
     
     $ girls = None
     
-    if girl_profile:
-        $ last_label, girl_profile = girl_profile, None
+    if char_profile:
+        $ last_label, char_profile = char_profile, None
         jump expression last_label
     else:
         jump girls_list
                 
-screen girl_profile():
+screen char_profile():
 
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
@@ -181,7 +181,7 @@ screen girl_profile():
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                         add img align(0.5, 0.5)#ProportionalScale(img, 600, 514) align(0.5, 0.5)
                     
-                    action If(not_escaped, true=[Hide("girl_profile"), With(dissolve), Function(gm.start_int_or_tr, char)], false=NullAction())
+                    action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int_or_tr, char)], false=NullAction())
                     
                     hovered tt.action("Interact with [char.nickname]!")
                 
@@ -567,12 +567,12 @@ screen girl_profile():
                             text "Girl Control"
                         button:
                             xysize (150, 40)
-                            action If(not_escaped, true=[Hide("girl_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
+                            action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
                             hovered tt.action('Access girls inverntory and equipment screen!')
                             text "Equipment"
                         button:
                             xysize (150, 40)
-                            action [Hide("girl_profile"), With(dissolve), Return(["girl", "gallery"])]
+                            action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
                             hovered tt.action("View this girl's gallery!")
                             text "Gallery"
                 
@@ -580,7 +580,7 @@ screen girl_profile():
                         spacing 5
                         button:
                             xysize (150, 40)
-                            action If(not_escaped, true=[Hide("girl_profile"), With(dissolve), Jump('girl_training')])
+                            action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('girl_training')])
                             hovered tt.action("Send her to School!")
                             text "Training"
                         button:

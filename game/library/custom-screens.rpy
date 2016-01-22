@@ -546,7 +546,7 @@ init: # PyTFall:
                 hbox:
                     align(0.3, 0.5)
                     
-                    if renpy.get_screen("girl_profile") and char not in pytfall.ra:
+                    if renpy.get_screen("char_profile") and char not in pytfall.ra:
                         if char in hero.team:
                             imagebutton:
                                 idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
@@ -619,7 +619,7 @@ init: # PyTFall:
                             action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                             hovered tt.Action("Return to Main Screen!")
                             
-                    if renpy.current_screen().tag in ["girl_profile", "char_equip"] and char.action != "Exploring":
+                    if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.action != "Exploring":
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))

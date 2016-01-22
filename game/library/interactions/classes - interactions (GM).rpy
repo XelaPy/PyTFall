@@ -322,12 +322,12 @@ init -1 python:
             else:
                 self.start("girl_meets", girl, img, exit, bg)
         
-        def start_int(self, girl, img=None, exit="girl_profile", bg="gallery"):
+        def start_int(self, girl, img=None, exit="char_profile", bg="gallery"):
             """
             Starts the interaction scenario.
             girl = The girl to use.
             img = The image for the girl.
-            exit = The exit label to use. Defaults to "girl_profile".
+            exit = The exit label to use. Defaults to "char_profile".
             bg = The background to use. Defaults to "gallery".
             """
             self.start("girl_interactions", girl, img, exit, bg)
@@ -344,12 +344,12 @@ init -1 python:
             else:
                 self.start_int(girl, **kwargs)
         
-        def start_tr(self, girl, img=None, exit="girl_profile", bg="sex_dungeon_1"):
+        def start_tr(self, girl, img=None, exit="char_profile", bg="sex_dungeon_1"):
             """
             Starts the training scenario.
             girl = The girl to use.
             img = The image for the girl.
-            exit = The exit label to use. Defaults to "girl_profile".
+            exit = The exit label to use. Defaults to "char_profile".
             bg = The background to use. Defaults to "dungeon".
             """
             self.start("girl_trainings", girl, img, exit, bg)

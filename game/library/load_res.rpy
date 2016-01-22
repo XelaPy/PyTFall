@@ -51,7 +51,7 @@ label load_resources:
         char = None # Character global
         came_to_equip_from = None # Girl equipment screen came from label holder
         eqtarget = None # Equipment screen
-        girl_profile = None # Girl profile screen came from label holder
+        char_profile = None # Girl profile screen came from label holder
         gallery = None
         
         # Descriptions for: *Elements

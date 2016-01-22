@@ -24,7 +24,7 @@ label girls_list:
             elif result[0] == 'choice':
                 renpy.hide_screen("girlslist")
                 char = result[1]
-                jump('girl_profile')
+                jump('char_profile')
             elif result[0] == "paging":
                 gs = renpy.get_screen("girlslist").scope["_kwargs"]["source"]
                 if result[1] == "next":
@@ -82,7 +82,7 @@ screen girlslist(source=None, page=0, total_pages=1):
                     vbox:
                         spacing 14
                         for girl in gl:
-                            $ girl_profile_img = girl.show('portrait', resize=(98, 98), cache=True)
+                            $ char_profile_img = girl.show('portrait', resize=(98, 98), cache=True)
                             $ img = "content/gfx/frame/ink_box.png"
                             button:
                                 idle_background Frame(Transform(img, alpha=0.4), 10 ,10)
@@ -95,7 +95,7 @@ screen girlslist(source=None, page=0, total_pages=1):
                                     align (0, 0.5)
                                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                                     xysize(100, 100)
-                                    add girl_profile_img align (0.5, 0.5) alpha 0.96
+                                    add char_profile_img align (0.5, 0.5) alpha 0.96
                                    
                                 # Texts/Status:
                                 frame:

@@ -145,7 +145,7 @@ init -9 python:
             Filter for items
             Currently filtered by slot
             """
-            # if last_label in ("girl_profile", "char_equip", "items_transfer"):
+            # if last_label in ("char_profile", "char_equip", "items_transfer"):
             if last_label in ("items_transfer"):
                 self.FILTERS = self.GEQ_FILTERS
             else:
