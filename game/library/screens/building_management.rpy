@@ -197,72 +197,75 @@ screen building_management():
         ## Stats/Info - Left Frame
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-            xysize(330, 780)
+            xysize (330, 780)
             xanchor 0.01
             ypos 30
             style_group "content"
             has vbox
-            vbox:
-                style_group "stats"
-                pos(0.015, 10)
-                xmaximum 325
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                style_group "proper_stats"
+                xsize 300
+                xpadding 12
+                ypadding 12
+                xmargin 0
+                ymargin 0
+                has vbox spacing 1
+                
+                # Old Style Rooms:
                 frame:
-                    background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                    xysize (317, 100)
-                    xanchor 5
-                    yanchor 2
-                    hbox:
-                        vbox:
-                            spacing -7
-                            xanchor 0
-                            xmaximum 153
-                            xfill True
-                            frame:
-                                text "{color=[ivory]}Rooms:" xalign 0.02
-                            frame:
-                                text "{color=[ivory]}Free Rooms:" xalign 0.02
-                            if isinstance(building, UpgradableBuilding):
-                                if building.use_upgrades:
-                                    frame:
-                                        text "{color=[ivory]}Slots:" xalign 0.02
-                                if building.get_upgrade_mod("guards") > 0:
-                                    frame:
-                                        text "{color=[ivory]}Guard Quarters:" xalign 0.02
-                            frame:
-                                text "{color=[ivory]}Security Rating:" xalign 0.02
-                            if isinstance(building, DirtyBuilding):
-                                frame:
-                                    text "{color=[ivory]}Dirt:" xalign 0.02
-                            if isinstance(building, FamousBuilding):
-                                frame:
-                                    text "{color=[ivory]}Fame:" xalign 0.02
-                                frame:
-                                    text "{color=[ivory]}Reputation:" xalign 0.02
-                                    
-                        vbox:
-                            yalign (0.6)
-                            spacing 9
-                            xfill True
-                            xminimum 142
-                            xmaximum 142
-                            text (u"%s/%s" % (building.rooms, building.maxrooms)) style "stats_value_text" xalign 1.0
-                            text (u"%d/%d" % (building.free_rooms(), building.rooms)) style "stats_value_text" xalign 1.0
-                                
-                            if isinstance(building, UpgradableBuilding):
-                                if building.use_upgrades:
-                                    text (u"%s/%s" % (building.used_upgrade_slots, building.upgrade_slots)) style "stats_value_text" xalign 1.0
-                                    
-                                if building.get_upgrade_mod("guards") > 0:
-                                    text u"%d/5  " % min(len([girl for girl in hero.girls if girl.location == building and "Warrior" in girl.occupations]), 5) style "stats_value_text" xalign 1.0
-                                
-                            text (u"%s/1000" % (building.security_rating)) style "stats_value_text" xalign 1.0
-                                
-                            if isinstance(building, DirtyBuilding):
-                                text (u"%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0])) style "stats_value_text" xalign (1.0)
-                                
-                            if isinstance(building, FamousBuilding):
-                                text (u"%s/%s" % (building.fame, building.maxfame)) style "stats_value_text" xalign 1.0
-                                text (u"%s/%s" % (building.rep, building.maxrep)) style "stats_value_text" xalign 1.0
+                    xysize (290, 27)
+                    xalign 0.5
+                    text "Rooms:" xalign 0.02 color ivory
+                    text "%d/%d" % (building.rooms, building.maxrooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                frame:
+                    xysize (290, 27)
+                    xalign 0.5
+                    text "Free Rooms:" xalign 0.02 color ivory
+                    text "%d/%d" % (building.free_rooms(), building.rooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    
+                # Security Rating:
+                frame:
+                    xysize (290, 27)
+                    xalign 0.5
+                    text "Security Rating:" xalign 0.02 color ivory
+                    text "%s/1000" % building.security_rating xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    
+                # Old Style Slots and Quarters:
+                if isinstance(building, UpgradableBuilding):
+                    if building.use_upgrades:
+                        frame:
+                            xysize (290, 27)
+                            xalign 0.5
+                            text "Slots:" xalign 0.02 color ivory
+                            text "%s/%s" % (building.used_upgrade_slots, building.upgrade_slots) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    if building.get_upgrade_mod("guards") > 0:
+                        frame:
+                            xysize (290, 27)
+                            xalign 0.5
+                            text "Guard Quarters:" xalign 0.02 color ivory
+                            text "%d/5  " % min(len([girl for girl in hero.girls if girl.location == building and "Warrior" in girl.occupations]), 5) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                
+                # Dirt:
+                if isinstance(building, DirtyBuilding):
+                    frame:
+                        xysize (290, 27)
+                        xalign 0.5
+                        text "Dirt:" xalign 0.02 color ivory
+                        text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                        
+                # Fame/Rep:
+                if isinstance(building, FamousBuilding):
+                    frame:
+                        xysize (290, 27)
+                        xalign 0.5
+                        text "Fame:" xalign 0.02 color ivory
+                        text "%s/%s" % (building.fame, building.maxfame) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    frame:
+                        xysize (290, 27)
+                        xalign 0.5
+                        text "Reputation:" xalign 0.02 color ivory
+                        text "%s/%s" % (building.rep, building.maxrep) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
                         
                 null height 5
                 frame:
