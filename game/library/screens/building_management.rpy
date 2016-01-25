@@ -199,7 +199,7 @@ screen building_management():
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             xysize (330, 780)
             xanchor 0.01
-            ypos 30
+            ypos 40
             style_group "content"
             has vbox
             frame:
@@ -267,51 +267,47 @@ screen building_management():
                         text "Reputation:" xalign 0.02 color ivory
                         text "%s/%s" % (building.rep, building.maxrep) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
                         
-                null height 5
-                frame:
-                    background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                    xysize (317, 230)
-                    xanchor 5
-                    yanchor 10
-                    if isinstance(building, UpgradableBuilding):
-                        label 'Upgrades:' text_color ivory xalign 0.5
-                        if building.use_upgrades:
-                            null height 5
+            null height 5
+            frame:
+                background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                xysize (317, 230)
+                if isinstance(building, UpgradableBuilding):
+                    label 'Upgrades:' text_color ivory xalign 0.5
+                    if building.use_upgrades:
+                        null height 5
+                            
+                        hbox:
+                            spacing -5
                                 
-                            hbox:
-                                spacing -5
-                                    
-                                for key in building.upgrades:
-                                    vbox:
-                                        null height 30
-                                        xpos 5
-                                        #spacing 1
-                                        for ukey in sorted(building.upgrades[key].keys()):
-                                            frame:
-                                                xysize (10, 10)
-                                                xanchor 5
-                                                background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                                                if building.upgrades[key][ukey]['active']:
-                                                    use rtt_lightbutton(img=im.Scale(building.upgrades[key][ukey]['img'], 43, 43),
-                                                                                  return_value=['do_nothing'],
-                                                                                  tooltip=building.upgrades[key][ukey]['desc'])
-                                                    
-                frame:
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                    xysize (317, 160)
-                    xanchor 5
-                    yanchor 10
-                    style_group "stats"
-                    label "Active Advertisements:" text_color ivory xalign 0.5
-                    if hasattr(building, "use_adverts") and building.use_adverts:
-                        vbox:
-                            null height 35
-                            spacing -6
-                            for advert in building.adverts.values():
-                                if advert['active']:
-                                    frame:
-                                        xysize (305, 27)
-                                        text (u"%s" % advert['name']) size 16 xalign (0.02)
+                            for key in building.upgrades:
+                                vbox:
+                                    null height 30
+                                    xpos 5
+                                    #spacing 1
+                                    for ukey in sorted(building.upgrades[key].keys()):
+                                        frame:
+                                            xysize (10, 10)
+                                            xanchor 5
+                                            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                                            if building.upgrades[key][ukey]['active']:
+                                                use rtt_lightbutton(img=im.Scale(building.upgrades[key][ukey]['img'], 43, 43),
+                                                                              return_value=['do_nothing'],
+                                                                              tooltip=building.upgrades[key][ukey]['desc'])
+                                                
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                xysize (317, 160)
+                style_group "stats"
+                label "Active Advertisements:" text_color ivory xalign 0.5
+                if hasattr(building, "use_adverts") and building.use_adverts:
+                    vbox:
+                        null height 35
+                        spacing -6
+                        for advert in building.adverts.values():
+                            if advert['active']:
+                                frame:
+                                    xysize (305, 27)
+                                    text (u"%s" % advert['name']) size 16 xalign (0.02)
         
         ## Right frame
         frame:
