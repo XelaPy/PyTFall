@@ -20,34 +20,34 @@ label building_management:
     $ pytfall.world_quests.run_quests("auto") # Added for completion, unnecessary?
     $ pytfall.world_events.run_events("auto")
     
-    python:
-        global_flags.set_flag("keep_playing_music")
+    $ global_flags.set_flag("keep_playing_music")
+    
+label building_management_loop:
+    while 1:
+        if hero.upgradable_buildings:
+            $ building = hero.upgradable_buildings[index]
         
-        while 1:
-            if hero.upgradable_buildings:
-                building = hero.upgradable_buildings[index]
-            
-            result = ui.interact()
-            if not result or not isinstance(result, (list, tuple)):
-                continue
-            
-            if result[0] == "building":
-                if result[1] == 'buyroom':
+        $ result = ui.interact()
+        if not result or not isinstance(result, (list, tuple)):
+            jump building_management_loop
+        
+        if result[0] == "building":
+            if result[1] == 'buyroom':
+                python:
                     if building.rooms < building.maxrooms:
                         if hero.take_money(building.get_room_price()):
                             building.modrooms(1)
-                        
                         else:
                             renpy.call_screen('message_screen', "Not enough funds to buy new room!")
-                    
                     else:
                         renpy.call_screen('message_screen', "No more rooms can be added to this building!")
-                
-                elif result[1] == 'items_transfer':
-                    pytfall.it = GuiItemsTransfer(building, last_label=last_label)
-                    jump(result[1])
-                
-                elif result[1] == "sign":
+            
+            elif result[1] == 'items_transfer':
+                $ pytfall.it = GuiItemsTransfer(building, last_label=last_label)
+                $ jump(result[1])
+            
+            elif result[1] == "sign":
+                python:
                     if building.flag('bought_sign'):
                         if hero.take_money(20, reason="Ads"):
                             building.adverts[result[1]]['active'] = True
@@ -60,10 +60,11 @@ label building_management:
                             building.set_flag('bought_sign')
                             building.adverts[result[1]]['active'] = True
                         
-                        else:    
+                        else:
                             renpy.show_screen("message_screen", "Not enough cash on hand!")
-                
-                elif result[1] == "sell":
+            
+            elif result[1] == "sell":
+                python:
                     price = int(building.price*0.9)
                     
                     if renpy.call_screen("yesno_prompt",
@@ -83,21 +84,21 @@ label building_management:
                         if hero.upgradable_buildings:
                             index = 0
                             building = hero.upgradable_buildings[index]
-                        
                         else:
-                            break
+                            jump("building_management_end")
+        
+        if result[0] == 'control':
+            if result[1] == 'left':
+                $ index = (index - 1) % len(hero.upgradable_buildings)
             
-            if result[0] == 'control':
-                if result[1] == 'left':
-                    index = (index - 1) % len(hero.upgradable_buildings)
-                
-                elif result[1] == 'right':
-                    index = (index + 1) % len(hero.upgradable_buildings)
-                
-                if result[1] == 'return':
-                    break
+            elif result[1] == 'right':
+                $ index = (index + 1) % len(hero.upgradable_buildings)
             
-            if result[0] == "maintenance":
+            if result[1] == 'return':
+                jump building_management_end
+        
+        if result[0] == "maintenance":
+            python:
                 # Cleaning controls
                 if result[1] == "clean":
                     price = building.get_cleaning_price()
@@ -122,7 +123,8 @@ label building_management:
                 
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
-    
+                
+label building_management_end:
     hide screen building_management
     jump mainscreen
 
