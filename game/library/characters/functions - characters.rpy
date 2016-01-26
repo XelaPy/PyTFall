@@ -483,4 +483,9 @@ init -11 python:
         
         char.action = choice(available_jobs) if available_jobs else None
         
+        if hasattr(building, "all_workers"):
+            if char not in building.all_workers:
+                building.all_workers.append(char)
+            
+        
 

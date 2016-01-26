@@ -375,3 +375,148 @@ init -9 python:
             else:
                 if self.gold < 15000:
                     self.gold += randint(16000, 25000)
+                    
+                    
+    class GuiItemsTransfer(_object):
+        """Handles the logical bit of transferring items between inventories.
+        """
+        def __init__(self, location, char=None, last_label=None):
+            '''Takes location (so far we only have brothels) as an argument'''
+            self.left_char = None
+            self.right_char = None
+            self.left_image_cache = None
+            self.right_image_cache = None
+            
+            if location == "personal_transfer":
+                self.location = location
+                self.select_left_char(hero)
+                self.left_char.inventory.apply_filter("all")
+                self.select_right_char(char)
+                self.right_char.inventory.apply_filter("all")
+            else:
+                self.location = location
+
+            self.left_item = None
+            self.right_item = None
+            self.items_amount = 1
+            self.filter = 'all'
+            self.item_cache = None
+            self.last_label = last_label
+            
+            
+        def populate_character_viewports(self):
+            """This is a poor hack that is used to populate inventory holders...
+            It's not a good idea to do this on every screen refresh as it seems to be done now.
+            
+            It's prolly a better idea to do this in __init__?
+            """
+            members = list()
+            
+            if isinstance(self.location, UpgradableBuilding): # Updated to allow TrainingDungeon to work as well, might need to change later
+                # Later we may want to call this from girls profile screen/hero profile screen
+                # Right now this check is redundant
+                members = self.location.get_girls()
+                if hero.location == self.location:
+                    members.insert(0, hero)
+            elif isinstance(self.location, NewStyleUpgradableBuilding): # Updated to allow TrainingDungeon to work as well, might need to change later
+                # Later we may want to call this from girls profile screen/hero profile screen
+                # Right now this check is redundant
+                members = self.location.all_workers
+                if hero.location == self.location:
+                    members.insert(0, hero)
+            elif self.location == "personal_transfer":
+                members = [hero, self.right_char]
+            
+            if members: return [True, members]
+            else: return [False]
+                
+        def show_left_items_selection(self):
+            '''Populates left items selection viewport'''
+            if self.left_char != None:
+                return True
+            else: return False
+            
+        def show_right_items_selection(self):
+            '''Populates right items selection viewport'''
+            if self.right_char != None:
+                return True
+            else: return False
+            
+        def select_left_char(self, char):
+            char.inventory.set_page_size(23)
+            if char == self.right_char:
+                renpy.show_screen('message_screen', "Same character cannot be chozen from both sides!")
+            else:
+                self.left_char = char
+                self.left_image_cache = self.left_char.show('portrait', resize=(205, 205))
+        
+        def select_right_char(self, char):
+            char.inventory.set_page_size(23)
+            if char == self.left_char:
+                renpy.show_screen('message_screen', "Same character cannot be chozen from both sides!")
+            else:
+                self.right_char = char
+                self.right_image_cache = self.right_char.show('portrait', resize=(205, 205))
+        
+        def select_left_item(self, item):
+            self.left_item = item
+            self.item_cache = item
+        
+        def select_right_item(self, item):
+            self.right_item = item
+            self.item_cache = item
+            
+        def show_right_transfer_button(self):
+            if self.left_item and self.right_char:
+                return True
+            else:
+                return False
+                
+        def show_left_transfer_button(self):
+            if self.right_item and self.left_char:
+                return True
+            else:
+                return False
+                
+        
+        def get_left_inventory(self):
+            return [item for item in self.left_char.inventory.getpage()]
+
+            
+        def get_right_inventory(self):
+            return [item for item in self.right_char.inventory.getpage()]
+
+                
+        def transfer_item_right(self):
+            item = self.left_item
+            source = self.left_char
+            target = self.right_char
+            for i in range(self.items_amount):
+                if item.id in source.inventory.content:
+                    if not transfer_items(source, target, item):
+                        # Otherwise MC will say this in case of unique/quest items trasnfer refusal.
+                        if source != hero:
+                            source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id,"Would you like fries with that?",
+                                                           "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                        break
+                else:
+                    break
+            if item.id not in source.inventory.content:                
+                self.left_item = None
+
+        def transfer_item_left(self):
+            item = self.right_item
+            source = self.right_char
+            target = self.left_char
+            for i in range(self.items_amount):
+                if item.id in source.inventory.content:
+                    if not transfer_items(source, target, item):
+                        # Otherwise MC will say this in case of unique/quest items trasnfer refusal.
+                        if source != hero:
+                            source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
+                                                           "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                        break
+                else:
+                    break
+            if item.id not in source.inventory.content:                
+                self.right_item = None

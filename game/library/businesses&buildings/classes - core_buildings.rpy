@@ -508,7 +508,9 @@ init -9 python:
             
             # Chars:
             self.manager = None
-            self.workers = list() # All Workers...
+            self.all_residents = list() # All characters presently reside in this building.
+            self.all_workers = list() # All workers presently assigned to work in this building.
+            self.available_workers = list() # This is built and used during the next day.
             
             # Upgrades:
             self.nd_ups = list() # Upgrades active during the next day...
@@ -533,7 +535,7 @@ init -9 python:
             self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
             
             # All workers and workable businesses:
-            self.workers = list(c for c in hero.girls if c.location == self and c.action in self.jobs) # The last check may not be good enought, may need rewriting.
+            self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs) # The last check may not be good enought, may need rewriting.
             self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
             
             # Clietns:
@@ -542,7 +544,7 @@ init -9 python:
             clnts = self.total_clients
             # TODO: Generate and add regulars!
             # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
-            if self.nd_ups and self.workers:
+            if self.nd_ups and self.available_workers:
                 if len(self.all_clients) < clnts:
                     for i in xrange(clnts - len(self.all_clients)):
                         if dice(80):
@@ -749,8 +751,8 @@ init -9 python:
                     else:
                         # We presently work just with the one char only, so:
                         worker = workers.pop()
-                        if worker in self.workers:
-                            self.workers.remove(worker)
+                        if worker in self.available_workers:
+                            self.available_workers.remove(worker)
                             
                         # We bind the process to a flag and wait until it is interrupted:
                         visited += 1

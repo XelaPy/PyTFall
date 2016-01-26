@@ -72,10 +72,13 @@ init -9 python:
             
         @property
         def all_workers(self):
-            return list(i for i in self.instance.workers if self.all_occs & i.occupations)
+            # This may be a poor way of doing it because different upgrades could have workers with the same job assigned to them.
+            # Basically what is needed is to allow setting a business to a worker as well as the general building if required...
+            # And this doesn't work? workers are never populated???
+            return list(i for i in self.instance.available_workers if self.all_occs & i.occupations)
             
         def action_priority_workers(self, job):
-            return list(i for i in self.instance.workers if i.action == job)
+            return list(i for i in self.instance.available_workers if i.action == job)
             
         def get_workers(self, job, amount=1, match_to_client=None):
             """Tries to find workers for any given job.
@@ -153,8 +156,8 @@ init -9 python:
                     self.log(temp)
                 return True
             else:
-                if worker in self.instance.workers:
-                    self.instance.workers.remove(worker)
+                if worker in self.instance.available_workers:
+                    self.instance.available_workers.remove(worker)
                     
                 if config.debug:
                     temp = set_font_color('{}: Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "red")
@@ -174,8 +177,8 @@ init -9 python:
             if check_char(worker):
                 return True
             else:
-                if worker in self.instance.workers:
-                    self.instance.workers.remove(worker)
+                if worker in self.instance.available_workers:
+                    self.instance.available_workers.remove(worker)
                 temp = set_font_color('{}: {} is done working for the day.'.format(self.env.now, worker.name), "aliceblue")
                 self.log(temp)
                 return False
@@ -232,7 +235,7 @@ init -9 python:
         def has_workers(self):
             # Check if the building still has someone availbile to do the job.
             # We just check this for 
-            return list(i for i in self.instance.workers if self.all_occs & i.occupations)
+            return list(i for i in self.instance.available_workers if self.all_occs & i.occupations)
             
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
@@ -286,7 +289,7 @@ init -9 python:
             self.job(char, client)
             
             # We return the char to the nd list:
-            self.instance.workers.insert(0, char)
+            self.instance.available_workers.insert(0, char)
             
         def post_nd_reset(self):
             self.res = None
@@ -359,7 +362,7 @@ init -9 python:
                 
         def worker_control(self):
             if not self.active_workers or len(self.active_workers) < self.res.count/4:
-                workers = self.instance.workers
+                workers = self.instance.available_workers
                 # Get all candidates:
                 job = self.job
                 ws = self.get_workers(job)
