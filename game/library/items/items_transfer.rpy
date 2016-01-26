@@ -73,7 +73,7 @@ screen items_transfer():
     # Tooltip related ------------------------>
     default tt = Tooltip(u'Transfer Items between characters! ')
     
-    add (ImageReference("bg gallery"))
+    add "bg gallery"
     
     frame:
         style_group "dropdown_gm"

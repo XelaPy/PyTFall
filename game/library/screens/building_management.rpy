@@ -275,15 +275,12 @@ screen building_management():
                     label 'Upgrades:' text_color ivory xalign 0.5
                     if building.use_upgrades:
                         null height 5
-                            
                         hbox:
                             spacing -5
-                                
                             for key in building.upgrades:
                                 vbox:
                                     null height 30
                                     xpos 5
-                                    #spacing 1
                                     for ukey in sorted(building.upgrades[key].keys()):
                                         frame:
                                             xysize (10, 10)

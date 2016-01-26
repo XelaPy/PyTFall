@@ -93,12 +93,10 @@ label char_equip_loop:
             jump char_equip_loop
         
         if result[0] == "jump":
-            python:
-                renpy.hide_screen("char_equip")
-                if result[1] == "item_transfer":
-                    renpy.hide_screen("girl_control")
-                    pytfall.it = GuiItemsTransfer("personal_transfer", char=eqtarget, last_label=last_label)
-                    jump("items_transfer")
+            if result[1] == "item_transfer":
+                hide char_equip
+                $ pytfall.it = GuiItemsTransfer("personal_transfer", char=eqtarget, last_label="char_equip")
+                jump items_transfer
                 
         elif result[0] == "equip_for":
             python:
