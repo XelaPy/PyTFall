@@ -403,7 +403,6 @@ init -9 python:
             self.item_cache = None
             self.last_label = last_label
             
-            
         def populate_character_viewports(self):
             """This is a poor hack that is used to populate inventory holders...
             It's not a good idea to do this on every screen refresh as it seems to be done now.
