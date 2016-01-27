@@ -129,6 +129,10 @@ label building_management_end:
     jump mainscreen
 
 screen building_management():
+    
+    key "mousedown_4" action Return(["control", "right"])
+    key "mousedown_5" action Return(["control", "left"])
+    
     default tt = Tooltip("Manage your Buildings here")
     
     if hero.upgradable_buildings:
