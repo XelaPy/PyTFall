@@ -219,16 +219,17 @@ screen building_management():
                 has vbox spacing 1
                 
                 # Old Style Rooms:
-                frame:
-                    xysize (290, 27)
-                    xalign 0.5
-                    text "Rooms:" xalign 0.02 color ivory
-                    text "%d/%d" % (building.rooms, building.maxrooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
-                frame:
-                    xysize (290, 27)
-                    xalign 0.5
-                    text "Free Rooms:" xalign 0.02 color ivory
-                    text "%d/%d" % (building.free_rooms(), building.rooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                if isinstance(building, UpgradableBuilding):
+                    frame:
+                        xysize (290, 27)
+                        xalign 0.5
+                        text "Rooms:" xalign 0.02 color ivory
+                        text "%d/%d" % (building.rooms, building.maxrooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    frame:
+                        xysize (290, 27)
+                        xalign 0.5
+                        text "Free Rooms:" xalign 0.02 color ivory
+                        text "%d/%d" % (building.free_rooms(), building.rooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
                     
                 # Security Rating:
                 frame:
