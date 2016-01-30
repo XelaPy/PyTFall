@@ -469,23 +469,19 @@ init -11 python:
         
         return new
         
-    def set_char_to_work(char, building):
+    def set_char_to_work(char, building, job=None):
         """Attempts to find the best possible job to the char in given building.
         
         For now it just randomly picks any fitting job or sets to None.
         In the future, this should find the best possible job and set the char to it.
         """
-        all_jobs = set()
-        for up in building._upgrades:
-            all_jobs = all_jobs.union(up.jobs)
-            
-        available_jobs = list(j for j in all_jobs if j.all_occs & char.occupations)
+        if not job:
+            available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
+            job = choice(available_jobs) if available_jobs else None
         
-        char.action = choice(available_jobs) if available_jobs else None
+        char.action = job
         
         if hasattr(building, "all_workers"):
             if char not in building.all_workers:
                 building.all_workers.append(char)
             
-        
-

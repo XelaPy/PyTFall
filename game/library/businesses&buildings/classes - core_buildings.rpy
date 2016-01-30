@@ -166,6 +166,14 @@ init -9 python:
             The amount of rooms that aren't being used.
             """
             return self.rooms - len(self.get_girls())
+            
+        def remove_char(self, char):
+            # Removes the char from the building.
+            if char in self.all_residents:
+                self.all_residents.remove(char)
+            if char in self.all_workers:
+                self.all_workers.remove(char)
+            char.action = None
         
         def get_girls(self, action=undefined, occupation=undefined, nott=False):
             """
@@ -495,8 +503,10 @@ init -9 python:
             self._upgrades = list() #  New style Upgrades!
             
             # And new style upgrades:
-            self.in_slots = 100 # Interior Slots
-            self.ex_slots = 100 # Exterior Slots
+            self.in_slots = 0 # Interior Slots
+            self.in_slots_max = 100
+            self.ex_slots = 0 # Exterior Slots
+            self.ex_slots_max = 100
             
             if hasattr(self, "building_jobs"): # BAD Code, right now all jobs are kept in .jobs attribute...
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
@@ -515,7 +525,7 @@ init -9 python:
             # Upgrades:
             self.nd_ups = list() # Upgrades active during the next day...
                 
-            # SimPy and etc follows (L33t stuff :) ):
+            # SimPy and etc follows:
             self.env = None
             self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
             
@@ -620,25 +630,28 @@ init -9 python:
                 
         def can_add_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
-            if self.in_slots < upgrade.in_slots or self.ex_slots < self.ex_slots:
+            if self.in_slots_max - self.in_slots < upgrade.in_slots or self.ex_slots_max - self.ex_slots < self.ex_slots:
                 return
                 
             # Check is there is already this type of an upgrade:
             if list(up for up in self._upgrades if up.__class__ == upgrade.__class__):
                 return
                 
-            # If we want to build the upgrade as well:
+            # If we want to build the upgrade as well (usually in testing scenarios):
             if build:
+                self.in_slots = self.in_slots + upgrade.in_slots
+                self.ex_slots = self.ex_slots + upgrade.ex_slots
                 self.add_upgrade(upgrade)
-                self.normalize_jobs()
                 
             return True
                 
-        def add_upgrade(self, upgrade):
+        def add_upgrade(self, upgrade, normalize_jobs=True):
             """Add upgrade to the building.
             """
             upgrade.instance = self
             self._upgrades.append(upgrade)
+            if normalize_jobs:
+                self.normalize_jobs()
             
         @property
         def habitable(self):

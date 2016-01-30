@@ -133,71 +133,76 @@ screen building_management():
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
     
-    default tt = Tooltip("Manage your Buildings here")
+    default tt = Tooltip("Manage your Buildings here.")
     
     if hero.upgradable_buildings:
-        # Nameframe, pic and control buttons/security bar
-        add "content/gfx/frame/p_frame6.png" xalign 0.488 yalign 0.285 size (613, 595)
-        vbox:
+        # Middle Frame:
+        frame:
+            background Frame("content/gfx/frame/p_frame6.png", 10, 10)
             style_group "content"
-            xalign 0.487
-            ypos 45
-            null height 3
+            xysize (630, 780)
+            xalign .5
+            ypos 40
+            has vbox xsize 600
+            null height 5
             frame:
                 xalign 0.5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
-            null height 1
+            null height 5
             frame:
+                xalign 0.5
                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
                 add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
-            
-        frame:
-            style_group "content"
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-            xalign 0.489
-            ypos 552
-            xysize (628, 74)
-            hbox:
-                align (0.46, 0.5)
+                
+            # Left/Right Controls.
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                has hbox xysize (600, 74)
                 button:
+                    align .1, .5
                     xysize (140, 40)
                     style "left_wood_button"
                     action Return(['control', 'left'])
                     hovered tt.action("<== Previous")
                     text "Previous" style "wood_text" xalign 0.69
                 
-                null width 280
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                    xysize (200, 50)
+                    align (0.5, 0.5)
                 
                 button:
+                    align .9, .5
                     xysize (140, 40)
                     style "right_wood_button"
                     action Return(['control', 'right'])
                     hovered tt.action("Next ==>")
                     text "Next" style "wood_text" xalign 0.39
-        ## Security Bar:
-        if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
-            frame:
-                xalign 0.490
-                ypos 561
-                background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
-                xysize (240, 55)
-                xpadding 10
-                ypadding 10
-                hbox:
-                    pos (34, 1)
-                    vbox:
-                        xsize 135
-                        text "Security Presence:" size 12
-                    vbox:
-                        text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
-                null height 3
-                bar:
-                    align (0.45, 0.8)
-                    value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
-                    xsize 170
-                    thumb 'content/gfx/interface/icons/move15.png'
+                        
+            ## Security Bar:
+            if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
+                frame:
+                    xalign 0.490
+                    ypos 561
+                    background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
+                    xysize (240, 55)
+                    xpadding 10
+                    ypadding 10
+                    hbox:
+                        pos (34, 1)
+                        vbox:
+                            xsize 135
+                            text "Security Presence:" size 12
+                        vbox:
+                            text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
+                    null height 3
+                    bar:
+                        align (0.45, 0.8)
+                        value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
+                        xsize 170
+                        thumb 'content/gfx/interface/icons/move15.png'
                     
         
         ## Stats/Info - Left Frame
@@ -313,102 +318,124 @@ screen building_management():
                                     xysize (305, 27)
                                     text (u"%s" % advert['name']) size 16 xalign (0.02)
         
-        ## Right frame
+        ## Right frame:
         frame:
             ypos 37
+            ysize 780
             xalign 1.0
-            xysize (345, 592)
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            has vbox spacing 1 xsize 325
+            # Buttons group:
             frame:
-                yalign 0.5
-                xysize (330, 95)
+                xalign .5
+                style_group "wood"
+                xpadding 0
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
-                hbox:
-                    style_group "wood"
-                    xalign 0.5
+                has hbox xalign .5 spacing 5 xsize 315
+                null height 16
+                vbox:
                     spacing 5
-                    null height 16
-                    vbox:
-                        spacing 5
-                        # button:
-                            # xysize (150, 40)
-                            # action Return(['building', "buyroom"])
-                            # hovered tt.action('Add rooms to this Building. Price = %d.' % building.get_room_price())
-                            # text "Add Room"
-                        if hasattr(building, "use_adverts") and building.use_adverts:
-                            button:
-                                xysize (150, 40)
-                                action Show("building_adverts")
-                                hovered tt.action('Advertise this building to attract more and better customers.')
-                                text "Advertise"
-                        else:
-                            button:
-                                xysize (150, 40)
-                                action NullAction()
-                                hovered tt.action('Advertise this building to attract more and better customers.')
-                                text "Advertise"
-                        if len(building.get_girls()) > 0:
-                            button:
-                                xysize (150, 40)
-                                action [Hide("building_management"), Return(['building', "items_transfer"])]
-                                hovered tt.action('Transfer items between characters in this building!')
-                                text "Transfer Items"
-                        else:
-                            button:
-                                xysize (150, 40)
-                                action NullAction()
-                                hovered tt.action('Transfer items between characters in this building!')
-                                text "Transfer Items"
-                        if isinstance(building, DirtyBuilding) or building.name == TrainingDungeon.NAME:
-                            button:
-                                xysize (150, 40)
-                                action Show("building_maintenance")
-                                hovered tt.action('Perform maintenance of this building.')
-                                text "Maintenance"
-                        else:
-                            button:
-                                xysize (150, 40)
-                                action NullAction()
-                                hovered tt.action('Perform maintenance of this building.')
-                                text "Maintenance"
-                    vbox:
-                        spacing 5
-                        if isinstance(building, UpgradableBuilding) and building.use_upgrades:
-                            button:
-                                xysize (150, 40)
-                                action Jump("building_upgrade")
-                                hovered tt.action('Upgrade this building.')
-                                text "Upgrade"
-                        else:
-                            button:
-                                xysize (150, 40)
-                                action NullAction()
-                                hovered tt.action('Upgrade this building.')
-                                text "Upgrade"
+                    if isinstance(building, UpgradableBuilding):
                         button:
-                            xysize (150, 40)
-                            action SetField(hero, "location", building)
-                            hovered tt.action('Place MC in this building!')
-                            text "Settle MC"
+                            xysize (135, 40)
+                            action Return(['building', "buyroom"])
+                            hovered tt.action('Add rooms to this Building. Price = %d.' % building.get_room_price())
+                            text "Add Room"
+                    if hasattr(building, "use_adverts") and building.use_adverts:
                         button:
-                            xysize (150, 40)
-                            action Show("building_finances")
-                            hovered tt.action('Show Finance log.')
-                            text "Finance Log"
+                            xysize (135, 40)
+                            action Show("building_adverts")
+                            hovered tt.action('Advertise this building to attract more and better customers.')
+                            text "Advertise"
+                    else:
                         button:
-                            xysize (150, 40)
-                            action Return(["control", "sell"])
-                            hovered tt.action('Get rid of this building')
-                            text "Sell"
-    
-    # Tooltip related:
-    frame:
-        background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10)
-        align(0, 1.0)
-        xanchor -321
-        xpadding 10
-        xysize (955, 100)
-        text (u"{=content_text}{size=20}{color=[ivory]}%s" % tt.value) yalign 0.1
+                            xysize (135, 40)
+                            action NullAction()
+                            hovered tt.action('Advertise this building to attract more and better customers.')
+                            text "Advertise"
+                    if len(building.get_girls()) > 0:
+                        button:
+                            xysize (135, 40)
+                            action [Hide("building_management"), Return(['building', "items_transfer"])]
+                            hovered tt.action('Transfer items between characters in this building!')
+                            text "Transfer Items"
+                    else:
+                        button:
+                            xysize (135, 40)
+                            action NullAction()
+                            hovered tt.action('Transfer items between characters in this building!')
+                            text "Transfer Items"
+                    if isinstance(building, DirtyBuilding) or building.name == TrainingDungeon.NAME:
+                        button:
+                            xysize (135, 40)
+                            action Show("building_maintenance")
+                            hovered tt.action('Perform maintenance of this building.')
+                            text "Maintenance"
+                    else:
+                        button:
+                            xysize (135, 40)
+                            action NullAction()
+                            hovered tt.action('Perform maintenance of this building.')
+                            text "Maintenance"
+                vbox:
+                    spacing 5
+                    if isinstance(building, UpgradableBuilding) and building.use_upgrades:
+                        button:
+                            xysize (135, 40)
+                            action Jump("building_upgrade")
+                            hovered tt.action('Upgrade this building.')
+                            text "Upgrade"
+                    button:
+                        xysize (135, 40)
+                        action SetField(hero, "location", building)
+                        hovered tt.action('Place MC in this building!')
+                        text "Settle MC"
+                    button:
+                        xysize (135, 40)
+                        action Show("building_finances")
+                        hovered tt.action('Show Finance log.')
+                        text "Finance Log"
+                    button:
+                        xysize (135, 40)
+                        action Return(["control", "sell"])
+                        hovered tt.action('Get rid of this building')
+                        text "Sell"
+            
+            # Slots for New Style Upgradable Buildings:
+            if isinstance(building, NewStyleUpgradableBuilding):
+                frame:
+                    xalign .5
+                    style_group "wood"
+                    xpadding 0
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                    has vbox xalign 0.5 spacing 2 xsize 315
+                    hbox:
+                        xoffset 5
+                        xalign .5
+                        xsize 300
+                        spacing 3
+                        frame:
+                            has vbox xysize (130, 40)
+                            text "Indoor Slots:" size 10 color yellow xalign .5
+                            text "%d/%d" % (building.in_slots, building.in_slots_max) color beige size 12 xalign .5 style "stats_value_text"
+                        frame:
+                            has vbox xysize (130, 40)
+                            text "Outdoor Slots:" size 10 color yellow xalign .5
+                            text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style "stats_value_text"
+                    frame:
+                        xysize (145, 40)
+                        xalign .5
+                        # has vbox
+                        text "Construction" size 10 color yellow align .5, .5
+                        # text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style "stats_value_text"
+                        
+            # Tooltip related:
+            frame:
+                background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10)
+                xalign .5
+                xpadding 10
+                xysize (310, 200)
+                text (u"{=content_text}{size=20}{color=[ivory]}%s" % tt.value) yalign 0.02 size 14
     
     use top_stripe(True)
     
