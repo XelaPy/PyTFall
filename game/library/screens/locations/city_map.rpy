@@ -7,29 +7,28 @@ label city:
         play world choice(ilists.world_music["pytfall"])
     $ global_flags.del_flag("keep_playing_music")
     
-    # TS Dropdown var:
-    # $ pytfall.city_dropdown = False
-    
     scene bg humans
     show screen city_screen
     with dissolve
     
-    python:
-        while 1:
-            result = ui.interact()
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
-            elif result[0] == 'location':
-                renpy.hide_screen("city_screen")
-                jump(result[1])
+    while 1:
+        
+        $ result = ui.interact()
+        
+        if result[0] == 'control':
+            if result[1] == 'return':
+                $ global_flags.set_flag("keep_playing_music")            
+                hide screen city_screen
+                jump mainscreen
+        elif result[0] == 'location':
+            hide screen city_screen
+            jump expression result[1]
                 
-    $ global_flags.set_flag("keep_playing_music")            
-    hide screen city_screen
-    jump mainscreen
-
-
+            
 screen city_screen():
+    
+    # Keybind as we don't use the topstripe here anymore:
+    key "mousedown_3" action Return(['control', 'return'])
     
     default tt = Tooltip(None)
     default loc_list = ["main_street", "arena_outside", "slave_market", "city_jail", "tavern_town",
@@ -39,18 +38,6 @@ screen city_screen():
     
     for key in pytfall.maps("pytfall"):
         if not key.get("hidden", False):
-            # if "img" in key:
-                # $ rx = int(key["rx"]) if "rx" in key else 25
-                # $ ry = int(key["ry"]) if "ry" in key else 25
-                # $ img = ProportionalScale(key["img"], rx, ry)
-                # imagebutton:
-                    # pos (key["x"], key["y"])
-                    # idle img
-                    # hover im.MatrixColor(img, im.matrix.brightness(0.25))
-                    # focus_mask True
-                    # hovered tt.action(key['name'])
-                    # action Return(['location', key["id"]])
-            # else: # Map-cut-style:
             imagebutton:
                 idle "".join([pytfall.map_pattern, key["id"], ".png"])
                 hover "".join([pytfall.map_pattern, key["id"], "_hover.png"])
@@ -59,14 +46,14 @@ screen city_screen():
                 action Return(['location', key["id"]])
                     
     add "content/gfx/frame/h2.png"
+    
     if tt.value:
         fixed:
             xysize (164, 78)
             pos (1111, 321)
             text (u"[tt.value]") style "TisaOTMolxm" size 24 align (0.5, 0.5)
             
-    # Right frame
-    
+    # Right frame:
     ### ----> Top buttons <---- ###
     hbox:
         pos (979, 4)
@@ -139,6 +126,3 @@ screen city_screen():
                         action Return(['location', loc["id"]])
                     
         vbar value YScrollValue("locations")
-    
-    #use top_stripe(True, use_hide_transform=True, normal_op=False)
-            
