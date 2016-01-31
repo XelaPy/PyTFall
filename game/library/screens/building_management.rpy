@@ -437,6 +437,17 @@ screen building_management():
                 xysize (310, 200)
                 text (u"{=content_text}{size=20}{color=[ivory]}%s" % tt.value) yalign 0.02 size 14
     
+            # Manager?
+            if isinstance(building, NewStyleUpgradableBuilding):
+                frame:
+                    xysize (200, 200)
+                    xalign .5
+                    # xpadding 1
+                    # ypadding 1
+                    if building.manager:
+                        add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
+                
+                
     use top_stripe(True)
     
 screen building_maintenance():
