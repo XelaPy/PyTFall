@@ -469,6 +469,10 @@ init -11 python:
         
         return new
         
+    def get_valid_jobs(char, building):
+        # Returns a list of all jobs character would be willing to do...
+        pass
+        
     def set_char_to_work(char, building, job=None):
         """Attempts to find the best possible job to the char in given building.
         
