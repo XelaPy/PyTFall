@@ -740,7 +740,9 @@ init: # PyTFall:
             anchor (xval, yval)
             vbox:
                 if isinstance(char.location, NewStyleUpgradableBuilding):
-                    for i in char.location.jobs:
+                    # Jobs:
+                    $ jobs = get_valid_jobs(char, char.location)
+                    for i in jobs:
                         textbutton "[i.id]":
                             # Without Equipping for the job!
                             action [SetField(char, "action", i), Hide("set_action_dropdown")]

@@ -331,6 +331,8 @@
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = list() # Corresponing traits...
             
+            self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
+            
             self.txt = list()
             self.img = ""
             self.flag_red = False
@@ -475,6 +477,8 @@
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
+            
+            self.disposition_threshold = 950 # Any worker with disposition this high will be willing to do the job even without matched traits.
             
             self.workermod = {}
             self.locmod = {}
