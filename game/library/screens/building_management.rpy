@@ -302,6 +302,12 @@ screen building_management():
                                                 use rtt_lightbutton(img=im.Scale(building.upgrades[key][ukey]['img'], 43, 43),
                                                                               return_value=['do_nothing'],
                                                                               tooltip=building.upgrades[key][ukey]['desc'])
+                elif isinstance(building, NewStyleUpgradableBuilding):
+                    vbox:
+                        label 'Upgrades:' text_color ivory xalign 0.5
+                        vbox:
+                            for u in building._upgrades:
+                                textbutton "[u.name]" action NullAction()
                                                 
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
