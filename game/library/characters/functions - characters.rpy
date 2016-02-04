@@ -468,34 +468,7 @@ init -11 python:
         new.magic_skills.items = char.magic_skills.items.copy()
         
         return new
-        
-    def get_valid_jobs(char, building):
-        """Returns a list of jobs availible for the building that the character might be willing to do.
-        
-        Returns an empty list if no jobs is availible for the character.
-        """
-        jobs = []
-        all_jobs = building.jobs
-        
-        # Slave case:
-        if char.status == "slave":
-            # we want to add all jobs there, except for the guard job:
-            # Since we do not have a Guard job yet, we'll just throw all the jobs in there:
-            return all_jobs
-            
-        # Free chars:
-        elif char.status == "free":
-            # Here we got to figure out somehow, which jobs char might be willing to do:
-            # Get all jobs that are not a match to the character basetraits and are below disposition treshold:
-            for job in all_jobs:
-                if char.disposition > job.disposition_threshold:
-                    jobs.append(job)
-                else:
-                    if [t for t in job.all_occs if t in char.occupations]:
-                        jobs.append(job)
-                        
-        return jobs
-        
+
     def set_char_to_work(char, building, job=None):
         """Attempts to find the best possible job to the char in given building.
         

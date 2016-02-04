@@ -628,6 +628,33 @@ init -9 python:
             for up in self._upgrades:
                 self.jobs = self.jobs.union(up.jobs)
                 
+    def get_valid_jobs(self, char):
+        """Returns a list of jobs availible for the building that the character might be willing to do.
+        
+        Returns an empty list if no jobs is availible for the character.
+        """
+        jobs = []
+        all_jobs = self.jobs
+        
+        # Slave case:
+        if char.status == "slave":
+            # we want to add all jobs there, except for the guard job:
+            # Since we do not have a Guard job yet, we'll just throw all the jobs in there:
+            return all_jobs
+            
+        # Free chars:
+        elif char.status == "free":
+            # Here we got to figure out somehow, which jobs char might be willing to do:
+            # Get all jobs that are not a match to the character basetraits and are below disposition treshold:
+            for job in all_jobs:
+                if char.disposition > job.disposition_threshold:
+                    jobs.append(job)
+                else:
+                    if [t for t in job.all_occs if t in char.occupations]:
+                        jobs.append(job)
+                        
+        return jobs
+                
         def can_add_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
             if self.in_slots_max - self.in_slots < upgrade.in_slots or self.ex_slots_max - self.ex_slots < self.ex_slots:
