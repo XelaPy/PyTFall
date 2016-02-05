@@ -371,6 +371,26 @@
             # All Occupations:
             return set(self.occupations + self.occupation_traits)
             
+        def is_valid_for(self, char):
+            # Returns True if char is willing to do the job else False...
+            # Slave case:
+            if char.status == "slave":
+                # we want to add all jobs there, except for the guard job:
+                # Since we do not have a Guard job yet, we'll just throw all the jobs in there:
+                return True
+                
+            # Free chars:
+            elif char.status == "free":
+                # Here we got to figure out somehow, which jobs char might be willing to do:
+                # Get all jobs that are not a match to the character basetraits and are below disposition treshold:
+                if char.disposition > self.disposition_threshold:
+                    return True
+                else:
+                    if [t for t in self.all_occs if t in char.occupations]:
+                        return True
+                            
+            return False
+            
         def get_clients(self):
             # This returns a correct amount of clients used for the job
             return 0
