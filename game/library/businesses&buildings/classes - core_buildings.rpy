@@ -637,7 +637,7 @@ init -9 python:
         
         for job in self.jobs:
             if job.is_valid_for(char):
-                jobs.append()
+                jobs.append(job)
                 
         return jobs
         
