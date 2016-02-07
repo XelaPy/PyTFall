@@ -741,7 +741,7 @@ init: # PyTFall:
             vbox:
                 if isinstance(char.location, NewStyleUpgradableBuilding):
                     # Jobs:
-                    $ jobs = get_valid_jobs(char, char.location)
+                    $ jobs = char.location.get_valid_jobs(char)
                     for i in jobs:
                         textbutton "[i.id]":
                             # Without Equipping for the job!
