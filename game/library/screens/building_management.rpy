@@ -282,7 +282,7 @@ screen building_management():
             null height 5
             frame:
                 background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                xysize (317, 230)
+                xysize (317, 430)
                 if isinstance(building, UpgradableBuilding):
                     label 'Upgrades:' text_color ivory xalign 0.5
                     if building.use_upgrades:
@@ -303,26 +303,31 @@ screen building_management():
                                                                               return_value=['do_nothing'],
                                                                               tooltip=building.upgrades[key][ukey]['desc'])
                 elif isinstance(building, NewStyleUpgradableBuilding):
+                    frame:
+                        xalign 0.5
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                        xmargin 20
+                        ymargin 10
+                        label 'Constructed:' text_color ivory xalign 0.5 text_bold True
                     vbox:
-                        label 'Upgrades:' text_color ivory xalign 0.5
-                        vbox:
-                            for u in building._upgrades:
-                                textbutton "[u.name]" action NullAction()
+                        yalign 0.2
+                        for u in building._upgrades:
+                            textbutton "[u.name]" action NullAction()
                                                 
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                xysize (317, 160)
-                style_group "stats"
-                label "Active Advertisements:" text_color ivory xalign 0.5
-                if hasattr(building, "use_adverts") and building.use_adverts:
-                    vbox:
-                        null height 35
-                        spacing -6
-                        for advert in building.adverts.values():
-                            if advert['active']:
-                                frame:
-                                    xysize (305, 27)
-                                    text (u"%s" % advert['name']) size 16 xalign (0.02)
+            # frame:
+                # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                # xysize (317, 160)
+                # style_group "stats"
+                # label "Active Advertisements:" text_color ivory xalign 0.5
+                # if hasattr(building, "use_adverts") and building.use_adverts:
+                    # vbox:
+                        # null height 35
+                        # spacing -6
+                        # for advert in building.adverts.values():
+                            # if advert['active']:
+                                # frame:
+                                    # xysize (305, 27)
+                                    # text (u"%s" % advert['name']) size 16 xalign (0.02)
         
         ## Right frame:
         frame:
