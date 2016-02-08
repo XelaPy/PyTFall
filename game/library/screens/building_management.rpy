@@ -304,13 +304,12 @@ screen building_management():
                                                                               tooltip=building.upgrades[key][ukey]['desc'])
                 elif isinstance(building, NewStyleUpgradableBuilding):
                     frame:
-                        xalign 0.5
+                        align .5, 0.02
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                        xmargin 20
-                        ymargin 10
+                        xysize (180, 30)
                         label 'Constructed:' text_color ivory xalign 0.5 text_bold True
                     vbox:
-                        yalign 0.2
+                        yalign .17
                         for u in building._upgrades:
                             textbutton "[u.name]" action NullAction()
                                                 
