@@ -311,7 +311,17 @@ screen building_management():
                     vbox:
                         yalign .17
                         for u in building._upgrades:
-                            textbutton "[u.name]" action NullAction()
+                            frame:
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                has hbox xysize 300, 50 spacing 5
+                                if hasattr(u, "img"):
+                                    add ProportionalScale(u.img, 150, 45)
+                                vbox:
+                                    spacing 10
+                                    xysize 150, 50
+                                    text "[u.name]"
+                                    null height 10
+                                    textbutton "Upgrade" action NullAction()
                                                 
             # frame:
                 # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
