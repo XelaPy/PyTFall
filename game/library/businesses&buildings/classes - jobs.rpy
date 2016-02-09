@@ -63,7 +63,7 @@
             mult -= 0.05
         if mult < 0.35: # there are 3 levels of submissiveness, we return -1, 0 or 1, it's very simple to use in further calculations
             return -1
-        elif mult > 0.7:
+        elif mult > 0.67:
             return 1
         else:
             return 0
@@ -524,7 +524,7 @@
         def calculate_disposition_level(self, char): # calculating the needed level of disposition
             sub = check_submissivity(char)
             if "Shy" in char.traits:
-                disposition = 850 + 100 * sub
+                disposition = 900 + 50 * sub
             else:
                 disposition = 850 + 50 * sub
             if cgochar(char, "SIW"):
@@ -538,60 +538,67 @@
                     disposition += 100
                 else:
                     disposition -= 100
+            elif check_friends(hero, char):
+                if "Virgin" in char.traits:
+                    disposition += 50
+                else:
+                    disposition -= 50
             elif "Virgin" in char.traits:
                 disposition += 50
             return disposition
             
         def check_occupation(self, char=None):
-            """Checks if the worker is willing to do this job, no refusings.
+            """Checks if the worker is willing to do this job, no refusings, just penalties
             """
-            if char.status != 'slave':
-                if not("Prostitute" in char.traits) and char.disposition < self.calculate_disposition_level(char):
-                    char.set_flag("jobs_whoreintro", choice(["%s is not very happy with her current job as a harlot, but she will get the job done." % char.name, "%s is not really in the mood for it, but work is work, so she gets busy with a client." % char.fullname, "%s serves customers as a whore, but, truth be told, she would prefer to do something else." % char.nickname]))
+            if not("Prostitute" in char.traits) and char.disposition < self.calculate_disposition_level(char):
+                if char.status != 'slave':
+                    char.set_flag("jobs_whoreintro", choice(["%s is not very happy with her current job as a harlot, but she will get the job done." % char.name, "%s makes it clear that she wants another job before getting busy with a client." % char.fullname, "%s serves customers as a whore, but, truth be told, she would prefer to do something else." % char.nickname]))
+                    sub = check_submissivity(char)
+                    difference = self.calculate_disposition_level(char) - char.disposition # penalty is based on the difference between current and min needed disposition
+                    if difference > 60:
+                        difference = 60
+                    if difference < 5:
+                        difference = 5
+                    if sub <0:
+                        if dice(15):
+                            self.loggs('character', 1)
+                    elif sub == 0:
+                        if dice(25):
+                            self.loggs('character', 1)
+                    else:
+                        if dice(35):
+                            self.loggs('character', 1)
+                    char.set_flag("jobs_introjoy", -randint(5, 10))
+                    char.set_flag("jobs_introdis", -randint(4, difference))
+                    self.loggs('vitality', -randint(5,15))
+                else:
+                    sub = check_submissivity(char)
+                    if sub<0:
+                        char.set_flag("jobs_whoreintro",choice(["%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % char.name, "%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % char.name]))
+                        if dice(25):
+                            self.loggs('character', 1)
+                    elif sub==0:
+                        char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a whore, but didn't dare to refuse." % char.name, "%s will do as you command, but she will hate every second of her harlot shift..." % char.name]))
+                        if dice(35):
+                            self.loggs('character', 1)
+                    else:
+                        char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a whore, and makes it clear for everyone before getting busy with a client." % char.name, "%s will do as you command and work as a harlot, but not without a lot of grumbling and complaining." % char.name]))
+                        if dice(45):
+                            self.loggs('character', 1)
                     difference = self.calculate_disposition_level(char) - char.disposition
-            # sub = check_submissivity(char)
-            # if not [t for t in self.all_occs if t in char.occupations]:
-                # if char.status == 'slave': # slaves
-                # nymphs agree with high disposition, without joy checks
-                    # if "Nymphomaniac" in char.traits and (dice(char.disposition - 400)):
-                            # char.set_flag("jobs_whoreintro", choice(["It's not really a part of her job, but on the other hand %s doesn't mind to have some fun." % char.nickname, "Even though she is not a prostitute, %s isn't against quick sex with a random person today due to her horniess." % char.nickname]))
-                            # char.set_flag("jobs_introjoy", randint(1, 5))
-                            # char.set_flag("jobs_introdis", -randint(1, 5))
-                    # elif not("Frigid" in char.traits) and ((check_lovers(char, hero) and sub < 0) or (char.disposition >= (700 + 100 * sub))): # same here, either a submissive lover or disposition from 600 to 800 depending on submissiveness, with exception of frigid ones
-                        # char.set_flag("jobs_whoreintro", choice(["%s doesn't like the idea to do it with some stranger, but she likes you too much to object." % char.nickname, "As a loyal slave, %s will do as you command, even if she doesn't like the order." % char.nickname]))
-                        # char.set_flag("jobs_introdis", -randint(10, 20))
-                        # char.set_flag("jobs_introjoy", -randint(5, 15))
-                    # else:
-                        # if sub<0:
-                            # char.set_flag("jobs_whoreintro",choice(["%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % char.name, "%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % char.name]))
-                            # char.set_flag("jobs_introdis", -randint(10, 20))
-                            # char.set_flag("jobs_introjoy", -randint(15, 30))
-                        # elif sub==0:
-                            # char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a whore, but didn't dare to refuse." % char.name, "%s will do as you command, but she will hate every second of her harlot shift..." % char.name]))
-                            # char.set_flag("jobs_introdis", -randint(20, 30))
-                            # char.set_flag("jobs_introjoy", -randint(15, 30))
-                            # if dice(25):
-                                # self.loggs('character', 1)
-                        # else:
-                            # self.txt.append(choice(["Even though she is just a slave, %s refuses to sell her body to some strangers, even if it means a punishment." % char.name, "%s tells that she would prefer to die rather than work as a whore. What a stubborn girl." % char.name]))
-                            # if dice(75):
-                                # self.loggs('character', 1)
-                            # self.loggs('disposition', -60)
-                            # self.loggs('joy', -20)
-                            # self.worker = char
-                            # self.loc = char.location
-                            # self.event_type = "jobreport"
-                            # self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                            # char.action = None
-                            # self.apply_stats()
-                            # self.finish_job()
-                            # return
+                    if difference > 50:
+                        difference = 50
+                    if difference < 10:
+                        difference = 10
+                    if char.joy < 50: # slaves additionally get more disposition penalty with low joy
+                        difference += randint(0, (50-char.joy))
+                    char.set_flag("jobs_introjoy", -randint(10, 15))
+                    char.set_flag("jobs_introdis", -randint(9, difference))
+                    self.loggs('vitality', -randint(10,25))
             else:
                 char.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a harlot." % char.name, "%s gets busy with a client." % char.fullname, "%s serves customers as a whore." % char.nickname]))
             return True
                
-
-                    
         def payout_mod(self):
             self.payout = 1
             
@@ -1302,129 +1309,86 @@
             self.clients = char.flag("jobs_strip_clients")
             self.strip()
             
+        def is_valid_for(self, char):
+            if "Stripper" in char.traits:
+                return True
+            if char.status == 'slave':
+                return True
+            
+            if char.disposition >= self.calculate_disposition_level(char):
+                return True
+            else:
+                return False 
+            
+        def calculate_disposition_level(self, char): # calculating the needed level of disposition
+            sub = check_submissivity(char)
+            if "Shy" in char.traits:
+                disposition = 800 + 50 * sub
+            else:
+                disposition = 700 + 50 * sub
+            if cgochar(char, "SIW"):
+                disposition -= 200
+            if "Exhibitionist" in char.traits:
+                disposition -= 100
+            if "Nymphomaniac" in char.traits:
+                disposition -= 50
+            elif "Frigid" in char.traits:
+                disposition += 50
+            if check_lovers(char, hero):
+                disposition -= 50
+            elif check_friends(hero, char):
+                disposition -= 25
+            return disposition
+            
         def check_occupation(self, char=None):
             """Checks if the worker is willing to do this job.
             """
-            if not [t for t in self.all_occs if t in char.occupations]:
+            if not("Stripper" in char.traits) and char.disposition < self.calculate_disposition_level(char):
                 if char.status != 'slave':
-                    if "Shy" in char.traits and dice(50):
-                        self.txt.append(choice(["Unfortunately, %s blushed and ran away after proposition to working as a stripper. Perhaps you should use another girl?" % char.name, "%s couldn't even think about undressing in front of strangers because of her shyness. Good luck next time." % char.name]))
-                        self.loggs('joy', -15)
-                        self.loggs('disposition', -40)
-                        self.worker = char
-                        self.loc = char.location
-                        self.event_type = "jobreport"
-                        self.img = char.show("profile", "shy", "sad", "uncertain", exclude=["happy", "angry", "ecstatic", "suggestive", "confident"], resize=(740, 685), type="normal")
-                        char.action = None
-                        self.apply_stats()
-                        self.finish_job()
-                        return
-                    elif "Exhibitionist" in char.traits:
-                        if dice(char.disposition - 450) and dice(char.joy-20): 
-                            char.set_flag("jobs_stripintro", choice(["It's not really a part of her job, but on the other hand %s doesn't mind to show a thing or two." % char.nickname, "Even though %s is not a stripper, she's clearly into exhibitionism today." % char.nickname]))
-                            char.set_flag("jobs_introdis", -randint(1, 5))
-                            char.set_flag("jobs_introjoy", randint(1, 5))
-                        elif char.disposition >= 550:
-                            self.txt.append(choice(["Normally she wouldn't mind to show a thing or two, but %s is not in the mood for that today." % char.name, "Unfortunately %s is not in the mood to demonstrate her goods to strangers today." % char.name]))
-                            self.loggs('disposition', -20)
-                            self.worker = char
-                            self.loc = char.location
-                            self.event_type = "jobreport"
-                            self.img = char.show("profile", "confident", "indifferent", exclude=["happy", "sad", "ecstatic", "angry", "suggestive"], resize=(740, 685), type="normal")
-                            char.action = None
-                            self.apply_stats()
-                            self.finish_job()
-                            return
-                        else:
-                            self.txt.append(choice(["%s refuses to show striptease since it's not a part of her job." % char.name, "%s really dislikes the idea of undressing at the stage, and refuses to do it." % char.name]))
-                            self.loggs('disposition', -25)
-                            self.worker = char
-                            self.loc = char.location
-                            self.event_type = "jobreport"
-                            self.img = char.show("profile", "confident", "indifferent", exclude=["happy", "sad", "ecstatic", "angry", "suggestive"], resize=(740, 685), type="normal")
-                            char.action = None
-                            self.apply_stats()
-                            self.finish_job()
-                            return
-                    elif "Frigid" in char.traits: # still full penalty for frigid ones, it's really unwise to mess with them like that
-                        self.txt.append(choice(["%s angrily refuses to work as a stripper, especially since it's not a part of her job." % char.name, "%s really hates the idea of undressing in front of strangers." % char.name]))
-                        self.loggs('disposition', -100)
-                        self.loggs('joy', -35)
-                        self.worker = char
-                        self.loc = char.location
-                        self.event_type = "jobreport"
-                        self.img = char.show("profile", "confident", "angry", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                        char.action = None
-                        self.apply_stats()
-                        self.finish_job()
-                        return
-                    elif (check_lovers(char, hero) and char.disposition >= 550) or dice(char.disposition - 550):
-                        char.set_flag("jobs_stripintro", choice(["%s is not thrilled about showing her goods to some strangers, but she likes you too much to refuse." % char.nickname, "%s doesn't like the idea to strip in front of strangers, but she doesn't want to argue with you either." % char.nickname]))
-                        char.set_flag("jobs_introdis", -randint(20, 35))
+                    char.set_flag("jobs_whoreintro", choice(["%s is not very happy with her current job as a stripper, but she will get the job done." % char.name, "%s makes it clear that she wants another job before going to the stage." % char.fullname, "%s doesn't like the idea to strip in front of strangers, but she doesn't want to argue about it either." % char.nickname]))
+                    sub = check_submissivity(char)
+                    difference = self.calculate_disposition_level(char) - char.disposition
+                    if difference > 50:
+                        difference = 50
+                    if difference < 5:
+                        difference = 5
+                    if sub <0:
+                        if dice(15):
+                            self.loggs('character', 1)
+                    elif sub == 0:
+                        if dice(25):
+                            self.loggs('character', 1)
                     else:
-                        self.txt.append(choice(["%s doesn't like the idea to do undress in front of strangers." % char.name, "%s refuses to work as a stripper, since it's not a part of her job." % char.name]))
-                        self.loggs('disposition', -60)
-                        self.loggs('joy', -15)
-                        self.worker = char
-                        self.loc = char.location
-                        self.event_type = "jobreport"
-                        self.img = char.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                        char.action = None
-                        self.apply_stats()
-                        self.finish_job()
-                        return
+                        if dice(35):
+                            self.loggs('character', 1)
+                    char.set_flag("jobs_introjoy", -randint(1, 10))
+                    char.set_flag("jobs_introdis", -randint(4, difference))
+                    self.loggs('vitality', -randint(5,15))
                 else:
-                    if "Exhibitionist" in char.traits:
-                        if dice (char.disposition - 350) and dice(char.joy-10):
-                            char.set_flag("jobs_stripintro", choice(["It's not really a part of her job, but on the other hand %s doesn't mind to show her goods." % char.nickname, "Even though she is not a stripper, %s isn't against showing off today." % char.nickname]))
-                            char.set_flag("jobs_introjoy", randint(1, 5))
-                            char.set_flag("jobs_introdis", -randint(1, 5))
-                        elif check_lovers(char, hero) or dice(char.disposition - 500):
-                            char.set_flag("jobs_stripintro", choice(["%s doesn't like the idea to undress in front of strangers, but she likes you too much to object." % char.nickname, "As a loyal slave, %s will do as you command, even if she doesn't like the order." % char.nickname]))
-                            char.set_flag("jobs_introdis", -randint(10, 20))
-                            char.set_flag("jobs_introjoy", -randint(5, 15))
-                        else:
-                            char.set_flag("jobs_stripintro",choice(["%s is a slave so noone really cares but doing something that's not a part of her job has upset her a little bit." % char.name, "Being a slave, %s had no choice but to do as she's told." % char.name, "Even though %s is a slave and will do as she's told, consider giving poor girl a task better suited to her profession." % char.name]))
-                            if "Frigid" in char.traits:
-                                char.set_flag("jobs_introdis", -randint(30, 50))
-                                char.set_flag("jobs_introjoy", -randint(25, 40))
-                            else:
-                                char.set_flag("jobs_introdis", -randint(10, 20))
-                                char.set_flag("jobs_introjoy", -randint(15, 30))
-            elif not("Stripper" in char.traits): # SIW but not stripper
-                if char.status != 'slave':
-                    if "Exhibitionist" in char.traits:
-                        char.set_flag("jobs_stripintro", choice(["It's not really her job, but on the other hand stripping might be fun for %s too." % char.nickname, "Even though %s is not a stripper, stripping is not that different from her usual job." % char.nickname]))
-                        char.set_flag("jobs_introdis", -randint(1, 5))
-                        char.set_flag("jobs_introjoy", randint(1, 5))
-                    elif check_lovers(char, hero) or char.disposition >= 150:
-                        char.set_flag("jobs_stripintro", choice(["Stripping is not her specialisation, but %s will do her best anyway." % char.nickname, "Erotic dances are a new experience for %s, but she doesn't particularly mind to try it." % char.nickname]))
-                        char.set_flag("jobs_introdis", -randint(2, 8))
-                        char.set_flag("jobs_introjoy", randint(1, 5))
+                    sub = check_submissivity(char)
+                    if sub<0:
+                        char.set_flag("jobs_whoreintro",choice(["%s is a slave so no one really cares but, being forced to work as a stripper, she's quite upset." % char.name, "%s will do as she is told, but doesn't mean that she'll be happy about showing her body to strangers." % char.name]))
+                        if dice(25):
+                            self.loggs('character', 1)
+                    elif sub==0:
+                        char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a stripper, but didn't dare to refuse." % char.name, "%s will do as you command, but she will hate every second of her stripper shift..." % char.name]))
+                        if dice(35):
+                            self.loggs('character', 1)
                     else:
-                        self.txt.append(choice(["%s refuses to show striptease since it's not her speciality." % char.name, "%s really dislikes the idea of undressing at the stage. It sounds much more difficult than her usual job." % char.name]))
-                        self.loggs('disposition', -20)
-                        self.worker = char
-                        self.loc = char.location
-                        self.event_type = "jobreport"
-                        self.img = char.show("profile", "confident", "indifferent", exclude=["happy", "sad", "ecstatic", "angry", "suggestive"], resize=(740, 685), type="normal")
-                        char.action = None
-                        self.apply_stats()
-                        self.finish_job()
-                        return
-                else:
-                    if "Exhibitionist" in char.traits:
-                        char.set_flag("jobs_stripintro", choice(["It's not really her job, but on the other hand stripping might be fun for %s too." % char.nickname, "Even though %s is not a stripper, stripping is not that differrent from her usual job." % char.nickname]))
-                        char.set_flag("jobs_introjoy", randint(1, 5))
-                        char.set_flag("jobs_introdis", -randint(0, 4))
-                    elif check_lovers(char, hero) or char.disposition >= 100:
-                        char.set_flag("jobs_stripintro", choice(["Stripping is not her specialisation, but as a loyal slave %s will do her best." % char.name, "Erotic dances are a new experience for %s, but she obediently will follow your orders." % char.name]))
-                        char.set_flag("jobs_introdis", -randint(10, 20))
-                        char.set_flag("jobs_introjoy", -randint(5, 15))
-                    else:
-                        char.set_flag("jobs_stripintro", choice(["Stripping is not her specialisation, but as a slave %s doesn't really have a choice." % char.name, "Erotic dances are clearly nor her specialisation, but %s has her orders." % char.name]))
-                        char.set_flag("jobs_introdis", -randint(10, 20))
-                        char.set_flag("jobs_introjoy", -randint(5, 15))
+                        char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a stripper, and makes it clear for everyone before going to the stage." % char.name, "%s will do as you command and work as a stripper, but not without a lot of grumbling and complaining." % char.name]))
+                        if dice(45):
+                            self.loggs('character', 1)
+                    difference = self.calculate_disposition_level(char) - char.disposition
+                    if difference > 40:
+                        difference = 40
+                    if difference < 10:
+                        difference = 10
+                    if char.joy < 40:
+                        difference += randint(0, (40-char.joy))
+                    char.set_flag("jobs_introjoy", -randint(10, 15))
+                    char.set_flag("jobs_introdis", -randint(9, difference))
+                    self.loggs('vitality', -randint(10,20))
+
             else:
                 char.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a stripper." % char.name, "%s shows her goods to clients." % char.fullname, "%s entertains customers with her body at the stage." % char.nickname]))
 
