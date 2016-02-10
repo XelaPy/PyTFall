@@ -153,7 +153,7 @@ screen building_management():
             null height 5
             frame:
                 xalign 0.5
-                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
                 add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
                 
             # Left/Right Controls.
@@ -309,19 +309,27 @@ screen building_management():
                         xysize (180, 30)
                         label 'Constructed:' text_color ivory xalign 0.5 text_bold True
                     vbox:
-                        yalign .17
+                        ypos 55
+                        xalign 0.5
                         for u in building._upgrades:
                             frame:
+                                xalign .6
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                has hbox xysize 300, 50 spacing 5
-                                if hasattr(u, "img"):
-                                    add ProportionalScale(u.img, 150, 45)
+                                has fixed xysize 290, 80
+                                frame:
+                                    align .05, .1
+                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                    if hasattr(u, "img"):
+                                        add im.Scale(u.img, 100, 65) align .5, .5
+                                    else:
+                                        add Solid(black, xysize=(100, 65)) align .5, .5
                                 vbox:
-                                    spacing 10
-                                    xysize 150, 50
-                                    text "[u.name]"
-                                    null height 10
-                                    textbutton "Upgrade" action NullAction()
+                                    xpos 125
+                                    yalign 0.5
+                                    xysize 150, 60
+                                    text "[u.name]" xalign .5 style "stats_text" size 20
+                                    null height 2
+                                    textbutton "{size=15}Upgrade" xalign .5 action NullAction()
                                                 
             # frame:
                 # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -460,14 +468,13 @@ screen building_management():
             # Manager?
             if isinstance(building, NewStyleUpgradableBuilding):
                 frame:
-                    xysize (200, 200)
                     xalign .5
-                    # xpadding 1
-                    # ypadding 1
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
                     if building.manager:
                         add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
-                
-                
+                    else:
+                        add Solid(black, xysize=(190, 190)) align .5, .5
+                            
     use top_stripe(True)
     
 screen building_maintenance():
