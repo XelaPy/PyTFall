@@ -150,6 +150,16 @@ init -11 python:
                 gen_occs = gen_occs.union(set(occ.occupations))
         return any(i for i in list(args) if i in gen_occs)
         
+    def cgochar(char, *args):
+        """
+        Checks for General Occupation strings, such as "SIW", "Warrior", "Server", etc. Goes with char argument, thus can be used where the game doesn't recognize default "char"
+        """
+        gen_occs = set()
+        for occ in char.traits:
+            if hasattr(occ, "occupations"):
+                gen_occs = gen_occs.union(set(occ.occupations))
+        return any(i for i in list(args) if i in gen_occs)
+        
     def d(value):
         """
         Checks if disposition of the girl is any higher that value.
