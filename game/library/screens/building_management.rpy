@@ -134,6 +134,7 @@ screen building_management():
     key "mousedown_5" action Return(["control", "left"])
     
     default tt = Tooltip("Manage your Buildings here.")
+    default mid_frame_mode = "building"
     
     if hero.upgradable_buildings:
         # Middle Frame:
@@ -149,60 +150,67 @@ screen building_management():
                 xalign 0.5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
+                if mid_frame_mode == "building":
+                    label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
+                else:
+                    label (u"__ [mid_frame_mode.name] __") text_size 23 text_color ivory align (0.5, 0.6)
             null height 5
-            frame:
-                xalign 0.5
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
-                
-            # Left/Right Controls.
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                has hbox xysize (600, 74)
-                button:
-                    align .1, .5
-                    xysize (140, 40)
-                    style "left_wood_button"
-                    action Return(['control', 'left'])
-                    hovered tt.action("<== Previous")
-                    text "Previous" style "wood_text" xalign 0.69
-                
+            if mid_frame_mode == "building":
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                    xysize (200, 50)
-                    align (0.5, 0.5)
+                    xalign 0.5
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                    add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
                 
-                button:
-                    align .9, .5
-                    xysize (140, 40)
-                    style "right_wood_button"
-                    action Return(['control', 'right'])
-                    hovered tt.action("Next ==>")
-                    text "Next" style "wood_text" xalign 0.39
-                        
-            ## Security Bar:
-            if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
+                # Left/Right Controls.
                 frame:
-                    xalign 0.490
-                    ypos 561
-                    background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
-                    xysize (240, 55)
-                    xpadding 10
-                    ypadding 10
-                    hbox:
-                        pos (34, 1)
-                        vbox:
-                            xsize 135
-                            text "Security Presence:" size 12
-                        vbox:
-                            text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
-                    null height 3
-                    bar:
-                        align (0.45, 0.8)
-                        value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
-                        xsize 170
-                        thumb 'content/gfx/interface/icons/move15.png'
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                    has hbox xysize (600, 74)
+                    button:
+                        align .1, .5
+                        xysize (140, 40)
+                        style "left_wood_button"
+                        action Return(['control', 'left'])
+                        hovered tt.action("<== Previous")
+                        text "Previous" style "wood_text" xalign 0.69
+                    
+                    frame:
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                        xysize (200, 50)
+                        align (0.5, 0.5)
+                    
+                    button:
+                        align .9, .5
+                        xysize (140, 40)
+                        style "right_wood_button"
+                        action Return(['control', 'right'])
+                        hovered tt.action("Next ==>")
+                        text "Next" style "wood_text" xalign 0.39
+                            
+                ## Security Bar:
+                if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
+                    frame:
+                        xalign 0.490
+                        ypos 561
+                        background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
+                        xysize (240, 55)
+                        xpadding 10
+                        ypadding 10
+                        hbox:
+                            pos (34, 1)
+                            vbox:
+                                xsize 135
+                                text "Security Presence:" size 12
+                            vbox:
+                                text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
+                        null height 3
+                        bar:
+                            align (0.45, 0.8)
+                            value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
+                            xsize 170
+                            thumb 'content/gfx/interface/icons/move15.png'
+                            
+            else:
+                textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building") 
                     
         
         ## Stats/Info - Left Frame
@@ -329,7 +337,7 @@ screen building_management():
                                     xysize 150, 60
                                     text "[u.name]" xalign .5 style "stats_text" size 20
                                     null height 2
-                                    textbutton "{size=15}Upgrade" xalign .5 action NullAction()
+                                    textbutton "{size=15}Upgrade" xalign .5 action SetScreenVariable("mid_frame_mode", u) 
                                                 
             # frame:
                 # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
