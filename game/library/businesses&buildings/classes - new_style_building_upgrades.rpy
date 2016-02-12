@@ -526,4 +526,27 @@ init -9 python:
             self.rooms = in_slots
             
     # UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
+    
+    # Sub Upgrades
+    class SubUpgrade(BuildingUpgrade):
+        """Usually suggests an expantion to a business upgrade that modifies some of it's gameflow/properties/jobs!
+        
+        I want to code a skeleton for this atm.
+        """
+        def __init__(self, *args, **kwargs):
+            super(SubUpgrade, self).__init__(*args, **kwargs)
+            
+            self.name = name # name, a string.
+            self.instance = instance # Building this upgrade belongs to.
+            self.desc = desc # description, a string.
+            self.img = img # Ren'Py path leading the an image, a string.
+            
+            self.build_effort = build_effort # Effort it takes to build this upgrade. 0 for instant.
+            if not materials:
+                self.materials = {} # Materials required to build this upgrade. Empty dict for none.
+            else:
+                self.materials = materials
+            self.in_slots = in_slots # Internal slots
+            self.ex_slots = ex_slots # External slots
+            self.cost = cost # Price in gold.
             
