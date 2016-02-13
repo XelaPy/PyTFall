@@ -550,3 +550,10 @@ init -9 python:
             self.ex_slots = ex_slots # External slots
             self.cost = cost # Price in gold.
             
+            
+    class CatWalk(SubUpgrade):
+        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+            super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            
+            # ??? Think of a way to generalize bonuses? Maybe a system with clear mechanics is needed...
+            
