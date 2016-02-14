@@ -745,7 +745,7 @@ init: # PyTFall:
                     for i in jobs:
                         textbutton "[i.id]":
                             # Without Equipping for the job!
-                            action [SetField(char, "action", i), Hide("set_action_dropdown")]
+                            action [Function(set_char_to_work, char, char.location, i), Hide("set_action_dropdown")]
                             
                 # Buildings:
                 # TODO: This needs to be rewritten:

@@ -507,9 +507,16 @@ init -9 python:
             self.in_slots_max = 100
             self.ex_slots = 0 # Exterior Slots
             self.ex_slots_max = 100
+            self.worker_slots_max = {} # We keep maximum amounts of workers of specific types that this business can hold in this dict.
+            # They are kept as k/v pairs of Job(): amount. If absent for any job availible at the building, we assume that worker can be added endlessly.
             
-            if hasattr(self, "building_jobs"): # BAD Code, right now all jobs are kept in .jobs attribute...
+            if hasattr(self, "building_jobs"): # BAD Code?, right now all jobs are kept in .jobs attribute... if this is not a useful distinction, we remove this and just work with the jobs set.
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
+                
+            if kwargs.get("needs_management", False):
+                self.add_job(simple_jobs["Manager"])
+                self.worker_slots_max[simple_jobs["Manager"]] = 1
+                self.normalize_jobs()
                 
             # Clients:
             self.all_clients = set() # All clients of this building are maintained here.
@@ -623,6 +630,11 @@ init -9 python:
             if config.debug and True:
                 devlog.info(item)
             
+        def add_job(self, job):
+            # Adds Job to the BUILDING! and normalizes it.
+            self.building_jobs.add(job)
+            self.normalize_jobs()
+                
         def normalize_jobs(self):
             self.jobs = self.jobs.union(self.building_jobs)
             for up in self._upgrades:
@@ -636,6 +648,12 @@ init -9 python:
             jobs = []
             
             for job in self.jobs:
+                # We need to check if there are any slots for a worker are left:
+                if job in self.worker_slots_max:
+                    # we get a list of all workers that are assigned for this job:
+                    temp = [w for w in self.all_workers if w.action == job or w.previousaction == job] # This isn't bulletproof... we prolly want to access building.manager here...
+                    if len(temp) >= self.worker_slots_max[job]:
+                        continue
                 if job.is_valid_for(char):
                     jobs.append(job)
                     

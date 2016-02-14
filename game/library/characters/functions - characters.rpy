@@ -22,8 +22,8 @@ init -11 python:
         return random_last_names.pop()
         
     def get_team_name():
-        if not store.random_team_names:
-            store.random_team_names = load_random_team_names(50)
+        if not hasattr(store, "random_team_names") or not store.random_team_names:
+            store.random_team_names = load_team_names(50)
         return random_team_names.pop()
     
     def build_mob(id=None, level=1):
@@ -207,6 +207,10 @@ init -11 python:
                 rg.location = data["force_location"]
                 
         # Occupations:
+        if pattern: # In case if there is no pattern, 
+            rg.traits.basetraits = set(create_traits_base(pattern))
+            for t in rg.traits.basetraits:
+                rg.apply_trait(t)
         # This is possibly temporary: TODO: Update after discussion:
         # if "init_basetraits" in data:
             # d = data["init_basetraits"]
@@ -481,7 +485,13 @@ init -11 python:
         
         char.action = job
         
+        if not job:
+            return
+        
         if hasattr(building, "all_workers"):
             if char not in building.all_workers:
                 building.all_workers.append(char)
-            
+                
+        # Make sure that the manager is set:
+        if job == simple_jobs["Manager"]:
+            building.manager = char
