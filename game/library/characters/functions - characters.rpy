@@ -473,19 +473,27 @@ init -11 python:
         
         return new
 
-    def set_char_to_work(char, building, job=None):
+    def set_char_to_work(char, building, job=False):
         """Attempts to find the best possible job to the char in given building.
         
         For now it just randomly picks any fitting job or sets to None.
         In the future, this should find the best possible job and set the char to it.
+        
+        Note: Due to older logic, this function expects job argument to be None when a character is made jobless by player input or game logic!
         """
-        if not job:
+        if job is False:
             available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
             job = choice(available_jobs) if available_jobs else None
         
+        # We want to remove char as a building manager if he/she leave the post, we don't do that when char is set to rest or auto-rest.
+        if building.manager == char:
+            sj = store.simple_jobs
+            if job not in (sj["Manager"], sj["Rest"], sj["AutoRest"]):
+                building.manager = None
+                        
         char.action = job
         
-        if not job:
+        if job is None:
             return
         
         if hasattr(building, "all_workers"):

@@ -1526,7 +1526,7 @@
             worker = The girl to solve for.
             """
             super(Rest, self).__init__()
-            self.id = "Rest Job"
+            self.id = "Rest"
                 
         def __call__(self, char):
             self.worker = char
@@ -1670,7 +1670,7 @@
         """
         def __init__(self):
             super(AutoRest, self).__init__()
-            self.id = "Auto Rest"
+            self.id = "AutoRest"
         
         def after_rest(self):
             """
