@@ -213,6 +213,9 @@ init -9 python:
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
             
+            self.blocked_upgrades = kwargs.get("blocked_upgrades", set())
+            self.allowed_upgrades = kwargs.get("allowed_upgrades", set())
+            self.upgrades = list()
             
     class PrivateBusinessUpgrade(MainUpgrade):
         def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
@@ -468,7 +471,6 @@ init -9 python:
             self.active_workers = set() # On duty Strippers.
             self.clients = set() # Clients watching the stripshows.
             
-            # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job...
             self.time = 5
             self.is_running = False
@@ -552,8 +554,9 @@ init -9 python:
             
             
     class CatWalk(SubUpgrade):
-        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            
             
             # ??? Think of a way to generalize bonuses? Maybe a system with clear mechanics is needed...
             
