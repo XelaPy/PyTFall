@@ -204,6 +204,18 @@ init -9 python:
             # Resets all flags and variables after next day calculations are finished.
             pass
         
+        # Building routines:
+        def check_resources(self, upgrade):
+            # checks if the player has enough resources to build an upgrade:
+            return True
+            
+        def check_space(self, upgrade):
+            # Checks if the main building has enought space to add this upgrade:
+            return True
+        
+        def start_construction(self):
+            # adds the upgrade to in construction buildings:
+            self.
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
@@ -215,6 +227,7 @@ init -9 python:
             
             self.blocked_upgrades = kwargs.get("blocked_upgrades", set())
             self.allowed_upgrades = kwargs.get("allowed_upgrades", set())
+            self.in_construction_upgrades = list()
             self.upgrades = list()
             
     class PrivateBusinessUpgrade(MainUpgrade):
@@ -539,6 +552,7 @@ init -9 python:
             super(SubUpgrade, self).__init__(*args, **kwargs)
             
             self.name = name # name, a string.
+            self.main_upgrade = main_upgrade
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
             self.img = img # Ren'Py path leading the an image, a string.
