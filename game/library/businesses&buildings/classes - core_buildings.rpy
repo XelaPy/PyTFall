@@ -661,7 +661,7 @@ init -9 python:
         
         def can_add_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
-            if self.in_slots_max - self.in_slots < upgrade.in_slots or self.ex_slots_max - self.ex_slots < self.ex_slots:
+            if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
                 return
                 
             # Check is there is already this type of an upgrade:
@@ -670,8 +670,8 @@ init -9 python:
                 
             # If we want to build the upgrade as well (usually in testing scenarios):
             if build:
-                self.in_slots = self.in_slots + upgrade.in_slots
-                self.ex_slots = self.ex_slots + upgrade.ex_slots
+                self.in_slots = self.in_slots + upgrade.IN_SLOTS
+                self.ex_slots = self.ex_slots + upgrade.EX_SLOTS
                 self.add_upgrade(upgrade)
                 
             return True
