@@ -22,8 +22,8 @@ init -11 python:
         return random_last_names.pop()
         
     def get_team_name():
-        if not store.random_team_names:
-            store.random_team_names = load_random_team_names(50)
+        if not hasattr(store, "random_team_names") or not store.random_team_names:
+            store.random_team_names = load_team_names(50)
         return random_team_names.pop()
     
     def build_mob(id=None, level=1):
@@ -207,6 +207,10 @@ init -11 python:
                 rg.location = data["force_location"]
                 
         # Occupations:
+        if pattern: # In case if there is no pattern, 
+            rg.traits.basetraits = set(create_traits_base(pattern))
+            for t in rg.traits.basetraits:
+                rg.apply_trait(t)
         # This is possibly temporary: TODO: Update after discussion:
         # if "init_basetraits" in data:
             # d = data["init_basetraits"]
@@ -469,19 +473,33 @@ init -11 python:
         
         return new
 
-    def set_char_to_work(char, building, job=None):
+    def set_char_to_work(char, building, job=False):
         """Attempts to find the best possible job to the char in given building.
         
         For now it just randomly picks any fitting job or sets to None.
         In the future, this should find the best possible job and set the char to it.
+        
+        Note: Due to older logic, this function expects job argument to be None when a character is made jobless by player input or game logic!
         """
-        if not job:
+        if job is False:
             available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
             job = choice(available_jobs) if available_jobs else None
         
+        # We want to remove char as a building manager if he/she leave the post, we don't do that when char is set to rest or auto-rest.
+        if building.manager == char:
+            sj = store.simple_jobs
+            if job not in (sj["Manager"], sj["Rest"], sj["AutoRest"]):
+                building.manager = None
+                        
         char.action = job
+        
+        if job is None:
+            return
         
         if hasattr(building, "all_workers"):
             if char not in building.all_workers:
                 building.all_workers.append(char)
-            
+                
+        # Make sure that the manager is set:
+        if job == simple_jobs["Manager"]:
+            building.manager = char

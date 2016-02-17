@@ -1,23 +1,21 @@
-init -9 python:
+init -5 python:
     #################################################################
     # BUILDING UPGRADE CLASSES
     class BuildingUpgrade(_object):
         """BaseClass for any building expansion! (aka Business)
         """
+        
+        MATERIALS = {}
+        CUNSTRUCTION_EFFORT = 0
+        IN_SLOTS = 1
+        EX_SLOTS = 1
+        COST = 100
+        
         def __init__(self, name="", instance=None, desc="", img="", build_effort=0, materials=None, in_slots=1, ex_slots=0, cost=0):
             self.name = name # name, a string.
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
             self.img = img # Ren'Py path leading the an image, a string.
-            
-            self.build_effort = build_effort # Effort it takes to build this upgrade. 0 for instant.
-            if not materials:
-                self.materials = {} # Materials required to build this upgrade. Empty dict for none.
-            else:
-                self.materials = materials
-            self.in_slots = in_slots # Internal slots
-            self.ex_slots = ex_slots # External slots
-            self.cost = cost # Price in gold.
             
             self.jobs = set() # Jobs this upgrade can add. *We add job instances here!  # It may be a good idea to turn this into a direct job assignment instead of a set...
             self.workers = set() # List of on duty characters.
@@ -204,15 +202,34 @@ init -9 python:
             # Resets all flags and variables after next day calculations are finished.
             pass
         
+        # Building routines:
+        def check_resources(self, upgrade):
+            # checks if the player has enough resources to build an upgrade:
+            return True
+            
+        def check_space(self, upgrade):
+            # Checks if the main building has enought space to add this upgrade:
+            return True
+        
+        def start_construction(self, upgrade):
+            # adds the upgrade to in construction buildings:
+            self.in_construction_upgrades.append(upgrade)
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
         
         Completely useless at the moment :(
         """
+        
+        
+        
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
             
+            self.blocked_upgrades = kwargs.get("blocked_upgrades", set())
+            self.allowed_upgrades = kwargs.get("allowed_upgrades", set())
+            self.in_construction_upgrades = list()
+            self.upgrades = list()
             
     class PrivateBusinessUpgrade(MainUpgrade):
         def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
@@ -468,7 +485,6 @@ init -9 python:
             self.active_workers = set() # On duty Strippers.
             self.clients = set() # Clients watching the stripshows.
             
-            # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job...
             self.time = 5
             self.is_running = False
@@ -537,23 +553,16 @@ init -9 python:
             super(SubUpgrade, self).__init__(*args, **kwargs)
             
             self.name = name # name, a string.
+            self.main_upgrade = main_upgrade
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
             self.img = img # Ren'Py path leading the an image, a string.
             
-            self.build_effort = build_effort # Effort it takes to build this upgrade. 0 for instant.
-            if not materials:
-                self.materials = {} # Materials required to build this upgrade. Empty dict for none.
-            else:
-                self.materials = materials
-            self.in_slots = in_slots # Internal slots
-            self.ex_slots = ex_slots # External slots
-            self.cost = cost # Price in gold.
-            
             
     class CatWalk(SubUpgrade):
-        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            
             
             # ??? Think of a way to generalize bonuses? Maybe a system with clear mechanics is needed...
             
