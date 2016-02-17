@@ -191,7 +191,7 @@ label interactions_slapbutt:
         elif ct("Dandere"):
             $rc("...Please do not do it again.", "No... I have had enough for today.", "...Don't touch me.")
         elif ct("Tsundere"):
-            $rc("Y-you dumbass! You pervert!", "Quit. That. Riiiight. Nooooooow!", "Hey, you creep, what do you think you're doing!?", "Aah! C...cut it out!")
+            $rc("Y-you dumbass! You pervert!", "Quit. That. Riiiight. Nooooooow!", "Hey, you creep, what do you think you're doing!?", "Aah! C...cut it out!", "Hya, what are you doing, it's dirty!", "Fuwa! Don't rub such weird places!")
         elif ct("Kuudere"):
             $rc("Show some restraint with your indecent actions.", "...Tch.", "Hmph. You should be grateful I'm so lenient today.", "Come on, it tickles.", "What what? Sexual harrasment? Is that okay?")
         elif ct("Ane"):
