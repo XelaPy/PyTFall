@@ -145,7 +145,7 @@ label interactions_girlfriend:
         elif ct("Dandere"):
             $rc("Okay. From this moment on, we are completely bound by destiny... Ehe.", "I will dedicate all of my passionate feelings to you.")
         elif ct("Kuudere"):  
-            $rc("There's nothing about you I hate. I suppose I could let you have an affair with me.", "Didn't expect you of all people to say that... Haha.", "I don't mind, but... Prepare yourself.", "I'm, umm... yours...")
+            $rc("There's nothing about you I hate. I suppose I could let you have an affair with me.", "Didn't expect you of all people to say that... Haha.", "I don't mind, but... Prepare yourself.", "I'm, umm... yours...", "Are you really ok with me? Okay, let's go out together.")
         elif ct("Tsundere"):
             $rc("Haah... Why did I fall in love with someone like this...? I guess it's fine, though.", "Hmph... It's YOU we're talking about, so I thought something like this might happen.")
         elif ct("Bokukko"):  
@@ -179,7 +179,7 @@ label interactions_girlfriend:
         elif ct("Yandere"):  
             $rc("No way!", "Don't ask me that", "What d'you mean...?", "Come on, if you wanna have me you gotta get out there and break a leg.")
         elif ct("Kamidere"):
-            $rc("That's not for you to decide.", "That's too bad, I have no interest in you.", "That sort of relationship will be a big problem for both of us, you know?", "Being in a relationship is more trouble than it's worth.")
+            $rc("That's not for you to decide.", "That's too bad, I have no interest in you.", "That sort of relationship will be a big problem for both of us, you know?", "Being in a relationship is more trouble than it's worth.", "No way. I mean, you're just not good enough for me.")
         else: 
             $rc("I-I'm sorry! Let's just be good friends!", "That's... I'm sorry! Please let's continue being good friends!", "What's your problem? Saying that out of nowhere.", "That's nice of you to say, but... I can't help you there.")
     $ char.restore_portrait()
