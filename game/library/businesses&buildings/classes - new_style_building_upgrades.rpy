@@ -223,8 +223,8 @@ init -5 python:
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
             
-            self.blocked_upgrades = kwargs.get("blocked_upgrades", set())
-            self.allowed_upgrades = kwargs.get("allowed_upgrades", set())
+            self.blocked_upgrades = kwargs.get("blocked_upgrades", list())
+            self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
             
@@ -317,7 +317,7 @@ init -5 python:
             self.is_running = False
             
             
-    class PublicBusinessUpgrade(BuildingUpgrade):
+    class PublicBusinessUpgrade(MainUpgrade):
         """Public Business Upgrade.
         
         This usually assumes the following:
@@ -566,6 +566,8 @@ init -5 python:
             
     class CatWalk(SubUpgrade):
         COMPATIBILITY = [StripClub]
+        ID = "Cat Walk"
+        IMG = "content/buildings/upgrades/catwalk_0.jpg"
         def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             

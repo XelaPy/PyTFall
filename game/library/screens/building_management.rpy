@@ -210,6 +210,26 @@ screen building_management():
                             thumb 'content/gfx/interface/icons/move15.png'
                             
             else:
+                for u in mid_frame_mode.allowed_upgrades:
+                    frame:
+                        xalign .6
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                        has fixed xysize 290, 80
+                        frame:
+                            align .05, .1
+                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                            if hasattr(u, "IMG"):
+                                add im.Scale(u.IMG, 100, 65) align .5, .5
+                            else:
+                                add Solid(black, xysize=(100, 65)) align .5, .5
+                        vbox:
+                            xpos 125
+                            yalign 0.5
+                            xysize 150, 60
+                            text "[u.ID]" xalign .5 style "stats_text" size 20
+                            null height 2
+                            textbutton "{size=15}Build" xalign .5 action NullAction() 
+                
                 textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building") 
                     
         
