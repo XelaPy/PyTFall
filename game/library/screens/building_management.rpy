@@ -212,25 +212,37 @@ screen building_management():
             else:
                 for u in mid_frame_mode.allowed_upgrades:
                     frame:
-                        xalign .6
+                        xalign .5
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                        has fixed xysize 290, 80
-                        frame:
-                            align .05, .1
-                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                            if hasattr(u, "IMG"):
-                                add im.Scale(u.IMG, 100, 65) align .5, .5
-                            else:
-                                add Solid(black, xysize=(100, 65)) align .5, .5
+                        has fixed xysize 500, 150
+                        
                         vbox:
-                            xpos 125
-                            yalign 0.5
-                            xysize 150, 60
-                            text "[u.ID]" xalign .5 style "stats_text" size 20
-                            null height 2
-                            textbutton "{size=15}Build" xalign .5 action NullAction() 
+                            align 0, 0
+                            xysize 300, 150
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                xpadding 10
+                                text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                        
+                        vbox:
+                            align 1.0, 0
+                            xsize 150
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                xpadding 10
+                                text "[u.ID]" align .5, .5 style "stats_text" size 15
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                if hasattr(u, "IMG"):
+                                    add im.Scale(u.IMG, 120, 75) align .5, .5
+                                else:
+                                    add Solid(black, xysize=(120, 75)) align .5, .5
+                            textbutton "{size=15}Buy" xalign .5 action NullAction()
                 
-                textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building") 
+                textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
                     
         
         ## Stats/Info - Left Frame
@@ -357,7 +369,7 @@ screen building_management():
                                     xysize 150, 60
                                     text "[u.name]" xalign .5 style "stats_text" size 20
                                     null height 2
-                                    textbutton "{size=15}Upgrade" xalign .5 action SetScreenVariable("mid_frame_mode", u) 
+                                    textbutton "{size=15}Upgrade" xalign .5 action SetScreenVariable("mid_frame_mode", u)
                                                 
             # frame:
                 # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
