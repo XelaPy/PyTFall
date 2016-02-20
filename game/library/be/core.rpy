@@ -134,6 +134,9 @@ init -1 python: # Core classes:
             self.prepear_teams()
             
             if not self.logical:
+                
+                renpy.maximum_framerate(30)
+                
                 if self.music:
                     renpy.music.stop()
                     renpy.music.stop(channel="world")
