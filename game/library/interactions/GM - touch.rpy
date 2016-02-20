@@ -159,7 +159,7 @@ label interactions_slapbutt:
         elif ct("Impersonal"):
             $rc("Aah... my hips... it feels... kind of strange.", "Hnn, fuaah... if you touch there, I won't be able to hold myself back...")
         elif ct("Nymphomaniac") and dice(20):
-            $rc("...Alright, any lower and I'll have to charge extra.", "Hehehe, I just got a bit horny...", "That... Ahh... Hehe... So perverted...", "Ahh... You made me cum a little.", "You're lewd～♪", "Ahaha, you're pervy～♪", "If you keep touching me, I'll touch you back~")
+            $rc("...Alright, any lower and I'll have to charge extra.", "Hehehe, I just got a bit horny...", "That... Ahh... Hehe... So perverted...", "Hnn.... you can touch me in more interesting places if you want...", "You're lewd～♪", "Ahaha, you're pervy～♪", "If you keep touching me, I'll touch you back~")
         elif ct("Shy") and dice(30):
             $ char.override_portrait("portrait", "shy")
             $rc("Aauh… Wh-what's up...?", "Nwa, Y-you surprised me...", "Umm... I get nervous when others touch me.", "U-uhm… touch me gently, please…", "Umm.. Do you like... my butt?")
@@ -264,7 +264,7 @@ label interactions_grabbreasts:
         elif ct("Half-Sister") and dice(30):
             $rc("Ah... tell me... what do you think about your sister's body...?", "It's... it's wrong to lust for your sister....", "A-are you getting excited over your sister's body?", "I wonder... if you should proceed to do this... to your sister?")
         elif ct("Shy") and dice(25):
-            $rc("Ah... your hand is so gentle...", "When I get touched so much, [hero.name], I get confused...", "Aah... N...no... If you do it like that…I...", "P... please be more... gentle...", "Y-yes... You can.. like this...")
+            $rc("Ah... your hand is so gentle...", "When I get touched so much, [hero.name], I get confused...", "Aah... N...no... If you do it like that…I...", "P... please be more... gentle...", "Y-yes... You can.. like this...", "Uah, ah, hnn, I'm sorry, I didn't know I was so perverted...")
         elif ct("Dandere"):
             $rc("Nn... Right there...is good...", "Nh... Harder...", "I love when you slowly rub my breasts.", "Aah... t...this is also... a form of massage... aaah...", "Ah! Jeez, why does everyone go for my breasts!?", "Kya!? Don't...grope them... Ah...", "Hnn, is my chest... soft...?", "M...more... my body... feels so hot...", "This is good...", "Becoming... more perverted... by the minute...", "Hn… You shouldn't grope people.", "Ah. Feels much better than rubbing myself...", "My nipples are tingling... Feels... Weird...")
         elif ct("Kuudere"):
@@ -293,7 +293,7 @@ label interactions_grabbreasts:
         elif ct("Half-Sister") and dice(25):
             $rc("You're a no good brother to be doing it with your sister.")
         elif ct("Shy") and dice(20):
-            $rc("N... no... s...stop... p... please stop...", "Wait... aren't you overdoing it?", "Ugh... what... w...w-w-wwhat are you doing!?", "*sob* Why you are so mean...", "NO! D-don't do that!", "N-no, you can't, that's too p-perverted...")
+            $rc("N... no... s...stop... p... please stop...", "Wait... aren't you overdoing it?", "Ugh... what... w...w-w-wwhat are you doing!?", "*sob* Why you are so mean...", "NO! D-don't do that!", "N-no, you can't, that's too p-perverted...", "Aah, no, stop, my breasts'll pop... Aaah...")
         elif ct("Kuudere"):
             $rc("...! Who told you you could touch me there!?", "No, cut it out!", "Nn...Where in the world are you touching? Jeez...!", "Geez! Don't touch them!", "Wha-... What? Aah... Wai-... Idiot! Stop it!")
         elif ct("Dandere"):
