@@ -6,6 +6,7 @@ init -5 python:
         """
         
         MATERIALS = {}
+        COST = 0 # in Gold.
         CONSTRUCTION_EFFORT = 0
         IN_SLOTS = 1
         EX_SLOTS = 1
@@ -203,6 +204,7 @@ init -5 python:
             pass
         
         # Building routines:
+        # This should be part of the main BUILDING!!!
         def check_resources(self, upgrade):
             # checks if the player has enough resources to build an upgrade:
             return True
@@ -212,6 +214,14 @@ init -5 python:
             return True
         
         def start_construction(self, upgrade):
+            
+            # Take the metarials (if we got here, it is assumed that player has enough of everything)
+            for r in upgrade.MATERIALS:
+                pass
+            
+            # Cash...
+            hero.take_money(upgrade.COST, "Building Upgrades")
+            
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
         
@@ -566,6 +576,8 @@ init -5 python:
             
     class CatWalk(SubUpgrade):
         COMPATIBILITY = [StripClub]
+        MATERIALS = {}
+        COST = 1000
         ID = "Cat Walk"
         IMG = "content/buildings/upgrades/catwalk_0.jpg"
         def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
