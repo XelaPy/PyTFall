@@ -59,7 +59,7 @@ label interactions_hug:
         elif ct("Dandere"):
             $rc("...My face is burning.", "Nn... Please hold me closer...", "It feels better this way.", "Nn… hold me…", "Ah… Hold me tighter…", "…come to me…", "Hmhmm… I expected perverted things... Pity…")
         elif ct("Tsundere"):
-            $rc("Hey you, who said you could get this close without permission?", "D-don't do anything weird, okay...?", "I-I'm not n-nervous or anything...", "It's... it's okay to do it like this, right?", "How long do you plan to... It's embarassing!")
+            $rc("Hey you, who said you could get this close without permission?", "D-don't do anything weird, okay...?", "I-I'm not n-nervous or anything...", "It's... it's okay to do it like this, right?", "How long do you plan to... It's embarassing!", "I-it's not like getting a hug is surprising, right?")
         elif ct("Imouto"):
             $rc("Okay, I'll comfort you…  There, there. ♪", "Hold me lots...", "<Hugs you back with a smile> Heheh ♪ Let's stay like this just a bit more. ♪", "*Squeeze!*", "What, what? Did something happen?", "Come, come! Come to my chest! ♪", "I-isn't something touching...?　R-really? ...Nn...", "Hehehe... It feels kinda warm...", "I feel like I'm safe.", "I wish you would hold me forever.")
         elif ct("Ane"):
