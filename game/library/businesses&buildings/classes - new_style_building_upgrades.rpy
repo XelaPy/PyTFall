@@ -203,27 +203,7 @@ init -5 python:
             # Resets all flags and variables after next day calculations are finished.
             pass
         
-        # Building routines:
-        # This should be part of the main BUILDING!!!
-        def check_resources(self, upgrade):
-            # checks if the player has enough resources to build an upgrade:
-            return True
-            
-        def check_space(self, upgrade):
-            # Checks if the main building has enought space to add this upgrade:
-            return True
-        
-        def start_construction(self, upgrade):
-            
-            # Take the metarials (if we got here, it is assumed that player has enough of everything)
-            for r in upgrade.MATERIALS:
-                pass
-            
-            # Cash...
-            hero.take_money(upgrade.COST, "Building Upgrades")
-            
-            # adds the upgrade to in construction buildings:
-            self.in_construction_upgrades.append(upgrade)
+
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
@@ -237,6 +217,11 @@ init -5 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+            
+        def add_upgrade(self, upgrade):
+            upgrade.instance = self
+            self.main_upgrade = self.instance
+            self.upgrades.append(upgrade)
             
         def check_upgrade_compatibility(self, upgrade):
             return self.__class__ in upgrade.COMPATIBILITY
