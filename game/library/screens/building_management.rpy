@@ -233,7 +233,6 @@ screen building_management():
                                 xpadding 10
                                 text "Gold:{color=[gold]} [u.COST]" align .5, .5 style "stats_text" size 20
                             
-                        
                         vbox:
                             align 1.0, 0
                             xsize 150
