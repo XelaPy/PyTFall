@@ -216,14 +216,23 @@ screen building_management():
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                         has fixed xysize 500, 150
                         
-                        vbox:
-                            align 0, 0
-                            xysize 300, 150
+                        frame:
+                            align .3, 0
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                            xpadding 10
+                            text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                
+                        hbox:
+                            align .01, .35
+                            box_wrap True
+                            xsize 300
+                            spacing 10
                             frame:
-                                xalign .5
+                                xysize 120, 50
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                 xpadding 10
-                                text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                text "Gold:{color=[gold]} [u.COST]" align .5, .5 style "stats_text" size 20
+                            
                         
                         vbox:
                             align 1.0, 0
