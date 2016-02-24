@@ -209,7 +209,7 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     elif ct("Yandere"):
         $rc("I love you! Your heart and soul, I want it all!", "Hey... I-I want to love you even more... So, go out with me!")
     else:
-        $rc("I... love you. Please go out with me!", "I... I love you... M-make me your girlfriend!")
+        $rc("I... love you. Please go out with me!", "I... I love you... M-make me your girlfriend!", "Hey, listen. I want you... to go out with me.", "I love you... I want to be by your side forever... So, please be my sweetheart!")
     $ char.restore_portrait()
     return
     

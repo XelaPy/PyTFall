@@ -566,7 +566,7 @@ label after_normal_sex:
     elif ct("Kamidere"):
         $rc("Aaaah, that was great... It was really awesome.", "Kuuh... Y-you're fucking like a cat in heat! There's no way I can continue after this...", "It felt really good. Well done.", "It wasn't bad, I guess... Yeah... I won't turn you down if you ask again.", "I expect next time will be equally enjoyable.")
     else:
-        $rc("That felt so good... I want to do it again...", "Hey, it felt good, right?", "Well, I'm looking forward to the next time.") 
+        $rc("That felt so good... I want to do it again...", "Hey, it felt good, right?", "Well, I'm looking forward to the next time.", "We really, really have to do this again ♪") 
     $ char.restore_portrait()
     return
     
@@ -575,7 +575,7 @@ label after_virginity_was_taken: # right after removing virgin trait
     if ct("Impersonal"):
         $rc("With this, next time I'll be able to feel good, right?", "Hmm, It did hurt, but... I'm happy.", "It was so big that I thought it would hurt a lot... It is all because of your gentleness.	Thank you very much.")
     elif ct("Shy") and dice(30):
-        $rc("Uh, i-it's ok... I can endure it...", "Kuh... I'm okay... But... I didn't think it would hurt so much...")
+        $rc("Uh, i-it's ok... I can endure it...", "Kuh... I'm okay... But... I didn't think it would hurt so much...", "I-It's alright. It did hurt a little, but... I'm really happy ♪")
     elif ct("Tsundere"):
         $rc("Uuh... That really hurt... Of-of course you could have helped it!", "Kuh... I had to go through this one day anyway so it's fine!", "Kuh... This pain makes the world so dazzling...")
     elif ct("Dandere"):
@@ -703,7 +703,7 @@ label int_girl_proposes_sex: # character proposes MC sex
     elif ct("Yandere"):
         $rc("I can do naughty stuff, you know? ...Want to see?", "Hey, you want to do it with me, right? There's no use trying to lie about it.", "Uhuhu... don't you want to have sex with me?", "Come on, I can tell you need some release... just leave it to me.")
     else:
-        $rc("Hey... Let's have sex...", "Say... d-do you want to do it... too?", "Um.. w-would you mind... having sex with me?", "Um... Please, have sex with me.", "Hey... do you think... we could do it?", "H-hey... Hmm, do I really need to be the one to say it... F-fuck me!")
+        $rc("Hey... Let's have sex...", "Say... d-do you want to do it... too?", "Um.. w-would you mind... having sex with me?", "Um... Please, have sex with me.", "Hey... do you think... we could do it?", "H-hey... Hmm, do I really need to be the one to say it... F-fuck me!", "Hey... I wanna have sex with you... Is that okay?")
     $ char.restore_portrait()
     return
     
@@ -751,7 +751,7 @@ label int_girl_proposes_butt: # propose butt
     elif ct("Kamidere"):
         $rc("")
     elif ct("Bokukko"):
-        $rc("")
+        $rc("Hey... You can do it up my butt too, you know?")
     elif ct("Ane"):
         $rc("")
     elif ct("Yandere"):
@@ -764,13 +764,13 @@ label int_girl_proposes_butt: # propose butt
 label int_girl_period: # period
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
-        $rc("")
+        $rc("If we do it today, I might have a baby. So, sorry.")
     elif ct("Shy") and dice(50):
         $rc("Um, well... Today's kind of a bad day... Sorry...")
     elif ct("Imouto"):
         $rc("Ummm...I'm on my period, so...you'll get dirty, you know?") 
     elif ct("Dandere"):
-        $rc("")
+        $rc("I'm on my period, so... Sorry...")
     elif ct("Tsundere"):
         $rc(""),
     elif ct("Kuudere"):
@@ -785,32 +785,5 @@ label int_girl_period: # period
         $rc("")
     else:
         $rc("W-Well... If we do it now, you'll get dirty, so... Sorry...")
-    $ char.restore_portrait()
-    return
-    
-label int_girl_secret: # secret
-    $ char.override_portrait("portrait", "happy")
-    if ct("Impersonal"):
-        $rc("")
-    elif ct("Shy") and dice(50):
-        $rc("U-um... please keep that a secret... I'm begging you!")
-    elif ct("Imouto"):
-        $rc("Please keep that a secret... I'm seriously begging!") 
-    elif ct("Dandere"):
-        $rc("")
-    elif ct("Tsundere"):
-        $rc(""),
-    elif ct("Kuudere"):
-        $rc("")
-    elif ct("Kamidere"):
-        $rc("")
-    elif ct("Bokukko"):
-        $rc("")
-    elif ct("Ane"):
-        $rc("")
-    elif ct("Yandere"):
-        $rc("")
-    else:
-        $rc("")
     $ char.restore_portrait()
     return
