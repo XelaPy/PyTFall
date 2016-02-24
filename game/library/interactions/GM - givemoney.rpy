@@ -45,11 +45,11 @@ label interactions_giftmoney:
             $ char.disposition += round(randint(a, b)/(char.disposition*0.01))
         else:
             $ char.disposition += randint(a, b)
+        $ del a
+        $ del b
+        $ del temp
     else:
         "You don't have that amount of gold."
-    $ del a
-    $ del b
-    $ del temp
     jump girl_interactions
 
 label interactions_askmoney:
@@ -73,13 +73,13 @@ label interactions_askmoney:
                 "She gave you [temp] G."
                 $ hero.exp += randint(3, 8)
                 $ char.disposition -= randint (20, 40)
+                $ del temp
         else:
             "You are already much richer than her. She needs money more than you."
             $ char.disposition -= randint (10, 30)
     else:
         "But she doesn't know you well enough yet."
         $ char.disposition -= randint (5, 15)
-    $ del temp
     jump girl_interactions    
     
 label interactions_int_give_money:
@@ -95,9 +95,9 @@ label interactions_int_give_money:
     if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
         $ char.add_money(temp) # Same...
         "You gave her [temp] G."
+        $ del temp
     else:
         "You don't have that amount of gold."
-    $ del temp
     jump girl_interactions
     
 label interactions_int_take_money:
@@ -113,8 +113,8 @@ label interactions_int_take_money:
     if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
         $ hero.add_money(temp) # Same...
         "You took [temp] G."
+        $ del temp
     else:
         "She doesn't have that amount of gold."
-    $ del temp
     jump girl_interactions
 
