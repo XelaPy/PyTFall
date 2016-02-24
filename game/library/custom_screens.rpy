@@ -219,14 +219,12 @@ init: # Items:
                                 background Frame("content/gfx/frame/p_frame7.png", 5, 5)
                                 side "c r":
                                     xalign 0.5
-                                    #maximum (145, size[1]-175)
                                     viewport id "item_info":
                                         mousewheel True
                                         has vbox
                                         style_group "stats"
                                         vbox:
                                             spacing -7
-                                            xysize (140, 10000)
                                             null height 5
                                             if item.mod:
                                                 label ('Stats:') text_size 18 text_color gold yalign 0.5 xpos 50

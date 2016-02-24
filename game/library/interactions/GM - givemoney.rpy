@@ -4,12 +4,16 @@ label interactions_giftmoney:
     else:
         "You already did it recently, she does not want to abuse your generosity."
         jump girl_interactions
-    python:
-        try:
-            temp = int(renpy.input("You proposed to help her with money. You have [hero.gold] G.", allow="1234567890"))
-        except ValueError:
-            "You changed your mind."
-            renpy.jump("girl_interactions")
+        
+    
+    $ temp = renpy.input("You proposed to help her with money. You have {} G.".format(hero.gold), allow="1234567890")
+        
+    if not temp:
+        "You changed your mind."
+        jump girl_interactions
+    else:
+        $ temp = int(temp)
+            
     if temp == 0:
         "You changed your mind."
         jump girl_interactions
