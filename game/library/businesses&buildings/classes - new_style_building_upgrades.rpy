@@ -6,7 +6,8 @@ init -5 python:
         """
         
         MATERIALS = {}
-        CUNSTRUCTION_EFFORT = 0
+        COST = 0 # in Gold.
+        CONSTRUCTION_EFFORT = 0
         IN_SLOTS = 1
         EX_SLOTS = 1
         COST = 100
@@ -202,34 +203,32 @@ init -5 python:
             # Resets all flags and variables after next day calculations are finished.
             pass
         
-        # Building routines:
-        def check_resources(self, upgrade):
-            # checks if the player has enough resources to build an upgrade:
-            return True
-            
-        def check_space(self, upgrade):
-            # Checks if the main building has enought space to add this upgrade:
-            return True
-        
-        def start_construction(self, upgrade):
-            # adds the upgrade to in construction buildings:
-            self.in_construction_upgrades.append(upgrade)
+
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
         
         Completely useless at the moment :(
         """
-        
-        
-        
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
             
-            self.blocked_upgrades = kwargs.get("blocked_upgrades", set())
-            self.allowed_upgrades = kwargs.get("allowed_upgrades", set())
+            self.blocked_upgrades = kwargs.get("blocked_upgrades", list())
+            self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+            
+        def add_upgrade(self, upgrade):
+            upgrade.instance = self
+            self.main_upgrade = self.instance
+            self.upgrades.append(upgrade)
+            
+        def check_upgrade_compatibility(self, upgrade):
+            return self.__class__ in upgrade.COMPATIBILITY
+            
+        def check_upgrade_allowance(self, upgrade):
+            return upgrade.__class__ in self.allowed_upgrades
+            
             
     class PrivateBusinessUpgrade(MainUpgrade):
         def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!", img=Null(), build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
@@ -313,7 +312,7 @@ init -5 python:
             self.is_running = False
             
             
-    class PublicBusinessUpgrade(BuildingUpgrade):
+    class PublicBusinessUpgrade(MainUpgrade):
         """Public Business Upgrade.
         
         This usually assumes the following:
@@ -549,6 +548,7 @@ init -5 python:
         
         I want to code a skeleton for this atm.
         """
+        COMPATIBILITY = []
         def __init__(self, *args, **kwargs):
             super(SubUpgrade, self).__init__(*args, **kwargs)
             
@@ -560,6 +560,11 @@ init -5 python:
             
             
     class CatWalk(SubUpgrade):
+        COMPATIBILITY = [StripClub]
+        MATERIALS = {}
+        COST = 1000
+        ID = "Cat Walk"
+        IMG = "content/buildings/upgrades/catwalk_0.jpg"
         def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             

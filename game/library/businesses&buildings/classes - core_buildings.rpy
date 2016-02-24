@@ -659,6 +659,28 @@ init -9 python:
                     
             return jobs
         
+        # Building of Upgrades:
+        # This should be part of the main BUILDING!!!
+        def check_resources(self, upgrade):
+            # checks if the player has enough resources to build an upgrade:
+            return True
+            
+        def check_space(self, upgrade):
+            # Checks if the main building has enought space to add this upgrade:
+            return True
+        
+        def start_construction(self, upgrade):
+            
+            # Take the metarials (if we got here, it is assumed that player has enough of everything)
+            for r in upgrade.MATERIALS:
+                pass
+            
+            # Cash...
+            hero.take_money(upgrade.COST, "Building Upgrades")
+            
+            # adds the upgrade to in construction buildings:
+            self.in_construction_upgrades.append(upgrade)
+            
         def can_add_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
             if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
@@ -679,8 +701,13 @@ init -9 python:
         def add_upgrade(self, upgrade, normalize_jobs=True):
             """Add upgrade to the building.
             """
-            upgrade.instance = self
-            self._upgrades.append(upgrade)
+            if isinstance(upgrade, MainUpgrade):
+                upgrade.instance = self
+                self._upgrades.append(upgrade)
+            elif isinstance(upgrade, SubUpgrade):
+                # Find the correct SubUpgrade and rename the "upgrades" casue this is very confusing?
+                upgrade.add_upgrade(upgrade)
+                
             if normalize_jobs:
                 self.normalize_jobs()
             
