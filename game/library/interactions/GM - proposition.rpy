@@ -191,15 +191,15 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     if ct("Impersonal"):
         $rc("I love you. I want to stay by your side.", "I love you. Let me hear your answer.")
     elif ct("Shy") and dice(50):
-        $rc("I... like you, and I want to be with you forever...", "I-I-I-I am in love with y-you...")
+        $rc("I... like you, and I want to be with you forever...", "I-I-I-I am in love with y-you...", "Sorry... No matter what I do, I can't get you out of my head...	So... Go out with me!")
     elif ct("Imouto"):
-        $rc("I-I... I love... you... I'm in love with you...", "Uhm... I love you! ...Please go out with me!") 
+        $rc("I-I... I love... you... I'm in love with you...", "Uhm... I love you! ...Please go out with me!", "I really like you, you know... So um...I want you to go out with me!") 
     elif ct("Dandere"):
         $rc("I want to be your special person...", "I love you... Please let me be beside you, from now on.")
     elif ct("Tsundere"):
         $rc("L-listen up. I'm only gonna say this once.. I love you... S-so! G-go out with me!", "I l-like you... Like you so much that I can't do anything about it!"),
     elif ct("Kuudere"):
-        $rc("*sigh*... Damnit, I won't hide it anymore... I just can't help it... I'm totally in love with you...", "Even though I don't get it myself... It seem like I've fallen in love with you.")
+        $rc("*sigh*... Damnit, I won't hide it anymore... I just can't help it... I'm totally in love with you...", "Even though I don't get it myself... It seem like I've fallen in love with you.", "E-Excuse me... would you like to date me?")
     elif ct("Kamidere"):
         $rc("This really sucks for me, but... I love you... I said I love you!", "I like you... I love you. I'd like to hear how you feel.")
     elif ct("Bokukko"):
@@ -207,9 +207,9 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     elif ct("Ane"):
         $rc("It seems like I fell in love with you... Won't you go out with me?", "I've fallen in love with you... Won't you go out with me?")
     elif ct("Yandere"):
-        $rc("I love you! Your heart and soul, I want it all!")
+        $rc("I love you! Your heart and soul, I want it all!", "Hey... I-I want to love you even more... So, go out with me!")
     else:
-        $rc("I... love you. Please go out with me!", "I... I love you... M-make me your girlfriend!")
+        $rc("I... love you. Please go out with me!", "I... I love you... M-make me your girlfriend!", "Hey, listen. I want you... to go out with me.", "I love you... I want to be by your side forever... So, please be my sweetheart!")
     $ char.restore_portrait()
     return
     
