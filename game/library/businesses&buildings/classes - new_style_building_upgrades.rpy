@@ -6,6 +6,7 @@ init -5 python:
         """
         
         MATERIALS = {}
+        COST = 0 # in Gold.
         CONSTRUCTION_EFFORT = 0
         IN_SLOTS = 1
         EX_SLOTS = 1
@@ -202,18 +203,7 @@ init -5 python:
             # Resets all flags and variables after next day calculations are finished.
             pass
         
-        # Building routines:
-        def check_resources(self, upgrade):
-            # checks if the player has enough resources to build an upgrade:
-            return True
-            
-        def check_space(self, upgrade):
-            # Checks if the main building has enought space to add this upgrade:
-            return True
-        
-        def start_construction(self, upgrade):
-            # adds the upgrade to in construction buildings:
-            self.in_construction_upgrades.append(upgrade)
+
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
@@ -227,6 +217,11 @@ init -5 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+            
+        def add_upgrade(self, upgrade):
+            upgrade.instance = self
+            self.main_upgrade = self.instance
+            self.upgrades.append(upgrade)
             
         def check_upgrade_compatibility(self, upgrade):
             return self.__class__ in upgrade.COMPATIBILITY
@@ -566,6 +561,8 @@ init -5 python:
             
     class CatWalk(SubUpgrade):
         COMPATIBILITY = [StripClub]
+        MATERIALS = {}
+        COST = 1000
         ID = "Cat Walk"
         IMG = "content/buildings/upgrades/catwalk_0.jpg"
         def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
