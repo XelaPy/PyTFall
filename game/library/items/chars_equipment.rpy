@@ -469,7 +469,7 @@ screen char_equip():
                     ymaximum 460
     
     # Right Frame: =====================================>
-    # TOOLTIP TEXT ====================================>
+    # TOOLTIP TEXT or Applied Traits and Skills ====================================>
     frame:
         pos (930, 4)
         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.4), 10, 10)
@@ -515,29 +515,22 @@ screen char_equip():
                                     t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
-                                
-                    if (not eqtarget == hero and temp):
-                        vbox:
-                            spacing -7
-                            xfill True
-                            for trait in temp:
-                                frame:
-                                    xsize 142
-                                    text u'{color=#43CD80}%s'%trait.capitalize() size 16 yalign 0.5
+                    if temp:
+                        for skill in temp:
+                            frame:
+                                xpadding 3
+                                text u'{color=#43CD80}%s'%trait.capitalize() size 16 yalign 0.5
                                     
                     python:
                         t_old = set(t.id for t in dummy.traits)
                         t_new = set(t.id for t in eqtarget.traits)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
-                    if (not eqtarget == hero and temp):
-                        vbox:
-                            spacing -7
-                            xfill True
-                            for trait in temp:
-                                frame:
-                                    xsize 142
-                                    text u'{color=#CD4F39}%s'%trait.capitalize() size 16 yalign 0.5
+                    if temp:
+                        for skill in temp:
+                            frame:
+                                xpadding 3
+                                text u'{color=#CD4F39}%s'%trait.capitalize() size 16 yalign 0.5
                                 
             vbox:
                 xoffset 165
@@ -548,34 +541,29 @@ screen char_equip():
                 viewport:
                     mousewheel True
                     has vbox
-                    style_group "stats"
+                    style_group "proper_stats"
                     python:
                         s_old = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
                         s_new = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
                         temp = s_new.difference(s_old)
                         temp = sorted(list(temp)) 
-                    if (not eqtarget == hero and temp):
-                        vbox:
-                            spacing -7
-                            xfill True
-                            for skill in temp:
-                                frame:
-                                    xsize 142
-                                    text u'{color=#43CD80}%s'%skill.capitalize() size 16 yalign 0.5
+                    if temp:
+                        for skill in temp:
+                            frame:
+                                xpadding 3
+                                text u'{color=#43CD80}%s'%skill.capitalize() size 16 
                                     
                     python:
                         s_old = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
                         s_new = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
                         temp = s_new.difference(s_old)
                         temp = sorted(list(temp))
-                    if (not eqtarget == hero and temp):
-                        vbox:
-                            spacing -7
-                            xfill True
-                            for skill in temp:
-                                frame:
-                                    xsize 142
-                                    text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
+                    if temp:
+                        for skill in temp:
+                            frame:
+                                xalign 0.98
+                                xpadding 3
+                                text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
                     
                     
         elif not tt.value and eqtarget.status == "slave":

@@ -7,7 +7,7 @@ init -9 python:
         CONS_AND_MISC = set(['consumable', 'misc'])
 
         def __init__(self):
-            self.desc = ''
+            self.desc = ""
             self.slot = "consumable"
             self.mod = {}
             self.mod_skills = {}
