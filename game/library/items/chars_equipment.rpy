@@ -751,17 +751,19 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         hovered tt.Action("Close item info")
             
             # Separation Strip (Outside of alignments):
-            # label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text"
-            # label ('{color=#ecc88a}_____________________________________') text_style "stats_value_text"
+            label ('{color=#ecc88a}__________________________________________') text_style "stats_value_text" xalign .5 ypos 28
+            label ('{color=#ecc88a}__________________________________________') text_style "stats_value_text" xalign .5 ypos 163
             
             # Mid HBox:
             hbox:
+                xsize xs
                 xalign .5
-                ypos 43
+                ypos 47
                 spacing 5
                 
                 # Left Items Info:
                 frame:
+                    xalign 0.02
                     style_group "proper_stats"
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
                     xysize (180, 130)
@@ -797,7 +799,10 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     align (0.0, 0.5)
                     xysize (80, 45)
                     action SensitiveIf(eqtarget != hero), Return(['item', 'transfer'])
-                    if inv_source == hero:
+                    if eqtarget == hero:
+                        hovered tt.Action("Disabled")
+                        text "Disabled" style "pb_button_text" align (0.5, 0.5)
+                    elif inv_source == hero:
                         hovered tt.Action("Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname))
                         text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
                     else:
@@ -829,8 +834,9 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     action Return(['item', 'equip/unequip'])
                     text "[temp]" style "pb_button_text" align (0.5, 0.5)
                     
-                # Right items info:
+                # Right items info (Stats):
                 frame:
+                    xalign 0.98
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
                     xysize (185, 130)
                     has viewport scrollbars "vertical" draggable True mousewheel True child_size 200, 500
@@ -870,25 +876,49 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                     text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign 0.02 yoffset -2
                                     label (u'{color=#F5F5DC}{size=-4}%d'%value) style "stats_value_text" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                 
-            # Bottom HBox: Desc and some info:
+            # Bottom HBox: Desc/Traits/Effects/Skills:
             hbox:
-                ypos 170
-                
-                # Effects:
+                yalign 0.98
+                # Traits, Effects:
                 frame:
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
-                    xysize (158, 104)
+                    xysize (158, 108)
                     has viewport scrollbars "vertical" draggable True mousewheel True
+                    
+                    # Traits:
                     vbox:
                         style_group "proper_stats"
-                        hbox:
-                            align (0.1, 0.5)
-                            label ('Effects:') text_size 16 text_color gold xoffset 7
-                            if item.addeffects:
-                                add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 25
-                            if item.removeeffects:
-                                add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 25
-                        if not mc_mode:
+                        if item.addtraits or item.removetraits:
+                            hbox:
+                                align (0.1, 0.5)
+                                label ('Traits:') text_size 14 text_color gold xoffset 7
+                                if item.addtraits:
+                                    add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 26
+                                if item.removetraits:
+                                    add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 26
+                                    
+                            for trait in item.addtraits:
+                                frame:
+                                    xalign 0.02
+                                    xpadding 2
+                                    text (u'{color=#43CD80}%s'%trait.capitalize()) size 15 align .5, .5
+                            for trait in item.removetraits:
+                                frame:
+                                    xalign 0.98
+                                    xpadding 2
+                                    text (u'{color=#CD4F39}%s'%trait.capitalize()) size 15 align .5, .5
+                                
+                        # Effects:
+                        if item.addeffects or item.removeeffects:
+                            null height 5
+                            hbox:
+                                align (0.1, 0.5)
+                                label ('Effects:') text_size 14 text_color gold xoffset 7
+                                if item.addeffects:
+                                    add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 25
+                                if item.removeeffects:
+                                    add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 25
+    
                             for effect in item.addeffects:
                                 frame:
                                     xalign 0.02
@@ -901,70 +931,36 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                     text (u'{color=#CD4F39}%s'%effect.capitalize()) size 15 align .5, .5
                 
                 frame:
+                    xysize 382, 108 
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.9)
-                    has viewport scrollbars "vertical" xysize 382, 104 mousewheel True
+                    has viewport scrollbars "vertical" mousewheel True
                     text '[item.desc]' font "fonts/TisaOTM.otf" size 15 color "#ecc88a" outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
                     
-
-
-                   
-                        # frame:
-                            # background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
-                            # xysize (158, 104)
-                            # align (1.0, 0.5)
-                            # xoffset -9
-                            # side "c r":
-                                # xalign 0.5
-                                # viewport id "item_info":
-                                    # draggable True
-                                    # mousewheel True
-                                    # has vbox
-                                    # style_group "stats"
-                                    # vbox:
-                                        # xoffset -5
-                                        # spacing -7
-                                        # xysize (120, 10000)
-                                        
-                                        # if (not mc_mode and item.addtraits) or item.removetraits:
-                                            # hbox:
-                                                # align (0.8, 0.5)
-                                                # label ('Traits:') text_size 16 text_color gold xoffset 8
-                                                # add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 26
-                                                # add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 26
-                                            # vbox:
-                                                # spacing -7
-                                                # xfill True
-                                                # for trait in item.addtraits:
-                                                    # frame:
-                                                        # xsize 142
-                                                        # text(u'{color=#43CD80}%s'%trait.capitalize()) size 16 yalign 0.5
-                                                # for trait in item.removetraits:
-                                                    # frame:
-                                                        # xsize 142
-                                                        # text(u'{color=#CD4F39}%s'%trait.capitalize()) size 16 yalign 0.5
-                                         
-                                        # if (not mc_mode and item.addtraits) or item.removetraits:
-                                            # null height 7
-                                         
-                                        # if item.add_be_spells or item.remove_be_spells: ## Need to check whether or not working :Gismo
-                                            # # Looks like it's working...
-                                            # hbox:
-                                                # align (0.8, 0.5)
-                                                # label ('Skills:') text_size 16 text_color gold xoffset 8
-                                                # add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 26
-                                                # add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 26
-                                            # for skill in item.add_be_spells:
-                                                # vbox:
-                                                    # xfill True
-                                                    # frame:
-                                                        # xsize 142
-                                                        # text(u'{color=#43CD80}%s'%skill.capitalize()) size 16 yalign 0.5
-                                            # for skill in item.remove_be_spells:
-                                                # vbox:
-                                                    # xfill True
-                                                    # frame:
-                                                        # xsize 142
-                                                        # text(u'{color=#CD4F39}%s'%skill.capitalize()) size 16 yalign 0.5
+                frame:
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                    xysize (158, 108)
+                    has viewport scrollbars "vertical" draggable True mousewheel True
+                    vbox:
+                        style_group "proper_stats"
+                        if item.add_be_spells or item.remove_be_spells:
+                            hbox:
+                                align (0.1, 0.5)
+                                label ('Skills:') text_size 14 text_color gold xoffset 7
+                                if item.add_be_spells:
+                                    add "content/gfx/interface/images/add.png" yalign 0.7 xoffset 26
+                                if item.remove_be_spells:
+                                    add "content/gfx/interface/images/remove.png" yalign 0.9 xoffset 26
+                                    
+                            for skill in item.add_be_spells:
+                                frame:
+                                    xalign 0.02
+                                    xpadding 2
+                                    text (u'{color=#43CD80}%s'%skill.capitalize()) size 15 align .5, .5
+                            for skill in item.remove_be_spells:
+                                frame:
+                                    xalign 0.98
+                                    xpadding 2
+                                    text (u'{color=#CD4F39}%s'%skill.capitalize()) size 15 align .5, .5
                                                         
                                                         
 screen diff_item_effects(char, dummy):
