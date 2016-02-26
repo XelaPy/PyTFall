@@ -45,7 +45,7 @@ label fg_management:
                     if result[1] == "add":
                         if hero.take_money(fg.get_team_price(), "Fighers Guild"):
                             team_name = len(fg.teams)
-                            team_name = renpy.call_screen("input", "Meow x %s" % team_name, "Name the Team!", 15)
+                            team_name = renpy.call_screen("pyt_input", "Meow x %s" % team_name, "Name the Team!", 15)
                             if team_name in list(team.name for team in fg.teams):
                                 renpy.call_screen("message_screen", "Team name must be unique!")
                             else:
@@ -59,7 +59,7 @@ label fg_management:
                             fg.teams.remove(result[2])
                             fg.rooms -= 3
                     elif result[1] == "rename":
-                        team_name = renpy.call_screen("input", result[2].name, "Enter Team name:", 15)
+                        team_name = renpy.call_screen("pyt_input", result[2].name, "Enter Team name:", 15)
                         if team_name in list(team.name for team in fg.teams):
                             renpy.call_screen("message_screen", "Team name must be unique!")
                         else:    

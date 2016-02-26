@@ -119,7 +119,7 @@ label building_management_loop:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
                 
                 elif result[1] == "rename_building":
-                    building.name = renpy.call_screen("input", default=building.name, text="Enter Building name:")
+                    building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
                 
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail

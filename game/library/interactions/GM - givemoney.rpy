@@ -1,11 +1,10 @@
 label interactions_giftmoney:
     if (day - char.flag("gm_give_money")) > 2 or char.flag("gm_give_money") == 0:
-        $char.set_flag("gm_give_money", value=day)
+        $ char.set_flag("gm_give_money", value=day)
     else:
         "You already did it recently, she does not want to abuse your generosity."
         jump girl_interactions
         
-    
     $ temp = renpy.input("You proposed to help her with money. You have {} G.".format(hero.gold), allow="1234567890")
         
     if not temp:

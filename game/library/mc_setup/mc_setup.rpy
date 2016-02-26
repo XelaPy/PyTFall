@@ -41,13 +41,13 @@ label mc_setup:
                  
         elif result[0] == "rename":
             if result[1] == "name":
-                $ hero.name = renpy.call_screen("input", hero.name, "Enter Name", 20)
+                $ hero.name = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
                 $ hero.nickname = hero.name
                 $ hero.fullname = hero.name
             if result[1] == "nick":
-                $ hero.nickname = renpy.call_screen("input", hero.name, "Enter Nick-Name", 20)
+                $ hero.nickname = renpy.call_screen("pyt_input", hero.name, "Enter Nick-Name", 20)
             if result[1] == "full":
-                $ hero.fullname = renpy.call_screen("input", hero.name, "Enter Full-Name", 20)
+                $ hero.fullname = renpy.call_screen("pyt_input", hero.name, "Enter Full-Name", 20)
                         
             # elif result[0] == "adjust_stat":
                 # stat = result[2]

@@ -686,7 +686,7 @@ init: # PyTFall:
         text "[d]" font "fonts/rubius.ttf" size size color crimson at found_cash(x, y, t)
         timer t+0.2 action Hide("display_disposition")
         
-    screen input(default="", text="", length=20, size=(350, 150)):
+    screen pyt_input(default="", text="", length=20, size=(350, 150)):
         modal True
         zorder 10
     
