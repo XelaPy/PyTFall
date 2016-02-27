@@ -48,7 +48,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
             $ char.disposition -= randint(15, 35)
             jump girl_interactions
     elif char.vitality < 60: # no sex with low vitality
-        call int_refused_because_tired
+        call interactions_refused_because_tired
         jump girl_interactions
     $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
     if price <= 0:
@@ -88,7 +88,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $rc("You want to hire me? Very well, it will be %d G." % price, "Of course. For you my body costs %d G." % price)
     if hero.gold < price:
         "You don't have that much money."
-        call int_girl_dissapointed
+        call interactions_girl_dissapointed
         $ del price
         jump girl_interactions
     else:
@@ -100,13 +100,13 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                     $ char.add_money(price)
                 else:
                     "You don't have that much money."
-                    call int_girl_dissapointed
+                    call interactions_girl_dissapointed
                     $ del price
                     jump girl_interactions
             "No":
                 "You changed your mind."
                 $ char.disposition -= randint(1, 3)
-                call int_girl_dissapointed
+                call interactions_girl_dissapointed
                 $ del price
                 jump girl_interactions
     $ del price
@@ -164,10 +164,10 @@ label interactions_sex: # we go to this label from GM menu propose sex
         call int_sex_nope
         jump girl_interactions
     if ct("Lesbian"):
-        call lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
+        call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
     if char.vitality < 60:
-        call int_refused_because_tired
+        call interactions_refused_because_tired
         jump girl_interactions
         
     $ sub = check_submissivity(char)
@@ -469,7 +469,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "happy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call after_good_sex
+        call interactions_after_good_sex
         $ char.disposition += randint(20, 40)
         $ char.vitality -= randint(5, 10)
     elif girl_count < 1 and guy_count > 0:
@@ -489,7 +489,7 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "angry", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
             "She's not satisfied at all."
-            call girl_never_come
+            call interactions_girl_never_come
             $ char.disposition -= randint(20, 50)
             $ char.joy -= randint(2, 5)
             $ char.vitality -= randint(5, 10)
@@ -510,7 +510,7 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "sad", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
         "She was unable to satisfy you."
-        call guy_never_came
+        call interactions_guy_never_came
         $ char.disposition += randint(10, 20)
         $ char.joy -= randint(10, 15)
         $ char.vitality -= randint(5, 15)
@@ -530,7 +530,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "shy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call guy_cum_alot
+        call interactions_guy_cum_alot
         $ char.disposition += randint(10, 20)
         $ char.vitality -= randint(5, 10)
     elif sex_count < 1:
@@ -1856,7 +1856,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                 menu:
                     "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                     "Yes":
-                        call girl_virgin
+                        call interactions_girl_virgin_line
                     "No":
                         if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
                             "You changed your mind. She looks a bit disappointed."
@@ -1887,7 +1887,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                 menu:
                     "Looks like this is her first time, and she does not mind. Do you want to continue?"
                     "Yes":
-                        call girl_virgin
+                        call interactions_girl_virgin_line
                     "No":
                         "You changed your mind. She looks a bit disappointed."
                         jump interaction_scene_choice

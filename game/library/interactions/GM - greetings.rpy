@@ -2,7 +2,7 @@ label girl_interactions_greeting:
     if interactions_checks_for_bad_stuff_greetings(char):
         return
     if char.status != "slave":
-        if check_lovers(hero, char):
+        if check_lovers(hero, char) and dice(70):
             $ char.override_portrait("portrait", "shy")
             if ct("Half-Sister") and dice(35):
                 if ct("Impersonal"):
@@ -27,31 +27,31 @@ label girl_interactions_greeting:
             elif ct("Shy") and dice(50):
                 $rc("I lik-... I love you...!", "U-Um, er, I, um... I-I... I-I love you!", "Um, ah, er... I...l-li... I li-...! I can't do it!", "Um.... I-I love you very much...", "The two of us are going out... Ahhh...")
             elif ct("Nymphomaniac") and dice(65):
-                $rc("I'm so lewd, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, just the two of us?", "You can have me whenever you want!", "We're lovers, so we should act like lovers, we should get gooey and slap thighs.", "Hufh, I love you♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, didn't you?", "Um... You don't hate naughty girls... right...?")
+                $rc("I'm so lewd, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, just the two of us?", "You can have me whenever you want!", "We're lovers, so we should act like lovers, we should get gooey and slap thighs.", "Huhu, I love you ♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, didn't you?", "Um... You don't hate naughty girls... right...?")
             elif ct("Impersonal"):
-                $rc("I want to know everything about you. And I want you to know everything about me.", "I'm glad I could meet you.", "As long as we remain lovers, I believe it is essential to have a sensual relationship.", "I'll protect you.")
-            elif ct("Extremely Jealous") and dice(35):
+                $rc("I want to know everything about you. And I want you to know everything about me.", "I'm glad I could meet you.", "As long as we remain lovers, I believe it is essential to have a sensual relationship.", "I'll protect you. You can rely on me.")
+            elif ct("Extremely Jealous") and dice(45):
                 $rc("I hate it when you just keep ogling other girls.", "I don't want you flirting with other women.", "I'm sorry, but I dislike it when you get too friendly with other women!", "Hey! Don't look at other girls all the time!", "My heart's feeling uneasy and gloomy... I dislike this feeling.", "Erm... I want you to stop looking at other women so much.")
             elif ct("Kuudere"):
-                $rc("When y-you're around, I can't think straight...", "I c-can help out too if you need me, you know...", "I love you. ...That's it. Got a problem with that?", "P... Please continue to pursue me. My response will always be positive to you.", "I... I love you! You're very dear to me. I want us to stay together....")
+                $rc("When y-you're around, I can't think straight...", "I c-can help out too if you need me, you know...", "I love you. ...That's it. Got a problem with that?", "P... Please continue to pursue me. My response will always be positive to you.", "You're very dear to me. I want us to stay together...")
             elif ct("Tsundere"):
                 $rc("Wh-what are you planning to have me do...?", "You are NOT to leave my side, okay?", "B-being with you throws me off somehow...", "I deal with your perviness every day, so I deserve some praise!", "Umm... I love you. S-Show a little gratitude for being my choice.", "W-what kind of girls do you like? N-no, pretend I didn't say anything...")
             elif ct("Dandere"):
-                $rc("Sweetheart, sweetheart, sweeeetheart...", "Love you... Mm, it's nothing.", "I want to be with you.", "I want to be your special person...", "I-I'm a lonely person... So don't leave me...", "Saying I love you... Is, is not embarrassing...", "What can I do to make you look at me...?")
+                $rc("Sweetheart, sweetheart, sweeeetheart...", "Love you... Mm, it's nothing.", "I want to be with you.", "I want to be your special person...", "I-I'm a lonely person... So don't leave me...", "What can I do to make you look at me...?")
             elif ct("Imouto"):
-                $rc("We're sweethearts, ehe!", "Hihi, object of my affection. What is up?", "We'll be together forever!", "Hehe, we're lovers.... do whatever you like.", "Ehehe, looooove youuuu♪", "I love you♪ I love you sooo much♪", "Have I become like a proper lover now?")
+                $rc("Hihi, object of my affection. What is up?", "Hehe, we're lovers.... do whatever you like.", "Ehehe, looooove youuuu♪", "I love you♪ I love you sooo much♪", "Have I become like a proper lover now?")
             elif ct("Ane"):
-                $rc("I want to be both your big sister and your wife!♪", "I love you.  ...No, mere words aren't enough.", "I love you. I don't want to leave your side.", "As I thought, having a caring lover is good♪", "You'll love me forever, right?♪", "I'm really happy, you know? To be together like this with you♪")
+                $rc("I want to be both your big sister and your wife! ♪", "I love you.  ...No, mere words aren't enough.", "I love you. I don't want to leave your side.", "As I thought, having a caring lover is good ♪", "You'll love me forever, right? ♪", "I'm really happy, you know? To be together like this with you ♪")
             elif ct("Yandere"):
-                $rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe♪ Nothing, just looking at your face♪", "Now how do I get you to fall for me even harder...? Kidding... Ehehe♪", "It would be nice if we could be together forever.")
+                $rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe ♪ Nothing, just looking at your face ♪", "Now how do I get you to fall for me even harder...? Ehehe♪", "It would be nice if we could be together forever.", "We're the most compatible couple in the world, aren't we?")
             elif ct("Kamidere"):
-                $rc("Even though we're lovers, doing nothing but ecchi things is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Hehe, what does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy~?")
+                $rc("Even though we're lovers, doing nothing but ecchi things is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
             elif ct("Bokukko"):
-                $rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's~ fine, tell me~!")
+                $rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's fine, tell me!", "I love you...I super love you...!")
             else:
-                $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
+                $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "I want you to love me more and more! Prepare yourself for it, okay?", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
             $ char.restore_portrait()
-        elif char.disposition <= -150:
+        elif char.disposition <= -250:
             $ char.override_portrait("portrait", "angry")
             if ct("Yandere"):
                 $rc("I want to hear your screaming voice muffled by tears...", "Stay away~", "What? You want to die?")
@@ -91,7 +91,7 @@ label girl_interactions_greeting:
             elif ct("Ane"):
                 $rc("If ever you're in trouble... you can always come to me.", "What's the matter? Need some advice?", "My, please continue.", "I'm here. What can I do for you?", "Ah... I was just thinking, it'd be so nice to talk to you... Ehehe.", "If there's anything I can do, please tell me, okay?", "You can call on me anytime. And I'll do the same with you.", "If something's wrong, you can always talk to me.")
             elif ct("Imouto"):
-                $rc("Hn? What's up? You can tell me anything. ♪", "For the people I like, I will do my best. ♪", "It looks like we could become good friends~ ♪", "Hi~~! Tell me, tell me, what'cha doin'?", "Let's have us a chat～ Lalala～♪")
+                $rc("Hn? What's up? You can tell me anything. ♪", "For the people I like, I will do my best ♪", "It looks like we could become good friends ♪", "Hi! Tell me, tell me, what'cha doin'?", "Let's have us a chat～ Lalala～♪")
             elif ct("Bokukko"):
                 $rc("How's it going? Doing alright?", "Oh, what'cha doing?... What'ya wanna do?", "Ohoh, it's you. ♪", "Yo! What'cha doin'?", "Whazzup?", "Hey [hero.name], let's do something!", "Hi buddy!", "Huh? what, [hero.name]?", "Are you that interested in me? hehehe", "Hey, will you talk with me for a bit?", "C'mon, c'mon, put a smile on!", "Um so hey, you wanna chat?")
             elif ct("Yandere"):
@@ -105,16 +105,16 @@ label girl_interactions_greeting:
             $ char.override_portrait("portrait", "indifferent")
             if ct("Impersonal"):
                 $rc("Start talking.", "State your business", "You're the kind of person who likes pointless conversations, right? Well, answering your questions makes me similar, I suppose.", "...Please do not get any closer.")
-            elif ct("Shy") and dice(30):
+            elif ct("Shy") and dice(50):
                 $rc("Ye~s, did you call?", "...Y-you want something from me?", "Um... W-what is it?", "Y-yes? Wh-what's going on?", "Wha... what is it...?", "U-Umm... What is it...?", "Y-yes, what do you need?", "C-can I help you...?", "Ye...yes?", "What... is wrong...?", "Wh-what is it...?")
             elif ct("Kuudere"):
                 $rc("Hmph... I wonder if there is any particular purpose to this?", "What business do you have with me?", "Um, was there something you wanted to say?")
             elif ct("Dandere"):
-                $rc("If you have business with me, please make it quick.", "You call?", "...?", "...Want something?", "Hmm?", "…", "...What is it?")
+                $rc("If you have business with me, please make it quick.", "You call?", "...?", "...Want something?", "...Hmm?", "...What is it?")
             elif ct("Tsundere"):
                 $rc("Hmph. I've graced you with my presence, so be thankful.", "So, you want something or what?", "Spit it out already.")
             elif ct("Imouto"):
-                $rc("Ehehe. What is it? ♪", "Muhuhu♪ Did you need something?", "Nu~u, what's up?", "Eh? What, what is it?", "Huhu, what is it?", "W-What? Did I do something wrong...?")
+                $rc("Ehehe. What is it? ♪", "Muhuhu ♪ Did you need something?", "Nu~u, what's up?", "Eh? What, what is it?", "Huhu, what is it?", "W-What? Did I do something wrong...?")
             elif ct("Ane"):
                 $rc("Well, what shall we talk about..?", "Is there something I can help you with...?", "What business do you have with me?", "May I help you?", "…Yes? Did you need me for something?", "Is there... something I can help you with?")
             elif ct("Kamidere"):
@@ -124,10 +124,10 @@ label girl_interactions_greeting:
             elif ct("Yandere"):
                 $rc("Yes? If you have no business here, then do please vacate from my sight.", "If you've got something to say, look me in the eyes and say it.", "...I don't recall asking to talk to you, so what is it?", "I don't have any business with you. If you do, make it quick.", "...Spit it out already.")
             else:
-                $rc("...Is there something you need?", "Is there something you would like to ask?", "You called?", "Hmm?", "Is something the matter?", "What do you need from me?", "What is it? If you need something, then say it.", "You have business with me...?", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Hm? Yes?", "Yes, what is it...?", "Hm? What's up?")
+                $rc("...Is there something you need?", "Is there something you would like to ask?", "You called?", "Is something the matter?", "What do you need from me?", "What is it? If you need something, then say it.", "You have business with me...?", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Hm? Yes?", "Yes, what is it...?", "Hm? What's up?")
             $ char.restore_portrait()
     else:
-        if check_lovers(hero, char):
+        if check_lovers(hero, char) and dice(70):
             $ char.override_portrait("portrait", "shy")
             if ct("Half-Sister") and dice(35):
                 if ct("Impersonal"):
@@ -152,29 +152,29 @@ label girl_interactions_greeting:
             elif ct("Shy") and dice(30):
                 $rc("I lik-... I love you..., Master!", "U-Um, er, I, um... I-I... I-I love you, Master!", "Um, ah, er... I...l-li... I li-...! I can't do it, Master! I;m so sorry!", "Um.... I-I love you very much, Master...")
             elif ct("Nymphomaniac") and dice(45):
-                $rc("I'm so lewd, Master, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, Master, just the two of us?", "You can have me whenever you want, Master!", "We're lovers, Master, so we should act like lovers, we should get gooey and slap thighs.", "Hufh, I love you, Master♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, Master, didn't you?")
+                $rc("I'm so lewd, Master, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, Master, just the two of us?", "You can have me whenever you want, Master!", "We're lovers, Master, so we should act like lovers, we should get gooey and slap thighs.", "Hufh, I love you, Master ♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, Master, didn't you?")
             elif ct("Impersonal"):
-                $rc("I want to know everything about you, Master. And I want you to know everything about me.", "I'm glad I could meet you, Master.", "As long as we remain lovers, I believe it is essential to have a sensual relationship, Master.", "I'll protect you, Master.")
-            elif ct("Extremely Jealous") and dice(30):
+                $rc("I want to know everything about you, Master. And I want you to know everything about me.", "I'm glad I could meet you, Master.", "As long as we remain lovers, I believe it is essential to have a sensual relationship, Master.", "I'll protect you, Master. You can count on me.")
+            elif ct("Extremely Jealous") and dice(35):
                 $rc("I don't want you flirting with other women, Master...", "I'm sorry, Master, but I dislike it when you get too friendly with other women!", "Hey! Don't look at other girls all the time, Master!", "My heart's feeling uneasy and gloomy... I dislike this feeling.", "Erm... please stop looking at other women so much, Master.")
             elif ct("Kuudere"):
-                $rc("When y-you're around, Master, I can't think straight...", "I c-can help out too if you need me, Master...", "I love you, Master. ...That's it.", "My response will always be positive to you, Master.", "I... I love you! You're very dear to me, Master. I want us to stay together....")
+                $rc("When y-you're around, Master, I can't think straight...", "I c-can help out too if you need me, Master...", "I love you, Master. ...That's it.", "My response will always be positive to you, Master.", "You're very dear to me, Master. I want us to stay together...")
             elif ct("Tsundere"):
                 $rc("Wh-what are you planning to have me do, Master...?", "B-being with you throws me off somehow, Master...", "I deal with your perviness every day, Master, so I deserve some praise!", "Umm... I love you, Master. S-Show a little gratitude for being my choice.")
             elif ct("Dandere"):
-                $rc("Sweetheart, sweetheart, sweeeetheart...", "Love you, Master... Mm, it's nothing.", "I want to be with you, Master.", "I want to be your special person, Master...", "I-I'm a lonely person, Master... So don't leave me...", "Saying I love you... Is, is not embarrassing...")
+                $rc("Sweetheart, sweetheart, sweeeetheart...", "Love you, Master... Mm, it's nothing.", "I want to be with you, Master.", "I want to be your special person, Master...", "I-I'm a lonely person, Master... So don't leave me...", "What can I do to make you look at me, Master...?")
             elif ct("Imouto"):
-                $rc("Master and me are sweethearts, ehe!", "We'll be together forever, Master!", "Hehe, we're lovers.... do whatever you like, Master.", "Ehehe, looooove youuuu♪", "I love you, Master♪ I love you sooo much ♪", "Have I become like a proper lover now, Master?")
+                $rc("Master and me are sweethearts, ehe!", "We'll be together forever, Master!", "Hehe, we're lovers.... do whatever you like, Master.", "Ehehe, looooove youuuu ♪", "I love you, Master♪ I love you sooo much ♪", "Have I become like a proper lover now, Master?")
             elif ct("Ane"):
-                $rc("I want to be both your big sister and your wife, Master!♪", "I love you, Master.  ...No, mere words aren't enough.", "I love you, Master. I don't want to leave your side.", "As I thought, having a caring Master is good♪", "You'll love me forever, right, Master?♪", "I'm really happy, Master. To be together like this with you♪")
+                $rc("I want to be both your big sister and your wife, Master! ♪", "I love you, Master.  ...No, mere words aren't enough.", "I love you, Master. I don't want to leave your side.", "As I thought, having a caring Master is good ♪", "You'll love me forever, right, Master?♪", "I'm really happy, Master. To be together like this with you ♪")
             elif ct("Yandere"):
-                $rc("Ah... ehhehe... I'm happy, Master...", "We're lovers, aren't we, Master...? Uhehehe...", "I, I'm your girlfriend, right, Master? ...Ehehe", "I think it's really a good thing I've fallen in love with you, Master.", "Ehehe♪ Nothing, just looking at your face, Master ♪", "Now how do I get you to fall for me even harder, Master...? Kidding... Ehehe♪", "It would be nice if we could be together forever, Master.")
+                $rc("Ah... ehhehe... I'm happy, Master...", "We're lovers, aren't we, Master...? Uhehehe...", "I, I'm your girlfriend, right, Master? ...Ehehe", "I think it's really a good thing I've fallen in love with you, Master.", "Ehehe ♪ Nothing, just looking at your face, Master ♪", "Now how do I get you to fall for me even harder, Master...? Kidding... Ehehe ♪", "It would be nice if we could be together forever, Master.", "We're the most compatible couple in the world, aren't we, Master?")
             elif ct("Kamidere"):
                 $rc("Even though we're lovers, doing nothing but ecchi things is not acceptable, Master!", "Haaa... How'd I fall in love with my own master...", "Hehe, what does my dear Master want from me?", "The only thing you'll ever need is me, Master. Oh yes. Just me. Hehe.")
             elif ct("Bokukko"):
-                $rc("Being subtle is such a bother so let me tell you straight... I love you, Master.", "Even though we're lovers now, Master, not all that much has changed, huh...", "Say, what do you like about me, Master? ...it's~ fine, tell me~!")
+                $rc("Being subtle is such a bother so let me tell you straight... I love you, Master.", "Even though we're lovers now, Master, not all that much has changed, huh...", "Say, what do you like about me, Master? ...it's fine, tell me! ♪")
             else:
-                $rc("I really like you, Master...", "A-As lovers, let's love each other a lot, okay, Master...?", "We shouldn't flirt to much in front of the others, Master.", "I-I love you, Master... Hehehe...♪", "I love you, Master～ I love you so much～", "We're the most compatible couple in the world, aren't we, Master?", "I want you to love me more and more, Master! Prepare yourself for it, okay?", "I love you...I super love you, Master...!", "I wish we could be together forever, Master...♪", "What do you think other people think when they see us, Master? ...you think maybe, 'Hey, look at that cute couple'...?")
+                $rc("I really like you, Master...", "A-As lovers, let's love each other a lot, okay, Master...?", "We shouldn't flirt to much in front of the others, Master.", "I-I love you, Master... Hehehe...♪", "I love you, Master ♪ I love you so much ♪", "I want you to love me more and more, Master! Prepare yourself for it, okay?", "I love you...I super love you, Master...!", "I wish we could be together forever, Master...♪", "What do you think other people think when they see us, Master? ...you think maybe, 'Hey, look at that cute couple'...?")
             $ char.restore_portrait()
         elif char.disposition <= -200:
             $ char.override_portrait("portrait", "sad")
@@ -251,11 +251,10 @@ label girl_interactions_greeting:
             else:
                 $rc("...Is there something you need, Master?", "Is there something you would like to ask, Master?", "You called, Master?", "Hmm?", "Is something the matter, Master?", "What do you need from me, Master?", "Yes, what is it, Master?", "Do you need something?, Master?", "Yes, what is it, Master?")
             $ char.restore_portrait()
-    # Accessed through call rather then jump
     return
     
 
-label girl_trainings_greeting:
+label girl_trainings_greeting: # should be remade properly once ST will be added
     if char.disposition > 900:
         $rc("Am I doing well Master?", "Master <3")
     
@@ -267,14 +266,12 @@ label girl_trainings_greeting:
     
     else:
         g "..."
-    
-    # Accessed through call rather then jump
     return
 
 label girl_meets_greeting:
     if interactions_checks_for_bad_stuff_greetings(char):
         return
-    if check_lovers(hero, char):
+    if check_lovers(hero, char) and dice(70):
         $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(35):
             if ct("Impersonal"):
@@ -296,32 +293,32 @@ label girl_meets_greeting:
             else:
                 $rc("I love everything about you... brother.", "Please look at your sister... as a woman.", "We're bound together now, even though we're siblings...", "Is it weird for siblings to stick together all the time?")
         
-        elif ct("Shy") and dice(30):
+        elif ct("Shy") and dice(50):
             $rc("I lik-... I love you...!", "U-Um, er, I, um... I-I... I-I love you!", "Um, ah, er... I...l-li... I li-...! I can't do it!", "Um.... I-I love you very much...", "The two of us are going out... Ahhh...")
-        elif ct("Nymphomaniac") and dice(25):
-            $rc("I'm so lewd, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, just the two of us?", "You can have me whenever you want!", "We're lovers, so we should act like lovers, we should get gooey and slap thighs.", "Hufh, I love you♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, didn't you?")
+        elif ct("Nymphomaniac") and dice(65):
+            $rc("I'm so lewd, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, just the two of us?", "You can have me whenever you want!", "We're lovers, so we should act like lovers, we should get gooey and slap thighs.", "Huhu, I love you ♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, didn't you?", "Um... You don't hate naughty girls... right...?")
         elif ct("Impersonal"):
-            $rc("I want to know everything about you. And I want you to know everything about me.", "I'm glad I could meet you.", "As long as we remain lovers, I believe it is essential to have a sensual relationship.", "I'll protect you.", "...My face is burning.")
-        elif ct("Extremely Jealous") and dice(20):
+            $rc("I want to know everything about you. And I want you to know everything about me.", "I'm glad I could meet you.", "As long as we remain lovers, I believe it is essential to have a sensual relationship.", "I'll protect you. You can rely on me.")
+        elif ct("Extremely Jealous") and dice(45):
             $rc("I hate it when you just keep ogling other girls.", "I don't want you flirting with other women.", "I'm sorry, but I dislike it when you get too friendly with other women!", "Hey! Don't look at other girls all the time!", "My heart's feeling uneasy and gloomy... I dislike this feeling.", "Erm... I want you to stop looking at other women so much.")
         elif ct("Kuudere"):
-            $rc("When y-you're around, I can't think straight...", "I c-can help out too if you need me, you know...", "I love you. ...That's it. Got a problem with that?", "P... Please continue to pursue me. My response will always be positive to you.", "I... I love you! You're very dear to me. I want us to stay together....")
+            $rc("When y-you're around, I can't think straight...", "I c-can help out too if you need me, you know...", "I love you. ...That's it. Got a problem with that?", "P... Please continue to pursue me. My response will always be positive to you.", "You're very dear to me. I want us to stay together...")
         elif ct("Tsundere"):
-            $rc("Wh-what are you planning to have me do...?", "You are NOT to leave my side, okay?", "B-being with you throws me off somehow...", "I deal with your perviness every day, so I deserve some praise!", "Umm... I love you. S-Show a little gratitude for being my choice.")
+            $rc("Wh-what are you planning to have me do...?", "You are NOT to leave my side, okay?", "B-being with you throws me off somehow...", "I deal with your perviness every day, so I deserve some praise!", "Umm... I love you. S-Show a little gratitude for being my choice.", "W-what kind of girls do you like? N-no, pretend I didn't say anything...")
         elif ct("Dandere"):
-            $rc("Sweetheart, sweetheart, sweeeetheart...", "Love you... Mm, it's nothing.", "I want to be with you.", "I want to be your special person...", "I-I'm a lonely person... So don't leave me...", "Saying I love you... Is, is not embarrassing...")
+            $rc("Sweetheart, sweetheart, sweeeetheart...", "Love you... Mm, it's nothing.", "I want to be with you.", "I want to be your special person...", "I-I'm a lonely person... So don't leave me...", "What can I do to make you look at me...?")
         elif ct("Imouto"):
-            $rc("We're sweethearts, ehe!", "Hihi, object of my affection. What is up?", "We'll be together forever!", "Hehe, we're lovers.... do whatever you like.", "Ehehe, looooove youuuu♪", "I love you♪ I love you sooo much♪", "Have I become like a proper lover now?")
+            $rc("Hihi, object of my affection. What is up?", "Hehe, we're lovers.... do whatever you like.", "Ehehe, looooove youuuu♪", "I love you♪ I love you sooo much♪", "Have I become like a proper lover now?")
         elif ct("Ane"):
-            $rc("I want to be both your big sister and your wife!♪", "I love you.  ...No, mere words aren't enough.", "I love you. I don't want to leave your side.", "As I thought, having a caring lover is good♪", "You'll love me forever, right?♪", "I'm really happy, you know? To be together like this with you♪")
+            $rc("I want to be both your big sister and your wife! ♪", "I love you.  ...No, mere words aren't enough.", "I love you. I don't want to leave your side.", "As I thought, having a caring lover is good ♪", "You'll love me forever, right? ♪", "I'm really happy, you know? To be together like this with you ♪")
         elif ct("Yandere"):
-            $rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe♪ Nothing, just looking at your face♪", "Now how do I get you to fall for me even harder...? Kidding... Ehehe♪", "It would be nice if we could be together forever.")
+            $rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe ♪ Nothing, just looking at your face ♪", "Now how do I get you to fall for me even harder...? Ehehe♪", "It would be nice if we could be together forever.", "We're the most compatible couple in the world, aren't we?")
         elif ct("Kamidere"):
-            $rc("Even though we're lovers, doing nothing but lewd things is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Hehe, what does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy~?")
+            $rc("Even though we're lovers, doing nothing but ecchi things is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
         elif ct("Bokukko"):
-            $rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's~ fine, tell me~!")
+            $rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's fine, tell me!", "I love you...I super love you...!")
         else:
-            $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "We're the most compatible couple in the world, aren't we?", "I want you to love me more and more! Prepare yourself for it, okay?", "I love you...I super love you...!", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
+            $rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt to much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you～ I love you so much～", "I want you to love me more and more! Prepare yourself for it, okay?", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
         $ char.restore_portrait()
     elif char.disposition < -300:
         $ char.override_portrait("portrait", "angry")
@@ -350,7 +347,7 @@ label girl_meets_greeting:
         $ char.restore_portrait()
     elif char.disposition > 500 or check_friends(hero, char):
         $ char.override_portrait("portrait", "happy")
-        if ct("Shy") and dice(30):
+        if ct("Shy") and dice(50):
             $rc("Even being... with me... is ok...?", "I-I'm getting a little bit... used to you, [hero.name]...", "Hey, am I... do you… Err... nothing. Never mind.", "Being near you calms me down...", "H…H-Hello!", "It's you…H-Hi! …sorry…", "It's nice… to see you again.", "H-Hi…Is it really ok to talk? I don't want to bother you…", "Hello. It's nice of you… umm...to remember me…", "If I am with you, I…  I-it's nothing…")
         elif ct("Impersonal"):
             $rc("You don't need to worry about me.", "Talk, I'll listen.", "...Being with you makes me feel extraordinarily comfortable.", "...You really like to talk, huh?", "What is your purpose in getting close to me?", "Ah, it's you...", "Being with you... calms me...", "...I will escort you.", "...[hero.name]? …good.")
@@ -377,7 +374,7 @@ label girl_meets_greeting:
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $rc("Start talking.", "State your business", "You're the kind of person who likes pointless conversations, right? Well, answering your questions makes me similar, I suppose.", "...Please do not get any closer.")
-        elif ct("Shy") and dice(30):
+        elif ct("Shy") and dice(50):
             $rc("Ye~s, did you call?", "...Y-you want something from me?", "Um... W-what is it?", "Y-yes? Wh-what's going on?", "Wha... what is it...?", "U-Umm... What is it...?", "Y-yes, what do you need?", "C-can I help you...?", "Ye...yes?", "What... is wrong...?", "Wh-what is it...?", "Aaah! U-um...wh-what...?")
         elif ct("Kuudere"):
             $rc("Hmph... I wonder if there is any particular purpose to this?", "What business do you have with me?", "Um, was there something you wanted to say?")
@@ -400,12 +397,12 @@ label girl_meets_greeting:
         $ char.restore_portrait()
     return
     
-label girl_never_come: 
+label interactions_girl_never_come: 
     $ char.override_portrait("portrait", "sad")
     if ct("Impersonal"):
         $rc("Doesn't it count as sex only if we've actually both came?", "I'm not sure how to feel about this kind of sex.", "I guess you need to get used to this. Can I count on you to practice with me?")
-    elif ct("Shy") and dice(50):
-        $rc("I waited so long for you... You're so cruel...", "But I'm... Not yet...", "Is... is it already over? No, that's fine...")
+    elif ct("Shy") and dice(60):
+        $rc("But I'm still not... You're so cruel...", "But I'm... Not yet...", "Is... is it already over? No, that's fine...")
     elif ct("Tsundere"):
         $rc("Uuh... But, but...! I just got so horny!", "Gosh, how could you forget! About what...? About me c-cumming!!", "Hey, can't you even tell whether or not your partner came?")
     elif ct("Dandere"):
@@ -413,7 +410,7 @@ label girl_never_come:
     elif ct("Kuudere"):
         $rc("I'll forgive you this time, but...be ready for the next.", "Tch, and it was just getting good.", "I know you want to feel good, but you could throw me a bone... It's nothing...", "Really... isn't that kinda unfair?")
     elif ct("Imouto"):
-        $rc("Mrrr～, I still haven't cum yet!", "Don't forget...the important stuff, okay...? I mean...", "Huh? Are we already done? But...", "That was fast... whatever it was, it was way too quick!")
+        $rc("Mrrr～, I still haven't cum yet!", "Didn't you forgot...the important stuff? I mean... me...", "Huh? Are we already done? But...", "That was fast... whatever it was, it was way too quick!")
     elif ct("Ane"):
         $rc("Hey, you do know what an orgasm is, yes? ...Then you understand, right?", "Come now, there's still something you haven't done, right?", "...What's wrong? You didn't do much...", "I haven't been satisfied yet...", "Don't worry, it'll get better... Next time, let's try to make it so both of us enjoy it.")
     elif ct("Bokukko"):
@@ -427,26 +424,26 @@ label girl_never_come:
     $ char.restore_portrait()
     return
     
-label girl_virgin: 
+label interactions_girl_virgin_line:  # character agrees to get rid of virgin trait
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
-        $rc("I'm not going to stay a virgin all my life.", "Please make me an ex-virgin.", "W-would you make me... a woman?", "You can confirm for yourself that I'm a virgin.", "I understand... When you put it in, please tear my hymen apart slowly, okay?", "This is my first time, so I won't be any good... Please help and guide me.", "You're going to break my hymen... Okay.")
-    elif ct("Shy") and dice(50):
-        $rc("Um, I'm a virgin! ...Please, umm, take my first time...", "I, um... I've never did it before...", "I've never done this before, but... If you'll be gentle, then...", "Eh? H-how would we do that... Eh!? Th-that goes... in here...? Y-yeah! ...Let's do it...", "Pl-please... Be my... first time...", "I'm, uh... still... a virgin, okay? So... you know...")
+        $rc("I'm not going to stay a virgin all my life. Please make me an ex-virgin.", "W-would you make me... a woman?", "You can confirm for yourself that I'm a virgin.", "I understand... When you put it in, please tear my hymen apart slowly, okay?", "This is my first time, so I won't be any good... Please help and guide me.", "You're going to break my hymen... Okay.")
+    elif ct("Shy") and dice(60):
+        $rc("Um, I'm a virgin! ...Please, umm, take my first time...", "I, um... I've never did it before... So...", "I've never done this before, but... If you'll be gentle, then...", "Eh? H-how would we do that... Eh!? Th-that goes... in here...? Y-yeah! ...Let's do it...", "Pl-please... Be my... first time...", "I'm, uh... still... a virgin, okay? So... you know...")
     elif ct("Nymphomaniac") and dice(40):
         $rc("...T-this is...unexpectedly embarrassing... It is my first time and all.", "Y-you'll have to teach me a few things...")
     elif ct("Tsundere"):
-        $rc("F-fine then, let's get to it! I-it's not my first time, okay!?", "H-hmph! Sex is nothing to me! Fine, let's do this!", "I-if you say you want it, I can give you my virginity... If you'd like...?", "O-okay... But! This is my first time, so... be gentle... Y-you got that!?", "I-if you really, really want my ch-chastity... Then I'll give it to you...")
+        $rc("F-fine then, let's get to it! I-it's not like this is my first time, okay!?", "H-hmph! Sex is nothing to me! Fine, let's do this!", "I-if you say you want it, I can give you my virginity... If you'd like...?", "O-okay... But! This is my first time, so... be gentle... Y-you got that!?", "I-if you really, really want my ch-chastity... Then I'll give it to you...")
     elif ct("Dandere"):
-        $rc("...I don't mind if it's you. Teach me to fuck.", "...If you're alright with me being inexperienced.", "You'll be my first partner.", "Very well. I will give you my chastity.", "It's my.. first time. I'm giving it to you.", "I'm inexperienced, but I hope that you enjoy my performance.")
+        $rc("...I don't mind if it's you. Teach me to fuck.", "...If you're alright with me being inexperienced, then let's do it.", "You'll be my first partner.", "Very well. I will give you my chastity.", "It's my.. first time. I'm giving it to you.", "I'm inexperienced, but I hope that you enjoy my performance.")
     elif ct("Kuudere"):
         $rc("I've... never done it before... Okay, then let's do it.", "Take my virginity. It's n-not really a big deal, you don't have to overthink it.", "I-it's my first time... So I want you to do it gently.", "Yeah, my cherry is still right where nature put it... Please pop it gently, okay?", "I feel like I should warn you that... That I'm a v-virgin... So... you know...")
     elif ct("Imouto"):
-        $rc("Alright. I'm glad that you're going to be my first.", "I-if you're okay with me... I don't know if I'll be very good at it, ahaha...", "U-Um, well... If you're gentle...♪", "Umm... I-I don't know how it's done! ...Please, take the lead...")
+        $rc("Alright, you're going to be my first.", "I-if you're okay with me... I don't know if I'll be very good at it, ahaha...", "U-Um, well... If you're gentle...♪", "Umm... I-I don't know how it's done! ...Please, take the lead...")
     elif ct("Ane"):
-        $rc("Hmhm, I'm still a virgin. Please be gentle with me... I'll be angry if you're not!", "Hmhm, it looks like you'll become my first...", "I'm a virgin but... I want you to make me a woman.", "Hey... My first time... Could I entrust that to you?", "I've never done it before, so don't complain, okay?")
+        $rc("Hmhm, I'm still a virgin. Please be gentle with me... I'll be angry if you're not, ok?", "Hmhm, it looks like you'll become my first...", "I'm a virgin but... I want you to make me a woman.", "Hey... This is my first time... Could I entrust that to you?", "I've never done it before, so don't complain, okay?")
     elif ct("Bokukko"):
-        $rc("Hey you... D'you wanna, y'know, take my virginity?", "Virgins are a real pain. ...You okay with that?", "Yeah, okay, take my virginity.", "You know, mine... Mine's new, unbroken seal and everything... no one's been there before...", "A-are you okay with me even if I'm still a virgin? ...V-very well, challenge accepted!")
+        $rc("Virgins are a real pain. ...You okay with that?", "Yeah, okay, take my virginity.", "You know, mine... Mine's new, unbroken seal and everything... no one's been there before...", "A-are you okay with me even if I'm still a virgin? ...V-very well, challenge accepted!")
     elif ct("Yandere"):
         $rc("Yes... My chastity... is yours...", "I've heard how it works, but... I don't have any experience, okay?", "You can't become a 'woman' without having sex right? Well, I want to be a 'woman'...", "I know the idea of it... But I never actually did it before. Is that still okay...?")
     elif ct("Kamidere"):
@@ -456,16 +453,16 @@ label girl_virgin:
     $ char.restore_portrait()
     return
     
-label guy_never_came:
+label interactions_guy_never_came: # due to low sex skill character was unable to make MC come
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("...Was my technique that bad?", "I'm sorry, I'm just so incompetent...")
-    elif ct("Shy") and dice(50):
+    elif ct("Shy") and dice(60):
         $rc("I'm sorry... I wasn't very good...", "Sorry... Because of my weakness...", "I'm very sorry... Y-yes, I made sure to practice...")
     elif ct("Tsundere"):
         $rc("S-sorry... I'll try harder next time, okay...?", "I-if I'm bad at this, j-just say so already...", "Wh-what? Are you trying to say I'm bad at this? ...Kuh, just you wait.")
     elif ct("Dandere"):
-        $rc("This was not something I had any control over...", "Please forgive me, this is all due to my insufficient knowledge.")
+        $rc("This was not something I had any control over... Sorry.", "Please forgive me, this is all due to my insufficient knowledge.")
     elif ct("Kuudere"):
         $rc( "I can't even satisfy one man...What am I missing?", "Forgive me for having disappointed you... How can I fix things?")
     elif ct("Imouto"):
@@ -483,11 +480,11 @@ label guy_never_came:
     $ char.restore_portrait()
     return
     
-label guy_cum_alot:
+label interactions_guy_cum_alot:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $rc("Is it normal for someone to be able to cum so much? Are you not a human?", "As a side note, creampies are okay.", "Nn... Your load exceeded my maximum capacity...", "I have all your weak spots memorized.", "I want to shower... Together, if possible.")
-    elif ct("Shy") and dice(50):
+    elif ct("Shy") and dice(60):
         $rc("Y-You came so much... You were really saving it up...!", "Snf snf... It smells...", "I-I... what an embarrassing thing to do...", "I-I can't believe I... did that... Aaahhh...", "I made you feel really good, huh... I-I'm glad...")
     elif ct("Nymphomaniac") and dice(40):
         $rc("Hehehe, thanks for the meal♪", "The flavor of semen differs depending on the food you eat and how you're feeling...", "What a perverted scent... ehehe.", "Huhuh... look at me, I'm a dirty girl covered in your spunk.")
@@ -498,42 +495,42 @@ label guy_cum_alot:
     elif ct("Kuudere"):
         $rc("Um, so, are you gonna be okay, cumming that much?", "...Where did this much even come from?", "I know it feels good, but...you came too much.", "My god, are you bottomless...?", "So, what did you think...? I won't let you say that it didn't feel great!")
     elif ct("Imouto"):
-        $rc("Hey, lookie lookie! Look how much you came♪", "Hehehe... It feels kinda warm...", "Nnh, hey look～ It's all that semen you shot out～", "Hey, can't you change the taste? Something that goes down a little easier would be nice.", "You've marked me with your cum, ehehe", "Waa, It's sticky... Did you cum a lot?", "I-I don't have a runny nose! This is semen!")
+        $rc("Hey, lookie lookie! Look how much you came ♪", "Hehehe... It feels kinda warm...", "Nnh, hey look ♪ It's all that semen you shot out ♪", "Hey, can't you change the taste? Something that goes down a little easier would be nice.", "You've marked me with your cum, ehehe", "Waa, It's sticky... Did you cum a lot?", "I-I don't have a runny nose! This is semen!")
     elif ct("Ane"):
-        $rc("Fuaha... You came so much...♪", "Hehehe, your sweet spots were so easy to find～", "There's so much of your cum... Hmhm, want me to drink it?", "Mhmhm, you seem to be quite satisfied.", "That was enjoyable in its own way, thank you.", "Are you okay letting that much out... not dehydrated?")
+        $rc("Fuaha... You came so much...♪", "Hehehe, your sweet spots were so easy to find ♪", "There's so much of your cum... Hmhm, want me to drink it?", "Mhmhm, you seem to be quite satisfied.", "That was enjoyable in its own way, thank you.", "Are you okay letting that much out... not dehydrated?")
     elif ct("Bokukko"):
-        $rc("'kay then, I'll let you know the next time I wanna go～♪", "You really went all out～ Is that how good it felt?", "More protein than I should be having... Oh well.", "...You look pretty strung out, hey? Eat up and get a good night's sleep, mkay?", "Ugh, my face is all sticky... But this is how I'm supposed to take it, right?")
+        $rc("You really went all out... Is that how good it felt?", "More protein than I should be having... Oh well.", "...You look pretty strung out, hey? Eat up and get a good night's sleep, mkay?", "Ugh, my face is all sticky... But this is how I'm supposed to take it, right?")
     elif ct("Yandere"):
         $rc( "Hehe... What a nice smell... I want to smell it forever...", "I know every inch of your body better than anyone.", "Hmhm, the face you make when you cum is adorable.", "It felt good, right? That's great...", "Uhuhu, it's good to know that I could be of use...")
     elif ct("Kamidere"):
-        $rc("Ew, I'm all sticky... Does the smell even come off...?", "Ahh, you're so naughty to cum this much...", "Nha... H-haven't you got anything to wipe with?", "I need to take a shower...", "Geez, to cum just from a little teasing... That's pathetic.", "Heh, should I tie a ribbon on it so you don't cum so fast?", "You REALLY let loose a lot of this stuff, huh...", "I want a shower, bad. This reeks.")
+        $rc("Ew, I'm all sticky... Does the smell even come off...?", "Ahh, you're so naughty to cum this much...", "Nha... H-haven't you got anything to wipe with?", "I need to take a shower...", "Geez, to cum just from a little teasing... That's pathetic.", "Heh, should I tie a ribbon on it so you don't cum so fast?", "You REALLY let loose a lot of this stuff, huh...")
     else:
         $rc("Wow, look, look! Look at all of it... How did you even cum this much～...", "You came so much...", "Are you okay? Want some water? Are you going to be okay without rehydrating yourself?", "If it felt good for you, then that makes me feel good, too.") 
     $ char.restore_portrait()
     return
 
-label after_good_sex:
+label interactions_after_good_sex:
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $rc("Thanks for your hard work... Let's have fun the next time too.", "When our membranes make direct contact, it feels like we are melting into each other.", "I thought you would break me...", "I came too much...", "I guess it's possible for something to feel too good...")
     elif ct("Shy") and dice(30):
-        $rc("I... I wonder how good I was... I don't want you to hate me...", "...Don't look...at my face...", "Ah, please, don't make me feel so much pleasure... You'll turn me into a bad girl...", "No, please... I can't look you in the eye right now...", "Uuugh... I did such an embarrassing thing... Pl-please forget about it...", "Auh... I'm sorry for being so perverted...")
+        $rc("Ah, please, don't make me feel so much pleasure... You'll turn me into a bad girl...", "No, please... I can't look you in the eye right now...", "Uuugh... I did such an embarrassing thing... Pl-please forget about it...", "Auh... I'm sorry for being so perverted...")
     elif ct("Nymphomaniac") and dice(40):
         $rc("Hafu... It was totally worth it practising with all those bananas...♪", "That was incredible... I thought I was gonna lose myself there.", "Ah～, I did it again today... Alright, starting tomorrow I'll control myself!")
     elif ct("Tsundere"):
-        $rc("How was it? Are you refreshed? ...Fufu, you should thank me.", "Nnh... Feels weird... Like I can still feel it in me.", "I-I was... C-cute? ...S-Shut up! One more word and I'll kill you!", "Muu～ You made me cum so many times, it's kind of frustrating...", "Hu-hmph! Don't get a big head just 'cause you did it right once!", "H-hmph! Just because you're a little good doesn't make you the king of the world!", "I-I'm becoming a nymphomaniac... All of it is your fault!", "I-it's not like you've got good technique or anything! Don't get so full of yourself!")
+        $rc("I-I was... C-cute? ...S-Shut up! One more word and I'll kill you!", "Muu～ You made me cum so many times, it's kind of frustrating...", "Hu-hmph! Don't get a big head just 'cause you did it right once!", "H-hmph! Just because you're a little good doesn't make you the king of the world!", "I-it's not like you've got good technique or anything! Don't get so full of yourself!")
     elif ct("Dandere"):
         $rc("If you do it like that, anyone would go crazy...", "Mn... You did good...", "...Looks like we're a good match.", "We're quite compatible, you and I." "I came way too many times... Haa...", "D-do I also have such a shameful erotic face?", "Whew... I came so much... I surprised myself...")
     elif ct("Kuudere"):
-        $rc("You're really good... I came right away...", "...Please don't look at me. At least for now.", "Yeah, I knew you were the type who gets things done.", "Wh-what? Y-you know just where I like it...?", "This is bad... I'll be a slave to this feeling if you keep this up...", "Uuu... It did feel amazing... but... I thought you were gonna rip me apart...")
+        $rc("You're really good... I came right away...", "...Please don't look at me. At least for now.", "Yeah, I knew you were the type who gets things done.", "Wh-what? Y-you know just where I like it...?", "Uuu... It did feel amazing... but... I thought you were gonna rip me apart...")
     elif ct("Imouto"):
-        $rc("Hey, hey, was I sexy or what?", "You got me off just like that... You're like some kind of pro!", "Ah... I came right away... You're so good at this...", "It was surprisingly cute... I-I don't m-mean it was small or anything!", "I felt so good... Huhu, you are pretty good at this.", "Haah, I came so fast... What's wrong with me?")
+        $rc("You got me off just like that... You're like some kind of pro!", "Ah... I came right away... You're so good at this...", "It was surprisingly cute... I-I don't m-mean it was small or anything!", "I felt so good... Huhu, you are pretty good at this.", "Haah, I came so fast... What's wrong with me?")
     elif ct("Ane"):
-        $rc("Hehe... Let's do this again sometime, alright?", "Exhausted? ...But you'll be wanting to do it again soon, right?　Hmhm♪", "You're so good. ...Hmhm.", "Oh my, you've already found all my weak spots.", "Haah... If you make me feel pleasure this intense... I won't be able to live without you♪", "Hauh... ok, that really was going too far... But it did feel really good...", "My goodness, you've really gotten quite skilled at this♪")
+        $rc("Exhausted? ...But you'll be wanting to do it again soon, right?　Hmhm♪", "You're so good. ...Hmhm.", "Oh my, you've already found all my weak spots.", "Haah... If you make me feel pleasure this intense... I won't be able to live without you♪", "Hauh... ok, that really was going too far... But it did feel really good...", "My goodness, you've really gotten quite skilled at this♪")
     elif ct("Bokukko"):
         $rc("Hehe, well? What, you totally looked like you enjoyed that", "Haah～... Man, sex feels sooo good♪", "Fuwa... I turned into such a pervert... that surprised me...", "Ehehe, thanks for timing it just right...♪")
     elif ct("Yandere"):
-        $rc("Nh... I came so much... Hehehe♪" ,"That felt incredible... Fufu, thank you!♪", "This kind of sex really leaves my heart satisfied...", "I'm just happy that I can make you feel good", "Ehehe... We had sex～ Sex, sex, sex sex sex sexsexsexsehehe♪ Ahahahaha～♪", "I've got so much love, I think I may go crazy...", "To be violently messed up like this, isn't so bad sometimes... huhu ♪")
+        $rc("Nh... I came so much... Hehehe♪" ,"That felt incredible... Fufu, thank you!♪", "This kind of sex really leaves my heart satisfied...", "Ehehe... We had sex～ Sex, sex, sex sex sex sexsexsexsehehe♪ Ahahahaha～♪", "I've got so much love, I think I may go crazy...", "To be violently messed up like this, isn't so bad sometimes... huhu ♪")
     elif ct("Kamidere"):
         $rc("There there, that felt pretty damn good, hey?", "Aau... I thought I was going to break...",  "Ohh, who's a good boy, yes you are.", "Mmh... I could become addicted to this pleasure.", "Ah... If it's this good, I guess it's ok to do it everyday.", "It just so happened that I got more sensitive all of a sudden, alright?")
     else:
@@ -541,12 +538,12 @@ label after_good_sex:
     $ char.restore_portrait()
     return
     
-label after_normal_sex:
+label interactions_after_normal_sex: # after not good and not bad sex, not via raping
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $rc("I can still feel you between my legs.", "So how was it, sex with me? Are you satisfied?", "Yeah... felt good.", "Haa... Satisfying...", "Please entertain me again sometime.")
     elif ct("Shy") and dice(30):
-        $rc("I-I need to reflect... On the things that I've done...", "Aah... I want it like that, again... Maybe I'm a really dirty girl..?", "I'm very happy... Because... you know... huhuh...")
+        $rc("I... I wonder how good I was... I don't want you to hate me...", "I-I need to reflect... On the things that I've done...", "Aah... I want it like that, again... Maybe I'm a really dirty girl..?", "I'm very happy... Because... you know... huhuh...")
     elif ct("Nymphomaniac") and dice(40):
         $rc("Hehe... It looks like we were naughty, huh...", "Ehehe... I feel like doing it again...", "Um, how about we do it again? Maybe even two or three more times, if you want...")
     elif ct("Tsundere"):
@@ -554,23 +551,23 @@ label after_normal_sex:
     elif ct("Dandere"):
         $rc("I want to do it again sometime...", "Did I... do well? I see. Thank you so much.", "It still feels like you are inside me.", "*huff* I can't go on... anymore... *puff*", "That felt really good... I'd be happy to do it again with you sometime.")
     elif ct("Kuudere"):
-        $rc("Mmmfhh... I really am exhausted... You should take it easy too.", "That was  awesome... Huhuh, let's do it again real soon.", "Geez, me doing such a thing... But it does feel really good...")
+        $rc("Mmmfhh... I really am exhausted... You should take it easy too.", "That was awesome... Huhuh, let's do it again real soon.", "Geez, me doing such a thing... But it does feel really good...", "Well then... Let's do this again sometime, alright?")
     elif ct("Imouto"):
-        $rc("Ehehe... I'm good in bed, right?", "Hehe, it looks like we've been naughty...", "Haaaa... Sex really is wonderful...", "Huhuh, the sex felt really nice. Thank you ♪", "'kay then, I'll let you know the next time I wanna go♪", "Hey, hey, what'd you think? It felt good, right? Tell me straight ♪", "Making love is a wonderful thing, hmhm♪")
+        $rc("Hey, hey, was I sexy or what?", "Ehehe... I'm good in bed, right?", "Hehe, it looks like we've been naughty...", "Haaaa... Sex really is wonderful...", "Huhuh, the sex felt really nice. Thank you ♪", "Hey, hey, what'd you think? It felt good, right? Tell me straight ♪", "Making love is a wonderful thing, hmhm♪")
     elif ct("Ane"):
         $rc("What did you think? My insides feel wonderful, don't they?", "*sigh*... I'm exhausted... Hehe ♪", "I didn't expect it to be that good... Good job, hehe.", "Huhu... please keep desiring me as many times as you want.", "You did it very well... Uhuhu, it felt great.", "I'm ready for you any time, okay? ♪")
     elif ct("Bokukko"):
-        $rc("Hum, thank you for letting me cum...", "Muhuhu... your orgasm face is nice♪", "Aha, still erect? ...But, sorry! You'll have to wait.", "Geez... You made me feel so too good...", "Weeell, I s'pose you're pretty good. Not as good as me, though.")
+        $rc("Hum, thank you for letting me cum...", "Muhuhu... your orgasm face is nice ♪", "Aha, still erect? ...But, sorry! You'll have to wait.", "Geez... You made me feel so too good...", "Weeell, I s'pose you're pretty good. Not as good as me, though.")
     elif ct("Yandere"):
-        $rc("That wasn't bad, I guess... I'm sure you'll do even better next time.", "How does my face look when I cum? ...It doesn't go weird, does it?", "Ahaha♪　It's so floppy♪ And warm♪")
+        $rc("How was it? Are you refreshed? ...Fufu, you should thank me.", "That wasn't bad, I guess... I'm sure you'll do even better next time.", "How does my face look when I cum? ...It doesn't go weird, does it?", "Ahaha♪　It's so floppy ♪ And warm ♪")
     elif ct("Kamidere"):
         $rc("Aaaah, that was great... It was really awesome.", "Kuuh... Y-you're fucking like a cat in heat! There's no way I can continue after this...", "It felt really good. Well done.", "It wasn't bad, I guess... Yeah... I won't turn you down if you ask again.", "I expect next time will be equally enjoyable.")
     else:
-        $rc("That felt so good... I want to do it again...", "Hey, it felt good, right?", "Well, I'm looking forward to the next time.", "We really, really have to do this again ♪", "Ehehe, I'll let you borrow me again sometime.") 
+        $rc("That felt so good... Let's do it again someday.", "Hey, it felt good, right?", "Well, I'm looking forward to the next time.", "We really, really have to do this again ♪", "Ehehe, I'll let you borrow me again sometime.") 
     $ char.restore_portrait()
     return
     
-label after_virginity_was_taken: # right after removing virgin trait
+label interactions_after_virginity_was_taken: # right after removing virgin trait not via raping
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $rc("With this, next time I'll be able to feel good, right?", "Hmm, It did hurt, but... I'm happy.", "It was so big that I thought it would hurt a lot... It is all because of your gentleness.	Thank you very much.", "Hm... So this makes me an ex-virgin, it seems.")
@@ -581,7 +578,7 @@ label after_virginity_was_taken: # right after removing virgin trait
     elif ct("Dandere"):
         $rc("I can still feel the pain of it going in... But it only hurt at first, you know? I wonder how it'll feel next time.", "This pain... it's carved into my body and my heart... I'll never forget this.", "...No, I'm okay. It just... hurt a little more than I expected.", "This pain...I am sure it will become an unforgettable memory...")
     elif ct("Kuudere"):
-        $rc("Kuh... It hurts and it's not easy to do... Will it really begin to feel good...?", "Ugh... I know I told you to be gentle... B-but you can be a little less gentle next time.", "Tch!... I-it's not... okay... It hurt so much...", "Kuh... This much pain is nothing...", "Ku... So this is the pain of deflowering... I'm jealous that men don't need to suffer the first time...")
+        $rc("Kuh... It hurts and it's not easy to do... Will it really begin to feel good...?", "Tch!... I-it's not... okay... It hurt so much...", "Kuh... This much pain is nothing...", "Ku... So this is the pain of deflowering... I'm jealous that men don't need to suffer the first time...")
     elif ct("Imouto"):
         $rc("Uuh... It was scary, and painful... Sniff... Be a little more gentle next time...", "Aha, now I've become an adult... after that... uhuhu...", "Uuu, it still stings... It's gonna be okay, right...?", "Uu... Should I smear some medicine on it...?", "Fufu, I gave you my first time♪")
     elif ct("Ane"):
@@ -589,15 +586,15 @@ label after_virginity_was_taken: # right after removing virgin trait
     elif ct("Bokukko"):
         $rc("Does it hurt this bad for everyone? And they still do it?", "Damn! That really freakin' hurt! Buy me something as an apology, kay?", "The time has come! Virginity lost!", "I can still feel you inside me... So this is sex huh...?")
     elif ct("Yandere"):
-        $rc("Ahhh, it hurts... I-it can't be helped...", "Ugh... That really hurt... I may not want to do that again...", "Phew... It really went in there, huh... It did kind of hurt, though...", "Um... I love you.. So be my 'darling'!")
+        $rc("Hmm... Next time it'll feel good right? Hehe, I can't wait.", "Ahhh, it hurts... I-it can't be helped...", "Ugh... That really hurt... I'm glad I will never have to do that again...", "Phew... It really went in there, huh... It did kind of hurt, though...")
     elif ct("Kamidere"):
         $rc("Ugh. Can this really begin to feel good...?", "Haa... Geez, It hurt and it's disgusting, that's the worst...", "Hng... It hurt and I'm tired... Do people really enjoy this sorta thing...?", "Tch... Huhu, I guess, I won't be called a virgin anymore...", "Nnn.... It's my first time, of course it hurts.")
     else:
-        $rc("Hmm... Next time it'll feel good right? Huhu, I can't wait.", "Khh... That, that hurt a little bit...", "Ouch... I need to get more practice taking it in...", "Aauu... It hurt even more than I expected...", "I'm fine... This pain is something I have to overcome, so...") 
+        $rc( "Khh... That, that hurt a little bit...", "Ouch... I need to get more practice taking it in...", "Aauu... It hurt even more than I expected...", "I'm fine... This pain is something I have to overcome, so...") 
     $ char.restore_portrait()
     return
     
-label lesbian_refuse_because_of_gender: # for lesbians, when they refuse lover or sex propositions
+label interactions_lesbian_refuse_because_of_gender: # for lesbians, when they refuse lover or sex propositions
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $rc("Opposite sex... Dismissed.", "You are a male. Denied.")
@@ -623,10 +620,8 @@ label lesbian_refuse_because_of_gender: # for lesbians, when they refuse lover o
             $rc("Sorry. I'm weird, so... I'm not into guys.", "Well, I kinda prefer girls... If you know what I mean.", "If you were a girl... it'd be alright, but...")
         $ char.restore_portrait()
         return
-        
-        
 
-label int_refused_because_tired: # a universal answer for tired characters, when they don't want to do something
+label interactions_refused_because_tired: # a universal answer for tired characters, when they don't want to do something
     $ char.override_portrait("portrait", "tired")
     if ct("Impersonal"):
         $rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
@@ -653,7 +648,7 @@ label int_refused_because_tired: # a universal answer for tired characters, when
     $ char.restore_portrait()
     return
     
-label int_girl_dissapointed: # a universal answer when character is displeased by something
+label interactions_girl_dissapointed: # a universal answer when character is displeased by something
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $rc("... *you see disappointment in her eyes before she turns away*", "I see. A waste of time after all.")
@@ -680,20 +675,20 @@ label int_girl_dissapointed: # a universal answer when character is displeased b
     $ char.restore_portrait()
     return
     
-label int_girl_proposes_sex: # character proposes MC sex
+label interactions_girl_proposes_sex: # character proposes MC sex
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
-        $rc("So... do you want to have sex?", "I need sex. C'mon, let's do it.", "Please do perverted things to me.", "If you want to do it now... I'm ready.", "Please allow me to check if our bodies match. I'll take full responsibility.", "I would like to have sex with you. Is that going to be a problem?", "Can we have sex? I feel like I need it.")
+        $rc("So... do you want to have sex?", "I need sex. Let's do it.", "Please do perverted things to me. I'm ready.", "Please allow me to check if our bodies match. I'll take full responsibility.", "I would like to have sex with you. Is that going to be a problem?", "Can we have sex? I feel like I need it.")
     elif ct("Shy") and dice(50):
-        $rc("Ummm.... do you... not wish to do it...? ...I... really want it...", "I-I want to... be... with you...", "Right now... I want you to do it with me now... Please...", "Um, would you like me to make it feel better...?", "I-I'm actually really good at sex! So... I-I'd like to show you...", "Um, I-I want to do it... So... Could we have sex?")
+        $rc("Ummm.... do you... not wish to do it...? ...I... really want it...", "I-I want to... be... with you...", "Right now... I want you to do it with me now... Please...", "I-I'm actually really good at sex! So... I-I'd like to show you...", "Um, I-I want to do it... So... Could we have sex?")
     elif ct("Imouto"):
-        $rc("Let's do kinky things... Come on? Puh-leaaase.", "I've got a huge favor to ask! Fuck me right now! Pleaaase!", "So, um... are you interested in sex? I mean, uhm... I'd kinda like to... do it with you?", "Uuu... I'm boooored! Let's do something fun! Like um...maybe have sex or something...", "Hey, are we gonna have today's sexings or what? I can't wait any longer...") 
+        $rc("Let's do kinky things... Come on? Puh-leaaase.", "I've got a huge favor to ask! Fuck me right now! Pleaaase!", "So, um... are you interested in sex? I mean, uhm... I'd kinda like to... do it with you?", "Uuu... I'm boooored! Let's do something fun! Like um...maybe have sex or something...") 
     elif ct("Dandere"):
-        $rc("You want to feel good too, don't you?", "How about we do *it*? It'll be fine, leave it to me.", "Let's... feel good together.", "Do you want to spend some time inside of me?", "Um, you are interested in sex and stuff, right? In that case, come on...")
+        $rc("You want to feel good too, don't you?", "How about we do *it*? It'll be fine, leave it to me.", "Let's... feel good together.", "Do you want to spend some time inside of me?", "You are interested in sex and stuff, right? In that case, come on...")
     elif ct("Tsundere"):
-        $rc("Hey, want to do it? S-sex, I mean...", "C'mon, you want to put it in too, right?", "Hey? You want to? You do, don't you? We can do it, if you want.", "Maybe I could agree if you asked me...  Geez! I'm telling you it's ok to have sex with me!", "You know... You wanna to have sex... with me?", "D-do you want to do that with me, maybe...? It's fine with me if you want to...", "C'mon. We're doing it. Doing what...? Haven't you figured it out?"),
+        $rc("Hey, want to do it? S-sex, I mean...", "C'mon, you want to put it in too, right?", "Maybe I could agree if you asked me...  Geez! I'm telling you it's ok to have sex with me!", "You know... You wanna to have sex... with me?", "D-do you want to do that with me, maybe...? It's fine with me if you want to...", "C'mon. We're doing it. Doing what...? Haven't you figured it out?"),
     elif ct("Kuudere"):
-        $rc("I-I was thinking...That I wanted to be one with you...", "Hey, I want to feel your skin. Okay?", "Come on, I can tell that you're horny... Feel free to partake of me.", "Uhm... you're interested, right? In sex and stuff...", "H-hey, maybe the two of us could have... an anatomy lesson?", "I sort of want to do it now... You're cool with it, right?")
+        $rc("I-I was thinking...That I wanted to be one with you...", "Hey, I want to feel you inside me. Okay?", "Come on, I can tell that you're horny... Feel free to partake of me.", "Uhm... you're interested, right? In sex and stuff...", "H-hey, maybe the two of us could have... an anatomy lesson?", "I sort of want to do it now... You're cool with it, right?")
     elif ct("Kamidere"):
         $rc("Hey. Want to fuck...?", "Hey, you want to do perverted stuff...?", "So, let's do it. ...Huh? You were watching me because you wanted to fuck, right?", "You want to do me, don't you? Then step up and honestly say, 'hey, I want to do you'!", "What, you're looking at me like you want me, right? Then come over here.", "I'm specially allowing you to do whatever you like with me... You'll do it, right?", "You look like you really want to, so I'll let you do me.")
     elif ct("Bokukko"):
@@ -707,26 +702,26 @@ label int_girl_proposes_sex: # character proposes MC sex
     $ char.restore_portrait()
     return
     
-label int_girl_sex_begins: # lines in the beginning of a good scene
+label interactions_sex_begins: # lines in the beginning of a non-rape scene
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
-        $rc("I want you to feel really good.", "...How do you want it? Okay, I can do it...", "Hmm. Now how should I fuck you?", "Come. Touch me gently...", "...I have high expectations.", "I will try to do my best to meet your expectations.", "Now, let's enjoy some sex.", "I'll serve you.")
+        $rc("I want you to feel really good.", "Hmm. Now how should I fuck you?", "Come. Touch me gently...", "...I have high expectations.", "I will try to do my best to meet your expectations.", "Now, let's enjoy some sex.", "I'll serve you.")
     elif ct("Shy") and dice(50):
         $rc("Uhm... I want you... to be gentle...", "Uuh... Don't stare at me so much, it's embarrassing...", "...I'm ready now... Do it any time...", "Uh, uhm, how should I...? Eh? You want it like this...? O-okay! Then, h-here I go...", "As I thought, I'm nervous... B-but that's ok... I prepared myself...", "P-Please look... It's become so gushy just from thinking about you...♪")
     elif ct("Imouto"):
-        $rc("Aah... I want you...To love me lots...", "Ehehe... now my clothes are all soaked...", "Ehehe, make me feel really good, okay?", "Please be gentle, ok?") 
+        $rc("Hehe, I'm going to move a lot for you...", "Aah... I want you...To love me lots...", "Ehehe... now my clothes are all soaked...", "Ehehe, make me feel really good, okay?", "Please be gentle, ok?") 
     elif ct("Dandere"):
-        $rc("Be sure to make me feel good too, ok?", "There's no reason for us to hold back... Come on, let's do this.", "I can't wait any more. Look how wet I am just thinking about you.", "Come on... Let's be one, body and soul.", "I will handle... all of your urges.", "My body can't wait any longer...")
+        $rc("Be sure to make me feel good too, ok?", "There's no reason for us to hold back... Come on, let's do this.", "I can't wait any more. Look how wet I am just thinking about you...", "Come on... Let's be one, body and soul.", "I will handle... all of your urges.", "My body can't wait any longer...")
     elif ct("Tsundere"):
         $rc("D-do it properly, would you? ...I don't want a shoddy performance." ,"I'm gonna have sex with you! ..G-get ready!", "You can be rough, I guess... If it's just a little bit...", "Y-you just need to be still and let me do everything... You got that?", "D-do whatever you want..."),
     elif ct("Kuudere"):
         $rc("C'mon, I'll do kinky things, so make the preparations.", "Well then, shall I do something that'll make you feel good?", "Let's make this feel really good.", "L-leave it to me... Here, I'll take off your clothes...", "I-I'll make sure to satisfy you...!", "You can do with me... as you'd like...", "In the end, I'm just a normal woman too, you know...")
     elif ct("Kamidere"):
-        $rc("Now... show me the dirty side of you...", "I won't let you go until I'm fully satisfied, so prepare yourself.", "I'll give you a run you'll never forget ♪", "Okay... I suppose I'll just do as I please, uhuhu...", "Now, why don't you just give up and let me at that body of yours?", "You want to fill up the deepest part of me with your semen, don't you?", "Please, show me what you can do... I'm expecting great things.")
+        $rc("Now... show me the dirty side of you...", "I won't let you go until I'm fully satisfied, so prepare yourself.", "I'll give you a run you'll never forget ♪", "Okay... I suppose I'll just do as I please, uhuhu...", "Now, why don't you just give up and let me at that body of yours?", "Please, show me what you can do... I'm expecting great things.")
     elif ct("Bokukko"):
         $rc("C'mon, make me feel completely satisfied!", "You've been holding it in, right? You can do it with me, big time. Really big ♪", "Alright then, I'll give ya' some lovin'.", "You can do whatever you want. T-that's 'cause, I wanna know how you like it...", "C'mon, let's make love till every part of our bodies is tired... Uhuhu...")
     elif ct("Ane"):
-        $rc("Hehe, I'm going to move a lot for you...", "Hehe, I won't let you go... Now quiet down and take this like an adult.", "Fufuh, it's okay to do it a little harder ♪", "Hehe... So you're ready to go just from looking at me?  Hehe, that makes me happy.", "There's no need to be ashamed... Please let me take care of you.", "Hmhm, go easy on me, okay?", "Hmhm, be good to me, will you?")
+        $rc("Hehe, I won't let you go... Now quiet down and take this like an adult.", "Fufuh, it's okay to do it a little harder ♪", "Hehe... So you're ready to go just from looking at me?  Hehe, that makes me happy.", "There's no need to be ashamed... Please let me take care of you.", "Hmhm, go easy on me, okay?", "Hmhm, be good to me, will you?")
     elif ct("Yandere"):
         $rc("Ehehe... you can do whatever you want.", "Huhuhu, I'll give you a really. Good. Time.", "Huhu, so here we are... You can't hold it anymore, right?", "I want to try lots of things with you...", "I can't control myself anymore... uhuhu...", "Please let me have a clear look at your face when you cum.", "Huhuh, you'll fuck me like a beast, right?", "Yes! I can't take it anymore, I want it so bad! Ah!")
     else:
