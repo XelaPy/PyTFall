@@ -94,7 +94,7 @@ label interactions_girlfriend:
         "But you already are!"
         jump girl_interactions
     if ct("Lesbian"):
-        call lesbian_refuse_because_of_gender
+        call interactions_lesbian_refuse_because_of_gender
         jump girl_interactions 
     $ l_ch = 0
     if ct("Shy"):  
@@ -203,11 +203,11 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     elif ct("Kamidere"):
         $rc("This really sucks for me, but... I love you... I said I love you!", "I like you... I love you. I'd like to hear how you feel.", "There's nothing about you I hate. So, would you become my lover?")
     elif ct("Bokukko"):
-        $rc("Um... Would you try going out with me? I mean... I'm in love with you...", "You know, the two of us get along really well, right? So then, well... Do you want to try going out with me...?", "If we start dating, I think we'll have fun... What do you think?"),
+        $rc("Um... Would you try going out with me? I mean... I'm in love with you...", "You know, the two of us get along really well, right? So then, well... Do you want to try going out with me...?", "Um, so... What're your thoughts on like, me bein' your girlfriend...?")
     elif ct("Ane"):
         $rc("It seems like I fell in love with you... Won't you go out with me?", "I've fallen in love with you... Won't you go out with me?", "If I'm not a bother, would you... like to go out together?", "I love you... Please go out with me.")
     elif ct("Yandere"):
-        $rc("I love you! Your heart and soul, I want it all!", "Hey... I-I want to love you even more... So, go out with me!", "Please, will you go out with me? Because... I love you!")
+        $rc("I love you! Your heart and soul, I want it all!", "I... I like you! Please be my lover!", "I love you... Please date me.", "Um... I love you.. So be my 'darling'!")
     else:
         $rc("I... love you. Please go out with me!", "I... I love you... M-make me your girlfriend!", "Hey, listen. I want you... to go out with me.", "I love you... I want to be by your side forever... So, please be my sweetheart!", "Um, so hey... I like you, please go out with me...")
     $ char.restore_portrait()
