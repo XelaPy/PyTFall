@@ -575,20 +575,18 @@ init python:
             Default is Null() unless specified otherwise.
             """
             super(DisplayableSwitcher, self).__init__(**kwargs)
-            if not isinstance(displayable, dict) and not isinstance(atl_transforms, dict):
+            if not isinstance(displayable, dict):
                 self.displayable = {"default": self.DEFAULT.copy()}
             else:
                 self.displayable = {}
-                if isinstance(displayable, dict):
-                    for s, d in displayable.iteritems():
-                        self.displayable[s] = self.DEFAULT.copy()
-                        if isinstance(d, dict): # ATL Function is assumed!
-                            self.displayable[s]["atl"] = d["atl"]
-                            self.displayable[s]["args"] = args = d.get("args", [])
-                            self.displayable[s]["kwargs"] = kwargs = d.get("kwargs", {})
-                            self.displayable[s]["d"] = d["atl"](*args, **kwargs)
-                        else: # Something we can show in Ren'Py is assumed.
-                            self.displayable[s]["d"] = renpy.easy.displayable(d)
+                for s, d in displayable.iteritems():
+                    self.displayable[s] = self.DEFAULT.copy()
+                    d = renpy.easy.displayable(d)
+                    if isinstance(d, ImageReference):
+                        d = renpy.display.image.images[(d.name)]
+                    self.displayable[s]["d"] = d
+                    if isinstance(d, renpy.atl.ATLTransformBase):
+                        self.displayable[s]["atl"] = d.copy()
                         
                 self.displayable["default"] = displayable.get("default", self.DEFAULT.copy())
                
@@ -623,9 +621,11 @@ init python:
                 if "force_restart" in self.d:
                     del self.d["force_restart"]
                     if "atl" in self.d:
-                        self.d["d"] = self.d["atl"](*self.d["args"], **self.d["kwargs"])
-                    self.d["start_st"] = st
-                st = st - self.d["start_st"]
+                        self.d["d"].take_execution_state(self.d["atl"])
+                        self.d["d"].atl_st_offset = st
+                    else:
+                        self.d["start_st"] = st
+                st = st - self.d["start_st"] if not "atl" in self.d else st
             elif self.animation_mode in ("pause", "show_paused"):
                 st = self.d["pause_st"]
             elif self.animation_mode == "resume":
@@ -637,8 +637,11 @@ init python:
             d = self.d["d"]
             cr = d.render(width, height, st, at)
             
-            x = d.xpos if hasattr(d, "xpos") else 0
-            y = d.ypos if hasattr(d, "ypos") else 0
+            try:
+                position = d.get_placement()
+                x, y = position[:2]
+            except:
+                x, y = 0, 0
             render.blit(cr, (x, y))
             
             rp.redraw(self, 0)
