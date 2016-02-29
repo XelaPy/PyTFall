@@ -24,7 +24,7 @@ label interactions_general:
         if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
         else:
-            $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though…", "It's hard to find common ground.", "But it was somewhat forced."]))
+            $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though...", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
         $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
     $ char.disposition += randint(1, 3)
@@ -259,17 +259,17 @@ label interactions_abouther:
     
     if ct("Half-Sister") and dice(45) and dice(gm_dice):
         if ct("Yandere"):
-            $rc("We used to play doctor and tear off each other's clothes, heh.", "We used to bathe together, so... you got to touch sister's body all over....", "*She smiles and stares at you.*", "Whenever we took a bath together, I used to wash your every nook and cranny. And I mean EVERY nook and cranny♪")
+            $rc("We used to play doctor and tear off each other's clothes, heh.", "We used to bathe together, so... you got to touch sister's body all over....", "Whenever we took a bath together, I used to wash your every nook and cranny. And I mean EVERY nook and cranny ♪")
         elif ct("Impersonal"):
-            $rc("Do you remember how you used to pull pranks on me?", "I have always observed you. I know all there is to your character.", "I've known what kinds of sexual fetishes you have since a long time ago, brother.")
+            $rc("Do you remember how you used to pull pranks on me?", "I have always observed you. I know all there is to your character.", "I've known what kinds of sexual fetishes you have since a long time ago.")
         elif ct("Tsundere"):
-            $rc("We used to take a bath together back in the days, didn't we? Now...? B...but... hey! You know we shouldn't do that!", "Now that I think about it, I spent more time with you, brother, than Mom and Dad.", "You've always gone out of your way to protect your sister. I should thank you for that.", "I went overboard when I tried to discipline you back when we were little. To be honest, I'm sorry about that now.", "Remember that collection of dirty magazines you used to cherish? I was the one who threw them away. I am... still sorry about that, brother.")
+            $rc("We used to take a bath together back in the days, didn't we? Now...? B...but... hey! You know we shouldn't do that!", "Now that I think about it, I spent more time with you than Mom and Dad.", "You've always gone out of your way to protect your sister. I should thank you for that.", "I went overboard when I tried to discipline you back when we were little. To be honest, I'm sorry about that now.", "Remember that collection of dirty magazines you used to cherish? I was the one who threw them away. I am... still sorry about that.")
         elif ct("Dandere"):
             $rc("We've been together since we were small... Have you had enough of it? Well, I'm still not tired of it yet.", "You've taught me all kinds of things since a long time ago... even perverted things.", "You used to play doctor with me all the time... You were so perverted, even back then.")
         elif ct("Kuudere"):
             $rc("I used to be a crybaby? D-don't remind me of such things...", "M-my promise to marry you? T-there's no way I'd remember something like that!", "Getting engaged with my brother... I only thought that was possible back when we're kids.", "You always protected me. Therefore, I decided that I had to become strong.")
         elif ct("Ane"):
-            $rc("Hehe, you've grown so much... That makes your sis proud.", "You weren't able to fall asleep without sis by your side when we were little.", "Whenever I wore a skirt, you always tried to peek underneath it... You were already so perverted when we were little.", "I've taken care of you since you were little. Therefore, sister knows everything about you.", "My purpose in life has always been staying by your side.", "When we were younger, I was always by your side because I swore I would always protect you.")
+            $rc("Hehe, you've grown so much... That makes your sis proud.", "You weren't able to fall asleep without sis by your side when we were little.", "Whenever I wore a skirt, you always tried to peek underneath it... You were already so perverted when we were little.", "I've taken care of you since you were little. Therefore, sister knows everything about you.", "When we were younger, I was always by your side because I swore I would always protect you.")
         elif ct("Imouto"):
             $rc("I used to think I'd get as tall as you.", "You remember we used to play shop when we were little? Wha... You should forget about THAT game!", "You have protected me from bullies when I was little.... That made me so happy.")
         elif ct("Kamidere"):
@@ -277,7 +277,7 @@ label interactions_abouther:
         elif ct("Bokukko"):
             $rc("When we were little, didn't you say you'd make me your wife someday or something?", "When we were kids, we went exploring in the forest together and we both got lost.", "We used to climb fences and then jump off them. The two of us got injuries all over.", "You used to be so wee and now that huge, na?")
         else:
-            $rc("We used to bathe together a lot when we were little.♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little.")
+            $rc("We used to bathe together a lot when we were little ♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little.")
 
     if ct("Lesbian"): 
         $ gm_disp_mult = ((gm_disp_mult)*0.8)
@@ -290,14 +290,14 @@ label interactions_abouther:
         
         if ct("Big Boobs", "Abnormally Large Boobs"):
             if dice(90):
-                $gm_abouther_list.append(choice(["I notice men, everyone of them, staring at nothing but my boobs.", "I've outgrown yet another bra... I wish something could be done about this...", "Hey, [hero.name], do you know what my charms are? Ufu, shall I show you? I'm pretty sure I can make your heart skip a beat♪", "[hero.name], my charms are the best, aren't they?", "All the men just keep staring at my breasts. Are such big ones really that fascinating?", "The reason you're interested in me is my big breasts, right?", "They say that big breasts are the best, but truth be told they're heavy and make the shoulders stiff, not good at all."]))
+                $gm_abouther_list.append(choice(["I notice men, everyone of them, staring at nothing but my boobs.", "I've outgrown yet another bra... I wish something could be done about this...", "Hey, [hero.name], do you know what my charms are? Ufu, shall I show you? I'm pretty sure I can make your heart skip a beat ♪", "All the men just keep staring at my breasts. Are such big ones really that fascinating?", "The reason you're interested in me is my big breasts, right?", "They say that big breasts are the best, but truth be told they're heavy and make the shoulders stiff, not good at all."]))
         
         if ct("Small Boobs"):
             if dice(90):
                 $gm_abouther_list.append(choice(["I read lately that the hunt is on for small breasts. Who cares about big tits!", "It's better without large breasts. They'd only get in the way... Probably...", "Small breasts have their good points as well, don't you think? You do think so, right?"]))     
         
         if ct("Lesbian"):
-            $gm_abouther_list.append(choice(["I am REALLY interested in female's bodycurves.", "I would like to go to an all girls' school. Imagine, only girls, everywhere... That would be great...", "Have you ever brought a girl home? I want to try that.", "I'd like to bring a cute girl home.", "Isn't it normal to be attracted to charming girls? I think it's totally proper♪", "Something I like? Hmm~ Maybe watching cute girls?", "Girls look really cute, don't they? I just want to eat one up.", "I like cute things. Like girls, for example.", "If I were a boy, I sure would explore every inch of the girl I was dating…"]))
+            $gm_abouther_list.append(choice(["I am REALLY interested in female's bodycurves.", "I would like to go to an all girls' school. Imagine, only girls, everywhere... That would be great...", "I'd like to bring a cute girl home.", "Isn't it normal to be attracted to charming girls? I think it's totally proper ♪", "Something I like? Hmm... Maybe watching cute girls?", "Girls look really cute, don't they? I just want to eat one up.", "I like cute things. Like girls, for example.", "If I were a boy, I sure would explore every inch of the girl I was dating..."]))
         
         if ct("Bisexual"):
             $gm_abouther_list.append(choice(["In love, gender makes no difference...", "I like boys and girls alike ♫"]))
@@ -322,10 +322,10 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["They say some people have no talent for magic. I'm one of them, it seems."]))
             
         if ct("Slim"):
-            $gm_abouther_list.append(choice(["I have a great figure, don't you think?", "No matter how much I eat, I never get fat. I'm so lucky with my body! ♫"]))
+            $gm_abouther_list.append(choice(["I have a great figure, don't you think?", "No matter how much I eat, I never get fat. I'm so lucky with my body ♫"]))
             
         if ct("Chubby"):
-            $gm_abouther_list.append(choice(["I may be a bit chubby, but men like it.", "I thought about a diet, but I just can't resist fresh cupcakes! ♫"]))
+            $gm_abouther_list.append(choice(["I may be a bit chubby, but men like it.", "I thought about a diet, but I just can't resist fresh cupcakes ♫"]))
             
         if ct("Scars"):
             $gm_abouther_list.append(choice(["I tried many doctors, but they all said that my scars cannot be healed. *sigh*"]))
@@ -371,7 +371,7 @@ label interactions_abouther:
             
         if cgo("Warrior"):
             if ct("Shy") or ct("Coward"):
-                $gm_abouther_list.append(choice(["I have been trained in combat, but I really dislike violence.", "I know a lot about self-defense… but I really hope that I wouldn’t ever need to use it.", "I know how to use a weapon… but it still scares me a bit.", "I can do well in combat training, but in practice…", "They say that I may have the skill, but not the spirit of a warrior…", "I carry a weapon, but I don’t think I would have the heart to hurt someone."]))
+                $gm_abouther_list.append(choice(["I have been trained in combat, but I really dislike violence.", "I know a lot about self-defense... but I really hope that I wouldn’t ever need to use it.", "I know how to use a weapon... but it still scares me a bit.", "I can do well in combat training, but in practice...", "They say that I may have the skill, but not the spirit of a warrior...", "I carry a weapon, but I don’t think I would have the heart to hurt someone."]))
             elif ct("Virtuous"): 
                 $gm_abouther_list.append(choice(["I know how to pacify someone without hurting them. That’s the right way to do it.", "I learned how to fight so I can protect others."]))
             elif ct("Adventurer"): 
@@ -410,13 +410,13 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["I enjoy sex, thus I enjoy my job <grins>", "I think there is nothing wrong with selling your body as long as you having fun and it's well paid."]))
             
         if ct("Dawdler"):
-            $gm_abouther_list.append(choice(["Hey, have you heard the saying, “Good things come to those who sleep?” … Uh, and wait?", "I aways get sleepy after a meal~ It's just natural providence.", "Yearning for the bed is part of being human.", "Fuwa~ This season sure makes me sleepy~", "I can't get rid of this sleepiness...", "No matter how much I sleep I can't get enough of it....", "*Yawn* You know lack of sleep is damaging to the skin.", "I'm sick of being sleepy. I don't think it's from a lack of sleep though.", "Unlike most days, today I got up early… *Yaaawn~*…", "I'm not really a morning person…  Ah, It's not because I'm too busy at night, though…", "There are days when I just don't feel like doing anything... a lot of them, actually."]))
+            $gm_abouther_list.append(choice(["Hey, have you heard the saying, “Good things come to those who sleep?” ... Uh, and wait?", "I always get sleepy after a meal... It's just natural providence.", "Fuwa... This season sure makes me sleepy...", "No matter how much I sleep I can't get enough of it....", "*Yawn* You know lack of sleep is damaging to the skin.", "There are days when I just don't feel like doing anything... a lot of them, actually."]))
                        
         if ct("Frigid"):
-            $gm_abouther_list.append(choice(["Why does everyone get so excited about underwear? It's just fabric…", "Relations should be clean and wholesome, an example to others."]))
+            $gm_abouther_list.append(choice(["Why does everyone get so excited about underwear? It's just fabric...", "Relations should be clean and wholesome, an example to others."]))
         
         if ct("Exhibitionist"):
-            $gm_abouther_list.append(choice(["I just love attention...", "Have you ever thought of doing it in public? Just imagine all those eyes…", "It would be a waste not to show some skin when the weather is nice.", "It arouses me when strangers are staring... Stripping me with their eyes..."]))
+            $gm_abouther_list.append(choice(["Have you ever thought of doing it in public? Just imagine all those eyes...", "It would be a waste not to show some skin when the weather is nice.", "It arouses me when strangers are staring... Stripping me with their eyes..."]))
         
         if ct("Clumsy"):
             $gm_abouther_list.append(choice(["It's common place to spill all the contents when opening a bag of candy, isn't it?", "I broke another plate. How many has it been now..? I wish I could do something about this."]))
@@ -425,10 +425,10 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["Everyone keeps saying that the way I lick my lips is incredibly erotic.", "I like to use my tongue to play around with candy in my mouth. Don't you?", "Aah, I wanna eat something sour..."]))
         
         if ct("Nymphomaniac"):
-            $gm_abouther_list.append(choice(["No matter how much I do it, I still can't cool down. Hehe, what do you *think* I'm talking about?", "I've been having these unintentional s... sexual urges lately....", "My body gets horny all on its on even when I'm by myself... It's so frustrating!", "What's with this heat in my body...", "I can become horny just like that all of a sudden... And before I even realize, I'm already...", "My needs are left unsatisfied!", "There's not enough. I get no love, cock, or cum... I'm lacking all of it!"]))
+            $gm_abouther_list.append(choice(["No matter how much I do it, I still can't cool down. Hehe, what do you *think* I'm talking about?", "I've been having these unintentional s... sexual urges lately....", "My body gets horny all on its on even when I'm by myself... It's so frustrating!", "I can become horny just like that all of a sudden... And before I even realize, I'm already..."]))
         
         if ct("Virtuous"):
-            $gm_abouther_list.append(choice(["It would be great if people would be nicer to each other…", "I did some volunteer work the other day, it was a pleasant experience.", "It really pains me when I see someone suffering.", "It’s the most elevating feeling when you can help someone, isn’t it?"]))
+            $gm_abouther_list.append(choice(["It would be great if people would be nicer to each other...", "I did some volunteer work the other day, it was a pleasant experience.", "It really pains me when I see someone suffering.", "It’s the most elevating feeling when you can help someone, isn’t it?"]))
 
         if ct("Vicious"):
             $gm_abouther_list.append(choice(["Those disgusting beggars... If you want money, go and earn them! What's the problem?", "The other day a man tried to steal my purse. He won't bother anyone anymore. <ominously grins>"]))
@@ -437,31 +437,31 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["I want to violate a guy with a strap-on. You game?", "It makes me so wet when my lover gets a scared look on his face.", "Huhu, discipline is lovely, isn't it..."]))
         
         if ct("Psychic"):
-            $gm_abouther_list.append(choice(["Just small gestures and facial expressions can reveal even the most ulterior motives.", "I can tell a lot about your personality just from your posture.", "I'm able to read emotions easily.", "It's not difficult for me to guess what people will do, if I'm able to observe them for a while.", "While it's hard to tell the motives of some, the majority of people are so predictable…", "It's hard to predict the movements of a warrior. They are trained to hide their thoughts.", "A sea of darkness... will consume everything...", "You... have a shadow of death hanging over you...", "A spell has been cast... Long ago... But it's still here...", "...Aren't you dead? Ah, never mind.", "This world could be destroyed..."]))
+            $gm_abouther_list.append(choice(["Just small gestures and facial expressions can reveal even the most ulterior motives.", "I can tell a lot about your personality just from your posture.", "It's not difficult for me to guess what people will do, if I'm able to observe them for a while.", "While it's hard to tell the motives of some, the majority of people are so predictable...", "It's hard to predict the movements of a warrior. They are trained to hide their thoughts.", "You... have a shadow of death hanging over you... No, it's nothing. Nevermind that.", "A spell has been cast... Long ago... But it's still here... Hm? Did I just... said something?"]))
         
         if ct("Serious"):
-            $gm_abouther_list.append(choice(["Only with a clear mind can you be truly effective. Emotions just get in the way.", "Nothing good can come from being too emotional.", "If a problem has a solution, there's no reason to be worried. And if it doesn't… then there's no reason to be worried either.", "Anger or tears cannot solve anything."]))
+            $gm_abouther_list.append(choice(["Only with a clear mind can you be truly effective. Emotions just get in the way.", "Nothing good can come from being too emotional.", "If a problem has a solution, there's no reason to be worried. And if it doesn't... then there's no reason to be worried either.", "Anger or tears cannot solve anything."]))
         
         if ct("Masochist"):
             $gm_abouther_list.append(choice(["I don't hate the pain. Because...it can feel good in its own way...", "Tied up and blindfolded... Isn't it exciting?", "Being mistreated a little... can be fun....", "No, I don't like pain. Even so, sometimes chains are... oh no, what am I saying?!", "If you tied me up... the experience... Both my body and soul... Oh no, what am I saying..."]))
         
         if ct("Athletic"):
-            $gm_abouther_list.append(choice(["I may look slow, but I'm actually really good at sports.", "I like to exercise.", "I think it's important to keep yourself in good shape.", "Want to race? I won't lose.", "I went exercising and ran up quite a sweat. It's a good feeling."]))
+            $gm_abouther_list.append(choice(["I may look slow, but I'm actually really good at sports.", "I think it's important to keep yourself in good shape.", "Want to race? I won't lose.", "I went exercising and ran up quite a sweat. It's a good feeling."]))
         
         if ct("Artificial Body"):
             $gm_abouther_list.append(choice(["Do I actually appear human to you? Oh nothing, nevermind that.", "I can keep going even without much sleep. Isn't that great?", "I've been having these weird dreams where I'm me, yet, I'm not me.... I wonder what this could be about...."]))
         
         if ct("Neat"):
-            $gm_abouther_list.append(choice(["It's a good day for doing laundry.", "When you don't diligently clean wet areas of the house you can get an outbreak of mold and various bacteria.", "For some reason, the dust on the windowsill really bothers me.", "Looks like I might really like cleaning... What's with those suspicious eyes?", "I have training in providing good customer service.", "Most people don't like them, but chores are an important job, too.", "You can make any place clean and cozy with thorough work.", "Chores take much less time when properly organized.", "Pleasant service is the foundation of any successful business. Nothing can drive off customers faster than rudeness.", "Cleanliness is next to godliness. Don't you agree?"]))
+            $gm_abouther_list.append(choice(["It's a good day for doing laundry.", "When you don't diligently clean wet areas of the house you can get an outbreak of mold and various bacteria.", "For some reason, the dust on the windowsill really bothers me.", "Most people don't like them, but chores are an important job, too.", "You can make any place clean and cozy with thorough work.", "Chores take much less time when properly organized.", "Pleasant service is the foundation of any successful business. Nothing can drive off customers faster than rudeness.", "Cleanliness is next to godliness. Don't you agree?"]))
             
         if ct("Messy"):
             $gm_abouther_list.append(choice(["It's fine to skip a bath if you don't reek of sweat.", "Do you think I'm sweaty? Some perv in the alley told me he likes sweaty ones. Yuicks.", "My room might look like it's in a mess, but I always know where to find anything there."]))
        
         if ct("Heavy Drinker"):
-            $gm_abouther_list.append(choice(["You wanna have a drinking contest? Hehe, I won't lose to you.", "Whenever I drink alcohol I want to tear all my clothes off... Hehe.", "I say, there's always a reason to drink."]))
+            $gm_abouther_list.append(choice(["You wanna have a drinking contest? Hehe, I won't lose to you.", "I say, there's always a reason to drink."]))
         
         if ct("Curious"):
-            $gm_abouther_list.append(choice(["Experiencing new things is loads of fun, isn't it?", "The truth always comes up at the very end... No, it's nothing.", "Hey, I totally found 100 money on the ground earlier today. Isn't that crazy?!", "I found some more money -oh wait, it's just a shiny rock. Boo =/", "Want to see the shells I picked up at the beach?", "I spent a long time chasing a really cute cat I saw.", "In order to keep up with the latest fads, intelligence gathering is essential.", "Strolling through town is a nice change of pace."]))
+            $gm_abouther_list.append(choice(["Experiencing new things is loads of fun, isn't it?", "The truth always comes up at the very end... No, it's nothing.", "Huh? Hey, I found some more money... Oh wait, it's just a shiny rock.", "Want to see the shells I picked up at the beach?", "I spent a long time chasing a really cute cat I saw.", "In order to keep up with the latest fads, intelligence gathering is essential.", "Strolling through town is a nice change of pace."]))
         
         if ct("Shy"):
             $gm_abouther_list.append(choice(["It would be good... if I could just be a bit more confident... I think...", "I'm no good with public speaking...", "I don't like being competitive...", "Umm, I'm... not really good with standing out...", "I don't like making eye contact...", "...Appearing in front of people... I'm reluctant...", "I'm not fond of... talking to people..."]))
@@ -470,7 +470,7 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["Gardening is so much fun, you know?", "Sometimes I feed forest animals next to the city."]))
 
         if ct("Always Hungry"):
-            $gm_abouther_list.append(choice(["I'm still hungry, no matter how much I eat.", "I can eat nonstop, is there something wrong with that?", "No matter how much I devour, my stomach is still empty. Am I still growing or something?", "I'm feeling hungry...", "There's so much delicious food at this time of year... It's dangerous!", "You'll get heat fatigue if you don't eat properly.", "I wonder why I'm always so hungry. I'm not gaining much weight, so it's fine, but...", "I really do eat too much but I still manage to keep in shape, so....", "Have I gained some weight? No, that's just my imagination....", "I've got a craving for sweets just now...", "I've had a huge appetite lately. If this continues then I might gain weight... This has to stop."]))
+            $gm_abouther_list.append(choice(["I'm still hungry, no matter how much I eat.", "I can eat nonstop, is there something wrong with that?", "No matter how much I devour, my stomach is still empty. Am I still growing or something?", "You'll get heat fatigue if you don't eat properly.", "I wonder why I'm always so hungry. I'm not gaining much weight, so it's fine, but...", "I really do eat too much but I still manage to keep in shape, so....", "I've got a craving for sweets just now...", "I've had a huge appetite lately. If this continues then I might gain weight... This has to stop."]))
         
         # if there is not enough specific answers, a vague one is added to the list
         if len(gm_abouther_list) < 3:
@@ -715,23 +715,23 @@ label interactions_romance:
         $ char.exp += randint(2, 8)
         $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
         if ct("Impersonal"):
-            $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.")
+            $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):
-            $rc("Lovers... Th-they're supposed to...hold hands, after all... Right?", "Wh-what comes after a k-kiss is... It's... Awawa...", "If it's the person you love, just having them turn around and smile... Is enough to make you happy...")
+            $rc("Lovers... Th-they're supposed to...hold hands, after all... Right?", "Wh-what comes after a k-kiss is... It's... Awawa...", "If it's the person you love, just having them turn around and smile... Is enough to make you happy...", "Love... sure is a good thing...")
         elif ct("Nymphomaniac") and dice(20):
             $rc("*sigh* I always have such a high libido...", "Um... Love can start from lust... right?", "If you are in love, having sex is totally normal, right?", "People are no more than animals, so it's only natural to copulate...right?", "Well, doing perverted stuff is proof that you're healthy.", "Me thinking about sex? Not at all... Great. Now that you brought it up...")
-        elif ct("Bisexual", "Lesbian") and dice(25):
+        elif ct("Bisexual", "Lesbian") and dice(20):
             $rc("Love runs deeper than gender.")
         elif ct("Dandere"):
-            $rc("If you like them, you like them. If you hate them, you hate them. That's all there is to it. Right?", "My dream yesterday... It was so lovey-dovey and erotic.", "I think it is a good thing to be loved by someone.", "Getting close to people other than the one you love is kind of...", "You can still live a good life without a lover, don't you think?")
+            $rc("If you like them, you like them. If you hate them, you hate them. That's all there is to it. Right?", "My dream yesterday... It was so lovey-dovey and erotic.", "Getting close to people other than the one you love is kind of...", "You can still live a good life without a lover, don't you think?")
         elif ct("Tsundere"):
             $rc("M...men and women feel arousal differently.... F-f-forget what I just said!", "Thick and hard? What the... You idiot, what are you saying! That's not what you meant? ... You idiot!", "E-even I want to be a good bride someday, you know...?", "Things like l-love or affection, are all excuses.")
         elif ct("Kuudere"):
             $rc("To feel the same feelings towards each other... To be partners for life... That's what I long for.", "Two people in love devoting themselves to each other, that sounds like pure bliss to me...", "True love isn't about showing off to everyone else... It's the small things you do for your partner that matter.", "There's gotta be someone willing to support me out there somewhere...", "Chance encounters only happen with both time and luck...Well, I suppose you could call it fate.")
         elif ct("Imouto"):
-            $rc("Hey, when's my knight in shining armor gonna come along? I guess I gotta need saving first?", "That's weird... Today's love fortune was supposed to be a sure thing... Hmm...", "That book is very interesting... A boy and a girl who you'd think are twins get together, but in fact...", "L-love and affection and th-that stuff, I don't really get it very well...", "If I'm going to date someone, they should be rich~, and want kids~ And they should be totally committed to me~")
+            $rc("That's weird... Today's love fortune was supposed to be a sure thing... Hmm...", "That book is very interesting... A boy and a girl who you'd think are twins get together, but in fact...", "L-love and affection and th-that stuff, I don't really get it very well...", "If I'm going to date someone, they should be rich ♪, and want kids ♪ And they should be totally committed to me ♪")
         elif ct("Ane"):
-            $rc("You're deciding who will be your partner for life.　It would be strange not to be worried about it.", "I think just having the one you love beside you is the ultimate happiness.", "I need a person whom I can rely on.", "Lost loves are important to build character, I think.", "As you've probably noticed, I'm the devoted type♪", "Of course, I'd wanna stay by my loved one's side. Or, rather than being by their side, it's more, like, I want to support them?")
+            $rc("You're deciding who will be your partner for life.　It would be strange not to be worried about it.", "I think just having the one you love beside you is the ultimate happiness.", "I need a person whom I can rely on.", "Lost loves are important to build character, I think.", "As you've probably noticed, I'm the devoted type ♪", "Of course, I'd wanna stay by my loved one's side. Or, rather than being by their side, it's more, like, I want to support them?")
         elif ct("Kamidere"):
             $rc("Seriously, how can I... think of such unpleasant thoughts...", "When my body gets hot, it's like my discipline starts to crumble...", "There are things more important than physical infatuation.","Making men my playthings is a simple matter for one such as I. Eheh!", "Love is nothing but an expression of ego, you know.", "You can't disobey your instincts. Isn't keeping up this charade painful for you?")
         elif ct("Bokukko"):
@@ -739,7 +739,7 @@ label interactions_romance:
         elif ct("Yandere"):
             $rc("Huhu, a girl in love is invincible~", "Nothing motivates you quite like 'love', huh...", "If it's just with their mouth, everyone can talk about love. Even though none of them know how hard it is in reality...")
         else:
-            $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love～...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Love... sure is a good thing...", "Everyone wants to fall in love.")
+            $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love ♪...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Everyone wants to fall in love, I suppose. Don't you think?")
         $ char.restore_portrait()
         $ del gm_dice
         jump girl_interactions
@@ -755,28 +755,28 @@ label interactions_refused:
         $ char.override_portrait("portrait", "shy")
         $rc("I-I won't tell you... ", "It's nothing. ...sorry.", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
     elif ct("Dandere"):
-        $rc("I don't feel the need to answer that question.", "...later...maybe...", "*she stares into the sky*")
+        $rc("I don't feel the need to answer that question.", "...Later...maybe.", "I'm not going to tell you.")
     elif ct("Kuudere"):
         $rc("I've got no reason to tell you.", "I'm not in the mood for that right now.", "Why do I have to tell you?")
     elif ct("Tsundere"):
-        $rc("Hmph! Who would tell you!", "Eh? You expect me to tell you?")
+        $rc("Hmph! Who would tell you!", "Eh? You expect me to tell you?", "It's none of your business.")
     elif ct("Imouto"):
-        $rc("Uhuhu♪ I won't tell you~ ♪ ","I'm not going to tell you~ ","It's a secret!", "Umm, is it bad if I don't answer...?")
+        $rc("Uhuhu♪ I won't tell you ♪ ", "It's a secret!", "Umm, is it bad if I don't answer...?")
     elif ct("Yandere"):
         $rc("Shut up, leave me alone...", "<She is not listening>", "You talk too much.")
     elif ct("Kamidere"):
         $rc("Ahhh, geez, just shut up already!", "And what will hearing that do for you?", "And what good would knowing that do you?")
     elif ct("Ane"):
-        $rc("...I don't feel like answering.", "Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*… Don't you have anything else to do?")
+        $rc("...I don't feel like answering.", "Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*... Don't you have anything else to do?")
     elif ct("Bokukko"):
         $rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
     else:
-        $rc("I don't want to answer.", "I don't want to talk now.", "It's none of your business ", "Hmph, Why should I have to tell you?", "I'm not in a mood for chatting.", "Must I give you an answer?")
+        $rc("I don't want to answer.", "I don't want to talk now.", "Hmph, Why should I have to tell you?", "I'm not in a mood for chatting.", "Must I give you an answer?")
     $ char.restore_portrait()
     jump girl_interactions
     
 
-# changin occupation
+# changing occupation
 label interactions_occupation:
     # TODO: Remove this from the game completely??? Dark: yeap, it's too easy to do it via small talk
     menu:
