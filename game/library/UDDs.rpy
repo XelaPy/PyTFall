@@ -563,6 +563,91 @@ init python:
             return self.conditions.values()
             
             
+    class DisplayableSwitcher(renpy.Displayable, NoRollback):
+        DEFAULT = {"d": Null(), "start_st": 0, "pause_st": 0}
+        
+        """This plainly switches displayable without reshowing the image/changing any variables by calling change method.
+        """
+        
+        def __init__(self, start_displayable="default", displayable=None, **kwargs):
+            """Expects a dict of displayable={"string": something we can show in Ren'Py}
+           
+            Default is Null() unless specified otherwise.
+            """
+            super(DisplayableSwitcher, self).__init__(**kwargs)
+            if not isinstance(displayable, dict) and not isinstance(atl_transforms, dict):
+                self.displayable = {"default": self.DEFAULT.copy()}
+            else:
+                self.displayable = {}
+                if isinstance(displayable, dict):
+                    for s, d in displayable.iteritems():
+                        self.displayable[s] = self.DEFAULT.copy()
+                        if isinstance(d, dict): # ATL Function is assumed!
+                            self.displayable[s]["atl"] = d["atl"]
+                            self.displayable[s]["args"] = args = d.get("args", [])
+                            self.displayable[s]["kwargs"] = kwargs = d.get("kwargs", {})
+                            self.displayable[s]["d"] = d["atl"](*args, **kwargs)
+                        else: # Something we can show in Ren'Py is assumed.
+                            self.displayable[s]["d"] = renpy.easy.displayable(d)
+                        
+                self.displayable["default"] = displayable.get("default", self.DEFAULT.copy())
+               
+            self.d = self.displayable[start_displayable]
+            self.animation_mode = "normal"
+            self.last_st = 0
+           
+        def change(self, s, mode="normal"):
+            self.d = self.displayable.get(s, self.displayable["default"])
+            
+            self.animation_mode = mode
+            if mode == "reset":
+                self.d["force_restart"] = 1
+            elif mode == "pause":
+                self.d["pause_st"] = self.last_st - self.d["start_st"]
+            elif mode == "resume":
+                self.d["force_resume"] = 1
+            
+        def render(self, width, height, st, at):
+            if not st:
+                for d in self.displayable.itervalues():
+                    d["start_st"] = 0
+                    d["pause_st"] = 0
+                    
+            rp = store.renpy
+            
+            self.last_st = st
+            
+            render = rp.Render(width, height)
+            
+            if self.animation_mode == "reset":
+                if "force_restart" in self.d:
+                    del self.d["force_restart"]
+                    if "atl" in self.d:
+                        self.d["d"] = self.d["atl"](*self.d["args"], **self.d["kwargs"])
+                    self.d["start_st"] = st
+                st = st - self.d["start_st"]
+            elif self.animation_mode in ("pause", "show_paused"):
+                st = self.d["pause_st"]
+            elif self.animation_mode == "resume":
+                if "force_resume" in self.d:
+                    del self.d["force_resume"]
+                    self.d["start_st"] = st
+                st = st - self.d["start_st"] + self.d["pause_st"]
+                
+            d = self.d["d"]
+            cr = d.render(width, height, st, at)
+            
+            x = d.xpos if hasattr(d, "xpos") else 0
+            y = d.ypos if hasattr(d, "ypos") else 0
+            render.blit(cr, (x, y))
+            
+            rp.redraw(self, 0)
+            return render
+           
+        def visit(self):
+            return [v["d"] for v in self.displayable.values()]
+            
+            
 init python:
     def get_size(d):
         d = renpy.easy.displayable(d)

@@ -2194,46 +2194,6 @@ init -9 python:
                             self.mod(key, -item.mod[key])
                 else:
                     devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
-                
-                
-                # if key in self.STATS:    
-                    # if item.slot == 'consumable':
-                        # if item.ctemp:
-                            # if key in ['health', 'mp', 'vitality', 'joy']:
-                                # if self.stats.stats[key] - item.mod[key] <= 0:
-                                    # self.stats.stats[key] = 1
-                                # else:    
-                                    # self.mod(key, item.mod[key]*-1)
-                            # elif key == "exp":
-                                # self.exp -= item.mod[key]
-                            # elif key == "gold":
-                                # self.gold -= item.mod[key]
-                            # else:
-                                # self.stats.imod[key] -= item.mod[key]
-                        # else:
-                            # if key == "gold":
-                                # self.gold -= item.mod[key]
-                            # else:
-                                # self.mod(key, item.mod[key]*-1)
-    
-                    # elif item.slot == 'misc':
-                        # if key == "gold":
-                            # self.gold -= item.mod[key]
-                        # else:    
-                            # self.mod(key, item.mod[key]*-1)
-    
-                    # else:
-                        # if key in ['gold', 'exp']:
-                            # pass
-                        # elif key in ['health', 'mp', 'vitality', 'joy']:
-                            # if self.stats.stats[key] - item.mod[key] <= 0:
-                                # self.stats.stats[key] = 1
-                            # else:
-                                # self.mod(key, item.mod[key]*-1)
-                        # else:
-                            # self.stats.imod[key] -= item.mod[key]
-                # else:
-                    # devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
                         
             for key in item.mod_skills:
                 if key in self.SKILLS:
