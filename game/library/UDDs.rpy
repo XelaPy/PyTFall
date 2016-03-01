@@ -564,7 +564,7 @@ init python:
             
             
     class DisplayableSwitcher(renpy.Displayable, NoRollback):
-        DEFAULT = {"d": Null(), "start_st": 0, "pause_st": 0}
+        DEFAULT = {"d": Null(), "start_st": 0, "pause_st": 0, "force_pause": 0, "force_resume": 0}
         
         """This plainly switches displayable without reshowing the image/changing any variables by calling change method.
         """
@@ -615,11 +615,9 @@ init python:
             
             self.last_st = st
             
-            render = rp.Render(width, height)
-            
             if self.animation_mode == "reset":
-                if "force_restart" in self.d:
-                    del self.d["force_restart"]
+                if self.d["force_restart"]:
+                    self.d["force_restart"] = 0
                     if "atl" in self.d:
                         self.d["d"].take_execution_state(self.d["atl"])
                         self.d["d"].atl_st_offset = st
@@ -629,17 +627,23 @@ init python:
             elif self.animation_mode in ("pause", "show_paused"):
                 st = self.d["pause_st"]
             elif self.animation_mode == "resume":
-                if "force_resume" in self.d:
-                    del self.d["force_resume"]
+                if self.d["force_resume"]:
+                    self.d["force_resume"] = 0
                     self.d["start_st"] = st
                 st = st - self.d["start_st"] + self.d["pause_st"]
                 
             d = self.d["d"]
             cr = d.render(width, height, st, at)
+            size = cr.get_size()
+            render = rp.Render(size[0], size[1])
             
             try:
                 position = d.get_placement()
                 x, y = position[:2]
+                if x is None:
+                    x = 0
+                if y is None:
+                    y = 0
             except:
                 x, y = 0, 0
             render.blit(cr, (x, y))
