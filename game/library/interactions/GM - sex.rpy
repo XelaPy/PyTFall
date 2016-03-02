@@ -144,15 +144,15 @@ label interactions_sex_scene_select_place: # we go here if price for hiring is l
             "Beach":
                 show bg city_beach with fade
                 "You are going to the beach, to one of the secluded places away from people."
-                $ sex_scene_location=="beach"
+                $ sex_scene_location="beach"
             "Park":
                 show bg city_park with fade
                 "You are going to the park, to the thick bushes away from people."
-                $ sex_scene_location=="park"
+                $ sex_scene_location="park"
             "Room":
                 show bg girl_room with fade
                 "You are going to her room."
-                $ sex_scene_location=="room"
+                $ sex_scene_location="room"
     $ sex_scene_libido = 0
     jump interactions_sex_scene_begins
                     
@@ -242,7 +242,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
             "Park":
                 show bg city_park with fade
                 "You are going to the park, to the thick bushes away from people."
-                $ sex_scene_location=="park"
+                $ sex_scene_location="park"
                 if ct("Masochist"):
                     $ sex_scene_libido += 1
                 else:
@@ -250,7 +250,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
             "Room":
                 show bg girl_room with fade
                 "You are going to her room."
-                $ sex_scene_location=="room"
+                $ sex_scene_location="room"
     elif ct("Shy") or ct("Dandere"):
         "She's too shy to do it anywhere. You go to her room."
         show bg girl_room with fade
