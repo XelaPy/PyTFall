@@ -189,23 +189,21 @@ init -1 python:
             self.img = self.char.show(*args, **kwargs)
             
         def set_img(self, *args, **kwargs):
-            """
-            Sets the image, bypassing the image cache.
+            """Sets the image, bypassing the image cache.
             """
             kwargs["resize"] = kwargs.get("resize", self.img_size)
             self.img = self.char.show(*args, **kwargs)
         
         def change_img(self, img):
-            """
-            Changes the image AND writes to cache!
+            """Changes the image AND writes to cache!
+            
             img = The image to change to.
             """
             self.img_cache = self.img
             self.img = img
             
         def restore_img(self): 
-            """
-            Restores the image to the cached one.
+            """Restores the image to the cached one.
             """   
             self.img = self.img_cache
         
