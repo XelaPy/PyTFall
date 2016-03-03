@@ -157,15 +157,20 @@ screen char_profile():
         # Picture and left/right buttons ====================================>
         if True:
             add "content/gfx/frame/p_frame6.png" xalign 0.487 yalign 0.185 size (613, 595)
-            # Alex: Code by Gismo, messy but gets the job done, I acutally have no idea of how to get this done with just one frame and the image...
-            # Vbox is just for more convinient positioning.
+            # Alex: Code by Gismo, messy but gets the job done, I actually have no idea of how to get this done with just one frame and the image...
+            # Vbox is just for more convenient positioning.
             vbox:
                 align (0.487, 0.184) #0.487, 0.164
                 yfill True
                 ymaximum 514 #569
-                python:
-                    frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
-                    img = char.show('profile', resize=(600, 514), cache=True)
+                if check_friends(hero, char) or check_lovers(char, hero):
+                    python:
+                        frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
+                        img = char.show('profile', resize=(600, 514), cache=True)
+                else:
+                    python:
+                        frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
+                        img = char.show('profile', resize=(600, 514), exclude=["revealing"], cache=True)
                 button:
                     align (0.5, 0.5)
                     idle_background frame_image
