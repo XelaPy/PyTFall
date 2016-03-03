@@ -21,12 +21,13 @@ label interactions_giftmoney:
         "You don't have that amount of gold."
         $ del temp
         jump girl_interactions
-    if round(char.gold/temp) > 5:
-        "She refuses to take your money. Looks like you have insulted her with such a small sum."
-        call interactions_not_enough_gold
-        $ char.disposition -= (randint(9, 25))
-        $ del temp
-        jump girl_interactions
+    if char.gold >= randint(500, 1000):
+        if round(char.gold/temp) > 5:
+            "She refuses to take your money. Looks like you have insulted her with such a small sum."
+            call interactions_not_enough_gold
+            $ char.disposition -= (randint(9, 25))
+            $ del temp
+            jump girl_interactions
     if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
         $ char.add_money(temp) # Same...
         "You gave her [temp] G."
@@ -65,18 +66,17 @@ label interactions_askmoney:
     if (day - char.flag("gm_ask_money")) > 5 or char.flag("gm_ask_money") == 0:
         $char.set_flag("gm_ask_money", value=day)
     else:
-        "You already did it recently, she cannot afford it."
         call interactions_recently_gave_money
-        $ char.disposition -= randint(1, 4)
+        $ char.disposition -= randint(1, 5)
         jump girl_interactions
     "You asked her to help you with money."
-    if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
-        if char.gold < 200:
-            "But she's too poor to help you."
+    if char.disposition >= 300 or check_lovers(char, hero) or check_friends(char, hero):
+        if char.gold < 250:
+            call interactions_girl_is_too_poor_to_give_money
             jump girl_interactions
-        elif char.gold > hero.gold*10:
-            $ temp = randint (round(char.gold*0.2), round(char.gold*0.8))
-            while temp >= 1000: # we will continue to divide it by 10 until it becomes less than 1000. a countermeasure against becoming too rich by persuading a high lvl rich character to give you money.
+        elif char.gold > hero.gold*5:
+            $ temp = randint (round(char.gold*0.01), round(char.gold*0.1))
+            while temp >= 500: # we will continue to divide it by 10 until it becomes less than 500. a countermeasure against becoming too rich by persuading a high lvl rich character to give you money.
                 $ temp = round(temp*0.1)
             if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
                 $ hero.add_money(temp) # Same...
@@ -205,6 +205,33 @@ label interactions_recently_gave_money:
     elif ct("Bokukko"):
         $rc("No way! If you goin' to ask for money so often, I will become poor too.")
     else:
-        $ rc("I cannot help you this time, sorry. Maybe another time.")
+        $ rc("I cannot help you again, sorry. Maybe another time.")
+    $ char.restore_portrait()
+    return
+    
+label interactions_girl_is_too_poor_to_give_money:
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $rc("Denied. Not enough funds.")
+    elif ct("Shy") and dice(50):
+        $ rc("Err... S-sorry, I don't have much money at the moment...")
+    elif ct("Tsundere"):
+        $rc("*sigh* I'm not made of money, you know.")
+    elif ct("Kuudere"):
+        $rc("I'm afraid you overestimate me. I'm not that rich *sadly smiles*")
+    elif ct("Yandere"):
+        $rc("*sigh* I barely make ends meet, so... no.")
+    elif ct("Dandere"):
+        $rc("No. I need money too.")
+    elif ct("Ane"):
+        $rc("Unfortunately, I can't afford it.")
+    elif ct("Imouto"):
+        $rc("Ugh... I don't have much money. Sorry ♪")
+    elif ct("Kamidere"):
+        $rc("I refuse. Since I'm low on gold, my own needs take priority.")
+    elif ct("Bokukko"):
+        $rc("Not gonna happen. I'm running out of money.")
+    else:
+        $ rc("I cannot help you, sorry. Maybe another time.")
     $ char.restore_portrait()
     return
