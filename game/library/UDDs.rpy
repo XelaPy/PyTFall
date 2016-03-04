@@ -375,7 +375,7 @@ init -999 python:
             return render
             
             
-init python:
+init -100 python:
     class Snowing(renpy.Displayable, NoRollback):
         def __init__(self, d, interval=(0.2, 0.3), start_pos=((-200, config.screen_width), 0), end_pos=({"offset": (100, 200)}, config.screen_height), speed=4.0, slow_start=False, transform=snowlike_particle, **kwargs):
             """Creates a 'stream' of displayable...
@@ -679,6 +679,32 @@ init python:
            
         def visit(self):
             return [v["d"] for v in self.displayable.values()]
+            
+            
+    class MovieLoopedOnce(renpy.display.video.Movie):
+        """Play Movie Sprites without loops. Until Ren'Py permits that by defualt, this can be used.
+        """
+        def __init__(self, *args, **kwargs):
+            super(MovieLoopedOnce, self).__init__(*args, **kwargs)
+            
+        def play(self, old):
+            if old is None:
+                old_play = None
+            else:
+                old_play = old._play
+    
+            if self._play != old_play:
+                if self._play:
+                    renpy.audio.music.play(self._play, channel=self.channel, loop=False, synchro_start=True)
+    
+                    if self.mask:
+                        renpy.audio.music.play(self.mask, channel=self.mask_channel, loop=False, synchro_start=True)
+    
+                else:
+                    renpy.audio.music.stop(channel=self.channel)
+    
+                    if self.mask:
+                        renpy.audio.music.stop(channel=self.mask_channel)
             
             
 init python:
