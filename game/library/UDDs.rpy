@@ -569,7 +569,7 @@ init python:
         """This plainly switches displayable without reshowing the image/changing any variables by calling change method.
         """
         
-        def __init__(self, start_displayable="default", displayable=None, conditions=None, **kwargs):
+        def __init__(self, start_displayable="default", displayable=None, conditions=None, always_reset=True, **kwargs):
             """Expects a dict of displayable={"string": something we can show in Ren'Py}
            
             Default is Null() unless specified otherwise.
@@ -598,9 +598,11 @@ init python:
                     code = renpy.python.py_compile(c, 'eval')
                     self.conditions[c] = a
                     
+            self.always_reset = always_reset
             self.d = self.displayable[start_displayable]
             self.animation_mode = "normal"
             self.last_st = 0
+            self.last_condition = None
            
         def per_interact(self):
             if self.conditions:
@@ -611,7 +613,11 @@ init python:
                             mode = v[1]
                         else:
                             mode = "normal"
-                        self.change(s, mode)
+                        
+                        # We only want to change if we got a new condition:
+                        if self.last_condition != c or (self.always_reset and "reset" in v):
+                            self.last_condition = c
+                            self.change(s, mode)
                         break
                     
         def change(self, s, mode="normal"):

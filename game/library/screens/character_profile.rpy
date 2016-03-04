@@ -186,7 +186,7 @@ screen char_profile():
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                         add img align(0.5, 0.5)#ProportionalScale(img, 600, 514) align(0.5, 0.5)
                     
-                    action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int_or_tr, char)], false=NullAction())
+                    action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int_or_tr, char, img=img)], false=NullAction())
                     
                     hovered tt.action("Interact with [char.nickname]!")
                 
