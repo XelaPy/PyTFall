@@ -218,7 +218,7 @@ label girl_interactions_greeting:
             elif ct("Imouto"):
                 $rc("Hn? What's up, Master?", "I will do my best, Master. ♪", "Yes, Master! I'm here.")
             elif ct("Bokukko"):
-                $rc("What'ya wanna do, Master?", "Yo, Master! What'cha doin'?", "Whazzup, Master?", "Huh? what, [hero.name]? Er, I mean Master?", "Um, you wanna something, Master?")    
+                $rc("What'ya wanna do, Master?", "Yo, Master! What'cha doin'?", "Whazzup, Master?", "Huh? What is it, [hero.name]? Er, I mean Master?", "Um, you wanna something, Master?")    
             elif ct("Yandere"):
                 $rc("Being around me won't do you any good, Master...", "Call on me anytime, Master.", "Yes, my Master?")                
             elif ct("Kamidere"):

@@ -92,6 +92,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ del price
         jump girl_interactions
     else:
+        call int_sex_ok
         menu:
             "She wants [price] G. Do you want to pay her?"
             
@@ -133,7 +134,8 @@ label intro_story:
     $ del m
     jump dev_testing_menu
 label interactions_sex_scene_select_place: # we go here if price for hiring is less than 0, ie no money checks and dialogues required; or after money check was successful
-    if ct("Shy") or ct("Dandere"):
+    if ct("Shy"):
+        call int_sex_ok
         "[char.name] is too shy to do it anywhere. You go to her room."
         show bg girl_room with fade
         $ sex_scene_location="room"
@@ -211,6 +213,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         $ sex_scene_libido += dif # the positive difference might give a bit of additional libido, 1 point per 300
     $ del disposition_level_for_sex
     $ del dif
+    call int_sex_ok
     if check_friends(char, hero) or ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600:
         menu:
             "Where would you like to do it?"
@@ -227,7 +230,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
                 show bg girl_room with fade
                 "You are going to her room."
                 $ sex_scene_location = "room"
-    elif (char.status == "slave") and (ct("Shy") or ct("Dandere")):
+    elif (char.status == "slave") and ct("Shy"):
         "She is too shy to do it anywhere. You can force her nevertheless, but she prefers her room."
         menu:
             "Where would you like to do it?"
@@ -251,7 +254,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
                 show bg girl_room with fade
                 "You are going to her room."
                 $ sex_scene_location="room"
-    elif ct("Shy") or ct("Dandere"):
+    elif ct("Shy"):
         "She's too shy to do it anywhere. You go to her room."
         show bg girl_room with fade
         $ sex_scene_location="room"
@@ -339,7 +342,7 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
         $ sex_scene_libido = 2 # normalization, at worst you will do it 2 times
     $ max_sex_scene_libido = sex_scene_libido
     # max is 12, min is 2
-    call int_sex_ok
+    call interactions_sex_begins
     jump interaction_scene_choice
 
     

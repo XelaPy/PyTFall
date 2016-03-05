@@ -1,5 +1,16 @@
 init -11 python:
     # Interactions (Girlsmeets Helper Functions):
+    def interactions_silent_check_for_bad_stuff(char_name): # we check issues without outputting any lines or doing something else, and just return True/False
+        if char_name.effects["Food Poisoning"]['active']:
+            return False
+        elif char_name.vitality < 50:
+            return False
+        elif char_name.health < (round(char_name.get_max("health")*0.2)):
+            return False
+        elif (not("Pessimist" in char_name.traits) and char_name.joy <= 15) or (("Pessimist" in char_name.traits) and char_name.joy < 5):
+            return False
+        else:
+            return True
     def interactions_check_for_bad_stuff(char_name): # we check major issues when the character will refuse almost anything
         if char_name.effects["Food Poisoning"]['active']:
             char_name.override_portrait("portrait", "indifferent")
@@ -39,7 +50,7 @@ init -11 python:
             else:
                 narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
                 renpy.jump("girl_interactions_end")
-        elif char_name.vitality < 35 and dice (30):
+        elif char_name.vitality < 50 and dice (35):
             narrator(choice(["But she is simply too tired to pay any serious attention to you.", "But she so tired she almost falls asleep on the move."]))
             char_name.disposition -= randint(0, 1)
             char_name.vitality -= randint(1, 3)
