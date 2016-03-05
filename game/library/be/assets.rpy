@@ -1,5 +1,7 @@
 # Assets of the BE:
 init -1: # Images and Animations
+    $ renpy.audio.music.register_channel("main_gfx_attacks", renpy.config.movie_mixer, loop=False, stop_on_mute=False, movie=True)
+    
     # FilmStrips:
     # Attacks:
     python:
@@ -21,6 +23,7 @@ init -1: # Images and Animations
     image fire_4 = FilmStrip('content/gfx/be/filmstrips/fire_4.png', (192, 192), (5, 10), 0.1, loop=False)
     image fire_mask = FilmStrip('content/gfx/be/filmstrips/fire_mask.jpg', (240, 180), (5, 5), 0.05, loop=True)
     image flame_bm = FilmStrip('content/gfx/be/filmstrips/fire_mask_bm.png', (240, 180), (5, 5), 0.05, loop=True)
+    image cataclysm_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/cataclysm.webm", mask="content/gfx/be/webm/cataclysm.webm")
     
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png" 
@@ -407,6 +410,15 @@ label load_battle_skills:
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
                                         target_death_effect={"gfx": "hide", "initial_pause": 3.5, "duration": 0.0001},
                                         bg_main_effect={"gfx": "mirrage", "initial_pause": 2.9, "duration": 2.4})
+        
+        ArealMagicalAttack("Cataclysm webm", menu_pos=13, attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+                                        desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
+                                        attacker_effects={"gfx": "orb", "sfx": "default"},
+                                        main_effect={"gfx": Transform("cataclysm_webm", zoom=0.85), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 330}},
+                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
+                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2, "duration": 2.5},
+                                        target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001},
+                                        bg_main_effect={"gfx": "mirrage", "initial_pause": 2.6, "duration": 2})
     
     
         

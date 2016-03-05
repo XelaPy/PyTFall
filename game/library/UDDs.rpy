@@ -375,7 +375,7 @@ init -999 python:
             return render
             
             
-init python:
+init -100 python:
     class Snowing(renpy.Displayable, NoRollback):
         def __init__(self, d, interval=(0.2, 0.3), start_pos=((-200, config.screen_width), 0), end_pos=({"offset": (100, 200)}, config.screen_height), speed=4.0, slow_start=False, transform=snowlike_particle, **kwargs):
             """Creates a 'stream' of displayable...
@@ -569,7 +569,7 @@ init python:
         """This plainly switches displayable without reshowing the image/changing any variables by calling change method.
         """
         
-        def __init__(self, start_displayable="default", displayable=None, conditions=None, **kwargs):
+        def __init__(self, start_displayable="default", displayable=None, conditions=None, always_reset=True, **kwargs):
             """Expects a dict of displayable={"string": something we can show in Ren'Py}
            
             Default is Null() unless specified otherwise.
@@ -598,9 +598,11 @@ init python:
                     code = renpy.python.py_compile(c, 'eval')
                     self.conditions[c] = a
                     
+            self.always_reset = always_reset
             self.d = self.displayable[start_displayable]
             self.animation_mode = "normal"
             self.last_st = 0
+            self.last_condition = None
            
         def per_interact(self):
             if self.conditions:
@@ -611,7 +613,11 @@ init python:
                             mode = v[1]
                         else:
                             mode = "normal"
-                        self.change(s, mode)
+                        
+                        # We only want to change if we got a new condition:
+                        if self.last_condition != c or (self.always_reset and "reset" in v):
+                            self.last_condition = c
+                            self.change(s, mode)
                         break
                     
         def change(self, s, mode="normal"):
@@ -673,6 +679,32 @@ init python:
            
         def visit(self):
             return [v["d"] for v in self.displayable.values()]
+            
+            
+    class MovieLoopedOnce(renpy.display.video.Movie):
+        """Play Movie Sprites without loops. Until Ren'Py permits that by defualt, this can be used.
+        """
+        def __init__(self, *args, **kwargs):
+            super(MovieLoopedOnce, self).__init__(*args, **kwargs)
+            
+        def play(self, old):
+            if old is None:
+                old_play = None
+            else:
+                old_play = old._play
+    
+            if self._play != old_play:
+                if self._play:
+                    renpy.audio.music.play(self._play, channel=self.channel, loop=False, synchro_start=True)
+    
+                    if self.mask:
+                        renpy.audio.music.play(self.mask, channel=self.mask_channel, loop=False, synchro_start=True)
+    
+                else:
+                    renpy.audio.music.stop(channel=self.channel)
+    
+                    if self.mask:
+                        renpy.audio.music.stop(channel=self.mask_channel)
             
             
 init python:
