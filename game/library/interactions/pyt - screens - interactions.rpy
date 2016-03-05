@@ -47,13 +47,7 @@ label girl_interactions:
         # Show screen
         renpy.show_screen("girl_interactions")
         renpy.with_statement(dissolve)
-    
-    # Show greeting
-    if gm.see_greeting:
-        $ gm.see_greeting = False
-        
-        if renpy.has_label("%s_greeting"%gm.mode):
-            call expression ("%s_greeting"%gm.mode) from _call_expression
+
     if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # check for nonquest cases and no issues with the character
         if dice(20): 
             $ char.set_flag("gm_char_proposed_sex", value=day) # 20% chance to skip sex proposition and set a flag, to make it more random
@@ -67,7 +61,19 @@ label girl_interactions:
                     jump interactions_sex_scene_select_place
                 "No":
                     $ char.set_flag("gm_char_proposed_sex", value=day)
-                    $ pass
+                    $ char.override_portrait("portrait", "indifferent")
+                    $rc("...", "I see...", "Maybe next time then...")
+                    $ char.restore_portrait()
+                    jump girl_interactions_after_greetings
+                    
+    # Show greeting
+    if gm.see_greeting:
+        $ gm.see_greeting = False
+        
+        if renpy.has_label("%s_greeting"%gm.mode):
+            call expression ("%s_greeting"%gm.mode) from _call_expression
+            
+label girl_interactions_after_greetings: # when character wants to say something in the start of interactions, we need to skip greetings and go here
     python:
         # Show menu
         gm.show_menu = True
