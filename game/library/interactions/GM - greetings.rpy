@@ -728,3 +728,57 @@ label interactions_sex_begins: # lines in the beginning of a non-rape scene
         $rc("I want to do so many dirty things... I can't hold it back ♪", "Leave it to me! I'll do my very best!", "Prepare to receive loads and loads of my love!", "Hehee, just leave it all to me! I'll make this awesome!", "Hehe, I'll give it everything I've got ♪")
     $ char.restore_portrait()
     return
+    
+label interactions_seen_mast_propose:
+    $ char.override_portrait("portrait", "shy")
+    if ct("Impersonal"):
+        $rc("If you got excited watching me, we could... Want to?", "I just can't do it alone... Can I count on you for support?")
+    elif ct("Shy") and dice(50):
+        $rc("...T-these perverted feelings... You can make them go away, can't you...?", "I- I'm sorry, I just couldn't hold it in any more... So, please, can we...")
+    elif ct("Imouto"):
+        $rc("I can't ask for it any more obviously than this! Just fuck me already, pleaaaaaase!", "Hey, come on, won't you touch me? I can't satisfy myself alone...") 
+    elif ct("Dandere"):
+        $rc("You caught me... Hey, please, can you take over from here?", "Watching me masturbate got you going, right? You wanna mess me up now, don't you?")
+    elif ct("Tsundere"):
+        $rc("Even I m...masturbate sometimes! ...S...so, what will you do?", "Y-you saw me masturbating... I demand s-sex as an apology!"),
+    elif ct("Kuudere"):
+        $rc("Hey, if you were watching, you know what I wanna do, right..?", "Nn... This urge, I need you to satisfy it for me...")
+    elif ct("Kamidere"):
+        $rc("At this point I don't even care.　Fuck me.", "I've been seen indulging in such a foolish act...　There's nothing left for you to do but take responsibility.")
+    elif ct("Bokukko"):
+        $rc("Hey... I want you to help me feel even better... Please...♪", "Masturbating's too much work... Hey, you wanna do it for me?")
+    elif ct("Ane"):
+        $rc("I can't simply let you go after you saw me pleasuring myself.", "How convenient, you came in at just the right time... Hey, you know what I mean, right?")
+    elif ct("Yandere"):
+        $rc("I'm all warmed up and ready to go... Want to do it?", "I would so much rather you do it than have to do it myself... Won't you?")
+    else:
+        $rc("Uuu, it's not enough by myself... Help me out here ♪", "Oh, it's you, [hero.name]... What to join?")
+    $ char.restore_portrait()
+    return
+    
+label interactions_seen_mast:
+    $ char.override_portrait("portrait", "shy")
+    if ct("Impersonal"):
+        $rc("What is it? I want to get back to what I was doing...", "Looks like I've been caught touching myself.")
+    elif ct("Shy") and dice(50):
+        $rc("Hyah!? I-I'm sorry! I'll wipe it off right away...!", "I-I... what an embarrassing thing to do...")
+    elif ct("Imouto"):
+        $rc("Ehehe, I'm all sticky...♪", "I-It's nothing, I was just a little itchy...") 
+    elif ct("Dandere"):
+        $rc("Aw, I was almost there...", "...Even you have times when you need to...do it yourself, right?")
+    elif ct("Tsundere"):
+        $rc("Kuh... Sometimes I masturbate too, you know. What's wrong with that...?!", "...I wasn't really doing anything, you know? Yeah."),
+    elif ct("Kuudere"):
+        $rc("Hya!? I-I wasn't... Ah, no, well...You're not wrong, but...", "Even I have times when I wish to console myself.")
+    elif ct("Kamidere"):
+        $rc("God, can't you see I'm playing with myself here? What is it?", "...I've shown you something foolish. Please forget about it.")
+    elif ct("Bokukko"):
+        $rc("Geez, I was in the zone! Quit bothering me!", "What do you want? And it was just getting good too, jeez...")
+    elif ct("Ane"):
+        $rc("Hehe, you caught me...", "Um, that's embarrassing... Please don't look at me so much.")
+    elif ct("Yandere"):
+        $rc("Hehehe, I just got a bit horny...", "Hey, can't you take a hint...? I'm kinda busy here...")
+    else:
+        $rc("Hyaa!?　Eh, ah, um, I just, well... Ahaha...", "Hyaaah!? I, I don't do anything..!")
+    $ char.restore_portrait()
+    return
