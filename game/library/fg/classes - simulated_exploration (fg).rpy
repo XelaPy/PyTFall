@@ -36,15 +36,12 @@ init -9 python:
         For now, this will be used in combination with screen language.
         *Adaptation of Roman's Inv code!
         """
+        
+        # Do we even still need this???
+        
         def __init__(self):
-            # Should be changes to location in the future:
-            # block = set()
-            # for team in fg.teams:
-                # for girl in team:
-                    # block.add(girl)        
+            # Should be changes to location in the future:    
             self.content = list(girl for girl in fg.get_girls() if girl.action not in ["Exploring"])
-            # if config.developer:
-                # self.content = list(girl for girl in hero.girls if girl.action != "Exploring")
             self.page = 0
             self.page_size = 10
             self.max_page = len(self.content) / self.page_size if len(self.content) % self.page_size not in [0, self.page_size] else (len(self.content) - 1) / self.page_size
