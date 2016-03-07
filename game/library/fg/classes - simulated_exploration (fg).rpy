@@ -1,8 +1,9 @@
 init -9 python:
     # ======================= (Simulated) Exploration code =====================>>>
     class FG_Area(_object):
-        """
-        Dummy class for areas (for now).
+        """Dummy class for areas (for now).
+        
+        Tracks the progess in SE areas as well as storing their data. This can prolly remain the same or similar to this plain design.
         """
         def __init__(self):
             self.days = 3
