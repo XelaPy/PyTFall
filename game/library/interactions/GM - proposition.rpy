@@ -165,7 +165,7 @@ label interactions_girlfriend:
         elif ct("Shy") and dice(30):  
             $rc("Sorry... I'm... still not ready to go that far...", "Ah... Eh... Aah! This is a joke... Right?")
         elif ct("Imouto"):
-            $rc("Sure, wh-... Mmmm! ...Come to think of it...it's a bad idea after all...", "Ufufu, I'm not falling for that joke!", "Geez～, stop joking around～")
+            $rc("Sure, wh-... Mmmm! ...Come to think of it...it's a bad idea after all...", "Ufufu, I'm not falling for that joke!", "Geez♪, stop joking around♪")
         elif ct("Dandere"):
             $rc("Nice weather today.", "I am not interested at the moment.", "Sorry, you're not my type.")
         elif ct("Kuudere"):

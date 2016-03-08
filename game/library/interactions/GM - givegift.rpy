@@ -40,7 +40,7 @@ label interactions_goodgift:
     elif ct("Dandere"):
         $rc("...Thanks.", "Is it ok if I have this? Thanks.", "Is it alright for me to have this?", "Thanks.")
     elif ct("Ane"):
-        $rc("Thank you. You have my regards.", "Oh my, I'm grateful~.", "Trying to earn points, huh? <giggle>", "Oh, this is rather good.", "Oh, goodness! Are you sure? Thanks!")
+        $rc("Thank you. You have my regards.", "Oh my, I'm grateful ♪", "Trying to earn points, huh? <giggle>", "Oh, this is rather good.", "Oh, goodness! Are you sure? Thanks!")
     elif ct("Imouto"):
         $rc("Oh! You got me something! <giggles>", "Hehehe, if you keep doing this I'll be spoiled.", "Waa? Giving me things all of the sudden...", "I love presents! Thank you!")
     elif ct("Kamidere"):
@@ -48,7 +48,7 @@ label interactions_goodgift:
     elif ct("Bokukko"):
         $rc("Oh? This is pretty good! Thanks.", "Yeah, looks good! Thanks!", "This is a fun gift. Thanks!", "Oh, a present! Thank you!", "This is a super gift! Thank you!")
     else:
-        $ rc("Thank you so much!", "Yes, you have my thanks.", "Thank you...! I'm happy.", "This is a really nice gift! Thank you!", "Haha. Can't say 'no' to that.",  "No! I won't take it! Just kidding~", "Well, that's nice.")
+        $ rc("Thank you so much!", "Yes, you have my thanks.", "Thank you...! I'm happy.", "This is a really nice gift! Thank you!", "Haha. Can't say 'no' to that.",  "No! I won't take it! Just kidding ♪", "Well, that's nice.")
     $ char.restore_portrait()
     jump girl_interactions
 
