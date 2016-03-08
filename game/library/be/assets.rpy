@@ -24,7 +24,6 @@ init -1: # Images and Animations
     image fire_mask = FilmStrip('content/gfx/be/filmstrips/fire_mask.jpg', (240, 180), (5, 5), 0.05, loop=True)
     image flame_bm = FilmStrip('content/gfx/be/filmstrips/fire_mask_bm.png', (240, 180), (5, 5), 0.05, loop=True)
     image cataclysm_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/cataclysm.webm", mask="content/gfx/be/webm/cataclysm.webm")
-    image air_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/Air_2.webm", mask="content/gfx/be/webm/Air_1t.webm")
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png" 
         pause 0.06
@@ -153,6 +152,7 @@ init -1: # Images and Animations
     image air_3 = FilmStrip('content/gfx/be/filmstrips/air_3.png', (192, 192), (5, 5), 0.06, loop=False)
     image air_4 = FilmStrip('content/gfx/be/filmstrips/air_4.png', (192, 192), (5, 6), 0.05, loop=False)
     image air_6 = FilmStrip('content/gfx/be/filmstrips/air_6.png', (151, 151), (5, 7), 0.06, loop=False, reverse=True)
+    image air_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/Air_2.webm", mask="content/gfx/be/webm/Air_1t.webm")
     image vortex = FilmStrip('content/gfx/be/filmstrips/vortex.png', (277, 277), (15, 1), 0.1, loop=True)
     image tornado:
         FilmStrip('content/gfx/be/filmstrips/tornado.png', (674, 592), (2, 3), 0.05, loop=True)
@@ -551,14 +551,9 @@ label load_battle_skills:
         SimpleMagicalAttack(u"Aero", menu_pos=0, attributes=['magic', 'air'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["air_1", "default"], gfx='air_1', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.3], sfx="content/sfx/sound/be/air2.mp3", type="all_enemies",
                                            aim="center", anchor=(0.5, 0.5),
                                            desc="High pressure air cuts through armor and flesh like a hardened blade.")
-        ArealMagicalAttack("Aero webm", menu_pos=13, attributes=['magic', 'air'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
-                                        desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
-                                        attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("air_webm", zoom=1), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 0.5), "xo":0 ,"yo": 0}},
-                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2, "duration": 2.5},
-                                        target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001},
-                                        bg_main_effect={"gfx": "mirrage", "initial_pause": 2.6, "duration": 2})
+        SimpleMagicalAttack(u"Aero webm", menu_pos=0, attributes=['magic', 'air'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["air_1", "default"], gfx='air_1', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.3], sfx="content/sfx/sound/be/air2.mp3", type="all_enemies",
+                                           aim="center", anchor=(0.5, 0.5),
+                                           desc="High pressure air cuts through armor and flesh like a hardened blade.")
         SimpleMagicalAttack(u"Aerora", menu_pos=1, attributes=['magic', 'air'], effect=30, multiplier=1.2, cost=7, range=4, casting_effects=["air_1", "default"], gfx='air_5', zoom=1.3, pause=0.9, target_damage_gfx=[0.1, "shake", 0.8], sfx="content/sfx/sound/be/air1.mp3",
                                            desc="Causes damage by sand and branches picked up by the wind rather than air itself.")    
         SimpleMagicalAttack(u"Aeroga", menu_pos=2, attributes=['magic', 'air'], effect=25, multiplier=1.2, cost=6, range=4, casting_effects=["air_1", "default"], gfx='air_2', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.3], sfx="content/sfx/sound/be/air3.mp3", piercing=True,
