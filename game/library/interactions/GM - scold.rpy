@@ -46,7 +46,7 @@ label interactions_insult:
     elif ct("Protective"):
         $rc("Whatever are you saying?", "That is simply not true.")
     elif ct("Energetic"):
-        $rc("Eeh♪, I wouldn't say that♪♪", "That can't be right, hey♪?", "Eh? But that's wrong, right?", "But that's not true at all?", "Eh? What are you talking about?")
+        $rc("Eeh♪, I wouldn't say that ♪", "That can't be right, hey?", "Eh? But that's wrong, right?", "But that's not true at all?", "Eh? What are you talking about?")
     elif ct("Outgoing"):
         $rc("That's definitely not true, so relax, okay?")
     elif ct("Kind"):

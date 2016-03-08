@@ -248,7 +248,7 @@ label praise_yes:
     #    elif ct("Ane"):
     #        $rc("My, don't stare so hard, okay...?", "If you're gonna look, pay me the viewer's fee!♪", "Thanks, but please don't stare like that, it's embarrassing.", "Do you like my breasts? Glad to hear it...")
     #    elif ct("Imouto"):
-    #        $rc("Huhu ♪ Lookie, these are my awesome boobs ♪", "Geez, don't loooook♪♪")
+    #        $rc("Huhu ♪ Lookie, these are my awesome boobs ♪", "Geez, don't loooook ♪")
     #    elif ct("Kuudere"):
     #        $rc("G-go ahead, if you're going to look then look!", "D-don't look... You can't!")
     #    elif ct("Tsundere"):
