@@ -32,7 +32,7 @@ label interactions_insult:
     elif ct("Shy"):
         $ rc("Pl-please ... stop...", "Don't ... make fun of me.", "Uuuuuh <She starts crying>", "Well ... that ... <she looks like she wants to run away>", "Ah, I-I'm not… S-sorry…", "Really? I don't think… I-I'm sorry.", "<looks uncomfortable> No, I... umn... sorry.", "P-please, leave me be...")
     elif ct("Optimist") and ct("Lolita"):
-        $rc("Eh? You sound like a perv!", "Booring~!")
+        $rc("Eh? You sound like a perv!", "Booring!")
     elif ct("Kuudere"):
         $rc("You can stop talking now.", "Can't find something better to say?", "All talk and nothing to back it up. What are you even trying to do?")
     elif ct("Dandere"):
@@ -46,7 +46,7 @@ label interactions_insult:
     elif ct("Protective"):
         $rc("Whatever are you saying?", "That is simply not true.")
     elif ct("Energetic"):
-        $rc("Eeh～, I wouldn't say that～♪", "That can't be right, hey～?", "Eh? But that's wrong, right?", "But that's not true at all?", "Eh? What are you talking about?")
+        $rc("Eeh♪, I wouldn't say that ♪", "That can't be right, hey?", "Eh? But that's wrong, right?", "But that's not true at all?", "Eh? What are you talking about?")
     elif ct("Outgoing"):
         $rc("That's definitely not true, so relax, okay?")
     elif ct("Kind"):
