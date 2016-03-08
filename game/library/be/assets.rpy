@@ -405,15 +405,6 @@ label load_battle_skills:
         ArealMagicalAttack("Cataclysm", menu_pos=13, attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("cataclysm", zoom=2.2), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 5.5, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
-                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 5.5},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2.0, "duration": 2.5},
-                                        target_death_effect={"gfx": "hide", "initial_pause": 3.5, "duration": 0.0001},
-                                        bg_main_effect={"gfx": "mirrage", "initial_pause": 2.9, "duration": 2.4})
-        
-        ArealMagicalAttack("Cataclysm webm", menu_pos=13, attributes=['magic', 'fire'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
-                                        desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
-                                        attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("cataclysm_webm", zoom=0.85), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 330}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2, "duration": 2.5},
