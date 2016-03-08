@@ -24,7 +24,7 @@ init -1: # Images and Animations
     image fire_mask = FilmStrip('content/gfx/be/filmstrips/fire_mask.jpg', (240, 180), (5, 5), 0.05, loop=True)
     image flame_bm = FilmStrip('content/gfx/be/filmstrips/fire_mask_bm.png', (240, 180), (5, 5), 0.05, loop=True)
     image cataclysm_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/cataclysm.webm", mask="content/gfx/be/webm/cataclysm.webm")
-    image air_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/Air_1.webm", mask="content/gfx/be/webm/Air_1.webm")
+    image air_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/Air_2.webm", mask="content/gfx/be/webm/Air_1t.webm")
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png" 
         pause 0.06
