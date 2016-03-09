@@ -1,9 +1,11 @@
 init python:
     # Fighters Guild Jobs =========================================>>>
     # Note that simpler jobs are part of the FG classes next day method itself!
+    
+    # This all should prolly be adapted to serve SimPy soon.
+    
     class FG_Rest(_object):
-        """
-        Resting in the Fighting Guild.
+        """Resting in the Fighting Guild.
         """
         def __init__(self, girl):
             """
@@ -231,10 +233,11 @@ init python:
             
     
     class FG_ExplorationJob(_object):
-        """
-        The class that solves exploration jobs.
+        """The class that solves exploration jobs.
+        
         Doesn't inherit from Job class for being too unique for it's generalization.
-        """
+        
+        This sadly will have to be rewritten for SimPy almost completely :(        """
         def __init__(self, team, area):
             """
             Creates a new FG_ExplorationJob.
@@ -313,7 +316,7 @@ init python:
                     restore = True
                     break
             
-            if restore:        
+            if restore:
                 for char in self.team:
                     char.health = char.get_max("health")
                     char.vitality = char.get_max("vitality")
@@ -623,7 +626,7 @@ init python:
                     self.txt.append("\n{color=[red]}You get reputation penalty as %d of your girls never returned from the expedition!\n{/color}" % dead)
                     hero.reputation -= 7*dead
             
-            if not skip_rewards:        
+            if not skip_rewards:
                 # Rewards + logging in global area
                 cash = sum(self.cash)
                 hero.add_money(cash, "Fighters Guild")
@@ -670,7 +673,6 @@ init python:
             evt.type = 'exploration_report'
             evt.char = None
             self.loc = fg
-            # evt.img = self.area.img <-- Old style
             
             # New style:
             args = list()
