@@ -811,7 +811,7 @@ label interactions_too_many_lines: # overused non-sexual line
     $ char.restore_portrait()
     return
     
-label interactions_too_many_lines: # overused sexual line
+label interactions_too_many_sex_lines: # overused sexual line
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $rc("I believe it's enough for today.", "I don't feel the need to do it one more time.")
