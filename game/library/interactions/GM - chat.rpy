@@ -1,6 +1,13 @@
 # general chat
 label interactions_general:
     "You had a conversation with [char.nickname]."
+    $ m = interactions_flag_count_checker(char, "flag_interactions_general", day)
+    if m >= randint (4,6):
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,5)
+        $ char.joy -= randint(0,2)
+        jump girl_interactions
+    $ del m
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     if dice (40) and dice(int(round(hero.charisma*0.5))):
