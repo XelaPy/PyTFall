@@ -181,7 +181,8 @@ init -1: # Images and Animations
     image darkness_5 = FilmStrip('content/gfx/be/filmstrips/darkness_5.png', (375, 500), (4, 3), 0.1, loop=False)
     image darkness_6 = FilmStrip('content/gfx/be/filmstrips/darkness_6.png', (192, 192), (5, 3), 0.1, loop=False)
     image darklight = FilmStrip('content/gfx/be/filmstrips/darklight.png', (144, 192), (5, 4), 0.1, loop=False)
-    image dominion = FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False)
+    image dominion = Transform(FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False),
+                                                      size=(config.screen_width, config.screen_height))
 
     # Ice Arrow:
     image ice_1 = FilmStrip('content/gfx/be/filmstrips/ice_1.png', (192, 192), (5, 5), 0.08, loop=False)
@@ -309,8 +310,6 @@ init -1: # Images and Animations
         linear 1.0 rotate 360
     image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
     image thunder_storm_3:
-        # VBox(Transform(MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/darkfog.webm", mask="content/gfx/be/webm/darkfog.webm"), crop=(0, 0, 1024, 225)),
-                  # Transform(MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/darkfog.webm", mask="content/gfx/be/webm/darkfog.webm"), crop=(0, 225, 1024, 286), yzoom=3))
         VBox(Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 0, 507, 125)),
                   Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 125, 507, 128), yzoom=3))
     
@@ -697,7 +696,7 @@ label load_battle_skills:
         FullScreenCenteredArealMagicalAttack("Dominion", menu_pos=13, attributes=['magic', 'darkness'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                                                         desc="Cut the darkness itself!",
                                                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                                                        main_effect={"gfx": Transform("dominion", size=(config.screen_width, config.screen_height)), "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
+                                                                        main_effect={"gfx": "dominion", "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
                                                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
                                                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
