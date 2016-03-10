@@ -309,6 +309,8 @@ init -1: # Images and Animations
         linear 1.0 rotate 360
     image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
     image thunder_storm_3:
+        # VBox(Transform(MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/darkfog.webm", mask="content/gfx/be/webm/darkfog.webm"), crop=(0, 0, 1024, 225)),
+                  # Transform(MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/darkfog.webm", mask="content/gfx/be/webm/darkfog.webm"), crop=(0, 225, 1024, 286), yzoom=3))
         VBox(Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 0, 507, 125)),
                   Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 125, 507, 128), yzoom=3))
     
@@ -595,7 +597,6 @@ label load_battle_skills:
         SimpleMagicalAttack(u"Electromagnetism", menu_pos=10, menuname="EM", attributes=['magic', 'electricity'], effect=40, multiplier=1.5, cost=9, range=4, casting_effects=["electricity_2", "default"], gfx='electricity_6', zoom=1.8, pause=3.2, target_damage_gfx=[0.3, "shake", 2.9], sfx="content/sfx/sound/be/thunder6.mp3", type="all_enemies",
                                            aim="tc", anchor=(0.5, 0.5), yo=15,
                                            desc="Takes control over charged particles inside the target, causing severe internal injuries.")
-    
         P2P_MagicAttack(u"Ion Blast", menu_pos=11, attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, piercing=True, true_pierce=True,
                                       type="all_enemies", desc="Hits targets with clouds of charged particles.",
                                       projectile_effects={"gfx": 'ion_1', "sfx": "content/sfx/sound/be/ion_storm.mp3", "duration": 1.0},
