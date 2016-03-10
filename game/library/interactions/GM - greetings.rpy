@@ -782,3 +782,59 @@ label interactions_seen_mast:
         $rc("Hyaa!?　Eh, ah, um, I just, well... Ahaha...", "Hyaaah!? I, I don't do anything..!")
     $ char.restore_portrait()
     return
+    
+label interactions_too_many_lines: # overused non-sexual line
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $rc("I request change of the subject.", "I don't feel the need to discuss this anymore.")
+    elif ct("Shy") and dice(50):
+        $rc("Um... Can you stop already?", "Um... Please, this is honestly too much...")
+    elif ct("Imouto"):
+        $rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, talking about it again and again?") 
+    elif ct("Dandere"):
+        $rc("...You want to talk about that again?", "...It is a bother talking so much about the same thing.")
+    elif ct("Tsundere"):
+        $rc("Geez, give it a rest already!", "Ugh, you're really persistent!"),
+    elif ct("Kuudere"):
+        $rc("The more persistent you get, the more I want to shoot down whatever you say.", "Geez, you're too persistent.")
+    elif ct("Kamidere"):
+        $rc("How many times are you going to talk about it?", "Why do you keep talking about it? We already discussed it.")
+    elif ct("Bokukko"):
+        $rc("Gawd, stop repeating yourself!", "Hey, it becomes annoying. Don't you want to talk about something else?")
+    elif ct("Ane"):
+        $rc("You keep going back to the same thing again and again... You're bothering me.", "Persistence is not a virtue, you know?")
+    elif ct("Yandere"):
+        $rc("I hate people who are too persistent.", "Give it a rest. We already discussed it.")
+    else:
+        $rc("Why do you keep repeating yourself?", "Goodness, how many times are you going to talk about it?")
+    "Maybe you should talk about something else."
+    $ char.restore_portrait()
+    return
+    
+label interactions_too_many_sex_lines: # overused sexual line
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $rc("I believe it's enough for today.", "I don't feel the need to do it one more time.")
+    elif ct("Shy") and dice(50):
+        $rc("S-sorry, let's do it later m-maybe..?", "Um... Please, this is honestly too much for today...")
+    elif ct("Imouto"):
+        $rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, doing it again and again?") 
+    elif ct("Dandere"):
+        $rc("...You want to do it again? I don't want to.", "...Let's stop here. I'm tired of it.")
+    elif ct("Tsundere"):
+        $rc("Geez, give it a rest already!", "Ugh, you're really persistent. Stop it."),
+    elif ct("Kuudere"):
+        $rc("I think we should take a break.", "You're too persistent.")
+    elif ct("Kamidere"):
+        $rc("How many times are you going to do it?", "Unfortunately, I have no intentions to do it again.")
+    elif ct("Bokukko"):
+        $rc("Geez, enough already! I don't wanna to.", "Hey, it becomes annoying. Don't you want to do something else?")
+    elif ct("Ane"):
+        $rc("We keep doing it again and again... Let's stop it, alright?", "Persistence is not a virtue, you know?")
+    elif ct("Yandere"):
+        $rc("You are too persistent. I don't feel like it.", "Give it a rest. We already did it.")
+    else:
+        $rc("Aren't you tired of it? I am.", "How many times are you going to do it?")
+    "Maybe you should try something else."
+    $ char.restore_portrait()
+    return
