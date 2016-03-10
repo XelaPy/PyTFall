@@ -1,51 +1,81 @@
 # general chat
 label interactions_general:
-    "You had a conversation with [char.nickname]."
-    $ m = interactions_flag_count_checker(char, "flag_interactions_general", day)
-    if m >= randint (4,6):
-        call interactions_too_many_lines
-        $ char.disposition -= randint(1,5)
-        $ char.joy -= randint(0,2)
-        jump girl_interactions
-    $ del m
+    "You have a small chat with [char.nickname]."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-    if dice (40) and dice(int(round(hero.charisma*0.5))):
-        if char.disposition > 0:
+    $ m = interactions_flag_count_checker(char, "flag_interactions_general")
+    if m >= randint (4,6):
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,m)
+        $ char.joy -= randint(0,1)
+        $ del m
+        jump girl_interactions
+    $ del m
+    if dice (randint(40,60)) and dice(round(hero.charisma*0.5)) and dice (char.joy):
+        if char.disposition >= 200:
             $ narrator(choice(["You feel especially close today."]))
-            $ hero.exp += randint(1, 2)
-            $ char.exp += randint(1, 2)
-            $ char.disposition += randint(2, 4)
+            $ hero.exp += randint(2, 5)
+            $ char.exp += randint(2, 5)
+            $ char.joy += randint(0,1)
+            $ char.disposition += randint(1, 2)
         else:
             $ narrator(choice(["She was much more approachable today."]))
-            $ hero.exp += randint(1, 2)
-            $ char.exp += randint(1, 2)
-            $ char.disposition += randint(1, 3)
+            $ hero.exp += randint(2, 5)
+            $ char.exp += randint(2, 5)
+            $ char.disposition += randint(1, 4)
 
-    if char.disposition > 150:
-        if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+    if char.disposition >= 100:
+        if ct("Impersonal") or ct("Dandere") or ct("Shy"):
             $ narrator(choice(["She didn't talked much, but she enjoyed your company nevertheless.", "You had to do most of the talking, but she listened you with a smile.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you, even though she didn't talked much."]))
         else:
             $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "She welcomed the chance to spend some time with you.", "She is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
-    elif char.disposition > -150:
-        if ct("Impersonal") or ct("Dandere") or ct("Kuudere") or ct("Shy"):
+    elif char.disposition >=-100:
+        if ct("Impersonal") or ct("Dandere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of her opening up to you yet.", "But it was kind of one-sided."]))      
         else:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though...", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
         $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
-    $ char.disposition += randint(1, 3)
-    $ char.joy += randint(0, 3)
-    $ hero.exp += randint(0, 1)
-    $ char.exp += randint(0, 1)
+    if char.disposition <= 200: # becomes less effective after 200 disposition
+        $ char.disposition += randint(1, 4)
+    elif dice(50):
+        $ char.disposition += randint(1, 2)
+    elif dice(50):
+        $ char.disposition += 1
+    else:
+        $ char.joy += 1
+    $ hero.exp += randint(1, 3)
+    $ char.exp += randint(1, 3)
     jump girl_interactions
     
 # ask about job
 label girl_interactions_aboutjob:
     "You asking about her job."
     $ interactions_check_for_bad_stuff(char)
-    $ hero.exp += randint(0, 1)
-    if char.disposition <= -350:
+    $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
+    if m > 1:
+        call interactions_too_many_lines
+        $ char.disposition -= randint(0,m)
+        $ del m
+        jump girl_interactions
+    $ del m
+    $ hero.exp += randint(1, 2)
+    if char.flag("daysemployed") < 5:
+        # Less than 10 days in service:
+        $ char.override_portrait("portrait", "indifferent")
+        if char.status != "slave":
+            $ rc("I'm still adjusting to the new position.", "I'm trying to find my bearings with this new career.")
+        else:
+            $ rc("I want to serve you better, master.", "A new master takes a while to get used to...")
+        $ char.disposition += 1
+        $ char.joy += 1
+        if dice(round(hero.charisma*0.5)):
+            $ char.joy += 1
+            $ char.disposition += randint(1, 2)
+            $ hero.exp += randint(0, 2)
+            $ char.exp += randint(0, 2)
+        $ char.restore_portrait()
+    elif char.disposition <= -350:
         $ char.override_portrait("portrait", "sad")
         if char.status != "slave":
             if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
@@ -60,24 +90,11 @@ label girl_interactions_aboutjob:
             else:
                 $ rc("I wish that I the resolve to kill myself...", "My life in your service is awful.", "Just sell me off to someone. To anyone!")
         $ char.disposition += randint(0, 1)
-        if dice(int(round(hero.charisma*0.2))): # the less disposition, the more difficult check we will use for additional goods
-            $ char.joy += 3
+        if dice(round(hero.charisma*0.4)): # the less disposition, the more difficult check we will use for additional goods
+            $ char.joy += 1
             $ char.disposition += randint(1, 2)
-        $ char.restore_portrait()
-    elif char.flag("daysemployed") < 10:
-        # Less than 10 days in service:
-        $ char.override_portrait("portrait", "indifferent")
-        if char.status != "slave":
-            $ rc("I'm still adjusting to the new position.", "Trying to find my bearings with this new career.")
-        else:
-            $ rc("I want to serve you better, master.", "A new master takes a while to get used to...")
-        $ char.disposition += randint(0, 1)
-        $ char.joy += 1
-        if dice(int(round(hero.charisma*0.3))):
-            $ char.joy += 3
-            $ char.disposition += randint(1, 2)
-            $ hero.exp += randint(1, 5)
-            $ char.exp += randint(1, 5)
+            $ hero.exp += randint(1, 3)
+            $ char.exp += randint(1, 3)
         $ char.restore_portrait()
     elif char.disposition <= -50:
         $ char.override_portrait("portrait", "indifferent")
@@ -112,15 +129,13 @@ label girl_interactions_aboutjob:
                 else:
                     $ rc("There isn't much to say... I'm sad and you're mean...", "I feel like it would be better if you sold me off at the next auction.")
         $ char.disposition += randint(1, 2)
-        $ char.joy += 1
+        $ char.joy += randint(0, 1)
         $ char.restore_portrait()
-        if dice(int(round(hero.charisma*0.4))):
-            $ char.refinement += 1
-            $ char.joy += 3
-            $ char.disposition += randint(1, 2)
-            $ hero.exp += randint(1, 3)
-            $ char.exp += randint(1, 3)
-
+        if dice(round(hero.charisma*0.6)):
+            $ char.joy += 2
+            $ char.disposition += randint(1, 4)
+            $ hero.exp += randint(1, 5)
+            $ char.exp += randint(1, 5)
     else:
         $ char.override_portrait("portrait", "happy")
         if char.status != "slave":
@@ -153,27 +168,33 @@ label girl_interactions_aboutjob:
                     $ rc("Y-yes, Master. I can do it, I know I can!", "It's normal, I suppose...")
                 else:
                     $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
-        if char.disposition < 50: # because it's stupid to raise it forever
-            $ char.disposition += 2
-        $ char.joy += 3
+        $ char.disposition += randint(1, 3)
+        $ char.joy += randint(0, 1)
         $ char.restore_portrait()
-        if dice(int(round(hero.charisma*0.5))):
-            $ char.refinement += 1
+        if dice(round(hero.charisma*0.7)):
             $ char.joy += 3
-            $ hero.exp += randint(5, 10)
-            $ char.exp += randint(5, 10)
-
+            $ char.disposition += randint(2, 5)
+            $ hero.exp += randint(2, 8)
+            $ char.exp += randint(2, 8)
+        $ char.restore_portrait()
     jump girl_interactions
 
 # ask how she feels
 label interactions_howshefeels:
     "You asking how she feels today."
+    $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
+    if m >= randint(5,8): # we don't have to limit it because of bonuses (there are none), but because of the common sense
+        call interactions_too_many_lines
+        $ char.disposition -= randint(0,2)
+        $ del m
+        jump girl_interactions
+    $ del m
     if char.effects["Food Poisoning"]['active']: # at least no penalty to disposition, unlike other cases with food poisoning
         $ char.override_portrait("portrait", "sad")
-        $ rc("I ate something wrong. Ow-ow-ow.", "Ouh. I think I need to use bathroom again...")
+        $ rc("I ate something wrong. Ow-ow-ow...", "Ouh. I think I need to use bathroom again...")
         $ char.restore_portrait()
         jump girl_interactions_end
-    elif char.effects["Down with Cold"]['active'] or char.vitality <= 10 or (char.health < round(char.get_max("health")*0.2)) or char.joy<25: # we select one suitable image in the very beginning
+    elif char.effects["Down with Cold"]['active'] or char.vitality < round(char.get_max("vitality")*0.3) or (char.health < round(char.get_max("health")*0.2)) or char.joy<25: # we select one suitable image in the very beginning
         $ char.override_portrait("portrait", "sad")
     elif char.joy>70:
         if ct("Shy"):
@@ -189,37 +210,16 @@ label interactions_howshefeels:
     if char.effects["Down with Cold"]['active']: #illness
         $ rc("I think I caught a cold...", "I'm not feeling well today. *sneezes*", "I have a fever... <She looks pale>")
         
-    if char.joy <= 30: #begin joy checks
-        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-            $ rc("I'm not in the mood.", "I'm just a bit sad. That's all.")
-        elif ct("Shy"):
-            $ rc("I'm kinda sad...", "I-I cried a bit some time ago. Why? Because I felt like it...")
-        else:
-            $ rc("I'm depressed. Don't wanna talk about it.", "I'm sad. Isn't it obvious to you?")
-    elif char.joy >= 65:
-        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-            $ rc("I'm pretty happy. I think.", "I'm fine. <barely smiling>")
-        elif ct("Shy"):
-            $ rc("I think I'm... happy.", "<shyly smiling> I'm so happy...")
-        else:
-            $ rc("I'm quite happy.", "Feeling great!")
-    else:
-        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
-            $ rc("I'm perfectly calm.", "Don't concern yourself about me, I'm fine.")
-        elif ct("Shy"):
-            $ rc("Um, I suppose I'm ok.", "N-nothing to worry about, I'm mostly fine. <blushes>")
-        else:
-            $ rc("I'm ok, I guess.", "Everything is as usual.")
     #body checks
-    if char.vitality <= 10:
+    if char.vitality <= round(char.get_max("vitality")*0.1):
         $ rc("I want to sleep so badly... <yawns>", "I'm very tired lately... <yawns>")
-    elif char.vitality <= 35:
-        $ rc("My body a bit tired.", "I could use some rest.", "I need to recover my strength.")
+    elif char.vitality < round(char.get_max("vitality")*0.3):
+        $ rc("My body a bit tired.", "I could use some rest.", "I feel weakness, I really should rest more...")
     elif char.vitality >= round(char.get_max("vitality")*0.9):
         $ rc("I'm full of strength and energy.", "My body rested very well lately.")
 
     if char.health <= round(char.get_max("health")*0.3):
-        $ rc("My whole body hurts. I think I need a doctor.", "My body is not feeling very well lately...")
+        $ rc("My whole body hurts. I think I need a doctor.", "My body is not feeling very well lately... I could use some medical attention.")
     elif char.health >= round(char.get_max("health")*0.9) and not(char.effects["Food Poisoning"]['active']) and not(char.effects["Down with Cold"]['active']):
         $ rc("My body is in top condition.", "My health is pretty good lately.")
         
@@ -228,6 +228,29 @@ label interactions_howshefeels:
             $ rc("I feel drained.", "My mind is tired. Perhaps I should use magic less frequently.")
         elif char.mp >= round(char.get_max("mp")*0.9):
             $ rc("I feel like magic overflows me.", "I'm filled with magic energy.")
+            
+    if char.joy <= 30: #begin joy checks
+        if ct("Impersonal") or ct("Dandere"):
+            $ rc("I'm not in the mood today.", "I'm just a bit sad. That's all.")
+        elif ct("Shy"):
+            $ rc("I'm kinda sad...", "I-I cried a bit some time ago. Why? Because I felt like it...")
+        else:
+            $ rc("I'm depressed. Don't wanna talk about it.", "I'm sad. Isn't it obvious to you?")
+    elif char.joy >= 65:
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+            $ rc("I'm pretty happy. I think.", "I'm fine. <barely smiling>")
+        elif ct("Shy"):
+            $ rc("I think I'm... happy.", "<shyly smiling> I'm in a good mood today...")
+        else:
+            $ rc("I'm quite happy.", "You could say I enjoy my life.")
+    else:
+        if ct("Impersonal") or ct("Dandere") or ct("Kuudere"):
+            $ rc("I'm perfectly calm.", "Don't concern yourself about me, I'm fine.")
+        elif ct("Shy"):
+            $ rc("Um, I suppose I'm ok.", "N-nothing to worry about, I'm f-fine.")
+        else:
+            $ rc("I'm ok, I guess.", "Everything is as usual.")
+            
     $ char.restore_portrait()        
     jump girl_interactions
 
@@ -236,64 +259,33 @@ label interactions_abouther:
     "You trying to learn a bit about her."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-    $ gm_abouther_list = []
     
-    if char.disposition > 200:
-        $ gm_dice = 100
-        $ gm_disp_mult = 0.1
-        $ hero.exp += randint(0, 4)
-        $ char.exp += randint(0, 4)
-    
-    elif char.disposition > 150:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.5
-    
-    elif char.disposition > 100:
-        $ gm_dice = 80
-        $ gm_disp_mult = 0.75
-    
-    elif char.disposition > -20:
-        $ gm_dice = 70
-        $ gm_disp_mult = 1
-    
-    elif char.disposition > -300:
-        $ gm_dice = 60
-        $ gm_disp_mult = 1
-    
-    else:
-        $ gm_dice = 25
-        $ gm_disp_mult = 1.5
-    
-    if ct("Half-Sister") and dice(45) and dice(gm_dice):
-        if ct("Yandere"):
-            $rc("We used to play doctor and tear off each other's clothes, heh.", "We used to bathe together, so... you got to touch sister's body all over....", "Whenever we took a bath together, I used to wash your every nook and cranny. And I mean EVERY nook and cranny ♪")
-        elif ct("Impersonal"):
-            $rc("Do you remember how you used to pull pranks on me?", "I have always observed you. I know all there is to your character.", "I've known what kinds of sexual fetishes you have since a long time ago.")
-        elif ct("Tsundere"):
-            $rc("We used to take a bath together back in the days, didn't we? Now...? B...but... hey! You know we shouldn't do that!", "Now that I think about it, I spent more time with you than Mom and Dad.", "You've always gone out of your way to protect your sister. I should thank you for that.", "I went overboard when I tried to discipline you back when we were little. To be honest, I'm sorry about that now.", "Remember that collection of dirty magazines you used to cherish? I was the one who threw them away. I am... still sorry about that.")
-        elif ct("Dandere"):
-            $rc("We've been together since we were small... Have you had enough of it? Well, I'm still not tired of it yet.", "You've taught me all kinds of things since a long time ago... even perverted things.", "You used to play doctor with me all the time... You were so perverted, even back then.")
-        elif ct("Kuudere"):
-            $rc("I used to be a crybaby? D-don't remind me of such things...", "M-my promise to marry you? T-there's no way I'd remember something like that!", "Getting engaged with my brother... I only thought that was possible back when we're kids.", "You always protected me. Therefore, I decided that I had to become strong.")
-        elif ct("Ane"):
-            $rc("Hehe, you've grown so much... That makes your sis proud.", "You weren't able to fall asleep without sis by your side when we were little.", "Whenever I wore a skirt, you always tried to peek underneath it... You were already so perverted when we were little.", "I've taken care of you since you were little. Therefore, sister knows everything about you.", "When we were younger, I was always by your side because I swore I would always protect you.")
-        elif ct("Imouto"):
-            $rc("I used to think I'd get as tall as you.", "You remember we used to play shop when we were little? Wha... You should forget about THAT game!", "You have protected me from bullies when I was little.... That made me so happy.")
-        elif ct("Kamidere"):
-            $rc("I decided that you'd be mine when I was still very little.", "You've belonged to sis ever since you were born.", "You're my brother who I've personally helped to raise. There's no way I'd let you go.")
-        elif ct("Bokukko"):
-            $rc("When we were little, didn't you say you'd make me your wife someday or something?", "When we were kids, we went exploring in the forest together and we both got lost.", "We used to climb fences and then jump off them. The two of us got injuries all over.", "You used to be so wee and now that huge, na?")
-        else:
-            $rc("We used to bathe together a lot when we were little ♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little.")
-
-    if ct("Lesbian"): 
-        $ gm_disp_mult = ((gm_disp_mult)*0.8)
-    
-    if dice(gm_dice):
-        $ char.disposition += (randint(5, 10)*(gm_disp_mult))
-        $ gm.abouther_count = 0
+    if dice((char.disposition+hero.charisma)*0.5):
+        $ char.disposition += randint(5, 10)
         $ hero.exp += randint(1, 5)
         $ char.exp += randint(1, 5)
+        $ gm_abouther_list = []
+        if ct("Half-Sister") and dice(50):
+            if ct("Yandere"):
+                $rc("We used to play doctor and tear off each other's clothes, heh.", "We used to bathe together, so... you got to touch sister's body all over....", "Whenever we took a bath together, I used to wash your every nook and cranny. And I mean EVERY nook and cranny ♪")
+            elif ct("Impersonal"):
+                $rc("Do you remember how you used to pull pranks on me?", "I have always observed you. I know all there is to your character.", "I've known what kinds of sexual fetishes you have since a long time ago.")
+            elif ct("Tsundere"):
+                $rc("We used to take a bath together back in the days, didn't we? Now...? B...but... hey! You know we shouldn't do that!", "Now that I think about it, I spent more time with you than Mom and Dad.", "You've always gone out of your way to protect your sister. I should thank you for that.", "I went overboard when I tried to discipline you back when we were little. To be honest, I'm sorry about that now.", "Remember that collection of dirty magazines you used to cherish? I was the one who threw them away. I am... still sorry about that.")
+            elif ct("Dandere"):
+                $rc("We've been together since we were small... Have you had enough of it? Well, I'm still not tired of it yet.", "You've taught me all kinds of things since a long time ago... even perverted things.", "You used to play doctor with me all the time... You were so perverted, even back then.")
+            elif ct("Kuudere"):
+                $rc("I used to be a crybaby? D-don't remind me of such things...", "M-my promise to marry you? T-there's no way I'd remember something like that!", "Getting engaged with my brother... I only thought that was possible back when we're kids.", "You always protected me. Therefore, I decided that I had to become strong.")
+            elif ct("Ane"):
+                $rc("Hehe, you've grown so much... That makes your sis proud.", "You weren't able to fall asleep without sis by your side when we were little.", "Whenever I wore a skirt, you always tried to peek underneath it... You were already so perverted when we were little.", "I've taken care of you since you were little. Therefore, sister knows everything about you.", "When we were younger, I was always by your side because I swore I would always protect you.")
+            elif ct("Imouto"):
+                $rc("I used to think I'd get as tall as you.", "You remember we used to play shop when we were little? Wha... You should forget about THAT game!", "You have protected me from bullies when I was little.... That made me so happy.")
+            elif ct("Kamidere"):
+                $rc("I decided that you'd be mine when I was still very little.", "You've belonged to sis ever since you were born.", "You're my brother who I've personally helped to raise. There's no way I'd let you go.")
+            elif ct("Bokukko"):
+                $rc("When we were little, didn't you say you'd make me your wife someday or something?", "When we were kids, we went exploring in the forest together and we both got lost.", "We used to climb fences and then jump off them. The two of us got injuries all over.", "You used to be so wee and now that huge, na?")
+            else:
+                $rc("We used to bathe together a lot when we were little ♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little.")
         
         if ct("Big Boobs", "Abnormally Large Boobs"):
             if dice(90):

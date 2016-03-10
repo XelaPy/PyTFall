@@ -1,6 +1,7 @@
 init -11 python:
     # Interactions (Girlsmeets Helper Functions):
-    def interactions_flag_count_checker(char_name, char_flag, day): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
+    def interactions_flag_count_checker(char_name, char_flag): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
+        global day
         if not(char_name.flag(char_flag)) or char_name.flag(char_flag)["day"] != day:
             char_name.set_flag(char_flag, {"day": day, "times": 1})
         else:
