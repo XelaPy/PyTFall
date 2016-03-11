@@ -1,5 +1,35 @@
 init -11 python:
     # Interactions (Girlsmeets Helper Functions):
+    def interactions_set_repeating_lines_limit(c): # returns the number of character "patience", ie how many repeating lines she's willing to listen in addition to default value
+        patience = 0
+        if "Impersonal" in c.traits:
+            patience += randint(1,3)
+        elif "Imouto" in c.traits:
+            patience -= randint(1,2)
+        elif "Dandere" in c.traits:
+            patience += randint(1,2)
+        elif "Tsundere" in c.traits:
+            patience -= randint(0,2)
+        elif "Kuudere" in c.traits:
+            patience += randint(0,1)
+        elif "Kamidere" in c.traits:
+            patience -= randint(0,1)
+        elif "Bokukko" in c.traits:
+            patience += randint(-1, 1)
+        elif "Ane" in c.traits and dice(70):
+            patience += 1
+        elif "Yandere" in c.traits: 
+            if c.disposition <= 500:
+                patience -= (0,1)
+            else:
+                patience += (2,3)
+        if patience <= 1 and "Shy" in c.traits and dice(50):
+            patience += 1
+        if patience <= 2 and "Well-mannered" in c.traits and dice(50):
+            patience += 1
+        if patience >= 2 and "Ill-mannered" in c.traits and dice(50):
+            patience -= 1
+        return patience
     def interactions_flag_count_checker(char_name, char_flag): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
         global day
         if not(char_name.flag(char_flag)) or char_name.flag(char_flag)["day"] != day:
@@ -23,20 +53,20 @@ init -11 python:
             char_name.override_portrait("portrait", "indifferent")
             rc("But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts.")
             char_name.restore_portrait()
-            char_name.disposition -= 2
+            char_name.disposition -= randint(1, 2)
             renpy.jump("girl_interactions_end")
         elif char_name.vitality <= 20:
             char_name.override_portrait("portrait", "indifferent")
             rc("But she was too tired to even talk.", "She was not very happy that you interrupted her rest.")
             char_name.restore_portrait()
-            char_name.disposition -= 2
+            char_name.disposition -= randint(1, 2)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
         elif char_name.health < (round(char_name.get_max("health")*0.2)):
             char_name.override_portrait("portrait", "indifferent")
             rc("But she is too wounded for that.", "But her wounds completely occupy her thoughts.")
             char_name.restore_portrait()
-            char_name.disposition -= 5
+            char_name.disposition -= randint(2, 5)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
     
