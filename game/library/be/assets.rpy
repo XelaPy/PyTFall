@@ -181,7 +181,8 @@ init -1: # Images and Animations
     image darkness_5 = FilmStrip('content/gfx/be/filmstrips/darkness_5.png', (375, 500), (4, 3), 0.1, loop=False)
     image darkness_6 = FilmStrip('content/gfx/be/filmstrips/darkness_6.png', (192, 192), (5, 3), 0.1, loop=False)
     image darklight = FilmStrip('content/gfx/be/filmstrips/darklight.png', (144, 192), (5, 4), 0.1, loop=False)
-    image dominion = FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False)
+    image dominion = Transform(FilmStrip('content/gfx/be/filmstrips/dominion_bm.png', (595, 354), (5, 5), 0.1, loop=False),
+                                                      size=(config.screen_width, config.screen_height))
 
     # Ice Arrow:
     image ice_1 = FilmStrip('content/gfx/be/filmstrips/ice_1.png', (192, 192), (5, 5), 0.08, loop=False)
@@ -595,7 +596,6 @@ label load_battle_skills:
         SimpleMagicalAttack(u"Electromagnetism", menu_pos=10, menuname="EM", attributes=['magic', 'electricity'], effect=40, multiplier=1.5, cost=9, range=4, casting_effects=["electricity_2", "default"], gfx='electricity_6', zoom=1.8, pause=3.2, target_damage_gfx=[0.3, "shake", 2.9], sfx="content/sfx/sound/be/thunder6.mp3", type="all_enemies",
                                            aim="tc", anchor=(0.5, 0.5), yo=15,
                                            desc="Takes control over charged particles inside the target, causing severe internal injuries.")
-    
         P2P_MagicAttack(u"Ion Blast", menu_pos=11, attributes=['magic', 'electricity'], effect=100, multiplier=1.8, cost=20, range=4, piercing=True, true_pierce=True,
                                       type="all_enemies", desc="Hits targets with clouds of charged particles.",
                                       projectile_effects={"gfx": 'ion_1', "sfx": "content/sfx/sound/be/ion_storm.mp3", "duration": 1.0},
@@ -696,7 +696,7 @@ label load_battle_skills:
         FullScreenCenteredArealMagicalAttack("Dominion", menu_pos=13, attributes=['magic', 'darkness'], effect=70, multiplier=1.8, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                                                         desc="Cut the darkness itself!",
                                                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                                                        main_effect={"gfx": Transform("dominion", size=(config.screen_width, config.screen_height)), "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
+                                                                        main_effect={"gfx": "dominion", "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
                                                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
                                                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
