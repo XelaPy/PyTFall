@@ -85,5 +85,5 @@ init -10 python:
                 actions.append(extra_action)
             self.actions = actions
         def __call__(self):
-            for _ in self.actions:
-                _()
+            for callable in self.actions:
+                callable()
