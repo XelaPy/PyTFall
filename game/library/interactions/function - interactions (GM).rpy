@@ -44,7 +44,7 @@ init -11 python:
             return False
         elif char_name.health < (round(char_name.get_max("health")*0.2)):
             return False
-        elif (not("Pessimist" in char_name.traits) and char_name.joy <= 15) or (("Pessimist" in char_name.traits) and char_name.joy < 5):
+        elif (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
             return False
         else:
             return True

@@ -6,7 +6,7 @@ label interactions_general:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_general")
-    if m >= (randint(3,4) + interactions_set_repeating_lines_limit(char)):
+    if m >= (randint(3,5) + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines
         $ char.disposition -= randint(1,m)
         $ char.joy -= randint(0,1)
@@ -14,7 +14,7 @@ label interactions_general:
         jump girl_interactions
     $ del m
     if dice(randint(40,60)) and dice(hero.charisma*0.5) and dice(char.joy):
-        if char.disposition >= 200:
+        if char.disposition >= 50:
             $ narrator(choice(["You feel especially close today."]))
             $ hero.exp += randint(2, 5)
             $ char.exp += randint(2, 5)
@@ -37,7 +37,11 @@ label interactions_general:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though...", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
         $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
-    if char.disposition <= 200: # becomes less effective after 200 disposition
+    if char.disposition <= -250:
+        $ char.disposition += randint(1, 3)
+    if char.disposition <= 0:
+        $ char.disposition += randint(2, 5)
+    if char.disposition <= 200:
         $ char.disposition += randint(1, 4)
     elif dice(50):
         $ char.disposition += randint(1, 2)
@@ -277,7 +281,7 @@ label interactions_abouther:
                 $ char.exp += randint(4, 8)
                 $ char.disposition += randint(3, 6)
         
-        $ char.disposition += randint(5, 15)
+        $ char.disposition += round(randint(6, 15) - (char.disposition * 0.005) + (char.joy * 0.02))
         $ hero.exp += randint(4, 8)
         $ char.exp += randint(4, 8)
         $ gm_abouther_list = []
@@ -627,32 +631,23 @@ label interactions_interests:
         $ del line
         $ hero.exp += randint(4, 8)
         $ char.exp += randint(4, 8)
-        $ char.disposition += randint(4, 10)
+        $ char.disposition += round(randint(6, 11) - (char.disposition * 0.005) + (char.joy * 0.03))
         
         if char.joy >= 65:
             if dice(char.joy):
                 "You had a very lively and enjoyable conversation."
-                $ gm_joy = 100
                 $ char.joy += randint(3, 4)
             else:
                 "You had a pretty lively conversation."
-                $ gm_joy = 75
                 $ char.joy += randint(2, 3)
         elif char.joy >= 30:
             if dice(char.joy + 30):
                 "You had a fairly normal conversation."
                 $ char.joy += randint(1, 2)
-                $ gm_joy = 50
             else: 
                 "You had a short conversation."
-                $ gm_joy = 25
         else:
             "It was a short and not very pleasant conversation."
-            $ gm_joy = 0
-        if dice(round(gm_joy*10 - char.disposition)):
-            $ char.disposition += randint(3, 6)
-            "You two became a bit closer."
-        $ del gm_joy
         jump girl_interactions
 ###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
 #label interactions_hangouts:
@@ -707,7 +702,7 @@ label interactions_romance:
                 $ char.disposition += randint(5, 10)
         $ hero.exp += randint(5, 15)
         $ char.exp += randint(5, 15)
-        $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
+        $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.05))
         if ct("Impersonal"):
             $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):
@@ -721,7 +716,7 @@ label interactions_romance:
         elif ct("Tsundere"):
             $rc("M...men and women feel arousal differently.... F-f-forget what I just said!", "Thick and hard? What the... You idiot, what are you saying! That's not what you meant? ... You idiot!", "E-even I want to be a good bride someday, you know...?", "Things like l-love or affection, are all excuses.")
         elif ct("Kuudere"):
-            $rc("To feel the same feelings towards each other... To be partners for life... That's what I long for.", "Two people in love devoting themselves to each other, that sounds like pure bliss to me...", "True love isn't about showing off to everyone else... It's the small things you do for your partner that matter.", "There's gotta be someone willing to support me out there somewhere...", "Chance encounters only happen with both time and luck...Well, I suppose you could call it fate.")
+            $rc("To feel the same feelings towards each other... To be partners for life... That's what I long for.", "Two people in love devoting themselves to each other, that sounds like pure bliss to me...", "True love isn't about showing off to everyone else... It's the small things you do for your partner that matter.", "There's gotta be someone willing to support me out there somewhere...", "Chance encounters only happen with both time and luck... Well, I suppose you could call it fate.")
         elif ct("Imouto"):
             $rc("That's weird... Today's love fortune was supposed to be a sure thing... Hmm...", "That book is very interesting... A boy and a girl who you'd think are twins get together, but in fact...", "L-love and affection and th-that stuff, I don't really get it very well...", "If I'm going to date someone, they should be rich ♪, and want kids ♪ And they should be totally committed to me ♪")
         elif ct("Ane"):
@@ -739,14 +734,14 @@ label interactions_romance:
 
 # interaction check fail
 label interactions_refused:
-    $ char.override_portrait("portrait", "confident")
+    $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $rc("Denied.", "It's none of your business.", "...")
     elif ct("Shy") and dice(50):
         $ char.override_portrait("portrait", "shy")
         $rc("I-I won't tell you... ", "It's nothing. ...sorry.", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
     elif ct("Dandere"):
-        $rc("I don't feel the need to answer that question.", "...Later...maybe.", "I'm not going to tell you.")
+        $rc("I don't feel the need to answer that question.", "...Let's talk later...maybe.", "I'm not going to tell you.")
     elif ct("Kuudere"):
         $rc("I've got no reason to tell you.", "I'm not in the mood for that right now.", "Why do I have to tell you?")
     elif ct("Tsundere"):
@@ -754,15 +749,15 @@ label interactions_refused:
     elif ct("Imouto"):
         $rc("Uhuhu♪ I won't tell you ♪ ", "It's a secret!", "Umm, is it bad if I don't answer...?")
     elif ct("Yandere"):
-        $rc("Shut up, leave me alone...", "<She is not listening>", "You talk too much.")
+        $rc("I'm not in a mood for chatting.",  "<She is not listening>", "You talk too much.")
     elif ct("Kamidere"):
-        $rc("Ahhh, geez, just shut up already!", "And what will hearing that do for you?", "And what good would knowing that do you?")
+        $rc("And what will hearing that do for you?", "And what good would knowing that do you?")
     elif ct("Ane"):
         $rc("...I don't feel like answering.", "Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*... Don't you have anything else to do?")
     elif ct("Bokukko"):
         $rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
     else:
-        $rc("I don't want to answer.", "I don't want to talk now.", "Hmph, Why should I have to tell you?", "I'm not in a mood for chatting.", "Must I give you an answer?")
+        $rc("I don't want to answer.", "I don't want to talk now.", "Hmph, Why should I have to tell you?", "Must I give you an answer?")
     $ char.restore_portrait()
     jump girl_interactions
     
