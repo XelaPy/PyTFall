@@ -47,48 +47,6 @@ label hero_profile:
                 $ came_to_equip_from = "hero_profile"
                 $ eqtarget = hero
                 jump char_equip
-                # if renpy.get_screen('hero_equip'):
-                    # hide screen hero_equip
-                    # $ pytfall.hp.show_item_info = False
-                    # $ pytfall.hp.item = False
-                # else:    
-                    # show screen hero_equip 
-                    
-            # elif result[1] == 'first_page':
-                # $ hero.inventory.first()
-            # elif result[1] == 'last_page':
-                # $ hero.inventory.last()
-            # elif result[1] == 'next_page':
-                # $ hero.inventory.next()
-            # elif result[1] == 'prev_page':
-                # $ hero.inventory.prev()
-            # elif result[1] == 'prev_filter':
-                # $ hero.inventory.apply_filter('prev')
-            # elif result[1] == 'next_filter':
-                # $ hero.inventory.apply_filter('next')
-            # elif result[1] == 'male_filter':
-                # $ hero.inventory.male_filter = True
-                # $ hero.inventory.apply_filter('all')
-            # elif result[1] == 'unisex_filter':
-                # $ hero.inventory.male_filter = False
-                # $ hero.inventory.apply_filter('all')
-            
-        # elif result[0] == 'item':
-            # if result[1] == 'get':
-                # $ pytfall.hp.show_item_info = True
-                # $ pytfall.hp.item = result[2]
-            # elif result[1] == 'equip':
-                # $ equip_item(pytfall.hp.item, hero)
-                # $ pytfall.hp.show_item_info = False
-                # $ pytfall.hp.item = False
-            # elif result[1] == "transfer":
-                # $ renpy.hide_screen("hero_profile")
-                # $ pytfall.it = GuiItemsTransfer("personal_transfer", char=ap, last_label=last_label)
-                # jump items_transfer
-            # elif result[1] == 'unequip':
-                # $ hero.unequip(pytfall.hp.item)
-                # $ pytfall.hp.show_item_info = False
-                # $ pytfall.hp.item = False
 
         elif result[0] == "remove_from_team":
             $ hero.team.remove(result[1])
@@ -96,45 +54,6 @@ label hero_profile:
         elif result[0] == "rename_team":
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("ht_input")
-    
-    
-    # $ pytfall.hp.screen_loop()
-
-    # hide screen hero_equip
-    # hide screen hero_profile
-    # jump mainscreen
-
-# screen hero_dropdown_loc(pos=()):
-    # # Trying to create a drop down screen with choices of buildings:
-    # zorder 3
-    # modal True
-     
-    # key "mousedown_4" action NullAction()
-    # key "mousedown_5" action NullAction()
-     
-    # # Get mouse coords:
-    # python:
-        # x, y = pos
-        # if x > 1000:
-            # xval = 1.0
-        # else:
-            # xval = 0.0
-        # if y > 500:
-            # yval = 1.0
-        # else:
-            # yval = 0.0
-    # frame:
-        # style_group "dropdown"
-        # pos (x, y)
-        # anchor (xval, yval)
-        # vbox:
-            # for building in hero.buildings:
-                # textbutton "[building.name]":
-                    # action [SetField(hero, "location", building), Hide("hero_dropdown_loc")]
-            # textbutton "None":
-                # action [SetField(hero, "location", hero), Hide("hero_dropdown_loc")]
-            # textbutton "Close":
-                # action [Hide("hero_dropdown_loc")]
 
 screen hero_profile():
     
@@ -382,75 +301,79 @@ screen hero_profile():
     if rframe_display == "skills":
         vbox:
             pos (1125, 205)
-            style_group "stats"
-            spacing 5
+            style_group "proper_stats"
             
             frame:
                 background Frame("content/gfx/frame/hp_1.png", 5, 5)
                 xysize (160, 192)
                 has vbox
-                label (u"Attack:") text_size 19 text_color ivory text_bold True align(0.43, 0.5) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
-                xpos -3
+                label (u"Attack:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
                 viewport:
-                    xysize (160, 150)
+                    xysize (160, 155)
                     scrollbars "vertical"
                     draggable True
                     mousewheel True
-                    has vbox spacing -7
-                    for entry in hero.attack_skills:
+                    has vbox spacing 1
+                    for entry in char.attack_skills:
                         frame:
-                            xysize (128, 10)
+                            xysize (147, 25)
                             button:
                                 background Null()
-                                xysize (128, 10)
+                                xysize (147, 25)
                                 action NullAction()
-                                text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
+                                text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.action(entry.desc)
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                hovered tt.action(entry)#, With(dissolve)
-            
+    
             frame:
                 background Frame("content/gfx/frame/hp_1.png", 5, 5)
                 xysize (160, 192)
                 has vbox
-                label (u"Magic:") text_size 19 text_color ivory text_bold True align(0.41, 0.5) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
-                xpos -3
+                label (u"Magic:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
                 viewport:
-                    xysize (160, 150)
+                    xysize (160, 155)
                     scrollbars "vertical"
                     draggable True
                     mousewheel True
-                    has vbox spacing -7
-                    for entry in hero.magic_skills:
+                    has vbox spacing 1
+                    for entry in char.magic_skills:
                         frame:
-                            xysize (128, 10)
+                            xysize (147, 25)
                             button:
                                 background Null()
-                                xysize (128, 10)
+                                xysize (147, 25)
                                 action NullAction()
-                                text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
+                                text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.action(entry.desc)
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                hovered tt.action(entry)# , With(dissolve)
     
     # TRAITS ====================================>
     elif rframe_display == "traits":
-        vbox:
+        frame:
             pos (1125, 205)
-            style_group "stats"
-            spacing 5
-            
-            frame:
-                background Frame("content/gfx/frame/hp_1long.png", 5, 5)
-                xysize (160, 389)
-                
-                # Traits (Baseclasses for now):
-                has vbox
-                for t in hero.traits:
-                    textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
-    
-    # EQUIPMENT   -------------------------------------------------->
-    # showif not renpy.get_screen('hero_equip'):
-        # use eqdoll(active_mode=False, char=hero)
-    
+            background Frame("content/gfx/frame/hp_1long.png", 5, 5)
+            xysize (160, 389)
+            style_group "proper_stats"
+            has vbox
+            label (u"Traits:") text_size 20 text_color ivory text_bold True xalign .45
+            viewport:
+                xysize (160, 300)
+                scrollbars "vertical"
+                draggable True
+                mousewheel True
+                has vbox spacing 1
+                for trait in list(t for t in hero.traits if not any([t.personality, t.race, t.elemental])):
+                    if not trait.hidden:
+                        frame:
+                            xysize (147, 25)
+                            button:
+                                background Null()
+                                xysize (147, 25)
+                                action NullAction()
+                                text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.Action(u"%s"%trait.desc)
+                                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                
     # TOOLTIP TEXT ====================================>
     hbox:
         spacing 1

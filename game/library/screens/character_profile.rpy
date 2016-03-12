@@ -555,56 +555,56 @@ screen char_profile():
             xalign 1.0
             xysize (345, 590)
             background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            has vbox spacing 1
+            null height 1
             # Buttons ====================================>
             frame:
                 background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
                 xalign 0.5
-                ypos 5
+                # ypos 5
                 xysize (325, 150)
-                hbox:
-                    style_group "wood"
-                    align (0.5, 0.5)
+                has hbox style_group "wood" align .5, .5 spacing 5
+                    
+                vbox:
                     spacing 5
-                    vbox:
-                        spacing 5
-                        button:
-                            xysize (150, 40)
-                            action If(not_escaped, true=Show("girl_control"))
-                            hovered tt.action('Set desired behaviour for [char.nickname].')
-                            text "Girl Control"
-                        button:
-                            xysize (150, 40)
-                            action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
-                            hovered tt.action('Access girls inverntory and equipment screen!')
-                            text "Equipment"
-                        button:
-                            xysize (150, 40)
-                            action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
-                            hovered tt.action("View this girl's gallery!")
-                            text "Gallery"
-                
-                    vbox:
-                        spacing 5
-                        button:
-                            xysize (150, 40)
-                            action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('girl_training')])
-                            hovered tt.action("Send her to School!")
-                            text "Training"
-                        button:
-                            xysize (150, 40)
-                            action If(not_escaped, true=Show("girl_finances"))
-                            hovered tt.action("Review Finances!")
-                            text "Finances"
-                        button:
-                            xysize (150, 40)
-                            action If(not_escaped, true=Return(["girl", "get_rid"]))
-                            hovered tt.action("Get rid of her!")
-                            text "Get Rid"
+                    button:
+                        xysize (150, 40)
+                        action If(not_escaped, true=Show("girl_control"))
+                        hovered tt.action('Set desired behaviour for [char.nickname].')
+                        text "Girl Control"
+                    button:
+                        xysize (150, 40)
+                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
+                        hovered tt.action('Access girls inverntory and equipment screen!')
+                        text "Equipment"
+                    button:
+                        xysize (150, 40)
+                        action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
+                        hovered tt.action("View this girl's gallery!")
+                        text "Gallery"
+            
+                vbox:
+                    spacing 5
+                    button:
+                        xysize (150, 40)
+                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('girl_training')])
+                        hovered tt.action("Send her to School!")
+                        text "Training"
+                    button:
+                        xysize (150, 40)
+                        action If(not_escaped, true=Show("girl_finances"))
+                        hovered tt.action("Review Finances!")
+                        text "Finances"
+                    button:
+                        xysize (150, 40)
+                        action If(not_escaped, true=Return(["girl", "get_rid"]))
+                        hovered tt.action("Get rid of her!")
+                        text "Get Rid"
             
             # AP ====================================>
             frame:
                 xalign 0.5
-                ypos 160
+                # ypos 160
                 xysize (300, 90)
                 background ProportionalScale("content/gfx/frame/frame_ap.png", 300, 100)
                 label ("[char.AP]"):
@@ -614,114 +614,102 @@ screen char_profile():
                     text_size 28
             
             # Traits/Effects ====================================>
+            null height -25
+            
             frame:
                 background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                xysize (325, 210)
-                style_group "stats"
-                ypos 225
+                xsize 325
+                style_group "proper_stats"
                 xanchor 1
+                ypadding 7
+                xpadding 8
+                has vbox xoffset 3 spacing 2
+                
                 hbox:
-                    fixed:
-                        xysize (170, 190)
-                        label (u"Traits:") text_size 20 text_color ivory text_bold True align(0.42, 0.03)
-                        side "c r":
-                            align(0, 0.92)
-                            viewport id "girlprofile_traits_vp":
-                                xysize (170, 155)
-                                draggable True
-                                mousewheel True
-                                vbox:
-                                    spacing -7
-                                    for trait in list(t for t in char.traits if not any([t.basetrait, t.personality, t.race, t.elemental])):
-                                        if not trait.hidden:
-                                            frame:
-                                                xysize (150, 10)
-                                                button:
-                                                    background Null()
-                                                    xysize (150, 10)
-                                                    action NullAction()
-                                                    text "[trait.id]" idle_color ivory size (15) xanchor (10)
-                                                    hovered tt.Action(u"%s"%trait.desc)
-                                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                            vbar value YScrollValue("girlprofile_traits_vp")
+                    # Traits:
+                    vbox:
+                        xysize (160, 190)
+                        label (u"Traits:") text_size 20 text_color ivory text_bold True xalign .5
+                        viewport:
+                            xysize (160, 155)
+                            scrollbars "vertical"
+                            draggable True
+                            mousewheel True
+                            has vbox spacing 1
+                            for trait in list(t for t in char.traits if not any([t.basetrait, t.personality, t.race, t.elemental])):
+                                if not trait.hidden:
+                                    frame:
+                                        xysize (147, 25)
+                                        button:
+                                            background Null()
+                                            xysize (147, 25)
+                                            action NullAction()
+                                            text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson
+                                            hovered tt.Action(u"%s"%trait.desc)
+                                            hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                     # Effects:
-                    fixed:
-                        xanchor 5
-                        xysize (165, 190)
-                        label (u"Effects:") text_size 20 text_color ivory text_bold True align(0.42, 0.03) #text_outlines [(3, "#3a3a3a", 0, 0), (2, "#458B74", 0, 0), (1, "#3a3a3a", 0, 0)]
-                        side "c r":
-                            align(0, 0.92)
-                            viewport id "girlprofile_effects_vp":
-                                xysize (165, 155)
-                                draggable True
-                                mousewheel True
-                                vbox:
-                                    spacing -7
-                                    for key in char.effects:
-                                        frame:
-                                            xysize (155, 37)
-                                            if char.effects[key]['active']:
-                                                button:
-                                                    background Null()
-                                                    xysize (155, 37)
-                                                    action NullAction()
-                                                    text "[key]" idle_color ivory size(15) xanchor(10)
-                                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                            vbar value YScrollValue("girlprofile_effects_vp")
+                    vbox:
+                        xysize (160, 190)
+                        label (u"Effects:") text_size 20 text_color ivory text_bold True xalign .5
+                        viewport:
+                            xysize (160, 155)
+                            scrollbars "vertical"
+                            draggable True
+                            mousewheel True
+                            has vbox spacing 1
+                            for key in char.effects:
+                                frame:
+                                    xysize (147, 25)
+                                    if char.effects[key]['active']:
+                                        button:
+                                            background Null()
+                                            xysize (147, 25)
+                                            action NullAction()
+                                            text "[key]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                            hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                     
             # Attacks/Magic ====================================>
-            frame:
-                background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                xysize (327, 105)
-                style_group "stats"
-                ypos 437
-                xanchor 1
                 hbox:
-                    fixed:
-                        xysize (170, 125)
-                        label (u"Attack:") text_size 20 text_color ivory text_bold True align(0.42, 0.02) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
-                        side "c r":
-                            align(0, 0.98)
-                            viewport id "girlprofile_attack_vp":
-                                xysize (170, 90)
-                                draggable True
-                                mousewheel True
-                                vbox:
-                                    spacing -7
-                                    for entry in char.attack_skills:
-                                        frame:
-                                            xysize (150, 10)
-                                            button:
-                                                background Null()
-                                                xysize (150, 10)
-                                                action NullAction()
-                                                text "[entry.name]" idle_color ivory size(15) xanchor(10)
-                                                hovered tt.action(entry)
-                                                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                            vbar value YScrollValue("girlprofile_attack_vp")
+                    vbox:
+                        xysize (160, 146)
+                        label (u"Attack:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
+                        viewport:
+                            xysize (160, 104)
+                            scrollbars "vertical"
+                            draggable True
+                            mousewheel True
+                            has vbox spacing 1
+                            for entry in char.attack_skills:
+                                frame:
+                                    xysize (147, 25)
+                                    button:
+                                        background Null()
+                                        xysize (147, 25)
+                                        action NullAction()
+                                        text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                        hovered tt.action(entry.desc)
+                                        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
             
-                    fixed:
-                        xysize (165, 125)
+                    vbox:
+                        xysize (160, 146)
                         xanchor 5
-                        label (u"Magic:") text_size 20 text_color ivory text_bold True align(0.42, 0.02) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
-                        side "c r":
-                            align(0, 0.98)
-                            viewport id "girlprofile_magic_vp":
-                                xysize (165, 90)
-                                draggable True
-                                mousewheel True
-                                vbox:
-                                    spacing -7
-                                    for entry in char.magic_skills:
-                                        frame:
-                                            xysize (144, 10)
-                                            button:
-                                                background Null()
-                                                xysize (144, 10)
-                                                action NullAction()
-                                                text "[entry.name]" idle_color ivory hover_color red size(15) xanchor(10)
-                                                hovered tt.action(entry)
-                            vbar value YScrollValue("girlprofile_magic_vp")
+                        label (u"Magic:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
+                        viewport:
+                            xysize (160, 104)
+                            scrollbars "vertical"
+                            draggable True
+                            mousewheel True
+                            has vbox spacing 1
+                            for entry in char.magic_skills:
+                                frame:
+                                    xysize (147, 25)
+                                    button:
+                                        background Null()
+                                        xysize (147, 25)
+                                        action NullAction()
+                                        text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                        hovered tt.action(entry.desc)
+                                        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                             
         # Tooltip ====================================>
         frame:
