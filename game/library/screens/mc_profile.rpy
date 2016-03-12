@@ -301,59 +301,79 @@ screen hero_profile():
     if rframe_display == "skills":
         vbox:
             pos (1125, 205)
-            style_group "stats"
-            spacing 5
+            style_group "proper_stats"
             
             frame:
                 background Frame("content/gfx/frame/hp_1.png", 5, 5)
                 xysize (160, 192)
                 has vbox
-                label (u"Attack:") text_size 19 text_color ivory text_bold True align(0.43, 0.5) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
-                xpos -3
+                label (u"Attack:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
                 viewport:
-                    xysize (160, 150)
+                    xysize (160, 155)
                     scrollbars "vertical"
                     draggable True
                     mousewheel True
-                    has vbox spacing -7
-                    for entry in hero.attack_skills:
+                    has vbox spacing 1
+                    for entry in char.attack_skills:
                         frame:
-                            xysize (128, 10)
+                            xysize (147, 25)
                             button:
                                 background Null()
-                                xysize (128, 10)
+                                xysize (147, 25)
                                 action NullAction()
-                                text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
+                                text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.action(entry.desc)
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                hovered tt.action(entry)#, With(dissolve)
-            
+    
             frame:
                 background Frame("content/gfx/frame/hp_1.png", 5, 5)
                 xysize (160, 192)
                 has vbox
-                label (u"Magic:") text_size 19 text_color ivory text_bold True align(0.41, 0.5) text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
-                xpos -3
+                label (u"Magic:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
                 viewport:
-                    xysize (160, 150)
+                    xysize (160, 155)
                     scrollbars "vertical"
                     draggable True
                     mousewheel True
-                    has vbox spacing -7
-                    for entry in hero.magic_skills:
+                    has vbox spacing 1
+                    for entry in char.magic_skills:
                         frame:
-                            xysize (128, 10)
+                            xysize (147, 25)
                             button:
                                 background Null()
-                                xysize (128, 10)
+                                xysize (147, 25)
                                 action NullAction()
-                                text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
+                                text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.action(entry.desc)
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                hovered tt.action(entry)
     
-    # EQUIPMENT   -------------------------------------------------->
-    # showif not renpy.get_screen('hero_equip'):
-        # use eqdoll(active_mode=False, char=hero)
-    
+    # TRAITS ====================================>
+    elif rframe_display == "traits":
+        frame:
+            pos (1125, 205)
+            background Frame("content/gfx/frame/hp_1long.png", 5, 5)
+            xysize (160, 389)
+            style_group "proper_stats"
+            has vbox
+            label (u"Traits:") text_size 20 text_color ivory text_bold True xalign .45
+            viewport:
+                xysize (160, 300)
+                scrollbars "vertical"
+                draggable True
+                mousewheel True
+                has vbox spacing 1
+                for trait in list(t for t in hero.traits if not any([t.personality, t.race, t.elemental])):
+                    if not trait.hidden:
+                        frame:
+                            xysize (147, 25)
+                            button:
+                                background Null()
+                                xysize (147, 25)
+                                action NullAction()
+                                text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.Action(u"%s"%trait.desc)
+                                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                
     # TOOLTIP TEXT ====================================>
     hbox:
         spacing 1
