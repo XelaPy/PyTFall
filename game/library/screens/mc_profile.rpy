@@ -363,8 +363,9 @@ screen hero_profile():
                 
                 # Traits (Baseclasses for now):
                 has vbox
-                for t in hero.traits:
-                    textbutton "[t.id]" action NullAction() hovered tt.action(t.desc)
+                for trait in list(t for t in hero.traits if not any([t.personality, t.race, t.elemental])):
+                    if not trait.hidden:
+                        textbutton "[trait.id]" action NullAction() hovered tt.action(trait.desc)
     
     # EQUIPMENT   -------------------------------------------------->
     # showif not renpy.get_screen('hero_equip'):

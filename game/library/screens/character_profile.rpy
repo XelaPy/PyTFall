@@ -617,7 +617,7 @@ screen char_profile():
             frame:
                 background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                 xysize (325, 210)
-                style_group "stats"
+                style_group "proper_stats"
                 ypos 225
                 xanchor 1
                 hbox:
