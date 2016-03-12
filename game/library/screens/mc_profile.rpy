@@ -96,45 +96,6 @@ label hero_profile:
         elif result[0] == "rename_team":
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("ht_input")
-    
-    
-    # $ pytfall.hp.screen_loop()
-
-    # hide screen hero_equip
-    # hide screen hero_profile
-    # jump mainscreen
-
-# screen hero_dropdown_loc(pos=()):
-    # # Trying to create a drop down screen with choices of buildings:
-    # zorder 3
-    # modal True
-     
-    # key "mousedown_4" action NullAction()
-    # key "mousedown_5" action NullAction()
-     
-    # # Get mouse coords:
-    # python:
-        # x, y = pos
-        # if x > 1000:
-            # xval = 1.0
-        # else:
-            # xval = 0.0
-        # if y > 500:
-            # yval = 1.0
-        # else:
-            # yval = 0.0
-    # frame:
-        # style_group "dropdown"
-        # pos (x, y)
-        # anchor (xval, yval)
-        # vbox:
-            # for building in hero.buildings:
-                # textbutton "[building.name]":
-                    # action [SetField(hero, "location", building), Hide("hero_dropdown_loc")]
-            # textbutton "None":
-                # action [SetField(hero, "location", hero), Hide("hero_dropdown_loc")]
-            # textbutton "Close":
-                # action [Hide("hero_dropdown_loc")]
 
 screen hero_profile():
     
