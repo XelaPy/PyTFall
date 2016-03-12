@@ -1,23 +1,24 @@
 # general chat
 label interactions_general:
+
+label interactions_general:
     "You have a small chat with [char.nickname]."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_general")
-    if m >= randint (4,6):
+    if m >= (randint(3,4) + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines
         $ char.disposition -= randint(1,m)
         $ char.joy -= randint(0,1)
         $ del m
         jump girl_interactions
     $ del m
-    if dice (randint(40,60)) and dice(round(hero.charisma*0.5)) and dice (char.joy):
+    if dice(randint(40,60)) and dice(hero.charisma*0.5) and dice(char.joy):
         if char.disposition >= 200:
             $ narrator(choice(["You feel especially close today."]))
             $ hero.exp += randint(2, 5)
             $ char.exp += randint(2, 5)
-            $ char.joy += randint(0,1)
-            $ char.disposition += randint(1, 2)
+            $ char.joy += randint(0, 1)
         else:
             $ narrator(choice(["She was much more approachable today."]))
             $ hero.exp += randint(2, 5)
@@ -49,7 +50,7 @@ label interactions_general:
     jump girl_interactions
     
 # ask about job
-label girl_interactions_aboutjob:
+label girl_interactions_aboutjob: # TO DO: here would help additional logic based on actual recent jobs events
     "You asking about her job."
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
@@ -70,6 +71,7 @@ label girl_interactions_aboutjob:
         $ char.disposition += 1
         $ char.joy += 1
         if dice(round(hero.charisma*0.5)):
+            $ narrator(choice(["She was much more approachable today."]))
             $ char.joy += 1
             $ char.disposition += randint(1, 2)
             $ hero.exp += randint(0, 2)
@@ -90,11 +92,6 @@ label girl_interactions_aboutjob:
             else:
                 $ rc("I wish that I the resolve to kill myself...", "My life in your service is awful.", "Just sell me off to someone. To anyone!")
         $ char.disposition += randint(0, 1)
-        if dice(round(hero.charisma*0.4)): # the less disposition, the more difficult check we will use for additional goods
-            $ char.joy += 1
-            $ char.disposition += randint(1, 2)
-            $ hero.exp += randint(1, 3)
-            $ char.exp += randint(1, 3)
         $ char.restore_portrait()
     elif char.disposition <= -50:
         $ char.override_portrait("portrait", "indifferent")
@@ -131,9 +128,9 @@ label girl_interactions_aboutjob:
         $ char.disposition += randint(1, 2)
         $ char.joy += randint(0, 1)
         $ char.restore_portrait()
-        if dice(round(hero.charisma*0.6)):
-            $ char.joy += 2
-            $ char.disposition += randint(1, 4)
+        if dice(round(hero.charisma*0.5)):
+            $ narrator(choice(["She was much more approachable today."]))
+            $ char.disposition += randint(1, 3)
             $ hero.exp += randint(1, 5)
             $ char.exp += randint(1, 5)
     else:
@@ -170,22 +167,21 @@ label girl_interactions_aboutjob:
                     $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
         $ char.disposition += randint(1, 3)
         $ char.joy += randint(0, 1)
-        $ char.restore_portrait()
-        if dice(round(hero.charisma*0.7)):
-            $ char.joy += 3
-            $ char.disposition += randint(2, 5)
-            $ hero.exp += randint(2, 8)
-            $ char.exp += randint(2, 8)
+        if dice(round(hero.charisma*0.6)):
+            $ narrator(choice(["You feel especially close today."]))
+            $ char.disposition += randint(1, 4)
+            $ hero.exp += randint(1, 5)
+            $ char.exp += randint(1, 5)
         $ char.restore_portrait()
     jump girl_interactions
 
 # ask how she feels
 label interactions_howshefeels:
     "You asking how she feels today."
-    $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
-    if m >= randint(5,8): # we don't have to limit it because of bonuses (there are none), but because of the common sense
+    $ m = interactions_flag_count_checker(char, "flag_interactions_howshefeels")
+    if m >= randint(5, 6): # we don't have to limit it because of bonuses (there are none), but because of the common sense
         call interactions_too_many_lines
-        $ char.disposition -= randint(0,2)
+        $ char.disposition -= randint(0,m)
         $ del m
         jump girl_interactions
     $ del m
@@ -259,41 +255,59 @@ label interactions_abouther:
     "You trying to learn a bit about her."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-    
-    if dice((char.disposition+hero.charisma)*0.5):
-        $ char.disposition += randint(5, 10)
-        $ hero.exp += randint(1, 5)
-        $ char.exp += randint(1, 5)
-        $ gm_abouther_list = []
-        if ct("Half-Sister") and dice(50):
-            if ct("Yandere"):
-                $rc("We used to play doctor and tear off each other's clothes, heh.", "We used to bathe together, so... you got to touch sister's body all over....", "Whenever we took a bath together, I used to wash your every nook and cranny. And I mean EVERY nook and cranny ♪")
-            elif ct("Impersonal"):
-                $rc("Do you remember how you used to pull pranks on me?", "I have always observed you. I know all there is to your character.", "I've known what kinds of sexual fetishes you have since a long time ago.")
-            elif ct("Tsundere"):
-                $rc("We used to take a bath together back in the days, didn't we? Now...? B...but... hey! You know we shouldn't do that!", "Now that I think about it, I spent more time with you than Mom and Dad.", "You've always gone out of your way to protect your sister. I should thank you for that.", "I went overboard when I tried to discipline you back when we were little. To be honest, I'm sorry about that now.", "Remember that collection of dirty magazines you used to cherish? I was the one who threw them away. I am... still sorry about that.")
-            elif ct("Dandere"):
-                $rc("We've been together since we were small... Have you had enough of it? Well, I'm still not tired of it yet.", "You've taught me all kinds of things since a long time ago... even perverted things.", "You used to play doctor with me all the time... You were so perverted, even back then.")
-            elif ct("Kuudere"):
-                $rc("I used to be a crybaby? D-don't remind me of such things...", "M-my promise to marry you? T-there's no way I'd remember something like that!", "Getting engaged with my brother... I only thought that was possible back when we're kids.", "You always protected me. Therefore, I decided that I had to become strong.")
-            elif ct("Ane"):
-                $rc("Hehe, you've grown so much... That makes your sis proud.", "You weren't able to fall asleep without sis by your side when we were little.", "Whenever I wore a skirt, you always tried to peek underneath it... You were already so perverted when we were little.", "I've taken care of you since you were little. Therefore, sister knows everything about you.", "When we were younger, I was always by your side because I swore I would always protect you.")
-            elif ct("Imouto"):
-                $rc("I used to think I'd get as tall as you.", "You remember we used to play shop when we were little? Wha... You should forget about THAT game!", "You have protected me from bullies when I was little.... That made me so happy.")
-            elif ct("Kamidere"):
-                $rc("I decided that you'd be mine when I was still very little.", "You've belonged to sis ever since you were born.", "You're my brother who I've personally helped to raise. There's no way I'd let you go.")
-            elif ct("Bokukko"):
-                $rc("When we were little, didn't you say you'd make me your wife someday or something?", "When we were kids, we went exploring in the forest together and we both got lost.", "We used to climb fences and then jump off them. The two of us got injuries all over.", "You used to be so wee and now that huge, na?")
+    $ m = interactions_flag_count_checker(char, "flag_interactions_abouther")
+    if m > (randint(1,2) + round(interactions_set_repeating_lines_limit(char)*0.5)):
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,m)
+        $ char.joy -= randint(0,2)
+        $ del m
+        jump girl_interactions
+    $ del m
+    if dice(char.disposition*0.5):
+        if dice(randint(40,60)) and dice(hero.charisma*0.4) and dice(char.joy):
+            if char.disposition >= 400:
+                $ narrator(choice(["You feel especially close today."]))
+                $ hero.exp += randint(4, 8)
+                $ char.exp += randint(4, 8)
+                $ char.joy += randint(0, 1)
+                $ char.disposition += randint(1, 2)
             else:
-                $rc("We used to bathe together a lot when we were little ♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little.")
+                $ narrator(choice(["She was much more approachable today."]))
+                $ hero.exp += randint(4, 8)
+                $ char.exp += randint(4, 8)
+                $ char.disposition += randint(3, 6)
         
-        if ct("Big Boobs", "Abnormally Large Boobs"):
-            if dice(90):
-                $gm_abouther_list.append(choice(["I notice men, everyone of them, staring at nothing but my boobs.", "I've outgrown yet another bra... I wish something could be done about this...", "Hey, [hero.name], do you know what my charms are? Ufu, shall I show you? I'm pretty sure I can make your heart skip a beat ♪", "All the men just keep staring at my breasts. Are such big ones really that fascinating?", "The reason you're interested in me is my big breasts, right?", "They say that big breasts are the best, but truth be told they're heavy and make the shoulders stiff, not good at all."]))
+        $ char.disposition += randint(5, 15)
+        $ hero.exp += randint(4, 8)
+        $ char.exp += randint(4, 8)
+        $ gm_abouther_list = []
+        if ct("Half-Sister"):
+            if ct("Yandere"):
+                $gm_abouther_list.append(choice(["We used to play doctor and tear off each other's clothes, heh.", "We used to bathe together, so... you got to touch sister's body all over....", "Whenever we took a bath together, I used to wash your every nook and cranny. And I mean EVERY nook and cranny ♪"]))
+            elif ct("Impersonal"):
+                $gm_abouther_list.append(choice(["Do you remember how you used to pull pranks on me?", "I have always observed you. I know all there is to your character.", "I've known what kinds of sexual fetishes you have since a long time ago."]))
+            elif ct("Tsundere"):
+                $gm_abouther_list.append(choice(["We used to take a bath together back in the days, didn't we? Now...? B...but... hey! You know we shouldn't do that!", "Now that I think about it, I spent more time with you than Mom and Dad.", "You've always gone out of your way to protect your sister. I should thank you for that.", "I went overboard when I tried to discipline you back when we were little. To be honest, I'm sorry about that now.", "Remember that collection of dirty magazines you used to cherish? I was the one who threw them away. I am... still sorry about that."]))
+            elif ct("Dandere"):
+                $gm_abouther_list.append(choice(["We've been together since we were small... Have you had enough of it? Well, I'm still not tired of it yet.", "You've taught me all kinds of things since a long time ago... even perverted things.", "You used to play doctor with me all the time... You were so perverted, even back then."]))
+            elif ct("Kuudere"):
+                $gm_abouther_list.append(choice(["I used to be a crybaby? D-don't remind me of such things...", "M-my promise to marry you? T-there's no way I'd remember something like that!", "Getting engaged with my brother... I only thought that was possible back when we're kids.", "You always protected me. Therefore, I decided that I had to become strong."]))
+            elif ct("Ane"):
+                $gm_abouther_list.append(choice(["Hehe, you've grown so much... That makes your sis proud.", "You weren't able to fall asleep without sis by your side when we were little.", "Whenever I wore a skirt, you always tried to peek underneath it... You were already so perverted when we were little.", "I've taken care of you since you were little. Therefore, sister knows everything about you.", "When we were younger, I was always by your side because I swore I would always protect you."]))
+            elif ct("Imouto"):
+                $gm_abouther_list.append(choice(["I used to think I'd get as tall as you.", "You remember we used to play shop when we were little? Wha... You should forget about THAT game!", "You have protected me from bullies when I was little.... That made me so happy."]))
+            elif ct("Kamidere"):
+                $gm_abouther_list.append(choice(["I decided that you'd be mine when I was still very little.", "You've belonged to sis ever since you were born.", "You're my brother who I've personally helped to raise. There's no way I'd let you go."]))
+            elif ct("Bokukko"):
+                $gm_abouther_list.append(choice(["When we were little, didn't you say you'd make me your wife someday or something?", "When we were kids, we went exploring in the forest together and we both got lost.", "We used to climb fences and then jump off them. The two of us got injuries all over.", "You used to be so wee and now that huge, na?"]))
+            else:
+                $gm_abouther_list.append(choice(["We used to bathe together a lot when we were little ♪", "The bath used to be our playground... but you tickled me way too much.", "When it was night time, you would always try to slip into my bed unnoticed.", "You used to tag along with me wherever I went when we were little."]))
         
-        if ct("Small Boobs"):
-            if dice(90):
-                $gm_abouther_list.append(choice(["I read lately that the hunt is on for small breasts. Who cares about big tits!", "It's better without large breasts. They'd only get in the way... Probably...", "Small breasts have their good points as well, don't you think? You do think so, right?"]))     
+        if ct("Big Boobs", "Abnormally Large Boobs") and dice(80):
+            $gm_abouther_list.append(choice(["I notice men, everyone of them, staring at nothing but my boobs.", "I've outgrown yet another bra... I wish something could be done about this...", "Hey, [hero.name], do you know what my charms are? Ufu, shall I show you? I'm pretty sure I can make your heart skip a beat ♪", "All the men just keep staring at my breasts. Are such big ones really that fascinating?", "The reason you're interested in me is my big breasts, right?", "They say that big breasts are the best, but truth be told they're heavy and make the shoulders stiff, not good at all."]))
+        
+        if ct("Small Boobs") and dice(80):
+            $gm_abouther_list.append(choice(["I read lately that the hunt is on for small breasts. Who cares about big tits!", "It's better without large breasts. They'd only get in the way... Probably...", "Small breasts have their good points as well, don't you think? You do think so, right?"]))     
         
         if ct("Lesbian"):
             $gm_abouther_list.append(choice(["I am REALLY interested in female's bodycurves.", "I would like to go to an all girls' school. Imagine, only girls, everywhere... That would be great...", "I'd like to bring a cute girl home.", "Isn't it normal to be attracted to charming girls? I think it's totally proper ♪", "Something I like? Hmm... Maybe watching cute girls?", "Girls look really cute, don't they? I just want to eat one up.", "I like cute things. Like girls, for example.", "If I were a boy, I sure would explore every inch of the girl I was dating..."]))
@@ -476,16 +490,11 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["Hm? A little of this, a little of that?", "...I don't really have much to say.", "Nothing much, there's nothing worth mentioning.", "What I'm doing? The usual stuff...", "I'm just normal, I guess.", "I like just about anything.", "Hmm, there's not much to talk about.", "Now that I think about it... am I just boring?", "I'm just about average, I guess."]))
     
     else:
-        $ char.disposition -= (randint(1, 7)*(gm_disp_mult))
-        $ del gm_dice
-        $ del gm_disp_mult
+        $ char.disposition -= randint(0, 1)
+        $ char.joy -= randint(0,1)
         jump interactions_refused
     
     $ g(choice(gm_abouther_list))
-    $ hero.exp += randint(0, 3)
-    $ char.exp += randint(0, 3)
-    $ del gm_dice
-    $ del gm_disp_mult
     $ gm_abouther_list = None
     jump girl_interactions
 
@@ -493,25 +502,15 @@ label interactions_abouther:
 label interactions_aboutoccupation:
     "You asking about her occupation."
     $ interactions_check_for_bad_stuff(char)
-    $ hero.exp += randint(0, 1)
-    if char.disposition > 200:
-        $ gm_dice = 100
-    
-    elif char.disposition > 100:
-        $ gm_dice = 90
-    
-    elif char.disposition > 50:
-        $ gm_dice = 80
-    
-    elif char.disposition > 0:
-        $ gm_dice = 70
-    
-    elif char.disposition > -50:
-        $ gm_dice = 60
-    else:
-        $ gm_dice = 30
-        
-    if dice(gm_dice):
+    $ m = interactions_flag_count_checker(char, "flag_interactions_aboutoccupation")
+    if m > randint(2,3):
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,m)
+        $ del m
+        jump girl_interactions
+    $ del m
+    $ hero.exp += randint(1, 2)
+    if char.disposition > -250:
         if cgo("Warrior") and not(cgo("Caster")):
             $rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
             if co("Defender"):
@@ -519,7 +518,7 @@ label interactions_aboutoccupation:
             if co("Shooter"):
                 $rc("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")
             if co("Assassin"):
-                $rc("I was taught the art of stealthy assassination.", "They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
+                $rc("I was taught the art of stealthy assassination.", "I'm an assassin. They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
         if cgo("Caster"):
             $rc("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
             if co("Battle Mage"):
@@ -529,7 +528,7 @@ label interactions_aboutoccupation:
         if cgo("SIW"):
             $rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
             if co("Anal Prostitute"):
-                $rc("Anal sex is my strong point.", "I love it in my poop chute.", "I've got an onion booty, it makes men cry. haha.")
+                $rc("Anal sex is my strong point.", "I love it in my poop chute.", "I've got an onion booty, it makes men cry. Haha.")
             if co("Oral Prostitute"):
                 $rc("Oral sex is my strong point.", "I'll give head until I'm dead.", "I can suck a golf ball through a garden hose.")
             if co("Straight Prostitute"):
@@ -557,46 +556,29 @@ label interactions_aboutoccupation:
         if not(cgo("Server") or cgo("SIW") or cgo("Warrior") or cgo("Caster") or co("Manager")): #you never know
             $rc("I don't really have a profession...")
     else:
-        $ char.disposition -= randint(0, 3)
-        $ del gm_dice
+        $ char.disposition -= randint(0, 1)
         jump interactions_refused
-    $ del gm_dice
     jump girl_interactions
 
 label interactions_interests:
     "You asking about her interests."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-#    if ct("Exhibitionist") and dice(35):
-#        $rc("Showing off my 'goods' to the crowd, ", "Just being one with nature, if you catch my meaning.")
-#        if d(80) and char.flag("gm_stripped_today") != day:
-#            menu:
-#               g "Would you like to see me naked?"
-#                
-#                "Strongly agree":
-#                    g "You're weird... but I'm weird too ;)"
-#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=["sex"]))
-#                    g "So, what do you think?"
-#                    $gm.restore_img()
-#                    $ char.disposition += 10
-#                    $ char.set_flag("gm_stripped_today", value=day)
-#                
-#                "Agree":
-#                    $gm.change_img(char.show("nude", "simple bg", type="first_default", exclude=["sex"]))
-#                    g "You like?"
-#                    $gm.restore_img()
-#                    $ char.disposition += 5
-#                    $ char.set_flag("gm_stripped_today", value=day)
-#                
-#                "Disagree":
-#                    g "Well, screw you then..."
-#                    $ char.disposition -= 20
-    if char.disposition > 2:
-        $ gm_dice = round(char.disposition/2)
-    else:
+    $ m = interactions_flag_count_checker(char, "flag_interactions_interests")
+    if m > (randint(2,3) + round(interactions_set_repeating_lines_limit(char)*0.5)):
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,m)
+        $ char.joy -= randint(0,2)
+        $ del m
+        jump girl_interactions
+    $ del m
+    if not(dice(char.disposition*0.5)):
+        $ char.disposition -= randint(0,3)
+        $ char.joy -= randint(0,1)
         jump interactions_refused
-    if dice(gm_dice):
+    else:
         $ line = rts(char, {
+        "Exhibitionist": ["She tells you pretty hot stories about her exhibitionistic adventures in a local park."],
         "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beaches to pools because it's free."],
         "Manly": ["She gives you a lecture on how to build your muscles properly. You feel a bit offended, but keep your cool.", "She casually remarks that you should exercise more often, and gives you some advice."],
         "Chubby": ["You have a lively discussion about your favorite local bakeries and pastry shops.", "Your conversation turns toward cooking, and she shares some of her recipes. They are all pretty high in calories..."],
@@ -643,41 +625,35 @@ label interactions_interests:
         
         "[line]"
         $ del line
-        $ del gm_dice
-        if char.joy <= 30 and dice(40):
-            $ narrator(choice(["Her mood lightened up a little.", "You were able to ease some of her unhappiness."]))
-            $ char.joy += randint(2, 5)
+        $ hero.exp += randint(4, 8)
+        $ char.exp += randint(4, 8)
+        $ char.disposition += randint(4, 10)
+        
         if char.joy >= 65:
-            if dice (char.joy):
+            if dice(char.joy):
                 "You had a very lively and enjoyable conversation."
                 $ gm_joy = 100
-                $ char.joy += randint(0, 2)
-                $ char.disposition += randint(1, 2)
-                $ hero.exp += randint(1, 3)
-                $ char.exp += randint(1, 3)
+                $ char.joy += randint(3, 4)
             else:
                 "You had a pretty lively conversation."
                 $ gm_joy = 75
-                $ char.disposition += 1
-        elif char.joy > 30:
-            if dice (char.joy + 30):
+                $ char.joy += randint(2, 3)
+        elif char.joy >= 30:
+            if dice(char.joy + 30):
                 "You had a fairly normal conversation."
+                $ char.joy += randint(1, 2)
                 $ gm_joy = 50
-                $ char.disposition += randint(0, 1)
             else: 
                 "You had a short conversation."
                 $ gm_joy = 25
         else:
             "It was a short and not very pleasant conversation."
             $ gm_joy = 0
-        if dice(round(gm_joy*10 - char.disposition)) and (char.joy > 30):
-            $ char.disposition += randint(4, 8)
-            $ del gm_joy
+        if dice(round(gm_joy*10 - char.disposition)):
+            $ char.disposition += randint(3, 6)
             "You two became a bit closer."
+        $ del gm_joy
         jump girl_interactions
-    else:
-        $ del gm_dice
-        jump interactions_refused
 ###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
 #label interactions_hangouts:
 #    if char.disposition < 200:
@@ -704,20 +680,39 @@ label interactions_romance:
     "You ask her about love and romantic stuff."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-    if char.disposition < 100:
+    $ m = interactions_flag_count_checker(char, "flag_interactions_romance")
+    if m > (randint(2,3) + round(interactions_set_repeating_lines_limit(char)*0.5)):
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1, m)+randint(1,4)
+        $ char.joy -= randint(2,4)
+        $ del m
+        jump girl_interactions
+    $ del m
+    if not(dice(char.disposition * 0.35)):
+        $ char.disposition -= randint(5, 10)
         jump interactions_refused
     else:
-        $ gm_dice = (round(char.disposition * 0.4))
         $ char.override_portrait("portrait", "shy")
-    if dice(gm_dice):
-        $ hero.exp += randint(2, 8)
-        $ char.exp += randint(2, 8)
+        if dice(randint(40,60)) and dice(hero.charisma*0.3) and dice(char.joy):
+            if char.disposition >= 600:
+                    $ narrator(choice(["You feel especially close today."]))
+                    $ hero.exp += randint(5, 10)
+                    $ char.exp += randint(5, 10)
+                    $ char.joy += randint(0, 1)
+                    $ char.disposition += randint(4, 6)
+            else:
+                $ narrator(choice(["She was much more approachable today."]))
+                $ hero.exp += randint(5, 10)
+                $ char.exp += randint(5, 10)
+                $ char.disposition += randint(5, 10)
+        $ hero.exp += randint(5, 15)
+        $ char.exp += randint(5, 15)
         $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.1))
         if ct("Impersonal"):
             $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):
             $rc("Lovers... Th-they're supposed to...hold hands, after all... Right?", "Wh-what comes after a k-kiss is... It's... Awawa...", "If it's the person you love, just having them turn around and smile... Is enough to make you happy...", "Love... sure is a good thing...")
-        elif ct("Nymphomaniac") and dice(20):
+        elif ct("Nymphomaniac") and dice(40):
             $rc("*sigh* I always have such a high libido...", "Um... Love can start from lust... right?", "If you are in love, having sex is totally normal, right?", "People are no more than animals, so it's only natural to copulate...right?", "Well, doing perverted stuff is proof that you're healthy.", "Me thinking about sex? Not at all... Great. Now that you brought it up...")
         elif ct("Bisexual", "Lesbian") and dice(20):
             $rc("Love runs deeper than gender.")
@@ -740,11 +735,8 @@ label interactions_romance:
         else:
             $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love ♪...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Everyone wants to fall in love, I suppose. Don't you think?")
         $ char.restore_portrait()
-        $ del gm_dice
         jump girl_interactions
-    else:
-        $ del gm_dice
-        jump interactions_refused
+
 # interaction check fail
 label interactions_refused:
     $ char.override_portrait("portrait", "confident")
