@@ -47,48 +47,6 @@ label hero_profile:
                 $ came_to_equip_from = "hero_profile"
                 $ eqtarget = hero
                 jump char_equip
-                # if renpy.get_screen('hero_equip'):
-                    # hide screen hero_equip
-                    # $ pytfall.hp.show_item_info = False
-                    # $ pytfall.hp.item = False
-                # else:    
-                    # show screen hero_equip 
-                    
-            # elif result[1] == 'first_page':
-                # $ hero.inventory.first()
-            # elif result[1] == 'last_page':
-                # $ hero.inventory.last()
-            # elif result[1] == 'next_page':
-                # $ hero.inventory.next()
-            # elif result[1] == 'prev_page':
-                # $ hero.inventory.prev()
-            # elif result[1] == 'prev_filter':
-                # $ hero.inventory.apply_filter('prev')
-            # elif result[1] == 'next_filter':
-                # $ hero.inventory.apply_filter('next')
-            # elif result[1] == 'male_filter':
-                # $ hero.inventory.male_filter = True
-                # $ hero.inventory.apply_filter('all')
-            # elif result[1] == 'unisex_filter':
-                # $ hero.inventory.male_filter = False
-                # $ hero.inventory.apply_filter('all')
-            
-        # elif result[0] == 'item':
-            # if result[1] == 'get':
-                # $ pytfall.hp.show_item_info = True
-                # $ pytfall.hp.item = result[2]
-            # elif result[1] == 'equip':
-                # $ equip_item(pytfall.hp.item, hero)
-                # $ pytfall.hp.show_item_info = False
-                # $ pytfall.hp.item = False
-            # elif result[1] == "transfer":
-                # $ renpy.hide_screen("hero_profile")
-                # $ pytfall.it = GuiItemsTransfer("personal_transfer", char=ap, last_label=last_label)
-                # jump items_transfer
-            # elif result[1] == 'unequip':
-                # $ hero.unequip(pytfall.hp.item)
-                # $ pytfall.hp.show_item_info = False
-                # $ pytfall.hp.item = False
 
         elif result[0] == "remove_from_team":
             $ hero.team.remove(result[1])
