@@ -348,24 +348,7 @@ screen hero_profile():
                                 action NullAction()
                                 text "{color=#F5F5DC}[entry.name]" size 15 xanchor(10)
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                hovered tt.action(entry)# , With(dissolve)
-    
-    # TRAITS ====================================>
-    elif rframe_display == "traits":
-        vbox:
-            pos (1125, 205)
-            style_group "stats"
-            spacing 5
-            
-            frame:
-                background Frame("content/gfx/frame/hp_1long.png", 5, 5)
-                xysize (160, 389)
-                
-                # Traits (Baseclasses for now):
-                has vbox
-                for trait in list(t for t in hero.traits if not any([t.personality, t.race, t.elemental])):
-                    if not trait.hidden:
-                        textbutton "[trait.id]" action NullAction() hovered tt.action(trait.desc)
+                                hovered tt.action(entry)
     
     # EQUIPMENT   -------------------------------------------------->
     # showif not renpy.get_screen('hero_equip'):
