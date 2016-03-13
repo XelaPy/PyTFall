@@ -165,8 +165,8 @@ label girl_interactions_after_greetings: # when character wants to say something
             
             m = 4
             pytfall.world_actions.menu(m, "Money", condition="char.status == 'slave'")
-            pytfall.world_actions.gm_choice("Give", label="int_give_money", index=(m, 0))
-            pytfall.world_actions.gm_choice("Take", label="int_take_money", index=(m, 1))
+            pytfall.world_actions.gm_choice("Give", label="give_money", index=(m, 0))
+            pytfall.world_actions.gm_choice("Take", label="take_money", index=(m, 1))
             
             # GIVE GIFT
             m = 5

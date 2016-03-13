@@ -51,47 +51,47 @@ init -11 python:
     def interactions_check_for_bad_stuff(char_name): # we check major issues when the character will refuse almost anything
         if char_name.effects["Food Poisoning"]['active']:
             char_name.override_portrait("portrait", "indifferent")
-            rc("But she was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts.")
+            rc("But [char.name] was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts.")
             char_name.restore_portrait()
-            char_name.disposition -= randint(1, 2)
+            char_name.disposition -= randint(2, 5)
             renpy.jump("girl_interactions_end")
         elif char_name.vitality <= 20:
             char_name.override_portrait("portrait", "indifferent")
-            rc("But she was too tired to even talk.", "She was not very happy that you interrupted her rest.")
+            rc("But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.")
             char_name.restore_portrait()
-            char_name.disposition -= randint(1, 2)
+            char_name.disposition -= randint(5, 10)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
         elif char_name.health < (round(char_name.get_max("health")*0.2)):
             char_name.override_portrait("portrait", "indifferent")
-            rc("But she is too wounded for that.", "But her wounds completely occupy her thoughts.")
+            rc("But [char.name] is too wounded for that.", "But her wounds completely occupy her thoughts.")
             char_name.restore_portrait()
-            char_name.disposition -= randint(2, 5)
+            char_name.disposition -= randint(5, 15)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
     
     def interactions_check_for_minor_bad_stuff(char_name): # we check minor issues when character might refuse to do something based on dice
-        if (not("Pessimist" in char_name.traits) and char_name.joy <= 15) or (("Pessimist" in char_name.traits) and char_name.joy < 5):
-            if dice(60):
-                narrator(choice(["She is in a bad mood today, however you managed to cheer her up."]))
+        if (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
+            if dice(hero.charisma-char.character) and dice(80):
+                narrator(choice(["Looks like she is in a bad mood, however you managed to cheer her up."]))
                 char_name.disposition += 1
                 char_name.joy += randint(3, 6)
             else:
-                narrator(choice(["She is in a bad mood today and not does not want to do anything."]))
-                renpy.jump("girl_interactions_end")
+                narrator(choice(["Looks like she is in a bad mood today and not does not want to do anything."]))
+                renpy.jump ("girl_interactions")
         elif char_name.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
-            if dice(60):
-                narrator(choice(["She is not feeling well today, however you managed to cheer her up."]))
+            if dice(hero.charisma-char.character) and dice(80):
+                narrator(choice(["Looks like she is not feeling well today, however you managed to cheer her up a bit."]))
                 char_name.disposition += 2
-                char_name.joy += randint(3, 6)
+                char_name.joy += randint(1, 5)
             else:
                 narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
-                renpy.jump("girl_interactions_end")
-        elif char_name.vitality < 50 and dice (35):
-            narrator(choice(["But she is simply too tired to pay any serious attention to you.", "But she so tired she almost falls asleep on the move."]))
+                renpy.jump ("girl_interactions")
+        elif char_name.vitality < 40 and dice (35):
+            narrator(choice(["But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move."]))
             char_name.disposition -= randint(0, 1)
-            char_name.vitality -= randint(1, 3)
-            renpy.jump("girl_interactions_end")
+            char_name.vitality -= randint(1, 2)
+            renpy.jump ("girl_interactions")
             
     def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
         if char_name.effects["Food Poisoning"]['active']:
@@ -99,7 +99,7 @@ init -11 python:
             rc("She does not look good...")
             char_name.restore_portrait()
             return True
-        elif char_name.vitality <= 10:
+        elif char_name.vitality <= 40:
             char_name.override_portrait("portrait", "indifferent")
             rc("She looks very tired...")
             char_name.restore_portrait
@@ -114,7 +114,7 @@ init -11 python:
             rc("She looks a bit pale...")
             char_name.restore_portrait
             return False
-        elif char_name.joy <= 20:
+        elif char_name.joy <= 25:
             char_name.override_portrait("portrait", "sad")
             rc("She looks pretty sad...")
             char_name.restore_portrait()
@@ -208,12 +208,6 @@ init -11 python:
                 gen_occs = gen_occs.union(set(occ.occupations))
         return any(i for i in list(args) if i in gen_occs)
         
-    def d(value):
-        """
-        Checks if disposition of the girl is any higher that value.
-        """
-        return char.disposition >= value
-        
     # Relationships:
     def check_friends(*args):
         friends = list()
@@ -290,123 +284,3 @@ init -11 python:
         else:
             gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), place, background)
             
-    # Image tag overwrites:
-    def get_sex_img_4int(char, *args, **kwargs):
-        """Tries to find the best possible sex image following a complex set of logic.
-        http://www.pinkpetal.org/index.php?topic=1291.msg37131#msg37131
-        
-        Coded for interactions module.
-        """
-        # First check if we have a perfect match of all tags:
-        if char.has_image(*args, **kwargs):
-            gm.set_img(*args, **kwargs)
-            return
-        
-        tags = list(args)
-        exclude = kwargs.get("exclude", None)
-            
-        # Next we give priority to partner_hidden logic:
-        if "partner_hidden" in tags:
-            ptags = list(t for t in tags if t not in loc_tags)
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-            
-            # No parter_hidden tags found... we subsitute partner_hidden with after_sex
-            ptags = tags[:]
-            ptags.remove("partner_hidden")
-            if "after_sex" not in ptags:
-                ptags.append("after_sex")
-                
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-            ptags = list(t for t in ptags if t not in loc_tags)
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-                
-        # If threre was no partner_hidden or everything failed:
-        if "partner_hidden" in tags:
-            tags.remove("partner_hidden")
-            
-        if char.has_image(*tags, **kwargs):
-            gm.set_img(*tags, **kwargs)
-            return
-            
-        ptags = list(t for t in tags if t not in loc_tags)
-        if substitute_show_bg(char, ptags, **kwargs):
-            return
-            
-        # We could not find an image with the correct location/bgs, so we go with after_sex:
-        ptags = list(t for t in tags if t not in sex_action_tags)
-        if "after_sex" not in ptags:
-            ptags.append("after_sex")
-            
-        if char.has_image(*ptags, **kwargs):
-            gm.set_img(*ptags, **kwargs)
-            return
-        
-        ptags = list(t for t in tags if t not in loc_tags)
-        if substitute_show_bg(char, ptags, **kwargs):
-            return
-            
-        # Still nothing... We try to get a picture just with the after_sex and a location followed by no_bg/simple_bg if no loc was found:
-        locs = list(t for t in tags if t in loc_tags)
-        if char.has_image("after_sex", *locs, **kwargs):
-            gm.set_img("after_sex", *locs, **kwargs)
-            return
-            
-        if substitute_show_bg(char, ["after_sex"], **kwargs):
-            return
-            
-        # //This can be cleaned up and refactored one working correctly!!
-        # Drop Nature First:
-        if any([t for t in ["outdoors", "urban", "wildness", "suburb", "nature"] if t in tags]):
-            ptags = [t for t in tags if t not in ["nature"]]
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-        if any([t for t in ["urban", "wildness", "suburb"] if t in tags]):
-            ptags = [t for t in tags if t not in ["urban", "wildness", "suburb"]]
-            if "outdoors" not in ptags:
-                ptags.append("outdoors")
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-        if any([t for t in ["dungeon", "living", "public"] if t in tags]):
-            ptags = [t for t in tags if t not in ["dungeon", "living", "public"]]
-            if "indoors" not in ptags:
-                ptags.append("indoors")
-            if char.has_image(*ptags, **kwargs):
-                gm.set_img(*ptags, **kwargs)
-                return
-                
-        if any([t for t in ["indoors", "outdoors"] if t in tags]):
-            ptags = [t for t in tags if t not in ["indoors", "outdoors", "simple bg", "no bg"]]
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-                
-        if any([t for t in ["beach", "onsen", "pool", "stage"] if t in tags]):
-            ptags = [t for t in tags if t not in ["beach", "onsen", "pool", "stage", "simple bg", "no bg"]]
-            if substitute_show_bg(char, ptags, **kwargs):
-                return
-        
-        # Finally, we just run the normal show:
-        gm.set_img(*args, **kwargs)
-            
-    def substitute_show_bg(char, tags, **kwargs):
-        # Try it with the simple_bg:
-        _tags = tags[:]
-        _tags.append("simple bg")
-        if char.has_image(*_tags, **kwargs):
-            gm.set_img(*_tags, **kwargs)
-            return True
-            
-        # Try it with no_bg:
-        _tags = tags[:]
-        _tags.append("no bg")
-        if char.has_image(*_tags, **kwargs):
-            gm.set_img(*_tags, **kwargs)
-            return True
