@@ -1,5 +1,5 @@
 label interactions_badgift:
-    $ char.override_portrait("portrait", "sad")
+    $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $rc("I don't need it.", "Can I return it later?", "What's it for?", "Please, never bring this to me again.", "This isn't exactly my favorite...")
     elif ct("Shy") and dice(50):
@@ -21,7 +21,7 @@ label interactions_badgift:
     elif ct("Bokukko"):
         $rc("Man... this is bad...", "Hmm, so my zodiac was right... today's a bad day.", "Hey, is this a joke? What am I supposed to do with this?")
     else:
-       $ rc("Hmm... I guess everone has different tastes...", "Thanks, but I don't like these kinds of things.", "I'll receive it, but... <sigh>", "Ugh...I'm sorry, but I absolutely hate this.")
+       $ rc("Hmm... I guess everyone has different tastes...", "Thanks, but I don't like these kinds of things.", "I'll receive it, but... <sigh>", "Ugh...I'm sorry, but I absolutely hate this.")
     $ char.restore_portrait()
     jump girl_interactions
     
@@ -76,16 +76,12 @@ label interactions_perfectgift:
         $rc("Man, this is good stuff... thanks!", "A-are you a mind reader? Because that would be unfair! ♥ <hugs> ♥", "Is that...? This is spectacular! Whoa! No way! Thank you!", "Hey, hey! Now this is really something! Thanks a million!")
     else:
         $rc("I'm so happy! Many thanks, [hero.name].", "You're amazing. This is exactly what I wanted! Thank you.", "Oh, you shouldn't have. Thank you, I really love this.", "This gift is fabulous! Thank you so much!")
-    
-    if check_lovers(char, hero) and ct("Nymphomaniac"):
-        g "I think you deserve a reward."
-        $gm.generate_img("blowjob", "partner hidden", "simple bg", type="reduce")
-        $ g("Did you like it? ♥")
+
     $ char.restore_portrait()
     jump girl_interactions
     
 label interactions_refusegift:
-    $ char.override_portrait("portrait", "angry")
+    $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $rc("This particular item is not required at the moment.", "I have one of these already.")
     elif ct("Shy") and dice(50):

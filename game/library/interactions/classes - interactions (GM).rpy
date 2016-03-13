@@ -2,7 +2,7 @@ init -1 python:
     class GmCell(_object):
         """
         Simple custom container for girls to be displayed to the player.
-        Also resposible for sorting.
+        Also responsible for sorting.
         Occupation = condition on which to sort. For now we only have warrior.
         """
         def __init__(self, name, curious_priority=True, **kwargs):
@@ -21,7 +21,7 @@ init -1 python:
             self.curious_priority = curious_priority
             self.girls = list()
             
-            # Get availible girls and check occupation
+            # Get available girls and check occupation
             choices = list(i for i in chars.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
             # We remove all chars with badtraits:
             if badtraits:
