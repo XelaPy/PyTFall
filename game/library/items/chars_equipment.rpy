@@ -31,7 +31,7 @@ init:
                 textbutton "{size=-1}Yes":
                     xalign 0.5
                     action Function(char.inventory.remove, item), Hide("discard_item"), With(dissolve)
-                $ amount = char.inventory.get_item_count(item)
+                $ amount = char.inventory[item]
                 textbutton "{size=-1}Discard All":
                     xalign 0.5
                     action SensitiveIf(amount > 1), Function(char.inventory.remove, item, amount), Hide("discard_item"), With(dissolve)

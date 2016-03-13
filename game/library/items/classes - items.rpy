@@ -1,8 +1,8 @@
 init -9 python:
     ####### Equipment Classes ########
     class Item(_object):
-        NOT_USABLE = set(["gift", "quest", "loot"])
-        NOT_TRANSFERABLE = set(["gift", "quest", "loot"])
+        NOT_USABLE = set(["gift", "quest", "loot", "resources"])
+        NOT_TRANSFERABLE = set(["gift", "quest", "loot", "resources"])
         NOT_SELLABLE = set(["quest"])
         CONS_AND_MISC = set(['consumable', 'misc'])
 
@@ -118,6 +118,7 @@ init -9 python:
     # Inventory with listing
     # this is used together with a specialized screens/functions
     class Inventory(_object):
+        # TODO: Maybe rebind the keys to the item instances instead of strings which seem useless...
         def __init__(self, per_page):
             self.items = list() # Handles actual filtered items instances
             self.content = OrderedDict() # Handles item.id/amount pairs
@@ -141,15 +142,15 @@ init -9 python:
             self.set_max_page()
             
         def apply_filter(self, direction):
-            """
-            Filter for items
-            Currently filtered by slot
+            """Filter for items.
+            
+            Currently filtered by slot.
             """
             # if last_label in ("char_profile", "char_equip", "items_transfer"):
             if last_label in ("items_transfer"):
                 self.FILTERS = self.GEQ_FILTERS
             else:
-                self.FILTERS = self.ALL_FILTERS
+                self.FILTERS = self.ALL_FILTERS + ["resources"] # TODO: Fix this to a more sound design.
             
             index = self.FILTERS.index(self.filter)
             if direction == 'next':
@@ -181,35 +182,31 @@ init -9 python:
             self.filter = filter
 
         def next(self):
-            """
-            Next page
+            """Next page.
             """
             if self.page < self.max_page:
                 self.page += 1
  
         def prev(self):
-            """
-            Previous page
+            """Previous page.
             """
             if self.page > 0:
                 self.page -= 1
 
         def first(self):
-            """
-            First page
+            """First page.
             """
             self.page = 0
 
         def last(self):
-            """
-            Last page
+            """Last page.
             """
             self.page = self.max_page
 
         def getpage(self):
-            """
-            Get content of a page
-            It's a cut-off from the whole
+            """Get content of a page.
+            
+            It's a cut-off from the whole.
             """
             start = self.page * self.page_size
             end = (self.page+1) * self.page_size
@@ -217,26 +214,16 @@ init -9 python:
             return self.items[start:end]
             
         def set_max_page(self):
-            """
-            Calculates the max page.
+            """Calculates the max page.
             """
             self.max_page = len(self.items) / self.page_size if len(self.items) % self.page_size not in [0, self.page_size] else (len(self.items) - 1) / self.page_size
 
         def getitem(self, i):
-            """
-            Returns an item.
+            """Returns an item.
+            
             Items coordinates: page number * page size + displacement from the start of the current page.
             """
             return self.items[self.page * self.page_size + i]
-
-        def get_item_count(self, item):
-            """
-            Returns total amount of any particular item in the inventory.
-            """
-            if isinstance(item, Item):
-                item = item.id
-            if item in self.content:
-                return self.content[item]
             
         def append(self, item, amount=1):
             """
@@ -252,8 +239,8 @@ init -9 python:
             self.set_max_page()
 
         def remove(self, item, amount=1):
-            """
-            Removes given amount of items from inventory.
+            """Removes given amount of items from inventory.
+            
             Returns True if in case of success and False if there aren't enough items.
             """
             if isinstance(item, basestring):
@@ -269,25 +256,25 @@ init -9 python:
             return False
 
         def clear(self):
-            """
-            Removes ALL items from inventory!!!
+            """Removes ALL items from inventory!!!
             """
             self.content = OrderedDict()
             self.items = list()
             
         # Easy access:
         def __getitem__(self, key):
-            """
-            Returns an instance of an item if item is in the inventory.
+            """Returns an amount of items in inventory.
             """
             if isinstance(key, Item):
-                key = item.id
+                key = key.id
+                
             if key in self.content:
                 return self.content[key]
+            else:
+                return 0
 
         def __len__(self):
-            """
-            Returns total amount of items in the inventory.
+            """Returns total amount of items in the inventory.
             """
             return sum(self.content.values())
             
