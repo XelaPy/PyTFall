@@ -561,7 +561,7 @@ init -5 python:
             
     class CatWalk(SubUpgrade):
         COMPATIBILITY = [StripClub]
-        MATERIALS = {}
+        MATERIALS = {"Wood": 10, "Bricks": 30, "Glass": 2}
         COST = 1000
         ID = "Cat Walk"
         IMG = "content/buildings/upgrades/catwalk_0.jpg"
@@ -570,4 +570,14 @@ init -5 python:
             
             
             # ??? Think of a way to generalize bonuses? Maybe a system with clear mechanics is needed...
+            
+            
+    class Aquarium(SubUpgrade):
+        COMPATIBILITY = [StripClub]
+        MATERIALS = {"Glass": 10, "Wood": 5}
+        COST = 2500
+        ID = "Aquarium"
+        IMG = "content/buildings/upgrades/aquarium_nq.jpg"
+        def __init__(self, name="Aquarium", instance=None, desc="Enhance the entertainment experience of your clients!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=4, cost=2000, **kwargs):
+            super(Aquaruim, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             

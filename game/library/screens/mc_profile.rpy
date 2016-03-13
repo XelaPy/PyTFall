@@ -314,7 +314,7 @@ screen hero_profile():
                     draggable True
                     mousewheel True
                     has vbox spacing 1
-                    for entry in char.attack_skills:
+                    for entry in hero.attack_skills:
                         frame:
                             xysize (147, 25)
                             button:
@@ -336,7 +336,7 @@ screen hero_profile():
                     draggable True
                     mousewheel True
                     has vbox spacing 1
-                    for entry in char.magic_skills:
+                    for entry in hero.magic_skills:
                         frame:
                             xysize (147, 25)
                             button:
@@ -644,8 +644,6 @@ screen hero_team():
                         $ tmb = red if member.health <= member.get_max("health")*0.3 else "#F5F5DC"
                         text "[member.health]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
                     
-                    # MP # Need fix, if char.mp and char.max.mp == 0 bar is full. In the BE also :/fGismo
-                    # MP should never be 0... this can be fixed but Dark's base should traits be fixed instead.
                     fixed:
                         xysize (152, 22)
                         align (0.85, 1.0)

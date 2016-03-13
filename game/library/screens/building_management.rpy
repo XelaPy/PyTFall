@@ -87,17 +87,12 @@ label building_management_loop:
                         else:
                             jump("building_management_end")
         
-        if result[0] == 'control':
-            if result[1] == 'left':
-                $ index = (index - 1) % len(hero.upgradable_buildings)
-            
-            elif result[1] == 'right':
-                $ index = (index + 1) % len(hero.upgradable_buildings)
-            
-            if result[1] == 'return':
-                jump building_management_end
-        
-        if result[0] == "maintenance":
+        # Upgrades:
+        elif result[0] == 'upgrade':
+            if result[1] == "build":
+                $ pass
+                            
+        elif result[0] == "maintenance":
             python:
                 # Cleaning controls
                 if result[1] == "clean":
@@ -124,6 +119,16 @@ label building_management_loop:
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
                 
+        elif result[0] == 'control':
+            if result[1] == 'left':
+                $ index = (index - 1) % len(hero.upgradable_buildings)
+            
+            elif result[1] == 'right':
+                $ index = (index + 1) % len(hero.upgradable_buildings)
+            
+            if result[1] == 'return':
+                jump building_management_end
+                    
 label building_management_end:
     hide screen building_management
     jump mainscreen
@@ -223,15 +228,25 @@ screen building_management():
                             text "Resources Needed:" align .5, .5 style "stats_text" size 15
                                 
                         hbox:
-                            align .01, .35
+                            pos 15, 35
                             box_wrap True
-                            xsize 300
+                            xsize 330
                             spacing 10
                             frame:
-                                xysize 120, 50
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                xpadding 10
-                                text "Gold:{color=[gold]} [u.COST]" align .5, .5 style "stats_text" size 20
+                                has hbox xysize 135, 40
+                                text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
+                            # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
+                            for r in sorted(u.MATERIALS):
+                                $ r = items[r]
+                                frame:
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    has hbox xysize 135, 40
+                                    text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                    frame:
+                                        align .99, .5
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                        add im.Scale(r.icon, 33, 33) align .5, .5
                             
                         vbox:
                             align 1.0, 0
@@ -248,7 +263,7 @@ screen building_management():
                                     add im.Scale(u.IMG, 120, 75) align .5, .5
                                 else:
                                     add Solid(black, xysize=(120, 75)) align .5, .5
-                            textbutton "{size=15}Buy" xalign .5 action NullAction()
+                            textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u])
                 
                 textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
                     
