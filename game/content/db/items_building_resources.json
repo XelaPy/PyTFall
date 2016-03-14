@@ -1,0 +1,47 @@
+[
+    {
+    "id": "Bricks",
+    "desc": "High quality resource for your building upgrades!",
+    "icon": "content/items/building_resources/bricks.png",
+    "price": 25,
+    "sex": "unisex",
+    "chance": 100,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": true,
+    "slot": "resources",
+    "type": "building",
+    "locations": ["Work Shop", "Look around"]
+    },
+    {
+    "id": "Glass",
+    "desc": "High quality resource for your building upgrades!",
+    "icon": "content/items/building_resources/glass.png",
+    "price": 45,
+    "sex": "unisex",
+    "chance": 100,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": true,
+    "slot": "resources",
+    "type": "building",
+    "locations": ["Work Shop", "Look around"]
+    },
+    {
+    "id": "Wood",
+    "desc": "High quality resource for your building upgrades!",
+    "icon": "content/items/building_resources/wood.png",
+    "price": 25,
+    "sex": "unisex",
+    "chance": 100,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": true,
+    "slot": "resources",
+    "type": "building",
+    "locations": ["Work Shop", "Look around"]
+    }
+]

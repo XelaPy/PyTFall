@@ -197,13 +197,13 @@ label shop_control:
     elif result[0] == 'control':
         if result[1] == "increase_amount":
             if purchasing_dir == 'sell':
-                if amount < char.inventory.get_item_count(focus):
+                if amount < char.inventory[focus]:
                     $ amount += 1
             elif purchasing_dir == 'buy':
-                if amount < shop.inventory.get_item_count(focus):
+                if amount < shop.inventory[focus]:
                     $ amount += 1
         elif result[1] == "decrease_amount":
-            if amount >= 2:
+            if amount > 1:
                 $ amount -= 1
         elif result[1] == 'return':
             $ focus = None

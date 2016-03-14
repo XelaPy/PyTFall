@@ -681,14 +681,20 @@ init -9 python:
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
             
-        def can_add_upgrade(self, upgrade, build=False):
+        def can_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
             if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
                 return
                 
-            # Check is there is already this type of an upgrade:
-            if list(up for up in self._upgrades if up.__class__ == upgrade.__class__):
+            if self._has_upgrade(upgrade):
                 return
+                
+            if hero.gold < upgrade.COST:
+                return
+                
+            for i, a in upgrade.MATERIALS.iteritems():
+                if hero.inventory[i] < a:
+                    return
                 
             # If we want to build the upgrade as well (usually in testing scenarios):
             if build:
@@ -698,18 +704,29 @@ init -9 python:
                 
             return True
                 
-        def add_upgrade(self, upgrade, normalize_jobs=True):
+        def add_upgrade(self, upgrade, main_upgrade=None, normalize_jobs=True):
             """Add upgrade to the building.
             """
             if isinstance(upgrade, MainUpgrade):
                 upgrade.instance = self
                 self._upgrades.append(upgrade)
             elif isinstance(upgrade, SubUpgrade):
-                # Find the correct SubUpgrade and rename the "upgrades" casue this is very confusing?
-                upgrade.add_upgrade(upgrade)
+                # Find the correct SubUpgrade and rename the "upgrades" casue this is very confusing... Maybe Extension..??? TODO:
+                main_upgrade.add_upgrade(upgrade)
                 
             if normalize_jobs:
                 self.normalize_jobs()
+                
+        def _has_upgrade(self, upgrade):
+            # Checks if there is already this type of an upgrade:
+            if list(up for up in self._upgrades if up.__class__ == upgrade.__class__):
+                return True
+                
+            for up in self._upgrades:
+                if up.has_upgrade(upgrade):
+                    return True
+                    
+            return False
             
         @property
         def habitable(self):

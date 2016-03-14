@@ -16,7 +16,10 @@ init -5 python:
             self.name = name # name, a string.
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
-            self.img = img # Ren'Py path leading the an image, a string.
+            if not hasattr(self, "img"):
+                self.img = img # Ren'Py path leading the an image, a string.
+            if not hasattr(self, "cost"):
+                self.cost = cost
             
             self.jobs = set() # Jobs this upgrade can add. *We add job instances here!  # It may be a good idea to turn this into a direct job assignment instead of a set...
             self.workers = set() # List of on duty characters.
@@ -222,6 +225,9 @@ init -5 python:
             upgrade.instance = self
             self.main_upgrade = self.instance
             self.upgrades.append(upgrade)
+            
+        def has_upgrade(self, upgrade_class):
+            return upgrade_class in [u.__class__ for u in self.upgrades]
             
         def check_upgrade_compatibility(self, upgrade):
             return self.__class__ in upgrade.COMPATIBILITY
@@ -552,22 +558,37 @@ init -5 python:
         def __init__(self, *args, **kwargs):
             super(SubUpgrade, self).__init__(*args, **kwargs)
             
-            self.name = name # name, a string.
-            self.main_upgrade = main_upgrade
-            self.instance = instance # Building this upgrade belongs to.
-            self.desc = desc # description, a string.
-            self.img = img # Ren'Py path leading the an image, a string.
+            self.main_upgrade = None
             
+        @property
+        def img(self):
+            # We return IMG instead of the usual img here.
+            return self.IMG
+            
+        @property
+        def cost(self):
+            # We return IMG instead of the usual img here.
+            return self.COST
             
     class CatWalk(SubUpgrade):
         COMPATIBILITY = [StripClub]
-        MATERIALS = {}
+        MATERIALS = {"Wood": 10, "Bricks": 30, "Glass": 2}
         COST = 1000
         ID = "Cat Walk"
         IMG = "content/buildings/upgrades/catwalk_0.jpg"
-        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", img="content/buildings/upgrades/catwalk_0.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
-            super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+        def __init__(self, name="Cat Walk", instance=None, desc="Good way to show off your strippers!", build_effort=0, materials=None, in_slots=2, **kwargs):
+            super(CatWalk, self).__init__(name=name, instance=instance, desc=desc, build_effort=build_effort, materials=materials, **kwargs)
             
             
             # ??? Think of a way to generalize bonuses? Maybe a system with clear mechanics is needed...
+            
+            
+    class Aquarium(SubUpgrade):
+        COMPATIBILITY = [StripClub]
+        MATERIALS = {"Glass": 10, "Wood": 5}
+        COST = 2500
+        ID = "Aquarium"
+        IMG = "content/buildings/upgrades/aquarium_nq.jpg"
+        def __init__(self, name="Aquarium", instance=None, desc="Enhance the entertainment experience of your clients!", build_effort=0, materials=None, in_slots=4, **kwargs):
+            super(Aquarium, self).__init__(name=name, instance=instance, desc=desc, build_effort=build_effort, materials=materials, **kwargs)
             
