@@ -156,7 +156,7 @@ init -1 python:
                 return self.girlcells[self.label_cache]
             
             else:
-                return list()    
+                return list()
         
         def get_all_girls(self):
             """
@@ -282,6 +282,8 @@ init -1 python:
             """
             self.mode = mode
             self.char = girl
+            
+            hs() # Kill the current screen...
             
             if exit is not None:
                 self.label_cache = exit

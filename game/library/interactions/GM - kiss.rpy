@@ -30,6 +30,7 @@ image interactions_hearts:
     pause 0.1
     "content/gfx/animations/interactions/hearts/heart15.png"
     repeat
+    
 label interactions_kiss:
     "You trying to kiss her."
     if ct("Lesbian"): 
