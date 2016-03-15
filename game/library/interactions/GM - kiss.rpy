@@ -1,3 +1,35 @@
+image interactions_hearts:
+    anchor (0.5, 0.5)
+    "content/gfx/animations/interactions/hearts/heart1.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart2.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart3.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart4.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart5.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart6.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart7.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart8.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart9.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart10.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart11.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart12.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart13.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart14.png"
+    pause 0.1
+    "content/gfx/animations/interactions/hearts/heart15.png"
+    repeat
 label interactions_kiss:
     "You trying to kiss her."
     if ct("Lesbian"): 
@@ -41,19 +73,23 @@ label interactions_kiss:
     
     if (char.disposition >= (150+50*sub)) and dice((char.disposition - 50*sub)*temp):
         $ char.disposition += round(randint(16, 30) + randint(1,4)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
-
+        show interactions_hearts as hearts:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 220
+            ypos 637
+        $ char.override_portrait("portrait", "shy")
         if check_lovers(char, hero):
-            "She's all over you, kissing all over your face and grinding against you."
+            char.say "She's all over you, kissing all over your face and grinding against you."
         elif char.disposition < (300+n*100):
-            "You and [char.name] make out for a while."
+            char.say "You and [char.name] make out for a while."
         elif char.disposition < (500+n*100):
-            "You two kiss deeply and passionately."
+            char.say "You two kiss deeply and passionately."
         else:
-            "You two kiss deeply and passionately. She's really getting into it, there's some heavy tongue action."
+            char.say "You two kiss deeply and passionately. She's really getting into it, there's some heavy tongue action."
 
         $ hero.exp += randint(10, 20)
         $ char.exp += randint(10, 20)
-        $ char.override_portrait("portrait", "shy")
 
         if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < (500+n*100):
             "She looks a bit uncomfortable."
