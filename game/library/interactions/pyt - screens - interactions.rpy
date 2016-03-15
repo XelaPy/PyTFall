@@ -62,7 +62,7 @@ label girl_interactions:
                 "No":
                     $ char.set_flag("gm_char_proposed_sex", value=day)
                     $ char.override_portrait("portrait", "indifferent")
-                    $rc("...", "I see...", "Maybe next time then...")
+                    $ rc("...", "I see...", "Maybe next time then...")
                     $ char.restore_portrait()
                     jump girl_interactions_after_greetings
                     

@@ -516,49 +516,49 @@ label interactions_aboutoccupation:
     $ hero.exp += randint(1, 2)
     if char.disposition > -250:
         if cgo("Warrior") and not(cgo("Caster")):
-            $rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
+            $ rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
             if co("Defender"):
-                $rc("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
+                $ rc("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
             if co("Shooter"):
-                $rc("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")
+                $ rc("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")
             if co("Assassin"):
-                $rc("I was taught the art of stealthy assassination.", "I'm an assassin. They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
+                $ rc("I was taught the art of stealthy assassination.", "I'm an assassin. They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
         if cgo("Caster"):
-            $rc("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
+            $ rc("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
             if co("Battle Mage"):
-                $rc("I prefer battle magic, myself.", "I have plenty experience in combat magic.", "And I know how to effectively use my gift on the battlefield.")
+                $ rc("I prefer battle magic, myself.", "I have plenty experience in combat magic.", "And I know how to effectively use my gift on the battlefield.")
             if co("Healer"):
-                $rc("I know a lot about healing magic.", "My job is to heal wounds.", "I'm a healer, my magic helps other people.")
+                $ rc("I know a lot about healing magic.", "My job is to heal wounds.", "I'm a healer, my magic helps other people.")
         if cgo("SIW"):
-            $rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
+            $ rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
             if co("Anal Prostitute"):
-                $rc("Anal sex is my strong point.", "I love it in my poop chute.", "I've got an onion booty, it makes men cry. Haha.")
+                $ rc("Anal sex is my strong point.", "I love it in my poop chute.", "I've got an onion booty, it makes men cry. Haha.")
             if co("Oral Prostitute"):
-                $rc("Oral sex is my strong point.", "I'll give head until I'm dead.", "I can suck a golf ball through a garden hose.")
+                $ rc("Oral sex is my strong point.", "I'll give head until I'm dead.", "I can suck a golf ball through a garden hose.")
             if co("Straight Prostitute"):
-                $rc("Vaginal sex is my strong point.", "My pussy's made of gold.", "I can milk a cock with my vaginal muscles alone.")
+                $ rc("Vaginal sex is my strong point.", "My pussy's made of gold.", "I can milk a cock with my vaginal muscles alone.")
             if co("Mistress"):
-                $rc("I prefer S&M, myself. Wanna try sometime? ♪", "Lick my boots worm!.", "I wanna tie you up and make you my bitch.")
+                $ rc("I prefer S&M, myself. Wanna try sometime? ♪", "Lick my boots worm!.", "I wanna tie you up and make you my bitch.")
             if co("Stripper"):
-                $rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
+                $ rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
         if cgo("Server") and not(co("Stripper")):
-            $rc("I specialize in service industry.", "I'm a service girl.")
+            $ rc("I specialize in service industry.", "I'm a service girl.")
             if co("Entertainer"):
-                $rc("I entertain the public.", "I don't allow customers to get bored.")
+                $ rc("I entertain the public.", "I don't allow customers to get bored.")
             if co("Dancer"):
-                $rc("I specialize in art of dancing.", "I'm a pretty good dancer.")
+                $ rc("I specialize in art of dancing.", "I'm a pretty good dancer.")
             if co("Maid"):
-                $rc("I perform menial tasks around the household.", "And I'm a professional maid.")
+                $ rc("I perform menial tasks around the household.", "And I'm a professional maid.")
             if co("Cleaner"):
-                $rc("I specialize in cleaning.", "I'm especially good in cleaning.")
+                $ rc("I specialize in cleaning.", "I'm especially good in cleaning.")
             if co("Waitress"):
-                $rc("I have some experience in serving customers in a restaurant.", "I think I'm a pretty good waitress.")
+                $ rc("I have some experience in serving customers in a restaurant.", "I think I'm a pretty good waitress.")
             if co("Bartender"):
-                $rc("Also I know how to serve customers behind the bar.", "I'm a bartender. It's a rare profession, I know.")
+                $ rc("Also I know how to serve customers behind the bar.", "I'm a bartender. It's a rare profession, I know.")
         if co("Manager"):
-            $rc("I know a thing or two about managing.", "I know how to manage people.")
+            $ rc("I know a thing or two about managing.", "I know how to manage people.")
         if not(cgo("Server") or cgo("SIW") or cgo("Warrior") or cgo("Caster") or co("Manager")): #you never know
-            $rc("I don't really have a profession...")
+            $ rc("I don't really have a profession...")
     else:
         $ char.disposition -= randint(0, 1)
         jump interactions_refused
@@ -656,17 +656,17 @@ label interactions_interests:
 #    
 #    else:
 #        if ct("Nymphomaniac") and dice(40):
-#            $rc("Wherever there is something or someone I can shag.", "At the sex-club, oh no--I've said too much...#1 rule...Never talk about the sex club! WTF was I thinking?")
+#            $ rc("Wherever there is something or someone I can shag.", "At the sex-club, oh no--I've said too much...#1 rule...Never talk about the sex club! WTF was I thinking?")
 #        elif ct("Nerd"):
-#            $rc("Library, where do {color=[red]}you{/color} go for fun?", "I cozy under a tree with a good book.")
+#            $ rc("Library, where do {color=[red]}you{/color} go for fun?", "I cozy under a tree with a good book.")
 #        elif cgo("Warrior"):
-#            $rc("The Arena, where else?", "Window shopping at the blacksmith's!")
+#            $ rc("The Arena, where else?", "Window shopping at the blacksmith's!")
 #        elif cgo("SIW"):
-#            $rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Building...Don't look at me like that!")
+#            $ rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Building...Don't look at me like that!")
 #        elif ct("Dancer"):
-#            $rc("Exotic Dancing academy", "Close to a pole and not any of the two you're thinking.", "Strip Club.")
+#            $ rc("Exotic Dancing academy", "Close to a pole and not any of the two you're thinking.", "Strip Club.")
 #        elif cgo("Server"):
-#            $rc("At the bar, tending to it.", "I love broom and dustbins exhibits.", "Wherever cleaning is required.")
+#            $ rc("At the bar, tending to it.", "I love broom and dustbins exhibits.", "Wherever cleaning is required.")
 #    
 #    jump girl_interactions
 
@@ -683,7 +683,7 @@ label interactions_romance:
         $ del m
         jump girl_interactions
     $ del m
-    if not(dice(char.disposition * 0.35)):
+    if not(dice(char.disposition * 0.4)):
         $ char.disposition -= randint(5, 10)
         jump interactions_refused
     else:
@@ -704,31 +704,31 @@ label interactions_romance:
         $ char.exp += randint(5, 15)
         $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.05))
         if ct("Impersonal"):
-            $rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
+            $ rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):
-            $rc("Lovers... Th-they're supposed to...hold hands, after all... Right?", "Wh-what comes after a k-kiss is... It's... Awawa...", "If it's the person you love, just having them turn around and smile... Is enough to make you happy...", "Love... sure is a good thing...")
+            $ rc("Lovers... Th-they're supposed to...hold hands, after all... Right?", "Wh-what comes after a k-kiss is... It's... Awawa...", "If it's the person you love, just having them turn around and smile... Is enough to make you happy...", "Love... sure is a good thing...")
         elif ct("Nymphomaniac") and dice(40):
-            $rc("*sigh* I always have such a high libido...", "Um... Love can start from lust... right?", "If you are in love, having sex is totally normal, right?", "People are no more than animals, so it's only natural to copulate...right?", "Well, doing perverted stuff is proof that you're healthy.", "Me thinking about sex? Not at all... Great. Now that you brought it up...")
+            $ rc("*sigh* I always have such a high libido...", "Um... Love can start from lust... right?", "If you are in love, having sex is totally normal, right?", "People are no more than animals, so it's only natural to copulate...right?", "Well, doing perverted stuff is proof that you're healthy.", "Me thinking about sex? Not at all... Great. Now that you brought it up...")
         elif ct("Bisexual", "Lesbian") and dice(20):
-            $rc("Love runs deeper than gender.")
+            $ rc("Love runs deeper than gender.")
         elif ct("Dandere"):
-            $rc("If you like them, you like them. If you hate them, you hate them. That's all there is to it. Right?", "My dream yesterday... It was so lovey-dovey and erotic.", "Getting close to people other than the one you love is kind of...", "You can still live a good life without a lover, don't you think?")
+            $ rc("If you like them, you like them. If you hate them, you hate them. That's all there is to it. Right?", "My dream yesterday... It was so lovey-dovey and erotic.", "Getting close to people other than the one you love is kind of...", "You can still live a good life without a lover, don't you think?")
         elif ct("Tsundere"):
-            $rc("M...men and women feel arousal differently.... F-f-forget what I just said!", "Thick and hard? What the... You idiot, what are you saying! That's not what you meant? ... You idiot!", "E-even I want to be a good bride someday, you know...?", "Things like l-love or affection, are all excuses.")
+            $ rc("M...men and women feel arousal differently.... F-f-forget what I just said!", "Thick and hard? What the... You idiot, what are you saying! That's not what you meant? ... You idiot!", "E-even I want to be a good bride someday, you know...?", "Things like l-love or affection, are all excuses.")
         elif ct("Kuudere"):
-            $rc("To feel the same feelings towards each other... To be partners for life... That's what I long for.", "Two people in love devoting themselves to each other, that sounds like pure bliss to me...", "True love isn't about showing off to everyone else... It's the small things you do for your partner that matter.", "There's gotta be someone willing to support me out there somewhere...", "Chance encounters only happen with both time and luck... Well, I suppose you could call it fate.")
+            $ rc("To feel the same feelings towards each other... To be partners for life... That's what I long for.", "Two people in love devoting themselves to each other, that sounds like pure bliss to me...", "True love isn't about showing off to everyone else... It's the small things you do for your partner that matter.", "There's gotta be someone willing to support me out there somewhere...", "Chance encounters only happen with both time and luck... Well, I suppose you could call it fate.")
         elif ct("Imouto"):
-            $rc("That's weird... Today's love fortune was supposed to be a sure thing... Hmm...", "That book is very interesting... A boy and a girl who you'd think are twins get together, but in fact...", "L-love and affection and th-that stuff, I don't really get it very well...", "If I'm going to date someone, they should be rich ♪, and want kids ♪ And they should be totally committed to me ♪")
+            $ rc("That's weird... Today's love fortune was supposed to be a sure thing... Hmm...", "That book is very interesting... A boy and a girl who you'd think are twins get together, but in fact...", "L-love and affection and th-that stuff, I don't really get it very well...", "If I'm going to date someone, they should be rich ♪, and want kids ♪ And they should be totally committed to me ♪")
         elif ct("Ane"):
-            $rc("You're deciding who will be your partner for life.　It would be strange not to be worried about it.", "I think just having the one you love beside you is the ultimate happiness.", "I need a person whom I can rely on.", "Lost loves are important to build character, I think.", "As you've probably noticed, I'm the devoted type ♪", "Of course, I'd wanna stay by my loved one's side. Or, rather than being by their side, it's more, like, I want to support them?")
+            $ rc("You're deciding who will be your partner for life.　It would be strange not to be worried about it.", "I think just having the one you love beside you is the ultimate happiness.", "I need a person whom I can rely on.", "Lost loves are important to build character, I think.", "As you've probably noticed, I'm the devoted type ♪", "Of course, I'd wanna stay by my loved one's side. Or, rather than being by their side, it's more, like, I want to support them?")
         elif ct("Kamidere"):
-            $rc("Seriously, how can I... think of such unpleasant thoughts...", "When my body gets hot, it's like my discipline starts to crumble...", "There are things more important than physical infatuation.", "Making men my playthings is a simple matter for one such as I. Eheh!", "Love is nothing but an expression of ego, you know.", "You can't disobey your instincts. Isn't keeping up this charade painful for you?")
+            $ rc("Seriously, how can I... think of such unpleasant thoughts...", "When my body gets hot, it's like my discipline starts to crumble...", "There are things more important than physical infatuation.", "Making men my playthings is a simple matter for one such as I. Eheh!", "Love is nothing but an expression of ego, you know.", "You can't disobey your instincts. Isn't keeping up this charade painful for you?")
         elif ct("Bokukko"):
-            $rc("Love is a competition! A conflict! A war!", "If the other person won't give you a second glance, you need to make 'em. It's simple, really.", "Love, hmm ♪ ... Hn, just thinking about it makes me sort of embarrassed...", "I'm gonna be the bestest wife!", "Is this that fate thing they're talking about?")
+            $ rc("Love is a competition! A conflict! A war!", "If the other person won't give you a second glance, you need to make 'em. It's simple, really.", "Love, hmm ♪ ... Hn, just thinking about it makes me sort of embarrassed...", "I'm gonna be the bestest wife!", "Is this that fate thing they're talking about?")
         elif ct("Yandere"):
-            $rc("Huhu, a girl in love is invincible ♪", "Nothing motivates you quite like 'love', huh...", "If it's just with their mouth, everyone can talk about love. Even though none of them know how hard it is in reality...")
+            $ rc("Huhu, a girl in love is invincible ♪", "Nothing motivates you quite like 'love', huh...", "If it's just with their mouth, everyone can talk about love. Even though none of them know how hard it is in reality...", "I want to try many different ways to kiss, I think...")
         else:
-            $rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love ♪...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Everyone wants to fall in love, I suppose. Don't you think?")
+            $ rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love ♪...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Everyone wants to fall in love, I suppose. Don't you think?")
         $ char.restore_portrait()
         jump girl_interactions
 
@@ -736,28 +736,28 @@ label interactions_romance:
 label interactions_refused:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
-        $rc("Denied.", "It's none of your business.", "...")
-    elif ct("Shy") and dice(50):
+        $ rc("Denied.", "It's none of your business.", "...")
+    elif ct("Shy"):
         $ char.override_portrait("portrait", "shy")
-        $rc("I-I won't tell you... ", "It's nothing. ...sorry.", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
+        $ rc("I-I won't tell you... ", "It's nothing. ...sorry.", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
     elif ct("Dandere"):
-        $rc("I don't feel the need to answer that question.", "...Let's talk later...maybe.", "I'm not going to tell you.")
+        $ rc("I don't feel the need to answer that question.", "...Let's talk later...maybe.", "I'm not going to tell you.")
     elif ct("Kuudere"):
-        $rc("I've got no reason to tell you.", "I'm not in the mood for that right now.", "Why do I have to tell you?")
+        $ rc("I've got no reason to tell you.", "I'm not in the mood for that right now.", "Why do I have to tell you?")
     elif ct("Tsundere"):
-        $rc("Hmph! Who would tell you!", "Eh? You expect me to tell you?", "It's none of your business.")
+        $ rc("Hmph! Who would tell you!", "Eh? You expect me to tell you?", "It's none of your business.")
     elif ct("Imouto"):
-        $rc("Uhuhu♪ I won't tell you ♪ ", "It's a secret!", "Umm, is it bad if I don't answer...?")
+        $ rc("Uhuhu, I won't tell you!", "It's a secret!", "Umm, is it bad if I don't answer...?")
     elif ct("Yandere"):
-        $rc("I'm not in a mood for chatting.",  "<She is not listening>", "You talk too much.")
+        $ rc("I'm not in a mood for chatting.", "...I don't feel like answering.")
     elif ct("Kamidere"):
-        $rc("And what will hearing that do for you?", "And what good would knowing that do you?")
+        $ rc("And what will hearing that do for you?", "And what good would knowing that do you?")
     elif ct("Ane"):
-        $rc("...I don't feel like answering.", "Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*... Don't you have anything else to do?")
+        $ rc("Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*... Don't you have anything else to do?")
     elif ct("Bokukko"):
-        $rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
+        $ rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
     else:
-        $rc("I don't want to answer.", "I don't want to talk now.", "Hmph, Why should I have to tell you?", "Must I give you an answer?")
+        $ rc("I don't want to answer.", "I don't want to talk now.", "Must I give you an answer?")
     $ char.restore_portrait()
     jump girl_interactions
     
