@@ -73,7 +73,7 @@ label interactions_kiss:
     
     if (char.disposition >= (150+50*sub)) and dice((char.disposition - 50*sub)*temp):
         $ char.disposition += round(randint(16, 30) + randint(1,4)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
-        show interactions_hearts as hearts:
+        show interactions_hearts onlayer overlay:
             xanchor 0.5
             yanchor 0.5
             xpos 220
@@ -175,7 +175,10 @@ label interactions_kiss:
             $ rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.", "What? Is that your dying wish? You want to die?")
         else:
             $ char.override_portrait("portrait", "indifferent")
-            $ rc("With you? Don't make me laugh.", "Get lost, pervert!", "Woah, hold on there. Maybe after we get to know each other better.")  
+            $ rc("With you? Don't make me laugh.", "Get lost, pervert!", "Woah, hold on there. Maybe after we get to know each other better.")
+            
+    hide interactions_hearts
+            
     $ del temp
     $ del sub
     $ del n
