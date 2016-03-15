@@ -1,8 +1,16 @@
 label interactions_kiss:
     "You trying to kiss her."
     if ct("Lesbian"): 
-        call interactions_lesbian_refuse_because_of_gender
-        jump girl_interactions
+        $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
+        if m > 2:
+            call interactions_too_many_lines
+            $ char.disposition -= randint(1, m+3)
+            $ char.joy -= randint(0,1)
+            $ del m
+            jump girl_interactions
+        else:
+            call interactions_lesbian_refuse_because_of_gender
+            jump girl_interactions
         
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
@@ -14,10 +22,10 @@ label interactions_kiss:
     else:
         $ n = 0
     
-    if m > (randint(2,3)+n):
+    if m > (randint(2,4)+n):
         call interactions_too_many_sex_lines
         $ char.disposition -= randint(2, m+4)
-        $ char.joy -= randint(2,4)
+        $ char.joy -= randint(1,4)
         $ del m
         $ del n
         jump girl_interactions
