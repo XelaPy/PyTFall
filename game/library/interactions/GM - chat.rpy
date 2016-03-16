@@ -55,7 +55,6 @@ label interactions_general:
     
 # ask about job
 label girl_interactions_aboutjob: # TO DO: here would help additional logic based on actual recent jobs events
-    "You asking about her job."
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
     if m > 1:
@@ -181,7 +180,6 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
 
 # ask how she feels
 label interactions_howshefeels:
-    "You asking how she feels today."
     $ m = interactions_flag_count_checker(char, "flag_interactions_howshefeels")
     if m >= randint(5, 6): # we don't have to limit it because of bonuses (there are none), but because of the common sense
         call interactions_too_many_lines
@@ -256,7 +254,6 @@ label interactions_howshefeels:
 
 # ask about her
 label interactions_abouther:
-    "You trying to learn a bit about her."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_abouther")
@@ -504,7 +501,6 @@ label interactions_abouther:
 
 # ask about occupation
 label interactions_aboutoccupation:
-    "You asking about her occupation."
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_aboutoccupation")
     if m > randint(2,3):
@@ -565,7 +561,6 @@ label interactions_aboutoccupation:
     jump girl_interactions
 
 label interactions_interests:
-    "You asking about her interests."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_interests")
@@ -672,7 +667,6 @@ label interactions_interests:
 
 # ask about love
 label interactions_romance:
-    "You ask her about love and romantic stuff."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_romance")

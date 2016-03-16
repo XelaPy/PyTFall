@@ -1,76 +1,63 @@
 label interactions_hug:
-    "You try to hug her."
     $ interactions_check_for_bad_stuff(char)
-    if char.disposition > 600:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.2
-    elif char.disposition > 400:
-        $ gm_dice = 98
-        $ gm_disp_mult = 0.4
-    elif char.disposition > 300:
-        $ gm_dice = 95
-        $ gm_disp_mult = 0.5
-    elif char.disposition > 200:
-        $ gm_dice = 90
-        $ gm_disp_mult = 0.7
-    elif char.disposition > 150:
-        $ gm_dice = 90
-        $ gm_disp_mult = 1
-    elif char.disposition > 100:
-        $ gm_dice = 70
-        $ gm_disp_mult = 1
-    elif char.disposition > 50:
-        $ gm_dice = 50
-        $ gm_disp_mult = 1
-    elif char.disposition > 20:
-        $ gm_dice = 20
-        $ gm_disp_mult = 1
-    elif char.disposition > -1:
-        $ gm_dice = 5
-        $ gm_disp_mult = 1
+    $ m = interactions_flag_count_checker(char, "flag_interactions_hug")
+    if check_lovers(char, hero):
+        $ n = 2
+    elif check_friends(char, hero) or ct("Half-Sister"):
+        $ n = 1
     else:
-        $ gm_dice = 1
-        $ gm_disp_mult = 1
-    
-    if dice(gm_dice) or check_lovers(char, hero):
-        $ gm_last_success = True
-        $ char.disposition += (randint(10, 30)*(gm_disp_mult))
-    
+        $ n = 0
+    if m > (randint(2,4)+n):
+        call interactions_too_many_sex_lines
+        $ char.disposition -= randint(2, m+2)
+        $ char.joy -= randint(1,3)
+        $ del m
+        $ del n
+        jump girl_interactions
+        
+    if check_lovers(char, hero):
+        $ temp = 0.6
+    elif check_friends(char, hero):
+        $ temp = 0.4+n*0.05
     else:
-        $ gm_last_success = False
-        $ char.disposition -= (randint(10, 30)*(gm_disp_mult))
+        $ temp = 0.35+n*0.05
+        
+    $ sub = check_submissivity(char)
     
-    if gm_last_success:
+    if (char.disposition >= (150+50*sub)) and dice((char.disposition - 50*sub)*temp):
+        $ char.disposition += round(randint(12, 25) + randint(1,3)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
+        $ hero.exp += randint(8, 15)
+        $ char.exp += randint(8, 15)
         $ char.override_portrait("portrait", "confident")
-        $ hero.exp += randint(5, 10)
         if ct("Impersonal"):
             $ rc("Yes? Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm.", "I'm for you to embrace.")
         elif ct("Shy") and dice(30):
             $ char.override_portrait("portrait", "shy")
             $ rc("I feel like I'm safe.", "Being so close...", "A... are you feeling cold? It's m... much warmer like this, right?", "It's... it's okay to do it like this, right?", "Y-yes... Please hold me... hold me tight...")
-        elif ct("Nymphomaniac") and dice(20):
-            $ rc("Geez, you're such a perv♪",  "Hau♪... I'm...starting to feel funny...", "Being so close... Exciting?")
+        elif ct("Nymphomaniac") and dice(25):
+            $ rc("Geez, you're such a perv ♪",  "Hau ♪... I'm...starting to feel funny...", "Being so close... Exciting?")
         elif ct("Kamidere"):
-            $ rc("Having your arms around me is so comfortable.", "When you're so gentle I get embarrassed all of a sudden...", "Did something happen?", "I'm for you to embrace.", "You can hear the sound of my heart beating.", "Would you please hug me tight.")
+            $ rc("Having your arms around me is so comfortable.", "When you're so gentle I get embarrassed all of a sudden...", "D-did something happen?", "You can hear the sound of my heart beating.")
         elif ct("Kuudere"):
-            $ rc("I-I'm not a body pillow...", "...Jeez, how long are you going to do this? ...It's embarrassing.", "Oh...? This is nice, isn't it...? Being just like this.", "W-what are you doing so suddenly?!", "What are you nervous for? I'm the one who's embarrassed here.")
+            $ rc("I-I'm not a body pillow...", "...Jeez, how long are you going to do this? ...It's embarrassing.", "W-what are you doing so suddenly?!", "W-what are you nervous for? I'm the one who's embarrassed here...", "Oh...? This is nice, isn't it...? Being just like this.")
         elif ct("Dandere"):
-            $ rc("...My face is burning.", "Please hold me closer...", "It feels better this way.", "Ah... Hold me tighter...", "Hmhmm... I expected perverted things... Pity.")
+            $ rc("...My face is burning.", "It feels better this way.", "Ah... Hold me tighter.", "Hmhmm... I expected perverted things... Pity.")
         elif ct("Tsundere"):
             $ rc("H-Huh? Why is my pulse getting so...", "Hey you, who said you could get this close without permission?", "D-don't do anything weird, okay...?", "I-I'm not n-nervous or anything...", "It's... it's okay to do it like this, right?", "How long do you plan to... It's embarrassing!", "I-it's not like getting a hug is surprising, right?")
         elif ct("Imouto"):
             $ rc("Okay, I'll comfort you...  There, there ♪", "<Hugs you back with a smile> Heheh ♪ Let's stay like this just a bit more ♪", "What, what? Did something happen?", "Come, come! Come to my chest! ♪", "I-isn't something touching...?　R-really?", "Hehehe... It feels kinda warm...")
         elif ct("Ane"):
-            $ rc("Well, aren't you too close ♪", "I wanted to stay together for a bit longer... just kidding.", "Hm? You're kind of close... Oh, so that's what this is all about...", "Fufu, you're like a spoiled kid...♪", "Come on, hold me tighter.", "There's no helping it. Only a little longer, got it?", "Hn... Yeah, alright, if it's just a hug...")
+            $ rc("Well, aren't you too close ♪", "Hm? You're kind of close... Oh, so that's what this is all about...", "Fufu, you're like a spoiled kid...♪", "Come on, hold me tighter.", "There's no helping it. Only a little longer, got it?", "Hn... Yeah, alright, if it's just a hug...")
         elif ct("Yandere"):
             $ rc("Mhmhm ♪　Go ahead, come a little closer ♪", "Nnh...more, squeeze me tighter...", "Um... Don't hold out on me, okay...? Go a little harder...", "It's just a hug, but... It feels so nice ♪", "Let me melt in your arms...")
         elif ct("Bokukko"):
             $ rc("How's it feel, holding me...?", "Wha... What's this? Heartbeat?", "Doesn't this make you happy?", "Yeah. It really feels nice to embrace you ♪", "Geez, quit flailing around. It's just a hug!", "Ah, hey... Fine, just a little...")
         else:
-            $ rc("There's no helping it, huh? Come to me.", "Whoa there... Are you all right? Hold onto me tightly.", "Just what I wanted! <Hugs you warmly>", "Can you hear my heartbeat too?", "Yes, you can hold me tighter if you wish.", "...Hmm, it feels good to be held like this ♪", "<Hugs you tightly> What do you think? Can you feel me up against you?")
+            $ rc("There's no helping it, huh? Come to me.", "Whoa there... Are you all right? Hold onto me tightly.", "Can you hear my heartbeat too?", "Yes, you can hold me tighter if you wish.", "...Hmm, it feels good to be held like this ♪", "<Hugs you tightly> What do you think? Can you feel me up against you?")
 
     else:
-        $ char.override_portrait("portrait", "angry")
+        $ char.disposition -= randint(10, 20)
+        $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>")
         elif ct("Shy") and dice(50):
@@ -80,9 +67,9 @@ label interactions_hug:
         elif ct("Kuudere"):
             $ rc("<Shrinks back> Don't get weird.", "I don't think so.", "Hand off.")
         elif ct("Ane"):
-            $ rc("[hero.name], I don't need comforting or anything....", "I'm sorry... I'm not really in the mood right now...", "You're making me uncomfortable.", "Sorry, but I don't want to.", "Please, keep your distance...")
+            $ rc("[hero.name], I don't need comforting or anything....", "I'm sorry, I'm not really in the mood right now.", "Sorry, but I don't want to.", "Please, keep your distance.")
         elif ct("Kamidere"):
-            $ rc("<Steps back> W...what are you... doing!?", "<Escapes your embrace> This... This is embarrassing after all... Stop it.", "S... Stop it. This is embarrassing.")
+            $ rc("<Steps back> W...what are you... doing!?", "<Escapes your embrace> This... This is embarrassing after all... Stop it.", "Stop it. This is embarrassing.")
         elif ct("Imouto"):
             $ rc("Kya! He- hey, Let go of me...", "<Escapes your embrace> No waay!", "<slipped away from you> Hehe, you won't catch me ♪", "Uuu... I'm boooored! Let's do something else!")
         elif ct("Tsundere"):
@@ -90,13 +77,10 @@ label interactions_hug:
         elif ct("Bokukko"):
             $ rc("<Escapes your embrace> Nice try!", "Kya! He-hey, let go of me!", "Wha-wha-what is this about? Let me go!")
         elif ct("Yandere"):
-            $ rc("<Steps back> Don't think so.", "Let me go at once!", "I refuse. Stay away.")
+            $ rc("<Steps back> Don't think so.", "Let me go at once!", "You're making me uncomfortable.")
         else:
-            $ rc("What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I'm not in the mood for that.")    
+            $ rc("What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")    
     $ char.restore_portrait()
-    $ del gm_last_success
-    $ del gm_dice
-    $ del gm_disp_mult
     jump girl_interactions
     
 
