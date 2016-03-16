@@ -23,14 +23,12 @@ label girl_interactions:
         if "girl_meets" in pytfall.world_actions.locations:
             del pytfall.world_actions.locations["girl_meets"]
         pytfall.world_actions.clear()
+    
+    scene
+    show expression gm.bg_cache
+    with dissolve
         
-        # Hide all images, show background
-        renpy.scene()
-        renpy.show(gm.bg_cache)
-        
-        # Hide last screen
-        hs()
-        
+    python:
         # Set characters
         g = char.say
         h = hero.say
