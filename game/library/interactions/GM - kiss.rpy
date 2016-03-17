@@ -61,6 +61,14 @@ init:
         alpha 0.0
         linear 1.0 alpha 1.0
         
+    transform interactions_zoom(t):
+        subpixel True
+        zoom .9
+        block:
+            linear t zoom 1.0
+            linear t zoom .9
+            repeat
+        
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
                                                                                                                           "sweat": interactions_sweat_drop_tr,
                                                                                                                           "scared": interactions_scared_lines_tr,
@@ -109,8 +117,10 @@ label interactions_kiss:
     
     if (char.disposition >= (200+50*sub)) and dice((char.disposition - 50*sub)*temp):
         $ char.disposition += round(randint(16, 30) + randint(1,4)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
-        $ interactions_portraits_overlay.change("love")
+        
         $ char.override_portrait("portrait", "shy")
+        $ char.show_portrait_overlay("love")
+        
         if check_lovers(char, hero):
             char.say "She's all over you, kissing all over your face and grinding against you."
         elif char.disposition < (300+n*100):
@@ -174,7 +184,8 @@ label interactions_kiss:
             $ rc("Don't say anything.... *kiss*", "*kiss*, *lick*, I like, *kiss*, this...", "*kiss*, hmm... *sigh*, kissing feels so good...", "*kiss*...  My heart's racing ♪", "Hmm... *kiss, kiss*, ahm,.. I like... kissing... Hn, *smooch*...", "*slurp, kiss* Kissing this rough... feels so good.", "*kiss* You're sweet...", "Ahm... *kiss, lick*... nnn... Do you think touching tongues is a little... sexy?") 
 
     else:
-        $ interactions_portraits_overlay.change("sweat", "reset")
+        $ char.show_portrait_overlay("sweat", "reset")
+        
         $ char.disposition -= randint(10, 25)
         if ct("Impersonal"):
             $ char.override_portrait("portrait", "indifferent")
@@ -215,6 +226,6 @@ label interactions_kiss:
     $ del n
     $ del m
     $ char.restore_portrait()
-    $ interactions_portraits_overlay.change("default")
+    $ char.hide_portrait_overlay()
     jump girl_interactions
     

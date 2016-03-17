@@ -3134,7 +3134,10 @@ init -9 python:
             self.set_flag("day_since_shopping", 1)
             
             # add Character:
-            self.say = Character(self.nickname, show_two_window=True, show_side_image=DynamicDisplayable(self._portrait), **self.say_style)
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
+            self.say_screen_portrait = DynamicDisplayable(self._portrait)
+            self.say_screen_portrait_overlay_mode = None
+            self.unique_say_screen_portrait_overlays = ["zoom_fast", "zoom_slow"]
         
         def get_availible_pics(self):
             """
@@ -3260,7 +3263,18 @@ init -9 python:
                 if self.has_image("portrait", "indifferent"):
                     self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
             
+        def show_portrait_overlay(self, s, mode="normal"):
+            self.say_screen_portrait_overlay_mode = s
+            
+            if not s in self.unique_say_screen_portrait_overlays:
+                interactions_portraits_overlay.change(s, mode)
+            
+        def hide_portrait_overlay(self):
+            interactions_portraits_overlay.change("default")
+            self.say_screen_portrait_overlay_mode = None
+                    
         def restore_portrait(self):
+            self.say_screen_portrait_overlay_mode = None
             self.del_flag("fixed_portrait")
                 
         def get_mood_tag(self):

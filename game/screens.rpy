@@ -8,10 +8,10 @@
 # http://www.renpy.org/doc/html/screen_special.html#say
 screen say(who, what, side_image=None, two_window=False):
     zorder 10
-    #add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.6, 0.9)
-    #add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=0.5) align (0.1, 0.95)
-    #add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.8, 0.98)
-    #add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.9, 0.9
+    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.6, 0.9)
+    # add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=0.5) align (0.1, 0.95)
+    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.8, 0.98)
+    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.9, 0.9
 
     # Decide if we want to use the one-window or two-window variant.
     if not two_window:
@@ -51,8 +51,21 @@ screen say(who, what, side_image=None, two_window=False):
 
     # If there's a side image, display it above the text.
     if side_image:
-        add side_image xalign 0.138 yalign 0.968
-        add interactions_portraits_overlay
+        # In order to have more control over the say screen portraits for Chars we pass instances of Char here:
+        if isinstance(side_image, Char):
+            if side_image.say_screen_portrait_overlay_mode == "zoom_fast":
+                add At(side_image.say_screen_portrait, interactions_zoom(.2)) pos 219, 639 anchor .5, .5
+            elif side_image.say_screen_portrait_overlay_mode == "zoom_slow":
+                add At(side_image.say_screen_portrait, interactions_zoom(.8)) pos 219, 639 anchor .5, .5
+            else:
+                add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
+                
+            if side_image.say_screen_portrait_overlay_mode not in [None] + side_image.unique_say_screen_portrait_overlays:
+                timer .0001 action Function(interactions_portraits_overlay.change, side_image.say_screen_portrait_overlay_mode)
+                add interactions_portraits_overlay
+        else:
+            add side_image xalign 0.138 yalign 0.968
+            add interactions_portraits_overlay
     else:
         add SideImage() xalign 0.0 yalign 1.0
         
