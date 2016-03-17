@@ -623,8 +623,8 @@ label load_battle_skills:
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("thunder_storm_3", zoom=1.2), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.9, "duration": 2.5},
-                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": 0.5},
+                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 2.5},
+                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": 0.5},
                                         bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 3.4})
         
         # Light:
