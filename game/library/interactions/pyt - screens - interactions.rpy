@@ -24,10 +24,6 @@ label girl_interactions:
             del pytfall.world_actions.locations["girl_meets"]
         pytfall.world_actions.clear()
     
-    scene
-    show expression gm.bg_cache
-    with dissolve
-        
     python:
         # Set characters
         g = char.say
@@ -42,9 +38,10 @@ label girl_interactions:
         gm.show_menu = False
         gm.show_menu_givegift = False
         
-        # Show screen
-        renpy.show_screen("girl_interactions")
-        renpy.with_statement(dissolve)
+    scene
+    show expression gm.bg_cache
+    show screen girl_interactions
+    with dissolve
 
     if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # check for nonquest cases and no issues with the character
         if dice(20): 
