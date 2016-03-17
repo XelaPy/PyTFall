@@ -57,6 +57,8 @@ screen say(who, what, side_image=None, two_window=False):
     else:
         add SideImage() xalign 0.0 yalign 1.0
 
+    add interactions_portraits_overlay
+        
     # Use the quick menu.
     use quick_menu
 
