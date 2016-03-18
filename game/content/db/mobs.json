@@ -2707,7 +2707,7 @@
     },
     {
         "name": "Griffin",
-        "desc": "A flying predator feeding cattle. Unwelcomed by farmers, they is on the verge of destruction.",
+        "desc": "A flying predator feeding of cattle. Unwelcomed by farmers, they is on the verge of extinction.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cp.png",
         "portrait": "content/npc/mobs/cp1.png",
