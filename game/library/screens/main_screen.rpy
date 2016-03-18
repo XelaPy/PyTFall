@@ -116,8 +116,13 @@ screen mainscreen():
             
             textbutton "-Next Day-":
                 style "main_screen_4_button"
-                hovered tt.action("Begin New day and watch the results.")
-                action [Hide("mainscreen"), Jump("next_day")]
+                if day > 1:
+                    hovered tt.action("Begin New day and watch the results. Click RMB to review reports")
+                    action [Hide("mainscreen"), Jump("next_day")]
+                    alternate SetVariable("just_view_next_day", True), Hide("mainscreen"), Jump("next_day")
+                else:
+                    hovered tt.action("Begin New day and watch the results.")
+                    action [Hide("mainscreen"), Jump("next_day")]
            
     if config.developer:
         vbox:

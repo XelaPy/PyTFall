@@ -415,6 +415,7 @@ init -1 python: # Constants:
 init:
     default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}
     default SKILLS_THRESHOLD = {k:2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
+    default just_view_next_day = False
     
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
