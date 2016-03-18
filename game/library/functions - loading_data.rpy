@@ -414,6 +414,7 @@ init -11 python:
         for mob in content:
             if "id" not in mob:
                 mob["id"] = mob["name"]
+            mob["defeated"] = 0 # We need to track if the mob was defeated for bestiary.
             mobs[mob["id"]] = mob
         return mobs
 
