@@ -11,7 +11,7 @@ python early:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "PyTFall"
-    config.version = "0.53 One thing at a time..."
+    config.version = "0.56 Step by Step..."
 
     #########################################
     ## This is the name of the directory where the game's data is
