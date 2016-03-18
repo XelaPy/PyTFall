@@ -306,7 +306,7 @@ screen arena_matches(container=None, vs_img=None):
     frame:
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
         xysize (721, 565)
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+        at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
         pos (280, 154)
         
         side "c r":
@@ -403,7 +403,7 @@ screen arena_lineups(container):
     
     frame:
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+        at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
         style_group "content"
         pos (280, 154)
         xysize (721, 565)
@@ -465,7 +465,7 @@ screen arena_rep_ladder():
     frame:
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
         xysize (721, 565)
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+        at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
         pos (280, 154)
         
         side "c r":
@@ -519,7 +519,7 @@ screen arena_dogfights(container={}):
         style_group "content"
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
         xysize (721, 565)
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+        at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
         pos (280, 154)
         
         side "c r":
