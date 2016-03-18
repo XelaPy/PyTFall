@@ -2379,9 +2379,6 @@ init -9 python:
             self.combat_img = ""
             
             self.controller = BE_AI(self)
-            
-            # Monster is revealed in bestiary after it's been deafeated once!
-            self.defeated = False
    
         def show(self, what, resize=(None, None), cache=True):
             if what == "battle":

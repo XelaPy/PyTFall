@@ -1238,9 +1238,8 @@ init -9 python:
                     else:
                         member.combat_stats = "K.O."
                     
-                # TODO: Restore this!
-                # if not team.leader.defeated:
-                    # mobs[team.leader.name].defeated = True
+                for mob in loser:
+                    mobs[mob.id]["defeated"] = 1
                     
                 self.cf_count += 1
                     
