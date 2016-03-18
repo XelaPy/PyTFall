@@ -72,7 +72,7 @@ init:
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
                                                                                                                           "sweat": interactions_sweat_drop_tr,
                                                                                                                           "scared": interactions_scared_lines_tr,
-                                                                                                                          "love": Transform("hearts_flow", pos=(170, 575))
+                                                                                                                          "love": Transform("hearts_flow", pos=(160, 570))
                                                                                                                           })
 
 label interactions_kiss:
