@@ -10,42 +10,39 @@ screen fonts(fonts):
     zorder 1000
     
     default index = 0
+    default group = None
     
     add Solid(black)
     
     vbox:
         align (0.5, 0.1)
+        
+        python:
+            if not group:
+                font = fonts[index]
+                font_name = font.strip("fonts/")
+            else:
+                font = group
+                font_name = "GroupTest"
+        
         vbox:
-            text fonts[index].strip("fonts/")
-            text u"Hyūga Hinata" font fonts[index]
+            text font_name
+            text u"Hyūga Hinata" font font
             hbox:
-                text "Charisma" font fonts[index]
+                text "Charisma" font font
                 null width 30
-                text "1590" font fonts[index]
-            text u" & * + # %"  font fonts[index]
-            text u" & * + # %"  font fonts[index]
-            text u" ¼ ½  ¾"  font fonts[index]
-            text u"❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮ ⌘"  font fonts[index]
-        # null height 10
-        # vbox:
-            # text u"Hyūga Hinata"
-            # text u""
-            # text u""
-            # text u""
-    
-    # vbox:
-        # spacing 5
-        # xysize (config.screen_width, 700)
-        # box_wrap True
-        # for font in os.listdir(renpy.loader.transfn("fonts")):
-            # $ path = "fonts/" + font
-            # text ("{size=30}{font=[path]}%s" % font)
+                text "1590" font font
+            text u" & * + # %"  font font
+            text u" & * + # %"  font font
+            text u" ¼ ½  ¾"  font font
+            text u"❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮ ⌘"  font font
             
     hbox:
         align (0.5, 0.8)
-        textbutton "<--" action SetScreenVariable("index", (index - 1) % len(fonts))
-        null width 10
-        textbutton "-->" action SetScreenVariable("index", (index + 1) % len(fonts))
+        spacing 10
+        textbutton "<--" action SetScreenVariable("index", (index - 1) % len(fonts)), SetScreenVariable("group", None)
+        textbutton "Group Test" action SetScreenVariable("group", tisa_otm_adv)
+        textbutton "-->" action SetScreenVariable("index", (index + 1) % len(fonts)), SetScreenVariable("group", None)
         
     textbutton "Close":
         align (0.5, 1.0)

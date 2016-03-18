@@ -1,3 +1,8 @@
+init -3 python:
+    # We create a font group to resolve rare characters in pretty fonts so we can use both at the same time.
+    tisa_otm_adv = FontGroup().add("fonts/DejaVuSans.ttf", 0x00A0, 0xE007F).add("fonts/TisaOTM.otf", 0x0020, 0x007f)
+    # tisa_otb_adv = FontGroup().add("fonts/", 0x00A0, 0xE007F).add("fonts/TisaOTB.otf", 0x0020, 0x007f)
+
 # Well... better late than never :)
 # My first ever style is created here!
 # Neow!
