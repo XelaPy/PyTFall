@@ -911,16 +911,16 @@ screen location_actions(actions, girl=None, pos=(0.98, 0.98), anchor=(1.0, 1.0),
 screen action_button(a):
     if a.available:
         if a.is_null:
-            textbutton a.null_button action NullAction(insensitive=True) xsize 175
+            textbutton a.null_button action NullAction(insensitive=True) xsize 200
         
         elif isinstance(a, WorldAction) and a.is_event_trigger:
-            textbutton a.button action (CloseActionMenus(a), Function(pytfall.world_events.run_events, a.action, a.label, a.cost)) xsize 175
+            textbutton a.button action (CloseActionMenus(a), Function(pytfall.world_events.run_events, a.action, a.label, a.cost)) xsize 200
         
         elif isinstance(a, WorldActionMenu):
-            textbutton "< " + a.button action a.action xsize 175
+            textbutton "< " + a.button action a.action xsize 200
         
         else:
-            textbutton a.button action (CloseActionMenus(a), a.action) xsize 175
+            textbutton a.button action (CloseActionMenus(a), a.action) xsize 200
     
 
 label _events_not_found:

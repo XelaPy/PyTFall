@@ -69,7 +69,7 @@ label interactions_askmoney:
         $ char.disposition -= randint(2, 5)
         jump girl_interactions
     "You asked her to help you with money."
-    if char.disposition >= 300 or check_lovers(char, hero) or check_friends(char, hero):
+    if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
         if char.gold < randint(500, 1000):
             call interactions_girl_is_too_poor_to_give_money
             jump girl_interactions

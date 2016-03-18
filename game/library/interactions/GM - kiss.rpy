@@ -80,7 +80,7 @@ label interactions_kiss:
         $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
         if m > 2:
             call interactions_too_many_lines
-            $ char.disposition -= randint(1, m+3)
+            $ char.disposition -= randint(4, m+6)
             $ char.joy -= randint(0,1)
             $ del m
             jump girl_interactions
@@ -91,32 +91,43 @@ label interactions_kiss:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_kiss")
-    if (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
-        $ n = -1
-    elif ct("Nymphomaniac"):
+    if ct("Nymphomaniac") or check_lovers(char, hero):
         $ n = 1
+    elif (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
+        $ n = -1
     else:
         $ n = 0
     
-    if m > (randint(2,4)+n):
+    if m > (randint(2,3)+n):
         call interactions_too_many_sex_lines
-        $ char.disposition -= randint(2, m+4)
-        $ char.joy -= randint(1,4)
+        $ char.disposition -= randint(4, m+5)
+        if char.joy>30:
+            $ char.joy -= randint(2,4)
         $ del m
         $ del n
         jump girl_interactions
     
     if check_lovers(char, hero):
-        $ temp = 0.5
+        $ temp = 0.6
     elif check_friends(char, hero):
-        $ temp = 0.25+n*0.05
+        $ temp = 0.2
     else:
-        $ temp = 0.2+n*0.05
+        $ temp = 0.15
 
     $ sub = check_submissivity(char)
     
-    if (char.disposition >= (200+50*sub)) and dice((char.disposition - 50*sub)*temp):
-        $ char.disposition += round(randint(16, 30) + randint(1,4)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
+    if char.disposition > (350+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
+        $ result = round(randint(20, 35)+ char.joy*0.06 - m*4 - char.disposition*0.01)
+        if result <= 0:
+            $ result = rendint(1,2)
+        $ hero.exp += randint(10, 20)
+        $ char.exp += randint(10, 20)
+        $ char.disposition += result
+        $ del result
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
         
         $ char.override_portrait("portrait", "shy")
         $ char.show_portrait_overlay("love")
@@ -129,9 +140,6 @@ label interactions_kiss:
             char.say "You two kiss deeply and passionately."
         else:
             char.say "You two kiss deeply and passionately. She's really getting into it, there's some heavy tongue action."
-
-        $ hero.exp += randint(10, 20)
-        $ char.exp += randint(10, 20)
 
         if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < (500+n*100):
             "She looks a bit uncomfortable."
@@ -185,8 +193,7 @@ label interactions_kiss:
 
     else:
         $ char.show_portrait_overlay("sweat", "reset")
-        
-        $ char.disposition -= randint(10, 25)
+        $ char.disposition -= randint(15, 25)
         if ct("Impersonal"):
             $ char.override_portrait("portrait", "indifferent")
             $ rc("I see no possible benefit in doing that with you so I will have to decline.", "Denied. Please refrain from this in the future.")
@@ -220,11 +227,10 @@ label interactions_kiss:
         else:
             $ char.override_portrait("portrait", "indifferent")
             $ rc("With you? Don't make me laugh.", "Get lost, pervert!", "Woah, hold on there. Maybe after we get to know each other better.")
-
-    $ del temp
-    $ del sub
-    $ del n
-    $ del m
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     jump girl_interactions

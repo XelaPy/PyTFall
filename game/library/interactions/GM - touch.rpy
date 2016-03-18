@@ -7,27 +7,36 @@ label interactions_hug:
         $ n = 1
     else:
         $ n = 0
-    if m > (randint(2,4)+n):
+    if m > (randint(2,3)+n):
         call interactions_too_many_sex_lines
-        $ char.disposition -= randint(2, m+2)
-        $ char.joy -= randint(1,3)
+        $ char.disposition -= randint(4, m+4)
+        if char.joy > 40:
+            $ char.joy -= randint(1,3)
         $ del m
         $ del n
         jump girl_interactions
         
     if check_lovers(char, hero):
         $ temp = 0.6
-    elif check_friends(char, hero):
-        $ temp = 0.4+n*0.05
+    elif check_friends(char, hero) or ct("Half-Sister"):
+        $ temp = 0.35
     else:
-        $ temp = 0.35+n*0.05
+        $ temp = 0.3
         
     $ sub = check_submissivity(char)
     
-    if (char.disposition >= (150+50*sub)) and dice((char.disposition - 50*sub)*temp):
-        $ char.disposition += round(randint(12, 25) + randint(1,3)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
-        $ hero.exp += randint(8, 15)
-        $ char.exp += randint(8, 15)
+    if char.disposition > (200+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
+        $ result = round(randint(10, 25)+ char.joy*0.4 - m*5 - char.disposition*0.01)
+        if result <= 0:
+            $ result = rendint(1,2)
+        $ char.disposition += result
+        $ del result
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
+        $ hero.exp += randint(5, 15)
+        $ char.exp += randint(5, 15)
         $ char.override_portrait("portrait", "confident")
         if ct("Impersonal"):
             $ rc("Yes? Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm.", "I'm for you to embrace.")
@@ -35,6 +44,7 @@ label interactions_hug:
             $ char.override_portrait("portrait", "shy")
             $ rc("I feel like I'm safe.", "Being so close...", "A... are you feeling cold? It's m... much warmer like this, right?", "It's... it's okay to do it like this, right?", "Y-yes... Please hold me... hold me tight...")
         elif ct("Nymphomaniac") and dice(25):
+            $ char.override_portrait("portrait", "shy")
             $ rc("Geez, you're such a perv ♪",  "Hau ♪... I'm...starting to feel funny...", "Being so close... Exciting?")
         elif ct("Kamidere"):
             $ rc("Having your arms around me is so comfortable.", "When you're so gentle I get embarrassed all of a sudden...", "D-did something happen?", "You can hear the sound of my heart beating.")
@@ -56,11 +66,16 @@ label interactions_hug:
             $ rc("There's no helping it, huh? Come to me.", "Whoa there... Are you all right? Hold onto me tightly.", "Can you hear my heartbeat too?", "Yes, you can hold me tighter if you wish.", "...Hmm, it feels good to be held like this ♪", "<Hugs you tightly> What do you think? Can you feel me up against you?")
 
     else:
-        $ char.disposition -= randint(10, 20)
+        $ char.disposition -= randint(8, 15)
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):
             $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>")
         elif ct("Shy") and dice(50):
+            $ char.override_portrait("portrait", "shy")
             $ rc("Ah... ah! W... what are you doing!?", "Please, leave me alone...", "W-w-w-what are you doing so suddenly?!")
         elif ct("Dandere"):
             $ rc("...Please don't get so close.", "I won't let you.", "<Steps back> No.")
@@ -83,24 +98,22 @@ label interactions_hug:
     $ char.restore_portrait()
     jump girl_interactions
     
-
-    
-
-###### j3    
+   
 label interactions_slapbutt:
     $ narrator(choice(["You reach out and brush your hands across her ass.", "You put your hand against her firm rear and grind against it.", "You reach into her gap and she gasps as you slide your hand across and stroke her puckered hole.", "She gasps as you reach under her and lightly stroke her ass.", "You slide a hand up her inner thigh, she moans a little as it slides between her cheeks."]))
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_slapbutt")
     if check_lovers(char, hero) or ct("Nymphomaniac"):
         $ n = 1
-    elif ct("Half-Sister") or ct("Frigid"):
+    elif (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
         $ n = -1
     else:
         $ n = 0
     if m > (randint(2,3)+n):
         call interactions_too_many_sex_lines
-        $ char.disposition -= randint(2, m+2)
-        $ char.joy -= randint(1,3)
+        $ char.disposition -= randint(4, m+5)
+        if char.joy>30:
+            $ char.joy -= randint(1,3)
         $ del m
         $ del n
         jump girl_interactions
@@ -108,24 +121,33 @@ label interactions_slapbutt:
     if check_lovers(char, hero):
         $ temp = 0.6
     elif check_friends(char, hero):
-        $ temp = 0.4+n*0.05
+        $ temp = 0.25
     elif ct("Lesbian"): 
         $ temp = 0
     else:
-        $ temp = 0.35+n*0.05
+        $ temp = 0.2
         
     $ sub = check_submissivity(char)
     
-    if (char.disposition >= (150+50*sub)) and dice((char.disposition - 50*sub)*temp):
-        $ char.disposition += round(randint(12, 25) + randint(1,3)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
+    if char.disposition > (250+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
+        $ result = round(randint(15, 30)+ char.joy*0.05 - m*5 - char.disposition*0.01)
+        if result <= 0:
+            $ result = rendint(1,2)
         $ hero.exp += randint(8, 15)
         $ char.exp += randint(8, 15)
-        $ char.override_portrait("portrait", "shy")
+        $ char.disposition += result
+        $ del result
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
+        $ char.override_portrait("portrait", "happy")
         if ct("Yandere"):
             $ rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "How lewd...", "Such a perverted hand...")
         elif ct("Impersonal"):
             $ rc("...That's it? You're not going any further?", "Aah... my hips... it feels... kind of strange.", "Hnn, fuaah... if you touch there, I won't be able to hold myself back...")
         elif ct("Shy") and dice(50):
+            $ char.override_portrait("portrait", "shy")
             $ rc("Aauh... Wh-what's up...?", "Nwa, Y-you surprised me...", "Umm... I get nervous when others touch me.", "U-uhm... touch me more gently, please...")
         elif ct("Nymphomaniac") and dice(40):
             $ rc("...Alright, any lower and I'll have to charge extra.", "Hehehe, I just got a bit horny...", "That... Ahh... Hehe... So perverted...", "Hnn.... you can touch me in more interesting places if you want...", "You're lewd ♪", "Ahaha, you're pervy ♪", "If you keep touching me, I'll touch you back ♪")
@@ -148,7 +170,11 @@ label interactions_slapbutt:
 
     else:
         $ char.override_portrait("portrait", "angry")
-        $ char.disposition -= randint(10, 20)
+        $ char.disposition -= randint(10, 22)
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
         if ct("Yandere"):
             $ rc("Hey, it hurts! Stop it!", "Touching is forbidden. That hand, don't blame me if it falls off.", "You have some nerve putting your hands on me!", "Could you refrain from touching me with your dirty hands?", "It looks like you are in dire need of punishment...", "Don't anger me...")
         elif ct("Impersonal"):
@@ -182,14 +208,15 @@ label interactions_grabbreasts:
     $ m = interactions_flag_count_checker(char, "flag_interactions_grabbreasts")
     if check_lovers(char, hero) or ct("Nymphomaniac"):
         $ n = 1
-    elif ct("Half-Sister") or ct("Frigid"):
+    elif (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
         $ n = -1
     else:
         $ n = 0
     if m > (randint(2,3)+n):
         call interactions_too_many_sex_lines
-        $ char.disposition -= randint(2, m+2)
-        $ char.joy -= randint(1,3)
+        $ char.disposition -= randint(4, m+5)
+        if char.joy > 30:
+            $ char.joy -= randint(1,3)
         $ del m
         $ del n
         jump girl_interactions
@@ -197,18 +224,26 @@ label interactions_grabbreasts:
     if check_lovers(char, hero):
         $ temp = 0.6
     elif check_friends(char, hero):
-        $ temp = 0.4+n*0.05
+        $ temp = 0.25
     elif ct("Lesbian"): 
         $ temp = 0
     else:
-        $ temp = 0.35+n*0.05
+        $ temp = 0.2
         
     $ sub = check_submissivity(char)
     
-    if (char.disposition >= (150+50*sub)) and dice((char.disposition - 50*sub)*temp):
-        $ char.disposition += round(randint(12, 25) + randint(1,3)*n - randint(1,3)*m - (char.disposition * 0.01) + (char.joy * 0.04))
+    if char.disposition > (250+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
+        $ result = round(randint(15, 30)+ char.joy*0.05 - m*5 - char.disposition*0.01)
+        if result <= 0:
+            $ result = rendint(1,2)
         $ hero.exp += randint(8, 15)
         $ char.exp += randint(8, 15)
+        $ char.disposition += result
+        $ del result
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
         $ char.override_portrait("portrait", "shy")
         if ct("Impersonal"):
             $ rc("Hn... You shouldn't grope people... Ah... ♪", "This is...unexpectedly embarrassing.", "...Do you like my tits?", "You're rubbing my nipples.", "Uh... my chest, it feels so tight.", "Hnn, no matter how hard you squeeze, nothing will come out, auh.", "Hnn, you don't need to rub so hard...", "Can't control yourself?")
@@ -237,7 +272,11 @@ label interactions_grabbreasts:
 
     else:
         $ char.override_portrait("portrait", "angry")
-        $ char.disposition -= randint(10, 20)
+        $ char.disposition -= randint(10, 22)
+        $ del temp
+        $ del m
+        $ del n
+        $ del sub
         if ct("Yandere"):
             $ rc("Hey, it hurts! Stop it!", "How... dare you!", "It looks like you are in dire need of punishment...", "Huhuhuh... I wonder how warm it would be to bathe in your blood...?")
         elif ct("Impersonal"):

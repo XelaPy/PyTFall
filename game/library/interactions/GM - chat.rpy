@@ -1,7 +1,5 @@
 # general chat
-label interactions_general:
-
-label interactions_general:
+label interactions_smalltalk:
     "You have a small chat with [char.nickname]."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
@@ -9,20 +7,21 @@ label interactions_general:
     if m >= (randint(3,5) + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines
         $ char.disposition -= randint(1,m)
-        $ char.joy -= randint(0,1)
+        if char.joy > 80:
+            $ char.joy -= ranint(0,1)
         $ del m
         jump girl_interactions
-    $ del m
-    if dice(randint(40,60)) and dice(hero.charisma*0.5) and dice(char.joy):
+    if dice(randint(40,60)) and dice(char.joy) and m < 3:
         if char.disposition >= 50:
-            $ narrator(choice(["You feel especially close today."]))
-            $ hero.exp += randint(2, 5)
-            $ char.exp += randint(2, 5)
+            $ narrator(choice(["You feel especially close."]))
             $ char.joy += randint(0, 1)
+            $ char.disposition += randint(0, 1)
+            $ hero.exp += randint(0, 1)
+            $ char.exp += randint(0, 1)
         else:
-            $ narrator(choice(["She was much more approachable today."]))
-            $ hero.exp += randint(2, 5)
-            $ char.exp += randint(2, 5)
+            $ narrator(choice(["She was much more approachable."]))
+            $ hero.exp += randint(0, 1)
+            $ char.exp += randint(0, 1)
             $ char.disposition += randint(1, 4)
 
     if char.disposition >= 100:
@@ -36,14 +35,14 @@ label interactions_general:
         else:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though...", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
-        $ narrator(choice(["There's a good amount of mistrust between you.", "But it was difficult for both of you.", "She was not very pleased to see you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
+        $ narrator(choice(["Looks like there's a good amount of mistrust between you.", "But it was difficult for both of you.", "Sadly, she was not very interested in chatting with you.", "It was clearly uncomfortable for her to speak to you.", "She was suspicious of you the entire time and never let her guard down."]))
     if char.disposition <= -250:
         $ char.disposition += randint(1, 3)
     if char.disposition <= 0:
         $ char.disposition += randint(2, 5)
     if char.disposition <= 200:
         $ char.disposition += randint(1, 4)
-    elif dice(50):
+    elif dice(30):
         $ char.disposition += randint(1, 2)
     elif dice(50):
         $ char.disposition += 1
@@ -51,6 +50,7 @@ label interactions_general:
         $ char.joy += 1
     $ hero.exp += randint(1, 3)
     $ char.exp += randint(1, 3)
+    $ del m
     jump girl_interactions
     
 # ask about job
@@ -73,12 +73,6 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
             $ rc("I want to serve you better, master.", "A new master takes a while to get used to...")
         $ char.disposition += 1
         $ char.joy += 1
-        if dice(round(hero.charisma*0.5)):
-            $ narrator(choice(["She was much more approachable today."]))
-            $ char.joy += 1
-            $ char.disposition += randint(1, 2)
-            $ hero.exp += randint(0, 2)
-            $ char.exp += randint(0, 2)
         $ char.restore_portrait()
     elif char.disposition <= -350:
         $ char.override_portrait("portrait", "sad")
@@ -131,11 +125,6 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
         $ char.disposition += randint(1, 2)
         $ char.joy += randint(0, 1)
         $ char.restore_portrait()
-        if dice(round(hero.charisma*0.5)):
-            $ narrator(choice(["She was much more approachable today."]))
-            $ char.disposition += randint(1, 3)
-            $ hero.exp += randint(1, 5)
-            $ char.exp += randint(1, 5)
     else:
         $ char.override_portrait("portrait", "happy")
         if char.status != "slave":
@@ -170,11 +159,6 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
                     $ rc("I'm a bit sad, but Master is kind so I'm looking for a brighter tomorrow!", "You've been very nice to me in general, so I won't complain!")
         $ char.disposition += randint(1, 3)
         $ char.joy += randint(0, 1)
-        if dice(round(hero.charisma*0.6)):
-            $ narrator(choice(["You feel especially close today."]))
-            $ char.disposition += randint(1, 4)
-            $ hero.exp += randint(1, 5)
-            $ char.exp += randint(1, 5)
         $ char.restore_portrait()
     jump girl_interactions
 
@@ -257,28 +241,34 @@ label interactions_abouther:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_abouther")
-    if m > (randint(1,2) + round(interactions_set_repeating_lines_limit(char)*0.5)):
+    if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines
-        $ char.disposition -= randint(1,m)
-        $ char.joy -= randint(0,2)
+        $ char.disposition -= randint(2,m+1)
+        if char.joy > 40:
+            $ char.joy -= randint(0,2)
         $ del m
         jump girl_interactions
-    $ del m
-    if dice(char.disposition*0.5):
-        if dice(randint(40,60)) and dice(hero.charisma*0.4) and dice(char.joy):
+
+    if char.disposition > 40 and dice(char.disposition*0.5 + (hero.charisma*0.1) - 5*m):
+        if dice(randint(40,60)) and dice(char.joy-20) and m < 2:
             if char.disposition >= 400:
-                $ narrator(choice(["You feel especially close today."]))
-                $ hero.exp += randint(4, 8)
-                $ char.exp += randint(4, 8)
+                $ narrator(choice(["You feel especially close."]))
+                $ hero.exp += randint(2, 4)
+                $ char.exp += randint(2, 4)
                 $ char.joy += randint(0, 1)
                 $ char.disposition += randint(1, 2)
             else:
-                $ narrator(choice(["She was much more approachable today."]))
-                $ hero.exp += randint(4, 8)
-                $ char.exp += randint(4, 8)
-                $ char.disposition += randint(3, 6)
+                $ narrator(choice(["She was much more approachable."]))
+                $ hero.exp += randint(2, 4)
+                $ char.exp += randint(2, 4)
+                $ char.disposition += randint(2, 6)
         
-        $ char.disposition += round(randint(6, 15) - (char.disposition * 0.005) + (char.joy * 0.02))
+        $ result = round(randint(4, 10)+ char.joy*0.04 - m - char.disposition*0.015)
+        if result <= 0:
+            $ result = randint(1,2)
+        $ char.disposition += result
+        $ del result
+        $ del m
         $ hero.exp += randint(4, 8)
         $ char.exp += randint(4, 8)
         $ gm_abouther_list = []
@@ -311,7 +301,7 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["I read lately that the hunt is on for small breasts. Who cares about big tits!", "It's better without large breasts. They'd only get in the way... Probably...", "Small breasts have their good points as well, don't you think? You do think so, right?"]))     
         
         if ct("Lesbian"):
-            $gm_abouther_list.append(choice(["I am REALLY interested in female's bodycurves.", "I would like to go to an all girls' school. Imagine, only girls, everywhere... That would be great...", "I'd like to bring a cute girl home.", "Isn't it normal to be attracted to charming girls? I think it's totally proper ♪", "Something I like? Hmm... Maybe watching cute girls?", "Girls look really cute, don't they? I just want to eat one up.", "I like cute things. Like girls, for example.", "If I were a boy, I sure would explore every inch of the girl I was dating..."]))
+            $gm_abouther_list.append(choice(["I am REALLY interested in female's body curves.", "I would like to go to an all girls' school. Imagine, only girls, everywhere... That would be great...", "I'd like to bring a cute girl home.", "Isn't it normal to be attracted to charming girls? I think it's totally proper ♪", "Something I like? Hmm... Maybe watching cute girls?", "Girls look really cute, don't they? I just want to eat one up.", "I like cute things. Like girls, for example.", "If I were a boy, I sure would explore every inch of the girl I was dating..."]))
         
         if ct("Bisexual"):
             $gm_abouther_list.append(choice(["In love, gender makes no difference...", "I like boys and girls alike ♫"]))
@@ -491,8 +481,9 @@ label interactions_abouther:
             $gm_abouther_list.append(choice(["Hm? A little of this, a little of that?", "...I don't really have much to say.", "Nothing much, there's nothing worth mentioning.", "What I'm doing? The usual stuff...", "I'm just normal, I guess.", "I like just about anything.", "Hmm, there's not much to talk about.", "Now that I think about it... am I just boring?", "I'm just about average, I guess."]))
     
     else:
-        $ char.disposition -= randint(0, 1)
+        $ char.disposition -= randint(3, 10)
         $ char.joy -= randint(0,1)
+        $ del m
         jump interactions_refused
     
     $ g(choice(gm_abouther_list))
@@ -508,7 +499,6 @@ label interactions_aboutoccupation:
         $ char.disposition -= randint(1,m)
         $ del m
         jump girl_interactions
-    $ del m
     $ hero.exp += randint(1, 2)
     if char.disposition > -250:
         if cgo("Warrior") and not(cgo("Caster")):
@@ -564,18 +554,27 @@ label interactions_interests:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_interests")
-    if m > (randint(2,3) + round(interactions_set_repeating_lines_limit(char)*0.5)):
+    if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines
-        $ char.disposition -= randint(1,m)
-        $ char.joy -= randint(0,2)
+        $ char.disposition -= randint(2,m+1)
+        if char.joy > 40:
+            $ char.joy -= randint(1,2)
         $ del m
         jump girl_interactions
-    $ del m
-    if not(dice(char.disposition*0.5)):
-        $ char.disposition -= randint(0,3)
-        $ char.joy -= randint(0,1)
-        jump interactions_refused
-    else:
+
+    if char.disposition > 60 and dice(char.disposition*0.45 + (hero.charisma*0.1) - 5*m):
+        if dice(randint(40,60)) and dice(char.joy-20) and m < 2:
+            if char.disposition >= 400:
+                $ narrator(choice(["You feel especially close."]))
+                $ hero.exp += randint(2, 4)
+                $ char.exp += randint(2, 4)
+                $ char.joy += randint(0, 1)
+                $ char.disposition += randint(1, 2)
+            else:
+                $ narrator(choice(["She was much more approachable."]))
+                $ hero.exp += randint(2, 4)
+                $ char.exp += randint(2, 4)
+                $ char.disposition += randint(2, 6)
         $ line = rts(char, {
         "Exhibitionist": ["She tells you pretty hot stories about her exhibitionistic adventures in a local park."],
         "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beaches to pools because it's free."],
@@ -624,26 +623,36 @@ label interactions_interests:
         
         "[line]"
         $ del line
+        $ result = round(randint(6, 15)+ char.joy*0.04 - m*2 - char.disposition*0.015)
+        if result <= 0:
+            $ result = 1
+        $ char.disposition += result
         $ hero.exp += randint(4, 8)
         $ char.exp += randint(4, 8)
-        $ char.disposition += round(randint(6, 11) - (char.disposition * 0.005) + (char.joy * 0.03))
-        
+        $ del m
+        $ del result
         if char.joy >= 65:
-            if dice(char.joy):
-                "You had a very lively and enjoyable conversation."
-                $ char.joy += randint(3, 4)
+            if dice(char.joy-20):
+                "It was a very lively and enjoyable conversation."
+                $ char.joy += randint(3, 5)
             else:
-                "You had a pretty lively conversation."
-                $ char.joy += randint(2, 3)
+                "It was a pretty lively conversation."
+                $ char.joy += randint(2, 4)
         elif char.joy >= 30:
-            if dice(char.joy + 30):
+            if dice(char.joy + 20):
                 "You had a fairly normal conversation."
-                $ char.joy += randint(1, 2)
+                $ char.joy += randint(1, 3)
             else: 
                 "You had a short conversation."
         else:
             "It was a short and not very pleasant conversation."
+            $ char.joy -= randint(0, 2)
         jump girl_interactions
+    else:
+        $ del m
+        $ char.disposition -= randint(3, 10)
+        $ char.joy -= randint(0,1)
+        jump interactions_refused
 ###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
 #label interactions_hangouts:
 #    if char.disposition < 200:
@@ -665,38 +674,29 @@ label interactions_interests:
 #    
 #    jump girl_interactions
 
-# ask about love
-label interactions_romance:
+# flirt
+label interactions_flirt:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
-    $ m = interactions_flag_count_checker(char, "flag_interactions_romance")
-    if m > (randint(2,3) + round(interactions_set_repeating_lines_limit(char)*0.5)):
+    $ m = interactions_flag_count_checker(char, "flag_interactions_flirt")
+    if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines
-        $ char.disposition -= randint(1, m)+randint(1,4)
-        $ char.joy -= randint(2,4)
+        $ char.disposition -= randint(3,m+3) + randint(1,2)
+        if char.joy > 30:
+            $ char.joy -= randint(2,4)
         $ del m
         jump girl_interactions
-    $ del m
-    if not(dice(char.disposition * 0.4)):
-        $ char.disposition -= randint(5, 10)
-        jump interactions_refused
-    else:
+
+    if char.disposition > 100 and dice(char.disposition*0.4 + (hero.charisma*0.1) - 5*m):
         $ char.override_portrait("portrait", "shy")
-        if dice(randint(40,60)) and dice(hero.charisma*0.3) and dice(char.joy):
-            if char.disposition >= 600:
-                    $ narrator(choice(["You feel especially close today."]))
-                    $ hero.exp += randint(5, 10)
-                    $ char.exp += randint(5, 10)
-                    $ char.joy += randint(0, 1)
-                    $ char.disposition += randint(4, 6)
-            else:
-                $ narrator(choice(["She was much more approachable today."]))
-                $ hero.exp += randint(5, 10)
-                $ char.exp += randint(5, 10)
-                $ char.disposition += randint(5, 10)
         $ hero.exp += randint(5, 15)
         $ char.exp += randint(5, 15)
-        $ char.disposition += round(randint(11, 20) - (char.disposition * 0.01) + (char.joy * 0.05))
+        $ result = round(randint(8, 20)+ char.joy*0.04 - m*2 - char.disposition*0.015)
+        if result <= 0:
+            $ result = rendint(1,2)
+        $ char.disposition += result
+        $ del m
+        $ del result
         if ct("Impersonal"):
             $ rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):
@@ -725,7 +725,11 @@ label interactions_romance:
             $ rc("Getting your heart broken is scary, but everything going too well is kinda scary for its own reasons too.", "One day, I want to be carried like a princess by the one I love ♪...", "Hehe! Love conquers all!", "I'm the type to stick to the one I love.", "Being next to someone who makes you feel safe, that must be happiness...", "Everyone wants to fall in love, I suppose. Don't you think?")
         $ char.restore_portrait()
         jump girl_interactions
-
+    else:
+        $ del m
+        $ char.disposition -= randint(5, 13)
+        $ char.joy -= randint(0,1)
+        jump interactions_refused
 # interaction check fail
 label interactions_refused:
     $ char.override_portrait("portrait", "indifferent")
