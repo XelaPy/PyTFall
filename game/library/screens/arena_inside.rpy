@@ -725,7 +725,7 @@ screen arena_aftermatch(w_team, l_team, condition):
                     idle img
                     hover img
                     selected_idle Transform(img, alpha=1.05)
-                    action SetScreenVariable("wteam_display", member)
+                    action SetScreenVariable("winner", member), With(dissolve)
                 $ i = i + 1
         
     frame:
@@ -765,9 +765,18 @@ screen arena_aftermatch(w_team, l_team, condition):
      
     # Winner Details Display on the left:
     if winner.combat_stats == "K.O.":
-        add im.Sepia(winner.show("sprite", resize=(200, 200), cache=True)) align (0.2, 0.2)
+        frame:
+            at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
+            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+            add im.Sepia(winner.show('fighting', resize=(200, 200), cache=True)) 
+            align .2, .2
     else:
-        add winner.show("sprite", resize=(200, 200), cache=True) align (0.2, 0.2)
+        frame:
+            at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
+            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+            add winner.show("fighting", resize=(200, 200), cache=True)
+            align .2, .2
+            
         if hero.team == w_team: # Show only if we won...
             frame:
                 style_group "proper_stats"
@@ -787,9 +796,9 @@ screen arena_aftermatch(w_team, l_team, condition):
     
     # Looser Details Display on the left:
     if loser.combat_stats == "K.O.":
-        add im.Sepia(loser.show("sprite", resize=(200, 200), cache=True)) align (0.2, 0.2)
+        add im.Sepia(loser.show("fighting", resize=(200, 200), cache=True)) align (0.2, 0.2)
     else:
-        add loser.show("sprite", resize=(200, 200), cache=True) align (0.8, 0.2)
+        add loser.show("fighting", resize=(200, 200), cache=True) align (0.8, 0.2)
         
     add "content/gfx/frame/h1.png"
     
@@ -1043,7 +1052,6 @@ init: # ChainFights vs Mobs:
         modal True
         
         add "bg mc_setup"
-              
         
         if pytfall.arena.cf_count and pytfall.arena.cf_mob:
             
