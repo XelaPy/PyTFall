@@ -434,7 +434,7 @@ label load_battle_skills:
                                            attacker_effects={"gfx": "water_2", "sfx": "default"},
                                            main_effect={"gfx": Transform('water_4', zoom=1.5), "sfx": "content/sfx/sound/be/water3.mp3", "duration": 2.25, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                                            target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.3, "duration": 1.9},
-                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None, "initial_pause": 2.2}},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None, "initial_pause": 2.2},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.2, "duration": .5})
         SimpleMagicalAttack(u"Geyser", menu_pos=10, attributes=['magic', 'water'], effect=65, multiplier=1.5, cost=12, range=6, casting_effects=["water_2", "default"], gfx='water_5', zoom=1.9, pause=3.0, target_damage_gfx=[0.5, "shake", 2.5], sfx="content/sfx/sound/be/water6.mp3",
                                            aim="bc", anchor=(0.5, 1.0), yo=60,
