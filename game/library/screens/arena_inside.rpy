@@ -859,30 +859,36 @@ init: # ChainFights vs Mobs:
     screen chain_fight():
         zorder 1
         
-        add "content/gfx/bg/locations/arena_bestiary.jpg" # at fade_in_out()
+        add "content/gfx/bg/locations/arena_bestiary.jpg"
         
         if not pytfall.arena.cf_mob:
-            text "Choose your Fight!" style "garamond" color red size 50 align (0.5, 0.1)
-            hbox:
-                spacing 10
-                align (0.5, 0.5)
-                box_wrap True
-                minimum (690, 400)
-                maximum (690, 400)
+            text "Choose your Fight!":
+                style "arena_header_text"
+                align (0.5, 0.1)
+                size 50
+                
+            vbox:
+                style "menu"
+                spacing 1
+                align (0.5, 0.55)
                 for setup in pytfall.arena.chain_fights_order:
-                    textbutton "{font=fonts/serpentn.ttf}[setup]":
-                        xminimum 335
-                        xfill True
-                        action [SetField(pytfall.arena, "result", setup), ui.returns("Bupkis")]
-                textbutton "{font=fonts/serpentn.ttf}Back":
-                    xminimum 335
-                    xfill True
+                    button:
+                        style "menu_choice_button_blue"
+                        action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
+                        
+                        text "[setup]" style "menu_choice"
+                        
+                button:
+                    style "menu_choice_button"
                     action [SetField(pytfall.arena, "result", "break"), ui.returns("Bupkis")]
+                    
+                    text "Back" style "menu_choice" 
+                    
                 key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), ui.returns("Bupkis")]
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), ui.returns("Bupkis")]
         
-    screen confirm_chainfight(range, interval, length_multiplier, d):
+    screen arena_minigame(range, interval, length_multiplier, d):
         zorder 2
         modal True
         
@@ -892,7 +898,10 @@ init: # ChainFights vs Mobs:
         default run = True
         default step = 2
         
-        add("content/gfx/bg/locations/arena_bestiary.jpg")
+        if rolled:
+            timer 1.0 action Return()
+        
+        add "bg mc_setup"
         
         # Bonus Roll: ===========================================================================>>>
         if pytfall.arena.cf_bonus:
@@ -901,13 +910,13 @@ init: # ChainFights vs Mobs:
                     if value == 0:
                         $ reverse = False
                         timer interval action SetScreenVariable("value", value + step) repeat True
-                    else:    
+                    else:
                         timer interval action SetScreenVariable("value", value - step) repeat True
                 else:
                     if value == range:
                         $ reverse = True
                         timer interval action SetScreenVariable("value", value - step) repeat True
-                    else:    
+                    else:
                         timer interval action SetScreenVariable("value", value + step) repeat True
             
             python:
@@ -946,8 +955,12 @@ init: # ChainFights vs Mobs:
                     # background Frame(white, 0, 0)
                     # xysize(20, (d["white"]) * length_multiplier)
                   
-            if not rolled:        
-                text "Bonus Roll" pos (150, 200) style "black_serpent" color red size 30
+            if not rolled:
+                text "Bonus Roll":
+                    pos (150, 200)
+                    style "arena_header_text"
+                    color red
+                    size 35
             else:
                 # Do the calculations, flag is set in the class so it is done once:
                 $ bonus = pytfall.arena.award_cf_bonus()
@@ -969,31 +982,34 @@ init: # ChainFights vs Mobs:
                     frame:
                         background Frame(red, 0, 0)
                         xysize(1, 1)
-                    text "{color=[red]}Restore HP" xalign 0.5
+                    text "{color=[red]}Restore HP" xalign 0.5 style "garamond"
                 hbox:
                     xalign 0
                     spacing 10
                     frame:
                         background Frame(blue, 0, 0)
                         xysize(1, 1)
-                    text "{color=[blue]}Restore MP" xalign 0.5
+                    text "{color=[blue]}Restore MP" xalign 0.5 style "garamond"
                 hbox:
                     xalign 0
                     spacing 10
                     frame:
                         background Frame(green, 0, 0)
                         xysize(1, 1)
-                    text "{color=[green]}Restore HP/MP" xalign 0.5
+                    text "{color=[green]}Restore HP/MP" xalign 0.5 style "garamond"
                 hbox:
                     xalign 0
                     spacing 10
                     frame:
                         background Frame(grey, 0, 0)
                         xysize(1, 1)
-                    text "{color=[grey]}Bupkis Award!" xalign 0.5
+                    text "{color=[grey]}Bupkis Award!" xalign 0.5 style "garamond"
+                    
                 if run:
                     textbutton "{color=[blue]}Freeze":
-                        action [SetScreenVariable("run", False), SetScreenVariable("rolled", True), SetField(pytfall.arena, "cf_bonus", value)]
+                        style "basic_button"
+                        action SetScreenVariable("run", False), SetScreenVariable("rolled", True), SetField(pytfall.arena, "cf_bonus", value)
+                        
                 # if config.developer:
                     # python:
                         # d = pytfall.arena.d
@@ -1021,37 +1037,59 @@ init: # ChainFights vs Mobs:
                                 # result = i
                                 # break
                     # text "Value: [v], Reward: [result]"
-                                
-        # ====================================================================================>>>            
-        if pytfall.arena.cf_count and pytfall.arena.cf_mob:
-            text("{b}{i}{color=[darkred]}Fight #[pytfall.arena.cf_count], proceed?"):
-                at move_from_to_pos_with_ease(start_pos=(640, -100), end_pos=(640, 200), t=0.7)
-                
-            frame at slide(so1=(-600, 0), t1=0.7, eo2=(-1300, 0), t2=0.7):
-                background Null()
-                align(0.35, 0.5)
-                add(hero.show("battle_sprite", resize=(200, 200)))
-            frame at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7):
-                background Null()
-                align(0.65, 0.5)
-                add(pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)))
             
+    screen confirm_chainfight():
+        zorder 2
+        modal True
+        
+        add "bg mc_setup"
+              
+        
+        if pytfall.arena.cf_count and pytfall.arena.cf_mob:
+            
+            # Fight Number:
+            text "Fight #[pytfall.arena.cf_count], proceed?":
+                at move_from_to_pos_with_ease(start_pos=(640, -100), end_pos=(640, 150), t=0.7)
+                italic True
+                color darkred
+                style "arena_header_text"
+                size 35
+                
+            # Opposing Sprites:
+            add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=0.7, eo2=(-1300, 0), t2=0.7) align .35, .5
+            add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7) align .65, .5
+            
+            # Title Text and Boss name if appropriate:
             if pytfall.arena.cf_count == 7:
-                text ("{=myriadpro_sb}{size=50}{color=[crimson]}Boss Fight!") align(0.5, 0.2) at fade_in_out(t1=1.5, t2=1.5)
-                $ neow = pytfall.arena.cf_setup["boss_name"]
-                text ("{=myriadpro_sb}{size=25}{color=[crimson]}[neow]") align(0.65, 0.40) at fade_in_out(t1=1.5, t2=1.5)
+                text "Boss Fight!":
+                    align .5, .01
+                    at fade_in_out(t1=1.5, t2=1.5)
+                    style "arena_header_text"
+                    size 80
+                text pytfall.arena.cf_setup["boss_name"]:
+                    align .65, .4
+                    at fade_in_out(t1=1.5, t2=1.5)
+                    size 25
+                    color crimson
+                    style "garamond"
             else:
                 $ neow = pytfall.arena.cf_setup["id"]
-                text ("{=myriadpro_sb}{size=50}{color=[crimson]}[neow]") align(0.5, 0.2) at fade_in_out(t1=1.5, t2=1.5)
+                text pytfall.arena.cf_setup["id"]:
+                    align .5, .01
+                    at fade_in_out(t1=1.5, t2=1.5)
+                    style "arena_header_text"
+                    size 80
             
         hbox at slide(so1=(0, 700), t1=0.7, so2=(0, 700), t2=0.7):
             spacing 40
             align(0.5, 0.9)
-            textbutton "{b}{color=[blue]}Give Up :( ":
+            textbutton "{color=[blue]}Give Up :( ":
+                style "basic_button"
                 action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0),
                            SetField(pytfall.arena, "cf_mob", None), SetField(pytfall.arena, "cf_setup", None), SetField(pytfall.arena, "cf_bonus", False),
                            Stop("music"), Jump("arena_inside")]
-            textbutton "{b}{color=[red]}Fight!!!":
+            textbutton "{color=[red]}Fight!!!":
+                style "basic_button"
                 action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_bonus", False), Return(["challenge", "chainfight"])]
     
     screen arena_finished_chainfight(w_team):
@@ -1060,49 +1098,51 @@ init: # ChainFights vs Mobs:
         
         timer 9.0 action [Hide("arena_finished_chainfight"), Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
         
-        text("{size=+25}{i}{color=[red]}{font=fonts/rubius.ttf}Congratulation! You've Survived!!! :)"):
-            at move_from_to_pos_with_ease(start_pos=(100, config.screen_height), end_pos=(640, 600), t=0.7)
+        add "bg mc_setup"
         
-        frame at fade_in_out():
-            background Frame(Transform(im.Twocolor("content/gfx/frame/window_frame.png", white, white), alpha=0.5), 30, 30)
-            align (0.7, 0.7)
-            maximum(600, 300)
-            xfill True
-            yfill True
-            vbox:
-                maximum(600, 270)
-                xfill True
-                spacing 20
-                text("{size=30}{font=fonts/rubius.ttf}{color=[crimson]}Rewards:") xalign 0.5
-                hbox:
-                    xalign 0.5
-                    spacing 10
-    
-                    box_wrap True
-                    if pytfall.arena.cf_rewards:
-                        for reward in pytfall.arena.cf_rewards:
-                            vbox:
-                                xmaximum 70
-                                xfill True
-                                text("{size=10}{color=[black]}%s"%reward.id) xalign 0.5
-                                add ProportionalScale(reward.icon, 50, 50) xalign 0.5
-                    else:
-                        text ("{font=fonts/rubius.ttf}{size=30}No extra rewards... this is unlucky :(")
-    
+        add "arena_victory":
+            at move_from_to_align_with_linear(start_align=(.5, .3), end_align=(.5, .03), t=2.2)
+        
+        vbox:
+            at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9)
+            align .95, .5
+            maximum 500, 400 spacing 30
+            text "Rewards:":
+                xalign 0.5
+                style "arena_header_text"
                 
-        frame at fade_in_out():
-            align(0, 0.7)
-            background Null()
-            minimum(426, 376)
-            maximum(426, 376)
-            xfill True
-            add(hero.show("battle", resize=(426, 376), cache=True)) align(0.5, 0.5)
-            frame at arena_stats_slide:
-                background Null()
-                align(1.0, 1.0)
-                vbox:
-                    if not isinstance(w_team[0].combat_stats, basestring):
-                        for stat in w_team[0].combat_stats:
-                            text("{size=-5}{color=[red]}%s: %d"%(stat.capitalize(), w_team[0].combat_stats[stat]))
-                    else:
-                        text("{size=+20}{color=[red]}K.O.")
+            hbox:
+                xalign 0.5
+                spacing 10
+                box_wrap True
+                if pytfall.arena.cf_rewards:
+                    for reward in pytfall.arena.cf_rewards:
+                        frame:
+                            background Frame("content/gfx/frame/24-1.png", 5, 5)
+                            xysize (90, 90)
+                            add ProportionalScale(reward.icon, 80, 80) align .5, .5
+                else:
+                    text "No extra rewards... this is unlucky :(":
+                        xalign 0.5
+                        style "arena_header_text"
+                        size 25
+    
+        # Hero + Stats
+        frame:
+            at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
+            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+            add hero.show("battle", resize=(426, 376), cache=True)
+            align .1, .5
+            
+        vbox:
+            at arena_stats_slide
+            pos (275, 405)
+            spacing 1
+            if not isinstance(w_team[0].combat_stats, basestring):
+                for stat in w_team[0].combat_stats:
+                    fixed:
+                        xysize (170, 18)
+                        text stat.capitalize() xalign .03 style "dropdown_gm2_button_text" color red
+                        text str(w_team[0].combat_stats[stat]) xalign .97 style "dropdown_gm2_button_text" color crimson
+            else:
+                text("{size=+20}{color=[red]}K.O.")

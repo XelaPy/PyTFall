@@ -230,7 +230,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         drop_shadow [(1, 1)]
         drop_shadow_color black
         color "#EEE8CD"
-        insensitive_color "#808069" # warmgrey
+        insensitive_color "#808069"
         size 16
         outlines [(1, "#3a3a3a", 0, 0)]
         selected_outlines [(1, "#8B3E2F", 0, 0)]
@@ -484,6 +484,14 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         size 12
         bold True
         color black
+        
+    style arena_header_text:
+        is garamond
+        color red
+        size 35
+        outlines [(3, "#3a3a3a", 1, 1)]
+        drop_shadow [(2, 3)]
+        drop_shadow_color black
 
 init: # Ren'Py Styles (Or replacements):
     ## FRAMEWORK FOR DIALOGUE

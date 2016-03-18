@@ -128,6 +128,9 @@ init:
     image mm_clouds = "content/gfx/animations/main_menu/cloud1.png"
     image mm_cloudstest = im.Scale("content/gfx/animations/main_menu/cloud1.png", 287, 263)
     
+    image arena_victory = "content/gfx/images/victory.png"
+    image arena_defeat = "content/gfx/images/defeat.png"
+    
     image save:
         zoom 0.4
         additive 1.0

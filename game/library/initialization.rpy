@@ -300,7 +300,7 @@ init -999 python:
     # displayed by "show bg <filename>" or similar commands
     # file name without the extention
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
-        if fname.endswith('.jpg') or fname.endswith(".png"):
+        if fname.endswith(('.jpg', ".png")):
             tag = 'bg ' + fname[:-4]
             image = 'content/gfx/bg/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
