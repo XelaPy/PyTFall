@@ -2879,7 +2879,7 @@ init -9 python:
             evt.char = self
             evt.img = img
             evt.txt = txt
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)
             
             # -------------
             self.cache = list()
@@ -4048,7 +4048,7 @@ init -9 python:
                 evt.char = self
                 evt.img = img
                 evt.txt = txt
-                NextDayList.append(evt)
+                NextDayEvents.append(evt)
                 
                 # Finances related:
                 self.fin.next_day()

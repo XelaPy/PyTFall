@@ -104,7 +104,7 @@ init python:
             self.loc = fg
             evt.img = self.img
             evt.txt = "".join(self.txt)
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)
         
     
     class FG_CombatTraining(_object):
@@ -229,7 +229,7 @@ init python:
             self.loc = fg
             evt.img = self.img
             evt.txt = "".join(self.txt)
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)
             
     
     class FG_ExplorationJob(_object):
@@ -693,4 +693,4 @@ init python:
             
             evt.img = img
             evt.txt = "".join(self.txt)
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)

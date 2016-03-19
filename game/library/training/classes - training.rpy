@@ -2196,7 +2196,7 @@ init -9 python:
                 ev.char = None
                 ev.img = im.Scale("content/gfx/bg/locations/city_jail.jpg", int(config.screen_width*0.6), int(config.screen_height*0.8))
                 ev.txt = "\n".join(txt)
-                NextDayList.append(ev)
+                NextDayEvents.append(ev)
         
         def next_index(self):
             """

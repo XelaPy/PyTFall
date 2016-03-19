@@ -311,7 +311,7 @@ init -9 python:
                         self.loc = fg
                         evt.img = g.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
                         evt.txt = choice(["[g.name] is taking care of the girls in the Guild.", "[g.nickname] keeping the Guild running, clean and happy :)"])
-                        NextDayList.append(evt)
+                        NextDayEvents.append(evt)
                 
                 elif g.action == "BarGirl":
                     if g.health < 60 or g.vitality < 35:
@@ -330,7 +330,7 @@ init -9 python:
                         self.loc = fg
                         evt.img = g.show("waitress", "maid", exclude=["sex"], resize=(740, 685), type="any")
                         evt.txt = choice(["[g.name] took care of the Bar and the guild, making sure all of the members were happy.", "[g.nickname] keeping the Bar running and the Guild clean and happy :)"])
-                        NextDayList.append(evt)
+                        NextDayEvents.append(evt)
                 
                 elif g.action == "Training":
                     if g.health < 60 or g.vitality < 35:
@@ -375,7 +375,7 @@ init -9 python:
                 except TypeError:
                     evt.txt = "".join(str(i) for i in txt)
             # evt.txt = "".join(txt)
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)
             
             self.fin.next_day()
         
@@ -749,7 +749,7 @@ init -9 python:
             evt.char = char
             evt.img = img
             evt.txt = txt
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)
             
             # Resetting all logs and relays:
             # Relay resets:
@@ -1023,14 +1023,14 @@ init -9 python:
             
             # Do one off events
             while self.one_off_events:
-                NextDayList.append(self.one_off_events.pop())
+                NextDayEvents.append(self.one_off_events.pop())
             
             evt = NDEvent()
             evt.type = type
             evt.char = char
             evt.img = img
             evt.txt = txt
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)
         
     
     class School(BaseBuilding):
@@ -1235,11 +1235,11 @@ init -9 python:
             
             # Do one off events
             while self.one_off_events:
-                NextDayList.append(self.one_off_events.pop())
+                NextDayEvents.append(self.one_off_events.pop())
             
             evt = NDEvent()
             evt.type = type
             evt.char = char
             evt.img = img
             evt.txt = txt
-            NextDayList.append(evt)
+            NextDayEvents.append(evt)

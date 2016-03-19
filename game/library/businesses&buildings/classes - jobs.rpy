@@ -175,10 +175,10 @@
         
         def finish_job(self):
             """
-            Finish the job and adds it to NextDayList.
+            Finish the job and adds it to NextDayEvents.
             """
             self.finished = True
-            NextDayList.append(self.create_event())
+            NextDayEvents.append(self.create_event())
             
             # Reset all attrs:
             # Redundant?
@@ -323,6 +323,7 @@
             workers = A container with all the workers. (May not be useful anymore)
             """
             self.id = "Base Job"
+            self.type = None
             
             self.workermod = {} # Logging all stats/skills changed during the job.
             self.locmod = {}
@@ -433,9 +434,9 @@
         
         def finish_job(self):
             """
-            Finish the job and adds it to NextDayList.
+            Finish the job and adds it to NextDayEvents.
             """
-            NextDayList.append(self.create_event())
+            NextDayEvents.append(self.create_event())
             self.reset()
         
         def apply_stats(self):
@@ -493,7 +494,7 @@
         def __init__(self):
             super(WhoreJob, self).__init__()
             self.id = "Whore Job"
-            
+            self.type = "SIW"
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
@@ -1289,6 +1290,7 @@
         def __init__(self):
             super(StripJob, self).__init__()
             self.id = "Striptease Job"
+            self.type = "SIW"
             
             # Traits/Job-types associated with this job:
             self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
@@ -1527,6 +1529,7 @@
             """
             super(Rest, self).__init__()
             self.id = "Rest"
+            self.type = "Resting"
                 
         def __call__(self, char):
             self.worker = char
@@ -1699,6 +1702,7 @@
         def __init__(self):
             super(Manager, self).__init__()
             self.id = "Manager"
+            self.type = "Management"
             
             # Traits/Job-types associated with this job:
             self.occupations = ["Manager"] # General Strings likes SIW, Warrior, Server...
@@ -1712,6 +1716,7 @@
         def __init__(self):
             super(TestingJob, self).__init__()
             self.id = "Testing Job"
+            self.type = "Service"
         
         def __call__(self, char, client):
             # Basic job that takes 1 AP of a girl, removes client from queue and adds random stats/skills.
@@ -1750,6 +1755,7 @@
         def __init__(self):
             super(Waiting, self).__init__()
             self.id = "Waiting Job"
+            self.type = "Service"
             
             # Traits/Job-types associated with this job:
             self.occupations = [] # General Strings likes SIW, Warrior, Server...
@@ -1863,6 +1869,7 @@
         def __init__(self):
             super(BarJob, self).__init__()
             self.id = "Bartending"
+            self.type = "Service"
             
             # Traits/Job-types associated with this job:
             self.occupations = ["Server"] # General Strings likes SIW, Warrior, Server...
@@ -2074,6 +2081,7 @@
             This is meant to pick a job that makes most sense out if Cleaning, Service and Bartending
             """
             super(ServiceJob, self).__init__()
+            self.type = "Service"
             
             # Traits/Job-types associated with this job:
             self.occupations = ["Server"] # General Strings likes SIW, Warrior, Server...
@@ -2258,6 +2266,7 @@
             workers = List of all relevant workers.
             """
             super(GuardJob, self).__init__(girl, workers, loc=loc)
+            self.type = "Combat"
             
             self.check_life()
             if not self.finished: self.get_events()

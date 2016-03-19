@@ -1,7 +1,75 @@
 init python:
-    def sort_by_actions_and_buildings():
-        pass
-
+    def sort_for_nd_summary():
+        # By Actions, Flags and Buildings...
+        events = dict()
+        rest = dict()
+        actions = dict()
+        
+        base = {"IDLE": 0, "Service": 0, "Warriors": 0, "Managers": 0}
+        
+        for setup in ["ALL", fg] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+            actions[setup] = base.copy()
+            rest[setup] = base.copy()
+            events[setup] = base.copy()
+            for i in events[setup]:
+                events[setup][i] = {"count": 0, "red_flag": 0, "green_flag": 0}
+                
+            # Actions/Rest first:
+            a = actions[setup]
+            r = rest[setup]
+            e = events[setup]
+            
+            if setup == "ALL":
+                container = hero.girls
+            else:
+                container = [g for g in hero.girls if g.location == setup] # TODO: Should prolly be flipped to .workplace?
+            
+            for char in container:
+                cat = 0
+                if char.action == None:
+                    cat = "IDLE"
+                    a["IDLE"] += 1
+                elif hasattr(char.action, "type"):
+                    if char.action.type == "Combat":
+                        cat = "Warriors"
+                        a["Warriors"] += 1
+                    elif char.action.type in ["Service", "SIW"]:
+                        cat = "Service"
+                        a["Service"] += 1
+                    elif char.action.type == "Management":
+                        cat = "Managers"
+                        a["Managers"] += 1
+                    elif char.action.type == "Resting":
+                        # This needs to be handled separetly:
+                        if char.action.__class__ == Rest:
+                            cat = "IDLE"
+                            r["IDLE"] += 1
+                        elif char.action.__class__ == AutoRest:
+                            # We need to loop over it separetly, based on previous occupation:
+                            if hasattr(char.previousaction, "type"):
+                                if char.previousaction.type == "Combat":
+                                    cat = "Warriors"
+                                    r["Warriors"] += 1
+                                elif char.previousaction.type == "Service":
+                                    cat = "Service"
+                                    r["Service"] += 1
+                                elif char.previousaction.type == "Management":
+                                    cat = "Managers"
+                                    r["Managers"] += 1
+                                    
+                # Events:
+                if cat:
+                    for event in NextDayEvents:
+                        if event.char == char:
+                            e[cat]["count"] += 1
+                            if event.red_flag:
+                                e[cat]["red_flag"] += 1
+                            if event.green_flag:
+                                e[cat]["green_flag"] += 1
+                                
+        return actions, rest, events
+        
+        
 label next_day:
     scene bg profile_2
     
@@ -21,7 +89,7 @@ label next_day:
             global_flags.set_flag("keep_playing_music")
             tl.timer("Next Day")
             devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(chars)))
-            NextDayList = list()
+            NextDayEvents = list()
             
             ################## Restore before the jobs ##################
             tl.timer("Char.restore for all MC girls")
@@ -195,15 +263,17 @@ label next_day:
             tl.timer("pytfall + calender.next_day")
             pytfall.next_day()
             calendar.next() # day + 1 is here.
-            
             tl.timer("pytfall + calender.next_day")
+            
+            # Sort data for summary reports:
+            ndactions, ndrest, ndevents = sort_for_nd_summary()
             
             tl.timer("Next Day")
 
     
     ####### - - - - - #######
     #Setting index and picture
-    $ FilteredList = NextDayList * 1
+    $ FilteredList = NextDayEvents * 1
     if FilteredList:
         $ event = FilteredList[0]
         $ gimg = event.load_image()
@@ -230,7 +300,7 @@ label next_day_controls:
             
             if result[1] == 'all':
                 python:
-                    FilteredList = NextDayList * 1
+                    FilteredList = NextDayEvents * 1
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     # raise Exception, [event, type(event), event.__class__, event.__dict__]
@@ -239,7 +309,7 @@ label next_day_controls:
             if result[1] == 'red_flags':
                 python:
                     FilteredList = list()
-                    for event in NextDayList:
+                    for event in NextDayEvents:
                         if event.red_flag:
                             FilteredList.append(event)
                     event = FilteredList[0]
@@ -250,7 +320,7 @@ label next_day_controls:
             elif result[1] == 'mc':
                 python:
                     FilteredList = []
-                    for entry in NextDayList:
+                    for entry in NextDayEvents:
                         if entry.type == 'mcndreport':
                             FilteredList.append(entry)
                     event = FilteredList[0]
@@ -260,7 +330,7 @@ label next_day_controls:
             elif result[1] == 'school':
                 python:
                     FilteredList = []
-                    for entry in NextDayList:
+                    for entry in NextDayEvents:
                         if entry.type == 'schoolndreport':
                             FilteredList.insert(0, entry)
                         if entry.type == 'schoolreport':
@@ -272,7 +342,7 @@ label next_day_controls:
             elif result[1] == 'gndreports': # Girl Next Day Reports
                 python:
                     FilteredList = []
-                    for entry in NextDayList:
+                    for entry in NextDayEvents:
                         if entry.type == 'girlndreport':
                             FilteredList.append(entry)
                     
@@ -283,13 +353,13 @@ label next_day_controls:
                         index = FilteredList.index(event)
                         gimg = event.load_image()
                     else:
-                        FilteredList = NextDayList
+                        FilteredList = NextDayEvents
                         
             elif result[1] == 'building':
                 python:
                     building = result[2]
                     FilteredList = []
-                    for entry in NextDayList:
+                    for entry in NextDayEvents:
                         if entry.type == 'buildingreport' and entry.loc == building:
                             FilteredList.insert(0, entry)
                         elif entry.type == "jobreport" and entry.loc == building:
@@ -301,7 +371,7 @@ label next_day_controls:
             elif result[1] == "fighters_guild":
                 python:
                     FilteredList = []
-                    for entry in NextDayList:
+                    for entry in NextDayEvents:
                         if entry.type == "fg_report":
                             FilteredList.insert(0, entry)
                         elif entry.type == "exploration_report":
@@ -444,7 +514,7 @@ screen next_day():
                                         sgs = list()
                                         guards = list()
                                 
-                                        for __ in NextDayList:
+                                        for __ in NextDayEvents:
                                             if isinstance(__.char, Char):
                                                 if traits["Stripper"] in __.char.occupations:
                                                     strippers.append(__)
@@ -599,7 +669,7 @@ screen next_day():
                         # View all red flagged events:
                         python:
                             red_flags = False
-                            for __ in NextDayList:
+                            for __ in NextDayEvents:
                                 if __.red_flag:
                                     red_flags = True
                                     break
@@ -741,7 +811,7 @@ screen next_day():
                                                 sgs = list()
                                                 guards = list()
                                             
-                                                for __ in NextDayList:
+                                                for __ in NextDayEvents:
                                                     if isinstance(__.char, Char) and __.char.location == building:
                                                         if traits["Stripper"] in __.char.occupations:
                                                             strippers.append(__)
@@ -1002,7 +1072,7 @@ screen next_day():
         # MC (extra info) -------------------------------------------->>>
                 # Prepearing info:
                 python:
-                    for __ in NextDayList:
+                    for __ in NextDayEvents:
                         if __.type == "mcndreport":
                             report = __
             
@@ -1078,7 +1148,7 @@ screen next_day():
         # School (extra info) ---------------------------------------->>>         
             # Prepearing info:
             python:
-                for school in NextDayList:
+                for school in NextDayEvents:
                     if school.type == "schoolndreport":
                         break
             
@@ -1111,7 +1181,7 @@ screen next_day():
             # Prepearing info:
             python:
                 red_flags = False
-                for __ in NextDayList:
+                for __ in NextDayEvents:
                     if __.type == "girlndreport" and __.red_flag:
                         red_flags = True
             
