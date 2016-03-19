@@ -267,9 +267,16 @@ init -11 python:
                 setattr(rg, stat, randint(10, 25))
                     
         # Rest of the expected data:
-        for i in ("desc", "race", "base_race"):
+        for i in ("origin", "gold", "desc", "height", "full_race"):
             if i in data:
                 setattr(rg, i, data[i])
+                
+        if "race" in data:
+            trait = data["race"]
+            if trait in traits:
+                rg.apply_trait(traits[trait])
+            else:
+                devlog.warning("%s is not a valid race (build_rc)!" % (trait))
         
         # Normalizing new girl:
         # We simply run the init method of parent class for this:
