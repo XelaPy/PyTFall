@@ -264,15 +264,13 @@ label next_day:
             pytfall.next_day()
             calendar.next() # day + 1 is here.
             tl.timer("pytfall + calender.next_day")
-            
-            # Sort data for summary reports:
-            ndactive, ndresting, ndevents = sort_for_nd_summary()
-            
             tl.timer("Next Day")
 
     
     ####### - - - - - #######
-    #Setting index and picture
+    # Sort data for summary reports:
+    $ ndactive, ndresting, ndevents = sort_for_nd_summary()
+    # Setting index and picture
     $ FilteredList = NextDayEvents * 1
     if FilteredList:
         $ event = FilteredList[0]
