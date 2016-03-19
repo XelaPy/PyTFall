@@ -1,6 +1,6 @@
 # general chat
 label interactions_smalltalk:
-    "You have a small chat with [char.nickname]."
+    "You have a small chat with [char.nickname]. ♪♪♪"
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_general")

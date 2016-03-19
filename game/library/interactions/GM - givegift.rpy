@@ -82,6 +82,7 @@ label interactions_perfectgift:
     
 label interactions_refusegift:
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
         $ rc("This particular item is not required at the moment.", "I have one of these already.")
     elif ct("Shy") and dice(50):
@@ -105,5 +106,6 @@ label interactions_refusegift:
     else:
         $ rc("Sorry, I don't want another one of these.", "Didn't you give me it not so long ago?")
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     $ char.disposition -= randint(5, 15)
     jump girl_interactions

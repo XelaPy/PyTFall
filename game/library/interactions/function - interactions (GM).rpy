@@ -40,7 +40,7 @@ init -11 python:
             renpy.jump("girl_interactions_end")
         elif char_name.vitality <= 20:
             char_name.override_portrait("portrait", "indifferent")
-            rc("But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.")
+            rc("But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.", "But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move.")
             char_name.restore_portrait()
             char_name.disposition -= randint(5, 10)
             char_name.vitality -= 2
@@ -71,10 +71,33 @@ init -11 python:
                 narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
                 renpy.jump ("girl_interactions")
         elif char_name.vitality < 40 and dice (35):
-            narrator(choice(["But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move."]))
+            char.override_portrait("portrait", "tired")
+            if ct("Impersonal"):
+                rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
+            elif ct("Shy") and dice(50):
+                rc("W-well, I'm a bit tired right now... Maybe some other time...", "Um, I-I don't think I can do it, I'm exhausted. Sorry...")
+            elif ct("Imouto"):
+                rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*") 
+            elif ct("Dandere"):
+                rc("No. Too tired.", "Not enough strength. I need to rest.")
+            elif ct("Tsundere"):
+                rc("I must rest at first. Can't you tell?", "I'm too tired, don't you see?! Honestly, some people...")
+            elif ct("Kuudere"):
+                rc("I'm quite exhausted. Maybe some other time.", "I really could use some rest right now, my body is tired.")
+            elif ct("Kamidere"):
+                rc("I'm tired, and have to intentions to do anything but rest.", "I need some rest. Please don't bother me.")
+            elif ct("Bokukko"):
+                rc("Naah, don't wanna. Too tired.", "*yawns* I could use a nap first...")
+            elif ct("Ane"):
+                rc("Unfortunately I'm quite tired at the moment. I'd like to rest a bit.", "Sorry, I'm quite sleepy. Let's do it another time.")
+            elif ct("Yandere"):
+                rc("Ahh, my whole body aches... I'm way too tired.", "The only thing I can do properly now is to take a good nap...")
+            else:
+                rc("*sign* I'm soo tired lately, all I can think about is a cozy warm bed...", "I am ready to drop. Some other time perhaps.")
+            char.restore_portrait()
             char_name.disposition -= randint(0, 1)
             char_name.vitality -= randint(1, 2)
-            renpy.jump ("girl_interactions")
+            renpy.jump("girl_interactions")
             
     def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
         if char_name.effects["Food Poisoning"]['active']:
