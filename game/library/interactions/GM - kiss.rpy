@@ -39,7 +39,7 @@ init:
     
     transform interactions_angry_pulse_tr:
         "angry_pulse"
-        pos (180, 596)
+        pos (150, 566)
         anchor (0.5, 0.5)
         block:
             linear 0.05 zoom 1.1
@@ -63,11 +63,11 @@ init:
         
     transform interactions_zoom(t):
         subpixel True
-        zoom .9
+        zoom 1
         block:
-            linear t zoom 1.0
-            linear t zoom .9
-            repeat
+            linear t zoom 1.1
+            linear t zoom 1
+
         
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
                                                                                                                           "sweat": interactions_sweat_drop_tr,

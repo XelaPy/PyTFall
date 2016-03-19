@@ -38,6 +38,7 @@ label interactions_hug:
         $ hero.exp += randint(5, 15)
         $ char.exp += randint(5, 15)
         $ char.override_portrait("portrait", "confident")
+        $ char.show_portrait_overlay("zoom_slow", "reset")
         if ct("Impersonal"):
             $ rc("Yes? Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm.", "I'm for you to embrace.")
         elif ct("Shy") and dice(30):
@@ -72,6 +73,7 @@ label interactions_hug:
         $ del n
         $ del sub
         $ char.override_portrait("portrait", "indifferent")
+        $ char.show_portrait_overlay("sweat", "reset")
         if ct("Impersonal"):
             $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>")
         elif ct("Shy") and dice(50):
@@ -96,6 +98,7 @@ label interactions_hug:
         else:
             $ rc("What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")    
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     jump girl_interactions
     
    
@@ -142,6 +145,7 @@ label interactions_slapbutt:
         $ del n
         $ del sub
         $ char.override_portrait("portrait", "happy")
+        $ char.show_portrait_overlay("zoom_fast", "reset")
         if ct("Yandere"):
             $ rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "How lewd...", "Such a perverted hand...")
         elif ct("Impersonal"):
@@ -167,9 +171,12 @@ label interactions_slapbutt:
             $ rc("So pushy...  Are you proposing or something?", "Hmhm, don't feel like you have to hold back, hey?", "Hmhm, are you getting turned on?", "Your appetite for lust is proof of your health.")
         else:
             $ rc("Hya! If you keep doing that, I'll get in the mood...", "Teasing people isn't good, you know ♪", "*giggle* How troublesome ♪", "Kya...  Doing this all of sudden, that surprised me.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn") 
-
+            $ char.restore_portrait()
+            $ char.hide_portrait_overlay()
+            jump girl_interactions
     else:
         $ char.override_portrait("portrait", "angry")
+        $ char.show_portrait_overlay("angry", "reset")
         $ char.disposition -= randint(10, 22)
         $ del temp
         $ del m
@@ -198,7 +205,8 @@ label interactions_slapbutt:
         else:
             $ rc("Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "[hero.name]...! I'd rather you do this sort of thing with someone else...!", "Hey! Quit it, already!", "Aah! C...cut it out! ", "What are you doing over there, you sneak?", "Hmph, how unromantic! Know some shame!", "What are you doing, weirdo?!")   
     $ char.restore_portrait()
-    jump girl_interactions
+    $ char.hide_portrait_overlay()
+    jump girl_interactions_end
     
 
 ###### j4
@@ -245,6 +253,7 @@ label interactions_grabbreasts:
         $ del n
         $ del sub
         $ char.override_portrait("portrait", "shy")
+        $ char.show_portrait_overlay("zoom_fast", "reset")
         if ct("Impersonal"):
             $ rc("Hn... You shouldn't grope people... Ah... ♪", "This is...unexpectedly embarrassing.", "...Do you like my tits?", "You're rubbing my nipples.", "Uh... my chest, it feels so tight.", "Hnn, no matter how hard you squeeze, nothing will come out, auh.", "Hnn, you don't need to rub so hard...", "Can't control yourself?")
         elif ct("Half-Sister") and dice(30):
@@ -269,9 +278,12 @@ label interactions_grabbreasts:
             $ rc("This feeling... from your massage... is so good.", "...You're surprisingly bold. I like that", "Mmh, little to the left... Ah yes, yes, right there, oh god...", "Hyah! Ahn... please, spare me from this lewdness ♪", "Ah... Right there, keep your hands there...")
         else:
             $ rc("Nnn... It's okay to rub it just a little.", "Mm... Being touched every now and then isn't so bad, I guess?", "My soft tits feel good, don't they?", "Ah... You like my breasts, don't you?", "Y... Yes... Continue massaging... like that.", "Aah... my chest... it feels so good.", "Hnnn, you've got... some naughty hands... uhn!", "It feels good... m...my nipples... What you did just now felt so good... ♪") 
-
+        $ char.restore_portrait()
+        $ char.hide_portrait_overlay()
+        jump girl_interactions
     else:
         $ char.override_portrait("portrait", "angry")
+        $ char.show_portrait_overlay("angry", "reset")
         $ char.disposition -= randint(10, 22)
         $ del temp
         $ del m
@@ -300,5 +312,6 @@ label interactions_grabbreasts:
         else:
             $ rc("You certainly have courage, asshole!", "What are you doing!!! They are not an invitation, asshole!", "Hey! Where are those hands of yours going?", "Don't touch me, asshole!", "You're... terrible! Must you do such a thing!", "What are you trying to...?! To hell with you!", "You filthy pig! Who gave you permission to touch me?!")   
     $ char.restore_portrait()
-    jump girl_interactions
+    $ char.hide_portrait_overlay()
+    jump girl_interactions_end
     

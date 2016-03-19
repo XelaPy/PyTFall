@@ -132,6 +132,7 @@ label interactions_take_money:
 
 label interactions_not_enough_gold:
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
         $ rc("I don't need it.", "What do you expect me to do with these money?")
     elif ct("Shy") and dice(50):
@@ -155,6 +156,7 @@ label interactions_not_enough_gold:
     else:
        $ rc("Thanks, but no thanks.", "Um, I think you should keep these money for yourself.")
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return
     
 label interactions_enough_gold:

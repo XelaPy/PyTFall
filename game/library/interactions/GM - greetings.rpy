@@ -398,7 +398,8 @@ label girl_meets_greeting:
     return
     
 label interactions_girl_never_come: 
-    $ char.override_portrait("portrait", "sad")
+    $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("angry", "reset")
     if ct("Impersonal"):
         $ rc("Doesn't it count as sex only if we've actually both came?", "I'm not sure how to feel about this kind of sex.", "I guess you need to get used to this. Can I count on you to practice with me?")
     elif ct("Shy") and dice(60):
@@ -421,6 +422,7 @@ label interactions_girl_never_come:
         $ rc("No self-centred sex allowed, you can't skip the important parts!", "I am not pleased. Please figure out the reason on your own.", "I'm still far from being satisfied though...", "You're still a long way from satisfying me... Work on it for next time.")
     else:
         $ rc("Hey! I-I didn't cum at all!", "I haven't had anywhere near enough yet, you know?", "Th-this happens sometimes, right...? Still...", "Eh, but I only got a little! Geez...", "Wait, I haven't even cum yet!")
+    $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
     
@@ -455,6 +457,7 @@ label interactions_girl_virgin_line:  # character agrees to get rid of virgin tr
     
 label interactions_guy_never_came: # due to low sex skill character was unable to make MC come
     $ char.override_portrait("portrait", "shy")
+    $ char.show_portrait_overlay("scared", "reset")
     if ct("Impersonal"):
         $ rc("...Was my technique that bad?", "I'm sorry, I'm just so incompetent...")
     elif ct("Shy") and dice(60):
@@ -478,6 +481,7 @@ label interactions_guy_never_came: # due to low sex skill character was unable t
     else:
         $ rc("Um. I'm sorry! I'll study up for next time.", "Sorry... I'll do some more studying, so...") 
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return
     
 label interactions_guy_cum_alot:
@@ -570,7 +574,7 @@ label interactions_after_normal_sex: # after not good and not bad sex, not via r
 label interactions_after_virginity_was_taken: # right after removing virgin trait not via raping
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
-        $ rc("With this, next time I'll be able to feel good, right?", "Hmm, It did hurt, but... I'm happy.", "It was so big that I thought it would hurt a lot... It is all because of your gentleness.	Thank you very much.", "Hm... So this makes me an ex-virgin, it seems.")
+        $ rc("With this, next time I'll be able to feel good, right?", "Hmm, It did hurt, but... I'm happy.", "It was so big that I thought it would hurt a lot... It is all because of your gentleness. Thank you very much.", "Hm... So this makes me an ex-virgin, it seems.")
     elif ct("Shy") and dice(30):
         $ rc("Uh, i-it's ok... I can endure it...", "Kuh... I'm okay... But... I didn't think it would hurt so much...", "I-It's alright. It did hurt a little, but... I'm really happy ♪", "I-It's okay... You were very gentle...")
     elif ct("Tsundere"):
@@ -650,6 +654,7 @@ label interactions_refused_because_tired: # a universal answer for tired charact
     
 label interactions_girl_dissapointed: # a universal answer when character is displeased by something
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
         $ rc("... *you see disappointment in her eyes before she turns away*", "I see. A waste of time after all.")
     elif ct("Shy") and dice(50):
@@ -673,6 +678,7 @@ label interactions_girl_dissapointed: # a universal answer when character is dis
     else:
         $ rc("*sign* No wonder, my horoscope predicted a bad day.", "What a nuisance...")
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return
     
 label interactions_girl_proposes_sex: # character proposes MC sex
@@ -785,6 +791,7 @@ label interactions_seen_mast:
     
 label interactions_too_many_lines: # overused non-sexual line
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("angry", "reset")
     if ct("Impersonal"):
         $ rc("I request change of the subject.", "I don't feel the need to discuss this anymore.")
     elif ct("Shy") and dice(50):
@@ -808,11 +815,13 @@ label interactions_too_many_lines: # overused non-sexual line
     else:
         $ rc("Why do you keep repeating yourself?", "Goodness, how many times are you going to talk about it?")
     "Maybe you should talk about something else."
+    $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
     
 label interactions_too_many_sex_lines: # overused sexual line
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
         $ rc("I believe it's enough for today.", "I don't feel the need to do it one more time.")
     elif ct("Shy") and dice(50):
@@ -837,4 +846,5 @@ label interactions_too_many_sex_lines: # overused sexual line
         $ rc("Aren't you tired of it? I am.", "How many times are you going to do it?")
     "Maybe you should try something else."
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return
