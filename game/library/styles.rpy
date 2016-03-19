@@ -153,7 +153,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         
     style TisaOTM:
         is text
-        font "fonts/TisaOTM.otf"
+        font tisa_otm_adv
         
     style della_respira:
         is text
