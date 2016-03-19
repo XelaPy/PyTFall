@@ -266,7 +266,7 @@ label next_day:
             tl.timer("pytfall + calender.next_day")
             
             # Sort data for summary reports:
-            ndactions, ndrest, ndevents = sort_for_nd_summary()
+            ndactive, ndresting, ndevents = sort_for_nd_summary()
             
             tl.timer("Next Day")
 
@@ -420,22 +420,6 @@ screen next_day():
             
             vbox:
                 xalign 0.38
-                # Prepear the data:
-                python:
-                    strippers = list()
-                    whores = list()
-                    sgs = list()
-                    guards = list()
-                    
-                    for girl in hero.girls:
-                        if traits["Stripper"] in girl.occupations:
-                            strippers.append(girl)
-                        elif traits["Prostitute"] in girl.occupations:
-                            whores.append(girl)
-                        elif "Server" in girl.occupations:
-                            sgs.append(girl)
-                        elif "Warrior"in girl.occupations:
-                            guards.append(girl)
                 
                 frame: 
                     style_group "content"
@@ -482,10 +466,10 @@ screen next_day():
                                         frame:
                                             xysize (285, 33)
                                             text "Active" yalign 0.5 xpos 3
-                                            text ("%d" % len(list(girl for girl in strippers if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 115 yalign 0.6
-                                            text ("%d" % len(list(girl for girl in whores if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 155 yalign 0.6
-                                            text ("%d" % len(list(girl for girl in sgs if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 195 yalign 0.6
-                                            text ("%d" % len(list(girl for girl in guards if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 235 yalign 0.6
+                                            text str(ndactive["ALL"]["Service"]) style "stats_value_text" xpos 115 yalign 0.6
+                                            text str(ndactive["ALL"]["Warriors"]) style "stats_value_text" xpos 155 yalign 0.6
+                                            text str(ndactive["ALL"]["Managers"]) style "stats_value_text" xpos 195 yalign 0.6
+                                            text str(ndactive["ALL"]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
                                 
                                 # Resting:
                                 hbox:
@@ -495,10 +479,10 @@ screen next_day():
                                         frame:
                                             xysize (285, 33)
                                             text "Resting" pos (3, -3)
-                                            text ("%d" % len(list(girl for girl in strippers if girl.action in ("Rest", "AutoRest"))))  style "stats_value_text" xpos 115 yalign 0.6
-                                            text ("%d" % len(list(girl for girl in whores if girl.action in ("Rest",  "AutoRest"))))  style "stats_value_text" xpos 155 yalign 0.6
-                                            text ("%d" % len(list(girl for girl in sgs if girl.action in ("Rest",  "AutoRest"))))  style "stats_value_text" xpos 195 yalign 0.6
-                                            text ("%d" % len(list(girl for girl in guards if girl.action in ("Rest", "AutoRest"))))  style "stats_value_text" xpos 235 yalign 0.6
+                                            text str(ndresting["ALL"]["Service"])   style "stats_value_text" xpos 115 yalign 0.6
+                                            text str(ndresting["ALL"]["Warriors"])  style "stats_value_text" xpos 155 yalign 0.6
+                                            text str(ndresting["ALL"]["Managers"])  style "stats_value_text" xpos 195 yalign 0.6
+                                            text str(ndresting["ALL"]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
                                  
                                 # Events: 
                         
@@ -506,149 +490,91 @@ screen next_day():
                                     xpos 2
                                     xysize (285, 33)
                                     text "Events" yalign 0.5 xpos 3
-                        
-                                    # Prepear the data:
-                                    python:
-                                        strippers = list()
-                                        whores = list()
-                                        sgs = list()
-                                        guards = list()
-                                
-                                        for __ in NextDayEvents:
-                                            if isinstance(__.char, Char):
-                                                if traits["Stripper"] in __.char.occupations:
-                                                    strippers.append(__)
-                                                elif traits["Prostitute"] in __.char.occupations:
-                                                    whores.append(__)
-                                                elif "Server" in __.char.occupations:
-                                                    sgs.append(__)
-                                                elif "Warrior" in __.char.occupations:
-                                                    guards.append(__)
                                                     
                                     hbox:
                                         xpos 115
                                         xmaximum 40
-                                        text ("%d" % len(strippers)) style "stats_value_text" yalign 0.6
-                                        python:
-                                            red_flag = False
-                                            green_flag = False
-                                            for __ in strippers:
-                                                if __.red_flag:
-                                                    red_flag = True
-                                                if __.green_flag:
-                                                    green_flag = True
-                                                if red_flag and green_flag:
-                                                    break
+                                        text str(ndevents["ALL"]["Service"]["count"]) style "stats_value_text" yalign 0.6
 
-                                        if red_flag:
+                                        if ndevents["ALL"]["Service"]["red_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[red]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color red
                                                 action NullAction()
 
-                                        if green_flag:
+                                        if ndevents["ALL"]["Service"]["green_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[green]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color red
                                                 action NullAction()
 
                                         
                                     hbox:
                                         xpos 155
                                         xmaximum 40
-                                        text ("%d" % len(whores)) style "stats_value_text" yalign 0.6
-                                        python:
-                                            red_flag = False
-                                            green_flag = False
-                                            for __ in whores:
-                                                if __.red_flag:
-                                                    red_flag = True
-                                                if __.green_flag:
-                                                    green_flag = True
-                                                if red_flag and green_flag:
-                                                    break
-
-                                        if red_flag:
+                                        text str(ndevents["ALL"]["Warriors"]["count"]) style "stats_value_text" yalign 0.6
+                                        
+                                        if ndevents["ALL"]["Warriors"]["red_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[red]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color red
                                                 action NullAction()
 
-                                        if green_flag:
+                                        if ndevents["ALL"]["Warriors"]["green_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[green]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color green
                                                 action NullAction()
 
                                 
                                     hbox:
                                         xpos 195
                                         xmaximum 40
-                                        text ("%d" % len(sgs)) style "stats_value_text" yalign 0.6
-                                        python:
-                                            red_flag = False
-                                            green_flag = False
-                                            for __ in sgs:
-                                                if __.red_flag:
-                                                    red_flag = True
-                                                if __.green_flag:
-                                                    green_flag = True
-                                                if red_flag and green_flag:
-                                                    break
+                                        text str(ndevents["ALL"]["Managers"]["count"])  style "stats_value_text" yalign 0.6
 
-                                        if red_flag:
+                                        if ndevents["ALL"]["Managers"]["red_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[red]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color red
                                                 action NullAction()
 
-                                        if green_flag:
+                                        if ndevents["ALL"]["Managers"]["green_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[green]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color green
                                                 action NullAction()
 
                                     hbox:
                                         xpos 235
                                         xmaximum 40
-                                        text ("%d" % len(guards)) style "stats_value_text" yalign 0.6
-                                        python:
-                                            red_flag = False
-                                            green_flag = False
-                                            for __ in guards:
-                                                if __.red_flag:
-                                                    red_flag = True
-                                                if __.green_flag:
-                                                    green_flag = True
-                                                if red_flag and green_flag:
-                                                    break
+                                        text str(ndevents["ALL"]["IDLE"]["count"]) style "stats_value_text" yalign 0.6
 
-                                        if red_flag:
+                                        if ndevents["ALL"]["IDLE"]["red_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[red]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color red
                                                 action NullAction()
 
-                                        if green_flag:
+                                        if ndevents["ALL"]["IDLE"]["green_flag"]:
                                             button:
                                                 xpadding 1
                                                 ypadding 1
                                                 background Null()
-                                                text "{color=[green]}!" style "next_day_summary_text"
+                                                text "!" style "next_day_summary_text" color green
                                                 action NullAction()
 
                                 frame:
@@ -703,33 +629,11 @@ screen next_day():
                     has vbox
                     
                     # Buildings ------------------------------------------------->>>
-                    $ buildings = [fg] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
-                    for building in buildings:
-                        
-                        # Prepear the data:
-                        python:
-                            strippers = list()
-                            whores = list()
-                            sgs = list()
-                            guards = list()
-                            
-                            for girl in hero.girls:
-                                if girl.location == building:
-                                    if traits["Stripper"] in girl.occupations:
-                                        strippers.append(girl)
-                                    elif traits["Prostitute"] in girl.occupations:
-                                        whores.append(girl)
-                                    elif "Server" in girl.occupations:
-                                        sgs.append(girl)
-                                    elif "Warrior" in girl.occupations:
-                                        guards.append(girl)
-                                        
+                    for building in [fg] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
                         # Image/Name
-                        null height 5
-                        hbox:
-                            null width 10
-                            text "[building.name]" style "stats_label_text"
-                        null height 5
+                        null height 7
+                        text "[building.name]" style "stats_label_text" xpos 10
+                        null height 3
                         frame:
                             xalign 1.0
                             xysize (555, 134)
@@ -776,10 +680,10 @@ screen next_day():
                                                 frame:
                                                     xysize (405, 33)
                                                     text "Active" yalign 0.5 xpos 3
-                                                    text ("%d" % len(list(girl for girl in strippers if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 115 yalign 0.6
-                                                    text ("%d" % len(list(girl for girl in whores if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 155 yalign 0.6
-                                                    text ("%d" % len(list(girl for girl in sgs if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 195 yalign 0.6
-                                                    text ("%d" % len(list(girl for girl in guards if girl.action not in ("Rest", "AutoRest", None)))) style "stats_value_text" xpos 235 yalign 0.6
+                                                    text str(ndactive[building]["Service"]) style "stats_value_text" xpos 115 yalign 0.6
+                                                    text str(ndactive[building]["Warriors"]) style "stats_value_text" xpos 155 yalign 0.6
+                                                    text str(ndactive[building]["Managers"]) style "stats_value_text" xpos 195 yalign 0.6
+                                                    text str(ndactive[building]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
                                                     text "Dirt" yalign 0.5 xpos 275
                                                     text ("%d%%" % building.get_dirt_percentage()[0]) style "stats_value_text" xalign 1.0 yalign 0.9
                                   
@@ -791,10 +695,10 @@ screen next_day():
                                                 frame:
                                                     xysize (405, 33)
                                                     text "Resting" yalign 0.5 xpos 3
-                                                    text ("%d" % len(list(girl for girl in strippers if girl.action in ("Rest", "AutoRest")))) style "stats_value_text" xpos 115 yalign 0.6
-                                                    text ("%d" % len(list(girl for girl in whores if girl.action in ("Rest",  "AutoRest")))) style "stats_value_text" xpos 155 yalign 0.6
-                                                    text ("%d" % len(list(girl for girl in sgs if girl.action in ("Rest",  "AutoRest")))) style "stats_value_text" xpos 195 yalign 0.6
-                                                    text ("%d" % len(list(girl for girl in guards if girl.action in ("Rest", "AutoRest")))) style "stats_value_text" xpos 235 yalign 0.6
+                                                    text str(ndresting[building]["Service"]) style "stats_value_text" xpos 115 yalign 0.6
+                                                    text str(ndresting[building]["Warriors"]) style "stats_value_text" xpos 155 yalign 0.6
+                                                    text str(ndresting[building]["Managers"]) style "stats_value_text" xpos 195 yalign 0.6
+                                                    text str(ndresting[building]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
                                                     text "Fame" yalign 0.5 xpos 275
                                                     text ("%d/%d" % (building.fame, building.maxfame)) style "stats_value_text" xalign 1.0 yalign 0.9
                                      
@@ -803,73 +707,35 @@ screen next_day():
                                             xpos 2
                                             xysize (405, 33)
                                             text "Events" yalign 0.5 xpos 3
-                                        
-                                            # Prepear the data:
-                                            python:
-                                                strippers = list()
-                                                whores = list()
-                                                sgs = list()
-                                                guards = list()
-                                            
-                                                for __ in NextDayEvents:
-                                                    if isinstance(__.char, Char) and __.char.location == building:
-                                                        if traits["Stripper"] in __.char.occupations:
-                                                            strippers.append(__)
-                                                        elif traits["Prostitute"] in __.char.occupations:
-                                                            whores.append(__)
-                                                        elif "Server" in __.char.occupations:
-                                                            sgs.append(__)
-                                                        elif "Warrior" in __.char.occupations:
-                                                            guards.append(__)
                                                     
                                             hbox:
                                                 xpos 115
                                                 xmaximum 40
-                                                text ("%d" % len(strippers)) style "stats_value_text" yalign 0.6
-                                                python:
-                                                    red_flag = False
-                                                    green_flag = False
-                                                    for __ in strippers:
-                                                        if __.red_flag:
-                                                            red_flag = True
-                                                        if __.green_flag:
-                                                            green_flag = True
-                                                        if red_flag and green_flag:
-                                                            break
+                                                text str(ndevents[building]["Service"]["count"]) style "stats_value_text" yalign 0.6
 
-                                                if red_flag:
+                                                if ndevents[building]["Service"]["red_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
                                                         background Null()
-                                                        text "{color=[red]}!" style "next_day_summary_text"
+                                                        text "!" style "next_day_summary_text" color red
                                                         action NullAction()
 
-                                                if green_flag:
+                                                if ndevents[building]["Service"]["green_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
                                                         background Null()
-                                                        text "{color=[green]}!" style "next_day_summary_text"
+                                                        text "!" style "next_day_summary_text" color green
                                                         action NullAction()
 
                                                     
                                             hbox:
                                                 xpos 155
                                                 xmaximum 40
-                                                text ("%d" % len(whores)) style "stats_value_text" yalign 0.6
-                                                python:
-                                                    red_flag = False
-                                                    green_flag = False
-                                                    for __ in whores:
-                                                        if __.red_flag:
-                                                            red_flag = True
-                                                        if __.green_flag:
-                                                            green_flag = True
-                                                        if red_flag and green_flag:
-                                                            break
-
-                                                if red_flag:
+                                                text str(ndevents[building]["Warriors"]["count"]) style "stats_value_text" yalign 0.6
+                                                
+                                                if ndevents[building]["Warriors"]["red_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
@@ -877,7 +743,7 @@ screen next_day():
                                                         text "{color=[red]}!" style "next_day_summary_text"
                                                         action NullAction()
                                                     
-                                                if green_flag:
+                                                if ndevents[building]["Warriors"]["green_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
@@ -889,19 +755,9 @@ screen next_day():
                                             hbox:
                                                 xpos 195
                                                 xmaximum 40
-                                                text ("%d" % len(sgs)) style "stats_value_text" yalign 0.6
-                                                python:
-                                                    red_flag = False
-                                                    green_flag = False
-                                                    for __ in sgs:
-                                                        if __.red_flag:
-                                                            red_flag = True
-                                                        if __.green_flag:
-                                                            green_flag = True
-                                                        if red_flag and green_flag:
-                                                            break
+                                                text str(ndevents[building]["Managers"]["count"]) style "stats_value_text" yalign 0.6
 
-                                                if red_flag:
+                                                if ndevents[building]["Managers"]["red_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
@@ -909,7 +765,7 @@ screen next_day():
                                                         text "{color=[red]}!" style "next_day_summary_text"
                                                         action NullAction()
 
-                                                if green_flag:
+                                                if ndevents[building]["Managers"]["green_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
@@ -921,19 +777,9 @@ screen next_day():
                                             hbox:
                                                 xpos 235
                                                 xmaximum 40
-                                                text ("%d" % len(guards)) style "stats_value_text" yalign 0.6
-                                                python:
-                                                    red_flag = False
-                                                    green_flag = False
-                                                    for __ in guards:
-                                                        if __.red_flag:
-                                                            red_flag = True
-                                                        if __.green_flag:
-                                                            green_flag = True
-                                                        if red_flag and green_flag:
-                                                            break
+                                                text str(ndevents[building]["IDLE"]["count"]) style "stats_value_text" yalign 0.6
 
-                                                if red_flag:
+                                                if ndevents[building]["IDLE"]["red_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
@@ -941,7 +787,7 @@ screen next_day():
                                                         text "{color=[red]}!" style "next_day_summary_text"
                                                         action NullAction()
                                                 
-                                                if green_flag:
+                                                if ndevents[building]["IDLE"]["green_flag"]:
                                                     button:
                                                         xpadding 1
                                                         ypadding 1
@@ -974,14 +820,14 @@ screen next_day():
         # Buttons will be drawn over the frame +==============================>>>
         if summary_filter == "buildings":
             $ start_pos = 844
-            for i in ("Strippers", "Whores", "Service G.", "Warriors"):
+            for i in ("Servers", "Warriors", "Managers", "IDLE"):
                 $ start_pos = start_pos + 42
                 frame:
                     at rotate_by(45)
                     pos (start_pos, 95)
                     xysize (90, 30)
                     background Frame("content/gfx/interface/buttons/button_wood_right_hover.png", 3, 3)
-                    text "[i]" size 12 bold True xalign 0.1
+                    text "[i]" size 12 bold True xalign .4
                 
         # Mid frame:
         frame:
