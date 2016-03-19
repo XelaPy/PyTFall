@@ -1,34 +1,17 @@
 init -11 python:
     # Interactions (Girlsmeets Helper Functions):
     def interactions_set_repeating_lines_limit(c): # returns the number of character "patience", ie how many repeating lines she's willing to listen in addition to default value
-        patience = 0
-        if "Impersonal" in c.traits:
-            patience += randint(1,3)
-        elif "Imouto" in c.traits:
-            patience -= randint(1,2)
-        elif "Dandere" in c.traits:
-            patience += randint(1,2)
-        elif "Tsundere" in c.traits:
-            patience -= randint(0,2)
-        elif "Kuudere" in c.traits:
+        if check_lovers(c, hero):
+            patience = randint(1,2)
+        elif check_friends(c, hero):
+            patience = 1
+        else:
+            patience = 0
+            
+        if "Well-mannered" in c.traits:
             patience += randint(0,1)
-        elif "Kamidere" in c.traits:
+        elif "Ill-mannered" in c.traits:
             patience -= randint(0,1)
-        elif "Bokukko" in c.traits:
-            patience += randint(-1, 1)
-        elif "Ane" in c.traits and dice(70):
-            patience += 1
-        elif "Yandere" in c.traits: 
-            if c.disposition <= 500:
-                patience -= (0,1)
-            else:
-                patience += (2,3)
-        if patience <= 1 and "Shy" in c.traits and dice(50):
-            patience += 1
-        if patience <= 2 and "Well-mannered" in c.traits and dice(50):
-            patience += 1
-        if patience >= 2 and "Ill-mannered" in c.traits and dice(50):
-            patience -= 1
         return patience
     def interactions_flag_count_checker(char_name, char_flag): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
         global day

@@ -44,9 +44,9 @@ label girl_interactions:
     with dissolve
 
     if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # check for nonquest cases and no issues with the character
-        if dice(20): 
-            $ char.set_flag("gm_char_proposed_sex", value=day) # 20% chance to skip sex proposition and set a flag, to make it more random
-        $ sub = check_submissivity(char)*20 + 50 # another chance check from 30 to 70 based on submissiveness
+        if dice(50): 
+            $ char.set_flag("gm_char_proposed_sex", value=day) # 50% chance to skip sex proposition and set a flag, to make it more random
+        $ sub = check_submissivity(char)*20 + 40 # another chance check from 20 to 60 based on submissiveness
         if dice(sub) and check_lovers(char, hero) and ((day - char.flag("gm_char_proposed_sex")) > 1 or char.flag("gm_char_proposed_sex") == 0): # no matter if MC agrees or not, they will do it once per 2 days at best
             call interactions_girl_proposes_sex
             menu:
@@ -112,13 +112,13 @@ label girl_interactions_after_greetings: # when character wants to say something
             # CHAT
             m = 0
             pytfall.world_actions.menu(m, "Chat")
-            pytfall.world_actions.gm_choice("General", index=(m, 0))
+            pytfall.world_actions.gm_choice("Small Talk", index=(m, 0))
             pytfall.world_actions.gm_choice("About Job", mode="girl_interactions", index=(m, 1))
             pytfall.world_actions.gm_choice("How She Feels", mode="girl_interactions", index=(m, 2))
             pytfall.world_actions.gm_choice("About Her", index=(m, 3))
             pytfall.world_actions.gm_choice("About Occupation", mode="girl_meets", index=(m, 4))
             pytfall.world_actions.gm_choice("Interests", index=(m, 5))
-            pytfall.world_actions.gm_choice("Romance", index=(m, 6))
+            pytfall.world_actions.gm_choice("Flirt", index=(m, 6))
             
             
             # TRAINING
