@@ -660,7 +660,7 @@ init -9 python:
             return jobs
         
         # Building of Upgrades:
-        # This should be part of the main BUILDING!!!
+        # This should be part of the main BUILDING!!! (So it's this one :) )
         def check_resources(self, upgrade):
             # checks if the player has enough resources to build an upgrade:
             return True
