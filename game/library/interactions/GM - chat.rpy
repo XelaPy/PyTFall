@@ -8,7 +8,7 @@ label interactions_smalltalk:
         call interactions_too_many_lines
         $ char.disposition -= randint(1,m)
         if char.joy > 80:
-            $ char.joy -= ranint(0,1)
+            $ char.joy -= randint(0,1)
         $ del m
         jump girl_interactions
     if dice(randint(40,60)) and dice(char.joy) and m < 3:
