@@ -97,7 +97,6 @@ label found_money_event(event):
         renpy.show("_tag", what=Text("%d"%amount, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 4)])
         hero.say(choice(["Yey! Some money!", "Free Gold, lucky!", "I will not let this go to waste!"]))
         hero.add_money(amount, "Events")
-
     return
      
 label found_item_event(event):
@@ -108,6 +107,5 @@ label found_item_event(event):
         renpy.show("_tag", what=ProportionalScale(found_item.icon, 100, 100), at_list=[found_cash(150, 600, 4)])
         hero.say(choice(["Yey! Found something! ([found_item.id])", "[found_item.id] Might be useful!", "[found_item.id]! Lucky?", "-[found_item.id]- Never look a gift horse in the mouth :)"]))
         hero.inventory.append(found_item)
-        del amount
     return
         
