@@ -2912,6 +2912,7 @@ init -9 python:
             # }
         RANKS = {}
         MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
+        UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow"]
         def __init__(self):
             super(Char, self).__init__(arena=True, inventory=True)
             # Game mechanics assets
@@ -3134,7 +3135,6 @@ init -9 python:
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
-            self.unique_say_screen_portrait_overlays = ["zoom_fast", "zoom_slow"]
         
         def get_availible_pics(self):
             """
@@ -3263,7 +3263,7 @@ init -9 python:
         def show_portrait_overlay(self, s, mode="normal"):
             self.say_screen_portrait_overlay_mode = s
             
-            if not s in self.unique_say_screen_portrait_overlays:
+            if not s in self.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
                 interactions_portraits_overlay.change(s, mode)
             
         def hide_portrait_overlay(self):
