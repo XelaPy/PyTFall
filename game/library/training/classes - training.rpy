@@ -6,8 +6,8 @@ init -9 python:
         schools = load_training("school", School)
         
         # Load the hero's dungeon
-        school = TrainingDungeon(load_training("training", PytTraining))
-        schools[school.name] = school
+        # school = TrainingDungeon(load_training("training", PytTraining))
+        # schools[school.name] = school
         
         # Creates courses
         for school in schools:
