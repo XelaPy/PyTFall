@@ -196,6 +196,20 @@ init: # Screens:
                             action Return(['control', 'right'])
                             hovered tt.action("Next ==>")
                             text "Next" style "wood_text" xalign 0.39
+                            
+                    if isinstance(building, NewStyleUpgradableBuilding):
+                        frame:
+                            align .5, .95
+                            style_group "wood"
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                            xpadding 20
+                            ypadding 10                                
+                            button:
+                                align .5, .5
+                                xysize (135, 40)
+                                action SetScreenVariable("mid_frame_mode", building)
+                                hovered tt.action('Open a new business in this building!.')
+                                text "Expand"
                                 
                     ## Security Bar:
                     if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
@@ -303,7 +317,7 @@ init: # Screens:
                     textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
                         
             
-            ## Stats/Info - Left Frame
+            ## Stats/Upgrades - Left Frame
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                 xysize (330, 780)

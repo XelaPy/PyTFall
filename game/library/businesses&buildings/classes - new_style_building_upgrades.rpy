@@ -466,6 +466,11 @@ init -5 python:
             
             
     class BrothelBlock(PrivateBusinessUpgrade):
+        COMPATIBILITY = []
+        MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
+        COST = 10000
+        ID = "Brothel"
+        IMG = "content/buildings/upgrades/room.jpg"
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
@@ -480,6 +485,12 @@ init -5 python:
             
             
     class StripClub(PublicBusinessUpgrade):
+        COMPATIBILITY = []
+        MATERIALS = {"Wood": 30, "Bricks": 50, "Glass": 10}
+        COST = 8000
+        ID = "Strip Club"
+        IMG = "content/buildings/upgrades/strip_club.jpg"
+        
         def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!", img="content/buildings/upgrades/strip_club.jpg", build_effort=0, materials=None, in_slots=5, cost=500, **kwargs):
             super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Striptease Job"]])
@@ -498,8 +509,12 @@ init -5 python:
             
             
     class Bar(PublicBusinessUpgrade):
-        """Bar Main Upgrade.
-        """
+        COMPATIBILITY = []
+        MATERIALS = {"Wood": 50, "Bricks": 30, "Glass": 5}
+        COST = 5000
+        ID = "Bar"
+        IMG = "content/buildings/upgrades/bar.jpg"
+        
         def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!", img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
             super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Bartending"]])

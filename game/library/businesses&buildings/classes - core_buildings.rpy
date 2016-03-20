@@ -501,6 +501,7 @@ init -9 python:
             """
             super(NewStyleUpgradableBuilding, self).__init__(*args, **kwargs)
             self._upgrades = list() #  New style Upgrades!
+            self.allowed_upgrades = [Bar, StripClub, BrothelBlock]
             
             # And new style upgrades:
             self.in_slots = 0 # Interior Slots
@@ -719,7 +720,7 @@ init -9 python:
                 
         def _has_upgrade(self, upgrade):
             # Checks if there is already this type of an upgrade:
-            if list(up for up in self._upgrades if up.__class__ == upgrade.__class__):
+            if list(up for up in self._upgrades if up.__class__ == upgrade):
                 return True
                 
             for up in self._upgrades:
