@@ -3,38 +3,43 @@ init:
     image angry_pulse = "content/gfx/animations/interactions/angry.png"
     image sweat_drop = "content/gfx/animations/interactions/uncertain.png"
     image scared_lines = "content/gfx/animations/interactions/scared.png"
+    image question_mark = "content/gfx/animations/interactions/puzzled.png"
+    image exclamation_mark = "content/gfx/animations/interactions/exclamation.png"
+    
+    image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
+    
     image hearts_flow:
-        anchor (0.5, 0.5)
+        anchor (0.5, 0.0)
         "content/gfx/animations/interactions/hearts/heart1.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart2.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart3.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart4.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart5.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart6.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart7.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart8.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart9.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart10.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart11.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart12.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart13.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart14.png"
-        pause 0.1
+        pause 0.05
         "content/gfx/animations/interactions/hearts/heart15.png"
-        pause 0.1
+        pause 0.05
         repeat
     
     transform interactions_angry_pulse_tr:
@@ -48,6 +53,27 @@ init:
             linear 0.05 zoom 1.1
             linear 0.05 zoom 0.9
             pause 0.8
+            repeat
+            
+    transform interactions_puzzled_tr:
+        "question_mark"
+        pos (130, 546)
+        alpha 0.8
+        anchor (0.5, 1)
+        block:
+            linear 1 rotate 15 alpha 0.7 zoom 1.1
+            linear 1 rotate -15 alpha 0.9 zoom 0.9
+            repeat
+
+    transform interactions_surprised_tr:
+        "exclamation_mark"
+        pos (130, 546)
+        alpha 0.8
+        yanchor 1.0
+        block:
+            linear 0.4 yzoom 1.1 alpha 0.7
+            pause 0.01
+            linear 0.4 yzoom 0.9 alpha 0.9
             repeat
             
     transform interactions_sweat_drop_tr:
@@ -72,7 +98,10 @@ init:
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
                                                                                                                           "sweat": interactions_sweat_drop_tr,
                                                                                                                           "scared": interactions_scared_lines_tr,
-                                                                                                                          "love": Transform("hearts_flow", pos=(160, 570))
+                                                                                                                          "puzzled": interactions_puzzled_tr,
+                                                                                                                          # "surprised": interactions_surprised_tr,
+                                                                                                                          "love": Transform("hearts_flow", pos=(160, 570)),
+                                                                                                                          "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
                                                                                                                           })
 
 label interactions_kiss:
