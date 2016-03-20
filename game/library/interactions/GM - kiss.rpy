@@ -5,41 +5,43 @@ init:
     image scared_lines = "content/gfx/animations/interactions/scared.png"
     image question_mark = "content/gfx/animations/interactions/puzzled.png"
     image exclamation_mark = "content/gfx/animations/interactions/exclamation.png"
+    image music_note = "content/gfx/animations/interactions/note.png"
     
     image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
     
     image hearts_flow:
         anchor (0.5, 0.0)
+        alpha 0.5
         "content/gfx/animations/interactions/hearts/heart1.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart2.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart3.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart4.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart5.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart6.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart7.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart8.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart9.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart10.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart11.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart12.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart13.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart14.png"
-        pause 0.05
+        pause 0.07
         "content/gfx/animations/interactions/hearts/heart15.png"
-        pause 0.05
+        pause 0.07
         repeat
     
     transform interactions_angry_pulse_tr:
@@ -63,6 +65,16 @@ init:
         block:
             linear 1 rotate 15 alpha 0.7 zoom 1.1
             linear 1 rotate -15 alpha 0.9 zoom 0.9
+            repeat
+            
+    transform interactions_note_tr:
+        "music_note"
+        pos (130, 546)
+        alpha 0.9
+        anchor (0.5, 0.5)
+        block:
+            linear 1 alpha 1.0 zoom 1.1
+            linear 1 alpha 0.8 zoom 0.9
             repeat
 
     transform interactions_surprised_tr:
@@ -99,6 +111,7 @@ init:
                                                                                                                           "sweat": interactions_sweat_drop_tr,
                                                                                                                           "scared": interactions_scared_lines_tr,
                                                                                                                           "puzzled": interactions_puzzled_tr,
+                                                                                                                          "note": interactions_note_tr,
                                                                                                                           # "surprised": interactions_surprised_tr,
                                                                                                                           "love": Transform("hearts_flow", pos=(160, 570)),
                                                                                                                           "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
