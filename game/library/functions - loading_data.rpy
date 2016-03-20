@@ -181,12 +181,12 @@ init -11 python:
                             
                             for key in ("color", "what_color"):
                                 if key in gd:
-                                    if "color" in key:
-                                        if gd[key] in globals():
-                                            color = getattr(store, gd[key])
-                                        elif gd[key].startswith("#"):
-                                            color = gd[key]
-                                        else:
+                                    if gd[key] in globals():
+                                        color = getattr(store, gd[key])
+                                    else:
+                                        try:
+                                            color = Color(gd[key])
+                                        except:
                                             devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
                                             color = ivory
                                         char.say_style[key] = color

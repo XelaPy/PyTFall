@@ -278,6 +278,19 @@ init -11 python:
             else:
                 devlog.warning("%s is not a valid race (build_rc)!" % (trait))
         
+        # Colors in say screen:
+        for key in ("color", "what_color"):
+            if key in data:
+                if data[key] in globals():
+                    color = getattr(store, data[key])
+                else:
+                    try:
+                        color = Color(data[key])
+                    except:
+                        devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                        color = ivory
+                rg.say_style[key] = color
+                
         # Normalizing new girl:
         # We simply run the init method of parent class for this:
         super(rChar, rg).init()

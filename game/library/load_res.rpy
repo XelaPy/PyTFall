@@ -40,12 +40,12 @@ label load_resources:
         jail.id = "City Jail"
         
         # Add the dungeon to the buildings list
-        buildings[TrainingDungeon.NAME] = schools[TrainingDungeon.NAME]
+        # buildings[TrainingDungeon.NAME] = schools[TrainingDungeon.NAME]
         
         # Add the guild for testing in dev mode:
         if config.developer:
             hero.add_building(fg)
-            hero.add_building(buildings[TrainingDungeon.NAME])
+            # hero.add_building(buildings[TrainingDungeon.NAME])
         
         # Variables:
         char = None # Character global
