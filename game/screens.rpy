@@ -57,12 +57,9 @@ screen say(who, what, side_image=None, two_window=False):
                 add At(side_image.say_screen_portrait, interactions_zoom(.2)) pos 219, 639 anchor .5, .5
             elif side_image.say_screen_portrait_overlay_mode == "zoom_slow":
                 add At(side_image.say_screen_portrait, interactions_zoom(.8)) pos 219, 639 anchor .5, .5
-            elif side_image.say_screen_portrait_overlay_mode == "surprised":
+            elif side_image.say_screen_portrait_overlay_mode == "test_case":
                 add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
-                add interactions_surprised_tr pos 150, 650 yanchor 1.0
-            elif side_image.say_screen_portrait_overlay_mode == "love":
-                add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
-                add "hearts_flow" pos 220, 700
+                # add interactions_surprised_tr pos 150, 650 yanchor 1.0
             else:
                 add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
                 

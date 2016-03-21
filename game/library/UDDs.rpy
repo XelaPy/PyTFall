@@ -661,18 +661,14 @@ init -100 python:
             d = self.d["d"]
             cr = d.render(width, height, st, at)
             size = cr.get_size()
-            render = rp.Render(size[0], size[1])
-            
-            try:
-                position = d.get_placement()
-                x, y = position[:2]
-                if x is None:
-                    x = 0
-                if y is None:
-                    y = 0
-            except:
-                x, y = 0, 0
-            render.blit(cr, (x, y))
+            render = rp.Render(width, height)
+            placement = d.get_placement()
+            subpixel = placement[6]
+            pos = rp.display.core.place(width, height, size[0], size[1], placement)
+            if subpixel:
+                render.subpixel_blit(cr, pos, 1, 1, None)
+            else:
+                render.blit(cr, pos, 1, 1, None)
             
             rp.redraw(self, 0)
             return render

@@ -1,4 +1,14 @@
-﻿label start:
+﻿# screen meow():
+    # add Solid("FFF", xysize=(100, 100)) pos (100, 100)
+    # add interactions_portraits_overlay pos (100, 100)
+    # add At(Solid("F00", xysize=(100, 100)), interactions_zoom(.5)) pos (100, 100)
+
+label start:
+    # $ interactions_portraits_overlay.change("fast_zoom")
+    # show screen meow
+    # while 1: # Testing scheme.
+        # $ ui.interact()
+    
     $ renpy.block_rollback()
     if config.developer:
         show screen debugTools

@@ -10,6 +10,7 @@ init:
     image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
     
     image hearts_flow:
+        subpixel True
         anchor (.5, 1.0)
         alpha .8
         additive .9
@@ -80,9 +81,10 @@ init:
 
     transform interactions_surprised_tr:
         "exclamation_mark"
-        pos (130, 546)
+        subpixel True
+        pos (157, 650)
         alpha 0.8
-        yanchor 1.0
+        anchor (.5, 1.0)
         block:
             linear 0.4 yzoom 1.1 alpha 0.7
             pause 0.01
@@ -102,10 +104,11 @@ init:
         
     transform interactions_zoom(t):
         subpixel True
-        zoom 1
+        anchor (.5, .5)
         block:
-            linear t zoom 1.1
+            linear t zoom .9
             linear t zoom 1
+            repeat
 
         
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
@@ -113,8 +116,8 @@ init:
                                                                                                                           "scared": interactions_scared_lines_tr,
                                                                                                                           "puzzled": interactions_puzzled_tr,
                                                                                                                           "note": interactions_note_tr,
-                                                                                                                          # "surprised": interactions_surprised_tr,
-                                                                                                                          # "love": Transform("hearts_flow", pos=(160, 570)),
+                                                                                                                          "surprised": interactions_surprised_tr,
+                                                                                                                          "love": Transform("hearts_flow", pos=(220, 700)),
                                                                                                                           "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
                                                                                                                           })
 
