@@ -519,7 +519,7 @@ screen char_equip():
                         for skill in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#43CD80}%s'%trait.capitalize() size 16 yalign 0.5
+                                text u'{color=#43CD80}%s'%skill.capitalize() size 16 yalign 0.5
                                     
                     python:
                         t_old = set(t.id for t in dummy.traits)
@@ -530,7 +530,7 @@ screen char_equip():
                         for skill in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#CD4F39}%s'%trait.capitalize() size 16 yalign 0.5
+                                text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
                                 
             vbox:
                 xoffset 165
