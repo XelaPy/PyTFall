@@ -60,6 +60,9 @@ screen say(who, what, side_image=None, two_window=False):
             elif side_image.say_screen_portrait_overlay_mode == "surprised":
                 add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
                 add interactions_surprised_tr pos 150, 650 yanchor 1.0
+            elif side_image.say_screen_portrait_overlay_mode == "love":
+                add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
+                add "hearts_flow" pos 220, 700
             else:
                 add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
                 

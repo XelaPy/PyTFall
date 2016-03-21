@@ -10,8 +10,9 @@ init:
     image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
     
     image hearts_flow:
-        anchor (0.5, 0.0)
-        alpha 0.5
+        anchor (.5, 1.0)
+        alpha .8
+        additive .9
         "content/gfx/animations/interactions/hearts/heart1.png"
         pause 0.07
         "content/gfx/animations/interactions/hearts/heart2.png"
@@ -113,7 +114,7 @@ init:
                                                                                                                           "puzzled": interactions_puzzled_tr,
                                                                                                                           "note": interactions_note_tr,
                                                                                                                           # "surprised": interactions_surprised_tr,
-                                                                                                                          "love": Transform("hearts_flow", pos=(160, 570)),
+                                                                                                                          # "love": Transform("hearts_flow", pos=(160, 570)),
                                                                                                                           "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
                                                                                                                           })
 
@@ -168,7 +169,7 @@ label interactions_kiss:
         $ del result
         $ del temp
         $ del m
-        $ del n
+        # $ del n Alex: Seems to be too early to delete n here.
         $ del sub
         
         $ char.override_portrait("portrait", "shy")

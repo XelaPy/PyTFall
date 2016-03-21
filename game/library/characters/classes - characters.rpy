@@ -2912,7 +2912,7 @@ init -9 python:
             # }
         RANKS = {}
         MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
-        UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "surprised"]
+        UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "surprised", "love"]
         def __init__(self):
             super(Char, self).__init__(arena=True, inventory=True)
             # Game mechanics assets
