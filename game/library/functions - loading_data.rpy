@@ -189,7 +189,7 @@ init -11 python:
                                         except:
                                             devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
                                             color = ivory
-                                        char.say_style[key] = color
+                                    char.say_style[key] = color
                                             
                             for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height", "full_race"):
                                 if key in gd:
