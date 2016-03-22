@@ -26,6 +26,8 @@ init -5 python:
             
             self._rep = 0
             
+            self.show = True # Display to the player...
+            
             self.habitable = False
             self.workable = False
             
@@ -465,6 +467,10 @@ init -5 python:
             self.earned_cash = 0
             
             
+    class OnDemandUpgrade(MainUpgrade):
+        pass
+            
+            
     class BrothelBlock(PrivateBusinessUpgrade):
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
@@ -535,6 +541,8 @@ init -5 python:
             
     class Cleaners(MainUpgrade):
         """This will be the first upgrade that will take care clearing some workload.
+        
+        This will have to work differently from any other upgrade... it prolly should have a request method that activates a cleaning routine and searches for willing workers.
         """
         pass
             
