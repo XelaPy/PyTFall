@@ -6,7 +6,7 @@ init:
     image question_mark = "content/gfx/animations/interactions/puzzled.png"
     image exclamation_mark = "content/gfx/animations/interactions/exclamation.png"
     image music_note = "content/gfx/animations/interactions/note.png"
-    
+    image shy_blush = "content/gfx/animations/interactions/blush.png"
     image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
     
     image hearts_flow:
@@ -63,7 +63,7 @@ init:
         "question_mark"
         pos (130, 546)
         alpha 0.8
-        anchor (0.5, 1)
+        anchor (.0, .0)
         block:
             linear 1 rotate 15 alpha 0.7 zoom 1.1
             linear 1 rotate -15 alpha 0.9 zoom 0.9
@@ -71,12 +71,22 @@ init:
             
     transform interactions_note_tr:
         "music_note"
-        pos (130, 546)
+        pos (125, 546)
         alpha 0.9
-        anchor (0.5, 0.5)
+        anchor (.0, .0)
         block:
             linear 1 alpha 1.0 zoom 1.1
             linear 1 alpha 0.8 zoom 0.9
+            repeat
+            
+    transform interactions_blush_tr:
+        "shy_blush"
+        pos (218, 640)
+        anchor (.5, .5)
+        yzoom 2.0
+        block:
+            linear 1.0 zoom 1.1
+            linear 1.0 zoom 0.9
             repeat
 
     transform interactions_surprised_tr:
@@ -92,7 +102,7 @@ init:
             repeat
             
     transform interactions_sweat_drop_tr:
-        pos (147, 575) alpha 0.0
+        pos (137, 575) alpha 0.0
         "sweat_drop"
         easein 1.0 ypos 610 alpha 1.0
         
@@ -106,9 +116,9 @@ init:
         subpixel True
         anchor (.5, .5)
         block:
-            linear t zoom .9
+            linear t zoom 1.1
             linear t zoom 1
-            repeat
+
 
         
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
@@ -117,6 +127,7 @@ init:
                                                                                                                           "puzzled": interactions_puzzled_tr,
                                                                                                                           "note": interactions_note_tr,
                                                                                                                           "surprised": interactions_surprised_tr,
+                                                                                                                          "shy": interactions_blush_tr, # probably should be used only as a replacement for missing shy portraits
                                                                                                                           "love": Transform("hearts_flow", pos=(220, 700)),
                                                                                                                           "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
                                                                                                                           })
