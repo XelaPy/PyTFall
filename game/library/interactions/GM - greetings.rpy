@@ -848,3 +848,7 @@ label interactions_too_many_sex_lines: # overused sexual line
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
+    
+label interactions_blowoff(char=None):
+    char.say "Go away!"
+    return

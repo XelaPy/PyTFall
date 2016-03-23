@@ -39,19 +39,16 @@ label city_jail:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
-    python:
-        while True:
-            result = ui.interact()
-            if result[0] == "control":
-                if result[1] == "return":
-                    break
-            
-            renpy.hide("_tag")
-    
-    hide screen city_jail
-    jump city
-    
-
+    while True:
+        $ result = ui.interact()
+        if result[0] == "control":
+            if result[1] == "return":
+                hide screen city_jail
+                jump city
+        
+        hide _tag
+        
+        
 label _no_jail_event:
     $ hero.say(choice(["Nothing to see.",
                        "No ones here.",

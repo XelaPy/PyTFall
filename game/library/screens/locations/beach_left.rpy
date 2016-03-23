@@ -22,23 +22,19 @@ label city_beach_left:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
         
-    python:
+    while 1:
 
-        while True:
+        $ result = ui.interact()
 
-            result = ui.interact()
-
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-            
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
-                    
-    $ global_flags.set_flag("keep_playing_music")
-    hide screen city_beach_left
-    jump city_beach
-    
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+        
+        if result[0] == 'control':
+            if result[1] == 'return':
+                $ global_flags.set_flag("keep_playing_music")
+                hide screen city_beach_left
+                jump city_beach
+                
                 
 screen city_beach_left:
 

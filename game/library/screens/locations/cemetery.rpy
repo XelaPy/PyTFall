@@ -17,22 +17,20 @@ label graveyard_town:
     with dissolve
     show screen cemetery_entrance
         
-    python:
+    while 1:
 
-        while True:
+        $ result = ui.interact()
 
-            result = ui.interact()
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+        if result[0] == 'control':
+            $ renpy.hide_screen("cemetery_entrance")
+            if result[1] == 'return':
+                $ renpy.music.stop(channel="world")
+                hide screen cemetery_entrance
+                jump city
 
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-            if result[0] == 'control':
-                renpy.hide_screen("cemetery_entrance")
-                if result[1] == 'return':
-                    break
 
-    $ renpy.music.stop(channel="world")
-    hide screen cemetery_entrance
-    jump city
     
 screen cemetery_entrance():
 

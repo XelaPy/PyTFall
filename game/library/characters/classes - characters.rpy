@@ -2298,7 +2298,7 @@ init -9 python:
             
         def next_day(self):
             # Day counter flags:
-            for flag in self.flags.iterkeys():
+            for flag in self.flags.keys():
                 if flag.startswith("_day_countdown"):
                     self.down_counter(flag, value=1, min=0, delete=True)
             

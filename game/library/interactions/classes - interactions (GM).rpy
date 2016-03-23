@@ -317,6 +317,9 @@ init -1 python:
             exit = The exit label to use. Use to override enter_location function.
             bg = The background to use. Use to override enter_location function.
             """
+            if girl.flag("_day_countdown_interactions_blowoff"):
+                renpy.call("interactions_blowoff", char=girl)
+            
             if girl.location == "girl_meets_quest":
                 self.start(girl.id, girl, img, exit, bg)
             else:

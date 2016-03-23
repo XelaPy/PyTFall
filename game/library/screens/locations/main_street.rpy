@@ -25,28 +25,24 @@ label main_street:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
-    python:
+    while 1:
 
-        while 1:
+        $ result = ui.interact()
 
-            result = ui.interact()
+        if result[0] == 'control':
+            if result[1] == 'return':
+                $ global_flags.del_flag("keep_playing_music")            
+                hide screen main_street
+                jump city
 
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
+        elif result[0] == 'location':
+            $ hs()
+            $ jump(result[1])
 
-            elif result[0] == 'location':
-                hs()
-                jump(result[1])
-
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-
-    $ global_flags.del_flag("keep_playing_music")            
-    hide screen main_street
-    jump city
-
-    
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+            
+            
 screen main_street():
     
     use top_stripe(True)

@@ -13,19 +13,16 @@ label slave_market_club:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
-    python:
-        while 1:
-            result = ui.interact()
-            
-            if result[0] == 'control':
-                if result[1] == 'return': 
-                    break
-    
-    $ global_flags.set_flag("came_from_sc")
-    hide screen slavemarket_club
-    jump slave_market
-    
-
+    while 1:
+        $ result = ui.interact()
+        
+        if result[0] == 'control':
+            if result[1] == 'return': 
+                $ global_flags.set_flag("came_from_sc")
+                hide screen slavemarket_club
+                jump slave_market
+                
+                
 screen slavemarket_club:
     
     use top_stripe(True)

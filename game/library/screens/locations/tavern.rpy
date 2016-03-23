@@ -15,25 +15,21 @@ label tavern_town:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
-    python:
+    while 1:
 
-        while True:
+        $ result = ui.interact()
 
-            result = ui.interact()
-
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
-            elif result[0] == 'location':
-                renpy.music.stop(channel="world")
-                jump(result[1])        
-                    
-    hide screen tavern_town
-    jump city
-    
-                
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+        if result[0] == 'control':
+            if result[1] == 'return':
+                hide screen tavern_town
+                jump city
+        elif result[0] == 'location':
+            $ renpy.music.stop(channel="world")
+            $ jump(result[1])
+            
+            
 screen tavern_town():
 
     use top_stripe(True)

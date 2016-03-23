@@ -472,6 +472,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 bar value XScrollValue("sm_vp_glist")
     
     use top_stripe(True)
+    
 screen se_captured_retrieval(pos=(900, 300)):
     zorder 3
     modal True
