@@ -23,7 +23,7 @@ init -11 python:
     def interactions_silent_check_for_bad_stuff(char_name): # we check issues without outputting any lines or doing something else, and just return True/False
         if char_name.effects["Food Poisoning"]['active']:
             return False
-        elif char_name.vitality < 50:
+        elif char_name.vitality <= round(char_name.get_max("vitality")*0.1):
             return False
         elif char_name.health < (round(char_name.get_max("health")*0.2)):
             return False
@@ -38,7 +38,7 @@ init -11 python:
             char_name.restore_portrait()
             char_name.disposition -= randint(2, 5)
             renpy.jump("girl_interactions_end")
-        elif char_name.vitality <= 20:
+        elif char_name.vitality <= round(char_name.get_max("vitality")*0.1):
             char_name.override_portrait("portrait", "indifferent")
             rc("But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.", "But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move.")
             char_name.restore_portrait()
@@ -70,7 +70,7 @@ init -11 python:
             else:
                 narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
                 renpy.jump ("girl_interactions")
-        elif char_name.vitality < 40 and dice (35):
+        elif char_name.vitality <= round(char_name.get_max("vitality")*0.2) and dice (35):
             char.override_portrait("portrait", "tired")
             if ct("Impersonal"):
                 rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
