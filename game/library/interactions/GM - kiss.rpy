@@ -122,6 +122,10 @@ init:
                                                                                                                           })
 
 label interactions_kiss:
+    
+    char.say "Get away!"
+    $ char.set_flag("_day_countdown_interactions_blowoff", 3)
+    
     if ct("Lesbian"): 
         $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
         if m > 2:

@@ -23,24 +23,21 @@ label forest_entrance:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
-    python:
-
-        while 1:
-            result = ui.interact()
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
-            elif result[0] == 'location':
-                renpy.music.stop(channel="world")
-                jump(result[1])
-                
-    hide screen forest_entrance
-    jump city
-    return
-
-
+    while 1:
+        
+        $ result = ui.interact()
+        
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+        if result[0] == 'control':
+            if result[1] == 'return':
+                hide screen forest_entrance
+                jump city
+        elif result[0] == 'location':
+            $ renpy.music.stop(channel="world")
+            $ jump(result[1])
+            
+            
 screen forest_entrance:
 
     use top_stripe(True)

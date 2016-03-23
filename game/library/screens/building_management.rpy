@@ -23,6 +23,9 @@ label building_management:
     $ global_flags.set_flag("keep_playing_music")
     
 label building_management_loop:
+    
+    $ last_label = "building_management" # We need this so we can come back here from screens that depends on this variable.
+    
     while 1:
         if hero.upgradable_buildings:
             $ building = hero.upgradable_buildings[index]

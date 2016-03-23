@@ -75,20 +75,18 @@ label tavern_inside:
     
     show screen tavern_inside
     
-    python:
+    while 1:
 
-        while True:
+        $ result = ui.interact()
 
-            result = ui.interact()
-
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break                 
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+        if result[0] == 'control':
+            if result[1] == 'return':
+                hide screen tavern_inside
+                jump city            
                     
-    hide screen tavern_inside
-    jump city
+
 
 #to be deleted later    
 screen wip_screen(size=(500, 300), use_return=False):

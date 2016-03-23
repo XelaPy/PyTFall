@@ -54,27 +54,26 @@ label realtor_agency:
     show screen realtor_agency
     with fade
     
-    python:
-        
-        while True:
+    while 1:
 
-            result = ui.interact()
+        $ result = ui.interact()
 
-            if result[0] == 'buy':
-                if hero.take_ap(1):
-                    if hero.take_money(result[1].price, reason="Property"):
-                        renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                        hero.add_building(result[1])
-                        break
-                    else:
-                        renpy.call_screen('message_screen', "You don't have enough Gold!!")
+        if result[0] == 'buy':
+            if hero.take_ap(1):
+                if hero.take_money(result[1].price, reason="Property"):
+                    $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
+                    $ hero.add_building(result[1])
+                    jump realtor_exit
                 else:
-                    renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
+                    $ renpy.call_screen('message_screen', "You don't have enough Gold!!")
+            else:
+                $ renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
 
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
-                
+        if result[0] == 'control':
+            if result[1] == 'return':
+                jump realtor_exit
+               
+label realtor_exit:
     $ renpy.music.stop(channel="world")
     hide screen realtor_agency
     jump city
