@@ -144,7 +144,7 @@ label academy_town:
             $ gm.start_gm(result[1])
             
         if result[0] == 'control':
-            hide screen academy_town_entrance
+            hide screen academy_town
             if result[1] == 'return':
                 $ renpy.music.stop(channel="world")
                 hide screen cemetery_entrance

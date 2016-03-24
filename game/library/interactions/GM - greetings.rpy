@@ -858,6 +858,7 @@ label interactions_blowoff(char=None, exit=None):
     char.say "Go away!"
     $ last_label = exit
     hide vn_sprite
+    $ char.hide_portrait_overlay()
     $ renpy.show_screen(exit)
     with dissolve
     return
