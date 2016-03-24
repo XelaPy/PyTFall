@@ -38,7 +38,7 @@ label forest_entrance:
             $ jump(result[1])
             
             
-screen forest_entrance:
+screen forest_entrance():
 
     use top_stripe(True)
     

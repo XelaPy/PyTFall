@@ -79,7 +79,7 @@ label realtor_exit:
     jump city
     
     
-screen realtor_agency:
+screen realtor_agency():
     modal True
     zorder 1
     

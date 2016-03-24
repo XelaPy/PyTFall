@@ -23,7 +23,7 @@ label slave_market_club:
                 jump slave_market
                 
                 
-screen slavemarket_club:
+screen slavemarket_club():
     
     use top_stripe(True)
     

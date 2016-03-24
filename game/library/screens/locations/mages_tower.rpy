@@ -48,7 +48,7 @@ label mages_tower:
                 jump city
                 
                 
-screen mages_tower:
+screen mages_tower():
     
     use top_stripe(True)
     

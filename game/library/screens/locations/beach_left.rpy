@@ -36,7 +36,7 @@ label city_beach_left:
                 jump city_beach
                 
                 
-screen city_beach_left:
+screen city_beach_left():
 
     use top_stripe(True)
     

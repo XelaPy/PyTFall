@@ -84,10 +84,9 @@ label tavern_inside:
         if result[0] == 'control':
             if result[1] == 'return':
                 hide screen tavern_inside
-                jump city            
-                    
-
-
+                jump city
+                
+                
 #to be deleted later    
 screen wip_screen(size=(500, 300), use_return=False):
     modal True
@@ -112,7 +111,7 @@ screen wip_screen(size=(500, 300), use_return=False):
             textbutton "Ok" action If(use_return, true=Return(), false=Hide("wip_screen")) minimum(150, 30) xalign 0.3
 
     
-screen tavern_inside:
+screen tavern_inside():
 
     use top_stripe(True)
     
