@@ -252,6 +252,7 @@ label interactions_kiss:
     else:
         $ char.show_portrait_overlay("sweat", "reset")
         $ char.disposition -= randint(15, 25)
+        $ char.set_flag("_day_countdown_interactions_blowoff", 2)
         if ct("Impersonal"):
             $ char.override_portrait("portrait", "indifferent")
             $ rc("I see no possible benefit in doing that with you so I will have to decline.", "Denied. Please refrain from this in the future.")
