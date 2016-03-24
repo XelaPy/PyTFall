@@ -1,10 +1,18 @@
 label interactions_friends:
-    "You ask her to become your friend."
+    $ interactions_check_for_bad_stuff(char)
     if check_friends(char, hero):
         "But you already are!"
         python:
             char.AP += 1
             hero.AP += 1
+        jump girl_interactions
+    $ m = interactions_flag_count_checker(char, "flag_interactions_friends")
+    if m > 1:
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,m)
+        if char.joy > 50:
+            $ char.joy -= randint(0,1)
+        $ del m
         jump girl_interactions
     if ct("Shy"):  
         $ fr_ch = -10
@@ -38,7 +46,7 @@ label interactions_friends:
         $ char.override_portrait("portrait", "happy")
         if ct("Impersonal"):
             $ rc("Very well.", "Alright.")
-        elif ct("Shy") and dice(40):  
+        elif ct("Shy") and dice(50):  
             $ rc("Umm... That is... I-I'm in your care...!", "I think of you as a precious friend too.")
         elif ct("Kuudere"):  
             $ rc("I can't think of any reason to refuse. Sure, why not.", "...Looks like we're a good match.")
@@ -62,7 +70,7 @@ label interactions_friends:
         $ char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):  
             $ rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
-        elif ct("Shy") and dice(40):
+        elif ct("Shy") and dice(50):
             $ rc("I-I'm really sorry...", "Another time, maybe...")
         elif ct("Tsundere"):
             $ rc("Huh? Why should I agree to that?", "Uh? Wha...what are you talking about?")
@@ -89,9 +97,17 @@ label interactions_friends:
 
 ###### j2    
 label interactions_girlfriend:
-    "You proposing to become lovers."
+    $ interactions_check_for_bad_stuff(char)
     if check_lovers(char, hero): # you never know
         "But you already are!"
+        jump girl_interactions
+    $ m = interactions_flag_count_checker(char, "flag_interactions_girlfriend")
+    if m > 1:
+        call interactions_too_many_lines
+        $ char.disposition -= randint(1,m)
+        if char.joy > 50:
+            $ char.joy -= randint(0,1)
+        $ del m
         jump girl_interactions
     if ct("Lesbian"):
         call interactions_lesbian_refuse_because_of_gender
@@ -130,7 +146,7 @@ label interactions_girlfriend:
     else:
         $ l_ch += 70
     
-    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (500 - l_ch)) and (dice(round((l_ch + char.disposition)*0.2))):
+    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (600 - l_ch)) and (dice(round((l_ch + char.disposition)*0.2))):
         $ set_lovers(hero, char)
         $ hero.exp += randint(15, 35)
         $ char.exp += randint(15, 35)
