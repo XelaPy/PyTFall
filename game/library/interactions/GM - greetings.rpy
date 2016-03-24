@@ -848,3 +848,16 @@ label interactions_too_many_sex_lines: # overused sexual line
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
+    
+label interactions_blowoff(char=None, exit=None):
+    $ hs()
+    show expression char.get_vnsprite() as vn_sprite
+    $ char.override_portrait("portrait", "angry")
+    $ char.show_portrait_overlay("angry")
+    with dissolve
+    char.say "Go away!"
+    $ last_label = exit
+    hide vn_sprite
+    $ renpy.show_screen(exit)
+    with dissolve
+    return

@@ -32,23 +32,22 @@ label hiddenvillage_entrance:
         jump naruko_finish_quest
     if pytfall.world_quests.check_stage("Weapons Specialist") >= 2 and not('Virgin' in chars['Tenten'].traits) and pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
         jump tenten_finish_quest
-    python:
+        
+    while True:
 
-        while True:
+        $ result = ui.interact()
 
-            result = ui.interact()
-
-            if result[0] == 'jump':
-                gm.start_gm(result[1])
-            if result[0] == 'control':
-                renpy.hide_screen("hiddenvillage_entrance")
-                if result[1] == 'return':
-                    break
-
-    $ renpy.music.stop(channel="world")
-    hide screen hiddenvillage_entrance
-    jump city
-    
+        if result[0] == 'jump':
+            $ gm.start_gm(result[1])
+            
+        if result[0] == 'control':
+            hide screen hiddenvillage_entrance
+            if result[1] == 'return':
+                $ renpy.music.stop(channel="world")
+                hide screen hiddenvillage_entrance
+                jump city
+                
+                
 screen hiddenvillage_entrance:
 
     use top_stripe(True)

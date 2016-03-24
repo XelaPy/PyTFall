@@ -2043,32 +2043,83 @@
             self.finish_job()
     
     
-    class Cleaning(NewStyleJob):
-        def cleaning_task(self):
+    class CleaningJob(NewStyleJob):
+        def __init__(self):
+            super(CleaningJob, self).__init__()
+            self.id = "Cleaning"
+            self.type = "Service"
+            
+            # Traits/Job-types associated with this job:
+            self.occupations = ["Service"] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Maid"]] # Corresponding traits...
+            
+            # Relevant skills and stats:
+            self.skills = ["cleaning"]
+            self.stats = ["agility"]
+            
+            self.workermod = {}
+            self.locmod = {}
+            
+        def __call__(self, char):
+            self.worker, self.loc = char, char.location
+            self.clean()
+            
+        def is_valid_for(self, char):
+            if "Service" in char.traits:
+                return True
+            if char.status == 'slave':
+                return True
+            
+            if char.disposition >= self.calculate_disposition_level(char):
+                return True
+            else:
+                return False
+                
+        def calculate_disposition_level(self, char): # calculating the needed level of disposition
+            # sub = check_submissivity(char)
+            # if "Shy" in char.traits:
+                # disposition = 800 + 50 * sub
+            # else:
+                # disposition = 700 + 50 * sub
+            # if cgochar(char, "SIW"):
+                # disposition -= 500
+            # if "Exhibitionist" in char.traits:
+                # disposition -= 200
+            # if "Nymphomaniac" in char.traits:
+                # disposition -= 50
+            # elif "Frigid" in char.traits:
+                # disposition += 50
+            # if check_lovers(char, hero):
+                # disposition -= 50
+            # elif check_friends(hero, char):
+                # disposition -= 25
+            # return disposition
+            return 500
+            
+        def check_occupation(self, char=None):
+            """Checks if the worker is willing to do this job.
+            """
+            return True # Don't want to mess with this atm.
+        
+        def clean(self):
             """
             Solve the job as a cleaner.
+            
+            This one is simpler... it just logs the stats, picks an image and builds a report...
             """
-            if self.task == 'Cleaning':
-                # Stats checks
-                cleffect = int(round(self.APr * (12 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3)))
-                
-                if self.loc.dirt - cleffect <= 0:
-                    self.txt.append("She finished cleaning the building and took a break for the remaining time. \n")
-                    self.workermod['joy'] += choice([0, 0, 1])
-                
-                elif self.loc.dirt - cleffect > 0:
-                    self.txt.append("She spent a good amount of time cleaning the building so workers and customers would be happy. \n")
-                
-                self.img = self.worker.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
-                
-                # Stat mods
-                self.locmod['dirt'] -= cleffect
-                self.workermod['vitality'] -= randint(15, 25) * self.APr
-                self.workermod['exp'] += self.APr * randint(15, 25)
-                self.workermod['service'] += choice([0,0,1])
-                
-                self.apply_stats()
-                self.finish_job()
+            # Stats checks
+            # cleffect = int(round(self.APr * (12 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3)))
+            
+            self.img = self.worker.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
+            
+            # Stat mods
+            self.locmod['dirt'] -= cleffect
+            self.workermod['vitality'] -= randint(15, 25) * self.APr
+            self.workermod['exp'] += self.APr * randint(15, 25)
+            self.workermod['service'] += choice([0,0,1])
+            
+            self.apply_stats()
+            self.finish_job()
     
 
     class ServiceJob(NewStyleJob):
