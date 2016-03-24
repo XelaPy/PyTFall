@@ -36,7 +36,7 @@ label city_park:
                 jump city_parkgates
                 
                 
-screen city_park:
+screen city_park():
     
     use top_stripe(True)
     

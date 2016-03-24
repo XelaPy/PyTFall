@@ -181,7 +181,7 @@ label blue_menu:
     jump slave_market            
     
 
-screen slavemarket:
+screen slavemarket():
     
     use top_stripe(True)
     
