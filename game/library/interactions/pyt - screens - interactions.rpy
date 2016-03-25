@@ -329,8 +329,6 @@ label girl_interactions_control:
                     else:
                         gm.jump("perfectgift")
                         
-                    
-        
         # Controls
         elif result[0] == "control":
             # Return / Back

@@ -133,7 +133,6 @@ init:
                                                                                                                           })
 
 label interactions_kiss:
-    
     if ct("Lesbian"): 
         $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
         if m > 2:
