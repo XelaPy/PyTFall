@@ -132,7 +132,7 @@ label interactions_take_money:
 
 label interactions_not_enough_gold:
     $ char.override_portrait("portrait", "indifferent")
-    $ char.show_portrait_overlay("sweat", "reset")
+    $ char.show_portrait_overlay("puzzled", "reset")
     if ct("Impersonal"):
         $ rc("I don't need it.", "What do you expect me to do with these money?")
     elif ct("Shy") and dice(50):
@@ -161,6 +161,7 @@ label interactions_not_enough_gold:
     
 label interactions_enough_gold:
     $ char.override_portrait("portrait", "happy")
+    $ char.show_portrait_overlay("note", "reset")
     if ct("Impersonal"):
         $ rc("Thanks for your donation.", "I accept it. You have my thanks.")
     elif ct("Shy") and dice(50):
@@ -184,10 +185,12 @@ label interactions_enough_gold:
     else:
         $ rc("Thank you! I greatly appreciate it.", "Um, thank you. Can't say 'no' to free money, I guess ♪")
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return
     
 label interactions_recently_gave_money:
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
         $ rc("Denied. Your requests are too frequent.")
     elif ct("Shy") and dice(50):
@@ -210,6 +213,7 @@ label interactions_recently_gave_money:
         $ rc("No way! If you goin' to ask for money so often, I will become poor too.")
     else:
         $ rc("I cannot help you again, sorry. Maybe another time.")
+    $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
     
