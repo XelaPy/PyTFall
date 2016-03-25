@@ -45,7 +45,7 @@ label girl_interactions_greeting:
             elif ct("Yandere"):
                 $ rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe ♪ Nothing, just looking at your face ♪", "Now how do I get you to fall for me even harder...? Ehehe♪", "It would be nice if we could be together forever.", "We're the most compatible couple in the world, aren't we?", "*She smiles and stares at you.*")
             elif ct("Kamidere"):
-                $ rc("Even though we're lovers, doing nothing but ecchi things is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
+                $ rc("Even though we're lovers, doing nothing but sex stuff is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
             elif ct("Bokukko"):
                 $ rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's fine, tell me!", "I love you...I super love you...!")
             else:
@@ -170,7 +170,7 @@ label girl_interactions_greeting:
             elif ct("Yandere"):
                 $ rc("Ah... ehhehe... I'm happy, Master...", "We're lovers, aren't we, Master...? Uhehehe...", "I, I'm your girlfriend, right, Master? ...Ehehe", "I think it's really a good thing I've fallen in love with you, Master.", "Ehehe ♪ Nothing, just looking at your face, Master ♪", "Now how do I get you to fall for me even harder, Master...? Kidding... Ehehe ♪", "It would be nice if we could be together forever, Master.", "We're the most compatible couple in the world, aren't we, Master?", "*She smiles and stares at you.*")
             elif ct("Kamidere"):
-                $ rc("Even though we're lovers, doing nothing but ecchi things is not acceptable, Master!", "Haaa... How'd I fall in love with my own master...", "Hehe, what does my dear Master want from me?", "The only thing you'll ever need is me, Master. Oh yes. Just me. Hehe.")
+                $ rc("Even though we're lovers, doing nothing but sex stuff is not acceptable, Master!", "Haaa... How'd I fall in love with my own master...", "Hehe, what does my dear Master want from me?", "The only thing you'll ever need is me, Master. Oh yes. Just me. Hehe.")
             elif ct("Bokukko"):
                 $ rc("Being subtle is such a bother so let me tell you straight... I love you, Master.", "Even though we're lovers now, Master, not all that much has changed, huh...", "Say, what do you like about me, Master? ...it's fine, tell me! ♪")
             else:
@@ -314,7 +314,7 @@ label girl_meets_greeting:
         elif ct("Yandere"):
             $ rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe ♪ Nothing, just looking at your face ♪", "Now how do I get you to fall for me even harder...? Ehehe♪", "It would be nice if we could be together forever.", "We're the most compatible couple in the world, aren't we?")
         elif ct("Kamidere"):
-            $ rc("Even though we're lovers, doing nothing but ecchi things is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
+            $ rc("Even though we're lovers, doing nothing but sex stuff is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
         elif ct("Bokukko"):
             $ rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's fine, tell me!", "I love you...I super love you...!")
         else:
@@ -710,6 +710,7 @@ label interactions_girl_proposes_sex: # character proposes MC sex
     
 label interactions_sex_begins: # lines in the beginning of a non-rape scene
     $ char.override_portrait("portrait", "shy")
+    $ char.show_portrait_overlay("like", "reset")
     if ct("Impersonal"):
         $ rc("So, I'll begin the sexual interaction...", "I want you to feel really good.", "Hmm. Now how should I fuck you?", "Come. Touch me gently...", "...I have high expectations.", "I will try to do my best to meet your expectations.", "Now, let's enjoy some sex.", "I'll serve you.")
     elif ct("Shy") and dice(50):
@@ -733,6 +734,7 @@ label interactions_sex_begins: # lines in the beginning of a non-rape scene
     else:
         $ rc("I want to do so many dirty things... I can't hold it back ♪", "Leave it to me! I'll do my very best!", "Prepare to receive loads and loads of my love!", "Hehee, just leave it all to me! I'll make this awesome!", "Hehe, I'll give it everything I've got ♪")
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return
     
 label interactions_seen_mast_propose:
@@ -855,9 +857,31 @@ label interactions_blowoff(char=None, exit=None):
     $ char.override_portrait("portrait", "angry")
     $ char.show_portrait_overlay("angry")
     with dissolve
-    char.say "Go away!"
+    if ct("Yandere"):
+        $ rc("Stay away. It's your final warning.", "You want to die? If not, go away.")
+    elif ct("Impersonal"):
+        $ rc("...Leave.", "I have no interest in you.")
+    elif ct("Shy") and dice(50):
+        $ rc("...D-don't come close to me.", "...S-S-Stay away!")
+    elif ct("Dandere"):
+        $ rc("What is it? I want to get back to what I was doing...", "I personally dislike you.")
+    elif ct("Kuudere"):
+        $ rc("Hmph, I don't even want to hear it. Go away.", "...I don't think I have reason to talk to you.")
+    elif ct("Tsundere"):
+        $ rc("Leave me alone!", "Go away. ...I said get the hell away from me!", "...Lowlife.")
+    elif ct("Ane"):
+        $ rc("Could you leave me alone?", "There is not a single shred of merit to your existence.")
+    elif ct("Kamidere"):
+        $ rc("You dirty little...", "It's you again. Don't bother me!")
+    elif ct("Imouto"):
+        $ rc("Jeez! Bug off already!", "You good-for-nothing...")
+    elif ct("Bokukko"):
+        $ rc("You just won't shut up, will you...", "Geez, you're pissing me off!")
+    else:
+        $ rc("Leave. I don't want to talk to you.", "Why do you keep bothering me?")
     $ last_label = exit
     hide vn_sprite
+    $ char.hide_portrait_overlay()
     $ renpy.show_screen(exit)
     with dissolve
     return

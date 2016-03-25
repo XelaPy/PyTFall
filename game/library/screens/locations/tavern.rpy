@@ -8,7 +8,7 @@ label tavern_town:
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
     
-    scene bg tavern
+    scene bg tavern_town
     with dissolve
     show screen tavern_town
         

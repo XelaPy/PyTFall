@@ -15,7 +15,7 @@ label graveyard_town:
             
     scene bg graveyard_town
     with dissolve
-    show screen cemetery_entrance
+    show screen graveyard_town
         
     while 1:
 
@@ -24,15 +24,15 @@ label graveyard_town:
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
         if result[0] == 'control':
-            $ renpy.hide_screen("cemetery_entrance")
+            $ renpy.hide_screen("graveyard_town")
             if result[1] == 'return':
                 $ renpy.music.stop(channel="world")
-                hide screen cemetery_entrance
+                hide screen graveyard_town
                 jump city
 
 
     
-screen cemetery_entrance():
+screen graveyard_town():
 
     use top_stripe(True)
     

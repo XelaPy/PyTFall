@@ -134,7 +134,7 @@ label academy_town:
             
     scene bg academy_town
     with dissolve
-    show screen academy_town_entrance
+    show screen academy_town
     
     while 1:
 
@@ -144,14 +144,14 @@ label academy_town:
             $ gm.start_gm(result[1])
             
         if result[0] == 'control':
-            hide screen academy_town_entrance
+            hide screen academy_town
             if result[1] == 'return':
                 $ renpy.music.stop(channel="world")
                 hide screen cemetery_entrance
                 jump city
                 
                 
-screen academy_town_entrance():
+screen academy_town():
 
     use top_stripe(True)
     
@@ -168,7 +168,7 @@ screen academy_town_entrance():
                 use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                 
 label library_read_matrix:
-    hide screen academy_town_entrance
+    hide screen academy_town
     scene bg academy_town
     
     if not hasattr(store, "lib_books"):

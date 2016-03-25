@@ -1,5 +1,6 @@
 label interactions_badgift:
     $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
         $ rc("I don't need it.", "Can I return it later?", "What's it for?", "Please, never bring this to me again.", "This isn't exactly my favorite...")
     elif ct("Shy") and dice(50):
@@ -22,6 +23,7 @@ label interactions_badgift:
         $ rc("Man... this is bad...", "Hmm, so my zodiac was right... today's a bad day.", "Hey, is this a joke? What am I supposed to do with this?")
     else:
        $ rc("Hmm... I guess everyone has different tastes...", "Thanks, but I don't like these kinds of things.", "I'll receive it, but... <sigh>", "Ugh...I'm sorry, but I absolutely hate this.")
+    $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     jump girl_interactions
     
@@ -54,6 +56,7 @@ label interactions_goodgift:
 
 label interactions_perfectgift:
     $ char.override_portrait("portrait", "shy")
+    $ char.show_portrait_overlay("note", "reset")
     if ct("Impersonal"):
         $ rc("You really know what I like, don't you?", "It's incredible. Thank you.", "It... it's perfect.")
     elif ct("Shy") and dice(50):
@@ -76,13 +79,13 @@ label interactions_perfectgift:
         $ rc("Man, this is good stuff... thanks!", "A-are you a mind reader? Because that would be unfair! ♥ <hugs> ♥", "Is that...? This is spectacular! Whoa! No way! Thank you!", "Hey, hey! Now this is really something! Thanks a million!")
     else:
         $ rc("I'm so happy! Many thanks, [hero.name].", "You're amazing. This is exactly what I wanted! Thank you.", "Oh, you shouldn't have. Thank you, I really love this.", "This gift is fabulous! Thank you so much!")
-
+    $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     jump girl_interactions
     
 label interactions_refusegift:
     $ char.override_portrait("portrait", "indifferent")
-    $ char.show_portrait_overlay("sweat", "reset")
+    $ char.show_portrait_overlay("puzzled", "reset")
     if ct("Impersonal"):
         $ rc("This particular item is not required at the moment.", "I have one of these already.")
     elif ct("Shy") and dice(50):
