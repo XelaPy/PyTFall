@@ -162,6 +162,93 @@ init -997: # Transforms:
         on hide:
             fade_from_to(t=0.5)
     
+    # Interactions:
+    transform interactions_angry_pulse_tr:
+        "angry_pulse"
+        pos (150, 566)
+        anchor (0.5, 0.5)
+        block:
+            linear 0.05 zoom 1.1
+            linear 0.05 zoom 0.9
+            pause 0.2
+            linear 0.05 zoom 1.1
+            linear 0.05 zoom 0.9
+            pause 0.8
+            repeat
+            
+    transform interactions_puzzled_tr:
+        "question_mark"
+        pos (130, 546)
+        alpha 0.8
+        anchor (.0, .0)
+        block:
+            linear 1 rotate 15 alpha 0.7 zoom 1.1
+            linear 1 rotate -15 alpha 0.9 zoom 0.9
+            repeat
+            
+    transform interactions_note_tr:
+        "music_note"
+        pos (125, 546)
+        alpha 0.9
+        anchor (.0, .0)
+        block:
+            linear 1 alpha 1.0 zoom 1.1
+            linear 1 alpha 0.8 zoom 0.9
+            repeat
+            
+    transform interactions_blush_tr:
+        "shy_blush"
+        pos (218, 640)
+        anchor (.5, .5)
+        yzoom 2.0
+        block:
+            linear 1.0 zoom 1.1
+            linear 1.0 zoom 0.9
+            repeat
+
+    transform interactions_surprised_tr:
+        "exclamation_mark"
+        subpixel True
+        pos (157, 650)
+        alpha 0.8
+        anchor (.5, 1.0)
+        block:
+            linear 0.4 yzoom 1.1 alpha 0.7
+            pause 0.01
+            linear 0.4 yzoom 0.9 alpha 0.9
+            repeat
+            
+    transform interactions_sweat_drop_tr:
+        pos (137, 575) alpha 0.0
+        "sweat_drop"
+        easein 1.0 ypos 610 alpha 1.0
+        
+    transform interactions_scared_lines_tr:
+        "scared_lines"
+        pos (160, 577)
+        alpha 0.0
+        linear 1.0 alpha 1.0
+        
+    transform interactions_zoom(t):
+        subpixel True
+        anchor (.5, .5)
+        block:
+            linear t zoom 1.1
+            linear t zoom 1
+
+
+        
+    default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
+                                                                                                                          "sweat": interactions_sweat_drop_tr,
+                                                                                                                          "scared": interactions_scared_lines_tr,
+                                                                                                                          "puzzled": interactions_puzzled_tr,
+                                                                                                                          "note": interactions_note_tr,
+                                                                                                                          "surprised": interactions_surprised_tr,
+                                                                                                                          "shy": interactions_blush_tr, # probably should be used only as a replacement for missing shy portraits
+                                                                                                                          "love": Transform("hearts_flow", pos=(220, 700)),
+                                                                                                                          "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
+                                                                                                                          })
+            
     # Also used for gm:    
     transform found_cash(x, y, t):
         subpixel True

@@ -182,3 +182,51 @@ init:
         "content/gfx/animations/main_menu/settings/slo8.png"
         pause 0.2
         repeat
+        
+    # Interactions module:
+    # Portrait overlays (for enhancing emotions):
+    image angry_pulse = "content/gfx/animations/interactions/angry.png"
+    image sweat_drop = "content/gfx/animations/interactions/uncertain.png"
+    image scared_lines = "content/gfx/animations/interactions/scared.png"
+    image question_mark = "content/gfx/animations/interactions/puzzled.png"
+    image exclamation_mark = "content/gfx/animations/interactions/exclamation.png"
+    image music_note = "content/gfx/animations/interactions/note.png"
+    image shy_blush = "content/gfx/animations/interactions/blush.png"
+    image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
+    
+    image hearts_flow:
+        subpixel True
+        anchor (.5, 1.0)
+        alpha .8
+        additive .9
+        "content/gfx/animations/interactions/hearts/heart1.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart2.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart3.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart4.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart5.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart6.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart7.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart8.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart9.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart10.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart11.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart12.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart13.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart14.png"
+        pause 0.07
+        "content/gfx/animations/interactions/hearts/heart15.png"
+        pause 0.07
+        repeat
