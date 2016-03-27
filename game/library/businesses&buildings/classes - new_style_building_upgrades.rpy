@@ -539,12 +539,22 @@ init -5 python:
             self.earned_cash = 0
             
             
-    class Cleaners(MainUpgrade):
+    class Cleaners(OnDemandUpgrade):
         """This will be the first upgrade that will take care clearing some workload.
         
         This will have to work differently from any other upgrade... it prolly should have a request method that activates a cleaning routine and searches for willing workers.
         """
-        pass
+        def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+            super(Cleaners, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            self.capacity = in_slots
+            self.type = "on_demand_service"
+            self.jobs = set()
+            self.workable = True
+            
+            # SimPy and etc follows:
+            self.res = None # Restored before every job...
+            self.time = 1 # Same
+            self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
             
             
     class Garden(MainUpgrade):
