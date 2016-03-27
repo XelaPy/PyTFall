@@ -65,13 +65,11 @@ label interactions_hug:
             $ rc("How's it feel, holding me...?", "Wha... What's this? Heartbeat?", "Doesn't this make you happy?", "Yeah. It really feels nice to embrace you ♪", "Geez, quit flailing around. It's just a hug!", "Ah, hey... Fine, just a little...")
         else:
             $ rc("There's no helping it, huh? Come to me.", "Whoa there... Are you all right? Hold onto me tightly.", "Can you hear my heartbeat too?", "Yes, you can hold me tighter if you wish.", "...Hmm, it feels good to be held like this ♪", "<Hugs you tightly> What do you think? Can you feel me up against you?")
-
     else:
         $ char.disposition -= randint(8, 15)
         $ del temp
         $ del m
         $ del n
-        $ del sub
         $ char.override_portrait("portrait", "indifferent")
         $ char.show_portrait_overlay("sweat", "reset")
         if ct("Impersonal"):
@@ -96,7 +94,14 @@ label interactions_hug:
         elif ct("Yandere"):
             $ rc("<Steps back> Don't think so.", "Let me go at once!", "You're making me uncomfortable.")
         else:
-            $ rc("What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")    
+            $ rc("What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")  
+        if char.disposition <= (200+50*sub):
+            $ char.set_flag("_day_countdown_interactions_blowoff", 1)
+            $ del sub
+            $ char.restore_portrait()
+            $ char.hide_portrait_overlay()
+            jump girl_interactions_end   
+        $ del sub            
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     jump girl_interactions
@@ -181,7 +186,7 @@ label interactions_slapbutt:
         $ del temp
         $ del m
         $ del n
-        $ del sub
+
         if ct("Yandere"):
             $ rc("Hey, it hurts! Stop it!", "Touching is forbidden. That hand, don't blame me if it falls off.", "You have some nerve putting your hands on me!", "Could you refrain from touching me with your dirty hands?", "It looks like you are in dire need of punishment...", "Don't anger me...")
         elif ct("Impersonal"):
@@ -203,9 +208,16 @@ label interactions_slapbutt:
         elif ct("Imouto"):
             $ rc("Geez! If you don't stop, I'm gonna get mad!", "Nooo, what are you doing!?", "Hya! Don't touch me there!", "*sob* that hurts...", "O-owowowowow! Sto-, Wai-, AGYAAA!!", "Hey! Where are you aiming?!")
         else:
-            $ rc("Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "[hero.name]...! I'd rather you do this sort of thing with someone else...!", "Hey! Quit it, already!", "Aah! C...cut it out! ", "What are you doing over there, you sneak?", "Hmph, how unromantic! Know some shame!", "What are you doing, weirdo?!")   
+            $ rc("Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "[hero.name]...! I'd rather you do this sort of thing with someone else...!", "Hey! Quit it, already!", "Aah! C...cut it out! ", "What are you doing over there, you sneak?", "Hmph, how unromantic! Know some shame!", "What are you doing, weirdo?!")  
+        if char.disposition <= (200+50*sub):
+            $ char.set_flag("_day_countdown_interactions_blowoff", 5)
+            $ del sub
+            $ char.restore_portrait()
+            $ char.hide_portrait_overlay()
+            jump girl_interactions_end
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
+    $ del sub
     jump girl_interactions_end
     
 
@@ -288,7 +300,7 @@ label interactions_grabbreasts:
         $ del temp
         $ del m
         $ del n
-        $ del sub
+
         if ct("Yandere"):
             $ rc("Hey, it hurts! Stop it!", "How... dare you!", "It looks like you are in dire need of punishment...", "Huhuhuh... I wonder how warm it would be to bathe in your blood...?")
         elif ct("Impersonal"):
@@ -311,7 +323,14 @@ label interactions_grabbreasts:
             $ rc("How filthy. Get away from me!", "What an idiot. What do you mean by 'Oops'?", "How dare you?! Know your place your filthy piece of trash!", "Piss off you fucktard!", "<jumps away> Ha! Like I'll ever let a loser like you touch me.")
         else:
             $ rc("You certainly have courage, asshole!", "What are you doing!!! They are not an invitation, asshole!", "Hey! Where are those hands of yours going?", "Don't touch me, asshole!", "You're... terrible! Must you do such a thing!", "What are you trying to...?! To hell with you!", "You filthy pig! Who gave you permission to touch me?!")   
+        if char.disposition <= (200+50*sub):
+            $ char.set_flag("_day_countdown_interactions_blowoff", 5)
+            $ del sub
+            $ char.restore_portrait()
+            $ char.hide_portrait_overlay()
+            jump girl_interactions_end
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
+    $ del sub
     jump girl_interactions_end
     

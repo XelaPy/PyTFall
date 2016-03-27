@@ -148,7 +148,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             
             # PRAISE
             m = 2
-            pytfall.world_actions.menu(m, "Praise",  condition="not(char in hero.girls)")
+            pytfall.world_actions.menu(m, "Praise", condition="not(char in hero.girls)")
             pytfall.world_actions.gm_choice("Clever", mode="girl_meets", index=(m, 0))
             pytfall.world_actions.gm_choice("Strong", mode="girl_meets", index=(m, 1))
             pytfall.world_actions.gm_choice("Cute", mode="girl_meets", index=(m, 2))
@@ -167,7 +167,9 @@ label girl_interactions_after_greetings: # when character wants to say something
             
             # GIVE GIFT
             m = 5
-            pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]))
+            flag_name = "_day_countdown_interactions_gifts"
+            flag_value = int(char.flag(flag_name))
+            pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]), condition="flag_value < 3")
             
             # SPEND TIME TOGETHER
             m = 6
@@ -283,6 +285,13 @@ label girl_interactions_control:
             
                 # Give gift:
                 else:
+                    
+                    # Prevent repeteation of this action (any gift, we do this on per gift basis already):
+                    flag_name = "_day_countdown_interactions_gifts"
+                    flag_value = int(char.flag(flag_name))
+                    
+                    char.set_flag(flag_name, flag_value + 1)
+                    
                     item = result[1]
                     dismod = item.dismod if hasattr(item, "dismod") else 0
                     
@@ -329,8 +338,6 @@ label girl_interactions_control:
                     else:
                         gm.jump("perfectgift")
                         
-                    
-        
         # Controls
         elif result[0] == "control":
             # Return / Back
