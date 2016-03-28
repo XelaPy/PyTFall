@@ -115,8 +115,8 @@
     "hidden": false,
     "infinite": false,
     "slot": "amulet",
-    "max": {"charisma": 5, "refinement": 5},
-    "mod": {"charisma": 7, "refinement": 7},
+    "max": {"charisma": 5},
+    "mod": {"charisma": 7},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.01, 0, 0]},
     "locations": ["General Store"]
     },
@@ -248,6 +248,22 @@
     "slot": "amulet",
     "max": {"mp": 25},
     "locations": ["Witches Hut", "Look around"]
+    },
+    {
+    "id": "Warm Scarf",
+    "desc": "A fashionable and warm scarf. Perfect for urban winter.",
+    "icon": "content/items/amulet/sca.png",
+    "price": 150,
+    "sex": "unisex",
+    "chance": 80,
+    "badness": 70,
+    "eqchance": 30,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "max": {"charisma": 5},
+    "mod": {"constitution": 5, "vitality": 5},
+    "locations": ["Tailor"]
     },
     {
     "id": "Victory Charm",
