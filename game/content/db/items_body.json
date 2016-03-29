@@ -471,6 +471,24 @@
     "goodtraits": ["Not Human"]
     },
     {
+    "id": "Elven Brigantine",
+    "desc": "Comfortable and light warrior armor from soft leather and an unknown metal. Male versions are much rarer than females ones due to sex ratio in elven settlements.",
+    "icon": "content/items/body/elb.png",
+    "price": 2500,
+    "sex": "male",
+    "chance": 5,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": true,
+    "infinite": false,
+    "slot": "body",
+    "type": "armor",
+    "max": {"defence": 75, "agility": 45},
+    "mod": {"agility": 20, "defence": 55, "luck": 10},
+    "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "locations": ["Exploration"]
+    },
+    {
     "id": "Elven Ranger Armor",
     "desc": "Light and flexible armor designed for elven archers.",
     "icon": "content/items/body/era.png",
@@ -830,6 +848,24 @@
     "max": {"charisma": 30, "defence": 40},
     "mod": {"charisma": 20, "defence": 20},
     "mod_skills": {"refinement": [0.01, 0.01, 0.05, 0, 0], "dancing": [0.01, 0.01, 0.05, 0, 0]},
+    "locations": ["Tailor Store"]
+    },
+    {
+    "id": "Strapped Leather Jacket",
+    "desc": "An expensive compromise between stylish looks and protective properties. Perfect for bdsm activities, but terrible for warm seasons.",
+    "icon": "content/items/body/sj.png",
+    "price": 1300,
+    "sex": "male",
+    "chance": 40,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "body",
+    "type": "mc",
+    "max": {"charisma": 50, "defence": 60},
+    "mod": {"charisma": 25, "defence": 30},
+    "mod_skills": {"refinement": [0.01, 0.01, 0.02, 0, 0], "exploration": [0.01, 0.01, 0.03, 0, 0], "bdsm": [0.02, 0.02, 0.05, 0, 0]},
     "locations": ["Tailor Store"]
     },
     {

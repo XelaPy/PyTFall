@@ -500,5 +500,23 @@
     "max": {"defence": 10, "vitality": 3},
     "mod": {"defence": 8, "agility": 2, "vitality": 2},
     "locations": ["Work Shop"]
+    },
+    {
+    "id": "High Fur Boots",
+    "desc": "Extremely light and warm high-quality leather boots, favored by geologists and other field experts.",
+    "icon": "content/items/feet/fb.png",
+    "price": 410,
+    "sex": "unisex",
+    "chance": 60,
+    "badness": 50,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "feet",
+    "type": "armor",
+    "max": {"defence": 15, "vitality": 25},
+    "mod": {"defence": 10, "agility": 5},
+    "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0]},
+    "locations": ["Work Shop"]
     }
   ]

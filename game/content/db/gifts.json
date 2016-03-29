@@ -660,6 +660,19 @@
     "traits": {"Slime": -10, "Undead": -10, "Human": 5, "Elf": 5}
     },
     {
+    "id": "Tea Infuser",
+    "icon": "content/items/gift/ti.png",
+    "desc": "Enables one to easily steep tea from fannings and broken leaf teas.",
+    "price": 115,
+    "slot": "gift",
+    "chance": 90,
+    "dismod": 5,
+    "cblock": 5,
+    "infinite": true,
+    "locations": ["General Store", "Look around"],
+    "traits": {"Ane": 10, "Kamidere": 10, "Bokukko": -10, "Android": -5, "Alien": -5}
+    },
+    {
     "id": "Scented Oil",
     "icon": "content/items/gift/so.png",
     "desc": "A bottle of scented oil for skin care.",
