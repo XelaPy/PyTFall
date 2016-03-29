@@ -819,7 +819,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     xysize (80, 45)
                     if tt:
                        hovered tt.Action(temp_msg)
-                    action Return(['item', 'equip/unequip'])
+                    action SensitiveIf(focusitem and can_equip(focusitem, eqtarget)), Return(['item', 'equip/unequip'])
                     text "[temp]" style "pb_button_text" align (0.5, 0.5)
                     
                 # Right items info (Stats):
