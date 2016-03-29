@@ -851,8 +851,8 @@
     "locations": ["Tailor Store"]
     },
     {
-    "id": "Strapped Jacket",
-    "desc": "Another expensive compromise between stylish looks and protective properties. As a bonus, perfect for bdsm activities.",
+    "id": "Strapped Leather Jacket",
+    "desc": "An expensive compromise between stylish looks and protective properties. Perfect for bdsm activities, but terrible for warm seasons.",
     "icon": "content/items/body/sj.png",
     "price": 1300,
     "sex": "male",
