@@ -299,6 +299,13 @@ init -999 python:
     # Backrounds are automatically registered in the game and set to width/height of the default screen
     # displayed by "show bg <filename>" or similar commands
     # file name without the extention
+    # for fname in os.listdir(gamedir + '/content/gfx/be/webm'):
+        # if fname.endswith(".webm") and not "mask" in fname:
+            # tag = fname[:-5]
+            # image = 'content/gfx/bg/' + fname
+            # renpy.image(tag, im.Scale(image, config.screen_width,
+                        # config.screen_height))
+    
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
         if fname.endswith(('.jpg', ".png")):
             tag = 'bg ' + fname[:-4]
