@@ -429,7 +429,7 @@ init -9 python:
             else: return False
             
         def select_left_char(self, char):
-            char.inventory.set_page_size(23)
+            char.inventory.set_page_size(13)
             if char == self.right_char:
                 renpy.show_screen('message_screen', "Same character cannot be chozen from both sides!")
             else:
@@ -437,7 +437,7 @@ init -9 python:
                 self.left_image_cache = self.left_char.show('portrait', resize=(205, 205))
         
         def select_right_char(self, char):
-            char.inventory.set_page_size(23)
+            char.inventory.set_page_size(13)
             if char == self.left_char:
                 renpy.show_screen('message_screen', "Same character cannot be chozen from both sides!")
             else:
