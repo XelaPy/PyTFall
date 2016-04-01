@@ -30,7 +30,7 @@ init -1000 python hide:
     config.developer = True
     config.debug = True
     
-init -1 python hide:
+init -5 python hide:
     ## This controls the title of the window, when Ren'Py is
     ## running in a window.
     config.window_title = "%s %s" % (config.name, config.version)
@@ -119,52 +119,52 @@ init -1 python hide:
     theme.crayon(
         ## Theme: Crayon
         ## Color scheme: White Chocolate
- 
+  
         ## The color of an idle widget face.
         widget = "#33271C",
- 
+  
         ## The color of a focused widget face.
         widget_hover = "#ECE7C4",
- 
+  
         ## The color of the text in a widget.
         widget_text = "#B99D83",
- 
+  
         ## The color of the text in a selected widget. (For
         ## example, the current value of a preference.)
         widget_selected = "#ffffff",
- 
+  
         ## The color of a disabled widget face.
         disabled = "#614D3A",
- 
+  
         ## The color of disabled widget text.
         disabled_text = "#80654D",
- 
+  
         ## The color of informational labels.
         label = "#F1EBE5",
- 
+  
         ## The color of a frame containing widgets.
         frame = "#926841",
- 
+  
         ## The background of the main menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
         mm_root = ImageReference("humans"),
- 
+  
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
         gm_root = "content/gfx/bg/gallery.jpg",
- 
+  
         ## If this is True, the in-game window is rounded. If False,
         ## the in-game window is square.
         rounded_window = False,
- 
+  
         ## And we're done with the theme. The theme will customize
         ## various styles, so if we want to change them, we should
         ## do so below.
         )
 
-    # Fall back to default:
+    # Fall back to defaults:
     # layout.defaults()
     #########################################
     ## This lets you change the placement of the main menu.

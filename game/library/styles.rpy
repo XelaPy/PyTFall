@@ -6,6 +6,41 @@ init -3 python:
 # Well... better late than never :)
 # My first ever style is created here!
 # Neow!
+init -3:
+    # Style resets:
+    style say_label:
+        clear
+     
+    # style window:
+        # clear
+         
+    # style frame:
+        # clear
+     
+    # style say_vbox:
+        # clear
+     
+    # style say_who_window:
+        # clear
+     
+    # style say_two_window_vbox:
+        # clear
+     
+    # style menu_choice:
+        # clear
+     
+    # style input:
+        # clear
+     
+    # style hyperlink_text:
+        # clear
+     
+    # style button:
+        # clear
+     
+    # style button_text:
+        # clear
+
 init -2: # Base Styles like Texts and Buttons just with the basic properties.
     # ----------------------------------- Buttons:
     style flashing:
