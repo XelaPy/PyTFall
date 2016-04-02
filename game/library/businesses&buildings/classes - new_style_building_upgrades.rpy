@@ -557,6 +557,53 @@ init -5 python:
         def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(Cleaners, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
+        def request_cleaning(self, building=None, start_job=True):
+            """This checks if there are idle workers willing/ready to clean in the building.
+            
+            This will also start the job by default.
+            """
+            
+            if not builidng:
+                building = self
+                
+            job = simple_jobs["CleaningJob"]
+            dirt = building.get_dirt()
+            cleaners = self.get_workers(simple_jobs["CleaningJob"], amount=10)
+            
+            if not cleaners:
+                return False # Noone to clean the building so we don't.
+            else:
+                # Might require optimization so we don't send all the cleaners to one place!
+                self.clean(cleaners, building)
+                    
+        def clean(self, cleaners, building):
+            """This runs the club as a SimPy process from start to the end.
+            
+            TEMP CODE!!!
+            """
+            # See if there are any strip girls, that may be added to Resource at some point of the development:
+            while 1:
+                yield self.env.timeout(self.time)
+                
+                # Handle the earnings:
+                # cash = self.res.count*len(self.active_workers)*randint(8, 12)
+                # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
+                
+                # Manage clients... We send clients on his/her way:
+                flag_name = "jobs_spent_in_{}".format(self.name)
+                for c in self.clients:
+                    c.mod_flag(flag_name, self.time)
+                    if c.flag(flag_name) >= self.time*2:
+                        c.set_flag("jobs_ready_to_leave")
+                
+                if config.debug:
+                    temp = "{}: Debug: {} places are currently in use in {} | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.name, self.earned_cash)
+                    temp = temp + " {} Workers are currently on duty in {}!".format(set_font_color(len(self.active_workers), "red"), self.name)
+                    self.log(temp)
+                    
+                if not self.all_workers and not self.active_workers:
+                    break
+            
             
     class Garden(MainUpgrade):
         def __init__(self, name="Garden", instance=None, desc="Relax!", img="content/buildings/upgrades/garden.jpg", build_effort=0, materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):
