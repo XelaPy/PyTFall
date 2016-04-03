@@ -567,7 +567,7 @@ init -5 python:
                 building = self
                 
             job = simple_jobs["CleaningJob"]
-            dirt = building.get_dirt()
+            # dirt = building.get_dirt()
             cleaners = self.get_workers(simple_jobs["CleaningJob"], amount=10)
             
             if not cleaners:

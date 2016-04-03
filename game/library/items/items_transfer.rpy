@@ -314,29 +314,25 @@ screen items_transfer():
                     
                 
         # Filters Buttons:
-        vbox:
+        frame:
             style_group "dropdown_gm"
-            xalign 0.5
+            background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
             ypos 215
-            frame:
-                background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
-                xalign 0.5
-                xysize (400, 65)
-                hbox:
-                    spacing 2
-                    ypos -1
-                    xalign 0.5
-                    for filter in hero.inventory.GEQ_FILTERS:
-                        $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
-                        $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 44, 44)
-                        $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 44, 44)
-                        imagebutton:
-                            idle img
-                            hover Transform(img_hover, alpha=1.1)
-                            selected_idle img_selected
-                            selected_hover Transform(img_selected, alpha=1.15)
-                            action [Return(['set_filter', filter]), SelectedIf(filter == pytfall.it.filter)]
-                            focus_mask True
+            xalign 0.5
+            xysize (400, 65)
+            has hbox spacing 2
+            
+            for filter in hero.inventory.GEQ_FILTERS:
+                $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
+                $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 44, 44)
+                $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 44, 44)
+                imagebutton:
+                    idle img
+                    hover im.MatrixColor(img_hover, im.matrix.brightness(0.10))
+                    selected_idle img_selected
+                    selected_hover im.MatrixColor(img_selected, im.matrix.brightness(0.10))
+                    action Return(['set_filter', filter]), SelectedIf(filter == pytfall.it.filter)
+                    focus_mask True
            
                     
         frame:
