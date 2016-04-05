@@ -404,10 +404,11 @@ init -9 python:
                 members = self.location.get_girls()
                 if hero.location == self.location:
                     members.insert(0, hero)
-            elif isinstance(self.location, NewStyleUpgradableBuilding): # Updated to allow TrainingDungeon to work as well, might need to change later
+            elif isinstance(self.location, NewStyleUpgradableBuilding):
                 # Later we may want to call this from girls profile screen/hero profile screen
                 # Right now this check is redundant
-                members = self.location.all_workers
+                # members = self.location.all_workers # <<== Doesn't really work since workers that are not set to do any task or cannot do any task in the building are not included...
+                members = list(w for w in hero.girls if w.location == self.location)
                 if hero.location == self.location:
                     members.insert(0, hero)
             elif self.location == "personal_transfer":
@@ -481,9 +482,9 @@ init -9 python:
                 if item.id in source.inventory.content:
                     if not transfer_items(source, target, item):
                         # Otherwise MC will say this in case of unique/quest items trasnfer refusal.
-                        if source != hero:
-                            source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id,"Would you like fries with that?",
-                                                           "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                        # if source != hero:
+                            # source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id,"Would you like fries with that?",
+                                                           # "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                         break
                 else:
                     break
@@ -498,9 +499,9 @@ init -9 python:
                 if item.id in source.inventory.content:
                     if not transfer_items(source, target, item):
                         # Otherwise MC will say this in case of unique/quest items trasnfer refusal.
-                        if source != hero:
-                            source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
-                                                           "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                        # if source != hero:
+                            # source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
+                                                           # "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                         break
                 else:
                     break
