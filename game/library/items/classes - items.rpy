@@ -478,13 +478,9 @@ init -9 python:
             item = self.left_item
             source = self.left_char
             target = self.right_char
-            for i in range(self.items_amount):
+            for i in xrange(self.items_amount):
                 if item.id in source.inventory.content:
                     if not transfer_items(source, target, item):
-                        # Otherwise MC will say this in case of unique/quest items trasnfer refusal.
-                        # if source != hero:
-                            # source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id,"Would you like fries with that?",
-                                                           # "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                         break
                 else:
                     break
@@ -495,13 +491,9 @@ init -9 python:
             item = self.right_item
             source = self.right_char
             target = self.left_char
-            for i in range(self.items_amount):
+            for i in xrange(self.items_amount):
                 if item.id in source.inventory.content:
                     if not transfer_items(source, target, item):
-                        # Otherwise MC will say this in case of unique/quest items trasnfer refusal.
-                        # if source != hero:
-                            # source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
-                                                           # "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                         break
                 else:
                     break
