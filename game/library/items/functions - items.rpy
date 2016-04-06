@@ -123,8 +123,28 @@ init -11 python:
         if all([isinstance(source, Char), source.status != "slave"]):
             if any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), source.given_items.get(item.id, 0) - amount < 0]):
                 if not silent:
-                    source.say(choice(["Like hell am I giving away!", "Go get your own!", "Go find your own %s!" % item.id, "Would you like fries with that?",
-                                                   "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                    if "Impersonal" in source.traits:
+                        source.say(choice(["Denied. It belongs only to me.", "You are not authorised to dispose of my property."]))
+                    elif "Shy" in source.traits and dice(50):
+                        source.say(choice(["W... what are you doing? It's not yours...", "Um, could you maybe stop touching my things, please?"]))
+                    elif "Dandere" in source.traits:
+                        source.say(choice(["Don't touch my stuff without permission.", "I'm not giving it away."]))
+                    elif "Kuudere" in source.traits:
+                        source.say(choice(["Would you like fries with that?", "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
+                    elif "Yandere" in source.traits:
+                        source.say(choice(["Please refrain from touching my property.", "What do you think you doing with that property of mine?"]))
+                    elif "Tsundere" in source.traits:
+                        source.say(choice(["Like hell am I giving away!", "Hey, hands off!"]))
+                    elif "Imouto" in source.traits:
+                        source.say(choice(["No way! Go get your own!", "Don't be mean! It's mine!"]))
+                    elif "Bokukko" in source.traits:
+                        source.say(choice(["Hey, why do ya take my stuff?", "Not gonna happen. It's mine alone."]))
+                    elif "Kamidere" in source.traits:
+                        source.say(choice(["And what makes you think I will allow anyone to take my stuff?", "Refrain from disposing of my property unless I say otherwise."]))
+                    elif "Ane" in source.traits:
+                        source.say(choice(["Please, don't touch it. Thanks.", "Excuse me, I do not wish to part with it."]))
+                    else:
+                        source.say(choice(["Hey, I need this too, you know.", "Eh? Can't you just buy your own?"]))
                 return
         return True
                 
