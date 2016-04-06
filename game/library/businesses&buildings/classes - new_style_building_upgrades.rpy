@@ -577,32 +577,26 @@ init -5 python:
                 self.clean(cleaners, building)
                     
         def clean(self, cleaners, building):
-            """This runs the club as a SimPy process from start to the end.
-            
-            TEMP CODE!!!
+            """Cleaning the building...
             """
-            # See if there are any strip girls, that may be added to Resource at some point of the development:
+            dirt = building.get_dirt()
+            
+            flag_name = "jobs_cleaning_power"
+            for w in cleaners:
+                # Set their cleaning capabilities as temp flag:
+                value = int(round(1 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3))
+                w.set_flag(flag_name, value)
+            
+            counter = 0
             while 1:
-                yield self.env.timeout(self.time)
-                
-                # Handle the earnings:
-                # cash = self.res.count*len(self.active_workers)*randint(8, 12)
-                # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
-                
-                # Manage clients... We send clients on his/her way:
-                flag_name = "jobs_spent_in_{}".format(self.name)
-                for c in self.clients:
-                    c.mod_flag(flag_name, self.time)
-                    if c.flag(flag_name) >= self.time*2:
-                        c.set_flag("jobs_ready_to_leave")
-                
-                if config.debug:
-                    temp = "{}: Debug: {} places are currently in use in {} | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.name, self.earned_cash)
-                    temp = temp + " {} Workers are currently on duty in {}!".format(set_font_color(len(self.active_workers), "red"), self.name)
+                if config.debug and not counter % 2:
+                    # We run this once per 2 du and only for debug purposes.
+                    temp = "{}: Debug: " # {} places are currently in use in {} | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.name, self.earned_cash)
+                    temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(len(self.active_workers), "red"), building.name)
                     self.log(temp)
                     
-                if not self.all_workers and not self.active_workers:
-                    break
+                yield self.env.timeout(1)
+                counter = counter + 1
             
             
     class Garden(MainUpgrade):
