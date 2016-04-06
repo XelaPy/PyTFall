@@ -80,7 +80,7 @@ label interactions_hug:
         elif ct("Dandere"):
             $ rc("...Please don't get so close.", "I won't let you.", "<Steps back> No.")
         elif ct("Kuudere"):
-            $ rc("<Shrinks back> Don't get weird.", "I don't think so.", "Hand off.")
+            $ rc("<Shrinks back> Don't get weird.", "I don't think so.", "Hands off.")
         elif ct("Ane"):
             $ rc("[hero.name], I don't need comforting or anything....", "I'm sorry, I'm not really in the mood right now.", "Sorry, but I don't want to.", "Please, keep your distance.")
         elif ct("Kamidere"):
