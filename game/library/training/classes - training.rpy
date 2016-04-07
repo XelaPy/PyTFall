@@ -467,7 +467,8 @@ init -9 python:
             images = list()
             if p in os.listdir(content_path("schools")):
                 for file in os.listdir(content_path("schools/%s"%p)):
-                    images.append("schools/%s/%s"%(p, file))
+                    if file.endswith((".png", ".jpg")):
+                        images.append("schools/%s/%s"%(p, file))
             
             # Overwrite image so its used for rest of session
             if len(images) > 0: self.image = choice(images)
