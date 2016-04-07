@@ -582,21 +582,35 @@ init -5 python:
             dirt = building.get_dirt()
             
             flag_name = "jobs_cleaning_power"
+            
             for w in cleaners:
                 # Set their cleaning capabilities as temp flag:
                 value = int(round(1 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3))
                 w.set_flag(flag_name, value)
+
             
+            dirt_cleaned = 0
             counter = 0
             while 1:
                 if config.debug and not counter % 2:
+                    wlen = len(cleaners)
                     # We run this once per 2 du and only for debug purposes.
-                    temp = "{}: Debug: " # {} places are currently in use in {} | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.name, self.earned_cash)
-                    temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(len(self.active_workers), "red"), building.name)
+                    temp = "{}: Debug: "
+                    temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(wlen), "red", building.name)
+                    temp = temp + "Cleaned: {} dirt".format()
                     self.log(temp)
                     
                 yield self.env.timeout(1)
                 counter = counter + 1
+                
+        def convert_AP(self, w, workers):
+            # Converts AP to "Job Points":
+            flag_name = "jobs_cleaning_points"
+            if w.take_ap():
+                value = int(round(10 + self.worker.agility * 0.1))
+                w.set_flag(flag_name, value)
+            else:
+                workers.remove(w)
             
             
     class Garden(MainUpgrade):

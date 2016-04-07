@@ -1432,8 +1432,7 @@ init -9 python:
             if self.AP - value >= 0:
                 self.AP -= value
                 return True
-            else:
-                return False
+            return False
                 
         def auto_training(self, kind):
             """
