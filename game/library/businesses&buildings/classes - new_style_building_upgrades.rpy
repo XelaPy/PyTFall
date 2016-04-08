@@ -70,10 +70,6 @@ init -5 python:
             # Checks if there is a worker(s) availible.
             return False
             
-        def get_workers(self, amount=1):
-            # Finds a best match for workers and returns them...
-            return None
-            
         @property
         def all_workers(self):
             # This may be a poor way of doing it because different upgrades could have workers with the same job assigned to them.
@@ -84,7 +80,7 @@ init -5 python:
         def action_priority_workers(self, job):
             return list(i for i in self.instance.available_workers if i.action == job)
             
-        def get_workers(self, job, amount=1, match_to_client=None):
+        def get_workers(self, job, amount=1, match_to_client=None, priority=True, any=True):
             """Tries to find workers for any given job.
             
             - Tries to get a perfect match where action == job first.
@@ -99,21 +95,22 @@ init -5 python:
             anyw = list(i for i in self.all_workers if i not in priority)
             shuffle(anyw)
             while len(workers) < amount and (priority or anyw):
-                while priority and len(workers) < amount:
-                    if match_to_client:
-                        w = self.find_best_match(match_to_client, priority) # This is not ideal as we may end up checking a worker who will soon be removed...
-                    else:
-                        w = priority.pop()
-                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
-                        workers.append(w)
-                        
-                while anyw and len(workers) < amount:
-                    if match_to_client:
-                        w = self.find_best_match(match_to_client, anyw) # This is not ideal as we may end up checking a worker who will soon be removed...
-                    else:
-                        w = anyw.pop()
-                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
-                        workers.append(w)
+                if priority:
+                    while priority and len(workers) < amount:
+                        if match_to_client:
+                            w = self.find_best_match(match_to_client, priority) # This is not ideal as we may end up checking a worker who will soon be removed...
+                        else:
+                            w = priority.pop()
+                        if self.check_worker_capable(w) and self.check_worker_willing(w, job):
+                            workers.append(w)
+                if any: 
+                    while anyw and len(workers) < amount:
+                        if match_to_client:
+                            w = self.find_best_match(match_to_client, anyw) # This is not ideal as we may end up checking a worker who will soon be removed...
+                        else:
+                            w = anyw.pop()
+                        if self.check_worker_capable(w) and self.check_worker_willing(w, job):
+                            workers.append(w)
                         
             return workers
             
@@ -604,7 +601,7 @@ init -5 python:
                 counter = counter + 1
                 
         def convert_AP(self, w, workers):
-            # Converts AP to "Job Points":
+            # Converts AP to "Job Points": TODO: Make this a thing for the parent class???
             flag_name = "jobs_cleaning_points"
             if w.take_ap():
                 value = int(round(10 + self.worker.agility * 0.1))
