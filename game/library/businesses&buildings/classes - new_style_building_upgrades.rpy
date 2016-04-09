@@ -90,27 +90,27 @@ init -5 python:
             """
             workers = list()
             
-            priority = self.action_priority_workers(job)
-            shuffle(priority)
-            anyw = list(i for i in self.all_workers if i not in priority)
-            shuffle(anyw)
-            while len(workers) < amount and (priority or anyw):
-                if priority:
-                    while priority and len(workers) < amount:
-                        if match_to_client:
-                            w = self.find_best_match(match_to_client, priority) # This is not ideal as we may end up checking a worker who will soon be removed...
-                        else:
-                            w = priority.pop()
-                        if self.check_worker_capable(w) and self.check_worker_willing(w, job):
-                            workers.append(w)
-                if any: 
-                    while anyw and len(workers) < amount:
-                        if match_to_client:
-                            w = self.find_best_match(match_to_client, anyw) # This is not ideal as we may end up checking a worker who will soon be removed...
-                        else:
-                            w = anyw.pop()
-                        if self.check_worker_capable(w) and self.check_worker_willing(w, job):
-                            workers.append(w)
+            if priority:
+                priorityw = self.action_priority_workers(job)
+                shuffle(priorityw)
+                while len(workers) < amount and priorityw:
+                    if match_to_client:
+                        w = self.find_best_match(match_to_client, priorityw) # This is not ideal as we may end up checking a worker who will soon be removed...
+                    else:
+                        w = priorityw.pop()
+                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
+                        workers.append(w)
+                        
+            if any:
+                anyw = list(i for i in self.all_workers if i not in priority)
+                shuffle(anyw)
+                while len(workers) < amount and anyw:
+                    if match_to_client:
+                        w = self.find_best_match(match_to_client, anyw) # This is not ideal as we may end up checking a worker who will soon be removed...
+                    else:
+                        w = anyw.pop()
+                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
+                        workers.append(w)
                         
             return workers
             
@@ -554,10 +554,12 @@ init -5 python:
         def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(Cleaners, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
-        def request_cleaning(self, building=None, start_job=True):
+        def request_cleaning(self, building=None, start_job=True, priority=True, any=False):
             """This checks if there are idle workers willing/ready to clean in the building.
             
             This will also start the job by default.
+            Priority will call just the real cleaners.
+            Any will also add everyone else who might be willing to clean.
             """
             
             if not builidng:
@@ -565,7 +567,7 @@ init -5 python:
                 
             job = simple_jobs["CleaningJob"]
             # dirt = building.get_dirt()
-            cleaners = self.get_workers(simple_jobs["CleaningJob"], amount=10)
+            cleaners = self.get_workers(job, amount=10, priority=priority, any=any)
             
             if not cleaners:
                 return False # Noone to clean the building so we don't.
