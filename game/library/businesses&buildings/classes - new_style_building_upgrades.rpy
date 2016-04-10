@@ -596,13 +596,14 @@ init -5 python:
                         
                     if w in cleaners:
                         dirt_cleaned = dirt_cleaned + w.flag(power_flag_name)
+                        w.mod_flag("jobs_cleaning_points", -1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
                         
                 if config.debug and not counter % 2:
                     wlen = len(cleaners)
                     # We run this once per 2 du and only for debug purposes.
                     temp = "{}: Debug: "
                     temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(wlen), "red", building.name)
-                    temp = temp + "Cleaned: {} dirt".format()
+                    temp = temp + "Cleaned: {} dirt".format(dirt_cleaned)
                     self.log(temp)
                 
                 # We may be running this outside of SimPy...
@@ -614,7 +615,7 @@ init -5 python:
             # Converts AP to "Job Points": TODO: Make this a thing for the parent class???
             flag_name = "jobs_cleaning_points"
             if w.take_ap():
-                value = int(round(10 + self.worker.agility * 0.1))
+                value = int(round(7 + self.worker.agility * 0.1))
                 w.set_flag(flag_name, value)
             else:
                 workers.remove(w)
