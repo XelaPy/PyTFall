@@ -578,19 +578,25 @@ init -5 python:
         def clean(self, cleaners, building):
             """Cleaning the building...
             """
-            dirt = building.get_dirt()
             
-            flag_name = "jobs_cleaning_power"
-            
+            power_flag_name = "jobs_cleaning_power"
             for w in cleaners:
                 # Set their cleaning capabilities as temp flag:
                 value = int(round(1 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3))
-                w.set_flag(flag_name, value)
+                w.set_flag(power_flag_name, value)
 
-            
+            dirt = building.get_dirt()
             dirt_cleaned = 0
             counter = 0
             while 1:
+                flag_name = "jobs_cleaning_points"
+                for w in cleaners[:]:
+                    if not w.flag(flag_name) or w.flag(flag_name) <= 0:
+                        self.convert_AP(w, cleaners)
+                        
+                    if w in cleaners:
+                        dirt_cleaned = dirt_cleaned + w.flag(power_flag_name)
+                        
                 if config.debug and not counter % 2:
                     wlen = len(cleaners)
                     # We run this once per 2 du and only for debug purposes.
@@ -598,8 +604,10 @@ init -5 python:
                     temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(wlen), "red", building.name)
                     temp = temp + "Cleaned: {} dirt".format()
                     self.log(temp)
-                    
-                yield self.env.timeout(1)
+                
+                # We may be running this outside of SimPy...
+                if self.env:
+                    yield self.env.timeout(1)
                 counter = counter + 1
                 
         def convert_AP(self, w, workers):
