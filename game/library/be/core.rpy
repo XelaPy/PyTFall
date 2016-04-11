@@ -114,9 +114,6 @@ init -1 python: # Core classes:
                 if not self.logical:
                     renpy.hide_screen("pick_skill")
                     renpy.hide_screen("target_practice")
-                    
-                # if config.developer:
-                    # renpy.show_screen("be_test", ev) # If I need to know whats going on atm, I am using this in the dev mode...
                 
                 # End turn events, Death (Usually) is added here for example.
                 for event in self.end_turn_events[:]:
