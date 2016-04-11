@@ -1,4 +1,12 @@
 init python:
+    def list_files_test():
+        t = time.time()
+        c = 0
+        for fn in renpy.list_files():
+            if "content" in fn:
+                c = c + 1
+        return time.time() - t, c
+    
     def set_font_color(s, color):
         """
         @param: color: should be supplied as a string! Not as a variable!
