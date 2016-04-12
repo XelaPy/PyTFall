@@ -584,6 +584,12 @@ init -5 python:
                 # Set their cleaning capabilities as temp flag:
                 value = int(round(1 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3))
                 w.set_flag(power_flag_name, value)
+                
+            wlen = len(cleaners)
+            if self.env:
+                t = self.env.now
+                temp = "{}: {} Workers have started to clean {}!".format(set_font_color(wlen), "red", building.name)
+                self.log(temp)
 
             dirt = building.get_dirt()
             dirt_cleaned = 0
@@ -598,7 +604,7 @@ init -5 python:
                         dirt_cleaned = dirt_cleaned + w.flag(power_flag_name)
                         w.mod_flag("jobs_cleaning_points", -1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
                         
-                if config.debug and not counter % 2:
+                if config.debug and self.env and not counter % 2:
                     wlen = len(cleaners)
                     # We run this once per 2 du and only for debug purposes.
                     temp = "{}: Debug: "
@@ -606,6 +612,11 @@ init -5 python:
                     temp = temp + "Cleaned: {} dirt".format(dirt_cleaned)
                     self.log(temp)
                 
+                # Moar checks in the future:
+                if dirt - dirt_cleaned < 10:
+                    pass
+                # here we call the job?
+                    
                 # We may be running this outside of SimPy...
                 if self.env:
                     yield self.env.timeout(1)
