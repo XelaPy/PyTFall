@@ -308,11 +308,11 @@ init -1: # Images and Animations
         FilmStrip('content/gfx/be/filmstrips/ion_1.png', (192, 192), (5, 5), 0.04, loop=True)
         rotate 0
         linear 1.0 rotate 360
-    image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
-    image thunder_storm_3:
-        VBox(Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 0, 507, 125)),
-                  Transform(FilmStrip('content/gfx/be/filmstrips/just_frelling_die_2x_bm.png', (507, 253), (2, 17), 0.1, loop=False), crop=(0, 125, 507, 128), yzoom=3))
-    
+    image moz = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/moz_movie.webm", mask="content/gfx/be/webm/moz_mask.webm")
+    image moz_stretch:
+        VBox(Transform("moz", crop=(0, 0, 1199, 320)),
+                  Transform("moz", crop=(0, 320, 1199, 278), yzoom=2))
+        
     image poison_1 = FilmStrip('content/gfx/be/filmstrips/poison_1.png', (192, 192), (5, 6), 0.07, loop=False)
     image poison_2 = FilmStrip('content/gfx/be/filmstrips/poison_2.png', (192, 192), (5, 3), 0.1, loop=False)
     image poison_3 = FilmStrip('content/gfx/be/filmstrips/poison_3.png', (192, 192), (5, 5), 0.06, loop=False)
@@ -624,11 +624,10 @@ label load_battle_skills:
         ArealMagicalAttack("Might of Zeus", menu_pos=13, menuname="MoZ", attributes=['magic', 'electricity'], effect=70, multiplier=4, cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="The most powerful Lighting attack in the World!",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("thunder_storm_3", zoom=1.2), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
+                                        main_effect={"gfx": Transform("moz_stretch", zoom=.7), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 2.5},
-                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": 0.5},
-                                        bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 3.4})
+                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": 0.5})
         
         # Light:
         SimpleMagicalAttack(u"Holy", menu_pos=0, attributes=['magic', 'light'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["light_1", "default"], gfx='light_1', zoom=1.5, pause=1.25, target_damage_gfx=[0.1, "shake", 1.1], sfx="content/sfx/sound/be/light1.mp3", type="all_enemies",

@@ -1,5 +1,4 @@
-﻿
-label start:
+﻿label start:
     $ renpy.block_rollback()
     if config.developer:
         show screen debugTools
