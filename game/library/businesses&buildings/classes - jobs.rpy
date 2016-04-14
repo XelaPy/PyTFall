@@ -2060,8 +2060,11 @@
             self.workermod = {}
             self.locmod = {}
             
-        def __call__(self, char):
-            self.worker, self.loc = char, char.location
+        def __call__(self, cleaners_original, cleaners, building, dirt, dirt_cleaned):
+            self.all_cleaners = cleaners_original
+            self.cleaners = cleaners
+            self.loc = building
+            self.dirt, self.dirt_cleaned = dirt, dirt_cleaned
             self.clean()
             
         def is_valid_for(self, char):
@@ -2107,16 +2110,15 @@
             
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
-            # Stats checks
-            # cleffect = int(round(self.APr * (12 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3)))
-            
+            # I'll have to build a viewport here (maybe)... so all workers can be shown, no matter how many there were.
             self.img = self.worker.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
             
             # Stat mods
-            self.locmod['dirt'] -= cleffect
-            self.workermod['vitality'] -= randint(15, 25) * self.APr
-            self.workermod['exp'] += self.APr * randint(15, 25)
-            self.workermod['service'] += choice([0,0,1])
+            self.locmod['dirt'] -= self.dirt_cleaned # Check if this is still a thing...
+            self.workermod['vitality'] -= randint(15, 25) * self.APr # = ? What to do here?
+            self.workermod['exp'] += self.APr * randint(15, 25) # = ? What to do here?
+            self.workermod['service'] += choice([0, 0, 1]) # = ? What to do here?
+            # ... We prolly need to log how much dirt each individual worker is cleaning or how much wp is spent...
             
             self.apply_stats()
             self.finish_job()

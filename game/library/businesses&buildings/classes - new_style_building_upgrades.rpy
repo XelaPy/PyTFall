@@ -578,7 +578,7 @@ init -5 python:
         def clean(self, cleaners, building):
             """Cleaning the building...
             """
-            
+            cleaners_original = cleaners[:]
             power_flag_name = "jobs_cleaning_power"
             for w in cleaners:
                 # Set their cleaning capabilities as temp flag:
@@ -613,9 +613,8 @@ init -5 python:
                     self.log(temp)
                 
                 # Moar checks in the future:
-                if dirt - dirt_cleaned < 10:
-                    pass
-                # here we call the job?
+                if not cleaners or dirt - dirt_cleaned < 10:
+                    simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned)
                     
                 # We may be running this outside of SimPy...
                 if self.env:
