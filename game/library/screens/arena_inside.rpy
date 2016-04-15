@@ -590,30 +590,30 @@ init: # Main Screens:
         hbox:
             viewport:
                 at fade_in_out()
-                xysize 980, 720
+                xysize 995, 720
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
-                has hbox xysize 980, 720 box_wrap True spacing 2
+                has hbox xysize 995, 720 box_wrap True spacing 2
                 for creature, data in mobs.iteritems():
                     $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                     vbox:
                         frame:
-                            background Solid((100, 100, 200, 150))
+                            background "content/gfx/frame/bst.png"
                             xysize 230, 240
                             if not data["defeated"]:
                                 vbox:
                                     xalign .5
                                     xysize 230, 240
                                     spacing 2
-                                    text "???" xalign .5  style "TisaOTM"
+                                    text "???" xalign .5  style "TisaOTM" color gold
                                     add im.Twocolor(img, black, black) align .5, .6
                             else:
                                 vbox:
                                     xalign 0.5
                                     xysize 230, 240
                                     spacing 2
-                                    text creature xalign .5  style "TisaOTM"
+                                    text creature xalign .5  style "TisaOTM" color gold
                                     imagebutton:
                                         align .5, .6
                                         idle img
@@ -630,7 +630,8 @@ init: # Main Screens:
                 frame:
                     ypos 6
                     xysize 265, 708
-                    background Solid((100, 100, 200, 150))
+                    # background Solid((100, 100, 200, 150))
+                    background "content/gfx/frame/p_frame52.png"
                     has vbox
                     
                     text in_focus_mob xalign 0.5 style "arena_header_text"
