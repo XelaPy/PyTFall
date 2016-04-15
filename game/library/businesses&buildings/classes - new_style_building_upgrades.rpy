@@ -595,14 +595,17 @@ init -5 python:
             dirt_cleaned = 0
             counter = 0
             while 1:
+                # Job Points:
                 flag_name = "jobs_cleaning_points"
                 for w in cleaners[:]:
                     if not w.flag(flag_name) or w.flag(flag_name) <= 0:
                         self.convert_AP(w, cleaners)
                         
+                    # Cleaning itself:
                     if w in cleaners:
                         dirt_cleaned = dirt_cleaned + w.flag(power_flag_name)
                         w.mod_flag("jobs_cleaning_points", -1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
+                        w.mod_flag("job_cleaning_points_spent", 1) # So we know what to do during the job event buildup and stats application.
                         
                 if config.debug and self.env and not counter % 2:
                     wlen = len(cleaners)
