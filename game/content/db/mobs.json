@@ -3247,7 +3247,7 @@
     },
     {
         "name": "Black Butterfly",
-        "desc": "A widespread scavenger. Silent, fast and voracious, they almost completely replaced other scavenger like crows.",
+        "desc": "A widespread scavenger. Silent, fast and voracious, they almost completely replaced crows in most areas.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dh.png",
         "portrait": "content/npc/mobs/dh1.png",
