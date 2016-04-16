@@ -2728,7 +2728,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Monster", "Wind"],
+        "traits": ["Monster", "Air"],
         "attack_skills": [
             "BiteAttack"
         ],
