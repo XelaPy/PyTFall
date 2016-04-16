@@ -599,9 +599,9 @@ init: # Main Screens:
                     $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                     vbox:
                         frame:
-                            background "content/gfx/frame/bst.png"
+                            background ProportionalScale("content/gfx/frame/bst.png", 247, 249)
                             xysize 230, 240
-                            if not data["defeated"]:
+                            if data["defeated"]:
                                 vbox:
                                     xalign .5
                                     xysize 230, 240
@@ -621,17 +621,16 @@ init: # Main Screens:
                                         action SetScreenVariable("in_focus_mob", creature)
                         null height 2
                     
-            null width 2
+            null width 1
             
             if in_focus_mob:
                 $ data = mobs[in_focus_mob]
                 $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                 $ portrait = ProportionalScale(data["portrait"], 100, 100)
                 frame:
-                    ypos 6
-                    xysize 265, 708
-                    # background Solid((100, 100, 200, 150))
-                    background "content/gfx/frame/p_frame52.png"
+                    ypos 1
+                    background ProportionalScale("content/gfx/frame/p_frame5.png", 273, 883)
+                    xysize 263, 720
                     has vbox
                     
                     text in_focus_mob xalign 0.5 style "arena_header_text"
