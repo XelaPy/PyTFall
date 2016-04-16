@@ -460,8 +460,8 @@
                     xpos = xpos + 115
                     
                 c = Fixed(xysize=(xsize*2, 90))
-                atd = At(d), mm_clouds(xsize, 0, 25))
-                atd2 = At(d), mm_clouds(0, -xsize, 25))
+                atd = (At(d), mm_clouds(xsize, 0, 25))
+                atd2 = (At(d), mm_clouds(0, -xsize, 25))
                 c.add(atd)
                 c.add(atd2)
                 vp = Viewport(child=c, xysize=(xsize, 90))

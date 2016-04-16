@@ -1918,7 +1918,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral"],
         "attack_skills": [
             "SwordAttack"
         ],
@@ -1948,7 +1948,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral"],
         "attack_skills": [
             "RodAttack"
         ],
@@ -2068,7 +2068,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Ice Immunity"],
+        "traits": ["Monster", "Ice Immunity", "Neutral"],
         "attack_skills": [
             "AxeAttack"
         ],
@@ -2098,7 +2098,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Ice Immunity"],
+        "traits": ["Monster", "Ice Immunity", "Neutral"],
         "attack_skills": [
             "ClawAttack", "FistAttack"
         ],
@@ -2128,7 +2128,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Monster", "Ice Immunity"],
+        "traits": ["Monster", "Ice Immunity", "Neutral"],
         "attack_skills": [
             "AxeAttack"
         ],
@@ -2908,7 +2908,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Slime", "Magic Immunity"],
+        "traits": ["Slime", "Magic Immunity", "Neutral"],
         "attack_skills": [
             "SprayAttack"
         ],
@@ -3418,7 +3418,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Fire Immunity", "Ice Immunity"],
+        "traits": ["Monster", "Fire Immunity", "Ice Immunity", "Neutral"],
         "attack_skills": [
             "AxeAttack"
         ],
@@ -3448,7 +3448,7 @@
             "intelligence": 75
         },
         "skills": {},
-        "traits": ["Furry", "Air Immunity", "Ice Immunity"],
+        "traits": ["Furry", "Air Immunity", "Ice Immunity", "Neutral"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -3478,7 +3478,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity"],
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral"],
         "attack_skills": [
             "ThrowAttack"
         ],
@@ -3508,7 +3508,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity"],
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral"],
         "attack_skills": [
             "BiteAttack"
         ],
