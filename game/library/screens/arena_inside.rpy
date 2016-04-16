@@ -595,7 +595,11 @@ init: # Main Screens:
                 mousewheel True
                 scrollbars "vertical"
                 has hbox xysize 995, 720 box_wrap True spacing 2
-                for creature, data in mobs.iteritems():
+                
+                # Prepear the list of mobs:
+                $ _mobs = sorted(mobs.values(), key=itemgetter("min_lvl"))
+                for data in _mobs:
+                    $ creature = data["name"]
                     $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                     vbox:
                         frame:
