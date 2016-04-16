@@ -599,7 +599,7 @@ init: # Main Screens:
                     $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                     vbox:
                         frame:
-                            background ProportionalScale("content/gfx/frame/bst.png", 247, 249)
+                            background "content/gfx/frame/bst.png"
                             xysize 230, 240
                             if data["defeated"]:
                                 vbox:
