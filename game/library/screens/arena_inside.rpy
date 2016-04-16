@@ -628,9 +628,9 @@ init: # Main Screens:
                 $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                 $ portrait = ProportionalScale(data["portrait"], 100, 100)
                 frame:
-                    ypos 1
-                    background ProportionalScale("content/gfx/frame/p_frame5.png", 273, 883)
+                    background Frame("content/gfx/frame/p_frame5.png")
                     xysize 263, 720
+                    xoffset -5
                     has vbox
                     
                     text in_focus_mob xalign 0.5 style "arena_header_text"
@@ -650,7 +650,7 @@ init: # Main Screens:
                             frame:
                                 xpadding 4
                                 text t color crimson
-                        
+                    
                     null height 5
                     
                     # Stats:
