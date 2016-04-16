@@ -343,6 +343,7 @@ init -997: # Transforms:
         repeat
 
     transform mm_clouds(start, end, t):
+        subpixel True
         additive 1.0
         xpos start
         linear t xpos end

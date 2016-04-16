@@ -593,7 +593,7 @@ init -5 python:
 
             dirt = building.get_dirt()
             dirt_cleaned = 0
-            counter = 0
+            counter = 0 # Just to make sure lines are not printed every du to the general building report.
             while 1:
                 # Job Points:
                 flag_name = "jobs_cleaning_points"
