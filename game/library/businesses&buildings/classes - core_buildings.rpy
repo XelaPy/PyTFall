@@ -319,7 +319,6 @@ init -9 python:
             """
             if self.dirt > self.get_max_dirt():
                 return self.get_max_dirt()
-            
             else:
                 return self.dirt
         
@@ -746,6 +745,17 @@ init -9 python:
         def clients_dispatcher(self, end=40):
             """This method provides stream of clients to the building following it's own algorithm.
             """
+            
+            # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
+            if self.get_dirt() > self.get_max_dirt()*.9:
+                # In the future, find the appropriate building with cleaning upgrade, for now we simple assume that we have one (TODO:)
+                # And yet another TODO: ... getting to upgrade is really clumsy at the moment, maybe it would make sense to use dicts, instead of lists?
+                cleaners = None
+                for u in self._upgrades:
+                    if u.__class__ == Cleaners:
+                        cleaners = u
+                        break
+                u.request_cleaning(building=self, start_job=True, priority=True, any=False)
             
             # TODO: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:

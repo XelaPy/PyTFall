@@ -560,6 +560,8 @@ init -5 python:
             This will also start the job by default.
             Priority will call just the real cleaners.
             Any will also add everyone else who might be willing to clean.
+            
+            # TODO: This must start a new SimPy process!!!!
             """
             
             if not builidng:
@@ -572,8 +574,10 @@ init -5 python:
             if not cleaners:
                 return False # Noone to clean the building so we don't.
             else:
-                # Might require optimization so we don't send all the cleaners to one place!
-                self.clean(cleaners, building)
+                # Might require optimization so we don't send all the cleaners to once.
+                self.env.process(self.clean(cleaners, building))
+                return True
+                
                     
         def clean(self, cleaners, building):
             """Cleaning the building...
