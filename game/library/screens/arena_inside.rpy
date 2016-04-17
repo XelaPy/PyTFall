@@ -585,11 +585,7 @@ init: # Main Screens:
         default in_focus_mob = False
         
         add("content/gfx/bg/locations/arena_bestiary.jpg") at fade_in_out()
-        imagebutton:
-            pos (1233, 670)
-            idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-            hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
-            action Return(["show" "arena"])
+        
         hbox:
             viewport:
                 at fade_in_out()
@@ -817,6 +813,11 @@ init: # Main Screens:
                                             xysize (130, 22)
                                             yfill True
                                             text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
+                                            
+        imagebutton:
+            pos (1233, 670)
+            idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
+            hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Return(["show", "arena"])
           
     screen arena_aftermatch(w_team, l_team, condition):
