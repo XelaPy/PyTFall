@@ -697,6 +697,7 @@ init: # Main Screens:
                                     xalign 0.5
                                     text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80"
                                     text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD"
+                                    
                     null height 5
                     
                     # Bottom Viewport:
