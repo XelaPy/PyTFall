@@ -341,7 +341,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/l.png",
         "portrait": "content/npc/mobs/l1.png",
-        "race": "Orc",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 20,
         "basetraits": [
@@ -521,7 +521,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/r.png",
         "portrait": "content/npc/mobs/r1.png",
-        "race": "Werewolf",
+        "race": "Monster",
         "locations": [],
         "min_lvl": 40,
         "basetraits": [
@@ -551,7 +551,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/s.png",
         "portrait": "content/npc/mobs/s1.png",
-        "race": "Werewolf",
+        "race": "Undead Monster",
         "locations": [],
         "min_lvl": 45,
         "basetraits": [
@@ -671,7 +671,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/w.png",
         "portrait": "content/npc/mobs/w1.png",
-        "race": "Goblin",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 1,
         "basetraits": [
@@ -701,7 +701,7 @@
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/x.png",
         "portrait": "content/npc/mobs/x1.png",
-        "race": "Goblin",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 2,
         "basetraits": [
@@ -731,7 +731,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/y.png",
         "portrait": "content/npc/mobs/y1.png",
-        "race": "Goblin",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 3,
         "basetraits": [
@@ -761,7 +761,7 @@
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/z.png",
         "portrait": "content/npc/mobs/z1.png",
-        "race": "Goblin",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 4,
         "basetraits": [
@@ -791,7 +791,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/aa.png",
         "portrait": "content/npc/mobs/aa1.png",
-        "race": "Ogre",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 40,
         "basetraits": [
@@ -821,7 +821,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ab.png",
         "portrait": "content/npc/mobs/ab1.png",
-        "race": "Ogre",
+        "race": "Goblinoid",
         "locations": [],
         "min_lvl": 45,
         "basetraits": [
@@ -1087,7 +1087,7 @@
     },
     {
         "name": "Stone Eater",
-        "desc": "A rare eating stones creature with stone skin and diamond teeth.",
+        "desc": "A rare stones eating creature with granitic skin and diamond teeth.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/ak.png",
         "portrait": "content/npc/mobs/ak1.png",
@@ -1147,7 +1147,7 @@
     },
     {
         "name": "Archangel",
-        "desc": "A high-ranked messenger of the heavens. They coordinate the actions of the angels and personally involved only in very important battles.",
+        "desc": "A high-ranked messenger of the heavens. They coordinate the actions of angels and personally involved only in very important battles.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/am.png",
         "portrait": "content/npc/mobs/am1.png",
@@ -1237,7 +1237,7 @@
     },
     {
         "name": "Chimera",
-        "desc": "A monstrous creature with parts from multiple animals.",
+        "desc": "A monstrous creature consisting of parts of multiple animals.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ap.png",
         "portrait": "content/npc/mobs/ap1.png",
@@ -1357,7 +1357,7 @@
     },
     {
         "name": "Giant Spider",
-        "desc": "A giant poisonous spider. They say his poison can kill a small city.",
+        "desc": "A giant poisonous spider. They say its poison can kill a small city.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/at.png",
         "portrait": "content/npc/mobs/at1.png",
@@ -2167,7 +2167,7 @@
     },
     {
         "name": "Ice Golem",
-        "desc": "An animated by magic humanoid mass of ice.",
+        "desc": "Animated by magic humanoid mass of ice.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bu.png",
         "portrait": "content/npc/mobs/bu1.png",
@@ -2561,7 +2561,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ck.png",
         "portrait": "content/npc/mobs/ck1.png",
-        "race": "???",
+        "race": "Stone..?",
         "locations": [],
         "min_lvl": 1,
         "basetraits": [

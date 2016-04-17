@@ -367,12 +367,11 @@ screen char_profile():
                         frame:
                             xpos 20
                             text " [char.origin] " color "#43CD80" size 22
-                        if char.full_race != str(char.race):
-                            null height 8
-                            label "Full Race:" xpos 5
-                            frame:
-                                xpos 20
-                                text " [char.full_race] " color blue size 22
+                        null height 8
+                        label "Full Race:" xpos 5
+                        frame:
+                            xpos 20
+                            text " [char.full_race] " color blue size 22
                             
                     null height 3
                     
