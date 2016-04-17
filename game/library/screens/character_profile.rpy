@@ -230,6 +230,19 @@ screen char_profile():
             frame:
                 xanchor -0.14
                 xysize (250, 50)
+                xpos 30
+                $ trait = char.personality
+                $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 80, 80)
+                imagebutton:
+                    align (.0, .0)
+                    pos (-40, 20)
+                    at pers_effect()
+                    xcenter 75
+                    ycenter 60
+                    idle img
+                    hover img
+                    hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
+                    action NullAction()
                 background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
                 label "{color=[gold]}[char.name]":
                     text_color ivory text_outlines [(2, "#424242", 0, 0)]
@@ -349,31 +362,43 @@ screen char_profile():
                 if stats_display == "main":
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xsize 300
                         xpadding 12
                         ypadding 12
                         xmargin 0
                         ymargin 0
                         has vbox spacing 1
-                        label "Full Name:" xpos 5
                         frame:
-                            xpos 20
-                            textbutton (u"{color=[gold]}[char.fullname]"):
-                                background None
-                                action Show("char_rename", char=char)
-                                hovered tt.action("Rename {}!".format(char.name))
-                        null height 8
-                        label "Origin:" xpos 5
+                            xalign 0.0
+                            yfill True
+                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                            xysize (145, 30)
+                            text (u"{color=#CDAD00} Full name") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
                         frame:
-                            xpos 20
-                            text " [char.origin] " color "#43CD80" size 22
-                        null height 8
-                        label "Full Race:" xpos 5
+                            xpadding 10
+                            has vbox box_wrap True xmaximum 250
+                            xalign .0
+                            ysize 25
+                            text "[char.fullname]" xalign .0 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
+                        null height 5
                         frame:
-                            xpos 20
-                            text " [char.full_race] " color blue size 22
-                            
-                    null height 3
+                            xalign 0.0
+                            yfill True
+                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                            xysize (145, 30)
+                            text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                        vbox:
+                            frame:
+                                xpadding 10
+                                has vbox box_wrap True xmaximum 250
+                                xalign .0
+                                ysize 25
+                                text "[char.full_race]" xalign .0 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
+                            null height 1
+                            frame:
+                                xysize (100, 100)
+                                $ trait = char.race
+                                $ img = ProportionalScale(trait.icon, 100, 100)
+                                add img
                     
                     # Basetraits:
                     vbox:
@@ -387,31 +412,7 @@ screen char_profile():
                                 textbutton "[trait]" action NullAction() hovered tt.action(trait.desc) align temp
                                 
                     null height 4
-                    
-                    # Personality/Race
-                    fixed:
-                        xysize (300, 120)
-                        $ trait = char.personality
-                        $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 100, 100)
-                        imagebutton:
-                            at pers_effect()
-                            xcenter 75
-                            ycenter 60
-                            idle img
-                            hover img
-                            hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
-                            action NullAction()
 
-                        $ trait = char.race
-                        $ img = ProportionalScale(trait.icon, 100, 100)
-                        imagebutton:
-                            at pers_effect()
-                            xcenter 225
-                            ycenter 60
-                            idle img
-                            hover img
-                            hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
-                            action NullAction()
                     
                 elif stats_display == "stats":
                     frame:

@@ -585,11 +585,6 @@ init: # Main Screens:
         default in_focus_mob = False
         
         add("content/gfx/bg/locations/arena_bestiary.jpg") at fade_in_out()
-        imagebutton:
-            pos (1233, 670)
-            idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-            hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
-            action Return(["show" "arena"])
         hbox:
             viewport:
                 at fade_in_out()
@@ -608,7 +603,7 @@ init: # Main Screens:
                         frame:
                             background "content/gfx/frame/bst.png"
                             xysize 230, 240
-                            if not data["defeated"]:
+                            if not data["defeated"]: # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
                                 vbox:
                                     xalign .5
                                     xysize 230, 240
@@ -679,7 +674,7 @@ init: # Main Screens:
                             $ x = 0
                             $ els_args = [Transform(i, crop=(100/len(els_transforms)*els_transforms.index(i), 0, 100/len(els), 100), subpixel=True, xpos=(x + 100/len(els)*els_transforms.index(i))) for i in els_transforms]
                             $ f = Fixed(*els_args, xysize=(100, 100))
-                            add f align (0.5, 0.5) #xcenter 195 ycenter 58 
+                            add f align (0.5, 0.5) 
                             add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (0.5, 0.5)
                         vbox:
                             style_group "proper_stats"
@@ -756,7 +751,7 @@ init: # Main Screens:
                                     frame:
                                         xalign 0.5
                                         xsize 261
-                                        text (data["desc"]) size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
+                                        text (data["desc"]) size 14 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
                             else:
                                 frame:
                                     xalign 0.5
@@ -816,7 +811,11 @@ init: # Main Screens:
                                             xysize (130, 22)
                                             yfill True
                                             text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
-          
+        imagebutton:
+            pos (1233, 670)
+            idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
+            hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
+            action Return(["show", "arena"])
     screen arena_aftermatch(w_team, l_team, condition):
         modal True
         zorder 2
