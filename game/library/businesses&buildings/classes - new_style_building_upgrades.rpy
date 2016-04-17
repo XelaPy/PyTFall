@@ -35,7 +35,7 @@ init -5 python:
         
         def get_client_count(self):
             # Returns amount of clients we expect to come here.
-            return 2 + self._rep*0.01*self.all_workers
+            return 2 + int(self._rep*0.01*len(self.all_workers))
             
         @property
         def job(self):
@@ -547,11 +547,16 @@ init -5 python:
             
             
     class Cleaners(OnDemandUpgrade):
+        COMPATIBILITY = []
+        MATERIALS = {"Wood": 2, "Bricks": 2}
+        COST = 500
+        ID = "Cleaners"
+        IMG = "content/buildings/upgrades/cleaners.jpg"
         """This will be the first upgrade that will take care clearing some workload.
         
         This will have to work differently from any other upgrade... it prolly should have a request method that activates a cleaning routine and searches for willing workers.
         """
-        def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+        def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img="content/buildings/upgrades/cleaners.jpg", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(Cleaners, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
         def request_cleaning(self, building=None, start_job=True, priority=True, any=False):
