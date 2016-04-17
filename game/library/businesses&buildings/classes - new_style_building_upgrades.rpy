@@ -470,7 +470,7 @@ init -5 python:
             self.capacity = in_slots
             self.type = "on_demand_service"
             self.jobs = set()
-            self.workable = True
+            self.workable = False
             
             # SimPy and etc follows:
             self.res = None # Restored before every job...
@@ -558,6 +558,7 @@ init -5 python:
         """
         def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img="content/buildings/upgrades/cleaners.jpg", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(Cleaners, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            self.jobs = set([simple_jobs["Cleaning"]])
             
         def request_cleaning(self, building=None, start_job=True, priority=True, any=False):
             """This checks if there are idle workers willing/ready to clean in the building.
@@ -569,10 +570,10 @@ init -5 python:
             # TODO: This must start a new SimPy process!!!!
             """
             
-            if not builidng:
+            if not building:
                 building = self
                 
-            job = simple_jobs["CleaningJob"]
+            job = simple_jobs["Cleaning"]
             # dirt = building.get_dirt()
             cleaners = self.get_workers(job, amount=10, priority=priority, any=any)
             
@@ -591,19 +592,19 @@ init -5 python:
             power_flag_name = "jobs_cleaning_power"
             for w in cleaners:
                 # Set their cleaning capabilities as temp flag:
-                value = int(round(1 + self.worker.serviceskill * 0.025 + self.worker.agility * 0.3))
+                value = int(round(1 + w.serviceskill * 0.025 + w.agility * 0.3))
                 w.set_flag(power_flag_name, value)
                 
             wlen = len(cleaners)
             if self.env:
                 t = self.env.now
-                temp = "{}: {} Workers have started to clean {}!".format(set_font_color(wlen), "red", building.name)
+                temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
                 self.log(temp)
 
             dirt = building.get_dirt()
             dirt_cleaned = 0
             counter = 0 # Just to make sure lines are not printed every du to the general building report.
-            while 1:
+            while cleaners and dirt - dirt_cleaned >= 10:
                 # Job Points:
                 flag_name = "jobs_cleaning_points"
                 for w in cleaners[:]:
@@ -619,25 +620,28 @@ init -5 python:
                 if config.debug and self.env and not counter % 2:
                     wlen = len(cleaners)
                     # We run this once per 2 du and only for debug purposes.
-                    temp = "{}: Debug: "
-                    temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(wlen), "red", building.name)
-                    temp = temp + "Cleaned: {} dirt".format(dirt_cleaned)
+                    temp = "{}: Debug: ".format(self.env.now)
+                    temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + set_font_color(" Cleaned: {} dirt".format(dirt_cleaned), "blue")
                     self.log(temp)
-                
-                # Moar checks in the future:
-                if not cleaners or dirt - dirt_cleaned < 10:
-                    simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned)
                     
                 # We may be running this outside of SimPy...
                 if self.env:
                     yield self.env.timeout(1)
                 counter = counter + 1
                 
+            temp = "{}: Cleaning process of {} is now finished!".format(self.env.now, building.name)
+            temp = set_font_color(temp, "red")
+            self.log(temp)
+            # Once the loop is broken, we build the report(s):
+            for i in cleaners_original:
+                simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned, i)
+                
         def convert_AP(self, w, workers):
             # Converts AP to "Job Points": TODO: Make this a thing for the parent class???
             flag_name = "jobs_cleaning_points"
-            if w.take_ap():
-                value = int(round(7 + self.worker.agility * 0.1))
+            if w.take_ap(1):
+                value = int(round(7 + w.agility * 0.1))
                 w.set_flag(flag_name, value)
             else:
                 workers.remove(w)

@@ -309,9 +309,11 @@ init -9 python:
         def get_max_dirt(self):
             """
             The total amount of dirt this building can have.
+            
+            Simplefied for time time being...
             """
-            rooms = float(self.rooms) / self.maxrooms
-            return int(self.sq_meters*0.8*rooms)
+            # rooms = float(self.rooms) / self.maxrooms
+            return 1000 # int(self.sq_meters*0.8*rooms)
         
         def get_dirt(self):
             """
@@ -748,6 +750,10 @@ init -9 python:
             
             # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
             if self.get_dirt() > self.get_max_dirt()*.9:
+                temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
+                temp = set_font_color(temp, "red")
+                self.log(temp)
+                
                 # In the future, find the appropriate building with cleaning upgrade, for now we simple assume that we have one (TODO:)
                 # And yet another TODO: ... getting to upgrade is really clumsy at the moment, maybe it would make sense to use dicts, instead of lists?
                 cleaners = None
@@ -755,12 +761,11 @@ init -9 python:
                     if u.__class__ == Cleaners:
                         cleaners = u
                         break
-                u.request_cleaning(building=self, start_job=True, priority=True, any=False)
+                cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
             
             # TODO: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:
                 # Trigger all public businesses:
-                # if u.type == "public_service":
                 self.env.process(u.business_control())
                 
                 if u.has_workers():

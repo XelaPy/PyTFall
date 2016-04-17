@@ -512,7 +512,7 @@
             # Logs workers stat/skill to a dict:
             self.workermod[s] = self.workermod.get(s, 0) + value
             
-        def logloc(self, s, value):
+        def logloc(self, s, value, worker=None):
             # Logs a stat for the building:
             self.locmod[s] = self.workermod.get(s, 0) + value
     ####################### Whore Job  ############################
@@ -2087,7 +2087,8 @@
             self.workermod = {}
             self.locmod = {}
             
-        def __call__(self, cleaners_original, cleaners, building, dirt, dirt_cleaned):
+        def __call__(self, cleaners_original, cleaners, building, dirt, dirt_cleaned, worker=None):
+            self.worker = worker # To be removed later.
             self.all_cleaners = cleaners_original
             self.cleaners = cleaners
             self.loc = building
@@ -2136,18 +2137,24 @@
             
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
-            viewport = Viewport()
-            for c in self.cleaners:
-                # I'll have to build a viewport here (maybe)... so all workers can be shown, no matter how many there were.
-                self.img = self.worker.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
+            # viewport = Viewport()
+            # for c in self.cleaners:
+                # # I'll have to build a viewport here (maybe)... so all workers can be shown, no matter how many there were.
+                # self.img = c.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
+            
+            self.img = self.worker.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
+            
+            self.txt = ["{} cleaned {} today!".format(self.worker.name, self.loc.name)]
             
             # Stat mods
             self.logloc('dirt', -self.dirt_cleaned)  # Check if this is still a thing...
-            self.workermod['vitality'] -= randint(15, 25) * self.APr # = ? What to do here?
-            self.workermod['exp'] += self.APr * randint(15, 25) # = ? What to do here?
-            self.workermod['service'] += choice([0, 0, 1]) # = ? What to do here?
+            self.loggs('vitality', -randint(15, 25))  # = ? What to do here?
+            self.loggs('exp', randint(15, 25)) # = ? What to do here?
+            if dice(33):
+                self.loggs('service', 1) # = ? What to do here?
             # ... We prolly need to log how much dirt each individual worker is cleaning or how much wp is spent...
-            
+            self.event_type = "jobreport"
+            # self.kind = self.id
             self.apply_stats()
             self.finish_job()
     
