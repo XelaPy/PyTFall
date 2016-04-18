@@ -325,6 +325,9 @@
             self.id = "Base Job"
             self.type = None
             
+            # New teams:
+            self.team = None
+            
             self.workermod = {} # Logging all stats/skills changed during the job.
             self.locmod = {}
             
@@ -335,7 +338,7 @@
             self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
             
             self.txt = list()
-            self.img = ""
+            self.img = Null()
             self.flag_red = False
             self.flag_green = False
             
@@ -356,10 +359,11 @@
                     self.worker.del_flag(f)
             self.worker = None
             self.loc = None
+            self.team = None
             self.client = None
             self.event_type = None
             self.txt = list()
-            self.img = ""
+            self.img = Null()
             
             self.flag_red = False
             self.flag_green = False
@@ -410,6 +414,7 @@
                                       img=self.img,
                                       txt=self.txt,
                                       char=self.worker,
+                                      team=self.team,
                                       charmod=self.workermod,
                                       loc=self.loc,
                                       locmod=self.locmod,
@@ -530,7 +535,7 @@
             If worker argument is provided, we assume this reports a team effort and build the report accordingly.
             """
             if worker:
-                if worker in self.workermod:
+                if not worker in self.workermod:
                     self.workermod[worker] = dict()
                 self.workermod[worker][s] = self.workermod.get(s, 0) + value
             else:
@@ -2162,11 +2167,11 @@
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
             self.img = Fixed(xysize=(740, 685))
-            # self.img.add(Transform(self.loc.img, size=(740, 685)))
-            vp = self.vp_or_fixed(self.all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (740, 685), "type": "any"})
+            self.img.add(Transform(self.loc.img, size=(740, 685)))
+            vp = self.vp_or_fixed(self.all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (90, 90), "type": "any"})
             self.img.add(vp)
             
-            self.team = self.cleaners
+            self.team = self.all_cleaners
             
             self.txt = ["{} cleaned {} today!".format(", ".join([w.nickname for w in self.all_cleaners]), self.loc.name)]
             

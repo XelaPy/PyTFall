@@ -313,23 +313,27 @@ init -9 python:
         The load_image method will always return the same image. If you want to
         do another search, you have to set the 'img' attribute to 'None'.
         """
-        def __init__(self, type='', txt='', img='', char=None, charmod={}, loc=None, locmod={}, red_flag=False, green_flag=False, team=None, team_charmod={}, **kwargs):
+        def __init__(self, type='', txt='', img='', char=None, charmod={}, loc=None, locmod={}, red_flag=False, green_flag=False, team=None, **kwargs):
             # describes the type of event
             self.type = type
             # the description of the event
             self.txt = txt
             # information on the event image or a displayable
             self.img = img
+            # the character involved in the event (optional)
+            self.char = char
             # Team, this overrides char property in the ND reports and is used for team events:
             self.team = team
             # Same as above, just for stats:
-            self.team_charmod = team_charmod.copy()
-            # the character involved in the event (optional)
-            self.char = char
+            if team:
+                self.team_charmod = charmod.copy()
+                self.charmod = None
+            else:
+                # stat changes of a char (optional)
+                self.charmod = charmod.copy()
+                self.team_charmod = None
             # the location of the event (optional)
             self.loc = loc
-            # stat changes of that girl (optional)
-            self.charmod = charmod.copy()
             # stat changes of that location (optional)
             self.locmod = locmod.copy()
             
