@@ -508,11 +508,19 @@
                 else:
                     raise Exception("Stat: {} does not exits for Brothels".format(stat))
         
-        def loggs(self, s, value):
-            # Logs workers stat/skill to a dict:
-            self.workermod[s] = self.workermod.get(s, 0) + value
+        def loggs(self, s, value, worker=None):
+            """Logs workers stat/skill to a dict:
             
-        def logloc(self, s, value, worker=None):
+            If worker argument is provided, we assume this reports a team effort and build the report accordingly.
+            """
+            if worker:
+                if worker in self.workermod:
+                    self.workermod[worker] = dict()
+                self.workermod[worker][s] = self.workermod.get(s, 0) + value
+            else:
+                self.workermod[s] = self.workermod.get(s, 0) + value
+            
+        def logloc(self, s, value):
             # Logs a stat for the building:
             self.locmod[s] = self.workermod.get(s, 0) + value
     ####################### Whore Job  ############################

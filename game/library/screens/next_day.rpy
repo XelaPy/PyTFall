@@ -1395,11 +1395,10 @@ screen next_day():
                                                 xysize 130, 25
                                                 text (u"%s:"%str(key).capitalize()) align .02, .5
                                                 if event.charmod[key] > 0:
-                                                    label (u"{color=[lawngreen]}%d"%event.charmod[key]) align (.98, 0.5)
+                                                    label (u"{color=[lawngreen]}%d"%event.charmod[key]) align .98, .5
                                                 else:
-                                                    label (u"{color=[red]}%d"%event.charmod[key]) align (.98, 0.5)
-                                                        
-            
+                                                    label (u"{color=[red]}%d"%event.charmod[key]) align .98, 05
+                                                    
             # Buildings Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
@@ -1431,7 +1430,7 @@ screen next_day():
                                             else:
                                                 $ hkey = key
                                             text (u"{size=-1} %s:"%hkey.capitalize()) align .02, .5
-                                            label (u"{size=-5}%d"%event.locmod[key]) align (.98, 0.5)
+                                            label (u"{size=-5}%d"%event.locmod[key]) align .98, .5
                 
         # Text Frame + Stats Reports Mousearea:
         frame background Frame("content/gfx/frame/p_frame5.png", 15, 15):
