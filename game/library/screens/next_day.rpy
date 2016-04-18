@@ -1324,19 +1324,17 @@ screen next_day():
         
         # Stat Frames:
         showif report_stats:
-            # Girls Stats Frame:
+            # Chars/Teams Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
                              so2=(0, 0), eo2=(136, 0), t2=0.3)
                 pos (690, -2)
                 viewport id "nextdaygsf_vp":
                     xysize (136, 400)
-                    # draggable True
-                    # mousewheel True
-                    # if event.type in ["jobreport", "schoolreport", "girlndreport", "mcndreport", "exploration_report"]: # <-- Not usefull???
+                    child_size 1000, 400
                     if event.charmod:    
                         vbox:
-                            null height 25
+                            null height 15
                             frame:
                                 style_group "content"
                                 xalign 0.5
@@ -1344,21 +1342,62 @@ screen next_day():
                                 background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
                                 label (u"Char Stats:") text_size 18 text_color ivory align (0.5, 0.5)
                             null height 10
-                            vbox:
-                                spacing -7
-                                style_group "stats"
-                                xmaximum 140
-                                for key in event.charmod:
-                                    if event.charmod[key] != 0:
-                                        vbox:
-                                            frame:
-                                                background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.7), 5, 5)
+                            
+                            # We'll use a single vbox for stats in case of one char and the usual slideshow thing for teams: 
+                            if event.team_charmod:
+                                $ xsize = len(event.team)*136
+                                for i in range(1):
+                                    fixed:
+                                        xsize xsize
+                                        if not i:
+                                            at mm_clouds(xsize, 0, 25)
+                                        else:
+                                            at mm_clouds(0, -xsize, 25)
+                                        $ xpos = 0
+                                        for m in event.team_charmod:
+                                            vbox:
+                                                style_group "proper_stats"
                                                 xsize 136
-                                                text (u"{size=-1}%s:"%str(key).capitalize()) pos (3, -4)
+                                                xpos xpos
+                                                spacing 1
+                                                for val in m.itervalues():
+                                                    if isinstance(val, PytCharacter):
+                                                        frame:
+                                                            xysize 132, 25
+                                                            xalign .5
+                                                            if len(val.nickname) > 20:
+                                                                $ size = 16
+                                                            else:
+                                                                $ size = 20
+                                                            text val.nickname align .5, .5 style "TisaOTM" size size
+                                                null height 4
+                                                for key in m:
+                                                    if m[key] != 0 and not isinstance(m[key], PytCharacter):
+                                                        frame:
+                                                            xalign .5
+                                                            xysize 130, 25
+                                                            text (u"%s:"%str(key).capitalize()) align .02, .5
+                                                            if m[key] > 0:
+                                                                label (u"{color=[lawngreen]}%d"%m[key]) align .98, .5
+                                                            else:
+                                                                label (u"{color=[red]}%d"%m[key]) align .98, .5
+                                            $ xpos = xpos + 136
+                            # Normal, one worker report case:
+                            else:
+                                vbox:
+                                    style_group "proper_stats"
+                                    xsize 136
+                                    spacing 1
+                                    for key in event.charmod:
+                                        if event.charmod[key] != 0:
+                                            frame:
+                                                xalign .5
+                                                xysize 130, 25
+                                                text (u"%s:"%str(key).capitalize()) align .02, .5
                                                 if event.charmod[key] > 0:
-                                                    label (u"{size=-5}{color=[lawngreen]}%d"%event.charmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                                    label (u"{color=[lawngreen]}%d"%event.charmod[key]) align (.98, 0.5)
                                                 else:
-                                                    label (u"{size=-5}{color=[red]}%d"%event.charmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                                    label (u"{color=[red]}%d"%event.charmod[key]) align (.98, 0.5)
                                                         
             
             # Buildings Stats Frame:
@@ -1368,8 +1407,6 @@ screen next_day():
                 pos (690, 406)
                 viewport id "nextdaybsf_vp":
                     xysize (136, 305)
-                    #draggable False
-                    #mousewheel True
                     if event.type=="jobreport":
                         vbox:
                             null height 5
@@ -1381,21 +1418,20 @@ screen next_day():
                                 label (u"Building Stats:") text_size 18 text_color ivory align(0.5, 0.5)
                             null height 10
                             vbox:
-                                spacing -7
-                                style_group "stats"
-                                xmaximum 140
+                                style_group "proper_stats"
+                                xsize 136
+                                spacing 1
                                 for key in event.locmod:
                                     if event.locmod[key] != 0:
-                                        vbox:
-                                            frame:
-                                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.7), 5, 5)
-                                                xsize 136
-                                                if key == "reputation":
-                                                    $ hkey = "Rep"
-                                                else:
-                                                    $ hkey = key
-                                                text (u"{size=-1} %s:"%hkey.capitalize()) pos (1, -4)
-                                                label (u"{size=-5}%d"%event.locmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                        frame:
+                                            xalign .5
+                                            xysize 130, 25
+                                            if key == "reputation":
+                                                $ hkey = "Rep"
+                                            else:
+                                                $ hkey = key
+                                            text (u"{size=-1} %s:"%hkey.capitalize()) align .02, .5
+                                            label (u"{size=-5}%d"%event.locmod[key]) align (.98, 0.5)
                 
         # Text Frame + Stats Reports Mousearea:
         frame background Frame("content/gfx/frame/p_frame5.png", 15, 15):
