@@ -225,12 +225,8 @@ screen char_profile():
             style_group "content"
             has vbox
             null height 7
-            # Base frame ====================================> 321/330 = 122/x
+            # Base frame ====================================> 
             fixed:
-                align (.0, .0)
-                xysize (330, 126)
-                add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126))
-                
                 $ trait = char.personality
                 $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
                 imagebutton:
@@ -241,6 +237,10 @@ screen char_profile():
                     hover img
                     hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
                     action NullAction()
+                align (.0, .0)
+                xysize (330, 126)
+                add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126))
+
                     
                 label "[char.name]":
                     text_color gold
