@@ -1345,7 +1345,7 @@ screen next_day():
                             
                             # We'll use a single vbox for stats in case of one char and the usual slideshow thing for teams: 
                             if event.team_charmod:
-                                $ xsize = len(event.team)*136
+                                $ xsize = len(event.team_charmod)*136
                                 for i in range(1):
                                     fixed:
                                         xsize xsize
@@ -1354,33 +1354,31 @@ screen next_day():
                                         else:
                                             at mm_clouds(0, -xsize, 25)
                                         $ xpos = 0
-                                        for m in event.team_charmod:
+                                        for w, stats in event.team_charmod.iteritems():
                                             vbox:
                                                 style_group "proper_stats"
                                                 xsize 136
                                                 xpos xpos
                                                 spacing 1
-                                                for val in m.itervalues():
-                                                    if isinstance(val, PytCharacter):
-                                                        frame:
-                                                            xysize 132, 25
-                                                            xalign .5
-                                                            if len(val.nickname) > 20:
-                                                                $ size = 16
-                                                            else:
-                                                                $ size = 20
-                                                            text val.nickname align .5, .5 style "TisaOTM" size size
+                                                frame:
+                                                    xysize 132, 25
+                                                    xalign .5
+                                                    if len(w.nickname) > 20:
+                                                        $ size = 16
+                                                    else:
+                                                        $ size = 20
+                                                    text w.nickname align .5, .5 style "TisaOTM" size size
                                                 null height 4
-                                                for key in m:
-                                                    if m[key] != 0 and not isinstance(m[key], PytCharacter):
+                                                for key in stats:
+                                                    if stats[key] != 0:
                                                         frame:
                                                             xalign .5
                                                             xysize 130, 25
                                                             text (u"%s:"%str(key).capitalize()) align .02, .5
-                                                            if m[key] > 0:
-                                                                label (u"{color=[lawngreen]}%d"%m[key]) align .98, .5
+                                                            if stats[key] > 0:
+                                                                label (u"{color=[lawngreen]}%d"%stats[key]) align .98, .5
                                                             else:
-                                                                label (u"{color=[red]}%d"%m[key]) align .98, .5
+                                                                label (u"{color=[red]}%d"%stats[key]) align .98, .5
                                             $ xpos = xpos + 136
                             # Normal, one worker report case:
                             else:
