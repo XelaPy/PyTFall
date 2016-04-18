@@ -226,23 +226,29 @@ screen char_profile():
             has vbox
             null height 7
             # Base frame ====================================> 321/330 = 122/x
-            frame:
+            fixed:
                 align (.0, .0)
                 xysize (330, 126)
-                maximum (330, 126)
-                background Frame(Transform("content/gfx/frame/base_frame.png", alpha=0.98), 330, 126)
-                hbox:
-                    $ trait = char.personality
-                    $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
-                    imagebutton:
-                        align (.5, .5)
-                        at pers_effect()
-                        xcenter 54
-                        ycenter 59
-                        idle img
-                        hover img
-                        hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
-                        action NullAction()
+                add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126))
+                
+                $ trait = char.personality
+                $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
+                imagebutton:
+                    at pers_effect()
+                    xcenter 60
+                    ycenter 65
+                    idle img
+                    hover img
+                    hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
+                    action NullAction()
+                    
+                label "[char.name]":
+                    text_color gold
+                    text_outlines [(2, "#424242", 0, 0)]
+                    pos 118, 47
+                    anchor 0, 1.0
+                    if len(char.name) < 20:
+                        text_size 21
                 # background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
                 # label "{color=[gold]}[char.name]":
                     # text_color ivory text_outlines [(2, "#424242", 0, 0)]

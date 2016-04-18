@@ -816,6 +816,7 @@ init: # Main Screens:
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Return(["show", "arena"])
+            
     screen arena_aftermatch(w_team, l_team, condition):
         modal True
         zorder 2
