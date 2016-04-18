@@ -384,7 +384,7 @@ screen char_profile():
                             has vbox box_wrap True xmaximum 250
                             xalign .0
                             ysize 25
-                            text "[char.fullname]" xalign .0 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
+                            text "[char.fullname]" xalign .0 yalign 0.5 style "TisaOTM" color "#79CDCD" size 15
                         null height 5
                         frame:
                             xalign 0.0
@@ -398,7 +398,7 @@ screen char_profile():
                                 has vbox box_wrap True xmaximum 250
                                 xalign .0
                                 ysize 25
-                                text "[char.full_race]" xalign .0 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
+                                text "[char.full_race]" xalign .0 yalign 0.5 style "TisaOTM" color "#79CDCD" size 15
                             null height 1
                             frame:
                                 xysize (100, 100)
