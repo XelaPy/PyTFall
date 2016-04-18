@@ -224,31 +224,31 @@ screen char_profile():
             ypos 30
             style_group "content"
             has vbox
-            
-            null height 15
-            # Name ====================================>
+            null height 7
+            # Base frame ====================================> 321/330 = 122/x
             frame:
-                xanchor -0.14
-                xysize (250, 50)
-                xpos 30
-                $ trait = char.personality
-                $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 80, 80)
-                imagebutton:
-                    align (.0, .0)
-                    pos (-40, 20)
-                    at pers_effect()
-                    xcenter 75
-                    ycenter 60
-                    idle img
-                    hover img
-                    hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
-                    action NullAction()
-                background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
-                label "{color=[gold]}[char.name]":
-                    text_color ivory text_outlines [(2, "#424242", 0, 0)]
-                    align (0.5, 0.5)
-                    if len(char.name) < 20:
-                        text_size 21
+                align (.0, .0)
+                xysize (330, 126)
+                maximum (330, 126)
+                background Frame(Transform("content/gfx/frame/base_frame.png", alpha=0.98), 330, 126)
+                hbox:
+                    $ trait = char.personality
+                    $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
+                    imagebutton:
+                        align (.5, .5)
+                        at pers_effect()
+                        xcenter 54
+                        ycenter 59
+                        idle img
+                        hover img
+                        hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
+                        action NullAction()
+                # background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
+                # label "{color=[gold]}[char.name]":
+                    # text_color ivory text_outlines [(2, "#424242", 0, 0)]
+                    # align (0.5, 0.5)
+                    # if len(char.name) < 20:
+                        # text_size 21
                 
             null height 5
             # Rank up for prostitutes:

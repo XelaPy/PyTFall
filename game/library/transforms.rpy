@@ -118,11 +118,11 @@ init -997: # Transforms:
     transform pers_effect():
         subpixel True
         parallel:
-            fade_from_to(0.95, 1.05, 2.0)
-            fade_from_to(1.05, 0.95, 2.0)
+            fade_from_to(0.95, 1.0, 2.0)
+            fade_from_to(1.0, 0.95, 2.0)
         parallel:
-            simple_zoom_from_to_with_linear(0.95, 1.05, 2.0)
-            simple_zoom_from_to_with_linear(1.05, 0.95, 2.0)
+            simple_zoom_from_to_with_linear(0.95, 1.0, 2.0)
+            simple_zoom_from_to_with_linear(1.0, 0.95, 2.0)
         repeat    
     
     transform arena_stats_slide:
