@@ -65,7 +65,8 @@ init -5 python:
         def log(self, item):
             # Logs the text for next day event...
             self.instance.nd_events_report.append(item)
-            
+        
+        # Worker methods:
         def has_workers(self, amount=1):
             # Checks if there is a worker(s) availible.
             return False
@@ -184,6 +185,15 @@ init -5 python:
                 self.log(temp)
                 return False
                 
+        def convert_AP(self, w, workers, flag):
+            # Converts AP to "Job Points"
+            if w.take_ap(1):
+                value = int(round(7 + w.agility * 0.1))
+                w.set_flag(flag, value)
+            else:
+                workers.remove(w)
+           
+        # Runs before ND calcs stats for this building.
         def pre_nd(self):
             # Runs at the very start of execusion of SimPy loop during the next day.
             return
@@ -397,9 +407,20 @@ init -5 python:
             """This runs the club as a SimPy process from start to the end.
             """
             # See if there are any strip girls, that may be added to Resource at some point of the development:
+            counter = 0
             while 1:
                 yield self.env.timeout(self.time)
                 
+                
+                # Temp code:
+                # TODO: Should be turned into Job Event.
+                if counter < 1 and self.env.now > 20:
+                    counter += 1
+                    for u in self.instance._upgrades:
+                        if u.__class__ == WarriorQuarters:
+                            u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")
+                            break
+                            
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
                 # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
@@ -472,6 +493,8 @@ init -5 python:
             self.jobs = set()
             self.workable = False
             self.active_workers = list()
+            self.action = None # Action that is currently running! For example guard that are presently on patrol should still respond to act 
+                                          # of violence by the customers, even thought it may appear that they're busy (in code).
             
             # SimPy and etc follows:
             self.res = None # Restored before every job...
@@ -567,8 +590,6 @@ init -5 python:
             This will also start the job by default.
             Priority will call just the real cleaners.
             Any will also add everyone else who might be willing to clean.
-            
-            # TODO: This must start a new SimPy process!!!!
             """
             
             if not building:
@@ -609,15 +630,15 @@ init -5 python:
             counter = 0 # Just to make sure lines are not printed every du to the general building report.
             while cleaners and dirt - dirt_cleaned >= 10:
                 # Job Points:
-                flag_name = "jobs_cleaning_points"
+                flag_name = "_jobs_cleaning_points"
                 for w in cleaners[:]:
                     if not w.flag(flag_name) or w.flag(flag_name) <= 0:
-                        self.convert_AP(w, cleaners)
+                        self.convert_AP(w, cleaners, flag_name)
                         
                     # Cleaning itself:
                     if w in cleaners:
                         dirt_cleaned = dirt_cleaned + w.flag(power_flag_name)
-                        w.mod_flag("jobs_cleaning_points", -1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
+                        w.mod_flag("_jobs_cleaning_points", -1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
                         w.mod_flag("job_cleaning_points_spent", 1) # So we know what to do during the job event buildup and stats application.
                         
                 if config.debug and self.env and not counter % 2:
@@ -644,16 +665,7 @@ init -5 python:
                 self.instance.available_workers.append(w)
                 
             # Build the report:
-            simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned, i)
-            
-        def convert_AP(self, w, workers):
-            # Converts AP to "Job Points": TODO: Make this a thing for the parent class???
-            flag_name = "jobs_cleaning_points"
-            if w.take_ap(1):
-                value = int(round(7 + w.agility * 0.1))
-                w.set_flag(flag_name, value)
-            else:
-                workers.remove(w)
+            simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned)
             
             
     class Garden(MainUpgrade):
@@ -667,10 +679,109 @@ init -5 python:
             self.jobs = set()
             
             
-    class WarriorQuarters(MainUpgrade):
+    class WarriorQuarters(OnDemandUpgrade):
+        COMPATIBILITY = []
+        MATERIALS = {"Wood": 15, "Bricks": 30, "Glass": 3}
+        COST = 2500
+        ID = "Warrior Quarters"
+        IMG = "content/buildings/upgrades/guard_qt.jpg"
         def __init__(self, name="Warrior Quarters", instance=None, desc="Place for Guards!", img="content/buildings/upgrades/guard_qt.jpg", build_effort=0, materials=None, in_slots=2, ex_slots=1, cost=500, **kwargs):
             super(WarriorQuarters, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
-            self.jobs = set(["Guard"])
+            self.jobs = set([simple_jobs["Guarding"]])
+            
+        def request_action(self, building=None, start_job=True, priority=True, any=False, action=None):
+            """This checks if there are idle workers willing/ready to do an action in the building.
+            
+            This will also start the job by default.
+            Priority will call just the real warriors.
+            Any will also add everyone else who might be willing to act.
+            
+            TODO: Once done, see if this can be generalized like the previous two upgrade types!
+            """
+            if not action:
+                raise Exception("Action Must Be provided to .request_action method!")
+            
+            if not building:
+                building = self.instance
+                
+            job = simple_jobs["Guarding"]
+            # dirt = building.get_dirt()
+            workers = self.get_workers(job, amount=10, priority=priority, any=any)
+            
+            if not workers:
+                return False # Noone to clean the building so we don't.
+            else:
+                # Might require optimization so we don't send all the warriors to once.
+                # Update worker lists:
+                if start_job:
+                    if action == "patrol":
+                        self.active_workers = workers[:]
+                        self.instance.available_workers = list(i for i in self.instance.available_workers if i not in workers)
+                        self.env.process(self.patrol(workers, building))
+                return True
+                
+        def patrol(self, workers, building):
+            """Patrolling the building...
+            """
+            workers_original = workers[:]
+            power_flag_name = "jobs_guard_power"
+            for w in workers:
+                # Set their cleaning capabilities as temp flag:
+                value = int(round(1 + w.defence * 0.025 + w.agility * 0.3)) # Is defence sound here? We don't have guarding still...
+                w.set_flag(power_flag_name, value)
+                
+            wlen = len(workers)
+            if self.env:
+                t = self.env.now
+                temp = "{}: {} guards are going to patrol halls of {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                self.log(temp)
+                
+            counter = 0 # counter for du, lets say that a single patrol run takes 20 du...
+            while (workers and counter <= 100) and self.env.now < 99:
+                # Job Points:
+                flag_name = "_jobs_guard_points"
+                for w in workers[:]:
+                    if not w.flag(flag_name) or w.flag(flag_name) <= 0:
+                        self.convert_AP(w, workers, flag_name)
+                        
+                    # Cleaning itself:
+                    if w in workers:
+                        w.mod_flag("_jobs_guard_points", 1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
+                        w.mod_flag("job_guard_points_spent", 1) # So we know what to do during the job event buildup and stats application.
+                        
+                if config.debug and self.env and not counter % 4:
+                    wlen = len(workers)
+                    # We run this once per 2 du and only for debug purposes.
+                    temp = "{}: Debug: ".format(self.env.now)
+                    temp = temp + " {} Guards are currently partolling {}!".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + set_font_color(" DU spent: {}!".format(counter), "blue")
+                    self.log(temp)
+                    
+                # We may be running this outside of SimPy... not really? not in this scenario anyway...
+                if self.env:
+                    yield self.env.timeout(1)
+                counter = counter + 1
+                
+            temp = "{}: Patrol of {} is now finished! Guards are falling back to their quarters!".format(self.env.now, building.name)
+            temp = set_font_color(temp, "red")
+            self.log(temp)
+            
+            # Once the loop is broken:
+            # Restore the lists:
+            self.active_workers = list()
+            for w in workers:
+                self.instance.available_workers.append(w)
+                
+            # Build the report:
+            simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
+            
+        def convert_AP(self, w, workers, flag):
+            # "Job Points": TODO: Remove this, temp code to help out with testing.
+            if w.take_ap(1):
+                value = 100
+                w.set_flag(flag, value)
+            else:
+                workers.remove(w)
             
             
     class SlaveQuarters(MainUpgrade):

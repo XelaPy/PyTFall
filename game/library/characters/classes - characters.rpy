@@ -2300,6 +2300,9 @@ init -9 python:
             for flag in self.flags.keys():
                 if flag.startswith("_day_countdown"):
                     self.down_counter(flag, value=1, min=0, delete=True)
+                # Deleting _jobs flags once all jobs are complete.
+                elif flag.startswith("_jobs"):
+                    self.del_flag(flag)
             
             # Log stats to display changes on the next day (Only for chars to whom it's useful):
             if self in hero.girls:

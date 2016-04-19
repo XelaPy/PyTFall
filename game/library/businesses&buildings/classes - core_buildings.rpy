@@ -749,6 +749,7 @@ init -9 python:
             """
             
             # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
+            # This also needs to be placed elsewhere... do we need a process that simply tracks events???
             if self.get_dirt() > self.get_max_dirt()*.9:
                 temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
                 temp = set_font_color(temp, "red")
@@ -772,6 +773,7 @@ init -9 python:
                     u.is_running = True
             
             # For Jobs that require clients to run:
+            # This is a weird way to distribute clients... I'll come up with a better one in the future.
             i = 0
             ii = 0
             if self.clients:
