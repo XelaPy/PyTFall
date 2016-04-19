@@ -445,32 +445,41 @@
             self.reset()
         
         def vp_or_fixed(self, workers, show_args, show_kwargs):
-            # We'll assume 100x100 portrait/ size and spacing of 5 per portrait... size of the whole image is: 820x705
-            lenw = len(workers)
-            xsize = 115*lenw
+            """This will create a sidescrolling displayable to show off all portraits/images in team efforts if they don't fit on the screen in a straight line.
             
-            if xsize < 700:
-                d = Fixed(xysize=(xsize, 90))
+            We will attempt to detect a size of a single image and act accordingly. Spacing is 15 pixels between the images.
+            Dimensions of the whole displayable are: 820x705, default image size is 90x90.
+            """
+            # See if we can get a required image size:
+            lenw = len(workers)
+            size = show_kwargs.get("resize", (90, 90))
+            xpos_offset = size[0] + 15
+            xsize = xpos_offset * lenw
+            ysize = size[1]
+            
+            if xsize < 800:
+                d = Fixed(xysize=(xsize, ysize))
                 xpos = 0
                 for i in workers:
                     _ = i.show(*show_args, **show_kwargs)
                     d.add(Transform(_, xpos=xpos))
-                    xpos = xpos + 115
+                    xpos = xpos + xpos_offset
+                return d
             else:
-                d = Fixed(xysize=(xsize, 90))
+                d = Fixed(xysize=(xsize, ysize))
                 xpos = 0
                 for i in workers:
                     _ = i.show(*show_args, **show_kwargs)
                     d.add(Transform(_, xpos=xpos))
-                    xpos = xpos + 115
+                    xpos = xpos + xpos_offset
                     
-                c = Fixed(xysize=(xsize*2, 90))
+                c = Fixed(xysize=(xsize*2, ysize))
                 atd = At(d, mm_clouds(xsize, 0, 25))
                 atd2 = At(d, mm_clouds(0, -xsize, 25))
                 c.add(atd)
                 c.add(atd2)
-                vp = Viewport(child=c, xysize=(xsize, 90))
-            return d
+                vp = Viewport(child=c, xysize=(xsize, ysize))
+                return vp
             
         def apply_stats(self):
             """
@@ -2166,17 +2175,17 @@
             
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
-            self.img = Fixed(xysize=(740, 685))
-            self.img.add(Transform(self.loc.img, size=(740, 685)))
-            vp = self.vp_or_fixed(self.all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (90, 90), "type": "any"})
-            self.img.add(vp)
+            self.img = Fixed(xysize=(820, 705))
+            self.img.add(Transform(self.loc.img, size=(820, 705)))
+            vp = self.vp_or_fixed(self.all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            self.img.add(Transform(vp, align=(.5, .9)))
             
             self.team = self.all_cleaners
             
             self.txt = ["{} cleaned {} today!".format(", ".join([w.nickname for w in self.all_cleaners]), self.loc.name)]
             
             # Stat mods
-            self.logloc('dirt', -self.dirt_cleaned)  # Check if this is still a thing...
+            self.logloc('dirt', -self.dirt_cleaned)
             for w in self.all_cleaners:
                 self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
                 self.loggs('exp', randint(15, 25), w) # = ? What to do here?
