@@ -394,6 +394,13 @@ init -9 python:
             else:
                 notify("Could not find location: {} in map: {} to unlock.".format(map, loc))
                 
+        def appearing(self, map, loc):
+            for l in self(map):
+                if l["id"] == loc:
+                    if l.get("appearing", False):
+                        return True
+            return False
+                
         def lock(self, map, loc):
             for l in self(map):
                 if l["id"] == loc:

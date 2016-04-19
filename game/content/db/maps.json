@@ -42,7 +42,9 @@
         },
         {
             "id": "hiddenvillage_entrance",
-            "name": "Hidden Village"
+            "name": "Hidden Village",
+            "appearing": true,
+            "pos": [177, 192]
         },
         {
             "id": "city_jail",

@@ -38,9 +38,19 @@ screen city_screen():
     
     for key in pytfall.maps("pytfall"):
         if not key.get("hidden", False):
+            # Resolve images + Add Appearing where appropriate:
+            $ idle_img = "".join([pytfall.map_pattern, key["id"], ".png"])
+            $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.png"])
+            $ pos = 0, 0
+            if "appearing" in key and key["appearing"]:
+                $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(0.05))
+                $ idle_img = Appearing(idle_img, 50, 200, start_alpha=.1)
+                $ pos = key["pos"]
+            add idle_img pos pos
             imagebutton:
-                idle "".join([pytfall.map_pattern, key["id"], ".png"])
-                hover "".join([pytfall.map_pattern, key["id"], "_hover.png"])
+                pos pos
+                idle idle_img
+                hover hover_img
                 focus_mask True
                 hovered tt.action(key['name'])
                 action Return(['location', key["id"]])
