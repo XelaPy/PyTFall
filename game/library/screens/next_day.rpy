@@ -1324,43 +1324,83 @@ screen next_day():
         
         # Stat Frames:
         showif report_stats:
-            # Girls Stats Frame:
+            # Chars/Teams Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
                              so2=(0, 0), eo2=(136, 0), t2=0.3)
                 pos (690, -2)
-                viewport id "nextdaygsf_vp":
-                    xysize (136, 400)
-                    # draggable True
-                    # mousewheel True
-                    # if event.type in ["jobreport", "schoolreport", "girlndreport", "mcndreport", "exploration_report"]: # <-- Not usefull???
-                    if event.charmod:    
-                        vbox:
-                            null height 25
-                            frame:
-                                style_group "content"
-                                xalign 0.5
-                                xysize (136, 40)
-                                background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
-                                label (u"Char Stats:") text_size 18 text_color ivory align (0.5, 0.5)
-                            null height 10
-                            vbox:
-                                spacing -7
-                                style_group "stats"
-                                xmaximum 140
-                                for key in event.charmod:
-                                    if event.charmod[key] != 0:
+                has fixed xysize 136, 400
+                
+                if event.charmod or event.team_charmod:
+                    frame:
+                        style_group "content"
+                        xalign 0.5
+                        ypos 5
+                        xysize (136, 40)
+                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
+                        label (u"Char Stats:") text_size 18 text_color ivory align (0.5, 0.5)
+                        
+                    if event.team_charmod:
+                        viewport:
+                            xalign .5
+                            ypos 45
+                            xysize (136, 355)
+                            child_size 5000, 355
+                            # We'll use a single vbox for stats in case of one char and the usual slideshow thing for teams:
+                            $ xsize = len(event.team_charmod)*136
+                            for i in range(2):
+                                fixed:
+                                    xysize xsize, 355
+                                    if not i:
+                                        at mm_clouds(xsize, 0, 25)
+                                    else:
+                                        at mm_clouds(0, -xsize, 25)
+                                    $ xpos = 0
+                                    for w, stats in event.team_charmod.iteritems():
                                         vbox:
+                                            style_group "proper_stats"
+                                            xsize 136
+                                            xpos xpos
+                                            spacing 1
                                             frame:
-                                                background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.7), 5, 5)
-                                                xsize 136
-                                                text (u"{size=-1}%s:"%str(key).capitalize()) pos (3, -4)
-                                                if event.charmod[key] > 0:
-                                                    label (u"{size=-5}{color=[lawngreen]}%d"%event.charmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                                xysize 132, 25
+                                                xalign .5
+                                                if len(w.nickname) > 20:
+                                                    $ size = 16
                                                 else:
-                                                    label (u"{size=-5}{color=[red]}%d"%event.charmod[key]) style "stats_value_text" align (1.0, 0.5)
-                                                        
-            
+                                                    $ size = 20
+                                                text w.nickname align .5, .5 style "TisaOTM" size size
+                                            null height 4
+                                            for key in sorted(stats.keys()):
+                                                if stats[key] != 0:
+                                                    frame:
+                                                        xalign .5
+                                                        xysize 130, 25
+                                                        text (u"%s:"%str(key).capitalize()) align .02, .5
+                                                        if stats[key] > 0:
+                                                            label (u"{color=[lawngreen]}%d"%stats[key]) align .98, .5
+                                                        else:
+                                                            label (u"{color=[red]}%d"%stats[key]) align .98, .5
+                                        $ xpos = xpos + 136
+                    # Normal, one worker report case:
+                    else:
+                        vbox:
+                            style_group "proper_stats"
+                            xsize 136
+                            xalign .5
+                            ypos 45
+                            spacing 1
+                            for key in event.charmod:
+                                if event.charmod[key] != 0:
+                                    frame:
+                                        xalign .5
+                                        xysize 130, 25
+                                        text (u"%s:"%str(key).capitalize()) align .02, .5
+                                        if event.charmod[key] > 0:
+                                            label (u"{color=[lawngreen]}%d"%event.charmod[key]) align .98, .5
+                                        else:
+                                            label (u"{color=[red]}%d"%event.charmod[key]) align .98, 05
+                                                    
             # Buildings Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
@@ -1368,8 +1408,6 @@ screen next_day():
                 pos (690, 406)
                 viewport id "nextdaybsf_vp":
                     xysize (136, 305)
-                    #draggable False
-                    #mousewheel True
                     if event.type=="jobreport":
                         vbox:
                             null height 5
@@ -1381,21 +1419,20 @@ screen next_day():
                                 label (u"Building Stats:") text_size 18 text_color ivory align(0.5, 0.5)
                             null height 10
                             vbox:
-                                spacing -7
-                                style_group "stats"
-                                xmaximum 140
+                                style_group "proper_stats"
+                                xsize 136
+                                spacing 1
                                 for key in event.locmod:
                                     if event.locmod[key] != 0:
-                                        vbox:
-                                            frame:
-                                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.7), 5, 5)
-                                                xsize 136
-                                                if key == "reputation":
-                                                    $ hkey = "Rep"
-                                                else:
-                                                    $ hkey = key
-                                                text (u"{size=-1} %s:"%hkey.capitalize()) pos (1, -4)
-                                                label (u"{size=-5}%d"%event.locmod[key]) style "stats_value_text" align (1.0, 0.5)
+                                        frame:
+                                            xalign .5
+                                            xysize 130, 25
+                                            if key == "reputation":
+                                                $ hkey = "Rep"
+                                            else:
+                                                $ hkey = key
+                                            text (u"{size=-1} %s:"%hkey.capitalize()) align .02, .5
+                                            label (u"{size=-5}%d"%event.locmod[key]) align .98, .5
                 
         # Text Frame + Stats Reports Mousearea:
         frame background Frame("content/gfx/frame/p_frame5.png", 15, 15):
