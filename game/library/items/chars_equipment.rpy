@@ -774,12 +774,14 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Sex:') xalign 0.02
-                        if item.sex == 'male':
-                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) align (0.98, 0.5) style "stats_value_text" text_outlines [(1, "#3a3a3a", 0, 0)]
-                        if item.sex == 'female':
-                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) align (0.98, 0.5) style "stats_value_text" text_outlines [(1, "#3a3a3a", 0, 0)]
-                        if item.sex == 'unisex':
-                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) align (0.98, 0.5) style "stats_value_text" text_outlines [(1, "#3a3a3a", 0, 0)]
+                        if item.slot in ["gift", "resources", "loot"]:
+                            label "{size=-4}N/A" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        elif item.sex == 'male':
+                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        elif item.sex == 'female':
+                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        elif item.sex == 'unisex':
+                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                 
                 # Buttons and image:
                 button:

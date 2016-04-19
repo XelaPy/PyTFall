@@ -208,11 +208,13 @@ init: # Items:
                                     frame:
                                         xsize 195
                                         text ('Sex:') color ivory yalign 0.5
-                                        if item.sex == 'male':
+                                        if item.slot in ["gift", "resources", "loot"]:
+                                            label "{size=-3}N/A" xalign 1.0 align (1.0, 0.5)
+                                        elif item.sex == 'male':
                                             label ('{size=-3}{color=#FFA54F}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
-                                        if item.sex == 'female':
+                                        elif item.sex == 'female':
                                             label ('{size=-3}{color=#FFAEB9}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
-                                        if item.sex == 'unisex':
+                                        elif item.sex == 'unisex':
                                             label ('{size=-3}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
                             frame:
                                 xysize (165, 130)
