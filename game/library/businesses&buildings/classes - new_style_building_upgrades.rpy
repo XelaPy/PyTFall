@@ -418,9 +418,14 @@ init -5 python:
                     counter += 1
                     for u in self.instance._upgrades:
                         if u.__class__ == WarriorQuarters:
-                            u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")
+                            process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
                             break
                             
+                # testing interruption:
+                if counter == 1 and self.env.now > 40:
+                    counter += 1
+                    process.interrupt()
+                
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
                 # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
@@ -707,9 +712,9 @@ init -5 python:
             job = simple_jobs["Guarding"]
             # dirt = building.get_dirt()
             workers = self.get_workers(job, amount=10, priority=priority, any=any)
-            
+            process = None
             if not workers:
-                return False # Noone to clean the building so we don't.
+                return False, process # Noone to clean the building so we don't.
             else:
                 # Might require optimization so we don't send all the warriors to once.
                 # Update worker lists:
@@ -717,8 +722,8 @@ init -5 python:
                     if action == "patrol":
                         self.active_workers = workers[:]
                         self.instance.available_workers = list(i for i in self.instance.available_workers if i not in workers)
-                        self.env.process(self.patrol(workers, building))
-                return True
+                        process = self.env.process(self.patrol(workers, building))
+                return True, process
                 
         def patrol(self, workers, building):
             """Patrolling the building...
@@ -737,30 +742,45 @@ init -5 python:
                 self.log(temp)
                 
             counter = 0 # counter for du, lets say that a single patrol run takes 20 du...
+            
             while (workers and counter <= 100) and self.env.now < 99:
                 # Job Points:
-                flag_name = "_jobs_guard_points"
-                for w in workers[:]:
-                    if not w.flag(flag_name) or w.flag(flag_name) <= 0:
-                        self.convert_AP(w, workers, flag_name)
+                try:
+                    flag_name = "_jobs_guard_points"
+                    for w in workers[:]:
+                        if not w.flag(flag_name) or w.flag(flag_name) <= 0:
+                            self.convert_AP(w, workers, flag_name)
+                            
+                        # Cleaning itself:
+                        if w in workers:
+                            w.mod_flag("_jobs_guard_points", 1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
+                            w.mod_flag("job_guard_points_spent", 1) # So we know what to do during the job event buildup and stats application.
+                            
+                    if config.debug and self.env and not counter % 4:
+                        wlen = len(workers)
+                        # We run this once per 2 du and only for debug purposes.
+                        temp = "{}: Debug: ".format(self.env.now)
+                        temp = temp + " {} Guards are currently partolling {}!".format(set_font_color(wlen, "red"), building.name)
+                        temp = temp + set_font_color(" DU spent: {}!".format(counter), "blue")
+                        self.log(temp)
                         
-                    # Cleaning itself:
-                    if w in workers:
-                        w.mod_flag("_jobs_guard_points", 1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
-                        w.mod_flag("job_guard_points_spent", 1) # So we know what to do during the job event buildup and stats application.
-                        
-                if config.debug and self.env and not counter % 4:
-                    wlen = len(workers)
-                    # We run this once per 2 du and only for debug purposes.
-                    temp = "{}: Debug: ".format(self.env.now)
-                    temp = temp + " {} Guards are currently partolling {}!".format(set_font_color(wlen, "red"), building.name)
-                    temp = temp + set_font_color(" DU spent: {}!".format(counter), "blue")
-                    self.log(temp)
+                    # We may be running this outside of SimPy... not really? not in this scenario anyway...
+                    if self.env:
+                        yield self.env.timeout(1)
+                    counter = counter + 1
                     
-                # We may be running this outside of SimPy... not really? not in this scenario anyway...
-                if self.env:
-                    yield self.env.timeout(1)
-                counter = counter + 1
+                except simpy.Interrupt:
+                    temp = "{}: Debug: ".format(self.env.now)
+                    temp = temp + " {} Guards responding to an event, patrol is halted {}".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + set_font_color("!!!!".format(counter), "crimson")
+                    self.log(temp)
+
+                    yield self.env.timeout(5)
+
+                    temp = "{}: Debug: ".format(self.env.now)
+                    temp = temp + " {} Guards finished their responce to the event, back to patroling {}".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + set_font_color("....".format(counter), "crimson")
+                    self.log(temp)
                 
             temp = "{}: Patrol of {} is now finished! Guards are falling back to their quarters!".format(self.env.now, building.name)
             temp = set_font_color(temp, "red")
