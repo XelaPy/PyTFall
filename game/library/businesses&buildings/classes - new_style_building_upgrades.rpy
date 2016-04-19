@@ -471,6 +471,7 @@ init -5 python:
             self.type = "on_demand_service"
             self.jobs = set()
             self.workable = False
+            self.active_workers = list()
             
             # SimPy and etc follows:
             self.res = None # Restored before every job...
@@ -581,10 +582,12 @@ init -5 python:
                 return False # Noone to clean the building so we don't.
             else:
                 # Might require optimization so we don't send all the cleaners to once.
+                # Update worker lists:
+                self.active_workers = cleaners[:]
+                self.instance.available_workers = list(i for i in self.instance.available_workers if i not in cleaners)
                 self.env.process(self.clean(cleaners, building))
                 return True
                 
-                    
         def clean(self, cleaners, building):
             """Cleaning the building...
             """
@@ -633,10 +636,16 @@ init -5 python:
             temp = "{}: Cleaning process of {} is now finished!".format(self.env.now, building.name)
             temp = set_font_color(temp, "red")
             self.log(temp)
-            # Once the loop is broken, we build the report(s):
-            for i in cleaners_original:
-                simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned, i)
+            
+            # Once the loop is broken:
+            # Restore the lists:
+            self.active_workers = list()
+            for w in cleaners:
+                self.instance.available_workers.append(w)
                 
+            # Build the report:
+            simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned, i)
+            
         def convert_AP(self, w, workers):
             # Converts AP to "Job Points": TODO: Make this a thing for the parent class???
             flag_name = "jobs_cleaning_points"
