@@ -411,7 +411,6 @@ init -5 python:
             while 1:
                 yield self.env.timeout(self.time)
                 
-                
                 # Temp code:
                 # TODO: Should be turned into Job Event.
                 if counter < 1 and self.env.now > 20:
@@ -794,6 +793,15 @@ init -5 python:
                 
             # Build the report:
             simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
+            
+        def intercept(self, opfor):
+            """This intercepts a bunch of aggresive clients and resolves the issue through combat or intimidation.
+            
+            opfor = opposition forces
+            """
+            # gather the forces:
+            pass
+            
             
         def convert_AP(self, w, workers, flag):
             # "Job Points": TODO: Remove this, temp code to help out with testing.

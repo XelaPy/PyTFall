@@ -453,11 +453,12 @@
             NextDayEvents.append(self.create_event())
             self.reset()
         
-        def vp_or_fixed(self, workers, show_args, show_kwargs):
+        def vp_or_fixed(self, workers, show_args, show_kwargs, xmax=820):
             """This will create a sidescrolling displayable to show off all portraits/images in team efforts if they don't fit on the screen in a straight line.
             
             We will attempt to detect a size of a single image and act accordingly. Spacing is 15 pixels between the images.
             Dimensions of the whole displayable are: 820x705, default image size is 90x90.
+            xmax is used to determine the max size of the viewport/fixed returned from here
             """
             # See if we can get a required image size:
             lenw = len(workers)
@@ -466,7 +467,7 @@
             xsize = xpos_offset * lenw
             ysize = size[1]
             
-            if xsize < 800:
+            if xsize < xmax:
                 d = Fixed(xysize=(xsize, ysize))
                 xpos = 0
                 for i in workers:
@@ -487,7 +488,7 @@
                 atd2 = At(d, mm_clouds(0, -xsize, 25))
                 c.add(atd)
                 c.add(atd2)
-                vp = Viewport(child=c, xysize=(810, ysize))
+                vp = Viewport(child=c, xysize=(xmax, ysize))
                 return vp
             
         def apply_stats(self):
@@ -2423,7 +2424,7 @@
             """
             self.img = Fixed(xysize=(820, 705))
             self.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)})
+            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
             self.img.add(Transform(vp, align=(.5, .9)))
             
             self.team = self.all_workers
