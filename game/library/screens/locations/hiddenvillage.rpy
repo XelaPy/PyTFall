@@ -54,6 +54,13 @@ screen hiddenvillage_entrance:
     
     use location_actions("hiddenvillage_entrance")
     
+    $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
+    imagebutton:
+        pos(300, 315)
+        idle (img)
+        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+        action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
+        
     if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
