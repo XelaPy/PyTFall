@@ -2466,6 +2466,96 @@
         ]
     },
     {
+        "name": "Will-o-wisp",
+        "desc": "A fading remnant of someone's soul with basic magical abilities.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ww.png",
+        "portrait": "content/npc/mobs/ww.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 2,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":80,
+            "magic": 50,
+            "agility": 90,
+            "luck":-45,
+            "charisma":10,
+            "constitution": 20,
+            "intelligence": 20
+        },
+        "skills": {},
+        "traits": ["Undead", "Neutral"],
+        "attack_skills": [
+            
+        ],
+        "magic_skills": ["Fire", "Thunder", "Holy"
+        ]
+    },
+    {
+        "name": "Wind Spirit",
+        "desc": "A soul, unwittingly merged with infinite streams of air.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ws.png",
+        "portrait": "content/npc/mobs/ws1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 21,
+        "basetraits": [
+            "Berserker", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":40,
+            "magic": 50,
+            "agility": 80,
+            "luck":-5,
+            "charisma":30,
+            "constitution": 30,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Monster", "Air", "Air Immunity", "Undead"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Air Pressure", "Aerora", "Aero"
+        ]
+    },
+    {
+        "name": "Water Spirit",
+        "desc": "A soul caught in flows of water.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/was.png",
+        "portrait": "content/npc/mobs/was1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 21,
+        "basetraits": [
+            "Defender", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":50,
+            "magic": 50,
+            "agility": 80,
+            "luck":0,
+            "charisma":40,
+            "constitution": 30,
+            "intelligence": 30
+        },
+        "skills": {},
+        "traits": ["Monster", "Water", "Water Immunity", "Undead"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Geyser", "Watera", "Waterga"
+        ]
+    },
+    {
         "name": "Seeker",
         "desc": "Seekers spend their lives looking for rare items. They never steal or trade though, so usually people just ignore them.",
         "front_row": 0,
@@ -2699,6 +2789,36 @@
         },
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Immunity"],
+        "attack_skills": [
+            "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Flytrap",
+        "desc": "A continuously growing carnivorous plant. Uncanny survivability allows it to instantly absorb many elements before they have a chance to damage it.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/plant.png",
+        "portrait": "content/npc/mobs/plant1.png",
+        "race": "Plant",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":90,
+            "magic": 20,
+            "agility": 0,
+            "luck":-50,
+            "charisma":10,
+            "constitution": 60,
+            "intelligence": 0
+        },
+        "skills": {},
+        "traits": ["Monster", "Water Absorption", "Earth Absorption", "Air Absorption", "Light Absorption", "Earth"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3633,6 +3753,35 @@
             "BiteAttack"
         ],
         "magic_skills": [
+        ]
+    },
+    {
+        "name": "Sky Jellyfish",
+        "desc": "A flying creature with multiple inseminating tentacles, capable to generate electricity to paralyse its victims before raping them.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/jellyfish.png",
+        "portrait": "content/npc/mobs/jellyfish1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":30,
+            "magic": 60,
+            "agility": 70,
+            "luck":-30,
+            "charisma":30,
+            "constitution": 15,
+            "intelligence": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Electricity"],
+        "attack_skills": [
+                   ],
+        "magic_skills": ["Thunder", "Thundara", "Thundaja"
         ]
     },
     {
