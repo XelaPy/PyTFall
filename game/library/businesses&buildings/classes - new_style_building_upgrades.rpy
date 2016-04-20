@@ -1,5 +1,11 @@
 init -5 python:
     #################################################################
+    """Thoughts:
+    
+    - Here is the continuation of SimPy land, which starts at the main building and calls/activates methods gtom workable upgrades.
+    - It may be a good idea to create a Flags object here and pass it to the Jobs which create ND reports. It makes sense (at least) for the team jobs.
+    - This needs to get a lot more generic, especially newer addons.
+    """
     # BUILDING UPGRADE CLASSES
     class BuildingUpgrade(_object):
         """BaseClass for any building expansion! (aka Business)
@@ -418,12 +424,13 @@ init -5 python:
                     for u in self.instance._upgrades:
                         if u.__class__ == WarriorQuarters:
                             process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
+                            u.interrupt = process # New field to which we can bind a process that can be interrupted.
                             break
                             
                 # testing interruption:
                 if counter == 1 and self.env.now > 40:
                     counter += 1
-                    process.interrupt()
+                    process.interrupt("fight")
                 
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
@@ -504,6 +511,7 @@ init -5 python:
             self.res = None # Restored before every job...
             self.time = 1 # Same.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
+            self.interrupt = None # We can bind an active process here if it can be interrupted.
             
             
     class BrothelBlock(PrivateBusinessUpgrade):
@@ -768,9 +776,9 @@ init -5 python:
                         yield self.env.timeout(1)
                     counter = counter + 1
                     
-                except simpy.Interrupt:
+                except simpy.Interrupt as reason:
                     temp = "{}: Debug: ".format(self.env.now)
-                    temp = temp + " {} Guards responding to an event, patrol is halted {}".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + " {} Guards responding to an event ({}), patrol is halted in {}".format(set_font_color(wlen, "red"), reason.cause, building.name)
                     temp = temp + set_font_color("!!!!".format(counter), "crimson")
                     self.log(temp)
 
@@ -794,7 +802,7 @@ init -5 python:
             # Build the report:
             simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
             
-        def intercept(self, opfor):
+        def intercept(self, opfor, interrupted=False):
             """This intercepts a bunch of aggresive clients and resolves the issue through combat or intimidation.
             
             opfor = opposition forces
