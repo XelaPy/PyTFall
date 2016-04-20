@@ -878,12 +878,12 @@ init -5 python:
                         # TODO: Actual workers list should be here as well, not just the general one...
             
             # Build a Job report:
-            # Create flag object first to pass data:
+            # Create flag object first to pass data to the Job:
             flag = Flags()
             flag.set_flag("result", battle.winner == defence_team)
             flag.set_flag("defenders", defenders)
             flag.set_flag("opfor", opfor)
-            job()
+            job(defenders, defenders, self.instance, action="intercept", flag=flag)
                         
             # decided to add report in debug mode after all :)
             if config.debug:

@@ -332,6 +332,7 @@
             self.worker = None # Default for single worker jobs.
             self.workermod = {} # Logging all stats/skills changed during the job.
             self.locmod = {}
+            self.flag = None # Flag we pass around from SimPy land to Jobs to carry over events/data.
             
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
@@ -375,6 +376,7 @@
             self.event_type = None
             self.txt = list()
             self.img = Null()
+            self.flags = Null()
             
             self.flag_red = False
             self.flag_green = False
@@ -2449,7 +2451,7 @@
             self.apply_stats()
             self.finish_job()
             
-        def patrol(self):
+        def intercept(self):
             """Builds ND event for Guard Job.
             
             This one is simpler... it just logs the stats, picks an image and builds a report...
