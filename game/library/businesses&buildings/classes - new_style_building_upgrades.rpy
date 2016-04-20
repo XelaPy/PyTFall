@@ -364,7 +364,7 @@ init -5 python:
             self.earned_cash = 0 # Cash earned (total)
             
         def get_client_count(self):
-            # Returns amount of workers we expect to come here.
+            # Returns amount of clients we expect to come here.
             return int(round(3 + self._rep*0.05*max(len(self.all_workers), self.capacity)))
             
         def pre_nd(self):
@@ -423,7 +423,7 @@ init -5 python:
             while 1:
                 yield self.env.timeout(self.time)
                 
-                # Temp code:
+                # Temp code: =====================================>>>
                 # TODO: Should be turned into Job Event.
                 if counter < 1 and self.env.now > 20:
                     counter += 1
@@ -438,6 +438,7 @@ init -5 python:
                     counter += 1
                     process.interrupt("fight")
                     self.env.process(u.intercept(interrupted=True))
+                #  =====================================>>>
                 
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
