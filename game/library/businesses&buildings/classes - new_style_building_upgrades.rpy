@@ -431,6 +431,7 @@ init -5 python:
                 if counter == 1 and self.env.now > 40:
                     counter += 1
                     process.interrupt("fight")
+                    self.env.process(u.intercept(interrupted=True))
                 
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
@@ -857,6 +858,7 @@ init -5 python:
                 defence_team.add(i)
                 
             # ImageReference("chainfights")
+            global battle
             battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, logical=1)
             battle.teams.append(defence_team)
             battle.teams.append(enemy_team)
@@ -877,19 +879,19 @@ init -5 python:
                 
             # decided to add report in debug mode after all :)
             if config.debug:
+                self.log(set_font_color("Debug: Battle Starts!", "crimson"))
                 for entry in reversed(battle.combat_log):
-                    self.log(set_font_color("Battle Starts!".format(counter), "crimson"))
                     self.log(entry)
-                    self.log(set_font_color("=== Battle Ends ===".format(counter), "crimson"))
+                self.log(set_font_color("=== Battle Ends ===", "crimson"))
                     
-            if battle.winner == defenders:
+            if battle.winner == defence_team:
                 temp = "{}: Interception Success!".format(self.env.now)
-                temp = temp + set_font_color("....".format(counter), "crimson")
+                temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 self.env.exit(True) # return True
             else:
                 temp = "{}: Interception Failed, your Guards have been defeated!".format(self.env.now)
-                temp = temp + set_font_color("....".format(counter), "crimson")
+                temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 self.env.exit(False)
                     
