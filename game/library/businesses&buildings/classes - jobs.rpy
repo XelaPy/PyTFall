@@ -2411,13 +2411,43 @@
             self.workermod = {}
             self.locmod = {}
         
-        def __call__(self, workers_original, workers, location, action):
+        def __call__(self, workers_original, workers, location, action, flag=None):
             self.all_workers = workers_original
             self.workers = workers
             self.loc = location
+            self.flag = flag
             
             if action == "patrol":
                 self.patrol()
+            elif action == "intercept":
+                self.intercept()
+            
+        def patrol(self):
+            """Builds ND event for Guard Job.
+            
+            This one is simpler... it just logs the stats, picks an image and builds a report...
+            """
+            self.img = Fixed(xysize=(820, 705))
+            self.img.add(Transform(self.loc.img, size=(820, 705)))
+            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            self.img.add(Transform(vp, align=(.5, .9)))
+            
+            self.team = self.all_workers
+            
+            self.txt = ["{} intercepted {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            
+            # Stat mods
+            self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
+            for w in self.all_workers:
+                self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
+                self.loggs('exp', randint(15, 25), w) # = ? What to do here?
+                for stat in ['attack', 'defence', 'magic', 'joy']:
+                    if dice(20):
+                        self.loggs(stat, 1, w)
+                        
+            self.event_type = "jobreport" # Come up with a new type for team reports?
+            self.apply_stats()
+            self.finish_job()
             
         def patrol(self):
             """Builds ND event for Guard Job.

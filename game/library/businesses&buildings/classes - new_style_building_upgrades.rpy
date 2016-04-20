@@ -876,14 +876,22 @@ init -5 python:
                     if check_char(i, check_ap=False): # Check if we're still ok to work...
                         self.active_workers.append(i)
                         # TODO: Actual workers list should be here as well, not just the general one...
-                
+            
+            # Build a Job report:
+            # Create flag object first to pass data:
+            flag = Flags()
+            flag.set_flag("result", battle.winner == defence_team)
+            flag.set_flag("defenders", defenders)
+            flag.set_flag("opfor", opfor)
+            job()
+                        
             # decided to add report in debug mode after all :)
             if config.debug:
                 self.log(set_font_color("Debug: Battle Starts!", "crimson"))
                 for entry in reversed(battle.combat_log):
                     self.log(entry)
                 self.log(set_font_color("=== Battle Ends ===", "crimson"))
-                    
+            
             if battle.winner == defence_team:
                 temp = "{}: Interception Success!".format(self.env.now)
                 temp = temp + set_font_color("....", "crimson")
@@ -894,8 +902,6 @@ init -5 python:
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 self.env.exit(False)
-                    
-                
             
         def convert_AP(self, w, workers, flag):
             # "Job Points": TODO: Remove this, temp code to help out with testing.
