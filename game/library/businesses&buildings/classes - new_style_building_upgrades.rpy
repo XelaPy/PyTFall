@@ -802,7 +802,7 @@ init -5 python:
             # Build the report:
             simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
             
-        def intercept(self, opfor, interrupted=False):
+        def intercept(self, opfor=list(), interrupted=False):
             """This intercepts a bunch of aggresive clients and resolves the issue through combat or intimidation.
             
             opfor = opposition forces
@@ -825,13 +825,75 @@ init -5 python:
             temp = self.get_workers(job, amount=10, match_to_client=None, priority=True, any=True) # Set amount according to opfor/manager:
             defenders = set(defenders + temp)
             
+            temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
+            self.log(temp)
+            
             if not defenders:
                 # If there are no defenders, we're screwed:
-                return False # TODO: Maybe more options than False and None?
+                temp = "{}: Noone was able to intercept attack event in {}".format(self.env.now, building.name)
+                self.log(temp)
+                self.env.exit(False) # TODO: Maybe more options than False and None?
+            else:
+                temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
+                self.log(temp)
                 
-            # Otherwise we start a combat scenario/build a report:
+            # TODO: This should prolly be a function!
+            # Prepear the teams:
+            enemy_team = Team(name="Enemy Team", max_size=5) # TODO: max_size should be len(opfor)
+            mob = build_mob(id="Goblin Shaman", level=30)
+            mob.front_row = True
+            mob.apply_trait("Fire")
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+            for i in xrange(4): # Testing 5 mobs...
+                mob = build_mob(id="Goblin Archer", level=10)
+                mob.front_row = False
+                mob.controller = BE_AI(mob)
+                enemy_team.add(mob)
             
+            defence_team = Team(name="Guardians Of The Galaxy", max_size=len(defenders))
+            for i in defenders:
+                i.controller = BE_AI(i)
+                defence_team.add(i)
+                
+            # ImageReference("chainfights")
+            battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, logical=1)
+            battle.teams.append(defence_team)
+            battle.teams.append(enemy_team)
             
+            battle.start_battle()
+            
+            for i in defenders:
+                i.controller = "player"
+                
+            yield self.env.timeout(5)
+                
+            # We also should restore the list if there was interruption:
+            if "active_workers_backup" in locals():
+                for i in active_workers_backup:
+                    if check_char(i, check_ap=False): # Check if we're still ok to work...
+                        self.active_workers.append(i)
+                        # TODO: Actual workers list should be here as well, not just the general one...
+                
+            # decided to add report in debug mode after all :)
+            if config.debug:
+                for entry in reversed(battle.combat_log):
+                    self.log(set_font_color("Battle Starts!".format(counter), "crimson"))
+                    self.log(entry)
+                    self.log(set_font_color("=== Battle Ends ===".format(counter), "crimson"))
+                    
+            if battle.winner == defenders:
+                temp = "{}: Interception Success!".format(self.env.now)
+                temp = temp + set_font_color("....".format(counter), "crimson")
+                self.log(temp)
+                self.env.exit(True) # return True
+            else:
+                temp = "{}: Interception Failed, your Guards have been defeated!".format(self.env.now)
+                temp = temp + set_font_color("....".format(counter), "crimson")
+                self.log(temp)
+                self.env.exit(False)
+                    
+                
             
         def convert_AP(self, w, workers, flag):
             # "Job Points": TODO: Remove this, temp code to help out with testing.

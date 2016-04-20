@@ -1,7 +1,9 @@
 ﻿init -9 python:
 
-    def check_char(c):
-        """Checks whether the character is injured and sets her/him to auto rest.
+    def check_char(c, check_ap=True):
+        """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
+        
+        AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0. 
         """
         if c.health < c.get_max("health")*0.25:
             # self.txt.append("%s is injured and in need of medical attention! "%c.name)
@@ -19,7 +21,7 @@
                 c.action = AutoRest()
                 # self.txt.append("She's going to take few days off to recover her stamina. ")
             return
-        if c.AP <= 0:
+        if check_ap and c.AP <= 0:
             return
             
         return True
