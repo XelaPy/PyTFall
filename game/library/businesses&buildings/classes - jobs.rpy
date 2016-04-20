@@ -327,7 +327,7 @@
             
             # New teams:
             self.team = None
-            
+            self.worker = None # Default for single worker jobs.
             self.workermod = {} # Logging all stats/skills changed during the job.
             self.locmod = {}
             
@@ -353,11 +353,20 @@
             return str(self.id)
             
         def reset(self):
+            # All flags starting with 'jobs' are reset here. All flags starting with '_jobs' are reset on end of ND.
             # New, we reset any flags that start with "job_" that a character might have.
-            for f in self.worker.flags.keys():
-                if f.startswith("jobs"):
-                    self.worker.del_flag(f)
+            if hasattr(self, "worker") and self.worker:
+                for f in self.worker.flags.keys():
+                    if f.startswith("jobs"):
+                        self.worker.del_flag(f)
+            if hasattr(self, "all_workers") and self.all_workers:
+                for w in self.all_workers:
+                    for f in w.flags.keys():
+                        if f.startswith("jobs"):
+                            w.del_flag(f)
+                            
             self.worker = None
+            self.all_workers = None
             self.loc = None
             self.team = None
             self.client = None
@@ -444,11 +453,12 @@
             NextDayEvents.append(self.create_event())
             self.reset()
         
-        def vp_or_fixed(self, workers, show_args, show_kwargs):
+        def vp_or_fixed(self, workers, show_args, show_kwargs, xmax=820):
             """This will create a sidescrolling displayable to show off all portraits/images in team efforts if they don't fit on the screen in a straight line.
             
             We will attempt to detect a size of a single image and act accordingly. Spacing is 15 pixels between the images.
             Dimensions of the whole displayable are: 820x705, default image size is 90x90.
+            xmax is used to determine the max size of the viewport/fixed returned from here
             """
             # See if we can get a required image size:
             lenw = len(workers)
@@ -457,7 +467,7 @@
             xsize = xpos_offset * lenw
             ysize = size[1]
             
-            if xsize < 800:
+            if xsize < xmax:
                 d = Fixed(xysize=(xsize, ysize))
                 xpos = 0
                 for i in workers:
@@ -478,7 +488,7 @@
                 atd2 = At(d, mm_clouds(0, -xsize, 25))
                 c.add(atd)
                 c.add(atd2)
-                vp = Viewport(child=c, xysize=(xsize, ysize))
+                vp = Viewport(child=c, xysize=(xmax, ysize))
                 return vp
             
         def apply_stats(self):
@@ -2125,10 +2135,9 @@
             self.workermod = {}
             self.locmod = {}
             
-        def __call__(self, cleaners_original, cleaners, building, dirt, dirt_cleaned, worker=None):
-            self.worker = worker # To be removed later.
-            self.all_cleaners = cleaners_original
-            self.cleaners = cleaners
+        def __call__(self, cleaners_original, cleaners, building, dirt, dirt_cleaned):
+            self.all_workers = cleaners_original
+            self.workers = cleaners
             self.loc = building
             self.dirt, self.dirt_cleaned = dirt, dirt_cleaned
             self.clean()
@@ -2171,22 +2180,23 @@
             return True # Don't want to mess with this atm.
         
         def clean(self):
-            """Solve the job as a cleaner.
+            """Build a report for cleaning team effort.
+            (Keep in mind that a single worker is also a posisbility here) <== Important when building texts.
             
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
             self.img = Fixed(xysize=(820, 705))
             self.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = self.vp_or_fixed(self.all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            vp = self.vp_or_fixed(self.all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             self.img.add(Transform(vp, align=(.5, .9)))
             
-            self.team = self.all_cleaners
+            self.team = self.all_workers
             
-            self.txt = ["{} cleaned {} today!".format(", ".join([w.nickname for w in self.all_cleaners]), self.loc.name)]
+            self.txt = ["{} cleaned {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
             
             # Stat mods
             self.logloc('dirt', -self.dirt_cleaned)
-            for w in self.all_cleaners:
+            for w in self.all_workers:
                 self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
                 self.loggs('exp', randint(15, 25), w) # = ? What to do here?
                 if dice(33):
@@ -2381,34 +2391,59 @@
         
 
     class GuardJob(NewStyleJob):
-        """
-        The class that solve Building guard jobs.
-        """
-        def __init__(self, worker, loc, workers):
+        def __init__(self):
+            """Creates a new GuardJob.
             """
-            Creates a new GuardJob.
-            girl = The girl the job is for.
-            loc = The brothel the girl is in.
-            workers = List of all relevant workers.
-            """
-            super(GuardJob, self).__init__(girl, workers, loc=loc)
+            super(GuardJob, self).__init__()
+            self.id = "Guarding"
             self.type = "Combat"
             
-            self.check_life()
-            if not self.finished: self.get_events()
-            if not self.finished: self.check_injury()
-            if not self.finished: self.check_vitality()
-            if not self.finished: self.post_job_activities()
-            if not self.finished: self.check_vitality()
-            if not self.finished: self.finish_job()
-            self.apply_stats()
+            # Traits/Job-types associated with this job:
+            self.occupations = ["Warrior"] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Warrior"], traits["Mage"], traits["Defender"], traits["Shooter"], traits["Battle Mage"]] # Corresponding traits...
             
-            try:
-                self.workers.remove(self.worker)
+            # Relevant skills and stats:
+            self.skills = ["cleaning"]
+            self.stats = ["agility"]
             
-            except:
-                dialog.warning("Silent error during GuardJob.__init__, guard was already removed!")
+            self.workermod = {}
+            self.locmod = {}
         
+        def __call__(self, workers_original, workers, location, action):
+            self.all_workers = workers_original
+            self.workers = workers
+            self.loc = location
+            
+            if action == "patrol":
+                self.patrol()
+            
+        def patrol(self):
+            """Builds ND event for Guard Job.
+            
+            This one is simpler... it just logs the stats, picks an image and builds a report...
+            """
+            self.img = Fixed(xysize=(820, 705))
+            self.img.add(Transform(self.loc.img, size=(820, 705)))
+            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            self.img.add(Transform(vp, align=(.5, .9)))
+            
+            self.team = self.all_workers
+            
+            self.txt = ["{} patrolled {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            
+            # Stat mods
+            self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
+            for w in self.all_workers:
+                self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
+                self.loggs('exp', randint(15, 25), w) # = ? What to do here?
+                for stat in ['attack', 'defence', 'magic', 'joy']:
+                    if dice(20):
+                        self.loggs(stat, 1, w)
+                        
+            self.event_type = "jobreport" # Come up with a new type for team reports?
+            self.apply_stats()
+            self.finish_job()
+                
         def get_events(self):
             """
             Get the guard events this girl will respond to.
