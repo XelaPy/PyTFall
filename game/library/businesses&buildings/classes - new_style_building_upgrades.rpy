@@ -859,7 +859,7 @@ init -5 python:
                 
             # ImageReference("chainfights")
             global battle
-            battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, logical=1)
+            battle = BE_Core(logical=1)
             battle.teams.append(defence_team)
             battle.teams.append(enemy_team)
             
@@ -881,7 +881,6 @@ init -5 python:
             # Create flag object first to pass data to the Job:
             flag = Flags()
             flag.set_flag("result", battle.winner == defence_team)
-            flag.set_flag("defenders", defenders)
             flag.set_flag("opfor", opfor)
             job(defenders, defenders, self.instance, action="intercept", flag=flag)
                         

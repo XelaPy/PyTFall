@@ -2463,9 +2463,13 @@
             
             self.team = self.all_workers
             
-            self.txt = ["{} patrolled {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            self.txt = ["{} intercepted a bunch of drunk miscreants in {}! ".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            if self.flag.flag("result"):
+                self.txt.append("They managed to subdue them!")
+            else:
+                self.txt.append("They failed to subdue them, that will cause you some issues with your clients and {} reputation will suffer!".format(self.loc.name))
             
-            # Stat mods
+            # Stat mods (Should be moved/split here).
             self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
             for w in self.all_workers:
                 self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
