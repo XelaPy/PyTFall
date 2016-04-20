@@ -225,8 +225,6 @@ init -5 python:
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
-        
-        Completely useless at the moment :(
         """
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
@@ -235,7 +233,15 @@ init -5 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+            self.expects_clients = True # If False, no clients are expected. If all businesses in the building have this set to false, no client stream will be generated at all.
             
+        def business_control(self):
+            """SimPy business controller.
+            """
+            while 1:
+                yield self.env.timeout(100)
+            
+        # SubUpgrade related:
         def add_upgrade(self, upgrade):
             upgrade.instance = self
             self.main_upgrade = self.instance
@@ -513,6 +519,7 @@ init -5 python:
             self.time = 1 # Same.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
             self.interrupt = None # We can bind an active process here if it can be interrupted.
+            self.expects_clients = False # See MainUpgrade.__init__
             
             
     class BrothelBlock(PrivateBusinessUpgrade):
@@ -920,7 +927,7 @@ init -5 python:
     
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
-        """Usually suggests an expantion to a business upgrade that modifies some of it's gameflow/properties/jobs!
+        """Usually suggests an expantion to a business upgrade that modifies some of it's workflow/properties/jobs!
         
         I want to code a skeleton for this atm.
         """
