@@ -210,6 +210,8 @@ init: # Items:
                                         text ('Sex:') color ivory yalign 0.5
                                         if item.slot in ["gift", "resources", "loot"]:
                                             label "{size=-3}N/A" xalign 1.0 align (1.0, 0.5)
+                                        elif item.type == "food" and item.sex == 'unisex':
+                                            label "{size=-3}N/A" xalign 1.0 align (1.0, 0.5)
                                         elif item.sex == 'male':
                                             label ('{size=-3}{color=#FFA54F}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
                                         elif item.sex == 'female':
