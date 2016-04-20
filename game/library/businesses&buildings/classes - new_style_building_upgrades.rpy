@@ -806,9 +806,31 @@ init -5 python:
             """This intercepts a bunch of aggresive clients and resolves the issue through combat or intimidation.
             
             opfor = opposition forces
+            
+            TODO:
+            - This needs to gather the forces.
+            - Return the result and put a hold on the business process if interception had failed.
+            - Work with clients instead of props I am planning to use for testing.
+            - Check if previous guard action was interrupted and act (look for defenders/restore older process) accordingly.
             """
-            # gather the forces:
-            pass
+            job = simple_jobs["Guarding"]
+            
+            # gather the responce forces:
+            defenders = list()
+            if interrupted:
+                active_workers_backup = self.active_workers[:]
+                defenders = self.active_workers[:]
+                self.active_workers = list()
+                
+            temp = self.get_workers(job, amount=10, match_to_client=None, priority=True, any=True) # Set amount according to opfor/manager:
+            defenders = set(defenders + temp)
+            
+            if not defenders:
+                # If there are no defenders, we're screwed:
+                return False # TODO: Maybe more options than False and None?
+                
+            # Otherwise we start a combat scenario/build a report:
+            
             
             
         def convert_AP(self, w, workers, flag):
