@@ -1386,6 +1386,36 @@
         ]
     },
     {
+        "name": "Royal Mantis",
+        "desc": "A giant ambush predator with huge scythe-like claws and excellent reflexes.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/gro.png",
+        "portrait": "content/npc/mobs/gro1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Warrior", "Trickster"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":40,
+            "magic": 0,
+            "agility": 90,
+            "luck":10,
+            "charisma": 20,
+            "constitution": 40,
+            "intelligence": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ScytheAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Cetus",
         "desc": "A carnivorous amphibian inhabiting non-navigable rivers.",
         "front_row": 1,
@@ -2346,6 +2376,36 @@
         ]
     },
     {
+        "name": "Minotaur",
+        "desc": "These tall and muscular bull-like creatures presumably were made by the Ancients to protect their cities from wild animals and monsters. They can still be encountered in sufficient quantities near ancient ruins.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/min.png",
+        "portrait": "content/npc/mobs/min1.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 51,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":55,
+            "magic": 5,
+            "agility": 30,
+            "luck":-5,
+            "charisma":30,
+            "constitution": 65,
+            "intelligence": 20
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Thunderous Cloud",
         "desc": "A hostile cloud of magical mist.",
         "front_row": 0,
@@ -2946,6 +3006,36 @@
         ]
     },
     {
+        "name": "Foggy Knight",
+        "desc": "A set of heavy armour filled with milky fog, which quickly dispels after destruction of the armour.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/fog.png",
+        "portrait": "content/npc/mobs/fog1.png",
+        "race": "Construct",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":70,
+            "magic": 20,
+            "agility": 20,
+            "luck":-40,
+            "charisma":80,
+            "constitution": 70,
+            "intelligence": 10
+        },
+        "skills": {},
+        "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Infantryman",
         "desc": "A soldier of the regular army.",
         "front_row": 1,
@@ -3517,7 +3607,7 @@
     },
     {
         "name": "Titan",
-        "desc": "They say some ancients turned themselves into these creatures in order to survive upcoming climate change.",
+        "desc": "They say some Ancients turned themselves into these creatures in order to survive upcoming climate change.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dm.png",
         "portrait": "content/npc/mobs/dm1.png",
