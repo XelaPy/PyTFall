@@ -225,8 +225,6 @@ init -5 python:
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
-        
-        Completely useless at the moment :(
         """
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
@@ -235,7 +233,15 @@ init -5 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+            self.expects_clients = True # If False, no clients are expected. If all businesses in the building have this set to false, no client stream will be generated at all.
             
+        def business_control(self):
+            """SimPy business controller.
+            """
+            while 1:
+                yield self.env.timeout(100)
+            
+        # SubUpgrade related:
         def add_upgrade(self, upgrade):
             upgrade.instance = self
             self.main_upgrade = self.instance
@@ -358,7 +364,7 @@ init -5 python:
             self.earned_cash = 0 # Cash earned (total)
             
         def get_client_count(self):
-            # Returns amount of workers we expect to come here.
+            # Returns amount of clients we expect to come here.
             return int(round(3 + self._rep*0.05*max(len(self.all_workers), self.capacity)))
             
         def pre_nd(self):
@@ -417,7 +423,7 @@ init -5 python:
             while 1:
                 yield self.env.timeout(self.time)
                 
-                # Temp code:
+                # Temp code: =====================================>>>
                 # TODO: Should be turned into Job Event.
                 if counter < 1 and self.env.now > 20:
                     counter += 1
@@ -432,6 +438,7 @@ init -5 python:
                     counter += 1
                     process.interrupt("fight")
                     self.env.process(u.intercept(interrupted=True))
+                #  =====================================>>>
                 
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
@@ -513,6 +520,15 @@ init -5 python:
             self.time = 1 # Same.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
             self.interrupt = None # We can bind an active process here if it can be interrupted.
+            self.expects_clients = False # See MainUpgrade.__init__
+            
+            
+    class TaskUpgrade(MainUpgrade):
+        """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
+        """
+        # For lack of a better term... can't come up with a better name atm.
+        def __init__(self, name="Task Default", instance=None, desc="Completes given task!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+            super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             
     class BrothelBlock(PrivateBusinessUpgrade):
@@ -917,10 +933,13 @@ init -5 python:
             self.rooms = in_slots
             
     # UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
+    class ExplorationGuild():
+        pass
+    
     
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
-        """Usually suggests an expantion to a business upgrade that modifies some of it's gameflow/properties/jobs!
+        """Usually suggests an expantion to a business upgrade that modifies some of it's workflow/properties/jobs!
         
         I want to code a skeleton for this atm.
         """
