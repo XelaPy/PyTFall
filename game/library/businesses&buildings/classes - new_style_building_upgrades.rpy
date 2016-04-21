@@ -933,10 +933,21 @@ init -5 python:
             self.rooms = in_slots
             
     # UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
-    class ExplorationGuild():
-        pass
+    class ExplorationGuild(TaskUpgrade):
+        COMPATIBILITY = []
+        MATERIALS = {"Wood": 70, "Bricks": 50, "Glass": 5}
+        COST = 10000
+        ID = "ExplorationGuild"
+        IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
+        def __init__(self, name="Exploration Guild", instance=None, desc="Raid PyTFall's outskirts for loot!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+            super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
     
-    
+        def business_control(self):
+            """SimPy business controller.
+            """
+            while 1:
+                yield self.env.timeout(100)
+            
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
         """Usually suggests an expantion to a business upgrade that modifies some of it's workflow/properties/jobs!
