@@ -1,5 +1,11 @@
 init -5 python:
     #################################################################
+    """Thoughts:
+    
+    - Here is the continuation of SimPy land, which starts at the main building and calls/activates methods gtom workable upgrades.
+    - It may be a good idea to create a Flags object here and pass it to the Jobs which create ND reports. It makes sense (at least) for the team jobs.
+    - This needs to get a lot more generic, especially newer addons.
+    """
     # BUILDING UPGRADE CLASSES
     class BuildingUpgrade(_object):
         """BaseClass for any building expansion! (aka Business)
@@ -219,8 +225,6 @@ init -5 python:
         
     class MainUpgrade(BuildingUpgrade):
         """Usually suggests a business of some kind and unlocks jobs and other upgrades!
-        
-        Completely useless at the moment :(
         """
         def __init__(self, *args, **kwargs):
             super(MainUpgrade, self).__init__(*args, **kwargs)
@@ -229,7 +233,15 @@ init -5 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+            self.expects_clients = True # If False, no clients are expected. If all businesses in the building have this set to false, no client stream will be generated at all.
             
+        def business_control(self):
+            """SimPy business controller.
+            """
+            while 1:
+                yield self.env.timeout(100)
+            
+        # SubUpgrade related:
         def add_upgrade(self, upgrade):
             upgrade.instance = self
             self.main_upgrade = self.instance
@@ -352,7 +364,7 @@ init -5 python:
             self.earned_cash = 0 # Cash earned (total)
             
         def get_client_count(self):
-            # Returns amount of workers we expect to come here.
+            # Returns amount of clients we expect to come here.
             return int(round(3 + self._rep*0.05*max(len(self.all_workers), self.capacity)))
             
         def pre_nd(self):
@@ -411,19 +423,22 @@ init -5 python:
             while 1:
                 yield self.env.timeout(self.time)
                 
-                # Temp code:
+                # Temp code: =====================================>>>
                 # TODO: Should be turned into Job Event.
                 if counter < 1 and self.env.now > 20:
                     counter += 1
                     for u in self.instance._upgrades:
                         if u.__class__ == WarriorQuarters:
                             process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
+                            u.interrupt = process # New field to which we can bind a process that can be interrupted.
                             break
                             
                 # testing interruption:
                 if counter == 1 and self.env.now > 40:
                     counter += 1
-                    process.interrupt()
+                    process.interrupt("fight")
+                    self.env.process(u.intercept(interrupted=True))
+                #  =====================================>>>
                 
                 # Handle the earnings:
                 # cash = self.res.count*len(self.active_workers)*randint(8, 12)
@@ -504,6 +519,16 @@ init -5 python:
             self.res = None # Restored before every job...
             self.time = 1 # Same.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
+            self.interrupt = None # We can bind an active process here if it can be interrupted.
+            self.expects_clients = False # See MainUpgrade.__init__
+            
+            
+    class TaskUpgrade(MainUpgrade):
+        """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
+        """
+        # For lack of a better term... can't come up with a better name atm.
+        def __init__(self, name="Task Default", instance=None, desc="Completes given task!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+            super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             
     class BrothelBlock(PrivateBusinessUpgrade):
@@ -768,9 +793,9 @@ init -5 python:
                         yield self.env.timeout(1)
                     counter = counter + 1
                     
-                except simpy.Interrupt:
+                except simpy.Interrupt as reason:
                     temp = "{}: Debug: ".format(self.env.now)
-                    temp = temp + " {} Guards responding to an event, patrol is halted {}".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + " {} Guards responding to an event ({}), patrol is halted in {}".format(set_font_color(wlen, "red"), reason.cause, building.name)
                     temp = temp + set_font_color("!!!!".format(counter), "crimson")
                     self.log(temp)
 
@@ -794,14 +819,104 @@ init -5 python:
             # Build the report:
             simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
             
-        def intercept(self, opfor):
+        def intercept(self, opfor=list(), interrupted=False):
             """This intercepts a bunch of aggresive clients and resolves the issue through combat or intimidation.
             
             opfor = opposition forces
-            """
-            # gather the forces:
-            pass
             
+            TODO:
+            - This needs to gather the forces.
+            - Return the result and put a hold on the business process if interception had failed.
+            - Work with clients instead of props I am planning to use for testing.
+            - Check if previous guard action was interrupted and act (look for defenders/restore older process) accordingly.
+            """
+            job = simple_jobs["Guarding"]
+            
+            # gather the responce forces:
+            defenders = list()
+            if interrupted:
+                active_workers_backup = self.active_workers[:]
+                defenders = self.active_workers[:]
+                self.active_workers = list()
+                
+            temp = self.get_workers(job, amount=10, match_to_client=None, priority=True, any=True) # Set amount according to opfor/manager:
+            defenders = set(defenders + temp)
+            
+            temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
+            self.log(temp)
+            
+            if not defenders:
+                # If there are no defenders, we're screwed:
+                temp = "{}: Noone was able to intercept attack event in {}".format(self.env.now, building.name)
+                self.log(temp)
+                self.env.exit(False) # TODO: Maybe more options than False and None?
+            else:
+                temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
+                self.log(temp)
+                
+            # TODO: This should prolly be a function!
+            # Prepear the teams:
+            enemy_team = Team(name="Enemy Team", max_size=5) # TODO: max_size should be len(opfor)
+            mob = build_mob(id="Goblin Shaman", level=30)
+            mob.front_row = True
+            mob.apply_trait("Fire")
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+            for i in xrange(4): # Testing 5 mobs...
+                mob = build_mob(id="Goblin Archer", level=10)
+                mob.front_row = False
+                mob.controller = BE_AI(mob)
+                enemy_team.add(mob)
+            
+            defence_team = Team(name="Guardians Of The Galaxy", max_size=len(defenders))
+            for i in defenders:
+                i.controller = BE_AI(i)
+                defence_team.add(i)
+                
+            # ImageReference("chainfights")
+            global battle
+            battle = BE_Core(logical=1)
+            battle.teams.append(defence_team)
+            battle.teams.append(enemy_team)
+            
+            battle.start_battle()
+            
+            for i in defenders:
+                i.controller = "player"
+                
+            yield self.env.timeout(5)
+                
+            # We also should restore the list if there was interruption:
+            if "active_workers_backup" in locals():
+                for i in active_workers_backup:
+                    if check_char(i, check_ap=False): # Check if we're still ok to work...
+                        self.active_workers.append(i)
+                        # TODO: Actual workers list should be here as well, not just the general one...
+            
+            # Build a Job report:
+            # Create flag object first to pass data to the Job:
+            flag = Flags()
+            flag.set_flag("result", battle.winner == defence_team)
+            flag.set_flag("opfor", opfor)
+            job(defenders, defenders, self.instance, action="intercept", flag=flag)
+                        
+            # decided to add report in debug mode after all :)
+            if config.debug:
+                self.log(set_font_color("Debug: Battle Starts!", "crimson"))
+                for entry in reversed(battle.combat_log):
+                    self.log(entry)
+                self.log(set_font_color("=== Battle Ends ===", "crimson"))
+            
+            if battle.winner == defence_team:
+                temp = "{}: Interception Success!".format(self.env.now)
+                temp = temp + set_font_color("....", "crimson")
+                self.log(temp)
+                self.env.exit(True) # return True
+            else:
+                temp = "{}: Interception Failed, your Guards have been defeated!".format(self.env.now)
+                temp = temp + set_font_color("....", "crimson")
+                self.log(temp)
+                self.env.exit(False)
             
         def convert_AP(self, w, workers, flag):
             # "Job Points": TODO: Remove this, temp code to help out with testing.
@@ -818,10 +933,13 @@ init -5 python:
             self.rooms = in_slots
             
     # UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
+    class ExplorationGuild():
+        pass
+    
     
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
-        """Usually suggests an expantion to a business upgrade that modifies some of it's gameflow/properties/jobs!
+        """Usually suggests an expantion to a business upgrade that modifies some of it's workflow/properties/jobs!
         
         I want to code a skeleton for this atm.
         """

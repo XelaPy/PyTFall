@@ -14,7 +14,7 @@ init -9 python:
     """Core order for SimPy jobs loop:2
     ***Needs update after restructuring/renaming.
     
-    BUILDING:
+    NSUBUILDING:
         # Holds Businesses and data/properties required for operation.
         run_nd():
             # Setups and starts the simulation.
@@ -25,27 +25,33 @@ init -9 python:
             *Creates SimPy Envoronment and runs it (run_jobs being the main controlling process)
             *Runs the post_nd.
             
-        run_jobs():
+        building_manager():
+            SimPy process that manages the building as a whole.
             # Main controller for all businesses.
-            *Builds a list of all workable business.
-            *Adds run_job for all public_service businesses to Env
-            *Adds a steady/conditioned stream of clients to the appropriate businesses and manages their stream:
-                TODO: Management of clients in case of lack of the capacity needs to be added there and to child checkups:
-                *Personal Service:
-                    - Finds best client match using update.get_workers()
-                    - Runs the job using: self.env.process(upgrade.request(client, char)) TODO: Rename appropriately.
-                *Public Service:
-                    - Simply sends client to business.
-                    - Sends in Workers to serve/entertain the clients.
-                    
-                *Kicks clients if nothing could be arranged for them.
+            *Builds a list of all workable businesses.
+            *Starts business manager.
+        clients_manager():
+            SimPy Process that supplies clients to the businesses within the building when appropriate.
+            *Adds a steady/conditioned stream of clients to the appropriate businesses and manages that stream:
+            *Kicks clients if nothing could be arranged for them.
                     
     BUSINESS: (aka Upgrade)
         # Hold all data/methods required for business to operate.
+        
+        *Personal Service:
+            - Finds best client match using update.get_workers()
+            - Runs the job.
+        *Public Service:
+            - Simply sends client to business.
+            - Sends in Workers to serve/entertain the clients.
+        *OnDemand:
+            - Includes some form of "on demand" service, like cleaning or guarding (defending).
+            - May also have a continued, "automatic" service like Guard-patrol.
+        
         TODO: all_occs should return a constant instead of creating a set every time they are called.
         TODO: Businesses or Building should control clients that wish to remain for moar action.
         *workers = On duty characters.
-        *habitabe/workable = selfexplanotory.
+        *habitabe/workable = self-explanotory.
         *clients = clients used locally (maybe useful only for the public service?)
         *capacity = cap of the building such as amount of rooms/workspace.
         *jobs = only for businesses
@@ -54,7 +60,8 @@ init -9 python:
             - Checks if a char is willing.
             - Can also try to match find the best client for the job.
         
-        SimPy Stuff:
+        # This may be obsolete after refactoring... to be rewritten or deleted after a steady system is in place.
+        SimPy Land:
             *res = Resource
             *time = cycle TODO: Prolly should be controled by the manager
             *is_running = May be useless
@@ -555,7 +562,7 @@ init -9 python:
             
             # All workers and workable businesses:
             self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs) # The last check may not be good enought, may need rewriting.
-            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get all businesses! #IMPORTANT! Businesses that do not take clients should be removed from here!
+            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
             
             # Clietns:
             tl.timer("Generating clients")
@@ -579,7 +586,7 @@ init -9 python:
             for up in self._upgrades:
                 up.pre_nd()
                 
-            self.env.process(self.clients_dispatcher(end=100))
+            self.env.process(self.building_manager(end=100))
             self.env.run(until=100)
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
@@ -743,27 +750,14 @@ init -9 python:
             """
             return any(i.workable for i in self._upgrades)
             
+        @property
+        def expects_clients(self):
+            return any(i.expects_clients for i in self._upgrades)
+            
         # SimPy:
-        def clients_dispatcher(self, end=40):
-            """This method provides stream of clients to the building following it's own algorithm.
+        def building_manager(self, end=100):
+            """This is the main proccess that manages everything that is happening in the building!
             """
-            
-            # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
-            # This also needs to be placed elsewhere... do we need a process that simply tracks events???
-            if self.get_dirt() > self.get_max_dirt()*.9:
-                temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
-                temp = set_font_color(temp, "red")
-                self.log(temp)
-                
-                # In the future, find the appropriate building with cleaning upgrade, for now we simple assume that we have one (TODO:)
-                # And yet another TODO: ... getting to upgrade is really clumsy at the moment, maybe it would make sense to use dicts, instead of lists?
-                cleaners = None
-                for u in self._upgrades:
-                    if u.__class__ == Cleaners:
-                        cleaners = u
-                        break
-                cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
-            
             # TODO: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:
                 # Trigger all public businesses:
@@ -772,6 +766,31 @@ init -9 python:
                 if u.has_workers():
                     u.is_running = True
             
+            if self.expects_clients:
+                self.env.process(self.clients_dispatcher(end=end))
+                
+            while 1:            
+                # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
+                # This also needs to be placed elsewhere... do we need a process that simply tracks events???
+                if self.get_dirt() > self.get_max_dirt()*.9:
+                    temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
+                    temp = set_font_color(temp, "red")
+                    self.log(temp)
+                    
+                    # In the future, find the appropriate building with cleaning upgrade, for now we simple assume that we have one (TODO:)
+                    # And yet another TODO: ... getting to upgrade is really clumsy at the moment, maybe it would make sense to use dicts, instead of lists?
+                    cleaners = None
+                    for u in self._upgrades:
+                        if u.__class__ == Cleaners:
+                            cleaners = u
+                            break
+                    cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
+                        
+                yield self.env.timeout(1)
+                
+        def clients_dispatcher(self, end=100):
+            """This method provides stream of clients to the building following it's own algorithm.
+            """
             # For Jobs that require clients to run:
             # This is a weird way to distribute clients... I'll come up with a better one in the future.
             i = 0
@@ -781,7 +800,7 @@ init -9 python:
             else:
                 iii = 0
                 
-            while self.clients and self.nd_ups and self.env.now <= end:
+            while self.clients and self.nd_ups:
                 if ii > iii:
                     delay = randint(1, 3)
                     yield self.env.timeout(delay)

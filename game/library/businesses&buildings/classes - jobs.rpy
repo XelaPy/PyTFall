@@ -1,7 +1,9 @@
 ﻿init -9 python:
 
-    def check_char(c):
-        """Checks whether the character is injured and sets her/him to auto rest.
+    def check_char(c, check_ap=True):
+        """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
+        
+        AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0. 
         """
         if c.health < c.get_max("health")*0.25:
             # self.txt.append("%s is injured and in need of medical attention! "%c.name)
@@ -19,7 +21,7 @@
                 c.action = AutoRest()
                 # self.txt.append("She's going to take few days off to recover her stamina. ")
             return
-        if c.AP <= 0:
+        if check_ap and c.AP <= 0:
             return
             
         return True
@@ -330,6 +332,7 @@
             self.worker = None # Default for single worker jobs.
             self.workermod = {} # Logging all stats/skills changed during the job.
             self.locmod = {}
+            self.flag = None # Flag we pass around from SimPy land to Jobs to carry over events/data.
             
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
@@ -373,6 +376,7 @@
             self.event_type = None
             self.txt = list()
             self.img = Null()
+            self.flags = Null()
             
             self.flag_red = False
             self.flag_green = False
@@ -2409,13 +2413,16 @@
             self.workermod = {}
             self.locmod = {}
         
-        def __call__(self, workers_original, workers, location, action):
+        def __call__(self, workers_original, workers, location, action, flag=None):
             self.all_workers = workers_original
             self.workers = workers
             self.loc = location
+            self.flag = flag
             
             if action == "patrol":
                 self.patrol()
+            elif action == "intercept":
+                self.intercept()
             
         def patrol(self):
             """Builds ND event for Guard Job.
@@ -2429,9 +2436,40 @@
             
             self.team = self.all_workers
             
-            self.txt = ["{} patrolled {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            self.txt = ["{} intercepted {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
             
             # Stat mods
+            self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
+            for w in self.all_workers:
+                self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
+                self.loggs('exp', randint(15, 25), w) # = ? What to do here?
+                for stat in ['attack', 'defence', 'magic', 'joy']:
+                    if dice(20):
+                        self.loggs(stat, 1, w)
+                        
+            self.event_type = "jobreport" # Come up with a new type for team reports?
+            self.apply_stats()
+            self.finish_job()
+            
+        def intercept(self):
+            """Builds ND event for Guard Job.
+            
+            This one is simpler... it just logs the stats, picks an image and builds a report...
+            """
+            self.img = Fixed(xysize=(820, 705))
+            self.img.add(Transform(self.loc.img, size=(820, 705)))
+            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            self.img.add(Transform(vp, align=(.5, .9)))
+            
+            self.team = self.all_workers
+            
+            self.txt = ["{} intercepted a bunch of drunk miscreants in {}! ".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            if self.flag.flag("result"):
+                self.txt.append("They managed to subdue them!")
+            else:
+                self.txt.append("They failed to subdue them, that will cause you some issues with your clients and {} reputation will suffer!".format(self.loc.name))
+            
+            # Stat mods (Should be moved/split here).
             self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
             for w in self.all_workers:
                 self.loggs('vitality', -randint(15, 25), w)  # = ? What to do here?
