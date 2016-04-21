@@ -224,6 +224,8 @@ init -9 python:
     class FighterGuild(DirtyBuilding):
         """
         The Fighters Guild building.
+        
+        Looks like nothing can be salvadged from here for SimPy land, I'll leave this so the interface keeps working.
         """
         
         ACTIONS = ["Rest", "Training", "ServiceGirl", "BarGirl"]

@@ -523,6 +523,14 @@ init -5 python:
             self.expects_clients = False # See MainUpgrade.__init__
             
             
+    class TaskUpgrade(MainUpgrade):
+        """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
+        """
+        # For lack of a better term... can't come up with a better name atm.
+        def __init__(self, name="Task Default", instance=None, desc="Completes given task!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+            super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            
+            
     class BrothelBlock(PrivateBusinessUpgrade):
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
@@ -925,6 +933,9 @@ init -5 python:
             self.rooms = in_slots
             
     # UPGRADES = [Bar(), BrothelBlock(), StripClub(), Garden(), MainHall(), WarriorQuarters(), SlaveQuarters()]
+    class ExplorationGuild():
+        pass
+    
     
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
