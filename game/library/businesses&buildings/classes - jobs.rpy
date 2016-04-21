@@ -2396,7 +2396,7 @@
 
     class GuardJob(NewStyleJob):
         def __init__(self):
-            """Creates a new GuardJob.
+            """Creates reports for GuardJob.
             """
             super(GuardJob, self).__init__()
             self.id = "Guarding"
@@ -2603,7 +2603,7 @@
                         self.workermod['vitality'] = self.workermod.get('vitality', 0) - randint(15, 20)
                         self.worker.AP = 0
                 
-                else:   
+                else:
                     if dice(50):
                         self.txt.append("She spent time relaxing. \n")
                         
@@ -2623,4 +2623,133 @@
                         self.workermod['exp'] = self.workermod.get('exp', 0) +  randint(8, 15)
                         self.workermod['vitality'] = self.workermod.get('vitality', 0) - randint(15, 20)
                         self.worker.AP = 0
-
+                        
+                        
+    class ExplorationData(NewStyleJob):
+        def __init__(self):
+            """Creates a new GuardJob.
+            """
+            super(GuardJob, self).__init__()
+            self.id = "Guarding"
+            self.type = "Combat"
+            
+            # Traits/Job-types associated with this job:
+            self.occupations = ["Warrior"] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Warrior"], traits["Mage"], traits["Defender"], traits["Shooter"], traits["Battle Mage"]] # Corresponding traits...
+            
+            # Relevant skills and stats:
+            self.skills = ["cleaning"]
+            self.stats = ["agility"]
+            
+            self.workermod = {}
+            self.locmod = {}
+            
+        def __call__(self):
+            pass
+        
+        def explore(self):
+            """Makes a ND report of the Exploration run.
+            """
+            # Create a dict of characters to enable im.Sepia (=dead)) when constructing the image.
+            # False for alive and True for dead.
+            characters = {c: False for c in self.team}
+            dead = 0
+            
+            for char in self.team:
+                if char.location != "After Life":
+                    char.action = None
+                    char.location = char.flag("loc_backup")
+                    char.del_flag("loc_backup")
+                    
+                    for stat in self.stats:
+                        if stat == "exp":
+                            self.stats[stat] = char.adjust_exp(self.stats[stat])
+                            char.exp += self.stats[stat]
+                        else:
+                            char.mod(stat, self.stats[stat])
+                
+                else:
+                    characters[char] = True
+                    dead = dead + 1
+            
+            # Handle the dead chars:
+            skip_rewards = False
+            
+            if dead:
+                if len(self.team) == dead:
+                    self.txt.append("\n{color=[red]}The entire party was wiped out (Those poor girlz...)! This can't be good for your reputation (and you obviously not getting any rewards))!{/color}\n")
+                    hero.reputation -= 30
+                    skip_rewards = True
+                
+                else:
+                    self.txt.append("\n{color=[red]}You get reputation penalty as %d of your girls never returned from the expedition!\n{/color}" % dead)
+                    hero.reputation -= 7*dead
+            
+            if not skip_rewards:
+                # Rewards + logging in global area
+                cash = sum(self.cash)
+                hero.add_money(cash, "Fighters Guild")
+                fg.fin.log_work_income(cash, "Fighters Guild")
+                
+                for item in self.items:
+                    hero.inventory.append(items[item])
+                
+                self.cash = sum(self.cash)
+                if self.captured_girl:
+                    # We place the girl in slave pens (general jail of pytfall)
+                    jail.add_prisoner(self.captured_girl, flag="SE_capture")
+                    self.txt.append("{color=[green]}\nThe team has captured a girl, she's been sent to City Jail for 'safekeeping'!{/color}\n")
+                
+                area = fg_areas[self.area.id]
+                area.known_items |= set(self.found_items)
+                area.cash_earned += self.cash
+                area.known_mobs |= self.area.known_mobs
+                
+                for key in area.unlocks.keys():
+                    area.unlocks[key] += randrange(1, int(max(self.day, (self.day * self.risk/25), 2)))
+                    
+                    if dice(area.unlocks[key]):
+                        if key in fg_areas:
+                            fg_areas[key].unlocked = True
+                            self.txt.append("\n {color=[blue]}Team found Area: %s, it is now unlocked!!!{/color}" % key)
+                        
+                        del area.unlocks[key]
+            
+            fg.exploring.remove(self)
+            
+            if not self.flag_red:
+                self.flag_green = True
+                fg.flag_green = True
+            
+            if self.flag_red:
+                fg.flag_red = True
+            
+            # Create the event:
+            evt = NDEvent()
+            evt.red_flag = self.flag_red
+            evt.green_flag = self.flag_green
+            evt.charmod = self.stats
+            evt.type = 'exploration_report'
+            evt.char = None
+            self.loc = fg
+            
+            # New style:
+            args = list()
+            for g in characters:
+                if characters[g]:
+                    # Dead:
+                    args.append(im.Sepia(g.show("battle_sprite", resize=(200, 200), cache=True)))
+                
+                else:
+                    # Alive!
+                    args.append(g.show("battle_sprite", resize=(200, 200), cache=True))
+            
+            # args = list(g.show("battle_sprite", resize=(200, 200), cache=True) for g in self.team)
+            img = Fixed(ProportionalScale(self.area.img, 820, 705, align=(0.5, 0.5)),
+                        Text("%s"%self.team.name, style="agrevue", outlines=[ (1, crimson, 3, 3) ], antialias=True, size=30, color=red, align=(0.5, 0)),
+                        HBox(*args, spacing=10, align=(0.5, 1.0)),
+                        xysize=(820, 705))
+            
+            evt.img = img
+            evt.txt = "".join(self.txt)
+            NextDayEvents.append(evt)
