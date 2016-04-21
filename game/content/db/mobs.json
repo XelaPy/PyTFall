@@ -2676,6 +2676,36 @@
         ]
     },
     {
+        "name": "Ifrit",
+        "desc": "A wicked and ruthless infernal jinn from the dimension of Fire.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/if.png",
+        "portrait": "content/npc/mobs/if1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":90,
+            "magic": 90,
+            "agility": 70,
+            "luck":20,
+            "charisma":80,
+            "constitution": 40,
+            "intelligence": 85
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Fire Absorption"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Fira", "Firaga", "Firaja", "Fireball", "Solar Flash" 
+        ]
+    },
+    {
         "name": "Seeker",
         "desc": "Seekers spend their lives looking for rare items. They never steal or trade though, so usually people just ignore them.",
         "front_row": 0,
@@ -3157,7 +3187,7 @@
     },
     {
         "name": "Deathling",
-        "desc": "An ex elemental of Darkness, but now just a distorted, twisted reflection of the Grim Reaper.",
+        "desc": "An ex elemental of Darkness, now just a distorted, twisted reflection of the Grim Reaper.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dea.png",
         "portrait": "content/npc/mobs/dea1.png",
