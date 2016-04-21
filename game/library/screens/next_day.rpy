@@ -76,197 +76,12 @@ label next_day:
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
-    
-        $ FilteredList=list()
+        $ counter = 10
+        while counter:
+            call next_day_calculations
+            $ counter -= 1
         
-        if global_flags.flag("nd_music_play"):
-            $ global_flags.del_flag("nd_music_play")
-            if not "pytfall" in ilists.world_music:
-                $ ilists.world_music["pytfall"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("pytfall")]
-            play world choice(ilists.world_music["pytfall"])
-        
-        python:
-            global_flags.set_flag("keep_playing_music")
-            tl.timer("Next Day")
-            devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(chars)))
-            NextDayEvents = list()
-            
-            ################## Restore before the jobs ##################
-            tl.timer("Char.restore for all MC girls")
-            list(girl.restore() for girl in list(g for g in hero.girls if g.action != "Exploring"))
-            tl.timer("Char.restore for all MC girls")
-            
-            ################## Building events Start ##################
-            """
-            Complete Rewrite! This should become a manager for jobs! Preferably partly in Ren'Py script!
-            """
-        $ tl.timer("Buildings")
-        # Ren'Py script:
-        $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
-        
-        $ tl.timer("Rest (1)")
-        $ ndr_chars = list(c for c in hero.girls if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
-        # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
-        while ndr_chars:
-            $ resting_char = ndr_chars.pop()
-            $ resting_char.action(resting_char) # <--- Looks odd and off?
-        $ tl.timer("Rest (1)")
-        
-        while nd_buildings:
-            $ building = nd_buildings.pop()
-            $ building.run_nd()
-            
-            # Old jobs:
-            python:
-                if False:
-                    ###### Let Strippers do their thing #######
-                    tl.timer("StripJob")
-                    girls = strippers
-                    if strippers:
-                        building.servicer['strippers'] = len(strippers)
-                    
-                    while strippers:
-                        girl = choice(strippers)
-                        StripJob(girl, building, strippers, clients)
-                    
-                    tl.timer("StripJob")
-                    
-                    ##### First round of Service Girls is next #####
-                    tl.timer("ServiceJob(1)")
-                    girls = service_girls
-                    while service_girls:
-                        girl = choice(service_girls)
-                        ServiceJob(girl, building, service_girls, clients)
-                    
-                    tl.timer("ServiceJob(1)")
-                    
-                    ###### Whores do their thing! #######
-                    tl.timer("WhoreJob")
-                    girls = whores
-                    while whores and clients and not stop_whore_job:
-                        client = clients.pop()
-                        whore = None
-                        for girl in whores:
-                            if client.favtraits and client.favtraits & set(girl.traits):
-                                whore = girl
-                                client.traitmatched = True
-                                break
-                        
-                        else:
-                            whore = choice(whores)
-                        
-                        WhoreJob(whore, client, building, whores, clients)
-                    
-                    tl.timer("WhoreJob")
-                    
-                    ##### Second round for Service Girls (Just cleaning this time) #####
-                    tl.timer("ServiceJob(2)")
-                    service_girls = list(girl for girl in hero.girls if girl.location == building and girl.action == 'ServiceGirl')
-                    girls = service_girls
-                    building.servicer['second_round'] = True
-                    while service_girls:
-                        girl = choice(service_girls)
-                        ServiceJob(girl, building, service_girls, clients)
-                    
-                    tl.timer("ServiceJob(2)")
-                    
-                    ##### Guard Job events and reports #####
-                    tl.timer("GuardJob")
-                    guards = list(girl for girl in hero.girls if girl.location == building and girl.action == 'Guard')
-                    girls = guards
-                    while guards:
-                        girl = choice(guards)
-                        GuardJob(girl, building, guards)
-                    
-                    tl.timer("GuardJob")
-                    
-                    ###### Rest job in buildings #######
-                    tl.timer("RestJob")
-                    resting = list(girl for girl in hero.girls if girl.location == building and girl.action in ['Rest', 'AutoRest'])
-                    girls = resting
-                    for girl in resting:
-                        Rest(girl, building, resting)
-                    
-                    tl.timer("RestJob")
-                    
-        python:
-            # Append building report to the list
-            tl.timer("Building.next_day")
-            building.next_day()
-            tl.timer("Building.next_day")
-                
-        $ tl.timer("Buildings")
-            ################## Building events END ##################
-            #   
-            #
-            ################## Training events Start ##################
-        python:
-            tl.timer("Training")
-            for school in schools:
-                school = schools[school]
-                if not school.available: continue
-                
-                girls = school.get_girls("Course")
-                guards = school.get_girls("Guard")
-                trainers = school.get_girls("Training")
-                
-                # Girls first so disobey/runaway/obey events and trainer ap can be calculated
-                tl.timer("TrainingJob")
-                while girls:
-                    TrainingJob(choice(girls), school, girls)
-                tl.timer("TrainingJob")
-                
-                # Guards go next for runaway events
-                tl.timer("SchoolGuardJob")
-                while guards:
-                    SchoolGuardJob(choice(guards), school, guards)
-                tl.timer("SchoolGuardJob")
-                
-                # Trainers last for disobey events
-                tl.timer("TrainerJob")
-                while trainers:
-                    TrainerJob(choice(trainers), school, trainers)
-                tl.timer("TrainerJob")
-                
-                if school.is_school:
-                    tl.timer("School.next_day")
-                    school.next_day()
-                    tl.timer("School.next_day")
-                
-                else:
-                    tl.timer("TrainingDungeon.next_day")
-                    school.next_day()
-                    tl.timer("TrainingDungeon.next_day")
-            
-            tl.timer("Training")
-            ################## Training events End ##################
-            #
-            #
-            ################## Searching events Start ####################
-            tl.timer("Searching")
-            for building in hero.buildings:
-                girls = building.get_girls("Search")
-                while girls:
-                    EscapeeSearchJob(choice(girls), building, girls)
-            
-            tl.timer("Searching")
-            ################## Searching events End ####################
-            #
-            #
-            ################## Exploration ########################
-            tl.timer("Fighers Guild")
-            if fg in hero.buildings:
-                fg.next_day()
-            
-            tl.timer("Fighers Guild")    
-            ################## Logic #############################
-            tl.timer("pytfall + calender.next_day")
-            pytfall.next_day()
-            calendar.next() # day + 1 is here.
-            tl.timer("pytfall + calender.next_day")
-            tl.timer("Next Day")
-
-    
+    # Prepearing to display ND.
     ####### - - - - - #######
     # Sort data for summary reports:
     $ ndactive, ndresting, ndevents = sort_for_nd_summary()
@@ -277,7 +92,7 @@ label next_day:
         $ gimg = event.load_image()
     
     call next_day_controls
-
+        
     # Lets free some memory...
     if not day%50:
         $ renpy.free_memory()
@@ -285,6 +100,197 @@ label next_day:
     $ girls = None
     hide screen next_day
     jump mainscreen
+    
+label next_day_calculations:
+    $ FilteredList=list()
+    
+    if global_flags.flag("nd_music_play"):
+        $ global_flags.del_flag("nd_music_play")
+        if not "pytfall" in ilists.world_music:
+            $ ilists.world_music["pytfall"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("pytfall")]
+        play world choice(ilists.world_music["pytfall"])
+    
+    python:
+        global_flags.set_flag("keep_playing_music")
+        tl.timer("Next Day")
+        devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(chars)))
+        NextDayEvents = list()
+        
+        ################## Restore before the jobs ##################
+        tl.timer("Char.restore for all MC girls")
+        list(girl.restore() for girl in list(g for g in hero.girls if g.action != "Exploring"))
+        tl.timer("Char.restore for all MC girls")
+        
+        ################## Building events Start ##################
+        """
+        Complete Rewrite! This should become a manager for jobs! Preferably partly in Ren'Py script!
+        """
+    $ tl.timer("Buildings")
+    # Ren'Py script:
+    $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
+    
+    $ tl.timer("Rest (1)")
+    $ ndr_chars = list(c for c in hero.girls if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
+    # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
+    while ndr_chars:
+        $ resting_char = ndr_chars.pop()
+        $ resting_char.action(resting_char) # <--- Looks odd and off?
+    $ tl.timer("Rest (1)")
+    
+    while nd_buildings:
+        $ building = nd_buildings.pop()
+        $ building.run_nd()
+        
+        # Old jobs:
+        python:
+            if False:
+                ###### Let Strippers do their thing #######
+                tl.timer("StripJob")
+                girls = strippers
+                if strippers:
+                    building.servicer['strippers'] = len(strippers)
+                
+                while strippers:
+                    girl = choice(strippers)
+                    StripJob(girl, building, strippers, clients)
+                
+                tl.timer("StripJob")
+                
+                ##### First round of Service Girls is next #####
+                tl.timer("ServiceJob(1)")
+                girls = service_girls
+                while service_girls:
+                    girl = choice(service_girls)
+                    ServiceJob(girl, building, service_girls, clients)
+                
+                tl.timer("ServiceJob(1)")
+                
+                ###### Whores do their thing! #######
+                tl.timer("WhoreJob")
+                girls = whores
+                while whores and clients and not stop_whore_job:
+                    client = clients.pop()
+                    whore = None
+                    for girl in whores:
+                        if client.favtraits and client.favtraits & set(girl.traits):
+                            whore = girl
+                            client.traitmatched = True
+                            break
+                    
+                    else:
+                        whore = choice(whores)
+                    
+                    WhoreJob(whore, client, building, whores, clients)
+                
+                tl.timer("WhoreJob")
+                
+                ##### Second round for Service Girls (Just cleaning this time) #####
+                tl.timer("ServiceJob(2)")
+                service_girls = list(girl for girl in hero.girls if girl.location == building and girl.action == 'ServiceGirl')
+                girls = service_girls
+                building.servicer['second_round'] = True
+                while service_girls:
+                    girl = choice(service_girls)
+                    ServiceJob(girl, building, service_girls, clients)
+                
+                tl.timer("ServiceJob(2)")
+                
+                ##### Guard Job events and reports #####
+                tl.timer("GuardJob")
+                guards = list(girl for girl in hero.girls if girl.location == building and girl.action == 'Guard')
+                girls = guards
+                while guards:
+                    girl = choice(guards)
+                    GuardJob(girl, building, guards)
+                
+                tl.timer("GuardJob")
+                
+                ###### Rest job in buildings #######
+                tl.timer("RestJob")
+                resting = list(girl for girl in hero.girls if girl.location == building and girl.action in ['Rest', 'AutoRest'])
+                girls = resting
+                for girl in resting:
+                    Rest(girl, building, resting)
+                
+                tl.timer("RestJob")
+                
+    python:
+        # Append building report to the list
+        tl.timer("Building.next_day")
+        building.next_day()
+        tl.timer("Building.next_day")
+            
+    $ tl.timer("Buildings")
+        ################## Building events END ##################
+        #   
+        #
+        ################## Training events Start ##################
+    python:
+        tl.timer("Training")
+        for school in schools:
+            school = schools[school]
+            if not school.available: continue
+            
+            girls = school.get_girls("Course")
+            guards = school.get_girls("Guard")
+            trainers = school.get_girls("Training")
+            
+            # Girls first so disobey/runaway/obey events and trainer ap can be calculated
+            tl.timer("TrainingJob")
+            while girls:
+                TrainingJob(choice(girls), school, girls)
+            tl.timer("TrainingJob")
+            
+            # Guards go next for runaway events
+            tl.timer("SchoolGuardJob")
+            while guards:
+                SchoolGuardJob(choice(guards), school, guards)
+            tl.timer("SchoolGuardJob")
+            
+            # Trainers last for disobey events
+            tl.timer("TrainerJob")
+            while trainers:
+                TrainerJob(choice(trainers), school, trainers)
+            tl.timer("TrainerJob")
+            
+            if school.is_school:
+                tl.timer("School.next_day")
+                school.next_day()
+                tl.timer("School.next_day")
+            
+            else:
+                tl.timer("TrainingDungeon.next_day")
+                school.next_day()
+                tl.timer("TrainingDungeon.next_day")
+        
+        tl.timer("Training")
+        ################## Training events End ##################
+        #
+        #
+        ################## Searching events Start ####################
+        tl.timer("Searching")
+        for building in hero.buildings:
+            girls = building.get_girls("Search")
+            while girls:
+                EscapeeSearchJob(choice(girls), building, girls)
+        
+        tl.timer("Searching")
+        ################## Searching events End ####################
+        #
+        #
+        ################## Exploration ########################
+        tl.timer("Fighers Guild")
+        if fg in hero.buildings:
+            fg.next_day()
+        
+        tl.timer("Fighers Guild")    
+        ################## Logic #############################
+        tl.timer("pytfall + calender.next_day")
+        pytfall.next_day()
+        calendar.next() # day + 1 is here.
+        tl.timer("pytfall + calender.next_day")
+        tl.timer("Next Day")
+    return
 
 label next_day_controls:
     scene bg profile_2
