@@ -518,7 +518,7 @@ label load_battle_skills:
                                            desc="Creates cloud of fragments of hardened clay.")
         SimpleMagicalAttack(u"Stonera", menu_pos=1, attributes=['magic', 'earth'], effect=30, multiplier=1.2, cost=7, range=4, casting_effects=["earth_1", "default"], gfx='earth_2', zoom=1.0, pause=1.5, target_damage_gfx=[0.1, "shake", 0.8], sfx="content/sfx/sound/be/earth.mp3",
                                            aim="bc", anchor=(0.5, 1.0), yo=10,
-                                           desc="Creates a spall, yet sharp spike.")
+                                           desc="Creates a sharp spike.")
         SimpleMagicalAttack(u"Stonega", menu_pos=2, attributes=['magic', 'earth'], effect=25, multiplier=1.2, cost=6, range=4, casting_effects=["earth_1", "default"], gfx='earth_3', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.2], sfx="content/sfx/sound/be/earth3.mp3", piercing=True,
                                            aim="bc", anchor=(0.5, 0.5), yo=0,
                                            desc="A small amount of magma moves to the surface, spilling on the target.")
