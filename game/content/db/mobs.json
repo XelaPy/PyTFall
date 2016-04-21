@@ -1386,6 +1386,36 @@
         ]
     },
     {
+        "name": "Royal Mantis",
+        "desc": "A giant ambush predator with huge scythe-like claws and excellent reflexes.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/gro.png",
+        "portrait": "content/npc/mobs/gro1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Warrior", "Trickster"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":40,
+            "magic": 0,
+            "agility": 90,
+            "luck":10,
+            "charisma": 20,
+            "constitution": 40,
+            "intelligence": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ScytheAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Cetus",
         "desc": "A carnivorous amphibian inhabiting non-navigable rivers.",
         "front_row": 1,
@@ -1593,6 +1623,36 @@
             "FistAttack"
         ],
         "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja", "Eternal Gluttony"
+        ]
+    },
+    {
+        "name": "Oni",
+        "desc": "A weird creature from ancient legends of distant lands. They actually have not existed, but the potential of faith of many generations eventually gave them life.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/oni.png",
+        "portrait": "content/npc/mobs/oni1.png",
+        "race": "Demon",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":40,
+            "magic": 60,
+            "agility": 30,
+            "luck":0,
+            "charisma":70,
+            "constitution": 30,
+            "intelligence": 35
+        },
+        "skills": {},
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja"
         ]
     },
     {
@@ -2346,6 +2406,36 @@
         ]
     },
     {
+        "name": "Minotaur",
+        "desc": "These tall and muscular bull-like creatures presumably were made by the Ancients to protect their cities from wild animals and monsters. They can still be encountered in sufficient quantities near ancient ruins.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/min.png",
+        "portrait": "content/npc/mobs/min1.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 51,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 70,
+            "defence":55,
+            "magic": 5,
+            "agility": 30,
+            "luck":-5,
+            "charisma":30,
+            "constitution": 65,
+            "intelligence": 20
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "AxeAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Thunderous Cloud",
         "desc": "A hostile cloud of magical mist.",
         "front_row": 0,
@@ -2497,7 +2587,7 @@
     },
     {
         "name": "Wind Spirit",
-        "desc": "A soul, unwittingly merged with infinite streams of air.",
+        "desc": "A soul merged with infinite streams of air.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ws.png",
         "portrait": "content/npc/mobs/ws1.png",
@@ -2527,7 +2617,7 @@
     },
     {
         "name": "Water Spirit",
-        "desc": "A soul caught in flows of water.",
+        "desc": "A soul caught in looped flows of water.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/was.png",
         "portrait": "content/npc/mobs/was1.png",
@@ -2553,6 +2643,66 @@
             "ClawAttack"
         ],
         "magic_skills": ["Geyser", "Watera", "Waterga"
+        ]
+    },
+    {
+        "name": "Fire Spirit",
+        "desc": "A soul enveloped in never fading flames.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/fir.png",
+        "portrait": "content/npc/mobs/fir1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 21,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":40,
+            "magic": 60,
+            "agility": 60,
+            "luck":-10,
+            "charisma":30,
+            "constitution": 40,
+            "intelligence": 35
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Fire Immunity", "Undead"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Fira", "Firaga", "Fireball"
+        ]
+    },
+    {
+        "name": "Ifrit",
+        "desc": "A wicked and ruthless infernal jinn from the dimension of Fire.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/if.png",
+        "portrait": "content/npc/mobs/if1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 0,
+            "defence":90,
+            "magic": 90,
+            "agility": 70,
+            "luck":20,
+            "charisma":80,
+            "constitution": 40,
+            "intelligence": 85
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire", "Fire Absorption"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Fira", "Firaga", "Firaja", "Fireball", "Solar Flash" 
         ]
     },
     {
@@ -2946,6 +3096,36 @@
         ]
     },
     {
+        "name": "Foggy Knight",
+        "desc": "A set of heavy armour filled with milky fog, which quickly dispels after destruction of the armour.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/fog.png",
+        "portrait": "content/npc/mobs/fog1.png",
+        "race": "Construct",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 40,
+            "defence":70,
+            "magic": 20,
+            "agility": 20,
+            "luck":-40,
+            "charisma":80,
+            "constitution": 70,
+            "intelligence": 10
+        },
+        "skills": {},
+        "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Infantryman",
         "desc": "A soldier of the regular army.",
         "front_row": 1,
@@ -3003,6 +3183,36 @@
             "ClawAttack", "BiteAttack"
         ],
         "magic_skills": ["Eternal Gluttony", "Darkra", "Darkga"
+        ]
+    },
+    {
+        "name": "Deathling",
+        "desc": "An ex elemental of Darkness, now just a distorted, twisted reflection of the Grim Reaper.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/dea.png",
+        "portrait": "content/npc/mobs/dea1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":40,
+            "magic": 60,
+            "agility": 40,
+            "luck":-40,
+            "charisma":10,
+            "constitution": 50,
+            "intelligence": 20
+        },
+        "skills": {},
+        "traits": ["Darkness Absorption", "Darkness"],
+        "attack_skills": [
+            "ScytheAttack"
+        ],
+        "magic_skills": ["Black Hole"
         ]
     },
     {
@@ -3517,7 +3727,7 @@
     },
     {
         "name": "Titan",
-        "desc": "They say some ancients turned themselves into these creatures in order to survive upcoming climate change.",
+        "desc": "They say some Ancients turned themselves into these creatures in order to survive upcoming climate change.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dm.png",
         "portrait": "content/npc/mobs/dm1.png",
@@ -3812,6 +4022,66 @@
             "CannonAttack", "BiteAttack"
         ],
         "magic_skills": [
+        ]
+    },
+    {
+        "name": "Bemoth",
+        "desc": "A massive herbivorous with sturdy exoskeleton, designed by evolution to defend the creature from farmers while it devours their crops.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/beh.png",
+        "portrait": "content/npc/mobs/beh1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Juggernaut"
+        ],
+        "stats": {
+            "attack": 5,
+            "defence":100,
+            "magic": 0,
+            "agility": 10,
+            "luck":-45,
+            "charisma":5,
+            "constitution": 80,
+            "intelligence": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "RodAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Cockatrice",
+        "desc": "According to folk legends, a product of a homosexual relationship between two roosters. Sounds unlikely, but you never know.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/cock.png",
+        "portrait": "content/npc/mobs/cock1.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":30,
+            "magic": 60,
+            "agility": 70,
+            "luck":-35,
+            "charisma":85,
+            "constitution": 50,
+            "intelligence": 45
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth"],
+        "attack_skills": [
+            "WhipAttack"
+        ],
+        "magic_skills": ["Mudslide", "Stoneja"
         ]
     },
     {
