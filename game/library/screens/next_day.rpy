@@ -76,7 +76,7 @@ label next_day:
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
-        $ counter = 10
+        $ counter = 1
         while counter:
             call next_day_calculations
             $ counter -= 1
