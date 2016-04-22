@@ -173,6 +173,7 @@ label dev_testing_menu:
         menu:
             "Test Intro":
                 call intro
+                call mc_setup
             "MC Setup Screen":
                 call mc_setup
                 $ neow = True

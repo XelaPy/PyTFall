@@ -1464,12 +1464,10 @@ screen next_day():
                             draggable True
                             mousewheel True
                             child_size 400, 10000
-                            has vbox
+                            has vbox xsize 400 xfill True
                             null height 10
-                            # $ s = event.txt.split("\n")
-                            # for i in s:
-                                # text i style "TisaOTMolxm"
-                            text u"{}".format(event.txt) style "TisaOTMolxm" size 18
+                            for i in event.txt:
+                                text i style "TisaOTMolxm" xalign .0
                         vbar value YScrollValue("nextdaytxt_vp")
                  
         mousearea:

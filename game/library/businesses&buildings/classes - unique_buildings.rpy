@@ -634,8 +634,8 @@ init -9 python:
             type = 'buildingreport'
             img = self.img
             
-            txt = self.txt
-            txt = txt + "\n".join(self.nd_events_report)
+            # txt = self.txt # We no longer store any data previous to the reports list and use vbox + interation instead of one huge text.
+            txt = self.nd_events_report
             
             evtlist = []
             char = None
@@ -661,7 +661,7 @@ init -9 python:
             if self.security_rating < 0: self.security_rating = 0
             if self.security_rating > 1000: self.security_rating = 1000
             
-            txt += "Security Rating in now %d out of 1000, you currently have %d guards on duty with security presence of %d %%. \n\n"% (self.security_rating, len(guardslist), self.security_presence)  
+            txt.append("Security Rating in now %d out of 1000, you currently have %d guards on duty with security presence of %d %%. \n\n"% (self.security_rating, len(guardslist), self.security_presence))  
             
             # Effects from upgrades:
             # TODO: Upgrade to new style!
@@ -730,16 +730,16 @@ init -9 python:
                 
                 spentcash = spentcash + 5000
                 
-                txt += "A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modrcel,modfcel)
+                txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modrcel,modfcel))
                 
                 self.adverts['celeb']['active'] = False
             
-            txt += "In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep)
+            txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
             
             if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
                 rep_hit = max(10, spentcash/10)
                 self.modrep(-rep_hit)
-                txt += "{color=[red]}And yet, you did not have enought money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name
+                txt.append("{color=[red]}And yet, you did not have enought money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name)
                 self.flag_red = True
             
             self.fin.log_expense(spentcash, "Ads")
