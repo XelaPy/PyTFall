@@ -785,8 +785,7 @@ init -9 python:
                             cleaners = u
                             cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
                             break
-                    
-                        
+                            
                 yield self.env.timeout(1)
                 
         def clients_dispatcher(self, end=100):

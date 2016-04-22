@@ -434,10 +434,10 @@ init -5 python:
                             break
                             
                 # testing interruption:
-                # if "process" in locals() and (counter == 1 and self.env.now > 40):
-                    # counter += 1
-                    # process.interrupt("fight")
-                    # self.env.process(u.intercept(interrupted=True))
+                if "process" in locals() and (counter == 1 and self.env.now > 40):
+                    counter += 1
+                    process.interrupt("fight")
+                    self.env.process(u.intercept(interrupted=True))
                 #  =====================================>>>
                 
                 # Handle the earnings:
