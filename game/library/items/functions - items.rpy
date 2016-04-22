@@ -180,7 +180,7 @@ label shop_control:
                 if result:
                     play sound "content/sfx/sound/world/purchase_1.ogg"
                     python:
-                        for __ in xrange(amount):
+                        for i in xrange(amount):
                             shop.inventory.remove(focus)
                             char.inventory.append(focus)
                             shop.gold += item_price
@@ -203,7 +203,7 @@ label shop_control:
                     if result:
                         play sound "content/sfx/sound/world/purchase_1.ogg"
                         python:
-                            for __ in xrange(amount):
+                            for i in xrange(amount):
                                 shop.gold -= item_price
                                 char.add_money(item_price, "Items")
                                 char.inventory.remove(focus)

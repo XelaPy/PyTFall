@@ -142,7 +142,7 @@
         if rchars:
             rgirls = rchars.keys()
             shuffle(rgirls)
-            for __ in xrange(25):
+            for i in xrange(25):
                 if rgirls:
                     rgirl = rgirls.pop()
                     new_random_girl = build_rc(id=rgirl)

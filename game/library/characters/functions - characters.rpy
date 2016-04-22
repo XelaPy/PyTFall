@@ -444,7 +444,7 @@ init -11 python:
         
     def create_arena_girls():
         rgirls = store.rchars.keys()
-        for __ in xrange(85):
+        for i in xrange(85):
             if not rgirls: rgirls = store.rchars.keys()
             if rgirls:
                 rgirl = rgirls.pop()

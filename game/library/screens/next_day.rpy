@@ -599,8 +599,8 @@ screen next_day():
                         # View all red flagged events:
                         python:
                             red_flags = False
-                            for __ in NextDayEvents:
-                                if __.red_flag:
+                            for i in NextDayEvents:
+                                if i.red_flag:
                                     red_flags = True
                                     break
                                 
@@ -922,11 +922,11 @@ screen next_day():
         # MC (extra info) -------------------------------------------->>>
                 # Prepearing info:
                 python:
-                    for __ in NextDayEvents:
-                        if __.type == "mcndreport":
-                            report = __
+                    for i in NextDayEvents:
+                        if i.type == "mcndreport":
+                            report = i
             
-                if  __.red_flag:
+                if  i.red_flag:
                     button:
                         anchor (-196, 50)
                         yalign 1.0
@@ -1031,8 +1031,8 @@ screen next_day():
             # Prepearing info:
             python:
                 red_flags = False
-                for __ in NextDayEvents:
-                    if __.type == "girlndreport" and __.red_flag:
+                for i in NextDayEvents:
+                    if i.type == "girlndreport" and i.red_flag:
                         red_flags = True
             
             if  red_flags:

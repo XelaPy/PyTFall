@@ -630,9 +630,9 @@ init: # Screens:
     
                     python:
                         price = 0
-                        for __ in hero.buildings:
-                            if isinstance(__, DirtyBuilding):
-                                price = price + __.get_cleaning_price()
+                        for i in hero.buildings:
+                            if isinstance(i, DirtyBuilding):
+                                price = price + i.get_cleaning_price()
                         
                     button:
                         xysize(200, 32)
