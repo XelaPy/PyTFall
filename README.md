@@ -39,7 +39,7 @@ We are always looking for:
 to help us with the project.
 
 ====
-Demo of some basic features: https://www.youtube.com/watch?v=VowPkYSq_6k&feature=youtu.be
+TechDemo of some basic features: https://youtu.be/gwMiX1GFHtI
 Our forums are open to view and require registration to chat or to post.
 
 
