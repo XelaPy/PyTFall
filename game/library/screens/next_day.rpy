@@ -995,7 +995,7 @@ screen next_day():
                 else:
                     text ("{color=[green]}Unassigned: -") style "agrevue"
         
-        # School (extra info) ---------------------------------------->>>         
+        # School (extra info) ---------------------------------------->>>
             # Prepearing info:
             python:
                 for school in NextDayEvents:
@@ -1004,7 +1004,7 @@ screen next_day():
             
             if  "We inform you about fresh courses starting today." in school.txt:
                 button:
-                    yalign 0.5
+                    align 0.4, 0.5
                     xalign 0
                     background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                     text "+" color green size 40 style "stats_text"
@@ -1016,7 +1016,7 @@ screen next_day():
                 if "has successfully completed" in school.txt:
                     button:
                         background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                        text "!" color yellow size 40 style "stats_text"
+                        text "!" color yellow size 40 style "proper_stats_text"
                         action NullAction()
                         hovered tt.action(u"One of your girls has successfully completed her cource (this doesn't mean that a cource has ended)!")
                 if "is attending is at it's end" in school.txt:
@@ -1300,7 +1300,7 @@ screen next_day():
             xysize (700, 125)
             xpadding 10
             pos (3, 594)
-            text(u"{size=20}{color=[ivory]}%s" % tt.value) yalign 0.1
+            text(u"{size=20}{color=[ivory]}%s" % tt.value) yalign 0.1 style "TisaOTM"
                    
         use top_stripe(True)
             
@@ -1463,9 +1463,8 @@ screen next_day():
                             xysize (400, 500)
                             draggable True
                             mousewheel True
-                            child_size 400, 15000
-                            yfill True
-                            has vbox ysize 15000
+                            child_size 400, 10000
+                            has vbox
                             null height 10
                             # $ s = event.txt.split("\n")
                             # for i in s:
