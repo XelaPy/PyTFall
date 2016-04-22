@@ -131,7 +131,7 @@ init: # Items:
                             xalign 0.5
                             spacing 25
                             use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_left.png', 40, 40), return_value=['control', "decrease_amount"], align=(0, 0.5))
-                            text ("{size=36}[amount]") align (0.5, 0.5) color ivory
+                            text ("{size=36}[amount]") align (0.5, 0.5) color ivory style "proper_stats_label_text"
                             use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 40, 40), return_value=['control', "increase_amount"], align=(1.0, 0.5))
                         
                         button:

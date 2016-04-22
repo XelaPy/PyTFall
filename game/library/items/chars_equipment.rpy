@@ -762,15 +762,15 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     frame:
                         xysize (160, 25)
                         text ('Price:') color gold xalign 0.02
-                        label ('{size=-4}{color=[gold]}[item.price]') align (0.98, 0.5) style "stats_value_text" text_outlines [(1, "#3a3a3a", 0, 0)]
+                        label ('{size=-4}{color=[gold]}[item.price]') align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Slot:') xalign 0.02
-                        label ('{color=#F5F5DC}{size=-4}%s'%item.slot.capitalize()) align (0.98, 0.5) style "stats_value_text" text_outlines [(1, "#3a3a3a", 0, 0)]
+                        label ('{color=#F5F5DC}{size=-4}%s'%item.slot.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Type:') xalign 0.02
-                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) align (0.98, 0.5) style "stats_value_text" text_outlines [(1, "#3a3a3a", 0, 0)]
+                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Sex:') xalign 0.02
@@ -831,30 +831,32 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     xalign 0.98
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
                     xysize (185, 130)
+                    style_group "proper_stats"
+                    left_padding 6
+                    right_padding 3
+                    ypadding 5
                     has viewport scrollbars "vertical" draggable True mousewheel True child_size 200, 500
                     vbox:
                         if item.mod:
                             label ('Stats:') text_size 18 text_color gold xpos 30
                             vbox:
                                 spacing 1
-                                style_group "proper_stats"
                                 for stat, value in item.mod.items():
                                     frame:
                                         xysize (160, 18)
                                         text (u'{color=#F5F5DC}%s' % stat.capitalize()) size 15 xalign 0.02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}[value]') style "stats_value_text" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                             null height 7
                             
                         if item.max:
                             label ('Max:') text_size 16 text_color gold xpos 30
                             vbox:
                                 spacing 1
-                                style_group "proper_stats"
                                 for stat, value in item.max.items():
                                     frame:
                                         xysize (160, 18)
                                         text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign 0.02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}[value]') style "stats_value_text" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                             null height 7
                             
                         if item.min:
@@ -866,7 +868,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                 frame:
                                     xysize (160, 18)
                                     text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign 0.02 yoffset -2
-                                    label (u'{color=#F5F5DC}{size=-4}%d'%value) style "stats_value_text" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                    label (u'{color=#F5F5DC}{size=-4}%d'%value) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                 
             # Bottom HBox: Desc/Traits/Effects/Skills:
             hbox:
