@@ -769,7 +769,7 @@ init -9 python:
             if self.expects_clients:
                 self.env.process(self.clients_dispatcher(end=end))
                 
-            while 1:            
+            while 1:
                 # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
                 # This also needs to be placed elsewhere... do we need a process that simply tracks events???
                 if self.get_dirt() > self.get_max_dirt()*.9:
@@ -783,8 +783,9 @@ init -9 python:
                     for u in self._upgrades:
                         if u.__class__ == Cleaners:
                             cleaners = u
+                            cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
                             break
-                    cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
+                    
                         
                 yield self.env.timeout(1)
                 

@@ -1227,6 +1227,7 @@ init: # Settings:
             
                             $ file_name = FileSlotName(i, columns * rows)
                             $ file_time = FileTime(i, empty=_("Empty Slot"))
+                            # $ file_time = "0"
                             $ json_info = FileJson(i, empty= _(""))
                             $ save_name = FileSaveName(i)
             

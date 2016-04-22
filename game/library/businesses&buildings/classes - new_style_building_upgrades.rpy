@@ -434,10 +434,10 @@ init -5 python:
                             break
                             
                 # testing interruption:
-                if counter == 1 and self.env.now > 40:
-                    counter += 1
-                    process.interrupt("fight")
-                    self.env.process(u.intercept(interrupted=True))
+                # if "process" in locals() and (counter == 1 and self.env.now > 40):
+                    # counter += 1
+                    # process.interrupt("fight")
+                    # self.env.process(u.intercept(interrupted=True))
                 #  =====================================>>>
                 
                 # Handle the earnings:
@@ -519,9 +519,12 @@ init -5 python:
             self.res = None # Restored before every job...
             self.time = 1 # Same.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
-            self.interrupt = None # We can bind an active process here if it can be interrupted.
+            self.interrupt = None # We can bind an active process here if it can be interrupted. Ima an idiot... This needs to be reset.
             self.expects_clients = False # See MainUpgrade.__init__
             
+        def post_nd_reset(self):
+            # Resets all flags and variables after next day calculations are finished.
+            self.interrupt = None
             
     class TaskUpgrade(MainUpgrade):
         """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
@@ -738,7 +741,7 @@ init -5 python:
             workers = self.get_workers(job, amount=10, priority=priority, any=any)
             process = None
             if not workers:
-                return False, process # Noone to clean the building so we don't.
+                return False, process # No workers availbile
             else:
                 # Might require optimization so we don't send all the warriors to once.
                 # Update worker lists:
