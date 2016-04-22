@@ -1463,7 +1463,7 @@ screen next_day():
                             xysize (400, 500)
                             draggable True
                             mousewheel True
-                            child_size 400, 10000
+                            child_size 400, 15000
                             has vbox
                             null height 10
                             text u"{}".format(event.txt) style "TisaOTMolxm" size 18

@@ -720,10 +720,9 @@ screen char_profile():
         # Tooltip ====================================>
         frame:
             background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10)
-            yalign (0.998)
-            xanchor -321
+            pos 333, 618
             xpadding 10
-            xysize (955, 100)
+            xysize (947, 100)
             has hbox spacing 1
             if isinstance(tt.value, BE_Action):
                 $ element = tt.value.get_element()
