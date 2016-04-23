@@ -152,7 +152,6 @@ init -1: # Images and Animations
     image air_3 = FilmStrip('content/gfx/be/filmstrips/air_3.png', (192, 192), (5, 5), 0.06, loop=False)
     image air_4 = FilmStrip('content/gfx/be/filmstrips/air_4.png', (192, 192), (5, 6), 0.05, loop=False)
     image air_6 = FilmStrip('content/gfx/be/filmstrips/air_6.png', (151, 151), (5, 7), 0.06, loop=False, reverse=True)
-    image air_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/Air_2.webm", mask="content/gfx/be/webm/Air_1t.webm")
     image vortex = FilmStrip('content/gfx/be/filmstrips/vortex.png', (277, 277), (15, 1), 0.1, loop=True)
     image tornado:
         FilmStrip('content/gfx/be/filmstrips/tornado.png', (674, 592), (2, 3), 0.05, loop=True)
@@ -553,9 +552,6 @@ label load_battle_skills:
         
         # Air:
         SimpleMagicalAttack(u"Aero", menu_pos=0, attributes=['magic', 'air'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["air_1", "default"], gfx='air_1', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.3], sfx="content/sfx/sound/be/air2.mp3", type="all_enemies",
-                                           aim="center", anchor=(0.5, 0.5),
-                                           desc="High pressure air cuts through armor and flesh like a hardened blade.")
-        SimpleMagicalAttack(u"Aero webm", menu_pos=0, attributes=['magic', 'air'], effect=20, multiplier=1.2, cost=5, range=4, casting_effects=["air_1", "default"], gfx='air_1', zoom=1.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.3], sfx="content/sfx/sound/be/air2.mp3", type="all_enemies",
                                            aim="center", anchor=(0.5, 0.5),
                                            desc="High pressure air cuts through armor and flesh like a hardened blade.")
         SimpleMagicalAttack(u"Aerora", menu_pos=1, attributes=['magic', 'air'], effect=30, multiplier=1.2, cost=7, range=4, casting_effects=["air_1", "default"], gfx='air_5', zoom=1.3, pause=0.9, target_damage_gfx=[0.1, "shake", 0.8], sfx="content/sfx/sound/be/air1.mp3",
