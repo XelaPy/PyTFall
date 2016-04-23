@@ -772,7 +772,7 @@ init: # Main Screens:
                                     style_group "proper_stats"
                                     xalign .5
                                     if data["attack_skills"]:
-                                        for s in data["attack_skills"]:
+                                        for s in sorted(data["attack_skills"]):
                                             frame:
                                                 xalign 0.5
                                                 xysize (130, 22)
@@ -799,7 +799,7 @@ init: # Main Screens:
                                     xalign .5
                                     spacing 1
                                     if data["magic_skills"]:
-                                        for s in data["magic_skills"]:
+                                        for s in sorted(data["magic_skills"]):
                                             frame:
                                                 xalign 0.5
                                                 xysize (130, 22)
