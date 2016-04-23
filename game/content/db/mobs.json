@@ -1209,8 +1209,8 @@
         "name": "Gargoyle",
         "desc": "An ugly statue animated by ancient wild magic.",
         "front_row": 1,
-        "battle_sprite": "content/npc/mobs/ao.png",
-        "portrait": "content/npc/mobs/ao1.png",
+        "battle_sprite": "content/npc/mobs/vip.png",
+        "portrait": "content/npc/mobs/vip1.png",
         "race": "Gargoyle",
         "locations": [],
         "min_lvl": 35,
@@ -1233,6 +1233,65 @@
             "ClawAttack"
         ],
         "magic_skills": [
+        ]
+    },
+    {
+        "name": "Garuda",
+        "desc": "Legends of distant lands tell of ancient deities, large bird-like humanoid creatures related to the sun itself.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/gar.png",
+        "portrait": "content/npc/mobs/gar1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 75,
+        "basetraits": [
+            "Demigod"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":65,
+            "magic": 80,
+            "agility": 40,
+            "luck":-20,
+            "charisma": 60,
+            "constitution": 30,
+            "intelligence": 70
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire Absorption", "Fire", "Light Absorption", "Light"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Solar Flash", "Forced Dawn"
+        ]
+    },
+    {
+        "name": "Gazer",
+        "desc": "A widespread plant with small magic abilities. The eye is used for aiming spells.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/gaz.png",
+        "portrait": "content/npc/mobs/gaz1.png",
+        "race": "Plant",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":25,
+            "magic": 70,
+            "agility": 90,
+            "luck":-30,
+            "charisma": 50,
+            "constitution": 20,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Water"],
+        "attack_skills": [
+        ],
+        "magic_skills": ["Water", "Watera", "Stone", "Stonera"
         ]
     },
     {
@@ -1652,7 +1711,37 @@
         "attack_skills": [
             "SwordAttack"
         ],
-        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja"
+        "magic_skills": ["Dark", "Darkra", "Darkga"
+        ]
+    },
+    {
+        "name": "Lesser Vampire",
+        "desc": "An undead being who subsists by feeding on the life essence, generally in the form of blood, of living creatures.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/vamp.png",
+        "portrait": "content/npc/mobs/vamp1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":70,
+            "magic": 60,
+            "agility": 70,
+            "luck":20,
+            "charisma":90,
+            "constitution": 40,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja", "Eternal Gluttony"
         ]
     },
     {
@@ -3151,6 +3240,36 @@
         "traits": ["Human", "Neutral"],
         "attack_skills": [
             "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Thug",
+        "desc": "A violent criminal, robber and murderer.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/thi.png",
+        "portrait": "content/npc/mobs/thi1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":10,
+            "magic": 10,
+            "agility": 95,
+            "luck":0,
+            "charisma":60,
+            "constitution": 30,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "KnifeAttack", "ThrowAttack"
         ],
         "magic_skills": [
         ]
