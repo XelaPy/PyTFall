@@ -204,7 +204,7 @@ init -999 python:
         def visit(self):
             return [img[0] for img in self.images]
             
-    
+            
     class ProportionalScale(im.ImageBase):
         '''Resizes a renpy image to fit into the specified width and height.
         The aspect ratio of the image will be conserved.'''
@@ -216,33 +216,30 @@ init -999 python:
             self.bilinear = bilinear
 
         def load(self):
-            child = im.cache.get(self.image)
-            width, height = child.get_size()
-            
-            ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
-            width = ratio * width
-            height = ratio * height
+            surf = im.cache.get(self.image)
+            width, height = self.true_size()
 
             if self.bilinear:
                 try:
                     renpy.display.render.blit_lock.acquire()
-                    rv = renpy.display.scale.smoothscale(child, (width, height))
+                    rv = renpy.display.scale.smoothscale(surf, (width, height))
                 finally:
                     renpy.display.render.blit_lock.release()
             else:
                 try:
                     renpy.display.render.blit_lock.acquire()
-                    rv = renpy.display.pgrender.transform_scale(child, (newwidth, newheight))
+                    rv = renpy.display.pgrender.transform_scale(surf, (newwidth, newheight))
                 finally:
                     renpy.display.render.blit_lock.release()
+                    
             return rv
             
         def true_size(self):
             """
             I use this for the BE. Will do the callulations but not render anything.
             """
-            child = im.cache.get(self.image)
-            width, height = child.get_size()
+            surf = im.cache.get(self.image)
+            width, height = surf.get_size()
             
             ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
             width = int(round(ratio * width))
