@@ -1209,8 +1209,8 @@
         "name": "Gargoyle",
         "desc": "An ugly statue animated by ancient wild magic.",
         "front_row": 1,
-        "battle_sprite": "content/npc/mobs/ao.png",
-        "portrait": "content/npc/mobs/ao1.png",
+        "battle_sprite": "content/npc/mobs/vip.png",
+        "portrait": "content/npc/mobs/vip1.png",
         "race": "Gargoyle",
         "locations": [],
         "min_lvl": 35,
@@ -1233,6 +1233,65 @@
             "ClawAttack"
         ],
         "magic_skills": [
+        ]
+    },
+    {
+        "name": "Garuda",
+        "desc": "Legends of distant lands tell of ancient deities, large bird-like humanoid creatures related to the sun itself.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/gar.png",
+        "portrait": "content/npc/mobs/gar1.png",
+        "race": "Animal",
+        "locations": [],
+        "min_lvl": 75,
+        "basetraits": [
+            "Demigod"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":65,
+            "magic": 80,
+            "agility": 40,
+            "luck":-20,
+            "charisma": 60,
+            "constitution": 30,
+            "intelligence": 70
+        },
+        "skills": {},
+        "traits": ["Monster", "Fire Absorption", "Fire", "Light Absorption", "Light"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Solar Flash", "Forced Dawn"
+        ]
+    },
+    {
+        "name": "Gazer",
+        "desc": "A widespread plant with small magic abilities. The eye is used for aiming spells.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/gaz.png",
+        "portrait": "content/npc/mobs/gaz1.png",
+        "race": "Plant",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 10,
+            "defence":25,
+            "magic": 70,
+            "agility": 90,
+            "luck":-30,
+            "charisma": 50,
+            "constitution": 20,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Water"],
+        "attack_skills": [
+        ],
+        "magic_skills": ["Water", "Watera", "Stone", "Stonera"
         ]
     },
     {
@@ -1652,7 +1711,37 @@
         "attack_skills": [
             "SwordAttack"
         ],
-        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja"
+        "magic_skills": ["Dark", "Darkra", "Darkga"
+        ]
+    },
+    {
+        "name": "Lesser Vampire",
+        "desc": "An undead being who subsists by feeding on the life essence, generally in the form of blood, of living creatures.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/vamp.png",
+        "portrait": "content/npc/mobs/vamp1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 40,
+        "basetraits": [
+            "Warrior", "Magical Creature"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":70,
+            "magic": 60,
+            "agility": 70,
+            "luck":20,
+            "charisma":90,
+            "constitution": 40,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness", "Darkness Absorption"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja", "Eternal Gluttony"
         ]
     },
     {
@@ -2226,6 +2315,36 @@
         ]
     },
     {
+        "name": "Winter Queen",
+        "desc": "A high elemental of Ice, whose breath freezes the air around her.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ice.png",
+        "portrait": "content/npc/mobs/ice1.png",
+        "race": "Elemental",
+        "locations": [],
+        "min_lvl": 80,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence":30,
+            "magic": 100,
+            "agility": 25,
+            "luck":-10,
+            "charisma":45,
+            "constitution": 60,
+            "intelligence": 85
+        },
+        "skills": {},
+        "traits": ["Human", "Ice Absorption", "Ice"],
+        "attack_skills": [
+            "FistAttack"
+        ],
+        "magic_skills": ["Ice Storm", "Ice Blast", "Hailstorm", "Ice Shards",  "Zero Prism"
+        ]
+    },
+    {
         "name": "Ice Golem",
         "desc": "Animated by magic humanoid mass of ice.",
         "front_row": 1,
@@ -2496,7 +2615,7 @@
         ]
     },
     {
-        "name": "Mimic",
+        "name": "Mimicess",
         "desc": "Mimics pretend to be a treasure chest in order to capture unwary travelers and drag them inside for mating.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cf.png",
@@ -2521,6 +2640,36 @@
         "traits": ["Human", "Neutral"],
         "attack_skills": [
             "SwordAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Mimic",
+        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travelers and devour them.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/mim.png",
+        "portrait": "content/npc/mobs/mim.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 20,
+        "basetraits": [
+            "Trickster", "Assassin"
+        ],
+        "stats": {
+            "attack": 60,
+            "defence":100,
+            "magic": 15,
+            "agility": 40,
+            "luck":-5,
+            "charisma":50,
+            "constitution": 90,
+            "intelligence": 10
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ByteAttack"
         ],
         "magic_skills": [
         ]
@@ -3156,6 +3305,36 @@
         ]
     },
     {
+        "name": "Thug",
+        "desc": "A violent criminal, robber and murderer.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/thi.png",
+        "portrait": "content/npc/mobs/thi1.png",
+        "race": "Human",
+        "locations": [],
+        "min_lvl": 10,
+        "basetraits": [
+            "Trickster"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":10,
+            "magic": 10,
+            "agility": 95,
+            "luck":0,
+            "charisma":60,
+            "constitution": 30,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Human", "Neutral"],
+        "attack_skills": [
+            "KnifeAttack", "ThrowAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Undead Cemetry",
         "desc": "Woven together remains of multiple once living beings.",
         "front_row": 1,
@@ -3576,6 +3755,36 @@
         ]
     },
     {
+        "name": "Giant Scorpion",
+        "desc": "A predatory arachnid armed with claws and a venomous stinger.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/sco.png",
+        "portrait": "content/npc/mobs/sco1.png",
+        "race": "Insect",
+        "locations": [],
+        "min_lvl": 5,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 80,
+            "defence":20,
+            "magic": 10,
+            "agility": 40,
+            "luck":-30,
+            "charisma":10,
+            "constitution": 30,
+            "intelligence": 5
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "ClawAttack"
+        ],
+        "magic_skills": ["Poison"
+        ]
+    },
+    {
         "name": "Black Butterfly",
         "desc": "A widespread scavenger. Silent, fast and voracious, they almost completely replaced crows in most areas.",
         "front_row": 1,
@@ -3631,6 +3840,36 @@
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
             "BiteAttack"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
+        "name": "Sahagin",
+        "desc": "A humanoid reptile from a primitive tribe inhabiting along the banks of rivers and lakes.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/sah.png",
+        "portrait": "content/npc/mobs/sah1.png",
+        "race": "Monster",
+        "locations": [],
+        "min_lvl": 15,
+        "basetraits": [
+            "Shooter"
+        ],
+        "stats": {
+            "attack": 30,
+            "defence":20,
+            "magic": 10,
+            "agility": 30,
+            "luck":-40,
+            "charisma":10,
+            "constitution": 30,
+            "intelligence": 15
+        },
+        "skills": {},
+        "traits": ["Monster", "Water"],
+        "attack_skills": [
+            "ThrowAttack"
         ],
         "magic_skills": [
         ]
