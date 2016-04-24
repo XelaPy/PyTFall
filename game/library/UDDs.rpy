@@ -369,8 +369,7 @@ init -999 python:
                     
             render = renpy.Render(width, height)
             for r in self.args:
-                cr = r.render(width, height, st, at)
-                render.blit(cr, (r.xpos, r.ypos))
+                render.place(r)
             renpy.redraw(self, 0)
             return render
             
@@ -454,7 +453,7 @@ init -100 python:
                     del(self.shown[d])
                 else:
                     d = self.shown[d]
-                    render.blit(d.render(width, height, st, at), (d.xpos, d.ypos))
+                    render.place(d)
                     
             rp.redraw(self, 0)
             
@@ -519,7 +518,7 @@ init -100 python:
                     del(self.shown[d])
                 else:
                     d = self.shown[d]
-                    render.blit(d.render(width, height, st, at), (d.xpos, d.ypos))
+                    render.place(d)
                     
             rp.redraw(self, 0)
             
@@ -661,16 +660,6 @@ init -100 python:
             d = self.d["d"]
             render = rp.Render(width, height)
             render.place(d)
-            # cr = d.render(width, height, st, at)
-            # size = cr.get_size()
-            # render = rp.Render(width, height)
-            # placement = d.get_placement()
-            # subpixel = placement[6]
-            # pos = rp.display.core.place(width, height, size[0], size[1], placement)
-            # if subpixel:
-                # render.subpixel_blit(cr, pos, 1, 1, None)
-            # else:
-                # render.blit(cr, pos, 1, 1, None)
             
             rp.redraw(self, 0)
             return render
