@@ -659,16 +659,18 @@ init -100 python:
                 st = st - self.d["start_st"] + self.d["pause_st"]
                 
             d = self.d["d"]
-            cr = d.render(width, height, st, at)
-            size = cr.get_size()
             render = rp.Render(width, height)
-            placement = d.get_placement()
-            subpixel = placement[6]
-            pos = rp.display.core.place(width, height, size[0], size[1], placement)
-            if subpixel:
-                render.subpixel_blit(cr, pos, 1, 1, None)
-            else:
-                render.blit(cr, pos, 1, 1, None)
+            render.place(d)
+            # cr = d.render(width, height, st, at)
+            # size = cr.get_size()
+            # render = rp.Render(width, height)
+            # placement = d.get_placement()
+            # subpixel = placement[6]
+            # pos = rp.display.core.place(width, height, size[0], size[1], placement)
+            # if subpixel:
+                # render.subpixel_blit(cr, pos, 1, 1, None)
+            # else:
+                # render.blit(cr, pos, 1, 1, None)
             
             rp.redraw(self, 0)
             return render
