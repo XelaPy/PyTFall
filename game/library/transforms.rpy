@@ -219,7 +219,7 @@ init -997: # Transforms:
             repeat
             
     transform interactions_sweat_drop_tr:
-        pos (137, 575) alpha 0.0
+        pos (145, 575) alpha 0.0
         "sweat_drop"
         easein 1.0 ypos 610 alpha 1.0
         

@@ -987,6 +987,10 @@ init -5 python:
             self.hazard = self.area.hazard
             self.captured_girl = None
             
+            # I am putting the new attrs here:
+            self.arrived = False # Set to True upon arrival to the location.
+            self.finished_exploring = False # Set to True after exploration is finished.
+            
             self.day = 0
             self.days = self.area.days + 0
             
@@ -1036,12 +1040,24 @@ init -5 python:
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
         def __init__(self, name="Exploration Guild", instance=None, desc="Raid PyTFall's outskirts for loot!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            
+            self.explorers = list() # List to hold all the (active) exploring teams.
     
         def business_control(self):
             """SimPy business controller.
             """
             while 1:
                 yield self.env.timeout(100)
+                
+            for e in self.explorers:
+                if not i.arrived:
+                    self.env.process(self.travel_to(team, raid_object))
+                elif not self.finished_exploring:
+                    self.env.process(self.explore(team, raid_object))
+                    
+        def travel_to(self, raid_object):
+            # Env func that handles the travel to routine.
+            pass
                 
         def start_exploration_run(self):
             """Sets up for exploration.
@@ -1075,7 +1091,7 @@ init -5 python:
         def explore(self, raid_object):
             """SimPy process that handles a single exploration run (day).
             
-            Idea is to keep as much of this logic as possible and adapt it to work with SimPy
+            Idea is to keep as much of this logic as possible and adapt it to work with SimPy...
             """
             # Check start:
             if not self.day:
