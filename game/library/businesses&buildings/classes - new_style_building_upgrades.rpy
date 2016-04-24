@@ -1049,15 +1049,27 @@ init -5 python:
             while 1:
                 yield self.env.timeout(100)
                 
-            for e in self.explorers:
+            for tracker in self.explorers:
                 if not i.arrived:
-                    self.env.process(self.travel_to(team, raid_object))
+                    self.env.process(self.travel_to(tracker, area))
                 elif not self.finished_exploring:
-                    self.env.process(self.explore(team, raid_object))
+                    self.env.process(self.explore(tracker, area))
                     
-        def travel_to(self, raid_object):
+        def travel_to(self, tracker, area):
             # Env func that handles the travel to routine.
-            pass
+            if tracker.travel_time:
+                if tracker.travel_time == tracker.area.travel_time:
+                    tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
+                                                                                                                                           plural("day", self.travel_time),
+                                                                                                                                           self.area.id),
+                                            "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
+                                                                                                            plural("day", self.travel_time),
+                                                                                                            self.area.id)]))
+                    
+                    tracker.days += tracker.travel_time + tracker.travel_time
+                
+                tracker.travel_time -= 1
+                tracker.day += 1
                 
         def start_exploration_run(self):
             """Sets up for exploration.
@@ -1088,7 +1100,7 @@ init -5 python:
             
             return False
         
-        def explore(self, raid_object):
+        def explore(self, tracker, area):
             """SimPy process that handles a single exploration run (day).
             
             Idea is to keep as much of this logic as possible and adapt it to work with SimPy...
@@ -1097,21 +1109,6 @@ init -5 python:
             if not self.day:
                 if self.start_day():
                     return
-            
-            if self.travel_time:
-                if self.travel_time == self.area.travel_time:
-                    self.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
-                                                                                                                                           plural("day", self.travel_time),
-                                                                                                                                           self.area.id),
-                                            "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
-                                                                                                            plural("day", self.travel_time),
-                                                                                                            self.area.id)]))
-                    
-                    self.days += self.travel_time + self.travel_time
-                
-                self.travel_time -= 1
-                self.day += 1
-                return
             
             self.day += 1
             if self.day == 1:
