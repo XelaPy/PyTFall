@@ -191,13 +191,18 @@ init -5 python:
                 self.log(temp)
                 return False
                 
-        def convert_AP(self, w, workers, flag):
-            # Converts AP to "Job Points"
+        def convert_AP(self, w, workers, flag, remove=True):
+            # Converts AP to "Job Points".
+            # Removes w from workers list if remove is True.
+            # Returns False if no AP was left, True otherwise
             if w.take_ap(1):
                 value = int(round(7 + w.agility * 0.1))
                 w.set_flag(flag, value)
+                return True
             else:
-                workers.remove(w)
+                if remove:
+                    workers.remove(w)
+                return False
            
         # Runs before ND calcs stats for this building.
         def pre_nd(self):
@@ -1013,13 +1018,14 @@ init -5 python:
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             jump("fg_management")
     
-    
+            
     class ExEvent(Action):
         """Stores resulting text and data for SE.
         
         Also functions as a screen action for future buttons.
         """
         def __init__(self):
+            self.name = "" # Name of the event, to be used as a name of a button in gui.
             self.txt = [] # I figure we use list to store text.
             self.battle_log = [] # Used to log the event.
             self.found_items = []
@@ -1041,21 +1047,28 @@ init -5 python:
         def __init__(self, name="Exploration Guild", instance=None, desc="Raid PyTFall's outskirts for loot!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
+            # Global Values that have effects on the whole business.
             self.explorers = list() # List to hold all the (active) exploring teams.
-    
+            self.teams = list() # List to hold all the teams formed in this guild.
+            self.capture_chars = False # Do we capture chars during exploration in this building.
+            
         def business_control(self):
             """SimPy business controller.
             """
+            for tracker in self.explorers:
+                self.env.process(self.exploration_controller(tracker))
+                
             while 1:
                 yield self.env.timeout(100)
                 
-            for tracker in self.explorers:
-                if not i.arrived:
-                    self.env.process(self.travel_to(tracker, area))
-                elif not self.finished_exploring:
-                    self.env.process(self.explore(tracker, area))
+        def exploration_controller(self, trackter):
+            # Controls the exploration by setting up proper simpy processes.
+            if not trackter.arrived:
+                self.env.process(self.travel_to(tracker))
+            elif not trackter.finished_exploring:
+                self.env.process(self.explore(tracker))
                     
-        def travel_to(self, tracker, area):
+        def travel_to(self, tracker):
             # Env func that handles the travel to routine.
             if tracker.travel_time:
                 if tracker.travel_time == tracker.area.travel_time:
@@ -1071,11 +1084,8 @@ init -5 python:
                 tracker.travel_time -= 1
                 tracker.day += 1
                 
-        def start_exploration_run(self):
-            """Sets up for exploration.
-            
-            Heals up the team if needs be...
-            Do we need this? Healing seems too convinient...
+        def camping(self, tracker):
+            """Camping will allow restoration of AP/MP/Agility and so on. Might be forced on low health or schedualed closer to the end day.
             """
             restore = False
             
@@ -1093,252 +1103,239 @@ init -5 python:
                 self.txt.append("Day 0: \n\n")
                 self.txt.append("The team rested in one of the frontier encampments prepearing for the run!")
                 self.txt.append("\n\n")
-                self.days += 1
-                self.day += 1
                 
                 return True
             
             return False
         
-        def explore(self, tracker, area):
-            """SimPy process that handles a single exploration run (day).
+        def explore(self, tracker):
+            """SimPy process that handles the exploration itself.
             
             Idea is to keep as much of this logic as possible and adapt it to work with SimPy...
             """
-            # Check start:
-            if not self.day:
-                if self.start_day():
-                    return
-            
-            self.day += 1
-            if self.day == 1:
-                self.txt.append("Exploring {i}%s{/e}:\n\n" % self.area.id)
-            
-            self.txt.append("\n\n{b}Day %d:{/b} \n" % self.day)
-            # self.txt.append("Exploring 'Meow'\n")
-            stop = False
-            
-            if self.hazard:
-                self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
-                for char in self.team:
-                    for stat in self.hazard:
-                        char.mod(stat, -self.hazard[stat])
-            
-            ap = sum(list(girl.AP for girl in self.team))
-            
             items = list()
-            attacked = False
-            cash = 0
-            mob_power = 0
+            area = tracker.area
+            fought_mobs = 0
+            encountered_opfor = 0
             
-            #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
-            risk_a_day_multiplicator = ((0.2 + (self.area.risk*0.008))*(1 + self.day*(0.025*(1+self.area.risk/100))))
-            
-            for i in xrange(ap):
+            while 1:
+                yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
+                
+                if self.hazard:
+                    self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
+                    for char in tracker.team:
+                        for stat in area.hazard:
+                            char.mod(stat, -area.hazard[stat]) # TODO: Change to log + direct application.
+                            
+                power_flag_name = "__jobs_exploration_points"
+                for char in tracker.team:
+                    # Set their cleaning capabilities as temp flag:
+                    value = int(round(1 + w.serviceskill * 0.025 + w.agility * 0.3))
+                    w.set_flag(power_flag_name, value)
+                    
+                flag_name = "__jobs_exploration_points"
+                for char in tracker.team:
+                    if not char.flag(flag_name) or char.flag(flag_name) <= 0:
+                        if not self.convert_AP(char, cleaners, flag_name):
+                            pass # One of the chars has no job points left. They should find a place to camp here...
+                
+                #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
+                risk_a_day_multiplicator = ((0.2 + (area.risk*0.008))*(1 + self.day*(0.025*(1+area.risk/100)))) # TODO: Reexamine this...
+                
+                if tracker.items and dice(area.risk*0.2 + self.day + self.day + self.day):
+                    items.append(choice(self.items))
+                
+                # Second round of items for those specifically specified for this area:
+                for i in area.items:
+                    if dice((area.items[i]*risk_a_day_multiplicator)):
+                        items.append(i)
+                        # break   #too hard to calculate chances for json with that
+                
+                if dice(area.risk + self.day*2):
+                    cash += randint(int(tracker.cash_limit/50*self.day), int(tracker.cash_limit/15*tracker.day))
+                
+                #  =================================================>>>
+                # Girls capture (We break off exploration run in case of success):
+                if self.capture_chars:
+                    for g in area.girls:
+                        if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
+                            self.captured_girl = chars[g]
+                            stop = True # TODO: Here we return to the guild instead...
+                            break
+                            
+                        # TODO: g in rchars looks like broken code! This also need to be updated and reviewed.
+                        elif g in rchars and dice(area.girls[g] + self.day*0.1):
+                            new_random_girl = build_rc()
+                            self.captured_girl = new_random_girl
+                            stop = True
+                            break
+                
+                if not fought_mobs:
+                    mob = None
+                    
+                    for key in tracker.mobs:
+                        if dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2))): # Needs a review, we don't have ap here anymore.
+                            enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
+                            mob = key
+                            attacked = True
+                            self.txt.append("The Party was attacked by ")
+                            self.txt.append("%d %s" % (enemies, plural(mob, enemies)))
+                            break
+                    
+                    #ChW: testing the variant no mob found = no fight
+                    # if not mob:
+                        # mob = max(self.mobs.iteritems(), key=itemgetter(1))[0]
+                        # self.area.known_mobs.add(mob)
+                        # enemies = randint(1, self.mobs[key][2])
+                        # self.txt.append("%d %s!" % (enemies, plural(mob, enemies)))
+                    
+                    if attacked:
+                        self.combat_mobs()
+        
+                if items and cash:
+                    self.txt.append("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                    self.found_items.extend(items)
+                    self.txt.append(" and {color=[gold]}%d Gold{/color} in loot" % cash)
+                    self.cash.append(cash)
+                
+                if cash and not items:
+                    self.txt.append("The team has found: {color=[gold]}%d Gold{/color} in loot" % cash)
+                    self.cash.append(cash)
+                
+                if items or cash:
+                    self.txt.append("!\n")
+                
+                if not items and not cash:
+                    self.txt.append("It was a quite day of exploration, nothing of interest happened...")
+                
+                self.stats["agility"] += randrange(2)
+                self.stats["exp"] += randint(5, max(15, self.risk/4))
+                
+                inv = list(g.inventory for g in self.team)
+                
+                for g in self.team:
+                    l = list()
+                    
+                    if g.health < 75:
+                        l.extend(g.auto_equip(["health"], source=inv))
+                    
+                    if g.vitality < 100:
+                        l.extend(g.auto_equip(["vitality"], source=inv))
+                    
+                    if g.mp < 30:
+                        l.extend(g.auto_equip(["mp"], source=inv))
+                    
+                    if l:
+                        self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
+                
+                if not stop and self.day == self.days:
+                    self.txt.append("\n\n {color=[green]}The party has finished their exploration run!{/color}")
+                    stop = True
+                
                 if not stop:
-                    if self.items and dice(self.area.risk*0.2 + self.day + self.day + self.day):
-                        items.append(choice(self.items))
-                    
-                    # Second round of items for those specifically specified for this area:
-                    for i in self.area.items:
-                        if dice((self.area.items[i]*risk_a_day_multiplicator)):
-                            items.append(i)
-                            # break   #too hard to calculate chances for json with that
-                    
-                    if dice(self.area.risk + self.day*2):
-                        cash += randint(int(self.cash_limit/50*self.day), int(self.cash_limit/15*self.day))
-                    
-                    #  =================================================>>>
-                    # Girls capture (We break off exploration run in case of success):
-                    if fg.capture_girls:
-                        for g in self.area.girls:
-                            if g in chars and dice(self.area.girls[g] + self.day*0.1) and g.location == "se":
-                                self.captured_girl = chars[g]
-                                stop = True
-                                break
-                                
-                            # TODO: g in rchars looks like broken code!
-                            elif g in rchars and dice(self.area.girls[g] + self.day*0.1):
-                                new_random_girl = build_rc()
-                                self.captured_girl = new_random_girl
-                                stop = True
-                                break
-                    
-                    if not attacked:
-                        attacked = False
-                        # Lets get some enemies:
-                        mob = None
-                        
-                        for key in self.mobs:
-                            if dice(((self.mobs[key][0]*risk_a_day_multiplicator)/(ap/2))):
-                                enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
-                                mob = key
-                                attacked = True
-                                self.txt.append("The Party was attacked by ")
-                                self.txt.append("%d %s" % (enemies, plural(mob, enemies)))
-                                break
-                        
-                        #ChW: testing the variant no mob found = no fight
-                        # if not mob:
-                            # mob = max(self.mobs.iteritems(), key=itemgetter(1))[0]
-                            # self.area.known_mobs.add(mob)
-                            # enemies = randint(1, self.mobs[key][2])
-                            # self.txt.append("%d %s!" % (enemies, plural(mob, enemies)))
-                        
-                        if attacked:
-                            self.txt.append("\n")
-                            
-                            # Object mobs and combat resolver:
-                            mob = deepcopy(mobs[mob]) # Get the actual instance instead of a string!
-                            
-                            for stat in ilists.battlestats:
-                                stat_value = int(getattr(mob, stat) * min(self.mobs[mob.name][1][2], (self.mobs[mob.name][1][0] + int(round(self.mobs[mob.name][1][1] * self.day)))))
-                                setattr(mob, stat, stat_value)
-                                mob_power += stat_value
-                            
-                            mob_power * enemies
-                            ep = Team()
-                            
-                            for i in range(enemies):
-                                ep.add(mob)
-                            
-                            result = s_conflict_resolver(self.team, ep, new_results=False)
-                            
-                            if result[0] == "victory":
-                                self.stats["attack"] += randrange(3)
-                                self.stats["defence"] += randrange(3)
-                                self.stats["agility"] += randrange(3)
-                                self.stats["magic"] += randrange(3)
-                                self.stats["exp"] += mob_power/10
-                                
-                                self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
-                                
-                                for member in self.team:
-                                    damage = randint(3, 10)
-                                    
-                                    if member.health - damage <= 0:
-                                        if self.risk > 75:
-                                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-                                            stop = True
-                                            member.health -= damage
-                                        
-                                        else:
-                                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n")
-                                            stop = True
-                                            member.health = 1
-                                    
-                                    else:
-                                        member.health -= damage
-                                    
-                                    member.mp -= randint(3, 7)
-                            
-                            elif result[0] == "defeat":
-                                self.stats["attack"] += randrange(2)
-                                self.stats["defence"] += randrange(2)
-                                self.stats["agility"] += randrange(2)
-                                self.stats["magic"] += randrange(2)
-                                self.stats["exp"] += mob_power/15
-                                
-                                self.txt.append("{color=[red]}Exploration Party was defeated!{/color}\n")
-                                
-                                for member in self.team:
-                                    damage = randint(20, 30)
-                                    
-                                    if member.health - damage <= 0:
-                                        if self.risk > 60:
-                                            self.flag_red = True
-                                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-                                            stop = True
-                                            member.health -= damage
-                                        
-                                        else:
-                                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n"%member.name)
-                                            stop = True
-                                            member.health = 1
-                                    
-                                    else:
-                                        member.health -= damage
-                                    
-                                    member.mp -= randint(10, 17)
-                            
-                            else: # (Overwhelming defeat)
-                                self.stats["attack"] += randrange(2)
-                                self.stats["defence"] += randrange(2)
-                                self.stats["agility"] += randrange(2)
-                                self.stats["magic"] += randrange(2)
-                                self.stats["exp"] += mob_power/20
-                                
-                                self.txt.append("{color=[red]}Exploration Party was destroyed by the monsters!{/color}\n")
-                                
-                                for member in self.team:
-                                    damage = randint(50, 100)
-                                    
-                                    if member.health - damage <= 0:
-                                        if self.risk > 25:
-                                            self.flag_red = True
-                                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-                                            stop = True
-                                            member.health -= damage
-                                        
-                                        else:
-                                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n"%member.name)
-                                            stop = True
-                                            member.health = 1
-                                    
-                                    else:
-                                        member.health -= damage
-                                    
-                                    member.mp -= randint(20, 37)
-            
-            if items and cash:
-                self.txt.append("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
-                self.found_items.extend(items)
-                self.txt.append(" and {color=[gold]}%d Gold{/color} in loot" % cash)
-                self.cash.append(cash)
-            
-            if cash and not items:
-                self.txt.append("The team has found: {color=[gold]}%d Gold{/color} in loot" % cash)
-                self.cash.append(cash)
-            
-            if items or cash:
-                self.txt.append("!\n")
-            
-            if not items and not cash:
-                self.txt.append("It was a quite day of exploration, nothing of interest happened...")
-            
-            self.stats["agility"] += randrange(2)
-            self.stats["exp"] += randint(5, max(15, self.risk/4))
-            
-            inv = list(g.inventory for g in self.team)
-            
-            for g in self.team:
-                l = list()
+                    for member in self.team:
+                        if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
+                            self.txt.append("\n{color=[blue]}Your party falls back to base due to risk factors!{/color}")
+                            stop = True
+                            break
                 
-                if g.health < 75:
-                    l.extend(g.auto_equip(["health"], source=inv))
-                
-                if g.vitality < 100:
-                    l.extend(g.auto_equip(["vitality"], source=inv))
-                
-                if g.mp < 30:
-                    l.extend(g.auto_equip(["mp"], source=inv))
-                
-                if l:
-                    self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
+                if stop:
+                    self.finish_exploring()
             
-            if not stop and self.day == self.days:
-                self.txt.append("\n\n {color=[green]}The party has finished their exploration run!{/color}")
-                stop = True
+        def combat_mob(self, tracker):
+            self.txt.append("\n")
             
-            if not stop:
+            # Object mobs and combat resolver:
+            # mob = deepcopy(mobs[mob]) # Get the actual instance instead of a string!
+            
+            # for stat in ilists.battlestats:
+                # stat_value = int(getattr(mob, stat) * min(self.mobs[mob.name][1][2], (self.mobs[mob.name][1][0] + int(round(self.mobs[mob.name][1][1] * self.day)))))
+                # setattr(mob, stat, stat_value)
+                # mob_power += stat_value
+            
+            # mob_power * enemies
+            # TODO: Create mobs using the modern way...
+            ep = Team()
+            
+            for i in xrange(enemies):
+                ep.add(mob)
+            
+            # result = s_conflict_resolver(self.team, ep, new_results=False)
+            
+            # if result[0] == "victory":
+                # self.stats["attack"] += randrange(3)
+                # self.stats["defence"] += randrange(3)
+                # self.stats["agility"] += randrange(3)
+                # self.stats["magic"] += randrange(3)
+                # self.stats["exp"] += mob_power/10
+                # TODO: Arrange for combat and stats bonuses...
+                
+                self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
+                
+                # for member in self.team:
+                    # damage = randint(3, 10)
+                    # if member.health - damage <= 0:
+                        # if self.risk > 75:
+                            # self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
+                            # stop = True
+                            # member.health -= damage
+                        # else:
+                            # self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n")
+                            # stop = True
+                            # member.health = 1
+                    # else:
+                        # member.health -= damage
+                    # member.mp -= randint(3, 7)
+            
+            # elif result[0] == "defeat":
+                # self.stats["attack"] += randrange(2)
+                # self.stats["defence"] += randrange(2)
+                # self.stats["agility"] += randrange(2)
+                # self.stats["magic"] += randrange(2)
+                # self.stats["exp"] += mob_power/15
+                
+                self.txt.append("{color=[red]}Exploration Party was defeated!{/color}\n")
+                
                 for member in self.team:
-                    if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
-                        self.txt.append("\n{color=[blue]}Your party falls back to base due to risk factors!{/color}")
-                        stop = True
-                        break
-            
-            if stop:
-                self.finish_exploring()
+                    damage = randint(20, 30)
+                    if member.health - damage <= 0:
+                        if self.risk > 60:
+                            self.flag_red = True
+                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
+                            stop = True
+                            member.health -= damage
+                        else:
+                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n"%member.name)
+                            stop = True
+                            member.health = 1
+                    else:
+                        member.health -= damage
+                    member.mp -= randint(10, 17)
+            else: # (Overwhelming defeat)
+                self.stats["attack"] += randrange(2)
+                self.stats["defence"] += randrange(2)
+                self.stats["agility"] += randrange(2)
+                self.stats["magic"] += randrange(2)
+                self.stats["exp"] += mob_power/20
+                
+                self.txt.append("{color=[red]}Exploration Party was destroyed by the monsters!{/color}\n")
+                
+                for member in self.team:
+                    damage = randint(50, 100)
+                    if member.health - damage <= 0:
+                        if self.risk > 25:
+                            self.flag_red = True
+                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
+                            stop = True
+                            member.health -= damage
+                        else:
+                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n"%member.name)
+                            stop = True
+                            member.health = 1
+                    else:
+                        member.health -= damage
+                    
+                    member.mp -= randint(20, 37)
         
 
             
