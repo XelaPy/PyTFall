@@ -449,6 +449,17 @@ init: # PyTFall:
             action Return(return_value)
             hovered tt.action(u"%s"%tooltip)
 
+    python:
+        def get_screens(*args):
+            """
+            Simple checks for active screens.
+            Returns True if at least one of the screens is shown and False if not.
+            """
+            for scr in args:
+                if renpy.get_screen(scr):
+                    return True
+            return False
+            
     screen top_stripe(show_return_button=True, use_hide_transform=False, normal_op=True):
         default tt = Tooltip("")
         if not normal_op:
@@ -459,7 +470,7 @@ init: # PyTFall:
                 unhovered SetField(pytfall, "city_dropdown", False)
     
         # Hotkeys:
-        if show_return_button and renpy.current_screen().tag not in ["girlslist", "hero_profile", "girl_interactions"]:
+        if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_upgrades_mode"):
             key "mousedown_3" action Return(['control', 'return'])
         if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log"]:
             if global_flags.flag("visited_arena"):

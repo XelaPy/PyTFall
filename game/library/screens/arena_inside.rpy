@@ -1034,13 +1034,13 @@ init: # ChainFights vs Mobs:
                         
                 button:
                     style "menu_choice_button"
-                    action [SetField(pytfall.arena, "result", "break"), ui.returns("Bupkis")]
+                    action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
                     
                     text "Back" style "menu_choice" 
                     
-                key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), ui.returns("Bupkis")]
+                key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         else:
-            timer 0.5 action [SetField(pytfall.arena, "result", "break"), ui.returns("Bupkis")]
+            timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         
     screen arena_minigame(range, interval, length_multiplier, d):
         zorder 2

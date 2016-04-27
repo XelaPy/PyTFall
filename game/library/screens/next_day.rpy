@@ -410,8 +410,6 @@ screen next_day():
     default show_summary = True
     default summary_filter = "buildings" # Not applicable atm
     default report_stats = False
-
-    key "mousedown_3" action [Return(['control', 'return'])]
     
     if show_summary:
         # Here summary screen is build and constructed, most of the required logic is done directly here:

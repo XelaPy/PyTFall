@@ -200,6 +200,8 @@ init: # Screens:
                     use building_management_rightframe_upgrades_mode(mid_frame_mode, tt)
                                 
         use top_stripe(True)
+        if not mid_frame_mode == "building":
+            key "mousedown_3" action SetScreenVariable("mid_frame_mode", "building")
         
     screen building_management_rightframe_building_mode(mid_frame_mode, tt):
         # Buttons group:
@@ -481,8 +483,8 @@ init: # Screens:
             frame:
                 xysize (290, 27)
                 xalign 0.5
-                text "Out Slots:" xalign 0.02 color ivory
-                text "[mid_frame_mode.out_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                text "Ext Slots:" xalign 0.02 color ivory
+                text "[mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
         
     screen building_management_midframe_building_mode(mid_frame_mode, tt):
         frame:
@@ -553,6 +555,7 @@ init: # Screens:
                     thumb 'content/gfx/interface/icons/move15.png'
         
     screen building_management_midframe_upgrades_mode(mid_frame_mode, tt):
+        
         for u in mid_frame_mode.allowed_upgrades:
             if building._has_upgrade(u):
                 frame:
