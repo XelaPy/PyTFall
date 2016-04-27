@@ -9,13 +9,11 @@ label tavern_inside:
     
     scene bg tavern_inside
     with dissolve
-    
     if not global_flags.flag('visited_tavern'):
         $ global_flags.set_flag('visited_tavern')
         
         show npc tavern_rita_novel
         with dissolve
-        
         define tavern_rita = Character('Rita', color=honeydew, show_two_window=True)
         
         tavern_rita "Oh, [hero.nickname]! {p}Welcome back to my tavern! How you been?"
@@ -66,12 +64,16 @@ label tavern_inside:
     python:
         # Build the actions
         if pytfall.world_actions.location("tavern_inside"):
-            pytfall.world_actions.add("brawl_join", "Join in!", Show("wip_screen"),
-                                      condition=Iff(global_flag_complex("tavern_entry_brawl"), "==", S(renpy_store_complex("day"), "+", (hero, "AP"))))
-            
-            pytfall.world_actions.add("brawl_stay", "Stay", Show("wip_screen"),
-                                      condition=Iff(global_flag_complex("tavern_entry_brawl"), "!=", S(renpy_store_complex("day"), "+", (hero, "AP"))))
+            pytfall.world_actions.meet_girls()
+            pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
+        # if pytfall.world_actions.location("tavern_inside"):
+            # pytfall.world_actions.add("brawl_join", "Join in!", Show("wip_screen"),
+                                      # condition=Iff(global_flag_complex("tavern_entry_brawl"), "==", S(renpy_store_complex("day"), "+", (hero, "AP"))))
+            
+            # pytfall.world_actions.add("brawl_stay", "Stay", Show("wip_screen"),
+                                      # condition=Iff(global_flag_complex("tavern_entry_brawl"), "!=", S(renpy_store_complex("day"), "+", (hero, "AP"))))
+            # pytfall.world_actions.finish()
     
     show screen tavern_inside
     
