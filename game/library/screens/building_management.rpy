@@ -462,7 +462,27 @@ init: # Screens:
                                 # text (u"%s" % advert['name']) size 16 xalign (0.02)
         
     screen building_management_leftframe_upgrades_mode(mid_frame_mode, tt):
-        $ pass
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            style_group "proper_stats"
+            xsize 300
+            xpadding 12
+            ypadding 12
+            xmargin 0
+            ymargin 0
+            has vbox spacing 1
+                
+            # Slots:
+            frame:
+                xysize (290, 27)
+                xalign 0.5
+                text "In Slots:" xalign 0.02 color ivory
+                text "[mid_frame_mode.in_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+            frame:
+                xysize (290, 27)
+                xalign 0.5
+                text "Out Slots:" xalign 0.02 color ivory
+                text "[mid_frame_mode.out_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
         
     screen building_management_midframe_building_mode(mid_frame_mode, tt):
         frame:

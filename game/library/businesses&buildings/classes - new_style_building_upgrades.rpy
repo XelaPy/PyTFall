@@ -22,6 +22,8 @@ init -5 python:
             self.name = name # name, a string.
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
+            
+            # Weird code... we prolly set img somewhere in child classes prior to running this method. I need to normalize how we handle images for upgrades.
             if not hasattr(self, "img"):
                 self.img = img # Ren'Py path leading the an image, a string.
             if not hasattr(self, "cost"):
@@ -36,6 +38,10 @@ init -5 python:
             
             self.habitable = False
             self.workable = False
+            self.active = True # If not active, business is not executed and is concidered "dead", we run "inactive" method with a corresponing simpy process in this case.
+            
+            self.in_slots = in_slots
+            self.ex_slots = ex_slots
             
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
         
@@ -226,6 +232,10 @@ init -5 python:
             # Resets all flags and variables after next day calculations are finished.
             pass
         
+        def inactive_process(self):
+            temp = "{} is currently inactive, no actions will be conducted here!".format(self.name)
+            self.log(temp)
+            yield self.env.timeout(100)
 
         
     class MainUpgrade(BuildingUpgrade):

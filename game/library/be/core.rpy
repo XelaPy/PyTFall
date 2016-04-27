@@ -806,6 +806,8 @@ init -1 python: # Core classes:
             color: default to use if none found.
             attributes: list of effects to go through
             """
+            effects = t.beeffects
+            
             # Get the color for damage font based on elemental damage:
             l = list(e for e in store.traits.itervalues() if e.id.lower() in attributes)
             if l:
@@ -814,6 +816,11 @@ init -1 python: # Core classes:
                 if e.font_color:
                     color = e.font_color
             t.dmg_font = color # Set the font to pass it to show_damage_effect method, where it is reset back to red.
+            
+            # We do not want to show damage in the log if the attack missed:
+            if to_string and "missed_hit" in effects:
+                return ""
+                
             return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
             
         def apply_effects(self, targets):
