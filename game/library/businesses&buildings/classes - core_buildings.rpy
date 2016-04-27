@@ -761,7 +761,10 @@ init -9 python:
             # TODO: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:
                 # Trigger all public businesses:
-                self.env.process(u.business_control())
+                if not u.active: # building is not active:
+                    self.env.process(self.inactive_process())
+                else: # Business as usual:
+                    self.env.process(u.business_control())
                 
                 if u.has_workers():
                     u.is_running = True

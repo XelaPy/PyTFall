@@ -204,7 +204,7 @@ init -999 python:
         def visit(self):
             return [img[0] for img in self.images]
             
-    
+            
     class ProportionalScale(im.ImageBase):
         '''Resizes a renpy image to fit into the specified width and height.
         The aspect ratio of the image will be conserved.'''
@@ -216,33 +216,30 @@ init -999 python:
             self.bilinear = bilinear
 
         def load(self):
-            child = im.cache.get(self.image)
-            width, height = child.get_size()
-            
-            ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
-            width = ratio * width
-            height = ratio * height
+            surf = im.cache.get(self.image)
+            width, height = self.true_size()
 
             if self.bilinear:
                 try:
                     renpy.display.render.blit_lock.acquire()
-                    rv = renpy.display.scale.smoothscale(child, (width, height))
+                    rv = renpy.display.scale.smoothscale(surf, (width, height))
                 finally:
                     renpy.display.render.blit_lock.release()
             else:
                 try:
                     renpy.display.render.blit_lock.acquire()
-                    rv = renpy.display.pgrender.transform_scale(child, (newwidth, newheight))
+                    rv = renpy.display.pgrender.transform_scale(surf, (newwidth, newheight))
                 finally:
                     renpy.display.render.blit_lock.release()
+                    
             return rv
             
         def true_size(self):
             """
             I use this for the BE. Will do the callulations but not render anything.
             """
-            child = im.cache.get(self.image)
-            width, height = child.get_size()
+            surf = im.cache.get(self.image)
+            width, height = surf.get_size()
             
             ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
             width = int(round(ratio * width))
@@ -369,8 +366,7 @@ init -999 python:
                     
             render = renpy.Render(width, height)
             for r in self.args:
-                cr = r.render(width, height, st, at)
-                render.blit(cr, (r.xpos, r.ypos))
+                render.place(r)
             renpy.redraw(self, 0)
             return render
             
@@ -454,7 +450,7 @@ init -100 python:
                     del(self.shown[d])
                 else:
                     d = self.shown[d]
-                    render.blit(d.render(width, height, st, at), (d.xpos, d.ypos))
+                    render.place(d)
                     
             rp.redraw(self, 0)
             
@@ -519,7 +515,7 @@ init -100 python:
                     del(self.shown[d])
                 else:
                     d = self.shown[d]
-                    render.blit(d.render(width, height, st, at), (d.xpos, d.ypos))
+                    render.place(d)
                     
             rp.redraw(self, 0)
             
@@ -661,16 +657,6 @@ init -100 python:
             d = self.d["d"]
             render = rp.Render(width, height)
             render.place(d)
-            # cr = d.render(width, height, st, at)
-            # size = cr.get_size()
-            # render = rp.Render(width, height)
-            # placement = d.get_placement()
-            # subpixel = placement[6]
-            # pos = rp.display.core.place(width, height, size[0], size[1], placement)
-            # if subpixel:
-                # render.subpixel_blit(cr, pos, 1, 1, None)
-            # else:
-                # render.blit(cr, pos, 1, 1, None)
             
             rp.redraw(self, 0)
             return render
