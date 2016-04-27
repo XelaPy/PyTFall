@@ -27,7 +27,7 @@ label drunk_lady1(event):
                     "Do you want to give her 2000 coins?"
                     "Hell yeah":
                         $ pytfall.world_quests.get(event.quest).next_in_label("You've met a woman with huge knockers who proposed you her body for gold. An excellent deal.")
-                        $ pytfall.world_events.kill_event("drunk_lady1")
+                        $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
                         "She quickly hides your coins."
                         $ hero.gold -= 2000
                         t.say "Niiice. Tell you what, I have a room here on the second floor. Just tell the guard Tsunade invited you, that's my name by the way."
@@ -38,7 +38,7 @@ label drunk_lady1(event):
                         "She shrugs with disappointment."
                         t.say "A shame. Back to my drink then."
                         $ pytfall.world_quests.get(event.quest).next_in_label("You've met a woman with huge knockers who proposed you her body for 2000 gold coins. You refused, for now.")
-                        $ pytfall.world_events.kill_event("drunk_lady1")
+                        $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
                         $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=["hero.gold >= 2000"])
                         $ pytfall.world_events.force_event("drunk_lady2")
                         hide x with dissolve
@@ -47,7 +47,7 @@ label drunk_lady1(event):
                 t.say "I see... My proposition still stands. You know where to find me."
                 "She returns to her drink."
                 $ pytfall.world_quests.get(event.quest).next_in_label("You've met a woman with huge knockers who proposed you her body for 2000 gold coins. Sadly, you couldn't afford her.")
-                $ pytfall.world_events.kill_event("drunk_lady1")
+                $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
                 $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=["hero.gold >= 2000"])
                 $ pytfall.world_events.force_event("drunk_lady2")
                 hide x with dissolve
@@ -75,7 +75,7 @@ label drunk_lady2(event):
             t.say "I'll wait you there..."
             "She stands up and unsteadily goes to the second floor. It's going to be interesting."
             $ pytfall.world_quests.get(event.quest).next_in_label("You paid Tsunade and she invited you to her room on the second floor.")
-            $ pytfall.world_events.kill_event("drunk_lady2")
+            $ pytfall.world_events.kill_event("drunk_lady2", cached=True)
             $ register_event_in_label("drunk_lady3", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0)
             $ pytfall.world_events.force_event("drunk_lady3")
         "No":
