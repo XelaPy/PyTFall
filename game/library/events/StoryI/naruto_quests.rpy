@@ -1,6 +1,7 @@
 init python:
     q = register_quest("Drunk Lady")
     register_event("drunk_lady1", quest="Drunk Lady", locations=["tavern_inside"], dice=100, restore_priority=0)
+    
 label drunk_lady1(event):
     $ t = chars["Tsunade"]
     show expression t.show("00AD-nn-e2-ec-c1-l4-lf-pr-pc.jpg", resize=(800, 600)) as x at truecenter with dissolve:
@@ -38,7 +39,7 @@ label drunk_lady1(event):
                         t.say "A shame. Back to my drink then."
                         $ pytfall.world_quests.get(event.quest).next_in_label("You've met a woman with huge knockers who proposed you her body for 2000 gold coins. You refused, for now.")
                         $ pytfall.world_events.kill_event("drunk_lady1")
-                        $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=[hero.gold>=2000])
+                        $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=["hero.gold >= 2000"])
                         $ pytfall.world_events.force_event("drunk_lady2")
                         hide x with dissolve
             else:
@@ -47,7 +48,7 @@ label drunk_lady1(event):
                 "She returns to her drink."
                 $ pytfall.world_quests.get(event.quest).next_in_label("You've met a woman with huge knockers who proposed you her body for 2000 gold coins. Sadly, you couldn't afford her.")
                 $ pytfall.world_events.kill_event("drunk_lady1")
-                $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=[hero.gold>=2000])
+                $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=["hero.gold >= 2000"])
                 $ pytfall.world_events.force_event("drunk_lady2")
                 hide x with dissolve
         "Maybe another time":
