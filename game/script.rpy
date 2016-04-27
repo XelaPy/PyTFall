@@ -1,4 +1,6 @@
 ﻿label start:
+    # Trying to fix Git...
+    
     $ renpy.block_rollback()
     if config.developer:
         show screen debugTools
@@ -118,6 +120,10 @@
         del crazy_chars
         tl.timer("Loading: All Characters!")
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
+        
+        # Temp Code:
+        # atts = [i for i in battle_skills.values() if i.__class__ == SimpleAttack]
+        # raise Exception([i.name for i in atts])
         
         # Build shops:
         pytfall.init_shops()
