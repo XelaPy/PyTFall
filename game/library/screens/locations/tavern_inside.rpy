@@ -24,42 +24,42 @@ label tavern_inside:
     
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    
-    python:
-        if global_flags.flag("tavern_entry_event") != (day + hero.AP):
-            global_flags.set_flag("tavern_entry_event", value=(day + hero.AP))
-            tavern_event_list = []
-            if "tavern_entry" in os.listdir(content_path('events')):
-                if dice(40):
-                    for file in os.listdir(content_path("events/tavern_entry/cozy/")):
-                            tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
-                    img = ProportionalScale(choice(tavern_event_list), 1100, 760)
-                    renpy.show("event", what=img, at_list=[center])
-                    renpy.with_statement(dissolve)
-                    n(choice(["The tavern in warm and cozy with only a handfull of drunkards enjoying the stay."]))        
-                elif dice(65):
-                    for file in os.listdir(content_path("events/tavern_entry/lively/")):
-                            tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
-                    img = ProportionalScale(choice(tavern_event_list), 1100, 760)
-                    renpy.show("event", what=img, at_list=[center])
-                    renpy.with_statement(dissolve)
-                    n(choice(["The place is lound and lively today, with townsmen drinking and talking at every table."]))        
-                else:
-                    global_flags.set_flag("tavern_entry_brawl", value=(day + hero.AP))
-                    for file in os.listdir(content_path("events/tavern_entry/brawl/")):
-                            tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
-                    img = ProportionalScale(choice(tavern_event_list), 1100, 760)
-                    renpy.show("event", what=img, at_list=[center])
-                    renpy.with_statement(dissolve)
-                    renpy.music.stop(channel="world")
-                    renpy.music.play("brawl.mp3",channel="world") 
-                    n(choice(["You step into the room... right into a fierce tavern brawl!"]))        
-        else:
-            renpy.show("event", what=img, at_list=[center])
-            renpy.with_statement(dissolve)
-            if global_flags.flag("tavern_entry_brawl") == (day + hero.AP): 
-                renpy.music.stop(channel="world")
-                renpy.music.play("brawl.mp3",channel="world") 
+    # Dark: I'm not really sure what to do with further (currently not working anyway) lines about brawls and stuff, especially to prevent interrupting my quests, so I just comment it out for now.
+    # python:
+        # if global_flags.flag("tavern_entry_event") != (day + hero.AP):
+            # global_flags.set_flag("tavern_entry_event", value=(day + hero.AP))
+            # tavern_event_list = []
+            # if "tavern_entry" in os.listdir(content_path('events')):
+                # if dice(40):
+                    # for file in os.listdir(content_path("events/tavern_entry/cozy/")):
+                            # tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
+                    # img = ProportionalScale(choice(tavern_event_list), 1100, 760)
+                    # renpy.show("event", what=img, at_list=[center])
+                    # renpy.with_statement(dissolve)
+                    # n(choice(["The tavern in warm and cozy with only a handfull of drunkards enjoying the stay."]))        
+                # elif dice(65):
+                    # for file in os.listdir(content_path("events/tavern_entry/lively/")):
+                            # tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
+                    # img = ProportionalScale(choice(tavern_event_list), 1100, 760)
+                    # renpy.show("event", what=img, at_list=[center])
+                    # renpy.with_statement(dissolve)
+                    # n(choice(["The place is lound and lively today, with townsmen drinking and talking at every table."]))        
+                # else:
+                    # global_flags.set_flag("tavern_entry_brawl", value=(day + hero.AP))
+                    # for file in os.listdir(content_path("events/tavern_entry/brawl/")):
+                            # tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
+                    # img = ProportionalScale(choice(tavern_event_list), 1100, 760)
+                    # renpy.show("event", what=img, at_list=[center])
+                    # renpy.with_statement(dissolve)
+                    # renpy.music.stop(channel="world")
+                    # renpy.music.play("brawl.mp3",channel="world") 
+                    # n(choice(["You step into the room... right into a fierce tavern brawl!"]))        
+        # else:
+            # renpy.show("event", what=img, at_list=[center])
+            # renpy.with_statement(dissolve)
+            # if global_flags.flag("tavern_entry_brawl") == (day + hero.AP): 
+                # renpy.music.stop(channel="world")
+                # renpy.music.play("brawl.mp3",channel="world") 
     
     python:
         # Build the actions
@@ -76,9 +76,7 @@ label tavern_inside:
             # pytfall.world_actions.finish()
     
     show screen tavern_inside
-    
     while 1:
-
         $ result = ui.interact()
 
         if result[0] == 'jump':
