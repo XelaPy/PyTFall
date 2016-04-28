@@ -21,7 +21,7 @@ label aine_menu:
         
         menu:
             "A leprechaun? In the park?":
-                a "How Rude! I go whereever I please and I can take of myself!"
+                a "How Rude! I go wherever I please and I can take of myself!"
                 a "Not mentioning that this is a really nice place and very few people can see me!"
             "I've met one of your kind already, someone called Peevish.":
                 a "That rude, good for nothing, useless excuse for a brother... well, you don't get to choose family..."
@@ -40,7 +40,7 @@ label aine_menu:
         menu:
             a "Anything interesting my dear?"
             "Ask her to teach magic!":
-                a "Ofcourse!"
+                a "Of course!"
                 a "Just pick a spell!"
                 
                 if len(hero.team) > 1:
@@ -61,7 +61,7 @@ label aine_menu:
                     a "Is there anything else?!"
                 else:
                     if hero.take_money(spell[1][0], reason="Spells"):
-                        a "Just take a long breath and let the magic flow throught you!"
+                        a "Just take a long breath and let the magic flow through you!"
                         
                         hide npc
                         play sound "content/sfx/sound/events/go_for_it.mp3" fadein 1.0
@@ -124,7 +124,7 @@ label aine_menu:
                     a "Being thought by a leprechaun Princess has it's perks!"
                     a "You vitality will be boosted and your fame and reputation may also increase."
                     extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavours!!!"
-                    a "That I dare say is a trully rare feat!"
+                    a "That I dare say is a truly rare feat!"
                     $ global_flags.set_flag("aine_training_explained")
                 else:
                     a "I am ready if you are!"

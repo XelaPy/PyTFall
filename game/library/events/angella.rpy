@@ -25,7 +25,7 @@ label angelica_menu:
                 a "It is not an easy task so don't think that you will be able to get away with being a cheapskate!"
                 a "It takes a lot out of me so I want to be very well compensated. If you believe that you can find a better deal anywhere... I do dare you to try :)"
                 $ global_flags.set_flag("angelica_free_alignment")
-                a "You look like you have some potencial... so I'll give you one freebie. "
+                a "You look like you have some potential... so I'll give you one freebie. "
                 extend "Do not expect that to happen again!"
                 a "I charge 10 000 Gold for the first element if you do not have any alignment at all and 10 000 and 5 000 more for every one that you already have!"
                 a "If you want to loose one, it is a lot trickier... elements are not shoes you can put on and off."
@@ -140,7 +140,7 @@ label angelica_menu:
                                 char.apply_trait(alignment)
                             $ char.say(choice(["What a weird feeling...", "Awesome!", "This is cool!"]))
                         else:
-                            a "You don't have enought money..."
+                            a "You don't have enough money..."
                             a " but come back when you do! I will be around here somewhere!"
                 $ del alignment
             
@@ -170,7 +170,7 @@ label angelica_menu:
                                     for el in list(el for el in char.traits if el.elemental):
                                         char.remove_trait(el)
                             else:
-                                a "You don't have enought money..."
+                                a "You don't have enough money..."
                                 a " but come back when you do! I will be around here somewhere!"
                         else:
                             $ price = 50000
@@ -178,7 +178,7 @@ label angelica_menu:
                                 a "There! All done!"
                                 $ char.remove_trait(alignment)
                             else:
-                                a "You don't have enought money..."
+                                a "You don't have enough money..."
                                 a " but come back when you do! I will be around here somewhere!"
                     
                 else:
