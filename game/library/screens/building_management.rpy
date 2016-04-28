@@ -152,21 +152,11 @@ init: # Screens:
             # Middle Frame:
             frame:
                 background Frame("content/gfx/frame/p_frame6.png", 10, 10)
-                style_group "content"
-                xysize (630, 780)
+                style_prefix "content"
+                xysize (630, 720)
                 xalign .5
                 ypos 40
                 has vbox xsize 600
-                null height 5
-                frame:
-                    xalign 0.5
-                    xysize (380, 50)
-                    background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    if mid_frame_mode == "building":
-                        label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
-                    else:
-                        label (u"__ [mid_frame_mode.name] __") text_size 23 text_color ivory align (0.5, 0.6)
-                null height 5
                 
                 # Main Building mode:
                 if mid_frame_mode == "building":
@@ -177,7 +167,7 @@ init: # Screens:
             ## Stats/Upgrades - Left Frame
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                xysize (330, 780)
+                xysize (330, 720)
                 xanchor 0.01
                 ypos 40
                 style_group "content"
@@ -190,7 +180,7 @@ init: # Screens:
             ## Right frame:
             frame:
                 ypos 37
-                ysize 780
+                ysize 720
                 xalign 1.0
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                 has vbox spacing 1 xsize 325
@@ -327,7 +317,21 @@ init: # Screens:
                     add Solid(black, xysize=(190, 190)) align .5, .5
         
     screen building_management_rightframe_upgrades_mode(mid_frame_mode, tt):
-        $ pass
+        $ frgr = Fixed(xysize=(330, 680))
+        $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 335, 600, align=(.5, .0)))
+        $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 335, 600, align=(.5, 1.0)))
+        frame:
+            style_prefix "content"
+            xysize (330, 680)
+            background Null()
+            foreground frgr
+            frame:
+                pos 25, 20
+                xysize (260, 40)
+                background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                label (u"__ [mid_frame_mode.name] __") text_size 18 text_color ivory align (0.5, 0.6)
+            null height 5
+            
                     
     screen building_management_leftframe_building_mode(mid_frame_mode, tt):
         frame:
@@ -487,6 +491,15 @@ init: # Screens:
                 text "[mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
         
     screen building_management_midframe_building_mode(mid_frame_mode, tt):
+        
+        null height 5
+        frame:
+            xalign 0.5
+            xysize (380, 50)
+            background Frame("content/gfx/frame/namebox5.png", 10, 10)
+            label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
+        null height 5
+        
         frame:
             xalign 0.5
             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
@@ -555,7 +568,6 @@ init: # Screens:
                     thumb 'content/gfx/interface/icons/move15.png'
         
     screen building_management_midframe_upgrades_mode(mid_frame_mode, tt):
-        
         for u in mid_frame_mode.allowed_upgrades:
             if building._has_upgrade(u):
                 frame:
