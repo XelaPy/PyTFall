@@ -790,8 +790,9 @@ init python:
                 args.append(anim.Edge(i, delay, j, MoveTransition(delay)))
         return anim.SMAnimation(0, *args)
 
-    def double_vision_on(img, alpha=0.5, count=10, dist=7, delay=0.4):
-        renpy.scene()
+    def double_vision_on(img, alpha=0.5, count=10, dist=7, delay=0.4, clear_scene=True):
+        if clear_scene:
+            renpy.scene()
         renpy.show(img)
         renpy.show(img, at_list=[Transform(alpha=alpha), gen_randmotion(count, dist, delay)], tag="blur_image")
         renpy.with_statement(dissolve)
