@@ -64,7 +64,7 @@ label peevish_meeting:
     
     menu:
         "Earth and Water magic? You? Don't make me laugh!":
-            p "Hah? A septic, I see?"
+            p "Hah? A sceptic, I see?"
             hide npc
             with dissolve
             
