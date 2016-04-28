@@ -37,7 +37,7 @@ label peevish_meeting:
         "Old crone? That witch looks young and kinda hot?":
             p "Haha! Shows how much you know!"
             p "Let me get down from here."
-        "Hey! Are you the midgit who lives up in a tree?":
+        "Hey! Are you the midget who lives up in a tree?":
             p "Amn't!"
             p "I am a genuine leprechaun, you b!tch!!!"
             extend " Well... almost... I wish that I had that damn pile of gold under the rainbow..."
@@ -64,7 +64,7 @@ label peevish_meeting:
     
     menu:
         "Earth and Water magic? You? Don't make me laugh!":
-            p "Hah? A skeptic, I see?"
+            p "Hah? A septic, I see?"
             hide npc
             with dissolve
             

@@ -95,7 +95,7 @@ label frog1_event_poke:
             jump forest_entrance
             
 label frog1_event_listen:
-    f1 "Once I was a beautiful princess. Few years ago I was travelling thru this woods to wed my beloved in PyTFall. On my travel I met and older women that turned me into this creature. Please could you help a maiden in distress? "
+    f1 "Once I was a beautiful princess. Few years ago I was travelling through this woods to wed my beloved in PyTFall. On my travel I met and older women that turned me into this creature. Please could you help a maiden in distress? "
     $ loop = True
     while loop:
         menu:
@@ -188,7 +188,7 @@ label frog1_event_abby_2:
     menu:
         "I will get you the money and the eye...":
             $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
-            $ pytfall.world_quests.get("Frog Princess!").next_in_label("Abby asked you to aquire another 10000 Gold for ingridients and an eye of a Goblin Champion...")
+            $ pytfall.world_quests.get("Frog Princess!").next_in_label("Abby asked you to acquire another 10000 Gold for ingredients and an eye of a Goblin Champion...")
             
             $ menu_extensions.add_extension("Xeona Main", ("Enquire about an eye of a Goblin Champion!", Jump("frog_event_arena")))
             jump forest_entrance
@@ -207,12 +207,12 @@ label frog_event_arena:
     
     ax "An eye of the goblin champion you say?"
     ax "I sure hope it's not some weird fetish you're into..."
-    ax "It can be arranged I suppose, as you may know, damnpening field prevents fatal blows in the Arena, often even to Monsters but a proper DeathMatch can be arranged."
-    ax "Come back in three days and make certain you are well equiped, you may even consider bringing a couple of friends along with you."
+    ax "It can be arranged I suppose, as you may know, dampening field prevents fatal blows in the Arena, often even to Monsters but a proper DeathMatch can be arranged."
+    ax "Come back in three days and make certain you are well equipped, you may even consider bringing a couple of friends along with you."
     ax "A real G-Champ will be bloody hard to kill and in deathmatch you'll die as well if your party is wiped out."
     ax "Also don't expect him to be along even if you are, people will expect a vicious fight, deathmatches are rare enough so it's best to make it look good!"
     $ hero.take_ap(1)
-    $ pytfall.world_quests.get("Frog Princess!").next_in_label("Xeona agreed to set up a match per your request but you've been warned that it is a {color=[red]}very{/color} dangerous endevour and it would be a good idea to bring some backup!")
+    $ pytfall.world_quests.get("Frog Princess!").next_in_label("Xeona agreed to set up a match per your request but you've been warned that it is a {color=[red]}very{/color} dangerous endeavour and it would be a good idea to bring some backup!")
     if config.debug:
         $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=1)
     else:
@@ -300,12 +300,12 @@ label frog1_event_abby_3:
     w "I heard you got the base ingredient. " # note to xela, the same talk menu: 
     extend "I heard it was one hell of a fight in the Arena!"
     extend " ... too bad I've missed it."
-    w "Anyway, I took liberties to prepear the potion so I only need the eye from you (takes the eye)."
-    w "And don't worry about the 10000 Gold, I was only joking, most of these ingriedients grow right outside my hut :)"
+    w "Anyway, I took liberties to prepare the potion so I only need the eye from you (takes the eye)."
+    w "And don't worry about the 10000 Gold, I was only joking, most of these ingredients grow right outside my hut :)"
     "Three minutes have passed..."
     w "Here is the potion. Now listen. To undo the spell, have the frog to drink the potion and after that you have to kiss."
     extend " She should transform right away. It's that simple. If a normal kiss won't work try a more passionate one. Good luck!"
-    "You get a little corked vial, filled with a glowing green liquid called the potion of unfroging. You rushed in a hurry form the Withes Hut."
+    "You get a little corked vial, filled with a glowing green liquid called the potion of unfrogging. You rushed in a hurry form the Witches Hut."
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Finally you have the potion! Talk to the frog again!")
     $ renpy.music.stop(channel="world", fadeout=1)
     scene bg forest_entrance at truecenter
@@ -357,7 +357,7 @@ label frog1_event_potkiss:
             jump frog1_event_disq
 
 label frog1_event_disq:
-    "First kiss was disgusting enough, this is just too much for you. After dropping the frog you head back home thinking about what a crappy ordial this was." # note to Xela, end quest.
+    "First kiss was disgusting enough, this is just too much for you. After dropping the frog you head back home thinking about what a crappy ordeal this was." # note to Xela, end quest.
     $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You could not bring yourself to kiss the frog properly...")
     $ pytfall.world_events.kill_event("show_frog_final")
     jump forest_entrance

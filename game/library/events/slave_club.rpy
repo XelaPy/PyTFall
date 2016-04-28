@@ -20,7 +20,7 @@ label smc_1(event):
     g "Nice isn't it?"
     g "Crowd seems to be loving it!"
     menu:
-        g "How about we turn this baby on? Would you do us the honors?"
+        g "How about we turn this baby on? Would you do us the honours?"
         "Let's do this!":
             $ pass
         "I am not really into this...":
