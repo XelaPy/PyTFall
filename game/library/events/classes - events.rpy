@@ -1,5 +1,3 @@
-# Events
-
 init -9 python:
     def get_random_event_image(eventfolder):
         templist = []
@@ -160,7 +158,7 @@ init -9 python:
         """Container for the world event.
         """
         def __init__(self, name, label=None, priority=100, restore_priority=5, dice=0, start_day=1, end_day=9999999, jump=False, screen=False,
-                           times_per_days=(), locations=list(), trigger_type="look_around", custom_condition=False, simple_conditions= None, run_conditions=None, stop_music=False, max_runs=0,
+                           times_per_days=(), locations=list(), trigger_type="look_around", custom_condition=False, simple_conditions=None, run_conditions=None, stop_music=False, max_runs=0,
                            quest=None):
             """
             name = name of the event, will be used as label if label if not specified.

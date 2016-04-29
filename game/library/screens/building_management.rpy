@@ -1,5 +1,8 @@
 label building_management:
     python:
+        # Some Global Vars we use to pass data between screens:
+        mid_frame_focus = None
+        
         if hero.upgradable_buildings:
             try:
                 index = index
@@ -147,6 +150,7 @@ init: # Screens:
         
         default tt = Tooltip("Manage your Buildings here.")
         default mid_frame_mode = "building"
+        default mid_frame_focus = None
         
         if hero.upgradable_buildings:
             # Middle Frame:
@@ -156,7 +160,7 @@ init: # Screens:
                 xysize (630, 720)
                 xalign .5
                 ypos 40
-                has vbox xsize 600
+                has vbox xsize 630
                 
                 # Main Building mode:
                 if mid_frame_mode == "building":
@@ -168,7 +172,7 @@ init: # Screens:
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                 xysize (330, 720)
-                xanchor 0.01
+                # xanchor 0.01
                 ypos 40
                 style_group "content"
                 has vbox
@@ -179,11 +183,11 @@ init: # Screens:
             
             ## Right frame:
             frame:
-                ypos 37
-                ysize 720
+                xysize (330, 720)
+                ypos 40
                 xalign 1.0
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                has vbox spacing 1 xsize 325
+                has vbox spacing 1
                 if mid_frame_mode == "building":
                     use building_management_rightframe_building_mode(mid_frame_mode, tt)
                 else: # Upgrade mode:
@@ -317,12 +321,12 @@ init: # Screens:
                     add Solid(black, xysize=(190, 190)) align .5, .5
         
     screen building_management_rightframe_upgrades_mode(mid_frame_mode, tt):
-        $ frgr = Fixed(xysize=(330, 680))
-        $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 335, 600, align=(.5, .0)))
-        $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 335, 600, align=(.5, 1.0)))
+        $ frgr = Fixed(xysize=(315, 680))
+        $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
+        $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 315, 600, align=(.5, 1.0)))
         frame:
             style_prefix "content"
-            xysize (330, 680)
+            xysize (315, 680)
             background Null()
             foreground frgr
             frame:
@@ -489,6 +493,50 @@ init: # Screens:
                 xalign 0.5
                 text "Ext Slots:" xalign 0.02 color ivory
                 text "[mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                
+        if True: # Only for FG.
+            frame: 
+                style_group "content"
+                xalign 0.5
+                xysize (200, 50)
+                background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                label (u"Maps") text_size 23 text_color ivory align (.5, .8)
+                
+            null height 10
+            viewport:
+                xysize 220, 500
+                xalign .5
+                has vbox spacing 4
+                $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+                if temp and not mid_frame_focus:
+                    $ mid_frame_focus = temp[0]
+                    
+                for area in temp:
+                    $ img = im.Scale(area.img, 200, 130)
+                    frame:
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                        xpadding 5
+                        ypadding 6
+                        xmargin 0
+                        ymargin 0
+                        xysize 200, 130
+                        button:
+                            align .5, .5
+                            xysize 200, 130
+                            background Frame(img)
+                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
+                            action SetVariable("mid_frame_focus", area)
+                            frame:
+                                align .5, .0
+                                xysize 180, 30
+                                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
+                                text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+
+            hbox:
+                xalign 0.5
+                spacing 20
+                add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
+                add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
         
     screen building_management_midframe_building_mode(mid_frame_mode, tt):
         
@@ -568,86 +616,128 @@ init: # Screens:
                     thumb 'content/gfx/interface/icons/move15.png'
         
     screen building_management_midframe_upgrades_mode(mid_frame_mode, tt):
-        for u in mid_frame_mode.allowed_upgrades:
-            if building._has_upgrade(u):
-                frame:
-                    xalign .5
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                    has fixed xysize 500, 150
-                    
+        if 1:
+            frame:    # Image
+                xalign 0.5
+                background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
+            
+            hbox:
+                box_wrap 1
+                spacing 2
+                xalign .5
+                if isinstance(mid_frame_focus, FG_Area):
+                    $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
+                    for area in temp:
+                        $ fbg = "content/gfx/frame/mes11.jpg"
+                        button:
+                            background Frame(Transform(fbg, alpha=0.9), 10, 10)
+                            hover_background Frame(Transform(im.MatrixColor(fbg, im.matrix.brightness(0.10)), alpha=0.9), 10, 10)
+                            xysize (150, 90)
+                            ymargin 1
+                            ypadding 1
+                            action NullAction()
+                            if area.unlocked:
+                                $ temp = area.name
+                            else:
+                                $ temp = "?????????"
+                            text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                            hbox:
+                                align (0.5, 0.9)
+                                # Get the correct stars:
+                                python:
+                                    temp = []
+                                    for i in range(area.explored//20):
+                                        temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                    if len(temp) != 5:
+                                        if area.explored%20 >= 10:
+                                            temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                    while len(temp) != 5:
+                                        temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                for i in temp:
+                                    add i
+                                    
+        else:
+            for u in mid_frame_mode.allowed_upgrades:
+                if building._has_upgrade(u):
                     frame:
-                        align .3, .5
+                        xalign .5
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                        xpadding 15
-                        text "Active" align .5, .5 style "stats_text" size 35
-                    
-                    vbox:
-                        align 1.0, 0
-                        xsize 150
+                        has fixed xysize 500, 150
+                        
                         frame:
-                            xalign .5
+                            align .3, .5
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                            xpadding 15
+                            text "Active" align .5, .5 style "stats_text" size 35
+                        
+                        vbox:
+                            align 1.0, 0
+                            xsize 150
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                xpadding 10
+                                text "[u.ID]" align .5, .5 style "stats_text" size 15
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                if hasattr(u, "IMG"):
+                                    add im.Scale(u.IMG, 120, 75) align .5, .5
+                                else:
+                                    add Solid(black, xysize=(120, 75)) align .5, .5
+                        
+                else:
+                    frame:
+                        xalign .5
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                        has fixed xysize 500, 150
+                        
+                        frame:
+                            align .3, 0
                             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                             xpadding 10
-                            text "[u.ID]" align .5, .5 style "stats_text" size 15
-                        frame:
-                            xalign .5
-                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                            if hasattr(u, "IMG"):
-                                add im.Scale(u.IMG, 120, 75) align .5, .5
-                            else:
-                                add Solid(black, xysize=(120, 75)) align .5, .5
-                    
-            else:
-                frame:
-                    xalign .5
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                    has fixed xysize 500, 150
-                    
-                    frame:
-                        align .3, 0
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                        xpadding 10
-                        text "Resources Needed:" align .5, .5 style "stats_text" size 15
-                            
-                    hbox:
-                        pos 15, 35
-                        box_wrap True
-                        xsize 330
-                        spacing 10
-                        frame:
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                            has hbox xysize 135, 40
-                            text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
-                        # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
-                        for r in sorted(u.MATERIALS):
-                            $ r = items[r]
+                            text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                
+                        hbox:
+                            pos 15, 35
+                            box_wrap True
+                            xsize 330
+                            spacing 10
                             frame:
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                 has hbox xysize 135, 40
-                                text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
+                            # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
+                            for r in sorted(u.MATERIALS):
+                                $ r = items[r]
                                 frame:
-                                    align .99, .5
-                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                    add im.Scale(r.icon, 33, 33) align .5, .5
-                        
-                    vbox:
-                        align 1.0, 0
-                        xsize 150
-                        frame:
-                            xalign .5
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                            xpadding 10
-                            text "[u.ID]" align .5, .5 style "stats_text" size 15
-                        frame:
-                            xalign .5
-                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                            if hasattr(u, "IMG"):
-                                add im.Scale(u.IMG, 120, 75) align .5, .5
-                            else:
-                                add Solid(black, xysize=(120, 75)) align .5, .5
-                        textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
-        
-        textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    has hbox xysize 135, 40
+                                    text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                    frame:
+                                        align .99, .5
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                        add im.Scale(r.icon, 33, 33) align .5, .5
+                            
+                        vbox:
+                            align 1.0, 0
+                            xsize 150
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                xpadding 10
+                                text "[u.ID]" align .5, .5 style "stats_text" size 15
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                if hasattr(u, "IMG"):
+                                    add im.Scale(u.IMG, 120, 75) align .5, .5
+                                else:
+                                    add Solid(black, xysize=(120, 75)) align .5, .5
+                            textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
+            
+            textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
         
  
     screen building_maintenance():

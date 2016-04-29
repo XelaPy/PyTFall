@@ -515,10 +515,10 @@ screen fg_management():
                         action SetScreenVariable("stats_display", "Building")
                         hovered tt.action("Here you can invest your gold and resources for various improvements.\nAnd see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
-                        add ProportionalScale("content/gfx/bg/example/e1.png", 307, 392) pos (-91, -174)
-                        add ProportionalScale("content/gfx/bg/example/e1.png", 307, 392) pos (-91, -174)
-                        add ProportionalScale("content/gfx/bg/example/e2.png", 307, 392) pos (-91, -82)
-                        add ProportionalScale("content/gfx/bg/example/e2.png", 307, 392) pos (-91, -82)
+                        # add ProportionalScale("content/gfx/bg/example/e1.png", 307, 392) pos (-91, -174)
+                        # add ProportionalScale("content/gfx/bg/example/e1.png", 307, 392) pos (-91, -174)
+                        # add ProportionalScale("content/gfx/bg/example/e2.png", 307, 392) pos (-91, -82)
+                        # add ProportionalScale("content/gfx/bg/example/e2.png", 307, 392) pos (-91, -82)
                     button:
                         xysize (150, 40)
                         yalign 0.5
