@@ -25,7 +25,7 @@ label drunk_lady1:
                 linear 0.5 zoom 1.1
                 linear 0.5 zoom 1.0
             "She seductively pushes her huge boobs towards you."
-            t.say "I just... need some money, to pay a gambling debt. One thousand coins."
+            t.say "I just... need some money to pay off a gambling debt. One thousand coins."
             if hero.gold >= 1000:
                 menu:
                     "Do you want to give her 1000 coins?"
@@ -44,16 +44,16 @@ label drunk_lady1:
                         t.say "A shame. Back to my drink then."
                         $ pytfall.world_quests.get("Drunk Lady").next_in_label("You've met a woman with huge knockers who proposed you her body for 1000 gold coins. You refused, for now.")
                         $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
-                        $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], dice=100, restore_priority=0, run_conditions=["hero.gold >= 1000"],jump=True)
+                        $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], dice=0, restore_priority=0, run_conditions=["hero.gold >= 1000"], jump=True)
                         $ pytfall.world_events.force_event("drunk_lady2")
                         hide x with dissolve
             else:
                 "Unfortunately, you don't have that amount of gold at the moment."
                 t.say "I see... My proposition still stands. You know where to find me."
                 "She returns to her drink."
-                $ pytfall.world_quests.get(event.quest).next_in_label("You've met a woman with huge knockers who proposed you her body for 1000 gold coins. Sadly, you couldn't afford her.")
+                $ pytfall.world_quests.get("Drunk Lady").next_in_label("You've met a woman with huge knockers who proposed you her body for 1000 gold coins. Sadly, you couldn't afford her.")
                 $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
-                $ register_event_in_label("drunk_lady2", quest=event.quest, locations=["tavern_inside"], dice=50, restore_priority=0, run_conditions=["hero.gold >= 1000"], jump=True)
+                $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], restore_priority=0, dice=0, run_conditions=["hero.gold >= 1000"], jump=True)
                 $ pytfall.world_events.force_event("drunk_lady2")
                 hide x with dissolve
         "Maybe another time":
@@ -79,7 +79,7 @@ label drunk_lady2:
             t.say "Niiice. Tell you what, I have a room here on the second floor."
             t.say "I'll wait you there..."
             "She stands up and unsteadily goes to the second floor."
-            $ pytfall.world_quests.get(event.quest).next_in_label("You paid Tsunade and she invited you to her room on the second floor.")
+            $ pytfall.world_quests.get("Drunk Lady").next_in_label("You paid Tsunade and she invited you to her room on the second floor.")
             $ pytfall.world_events.kill_event("drunk_lady2", cached=True)
             jump drunk_lady_quest_scene
         "No":
@@ -98,7 +98,7 @@ label drunk_lady_quest_scene:
     play world "town2.ogg" fadein 1.0 loop
     show bg girl_room_4 with dissolve
     "You follow her to her room. It's definitely not the cheapest room in the tavern, but on the other hand the best rooms are located on the third floor."
-    show chars["Tsunade"].get_vnsprite() at center with dissolve
+    show expression t_spr at center with dissolve
     t.say "Well then, now we can talk. No one can here us here."
     "You still can feel how she reeks of alcohol, but she doesn't look drunk at all. She smirks looking at your puzzled face."
     $ t.override_portrait("portrait", "confident")
@@ -119,15 +119,18 @@ label drunk_lady_quest_scene:
         "Sex":
             $ t.override_portrait("portrait", "happy")
             t.say "Nice! It's been awhile..."
-            hide t_spr with dissolve
+            hide expression t_spr with dissolve
             show expression t.show("00B1-nd-e2-e5-c1-l4-a1.jpg", resize=(800, 600)) as x at truecenter with dissolve
             $ t.override_portrait("portrait", "suggestive")
             t.say "...but I think I still remember how to do it. What do you think? I grow them myself. I used to be flat as a board, but medical techniques can improve many things ♥"
             show expression t.show("0025-sx-e6-c8-l2-ns-p3-p2-sn-su.jpg", resize=(800, 600)) as x at truecenter with dissolve
             "Without further ado she kneels down and masterfully brings you to the finish. You feel that you learned a thing a two about sex."
             $ hero.sex += 50
+            $ hero.health = hero.get_max("health")
+            $ hero.mp = hero.get_max("mp")
+            $ hero.vitality = hero.get_max("vitality")
             hide x with dissolve
-            show t_spr at center with dissolve
+            show expression t_spr at center with dissolve
             $ t.override_portrait("portrait", "confident")
             t.say "Oh, that was quick. You have a long way to go if you wish to surpass you father ♫"
     $ t.override_portrait("portrait", "indifferent")
@@ -137,8 +140,10 @@ label drunk_lady_quest_scene:
     $ t.override_portrait("portrait", "indifferent")
     t.say "I am not asking you to rape them, or to force yourself on them. If you get idea, it would be a miracle if you survive the attempt."
     t.say "We should avoid unneeded attention, find me in the tavern only after you finish with it. So long..."
+    hide expression t_spr with dissolve
     $ t.restore_portrait() 
     "She leaves. You notice at the table nearby a package of documents with information about your 'targets'."
     $ pytfall.world_quests.get("Drunk Lady").finish_in_label("Turns out Tsunade has a mission for you. You probably should accept it.", "complete")
+    # if we allow here to refuse, it will make the village and all characters inside unavailable forever. so yeah, it will be linear.
     scene black
     jump tavern_inside

@@ -1,4 +1,9 @@
 [
+{"id": "Cursed Forest",
+"main": true,
+"unlocked": true,
+"img": "content/gfx/bg/locations/forest_bg_1.jpg"
+},
 {"id": "Forest Entrance",
 "items": {"Worn Clothes": 0.34,"Wooden Club": 0.34,"Mallet": 0.07,"Pitchfork": 0.1,"Woodcutting Axe": 0.2,"Linen Capelet": 0.2,"Short Bow": 0.1,"Leather Cape": 0.1,"Dagger": 0.15,"Wild Flowers": 0.3,"Bauble Necklace": 0.25, "Slippers": 0.25, "Peasant Gown": 0.15, "Huntsman Hat": 0.1,"Scarf": 0.07},
 "area": "Cursed Forest",

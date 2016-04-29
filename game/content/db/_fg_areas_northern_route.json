@@ -1,9 +1,4 @@
 [
-{"id": "Northern Route",
-"main": true,
-"unlocked": true,
-"img": "content/gfx/bg/locations/fg_areas_northern.jpg"
-},
 {"id": "Northern Forest",
 "area": "Northern Route",
 "desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
