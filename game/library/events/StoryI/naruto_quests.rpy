@@ -25,7 +25,7 @@ label drunk_lady1:
                 linear 0.5 zoom 1.1
                 linear 0.5 zoom 1.0
             "She seductively pushes her huge boobs towards you."
-            t.say "I just... need some money, to pay a gambling debt. One thousand coins."
+            t.say "I just... need some money to pay off a gambling debt. One thousand coins."
             if hero.gold >= 1000:
                 menu:
                     "Do you want to give her 1000 coins?"
@@ -44,7 +44,7 @@ label drunk_lady1:
                         t.say "A shame. Back to my drink then."
                         $ pytfall.world_quests.get("Drunk Lady").next_in_label("You've met a woman with huge knockers who proposed you her body for 1000 gold coins. You refused, for now.")
                         $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
-                        $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], dice=100, restore_priority=0, run_conditions=["hero.gold >= 1000"],jump=True)
+                        $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], dice=0, restore_priority=0, run_conditions=["hero.gold >= 1000"], jump=True)
                         $ pytfall.world_events.force_event("drunk_lady2")
                         hide x with dissolve
             else:
@@ -53,7 +53,7 @@ label drunk_lady1:
                 "She returns to her drink."
                 $ pytfall.world_quests.get("Drunk Lady").next_in_label("You've met a woman with huge knockers who proposed you her body for 1000 gold coins. Sadly, you couldn't afford her.")
                 $ pytfall.world_events.kill_event("drunk_lady1", cached=True)
-                $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], restore_priority=0, run_conditions=["hero.gold >= 1000"], jump=True)
+                $ register_event_in_label("drunk_lady2", quest="Drunk Lady", locations=["tavern_inside"], restore_priority=0, dice=0, run_conditions=["hero.gold >= 1000"], jump=True)
                 $ pytfall.world_events.force_event("drunk_lady2")
                 hide x with dissolve
         "Maybe another time":
