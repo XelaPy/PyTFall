@@ -1229,6 +1229,11 @@ init -9 python:
             self.gold += amount
             
         # Game assist methods:
+        def set_status(self, s):
+            if s not in ["slave", "free"]:
+                raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
+            self.status = s
+            
         # Properties:
         @property
         def is_available(self):

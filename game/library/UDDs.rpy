@@ -771,7 +771,7 @@ init python:
         w, h = renpy.render(d, 0, 0, 0, 0).get_size()
         w, h = int(round(w)), int(round(h))
         return w, h
-    
+        
     def gen_randmotion(count, dist, delay):
         args = [ ]
         for i in xrange(count):
