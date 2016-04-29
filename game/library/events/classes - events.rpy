@@ -12,13 +12,17 @@ init -9 python:
         """
         Registers a new event in an init block.
         """
-        world_events.append(WorldEvent(*args, **kwargs))
+        event = WorldEvent(*args, **kwargs)
+        world_events.append(event)
+        return event
     
     def register_event_in_label(*args, **kwargs):
         """
         Registers a new event in a label.
         """
-        pytfall.world_events.events.append(WorldEvent(*args, **kwargs))
+        event = WorldEvent(*args, **kwargs)
+        pytfall.world_events.events.append(event)
+        return event
     
     class WorldEventsManager(_object):
         """Manager of all events in PyTFall.
@@ -33,6 +37,12 @@ init -9 python:
             self.events_cache = list() # events that should be acutally checked
             self.garbage = list()
             self.label_cache = None
+            
+        def get_event(self, name):
+            # Returns the event object with given name.
+            for e in self.events:
+                if e.name == name:
+                    return e
         
         def kill_event(self, event_name, cached=False):
             """
