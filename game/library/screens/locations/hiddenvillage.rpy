@@ -71,78 +71,22 @@ screen hiddenvillage_entrance:
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "stage", "onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
     
-label hidden_village_matrix:
+label hidden_village_matrix: # either we make packs I use for matrix mandatory, or code a system that disables events unsupported by existing packs in case if player doesn't have all of them
     hide screen hiddenvillage_entrance
     scene bg hiddenvillage_entrance
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8))
     if not(_return):
         jump hiddenvillage_entrance
-    if _return == "House_5":
-        if pytfall.world_quests.check_quest_not_finished("Sixth Sense"):
-            if pytfall.world_quests.check_stage("Sixth Sense") == 0:
-                hide screen hiddenvillage_entrance
-                jump karin_first_meeting
-            elif not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.check_stage("Sixth Sense") == 1:
-                hide screen hiddenvillage_entrance
-                show bg girl_room_12
-                call karin_second_meeting
-                $ gm.start("girl_meets", chars["Karin"], chars["Karin"].get_vnsprite(), "hiddenvillage_entrance", "girl_room_12")
+    if _return == "Alley":
+        if pytfall.world_quests.check_quest_not_finished("Two Sisters"):
+            if pytfall.world_quests.check_stage("Two Sisters") == 0:
+                $ pytfall.world_events.force_event("two_sisters0")
+                $ pytfall.world_quests.run_quests("doa_quest")
+                $ pytfall.world_events.run_events("doa_quest")
             else:
-                $ interactions_run_gm_anywhere ("Karin", "hiddenvillage_entrance", "girl_room_12")
+                "Nothing interesting there."
         else:
-            hide screen hiddenvillage_entrance
-            $ interactions_run_gm_anywhere ("Karin", "hiddenvillage_entrance", "girl_room_12")
-    elif _return == "House_6":
-        jump hidden_village_shop
-    elif _return == "House_2":
-        if pytfall.world_quests.check_quest_not_finished("Uzumaki Clan"):
-            if pytfall.world_quests.check_stage("Uzumaki Clan") == 0:
-                jump naruko_first_meeting
-            elif pytfall.world_quests.check_stage("Uzumaki Clan") == 2:
-                jump naruko_second_meeting
-            elif pytfall.world_quests.check_stage("Uzumaki Clan") == 4:
-                jump naruko_third_meeting
-            elif pytfall.world_quests.check_stage("Uzumaki Clan") == 6:
-                jump naruko_final_meeting
-            else:
-                hide screen hiddenvillage_entrance
-                $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenvillage_entrance", "girl_room_4")
-        else:
-            hide screen hiddenvillage_entrance
-            $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenvillage_entrance", "girl_room_4")
-    elif _return == "Training":
-        if pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi"):
-            if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0:
-                hide screen hiddenvillage_entrance
-                jump temari_first_meeting
-            elif pytfall.world_quests.check_stage("Stubborn Kunoichi") == 2:
-                hide screen hiddenvillage_entrance
-                jump temari_before_fight
-        if pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
-                # if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 3 and pytfall.world_quests.check_stage("Weapons Specialist") == 0:
-            if pytfall.world_quests.check_stage("Weapons Specialist") == 0:
-                hide screen hiddenvillage_entrance
-                jump tenten_first_meeting
-            elif pytfall.world_quests.check_stage("Weapons Specialist") == 1:
-                hide screen hiddenvillage_entrance
-                jump tenten_second_meeting
-    elif _return == "House_9":
-        if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 0 and not(pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
-            "The door is locked. Looks like there is no one here..."
-        elif (pytfall.world_quests.check_stage("Stubborn Kunoichi") == 1) and (chars["Temari"].disposition >= 200) and (pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi")):
-            hide screen hiddenvillage_entrance
-            show bg girls_dorm with dissolve
-            jump temari_second_meeting
-        else:
-            menu:
-                "It's a dormitory for those kunoichi who don't own a house. Who you want to see?"
-                
-                "Temari" if pytfall.world_quests.check_stage("Stubborn Kunoichi") >= 1:
-                    $ interactions_run_gm_anywhere ("Temari", "hiddenvillage_entrance", "girls_dorm")
-                "Tenten" if pytfall.world_quests.check_stage("Weapons Specialist") >= 2:
-                    $ interactions_run_gm_anywhere ("Tenten", "hiddenvillage_entrance", "girls_dorm")
-                "Leave":
-                    jump hiddenvillage_entrance
+            "Nothing interesting there."
     "Result: [_return]"
     jump hidden_village_matrix
     
