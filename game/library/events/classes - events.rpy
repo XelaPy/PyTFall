@@ -57,7 +57,8 @@ init -9 python:
             """
             for event in self.events:
                 if event.name == name:
-                    self.events_cache.append(event)
+                    if event not in self.events_cache:
+                        self.events_cache.append(event)
         
         def run_events(self, trigger_type, default=None, cost=0):
             """
