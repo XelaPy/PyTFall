@@ -73,27 +73,19 @@ init -9 python:
             for i in self.events_cache:
                 if i.trigger_type == trigger_type and ("all" in i.locations or last_label in i.locations): l.append(i)
             
-            if trigger_type != "auto":
-                if hero.AP < cost:
-                    renpy.show_screen("message_screen", "Not enough AP left")
-                    return
-                else:
-                    hero.AP -= cost
-                    for event in l:
-                        if event.check_conditions():
-                            event.run_event()
-                            return
-                    
-                    else:
-                        if default: renpy.call_in_new_context(default)
-                        return
-            
+            if hero.AP < cost:
+                renpy.show_screen("message_screen", "Not enough AP left")
+                return
             else:
+                hero.AP -= cost
                 for event in l:
                     if event.check_conditions():
                         event.run_event()
                         return
-        
+                else:
+                    if default: renpy.call_in_new_context(default)
+                    return
+            
         def finish_event(self):
             """
             Finishes the current event.
