@@ -156,7 +156,7 @@ init -9 python:
     class WorldEvent(Flags):
         """Container for the world event.
         """
-        def __init__(self, name, label=None, priority=100, restore_priority=5, dice=50, start_day=1, end_day=9999999, jump=False, screen=False,
+        def __init__(self, name, label=None, priority=100, restore_priority=5, dice=0, start_day=1, end_day=9999999, jump=False, screen=False,
                            times_per_days=(), locations=list(), trigger_type="look_around", custom_condition=False, simple_conditions= None, run_conditions=None, stop_music=False, max_runs=0,
                            quest=None):
             """
@@ -173,7 +173,7 @@ init -9 python:
             
             start_day = day to start checking triggers for the event.
             end_day = day to stop checking triggers for the event.
-            jump = jumps intead of running in new context.
+            jump = jumps instead of running in new context.
             screen = will show a screen (bound to self.label) if True, ignored if false
             times_per_days = maximum amount of times that event may trigger in an amount of days, expects a tuple/list of amount, days.
             locations = to trigger the event.
