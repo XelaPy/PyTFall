@@ -30,8 +30,7 @@ label two_sisters0:
             "She quickly leaves. Looks like you will be busy tomorrow."
             $ pytfall.world_quests.get("Two Sisters").next_in_label("You accepted it. Tomorrow you will have to find a redhead kunoichi in the city tavern.")
             $ register_event_in_label("two_sisters1", quest="Two Sisters", locations=["tavern_inside"], start_day=day + 1, dice=100, jump=True)
-            $ register_event_in_label("two_sisters2", locations=["all"], start_day=day + 2, dice=100, trigger_type="auto")
-            
+            $ register_event_in_label("fail_two_sisters", locations=["all"], start_day=day + 2, dice=100, trigger_type="auto")
             
         "Leave her be":
             hide expression a_spr with dissolve
@@ -40,7 +39,7 @@ label two_sisters0:
             
     jump hiddenvillage_entrance
     
-label two_sisters2(event):
+label fail_two_sisters(event):
     $ pytfall.world_events.kill_event("two_sisters1", cached=True)
     $ pytfall.world_quests.get("Two Sisters").next_in_label("Sadly, you missed you chance to meet her.")
     $ pytfall.world_quests.fail_quest("Two Sisters")
