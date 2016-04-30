@@ -8,8 +8,11 @@ init -9 python:
     
     def register_event(*args, **kwargs):
         """
-        Registers a new event in an init block.
+        Registers a new event in an init block (and now in labels as well!).
         """
+        if hasattr(store, "pytfall"):
+            return register_event_in_label(*args, **kwargs)
+            
         event = WorldEvent(*args, **kwargs)
         world_events.append(event)
         return event

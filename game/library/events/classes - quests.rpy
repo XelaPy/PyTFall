@@ -7,8 +7,11 @@ init -9 python:
     
     def register_quest(*args, **kwargs):
         """
-        Registers a new quest in an init block.
+        Registers a new quest in an init block (and now in labels as well!).
         """
+        if hasattr(store, "pytfall"):
+            return register_quest_in_label(*args, **kwargs)
+            
         q = WorldQuest(*args, **kwargs)
         world_quests.append(q)
         return q

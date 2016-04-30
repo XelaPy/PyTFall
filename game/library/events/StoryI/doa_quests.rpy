@@ -1,6 +1,7 @@
 init python:
-    q = register_quest("Two Sisters")
-    register_event("two_sisters0", quest="Two Sisters", locations=["all"], trigger_type = "doa_quest", jump=True)
+    q = register_quest("Two Sisters", manual=True)
+    register_event("two_sisters0", quest="Two Sisters", locations=["all"], trigger_type="doa_quest", dice=100, jump=True)
+    
 label two_sisters0:
     $ pytfall.world_events.kill_event("two_sisters0", cached=True)
     show bg hiddenvillage_alley with dissolve
@@ -27,19 +28,21 @@ label two_sisters0:
             a.say "Then you will get the following instructions and your reward. Like I said, don't tell anyone about it, unless you wish to die."
             hide expression a_spr with dissolve
             "She quickly leaves. Looks like you will be busy tomorrow."
-            $ global day
-            $ register_event("two_sisters1", quest="Two Sisters", locations=["tavern_inside"], start_day=day + 1, jump=True)
-            $ pytfall.world_events.force_event("two_sisters1")
-            $ register_event("two_sisters2", quest="Two Sisters", locations=["all"], start_day=day + 2, trigger_type="auto")
             $ pytfall.world_quests.get("Two Sisters").next_in_label("You accepted it. Tomorrow you will have to find a redhead kunoichi in the city tavern.")
+            $ register_event_in_label("two_sisters1", quest="Two Sisters", locations=["tavern_inside"], start_day=day + 1, dice=100, jump=True)
+            $ register_event_in_label("two_sisters2", locations=["all"], start_day=day + 2, dice=100, trigger_type="auto")
+            
+            
         "Leave her be":
             hide expression a_spr with dissolve
             "Without wasting words you leave the garden. Almost immediately you hear another slight noise behind. The garden is empty again."
             $ pytfall.world_quests.get("Two Sisters").finish_in_label("You refused. You will not see her again.", "complete")
+            
     jump hiddenvillage_entrance
     
-label doa_quest2(event):
+label two_sisters2(event):
     $ pytfall.world_events.kill_event("two_sisters1", cached=True)
-    $ pytfall.world_quests.get("Two Sisters").next_in_label("Sadly, you missed you chance to meet her.", "failed")
+    $ pytfall.world_quests.get("Two Sisters").next_in_label("Sadly, you missed you chance to meet her.")
+    $ pytfall.world_quests.fail_quest("Two Sisters")
     $ pytfall.world_events.kill_event("two_sisters2", cached=True)
     return
