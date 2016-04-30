@@ -1,8 +1,8 @@
 init python:
     q = register_quest("Two Sisters", manual=True)
-    register_event("two_sisters0", quest="Two Sisters", locations=["all"], trigger_type="doa_quest", dice=100, jump=True)
+    register_event("two_sisters0", quest="Two Sisters", locations=["all"], trigger_type="doa_quest", dice=100)
     
-label two_sisters0:
+label two_sisters0(event):
     $ pytfall.world_events.kill_event("two_sisters0", cached=True)
     show bg hiddenvillage_alley with dissolve
     "A distant alley at the far end of the village led you in a small garden."
@@ -29,15 +29,15 @@ label two_sisters0:
             hide expression a_spr with dissolve
             "She quickly leaves. Looks like you will be busy tomorrow."
             $ pytfall.world_quests.get("Two Sisters").next_in_label("You accepted it. Tomorrow you will have to find a redhead kunoichi in the city tavern.")
-            $ register_event_in_label("two_sisters1", quest="Two Sisters", locations=["tavern_inside"], start_day=day + 1, dice=100, jump=True)
-            $ register_event_in_label("fail_two_sisters", locations=["all"], start_day=day + 2, dice=100, trigger_type="auto")
+            $ register_event_in_label("two_sisters1", quest="Two Sisters", locations=["tavern_inside"], start_day=day + 1, dice=100)
+            $ register_event_in_label("fail_two_sisters", locations=["all"], start_day=day + 2, run_conditions=["True"], trigger_type="auto")
             
         "Leave her be":
             hide expression a_spr with dissolve
             "Without wasting words you leave the garden. Almost immediately you hear another slight noise behind. The garden is empty again."
             $ pytfall.world_quests.get("Two Sisters").finish_in_label("You refused. You will not see her again.", "complete")
             
-    jump hiddenvillage_entrance
+    return
     
 label fail_two_sisters(event):
     $ pytfall.world_events.kill_event("two_sisters1", cached=True)
