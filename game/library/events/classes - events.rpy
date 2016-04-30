@@ -36,7 +36,7 @@ init -9 python:
             self.garbage = list()
             self.label_cache = None
             
-        def get_event(self, name):
+        def get(self, name):
             # Returns the event object with given name.
             for e in self.events:
                 if e.name == name:
