@@ -62,4 +62,4 @@ screen mages_tower():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "urban",  exclude=["swimsuit", "beach", "pool", "urban", "stage", "onsen", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "urban",  exclude=["swimsuit", "beach", "pool", "urban", "stage", "onsen", "indoors", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])

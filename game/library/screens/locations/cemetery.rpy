@@ -46,4 +46,4 @@ screen graveyard_town():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoors"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoors", "indoor"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])

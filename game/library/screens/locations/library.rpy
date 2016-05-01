@@ -165,7 +165,7 @@ screen academy_town():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage","onsen"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                 
 label library_read_matrix:
     hide screen academy_town
