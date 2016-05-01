@@ -89,8 +89,10 @@ label tagger:
                             fn = "".join(["-".join(tags), "-", "".join(list(choice(pool) for i in range(4)))])
                             if img.endswith(".png"):
                                 fn = fn + ".png"
-                            elif img.endswith((".jpg", ".jpeg")):
+                            elif img.endswith(".jpg"):
                                 fn = fn + ".jpg"
+                            elif img.endswith(".jpeg"):
+                                fn = fn + ".jpeg"
                             elif img.endswith(".gif"):
                                 fn = fn + ".gif"
                             oldfilename = f.split(os.sep)[-1]
