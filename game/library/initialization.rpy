@@ -314,21 +314,21 @@ init -999 python:
                         # config.screen_height))
     
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
-        if fname.endswith((".jpg", ".png", ".jpeg")):
-            tag = 'bg ' + fname[:-4]
+        if fname.lower().endswith((".jpg", ".png", ".jpeg")):
+            tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
     
     for fname in os.listdir(gamedir + '/content/gfx/bg/locations'):
         if fname.endswith('.jpg') or fname.endswith(".png"):
-            tag = 'bg ' + fname[:-4]
+            tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/locations/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
             
     for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
-        if fname.endswith((".jpg", ".png", ".jpeg")):
+        if fname.lower().endswith((".jpg", ".png", ".jpeg")):
             tag = 'bg ' + "story " + fname[:-4]
             image = 'content/gfx/bg/story/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
