@@ -307,6 +307,7 @@ init -1: # Images and Animations
         FilmStrip('content/gfx/be/filmstrips/ion_1.png', (192, 192), (5, 5), 0.04, loop=True)
         rotate 0
         linear 1.0 rotate 360
+    image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
     image moz = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/moz_movie.webm", mask="content/gfx/be/webm/moz_mask.webm")
     image moz_stretch:
         VBox(Transform("moz", crop=(0, 0, 1199, 320)),
