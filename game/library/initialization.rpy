@@ -321,7 +321,7 @@ init -999 python:
                         config.screen_height))
     
     for fname in os.listdir(gamedir + '/content/gfx/bg/locations'):
-        if fname.endswith('.jpg') or fname.endswith(".png"):
+        if fname.lower().endswith((".jpg", ".png", ".jpeg")):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/locations/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
@@ -329,14 +329,14 @@ init -999 python:
             
     for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
         if fname.lower().endswith((".jpg", ".png", ".jpeg")):
-            tag = 'bg ' + "story " + fname[:-4]
+            tag = 'bg ' + 'story' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/story/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
            
     for fname in os.listdir(gamedir + '/content/gfx/bg/be'):
-        if fname.endswith('.jpg'):
-            tag = 'bg ' + fname[:-4]
+        if fname.lower().endswith((".jpg", ".png", ".jpeg")):
+            tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/be/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
