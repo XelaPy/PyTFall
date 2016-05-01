@@ -40,7 +40,7 @@ label two_sisters0(event):
     
 label fail_two_sisters(event):
     $ pytfall.world_events.kill_event("two_sisters1", cached=True)
-    $ pytfall.world_quests.get("Two Sisters").fail("Sadly, you missed you chance to meet her.", "fail")
+    $ pytfall.world_quests.get("Two Sisters").fail("Sadly, you missed you chance to meet her.")
     "You waisted too much time. Now you will never meet them again."
     return
     
