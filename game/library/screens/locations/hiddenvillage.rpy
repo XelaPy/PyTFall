@@ -83,6 +83,11 @@ label hidden_village_matrix: # either we make packs I use for matrix mandatory, 
                 $ pytfall.world_events.force_event("two_sisters0")
                 $ pytfall.world_quests.run_quests("doa_quest")
                 $ pytfall.world_events.run_events("doa_quest")
+            elif pytfall.world_quests.check_stage("Two Sisters") == 3:
+                $ pytfall.world_events.force_event("two_sisters2")
+                $ pytfall.world_events.force_event("two_sisters3")
+                $ pytfall.world_quests.run_quests("doa_quest")
+                $ pytfall.world_events.run_events("doa_quest")
             else:
                 "Nothing interesting there."
         else:
