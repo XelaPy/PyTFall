@@ -3,7 +3,7 @@ init -9 python:
         templist = []
         if eventfolder in os.listdir(content_path('events')):
             for file in os.listdir(content_path('events/%s' % eventfolder)):
-                if file.lower().endswith((".png", ".jpg")):
+                if file.lower().endswith((".png", ".jpg", ".jpeg")):
                     templist.append('content/events/%s/%s' % (eventfolder, file))
             return ProportionalScale(choice(templist), config.screen_width, config.screen_height)
     

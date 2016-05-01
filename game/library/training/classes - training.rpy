@@ -467,7 +467,7 @@ init -9 python:
             images = list()
             if p in os.listdir(content_path("schools")):
                 for file in os.listdir(content_path("schools/%s"%p)):
-                    if file.endswith((".png", ".jpg")):
+                    if file.endswith((".png", ".jpg", ".jpeg")):
                         images.append("schools/%s/%s"%(p, file))
             
             # Overwrite image so its used for rest of session
@@ -717,7 +717,7 @@ init -9 python:
             images = list()
             if p in os.listdir(content_path("schools")):
                 for file in os.listdir(content_path("schools/%s"%p)):
-                    if file.endswith((".png", ".jpg")):
+                    if file.endswith((".png", ".jpg", ".jpeg")):
                         images.append("schools/%s/%s"%(p, file))
             
             # Overwrite image so its used for rest of session
