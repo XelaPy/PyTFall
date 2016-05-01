@@ -283,8 +283,9 @@ init -9 python:
             devlog.info("Quest Complete: %s"%self.name)
             
             if USE_QUEST_POPUP:
-                if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Complete:\n%s"%self.name)
-                else: renpy.call_screen("message_screen", "Quest Complete:\n%s"%self.name, use_return=True)
+                renpy.show_screen("quest_notifications", self.name, "Complete")
+                # if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Complete:\n%s"%self.name)
+                # else: renpy.call_screen("message_screen", "Quest Complete:\n%s"%self.name, use_return=True)
                 
                 # No squelch, as only works on active quests
         
@@ -320,12 +321,14 @@ init -9 python:
             
             if USE_QUEST_POPUP:
                 if len(self.prompts) == 1:
-                    if "in_label" not in kwargs: renpy.show_screen("message_screen", "New Quest:\n%s"%self.name)
-                    else: renpy.call_screen("message_screen", "New Quest:\n%s"%self.name, use_return=True)
+                    renpy.show_screen("quest_notifications", self.name, "New")
+                    # if "in_label" not in kwargs: renpy.show_screen("message_screen", "New Quest:\n%s"%self.name)
+                    # else: renpy.call_screen("message_screen", "New Quest:\n%s"%self.name, use_return=True)
                 
                 elif not self.squelched:
-                    if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Updated:\n%s"%self.name)
-                    else: renpy.call_screen("message_screen", "Quest Updated:\n%s"%self.name, use_return=True)
+                    renpy.show_screen("quest_notifications", self.name, "Updated")
+                    # if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Updated:\n%s"%self.name)
+                    # else: renpy.call_screen("message_screen", "Quest Updated:\n%s"%self.name, use_return=True)
                 
                 pytfall.world_quests.squelch_quest(self)
         
@@ -370,7 +373,8 @@ init -9 python:
             
             if USE_QUEST_POPUP:
                 # Called in mainscreen, show works
-                renpy.show_screen("message_screen", "New Quest:\n%s"%self.name, use_return=True)
+                renpy.show_screen("quest_notifications", self.name, "New")
+                # renpy.show_screen("message_screen", "New Quest:\n%s"%self.name, use_return=True)
                 pytfall.world_quests.squelch_quest(self)
         
     
