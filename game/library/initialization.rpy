@@ -31,6 +31,13 @@ init -999 python:
     # to the conventions of the local OS
     gamedir = os.path.normpath(config.gamedir)
     
+    # Binding for easy access to major gfx folders.
+    gfxpath = "content/gfx/"
+    gfxframes = "content/gfx/frame/"
+    gfximages = "content/gfx/images/"
+    interfaceimages = "content/gfx/interface/images/"
+    interfacebuttons = "content/gfx/interface/buttons/"
+    
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
         return renpy.loader.transfn('content/' + path)

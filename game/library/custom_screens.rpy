@@ -460,6 +460,43 @@ init: # PyTFall:
                     return True
             return False
             
+    screen quest_notifications(q, type, align=None, autohide=3.5):
+        zorder 500
+        
+        fixed:
+            at slide(so1=(0, -600), eo1=(0, 40), t1=1.0,
+                         so2=(0, 40), eo2=(0, -600), t2=1.0)
+            # else:
+                # at slide(so1=(0, -600), eo1=(0, 0), t1=1.0,
+                             # so2=(0, 0), eo2=(0, -600), t2=1.0)
+            if align:
+                align align
+            else:
+                xalign .5
+            xysize (500, 200)
+            frame:
+                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+                style_group "dropdown_gm2"
+                xysize (400, 150)
+                align .5, .5
+                text q align .5, .5 style "TisaOTM" size 25
+                
+                imagebutton:
+                    align 1.005, -.03
+                    idle "content/gfx/interface/buttons/close3.png"
+                    hover "content/gfx/interface/buttons/close3_h.png"
+                    action Hide("quest_notifications")
+                
+            add ProportionalScale(interfaceimages + "quest.png", 170, 120) pos (100, 0)
+            frame:
+                pos 400, 140 xanchor 1.0
+                xpadding 15
+                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.45), 10, 10)
+                text type style "content_text" size 40 color gold
+    
+        if autohide:
+            timer autohide action Hide("quest_notifications")
+            
     screen top_stripe(show_return_button=True, use_hide_transform=False, normal_op=True):
         default tt = Tooltip("")
         if not normal_op:
