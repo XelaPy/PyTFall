@@ -28,7 +28,7 @@ label two_sisters0(event):
             a.say "I need you to find her and bring here without telling her about me. You have only a few days before she leaves, so make it quick."
             a.say "Then you will get the following instructions and your reward. Like I said, don't tell anyone about it, unless you wish to die."
             hide expression a_spr with dissolve
-            $ register_event_in_label("two_sisters1", quest="Two Sisters", priority=1, locations=choice(["city_parkgates", "city_park", "city_beach", "city_beach_left", "city_beach_cafe_main", "city_beach_cafe"]), start_day=day + 1, dice=100)
+            $ register_event_in_label("two_sisters1", quest="Two Sisters", priority=1000, locations=choice(["city_parkgates", "city_park", "city_beach", "city_beach_left", "city_beach_cafe_main", "city_beach_cafe"]), start_day=day + 1, dice=100)
             $ register_event_in_label("fail_two_sisters", locations=["all"], start_day=day + 5, run_conditions=["True"], trigger_type="auto")
             "She quickly leaves. Looks like you will be busy tomorrow."
         "Leave her be":
