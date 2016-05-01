@@ -32,9 +32,9 @@ label two_sisters0(event):
             $ register_event_in_label("fail_two_sisters", locations=["all"], start_day=day + 5, run_conditions=["True"], trigger_type="auto")
             "She quickly leaves. Looks like you will be busy tomorrow."
         "Leave her be":
+            $ pytfall.world_quests.get("Two Sisters").finish_in_label("You refused. You will not see her again.", "complete")
             hide expression a_spr with dissolve
             "Without wasting words you leave the garden. Almost immediately you hear another slight noise behind. The garden is empty again."
-            $ pytfall.world_quests.get("Two Sisters").finish_in_label("You refused. You will not see her again.", "complete")
     $ a.restore_portrait()
     return
     
@@ -42,6 +42,7 @@ label fail_two_sisters(event):
     $ pytfall.world_events.kill_event("two_sisters1", cached=True)
     $ pytfall.world_quests.get("Two Sisters").next_in_label("Sadly, you missed you chance to meet her.")
     $ pytfall.world_quests.fail_quest("Two Sisters")
+    "You waisted too much time. Now you will never meet them again."
     return
     
 label two_sisters1(event):
@@ -61,10 +62,10 @@ label two_sisters1(event):
             $ pytfall.world_quests.get("Two Sisters").next_in_label("You lured your target into the trap. Time to meet Ayane again.")
             $ k.override_portrait("portrait", "indifferent")
             k.say "How awful... Of course I will help you!"
-            "You ask her to meet you later in the location where Ayane waits and leave."
-            hide expression x with dissolve
             $ pytfall.world_events.kill_event("two_sisters1", cached=True)
             $ register_event("two_sisters2", quest="Two Sisters", locations=["all"], trigger_type="doa_quest", dice=100)
+            "You ask her to meet you later in the location where Ayane waits and leave."
+            hide expression x with dissolve
         "Tell her the truth":
             "You tell her everything. Her face darkens."
             $ k.override_portrait("portrait", "indifferent")
@@ -72,10 +73,10 @@ label two_sisters1(event):
             k.say "Listen, I need your help. It useless to negotiate with her, we will have to fight."
             k.say "If she beats me, you will be the next. So... let's meet where she is waiting for me."
             hide expression x with dissolve
-            "She leaves."
             $ pytfall.world_events.kill_event("two_sisters1", cached=True)
             $ pytfall.world_quests.get("Two Sisters").next_in_label("You teamed with Kasumi. Time to meet Ayane again.")
             $ register_event("two_sisters3", quest="Two Sisters", locations=["all"], trigger_type="doa_quest", dice=100)
+            "She leaves."
     $ k.restore_portrait()
     return
     
@@ -152,13 +153,13 @@ label two_sisters2(event):
     hide expression x with dissolve
     show expression a_spr at center with dissolve
     $ a.override_portrait("portrait", "indifferent")
+    $ pytfall.world_quests.get("Two Sisters").next_in_label("Together you managed to capture Kasumi. You have to meet Ayane after a week.")
+    $ register_event_in_label("two_sisters4", locations=["all"], start_day=day + 3, run_conditions=["True"], trigger_type="auto")
     a.say "I'm going to do some personal slave training now. Let's meet after a week. Don't worry, I'm not going to run away. Kunoichi are always true to their word."
     hide expression a_spr with dissolve
     $ pytfall.world_events.kill_event("two_sisters2", cached=True)
     $ pytfall.world_events.kill_event("two_sisters3", cached=True)
     $ pytfall.world_events.kill_event("fail_two_sisters", cached=True)
-    $ pytfall.world_quests.get("Two Sisters").next_in_label("Together you managed to capture Kasumi. You have to meet Ayane after a week.")
-    $ register_event_in_label("two_sisters4", locations=["all"], start_day=day + 3, run_conditions=["True"], trigger_type="auto")
     $ k.restore_portrait()
     $ a.restore_portrait()
     return
@@ -230,13 +231,13 @@ label two_sisters3(event):
     $ k.show_portrait_overlay("like", "reset")
     k.say "<she quickly kisses you>"
     $ k.hide_portrait_overlay()
+    $ pytfall.world_quests.get("Two Sisters").next_in_label("Together you managed to beat Ayane. You have to meet Kasumi after a week.")
+    $ register_event_in_label("two_sisters5", locations=["all"], start_day=day + 7, run_conditions=["True"], trigger_type="auto")
     k.say "Let's go, Ayane. We still have intensive slave training ahead."
     hide expression k_spr with dissolve
     $ pytfall.world_events.kill_event("two_sisters3", cached=True)
     $ pytfall.world_events.kill_event("two_sisters2", cached=True)
     $ pytfall.world_events.kill_event("fail_two_sisters", cached=True)
-    $ pytfall.world_quests.get("Two Sisters").next_in_label("Together you managed to beat Ayane. You have to meet Kasumi after a week.")
-    $ register_event_in_label("two_sisters5", locations=["all"], start_day=day + 7, run_conditions=["True"], trigger_type="auto")
     $ k.restore_portrait()
     $ a.restore_portrait()
     return
@@ -276,9 +277,9 @@ label two_sisters5(event):
     $ k.show_portrait_overlay("note", "reset")
     k.say "Can we stay with you, [hero.name]? I'm sure we can make ourself useful to you."
     $ k.hide_portrait_overlay()
-    "Together you return to your home."
     $ pytfall.world_events.kill_event("two_sisters5", cached=True)
     $ pytfall.world_quests.get("Two Sisters").finish_in_label("Kunoichi sisters joined you.", "complete")
+    "Together you return to your home."
     $ k.restore_portrait()
     $ a.restore_portrait()
     return
@@ -320,9 +321,9 @@ label two_sisters4(event):
     $ a.show_portrait_overlay("note", "reset")
     a.say "Let's go, [hero.name]. Oh, don't look so surprised, I must oversee my dear sister, and you could use a decent kunoichi at your side, right?"
     $ a.hide_portrait_overlay()
-    "Together you return to your home."
     $ pytfall.world_events.kill_event("two_sisters4", cached=True)
     $ pytfall.world_quests.get("Two Sisters").finish_in_label("Kunoichi sisters joined you.", "complete")
+    "Together you return to your home."
     $ k.restore_portrait()
     $ a.restore_portrait()
     return
