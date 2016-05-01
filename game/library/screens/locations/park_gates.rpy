@@ -63,4 +63,4 @@ screen city_parkgates():
             spacing 70
             for entry in gm.display_girls():
           
-                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])

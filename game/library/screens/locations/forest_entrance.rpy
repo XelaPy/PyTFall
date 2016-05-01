@@ -53,7 +53,7 @@ screen forest_entrance():
             spacing 70
             
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "nature", "wildness", exclude=["urban", "winter", "night", "beach", "onsen", "dungeon", "stage", "swimsuit"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+                use rg_lightbutton(img=entry.show("girlmeets", "nature", "wildness", exclude=["urban", "winter", "night", "beach", "onsen", "dungeon", "stage", "swimsuit", "indoor", "formal"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
                
 
     for key in pytfall.maps("pytfall_fe"):

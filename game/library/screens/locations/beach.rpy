@@ -70,4 +70,4 @@ screen city_beach():
             spacing 70
             
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 

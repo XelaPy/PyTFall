@@ -58,7 +58,7 @@ screen main_street():
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoors", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
 
     # Normal screen
     else:

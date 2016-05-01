@@ -69,7 +69,7 @@ screen hiddenvillage_entrance:
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "stage", "onsen", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "stage", "onsen", "indoors", "indoor"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
     
 label hidden_village_matrix: # either we make packs I use for matrix mandatory, or code a system that disables events unsupported by existing packs in case if player doesn't have all of them
     hide screen hiddenvillage_entrance
