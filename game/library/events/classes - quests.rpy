@@ -69,10 +69,13 @@ init -9 python:
             """
             Fails a quest.
             """
+            if USE_QUEST_POPUP:
+                renpy.show_screen("quest_notifications", quest, "Failed")
             if isinstance(quest, str): quest = self.get(quest)
             if quest in self.quests: self.failed.append(quest)
             if quest in self.active: self.active.remove(quest)
             if quest in self.complete: self.complete.remove(quest)
+
         
         def first_day(self):
             """
