@@ -319,18 +319,21 @@ init -9 python:
             
             devlog.info("Update Quest: %s to %s"%(self.name, str(self.stage)))
             
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
+            
             if USE_QUEST_POPUP:
                 if len(self.prompts) == 1:
                     renpy.show_screen("quest_notifications", self.name, "New")
                     # if "in_label" not in kwargs: renpy.show_screen("message_screen", "New Quest:\n%s"%self.name)
                     # else: renpy.call_screen("message_screen", "New Quest:\n%s"%self.name, use_return=True)
-                
+                 
                 elif not self.squelched:
                     renpy.show_screen("quest_notifications", self.name, "Updated")
                     # if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Updated:\n%s"%self.name)
                     # else: renpy.call_screen("message_screen", "Quest Updated:\n%s"%self.name, use_return=True)
-                
-                pytfall.world_quests.squelch_quest(self)
+                 
+                # pytfall.world_quests.squelch_quest(self)
         
         def next_in_label(self, *args, **kwargs):
             """
@@ -375,6 +378,6 @@ init -9 python:
                 # Called in mainscreen, show works
                 renpy.show_screen("quest_notifications", self.name, "New")
                 # renpy.show_screen("message_screen", "New Quest:\n%s"%self.name, use_return=True)
-                pytfall.world_quests.squelch_quest(self)
+                # pytfall.world_quests.squelch_quest(self)
         
     

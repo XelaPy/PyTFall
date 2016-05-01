@@ -56,6 +56,8 @@ init -5 python hide:
     # config.use_cpickle = False
     config.save_dump = False
     
+    config.layers.append("pytfall")
+    
     # Imagecache:
     # config.debug_image_cache = True
     config.image_cache_size = 80

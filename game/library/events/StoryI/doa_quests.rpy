@@ -11,26 +11,26 @@ label two_sisters0(event):
     $ a_spr = chars["Ayane"].get_vnsprite()
     $ a.override_portrait("portrait", "indifferent")
     show expression a_spr at center with dissolve
+    $ pytfall.world_quests.get("Two Sisters").next_in_label("Ayane, a cold kunoichi, proposed you a deal.")
     a.say "Greetings, [hero.name]. My name is Ayane. Do not be alarmed, I have no intentions to attack you. I'm here to offer you a deal."
     "There was nothing there a moment ago, but now there is a young kunoichi standing before you."
     a.say "I ask for cooperation in a serious matter. Follow my instructions, and you will get a huge reward."
     "Her voice is cold as ice."
     a.say "Tell about it to anyone, and you'll never see me again. Until the moment I kill you."
-    $ pytfall.world_quests.get("Two Sisters").next_in_label("Ayane, a cold kunoichi, proposed you a deal.")
+    
     a.say "Or leave now and forget about this conversation."
     menu:
         "She stares at you, waiting for an answer"
         
         "Hear her out":
+            $ pytfall.world_quests.get("Two Sisters").next_in_label("You have a few days to find a redhead kunoichi in the city. You probably should check beaches and parks first.")
             a.say "Listen carefully then. Tomorrow a runaway redhead kunoichi will arrive to the city. She will stay here for awhile, her name is Kasumi."
             a.say "I need you to find her and bring here without telling her about me. You have only a few days before she leaves, so make it quick."
             a.say "Then you will get the following instructions and your reward. Like I said, don't tell anyone about it, unless you wish to die."
             hide expression a_spr with dissolve
-            "She quickly leaves. Looks like you will be busy tomorrow."
-            $ pytfall.world_quests.get("Two Sisters").next_in_label("You have a few days to find a redhead kunoichi in the city. You probably should check beaches and parks first.")
             $ register_event_in_label("two_sisters1", quest="Two Sisters", priority=1, locations=choice(["city_parkgates", "city_park", "city_beach", "city_beach_left", "city_beach_cafe_main", "city_beach_cafe"]), start_day=day + 1, dice=100)
             $ register_event_in_label("fail_two_sisters", locations=["all"], start_day=day + 5, run_conditions=["True"], trigger_type="auto")
-            
+            "She quickly leaves. Looks like you will be busy tomorrow."
         "Leave her be":
             hide expression a_spr with dissolve
             "Without wasting words you leave the garden. Almost immediately you hear another slight noise behind. The garden is empty again."
@@ -58,12 +58,12 @@ label two_sisters1(event):
     menu:
         "Follow the Ayane plan":
             "You quickly make up a story about your relatives being kidnapped by an evil ninja clan, and ask her to help you save them."
+            $ pytfall.world_quests.get("Two Sisters").next_in_label("You lured your target into the trap. Time to meet Ayane again.")
             $ k.override_portrait("portrait", "indifferent")
             k.say "How awful... Of course I will help you!"
             "You ask her to meet you later in the location where Ayane waits and leave."
             hide expression x with dissolve
             $ pytfall.world_events.kill_event("two_sisters1", cached=True)
-            $ pytfall.world_quests.get("Two Sisters").next_in_label("You lured your target into the trap. Time to meet Ayane again.")
             $ register_event("two_sisters2", quest="Two Sisters", locations=["all"], trigger_type="doa_quest", dice=100)
         "Tell her the truth":
             "You tell her everything. Her face darkens."

@@ -460,12 +460,12 @@ init: # PyTFall:
                     return True
             return False
             
-    screen quest_notifications(q, type, align=None, autohide=3.5):
+    screen quest_notifications(q, type, align=None, autohide=2.5):
         zorder 500
         
         fixed:
-            at slide(so1=(0, -600), eo1=(0, 40), t1=1.0,
-                         so2=(0, 40), eo2=(0, -600), t2=1.0)
+            at slide(so1=(0, -600), eo1=(0, 40), t1=.4,
+                         so2=(0, 40), eo2=(0, -600), t2=.6)
             # else:
                 # at slide(so1=(0, -600), eo1=(0, 0), t1=1.0,
                              # so2=(0, 0), eo2=(0, -600), t2=1.0)
