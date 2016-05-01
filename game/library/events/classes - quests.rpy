@@ -69,8 +69,6 @@ init -9 python:
             """
             Fails a quest.
             """
-            if USE_QUEST_POPUP:
-                renpy.show_screen("quest_notifications", quest, "Failed")
             if isinstance(quest, str): quest = self.get(quest)
             if quest in self.quests: self.failed.append(quest)
             if quest in self.active: self.active.remove(quest)
@@ -292,6 +290,18 @@ init -9 python:
                 
                 # No squelch, as only works on active quests
         
+        def fail(self, prompt, *flags, **kwargs):
+            """
+            Fails the quest while making a note about it in the quest log.
+            prompt = Prompt to add to the Quest log.
+            """
+            if not self.failed: pytfall.world_quests.fail_quest(self)
+            self.prompts.append(prompt)
+            devlog.info("Quest Failed: %s"%self.name)
+            
+            if USE_QUEST_POPUP:
+                renpy.show_screen("quest_notifications", self.name, "Failed")
+                
         def finish_in_label(self, *args, **kwargs):
             """
             Finishes the quest in labels.
