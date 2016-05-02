@@ -191,7 +191,7 @@ init -9 python:
         """
         Class to hold the current status of a quest.
         """
-        def __init__(self, name, auto=None, manual=None):
+        def __init__(self, name, auto=None, manual=True):
             """
             Creates a new Quest.
             name = The name of the quest. Use to refer to this quest, and shows up in the Quest log.
