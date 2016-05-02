@@ -1,5 +1,6 @@
 # general chat
 label interactions_smalltalk:
+    # $ get_single_sex_picture(char, act="stripping", location="any")
     "You have a small chat with [char.nickname]."
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
