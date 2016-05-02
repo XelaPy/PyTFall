@@ -163,8 +163,8 @@ init -9 python:
                 else:
                     if not i.manual: garbage.append(i)
             
-            while len(garbage) > 0:
-                devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[0].name)
+            while garbage:
+                devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[-1].name)
                 self.fail_quest(garbage.pop())
         
         def run_quests(self, param=None):
