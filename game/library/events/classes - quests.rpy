@@ -302,6 +302,9 @@ init -9 python:
             self.prompts.append(prompt)
             devlog.info("Quest Failed: %s"%self.name)
             
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
+            
             if USE_QUEST_POPUP:
                 renpy.show_screen("quest_notifications", self.name, "Failed")
                 
