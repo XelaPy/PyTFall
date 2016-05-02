@@ -31,13 +31,16 @@ init python:
             excluded.extend(["sleeping", "bathing", "stage", "sex"])
             if location == "beach":
                 excluded.extend(["indoors"])
-                included = ["beach"]
+                if dice(50):
+                    included = ["beach"]
+                else:
+                    included = ("beach", "swimsuit")
                 if char.has_image("stripping", "beach", exclude=excluded):
-                    gm.set_img("stripping", *included, exclude=excluded)
+                    gm.set_img("stripping", *included, exclude=excluded, type="reduce")
                 elif char.has_image("nude", "beach", exclude=excluded):
-                    gm.set_img("nude", *included, exclude=excluded)
+                    gm.set_img("nude", *included, exclude=excluded, type="reduce")
                 elif char.has_image("lingerie", "beach", exclude=excluded):
-                    gm.set_img("lingerie", *included, exclude=excluded)
+                    gm.set_img("lingerie", *included, exclude=excluded, type="reduce")
                 else:
                     tags = (["simple bg", "stripping"], ["no bg", "stripping"], ["simple bg", "nude"], ["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"])
                     result = get_act(char, tags)
