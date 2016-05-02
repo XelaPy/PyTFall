@@ -16,16 +16,14 @@ init python:
 label strange_idol1(event):
     hero.say "Huh?"
     "You bend down to pick something up off the floor."
+    $ pytfall.world_quests.get(event.quest).next_in_label("You found a piece of an idol! How strange.", "piece1") # Can access the quest straight in the event.
     hero.say "Its... part of a statue?"
     "You try to place the piece aside, but after fighting against your impulses you decide to take it with you."
-    
     # Advance quest
     # q.next(prompt, *flags, to=None) moves the quest forwards
     # prompt=The prompt to add to the quest log. Set to None for no addition
     # flags=Flags to add to the quest, used for more complex monitoring then just a number
     # to=The stage to jump to. If left as None adds 1 to the current stage
-    $ pytfall.world_quests.get(event.quest).next_in_label("You found a piece of an idol! How strange.", "piece1") # Can access the quest straight in the event.
-    
     # Remove event
     $ pytfall.world_events.kill_event("strange_idol1")
     
@@ -37,8 +35,6 @@ label strange_idol1(event):
 label strange_idol2(event):
     hero.say "Huh?"
     "You bend down to pick something up off the floor."
-    hero.say "Its... another part of that statue!"
-    "You take the piece with you, wondering how many there are."
     
     python:
         # Use in syntax for easy flag checking
@@ -53,21 +49,23 @@ label strange_idol2(event):
         
         else:
             pytfall.world_quests.get(event.quest).next_in_label("You found another piece of the idol! I wonder how many there are?", "piece2")
-    
+    hero.say "Its... another part of that statue!"
+    "You take the piece with you, wondering how many there are."
     return
 
 label strange_idol3(event):
     "As you wake you feel a strange sensation move through you, almost as if your very soul was being caressed."
     "Suddenly a bright flash makes you bolt out of bed, staring towards its source."
+    # Use the finish command to end the quest. Works the same as next() (but no 'to' param)
+    $ pytfall.world_quests.get(event.quest).finish_in_label("You completed the idol! It disappeared though.", "complete")
     "The place where you stored those pieces of the strange idol is slightly scorched, the pieces themselves no where to be found."
     "Worriedly you continue with your morning feeling... {i}better{/i}."
     
-    # Use the finish command to end the quest. Works the same as next() (but no 'to' param)
-    $ pytfall.world_quests.get(event.quest).finish_in_label("You completed the idol! It disappeared though.", "complete")
+
     
     # Remove event
     $ pytfall.world_events.kill_event("strange_idol3")
     
     # Improve sex?
-    $ hero.vaginal += 10
+    $ hero.sex += 10
     return
