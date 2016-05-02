@@ -2,6 +2,7 @@ label building_management:
     python:
         # Some Global Vars we use to pass data between screens:
         mid_frame_focus = None
+        upgrade_mode = None
         
         if hero.upgradable_buildings:
             try:
@@ -16,7 +17,7 @@ label building_management:
     
     scene bg scroll
     
-    # $ renpy.retain_after_load() Causes weird save/load bug CW reported...
+    $ renpy.retain_after_load() # Causes weird save/load bug CW reported...
     show screen building_management
     with fade
     
@@ -336,6 +337,54 @@ init: # Screens:
                 label (u"__ [mid_frame_mode.name] __") text_size 18 text_color ivory align (0.5, 0.6)
             null height 5
             
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                align (0.5, 0.5)
+                xpadding 10
+                ypadding 10
+                vbox:
+                    style_group "wood"
+                    align (0.5, 0.5)
+                    spacing 10
+                    button:
+                        xysize (150, 40)
+                        yalign 0.5
+                        action SetScreenVariable("mid_frame_mode", "building")
+                        hovered tt.action("Here you can invest your gold and resources for various improvements.\nAnd see the different information (reputation, rank, fame, etc.)")
+                        text "Building" size 15
+                    button:
+                        xysize (150, 40)
+                        yalign 0.5
+                        action NullAction()
+                        hovered tt.action("All the meetings and conversations are held in this Hall. On the noticeboard, you can take job that available for your rank. Sometimes guild members or the master himself and his Council, can offer you a rare job.")
+                        text "Main Hall" size 15
+                    button:
+                        xysize (150, 40)
+                        yalign 0.5
+                        action NullAction()
+                        hovered tt.action("You can customize your team here or hire Guild members.")
+                        text "Team" size 15
+                    button:
+                        xysize (150, 40)
+                        yalign 0.5
+                        action NullAction()
+                        hovered tt.action("On this screen you can organize the expedition. Also, there is a possibility to see all available information on the various places, enemies and items drop.")
+                        text "Exploration" size 15
+                    button:
+                        xysize (150, 40)
+                        yalign 0.5
+                        action NullAction()
+                        hovered tt.action("For each of your teams, recorded one last adventure, which you can see here in detail.")
+                        text "Log" size 15
+            
+            # Tooltip Frame
+            frame:
+                background Frame("content/gfx/frame/ink_box.png", 10, 10)
+                xysize (307, 190)
+                xpadding 10
+                align .5, .99
+                text (u"{=stats_text}{color=[bisque]}{size=-1}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
+            
                     
     screen building_management_leftframe_building_mode(mid_frame_mode, tt):
         frame:
@@ -629,18 +678,20 @@ init: # Screens:
                 if isinstance(mid_frame_focus, FG_Area):
                     $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
                     for area in temp:
-                        $ fbg = "content/gfx/frame/mes11.jpg"
+                        $ fbg = "content/gfx/frame/mes12.jpg"
+                        $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
                         button:
-                            background Frame(Transform(fbg, alpha=0.9), 10, 10)
-                            hover_background Frame(Transform(im.MatrixColor(fbg, im.matrix.brightness(0.10)), alpha=0.9), 10, 10)
+                            background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                            hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
                             xysize (150, 90)
                             ymargin 1
                             ypadding 1
-                            action NullAction()
                             if area.unlocked:
                                 $ temp = area.name
+                                action Show("fg_area", dissolve, area)
                             else:
                                 $ temp = "?????????"
+                                action NullAction()
                             text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
                             hbox:
                                 align (0.5, 0.9)
@@ -1066,3 +1117,278 @@ init: # Screens:
                     minimum (250, 30)
                     align (0.5, 0.96)
                     text "OK"
+                    
+                    
+    # Customized screens for specific businesses:
+    screen fg_area(area):
+        modal True
+        zorder 1
+        
+        key "mousedown_3" action Hide("fg_area")
+        
+        # frame:
+            # background Frame("content/gfx/frame/p_frame6.png", 10, 10)
+            # style_prefix "content"
+            # xysize (630, 720)
+            # xalign .5
+            # ypos 40
+        
+        frame:
+            ypos 40
+            xalign .5
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            style_prefix "content"
+            xysize (630, 720)
+            
+            $ fbg = "content/gfx/frame/mes11.jpg"
+            frame:
+                background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                xysize (620, 90)
+                ymargin 1
+                ypadding 1
+                $ temp = area.name
+                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.3)
+                hbox:
+                    align (0.5, 0.9)
+                    # Get the correct stars:
+                    python:
+                        temp = []
+                        for i in range(area.explored//20):
+                            temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                        if len(temp) != 5:
+                            if area.explored%20 >= 10:
+                                temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                        while len(temp) != 5:
+                            temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                    for i in temp:
+                        add i
+                    # button:
+                        # align (0.5, 0.95)
+                        # action NullAction()
+                        # text "Stage 1" size 14
+                # vbox:
+                    # xfill True
+                    # spacing 7
+                    # frame:
+                        # style_group "content"
+                        # align (0.5, 0.015)
+                        # xysize (210, 30)
+                        # background Frame (Transform("content/gfx/frame/Namebox.png", alpha=0.9), 10, 10)
+                        # label (u"Team name") text_size 20 text_color ivory align(0.5, 0.5)
+                    # hbox:
+                        # xfill True
+                        # spacing 2
+                        # add "content/gfx/bg/example/1.png" align (0.5, 0.5)
+                        # add "content/gfx/bg/example/2.png" align (0.5, 0.5)
+                        # add "content/gfx/bg/example/3.png" align (0.5, 0.5)
+            hbox:
+                yalign .5
+                xpos 100
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    xysize (340, 380)
+                    xpadding 5
+                    frame:
+                        style_group "content"
+                        align (0.5, 0.015)
+                        xysize (210, 40)
+                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                        label (u"Enemies") text_size 23 text_color ivory align(0.5, 0.5)
+                    viewport:
+                        style_prefix "proper_stats"
+                        xysize (300, 310)
+                        ypos 50
+                        xalign .5
+                        has vbox spacing 3
+                        for m in area.mobs:
+                            $ m = mobs[m]
+                            fixed:
+                                xysize 300, 65
+                                frame:
+                                    xpos 4
+                                    align .01, .5
+                                    xsize 200
+                                    text m["name"]
+                                frame:
+                                    yalign 0.5
+                                    ysize 40
+                                    xpadding 4
+                                    xpos 190
+                                    $ temp = m["min_lvl"]
+                                    text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
+                                frame:
+                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.5), 10, 10)
+                                    xpadding 3
+                                    ypadding 3
+                                    xysize 60, 60
+                                    align .99, .5
+                                    add ProportionalScale(m["portrait"], 60, 60)
+                    # frame:
+                        # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        # xysize (390, 380)
+                        # yalign 1.0
+                        # frame:
+                            # style_group "content"
+                            # align (0.5, 0.015)
+                            # xysize (200, 40)
+                            # background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                            # label (u"Loot") text_size 23 text_color ivory align(0.5, 0.5)
+                        # vbox:    ### Need Side-scrolling ###
+                            # style_group "stats"
+                            # vbox:
+                                # xalign 0.5
+                                # ypos 53
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 210
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("\"Lorekeeper\" Staff")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("Weapon") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/legendary.png", 25, 25)
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 210
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("Ashwood Flatbow")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("Weapon") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/uncommon.png", 25, 25)
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 220
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("???????")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("???????") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 220
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("Honey")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("Consumable") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/common.png", 25, 25)
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 220
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("???????")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("???????") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 220
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("???????")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("???????") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
+                                # vbox:
+                                    # spacing 2
+                                    # xanchor 0
+                                    # xmaximum 220
+                                    # xfill True
+                                    # hbox:
+                                        # xfill True
+                                        # spacing -3
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 210
+                                            # text("???????")
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 140
+                                            # text("???????") xalign 0.5
+                                        # frame:
+                                            # yalign 0.5
+                                            # xsize 20
+                                            # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
+                # hbox:
+                    # align (0.5, 0.98)
+                    # button:
+                        # style_group "basic"
+                        # action Hide("explorer")
+                        # minimum(50, 30)
+                        # align (0.5, 0.98)
+                        # text  "Back"
+                    # button:
+                        # style_group "basic"
+                        # action NullAction()
+                        # minimum(50, 30)
+                        # align (0.5, 0.98)
+                        # text  "Launch!!! Days 1" # Gismo: AutoCalculate. 1 day per stage (1-5), 2 days per stage (6-10).
