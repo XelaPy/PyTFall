@@ -1,7 +1,8 @@
 init python:
     
     # Add quest
-    q = register_quest("Strange Idol")
+    # Alex: We've changed manual to True to be used as a default setting for all quests.
+    q = register_quest("Strange Idol", manual=None)
     
     # Add first event
     # q.condition(stage, strict, *flags) allows for run conditions based on the current status of the quest

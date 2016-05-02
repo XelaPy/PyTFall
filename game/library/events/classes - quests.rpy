@@ -156,15 +156,14 @@ init -9 python:
             
             # Find incomplete quests with no existing events
             for i in self.active:
-                for j in pytfall.world_events.events_cache:
-                    if j.quest == i.name:
-                        break
-                
-                else:
-                    if not i.manual: garbage.append(i)
+                if not i.manual:
+                    for j in pytfall.world_events.events_cache:
+                        if j.quest == i.name:
+                            garbage.append(i)
+                            break
             
-            while len(garbage) > 0:
-                devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[0].name)
+            while garbage:
+                devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[-1].name)
                 self.fail_quest(garbage.pop())
         
         def run_quests(self, param=None):
@@ -192,7 +191,7 @@ init -9 python:
         """
         Class to hold the current status of a quest.
         """
-        def __init__(self, name, auto=None, manual=None):
+        def __init__(self, name, auto=None, manual=True):
             """
             Creates a new Quest.
             name = The name of the quest. Use to refer to this quest, and shows up in the Quest log.
@@ -283,6 +282,9 @@ init -9 python:
             
             devlog.info("Quest Complete: %s"%self.name)
             
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
+            
             if USE_QUEST_POPUP:
                 renpy.show_screen("quest_notifications", self.name, "Complete")
                 # if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Complete:\n%s"%self.name)
@@ -298,6 +300,9 @@ init -9 python:
             if not self.failed: pytfall.world_quests.fail_quest(self)
             self.prompts.append(prompt)
             devlog.info("Quest Failed: %s"%self.name)
+            
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
             
             if USE_QUEST_POPUP:
                 renpy.show_screen("quest_notifications", self.name, "Failed")
@@ -386,6 +391,9 @@ init -9 python:
                 self.next(self.auto)
             
             devlog.info("Auto-Start Quest: %s"%self.name)
+            
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
             
             if USE_QUEST_POPUP:
                 # Called in mainscreen, show works
