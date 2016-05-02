@@ -282,6 +282,9 @@ init -9 python:
             
             devlog.info("Quest Complete: %s"%self.name)
             
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
+            
             if USE_QUEST_POPUP:
                 renpy.show_screen("quest_notifications", self.name, "Complete")
                 # if "in_label" not in kwargs: renpy.show_screen("message_screen", "Quest Complete:\n%s"%self.name)
@@ -373,6 +376,9 @@ init -9 python:
                 self.next(self.auto)
             
             devlog.info("Auto-Start Quest: %s"%self.name)
+            
+            if renpy.get_screen("quest_notifications"):
+                renpy.hide_screen("quest_notifications")
             
             if USE_QUEST_POPUP:
                 # Called in mainscreen, show works
