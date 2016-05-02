@@ -156,12 +156,11 @@ init -9 python:
             
             # Find incomplete quests with no existing events
             for i in self.active:
-                for j in pytfall.world_events.events_cache:
-                    if j.quest == i.name:
-                        break
-                
-                else:
-                    if not i.manual: garbage.append(i)
+                if not i.manual:
+                    for j in pytfall.world_events.events_cache:
+                        if j.quest == i.name:
+                            garbage.append(i)
+                            break
             
             while garbage:
                 devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[-1].name)
