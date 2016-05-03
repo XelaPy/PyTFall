@@ -170,6 +170,8 @@ init python:
                     result = get_simple_act(char, tags, excluded)
                     if result:
                         gm.set_img(*result, exclude=excluded)
+                    elif char.has_image("nude", "dungeon", exclude=["sex"]):
+                        gm.set_img("nude", "dungeon", exclude=["sex"])
                     else:
                         gm.set_img("masturbation", "indoors", exclude=excluded, type="reduce")
 
@@ -188,12 +190,12 @@ init python:
                         gm.set_img("nude", "indoors", "living", exclude=["sleeping", "bathing", "stage", "sex"], type="reduce")
             else:
                 tags = (["simple bg", "masturbation"], ["no bg", "masturbation"])
-                result = get_act(char, tags)
+                result = get_simple_act(char, tags, excluded)
                 if result:
-                    gm.set_img(result, exclude=excluded)
+                    gm.set_img(*result, exclude=excluded)
                 else:
-                    if char.has_image ("masturbation"):
-                        gm.set_img("masturbation")
+                    if char.has_image("masturbation", exclude=excluded):
+                        gm.set_img("masturbation", exclude=excluded)
                     else:
                         gm.set_img("nude", exclude=["sex"])
         
