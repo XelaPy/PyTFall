@@ -1138,7 +1138,7 @@ init: # Screens:
             xalign .5
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             style_prefix "content"
-            xysize (630, 720)
+            xysize (630, 680)
             
             $ fbg = "content/gfx/frame/mes11.jpg"
             frame:
@@ -1182,21 +1182,20 @@ init: # Screens:
                         # add "content/gfx/bg/example/2.png" align (0.5, 0.5)
                         # add "content/gfx/bg/example/3.png" align (0.5, 0.5)
             hbox:
-                yalign .5
-                xpos 100
+                align .5, .5
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                    xysize (340, 380)
+                    xysize (310, 410)
                     xpadding 5
                     frame:
                         style_group "content"
                         align (0.5, 0.015)
                         xysize (210, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
-                        label (u"Enemies") text_size 23 text_color ivory align(0.5, 0.5)
+                        label (u"Enemies") text_size 23 text_color ivory align .5, .5
                     viewport:
                         style_prefix "proper_stats"
-                        xysize (300, 310)
+                        xysize (300, 340)
                         ypos 50
                         xalign .5
                         has vbox spacing 3
@@ -1205,24 +1204,71 @@ init: # Screens:
                             fixed:
                                 xysize 300, 65
                                 frame:
-                                    xpos 4
+                                    xpos 6
+                                    left_padding 2
                                     align .01, .5
-                                    xsize 200
+                                    xsize 197
                                     text m["name"]
                                 frame:
                                     yalign 0.5
+                                    xanchor 1.0
                                     ysize 40
                                     xpadding 4
-                                    xpos 190
+                                    xminimum 25
+                                    xpos 233
                                     $ temp = m["min_lvl"]
                                     text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
                                 frame:
-                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.5), 10, 10)
+                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
                                     xpadding 3
                                     ypadding 3
                                     xysize 60, 60
                                     align .99, .5
                                     add ProportionalScale(m["portrait"], 60, 60)
+                                    
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    xysize (310, 410)
+                    xpadding 5
+                    frame:
+                        style_group "content"
+                        align (0.5, 0.015)
+                        xysize (210, 40)
+                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                        label (u"Items") text_size 23 text_color ivory align .5, .5
+                    viewport:
+                        style_prefix "proper_stats"
+                        mousewheel 1
+                        xysize (300, 340)
+                        ypos 50
+                        xalign .5
+                        has vbox spacing 3
+                        for i in area.items:
+                            $ i = items[i]
+                            fixed:
+                                xysize 300, 65
+                                frame:
+                                    xpos 6
+                                    left_padding 2
+                                    align .01, .5
+                                    xsize 197
+                                    text i.id
+                                frame:
+                                    yalign 0.5
+                                    xanchor 1.0
+                                    ysize 40
+                                    xsize 35
+                                    xpadding 4
+                                    xpos 233
+                                    #$ temp = m["min_lvl"]
+                                    #text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
+                                frame:
+                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
+                                    xpadding 3
+                                    ypadding 3
+                                    xysize 60, 60
+                                    align .99, .5
+                                    add ProportionalScale(i.icon, 60, 60)
                     # frame:
                         # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         # xysize (390, 380)
@@ -1378,15 +1424,14 @@ init: # Screens:
                                             # yalign 0.5
                                             # xsize 20
                                             # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
-                # hbox:
-                    # align (0.5, 0.98)
-                    # button:
-                        # style_group "basic"
-                        # action Hide("explorer")
-                        # minimum(50, 30)
-                        # align (0.5, 0.98)
-                        # text  "Back"
-                    # button:
+            hbox:
+                align (0.5, 0.98)
+                button:
+                    style_group "basic"
+                    action Hide("fg_area")
+                    minimum (50, 30)
+                    text  "Back"
+                # button:
                         # style_group "basic"
                         # action NullAction()
                         # minimum(50, 30)
