@@ -11,7 +11,7 @@ init python:
         return act
         
         
-    def get_single_sex_picture(char=None, act="stripping", location="any", hidden_partner=False, variety=False, rape=False):
+    def get_single_sex_picture(char=None, act="stripping", location="any", hidden_partner=False, variety=False):
         """A universal function that returns most suitable sex picture depending on arguments.
         char - character id
         act - sex act; can be stripping, masturbation
@@ -19,9 +19,8 @@ init python:
         all other cases are too rare anyway, and should be handled manually
         hidden_partner - should it try to show the hidden partner pictures first, or it doesn't matter; doesn't work for strip and after_sex, obviously
         variety - should it sometimes show pictures with simple or no bg instead of correct locations for the sake of variety
-        rape - is it rape or not; non-rape pictures exclude negative emotions, also dungeon location has the same effect on emotions. Does not matter for strip and after sex.
         """
-        if location == "dungeon" or rape:
+        if location == "dungeon":
             excluded = []
         else:
             excluded = ["in pain", "scared", "sad"] # a list of unneeded tags
@@ -200,12 +199,8 @@ init python:
                         gm.set_img("nude", exclude=["sex"])
                         
         elif act == "blowjob":
-            if not(rape):
-                excluded.extend(["rape", "restrained"])
+            excluded.extend(["rape", "restrained"])
                 included = []
-            else:
-                excluded.extend(["confident", "happy"])
-                included = ["rape"]
                 
             if location == "beach":
                 excluded.extend(["indoors"])
