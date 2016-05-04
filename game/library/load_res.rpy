@@ -12,29 +12,29 @@ label load_resources:
         ap.price = 10000
         buildings[ap.id] = ap
         
-        fg = FighterGuild()
-        fg.img = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
-        fg.desc = "Send out parties to explore and loot the unstable areas around PyTFall!"
-        fg.price = 10000
-        fg.id = "Fighters Guild"
-        fg.name = fg.id
-        fg.right_sheet = "guild_contol"
-        fg.focus_area = fg_areas["Northern Forest"]
-        fg.focus_gen_area = fg.focus_area.area
-        fg.teams = list()
-        team = Team(name = "Meow x 0", max_size=3)
-        fg.multi = 2
-        fg.fame = 0
-        fg.rep = 0
-        fg.sq_meters = 1000
-        fg.maxfame = 500
-        fg.maxrep = 500
-        fg.teams.append(team)
-        fg.teams_allowed = 4
-        fg.max_teams = 4
-        fg.rooms = 5
-        fg.maxrooms = fg.max_teams * 3
-        buildings[fg.id] = fg
+        # fg = FighterGuild()
+        # fg.img = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
+        # fg.desc = "Send out parties to explore and loot the unstable areas around PyTFall!"
+        # fg.price = 10000
+        # fg.id = "Fighters Guild"
+        # fg.name = fg.id
+        # fg.right_sheet = "guild_contol"
+        # fg.focus_area = fg_areas["Northern Forest"]
+        # fg.focus_gen_area = fg.focus_area.area
+        # fg.teams = list()
+        # team = Team(name = "Meow x 0", max_size=3)
+        # fg.multi = 2
+        # fg.fame = 0
+        # fg.rep = 0
+        # fg.sq_meters = 1000
+        # fg.maxfame = 500
+        # fg.maxrep = 500
+        # fg.teams.append(team)
+        # fg.teams_allowed = 4
+        # fg.max_teams = 4
+        # fg.rooms = 5
+        # fg.maxrooms = fg.max_teams * 3
+        # buildings[fg.id] = fg
         
         jail = CityJail()
         jail.id = "City Jail"
@@ -43,8 +43,8 @@ label load_resources:
         # buildings[TrainingDungeon.NAME] = schools[TrainingDungeon.NAME]
         
         # Add the guild for testing in dev mode:
-        if config.developer:
-            hero.add_building(fg)
+        # if config.developer:
+            # hero.add_building(fg)
             # hero.add_building(buildings[TrainingDungeon.NAME])
         
         # Variables:

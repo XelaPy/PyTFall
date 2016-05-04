@@ -104,7 +104,7 @@ screen mainscreen():
             textbutton "Buildings":
                 action Return(["building_management"])
                 hovered tt.Action('Here you can see a list of all your buildings. \nIt is also here you can you can upgrade your building and advertice them.')
-            if fg in hero.buildings or config.developer:
+            if config.developer:
                 textbutton "Fighters Guild":
                     action Return(["fg_management"])
                     hovered tt.Action('Fighters Guild can be managed from here!')

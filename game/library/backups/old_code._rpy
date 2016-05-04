@@ -560,3 +560,164 @@
                 self.txt.append(choice(['%s took a break today. '%(self.worker.name),
                                         'She spent the day relaxing. ',
                                         '%s comfortably rested in her room. '%(self.worker.name)]))
+                
+                
+    class FighterGuild(DirtyBuilding):
+        """
+        The Fighters Guild building.
+        
+        Looks like nothing can be salvadged from here for SimPy land, I'll leave this so the interface keeps working.
+        """
+        
+        ACTIONS = ["Rest", "Training", "ServiceGirl", "BarGirl"]
+        
+        def __init__(self):
+            """
+            Creates a new Fighters Guild.
+            """
+            super(FighterGuild, self).__init__()
+            self.fin = Finances(self)
+            
+            # Related to exploration code:
+            self.exploring = list()
+            self.focus_team = None
+            
+            # Building related:
+            self.upgrades = OrderedDict()
+            self.upgrades["bar"] = [False, "content/buildings/upgrades/bar.jpg", 5000]
+            self.upgrades["healing onsen"] = [False, "content/buildings/upgrades/onsen.jpg", 10000]
+            self.upgrades["sparring quarters"] = [False, "content/buildings/upgrades/sparring_qt.jpg", 20000]
+            
+            self.manager = None # Manager of the FG
+            self.managers = dict() # Managers tracker (days counter)
+            
+            self.capture_girls = False
+        
+        def get_exp_chars(self):
+            """
+            Returns a list of all exploring girls
+            """
+            pass
+        
+        def get_team_price(self):
+            """
+            Gets the price for all the teams.
+            """
+            bp = 20000
+            if len(self.teams):
+                bp = bp + bp * self.multi * len(self.teams)
+            
+            return bp
+        
+        def next_day(self):
+            """
+            Solve the next day logic.
+            """
+            # Early reset:
+            self.flag_red = False
+            self.flag_green = False
+            sg = None # Service Girl
+            bg = None # Bar Girl
+            
+            stats = dict()
+            txt = list()
+            
+            txt.append("Fighters Guild Reporting:\n\n")
+            
+            _girls = len(list(g for g in self.get_girls() if g.action == "Exploring"))
+            girls = list(g for g in self.get_girls() if g.action != "Exploring")
+            
+            if _girls:
+                txt.append("You currently have %d %s on Explorating!\n\n" % (_girls, plural("girl", _girls)))
+            
+            if girls:
+                txt.append("There are %d %s in the guild!\n\n" % (len(girls), plural("girl", len(girls))))
+            
+            if not _girls and not girls:
+                txt.append("There is nothing to report...")
+            
+            for g in girls:
+                if g.action == "ServiceGirl":
+                    if g.health < 60 or g.vitality < 35:
+                        g.previousaction = g.action
+                        g.action = "Rest"
+                        girls.append(g)
+                    
+                    else:
+                        cleffect = int(round(self.APr * (12 + g.serviceskill * 0.25 + g.agility * 0.3)))
+                        self.clean(cleffect)
+                        sg = g
+                        
+                        evt = NDEvent()
+                        evt.type = 'fg_job'
+                        evt.char = g
+                        self.loc = fg
+                        evt.img = g.show("maid", "cleaning", exclude=["sex"], resize=(740, 685), type="any")
+                        evt.txt = choice(["[g.name] is taking care of the girls in the Guild.", "[g.nickname] keeping the Guild running, clean and happy :)"])
+                        NextDayEvents.append(evt)
+                
+                elif g.action == "BarGirl":
+                    if g.health < 60 or g.vitality < 35:
+                        g.previousaction = g.action
+                        g.action = "Rest"
+                        girls.append(g)
+                    
+                    else:
+                        cleffect = int(round(self.APr * (12 + g.serviceskill * 0.25 + g.agility * 0.3)))/2
+                        self.clean(cleffect)
+                        sg = g
+                        
+                        evt = NDEvent()
+                        evt.type = 'fg_job'
+                        evt.char = g
+                        self.loc = fg
+                        evt.img = g.show("waitress", "maid", exclude=["sex"], resize=(740, 685), type="any")
+                        evt.txt = choice(["[g.name] took care of the Bar and the guild, making sure all of the members were happy.", "[g.nickname] keeping the Bar running and the Guild clean and happy :)"])
+                        NextDayEvents.append(evt)
+                
+                elif g.action == "Training":
+                    if g.health < 60 or g.vitality < 35:
+                        g.previousaction = g.action
+                        g.action = "Rest"
+                        girls.append(g)
+                    
+                    else:
+                        FG_CombatTraining(g)
+                
+                elif g.action == "Rest":
+                    FG_Rest(g)
+                
+                else:
+                    # In all other cases we set girl trianing or rest for slaves:
+                    if g.action != "slave":
+                        g.previousaction = None
+                        g.action = "Training"
+                        girls.append(g)
+                    
+                    else:
+                        g.previousaction = None
+                        g.action = "Rest"
+                        girls.append(g)
+            
+            # Exploration Jobs:
+            for i in self.exploring:
+                i.next_day()
+            
+            # Create the event:
+            evt = NDEvent()
+            evt.red_flag = self.flag_red
+            evt.green_flag = self.flag_green
+            #evt.girlmod = stats
+            evt.type = 'fg_report'
+            evt.char = None
+            self.loc = fg
+            evt.img = self.img
+            if isinstance(txt, (list, tuple)):
+                try:
+                    evt.txt = "".join(txt)
+                except TypeError:
+                    evt.txt = "".join(str(i) for i in txt)
+            # evt.txt = "".join(txt)
+            NextDayEvents.append(evt)
+            
+            self.fin.next_day()

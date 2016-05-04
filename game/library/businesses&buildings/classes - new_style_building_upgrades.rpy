@@ -1059,6 +1059,7 @@ init -5 python:
             
             # Global Values that have effects on the whole business.
             self.explorers = list() # List to hold all the (active) exploring teams.
+            self.focus_team = None
             self.teams = list() # List to hold all the teams formed in this guild.
             self.capture_chars = False # Do we capture chars during exploration in this building.
             
