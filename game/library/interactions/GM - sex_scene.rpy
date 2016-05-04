@@ -19,10 +19,12 @@ init python:
         all other cases are too rare anyway, and should be handled manually
         hidden_partner - should it try to show the hidden partner pictures first, or it doesn't matter; doesn't work for strip and after_sex, obviously
         """
-        excluded = ["in pain", "scared", "sad"] # a list of unneeded tags
 
+        if act not in ["blowjob", "titsjob", "handjob", "footjob", "vaginal", "anal", "stripping", "masturbation"]:
+            act = "stripping"
+            
         if act == "stripping":
-            excluded.extend(["sleeping", "bathing", "stage", "sex"])
+            excluded = ["in pain", "scared", "sad", "sleeping", "bathing", "stage", "sex"]
             if location == "beach":
                 excluded.extend(["indoors"])
                 if dice(50):
@@ -100,7 +102,7 @@ init python:
                         gm.set_img("nude", exclude=["sex"])
         
         elif act == "masturbation":
-            excluded.extend(["forced", "normalsex", "group", "bdsm", "after sex"])
+            excluded=["forced", "normalsex", "group", "bdsm", "after sex", "in pain", "sad", "scared"]
             if location == "beach":
                 excluded.extend(["indoors"])
                 if dice(50):
@@ -161,10 +163,15 @@ init python:
                     else:
                         gm.set_img("nude", exclude=["sex"])
                         
-        elif act in ["blowjob", "titsjob", "handjob", "footjob"]:
-            act_tag = "bc " + act
-            excluded=["in pain", "scared", "sad", "rape", "restrained"]
-            excluded_1=["in pain", "scared", "rape"]
+        elif act in ["blowjob", "titsjob", "handjob", "footjob", "vaginal", "anal"]:
+            if act in ["vaginal", "anal"]:
+                act_tag = "2c " + act
+                excluded=["in pain", "scared", "sad", "rape", "restrained", "angry", "gay"]
+                excluded_1=["sad", "in pain", "scared", "rape", "gay"]
+            else:
+                act_tag = "bc " + act
+                excluded=["in pain", "scared", "sad", "rape", "restrained", "angry"]
+                excluded_1=["in pain", "scared", "rape", "sad"]
             
             if location in ["beach", "park", "forest", "room"]:
                 included = []
@@ -218,14 +225,15 @@ init python:
                         included.extend(["living"])
                     gm.set_img("after sex", *included, exclude=excluded_1, type="reduce")
                 else:
-                    tags = ([act_tag, "simple bg"], ["no bg", act_tag], ["no bg", "after sex"], ["simple bg", "after sex"])
+                    tags = ([act_tag, "simple bg"], ["no bg", act_tag])
                     result = get_simple_act(char, tags, excluded)
                     if result:
                         if hidden_partner:
                             result.extend(["partnerhidden"])
                         gm.set_img(*result, exclude=excluded, type="reduce")
                     else:
-                        result = get_simple_act(char, tags, excluded_1)
+                        tags = (["after sex", "simple bg"], ["no bg", "after sex"])
+                        result = get_simple_act(char, tags, excluded)
                         if result:
                             if hidden_partner:
                                 result.extend(["partnerhidden"])
@@ -233,6 +241,7 @@ init python:
                         else:
                             excluded.extend(["sex"])
                             gm.set_img("nude", *included, exclude=excluded, type="reduce")
+                            
             else:
                 tags = ([act_tag, "simple bg"], ["no bg", act_tag], ["no bg", "after sex"], ["simple bg", "after sex"])
                 result = get_simple_act(char, tags, excluded)
@@ -249,6 +258,8 @@ init python:
                     else:
                         excluded.extend(["sex"])
                         gm.set_img("nude", *included, exclude=excluded, type="reduce")
+                    
+
         return
             
         
