@@ -692,6 +692,13 @@ init -9 python:
             
         def can_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
+            
+            # If we want to build the upgrade as well (usually in testing scenarios):
+            if build and config.debug: # This isn't really safe to use in the real game (should be moved to the end of a func if we need it)...
+                self.in_slots = self.in_slots + upgrade.IN_SLOTS
+                self.ex_slots = self.ex_slots + upgrade.EX_SLOTS
+                self.add_upgrade(upgrade)
+            
             if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
                 return
                 
@@ -704,12 +711,6 @@ init -9 python:
             for i, a in upgrade.MATERIALS.iteritems():
                 if hero.inventory[i] < a:
                     return
-                
-            # If we want to build the upgrade as well (usually in testing scenarios):
-            if build:
-                self.in_slots = self.in_slots + upgrade.IN_SLOTS
-                self.ex_slots = self.ex_slots + upgrade.EX_SLOTS
-                self.add_upgrade(upgrade)
                 
             return True
                 

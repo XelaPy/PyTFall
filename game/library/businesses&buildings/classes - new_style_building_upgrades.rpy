@@ -546,7 +546,7 @@ init -5 python:
         """
         # For lack of a better term... can't come up with a better name atm.
         def __init__(self, name="Task Default", instance=None, desc="Completes given task!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
-            super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            super(TaskUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             
     class BrothelBlock(PrivateBusinessUpgrade):
@@ -1055,7 +1055,7 @@ init -5 python:
         ID = "ExplorationGuild"
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
         def __init__(self, name="Exploration Guild", instance=None, desc="Raid PyTFall's outskirts for loot!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
-            super(OnDemandUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            super(ExplorationGuild, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             # Global Values that have effects on the whole business.
             self.explorers = list() # List to hold all the (active) exploring teams.
