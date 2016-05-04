@@ -517,6 +517,8 @@ init -11 python:
                 building.manager = None
                         
         char.action = job
+        # We prolly still want to set a workplace...
+        char.workplace = building
         
         if job is None:
             return

@@ -160,7 +160,7 @@ init: # Screens:
             frame:
                 background Frame("content/gfx/frame/p_frame6.png", 10, 10)
                 style_prefix "content"
-                xysize (630, 720)
+                xysize (630, 685)
                 xalign .5
                 ypos 40
                 has vbox xsize 630
@@ -672,7 +672,7 @@ init: # Screens:
     screen building_management_midframe_upgrades_mode(mid_frame_mode, tt):
         if isinstance(mid_frame_mode, ExplorationGuild):
             if exploration_view_mode == "explore":
-                frame:    # Image
+                frame: # Image
                     xalign 0.5
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                     add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
@@ -713,6 +713,31 @@ init: # Screens:
                                             temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
                                     for i in temp:
                                         add i
+                                        
+            if exploration_view_mode == "team":
+                # We'll prolly have to do two layers, one for backgrounds and other for drags...
+                for t in mid_frame_mode.teams:
+                    vbox:
+                        style_prefix "proper_stats"
+                        xalign .5
+                        frame:
+                            xysize 200, 100
+                            text t.name align .5, .0
+                       
+                hbox:
+                    yanchor 1.0
+                    box_wrap 1
+                    align .5, 1.0
+                    spacing 1
+                    xsize 620
+                    for w in building.get_workers():
+                        $ img = w.show("portrait", resize=(30, 30), cache=1)
+                        button:
+                            xysize (30, 30)
+                            background img
+                            hovered tt.action(w.fullname)
+                            action NullAction()
+
                                     
         else: # TODO: This needs an extra variable and better conditioning...
             for u in mid_frame_mode.allowed_upgrades:

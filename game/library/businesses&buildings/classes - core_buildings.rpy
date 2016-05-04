@@ -181,6 +181,11 @@ init -9 python:
             if char in self.all_workers:
                 self.all_workers.remove(char)
             char.action = None
+            
+        def get_workers(self):
+            # I may want better handing for this...
+            # Returns a list of all chars in heros service that have their workplaces set to this building.
+            return [c for c in hero.girls if c.workplace==self]
         
         def get_girls(self, action=undefined, occupation=undefined, nott=False):
             """
