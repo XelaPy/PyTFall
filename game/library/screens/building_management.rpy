@@ -3,6 +3,8 @@ label building_management:
         # Some Global Vars we use to pass data between screens:
         mid_frame_focus = None
         upgrade_mode = None
+        if not hasattr(store, "exploration_view_mode"):
+            exploration_view_mode = "explore"
         
         if hero.upgradable_buildings:
             try:
@@ -352,30 +354,32 @@ init: # Screens:
                         action SetScreenVariable("mid_frame_mode", "building")
                         hovered tt.action("Here you can invest your gold and resources for various improvements.\nAnd see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
-                    button:
-                        xysize (150, 40)
-                        yalign 0.5
-                        action NullAction()
-                        hovered tt.action("All the meetings and conversations are held in this Hall. On the noticeboard, you can take job that available for your rank. Sometimes guild members or the master himself and his Council, can offer you a rare job.")
-                        text "Main Hall" size 15
-                    button:
-                        xysize (150, 40)
-                        yalign 0.5
-                        action NullAction()
-                        hovered tt.action("You can customize your team here or hire Guild members.")
-                        text "Team" size 15
-                    button:
-                        xysize (150, 40)
-                        yalign 0.5
-                        action NullAction()
-                        hovered tt.action("On this screen you can organize the expedition. Also, there is a possibility to see all available information on the various places, enemies and items drop.")
-                        text "Exploration" size 15
-                    button:
-                        xysize (150, 40)
-                        yalign 0.5
-                        action NullAction()
-                        hovered tt.action("For each of your teams, recorded one last adventure, which you can see here in detail.")
-                        text "Log" size 15
+                    if False and isinstance(mid_frame_mode, ExplorationGuild):
+                        button:
+                            xysize (150, 40)
+                            yalign 0.5
+                            action NullAction()
+                            hovered tt.action("All the meetings and conversations are held in this Hall. On the noticeboard, you can take job that available for your rank. Sometimes guild members or the master himself and his Council, can offer you a rare job.")
+                            text "Main Hall" size 15
+                    if isinstance(mid_frame_mode, ExplorationGuild):
+                        button:
+                            xysize (150, 40)
+                            yalign 0.5
+                            action SetVariable("exploration_view_mode", "team")
+                            hovered tt.action("You can customize your team here or hire Guild members.")
+                            text "Team" size 15
+                        button:
+                            xysize (150, 40)
+                            yalign 0.5
+                            action SetVariable("exploration_view_mode", "explore")
+                            hovered tt.action("On this screen you can organize the expedition. Also, there is a possibility to see all available information on the various places, enemies and items drop.")
+                            text "Exploration" size 15
+                        button:
+                            xysize (150, 40)
+                            yalign 0.5
+                            action SetVariable("exploration_view_mode", "log")
+                            hovered tt.action("For each of your teams, recorded one last adventure, which you can see here in detail.")
+                            text "Log" size 15
             
             # Tooltip Frame
             frame:
@@ -543,49 +547,50 @@ init: # Screens:
                 text "Ext Slots:" xalign 0.02 color ivory
                 text "[mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
                 
-        if True: # Only for FG.
-            frame: 
-                style_group "content"
-                xalign 0.5
-                xysize (200, 50)
-                background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"Maps") text_size 23 text_color ivory align (.5, .8)
-                
-            null height 10
-            viewport:
-                xysize 220, 500
-                xalign .5
-                has vbox spacing 4
-                $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
-                if temp and not mid_frame_focus:
-                    $ mid_frame_focus = temp[0]
+        if isinstance(mid_frame_mode, ExplorationGuild): # Only for FG.
+            if exploration_view_mode == "explore":
+                frame: 
+                    style_group "content"
+                    xalign 0.5
+                    xysize (200, 50)
+                    background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                    label (u"Maps") text_size 23 text_color ivory align (.5, .8)
                     
-                for area in temp:
-                    $ img = im.Scale(area.img, 200, 130)
-                    frame:
-                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
-                        xpadding 5
-                        ypadding 6
-                        xmargin 0
-                        ymargin 0
-                        xysize 200, 130
-                        button:
-                            align .5, .5
+                null height 10
+                viewport:
+                    xysize 220, 500
+                    xalign .5
+                    has vbox spacing 4
+                    $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+                    if temp and not mid_frame_focus:
+                        $ mid_frame_focus = temp[0]
+                        
+                    for area in temp:
+                        $ img = im.Scale(area.img, 200, 130)
+                        frame:
+                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                            xpadding 5
+                            ypadding 6
+                            xmargin 0
+                            ymargin 0
                             xysize 200, 130
-                            background Frame(img)
-                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
-                            action SetVariable("mid_frame_focus", area)
-                            frame:
-                                align .5, .0
-                                xysize 180, 30
-                                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
-                                text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
-
-            hbox:
-                xalign 0.5
-                spacing 20
-                add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
-                add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
+                            button:
+                                align .5, .5
+                                xysize 200, 130
+                                background Frame(img)
+                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
+                                action SetVariable("mid_frame_focus", area)
+                                frame:
+                                    align .5, .0
+                                    xysize 180, 30
+                                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
+                                    text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+    
+                # hbox:
+                    # xalign 0.5
+                    # spacing 20
+                    # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
+                    # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
         
     screen building_management_midframe_building_mode(mid_frame_mode, tt):
         
@@ -665,50 +670,51 @@ init: # Screens:
                     thumb 'content/gfx/interface/icons/move15.png'
         
     screen building_management_midframe_upgrades_mode(mid_frame_mode, tt):
-        if 1:
-            frame:    # Image
-                xalign 0.5
-                background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
-            
-            hbox:
-                box_wrap 1
-                spacing 2
-                xalign .5
-                if isinstance(mid_frame_focus, FG_Area):
-                    $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
-                    for area in temp:
-                        $ fbg = "content/gfx/frame/mes12.jpg"
-                        $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
-                        button:
-                            background Transform(Frame(fbg, 10, 10), alpha=0.9)
-                            hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
-                            xysize (150, 90)
-                            ymargin 1
-                            ypadding 1
-                            if area.unlocked:
-                                $ temp = area.name
-                                action Show("fg_area", dissolve, area)
-                            else:
-                                $ temp = "?????????"
-                                action NullAction()
-                            text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
-                            hbox:
-                                align (0.5, 0.9)
-                                # Get the correct stars:
-                                python:
-                                    temp = []
-                                    for i in range(area.explored//20):
-                                        temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                                    if len(temp) != 5:
-                                        if area.explored%20 >= 10:
-                                            temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                                    while len(temp) != 5:
-                                        temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                                for i in temp:
-                                    add i
+        if isinstance(mid_frame_mode, ExplorationGuild):
+            if exploration_view_mode == "explore":
+                frame:    # Image
+                    xalign 0.5
+                    background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                    add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
+                
+                hbox:
+                    box_wrap 1
+                    spacing 2
+                    xalign .5
+                    if isinstance(mid_frame_focus, FG_Area):
+                        $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
+                        for area in temp:
+                            $ fbg = "content/gfx/frame/mes12.jpg"
+                            $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
+                            button:
+                                background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                                hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
+                                xysize (150, 90)
+                                ymargin 1
+                                ypadding 1
+                                if area.unlocked:
+                                    $ temp = area.name
+                                    action Show("fg_area", dissolve, area)
+                                else:
+                                    $ temp = "?????????"
+                                    action NullAction()
+                                text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                                hbox:
+                                    align (0.5, 0.9)
+                                    # Get the correct stars:
+                                    python:
+                                        temp = []
+                                        for i in range(area.explored//20):
+                                            temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                        if len(temp) != 5:
+                                            if area.explored%20 >= 10:
+                                                temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                        while len(temp) != 5:
+                                            temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                    for i in temp:
+                                        add i
                                     
-        else:
+        else: # TODO: This needs an extra variable and better conditioning...
             for u in mid_frame_mode.allowed_upgrades:
                 if building._has_upgrade(u):
                     frame:
