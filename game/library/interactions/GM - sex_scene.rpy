@@ -11,23 +11,20 @@ init python:
         return act
         
         
-    def get_single_sex_picture(char=None, act="stripping", location="any", hidden_partner=False, variety=False, rape=False):
+    def get_single_sex_picture(char=None, act="stripping", location="any", hidden_partner=False):
         """A universal function that returns most suitable sex picture depending on arguments.
         char - character id
-        act - sex act; can be stripping, masturbation
-        location - location where is happens; the function supports following locations: park, forest, beach, dungeon, room, any (aka simple bg/no bg)
+        act - sex act; list of possible acts can be seen in the first check here
+        location - location where is happens; the function supports following locations: park, forest, beach, room, any (aka simple bg/no bg)
         all other cases are too rare anyway, and should be handled manually
         hidden_partner - should it try to show the hidden partner pictures first, or it doesn't matter; doesn't work for strip and after_sex, obviously
-        variety - should it sometimes show pictures with simple or no bg instead of correct locations for the sake of variety
-        rape - is it rape or not; non-rape pictures exclude negative emotions, also dungeon location has the same effect on emotions. Does not matter for strip and after sex.
         """
-        if location == "dungeon" or rape:
-            excluded = []
-        else:
-            excluded = ["in pain", "scared", "sad"] # a list of unneeded tags
 
+        if act not in ["blowjob", "titsjob", "handjob", "footjob", "vaginal", "anal", "stripping", "masturbation"]:
+            act = "stripping"
+            
         if act == "stripping":
-            excluded.extend(["sleeping", "bathing", "stage", "sex"])
+            excluded = ["in pain", "scared", "sad", "sleeping", "bathing", "stage", "sex"]
             if location == "beach":
                 excluded.extend(["indoors"])
                 if dice(50):
@@ -73,26 +70,10 @@ init python:
                             gm.set_img("stripping", "outdoors", *included, type="reduce")
                         else:
                             gm.set_img("nude", "outdoors", *included, exclude=["sex"], type="reduce")
-                            
-            elif location == "dungeon":
-                excluded.extend(["outdoors", "onsen", "pool", "beach", "happy", "confident"])
-                if char.has_image("stripping", "dungeon", exclude=excluded):
-                    gm.set_img("stripping", "dungeon", exclude=excluded)
-                elif char.has_image("nude", "dungeon", exclude=excluded):
-                    gm.set_img("nude", "dungeon", exclude=excluded)
-                elif char.has_image("lingerie", "dungeon", exclude=excluded):
-                    gm.set_img("lingerie", "dungeon", exclude=excluded, type="reduce")
-                else:
-                    tags = (["simple bg", "stripping"], ["no bg", "stripping"], ["simple bg", "nude"], ["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"])
-                    result = get_simple_act(char, tags, excluded)
-                    if result:
-                        gm.set_img(*result, exclude=excluded)
-                    else:
-                        gm.set_img("nude", "indoors", exclude=["sex", "happy"], type="reduce")
 
             elif location == "room":
                 included = ("indoors", "living")
-                excluded.extend(["outdoors", "onsen", "pool", "beach", "dungeon"])
+                excluded.extend(["outdoors", "onsen", "pool", "beach", "dungeon", "public"])
                 if char.has_image("stripping", "indoors", exclude=excluded):
                     gm.set_img("stripping", *included, exclude=excluded, type="reduce")
                 elif char.has_image("nude", "indoors", exclude=excluded):
@@ -121,7 +102,7 @@ init python:
                         gm.set_img("nude", exclude=["sex"])
         
         elif act == "masturbation":
-            excluded.extend(["forced", "normalsex", "group", "bdsm", "after sex"])
+            excluded=["forced", "normalsex", "group", "bdsm", "after sex", "in pain", "sad", "scared"]
             if location == "beach":
                 excluded.extend(["indoors"])
                 if dice(50):
@@ -158,27 +139,10 @@ init python:
                     else:
                         gm.set_img("nude", "outdoors", exclude=["sleeping", "bathing", "stage", "sex"], type="reduce")
                             
-            elif location == "dungeon":
-                excluded = ["normalsex", "group", "after sex"]
-                if char.has_image("masturbation", "dungeon", exclude=excluded):
-                    gm.set_img("masturbation", "dungeon", exclude=excluded, type="reduce")
-                elif char.has_image("masturbation", "forced", exclude=excluded):
-                    gm.set_img("masturbation", "forced", "indoors", exclude=excluded, type="reduce")
-                else:
-                    excluded.extend(["happy", "confident"])
-                    tags = (["simple bg", "masturbation"], ["no bg", "masturbation"])
-                    result = get_simple_act(char, tags, excluded)
-                    if result:
-                        gm.set_img(*result, exclude=excluded)
-                    elif char.has_image("nude", "dungeon", exclude=["sex"]):
-                        gm.set_img("nude", "dungeon", exclude=["sex"])
-                    else:
-                        gm.set_img("masturbation", "indoors", exclude=excluded, type="reduce")
-
             elif location == "room":
-                excluded.extend(["outdoors", "onsen", "pool", "beach", "dungeon"])
-                if char.has_image("masturbation", "living", exclude=excluded):
-                    gm.set_img("masturbation", "living", exclude=excluded, type="reduce")
+                excluded.extend(["outdoors", "onsen", "pool", "beach", "dungeon", "public"])
+                if char.has_image("masturbation", "indoors", exclude=excluded):
+                    gm.set_img("masturbation", "indoors", "living", exclude=excluded, type="reduce")
                 else:
                     tags = (["simple bg", "masturbation"], ["no bg", "masturbation"])
                     result = get_simple_act(char, tags, excluded)
@@ -198,8 +162,104 @@ init python:
                         gm.set_img("masturbation", exclude=excluded)
                     else:
                         gm.set_img("nude", exclude=["sex"])
-        
-        
+                        
+        elif act in ["blowjob", "titsjob", "handjob", "footjob", "vaginal", "anal"]:
+            if act in ["vaginal", "anal"]:
+                act_tag = "2c " + act
+                excluded=["in pain", "scared", "sad", "rape", "restrained", "angry", "gay"]
+                excluded_1=["sad", "in pain", "scared", "rape", "gay"]
+            else:
+                act_tag = "bc " + act
+                excluded=["in pain", "scared", "sad", "rape", "restrained", "angry"]
+                excluded_1=["in pain", "scared", "rape", "sad"]
+            
+            if location in ["beach", "park", "forest", "room"]:
+                included = []
+                if location == "beach":
+                    excluded.extend(["indoors", "dungeon"])
+                    excluded_1.extend(["indoors", "dungeon"])
+                    included.extend(["beach"])
+                elif location in ["park", "forest"]:
+                    excluded.extend(["indoors", "pool", "beach"])
+                    excluded_1.extend(["indoors", "pool", "beach"])
+                    included.extend(["nature"])
+                elif location == "room":
+                    excluded.extend(["outdoors", "onsen", "pool", "beach", "dungeon", "public"])
+                    excluded_1.extend(["outdoors", "pool", "beach", "dungeon"])
+                    included = (["indoors"])
+                    
+                if char.has_image(act_tag, *included, exclude=excluded):
+                    if location == "forest":
+                        included.extend(["wildness"])
+                    elif location == "park":
+                        included.extend(["urban"])
+                    elif location == "room":
+                        included.extend(["living"])
+                    if hidden_partner:
+                        included.extend(["partnerhidden"])
+                    gm.set_img(act_tag, *included, exclude=excluded, type="reduce")
+                elif char.has_image(act_tag, *included, exclude=excluded_1):
+                    if location == "forest":
+                        included.extend(["wildness"])
+                    elif location == "park":
+                        included.extend(["urban"])
+                    elif location == "room":
+                        included.extend(["living"])
+                    if hidden_partner:
+                        included.extend(["partnerhidden"])
+                    gm.set_img(act_tag, *included, exclude=excluded_1, type="reduce")
+                elif char.has_image("after sex", *included, exclude=excluded):
+                    if location == "forest":
+                        included.extend(["wildness"])
+                    elif location == "park":
+                        included.extend(["urban"])
+                    elif location == "room":
+                        included.extend(["living"])
+                    gm.set_img("after sex", *included, exclude=excluded, type="reduce")
+                elif char.has_image("after sex", *included, exclude=excluded_1):
+                    if location == "forest":
+                        included.extend(["wildness"])
+                    elif location == "park":
+                        included.extend(["urban"])
+                    elif location == "room":
+                        included.extend(["living"])
+                    gm.set_img("after sex", *included, exclude=excluded_1, type="reduce")
+                else:
+                    tags = ([act_tag, "simple bg"], ["no bg", act_tag])
+                    result = get_simple_act(char, tags, excluded)
+                    if result:
+                        if hidden_partner:
+                            result.extend(["partnerhidden"])
+                        gm.set_img(*result, exclude=excluded, type="reduce")
+                    else:
+                        tags = (["after sex", "simple bg"], ["no bg", "after sex"])
+                        result = get_simple_act(char, tags, excluded)
+                        if result:
+                            if hidden_partner:
+                                result.extend(["partnerhidden"])
+                            gm.set_img(*result, exclude=excluded, type="reduce")
+                        else:
+                            excluded.extend(["sex"])
+                            gm.set_img("nude", *included, exclude=excluded, type="reduce")
+                            
+            else:
+                tags = ([act_tag, "simple bg"], ["no bg", act_tag], ["no bg", "after sex"], ["simple bg", "after sex"])
+                result = get_simple_act(char, tags, excluded)
+                if result:
+                    if hidden_partner:
+                        result.extend(["partnerhidden"])
+                    gm.set_img(*result, exclude=excluded, type="reduce")
+                else:
+                    result = get_simple_act(char, tags, excluded_1)
+                    if result:
+                        if hidden_partner:
+                            result.extend(["partnerhidden"])
+                        gm.set_img(*result, exclude=excluded, type="reduce")
+                    else:
+                        excluded.extend(["sex"])
+                        gm.set_img("nude", *included, exclude=excluded, type="reduce")
+                    
+
         return
             
         
