@@ -638,45 +638,45 @@ screen fg_management():
                     frame:
                         background Frame("content/gfx/frame/p_frame5.png", 15, 15)
                         xysize(220, 600)
-                        side "c r":
-                            maximum(220, 600)
-                            id "team_dg"
-                            viewport id "team_dg":
-                                draggable True
-                                mousewheel True
-                                hbox:
-                                    xalign 0.5
-                                    spacing 5
-                                    ysize 10000
-                                    box_wrap True
-                                    xsize 200
-                                    if team_display == "Team":
-                                        for girl in fg_drags.get_page_content():
-                                            $ index = fg_drags.get_page_content().index(girl)
-                                            $ img = girl.show("portrait", resize=(70, 70), cache=True)
-                                            vbox:
-                                                spacing 5
-                                                frame:
-                                                    xalign 0.5
-                                                    background Frame("content/gfx/frame/p_frame5.png", 15, 15)
-                                                    xysize(162, 120)
-                                                    imagebutton:
-                                                        align (0.5, 0.93)
-                                                        style "basic_choice2_button"
-                                                        idle img
-                                                        hover img
-                                                        selected_idle Transform(img, alpha=1.05)
-                                                        action NullAction()
-                                                    frame:
-                                                        xalign 0.5
-                                                        background Frame("content/gfx/frame/Mc_bg3.png", 5, 5)
-                                                        xysize(150, 10)
-                                                        ypadding 0
-                                                        if len(girl.name) > 10:
-                                                            text "{color=[gold]}[girl.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
-                                                        else:
-                                                            text "{color=[gold]}[girl.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
-                                vbar value YScrollValue("team_dg")
+                        # side "c r":
+                            # maximum(220, 600)
+                            # id "team_dg"
+                            # viewport id "team_dg":
+                                # draggable True
+                                # mousewheel True
+                                # hbox:
+                                    # xalign 0.5
+                                    # spacing 5
+                                    # ysize 10000
+                                    # box_wrap True
+                                    # xsize 200
+                                    # if team_display == "Team":
+                                        # for girl in fg_drags.get_page_content():
+                                            # $ index = fg_drags.get_page_content().index(girl)
+                                            # $ img = girl.show("portrait", resize=(70, 70), cache=True)
+                                            # vbox:
+                                                # spacing 5
+                                                # frame:
+                                                    # xalign 0.5
+                                                    # background Frame("content/gfx/frame/p_frame5.png", 15, 15)
+                                                    # xysize(162, 120)
+                                                    # imagebutton:
+                                                        # align (0.5, 0.93)
+                                                        # style "basic_choice2_button"
+                                                        # idle img
+                                                        # hover img
+                                                        # selected_idle Transform(img, alpha=1.05)
+                                                        # action NullAction()
+                                                    # frame:
+                                                        # xalign 0.5
+                                                        # background Frame("content/gfx/frame/Mc_bg3.png", 5, 5)
+                                                        # xysize(150, 10)
+                                                        # ypadding 0
+                                                        # if len(girl.name) > 10:
+                                                            # text "{color=[gold]}[girl.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                                        # else:
+                                                            # text "{color=[gold]}[girl.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] ypos 17
+                                # vbar value YScrollValue("team_dg")
     
             elif stats_display == "Exploration":
                 vbox: ### Gismo: Just example ###
