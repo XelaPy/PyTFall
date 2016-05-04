@@ -14,7 +14,7 @@ init python:
     def get_single_sex_picture(char=None, act="stripping", location="any", hidden_partner=False):
         """A universal function that returns most suitable sex picture depending on arguments.
         char - character id
-        act - sex act; can be stripping, masturbation
+        act - sex act; list of possible acts can be seen in the first check here
         location - location where is happens; the function supports following locations: park, forest, beach, room, any (aka simple bg/no bg)
         all other cases are too rare anyway, and should be handled manually
         hidden_partner - should it try to show the hidden partner pictures first, or it doesn't matter; doesn't work for strip and after_sex, obviously
