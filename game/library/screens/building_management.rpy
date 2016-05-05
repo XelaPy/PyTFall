@@ -1,11 +1,6 @@
 label building_management:
     python:
         # Some Global Vars we use to pass data between screens:
-        mid_frame_focus = None
-        upgrade_mode = None
-        if not hasattr(store, "exploration_view_mode"):
-            exploration_view_mode = "explore"
-        
         if hero.upgradable_buildings:
             try:
                 index = index
@@ -154,6 +149,7 @@ init: # Screens:
         default tt = Tooltip("Manage your Buildings here.")
         default mid_frame_mode = "building"
         default mid_frame_focus = None
+        default exploration_view_mode = "explore"
         
         if hero.upgradable_buildings:
             # Middle Frame:
@@ -167,9 +163,9 @@ init: # Screens:
                 
                 # Main Building mode:
                 if mid_frame_mode == "building":
-                    use building_management_midframe_building_mode(mid_frame_mode, tt)
+                    use building_management_midframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_midframe_upgrades_mode(mid_frame_mode, tt)
+                    use building_management_midframe_upgrades_mode
             
             ## Stats/Upgrades - Left Frame
             frame:
@@ -180,9 +176,9 @@ init: # Screens:
                 style_group "content"
                 has vbox
                 if mid_frame_mode == "building":
-                    use building_management_leftframe_building_mode(mid_frame_mode, tt)
+                    use building_management_leftframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_leftframe_upgrades_mode(mid_frame_mode, tt)
+                    use building_management_leftframe_upgrades_mode
             
             ## Right frame:
             frame:
@@ -192,15 +188,15 @@ init: # Screens:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                 has vbox spacing 1
                 if mid_frame_mode == "building":
-                    use building_management_rightframe_building_mode(mid_frame_mode, tt)
+                    use building_management_rightframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_rightframe_upgrades_mode(mid_frame_mode, tt)
+                    use building_management_rightframe_upgrades_mode
                                 
         use top_stripe(True)
         if not mid_frame_mode == "building":
             key "mousedown_3" action SetScreenVariable("mid_frame_mode", "building")
         
-    screen building_management_rightframe_building_mode(mid_frame_mode, tt):
+    screen building_management_rightframe_building_mode:
         # Buttons group:
         frame:
             xalign .5
@@ -323,7 +319,7 @@ init: # Screens:
                 else:
                     add Solid(black, xysize=(190, 190)) align .5, .5
         
-    screen building_management_rightframe_upgrades_mode(mid_frame_mode, tt):
+    screen building_management_rightframe_upgrades_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
         $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 315, 600, align=(.5, 1.0)))
@@ -365,19 +361,19 @@ init: # Screens:
                         button:
                             xysize (150, 40)
                             yalign 0.5
-                            action SetVariable("exploration_view_mode", "team")
+                            action SetScreenVariable("exploration_view_mode", "team")
                             hovered tt.action("You can customize your team here or hire Guild members.")
                             text "Team" size 15
                         button:
                             xysize (150, 40)
                             yalign 0.5
-                            action SetVariable("exploration_view_mode", "explore")
+                            action SetScreenVariable("exploration_view_mode", "explore")
                             hovered tt.action("On this screen you can organize the expedition. Also, there is a possibility to see all available information on the various places, enemies and items drop.")
                             text "Exploration" size 15
                         button:
                             xysize (150, 40)
                             yalign 0.5
-                            action SetVariable("exploration_view_mode", "log")
+                            action SetScreenVariable("exploration_view_mode", "log")
                             hovered tt.action("For each of your teams, recorded one last adventure, which you can see here in detail.")
                             text "Log" size 15
             
@@ -390,7 +386,7 @@ init: # Screens:
                 text (u"{=stats_text}{color=[bisque]}{size=-1}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
             
                     
-    screen building_management_leftframe_building_mode(mid_frame_mode, tt):
+    screen building_management_leftframe_building_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
             style_group "proper_stats"
@@ -524,7 +520,7 @@ init: # Screens:
                                 # xysize (305, 27)
                                 # text (u"%s" % advert['name']) size 16 xalign (0.02)
         
-    screen building_management_leftframe_upgrades_mode(mid_frame_mode, tt):
+    screen building_management_leftframe_upgrades_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
             style_group "proper_stats"
@@ -579,7 +575,7 @@ init: # Screens:
                                 xysize 200, 130
                                 background Frame(img)
                                 hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
-                                action SetVariable("mid_frame_focus", area)
+                                action SetScreenVariable("mid_frame_focus", area)
                                 frame:
                                     align .5, .0
                                     xysize 180, 30
@@ -592,7 +588,7 @@ init: # Screens:
                     # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
                     # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
         
-    screen building_management_midframe_building_mode(mid_frame_mode, tt):
+    screen building_management_midframe_building_mode:
         
         null height 5
         frame:
@@ -669,7 +665,7 @@ init: # Screens:
                     xsize 170
                     thumb 'content/gfx/interface/icons/move15.png'
         
-    screen building_management_midframe_upgrades_mode(mid_frame_mode, tt):
+    screen building_management_midframe_upgrades_mode:
         if isinstance(mid_frame_mode, ExplorationGuild):
             if exploration_view_mode == "explore":
                 frame: # Image
