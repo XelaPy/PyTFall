@@ -716,10 +716,34 @@ init: # Screens:
                     vbox:
                         style_prefix "proper_stats"
                         xalign .5
-                        frame:
-                            xysize 200, 100
-                            text t.name align .5, .0
+                        spacing 20
+                        fixed:
+                            xysize (374, 100)
+                            hbox:
+                                yalign .5
+                                xpos 145
+                                spacing 24
+                                for i in hero.team:
+                                    add i.show("portrait", resize=(50, 50), cache=1)
+                            frame:
+                                xysize (374, 100)
+                                background gfxframes + "team_frame_2.png"
+                                text t.name align .1, .5
+                                
+                        fixed:
+                            xysize (172, 65)
+                            hbox:
+                                yalign .3
+                                xpos 10
+                                spacing 20
+                                for i in hero.team:
+                                    add i.show("portrait", resize=(38, 38), cache=1)
+                            add gfxframes + "small_port_empty.png"
+                            
                        
+                            
+                null height 350
+                            
                 hbox:
                     yanchor 1.0
                     box_wrap 1
