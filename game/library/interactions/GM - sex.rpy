@@ -40,28 +40,33 @@ screen int_libido_level(libido):
 label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex")
-    if ct("Nymphomaniac") or check_friends(char, hero):
-        $ n = 1
+    if ct("Nymphomaniac"): # how many times one can hire the character per day
+        $ n = 4
     elif ct("Frigid"):
-        $ n = -1
+        $ n = 1
     else:
-        $ n = 0
-    if m > (2 + n):
+        $ n = 2
+    if check_friends(char, hero):
+        $ n += 1
+    if m > n:
         call interactions_too_many_sex_lines
-        $ char.disposition -= randint(5,m+5) + randint(1,5)
+        $ char.disposition -= randint(5,m+5) + randint(1,2)
         if char.joy > 50:
             $ char.joy -= randint(2,4)
         $ del m
         $ del n
         jump girl_interactions
+        
     if char.flag("quest_cannot_be_fucked") == True or ct("Half-Sister"): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement
         jump girl_interactions
+        
     if char.disposition<0: # for negative disposition
-        if dice(abs(char.disposition)-200): # if it's low enough to make the dice work she refuses, 100% chance at -300 disposition
+        if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
             call interactions_sex_disagreement
             $ char.disposition -= randint(15, 35)
-            jump girl_interactions
+            $ char.set_flag("_day_countdown_interactions_blowoff", 2)
+            jump girl_interactions_end
     elif char.vitality <= round(char.get_max("vitality")*0.25): # no sex with low vitality
         call interactions_refused_because_tired
         jump girl_interactions
@@ -69,12 +74,16 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     
     if check_friends(char, hero):
         $ price = round(price * 0.7)
+    elif char.disposition < -50:
+        $ price = round(price * 1.3)
     if ct("Lesbian"):
         $ price = round(price * 2.5)
     if ct("Nymphomaniac"):
         $ price = round(price * 0.9)
     elif ct("Frigid"):
         $ price = round(price * 1.2)
+    if ct("Virgin"):
+        $ price = round(price * 1.1)
            
     if ct("Impersonal"): 
         $ rc("Affirmative. It will be %d G." % price, "Calculations completed. %d G to proceed." % price)
@@ -101,7 +110,9 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     if hero.gold < price:
         "You don't have that much money."
         call interactions_girl_dissapointed
+        $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex") # additionally reduce the amount of tries
         $ del price
+        $ del m
         jump girl_interactions
     else:
         menu:
@@ -115,6 +126,8 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                 else:
                     "You don't have that much money."
                     call interactions_girl_dissapointed
+                    $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex")
+                    $ del m
                     $ del price
                     jump girl_interactions
             "No":
@@ -142,7 +155,6 @@ label interactions_sex_scene_select_place: # we go here if price for hiring is l
             "Room":
                 show bg girl_room with fade
                 $ sex_scene_location="room"
-    $ sex_scene_libido = 0
     jump interactions_sex_scene_begins
                     
 label interactions_sex: # we go to this label from GM menu propose sex
@@ -157,7 +169,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if (ct("Half-Sister") and char.disposition < 700) or ct("Frigid"):
         $ n = -1
     elif ct("Nymphomaniac"):
-        $ n += 1
+        $ n += 2
 
     if m > (randint(2,3) + n):
         call interactions_too_many_sex_lines
@@ -178,11 +190,10 @@ label interactions_sex: # we go to this label from GM menu propose sex
         jump girl_interactions
         
     $ sub = check_submissivity(char)
-    $ sex_scene_libido = 0 # local, internal libido stat, based on traits and flags
     if check_lovers(char, hero): # a clear way to calculate how much disposition is needed to make her agree
         $ disposition_level_for_sex = randint(0, 100) + sub*200 # probably a placeholder until it becomes more difficult to keep lover status
     else:
-        $ disposition_level_for_sex = randint(600, 700) + sub*200 # thus weak willed characters will need from 400 to 500 disposition, strong willed ones from 800 to 900, if there are no other traits that change it
+        $ disposition_level_for_sex = randint(600, 700) + sub*100 # thus weak willed characters will need from 500 to 600 disposition, strong willed ones from 700 to 800, if there are no other traits that change it
         
     if ct("Frigid"):
         $ disposition_level_for_sex += randint(100, 200) # and it's totally possible that with some traits and high character stat the character will never agree, unless lover status is involved
@@ -214,10 +225,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         $ del disposition_level_for_sex
         jump girl_interactions
     else:
-        $ dif = (char.disposition - disposition_level_for_sex) // 300
-        $ sex_scene_libido += dif # the positive difference might give a bit of additional libido, 1 point per 300
         $ del disposition_level_for_sex
-        $ del dif
     call interactions_sex_agreement
     if ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600:
         menu:
@@ -240,16 +248,16 @@ label interactions_sex: # we go to this label from GM menu propose sex
                 show bg city_beach with fade
                 $ sex_scene_location="beach"
                 if ct("Masochist"):
-                    $ sex_scene_libido += 1
+                    $ char.joy += 10
                 else:
-                    $ sex_scene_libido -= 2
+                    $ char.joy -= 10
             "Park":
                 show bg city_park with fade
                 $ sex_scene_location="park"
                 if ct("Masochist"):
-                    $ sex_scene_libido += 1
+                    $ char.joy += 10
                 else:
-                    $ sex_scene_libido -= 2
+                    $ char.joy -= 10
             "Room":
                 show bg girl_room with fade
                 $ sex_scene_location="room"
@@ -269,81 +277,10 @@ label interactions_sex: # we go to this label from GM menu propose sex
 label interactions_sex_scene_begins: # here we set initial picture before the scene and set local variables
     $ scene_picked_by_character = 1 # when it's 0, there is a chance that the character might wish to do something on her own
     $ sub = check_submissivity(char)
-    if sex_scene_location == "beach": # here we make sure that all suitable pics with swimsuit have a chance to be shown
-        $ tags = ({"tags": ["beach", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple bg", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["no bg", "swimsuit"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
-        $ result = get_act(char, tags)
-        if result == tags[0]:
-            $ gm.generate_img("beach", "swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-        elif result == tags[1]:
-            $ gm.generate_img("swimsuit", "simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-        elif result == tags[2]:
-            $ gm.generate_img("swimsuit", "no bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-        else:
-            $ gm.generate_img("swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-    elif sex_scene_location == "park":
-        if char.has_image("nature", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"]):
-            $ gm.generate_img("nature", "nude", "urban", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "indoors", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="reduce")
-        else:
-            $ gm.generate_img("nude", "simple bg", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "indoors", "beach", "onsen", "pool", "stage", "dungeon"], type="reduce")
-    else: # it's a living room
-        $ tags = ({"tags": ["living", "nude"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["living", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
-        $ result = get_act(char, tags)
-        if result: # we prefer to show living pics
-            if result == tags[0]:
-                $ gm.generate_img("living", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-            else:
-                $ gm.generate_img("living", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-        else: # no living pics, proceed to no bgs
-            $ tags = ({"tags": ["no bg", "nude"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["no bg", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple bg", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]}, {"tags": ["simple", "lingerie"], "exclude": ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]})
-            $ result = get_act(char, tags)
-            if result:
-                if result == tags[0]:
-                    $ gm.generate_img("no bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-                elif result == tags[1]:
-                    $ gm.generate_img("no bg", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-                elif result == tags[2]:
-                    $ gm.generate_img("simple bg", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-                else:
-                    $ gm.generate_img("simple bg", "lingerie", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
-            else: # screw it, show the closest possible of remained ones
-                $ gm.generate_img("indoors", "living", "indoor", "nude", exclude=["sex", "sleeping", "angry", "in pain", "outdoors", "beach", "onsen", "pool", "stage", "dungeon", "public", "bathing"], type="reduce")
-
+    $ get_picture_before_sex(char, location=sex_scene_location)
+    
     $ sex_count = guy_count = girl_count = together_count = cum_count = 0 # these variable will decide the outcome of sex scene
-    if ct("Nymphomaniac"): # let's begin to modify libido based on traits
-        $ sex_scene_libido += randint(3, 4)
-    elif ct("Frigid"):
-        $ sex_scene_libido -= randint(1, 2)
-    else:
-        $ sex_scene_libido += randint(1, 2)
-    if ct ("Messy"):
-        if dice(60):
-            $ sex_scene_libido += 1
-        else:
-            $ sex_scene_libido -= 1
-    if check_lovers(hero, char):
-        $ sex_scene_libido += randint(1, 2)
-    elif cgo("SIW"):
-        $ sex_scene_libido += 1
-    if ct("Extremely Jealous")and dice(40):
-        $ sex_scene_libido -= 1
-    if ct("Virgin"):
-        $ sex_scene_libido -= 1
-    elif ct("MILF") and dice(70):
-        $ sex_scene_libido += 1
-    if ct("Undead"):
-        $ sex_scene_libido -= 1
-    elif ct("Furry"):
-        $ sex_scene_libido += 1
-    elif ct("Demonic Creature"):
-        $ sex_scene_libido += 1
-    if ct("Indifferent"):
-        $ sex_scene_libido -= randint(0, 1)
-    if ct("Impersonal"):
-        $ sex_scene_libido -= 1
-    if sex_scene_libido < 2:
-        $ sex_scene_libido = 2 # normalization, at worst you will do it 2 times
-    $ max_sex_scene_libido = sex_scene_libido
-    # max is 12, min is 2
+    $ max_sex_scene_libido = sex_scene_libido = get_character_libido(char)
     call interactions_sex_begins
     jump interaction_scene_choice
 
