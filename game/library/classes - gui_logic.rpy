@@ -424,3 +424,78 @@ init -1 python:
             renpy.hide(tag)
             renpy.show_screen("gallery")
             renpy.with_statement(dissolve)
+            
+            
+    class CoordsForPaging(_object):
+        """ This class setups up x, y coordinates for items in content list.
+        
+        We use this in DragAndDrop.
+        Might be I'll just use this in the future to handle the whole thing.
+        For now, this will be used in combination with screen language.
+        *Adaptation of Roman's Inv code!
+        """
+        def __init__(self, content, columns=2, rows=6, size=(100, 100), xspacing=10, yspacing=10):
+            # Should be changes to location in the future:    
+            self.content = content
+            self.page = 0
+            self.page_size = columns*rows
+
+            self.pos = list()
+            for c in xrange(columns):
+                x = c*size[0]
+                if c:
+                    x = x + xspacing
+                y = 0
+                for r in xrange(rows):
+                    self.pos.append((x, y))
+                    y = y + size[1] + yspacing
+                    
+        def __len__(self):
+            return len(self.content)
+            
+        def __iter__(self):
+            # We return a list of tuples of [(item, pos), (item, pos), ...] for self.page
+            page = self.get_page_content()
+            pos = self.pos[:len(page)]
+            return iter(zip(page, pos))
+            
+        def __getitem__(self, index):
+            # Minding the page we're on!
+            return self.content[self.page * self.page_size + index]
+            
+        def get_pos(self, item):
+            # retruns a pos of an item on current page.
+            return self.pos[self.get_page_content().index(item)]
+            
+        def __nonzero__(self):
+            return bool(self.content)
+                
+        # Next page
+        def next(self):
+            if self.page < self.max_page:
+                self.page += 1
+
+        # Previous page
+        def prev(self):
+            if self.page > 0:
+                self.page -= 1
+                
+        @property
+        def max_page(self):
+            return len(self.content) / self.page_size if len(self.content) % self.page_size not in [0, self.page_size] else (len(self.content) - 1) / self.page_size
+                
+        def get_page_content(self):
+            start = self.page * self.page_size
+            end = (self.page+1) * self.page_size
+            return self.content[start:end]
+            
+        # group of methods realizing the interface of common listing
+        # remove and add an element
+        # with recalc of current page
+        def add(self, item):
+            if item not in self.content:
+                self.content.append(item)
+
+        def remove(self, item):
+            if item in self.content:
+                self.content.remove(item)
