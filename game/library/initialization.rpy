@@ -25,6 +25,7 @@ init -999 python:
     sys.path.append(renpy.loader.transfn("library")) # May fail if we ever post to Android, there is now a new python folder for imports in newer Ren'Py version that can be used instead. SimPy.__init__ may have to be adjusted.
     import simpy
     import cPickle as pickle
+    import bisect
                 
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according

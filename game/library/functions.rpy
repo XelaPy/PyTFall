@@ -3,6 +3,17 @@ init -11 python:
     # ---------------------- Game related:
     # Assists:
     # Function are not named according to PEP8 because we'll be using the living shit out of them in the game:
+    def weighted_choice(choices):
+        values, weights = zip(*choices)
+        total = 0
+        cum_weights = []
+        for w in weights:
+            total += w
+            cum_weights.append(total)
+        x = random.random() * total
+        i = bisect.bisect(cum_weights, x)
+        return values[i]
+    
     def plural(string, amount):
         """
         Returns the string as a plural if amount isn't above 1.
