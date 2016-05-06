@@ -303,8 +303,8 @@ init python:
                     gm.generate_img("indoors", "living", "indoor", "nude", exclude=excluded, type="reduce")
         return
         
-    def get_character_libido(char): # depending on character traits returns relative libido level, ie how much the character wishes to have sex with MC
-    # has nothing to do with character's willingness to even start sex
+    def get_character_libido(char, mc=True): # depending on character traits returns relative libido level, ie how much the character wishes to have sex with MC
+    # has nothing to do with character's willingness to even start sex; if mc = false then we calculate it not for mc, ie ignore some personal traits
     # it's more or less permanent pseudostat compared to many other games where it changes regularly like health, if not more often
 
         if ct("Nymphomaniac"):
@@ -313,14 +313,15 @@ init python:
             l = randint(2, 4)
         else:
             l = randint(3, 5)
-            
-        if ct("Half-Sister"):
-            if char.disposition >= 700:
-                l += randint(1, 2)
-            else:
-                l -= 1
-        if check_lovers(hero, char):
-            l += 1
+        
+        if mc:
+            if ct("Half-Sister"):
+                if char.disposition >= 700:
+                    l += randint(1, 2)
+                else:
+                    l -= 1
+            if check_lovers(hero, char):
+                l += 1
             
         if cgo("SIW") and l < 3: # sex workers can't have it less than 3 though
             l = 3
