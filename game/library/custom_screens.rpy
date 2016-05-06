@@ -428,8 +428,8 @@ init: # PyTFall:
         default align = (0, 0)
         imagebutton:
             align align
-            idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            idle img
+            hover im.MatrixColor(img, im.matrix.brightness(0.15))
             action Return(return_value)
     
     screen rg_lightbutton:
@@ -730,6 +730,28 @@ init: # PyTFall:
             hover im.MatrixColor(img, im.matrix.brightness(0.25))
             action Return(['control', 'return'])
             
+    screen dropdown(pos):
+        # Trying to create a drop down screen with choices of actions:
+        zorder 3
+        modal True
+        
+        key "mousedown_4" action NullAction()
+        key "mousedown_5" action NullAction()
+        
+        # Get mouse coords:
+        python:
+            x, y = pos
+            xval = 1.0 if x > config.screen_width/2 else .0
+            yval = 1.0 if y > config.screen_height/2 else .0
+            
+        frame:
+            style_prefix "dropdown_gm"
+            pos (x, y)
+            anchor (xval, yval)
+            has vbox
+            
+            transclude # Doesn't work as expected, no style passing to other screens, no modal, bull shit of a statement basically at this stage :(
+            
     screen set_action_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
         zorder 3
@@ -741,97 +763,93 @@ init: # PyTFall:
         # Get mouse coords:
         python:
             x, y = pos
-            if x > 1000:
-                xval = 1.0
-            else:
-                xval = 0.0
-            if y > 500:
-                yval = 1.0
-            else:
-                yval = 0.0
+            xval = 1.0 if x > config.screen_width/2 else .0
+            yval = 1.0 if y > config.screen_height/2 else .0
+            
         frame:
-            style_group "dropdown_gm"
+            style_prefix "dropdown_gm"
             pos (x, y)
             anchor (xval, yval)
-            vbox:
-                if isinstance(char.location, NewStyleUpgradableBuilding):
-                    # Jobs:
-                    $ jobs = char.location.get_valid_jobs(char)
-                    for i in jobs:
-                        textbutton "[i.id]":
-                            # Without Equipping for the job!
-                            action [Function(set_char_to_work, char, char.location, i), Hide("set_action_dropdown")]
-                            
-                # Buildings:
-                # TODO: This needs to be rewritten:
-                elif isinstance(char.location, Building):
-                    for entry in Building.ACTIONS:
-                        if entry == 'Stripper':
-                            if char.location.upgrades['stripclub']['1']['active']:
-                                textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                        elif entry == 'Guard':
-                            if char.status != 'slave' and ("Warrior" in char.occupations or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
-                                textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                        else:
+            has vbox
+            
+            if isinstance(char.location, NewStyleUpgradableBuilding):
+                # Jobs:
+                $ jobs = char.location.get_valid_jobs(char)
+                for i in jobs:
+                    textbutton "[i.id]":
+                        # Without Equipping for the job!
+                        action [Function(set_char_to_work, char, char.location, i), Hide("set_action_dropdown")]
+                        
+            # Buildings:
+            # TODO: This needs to be rewritten:
+            elif isinstance(char.location, Building):
+                for entry in Building.ACTIONS:
+                    if entry == 'Stripper':
+                        if char.location.upgrades['stripclub']['1']['active']:
                             textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                
-                # Fighters Guild
-                elif isinstance(char.location, FighterGuild):
-                    for entry in FighterGuild.ACTIONS:
-                        if entry == 'Training':
-                            if char.status != "slave":
-                                textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                        elif entry == 'ServiceGirl':
-                            if (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "ServiceGirl"):
-                                textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                        elif entry == 'BarGirl':
-                            if fg.upgrades["bar"][0] and (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "BarGirl"):
-                                textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, "ServiceGirl"), Hide("set_action_dropdown")]
-                        elif entry == 'Rest':
+                    elif entry == 'Guard':
+                        if char.status != 'slave' and ("Warrior" in char.occupations or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
                             textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                        else:
+                    else:
+                        textbutton "[entry]":
+                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+            
+            # Fighters Guild
+            elif isinstance(char.location, FighterGuild):
+                for entry in FighterGuild.ACTIONS:
+                    if entry == 'Training':
+                        if char.status != "slave":
                             textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                
-                # Other buildings
-                elif hasattr(char.location, "actions"):
-                    for entry in char.location.actions:
-                        if entry == "Guard":
-                            if char.status != "slave" and ("Warrior" in char.occupations or char.disposition <= 950):
-                                textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                        
-                        elif entry == "Take Course":
+                    elif entry == 'ServiceGirl':
+                        if (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "ServiceGirl"):
                             textbutton "[entry]":
-                                action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"), # Hide the dropdown screen, the chars list and char profile screens
-                                        SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
-                                        Jump("char_training")] # Jump to the training screen
-                        
-                        else:
+                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+                    elif entry == 'BarGirl':
+                        if fg.upgrades["bar"][0] and (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "BarGirl"):
                             textbutton "[entry]":
-                                    action [SetField(char, "action", entry), Function(equip_for, char, entry), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
-                
-                # Prevent none action in schools
-                if not hasattr(char.location, "is_school") or not char.location.is_school:
-                    textbutton "None":
-                        action [SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
-                
-                textbutton "Rest":
-                    # TODO: Temporary way to set action to Rest, this needs to be rewritten completely.
-                    action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
-                        
-                textbutton "Close":
-                    action [Hide("set_action_dropdown")]
+                                action [SetField(char, "action", entry), Function(equip_for, char, "ServiceGirl"), Hide("set_action_dropdown")]
+                    elif entry == 'Rest':
+                        textbutton "[entry]":
+                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+                    else:
+                        textbutton "[entry]":
+                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+            
+            # Other buildings
+            elif hasattr(char.location, "actions"):
+                for entry in char.location.actions:
+                    if entry == "Guard":
+                        if char.status != "slave" and ("Warrior" in char.occupations or char.disposition <= 950):
+                            textbutton "[entry]":
+                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+                    
+                    elif entry == "Take Course":
+                        textbutton "[entry]":
+                            action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"), # Hide the dropdown screen, the chars list and char profile screens
+                                    SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
+                                    Jump("char_training")] # Jump to the training screen
+                    
+                    else:
+                        textbutton "[entry]":
+                                action [SetField(char, "action", entry), Function(equip_for, char, entry), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
+            
+            # Prevent none action in schools
+            if not hasattr(char.location, "is_school") or not char.location.is_school:
+                textbutton "None":
+                    action [SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
+            
+            textbutton "Rest":
+                # TODO: Temporary way to set action to Rest, this needs to be rewritten completely.
+                action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
+                    
+            textbutton "Close":
+                action [Hide("set_action_dropdown")]
                 
     screen set_location_dropdown(char, pos=()):
-        # Trying to create a drop down screen with choices of buildings:
+        # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
         
@@ -841,59 +859,53 @@ init: # PyTFall:
         # Get mouse coords:
         python:
             x, y = pos
-            if x > config.screen_width/2:
-                xval = 1.0
-            else:
-                xval = 0.0
-            if y > config.screen_height/2:
-                yval = 1.0
-            else:
-                yval = 0.0
+            xval = 1.0 if x > config.screen_width/2 else .0
+            yval = 1.0 if y > config.screen_height/2 else .0
+            
         frame:
-            style_group "dropdown_gm"
+            style_prefix "dropdown_gm"
             pos (x, y)
             anchor (xval, yval)
-            
-            vbox:
-                # Updating to new code: *Ugly code atm, TODO: Fix IT!
-                for building in hero.buildings:
-                    if isinstance(building, NewStyleUpgradableBuilding):
-                        if char.action in building.jobs:
-                            $ can_keep_action = True
-                        else:
-                            $ can_keep_action = False
-                        if can_keep_action:
-                            textbutton "[building.name]":
-                                action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                        else:
-                            textbutton "[building.name]":
-                                action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                    elif building.free_rooms():
+            has vbox
+            # Updating to new code: *Ugly code atm, TODO: Fix IT!
+            for building in hero.buildings:
+                if isinstance(building, NewStyleUpgradableBuilding):
+                    if char.action in building.jobs:
+                        $ can_keep_action = True
+                    else:
                         $ can_keep_action = False
-                        if isinstance(building, Building):
-                            if char.action in Building.ACTIONS:
-                                $ can_keep_action = True
-                        elif isinstance(building, FighterGuild):
-                            if char.action in FighterGuild.ACTIONS:
-                                $ can_keep_action = True
-                        elif hasattr(building, "actions"):
-                            if char.action in building.actions:
-                                $ can_keep_action = True
-                        if can_keep_action:
-                            textbutton "[building.name]":
-                                action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                        else:
-                            textbutton "[building.name]":
-                                action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                
-                textbutton "Home":
-                    action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]
-                
-                textbutton "Close":
-                    action Hide("set_location_dropdown")
+                    if can_keep_action:
+                        textbutton "[building.name]":
+                            action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+                    else:
+                        textbutton "[building.name]":
+                            action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+                elif building.free_rooms():
+                    $ can_keep_action = False
+                    if isinstance(building, Building):
+                        if char.action in Building.ACTIONS:
+                            $ can_keep_action = True
+                    elif isinstance(building, FighterGuild):
+                        if char.action in FighterGuild.ACTIONS:
+                            $ can_keep_action = True
+                    elif hasattr(building, "actions"):
+                        if char.action in building.actions:
+                            $ can_keep_action = True
+                    if can_keep_action:
+                        textbutton "[building.name]":
+                            action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+                    else:
+                        textbutton "[building.name]":
+                            action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+            
+            textbutton "Home":
+                action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]
+            
+            textbutton "Close":
+                action Hide("set_location_dropdown")
                     
     screen set_home_dropdown(char, pos=()):
-        # Trying to create a drop down screen with choices of buildings:
+        # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
         
@@ -903,16 +915,11 @@ init: # PyTFall:
         # Get mouse coords:
         python:
             x, y = pos
-            if x > config.screen_width/2:
-                xval = 1.0
-            else:
-                xval = 0.0
-            if y > config.screen_height/2:
-                yval = 1.0
-            else:
-                yval = 0.0
+            xval = 1.0 if x > config.screen_width/2 else .0
+            yval = 1.0 if y > config.screen_height/2 else .0
+            
         frame:
-            style_group "dropdown_gm"
+            style_prefix "dropdown_gm"
             pos (x, y)
             anchor (xval, yval)
             has vbox
