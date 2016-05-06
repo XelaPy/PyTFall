@@ -341,7 +341,7 @@ init python:
         if char.get_skill("oral") >= 50: # all others become available once their skills are high enough
             acts.extend["bc blowjob", "bc titsjob"]
         if char.get_skill("sex") >= 50:
-            acts.extend["bc handjob", "bc titsjob"]
+            acts.extend["bc handjob", "bc footjob"]
         if char.get_skill("anal") >= 50:
             acts.extend["2c anal"]
         if acts:
