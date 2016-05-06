@@ -499,3 +499,58 @@ init -1 python:
         def remove(self, item):
             if item in self.content:
                 self.content.remove(item)
+                
+    def dragged(drags, drop):
+        # Simple func we use to manage drag and drop in team setups and maybe moar in the future.
+        x, y = workers.get_pos(drags[0].drag_name)
+        
+        if not drop:
+            drags[0].snap(x, y, delay=0.2)
+            renpy.restart_interaction()
+            return
+
+        if char.status == "slave":
+            drags[0].snap(x, y, delay=0.2)
+            renpy.show_screen("message_screen", "Slaves are not allowed to participate in combat!")
+            renpy.restart_interaction()
+            return
+
+        for team in fg.teams:
+            if drop.drag_name == team.name:
+                team = team
+                break
+        else:
+            raise Exception, ["Team unknown during drag/drop!", drop.drag_name, team.name]
+            
+        for t in fg.teams:
+            if t and t[0] == char:
+                drags[0].snap(x, y, delay=0.2)
+                renpy.show_screen("message_screen", "%s is already a leader of %s!" % (char.nickname, t.name))
+                renpy.restart_interaction()
+                return
+            
+            if not team:
+                for girl in t:
+                    if girl == char:
+                        drags[0].snap(x, y, delay=0.2)
+                        renpy.show_screen("message_screen", "%s cannot lead %s as she's already on %s!" % (char.nickname, team.name, t.name))
+                        renpy.restart_interaction()
+                        return
+                        
+        for girl in team:
+            if girl == char:
+                drags[0].snap(x, y, delay=0.2)
+                renpy.show_screen("message_screen", "%s is already on %s!" % (char.nickname, team.name))
+                renpy.restart_interaction()
+                return
+                
+        if len(team) == 3:
+            drags[0].snap(x, y, delay=0.2)
+            renpy.restart_interaction()
+            return
+        else:
+            team.add(char)
+            fg_drags.remove(char)
+            drags[0].snap(x, y)
+
+        return True
