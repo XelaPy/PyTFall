@@ -332,6 +332,23 @@ init python:
         if l < 1:
             l = 1 # normalization, in general libido can be from 1 to 7 for frigid ones and from 3 to 10 for nymphomaniacs
         return l
+        
+    def get_character_wishes(char): # for taking action during sex scenes, returns action that character is willing to commit on her own
+        if not(ct("Virgin")) or check_lovers(hero, char) or char.disposition >= 750: # first of all, vaginal is always available unless she's a virgin with low disposition
+            acts = ["2c vaginal"]
+        else:
+            acts = []
+        if char.get_skill("oral") >= 50: # all others become available once their skills are high enough
+            acts.extend["bc blowjob", "bc titsjob"]
+        if char.get_skill("sex") >= 50:
+            acts.extend["bc handjob", "bc titsjob"]
+        if char.get_skill("anal") >= 50:
+            acts.extend["2c anal"]
+        if acts:
+            result = choice(acts)
+            return result
+        else:
+            return None
             
     def get_sex_img_4int(char, *args, **kwargs):
         """Tries to find the best possible sex image following a complex set of logic.
