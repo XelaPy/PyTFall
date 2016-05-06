@@ -1,5 +1,5 @@
 init python:
-    def get_simple_act(char, tags, excluded): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
+    def get_simple_act(char, tags, excluded): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets; unlike the function from jobs it supports only one set of excluded tags
         acts = list()
         for t in tags:
             if char.has_image(*t, exclude=excluded):
@@ -262,7 +262,76 @@ init python:
 
         return
             
+    def get_picture_before_sex(char=None, location="room"): # here we set initial picture before the scene begins depending on location
+        if location not in ["beach", "park", "forest", "room"]:
+            location = "room"
+        excluded = ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]
+        if location == "beach":
+            excluded.extend(["indoors"])
+            tags = (["beach", "swimsuit"], ["simple bg", "swimsuit"], ["no bg", "swimsuit"])
+            result = get_simple_act(char, tags, excluded)
+            if result:
+                gm.generate_img(*result, exclude=excluded, type="reduce")
+            else:
+                gm.generate_img("swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+        elif location in ["forest", "park"]:
+            excluded.extend(["indoors"])
+            if char.has_image("nature", exclude=excluded):
+                if location == "park":
+                    gm.generate_img("nature", "nude", "urban", exclude=excluded, type="reduce")
+                else:
+                    gm.generate_img("nature", "nude", "wildness", exclude=excluded, type="reduce")
+            else:
+                tags = (["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"], ["simple bg", "nude"])
+                if result:
+                    gm.generate_img(*result, exclude=excluded)
+                else:
+                    gm.generate_img("nature", "nude", exclude=excluded, type="reduce")
+        else:
+            excluded.extend(["outdoors", "dungeon"])
+            tags = (["indoors", "nude"], ["indoors", "lingerie"], ["indoors", "swimsuit"])
+            result = get_simple_act(char, tags, excluded)
+            if result:
+                result.extend(["living"])
+                gm.generate_img(*result, exclude=excluded, type="reduce")
+            else:
+                tags = (["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"], ["simple bg", "nude"])
+                if result:
+                    result.extend(["living"])
+                    gm.generate_img(*result, exclude=excluded)
+                else:
+                    gm.generate_img("indoors", "living", "indoor", "nude", exclude=excluded, type="reduce")
+        return
         
+    def get_character_libido(char): # depending on character traits returns relative libido level, ie how much the character wishes to have sex with MC
+    # has nothing to do with character's willingness to even start sex
+    # it's more or less permanent pseudostat compared to many other games where it changes regularly like health, if not more often
+
+        if ct("Nymphomaniac"):
+            l = randint(5, 7)
+        elif ct("Frigid"):
+            l = randint(2, 4)
+        else:
+            l = randint(3, 5)
+            
+        if ct("Half-Sister"):
+            if char.disposition >= 700:
+                l += randint(1, 2)
+            else:
+                l -= 1
+        if check_lovers(hero, char):
+            l += 1
+            
+        if cgo("SIW") and l < 3: # sex workers can't have it less than 3 though
+            l = 3
+            
+        if ct("Virgin"): # or 2 if virgins...
+            l -= 1
+
+        if l < 1:
+            l = 1 # normalization, in general libido can be from 1 to 7 for frigid ones and from 3 to 10 for nymphomaniacs
+        return l
+            
     def get_sex_img_4int(char, *args, **kwargs):
         """Tries to find the best possible sex image following a complex set of logic.
         http://www.pinkpetal.org/index.php?topic=1291.msg37131#msg37131
