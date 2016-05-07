@@ -334,21 +334,29 @@ init python:
         return l
         
     def get_character_wishes(char): # for taking action during sex scenes, returns action that character is willing to commit on her own
-        if not(ct("Virgin")) or check_lovers(hero, char) or char.disposition >= 750: # first of all, vaginal is always available unless she's a virgin with low disposition
-            acts = ["2c vaginal"]
-        else:
-            acts = []
-        if char.get_skill("oral") >= 50: # all others become available once their skills are high enough
-            acts.extend["bc blowjob", "bc titsjob"]
-        if char.get_skill("sex") >= 50:
-            acts.extend["bc handjob", "bc footjob"]
-        if char.get_skill("anal") >= 50:
-            acts.extend["2c anal"]
-        if acts:
-            result = choice(acts)
-            return result
-        else:
-            return None
+        # if not(ct("Virgin")) or check_lovers(hero, char) or char.disposition >= 750: # first of all, vaginal is always available unless she's a virgin with low disposition
+            # acts = ["2c vaginal"]
+        # else:
+            # acts = []
+        # if char.get_skill("oral") >= 50: # all others become available once their skills are high enough
+            # acts.extend["bc blowjob", "bc titsjob"]
+        # if char.get_skill("sex") >= 50:
+            # acts.extend["bc handjob", "bc footjob"]
+        # if char.get_skill("anal") >= 50:
+            # acts.extend["2c anal"]
+        # if acts:
+            # result = choice(acts)
+            # return result
+        # else:
+            # return None
+        skills = ["sex", "oral", "anal"]
+        if not(ct("Virgin")) or check_lovers(hero, char) or char.disposition >= 750:
+            skills.extend(["vaginal"])
+        skills_values=[]
+        for t in skills:
+            skills_values.append([t, char.get_skill(t)])
+        result = weighted_choice(skills_values)
+        return result
             
     def get_sex_img_4int(char, *args, **kwargs):
         """Tries to find the best possible sex image following a complex set of logic.
