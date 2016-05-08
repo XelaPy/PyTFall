@@ -259,7 +259,14 @@ init -997: # Transforms:
             pos(x, y)
             linear t pos(x, (y-200))
           
-            
+    transform sex_scene_libido_hearth(t):
+        anchor (.5, .5)
+        subpixel True
+        block:
+            linear (3.0/(t+1)) zoom (1.1 + t*0.05)
+            linear (3.0/(t+1)) zoom 1
+            repeat
+        
     # BE Transforms:
     transform damage_color(img): # Note: Testing case, this should become a DD/UDD with moar options at some point.
         im.MatrixColor(img, im.matrix.saturation(1))

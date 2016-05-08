@@ -10,6 +10,8 @@ init -11 python:
         for w in weights:
             total += w
             cum_weights.append(total)
+        if total <= 0:
+            return None
         x = random.random() * total
         i = bisect.bisect(cum_weights, x)
         return values[i]
