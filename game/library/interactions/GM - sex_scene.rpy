@@ -283,6 +283,7 @@ init python:
                     gm.generate_img("nature", "nude", "wildness", exclude=excluded, type="reduce")
             else:
                 tags = (["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"], ["simple bg", "nude"])
+                result = get_simple_act(char, tags, excluded)
                 if result:
                     gm.generate_img(*result, exclude=excluded)
                 else:
@@ -350,12 +351,14 @@ init python:
         # else:
             # return None
         skills = ["sex", "oral", "anal"]
-        if not(ct("Virgin")) or check_lovers(hero, char) or char.disposition >= 750:
+        if (char.status != "slave" and check_lovers(hero, char)) or not(ct("Virgin")):
             skills.extend(["vaginal"])
         skills_values=[]
         for t in skills:
             skills_values.append([t, char.get_skill(t)])
         result = weighted_choice(skills_values)
+        if not(result):
+            result=choice(skills)
         return result
             
     def get_sex_img_4int(char, *args, **kwargs):

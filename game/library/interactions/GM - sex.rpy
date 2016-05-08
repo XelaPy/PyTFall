@@ -1,3 +1,6 @@
+init:
+    image libido_hearth = "content/gfx/interface/icons/heartbeat.png"
+
 init python:
 
     def get_act(character, tags): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
@@ -19,23 +22,18 @@ init python:
 # lines for the future male libido
 # You're a little out of juice at the moment, you might want to wait a bit.
 # The spirit is willing, but the flesh is spongy and bruised.
-screen int_libido_level(libido):
+screen int_libido_level(sex_scene_libido):
     hbox:
-        xpos 5
-        ypos 55
-        vbox:
-            fixed:
-                xysize (150, 25)
-                yfill True
-                bar:
-                    yalign 1.0
-                    left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                    value libido
-                    range max_sex_scene_libido
-                    thumb None
-                    xysize (150, 20)
-                text "Libido" size 14 color ivory bold True yalign 0.2 xpos 7
+        xpos 50
+        ypos 85
+        add "content/gfx/interface/icons/heartbeat.png" at sex_scene_libido_hearth(sex_scene_libido)
+screen int_libido_level_zero:
+    hbox:
+        xpos 50
+        ypos 85
+        anchor (.5, .5)
+        add im.Sepia("content/gfx/interface/icons/heartbeat.png")
+
                 
 label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
     $ interactions_check_for_bad_stuff(char)
@@ -275,7 +273,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         $ sex_scene_location="room"
 
 label interactions_sex_scene_begins: # here we set initial picture before the scene and set local variables
-    $ scene_picked_by_character = 1 # when it's 0, there is a chance that the character might wish to do something on her own
+    $ scene_picked_by_character = True # when it's false, there is a chance that the character might wish to do something on her own
     $ sub = check_submissivity(char)
     $ get_picture_before_sex(char, location=sex_scene_location)
     
@@ -286,21 +284,22 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
 
     
 label interaction_scene_choice: # here we select specific scene, show needed image, jump to scene logic and return here after every scene
-    show screen int_libido_level(sex_scene_libido)
+    if sex_scene_libido>0:
+        show screen int_libido_level(sex_scene_libido)
+    else:
+        hide screen int_libido_level
+        show screen int_libido_level_zero
     if char.vitality <=10:
         jump interaction_scene_finish_sex
     if hero.vitality <= 30:
         "You are too tired to continue."
         jump interaction_scene_finish_sex
     if char.status == "slave":
-        if sex_scene_libido <= 0:
+        if sex_scene_libido == 0:
             "[char.name] doesn't want to do it any longer. You can force her, but it will not be without consequences."
             jump interaction_sex_scene_choice
-        if char.joy < 30:
-            "[char.name] looks upset. Not the best mood for sex. You can force her, but it will not be without consequences."
-            jump interaction_sex_scene_choice
         if char.vitality <= 30:
-            "[char.name] looks very tired. You can force her, but it's probably for the best to let her rest."
+            "[char.name] looks very tired."
             jump interaction_sex_scene_choice
     else:
         if sex_scene_libido <= 0:
@@ -312,26 +311,18 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         if char.vitality < 30:
             "[char.name] is too tired to continue."
             jump interaction_scene_finish_sex
-    if scene_picked_by_character == 0:
-        $ scene_picked_by_character = 1
-        if dice(sex_scene_libido*10 + 50*sub): # strong willed and/or very horny characters may pick action on their own from time to time
-            $ available = list() # let's form a list of available actions
-            if sex_scene_libido > 1:
-                if (not(ct("Virgin")) or check_lovers(hero, char)) and current_action != "vag":
-                    $ available.append("vag")
-                if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])) and current_action != "anal":
-                    $ available.append("anal")
-            if (char.has_image("bc blowjob", exclude=["rape", "in pain", "restrained"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"]))) and current_action != "blow":
-                $ available.append("blow")
-            if (char.has_image("bc titsjob", exclude=["rape", "in pain", "restrained"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"]))) and current_action != "tits":
-                $ available.append("tits")
-            if (char.has_image("bc handjob", exclude=["rape", "in pain", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])) and current_action != "hand":
-                $ available.append("hand")
-            if (char.has_image("bc handjob", exclude=["rape", "in pain", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])) and current_action != "foot":
-                $ available.append("foot")
-            if not(available):
-                jump interaction_sex_scene_choice
-            $ current_action = choice(available)
+    if not(scene_picked_by_character):
+        $ scene_picked_by_character = True
+        if dice(sex_scene_libido*10 + 20*sub) and sex_scene_libido > 1: # strong willed and/or very horny characters may pick action on their own from time to time
+            $ available = get_character_wishes(char)
+            if available == "sex":
+                $ current_action = choice(["hand", "foot"])
+            elif available == "oral":
+                $ current_action = choice(["blow", "tits"])
+            elif available == "anal":
+                $ current_action = "anal"
+            else:
+                $ current_action = "vag"
             if sub < 0:
                 "She is so horny she cannot cannot control herself."
             elif sub == 0:
@@ -343,42 +334,47 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                     jump interaction_check_for_virginity
             jump interactions_sex_scene_logic_part
 label interaction_sex_scene_choice:
-    $ scene_picked_by_character = 0
+    if sex_scene_libido>0:
+        show screen int_libido_level(sex_scene_libido)
+    else:
+        hide screen int_libido_level
+        show screen int_libido_level_zero
+    $ scene_picked_by_character = False
     menu:
         "What would you like to do now?"
         
-        "Ask for striptease": 
+        "Ask for striptease" if max_sex_scene_libido == sex_scene_libido: 
             $ current_action = "strip"
             jump interactions_sex_scene_logic_part
             
-        "Ask her to play with herself" if char.has_image("masturbation", exclude=["forced", "normalsex", "group", "bdsm"]):
+        "Ask her to play with herself" if max_sex_scene_libido == sex_scene_libido:
             $ current_action = "mast"
             jump interactions_sex_scene_logic_part
             
-        "Ask for a blowjob" if (char.has_image("bc blowjob", exclude=["rape", "in pain", "restrained"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"]))): 
+        "Ask for a blowjob": 
             $ current_action = "blow"
             jump interactions_sex_scene_logic_part
             
-        "Ask for paizuri" if (char.has_image("bc titsjob", exclude=["rape", "in pain", "restrained"]) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"]))):
+        "Ask for paizuri":
             $ current_action = "tits"
             jump interactions_sex_scene_logic_part
             
-        "Ask for a handjob" if (char.has_image("bc handjob", exclude=["rape", "in pain", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
+        "Ask for a handjob":
             $ current_action = "hand"
             jump interactions_sex_scene_logic_part
             
-        "Ask for a footjob" if (char.has_image("bc footjob", exclude=["rape", "angry", "in pain", "restrained"], type="first_default")) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
+        "Ask for a footjob":
             $ current_action = "foot"
             jump interactions_sex_scene_logic_part
             
-        "Ask for sex" if (char.has_image("2c vaginal", exclude=["rape", "angry", "scared", "in pain", "gay", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
+        "Ask for sex":
             if ct("Virgin"):
                 jump interaction_check_for_virginity
             else:
                 $ current_action = "vag"
                 jump interactions_sex_scene_logic_part
                 
-        "Ask for anal sex" if (char.has_image("2c anal", exclude=["rape", "angry", "scared", "in pain", "gay", "restrained"])) or (char.has_image("after sex", exclude=["angry", "in pain", "sad", "scared", "restrained"])):
+        "Ask for anal sex":
             $ current_action = "anal"
             jump interactions_sex_scene_logic_part
             
@@ -387,6 +383,7 @@ label interaction_sex_scene_choice:
             
 label interaction_scene_finish_sex:
     hide screen int_libido_level
+    hide screen int_libido_level_zero
     if sex_scene_libido > 3 and char.vitality >= 50 and ct("Nymphomaniac"):
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
         "[char.name] is not satisfied yet, so she quickly masturbates right in front of you."
@@ -535,7 +532,7 @@ label interaction_scene_finish_sex:
     jump girl_interactions_end
             
 label interactions_lesbian_choice:
-    $ sex_scene_libido = 1
+    $ sex_scene_libido -= 1
     # The interactions itself.
     # Since we called a function, we need to do so again (Consider making this func a method so it can be called just once)...
     if ct("Lesbian") or ct("Bisexual"):
@@ -678,10 +675,15 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     $ sex_count += 1
     if current_action == "mast":
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
-        "She masturbates in front of you." 
-        if max_sex_scene_libido > sex_scene_libido and dice(40):
+        if sub > 0:
+            "She leisurely pleasures herself for awhile, seductively glancing at you."
+        elif sub < 0:
+            "She diligently pleasures herself for awhile until you tell her to stop." 
+        else:
+            "She pleasures herself for awhile, shyly avoiding your glance." 
+        if dice(40):
             extend " She is more aroused now."
-            $ sex_scene_libido += 1
+            $ sex_scene_libido += 2
         $ char.vitality -= randint(5, 10)
         $ girl_count +=1
     elif current_action == "strip":
@@ -717,7 +719,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.2)
         $ male_skill_for_checking = round(hero.get_skill("oral")*0.8 + hero.get_skill("sex")*0.2)
         if sub > 0:
-            "[char.name] licks her lips, defiantly looking at your crotch."
+            if sex_scene_libido > 0:
+                "[char.name] licks her lips, defiantly looking at your crotch."
+            else:
+                "[char.name] joylessly looks at your crotch."
             if "bc deepthroat" in image_tags:
                 extend " She shoves it all the way into her throat."
             elif "after sex" in image_tags:
@@ -725,7 +730,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " She enthusiastically begins to lick and suck it."
         elif sub < 0:
-            "Glancing at your crotch, [char.name] is patiently waiting for your orders."
+            if sex_scene_libido > 0:
+                "Glancing at your crotch, [char.name] is patiently waiting for your orders."
+            else:
+                "[char.name] is waiting for your orders."
             if "bc deepthroat" in image_tags:
                 extend " You told her to take your dick inside her mouth as deeply as she can, and she diligently obeyed."
             elif "after sex" in image_tags:
@@ -733,7 +741,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You told her to lick and suck your dick, and she immediately obeyed."
         else:
-            "[char.name] slowly approached your crotch."
+            if sex_scene_libido > 0:
+                "[char.name] quickly approached your crotch."
+            else:
+                "[char.name] slowly approached your crotch."
             if "bc deepthroat" in image_tags:
                 extend " You shove your dick deeply into her throat."
             elif "after sex" in image_tags:
@@ -756,12 +767,20 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     elif current_action == "tits":
         $ get_single_sex_picture(char, act="titsjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
-        if sub > 0:
-            "[char.name] massages her boobs, defiantly looking at your crotch."
-        elif sub < 0:
-            "Holding her boobs, [char.name] meekly approaches you."
+        if sex_scene_libido > 0:
+            if sub > 0:
+                "[char.name] massages her boobs, defiantly looking at your crotch."
+            elif sub < 0:
+                "Holding her boobs, [char.name] meekly approaches you."
+            else:
+                "[char.name] playfully grabs her boobs, looking at you."
         else:
-            "[char.name] playfully grabs her boobs, looking at you."
+            if sub > 0:
+                "[char.name] massages her boobs, preparing them."
+            elif sub < 0:
+                "[char.name] holds her boobs, meekly looking at you."
+            else:
+                "[char.name] grabs her boobs and approaches you."
         if ct("Big Boobs"):
             extend " She warps her soft big breasts around you."
         elif ct("Abnormally Large Boobs"):
@@ -819,7 +838,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ get_single_sex_picture(char, act="footjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            "With a sly smile [char.name] gets closer to you."
+            if sex_scene_libido > 0:
+                "With a sly smile [char.name] gets closer to you."
+            else:
+                "[char.name] gets closer to you."
         elif sub < 0:
             "You asked [char.name] to use her feet."
         else:
@@ -885,7 +907,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ get_single_sex_picture(char, act="vaginal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            "[char.name] looking forward to something big inside her pussy."
+            if sex_scene_libido > 0:
+                "[char.name] looking forward to something big inside her pussy."
+            else:
+                "[char.name] unenthusiastically prepares her pussy."
             if "ontop" in image_tags:
                 extend " She sits on top of you, immersing your dick inside."
             elif "doggy" in image_tags:
@@ -921,7 +946,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You entered her and asked to start moving."
         else:
-            "[char.name] doesn't mind you to do her pussy."
+            if sex_scene_libido > 0:
+                "[char.name] doesn't mind you to do her pussy."
+            else:
+                "[char.name] silently offers her pussy."
             if "ontop" in image_tags:
                 extend " You invite her to sit on top of you, preparing your dick for some penetration."
             elif "doggy" in image_tags:
@@ -961,7 +989,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ get_single_sex_picture(char, act="anal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            "[char.name] looking forward to something big inside her ass."
+            if sex_scene_libido > 0:
+                "[char.name] looking forward to something big inside her ass."
+            else:
+                "[char.name] unenthusiastically prepares her ass."
             if "ontop" in image_tags:
                 extend " She sits on top of you, immersing your dick inside."
             elif "doggy" in image_tags:
@@ -997,7 +1028,10 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You entered her and asked to start moving."
         else:
-            "[char.name] doesn't mind you to do her ass."
+            if sex_scene_libido > 0:
+                "[char.name] doesn't mind you to do her ass."
+            else:
+                "[char.name] silently offers her ass."
             if "ontop" in image_tags:
                 extend " You invite her to sit on top of you, preparing your dick for some penetration."
             elif "doggy" in image_tags:
@@ -1015,6 +1049,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You enter her anus and you two begin to move."
         call interaction_sex_scene_check_skill_acts
+    $ sex_scene_libido -= 1
     jump interaction_scene_choice
     
 label interaction_sex_scene_check_skill_jobs: # skill level check for one side actions
@@ -1120,7 +1155,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
         $ char.vitality -= randint(5, 10)
     else:
         $ char.vitality -= randint(10, 15)
-        "Her moves were clumsy and untimely. By the time she finished the moment had passed, bringing you no satisfaction."
+        "Her moves were clumsy and untimely. By the time she finished the moment had passed, bringing you little satisfaction."
         $ char.joy -= randint(2, 4)
     $ sex_count += 1
     if skill_for_checking >= 50:
@@ -1174,28 +1209,33 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
         else:
             "Her moves were clumsy and untimely, and her anus wasn't quite ready for that. Sadly, she was unable to properly satisfy you."
             $ char.vitality -= randint(10, 15)
-
-    if male_skill_for_checking >= 4000:
-        extend " Your bodies merged into a single entity, filling each other with pleasure and satisfaction."
-        $ char.joy += randint(3, 5)
-    elif male_skill_for_checking >= 2000:
-        extend " In the end you both simultaneously come multiple times."
-        $ char.joy += randint(2, 4)
-    elif male_skill_for_checking >= 1000:
-        extend " In the end you both simultaneously come."
-        $ char.joy += randint(1, 2)
-    elif male_skill_for_checking >= 500:
-        extend " You fucked her until you both come. It was pretty good."
-        $ char.joy += randint(0, 1)
-    elif male_skill_for_checking >= 200:
-        extend " You fucked her until you both come."
-        $ hero.vitality -= randint(5, 10)
-    elif male_skill_for_checking >= 50:
-        extend " You had some difficulties with bringing her to orgasm, but managed to overcome them in the end."
-        $ hero.vitality -= randint(10, 15)
+    if sex_scene_libido > 0:
+        if male_skill_for_checking >= 4000:
+            extend " Your bodies merged into a single entity, filling each other with pleasure and satisfaction."
+            $ char.joy += randint(3, 5)
+        elif male_skill_for_checking >= 2000:
+            extend " In the end you both simultaneously come multiple times."
+            $ char.joy += randint(2, 4)
+        elif male_skill_for_checking >= 1000:
+            extend " In the end you both simultaneously come."
+            $ char.joy += randint(1, 2)
+        elif male_skill_for_checking >= 500:
+            extend " You fucked her until you both come. It was pretty good."
+            $ char.joy += randint(0, 1)
+        elif male_skill_for_checking >= 200:
+            extend " You fucked her until you both come."
+            $ hero.vitality -= randint(5, 10)
+        elif male_skill_for_checking >= 50:
+            extend " You had some difficulties with bringing her to orgasm, but managed to overcome them in the end."
+            $ hero.vitality -= randint(10, 15)
+        else:
+            extend " Unfortunately you didn't have enough skill to properly satisfy her as well. [char.name] looks disappointed."
+            $ hero.vitality -= randint(10, 15)
     else:
-        extend " Unfortunately you didn't have enough skill to properly satisfy her as well. [char.name] looks disappointed."
-        $ hero.vitality -= randint(10, 15)
+        if male_skill_for_checking >= 1000:
+            extend " You did your best to make her come, but it brought more pain than pleasure judging by her expression."
+        else:
+            " She is not in the mood anymore, your efforts to make her come were in vain."
         
     if "after sex" in image_tags:
         $ cum_count += 1
