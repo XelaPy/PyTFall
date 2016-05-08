@@ -4300,14 +4300,15 @@ init -9 python:
             
 
     class Team(_object):
-        def __init__(self, name="", implicit=None, max_size=3):
+        def __init__(self, name="", implicit=None, free=False, max_size=3):
             if not implicit:
                 implicit = list()
             self.name = name
             self.implicit = implicit
             self.max_size = max_size
             self._members = list()
-            self.leader = None
+            self._leader = None
+            self.free = free # Free teams do not have any implicit members.
             
             # BE Assests:
             self.position = None # BE will set it to "r" or "l" short for left/right on the screen.
@@ -4332,12 +4333,22 @@ init -9 python:
         def members(self):
             return self._members
             
+        @property
+        def leader(self):
+            try:
+                return self.members[0]
+            except:
+                return self._leader
+            
         def add(self, member):
+            if member in self:
+                notify("Impossible to join the same team twice")
+            
             if len(self._members) >= self.max_size:
                 notify("This team cannot have more than %d teammembers!"%self.max_size)
             else:
-                if not self.leader:
-                    self.leader = member
+                if not self.free and not self.leader:
+                    self._leader = member
                     if member not in self.implicit:
                         self.implicit.append(member)
                     self._members.append(member)
@@ -4352,12 +4363,12 @@ init -9 python:
                  
         def set_leader(self, member):
             if member not in self._members:
-                notify("%s a member of this team!"%member.name)
+                notify("%s is not a member of this team!"%member.name)
                 return
             if self.leader:
                 self.implicit.remove(self.leader)
-            self.leader = member
-            self.implicit.append(self.leader)
+            self._leader = member
+            self.implicit.insert(0, member)
                 
         def get_level(self):
             """

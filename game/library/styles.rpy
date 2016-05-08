@@ -52,6 +52,32 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         hover_background flashing("#0390fc")
         selected_hover_background flashing("#0390fc")
         
+    # Paging buttons:
+    style paging_green_button_left:
+        clear
+        xysize (29, 43)
+        background Frame(interfacebuttons + "arrow_left.png")
+        hover_background im.MatrixColor(interfacebuttons + "arrow_left.png", im.matrix.brightness(0.10))
+        insensitive_background im.Sepia(interfacebuttons + "arrow_left.png")
+    style paging_green_button_left2x:
+        clear
+        xysize (43, 43)
+        background Frame(interfacebuttons + "arrow_left2x.png")
+        hover_background im.MatrixColor(interfacebuttons + "arrow_left2x.png", im.matrix.brightness(0.10))
+        insensitive_background im.Sepia(interfacebuttons + "arrow_left2x.png")
+    style paging_green_button_right:
+        clear
+        xysize (29, 43)
+        background Frame(interfacebuttons + "arrow_right.png")
+        hover_background im.MatrixColor(interfacebuttons + "arrow_right.png", im.matrix.brightness(0.10))
+        insensitive_background im.Sepia(interfacebuttons + "arrow_right.png")
+    style paging_green_button_right2x:
+        clear
+        xysize (43, 43)
+        background Frame(interfacebuttons + "arrow_right2x.png")
+        hover_background im.MatrixColor(interfacebuttons + "arrow_right2x.png", im.matrix.brightness(0.10))
+        insensitive_background im.Sepia(interfacebuttons + "arrow_right2x.png")
+        
     # Simple button we use to call the dropdowns:
     # This is a really basic, stipped down button.
     style ddlist_button:
