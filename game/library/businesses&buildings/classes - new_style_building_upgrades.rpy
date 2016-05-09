@@ -1061,7 +1061,10 @@ init -5 python:
             self.explorers = list() # List to hold all the (active) exploring teams.
             self.focus_team = None
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...
-            self.teams.append(Team("Avengers"))
+            self.teams.append(Team("Avengers", free=1))
+            if config.debug:
+                for i in range(5):
+                    self.teams.append(Team(str(i), free=1))
             self.capture_chars = False # Do we capture chars during exploration in this building.
             
         def business_control(self):

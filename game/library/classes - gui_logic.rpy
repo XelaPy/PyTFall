@@ -434,28 +434,27 @@ init -1 python:
         For now, this will be used in combination with screen language.
         *Adaptation of Roman's Inv code!
         """
-        def __init__(self, content, columns=2, rows=6, size=(100, 100), xspacing=10, yspacing=10):
+        def __init__(self, content, columns=2, rows=6, size=(100, 100), xspacing=10, yspacing=10, init_pos=(0, 0)):
             # Should be changes to location in the future:    
             self.content = content
             self.page = 0
             self.page_size = columns*rows
 
             self.pos = list()
+            x = init_pos[0]
             for c in xrange(columns):
-                x = c*size[0]
-                if c:
-                    x = x + xspacing
-                y = 0
+                y = init_pos[1]
                 for r in xrange(rows):
                     self.pos.append((x, y))
                     y = y + size[1] + yspacing
+                x = x + size[0] + xspacing
                     
         def __len__(self):
             return len(self.content)
             
         def __iter__(self):
             # We return a list of tuples of [(item, pos), (item, pos), ...] for self.page
-            page = self.get_page_content()
+            page = self.page_content
             pos = self.pos[:len(page)]
             return iter(zip(page, pos))
             
@@ -465,26 +464,33 @@ init -1 python:
             
         def get_pos(self, item):
             # retruns a pos of an item on current page.
-            return self.pos[self.get_page_content().index(item)]
+            return self.pos[self.page_content.index(item)]
             
         def __nonzero__(self):
             return bool(self.content)
                 
         # Next page
-        def next(self):
+        def next_page(self):
             if self.page < self.max_page:
                 self.page += 1
 
+        def last_page(self):
+            self.page = self.max_page
+                
         # Previous page
-        def prev(self):
+        def prev_page(self):
             if self.page > 0:
                 self.page -= 1
+                
+        def first_page(self):
+            self.page = 0
                 
         @property
         def max_page(self):
             return len(self.content) / self.page_size if len(self.content) % self.page_size not in [0, self.page_size] else (len(self.content) - 1) / self.page_size
                 
-        def get_page_content(self):
+        @property
+        def page_content(self):
             start = self.page * self.page_size
             end = (self.page+1) * self.page_size
             return self.content[start:end]
@@ -502,12 +508,16 @@ init -1 python:
                 
     def dragged(drags, drop):
         # Simple func we use to manage drag and drop in team setups and maybe moar in the future.
-        x, y = workers.get_pos(drags[0].drag_name)
+        drag = drags[0]
+        char = drags[0].drag_name
+        x, y = workers.get_pos(char)
         
         if not drop:
             drags[0].snap(x, y, delay=0.2)
             renpy.restart_interaction()
             return
+            
+        team = drop.drag_name
 
         if char.status == "slave":
             drags[0].snap(x, y, delay=0.2)
@@ -515,34 +525,26 @@ init -1 python:
             renpy.restart_interaction()
             return
 
-        for team in fg.teams:
-            if drop.drag_name == team.name:
-                team = team
-                break
-        else:
-            raise Exception, ["Team unknown during drag/drop!", drop.drag_name, team.name]
-            
-        for t in fg.teams:
-            if t and t[0] == char:
-                drags[0].snap(x, y, delay=0.2)
-                renpy.show_screen("message_screen", "%s is already a leader of %s!" % (char.nickname, t.name))
-                renpy.restart_interaction()
-                return
-            
-            if not team:
-                for girl in t:
-                    if girl == char:
-                        drags[0].snap(x, y, delay=0.2)
-                        renpy.show_screen("message_screen", "%s cannot lead %s as she's already on %s!" % (char.nickname, team.name, t.name))
-                        renpy.restart_interaction()
-                        return
+        # for t in fg.teams:
+            # if t and t[0] == char:
+                # drags[0].snap(x, y, delay=0.2)
+                # renpy.show_screen("message_screen", "%s is already a leader of %s!" % (char.nickname, t.name))
+                # renpy.restart_interaction()
+                # return
+            # if not team:
+                # for girl in t:
+                    # if girl == char:
+                        # drags[0].snap(x, y, delay=0.2)
+                        # renpy.show_screen("message_screen", "%s cannot lead %s as she's already on %s!" % (char.nickname, team.name, t.name))
+                        # renpy.restart_interaction()
+                        # return
                         
-        for girl in team:
-            if girl == char:
-                drags[0].snap(x, y, delay=0.2)
-                renpy.show_screen("message_screen", "%s is already on %s!" % (char.nickname, team.name))
-                renpy.restart_interaction()
-                return
+        # for girl in team:
+            # if girl == char:
+                # drags[0].snap(x, y, delay=0.2)
+                # renpy.show_screen("message_screen", "%s is already on %s!" % (char.nickname, team.name))
+                # renpy.restart_interaction()
+                # return
                 
         if len(team) == 3:
             drags[0].snap(x, y, delay=0.2)
@@ -550,7 +552,7 @@ init -1 python:
             return
         else:
             team.add(char)
-            fg_drags.remove(char)
+            workers.remove(char)
             drags[0].snap(x, y)
 
         return True

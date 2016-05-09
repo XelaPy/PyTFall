@@ -11,6 +11,13 @@ label building_management:
                 index = 0
             
             building = hero.upgradable_buildings[index]
+            char = None
+            workers = CoordsForPaging(building.get_workers(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
+            try:
+                temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0]
+                guild_teams = CoordsForPaging(temp.teams, columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
+            except:
+                pass
     
     scene bg scroll
     
@@ -153,19 +160,13 @@ init: # Screens:
         
         if hero.upgradable_buildings:
             # Middle Frame:
-            frame:
-                background Frame("content/gfx/frame/p_frame6.png", 10, 10)
-                style_prefix "content"
-                xysize (630, 685)
-                xalign .5
-                ypos 40
-                has vbox xsize 630
+                # has vbox xsize 630
                 
-                # Main Building mode:
-                if mid_frame_mode == "building":
-                    use building_management_midframe_building_mode
-                else: # Upgrade mode:
-                    use building_management_midframe_upgrades_mode
+            # Main Building mode:
+            if mid_frame_mode == "building":
+                use building_management_midframe_building_mode
+            else: # Upgrade mode:
+                use building_management_midframe_upgrades_mode
             
             ## Stats/Upgrades - Left Frame
             frame:
@@ -589,257 +590,336 @@ init: # Screens:
                     # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
         
     screen building_management_midframe_building_mode:
-        
-        null height 5
         frame:
-            xalign 0.5
-            xysize (380, 50)
-            background Frame("content/gfx/frame/namebox5.png", 10, 10)
-            label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
-        null height 5
-        
-        frame:
-            xalign 0.5
-            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-            add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
-        
-        # Left/Right Controls.
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-            has hbox xysize (600, 74)
-            button:
-                align .1, .5
-                xysize (140, 40)
-                style "left_wood_button"
-                action Return(['control', 'left'])
-                hovered tt.action("<== Previous")
-                text "Previous" style "wood_text" xalign 0.69
+            background Frame("content/gfx/frame/p_frame6.png", 10, 10)
+            style_prefix "content"
+            xysize (630, 685)
+            xalign .5
+            ypos 40
+            has vbox xsize 630
+            null height 5
+            frame:
+                xalign 0.5
+                xysize (380, 50)
+                background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
+            null height 5
             
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                xysize (200, 50)
-                align (0.5, 0.5)
+                xalign 0.5
+                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
             
-            button:
-                align .9, .5
-                xysize (140, 40)
-                style "right_wood_button"
-                action Return(['control', 'right'])
-                hovered tt.action("Next ==>")
-                text "Next" style "wood_text" xalign 0.39
-                
-        if isinstance(building, NewStyleUpgradableBuilding):
+            # Left/Right Controls.
             frame:
-                align .5, .95
-                style_group "wood"
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
-                xpadding 20
-                ypadding 10                                
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                has hbox xysize (600, 74)
                 button:
-                    align .5, .5
-                    xysize (135, 40)
-                    action SetScreenVariable("mid_frame_mode", building)
-                    hovered tt.action('Open a new business in this building!.')
-                    text "Expand"
-                    
-        ## Security Bar:
-        if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
-            frame:
-                xalign 0.490
-                ypos 561
-                background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
-                xysize (240, 55)
-                xpadding 10
-                ypadding 10
-                hbox:
-                    pos (34, 1)
-                    vbox:
-                        xsize 135
-                        text "Security Presence:" size 12
-                    vbox:
-                        text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
-                null height 3
-                bar:
-                    align (0.45, 0.8)
-                    value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
-                    xsize 170
-                    thumb 'content/gfx/interface/icons/move15.png'
-        
-    screen building_management_midframe_upgrades_mode:
-        if isinstance(mid_frame_mode, ExplorationGuild):
-            if exploration_view_mode == "explore":
-                frame: # Image
-                    xalign 0.5
-                    background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                    add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
+                    align .1, .5
+                    xysize (140, 40)
+                    style "left_wood_button"
+                    action Return(['control', 'left'])
+                    hovered tt.action("<== Previous")
+                    text "Previous" style "wood_text" xalign 0.69
                 
-                hbox:
-                    box_wrap 1
-                    spacing 2
-                    xalign .5
-                    if isinstance(mid_frame_focus, FG_Area):
-                        $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
-                        for area in temp:
-                            $ fbg = "content/gfx/frame/mes12.jpg"
-                            $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
-                            button:
-                                background Transform(Frame(fbg, 10, 10), alpha=0.9)
-                                hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
-                                xysize (150, 90)
-                                ymargin 1
-                                ypadding 1
-                                if area.unlocked:
-                                    $ temp = area.name
-                                    action Show("fg_area", dissolve, area)
-                                else:
-                                    $ temp = "?????????"
-                                    action NullAction()
-                                text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
-                                hbox:
-                                    align (0.5, 0.9)
-                                    # Get the correct stars:
-                                    python:
-                                        temp = []
-                                        for i in range(area.explored//20):
-                                            temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                                        if len(temp) != 5:
-                                            if area.explored%20 >= 10:
-                                                temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                                        while len(temp) != 5:
-                                            temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                                    for i in temp:
-                                        add i
-                                        
-            if exploration_view_mode == "team":
-                # We'll prolly have to do two layers, one for backgrounds and other for drags...
-                for t in mid_frame_mode.teams:
-                    vbox:
-                        style_prefix "proper_stats"
-                        xalign .5
-                        spacing 20
-                        fixed:
-                            xysize (374, 100)
-                            hbox:
-                                yalign .5
-                                xpos 145
-                                spacing 24
-                                for i in hero.team:
-                                    add i.show("portrait", resize=(50, 50), cache=1)
-                            frame:
-                                xysize (374, 100)
-                                background gfxframes + "team_frame_2.png"
-                                text t.name align .1, .5
-                                
-                        fixed:
-                            xysize (172, 65)
-                            hbox:
-                                yalign .3
-                                xpos 10
-                                spacing 20
-                                for i in hero.team:
-                                    add i.show("portrait", resize=(38, 38), cache=1)
-                            add gfxframes + "small_port_empty.png"
-                            
-                       
-                            
-                null height 350
-                            
-                hbox:
-                    yanchor 1.0
-                    box_wrap 1
-                    align .5, 1.0
-                    spacing 1
-                    xsize 620
-                    for w in building.get_workers():
-                        $ img = w.show("portrait", resize=(30, 30), cache=1)
-                        button:
-                            xysize (30, 30)
-                            background img
-                            hovered tt.action(w.fullname)
-                            action NullAction()
-
-                                    
-        else: # TODO: This needs an extra variable and better conditioning...
-            for u in mid_frame_mode.allowed_upgrades:
-                if building._has_upgrade(u):
-                    frame:
-                        xalign .5
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                        has fixed xysize 500, 150
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                    xysize (200, 50)
+                    align (0.5, 0.5)
+                
+                button:
+                    align .9, .5
+                    xysize (140, 40)
+                    style "right_wood_button"
+                    action Return(['control', 'right'])
+                    hovered tt.action("Next ==>")
+                    text "Next" style "wood_text" xalign 0.39
+                    
+            if isinstance(building, NewStyleUpgradableBuilding):
+                frame:
+                    align .5, .95
+                    style_group "wood"
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                    xpadding 20
+                    ypadding 10                                
+                    button:
+                        align .5, .5
+                        xysize (135, 40)
+                        action SetScreenVariable("mid_frame_mode", building)
+                        hovered tt.action('Open a new business in this building!.')
+                        text "Expand"
                         
-                        frame:
-                            align .3, .5
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                            xpadding 15
-                            text "Active" align .5, .5 style "stats_text" size 35
-                        
+            ## Security Bar:
+            if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
+                frame:
+                    xalign 0.490
+                    ypos 561
+                    background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
+                    xysize (240, 55)
+                    xpadding 10
+                    ypadding 10
+                    hbox:
+                        pos (34, 1)
                         vbox:
-                            align 1.0, 0
-                            xsize 150
+                            xsize 135
+                            text "Security Presence:" size 12
+                        vbox:
+                            text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
+                    null height 3
+                    bar:
+                        align (0.45, 0.8)
+                        value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
+                        xsize 170
+                        thumb 'content/gfx/interface/icons/move15.png'
+            
+    screen building_management_midframe_upgrades_mode:
+        frame:
+            background Frame("content/gfx/frame/p_frame6.png", 10, 10)
+            style_prefix "content"
+            xysize (630, 685)
+            xalign .5
+            ypos 40       
+            if isinstance(mid_frame_mode, ExplorationGuild):
+                if exploration_view_mode == "explore":
+                    has vbox xsize 630
+                    frame: # Image
+                        xalign 0.5
+                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                        add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
+                    
+                    hbox:
+                        box_wrap 1
+                        spacing 2
+                        xalign .5
+                        if isinstance(mid_frame_focus, FG_Area):
+                            $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
+                            for area in temp:
+                                $ fbg = "content/gfx/frame/mes12.jpg"
+                                $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
+                                button:
+                                    background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                                    hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
+                                    xysize (150, 90)
+                                    ymargin 1
+                                    ypadding 1
+                                    if area.unlocked:
+                                        $ temp = area.name
+                                        action Show("fg_area", dissolve, area)
+                                    else:
+                                        $ temp = "?????????"
+                                        action NullAction()
+                                    text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                                    hbox:
+                                        align (0.5, 0.9)
+                                        # Get the correct stars:
+                                        python:
+                                            temp = []
+                                            for i in range(area.explored//20):
+                                                temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                            if len(temp) != 5:
+                                                if area.explored%20 >= 10:
+                                                    temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                            while len(temp) != 5:
+                                                temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                        for i in temp:
+                                            add i
+                                            
+                if exploration_view_mode == "team":
+                    frame:
+                        background Frame(gfxframes + "p_frame52.png", 10, 10)
+                        xysize 622, 330
+                        yoffset -1
+                        xalign .5
+                        hbox:
+                            xalign .5
+                            box_wrap 1
+                            for i in xrange(18):
+                                frame:
+                                    xysize 90, 90
+                                    xmargin 2
+                                    ymargin 2
+                                    background Frame(gfxframes + "p_frame53.png", 5, 5)
+                        # Page control buttons:
+                        hbox:
+                            style_prefix "paging_green"
+                            align .5, .99
+                            hbox:
+                                spacing 1
+                                button:
+                                    style_suffix "button_left2x"
+                                    hovered tt.action("<== First Page")
+                                    action Function(workers.first_page), SensitiveIf(workers.page != 0)
+                                button:
+                                    style_suffix "button_left"
+                                    hovered tt.action("<== Previous Page")
+                                    action Function(workers.prev_page), SensitiveIf(workers.page - 1 >= 0)
+                            null width 60
+                            hbox:
+                                spacing 1
+                                button:
+                                    style_suffix "button_right"
+                                    hovered tt.action("Next Page ==>")
+                                    action Function(workers.next_page), SensitiveIf(workers.page + 1 <= workers.max_page)
+                                button:
+                                    style_suffix "button_right2x"
+                                    hovered tt.action("Last Page ==>")
+                                    action Function(workers.last_page), SensitiveIf(workers.page != workers.max_page)
+                    
+                    hbox:
+                        style_prefix "paging_green"
+                        align .5, .55
+                        hbox:
+                            spacing 1
+                            button:
+                                style_suffix "button_left2x"
+                                hovered tt.action("<== First Page")
+                                action guild_teams.first_page, SensitiveIf(guild_teams.page != 0)
+                            button:
+                                style_suffix "button_left"
+                                hovered tt.action("<== Previous Page")
+                                action guild_teams.prev_page, SensitiveIf(guild_teams.page - 1 >= 0)
+                        null width 40
+                        hbox:
+                            spacing 1
+                            button:
+                                style_suffix "button_right"
+                                hovered tt.action("Next Page ==>")
+                                action guild_teams.next_page, SensitiveIf(guild_teams.page + 1 < guild_teams.max_page)
+                            button:
+                                style_suffix "button_right2x"
+                                hovered tt.action("Last Page ==>")
+                                action guild_teams.last_page, SensitiveIf(guild_teams.page != guild_teams.max_page)
+
+                    
+                    # We'll prolly have to do two layers, one for backgrounds and other for drags...
+                    draggroup:
+                        id "team_builder"
+                        for t, pos in guild_teams:
+                            drag:
+                                drag_name t
+                                xysize (310, 83)
+                                draggable 0
+                                droppable 1
+                                pos pos
+                                add gfxframes + "team_frame_1.png"
+                                hbox:
+                                    yalign .5
+                                    xpos 117
+                                    spacing 15
+                                    for i in t:
+                                        $ img = i.show("portrait", resize=(46, 46), cache=1)
+                                        button:
+                                            xysize (46, 46)
+                                            background img
+                                            hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
+                                            action Show("fg_char_dropdown", dissolve, i, team=t, remove=1), With(dissolve)
+                                            hovered tt.action(i.fullname)
+                                frame:
+                                    xysize (310, 83)
+                                    background gfxframes + "team_frame_2.png"
+                                    text t.name xpos 50 xanchor .5 yalign .5
+                                    
+                        for w, pos in workers:
+                            drag:
+                                dragged dragged
+                                droppable 0
+                                hovered tt.action(w.fullname)
+                                drag_name w
+                                pos pos
+                                add w.show("portrait", resize=(70, 70), cache=1)
+                                    
+                                # fixed:
+                                    # xysize (172, 65)
+                                    # hbox:
+                                        # yalign .3
+                                        # xpos 10
+                                        # spacing 20
+                                        # for i in hero.team:
+                                            # add i.show("portrait", resize=(38, 38), cache=1)
+                                    # add gfxframes + "small_port_empty.png"
+                                 
+            else: # TODO: This needs an extra variable and better conditioning...
+                has vbox xsize 630
+                for u in mid_frame_mode.allowed_upgrades:
+                    if building._has_upgrade(u):
+                        frame:
+                            xalign .5
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                            has fixed xysize 500, 150
+                            
                             frame:
-                                xalign .5
+                                align .3, .5
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                xpadding 15
+                                text "Active" align .5, .5 style "stats_text" size 35
+                            
+                            vbox:
+                                align 1.0, 0
+                                xsize 150
+                                frame:
+                                    xalign .5
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    xpadding 10
+                                    text "[u.ID]" align .5, .5 style "stats_text" size 15
+                                frame:
+                                    xalign .5
+                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                    if hasattr(u, "IMG"):
+                                        add im.Scale(u.IMG, 120, 75) align .5, .5
+                                    else:
+                                        add Solid(black, xysize=(120, 75)) align .5, .5
+                            
+                    else:
+                        frame:
+                            xalign .5
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                            has fixed xysize 500, 150
+                            
+                            frame:
+                                align .3, 0
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                 xpadding 10
-                                text "[u.ID]" align .5, .5 style "stats_text" size 15
-                            frame:
-                                xalign .5
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                if hasattr(u, "IMG"):
-                                    add im.Scale(u.IMG, 120, 75) align .5, .5
-                                else:
-                                    add Solid(black, xysize=(120, 75)) align .5, .5
-                        
-                else:
-                    frame:
-                        xalign .5
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                        has fixed xysize 500, 150
-                        
-                        frame:
-                            align .3, 0
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                            xpadding 10
-                            text "Resources Needed:" align .5, .5 style "stats_text" size 15
-                                
-                        hbox:
-                            pos 15, 35
-                            box_wrap True
-                            xsize 330
-                            spacing 10
-                            frame:
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                has hbox xysize 135, 40
-                                text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
-                            # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
-                            for r in sorted(u.MATERIALS):
-                                $ r = items[r]
+                                text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                    
+                            hbox:
+                                pos 15, 35
+                                box_wrap True
+                                xsize 330
+                                spacing 10
                                 frame:
                                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                     has hbox xysize 135, 40
-                                    text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                    text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
+                                # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
+                                for r in sorted(u.MATERIALS):
+                                    $ r = items[r]
                                     frame:
-                                        align .99, .5
-                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                        add im.Scale(r.icon, 33, 33) align .5, .5
-                            
-                        vbox:
-                            align 1.0, 0
-                            xsize 150
-                            frame:
-                                xalign .5
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                xpadding 10
-                                text "[u.ID]" align .5, .5 style "stats_text" size 15
-                            frame:
-                                xalign .5
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                if hasattr(u, "IMG"):
-                                    add im.Scale(u.IMG, 120, 75) align .5, .5
-                                else:
-                                    add Solid(black, xysize=(120, 75)) align .5, .5
-                            textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
-            
-            textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                        has hbox xysize 135, 40
+                                        text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                        frame:
+                                            align .99, .5
+                                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                            add im.Scale(r.icon, 33, 33) align .5, .5
+                                
+                            vbox:
+                                align 1.0, 0
+                                xsize 150
+                                frame:
+                                    xalign .5
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    xpadding 10
+                                    text "[u.ID]" align .5, .5 style "stats_text" size 15
+                                frame:
+                                    xalign .5
+                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                    if hasattr(u, "IMG"):
+                                        add im.Scale(u.IMG, 120, 75) align .5, .5
+                                    else:
+                                        add Solid(black, xysize=(120, 75)) align .5, .5
+                                textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
+                
+                textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
         
  
     screen building_maintenance():
@@ -1488,3 +1568,60 @@ init: # Screens:
                         # minimum(50, 30)
                         # align (0.5, 0.98)
                         # text  "Launch!!! Days 1" # Gismo: AutoCalculate. 1 day per stage (1-5), 2 days per stage (6-10).
+                        
+    screen fg_char_dropdown(char, team=None, remove=False):
+        # Trying to create a drop down screen with choices of actions:
+        zorder 3
+        modal True
+        
+        default pos = renpy.get_mouse_pos()
+        
+        key "mousedown_4" action NullAction()
+        key "mousedown_5" action NullAction()
+        
+        # Get mouse coords:
+        python:
+            x, y = pos
+            xval = 1.0 if x > config.screen_width/2 else .0
+            yval = 1.0 if y > config.screen_height/2 else .0
+            
+        frame:
+            style_prefix "dropdown_gm"
+            pos (x, y)
+            anchor (xval, yval)
+            has vbox
+            
+            textbutton "Profile":
+                action [SetVariable("char_profile", last_label), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_profile")]
+            textbutton "Equipment":
+                action [SetVariable("char_equip", last_label), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
+            if remove: # and team[0] != girl:
+                textbutton "Remove from the Team":
+                    action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown")]
+            
+            # null height 10
+            # text "Jobs:" style "della_respira" color ivory bold True
+            # for entry in FighterGuild.ACTIONS:
+                # if entry == 'Training':
+                    # if girl.status != "slave":
+                        # textbutton "[entry]":
+                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
+                # elif entry == 'ServiceGirl':
+                    # if (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "ServiceGirl"):
+                        # textbutton "[entry]":
+                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
+                # elif entry == 'BarGirl':
+                    # if fg.upgrades["bar"][0] and (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "BarGirl"):
+                        # textbutton "[entry]":
+                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, "ServiceGirl"), Hide("pyt_fg_girl_menu")]
+                # elif entry == 'Rest':
+                    # textbutton "[entry]":
+                        # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
+                # else:
+                    # textbutton "[entry]":
+                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
+            
+            null height 10
+                
+            textbutton "Close":
+                action Hide("fg_char_dropdown")
