@@ -52,7 +52,7 @@ label interactions_hug:
         elif ct("Kuudere"):
             $ rc("I-I'm not a body pillow...", "...Jeez, how long are you going to do this? ...It's embarrassing.", "W-what are you doing so suddenly?!", "W-what are you nervous for? I'm the one who's embarrassed here...", "Oh...? This is nice, isn't it...? Being just like this.")
         elif ct("Dandere"):
-            $ rc("...My face is burning.", "It feels better this way.", "Ah... Hold me tighter.", "Hmhmm... I expected perverted things... Pity.")
+            $ rc("...My face is burning.", "It feels better this way.", "Ah... Hold me tighter.", "Hmhmm... I expected perverted things... Pity.", "...Nice to see you too, [hero.name].")
         elif ct("Tsundere"):
             $ rc("H-Huh? Why is my pulse getting so...", "Hey you, who said you could get this close without permission?", "D-don't do anything weird, okay...?", "I-I'm not n-nervous or anything...", "It's... it's okay to do it like this, right?", "How long do you plan to... It's embarrassing!", "I-it's not like getting a hug is surprising, right?")
         elif ct("Imouto"):
@@ -73,7 +73,7 @@ label interactions_hug:
         $ char.override_portrait("portrait", "indifferent")
         $ char.show_portrait_overlay("sweat", "reset")
         if ct("Impersonal"):
-            $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>")
+            $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>", "<she grabs your shoulders and shoves you back>")
         elif ct("Shy") and dice(50):
             $ char.override_portrait("portrait", "shy")
             $ rc("Ah... ah! W... what are you doing!?", "Please, leave me alone...", "W-w-w-what are you doing so suddenly?!")
@@ -106,8 +106,10 @@ label interactions_hug:
     $ char.hide_portrait_overlay()
     jump girl_interactions
     
+label interactions_cheek_touch:
+    
    
-label interactions_slapbutt:
+label interactions_grabbutt:
     $ narrator(choice(["You reach out and brush your hands across her ass.", "You put your hand against her firm rear and grind against it.", "You reach into her gap and she gasps as you slide your hand across and stroke her puckered hole.", "She gasps as you reach under her and lightly stroke her ass.", "You slide a hand up her inner thigh, she moans a little as it slides between her cheeks."]))
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_slapbutt")
@@ -152,7 +154,7 @@ label interactions_slapbutt:
         $ char.override_portrait("portrait", "happy")
         $ char.show_portrait_overlay("zoom_fast", "reset")
         if ct("Yandere"):
-            $ rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "How lewd...", "Such a perverted hand...")
+            $ rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "Such a perverted hand...", "You'd better have a follow-up to that, [hero.name] ♪")
         elif ct("Impersonal"):
             $ rc("...That's it? You're not going any further?", "Aah... my hips... it feels... kind of strange.", "Hnn, fuaah... if you touch there, I won't be able to hold myself back...")
         elif ct("Shy") and dice(50):
@@ -173,9 +175,9 @@ label interactions_slapbutt:
         elif ct("Imouto"):
             $ rc("Hyaa! T-that tickles...!", "So lewd...Uhuhuhuhu.. ♪", "Wha?! Why you are touching me there?", "Uh, I'm spoiled, huh? Ehehe... I... like it... Ahh...")
         elif ct("Ane"):
-            $ rc("So pushy...  Are you proposing or something?", "Hmhm, don't feel like you have to hold back, hey?", "Hmhm, are you getting turned on?", "Your appetite for lust is proof of your health.")
+            $ rc("*giggle* How troublesome ♪", "So pushy...  Are you proposing or something?", "Hmhm, don't feel like you have to hold back, hey?", "Hmhm, are you getting turned on?", "Your appetite for lust is proof of your health.")
         else:
-            $ rc("Hya! If you keep doing that, I'll get in the mood...", "Teasing people isn't good, you know ♪", "*giggle* How troublesome ♪", "Kya...  Doing this all of sudden, that surprised me.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn") 
+            $ rc("Hya! If you keep doing that, I'll get in the mood...", "Teasing people isn't good, you know ♪", "Kya...  Doing this all of sudden, that surprised me.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn", "Ooh! Are you hinting at something there, [hero.name]? ♥") 
             $ char.restore_portrait()
             $ char.hide_portrait_overlay()
             jump girl_interactions
@@ -200,7 +202,7 @@ label interactions_slapbutt:
         elif ct("Kuudere"):
             $ rc("What?! What is the meaning of this? Hey!", "...Hey! Why are you touching me?!", "Show some restraint with your indecent actions.", "...Tch. What a perv.", "Hmph. You should be grateful I'm so lenient today.")
         elif ct("Ane"):
-            $ rc("You're too lustful. Consider a bit more self-restraint, okay?", "Come now, don't touch anywhere inappropriate.", "I'm gonna scold you if you continue.")
+            $ rc("You're too lustful. Consider a bit more self-restraint, okay?", "Come now, don't touch anywhere inappropriate.", "I'm gonna scold you if you continue.", "That really wasn't appropriate. Keep your distance.")
         elif ct("Kamidere"):
             $ rc("D-don't be touching anywhere weird!", "What are you doing, geez!", "Don't touch me in weird places!", "Hyauu! Hey! Nn, sexual harassment is not allowed!", "Hnyaah! Geez, don't grab me in weird places!", "S-stop that! Despicable!", "Hya! Stop acting like a pervert!", "Geez, stop that!")
         elif ct("Bokukko"):

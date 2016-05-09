@@ -189,7 +189,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             m = 8
             pytfall.world_actions.menu(m, "Intimacy")
             pytfall.world_actions.gm_choice("Hug", index=(m, 0))
-            pytfall.world_actions.gm_choice("Slap Butt", index=(m, 1))
+            pytfall.world_actions.gm_choice("Grab Butt", index=(m, 1))
             pytfall.world_actions.gm_choice("Grab Breasts", index=(m, 2))
             pytfall.world_actions.gm_choice("Kiss", index=(m, 3))
             pytfall.world_actions.gm_choice("Sex", index=(m, 4))

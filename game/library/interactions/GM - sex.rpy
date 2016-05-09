@@ -668,8 +668,6 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if sex_scene_libido <= 0:
         $ char.vitality -= randint(5, 25)
         $ char.joy -= randint(3, 6)
-    if char.joy <= 10:
-        $ char.disposition -= randint(5, 10)
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
     $ sex_count += 1
@@ -680,7 +678,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         elif sub < 0:
             "She diligently pleasures herself for awhile until you tell her to stop." 
         else:
-            "She pleasures herself for awhile, shyly avoiding your glance." 
+            "She pleasures herself for awhile, hesitantly avoiding your glance." 
         if dice(40):
             extend " She is more aroused now."
             $ sex_scene_libido += 2

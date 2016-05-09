@@ -55,13 +55,13 @@ label interactions_kiss:
         $ char.show_portrait_overlay("love", "reset")
         
         if check_lovers(char, hero):
-            char.say "She's all over you, kissing all over your face and grinding against you."
+            char.say "Your hands slide down her body as your lips press hers."
         elif char.disposition < (300+n*100):
-            char.say "You and [char.name] make out for a while."
+            char.say "Your lips gently slide across hers."
         elif char.disposition < (500+n*100):
             char.say "You two kiss deeply and passionately."
         else:
-            char.say "You two kiss deeply and passionately. She's really getting into it, there's some heavy tongue action."
+            char.say "You two kiss deeply and passionately. Her tongue dances around yours."
 
         if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < (500+n*100):
             "She looks a bit uncomfortable."
