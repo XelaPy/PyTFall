@@ -1,5 +1,14 @@
 label building_management:
     python:
+        # Reset screen settings, we do this only if we left this screen directly (No jump to char profile/equip)
+        if reset_building_management:
+            reset_building_management = False
+            bm_mid_frame_mode = "building"
+            bm_mid_frame_focus = None
+            bm_exploration_view_mode = "explore"
+            
+    
+    python:
         # Some Global Vars we use to pass data between screens:
         if hero.upgradable_buildings:
             try:
@@ -146,25 +155,25 @@ label building_management_loop:
                     
 label building_management_end:
     hide screen building_management
+    
+    # Reset the vars on next reentry:
+    $ reset_building_management = False
     jump mainscreen
 
 init: # Screens:
     screen building_management():
         
-        key "mousedown_4" action SetScreenVariable("mid_frame_mode", "building"), Return(["control", "right"])
+        key "mousedown_4" action SetScreenVariable("bm_mid_frame_mode", "building"), Return(["control", "right"])
         key "mousedown_5" action Return(["control", "left"])
         
         default tt = Tooltip("Manage your Buildings here.")
-        default mid_frame_mode = "building"
-        default mid_frame_focus = None
-        default exploration_view_mode = "explore"
         
         if hero.upgradable_buildings:
             # Middle Frame:
                 # has vbox xsize 630
                 
             # Main Building mode:
-            if mid_frame_mode == "building":
+            if bm_mid_frame_mode == "building":
                 use building_management_midframe_building_mode
             else: # Upgrade mode:
                 use building_management_midframe_upgrades_mode
@@ -177,7 +186,7 @@ init: # Screens:
                 ypos 40
                 style_group "content"
                 has vbox
-                if mid_frame_mode == "building":
+                if bm_mid_frame_mode == "building":
                     use building_management_leftframe_building_mode
                 else: # Upgrade mode:
                     use building_management_leftframe_upgrades_mode
@@ -189,14 +198,14 @@ init: # Screens:
                 xalign 1.0
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                 has vbox spacing 1
-                if mid_frame_mode == "building":
+                if bm_mid_frame_mode == "building":
                     use building_management_rightframe_building_mode
                 else: # Upgrade mode:
                     use building_management_rightframe_upgrades_mode
                                 
         use top_stripe(True)
-        if not mid_frame_mode == "building":
-            key "mousedown_3" action SetScreenVariable("mid_frame_mode", "building")
+        if not bm_mid_frame_mode == "building":
+            key "mousedown_3" action SetVariable("bm_mid_frame_mode", "building")
         
     screen building_management_rightframe_building_mode:
         # Buttons group:
@@ -334,7 +343,7 @@ init: # Screens:
                 pos 25, 20
                 xysize (260, 40)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [mid_frame_mode.name] __") text_size 18 text_color ivory align (0.5, 0.6)
+                label (u"__ [bm_mid_frame_mode.name] __") text_size 18 text_color ivory align (0.5, 0.6)
             null height 5
             
             frame:
@@ -349,33 +358,33 @@ init: # Screens:
                     button:
                         xysize (150, 40)
                         yalign 0.5
-                        action SetScreenVariable("mid_frame_mode", "building")
+                        action SetVariable("bm_mid_frame_mode", "building")
                         hovered tt.action("Here you can invest your gold and resources for various improvements.\nAnd see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
-                    if False and isinstance(mid_frame_mode, ExplorationGuild):
+                    if False and isinstance(bm_mid_frame_mode, ExplorationGuild):
                         button:
                             xysize (150, 40)
                             yalign 0.5
                             action NullAction()
                             hovered tt.action("All the meetings and conversations are held in this Hall. On the noticeboard, you can take job that available for your rank. Sometimes guild members or the master himself and his Council, can offer you a rare job.")
                             text "Main Hall" size 15
-                    if isinstance(mid_frame_mode, ExplorationGuild):
+                    if isinstance(bm_mid_frame_mode, ExplorationGuild):
                         button:
                             xysize (150, 40)
                             yalign 0.5
-                            action SetScreenVariable("exploration_view_mode", "team")
+                            action SetVariable("bm_exploration_view_mode", "team")
                             hovered tt.action("You can customize your team here or hire Guild members.")
                             text "Team" size 15
                         button:
                             xysize (150, 40)
                             yalign 0.5
-                            action SetScreenVariable("exploration_view_mode", "explore")
+                            action SetVariable("bm_exploration_view_mode", "explore")
                             hovered tt.action("On this screen you can organize the expedition. Also, there is a possibility to see all available information on the various places, enemies and items drop.")
                             text "Exploration" size 15
                         button:
                             xysize (150, 40)
                             yalign 0.5
-                            action SetScreenVariable("exploration_view_mode", "log")
+                            action SetVariable("bm_exploration_view_mode", "log")
                             hovered tt.action("For each of your teams, recorded one last adventure, which you can see here in detail.")
                             text "Log" size 15
             
@@ -505,7 +514,7 @@ init: # Screens:
                                 xysize 150, 60
                                 text "[u.name]" xalign .5 style "stats_text" size 20
                                 null height 2
-                                textbutton "{size=15}Upgrade" xalign .5 action SetScreenVariable("mid_frame_mode", u)
+                                textbutton "{size=15}Upgrade" xalign .5 action SetVariable("bm_mid_frame_mode", u)
                                             
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -538,15 +547,15 @@ init: # Screens:
                 xysize (290, 27)
                 xalign 0.5
                 text "In Slots:" xalign 0.02 color ivory
-                text "[mid_frame_mode.in_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                text "[bm_mid_frame_mode.in_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
             frame:
                 xysize (290, 27)
                 xalign 0.5
                 text "Ext Slots:" xalign 0.02 color ivory
-                text "[mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
                 
-        if isinstance(mid_frame_mode, ExplorationGuild): # Only for FG.
-            if exploration_view_mode == "explore":
+        if isinstance(bm_mid_frame_mode, ExplorationGuild): # Only for FG.
+            if bm_exploration_view_mode == "explore":
                 frame: 
                     style_group "content"
                     xalign 0.5
@@ -560,7 +569,7 @@ init: # Screens:
                     xalign .5
                     has vbox spacing 4
                     $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
-                    if temp and not mid_frame_focus:
+                    if temp and not bm_mid_frame_focus:
                         $ mid_frame_focus = temp[0]
                         
                     for area in temp:
@@ -577,7 +586,7 @@ init: # Screens:
                                 xysize 200, 130
                                 background Frame(img)
                                 hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
-                                action SetScreenVariable("mid_frame_focus", area)
+                                action SetVariable("bm_mid_frame_focus", area)
                                 frame:
                                     align .5, .0
                                     xysize 180, 30
@@ -646,7 +655,7 @@ init: # Screens:
                     button:
                         align .5, .5
                         xysize (135, 40)
-                        action SetScreenVariable("mid_frame_mode", building)
+                        action SetVariable("bm_mid_frame_mode", building)
                         hovered tt.action('Open a new business in this building!.')
                         text "Expand"
                         
@@ -680,8 +689,8 @@ init: # Screens:
             xysize (630, 685)
             xalign .5
             ypos 40       
-            if isinstance(mid_frame_mode, ExplorationGuild):
-                if exploration_view_mode == "explore":
+            if isinstance(bm_mid_frame_mode, ExplorationGuild):
+                if bm_exploration_view_mode == "explore":
                     has vbox xsize 630
                     frame: # Image
                         xalign 0.5
@@ -692,8 +701,8 @@ init: # Screens:
                         box_wrap 1
                         spacing 2
                         xalign .5
-                        if isinstance(mid_frame_focus, FG_Area):
-                            $ temp = sorted([a for a in fg_areas.values() if a.area == mid_frame_focus.name])
+                        if isinstance(bm_mid_frame_focus, FG_Area):
+                            $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name])
                             for area in temp:
                                 $ fbg = "content/gfx/frame/mes12.jpg"
                                 $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
@@ -725,7 +734,7 @@ init: # Screens:
                                         for i in temp:
                                             add i
                                             
-                if exploration_view_mode == "team":
+                if bm_exploration_view_mode == "team":
                     # Backgrounds:
                     frame:
                         background Frame(gfxframes + "p_frame52.png", 10, 10)
@@ -843,7 +852,7 @@ init: # Screens:
                                  
             else: # TODO: This needs an extra variable and better conditioning...
                 has vbox xsize 630
-                for u in mid_frame_mode.allowed_upgrades:
+                for u in bm_mid_frame_mode.allowed_upgrades:
                     if building._has_upgrade(u):
                         frame:
                             xalign .5
@@ -920,9 +929,9 @@ init: # Screens:
                                         add im.Scale(u.IMG, 120, 75) align .5, .5
                                     else:
                                         add Solid(black, xysize=(120, 75)) align .5, .5
-                                textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
+                                textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
                 
-                textbutton "Back" align .5, .95 action SetScreenVariable("mid_frame_mode", "building")
+                textbutton "Back" align .5, .95 action SetVariable("bm_mid_frame_mode", "building")
         
  
     screen building_maintenance():
