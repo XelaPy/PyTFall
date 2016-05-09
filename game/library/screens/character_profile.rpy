@@ -153,7 +153,6 @@ screen char_profile():
     $ not_escaped = char not in pytfall.ra
     
     if girls:
-        
         # Picture and left/right buttons ====================================>
         if True:
             add "content/gfx/frame/p_frame6.png" xalign 0.487 yalign 0.185 size (613, 595)

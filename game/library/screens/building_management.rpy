@@ -12,7 +12,8 @@ label building_management:
             
             building = hero.upgradable_buildings[index]
             char = None
-            workers = CoordsForPaging(building.get_workers(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
+            temp_chars = [c for c in building.get_workers() if c.status =="free"] # Move to class with moar filters?
+            workers = CoordsForPaging(temp_chars, columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
             try:
                 temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0]
                 guild_teams = CoordsForPaging(temp.teams, columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
@@ -725,6 +726,7 @@ init: # Screens:
                                             add i
                                             
                 if exploration_view_mode == "team":
+                    # Backgrounds:
                     frame:
                         background Frame(gfxframes + "p_frame52.png", 10, 10)
                         xysize 622, 330
@@ -812,7 +814,7 @@ init: # Screens:
                                             xysize (46, 46)
                                             background img
                                             hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
-                                            action Show("fg_char_dropdown", dissolve, i, team=t, remove=1), With(dissolve)
+                                            action Show("fg_char_dropdown", dissolve, i, team=t, remove=True)
                                             hovered tt.action(i.fullname)
                                 frame:
                                     xysize (310, 83)
@@ -826,6 +828,7 @@ init: # Screens:
                                 hovered tt.action(w.fullname)
                                 drag_name w
                                 pos pos
+                                clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                                 add w.show("portrait", resize=(70, 70), cache=1)
                                     
                                 # fixed:
@@ -1594,7 +1597,7 @@ init: # Screens:
             textbutton "Profile":
                 action [SetVariable("char_profile", last_label), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_profile")]
             textbutton "Equipment":
-                action [SetVariable("char_equip", last_label), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
+                action [SetVariable("came_to_equip_from", "building_management"), SetVariable("eqtarget", char), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
             if remove: # and team[0] != girl:
                 textbutton "Remove from the Team":
                     action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown")]
