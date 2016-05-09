@@ -417,7 +417,7 @@ label interactions_girl_never_come:
     elif ct("Bokukko"):
         $ rc("Stopping after you've only satisfied yourself? You're the lowest.", "Hold on, aren't you forgetting something? ...Yeah, that! You know, that...yeah... N-not that!", "Wha-... but we barely did anything!")
     elif ct("Yandere"):
-        $ rc("What's the meaning of this? I wanted to do it, you know...", "No no no, there's no way we can just end it like that...", "Come on, now, you can do better than that...")
+        $ rc("What's the meaning of this? I wanted to do it, you know...", "No-no-no, there's no way we can just end it like that...", "Come on, now, you can do better than that...", "Haa... Such a vigorous ejaculation, that's unfair...")
     elif ct("Kamidere"):
         $ rc("No self-centred sex allowed, you can't skip the important parts!", "I am not pleased. Please figure out the reason on your own.", "I'm still far from being satisfied though...", "You're still a long way from satisfying me... Work on it for next time.")
     else:
@@ -459,7 +459,7 @@ label interactions_guy_never_came: # due to low sex skill character was unable t
     $ char.override_portrait("portrait", "shy")
     $ char.show_portrait_overlay("scared", "reset")
     if ct("Impersonal"):
-        $ rc("...Was my technique that bad?", "I'm sorry, I'm just so incompetent...")
+        $ rc("...Was my technique that bad?", "I'm sorry, I'm just so incompetent...", "I feel like that was all about me... I apologize.")
     elif ct("Shy") and dice(60):
         $ rc("I'm sorry... I wasn't very good...", "Sorry... Because of my weakness...", "I'm very sorry... Y-yes, I made sure to practice...")
     elif ct("Tsundere"):
@@ -487,13 +487,13 @@ label interactions_guy_never_came: # due to low sex skill character was unable t
 label interactions_guy_cum_alot:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
-        $ rc("Is it normal for someone to be able to cum so much? Are you not a human?", "As a side note, creampies are okay.", "Nn... Your load exceeded my maximum capacity...", "I have all your weak spots memorized.", "I want to shower... Together, if possible.")
+        $ rc("Is it normal for someone to be able to cum so much? Are you not a human?", "As a side note, creampies are okay.", "Nn... Your load exceeded my maximum capacity...", "I have all your weak spots memorized.", "Your semen will be my food.")
     elif ct("Shy") and dice(60):
         $ rc("Y-You came so much... You were really saving it up...!", "Snf snf... It smells...", "I-I... what an embarrassing thing to do...", "I-I can't believe I... did that... Aaahhh...", "I made you feel really good, huh... I-I'm glad...")
     elif ct("Nymphomaniac") and dice(40):
         $ rc("Hehehe, thanks for the meal ♪", "The flavor of semen differs depending on the food you eat and how you're feeling...", "What a perverted scent... ehehe.", "Huhuh... look at me, I'm a dirty girl covered in your spunk.")
     elif ct("Tsundere"):
-        $ rc("Ah jeez...It's cause you came so much.", "T-That's embarrassing! Geez...", "I'm happy that you came so many times because of me, but... Didn't you come too much?", "Yes, yes, you did well by cumming so much... Seriously...", "And? I'm great, right? ...Tell me that I am G-R-E-A-T!")
+        $ rc("Geez, you got so much on my face that some went up my nose!", "T-That's embarrassing! Geez...", "I'm happy that you came so many times because of me, but... Didn't you come too much?", "Yes, yes, you did well by cumming so much... Seriously...", "And? I'm great, right? ...Tell me that I am G-R-E-A-T!")
     elif ct("Dandere"):
         $ rc("Your semen's still so warm...", "I could get used to this scent...", "You came quite a bit...", "Don't worry, it's not unpleasant. Don't hold back on me next time.", "I became all slimy...", "How was it? My technique is something else, don't you think?", "I love it... when you cum for me.")
     elif ct("Kuudere"):
@@ -501,11 +501,11 @@ label interactions_guy_cum_alot:
     elif ct("Imouto"):
         $ rc("Hey, lookie lookie! Look how much you came ♪", "Hehehe... It feels kinda warm...", "Nnh, hey look ♪ It's all that semen you shot out ♪", "Hey, can't you change the taste? Something that goes down a little easier would be nice.", "You've marked me with your cum, ehehe", "Waa, It's sticky... Did you cum a lot?", "I-I don't have a runny nose! This is semen!")
     elif ct("Ane"):
-        $ rc("Fuaha... You came so much...♪", "Hehehe, your sweet spots were so easy to find ♪", "There's so much of your cum... Hmhm, want me to drink it?", "Mhmhm, you seem to be quite satisfied.", "That was enjoyable in its own way, thank you.", "Are you okay letting that much out... not dehydrated?")
+        $ rc("Fuaha... You came so much...♪", "Hehehe, your sweet spots were so easy to find ♪", "There's so much of your cum... Hmhm, want me to drink it?", "Mhmhm, you seem to be quite satisfied.", "That was enjoyable in its own way, thank you.", "Are you okay letting that much out... not dehydrated?", "My, such thick semen... It might get stuck in throat if one won't be careful.")
     elif ct("Bokukko"):
         $ rc("You really went all out... Is that how good it felt?", "More protein than I should be having... Oh well.", "...You look pretty strung out, hey? Eat up and get a good night's sleep, mkay?", "Ugh, my face is all sticky... But this is how I'm supposed to take it, right?")
     elif ct("Yandere"):
-        $ rc( "Hehe... What a nice smell... I want to smell it forever...", "I know every inch of your body better than anyone.", "Hmhm, the face you make when you cum is adorable.", "It felt good, right? That's great...", "Uhuhu, it's good to know that I could be of use...")
+        $ rc( "Hehe... What a nice smell... I want to smell it forever...", "I know every inch of your body better than anyone.", "Hmhm, the face you make when you cum is adorable.", "It felt good, right? That's great...", "Uhuhu, it's good to know that I could be of use...", "")
     elif ct("Kamidere"):
         $ rc("Ew, I'm all sticky... Does the smell even come off...?", "Ahh, you're so naughty to cum this much...", "Nha... H-haven't you got anything to wipe with?", "I need to take a shower...", "Geez, to cum just from a little teasing... That's pathetic.", "Heh, should I tie a ribbon on it so you don't cum so fast?", "You REALLY let loose a lot of this stuff, huh...")
     else:
@@ -884,4 +884,106 @@ label interactions_blowoff(char=None, exit=None):
     $ char.hide_portrait_overlay()
     $ renpy.show_screen(exit)
     with dissolve
+    return
+    
+label interactions_fight:
+    $ char.override_portrait("portrait", "angry")
+    if ct("Impersonal"):
+        $ rc("I now regard you as my enemy, and I will put you down by force.", "Understood... Let us discuss this matter with our fists.", "I don't want this to be a big deal. So let's just do it as quickly as possible.")
+    elif ct("Imouto"):
+        $ rc("I have to hit you, or I won't be able calm myself!", "I'm toootally gonna make you cry!", "Ahaha, time to pound your face in!", "I-I'm going to make you accept your punishment!") 
+    elif ct("Dandere"):
+        $ rc("I'll make you regret to have angered me.", "You're ugly on the inside... Let's end this quickly.", "Seems like I have no choice but to restrain you physically.", "I'm selling a fist to the face. Please purchase one.")
+    elif ct("Tsundere"):
+        $ rc("You insolent prick... I'll beat you here and now!", "Fufhn! I challenge you!", "Today's the day you stop getting away with this!", "Looks like I have no choice but... to do this!"),
+    elif ct("Kuudere"):
+        $ rc("Feel my anger with every bone in your body!", "You've got guts, but it won't keep you in one piece!", "I'll accept your challenge... And I'll acknowledge that you have some courage.", "Hmph. It's too late for regrets... Nothing's going to stop me now!")
+    elif ct("Kamidere"):
+        $ rc("Aah, I'm pissed off now! Get ready!", "I'll teach you the meaning of pain!", "Come on... Hurry up and bring it.", "Kuh, don't come crying when you get hurt...!", "It seems like I need to teach you some manners.")
+    elif ct("Bokukko"):
+        $ rc("So, I'm seriously angry now!", "Ok, I'm gonna hit you now. Just once. Well, I guess I'll smack you two or three more times after that. We clear?", "Hey, can I hit you? It's okay, right? Hey, hey!", "Lemme borrow that mug of yours real quick. 'Cause I'm gonna turn it into my personal punching bag.", "I kinda wanna deck you one. Don't move, 'kayー?")
+    elif ct("Ane"):
+        $ rc("Looks like you're never going to shape up unless I punish you...", "Just give me a moment please, it'll all end soon.", "I don't usually approve of this sort of thing, but I can't take it anymore!", "Please choose. Sit quietly and get hit, or struggle and get hit.")
+    elif ct("Yandere"):
+        $ rc("You... have a shadow of death hanging over you...", "I'll pay you back in pain!", "Very well. I'll make it so you won't even be able to stand!", "You're at the end of your rope I'll wager.")
+    else:
+        $ rc("Geez, now I'm pissed!", "Geez, I will never forgive you!", "I can't deal with this. I want to hit you so bad I can't stop myself!", "Since it's come down to this, I'll have to use force!", "I didn't want to have to fight... but it seems like there's no other choice.")
+    $ char.restore_portrait()
+    return
+    
+label interactions_win:
+    $ char.override_portrait("portrait", "confident")
+    if ct("Impersonal"):
+        $ rc("It would be better for you if you stayed obedient for a while.", "Now do you understand your own powerlessness?")
+    elif ct("Imouto"):
+        $ rc("Flawless victory!", "Th-this is all your fault, you made me so mad!", "Are you okay? Are you still alive?", "Loooooooser!") 
+    elif ct("Dandere"):
+        $ rc("Don't make me dirty my hands next time.", "Huu... I suppose we can leave it at this.", "Please learn from this.", "Hmph, is that it.")
+    elif ct("Tsundere"):
+        $ rc("Hah! Big mouth and little muscles!", "Phew... I feel so much better now...", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way."),
+    elif ct("Kuudere"):
+        $ rc("Hmph. You're out of your league.", "Well, how was that! Don't forget it!", "Phew, what a waste of time...", "And stay down.", "Tch, what a stupid waste of time.")
+    elif ct("Kamidere"):
+        $ rc("Haaa... Feels so good.", "Hmph, not even worth talking about...", "Hmph, charging in without knowing your opponent's strength... You're nothing but a stupid, weak animal.", "This is what you deserve.")
+    elif ct("Bokukko"):
+        $ rc("What's this? You're a loser, after all.",  "Well? Now do you get it?", "Ahaha ♪ I'm so strong ♪", "Jeez, now I'm tired after all that.", "Huh, so that's all you got?")
+    elif ct("Ane"):
+        $ rc("Do you understand how I feel now?", "Phew, I wonder if you'll still stand up to me after that?", "Oh my, I think I may have overdone it a little.", "Have you come to your senses?")
+    elif ct("Yandere"):
+        $ rc("Lie on the floor... as you are...", "Hah, just a small fry.", "Good lord, look at this. You even got my clothes all dirty.")
+    else:
+        $ rc("So? Do you give up?", "Now that you know the difference between you and I, would you like to try again?")
+    $ char.restore_portrait()
+    return
+ 
+label interactions_lose:
+    $ char.override_portrait("portrait", "angry")
+    if ct("Impersonal"):
+        $ rc("Ugh... I underestimated you...", "I've failed...", "So I was defeated...")
+    elif ct("Imouto"):
+        $ rc("Oh, it hurts...", "Ugh, this wasn't supposed to happen...", "Ah...ahaha... I lost...", "I-I haven't...lost...yet...uu...")
+    elif ct("Dandere"):
+        $ rc("Kuh...", "This... this isn't the way it's supposed to be...", "How mean...", "Ugh... No way...")
+    elif ct("Tsundere"):
+        $ rc("Auu... This is terrible...", "Oww... Why'd you do that..?", "Kyuu... you..."),
+    elif ct("Kuudere"):
+        $ rc("Uuu... You'll regret...", "Kuh... I lost...", "Buha!　...I-impossible...I have been...", "Kuh... That's all I can...", "Tch... Damn it...!")
+    elif ct("Kamidere"):
+        $ rc("Ugh... Frustrating...", "Kuh, I'm so pissed...", "Guh... How did I...", "...Really, just... not my day...")
+    elif ct("Bokukko"):
+        $ rc("Why... did this happen...", "Damn... this loser beat me...?", "Uuh... I'm so uncool...", "Owie... This sucks...")
+    elif ct("Ane"):
+        $ rc("Kuu... Why, like this...", "Ugh... How could this happened...", "Kuh, I misread you...", "Tch... to think that I'd...")
+    elif ct("Yandere"):
+        $ rc("You little... I won't forget this...", "Da... mn...", "Shit... This is... nothing...", "...")
+    else:
+        $ rc("Kuh, damn, you got me...", "Ugh, what the hell... geez...", "Kuh... You're... pretty good...")
+    $ char.restore_portrait()
+    return
+    
+label interactions_alone_together:
+    $ char.override_portrait("portrait", "shy")
+    if ct("Impersonal"):
+        $ rc("No one's around, huh... What shall we do?", "Hmm? Nobody here but us...")
+    elif ct("Shy") and dice(50):
+        $ rc("Ah, it seems, um... Just us, huh...", "I-I get sort of nervous when we're alone...")
+    elif ct("Imouto"):
+        $ rc("Ehehe... Come on now, there's nobody here but us.", "Hey, hey... We're all alone, aren't we?") 
+    elif ct("Dandere"):
+        $ rc("We're all by our lonesome, huh...?", "Hm? There's nobody here...")
+    elif ct("Tsundere"):
+        $ rc("Wh-when did it become...just the two of us...?", "We're alone, now's my chance... Is what you're thinking, isn't it?"),
+    elif ct("Kuudere"):
+        $ rc("Hm? ...Oh, looks we're all alone.", "So we're the only ones here...")
+    elif ct("Kamidere"):
+        $ rc("You know, it's just the two of us, hmm...?", "Just you and me now, huh...")
+    elif ct("Bokukko"):
+        $ rc("Ehehe ♪ It's just the two of us! What'll you do? What do you wanna do??", "Ooh, lookie here, no one's around...")
+    elif ct("Ane"):
+        $ rc("Oh my, it's just the two of us, isn't it.", "Oh my, we're completely alone, aren't we.")
+    elif ct("Yandere"):
+        $ rc("It's kind of embarrassing, isn't it? Just the two of us.", "We're alone, aren't we? ...Hmhm ♪")
+    else:
+        $ rc("There's nobody around... Hehe ♪", "I-Is it alright? We're here...alone together...")
+    $ char.restore_portrait()
     return

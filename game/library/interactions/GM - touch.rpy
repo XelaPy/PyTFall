@@ -40,7 +40,7 @@ label interactions_hug:
         $ char.override_portrait("portrait", "confident")
         $ char.show_portrait_overlay("zoom_slow", "reset")
         if ct("Impersonal"):
-            $ rc("Yes? Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm.", "I'm for you to embrace.")
+            $ rc("Yes? Is something wrong?", "Having your arms around me is so comfortable.", "You are... very warm.", "I'm for you to embrace.", "If you want to feel my warmth, it would be my pleasure.")
         elif ct("Shy") and dice(30):
             $ char.override_portrait("portrait", "shy")
             $ rc("I feel like I'm safe.", "Being so close...", "A... are you feeling cold? It's m... much warmer like this, right?", "It's... it's okay to do it like this, right?", "Y-yes... Please hold me... hold me tight...")
