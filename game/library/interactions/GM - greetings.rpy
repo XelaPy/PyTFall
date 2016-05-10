@@ -889,7 +889,7 @@ label interactions_blowoff(char=None, exit=None):
 label interactions_fight:
     $ char.override_portrait("portrait", "angry")
     if ct("Impersonal"):
-        $ rc("I now regard you as my enemy, and I will put you down by force.", "Understood... Let us discuss this matter with our fists.", "I don't want this to be a big deal. So let's just do it as quickly as possible.")
+        $ rc("I now regard you as my enemy, and I will put you down by force.", "Understood... Let us discuss this matter with our fists.", "I don't want this to be a big deal. So let's just do it as quickly as possible.", "I will erase you.")
     elif ct("Imouto"):
         $ rc("I have to hit you, or I won't be able calm myself!", "I'm toootally gonna make you cry!", "Ahaha, time to pound your face in!", "I-I'm going to make you accept your punishment!") 
     elif ct("Dandere"):
