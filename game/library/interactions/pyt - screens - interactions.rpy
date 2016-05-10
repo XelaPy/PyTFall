@@ -197,7 +197,6 @@ label girl_interactions_after_greetings: # when character wants to say something
             pytfall.world_actions.gm_choice("Become Fr", index=(m, 6))
             pytfall.world_actions.gm_choice("Become Lv", index=(m, 7))
             pytfall.world_actions.gm_choice("Disp", index=(m, 8))
-            
             # Quests/Events to Interactions Menu:
             """
             Expects a dictionary with the following k/v pairs to be set as a flag that starts with :
@@ -216,7 +215,9 @@ label girl_interactions_after_greetings: # when character wants to say something
                     if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
                         pytfall.world_actions.gm_choice(char.flag(f)["button_name"], label=char.flag(f)["label"], index=(m, i))
                         i = i + 1
-           
+            m = 10
+            pytfall.world_actions.menu(m, "Harassment")
+            pytfall.world_actions.gm_choice("Escalation", index=(m, 0))
             # Back
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
             
@@ -226,6 +227,7 @@ label girl_interactions_after_greetings: # when character wants to say something
                 pytfall.world_actions.add(("dev", "gm"), "GM", Return(["test", "GM"]), condition=_not_gm_mode)
                 pytfall.world_actions.add(("dev", "gi"), "GI", Return(["test", "GI"]), condition=_not_gi_mode)
                 pytfall.world_actions.add(("dev", "gt"), "GT", Return(["test", "GT"]), condition=_not_gt_mode)
+
                 
             pytfall.world_actions.finish()
     
