@@ -1,3 +1,25 @@
+init python:
+    # For now a dedicated sorting funcs, maybe this should be turned into something more generic in the future?
+    def filter_by_status(container, status="free"):
+        new = list()
+        for i in container:
+            if i.status == status:
+                new.append(i)
+        return new
+        
+    def filter_by_occs(container, base=["Warrior"]):
+        new = list()
+        for i in container:
+            if i.occupations.intersection(base):
+                new.append(i)
+        return new
+        
+    def sort_by_name(container):
+        return sorted(container, key=attrgetter("name"))
+        
+    def sort_by_level(container):
+        return sorted(container, key=attrgetter("level"))
+
 label building_management:
     python:
         # Reset screen settings, we do this only if we left this screen directly (No jump to char profile/equip)
@@ -553,6 +575,51 @@ init: # Screens:
                 xalign 0.5
                 text "Ext Slots:" xalign 0.02 color ivory
                 text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                
+        if isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "team":
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                style_group "proper_stats"
+                xsize 300
+                xalign .5
+                xpadding 12
+                ypadding 12
+                xmargin 0
+                ymargin 0
+                has vbox spacing 1
+                label "Filters:" xalign .5
+                
+                vbox:
+                    style_prefix "basic"
+                    xalign .5
+                    textbutton "Reset":
+                        action SetField(workers, "content", [c for c in building.get_workers()])
+                    textbutton "Warriors":
+                        action SetField(workers, "content", filter_by_occs(workers.content))
+                    textbutton "Free":
+                        action SetField(workers, "content", filter_by_status(workers.content))
+                    textbutton "Slaves":
+                        action SetField(workers, "content", filter_by_status(workers.content, "slave"))
+                        
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                style_group "proper_stats"
+                xsize 300
+                xalign .5
+                xpadding 12
+                ypadding 12
+                xmargin 0
+                ymargin 0
+                has vbox spacing 1
+                label "Sort:" xalign .5
+                
+                vbox:
+                    style_prefix "basic"
+                    xalign .5
+                    textbutton "Name":
+                        action SetField(workers, "content", sort_by_name(workers.content))
+                    textbutton "Level":
+                        action SetField(workers, "content", sort_by_level(workers.content))
                 
         if isinstance(bm_mid_frame_mode, ExplorationGuild): # Only for FG.
             if bm_exploration_view_mode == "explore":
