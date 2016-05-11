@@ -7,7 +7,7 @@ init python:
         
         base = {"IDLE": 0, "Service": 0, "Warriors": 0, "Managers": 0}
         
-        for setup in ["ALL", fg] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+        for setup in ["ALL"] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
             actions[setup] = base.copy()
             rest[setup] = base.copy()
             events[setup] = base.copy()
@@ -630,7 +630,7 @@ screen next_day():
                     has vbox
                     
                     # Buildings ------------------------------------------------->>>
-                    for building in [fg] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+                    for building in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
                         # Image/Name
                         null height 7
                         text "[building.name]" style "stats_label_text" xpos 10
@@ -806,7 +806,7 @@ screen next_day():
                                                 yalign 0.5
                                                 xalign 1.0
                                                 xmaximum 100
-                                                text ("%d/%d" % (fg.rep, fg.maxrep)) style "stats_value_text" yalign 0.9
+                                                text ("%d/%d" % (building.rep, building.maxrep)) style "stats_value_text" yalign 0.9
                                     
                                         hbox:
                                             frame:
