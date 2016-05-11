@@ -250,7 +250,7 @@ label frog_deathfight:
 
     # Instantiate te BE:
     # We provide background and soundtrack as arguments:
-    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).ogg")
+    $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).mp3")
     
     # We add teams next, first team in is on the left:
     # Hero team is used as the main team:

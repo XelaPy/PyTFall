@@ -16,7 +16,7 @@ label interactions_escalation:
         $ back = "content/gfx/bg/be/forestclearing_smaller.png"
     else:
         $ back = "content/gfx/bg/be/city.jpg"
-    $ battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="content/sfx/music/be/battle (4).mp3", end_sfx=dissolve)
+    $ battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()

@@ -119,7 +119,7 @@ label two_sisters2(event):
         for member in enemy_team:
             member.controller = BE_AI(member)
     $ your_team.add(hero)
-    $ battle = BE_Core(Image("content/gfx/bg/be/forestclearing_smaller.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+    $ battle = BE_Core(Image("content/gfx/bg/be/forestclearing_smaller.png"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()
@@ -206,7 +206,7 @@ label two_sisters3(event):
         for member in enemy_team:
             member.controller = BE_AI(member)
     $ your_team.add(hero)
-    $ battle = BE_Core(Image("content/gfx/bg/be/forestclearing_smaller.png"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+    $ battle = BE_Core(Image("content/gfx/bg/be/forestclearing_smaller.png"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()

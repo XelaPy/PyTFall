@@ -16,7 +16,7 @@ init python:
         for member in your_team:
             member.controller = BE_AI(member)
         # your_team.add(hero)
-        store.battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        store.battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle = store.battle
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
@@ -307,7 +307,7 @@ label prison_storyi_event_groom2:
             # for member in your_team:
                 # member.controller = BE_AI(member)
         # $ your_team.add(hero)
-        # $ battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).ogg", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        # $ battle = BE_Core(Image("content/gfx/bg/be/dungeon.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         # $ battle.teams.append(your_team)
         # $ battle.teams.append(enemy_team)
         # $ battle.start_battle()
