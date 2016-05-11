@@ -1,25 +1,126 @@
 init python:
-    # For now a dedicated sorting funcs, maybe this should be turned into something more generic in the future?
-    def filter_by_status(container, status="free"):
-        new = list()
-        for i in container:
-            if i.status == status:
-                new.append(i)
-        return new
-        
-    def filter_by_occs(container, base=["Warrior"]):
-        new = list()
-        for i in container:
-            if i.occupations.intersection(base):
-                new.append(i)
-        return new
-        
-    def sort_by_name(container):
-        return sorted(container, key=attrgetter("name"))
-        
-    def sort_by_level(container):
-        return sorted(container, key=attrgetter("level"))
+    @renpy.pure
+    class ModSet(Action, FieldEquality):
+        """
+        :doc: data_action
 
+        Adds `value` to `set` or removes 'value' from it in case it is already in the set.
+
+        `set`
+            The set to modify. This may be a python set or list.
+        `value`
+            The value.
+        """
+
+        identity_fields = [ 'set', 'value' ]
+
+        def __init__(self, set, value):
+            self.set = set
+            self.value = value
+
+        def get_selected(self):
+            return self.value in self.set
+
+        def __call__(self):
+            if self.value in self.set:
+                self.set.remove(self.value)
+            else:
+                if isinstance(self.set, list):
+                    self.set.append(self.value)
+                else:
+                    self.set.add(self.value)
+
+            renpy.restart_interaction()
+            
+    class ModFilterSet(ModSet):
+        """Adjusted ModSet to update gui filters for characters.
+        """
+        def __init__(self, filters, set, value):
+            self.set = getattr(filters, set)
+            self.filters = filters
+            self.value = value
+            
+        def __call__(self):
+            if self.value in self.set:
+                self.set.remove(self.value)
+            else:
+                if isinstance(self.set, list):
+                    self.set.append(self.value)
+                else:
+                    self.set.add(self.value)
+            self.filters.filter()
+            renpy.restart_interaction()
+            
+    class SetFilter(SetField):
+        """Set the filter for char filters and updates them.
+         """
+        def __init__(self, container, value):
+            super(SetFilter, self).__init__(container, "sorting_order", value)
+            
+        def __call__(self):
+            setattr(self.container, self.name, self.value)
+            self.container.filter()
+            renpy.restart_interaction()
+    
+    # For now a dedicated sorting funcs, maybe this should be turned into something more generic in the future?
+    def all_chars_for_se():
+        # We expect a global var building to be set for this!
+        return building.get_workers()
+        
+    class CharsSortingForGui(_object):
+        """Class we use to sort and filter character for the GUI.
+        
+        - Reset is done by a separate function we bind to this class.
+        """
+        def __init__(self, reset_callable, container=None):
+            """
+            reset_callable: a funcion to be called without arguments that would return a full, unfiltered list of items to be used as a default.
+            container: If not None, we set this contained to self.sorted every time we update. We expect a list with an object and a field to be used with setattr.
+            """
+            self.reset_callable = reset_callable
+            self.target_container = container
+            self.sorted = list() # list(girl for girl in hero.girls if girl.action != "Exploring")
+            self.status_filters = set()
+            self.action_filters = set()
+            self.occ_filters = set()
+            self.location_filters = set()
+            
+            self.sorting_order = None
+            
+        def clear(self):
+            self.update(self.reset_callable())
+            self.status_filters = set()
+            self.action_filters = set()
+            self.occ_filters = set()
+            self.location_filters = set()
+            
+        def update(self, container):
+            self.sorted = container
+            if self.target_container:
+                setattr(self.target_container[0], self.target_container[1], container)
+                
+        def filter(self):
+            filtered = self.reset_callable()
+            
+            # Filters:
+            if self.status_filters:
+                filtered = [c for c in filtered if c.status in self.status_filters]
+            if self.action_filters:
+                filtered = [c for c in filtered if c.action in self.action_filters]
+            if self.occ_filters:
+                filtered = [c for c in filtered if c.occupations.intersection(self.occ_filters)]
+            if self.location_filters:
+                filtered = [c for c in filtered if c.location in self.self.location_filters]
+                    
+            # Sorting:
+            if self.sorting_order == "alphabetical":
+                filtered.sort(key=attrgetter("name"))
+            elif self.sorting_order == "level":
+                filtered.sort(key=attrgetter("level"))
+                
+            self.update(filtered)
+            
+            
 label building_management:
     python:
         # Reset screen settings, we do this only if we left this screen directly (No jump to char profile/equip)
@@ -41,10 +142,15 @@ label building_management:
             if index >= len(hero.upgradable_buildings):
                 index = 0
             
+            # Looks pretty ugly... this might be worth improving upon just for the sake of estetics.
             building = hero.upgradable_buildings[index]
             char = None
-            temp_chars = [c for c in building.get_workers() if c.status =="free"] # Move to class with moar filters?
-            workers = CoordsForPaging(temp_chars, columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
+            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
+            fg_filters = CharsSortingForGui(all_chars_for_se)
+            fg_filters.status_filters.add("free")
+            fg_filters.target_container = [workers, "content"]
+            fg_filters.filter()
+            
             try:
                 temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0]
                 guild_teams = CoordsForPaging(temp.teams, columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
@@ -593,13 +699,13 @@ init: # Screens:
                     style_prefix "basic"
                     xalign .5
                     textbutton "Reset":
-                        action SetField(workers, "content", [c for c in building.get_workers()])
+                        action Function(fg_filters.clear)
                     textbutton "Warriors":
-                        action SetField(workers, "content", filter_by_occs(workers.content))
+                        action ModFilterSet(fg_filters, "occ_filters", "Warrior")
                     textbutton "Free":
-                        action SetField(workers, "content", filter_by_status(workers.content))
+                        action ModFilterSet(fg_filters, "status_filters", "free")
                     textbutton "Slaves":
-                        action SetField(workers, "content", filter_by_status(workers.content, "slave"))
+                        action ModFilterSet(fg_filters, "status_filters", "slave")
                         
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -617,9 +723,9 @@ init: # Screens:
                     style_prefix "basic"
                     xalign .5
                     textbutton "Name":
-                        action SetField(workers, "content", sort_by_name(workers.content))
+                        action SetFilter(fg_filters, "alphabetical")
                     textbutton "Level":
-                        action SetField(workers, "content", sort_by_level(workers.content))
+                        action SetFilter(fg_filters, "level")
                 
         if isinstance(bm_mid_frame_mode, ExplorationGuild): # Only for FG.
             if bm_exploration_view_mode == "explore":

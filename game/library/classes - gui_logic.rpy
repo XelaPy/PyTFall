@@ -23,7 +23,7 @@ init -1 python:
         
     class GuiGirlsList(_object):
         """
-        Used for sorting girls in the list and maybe in profile screen in the future
+        Used for sorting girls in the list and maybe in profile screen in the future.
         """
         STATUS_GROUP = 'status'
         OCCUPATION_GROUP = 'occupation'
