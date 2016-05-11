@@ -1713,7 +1713,7 @@ init -9 python:
             else:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
             
-            if not self.girls_list:
+            if not self.chars_list:
                 renpy.hide_screen("slave_shopping")
         
         def can_escape(self, girl, location, guards=None, girlmod=None, pos_traits=None, neg_traits=["Restrained"], use_be=True, simulate=True, be_kwargs=dict()):
@@ -2041,7 +2041,7 @@ init -9 python:
             return self
         
         @property
-        def girls_list(self):
+        def chars_list(self):
             """
             The list to use for the slavemarket interface.
             """
@@ -2189,7 +2189,7 @@ init -9 python:
             # Slavemarket update
             self.index = 0
             if self.jail_cache:
-                self.girl = self.girls_list[0]
+                self.girl = self.chars_list[0]
             
             # If we have escaped girls, post the event
             if self.girls:
@@ -2204,15 +2204,15 @@ init -9 python:
             """
             Sets the next index for the slavemarket.
             """
-            self.index = (self.index+1) % len(self.girls_list)
-            self.girl = self.girls_list[self.index]
+            self.index = (self.index+1) % len(self.chars_list)
+            self.girl = self.chars_list[self.index]
         
         def previous_index(self):
             """
             Sets the previous index for the slavemarket.
             """
-            self.index = (self.index-1) % len(self.girls_list)
-            self.girl = self.girls_list[self.index]
+            self.index = (self.index-1) % len(self.chars_list)
+            self.girl = self.chars_list[self.index]
         
         def retrieve(self, girl):
             """
@@ -2232,7 +2232,7 @@ init -9 python:
                     
                     if self.jail_cache:
                         self.index %= len(self.jail_cache)
-                        self.girl = self.girls_list[self.index]
+                        self.girl = self.chars_list[self.index]
                     
                     else:
                         self.index = 0
@@ -2251,9 +2251,9 @@ init -9 python:
             Sets the girl to be the index for the slavemarket.
             girl = The girl to set.
             """
-            if self.girls_list and girl in self.girls_list:
+            if self.chars_list and girl in self.chars_list:
                 self.girl = girl
-                self.index = self.girls_list.index(self.girl)
+                self.index = self.chars_list.index(self.girl)
         
         def status(self, girl):
             """

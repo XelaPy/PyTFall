@@ -636,7 +636,7 @@ init -9 python:
                      WorldAction(button,
                                  Show("slave_shopping", transition=Dissolve(1.0), store=store, tt_text=tt_text, buy_button=buy_button, buy_tt=buy_tt),
                                  null_button=null_button,
-                                 null_condition=Iff(S((store, "girls_list")), False)
+                                 null_condition=Iff(S((store, "chars_list")), False)
                                  ))
         
         def tree(self, tree):

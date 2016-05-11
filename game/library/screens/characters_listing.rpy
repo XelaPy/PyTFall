@@ -1,4 +1,4 @@
-label girls_list:
+label chars_list:
 
     scene bg gallery
     # Check if we're the screen was loaded or not:

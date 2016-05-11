@@ -131,7 +131,7 @@ init -1 python:
             
             self.girl = None
             
-            self.girls_list = None
+            self.chars_list = None
             self.blue_girls = dict() # Girls (SE captured) blue is training for you.
             self.restock_day = randint(2, 3)
         
@@ -161,15 +161,15 @@ init -1 python:
             """
             return self.girl.fin
         
-        def populate_girls_list(self):
+        def populate_chars_list(self):
             """
             Populates the list of girls that are available.
             """
-            girls_list = self.get_girls()
-            self.girls_list = list()
+            chars_list = self.get_girls()
+            self.chars_list = list()
             for i in range(randint(6, 8)):
-                if girls_list:
-                    self.girls_list.append(girls_list.pop())
+                if chars_list:
+                    self.chars_list.append(chars_list.pop())
                     
         def buy_girl(self):
             """
@@ -179,11 +179,11 @@ init -1 python:
                 if hero.take_money(self.girl.fin.get_price(), reason="Slave Purchase"):
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
                     hero.add_girl(self.girl)
-                    self.girls_list.remove(self.girl)
+                    self.chars_list.remove(self.girl)
                     
-                    if self.girls_list:
-                        self.girl = choice(self.girls_list)
-                        self.index = self.girls_list.index(self.girl)
+                    if self.chars_list:
+                        self.girl = choice(self.chars_list)
+                        self.index = self.chars_list.index(self.girl)
                     
                     else:
                         self.girl = None
@@ -194,7 +194,7 @@ init -1 python:
             else:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
             
-            if not self.girls_list:
+            if not self.chars_list:
                 renpy.hide_screen("slave_shopping")
         
         def next_day(self):
@@ -202,7 +202,7 @@ init -1 python:
             Solves the next day logic.
             """
             if self.restock_day == day:
-                self.populate_girls_list()
+                self.populate_chars_list()
                 self.restock_day += randint(2, 3)
                 
             for g in self.blue_girls.keys():
@@ -216,33 +216,33 @@ init -1 python:
             """
             Sets the focus to the next girl.
             """
-            if self.girls_list:
-                index = self.girls_list.index(self.girl)
-                index = (index + 1) % len(self.girls_list)
-                self.girl = self.girls_list[index]
+            if self.chars_list:
+                index = self.chars_list.index(self.girl)
+                index = (index + 1) % len(self.chars_list)
+                self.girl = self.chars_list[index]
                 
         def previous_index(self):
             """
             Sets the focus to the previous girl.
             """
-            if self.girls_list:
-                index = self.girls_list.index(self.girl)
-                index = (index - 1) % len(self.girls_list)
-                self.girl = self.girls_list[index]
+            if self.chars_list:
+                index = self.chars_list.index(self.girl)
+                index = (index - 1) % len(self.chars_list)
+                self.girl = self.chars_list[index]
         
         def set_index(self):
             """
             Sets the focus to a random girl.
             """
-            if self.girls_list:
-                self.girl = choice(self.girls_list)
+            if self.chars_list:
+                self.girl = choice(self.chars_list)
         
         def set_girl(self, girl):
             """
             Sets the focus to the given girl.
             girl = The girl to set the focus to.
             """
-            if self.girls_list and girl in self.girls_list:
+            if self.chars_list and girl in self.chars_list:
                 self.girl = girl
         
     

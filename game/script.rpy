@@ -168,7 +168,7 @@
         tl.timer("Loading: GirlsMeets")
         
         tl.timer("Loading: Populating SlaveMarket")
-        pytfall.sm.populate_girls_list()
+        pytfall.sm.populate_chars_list()
         tl.timer("Loading: Populating SlaveMarket")
         
     # Loading apartments/guilds:

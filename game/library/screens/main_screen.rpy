@@ -49,7 +49,7 @@ label mainscreen:
                 pytfall.arena.seen_report = True
                 jump(result[1])
                 
-        elif result[0] == "girls_list":
+        elif result[0] == "chars_list":
             stop world
             $ renpy.hide_screen("mainscreen")
             $ pytfall.arena.seen_report = True
@@ -99,7 +99,7 @@ screen mainscreen():
             ypos 305
             spacing 15
             textbutton "Girls":
-                action Stop("world"), Hide("mainscreen"), Show("girlslist", dissolve, source=GuiGirlsList(), page=0, total_pages=1), Jump("girls_list")
+                action Stop("world"), Hide("mainscreen"), Show("girlslist", dissolve, source=GuiGirlsList(), page=0, total_pages=1), Jump("chars_list")
                 hovered tt.Action('Here you can see a list of all girls you possess, their stats and characteristics.\nIt is also here you can change their equipment and sell them.')
             textbutton "Buildings":
                 action Return(["building_management"])

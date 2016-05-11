@@ -607,7 +607,7 @@ screen char_equip():
         button:
             xalign 0.5
             xysize (110, 30)
-            action If(eqtarget != hero, true=Show("girls_list1"))
+            action If(eqtarget != hero, true=Show("chars_list1"))
             text "Girls List" style "pb_button_text"
             
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
@@ -666,11 +666,11 @@ screen char_equip():
         action Return(['control', 'return'])
         hovered tt.Action("Return to previous screen!")
     
-screen girls_list1(source=None, page=0, total_pages=1):
+screen chars_list1(source=None, page=0, total_pages=1):
     modal True
     zorder 1
     
-    key "mousedown_3" action Hide("girls_list1")
+    key "mousedown_3" action Hide("chars_list1")
     
     frame:
         at fade_in_out()
@@ -699,7 +699,7 @@ screen girls_list1(source=None, page=0, total_pages=1):
                     align (1.0, 0.0)
                     idle ("content/gfx/interface/buttons/close3.png")
                     hover ("content/gfx/interface/buttons/close3_h.png")
-                    action Hide("girls_list1")
+                    action Hide("chars_list1")
                 
                     
 screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):

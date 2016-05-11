@@ -204,7 +204,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
         vbox:
             label (u"{=stats_text}%s"%tt.value) text_outlines [(1, "#3a3a3a", 0, 0)]
     
-    if store.girls_list:
+    if store.chars_list:
         # Stats and Info (Left Frame):
         frame:
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
@@ -460,7 +460,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     hbox:
                         align(0, 0)
                         spacing 5
-                        for girl in store.girls_list:
+                        for girl in store.chars_list:
                             $ img = girl.show("vnsprite", resize=(180, 140), cache=True)
                             frame:
                                 background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)

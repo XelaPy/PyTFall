@@ -136,7 +136,7 @@ label char_profile_end:
         $ last_label, char_profile = char_profile, None
         jump expression last_label
     else:
-        jump girls_list
+        jump chars_list
                 
 screen char_profile():
 
