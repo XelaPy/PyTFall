@@ -279,11 +279,10 @@ label next_day_calculations:
         #
         #
         ################## Exploration ########################
-        tl.timer("Fighers Guild")
-        if fg in hero.buildings:
-            fg.next_day()
-        
-        tl.timer("Fighers Guild")    
+        # tl.timer("Fighers Guild")
+        # if fg in hero.buildings:
+            # fg.next_day()
+        # tl.timer("Fighers Guild")    
         ################## Logic #############################
         tl.timer("pytfall + calender.next_day")
         pytfall.next_day()

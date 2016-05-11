@@ -4031,7 +4031,7 @@ init -9 python:
                 
                 # Prolly a good idea to throw a red flag if she is not doing anything:
                 # I've added another check to make sure this doesn't happen if a girl is in FG as there is always something to do there:
-                if not self.action and self.location != fg:
+                if not self.action:
                     flag_red = True
                     txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
                 

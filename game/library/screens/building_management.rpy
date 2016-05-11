@@ -110,7 +110,7 @@ init python:
             if self.occ_filters:
                 filtered = [c for c in filtered if c.occupations.intersection(self.occ_filters)]
             if self.location_filters:
-                filtered = [c for c in filtered if c.location in self.self.location_filters]
+                filtered = [c for c in filtered if c.location in self.location_filters]
                     
             # Sorting:
             if self.sorting_order == "alphabetical":
