@@ -52,6 +52,7 @@ init -1 python: # Core classes:
             self.end_turn_events = list() # Events we execute on start of the turn.
             self.start_turn_events = list() # Events we execute on the end of the turn.
             self.mid_turn_events = list() # Events to execute after controller was set.
+            self.terminate = False
             
             self.logical = logical
             
@@ -121,7 +122,7 @@ init -1 python: # Core classes:
                         self.end_turn_events.remove(event)
                 
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)       
-                if self.check_conditions():
+                if self.check_break_conditions():
                     break
             
             self.end_battle()
@@ -153,7 +154,7 @@ init -1 python: # Core classes:
                     self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
                     
                 renpy.show("bg", what=self.bg)
-                renpy.show_screen("battle_overlay")
+                renpy.show_screen("battle_overlay", self)
                 if self.start_sfx: # Special Effects:
                     renpy.with_statement(self.start_sfx)
                     
@@ -179,8 +180,7 @@ init -1 python: # Core classes:
                     
                     # Allegiance:
                     char.allegiance = team.name
-            
-            
+                    
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
             """
@@ -354,10 +354,12 @@ init -1 python: # Core classes:
                 
             return l
             
-        def check_conditions(self):
+        def check_break_conditions(self):
             # Checks if any specific condition is reached.
             # Should prolly be turned into a function when this gets complicated, for now it's just fighting until one of the party are "corpses".
             # For now this assumes that team indexed 0 is player team.
+            if self.terminate:
+                return True
             if len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
                 self.winner = self.teams[1]
                 return True

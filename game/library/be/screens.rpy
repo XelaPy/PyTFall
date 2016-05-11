@@ -189,7 +189,8 @@ init: # screens:
                                 action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                 hovered tt.action(skill)
           
-    screen battle_overlay():
+    screen battle_overlay(be):
+        # be reffers to battle core instance
         # Averything that is displayed all the time:
         frame:
             align (0.5, 0.99)
@@ -315,9 +316,9 @@ init: # screens:
                                                 else:
                                                     text "[member.vitality]" size 14 color ivory bold True style "stats_value_text" yoffset -3 xpos 95
                     
-        if config.developer:
+        if config.debug:
             vbox:
                 align (0.99, 0)
                 textbutton "Terminate":
-                    action Hide("be_test"), Hide("target_practice"), Hide("pick_skill"), Hide("battle_overlay"), Stop("music"), Stop("sound"), Jump("mainscreen")
+                    action SetField(be, "terminate", True)
                 
