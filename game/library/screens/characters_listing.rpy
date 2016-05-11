@@ -2,8 +2,8 @@ label chars_list:
 
     scene bg gallery
     # Check if we're the screen was loaded or not:
-    if not renpy.get_screen("girlslist"):
-        show screen girlslist(source=GuiGirlsList(), page=girlslist_last_page_viewed)
+    if not renpy.get_screen("chars_list"):
+        show screen chars_list(source=GuiGirlsList(), page=chars_list_last_page_viewed)
     with dissolve
     
     python:
@@ -22,11 +22,11 @@ label chars_list:
                 elif result[1] == "action":
                     renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
             elif result[0] == 'choice':
-                renpy.hide_screen("girlslist")
+                renpy.hide_screen("chars_list")
                 char = result[1]
                 jump('char_profile')
             elif result[0] == "paging":
-                gs = renpy.get_screen("girlslist").scope["_kwargs"]["source"]
+                gs = renpy.get_screen("chars_list").scope["_kwargs"]["source"]
                 if result[1] == "next":
                     if gs.page + 1 > gs.total_pages - 1:
                         gs.page = 0
@@ -38,10 +38,10 @@ label chars_list:
                     else:
                         gs.page -= 1
 
-    hide screen girlslist
+    hide screen chars_list
     jump mainscreen
 
-screen girlslist(source=None, page=0, total_pages=1):
+screen chars_list(source=None, page=0, total_pages=1):
     frame:
         background Frame("content/gfx/frame/framegp2.png", 10, 10)
         pos (5, 46)
@@ -54,7 +54,7 @@ screen girlslist(source=None, page=0, total_pages=1):
                 girl_list.append([girl for ind, girl in enumerate(girls) if ind % 2 == 1])
                 page_lenght = 5
                 total_pages = max(int(math.ceil(len(girl_list[0]) / float(page_lenght))), int(math.ceil(len(girl_list[1]) / float(page_lenght))))
-                gs = renpy.get_screen("girlslist").scope["_kwargs"]
+                gs = renpy.get_screen("chars_list").scope["_kwargs"]
                 gs["total_pages"] = total_pages
                 
                 # Per Dark's request, we remember the page:
@@ -63,13 +63,13 @@ screen girlslist(source=None, page=0, total_pages=1):
                 if page > total_pages:
                     gs["page"] = total_pages
                 page = gs["page"]
-                store.girlslist_last_page_viewed = page
+                store.chars_list_last_page_viewed = page
                 girl_list[0] = girl_list[0][page*page_lenght:page*page_lenght+page_lenght]
                 girl_list[1] = girl_list[1][page*page_lenght:page*page_lenght+page_lenght]
                 
             # Keybinds:
-            key "mousedown_4" action If(gs["page"] + 1 < gs["total_pages"], true=Show("girlslist", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"]), false=NullAction())
-            key "mousedown_5" action If(gs["page"] > 0, true=Show("girlslist", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"]), false=NullAction())
+            key "mousedown_4" action If(gs["page"] + 1 < gs["total_pages"], true=Show("chars_list", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"]), false=NullAction())
+            key "mousedown_5" action If(gs["page"] > 0, true=Show("chars_list", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"]), false=NullAction())
                 
             hbox:
                 style_group "content"
@@ -129,7 +129,7 @@ screen girlslist(source=None, page=0, total_pages=1):
                                                 classes.sort()
                                                 classes = ", ".join([str(c) for c in classes])
                                             else:
-                                                raise Exception("Character without prof basetraits detected! line: 211, girlslists screen")
+                                                raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
                                         text "Classes: [classes]" color ivory size 18
                                         
                                         null height 2

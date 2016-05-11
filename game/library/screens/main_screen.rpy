@@ -99,7 +99,7 @@ screen mainscreen():
             ypos 305
             spacing 15
             textbutton "Girls":
-                action Stop("world"), Hide("mainscreen"), Show("girlslist", dissolve, source=GuiGirlsList(), page=0, total_pages=1), Jump("chars_list")
+                action Stop("world"), Hide("mainscreen"), Show("chars_list", dissolve, source=GuiGirlsList(), page=0, total_pages=1), Jump("chars_list")
                 hovered tt.Action('Here you can see a list of all girls you possess, their stats and characteristics.\nIt is also here you can change their equipment and sell them.')
             textbutton "Buildings":
                 action Return(["building_management"])

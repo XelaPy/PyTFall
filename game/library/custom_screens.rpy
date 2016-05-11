@@ -576,21 +576,21 @@ init: # PyTFall:
                                 hovered tt.Action("Add [char.nickname] to player team!")
                   
                 # Girlslist paging buttons:
-                if renpy.current_screen().tag == "girlslist":
+                if renpy.current_screen().tag == "chars_list":
                     hbox:
                         style_group "basic"
                         align(0.3, 0.5)
                         spacing 3
                         
-                        $ gs = renpy.get_screen("girlslist").scope["_kwargs"]
+                        $ gs = renpy.get_screen("chars_list").scope["_kwargs"]
                         
                         textbutton "<--":
-                            action SensitiveIf(gs["page"] > 0), Show("girlslist", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"])
+                            action SensitiveIf(gs["page"] > 0), Show("chars_list", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"])
                         $ page_2_display = gs["page"] + 1
                         textbutton "[page_2_display]":
                             action NullAction()
                         textbutton "-->":
-                            action SensitiveIf(gs["page"] + 1 < gs["total_pages"]), Show("girlslist", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"])
+                            action SensitiveIf(gs["page"] + 1 < gs["total_pages"]), Show("chars_list", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"])
                     
                 # AP Frame/Next Day button:
                 if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"]:
