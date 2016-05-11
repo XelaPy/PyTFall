@@ -718,6 +718,14 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
+        BasicHealingSpell(u"DarkTouch", attributes=['magic', 'darkness'], effect=-999999999, cost=10, range=5, type="all_allies", piercing=True, true_pierce=True,
+                                      desc="Sacrifices the whole party in the name of an ancient dark creature from another dimension.",
+                                      attacker_action={"gfx": None},
+                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                      main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
+                                      target_sprite_damage_effect={"gfx": None},
+                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
         ReviveSpell(u"Revive", attributes=['magic', 'revive'], effect=10, cost=10, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
                              desc="Bring an ally back to the battlefield!",
                              attacker_action={"gfx": None},
