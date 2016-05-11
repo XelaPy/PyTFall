@@ -1,5 +1,6 @@
 label interactions_escalation:
     call interactions_fight_begins
+    hide screen girl_interactions
     $ enemy_team = Team(name="Enemy Team", max_size=3)
     $ your_team = Team(name="Your Team", max_size=3)
     $ enemy_team.add(char)
@@ -7,17 +8,27 @@ label interactions_escalation:
     python:
         for member in enemy_team:
             member.controller = BE_AI(member)
-    $ battle = BE_Core(Image("content/gfx/bg/be/city.jpg"), start_sfx=get_random_image_dissolve(1.5), music="content/sfx/music/be/battle (4).mp3", end_sfx=dissolve)
+    if "park" in gm.label_cache:
+        $ back = "content/gfx/bg/be/forest1.jpg"
+    elif "beach" in gm.label_cache:
+        $ back = "content/gfx/bg/be/beach.jpg"
+    elif "forest" in gm.label_cache:
+        $ back = "content/gfx/bg/be/forestclearing_smaller.png"
+    else:
+        $ back = "content/gfx/bg/be/city.jpg"
+    $ battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="content/sfx/music/be/battle (4).mp3", end_sfx=dissolve)
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()
     $ your_team.reset_controller()
     $ enemy_team.reset_controller()
     if battle.winner != your_team:
+        show expression gm.bg_cache
         call interactions_fight_won
     else:
+        show expression gm.bg_cache
         call interactions_fight_lost
-    return
+    jump girl_interactions_end
 
 label interactions_fight_begins:
     $ char.override_portrait("portrait", "angry")
