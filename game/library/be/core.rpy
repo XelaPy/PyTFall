@@ -34,9 +34,12 @@ init -1 python: # Core classes:
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
-            # self.miragebg = Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)
+            
+            if music == "random":
+                self.music = choice(ilists.battle_tracks)
+            else:
+                self.music = music
                 
-            self.music = music
             self.corpses = set() # Anyone died in the BE.
             
             if not row_pos:
