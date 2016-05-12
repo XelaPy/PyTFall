@@ -269,7 +269,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "weapon",
-    "type": "Shield",
+    "type": "shield",
     "attacks": ["FistAttack"],
     "max": {"defence": 80, "health": 40, "constitution": 35, "agility": -40},
     "mod": {"defence": 50, "agility": -65},

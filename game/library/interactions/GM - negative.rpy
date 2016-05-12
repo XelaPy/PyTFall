@@ -1,12 +1,7 @@
 label interactions_escalation:
+    $ gm.set_img("battle", "confident", "angry")
     call interactions_fight_begins
     hide screen girl_interactions
-    $ enemy_team = Team(name="Enemy Team", max_size=3)
-    $ your_team = Team(name="Your Team", max_size=3)
-    $ enemy_team.add(char)
-    python:
-        for member in enemy_team:
-            member.controller = BE_AI(member)
     if "park" in gm.label_cache:
         $ n = randint(1,4)
         $ back = "content/gfx/bg/be/b_park_" + str(n) + ".jpg"
@@ -29,13 +24,31 @@ label interactions_escalation:
     else:
         $ n = randint(1,6)
         $ back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg"
-    $ battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
-    $ your_team = hero.team
-    $ battle.teams.append(your_team)
-    $ battle.teams.append(enemy_team)
-    $ battle.start_battle()
-    $ your_team.reset_controller()
-    $ enemy_team.reset_controller()
+    python:
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        your_team = Team(name="Your Team", max_size=3)
+        enemy_team.add(char)
+        for member in enemy_team:
+            member.controller = BE_AI(member)
+        battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
+        for member in hero.team:
+            if member <> hero:
+                if member.status <> "slave":
+                    if (member.disposition >= 800) or check_lovers(member, hero) or ("Yandere" in member.traits and member.disposition >= 50): # girls usually don't support MC when he harasses other girls, unless they are close enough to him or are yandere with disposition
+                        your_team.add(member)
+            else:
+                your_team.add(member)
+        battle.teams.append(your_team)
+        battle.teams.append(enemy_team)
+        battle.start_battle()
+        your_team.reset_controller()
+        enemy_team.reset_controller()
+        for member in your_team:
+            if member in battle.corpses:
+                member.health = 1
+        for member in enemy_team:
+            if member in battle.corpses:
+                member.health = 1
     if battle.winner != your_team:
         show expression gm.bg_cache
         call interactions_fight_won
