@@ -4,19 +4,31 @@ label interactions_escalation:
     $ enemy_team = Team(name="Enemy Team", max_size=3)
     $ your_team = Team(name="Your Team", max_size=3)
     $ enemy_team.add(char)
-    $ your_team.add(hero)
     python:
         for member in enemy_team:
             member.controller = BE_AI(member)
     if "park" in gm.label_cache:
-        $ back = "content/gfx/bg/be/forest1.jpg"
+        $ n = randint(1,4)
+        $ back = "content/gfx/bg/be/b_park_" + str(n) + ".jpg"
     elif "beach" in gm.label_cache:
-        $ back = "content/gfx/bg/be/beach.jpg"
+        $ n = randint(1,3)
+        $ back = "content/gfx/bg/be/b_beach_" + str(n) + ".jpg"
     elif "forest" in gm.label_cache:
-        $ back = "content/gfx/bg/be/forestclearing_smaller.png"
+        $ n = randint(1,8)
+        $ back = "content/gfx/bg/be/b_forest_" + str(n) + ".jpg"
+    elif "village" in gm.label_cache:
+        $ back = "content/gfx/bg/be/b_village_1.jpg"
+    elif "academy" in gm.label_cache:
+        $ back = "content/gfx/bg/be/b_academy_1.jpg"
+    elif "arena" in gm.label_cache:
+        $ back = "content/gfx/bg/be/battle_arena_1.jpg"
+    elif "tavern" in gm.label_cache:
+        $ back = "content/gfx/bg/be/b_tavern_1.jpg"
     else:
-        $ back = "content/gfx/bg/be/city.jpg"
+        $ n = randint(1,6)
+        $ back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg"
     $ battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
+    $ your_team = hero.team
     $ battle.teams.append(your_team)
     $ battle.teams.append(enemy_team)
     $ battle.start_battle()
@@ -45,7 +57,7 @@ label interactions_fight_begins:
     elif ct("Kamidere"):
         $ rc("Aah, I'm pissed off now! Get ready!", "I'll teach you the meaning of pain!", "Come on... Hurry up and bring it.", "Kuh, don't come crying when you get hurt...!", "It seems like I need to teach you some manners.")
     elif ct("Bokukko"):
-        $ rc("So, I'm seriously angry now!", "Ok, I'm gonna hit you now. Just once. Well, I guess I'll smack you two or three more times after that. We clear?", "Hey, can I hit you? It's okay, right? Hey, hey!", "Lemme borrow that mug of yours real quick. 'Cause I'm gonna turn it into my personal punching bag.", "I kinda wanna deck you one. Don't move, 'kayー?")
+        $ rc("So, I'm seriously angry now!", "Ok, I'm gonna hit you now. Just once. Well, I guess I'll smack you two or three more times after that. We clear?", "Hey, can I hit you? It's okay, right? Hey, hey!", "Lemme borrow that mug of yours real quick. 'Cause I'm gonna turn it into my personal punching bag.", "I kinda wanna deck you one. Don't move, 'kay?")
     elif ct("Ane"):
         $ rc("Looks like you're never going to shape up unless I punish you...", "Just give me a moment please, it'll all end soon.", "I don't usually approve of this sort of thing, but I can't take it anymore!", "Please choose. Sit quietly and get hit, or struggle and get hit.")
     elif ct("Yandere"):
@@ -60,15 +72,15 @@ label interactions_fight_won:
     if ct("Impersonal"):
         $ rc("It would be better for you if you stayed obedient for a while.", "Now do you understand your own powerlessness?")
     elif ct("Imouto"):
-        $ rc("Flawless victory!", "Th-this is all your fault, you made me so mad!", "Are you okay? Are you still alive?", "Loooooooser!") 
+        $ rc("Flawless victory! ♪", "Th-this is all your fault, you made me so mad!", "Are you okay? Are you still alive?", "Loooooooser!") 
     elif ct("Dandere"):
         $ rc("Don't make me dirty my hands next time.", "Huu... I suppose we can leave it at this.", "Please learn from this.", "Hmph, is that it.")
     elif ct("Tsundere"):
-        $ rc("Hah! Big mouth and little muscles!", "Phew... I feel so much better now...", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way."),
+        $ rc("Haaa... Feels so good.", "Hah! Big mouth and little muscles!", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way."),
     elif ct("Kuudere"):
         $ rc("Hmph. You're out of your league.", "Well, how was that! Don't forget it!", "Phew, what a waste of time...", "And stay down.", "Tch, what a stupid waste of time.")
     elif ct("Kamidere"):
-        $ rc("Haaa... Feels so good.", "Hmph, not even worth talking about...", "Hmph, charging in without knowing your opponent's strength... You're nothing but a stupid, weak animal.", "This is what you deserve.")
+        $ rc("Hmph, not even worth talking about...", "Hmph, charging in without knowing your opponent's strength... You're nothing but a stupid, weak animal.", "This is what you deserve.")
     elif ct("Bokukko"):
         $ rc("What's this? You're a loser, after all.",  "Well? Now do you get it?", "Ahaha ♪ I'm so strong ♪", "Jeez, now I'm tired after all that.", "Huh, so that's all you got?")
     elif ct("Ane"):
@@ -76,7 +88,7 @@ label interactions_fight_won:
     elif ct("Yandere"):
         $ rc("Lie on the floor... as you are...", "Hah, just a small fry.", "Good lord, look at this. You even got my clothes all dirty.")
     else:
-        $ rc("So? Do you give up?", "Now that you know the difference between you and I, would you like to try again?")
+        $ rc("Phew... I feel so much better now... ♪", "So? Do you give up?", "Now that you know the difference between you and I, would you like to try again?")
     $ char.restore_portrait()
     return
  
@@ -91,7 +103,7 @@ label interactions_fight_lost:
     elif ct("Tsundere"):
         $ rc("Auu... This is terrible...", "Oww... Why'd you do that..?", "Kyuu... you..."),
     elif ct("Kuudere"):
-        $ rc("Uuu... You'll regret...", "Kuh... I lost...", "Buha!　...I-impossible...I have been...", "Kuh... That's all I can...", "Tch... Damn it...!")
+        $ rc("Uuu... You'll regret...", "Kuh... I lost...", "Buha! ...I-impossible...I have been...", "Kuh... That's all I can...", "Tch... Damn it...!")
     elif ct("Kamidere"):
         $ rc("Ugh... Frustrating...", "Kuh, I'm so pissed...", "Guh... How did I...", "...Really, just... not my day...")
     elif ct("Bokukko"):
@@ -170,7 +182,7 @@ label interactions_demand_apology:
     elif ct("Dandere"):
         $ rc("I'll forgive you if you apologize.", "Is it impossible for you to give an apology?", "...You should know that I haven't forgiven you just yet.")
     elif ct("Tsundere"):
-        $ rc("It'd be nice if you apologized, you know...!", "...Apologize. AーPOーLOーGIZE!"),
+        $ rc("It'd be nice if you apologized, you know...!", "...Apologize. APOLOGIZE!"),
     elif ct("Kuudere"):
         $ rc("What, not even a single word of apology?", "Until you apologize I'm not talking to you.")
     elif ct("Kamidere"):
@@ -253,7 +265,7 @@ label interactions_broken_promise:
     elif ct("Kamidere"):
         $ rc("You're horrible... I was waiting the whole time...", "Jeez, why didn't you show up? Keep your promises!")
     elif ct("Bokukko"):
-        $ rc("You're the kind of trash that can't even keep a little promise, aren't you.", "What d'you think promises are for?　Hmm?")
+        $ rc("You're the kind of trash that can't even keep a little promise, aren't you.", "What d'you think promises are for? Hmm?")
     elif ct("Ane"):
         $ rc("No, no, it's okay. Everyone has times when they can't make it...", "If you couldn't make it, I wish you'd just said so... Otherwise, it's just too cruel.")
     elif ct("Yandere"):
@@ -388,11 +400,11 @@ label interactions_relover:
     elif ct("Kamidere"):
         $ rc("Hey, I'd like a chance for us to start things over.", "We can still go back to how things used to be, you know?", "I realized... I'm still in love with you after all.")
     elif ct("Bokukko"):
-        $ rc("Y'seeー, like... Y'wanna try goin' back to the way things were before?", "Mmh, it just doesn't do it for me if it isn't you. Can we...go out again?", "I-if you're okay with it, I'd like us to get back together... What do you think?")
+        $ rc("Y'see, like... Y'wanna try goin' back to the way things were before?", "Mmh, it just doesn't do it for me if it isn't you. Can we...go out again?", "I-if you're okay with it, I'd like us to get back together... What do you think?")
     elif ct("Ane"):
         $ rc("I'll fix whatever's wrong with me, so... Please, just let me be with you again.", "I can't seem to forget about you no matter what I do... I want to start things over with you.")
     elif ct("Yandere"):
-        $ rc("I want to give us another try. ...Please.", "Sorry... No matter what I do, I can't get you out of my head...　So...")
+        $ rc("I want to give us another try. ...Please.", "Sorry... No matter what I do, I can't get you out of my head... So...")
     else:
         $ rc("Hey, could we maybe... see if we can work things out again?", "If we were to be together again, I'd... No... Please, one more time, be with me!")
     $ char.restore_portrait()

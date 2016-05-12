@@ -147,7 +147,7 @@
         # for i in xrange(3):
             # mob = build_mob("Barbarian", level=hero.lvl + randint(3, 6))
             # enemy_team.add(mob)
-    # $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.png"), music="content/sfx/music/be/battle (14).mp3")
+    # $ battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="content/sfx/music/be/battle (14).mp3")
     # $ battle.teams.append(hero.team)
     # $ battle.teams.append(enemy_team)
     # $ battle.start_battle()
