@@ -13,11 +13,13 @@ label interactions_escalation:
     elif "beach" in gm.label_cache:
         $ n = randint(1,3)
         $ back = "content/gfx/bg/be/b_beach_" + str(n) + ".jpg"
-    elif "forest" in gm.label_cache:
+    elif "forest" in gm.label_cache or "mage" in gm.label_cache:
         $ n = randint(1,8)
         $ back = "content/gfx/bg/be/b_forest_" + str(n) + ".jpg"
     elif "village" in gm.label_cache:
         $ back = "content/gfx/bg/be/b_village_1.jpg"
+    elif "grave" in gm.label_cache:
+        $ back = "content/gfx/bg/be/b_grave_1.jpg"
     elif "academy" in gm.label_cache:
         $ back = "content/gfx/bg/be/b_academy_1.jpg"
     elif "arena" in gm.label_cache:
