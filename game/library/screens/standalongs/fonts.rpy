@@ -35,7 +35,7 @@ screen fonts(fonts):
             text u" & * + # %"  font font
             text u" & * + # %"  font font
             text u" ¼ ½  ¾"  font font
-            text u"❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮ ⌘"  font font
+            text u"❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮ ⌘ 　 ー"  font font
             
     hbox:
         align (0.5, 0.8)
