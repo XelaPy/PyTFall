@@ -30,14 +30,21 @@ label interactions_escalation:
         enemy_team.add(char)
         for member in enemy_team:
             member.controller = BE_AI(member)
+
         battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
         for member in hero.team:
             if member <> hero:
                 if member.status <> "slave":
-                    if (member.disposition >= 800) or check_lovers(member, hero) or ("Yandere" in member.traits and member.disposition >= 50): # girls usually don't support MC when he harasses other girls, unless they are close enough to him or are yandere with disposition
+                    if (member.disposition >= 700) or (check_lovers(member, hero)) or (("Yandere" in member.traits) and (member.disposition >= 200)): # girls usually don't support MC when he harasses other girls, unless they are close enough to him or are yandere with at least some disposition
                         your_team.add(member)
+                else:
+                    if "Yandere" in member.traits and member.disposition >= 100: # and yandere slaves can serve as cannon fodder
+                         your_team.add(member)
             else:
                 your_team.add(member)
+        for member in your_team:
+            if member <> hero and member.status == "slave":
+                member.controller = Slave_BE_AI(member)
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
         battle.start_battle()
@@ -46,14 +53,24 @@ label interactions_escalation:
         for member in your_team:
             if member in battle.corpses:
                 member.health = 1
+            else:
+                member.exp += char.level*10
         for member in enemy_team:
             if member in battle.corpses:
                 member.health = 1
+            else:
+                member.exp += hero.level*10
     if battle.winner != your_team:
         show expression gm.bg_cache
         call interactions_fight_won
+        
     else:
         show expression gm.bg_cache
+        python:
+            for member in hero.team:
+                if (member.status <> "slave") and not("Yandere" in member.traits) and member<>hero:
+                    member.disposition -= randint(5, 10) # and even if they help, they don't like it
+        $ char.disposition -= randint(30, 60)
         call interactions_fight_lost
     jump girl_interactions_end
 
