@@ -184,8 +184,8 @@ init -1 python:
             Generates a new image for the girl.
             *Used upon first entering a location! This writes to cache so we know what image to fall back upon!
             """
-            self.img_cache = self.img
             self.set_img(*args, **kwargs)
+            self.img_cache = self.img
             
         def set_img(self, *args, **kwargs):
             """Sets the image, bypassing the image cache.
