@@ -3462,14 +3462,14 @@ init -9 python:
                     if add_mood:
                         imgpath = self.select_image(self.id, 'profile', mood_tag)
                     if not imgpath:
-                        self.select_image(self.id, 'profile')
+                        imgpath = self.select_image(self.id, 'profile')
                 else:
                     devlog.warning(str(msg % sorted(tags)))
                     return default
             
             # If we got here without being able to find an image ("profile" lookup failed is the only option):        
             if not imgpath:
-                devlog.warning(str("Total failure while looking for image with %s tags!!!" % sorted(tags)))
+                devlog.warning(str("Total failure while looking for image with %s tags!!!" % tags))
                 imgpath = "content/gfx/interface/images/no_image.png"
             else: # We have an image, time to convert it to full path.
                 imgpath = "/".join([self.path_to_imgfolder, imgpath])
