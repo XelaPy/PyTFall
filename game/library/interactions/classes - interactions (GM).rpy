@@ -185,8 +185,7 @@ init -1 python:
             *Used upon first entering a location! This writes to cache so we know what image to fall back upon!
             """
             self.img_cache = self.img
-            kwargs["resize"] = kwargs.get("resize", self.img_size)
-            self.img = self.char.show(*args, **kwargs)
+            self.set_img(*args, **kwargs)
             
         def set_img(self, *args, **kwargs):
             """Sets the image, bypassing the image cache.
