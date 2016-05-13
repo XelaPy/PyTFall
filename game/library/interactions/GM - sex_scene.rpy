@@ -271,37 +271,37 @@ init python:
             tags = (["beach", "swimsuit"], ["simple bg", "swimsuit"], ["no bg", "swimsuit"])
             result = get_simple_act(char, tags, excluded)
             if result:
-                gm.generate_img(*result, exclude=excluded, type="reduce")
+                gm.set_img(*result, exclude=excluded, type="reduce")
             else:
-                gm.generate_img("swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
+                gm.set_img("swimsuit", "nude", exclude=["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"], type="reduce")
         elif location in ["forest", "park"]:
             excluded.extend(["indoors"])
             if char.has_image("nature", exclude=excluded):
                 if location == "park":
-                    gm.generate_img("nature", "nude", "urban", exclude=excluded, type="reduce")
+                    gm.set_img("nature", "nude", "urban", exclude=excluded, type="reduce")
                 else:
-                    gm.generate_img("nature", "nude", "wildness", exclude=excluded, type="reduce")
+                    gm.set_img("nature", "nude", "wildness", exclude=excluded, type="reduce")
             else:
                 tags = (["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"], ["simple bg", "nude"])
                 result = get_simple_act(char, tags, excluded)
                 if result:
-                    gm.generate_img(*result, exclude=excluded)
+                    gm.set_img(*result, exclude=excluded)
                 else:
-                    gm.generate_img("nature", "nude", exclude=excluded, type="reduce")
+                    gm.set_img("nature", "nude", exclude=excluded, type="reduce")
         else:
             excluded.extend(["outdoors", "dungeon"])
             tags = (["indoors", "nude"], ["indoors", "lingerie"], ["indoors", "swimsuit"])
             result = get_simple_act(char, tags, excluded)
             if result:
                 result.extend(["living"])
-                gm.generate_img(*result, exclude=excluded, type="reduce")
+                gm.set_img(*result, exclude=excluded, type="reduce")
             else:
                 tags = (["no bg", "nude"], ["no bg", "lingerie"], ["simple bg", "lingerie"], ["simple bg", "nude"])
                 if result:
                     result.extend(["living"])
-                    gm.generate_img(*result, exclude=excluded)
+                    gm.set_img(*result, exclude=excluded)
                 else:
-                    gm.generate_img("indoors", "living", "indoor", "nude", exclude=excluded, type="reduce")
+                    gm.set_img("indoors", "living", "indoor", "nude", exclude=excluded, type="reduce")
         return
         
     def get_character_libido(char, mc=True): # depending on character traits returns relative libido level, ie how much the character wishes to have sex with MC
