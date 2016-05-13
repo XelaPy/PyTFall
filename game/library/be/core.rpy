@@ -1347,7 +1347,7 @@ init -1 python: # Core classes:
             skills = self.get_skills()
             if skills:
                 skill = choice(skills)
-                # So we have a skill... now lets pick a taget(s):
+                # So we have a skill... now lets pick a target(s):
                 skill.source = self.source
                 targets = skill.get_targets() # Get all targets in range.
                 targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
@@ -1372,3 +1372,10 @@ init -1 python: # Core classes:
                 # if not skill.check_conditions():
                     # skills.remove(skill)
             return skills
+
+    class Slave_BE_AI(object): # for slaves involved in combat, skips every turn since they are not allowed to fight.
+        def __init__(self, source):
+            self.source = source
+        def __call__(self):
+            skill = Slave_BE_Skip(source=self.source)
+            skill()

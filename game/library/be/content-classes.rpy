@@ -9,10 +9,20 @@ init python:
             self.source = source
         
         def __call__(self, *args, **kwargs):
-            msg = "{} skips a turn!".format(self.source.nickname)
+            msg = "{} skips a turn.".format(self.source.nickname)
             battle.log(msg)
             
-
+    class Slave_BE_Skip(BE_Event):
+        """
+        Skipping for slaves. So far only with different message, but there might be more differences in the future.
+        """
+        def __init__(self, source=None):
+            self.source = source
+        
+        def __call__(self, *args, **kwargs):
+            msg = "{} stands still.".format(self.source.nickname)
+            battle.log(msg)
+            
     class RPG_Death(BE_Event):
         """
         Used to instantiate death and kill off a player at the end of any turn...

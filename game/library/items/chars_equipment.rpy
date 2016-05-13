@@ -118,8 +118,13 @@ label char_equip_loop:
                         if eqtarget == hero: # Simpler MCs logic:
                             equip_item(focusitem, eqtarget, area_effect=True)
                         else: # Actors: Maybe it's a good idea to encapsulate this:
-                            if eqtarget.status == "slave" and focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
-                                renpy.show_screen('message_screen', "Slaves are forbidden to equip large weapons by law!")
+                            if eqtarget.status == "slave":
+                                if focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
+                                    renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law!")
+                                elif focusitem.type in ["armor"]:
+                                    renpy.show_screen('message_screen', "Slaves are forbidden to wear armor by law!")
+                                elif focusitem.type in ["shield"]:
+                                    renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law!")
                             else:
                                 if inv_source == eqtarget:
                                     if all([eqtarget.status != "slave", eqtarget.disposition < 850]) or all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
