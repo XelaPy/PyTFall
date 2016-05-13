@@ -1,5 +1,5 @@
 label interactions_escalation:
-    $ gm.set_img("battle", "confident", "angry")
+    $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_fight_begins
     hide screen girl_interactions
     if "park" in gm.label_cache:
@@ -65,7 +65,10 @@ label interactions_escalation:
                 member.exp += hero.level*10
     if battle.winner != your_team:
         show expression gm.bg_cache
+        show screen girl_interactions
+        $ gm.restore_img()
         call interactions_fight_won
+        $ char.set_flag("_day_countdown_interactions_blowoff", 1)
         
     else:
         show expression gm.bg_cache
