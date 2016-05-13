@@ -109,26 +109,26 @@
     
     # if char.libido > 60:
         # "She is pretty horny so you:"
-        # $ gm.generate_img("sex")
+        # $ gm.set_img("sex")
         # "End the date with a bang."
         # jump girl_interactions
     
     # elif char.refinement > 60:
-        # $ gm.generate_img("date")
+        # $ gm.set_img("date")
         # "She is learning to behave like a noble so she courteously says goodbye and goes to her room. "
         # $ char.mod('reputation', 5)
         # $ char.mod('joy', 5)
         # jump girl_interactions
     
     # elif char.charisma > 40:
-        # $ gm.generate_img("date")
+        # $ gm.set_img("date")
         # "She looks really nice, going back to her room and friends. "
         # "But you feel that the date went well. "
         # $ char.mod('joy', 2)
         # $ char.mod('reputation', 2)
     
     # else:
-        # $ gm.generate_img("date")
+        # $ gm.set_img("date")
         # "The date went as well as could be expected... "
         # $ char.mod('joy', 2)
         # $ char.mod('constitution', 2)

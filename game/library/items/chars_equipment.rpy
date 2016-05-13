@@ -127,13 +127,13 @@ label char_equip_loop:
                                     renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law!")
                             else:
                                 if inv_source == eqtarget:
-                                    if all([eqtarget.status != "slave", eqtarget.disposition < 850]) or all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
+                                    if all([eqtarget.status != "slave", eqtarget.disposition < 850, not(check_lovers(char, hero))]):
                                         eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
                                     else:
                                         equip_item(focusitem, eqtarget, area_effect=True)
                                 else:
-                                    if all([eqtarget.status != "slave", (focusitem.badness > 90 or focusitem.eqchance < 10)]):
-                                        eqtarget.say(choice(["No way!", "I do not want this!", "No way in hell!"]))
+                                    if all([eqtarget.status != "slave", not(check_lovers(char, hero))]):
+                                        eqtarget.say(choice(["No way!", "I do not want this.", "No way in hell!"]))
                                     else:
                                         if transfer_items(inv_source, eqtarget, focusitem):
                                             equip_item(focusitem, eqtarget, area_effect=True)
@@ -168,7 +168,7 @@ label char_equip_loop:
                     if inv_source == hero:
                         renpy.call_screen("discard_item", inv_source, focusitem)
                     else:
-                        if eqtarget.disposition < 850:
+                        if eqtarget.disposition < 850 and not(check_lovers(char, hero)):
                             eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
                         else:
                             renpy.call_screen("discard_item", inv_source, focusitem)

@@ -120,7 +120,7 @@ init -11 python:
                 renpy.show_screen('message_screen', "This item cannot be transferred!")
             return
         # Free girls should always refuse giving up their items unless MC gave it to them.
-        if all([isinstance(source, Char), source.status != "slave"]):
+        if all([isinstance(source, Char), source.status != "slave", not(check_lovers(source, hero))]):
             if any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), source.given_items.get(item.id, 0) - amount < 0]):
                 if not silent:
                     if "Impersonal" in source.traits:
@@ -132,7 +132,7 @@ init -11 python:
                     elif "Kuudere" in source.traits:
                         source.say(choice(["Would you like fries with that?", "Perhaps you would like me to give you the key to my flat where I keep my money as well?"]))
                     elif "Yandere" in source.traits:
-                        source.say(choice(["Please refrain from touching my property.", "What do you think you doing with that property of mine?"]))
+                        source.say(choice(["Please refrain from touching my property.", "What do you think you doing with my belongings?"]))
                     elif "Tsundere" in source.traits:
                         source.say(choice(["Like hell am I giving away!", "Hey, hands off!"]))
                     elif "Imouto" in source.traits:

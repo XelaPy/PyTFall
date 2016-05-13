@@ -83,6 +83,34 @@ label interactions_escalation:
         call interactions_fight_lost
     jump girl_interactions_end
 
+label interactions_insult:
+    $ m = interactions_flag_count_checker(char, "flag_interactions_insult")
+    $ char.joy -= randint(2,4)
+    $ sub = check_submissivity(char)
+    $ char.disposition -= randint(1,5)
+    if dice(50+25*sub):
+        $ char.character -= randint(1,2)
+    if char.disposition >= 500 or check_lovers(char, hero):
+        $ char.disposition -= randint(1,5)
+        if m < 4:
+            call interactions_got_insulted_hdisp
+        else:
+            call interactions_too_many_lines
+            $ char.disposition -= randint(1,m)
+            $ del m
+    else:
+        $ char.disposition -= (randint(10,15) + m*2)
+        if ct("Aggressive") and m>1:
+            jump interactions_escalation
+        elif m < randint(3,4):
+            call interactions_got_insulted
+        else:
+            call interactions_got_insulted
+            $ char.set_flag("_day_countdown_interactions_blowoff", (2+sub))
+            jump girl_interactions_end
+    jump girl_interactions
+        
+    
 label interactions_fight_begins:
     $ char.override_portrait("portrait", "angry")
     if ct("Impersonal"):
@@ -169,7 +197,7 @@ label interactions_character_apology:
     elif ct("Dandere"):
         $ rc("...My bad. Forgive me.", "...Sorry about that.")
     elif ct("Tsundere"):
-        $ rc("I-I'm sorry... I said I was sorry, alright?", "「I'm honestly really sorry!"),
+        $ rc("I-I'm sorry... I said I was sorry, alright?", "I'm honestly really sorry!"),
     elif ct("Kuudere"):
         $ rc("I was wrong... It's as you see, forgive me...", "I'm sorry... Forgive me.", "Sorry, I guess that was a bit thoughtless...")
     elif ct("Kamidere"):
@@ -302,7 +330,7 @@ label interactions_broken_promise:
     elif ct("Tsundere"):
         $ rc("Why didn't you come...? You idiot...", "You idiot! Liar! I can't believe this!"),
     elif ct("Kuudere"):
-        $ rc("Tch. I guess a promise with me just isn't worth remembering, huh...", "「Is it too much for you to keep even a single promise?")
+        $ rc("Tch. I guess a promise with me just isn't worth remembering, huh...", "Is it too much for you to keep even a single promise?")
     elif ct("Kamidere"):
         $ rc("You're horrible... I was waiting the whole time...", "Jeez, why didn't you show up? Keep your promises!")
     elif ct("Bokukko"):
@@ -323,7 +351,7 @@ label interactions_got_insulted_hdisp:
     elif ct("Shy") and dice(50):
         $ rc("Ah... Eh... Aah! This is a joke... Right?", "Umm... Ah! Th-that was funny, wasn't it?")
     elif ct("Imouto"):
-        $ rc("Ufufu, I'm not falling for that joke!", "Haha, I'm not going to fall for that kind of joke!") 
+        $ rc("Ufufu, I'm not falling for that joke!", "Haha, what are you talking about?") 
     elif ct("Dandere"):
         $ rc("Not funny.", "I will overlook it this time, but that's harassment, you know?")
     elif ct("Tsundere"):
@@ -335,7 +363,7 @@ label interactions_got_insulted_hdisp:
     elif ct("Bokukko"):
         $ rc("Jeez, your jokes are so mean.", "Mm, sounds kinda boring, y'know?")
     elif ct("Ane"):
-        $ rc("Oh, you, stop it with your childish pranks.", "Mumu... Looking forward to seeing my reaction, are you? Well too bad, I won't give you the satisfaction!")
+        $ rc("Oh, you, stop it with your childish pranks.", "Mumu... Looking forward to seeing my reaction, are you? Well too bad, I won't give you the satisfaction ♪")
     elif ct("Yandere"):
         $ rc("Go easy on the jokes, hey?", "Hey now, that's harsh for a joke.")
     else:
