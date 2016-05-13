@@ -1,5 +1,5 @@
 label interactions_escalation:
-    $ gm.set_img("battle", "confident", "angry")
+    $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_fight_begins
     hide screen girl_interactions
     if "park" in gm.label_cache:
@@ -35,10 +35,10 @@ label interactions_escalation:
         for member in hero.team:
             if member <> hero:
                 if member.status <> "slave":
-                    if (member.disposition >= 700) or (check_lovers(member, hero)) or (("Yandere" in member.traits) and (member.disposition >= 200)): # girls usually don't support MC when he harasses other girls, unless they are close enough to him or are yandere with at least some disposition
+                    if (member.disposition >= 700) or (check_lovers(member, hero)) or (("Yandere" in member.traits) and (member.disposition >= 200)) or ("Vicious" in member.traits): # girls usually don't support MC when he harasses other girls, unless they are close enough to him or are yandere with at least some disposition
                         your_team.add(member)
                 else:
-                    if "Yandere" in member.traits and member.disposition >= 100: # and yandere slaves can serve as cannon fodder
+                    if ("Yandere" in member.traits and member.disposition >= 100) or (member.disposition >= 800): # and yandere slaves/slaves with high disp can serve as cannon fodder
                          your_team.add(member)
             else:
                 your_team.add(member)
@@ -53,24 +53,33 @@ label interactions_escalation:
         for member in your_team:
             if member in battle.corpses:
                 member.health = 1
+                if member <> hero:
+                    member.joy -= randint(5, 15)
             else:
                 member.exp += char.level*10
         for member in enemy_team:
             if member in battle.corpses:
                 member.health = 1
+                member.joy -= randint(5, 15)
             else:
                 member.exp += hero.level*10
     if battle.winner != your_team:
         show expression gm.bg_cache
+        show screen girl_interactions
+        $ gm.restore_img()
         call interactions_fight_won
+        $ char.set_flag("_day_countdown_interactions_blowoff", 1)
         
     else:
         show expression gm.bg_cache
         python:
             for member in hero.team:
-                if (member.status <> "slave") and not("Yandere" in member.traits) and member<>hero:
-                    member.disposition -= randint(5, 10) # and even if they help, they don't like it
-        $ char.disposition -= randint(30, 60)
+                if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero:
+                    if "Virtuous" in member.traits:
+                        member.disposition -= randint(10, 20) # double for kind characters
+                    else:
+                        member.disposition -= randint(5, 10) # and even if they help, they don't like it, unless it's a slave or an evil character
+        $ char.disposition -= randint(30, 60) # that's the beaten character, big penalty to disposition
         call interactions_fight_lost
     jump girl_interactions_end
 
