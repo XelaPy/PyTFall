@@ -217,7 +217,8 @@ label girl_interactions_after_greetings: # when character wants to say something
                         i = i + 1
             m = 10
             pytfall.world_actions.menu(m, "Harassment", condition="not(char in hero.team)") # no fights between team members
-            pytfall.world_actions.gm_choice("Escalation", index=(m, 0))
+            pytfall.world_actions.gm_choice("Insult", index=(m, 0))
+            pytfall.world_actions.gm_choice("Escalation", index=(m, 1))
             # Back
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
             
