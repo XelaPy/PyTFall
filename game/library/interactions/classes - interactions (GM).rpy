@@ -179,27 +179,11 @@ init -1 python:
                     cell.girls.remove(char)
         
         # Image Controls:
-        def generate_img(self, *args, **kwargs):
-            """
-            Generates a new image for the girl.
-            *Used upon first entering a location! This writes to cache so we know what image to fall back upon!
-            """
-            self.set_img(*args, **kwargs)
-            self.img_cache = self.img
-            
         def set_img(self, *args, **kwargs):
-            """Sets the image, bypassing the image cache.
+            """Sets the image, leaving the image cache untouched.
             """
             kwargs["resize"] = kwargs.get("resize", self.img_size)
             self.img = self.char.show(*args, **kwargs)
-        
-        def change_img(self, img):
-            """Changes the image AND writes to cache!
-            
-            img = The image to change to.
-            """
-            self.img_cache = self.img
-            self.img = img
             
         def restore_img(self): 
             """Restores the image to the cached one.
@@ -291,17 +275,16 @@ init -1 python:
             elif bg is not None:
                 self.bg_cache = "bg " + bg
             
+            # Routine to get the correct image for this interaction:
             if img is None:
                 self.img = self.char.get_img_from_cache(str(last_label))
-                
-                if self.img == "":
+                if not self.img:
                     self.img = self.char.show("profile", resize=self.img_size, exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"])
-            
             else:
                 self.img = img
+            self.img_cache = self.img
             
-            global char
-            char = girl
+            store.char = girl
             
             if mode in self.USE_GI:
                 jump("girl_interactions")
