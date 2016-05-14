@@ -330,7 +330,7 @@ init -999 python:
             
     for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
         if fname.lower().endswith((".jpg", ".png", ".jpeg")):
-            tag = 'bg ' + 'story' + fname.rsplit(".", 1)[0]
+            tag = 'bg ' + 'story ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/story/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
