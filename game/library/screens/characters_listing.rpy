@@ -5,7 +5,7 @@ init:
     default occ_filters = list()
     python:
         def sorting_for_chars_list():
-            return hero.girls
+            return hero.chars
         
 label chars_list:
     scene bg gallery
@@ -14,11 +14,11 @@ label chars_list:
         $ char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
         $ char_lists_filters.filter()
         # We create the filters only from those that our chars actually have... not need for gibberish:
-        $ status_filters = list(set([c.status for c in hero.girls]))
-        $ location_filters = list(set([c.location for c in hero.girls]))
-        $ action_filters = list(set([c.action for c in hero.girls]))
+        $ status_filters = list(set([c.status for c in hero.chars]))
+        $ location_filters = list(set([c.location for c in hero.chars]))
+        $ action_filters = list(set([c.action for c in hero.chars]))
         # $ class_filters = set()
-        # for c in hero.girls:
+        # for c in hero.chars:
         
         show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)
     with dissolve

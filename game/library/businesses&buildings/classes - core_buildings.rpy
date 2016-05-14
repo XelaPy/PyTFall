@@ -185,7 +185,7 @@ init -9 python:
         def get_workers(self):
             # I may want better handing for this...
             # Returns a list of all chars in heros service that have their workplaces set to this building.
-            return [c for c in hero.girls if c.workplace==self]
+            return [c for c in hero.chars if c.workplace==self]
         
         def get_girls(self, action=undefined, occupation=undefined, nott=False):
             """
@@ -198,19 +198,19 @@ init -9 python:
             """
             # Get all girls
             if action is undefined:
-                g = [girl for girl in hero.girls if girl.location is self]
+                g = [girl for girl in hero.chars if girl.location is self]
             
             # Only get girls that (don't) match action list
             elif isinstance(action, (list,tuple)):
-                g = [girl for girl in hero.girls if girl.location is self and (girl.action in action) != nott]
+                g = [girl for girl in hero.chars if girl.location is self and (girl.action in action) != nott]
             
             # Only get girls that are training
             elif action == "Course":
-                g = [girl for girl in hero.girls if girl.location is self and girl.action is not None and girl.action.endswith("Course") != nott]
+                g = [girl for girl in hero.chars if girl.location is self and girl.action is not None and girl.action.endswith("Course") != nott]
             
             # Only get girls with specific action
             else:
-                g = [girl for girl in hero.girls if girl.location is self and (girl.action == action) != nott]
+                g = [girl for girl in hero.chars if girl.location is self and (girl.action == action) != nott]
             
             # Get all girls
             if occupation is undefined:

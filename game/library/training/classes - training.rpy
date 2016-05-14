@@ -359,7 +359,7 @@ init -9 python:
         Returns the girls that are assigned as trainers at the location.
         location = The location to check.
         """
-        tr = [g for g in hero.girls if g.location is location and g.action == "Train"]
+        tr = [g for g in hero.chars if g.location is location and g.action == "Train"]
         # Hero always available
         tr.insert(0, hero)
         return tr
@@ -369,7 +369,7 @@ init -9 python:
         Returns the girls that are training with the trainer.
         trainer = The trainer to check for.
         """
-        return [girl for girl in hero.girls if girl_training_with(girl) is trainer]
+        return [girl for girl in hero.chars if girl_training_with(girl) is trainer]
     
     def girl_training_trait_mult(girl, trait):
         """
@@ -448,7 +448,7 @@ init -9 python:
             """
             Returns the girls that are doing this course.
             """
-            return [girl for girl in hero.girls if girl.action == self.action]
+            return [girl for girl in hero.chars if girl.action == self.action]
         
         def get_lesson_image(self):
             """
@@ -632,7 +632,7 @@ init -9 python:
             """
             Returns the girls that are doing this course.
             """
-            return [girl for girl in hero.girls if char_is_training(girl) is self]
+            return [girl for girl in hero.chars if char_is_training(girl) is self]
                 
         def get_image(self, girl, **kwargs):
             """
@@ -2078,7 +2078,7 @@ init -9 python:
             
             # Else if has guard action, use amount over total
             elif hasattr(location, "actions") and "Guard" in location.actions:
-                girls = [g for g in hero.girls if g.location == location]
+                girls = [g for g in hero.chars if g.location == location]
                 if girls:
                     mod = float(len(location.get_girls("Guard"))) / float(len(girls))
                 else:
@@ -2086,7 +2086,7 @@ init -9 python:
             
             # Else use warriors over total
             else:
-                girls = [g for g in hero.girls if g.location == location]
+                girls = [g for g in hero.chars if g.location == location]
                 if girls:
                     mod = float(len(location.get_girls(occupation="Warrior"))) / float(len(girls))
                 else:

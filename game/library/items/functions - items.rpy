@@ -38,17 +38,17 @@ init -11 python:
 
             elif item.ceffect == 'allslaves':
                 char.inventory.remove(item)
-                for girl in [girl for girl in hero.girls if girl.status == 'slave']:
+                for girl in [girl for girl in hero.chars if girl.status == 'slave']:
                     girl.equip(item)
 
             elif item.ceffect == 'allfree':
                 char.inventory.remove(item)
-                for girl in [girl for girl in hero.girls if girl.status != 'slave']:
+                for girl in [girl for girl in hero.chars if girl.status != 'slave']:
                     girl.equip(item)
 
             elif item.ceffect == 'allgirls':
                 char.inventory.remove(item)
-                for girl in [girl for girl in hero.girls]:
+                for girl in [girl for girl in hero.chars]:
                     girl.equip(item)
         else:
             char.equip(item)

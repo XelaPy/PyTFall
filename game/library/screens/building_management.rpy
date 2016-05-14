@@ -79,7 +79,7 @@ init python:
             """
             self.reset_callable = reset_callable
             self.target_container = container
-            self.sorted = list() # list(girl for girl in hero.girls if girl.action != "Exploring")
+            self.sorted = list() # list(girl for girl in hero.chars if girl.action != "Exploring")
             self.status_filters = set()
             self.action_filters = set()
             self.occ_filters = set()
@@ -222,7 +222,7 @@ label building_management_loop:
                         if hero.location == building:
                             hero.location = hero
                         
-                        for girl in hero.girls:
+                        for girl in hero.chars:
                             if girl.location == building:
                                 girl.location = hero
                                 girl.action = None
@@ -569,7 +569,7 @@ init: # Screens:
                         # xysize (290, 27)
                         # xalign 0.5
                         # text "Guard Quarters:" xalign 0.02 color ivory
-                        # text "%d/5  " % min(len([girl for girl in hero.girls if girl.location == building and "Warrior" in girl.occupations]), 5) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                        # text "%d/5  " % min(len([girl for girl in hero.chars if girl.location == building and "Warrior" in girl.occupations]), 5) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
             
             # Dirt:
             if isinstance(building, DirtyBuilding):

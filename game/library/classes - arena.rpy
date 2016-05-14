@@ -128,7 +128,7 @@ init -9 python:
                         fighters.append(fighter)
             else:
                 for fighter in chars.values():
-                    if fighter.arena_active and fighter not in hero.girls:
+                    if fighter.arena_active and fighter not in hero.chars:
                         fighters.append(fighter)
                         
             if include_af:
@@ -152,12 +152,12 @@ init -9 python:
             
             # First pass, unique girls...
             for girl in chars.values():
-                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == Char and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
+                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == Char and girl.status != "slave" and girl not in hero.chars and girl not in gm_girls:
                     arena_candidates.append(girl)
             
             # Second pass, random girls:
             for girl in chars.values():
-                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == rChar and girl.status != "slave" and girl not in hero.girls and girl not in gm_girls:
+                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == rChar and girl.status != "slave" and girl not in hero.chars and girl not in gm_girls:
                     arena_candidates.append(girl)
                     
             return arena_candidates
@@ -792,7 +792,7 @@ init -9 python:
                         member.arena_active = True
                         a_team.add(member)
                     elif member in chars:
-                        if chars[member] in hero.girls:
+                        if chars[member] in hero.chars:
                             hero.remove_girl(chars[member])
                         if chars[member] in self.get_teams_fighters(teams="2v2"):
                             raise Exception, "You've added unique girl %s to 2v2 Arena teams twice!"%chars[member].name

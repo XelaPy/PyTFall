@@ -370,7 +370,7 @@
             TODO: Currently disabled due to being useless anyhow... restore when ready.
             """
             # Prepear the lists:
-            rgList = list(entry for entry in hero.girls if entry.location == self.loc and entry.action in ['Rest', 'AutoRest'])
+            rgList = list(entry for entry in hero.chars if entry.location == self.loc and entry.action in ['Rest', 'AutoRest'])
             rgList.remove(self.worker)
             gl = rgList * 1
             

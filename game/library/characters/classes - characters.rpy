@@ -983,7 +983,7 @@ init -9 python:
                         girl = self.instance
                         girl._location = "After Life"
                         girl.alive = False
-                        if girl in hero.girls:
+                        if girl in hero.chars:
                             hero.corpses.append(girl)
                             hero.remove_girl(girl)
                         if girl in hero.team:
@@ -1237,6 +1237,9 @@ init -9 python:
         # Properties:
         @property
         def is_available(self):
+            # So we already have this property!
+            # This needs to be expanded to cover the guild.
+            # Is this enought or should there be separate tracker properties for gameworld and player actions? This will prolly do for now.
             if not self.alive:
                 return False
             return self._available
@@ -2310,7 +2313,7 @@ init -9 python:
                     self.del_flag(flag)
             
             # Log stats to display changes on the next day (Only for chars to whom it's useful):
-            if self in hero.girls:
+            if self in hero.chars:
                 self.log_stats()
 
             
@@ -2447,11 +2450,10 @@ init -9 python:
             self.gender = "male"
             
             # Player only...
-            self.corpses = list() # Dead bodies go here until disposed off.
-
-            self._brothels = list()
+            self.corpses = list() # Dead bodies go here until disposed off. Why the fuck here??? There gotta be a better place for dead chars than MC's class. We're not really using this atm anyway....
+            
             self._buildings = list()
-            self._girls = list()
+            self._chars = list()
             
             self.guard_relay = {"bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
@@ -2464,17 +2466,9 @@ init -9 python:
             self.fin = Finances(self)
             
             # Team:
-            self.team = Team(implicit = [self])
+            self.team = Team(implicit=[self])
             self.team.name = "Player Team"
             
-            
-        # def __setattr__(self, key, value):
-            # if key == 'health' and value <= 0:
-                # jump("game_over")
-                # return
-            # else:
-                # super(Player, self).__setattr__(key, value)
-                
         # Fin Methods:
         def take_money(self, value, reason="Other"):
             return self.fin.take_money(value, reason)
@@ -2514,59 +2508,29 @@ init -9 python:
         def add_building(self, building):
             if building not in self._buildings:
                 self._buildings.append(building)
-            
-            # if isinstance(building, Brothel):
-                # if building not in self._brothels:
-                    # self._brothels.append(building)
         
         def remove_building(self, building):
-            # if building in self._brothels:
-                # self._brothels.remove(building)
-            
             if building in self._buildings:
                 self._buildings.remove(building)
-            
             else:
                 raise Exception, "This building does not belong to the player!!!"
-        
-        # @property
-        # def brothels(self):
-            # """List of owned brothels
-            # :returns: list
- 
-            # """
-            # return self._brothels
-
-        # def add_brothel(self, brothel):
-            # if brothel not in self.brothels:
-                # self._brothels.append(brothel)
-            # if brothel not in self._buildings:
-                # self.add_building(brothel)
-            
-        # def remove_brothel(self, brothel):
-            # if brothel in self._brothels:
-                # self._brothels.remove(brothel)
-            # if brothel in self._buildings:
-                # self._buildings.remove(brothel)
-            # else:
-                # raise Exception, "This brothel does not belong to the player!!!"
             
         @property
-        def girls(self):
+        def chars(self):
             """List of owned girls
             :returns: @todo
             """
-            return self._girls
+            return self._chars
 
-        def add_girl(self, girl):
-            if girl not in self._girls:
-                self._girls.append(girl)
+        def add_girl(self, char):
+            if char not in self._chars:
+                self._chars.append(char)
 
-        def remove_girl(self, girl):
-            if girl in self._girls:
-                self._girls.remove(girl)
+        def remove_girl(self, char):
+            if char in self._char:
+                self._chars.remove(char)
             else:
-                raise Exception, "This girl (ID: %s) is not in service to the player!!!" % self.id
+                raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
         # ----------------------------------------------------------------------------------
         # Show to mimic girls method behaviour:
         def has_image(self, *tags):
@@ -2760,7 +2724,7 @@ init -9 python:
                 if total_debt > 50000:
                     txt += " {color=[red]}... And... your're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated :("
                     all_properties = list()    
-                    for girl in hero.girls:
+                    for girl in hero.chars:
                         if girl.status == "slave":
                             all_properties.append(girl)
                     for b in businesses:
@@ -3122,7 +3086,7 @@ init -9 python:
                 setattr(self, stat, self.get_max(stat))
             
             # Arena:
-            if "Warrior" in self.occupations and self not in hero.girls and self.arena_willing is not False:
+            if "Warrior" in self.occupations and self not in hero.chars and self.arena_willing is not False:
                 self.arena_willing = True
                 
             # AP:
@@ -3710,7 +3674,7 @@ init -9 python:
             return txt
             
         def next_day(self):
-            if self in hero.girls:
+            if self in hero.chars:
                 # Local vars
                 img = 'profile'
                 txt = ''

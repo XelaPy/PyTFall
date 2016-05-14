@@ -148,7 +148,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             
             # PRAISE
             m = 2
-            pytfall.world_actions.menu(m, "Praise", condition="not(char in hero.girls)")
+            pytfall.world_actions.menu(m, "Praise", condition="not(char in hero.chars)")
             pytfall.world_actions.gm_choice("Clever", mode="girl_meets", index=(m, 0))
             pytfall.world_actions.gm_choice("Strong", mode="girl_meets", index=(m, 1))
             pytfall.world_actions.gm_choice("Cute", mode="girl_meets", index=(m, 2))
@@ -180,10 +180,10 @@ label girl_interactions_after_greetings: # when character wants to say something
             
             # PROPOSITION
             m = 7
-            pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.girls) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
+            pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.chars) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
             pytfall.world_actions.gm_choice("Friends", condition="not check_friends(char, hero)", index=(m, 0))
             pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 1))
-            pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.girls)", index=(m, 2))
+            pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.chars)", index=(m, 2))
             
             # INTIMACY
             m = 8

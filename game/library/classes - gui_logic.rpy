@@ -31,7 +31,7 @@ init -1 python:
         BUILDING_GROUP = 'building'
 
         def __init__(self):
-            self.sorted = list(girl for girl in hero.girls if girl.action != "Exploring")
+            self.sorted = list(girl for girl in hero.chars if girl.action != "Exploring")
             self.init_display_filters()
             self.init_active_filters()
             
@@ -74,7 +74,7 @@ init -1 python:
             }
 
         def clear(self):
-            self.sorted = copy.copy(hero.girls)
+            self.sorted = copy.copy(hero.chars)
             self.init_active_filters()
             renpy.restart_interaction()
 

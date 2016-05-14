@@ -74,7 +74,7 @@ init -5 python hide:
         if hasattr(store, "hero"):
             some_dict["name"] = hero.name
             some_dict["level"] = hero.level
-            some_dict["chars"] = len(hero.girls)
+            some_dict["chars"] = len(hero.chars)
             some_dict["gold"] = hero.gold
             some_dict["buildings"] = len(hero.buildings)
             try:

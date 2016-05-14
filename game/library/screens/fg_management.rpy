@@ -9,7 +9,7 @@ label fg_management:
             girls = None
         # for team in fg.teams[:]:
             # for girl in team:
-                # if girl not in hero.girls:
+                # if girl not in hero.chars:
                     # if team[0] == girl:
                         # fg.teams.remove(team)
                         # global_flags.set_flag("teams_changed")

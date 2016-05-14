@@ -2529,7 +2529,7 @@
             else:
                 gbu = self.loc.get_upgrade_mod("guards")
                 if gbu == 3:
-                    guardlist = [girl for girl in hero.girls if girl.location == self.loc and girl.action == 'Guard' and girl.health > 60]
+                    guardlist = [girl for girl in hero.chars if girl.location == self.loc and girl.action == 'Guard' and girl.health > 60]
                     guards = len(guardlist)
                     
                     if guards > 0:

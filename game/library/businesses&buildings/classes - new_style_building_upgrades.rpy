@@ -958,8 +958,8 @@ init -5 python:
         *Not really a Job, it stores data and doesn't write any reports to ND.
         Adapted from old FG, not sure what we can keep here..."""
         def __init__(self, team, area):
-            """
-            Creates a new ExplorationJob.
+            """Creates a new ExplorationJob.
+            
             team = The team that is exploring.
             area = The area that is being explored.
             """

@@ -1,7 +1,7 @@
 label char_profile:
     
     if not hasattr(store, "girls") or girls is None or char not in girls:
-        $ girls = list(girl for girl in hero.girls if girl.action != "Exploring")
+        $ girls = list(girl for girl in hero.chars if girl.action != "Exploring")
     
     scene bg scroll
     $ renpy.retain_after_load()

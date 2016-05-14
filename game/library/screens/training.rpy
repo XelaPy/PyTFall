@@ -260,7 +260,7 @@ screen girl_training_lesson(course, tt, show_image):
                     idle ProportionalScale(content_path(course.get_lesson_image()), 175, 175)
                     hover im.MatrixColor(ProportionalScale(content_path(course.get_lesson_image()), 175, 175), im.matrix.brightness(0.15))
                     action Return(["setto", course])
-                    hovered tt.action(u"%s\nGirls being trained: %s"%(course.desc, ", ".join([girl.fullname for girl in hero.girls if char_is_training(girl) is course])))
+                    hovered tt.action(u"%s\nGirls being trained: %s"%(course.desc, ", ".join([girl.fullname for girl in hero.chars if char_is_training(girl) is course])))
              
             null height 3
             
@@ -276,7 +276,7 @@ screen girl_training_lesson(course, tt, show_image):
                 textbutton (u"[course.%s]"%("action" if course.is_schooling else "name")):
                     xsize 185
                     action Return(["setto", course])
-                    hovered tt.action(u"%s\nGirls being trained: %s"%(course.desc, ", ".join([girl.fullname for girl in hero.girls if char_is_training(girl) is course])))
+                    hovered tt.action(u"%s\nGirls being trained: %s"%(course.desc, ", ".join([girl.fullname for girl in hero.chars if char_is_training(girl) is course])))
                 
                 null height 3
         
@@ -370,7 +370,7 @@ screen girl_training_schooling:
                     xmaximum 590
                     spacing 10
                     text "Girls currently taking courses here:" color ivory
-                    for entry in [girl for girl in hero.girls if girl.location == training_screen_current]:
+                    for entry in [girl for girl in hero.chars if girl.location == training_screen_current]:
                         hbox:
                             vbox:
                                 xmaximum 180

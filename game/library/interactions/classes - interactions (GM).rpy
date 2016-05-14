@@ -22,7 +22,7 @@ init -1 python:
             self.girls = list()
             
             # Get available girls and check occupation
-            choices = list(i for i in chars.values() if i not in hero.girls and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
+            choices = list(i for i in chars.values() if i not in hero.chars and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
             # We remove all chars with badtraits:
             if badtraits:
                 choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))

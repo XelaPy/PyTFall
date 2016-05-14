@@ -408,7 +408,7 @@ init -9 python:
                 # Later we may want to call this from girls profile screen/hero profile screen
                 # Right now this check is redundant
                 # members = self.location.all_workers # <<== Doesn't really work since workers that are not set to do any task or cannot do any task in the building are not included...
-                members = list(w for w in hero.girls if w.location == self.location)
+                members = list(w for w in hero.chars if w.location == self.location)
                 if hero.location == self.location:
                     members.insert(0, hero)
             elif self.location == "personal_transfer":

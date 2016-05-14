@@ -285,7 +285,7 @@ init -11 python:
         if chars[char].status == "slave" or not(chars[char].is_available):
             narrator("Nobody's here...")
             renpy.jump(place)
-        elif chars[char] in hero.girls:
+        elif chars[char] in hero.chars:
             gm.start("girl_interactions", chars[char], chars[char].get_vnsprite(), place, background)
         else:
             gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), place, background)

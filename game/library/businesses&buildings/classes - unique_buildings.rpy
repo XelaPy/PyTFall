@@ -988,7 +988,7 @@ init -9 python:
             evtlist = []
             char = None
             
-            girls = [girl for girl in hero.girls if girl.location == self.name]
+            girls = [girl for girl in hero.chars if girl.location == self.name]
             
             if not girls:
                 txt += "Exellent courses are availible today! Remember our Motto: Education is Gold! \n"

@@ -20,9 +20,9 @@ init python:
             e = events[setup]
             
             if setup == "ALL":
-                container = hero.girls
+                container = hero.chars
             else:
-                container = [g for g in hero.girls if g.location == setup] # TODO: Should prolly be flipped to .workplace?
+                container = [g for g in hero.chars if g.location == setup] # TODO: Should prolly be flipped to .workplace?
             
             for char in container:
                 cat = 0
@@ -113,12 +113,12 @@ label next_day_calculations:
     python:
         global_flags.set_flag("keep_playing_music")
         tl.timer("Next Day")
-        devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.girls), len(chars)))
+        devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
         NextDayEvents = list()
         
         ################## Restore before the jobs ##################
         tl.timer("Char.restore for all MC girls")
-        list(girl.restore() for girl in list(g for g in hero.girls if g.action != "Exploring"))
+        list(girl.restore() for girl in list(g for g in hero.chars if g.action != "Exploring"))
         tl.timer("Char.restore for all MC girls")
         
         ################## Building events Start ##################
@@ -130,8 +130,8 @@ label next_day_calculations:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
     
     $ tl.timer("Rest (1)")
-    $ ndr_chars = list(c for c in hero.girls if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
-    # $ ndr_chars2 = list(c for c in hero.girls if not check_char(c)) # Revice this for characters who are set to work till the drop???
+    $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
+    # $ ndr_chars2 = list(c for c in hero.chars if not check_char(c)) # Revice this for characters who are set to work till the drop???
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
@@ -186,7 +186,7 @@ label next_day_calculations:
                 
                 ##### Second round for Service Girls (Just cleaning this time) #####
                 tl.timer("ServiceJob(2)")
-                service_girls = list(girl for girl in hero.girls if girl.location == building and girl.action == 'ServiceGirl')
+                service_girls = list(girl for girl in hero.chars if girl.location == building and girl.action == 'ServiceGirl')
                 girls = service_girls
                 building.servicer['second_round'] = True
                 while service_girls:
@@ -197,7 +197,7 @@ label next_day_calculations:
                 
                 ##### Guard Job events and reports #####
                 tl.timer("GuardJob")
-                guards = list(girl for girl in hero.girls if girl.location == building and girl.action == 'Guard')
+                guards = list(girl for girl in hero.chars if girl.location == building and girl.action == 'Guard')
                 girls = guards
                 while guards:
                     girl = choice(guards)
@@ -207,7 +207,7 @@ label next_day_calculations:
                 
                 ###### Rest job in buildings #######
                 tl.timer("RestJob")
-                resting = list(girl for girl in hero.girls if girl.location == building and girl.action in ['Rest', 'AutoRest'])
+                resting = list(girl for girl in hero.chars if girl.location == building and girl.action in ['Rest', 'AutoRest'])
                 girls = resting
                 for girl in resting:
                     Rest(girl, building, resting)
@@ -965,7 +965,7 @@ screen next_day():
                 python:
                     free = 0
                     slaves = 0
-                    for girl in hero.girls:
+                    for girl in hero.chars:
                         if girl.status == "slave":
                             slaves = slaves + 1
                         else:
@@ -984,7 +984,7 @@ screen next_day():
                 # Data:
                 python:
                     unas = list()
-                    for girl in hero.girls:
+                    for girl in hero.chars:
                         if not girl.action:
                             unas.append(girl)
                 if unas:
