@@ -1256,7 +1256,7 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
     return
 
 label interactions_sex_agreement: # the character agrees to do it
-    $ char.override_portrait("portrait", "shy")
+    $ char.override_portrait("portrait", "shy") # TO DO: this part for half-sister is to complex to be handled via properties, thus female lines should be written separately after adding female MC, with direct checks for MC gender
     if ct("Half-Sister") and dice(50):
         if ct("Impersonal"):
             $ rc("I'll take in all your cum, brother.", "Sex with my brother, initiation.", "Let's have incest.", "Even though we're siblings... it's fine to do this, right?", "Let's deepen our bond as siblings.")
@@ -1282,7 +1282,7 @@ label interactions_sex_agreement: # the character agrees to do it
             $ rc("It's alright for siblings to do something like this.", "Make your sister feel good.", "We're brother and sister. What we're doing now must remain an absolute secret.", "I'll do my best. I want you to feel good, brother.")
        
     elif ct("Impersonal"):
-        $ rc("Please insert to continue.", "You are authorized so long as it does not hurt.", "You can do me if you want.", "Understood. I will... service you...", "I dedicate this body to you.", "Understood. Please demonstrate your abilities.", "If the one corrupting my body is you, then I'll have no regrets.")
+        $ rc("You are authorized so long as it does not hurt.", "You can do me if you want.", "Understood. I will... service you...", "I dedicate this body to you.", "Understood. Please demonstrate your abilities.", "If the one corrupting my body is you, then I'll have no regrets.")
     elif ct("Shy") and dice(50):
         $ rc("Sex... O-okay, let's do it...", "D-do you mean...  Ah, y-yes...  If I'm good enough...", "Eeh?! Th-that's... uh... W- well... I do... want to...", "O...okay. I'll do my best.", "I too... wanted to be touched by you...", "Uh... H-how should I say this... It... it'll be great if you could do it gently.",  "Um, I-I want to do it too... Please treat me well.", "Eeh, i-is it ok with someone like me...?", "Umm...  I wanted to do it too... hehe.", "I-if I'm good enough, then however many times you want...", "I-I understand... I will... service you.")
     elif ct("Tsundere"):
@@ -1290,13 +1290,13 @@ label interactions_sex_agreement: # the character agrees to do it
     elif ct("Dandere"):
         $ rc("If that's what you desire...", "...Very well then. Please go ahead and do as you like.", "You're welcome to... to do that.",  "I will not go easy on you.", "I... I'm ready for sex.", "...If you do it, be gentle.", "...If you want, do it now.", "...I want to do it, too.", "Ok, but please don't look at my face. That'll help me relax more.")
     elif ct("Kuudere"):
-        $ rc("Y-yes... I don't mind letting you do as you please.", "If you feel like it, do what you want with my body...", "...I don't particularly mind.", "Heh. I'm just a girl too, you know. Let's do it.", "What a bothersome guy... Alright, I get it.", "...Fine, just don't use the puppy-dog eyes.", "*sigh* ...Fine, fine! I'll do it as many times as you want!", "Fine with me... Wh-what? ...Even I have times when I want to do it...", "If you wanna do it just do what you want.")
+        $ rc("Y-yes... I don't mind letting you do as you please.", "If you feel like it, do what you want with my body...", "...I don't particularly mind.", "Heh. I'm just a girl too, you know. Let's do it.", "What a bother... Alright, I get it.", "...Fine, just don't use the puppy-dog eyes.", "*sigh* ...Fine, fine! I'll do it as many times as you want!", "Fine with me... Wh-what? ...Even I have times when I want to do it...", "If you wanna do it just do what you want.")
     elif ct("Imouto"):
         $ rc("Uhuhu, Well then, I'll be really nice to you, ok? ♪",  "Okayyy! Let's love each other a lot ♪", "Hold me really tight, kiss me really hard, and make me feel really good ♪", "Yeah, let's make lots of love ♪", "I'll do my best to pleasure you!", "Geez, you're so forceful...♪")
     elif ct("Ane"):
         $ rc("Heh, fine, do me to your heart's content.", "If we're going to do it, then let's make it the best performance possible. Promise?", "Come on, show me what you've got...", "This looks like it will be enjoyable.", "If you can do this properly... I'll give you a nice pat on the head.", "Seems like you can't help it, huh...", "Fufufu, please don't overdo it, okay?", "Go ahead and do it as you like, it's okay.", "Very well, I can show you a few things... Hmhm.", "You want to do it with me too? Huhu, by all means.")
     elif ct("Bokukko"):
-        $ rc("Wha? You wanna to do it? Geez, you're so hopeless.. ♪", "Right, yeah... As long as you don't just cum on your own, sure, let's do it", "Y-yeah... I sort of want to do it, too... ehehe...", "S-sure... Ehehe, I'm, uh, kind of interested, too...", "Gotcha, sounds like a plan!", "Huhu... I want to do it with a pervert like you.", "Ehehe... In that case, let's go hog wild ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Huhuh, I sort of want to do it too.", "Well, I s'pose once in a while wouldn't hurt ♪")
+        $ rc("Wha? You wanna to do it? Geez, you're so hopeless.. ♪", "Right, yeah... As long as you don't just come on your own, sure, let's do it", "Y-yeah... I sort of want to do it, too... ehehe...", "S-sure... Ehehe, I'm, uh, kind of interested, too...", "Gotcha, sounds like a plan!", "Huhu... I want to do it with a pervert like you.", "Ehehe... In that case, let's go hog wild ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Huhuh, I sort of want to do it too.", "Well, I s'pose once in a while wouldn't hurt ♪")
     elif ct("Yandere"):
         $ rc("You won't be able to think about anybody else besides me after I'm done with you ♪", "Oh? You seem quite confident. I'm looking forward to this ♪", "*giggle* I'll give you a feeling you'll never get from anyone else...", "Yes, let's have passionate sex, locked together ♪", "If we have sex you will never forget me, right? ♪", "Heh heh... You're going to feel a lot of pleasure. Try not to break on me.")
     elif ct("Kamidere"):
@@ -1316,9 +1316,9 @@ label interactions_sex_disagreement: # the character disagrees to do it
         elif ct("Dandere"):
             $ rc("We're siblings. We shouldn't do things like this.", "Do you have sexual desires for your sister...?")
         elif ct("Imouto"):
-            $ rc("B... brother! P... please don't say things like that!", "Having sex with a blood relative? That's wrong!")
+            $ rc("[hero.hs]! P... please don't say things like that!", "Having sex with a blood relative? That's wrong!")
         elif ct("Tsundere"):
-            $ rc("It's... it's wrong to have sexual desire among siblings, isn't it?", "Brother, you idiot! Lecher! Pervert!")
+            $ rc("It's... it's wrong to have sexual desire among siblings, isn't it?", "[hero.hs], you idiot! Lecher! Pervert!")
         elif ct("Kuudere"):
             $ rc("...You want your sister's body that much? Pathetic.", "How hopeless can you be to do it with a sibling!")
         elif ct("Ane"):
@@ -1326,9 +1326,9 @@ label interactions_sex_disagreement: # the character disagrees to do it
         elif ct("Kamidere"):
             $ rc("It's unacceptable for siblings to have sex!", "I can't believe... you do that... with your siblings!")
         elif ct("Bokukko"):
-            $ rc("Man, you are weird.", "I'm your sis... Are you really okay with that?")
+            $ rc("Oh boy, you are so weird.", "I'm your sis... Are you really okay with that?")
         else:
-            $ rc("No! Brother! We can't do this!",  "Don't you think that siblings shouldn't be doings things like that?")
+            $ rc("No! [hero.hs]! We can't do this!",  "Don't you think that siblings shouldn't be doings things like that?")
     elif ct("Impersonal"):
         $ rc("I see no possible benefit in doing that with you so I will have to decline.", "Keep sexual advances to a minimum.")
     elif ct("Shy") and dice(50):

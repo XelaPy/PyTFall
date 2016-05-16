@@ -68,33 +68,33 @@ label interactions_kiss:
             if ct("Impersonal"):
                 $ rc("It's okay for siblings to kiss, isn't it?", "Do you like your sister's kisses?")
             elif ct("Yandere"):
-                $ rc("Such an act... kissing... my brother...", "I wonder... if you should proceed to do this... to your sister?")
+                $ rc("Such an act... kissing... my [hero.hs]...", "I wonder... if you should proceed to do this... to your sister?")
             elif ct("Dandere"):
-                $ rc("This is different from the kisses we had when we were little...", "...Brother, you taste pretty good.")
+                $ rc("This is different from the kisses we had when we were little...", "...[hero.hs], you taste pretty good.")
             elif ct("Shy") and dice(50):
-                $ rc("Do you like... kissing... your sister?", "B-brother, you're so gentle...")
+                $ rc("Do you like... kissing... your sister?", "[hero.hs], you're so gentle...")
             if ct("Imouto"):
-                $ rc("I want to keep kissing you, brother! Hehe ♪", "How does it taste to kiss your sister?")
+                $ rc("I want to keep kissing you, [hero.hss]! Hehe ♪", "How does it taste to kiss your sister?")
             elif ct("Kamidere"):
-                $ rc("I'm kissing with my brother... T...this is just wrong...", "You love your sister that much..?")
+                $ rc("I'm kissing with my [hero.hs]... T...this is just wrong...", "You love your sister that much..?")
             elif ct("Tsundere"):
                 $ rc("D...doing such lewd things even though we're siblings... Isn't this incest?", "Doing such things to your sister... *sigh* Well, it can't be helped...")
             elif ct("Kuudere"):
-                $ rc("I'm kissing my brother like this... I'll never be forgiven for doing this...", "Ugh... I... I can't believe I have such a lewd brother...")
+                $ rc("I'm kissing my [hero.hs] like this... I'll never be forgiven for doing this...", "Ugh... I... I can't believe I have such a lewd [hero.hs]...")
             elif ct("Ane"):
-                $ rc("You really like my lips, brother? ♪", "Do you really like kissing your sis that much?")
+                $ rc("You really like my lips, [hero.hs]? ♪", "Do you really like kissing your sis that much?")
             elif ct("Bokukko"):
-                $ rc("What's it like to kiss your sister? Does it taste good?", "Going after your sister? Man, what a hopeless brother you are... ♪")
+                $ rc("What's it like to kiss your sister? Does it taste good?", "Going after your sister? Man, what a hopeless [hero.hs] you are... ♪")
             else:
                 $ rc("Isn't it a bit strange to kiss your sister?", "I'm your sis... Are you really okay with that?")
         
         elif ct("Yandere"):
-            $ rc("*kiss* *slurp* *slosh* <She's making patterns with her tongue>", "*kiss* ... *giggle* *kiss*", "momph *kiss* dufu *kiss* gae *kiss* mnn... <Trying to talk, perhaps?>", "...Haah... It tastes like you... Hehe ♪", "Huff, *smooch*, *slurp*... Hehe, I got my tongue inside...")    
+            $ rc("*kiss* *slurp* *slosh* <[char.p]'s making patterns with her tongue>", "*kiss* ... *giggle* *kiss*", "momph *kiss* dufu *kiss* gae *kiss* mnn... <trying to talk, perhaps?>", "...Haah... It tastes like you... Hehe ♪", "Huff, *smooch*, *slurp*... Hehe, I got my tongue inside...")    
         elif ct("Impersonal"):
             $ rc("*kiss* Kissing is nothing that special.", "*kiss* My body's getting hotter.", "*kiss*... Hn... I can still taste you.", "*kiss* Your lips feel a little dry... *lick lick lick* That's much better.")
         elif ct("Shy") and dice(50):
             $ rc("Huh... *kiss*... We k-kissed...", "*kiss*  We... kissed... <gives you a dreamy smile>", "Ahm, *slurp, kiss*......kissing feels good...", "*kiss* Nnn... <looks at you dreamily>", "<Gently kisses you> H...how's this? Does it f... feel good...? It... it feels good for me...", "*kiss* ...Did I do that right...?", "Is this really ok...? ...*kiss*...", "<closes her eyes> *kiss* hn...")
-        elif ct("Nymphomaniac") and dice(35) and check_lovers(char, hero):
+        elif ct("Nymphomaniac") and dice(35):
             $ rc("*kiss* Mmmf ♪　Nnh, nnf, mmmf... No, we're gonna kiss more ♪ ...nnf, mmmf♪", "*kiss* This isn't going to end with just a kiss, right?", "*kiss* Even though we're just kissing... I'm already...")
         elif ct("Dandere"):
             $ rc("*kiss* ...Where did you learn to kiss like this?", "*kiss* ...Not enough. More.", "Nn, aah, haah... You're tickling my tongue...", "*kiss*... *smooch*... *huff*... your breath... so hot...", "Do you desire my lips? *kiss*", "*kiss*...  Hn... you like kissing...?")
@@ -129,7 +129,7 @@ label interactions_kiss:
             $ rc("Noooo way!", "...I-I'm gonna get mad if you that that stuff, you know? Jeez!", "Y-you dummy! Stay away!") 
         elif ct("Dandere"):
             $ char.override_portrait("portrait", "indifferent")
-            $ rc("You're no good...", "You should really settle down.")
+            $ rc("You're no good...", "You should really settle down.", "No, not with you.")
         elif ct("Tsundere"):
             $ char.override_portrait("portrait", "angry")
             $ rc("I'm afraid I must inform you of your utter lack of common sense. Hmph!", "You are so... disgusting!", "You pervy little scamp! Not in a million years!")
@@ -147,10 +147,10 @@ label interactions_kiss:
             $ rc("If I was interested in that sort of thing I might, but unfortunately...", "No. I have decided that it would not be appropriate.", "I think that you are being way too aggressive.")
         elif ct("Yandere"):
             $ char.override_portrait("portrait", "indifferent")
-            $ rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.", "What? Is that your dying wish? You want to die?")
+            $ rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.", "Stay away from me.")
         else:
             $ char.override_portrait("portrait", "indifferent")
-            $ rc("With you? Don't make me laugh.", "Get lost, pervert!", "Woah, hold on there. Maybe after we get to know each other better.")
+            $ rc("With you? Of course not!", "Huh?! No, I don't want to! Pervert...", "Woah, hold on there. Maybe after we get to know each other better.")
         if char.disposition <= (350+50*sub) or (char.disposition <500 and m>1):
             $ char.set_flag("_day_countdown_interactions_blowoff", 3)
             $ del sub
