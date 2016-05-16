@@ -623,7 +623,7 @@ label interactions_interests:
         "default": ["You chat for some time."]
         })
         
-        $ narrator("{}".format(line))
+        $ narrator(line)
         $ del line
         $ result = round(randint(6, 15)+ char.joy*0.04 - m*2 - char.disposition*0.015)
         if result <= 0:
