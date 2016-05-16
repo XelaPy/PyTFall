@@ -315,19 +315,10 @@ init -1 python:
             exit = The exit label to use. Defaults to "char_profile".
             bg = The background to use. Defaults to "gallery".
             """
-            self.start("girl_interactions", girl, img, exit, bg)
-        
-        def start_int_or_tr(self, girl, **kwargs):
-            """
-            Starts either the interaction or training scenario based on whether the girl is in a training/schooling location or not.
-            girl = The girl to use.
-            kwargs = Arguments to pass to the start_int or start_tr function.
-            """
-            if in_training_location(girl):
-                self.start_tr(girl, **kwargs)
+            if girl.flag("_day_countdown_interactions_blowoff"):
+                renpy.call("interactions_blowoff", char=girl, exit=last_label)
             
-            else:
-                self.start_int(girl, **kwargs)
+            self.start("girl_interactions", girl, img, exit, bg)
         
         def start_tr(self, girl, img=None, exit="char_profile", bg="sex_dungeon_1"):
             """
@@ -364,6 +355,7 @@ init -1 python:
             if not safe:
                 renpy.jump(self.label_cache)
     
+                
     class GMJump(Action):
         """
         Class to handle the jump logic for GM as an action.
