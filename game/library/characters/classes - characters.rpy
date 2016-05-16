@@ -1070,6 +1070,7 @@ init -9 python:
             self.name = ""
             self.fullname = ""
             self.nickname = ""
+            self._mc_ref = None # This is how characters refer to MC (hero). May depend on case per case basis and is accessed through obj.mc_ref property.
             self.height = "average"
             self.full_race = ""
             self.gender = "female"
@@ -1235,6 +1236,16 @@ init -9 python:
             self.status = s
             
         # Properties:
+        @property
+        def mc_ref(self):
+            if self._mc_ref is None:
+                if self.status == "slave":
+                    return "Master"
+                else:
+                    return self.name
+            else:
+                return self._mc_ref
+                
         @property
         def is_available(self):
             # So we already have this property!
