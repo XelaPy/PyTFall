@@ -87,22 +87,20 @@ label interactions_insult:
     $ m = interactions_flag_count_checker(char, "flag_interactions_insult")
     $ char.joy -= randint(2,4)
     $ sub = check_submissivity(char)
-    $ char.disposition -= randint(1,5)
-    if dice(50+25*sub):
+    if dice(50-25*sub):
         $ char.character -= randint(1,2)
     if char.disposition >= 500 or check_lovers(char, hero):
         $ char.disposition -= randint(1,5)
-        if m < 4:
+        if m < 3:
             call interactions_got_insulted_hdisp
         else:
             call interactions_too_many_lines
             $ char.disposition -= randint(1,m)
-            $ del m
     else:
-        $ char.disposition -= (randint(10,15) + m*2)
+        $ char.disposition -= (randint(15,25))
         if ct("Aggressive") and m>1:
             jump interactions_escalation
-        elif m < randint(3,4):
+        elif m < randint(2,3):
             call interactions_got_insulted
         else:
             call interactions_got_insulted
@@ -214,29 +212,54 @@ label interactions_character_apology:
     return
 
 label interactions_got_insulted:
-    $ char.override_portrait("portrait", "angry")
-    if ct("Impersonal"):
-        $ rc("...I see that you have a hostility problem.", "I can't believe you can look me in the eyes and say those things.", "...Are you talking about me? I see, so that's what you think of me.")
-    elif ct("Shy") and dice(50):
-        $ rc("Th-That's terrible! It's way too much!", "Th-that's... so cruel of you to say...", "N-no way... you're horrible...", "T-That's not true!")
-    elif ct("Imouto"):
-        $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I'm so pissed off!", "I-I... I'm not like that!", "LA LA I CAN'T HEAR YOU!") 
-    elif ct("Dandere"):
-        $ rc("...Are you trying to make me angry?", "...Are you teasing me?", "Do you want me to hate you that much?", "All bark and no bite. As they say.", "Was that meant to be an insult just now? How rude.")
-    elif ct("Tsundere"):
-        $ rc("You... you insolent swine!", "I-I will not forgive you!", "What was that?! Try saying that one more time!", "Hmph, I don't want to hear that from you!", "E-even if you say that, it doesn't mean anything to me, you know!"),
-    elif ct("Kuudere"):
-        $ rc("...What did you say? Who do you think you are?", "Oooh, it's ok for me to accept this as a challenge, right...?", "Shut your mouth. Or do you want me to shut it for you?", "Oh, do you want to get hurt that badly?")
-    elif ct("Kamidere"):
-        $ rc("Huhn? It seem you want to make me your enemy.", "Oh? Is your mouth all you know how to use?", "Bring your face over here so I can slap it!", "You're really trash, aren't you...")
-    elif ct("Bokukko"):
-        $ rc("What's that? Are you picking a fight with me?", "...Hey, you. You're ready for a pounding, yeah?", "Hey fucker, you trying to start a fight?!", "Oh, so talkin's all you're good at, huh...")
-    elif ct("Ane"):
-        $ rc("You shouldn't say things like that.", "Hmm, I didn't know you were the type to say things like that...", "My, you have some nerve.", "Good grief... Your parents did a terrible job raising you.")
-    elif ct("Yandere"):
-        $ rc("Hey, it would be better if you didn't talk like that.", "...You should... be careful, when walking at night.", "Please die and come back as a better person, for everyone's sake.")
+    if char.status <> "slave":
+        $ char.override_portrait("portrait", "angry")
+        if ct("Impersonal"):
+            $ rc("...I see that you have a hostility problem.", "I can't believe you can look me in the eyes and say those things.", "...Are you talking about me? I see, so that's what you think of me.")
+        elif ct("Shy") and dice(50):
+            $ rc("Th-That's terrible! It's way too much!", "Th-that's... so cruel of you to say...", "N-no way... you're horrible...", "T-That's not true!")
+        elif ct("Imouto"):
+            $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I'm so pissed off!", "I-I... I'm not like that!", "LA LA I CAN'T HEAR YOU!") 
+        elif ct("Dandere"):
+            $ rc("...Are you trying to make me angry?", "...Are you teasing me?", "Do you want me to hate you that much?", "All bark and no bite. As they say.", "Was that meant to be an insult just now? How rude.")
+        elif ct("Tsundere"):
+            $ rc("You... you insolent swine!", "I-I will not forgive you!", "What was that?! Try saying that one more time!", "Hmph, I don't want to hear that from you!", "E-even if you say that, it doesn't mean anything to me, you know!"),
+        elif ct("Kuudere"):
+            $ rc("...What did you say? Who do you think you are?", "Oooh, it's ok for me to accept this as a challenge, right...?", "Shut your mouth. Or do you want me to shut it for you?", "Oh, do you want to get hurt that badly?")
+        elif ct("Kamidere"):
+            $ rc("Huhn? It seem you want to make me your enemy.", "Oh? Is your mouth all you know how to use?", "Bring your face over here so I can slap it!", "You're really trash, aren't you...")
+        elif ct("Bokukko"):
+            $ rc("What's that? Are you picking a fight with me?", "...Hey, you. You're ready for a pounding, yeah?", "Hey fucker, you trying to start a fight?!", "Oh, so talkin's all you're good at, huh...")
+        elif ct("Ane"):
+            $ rc("You shouldn't say things like that.", "Hmm, I didn't know you were the type to say things like that...", "My, you have some nerve.", "Good grief... Your parents did a terrible job raising you.")
+        elif ct("Yandere"):
+            $ rc("Hey, it would be better if you didn't talk like that.", "...You should... be careful, when walking at night.", "Please die and come back as a better person, for everyone's sake.")
+        else:
+            $ rc("Th-that's a terrible thing to say!", "Wh-why would you say that, that's so cruel...", "All talk and nothing to back it up. What are you even trying to do?", "What's your problem? Saying that out of nowhere.")
     else:
-        $ rc("Th-that's a terrible thing to say!", "Wh-why would you say that, that's so cruel...", "All talk and nothing to back it up. What are you even trying to do?", "What's your problem? Saying that out of nowhere.")
+        $ char.override_portrait("portrait", "indifferent")
+        if ct("Impersonal"):
+            $ rc("...I see that you have a hostility problem.", "I can't believe you can look me in the eyes and say those things.", "...Are you talking about me? I see, so that's what you think of me.")
+        elif ct("Shy") and dice(50):
+            $ rc("Th-That's terrible...", "Th-that's... so cruel of you to say...", "N-no way... you're horrible...", "T-That's not true!")
+        elif ct("Imouto"):
+            $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I-I... I'm not like that!", "Ugh... *sniff* *sniff*") 
+        elif ct("Dandere"):
+            $ rc("...Are you trying to make me angry?", "...Are you teasing me?", "Do you hate me that much?", "Was that meant to be an insult just now? How rude.")
+        elif ct("Tsundere"):
+            $ rc("I-I will not forgive you!", "Hmph, I don't want to hear that from you!", "E-even if you say that, it doesn't mean anything to me, you know!"),
+        elif ct("Kuudere"):
+            $ rc("...What did you say? Who do you think you are?", "Oooh, so brave in front of a slave...", "Shut your mouth...", "One day, saying these things will get you hurt...")
+        elif ct("Kamidere"):
+            $ rc("Huhn? It seem you want to make me your enemy.", "Oh? Is your mouth all you know how to use?", "You're really trash, aren't you...")
+        elif ct("Bokukko"):
+            $ rc("Are you picking a fight with me? Well too bad, I won't give you the pleasure.", "...Hey, what's wrong with you? Why are you harassing me like that?", "Oh, so talkin's all you're good at, huh...")
+        elif ct("Ane"):
+            $ rc("You shouldn't say things like that.", "Hmm, I didn't know you were the type to say things like that...", "Good grief... Your parents did a terrible job raising you.")
+        elif ct("Yandere"):
+            $ rc("Hey, it would be better if you didn't talk like that.", "I swear, one day you'll regret it...", "Please die and come back as a better person, for everyone's sake.")
+        else:
+            $ rc("Th-that's a terrible thing to say!", "Wh-why would you say that, that's so cruel...", "What's your problem? Saying that out of nowhere.")
     $ char.restore_portrait()
     return
     
@@ -346,28 +369,52 @@ label interactions_broken_promise:
     
 label interactions_got_insulted_hdisp:
     $ char.override_portrait("portrait", "indifferent")
-    if ct("Impersonal"):
-        $ rc("Huh? You kidding?", "Excuse me?")
-    elif ct("Shy") and dice(50):
-        $ rc("Ah... Eh... Aah! This is a joke... Right?", "Umm... Ah! Th-that was funny, wasn't it?")
-    elif ct("Imouto"):
-        $ rc("Ufufu, I'm not falling for that joke!", "Haha, what are you talking about?") 
-    elif ct("Dandere"):
-        $ rc("Not funny.", "I will overlook it this time, but that's harassment, you know?")
-    elif ct("Tsundere"):
-        $ rc("Wha!? ...That...wasn't very funny, you know?", "W-What are you saying? Jeez..."),
-    elif ct("Kuudere"):
-        $ rc("That was quite the harsh joke.", "Hah, ain't that a funny joke.")
-    elif ct("Kamidere"):
-        $ rc("Geez, stop joking around.", "What a supremely boring joke. You've got awful taste.")
-    elif ct("Bokukko"):
-        $ rc("Jeez, your jokes are so mean.", "Mm, sounds kinda boring, y'know?")
-    elif ct("Ane"):
-        $ rc("Oh, you, stop it with your childish pranks.", "Mumu... Looking forward to seeing my reaction, are you? Well too bad, I won't give you the satisfaction ♪")
-    elif ct("Yandere"):
-        $ rc("Go easy on the jokes, hey?", "Hey now, that's harsh for a joke.")
+    if char.status <> "slave"
+        if ct("Impersonal"):
+            $ rc("Huh? You kidding?", "Excuse me?")
+        elif ct("Shy") and dice(50):
+            $ rc("Ah... Eh... Aah! This is a joke... Right?", "Umm... Ah! Th-that was funny, wasn't it?")
+        elif ct("Imouto"):
+            $ rc("Ufufu, I'm not falling for that joke!", "Haha, what are you talking about?") 
+        elif ct("Dandere"):
+            $ rc("Not funny.", "I will overlook it this time, but that's harassment, you know?")
+        elif ct("Tsundere"):
+            $ rc("Wha!? ...That...wasn't very funny, you know?", "W-What are you saying? Jeez..."),
+        elif ct("Kuudere"):
+            $ rc("That was quite the harsh joke.", "Hah, ain't that a funny joke.")
+        elif ct("Kamidere"):
+            $ rc("Geez, stop joking around.", "What a supremely boring joke. You've got awful taste.")
+        elif ct("Bokukko"):
+            $ rc("Jeez, your jokes are so mean.", "Mm, sounds kinda boring, y'know?")
+        elif ct("Ane"):
+            $ rc("Oh, you, stop it with your childish pranks.", "Mumu... Looking forward to seeing my reaction, are you? Well too bad, I won't give you the satisfaction ♪")
+        elif ct("Yandere"):
+            $ rc("Go easy on the jokes, hey?", "Hey now, that's harsh for a joke.")
+        else:
+            $ rc("Come on, knock it off with the jokes!", "Jeez, stop playing around.")
     else:
-        $ rc("Come on, knock it off with the jokes!", "Jeez, stop playing around.")
+        if ct("Impersonal"):
+            $ rc("If I do something wrong, tell me immediately, [hero.name].", "Is there something wrong with my behaviour? Please clarify.")
+        elif ct("Shy") and dice(50):
+            $ rc("Eh... S-sorry... W-what's this about? D-did I upset you somehow?", "P-please don't be mad at me...")
+        elif ct("Imouto"):
+            $ rc("Wha? Stop calling me that, [hero.name]! Or I'm g-gonna cry!", "You big meanie... *sniff*") 
+        elif ct("Dandere"):
+            $ rc("...", "What's the point of insulting your own properly, [hero.name]? I don't understand.")
+        elif ct("Tsundere"):
+            $ rc("Hmhm! You think it's funny to abuse your slaves? Idiot...", "W-What are you saying? And here I do my best to follow you orders... Jeez..."),
+        elif ct("Kuudere"):
+            $ rc("That was quite harsh, [hero.name]. Is something wrong?", "Hah, you really need a hobby, [hero.name]... No, abusing your slaves is not one.")
+        elif ct("Kamidere"):
+            $ rc("*sigh* Stop messing around, [hero.name]. Just tell what do you need.", "Great, now I've been abused. Happy now, [hero.name]?")
+        elif ct("Bokukko"):
+            $ rc("Man, you are so mean to me today, [hero.name].", "Okish, if you say so. Anything else, [hero.name]?")
+        elif ct("Ane"):
+            $ rc("[hero.name], calling me names won't solve anything.", "Gosh, please grow up a little, [hero.name]. Treating loyal slaves like that is unacceptable.")
+        elif ct("Yandere"):
+            $ rc("I'm sorry I cannot be a better person for you, [hero.name].", "[hero.name], are you mad at me? If so, I will accept anything to make you forgive me.")
+        else:
+            $ rc("*sigh* If abusing me makes you feel better, then it can't be helped...", "...Understood. May I return to my duties now, [hero.name]?")
     $ char.restore_portrait()
     return
     
