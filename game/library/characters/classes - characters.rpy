@@ -1242,7 +1242,7 @@ init -9 python:
                 if self.status == "slave":
                     return "Master"
                 else:
-                    return self.name
+                    return hero.name
             else:
                 return self._mc_ref
                 
