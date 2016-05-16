@@ -1070,6 +1070,7 @@ init -9 python:
             self.name = ""
             self.fullname = ""
             self.nickname = ""
+            self._mc_ref = None # This is how characters refer to MC (hero). May depend on case per case basis and is accessed through obj.mc_ref property.
             self.height = "average"
             self.full_race = ""
             self.gender = "female"
@@ -1235,6 +1236,62 @@ init -9 python:
             self.status = s
             
         # Properties:
+        @property
+        def mc_ref(self):
+            if self._mc_ref is None:
+                if self.status == "slave":
+                    return "Master"
+                else:
+                    return hero.name
+            else:
+                return self._mc_ref
+                
+        @property
+        def p(self):
+            # Subject pronoun (he/she/it): (prolly most used so we don't call it 'sp'):
+            if self.gender == "female":
+                return "she"
+            elif self.gender == "male":
+                return "he"
+            else:
+                return "it"
+                
+        @property
+        def pC(self):
+            # Subject pronoun (he/she/it) capitalized:
+            return self.p.capitalize()
+                
+        @property
+        def op(self):
+            # Object pronoun (him, her, it):
+            if self.gender == "female":
+                return "her"
+            elif self.gender == "male":
+                return "him"
+            else:
+                return "it"
+                
+        @property
+        def opC(self):
+            # Object pronoun (him, her, it) capitalized:
+            return self.op.capitalize()
+            
+        @property
+        def pp(self):
+            # Possessive pronoun (his, hers, its):
+            # This may 'gramatically' incorrect, cause things (it) cannot possess/own anything but knowing PyTFall :D
+            if self.gender == "female":
+                return "hers"
+            elif self.gender == "male":
+                return "his"
+            else:
+                return "its"
+                
+        @property
+        def ppC(self):
+            # Possessive pronoun (his, hers, its) capitalized::
+            return self.pp.capitalize()
+                
         @property
         def is_available(self):
             # So we already have this property!
