@@ -106,6 +106,7 @@ label char_equip_loop:
         elif result[0] == "item":
             if result[1] == 'equip/unequip':
                 python:
+                    # Equipping:
                     if item_direction == 'equip':
                         # Common to any eqtarget:
                         if not can_equip(focusitem, eqtarget, silent=False):
@@ -115,47 +116,27 @@ label char_equip_loop:
                             item_direction = None
                             dummy = None
                             jump("char_equip_loop")
-                        if eqtarget == hero: # Simpler MCs logic:
+                            
+                        # See if we can access the equipment first:
+                        if equipment_access(eqtarget):
+                            # If we're not equipping from own inventory, check if we can transfer:
+                            if eqtarget != inv_source:
+                                if not transfer_items(inv_source, eqtarget, focusitem):
+                                    # And terminate if we can not...
+                                    jump("char_equip_loop")
+                                    
+                            # If we got here, we just equip the item :D
                             equip_item(focusitem, eqtarget, area_effect=True)
-                        else: # Actors: Maybe it's a good idea to encapsulate this:
-                            if eqtarget.status == "slave":
-                                if focusitem.slot in ["weapon"] and not focusitem.type.lower().startswith("nw"):
-                                    renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law!")
-                                elif focusitem.type in ["armor"]:
-                                    renpy.show_screen('message_screen', "Slaves are forbidden to wear armor by law!")
-                                elif focusitem.type in ["shield"]:
-                                    renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law!")
-                            else:
-                                if inv_source == eqtarget:
-                                    if all([eqtarget.status != "slave", eqtarget.disposition < 850, not(check_lovers(char, hero))]):
-                                        eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
-                                    else:
-                                        equip_item(focusitem, eqtarget, area_effect=True)
-                                else:
-                                    if all([eqtarget.status != "slave", not(check_lovers(char, hero))]):
-                                        eqtarget.say(choice(["No way!", "I do not want this.", "No way in hell!"]))
-                                    else:
-                                        if transfer_items(inv_source, eqtarget, focusitem):
-                                            equip_item(focusitem, eqtarget, area_effect=True)
                             
                     elif item_direction == 'unequip':
-                        if eqtarget == hero:
-                            hero.unequip(focusitem, unequip_slot)
-                        else: # Not MC
-                            if eqtarget.status == "slave": # Slave condition:
-                                eqtarget.unequip(focusitem, unequip_slot)
-                                eqtarget.inventory.remove(focusitem)
-                                inv_source.inventory.append(focusitem)
-                            else: # Free Girl
-                                if inv_source == hero:
-                                    eqtarget.unequip(focusitem, unequip_slot)
-                                    if not transfer_items(eqtarget, hero, focusitem, silent=False):
-                                        eqtarget.equip(focusitem)
-                                        eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
-                                elif eqtarget.disposition < 850:
-                                    eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
-                                else:
-                                    eqtarget.unequip(focusitem, unequip_slot)
+                        # Check if we are allowed to access inventory and act:
+                        if equipment_access(eqtarget):
+                            eqtarget.unequip(focusitem, unequip_slot)
+                            
+                            # We should try to transfer items in case of:
+                            # We don't really care if that isn't possible...
+                            if inv_source != eqtarget:
+                                transfer_items(eqtarget, inv_source, focusitem, silent=False)
                                 
                     focusitem = None
                     selectedslot = None
@@ -165,13 +146,9 @@ label char_equip_loop:
                  
             elif result[1] == "discard":
                 python:
-                    if inv_source == hero:
+                    # Check if we can access the inventory:
+                    if equipment_access(inv_source):
                         renpy.call_screen("discard_item", inv_source, focusitem)
-                    else:
-                        if eqtarget.disposition < 850 and not(check_lovers(char, hero)):
-                            eqtarget.say(choice(["I can manage my own things!", "Get away from my stuff!", "I'll think about it..."]))
-                        else:
-                            renpy.call_screen("discard_item", inv_source, focusitem)
                             
                     focusitem = None
                     selectedslot = None

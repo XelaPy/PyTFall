@@ -73,7 +73,7 @@ init -11 python:
         if isinstance(item, basestring):
             item = items[item]
             
-        if not can_transfer(source, target, item, amount=1, silent=silent):
+        if not can_transfer(source, target, item, amount=amount, silent=silent):
             return False
             
         cond = any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)])
@@ -104,6 +104,19 @@ init -11 python:
             if not silent:
                 renpy.show_screen("message_screen", "This item cannot be used or equipped!")
             return
+        elif char.status == "slave":
+            if item.slot in ["weapon"] and not item.type.lower().startswith("nw"):
+                if not silent:
+                    renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law!")
+                return
+            elif item.type in ["armor"]:
+                if not silent:
+                    renpy.show_screen('message_screen', "Slaves are forbidden to wear armor by law!")
+                return
+            elif item.type in ["shield"]:
+                if not silent:
+                    renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law!")
+                return
         return True
                 
     def can_transfer(source, target, item, amount=1, silent=True):
@@ -146,6 +159,7 @@ init -11 python:
                     else:
                         source.say(choice(["Hey, I need this too, you know.", "Eh? Can't you just buy your own?"]))
                 return
+                
         return True
                 
     def can_sell(item, silent=True):
@@ -161,6 +175,20 @@ init -11 python:
             return
         return True
     
+    def equipment_access(char, silent=False):
+        # Here we settle if a char would be willing to give MC access to her equipment:
+        # Like if MC asked this character to equip or unequip an item.
+        # We return True of access is granted!
+        if char == hero:
+            return True # Would be weird if we could not access MCs inventory....
+        
+        if all([char.status != "slave", char.disposition < 850, not(check_lovers(char, hero))]):
+            if not silent:
+                char.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
+            return
+            
+        return True
+        
 label shop_control:
     $ result = ui.interact()
     if result[0] == "item":
