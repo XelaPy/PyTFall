@@ -199,8 +199,8 @@ label dev_testing_menu:
                     menu:
                         "Extend test":
                             $ h = chars["Hinata"]
-                            h.say "ijnfiref frefre g trgt gh trh trh trh dt h h h d h yyh dtr hsgr fresgfrsgtrghtegtsg hrth trs ghrts hgrt shgrft hrt "
-                            extend "fdfs sd fs fsd f sd fsfsfsrewr gs fgs g sd g s rs  t rtr sr sr"
+                            "[h.name] prepares herself, awaiting for further orders."
+                            extend " You ask her to sit on top of you, immersing your dick inside."
                         "Back":
                             jump dev_testing_menu
 
