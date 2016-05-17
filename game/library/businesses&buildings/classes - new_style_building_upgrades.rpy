@@ -964,6 +964,7 @@ init -5 python:
             area = The area that is being explored.
             """
             # Ask if player wants to send the team exploring:
+            # I think this needs to be moved somewhere... it's a good fit for the class:
             if not renpy.call_screen("yesno_prompt",
                                      message="Are you sure that you wish to send %s exploring?" % team.name,
                                      yes_action=Return(True),
@@ -982,32 +983,36 @@ init -5 python:
                     hero.team.remove(char)
             
             # Shitty loops to remove characters from other exploration teams.
+            # Might not be required anymore? Or should this be expanded? ..don't know yet.
             for t in fg.teams:
                 if t != team:
                     for char in team:
                         for c in t:
                             if c == char:
                                 t.remove(char)
-            
+            # We do this because this data needs to be tracked separately and area object can only be updated once team has returned.
+            # There is a good chance that some of these data must be updated in real time.
             self.area = deepcopy(area)
             self.team = team
             self.mobs = self.area.mobs
-            self.cash = list()
+            
             self.risk = self.area.risk
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
             self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit) # and "Exploration" in item.locations)
-            self.found_items = list()
-            self.travel_time = self.area.travel_time + 0
+            self.travel_time = self.area.travel_time + 0 # + 0??
             self.hazard = self.area.hazard
-            self.captured_girl = None
+            
+            self.captured_charsl = list()
+            self.found_items = list()
+            self.cash = list()
             
             # I am putting the new attrs here:
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
             
             self.day = 0
-            self.days = self.area.days + 0
+            self.days = self.area.days + 0 # + 0???
             
             self.unlocks = dict()
             for key in self.area.unlocks:
