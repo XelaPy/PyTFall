@@ -1,154 +1,241 @@
 label girl_interactions_greeting: # because GMs and interactions use different labels for greetings. Should be fixed eventually.
-label girl_meets_greeting:
+label girl_meets_greeting: # also lines for sad and angry flags are needed. but if they will require interaction rewriting ie 1.3 game version, it's clearly too early for that
     if interactions_checks_for_bad_stuff_greetings(char):
         return
-    $ m = interactions_flag_count_checker(char, "flag_interactions_greeting")
-    if m < 2:
-        if check_lovers(hero, char) and dice(70):
-            $ char.override_portrait("portrait", "shy")
-            if ct("Half-Sister") and dice(30):
-                if ct("Impersonal"):
-                    $ rc("I love you, even though we're siblings.", "I love you. I think.", "...Love you.")
-                elif ct("Tsundere"):
-                    $ rc("We're drawn to each other even though we're siblings... it's inevitable that we would fall in love with each other.", "You're the best [hero.hs] ever! Well, if you weren't so perverted you'd be even better... hehe.")
-                elif ct("Dandere"):
-                    $ rc("You are my favourite person.", "Be mine alone, [hero.hs].", "Can't siblings love each other..?")
-                elif ct("Kuudere"):
-                    $ rc("[hero.hs], you belong to only me, got it? I won't let anyone else have you.", "Do you hate it that your sister always takes care of you? If you do... well...")
-                elif ct("Imouto"):
-                    $ rc("Every part of my [hero.hss] belongs to me!", "[hero.hs] and I are bound now. Hehe.", "[hero.hs] is stylish and kind... Hehe....")
-                elif ct("Bokukko"):
-                    $ rc("All I need is you, [hero.hss].", "I won't share my [hero.hs] with anybody!", "Siblings getting along well... Own family is best, na?", "How should I say this... [hero.hs] you're sexy... Hehe!")
-                elif ct("Yandere"):
-                    $ rc("I love you so much, [hero.hs]. You're very special to me.", "If it's for you, [hero.hs]... I'm ready to do anything!", "*She smiles and stares at you.*")
-                elif ct("Ane"):
-                    $ rc("It's natural for siblings to love each other ♥", "Sister will always be here to take care of you.")
-                else:
-                    $ rc("I love everything about you... [hero.hs].", "Please look at your sister... as a woman.", "We're bound together now, even though we're siblings...", "Is it weird for siblings to stick together all the time?")
-        
-            elif ct("Shy") and dice(50):
-                $ rc("I lik-... I love you...!", "U-Um, er, I, um... I-I... I-I love you!", "Um, ah, er... I...l-li... I li-...! I can't do it!", "Um.... I-I love you very much...", "The two of us are going out... Ahhh...")
-            elif ct("Nymphomaniac") and dice(65):
-                $ rc("I'm so lewd, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, just the two of us?", "You can have me whenever you want!", "We're lovers, so we should act like lovers, we should get gooey and slap thighs.", "Huhu, I love you ♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, didn't you?", "Um... You don't hate naughty girls... right...?")
-            elif ct("Impersonal"):
-                $ rc("I want to know everything about you. And I want you to know everything about me.", "I'm glad I could meet you.", "As long as we remain lovers, I believe it is essential to have a sensual relationship.", "I'll protect you. You can rely on me.")
-            elif ct("Extremely Jealous") and dice(45):
-                $ rc("I hate it when you just keep ogling other girls.", "I don't want you flirting with other women.", "I'm sorry, but I dislike it when you get too friendly with other women!", "Hey! Don't look at other girls all the time!", "My heart's feeling uneasy and gloomy... I dislike this feeling.", "Erm... I want you to stop looking at other women so much.")
-            elif ct("Kuudere"):
-                $ rc("When y-you're around, I can't think straight...", "I c-can help out too if you need me, you know...", "I love you. ...That's it. Got a problem with that?", "P... Please continue to pursue me. My response will always be positive to you.", "You're very dear to me. I want us to stay together...")
+    $ m = interactions_flag_count_checker(char, "flag_interactions_greeting") # probably not the most elegant way to count how many times greeting was shown this day already
+    if check_lovers(hero, char) and dice(60):
+        $ char.override_portrait("portrait", "shy")
+        if ct("Half-Sister") and dice(50):
+            if ct("Impersonal"):
+                $ rc("I love you, even though we're siblings.", "I love you, [hero.hs]. I think.")
             elif ct("Tsundere"):
-                $ rc("Wh-what are you planning to have me do...?", "You are NOT to leave my side, okay?", "B-being with you throws me off somehow...", "I deal with your perviness every day, so I deserve some praise!", "Umm... I love you. S-Show a little gratitude for being my choice.", "W-what kind of girls do you like? N-no, pretend I didn't say anything...")
+                $ rc("We're drawn to each other even though we're siblings... it's inevitable that we would fall in love with each other.", "You're the best [hero.hs] ever! Well, if you weren't so perverted you'd be even better... hehe.")
             elif ct("Dandere"):
-                $ rc("Sweetheart, sweetheart, sweeeetheart...", "Love you... Mm, it's nothing.", "I want to be with you.", "I want to be your special person...", "I-I'm a lonely person... So don't leave me...", "What can I do to make you look at me...?")
+                $ rc("You are my favourite person.", "Be mine alone, [hero.hs].", "Can't siblings love each other..?")
+            elif ct("Kuudere"):
+                $ rc("[hero.hs], you belong to only me, got it? I won't let anyone else have you.", "Do you hate it that your sister always takes care of you? If you do... well...")
             elif ct("Imouto"):
-                $ rc("Hihi, object of my affection. What is up?", "Hehe, we're lovers.... do whatever you like.", "Ehehe, looooove youuuu♪", "I love you♪ I love you sooo much♪", "Have I become like a proper lover now?")
-            elif ct("Ane"):
-                $ rc("I want to be both your big sister and your wife! ♪", "I love you.  ...No, mere words aren't enough.", "I love you. I don't want to leave your side.", "As I thought, having a caring lover is good ♪", "You'll love me forever, right? ♪", "I'm really happy, you know? To be together like this with you ♪")
+                $ rc("Every part of my [hero.hss] belongs to me!", "[hero.hs] and I are bound now. Hehe.", "[hero.hs] is stylish and kind... Hehe....")
+            elif ct("Bokukko"):
+                $ rc("All I need is you, [hero.hss].", "I won't share my [hero.hs] with anybody!", "Siblings getting along well... Own family is best, na?", "How should I say this... [hero.hs] you're sexy... Hehe!")
             elif ct("Yandere"):
-                $ rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe ♪ Nothing, just looking at your face ♪", "Now how do I get you to fall for me even harder...? Ehehe♪", "It would be nice if we could be together forever.", "We're the most compatible couple in the world, aren't we?")
-            elif ct("Kamidere"):
-                $ rc("Even though we're lovers, doing nothing but sex stuff is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
-            elif ct("Bokukko"):
-                $ rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's fine, tell me!", "I love you...I super love you...!")
-            else:
-                $ rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt too much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you ♪ I love you so much ♪", "I want you to love me more and more! Prepare yourself for it, okay?", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
-            $ char.restore_portrait()
-        elif char.disposition <= -250:
-            $ char.override_portrait("portrait", "angry")
-            if ct("Yandere"):
-                $ rc("I want to hear your screaming voice muffled by tears...", "Stay away...", "You're an eyesore.")
-            elif ct("Impersonal"):
-                $ rc("State your business and leave.", "I have no interest in you.", "...Leave me alone.")
-            elif ct("Shy") and dice(50):
-                $ rc("P-please, stay away!", "...D-don't come close to me.", "...S-S-Stay away!", "W-w-w-what do you want!?")
-            elif ct("Dandere"):
-                $ rc("What is it? I want to get back to what I was doing...", "I personally dislike you.")
-            elif ct("Kuudere"):
-                $ rc("Hmph, I don't even want to hear it.", "Oh? You've got a lot of nerve showing your face around me.", "...I don't think I have reason to talk to you.", "You're so annoying!")
-            elif ct("Tsundere"):
-                $ rc("Leave me alone!", "Go away. ...I said get the hell away from me!", "...Lowlife.", "Listening to you is a waste of my time.")
+                $ rc("I love you so much, [hero.hs]. You're very special to me.", "If it's for you, [hero.hs]... I'm ready to do anything!", "*She smiles and stares at you.*")
             elif ct("Ane"):
-                $ rc("What is it? Please leave me alone.", "I don't really feel like talking to you ", "Could you leave me alone?", "There is not a single shred of merit to your existence.")
-            elif ct("Kamidere"):
-                $ rc("You dirty little...", "It's you again. Don't bother me!", "Could you try to not talk to me, please?  Also, could you not breathe when near me? You're wasting good oxygen.", "Hmph! What an ugly sight.")
-            elif ct("Imouto"):
-                $ rc("Geez, what is it?!", "Loooooooser!", "Jeez! Bug off already!", "You good-for-nothing...")
-            elif ct("Bokukko"):
-                $ rc("Why are you bothering me?", "You just won't shut up, will you...", "Geez, you're pissing me off!")
+                $ rc("It's natural for siblings to love each other ♥", "Sister will always be here to take care of you.")
             else:
-                $ rc("...Hey! Could you not get any closer to me, please?", "Sigh... What is it?", "Geez, what is it...", "Leave, will you? I don't want to talk to you.", "Why do you keep bothering me?", "Ah... I-I have stuff to do, so....", "U-Um... right now is a bit, err...")
-            $ char.restore_portrait()
-        elif check_friends(hero, char) or char.disposition >= 500:
+                $ rc("I love everything about you... [hero.hs].", "Please look at your sister... as a woman.", "We're bound together now, even though we're siblings...", "Is it weird for siblings to stick together all the time?")
+        elif ct("Shy") and dice(50):
+            $ rc("I lik-... I love you...!", "U-Um, er, I, um... I-I... I-I love you!", "Um, ah, er... I...l-li... I li-...! I can't do it!", "Um.... I-I love you very much...", "The two of us are going out... Ahhh...")
+        elif ct("Nymphomaniac") and dice(65):
+            $ rc("I'm so lewd, aren't I... I'm thinking of you...doing me...", "Hey, what sorts of things do you think we can do, just the two of us?", "You can have me whenever you want!", "We're lovers, so we should act like lovers, we should get gooey and slap thighs.", "Huhu, I love you ♪ Of course, also in a sexual way.", "Even if we are lovers, I wonder what we should do? Ah, you had dirty thoughts just now, didn't you?", "Um... You don't hate naughty girls... right...?")
+        elif ct("Impersonal"):
+            $ rc("I want to know everything about you. And I want you to know everything about me.", "I'm glad I could meet you.", "As long as we remain lovers, I believe it is essential to have a sensual relationship.", "I'll protect you. You can rely on me.")
+        elif ct("Extremely Jealous") and dice(45):
+            $ rc("I hate it when you just keep ogling other girls.", "I don't want you flirting with other women.", "I'm sorry, but I dislike it when you get too friendly with other women!", "Hey! Don't look at other girls all the time!", "My heart's feeling uneasy and gloomy... I dislike this feeling.", "Erm... I want you to stop looking at other women so much.")
+        elif ct("Kuudere"):
+            $ rc("When y-you're around, I can't think straight...", "I c-can help out too if you need me, you know...", "I love you. ...That's it. Got a problem with that?", "P... Please continue to pursue me. My response will always be positive to you.", "You're very dear to me. I want us to stay together...")
+        elif ct("Tsundere"):
+            $ rc("Wh-what are you planning to have me do...?", "You are NOT to leave my side, okay?", "B-being with you throws me off somehow...", "I deal with your perviness every day, so I deserve some praise!", "Umm... I love you. S-Show a little gratitude for being my choice.", "W-what kind of girls do you like? N-no, pretend I didn't say anything...")
+        elif ct("Dandere"):
+            $ rc("Sweetheart, sweetheart, sweeeetheart...", "Love you... Mm, it's nothing.", "I want to be with you.", "I want to be your special person...", "I-I'm a lonely person... So don't leave me...", "What can I do to make you look at me...?")
+        elif ct("Imouto"):
+            $ rc("Hihi, object of my affection. What is up?", "Hehe, we're lovers.... do whatever you like.", "Ehehe, looooove youuuu♪", "I love you♪ I love you sooo much♪", "Have I become like a proper lover now?")
+        elif ct("Ane"):
+            $ rc("I want to be both your big sister and your wife! ♪", "I love you.  ...No, mere words aren't enough.", "I love you. I don't want to leave your side.", "As I thought, having a caring lover is good ♪", "You'll love me forever, right? ♪", "I'm really happy, you know? To be together like this with you ♪")
+        elif ct("Yandere"):
+            $ rc("Ah... ehhehe... I'm happy...", "We're lovers, aren't we...? Uhehehe...", "I, I'm your girlfriend, right? ...Ehehe", "I think it's really a good thing I've fallen in love with you.", "Ehehe ♪ Nothing, just looking at your face ♪", "Now how do I get you to fall for me even harder...? Ehehe♪", "It would be nice if we could be together forever.", "We're the most compatible couple in the world, aren't we?")
+        elif ct("Kamidere"):
+            $ rc("Even though we're lovers, doing nothing but sex stuff is not acceptable!", "Haaa... How'd I fall in love with someone like this...", "Just because we're l-lovers, doesn't mean I will spoil you...", "Well? What does my lover want from me?", "The only thing you'll ever need is me. Oh yes. Just me. Hehe.", "You think it's about time I turned you into my playtoy? ♪")
+        elif ct("Bokukko"):
+            $ rc("Being subtle is such a bother so let me tell you straight... I love you.", "Even though we're dating now, not all that much has changed, huh...", "Say, what do you like about me? ...it's fine, tell me!", "I love you...I super love you...!")
+        else:
+            $ rc("I really like you, you know...", "A-As lovers, let's love each other a lot, okay...?", "We shouldn't flirt too much in front of the others, okay?", "I-I love you... Hehehe...♪", "I love you ♪ I love you so much ♪", "I want you to love me more and more! Prepare yourself for it, okay?", "Ehehe, don't you ever, ever leave me...", "I wish we could be together forever...♪", "What do you think other people think when they see us? ...you think maybe, 'Hey, look at that cute couple'...?")
+        $ char.restore_portrait()
+    elif m < 2:
+        if char.disposition <= -200:
+            if char.status <> "slave":
+                if ct("Yandere"):
+                    $ char.override_portrait("portrait", "angry")
+                    $ rc("Leave. I don't want to talk to you.",  "What a nuisance...", "Why do you keep bothering me?")
+                elif ct("Impersonal"):
+                    $ char.override_portrait("portrait", "indifferent")
+                    $ rc("State your business and leave.", "I have no interest in you.", "Leave me alone.")
+                elif ct("Shy") and dice(50):
+                    $ char.override_portrait("portrait", "uncertain")
+                    $ rc("P-please, stay away!", "...D-don't come close to me.", "...S-S-Stay away!", "W-w-w-what do you want!?")
+                elif ct("Dandere"):
+                    $ char.override_portrait("portrait", "indifferent")
+                    $ rc("What is it? I want to get back to what I was doing...", "I personally dislike you.", "I believe there is nothing we can talk about.")
+                elif ct("Kuudere"):
+                    $ char.override_portrait("portrait", "indifferent")
+                    $ rc("Hmph, I don't even want to hear it...", "You've got a lot of nerve showing your face around me.", "...I don't think I have reason to talk to you.")
+                elif ct("Tsundere"):
+                    $ char.override_portrait("portrait", "angry")
+                    $ rc("Leave me alone!", "Go away. ...I said get the hell away from me!", "Listening to you is a waste of my time.")
+                elif ct("Ane"):
+                    $ char.override_portrait("portrait", "indifferent")
+                    $ rc("What is it? Please leave me alone.", "I don't really feel like talking to you ", "Could you leave me alone?", "There is not a single shred of merit to your existence.")
+                elif ct("Kamidere"):
+                    $ char.override_portrait("portrait", "angry")
+                    $ rc("It's you again. Don't bother me!", "Could you try to not talk to me, please?  Also, could you not breathe when near me? You're wasting good oxygen.", "Hmph! What an ugly sight.")
+                elif ct("Imouto"):
+                    $ char.override_portrait("portrait", "angry")
+                    $ rc("You dirty little...",  "Jeez! Bug off already!", "You good-for-nothing...")
+                elif ct("Bokukko"):
+                    $ char.override_portrait("portrait", "angry")
+                    $ rc("Why are you bothering me?", "You just won't leave me alone, will you...", "Geez, what's now?")
+                else:
+                    $ char.override_portrait("portrait", "indifferent")
+                    $ rc("...Hey! Could you not get any closer to me, please?", "Sigh... What is it?", "Ah... I-I have stuff to do, so....", "U-Um... right now is a bit, err...")
+            else:
+                if char.disposition <= -500:
+                    $ char.override_portrait("portrait", "sad")
+                    char.say "..."
+                else:
+                    $ char.override_portrait("portrait", "indifferent")
+                    if ct("Yandere"):
+                        $ rc("Well? If you don't have orders, I have things to do.", "Could you leave me alone, [char.mc_ref]?")
+                    elif ct("Impersonal"):
+                        $ rc("Orders?..", "..?")
+                    elif ct("Shy") and dice(50):
+                        $ rc("P-please don't hurt me, [char.mc_ref]...", "W-w-w-what do you want, [char.mc_ref]!?")
+                    elif ct("Dandere"):
+                        $ rc("I'm listening, [char.mc_ref].", "Yes?.")
+                    elif ct("Kuudere"):
+                        $ rc("Hmph. Yes?", "...I don't think I have reason to talk to you, [char.mc_ref]. Give me your orders and leave.")
+                    elif ct("Tsundere"):
+                        $ rc("Well? You want something from me or what?", "*sigh*")
+                    elif ct("Ane"):
+                        $ rc("What is it? Please leave me alone, [char.mc_ref]...", "I don't really feel like talking to you, [char.mc_ref].")
+                    elif ct("Kamidere"):
+                        $ rc("You again... <sigh> Yes, [char.mc_ref]?", "[char.mc_ref], could you try to not talk to me without a good reason, please?")
+                    elif ct("Imouto"):
+                        $ rc("Jeez... I'm listening, [char.mc_ref].", "You again... Ahem, what is it, [char.mc_ref]?")
+                    elif ct("Bokukko"):
+                        $ rc("Yeah-yeah. I'm here.", "What is it again, [char.mc_ref]?")
+                    else:
+                        $ rc("*sigh* What is it, [char.mc_ref]?", "...Yes, [char.mc_ref]. I'm here.")
+
+        elif check_friends(hero, char) or (char.disposition >= 500 and char.status <> "slave") or (char.disposition >= 850 and char.status == "slave"):
             $ char.override_portrait("portrait", "happy")
             if ct("Impersonal"):
-                $ rc("Talk, I'll listen.", "...Being with you makes me feel extraordinarily comfortable.", "...You really like to talk, huh?", "What is your purpose in getting close to me?", "Being with you... calms me.")
+                $ rc("Talk, I'll listen.", "...Being with you makes me feel extraordinarily comfortable.", "What is your purpose in getting close to me?", "Being with you... calms me.")
             elif ct("Shy") and dice(50):
                 $ rc("I-I'm getting a little bit... used to you, [char.mc_ref]...", "Hey, am I... do you... Err... nothing. Never mind.", "Being near you calms me down...", "H-Hi...Is it really ok to talk? I don't want to bother you...", "If I am with you, I...  I-it's nothing...")
             elif ct("Tsundere"):
-                $ rc("Come, if you have something to say, say it!", "You really must have a lot of free time.", "Your clothes... it's looks untidy. Pull yourself together.", "Don't be so friendly with me...", "Please do not act like we are close to each other.")
+                $ rc("Come, if you have something to say, say it.", "Don't be so friendly with me, [char.mc_ref]...", "P-please do not act like we are close to each other, [char.mc_ref].")
             elif ct("Dandere"):
-                $ rc("You really enjoy talking, don't you.", "Did you need something?", "Maybe... I like that voice.", "Why are you so nice to me...?", "...Do you like talking to me this much?")
+                $ rc("Did you need something?", "Maybe... I like your voice.", "It's you. Good to see you, [char.mc_ref]?")
             elif ct("Kuudere"):
                 $ rc("You certainly like to be with me, don't you...", "Seriously... why is it so hard to be serious...?", "I'm listening. What is it?", "Is there something you would like to consult with me? It's alright.")
             elif ct("Ane"):
-                $ rc("If ever you're in trouble... you can always come to me.", "What's the matter? Need some advice?", "My, please continue.", "I'm here. What can I do for you?", "Ah... I was just thinking, it'd be so nice to talk to you... Ehehe.", "If there's anything I can do, please tell me, okay?", "You can call on me anytime. And I'll do the same with you.", "If something's wrong, you can always talk to me.")
+                $ rc("If ever you're in trouble... you can always come to me.", "What's the matter? Need some advice?", "Ah... I was just thinking, it'd be so nice to talk to you... Ehehe.", "If there's anything I can do, please tell me, okay?", "You can call on me anytime. And I'll do the same with you.", "If something's wrong, you can always talk to me.")
             elif ct("Imouto"):
-                $ rc("Hn? What's up? You can tell me anything ♪", "For the people I like, I will do my best ♪", "It looks like we could become good friends ♪", "Hi! Tell me, tell me, what'cha doin'?", "Let's have us a chat ♪ Lalala ♪")
+                $ rc("Hn? What's up? You can tell me anything ♪", "For the people I like, I will do my best ♪", "Hi! Tell me, tell me, what'cha doin'?", "Let's have us a chat ♪ Lalala ♪")
             elif ct("Bokukko"):
-                $ rc("How's it going? Doing alright?", "Oh, what'cha doing?... What'ya wanna do?", "Ohoh, it's you, [char.mc_ref] ♪", "Yo! What'cha doin'?", "Whazzup?", "Hey [char.mc_ref], let's do something!", "Hi buddy!", "Are you that interested in me? hehehe", "Hey, will you talk with me for a bit?", "C'mon, c'mon, put a smile on!", "Um, so hey, you wanna chat?")
+                $ rc("How's it going? Doing alright?", "Oh, what'cha doing?... What'ya wanna do?", "Ohoh, it's you, [char.mc_ref] ♪", "Yo! What'cha doin'?", "Whazzup?", "Hey [char.mc_ref], let's do something!", "Hey, will you talk with me for a bit?", "C'mon, c'mon, put a smile on!", "Um, so hey, you wanna chat?")
             elif ct("Yandere"):
                 $ rc("Eh, what? Do you want to consult with me?", "Huu... You certainly like to be with me, don't you...", "Hm? Something I can do?")
             elif ct("Kamidere"):
-                $ rc("Huhu, You seem like you'd be good for some entertainment ♪", "...Do you want to chat with me that badly?", "Ok. I have chosen to give you some of my valuable time today. Don't make me regret that.", "Good timing. Come on, entertain me.", "I have fairly high expectation of you.")
+                $ rc("Huhu, You seem like you'd be good for some entertainment ♪", "...Do you want to chat with me that badly?", "Ok. I have chosen to give you some of my valuable time today. Don't make me regret that.", "Good timing. Come on, entertain me.", "I have fairly high expectation of you, [char.mc_ref] ♪")
             else:
-                $ rc("Um, what is it, [char.mc_ref]?", "Hey, how's it going?", "Well, what shall we talk about..?", "What do you want to do?", "Ah, [char.mc_ref]! Let's talk for a while.", "Hi! Another splendid day today!")
-            $ char.restore_portrait()
+                $ rc("Hey, how's it going?", "Well, what shall we talk about..?", "What do you want to do?", "Ah, [char.mc_ref]! Let's talk for a while.", "Hi! Another splendid day today!")
+                $ char.restore_portrait()
+        elif char.disposition >= 300 and char.status == "slave":
+            $ char.override_portrait("portrait", "happy")
+            if ct("Impersonal"):
+                $ rc("I'm waiting for your orders, [char.mc_ref].", "Yes, [char.mc_ref]. I'm yours to command.", "Another task for me, [char.mc_ref]? I'll do my best.")
+            elif ct("Shy") and dice(50):
+                $ rc("I-I'm here, [char.mc_ref]. What is your wish?", "If I can do something for you... T-then I w-w-will...", "W-w-what is it, [char.mc_ref]?")
+            elif ct("Tsundere"):
+                $ rc("Wh-what do you want me to do for you, [char.mc_ref]?", "Well? You want me to do something, don't you? Speak up already.", "I deal with your weird orders every day, [char.mc_ref]. You should be grateful.")
+            elif ct("Dandere"):
+                $ rc("Did you need something, [char.mc_ref]? I'll do anything.", "May I do something for you, [char.mc_ref]?", "What is your wish, [char.mc_ref]?")
+            elif ct("Kuudere"):
+                $ rc("Another order, [char.mc_ref]? ", "Of course, [char.mc_ref]. I'm ready to follow your commands.", "[char.mc_ref]? Is there something you want me to do?")
+            elif ct("Ane"):
+                $ rc("What's the matter? Need something from me, [char.mc_ref]?", "[char.mc_ref], if there's anything I can do, please tell me, okay?", "You can call on me anytime, [char.mc_ref] ♪")
+            elif ct("Imouto"):
+                $ rc("What's up? You can ask me anything, [char.mc_ref] ♪", "I will do my best for you, [char.mc_ref]!", "Hm? You have a task for me? Tell me, tell me ♪")
+            elif ct("Bokukko"):
+                $ rc("Oh, [char.mc_ref]. What ya wanna me to do?", "Hey [char.mc_ref], I wanna do something for ya! Any orders?", "Um, you wanna something, [char.mc_ref]?")
+            elif ct("Yandere"):
+                $ rc("I'm here for you, [char.mc_ref].", "Hm? What would you like me to do, [char.mc_ref]?", "Something I can do, [char.mc_ref]? Ask me anything ♪")
+            elif ct("Kamidere"):
+                $ rc("Orders for me, [char.mc_ref]? Come on, I'm waiting.", "Your orders are absolute, [char.mc_ref]. Just don't me regret it.", "I suppose I must follow your will, [char.mc_ref]. Have any wishes at the moment?")
+            else:
+                $ rc("Can I help you with, [char.mc_ref]? Just say the word.", "Yes, [char.mc_ref]? You need my assistance?", "Is there something on your mind, [char.mc_ref]?")
+                $ char.restore_portrait()
+        else:
+            $ char.override_portrait("portrait", "indifferent")
+            if char.status <> "slave":
+                if ct("Impersonal"):
+                    $ rc("State your business.", "You're the kind of person who likes pointless conversations, right?", "...Please do not get any closer.")
+                elif ct("Shy") and dice(50):
+                    $ rc("Y-yes, did you call?", "...Y-you want something from me?", "Um... W-what is it?", "Y-yes? Wh-what's going on?", "Wha... what is it...?", "U-Umm... What is it...?", "Y-yes, what do you need?", "C-can I help you...?", "Ye...yes?", "What... is wrong...?", "Wh-what is it...?")
+                elif ct("Kuudere"):
+                    $ rc("Hmph... I wonder if there is any particular purpose to this?", "What business do you have with me?", "Um, was there something you wanted to say?", "Hm? Yes?")
+                elif ct("Dandere"):
+                    $ rc("If you have business with me, please make it quick.", "You call?", "...?", "...Want something?", "...Hmm?", "...What is it?", "You have business with me...?")
+                elif ct("Tsundere"):
+                    $ rc("Hmph. I've graced you with my presence, so be thankful.", "So, you want something or what?", "Spit it out already.")
+                elif ct("Imouto"):
+                    $ rc("Ehehe. What is it? ♪", "Muhuhu ♪ Did you need something?", "Eh? What, what is it?", "Huhu, what is it?", "W-What? Did I do something wrong...?")
+                elif ct("Ane"):
+                    $ rc("Well, what shall we talk about..?", "Is there something I can help you with...?", "What business do you have with me?", "May I help you?", "...Yes? Did you need me for something?", "Is there... something I can help you with?")
+                elif ct("Kamidere"):
+                    $ rc("Hm? What? It's not like I have too much time to spend. Yes, that's right. I'm busy.", "...Yes? ...Did you call?", "...Do you want something?", "What is it? I'm busy right now.", "If you have business with me, hurry up and say it.")
+                elif ct("Bokukko"):
+                    $ rc("Hey-Hey! What do you want?", "Huh? What's up?", "Haa? You got a problem?", "Huh, Is there something you want to know?", "Huh? Do you want something?", "Whazzup?", "Did ya call me?", "Ummm, was there something you wanted to say?")
+                elif ct("Yandere"):
+                    $ rc("Yes? If you have no business here, then do please vacate from my sight.", "If you've got something to say, look me in the eyes and say it.", "...I don't recall asking to talk to you, so what is it?", "I don't have any business with you. If you do, make it quick.")
+                else:
+                    $ rc("...Is there something you need?", "Is there something you would like to ask?", "Is something the matter?", "What do you need from me?", "What is it? If you need something, then say it.", "Yes, what is it?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Yes, what is it...?")
+            else:
+                $ char.override_portrait("portrait", "indifferent")
+                if ct("Impersonal"):
+                    $ rc("Awaiting input.", "Yes, [char.mc_ref]?")
+                elif ct("Shy") and dice(30):
+                    $ rc("Y-yes, [char.mc_ref]", "Y-you want something from me, [char.mc_ref]?", "Um... Y-yes, [char.mc_ref]?")
+                elif ct("Kuudere"):
+                    $ rc("I'm here.", "I'm listening, [char.mc_ref].", "Yes? Was there something you wanted?")
+                elif ct("Dandere"):
+                    $ rc("...[char.mc_ref]?", "You called, [char.mc_ref]?", "...What is it, [char.mc_ref]?")
+                elif ct("Tsundere"):
+                    $ rc("Hmph. Y-yes, [char.mc_ref].", "Yes, [char.mc_ref]. You want something or what?", "Well, I'm here, [char.mc_ref]. Spit it out already.")
+                elif ct("Imouto"):
+                    $ rc("What is it, [char.mc_ref]?", "Yes, [char.mc_ref]? Did you need something?", "W-What? Did I do something wrong, [char.mc_ref]?")
+                elif ct("Ane"):
+                    $ rc("Well, what shall we talk about, [char.mc_ref]?", "May I help you, [char.mc_ref]?", "Yes? Do you need me for something?")
+                elif ct("Kamidere"):
+                    $ rc("...Yes? Did you call, [char.mc_ref]?", "Do you want something?", "If you have an order for me, say it.")
+                elif ct("Bokukko"):
+                    $ rc("What do you want, [char.mc_ref]?", "Huh? What's up, [char.mc_ref]?", "Whazzup, [char.mc_ref]?")
+                elif ct("Yandere"):
+                    $ rc("Is something wrong?", "What is it, [char.mc_ref]?", "...Spit it out already... Er, yes, [char.mc_ref]?")
+                else:
+                    $ rc("You called, [char.mc_ref]?", "Is something the matter, [char.mc_ref]?", "Yes, what is it, [char.mc_ref]?")
+    elif m < 4:
+ # when MC approaches character not the first time; after 4 times we stop showing greetings at all
+        if char.disposition <= -50:
+            $ char.override_portrait("portrait", "angry")
+            char.say "..."
         else:
             $ char.override_portrait("portrait", "indifferent")
             if ct("Impersonal"):
-                $ rc("Start talking.", "State your business", "You're the kind of person who likes pointless conversations, right? Well, answering your questions makes me similar, I suppose.", "...Please do not get any closer.")
-            elif ct("Shy") and dice(50):
-                $ rc("Y-yes, did you call?", "...Y-you want something from me?", "Um... W-what is it?", "Y-yes? Wh-what's going on?", "Wha... what is it...?", "U-Umm... What is it...?", "Y-yes, what do you need?", "C-can I help you...?", "Ye...yes?", "What... is wrong...?", "Wh-what is it...?")
-            elif ct("Kuudere"):
-                $ rc("Hmph... I wonder if there is any particular purpose to this?", "What business do you have with me?", "Um, was there something you wanted to say?", "Hm? Yes?")
-            elif ct("Dandere"):
-                $ rc("If you have business with me, please make it quick.", "You call?", "...?", "...Want something?", "...Hmm?", "...What is it?", "You have business with me...?")
-            elif ct("Tsundere"):
-                $ rc("Hmph. I've graced you with my presence, so be thankful.", "So, you want something or what?", "Spit it out already.")
-            elif ct("Imouto"):
-                $ rc("Ehehe. What is it? ♪", "Muhuhu ♪ Did you need something?", "Eh? What, what is it?", "Huhu, what is it?", "W-What? Did I do something wrong...?")
-            elif ct("Ane"):
-                $ rc("Well, what shall we talk about..?", "Is there something I can help you with...?", "What business do you have with me?", "May I help you?", "...Yes? Did you need me for something?", "Is there... something I can help you with?")
-            elif ct("Kamidere"):
-                $ rc("Hm? What? It's not like I have too much time to spend. Yes, that's right. I'm busy.", "...Yes? ...Did you call?", "...Do you want something?", "What is it? I'm busy right now.", "If you have business with me, hurry up and say it.")
-            elif ct("Bokukko"):
-                $ rc("Hey-Hey! What do you want?", "Huh? What's up?", "Haa? You got a problem?", "Huh, Is there something you want to know?", "Huh? Do you want something?", "Whazzup?", "Did ya call me?", "Ummm, was there something you wanted to say?")
-            elif ct("Yandere"):
-                $ rc("Yes? If you have no business here, then do please vacate from my sight.", "If you've got something to say, look me in the eyes and say it.", "...I don't recall asking to talk to you, so what is it?", "I don't have any business with you. If you do, make it quick.")
-            else:
-                $ rc("...Is there something you need?", "Is there something you would like to ask?", "Is something the matter?", "What do you need from me?", "What is it? If you need something, then say it.", "What is it?", "Yes, what is it?", "?...Is there something on your mind?", "...Do you need to talk to me?", "Yes? What do you want?", "...? Is there something on my face?", "Do you need something?", "Did you want to say something?", "You have something to tell me?", "Yes, what is it...?")
-            $ char.restore_portrait()
-    else:
- # when MC approaches character the second time per day
-        if char.disposition <= -10:
-            $ char.override_portrait("portrait", "angry")
-            char.say "..."
-            $ char.restore_portrait()
-        else:
-            if ct("Impersonal"):
-                $ rc("..?", "Awaiting input.")
+                $ rc("..?", "Awaiting input.", "Hmm?")
             elif ct("Shy") and dice(50):
                 $ rc("Y-yes?", "Err... what?", "... *blushes*")
             elif ct("Tsundere"):
                 $ rc("Well? What is it this time, [char.mc_ref]?", "You really must have a lot of free time, [char.mc_ref]...")
             elif ct("Dandere"):
-                $ rc("You really enjoy talking, don't you?", "I'm here, [char.mc_ref]. What is it?")
+                $ rc("You really enjoy talking, don't you?", "I'm here, [char.mc_ref].")
             elif ct("Kuudere"):
                 $ rc("Hm? What's the matter?", "I'm listening, [char.mc_ref].")
             elif ct("Ane"):
                 $ rc("My, please continue.", "I'm here, [char.mc_ref]. What can I do for you?")
             elif ct("Imouto"):
-                $ rc("[char.mc_ref]? What's up?", "Yes! I'm listening, [char.mc_ref] ♪")
+                $ rc("[char.mc_ref]? What's up?", "Yup, I'm listening, [char.mc_ref].")
             elif ct("Bokukko"):
                 $ rc("Whazzup, [char.mc_ref]?", "Yeah?")
             elif ct("Yandere"):
@@ -156,21 +243,9 @@ label girl_meets_greeting:
             elif ct("Kamidere"):
                 $ rc("Yes? What's wrong, [char.mc_ref]?", "[char.mc_ref]?")
             else:
-                $ rc("Um, what is it, [char.mc_ref]?", "Yes? How can I help you, [char.mc_ref]?")
+                $ rc("What is it, [char.mc_ref]?", "Yes?")
+    $ char.restore_portrait()
     return    
-label girl_trainings_greeting: # should be remade properly once ST will be added
-    if char.disposition > 900:
-        $ rc("Am I doing well Master?", "Master <3")
-    
-    elif char.disposition < -70:
-        $ rc("I'll never listen to you.", "Hmph.")
-    
-    elif char.disposition > 300:
-        $ rc("What am I learning today?", "M-Mas...")
-    
-    else:
-        g "..."
-    return
     
 label interactions_girl_never_come: 
     $ char.override_portrait("portrait", "indifferent")
