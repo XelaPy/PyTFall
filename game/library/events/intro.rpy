@@ -28,7 +28,7 @@ label intro:
     show bg story dark_city with dissolve
     "One of them is PyTFall, a relatevely small town in neutral lands on the border of the Median Empire."
     
-    show bg city_jail with dissolve
+    show bg jail with dissolve
     "It was a time when slaves had less rights than pets..."
     extend " They were severely punished and could executed on spot by their masters without reprecussions for the slightest infraction."
     
