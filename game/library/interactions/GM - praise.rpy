@@ -187,13 +187,13 @@ label interactions_cute:
 label praise_nope:     
     $ char.override_portrait("portrait", "indifferent") 
     if ct("Impersonal"):
-        $ rc("Does that usually work?", "Bigmouth.", "...What do you want?", "...You talk too much.", "<She completely ignores you>", "...and?")
+        $ rc("Does that usually work?", "Bigmouth.", "...What do you want?", "...You talk too much.", "<[char.pC] completely ignores you>", "...and?")
     elif ct("Shy") and dice(50):
-        $ rc("U-um, you were talking to me? Oh ... <she's embarrassed>", "Pl-please ... stop...", "Don't ... make fun of me.", "Well ... that ... <she looks like she wants to run away>", "Ah, I-I'm not... S-sorry...", "Really? I don't think... I-I'm sorry.", "<looks uncomfortable> No, I... umn... sorry.")
+        $ rc("U-um, you were talking to me? Oh ... <[char.p]'s embarrassed>", "Pl-please ... stop...", "Don't ... make fun of me.", "Well ... that ... <[char.p] looks like [char.p] wants to run away>", "Ah, I-I'm not... S-sorry...", "Really? I don't think... I-I'm sorry.", "<looks uncomfortable> No, I... umn... sorry.")
     elif ct("Imouto"):
         $ rc("Huhu, you're far too obvious.", "Eh? You sound like a perv!", "Booring!", "Huhn, who would fall for a line like that?")
     elif ct("Kuudere"):
-        $ rc("Stop that. Empty praises won't do you any good.", "You can stop talking now.", "Can't find something better to say?", "All talk and nothing to back it up. What are you even trying to do?", "I couldn't care less about what you think.", "*sigh*...  I don't really have time for this.")
+        $ rc("Stop that. Empty praises won't do you any good.", "You can stop talking now.", "Can't find something better to say?", "All talk and nothing to back it up. What are you even trying to do?", "*sigh*...  I don't really have time for this.")
     elif ct("Dandere"):
         $ rc("Can we end this conversation here?", "That's...not true.", "Not funny.", "*sigh*... thank you...<looks bored>", "Please, drop this flattery.")
     elif ct("Tsundere"):
@@ -207,16 +207,16 @@ label praise_nope:
     elif ct("Yandere"):
         $ rc("Don't mock me.", "I don't understand, what?", "That's not true.", "Don't try too hard, you'll hurt yourself.", "That's definitely not true, so relax, okay?", "Please, don't bother me.")
     else:
-        $ rc("Sorry, not interested.", "How many girls have you said that to today?", "...I'm sorry, did you say something?", "That doesn't sound sincere at all.", "You don't have to say things you don't mean.", "Too bad. I'm not going to fall for that.", "...What? Don't look at me", "What is it? I don't get what you mean.", "Well... guess so. <unimpressed>", "You don't sound as if you mean it.")
+        $ rc("Sorry, not interested.", "How many girls have you said that to today?", "...I'm sorry, did you say something?", "That doesn't sound sincere at all.", "You don't have to say things you don't mean.", "Too bad. I'm not going to fall for that.", "What is it? I don't get what you mean.", "Well... guess so. <unimpressed>", "You don't sound as if you mean it.")
     $ char.restore_portrait()
     return
     
 label praise_yes:
     $ char.override_portrait("portrait", "happy") 
     if ct("Impersonal"):
-        $ rc("There's no need to state the obvious.", "I... see. *she looks happier than before*", "I thank you.")
+        $ rc("There's no need to state the obvious.", "I... see. *[char.p] looks happier than before*", "I thank you.")
     elif ct("Shy") and dice(30):
-        $ rc("Th-thanks...", "You think so? <blush>", "<She quickly looks away, her face red>", "You're ... nice...", "I've never... really been praised much.", "Y-yes... thank you very much... ", "Th... thanks... ", "Ah... ah... really...? I'm so happy...  ", "T-thank you...")
+        $ rc("Th-thanks...", "You think so? <blush>", "<[char.pC] quickly looks away, [char.op] face red>", "You're ... nice...", "I've never... really been praised much.", "Y-yes... thank you very much... ", "Th... thanks... ", "Ah... ah... really...? I'm so happy...  ", "T-thank you...")
     elif ct("Imouto"):
         $ rc("Haha, thank you ♪", "Huhu ♪ Are you interested in me?", "Fuaaah... Aww, praise me more...", "Really? I'm so happy!", "Ehehe...you praised me ♪")
     elif ct("Kuudere"):
@@ -234,7 +234,7 @@ label praise_yes:
     elif ct("Yandere"):
         $ rc("Thank you, I'm glad to hear that.", "I sure hope you don't go saying that to every other girl too.", "You are sweet.", "D-don't say that... I'm starting to blush.")
     else:
-        $ rc("Hehe, thanks.", "Thanks for the compliment.", "<Smiles> Yes, go on ...", "Alright, you've got my attention <blush>", "Aww, so sweet ♪", "You don't have to say that. <she's blushing and smiling>", "Gosh, flattery won't get you anything from me, you know?", "Ehehe, thank you very much ♪", "Oh, you're exaggerating.", "Thank you, I'm very pleased.")
+        $ rc("Hehe, thanks.", "Thanks for the compliment.", "<Smiles> Yes, go on ...", "Alright, you've got my attention <blush>", "Aww, so sweet ♪", "You don't have to say that. <[char.p]'s blushing and smiling>", "Gosh, flattery won't get you anything from me, you know?", "Ehehe, thank you very much ♪", "Oh, you're exaggerating.", "Thank you, I'm very pleased.")
     $ char.restore_portrait()
     return
 ######

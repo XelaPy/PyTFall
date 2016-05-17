@@ -1291,7 +1291,21 @@ init -9 python:
         def ppC(self):
             # Possessive pronoun (his, hers, its) capitalized::
             return self.pp.capitalize()
+            
+        @property
+        def hs(self):
+            if self.gender == "female":
+                return "sister"
+            else:
+                return "brother"
                 
+        @property
+        def hss(self):
+            if self.gender == "female":
+                return "sis"
+            else:
+                return "bro"
+              
         @property
         def is_available(self):
             # So we already have this property!

@@ -146,7 +146,7 @@ label interactions_not_enough_gold:
     elif ct("Dandere"):
         $ rc("I don't want it.", "No thanks.")
     elif ct("Ane"):
-        $ rc("Not to be ungrateful, but ... I really don't need money.", "I appreciate it, but I'm capable to live on my own.")
+        $ rc("Not to be ungrateful, but... I really don't need money.", "I appreciate it, but I'm capable to live on my own.")
     elif ct("Imouto"):
         $ rc("Oh, a present! ...Money? Boring!", "Hey, I don't want your money!")
     elif ct("Kamidere"):
@@ -206,7 +206,7 @@ label interactions_recently_gave_money:
     elif ct("Ane"):
         $ rc("You need to learn how to live on your own. Let's discuss it again after a while, alright?")
     elif ct("Imouto"):
-        $ rc("Whaat? Again? All you think about is money. Boooring!")
+        $ rc("Whaat? Again? All you think about is money!!")
     elif ct("Kamidere"):
         $ rc("I don't think so. Get a job, will you?")
     elif ct("Bokukko"):
@@ -265,7 +265,7 @@ label interactions_girl_disp_is_too_low_to_give_money:
     elif ct("Kamidere"):
         $ rc("I refuse. Get lost.")
     elif ct("Bokukko"):
-        $ rc("Not gonna happen, man.")
+        $ rc("Not gonna happen.")
     else:
         $ rc("I think this is not a good idea.")
     $ char.restore_portrait()

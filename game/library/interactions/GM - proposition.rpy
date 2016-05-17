@@ -207,7 +207,7 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     if ct("Impersonal"):
         $ rc("I love you. I want to stay by your side.", "I love you. Let me hear your answer.", "I request permission to date you.", "I seem to have taken a liking to you...  Please go out with me.")
     elif ct("Shy") and dice(50):
-        $ rc("I... like you, and I want to be with you forever...", "I-I-I-I am in love with y-you...", "Sorry... No matter what I do, I can't get you out of my head...	So... Go out with me!", "Do you want to try, um...going out with me?")
+        $ rc("I... like you, and I want to be with you forever...", "I-I-I-I am in love with y-you...", "Sorry... No matter what I do, I can't get you out of my head... So... Go out with me!", "Do you want to try, um...going out with me?")
     elif ct("Imouto"):
         $ rc("I-I... I love... you... I'm in love with you...", "Uhm... I love you! ...Please go out with me!", "I really like you, you know... So um...I want you to go out with me!") 
     elif ct("Dandere"):

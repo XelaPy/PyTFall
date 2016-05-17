@@ -52,7 +52,7 @@ label interactions_hug:
         elif ct("Kuudere"):
             $ rc("I-I'm not a body pillow...", "...Jeez, how long are you going to do this? ...It's embarrassing.", "W-what are you doing so suddenly?!", "W-what are you nervous for? I'm the one who's embarrassed here...", "Oh...? This is nice, isn't it...? Being just like this.")
         elif ct("Dandere"):
-            $ rc("...My face is burning.", "It feels better this way.", "Ah... Hold me tighter.", "Hmhmm... I expected perverted things... Pity.", "...Nice to see you too, [hero.name].")
+            $ rc("...My face is burning.", "It feels better this way.", "Ah... Hold me tighter.", "Hmhmm... I expected perverted things... Pity.", "...Nice to see you too, [char.mc_ref].")
         elif ct("Tsundere"):
             $ rc("H-Huh? Why is my pulse getting so...", "Hey you, who said you could get this close without permission?", "D-don't do anything weird, okay...?", "I-I'm not n-nervous or anything...", "It's... it's okay to do it like this, right?", "How long do you plan to... It's embarrassing!", "I-it's not like getting a hug is surprising, right?")
         elif ct("Imouto"):
@@ -82,7 +82,7 @@ label interactions_hug:
         elif ct("Kuudere"):
             $ rc("<Shrinks back> Don't get weird.", "I don't think so.", "Hands off.")
         elif ct("Ane"):
-            $ rc("[hero.name], I don't need comforting or anything....", "I'm sorry, I'm not really in the mood right now.", "Sorry, but I don't want to.", "Please, keep your distance.")
+            $ rc("[char.mc_ref], I don't need comforting or anything....", "I'm sorry, I'm not really in the mood right now.", "Sorry, but I don't want to.", "Please, keep your distance.")
         elif ct("Kamidere"):
             $ rc("<Steps back> W...what are you... doing!?", "<Escapes your embrace> This... This is embarrassing after all... Stop it.", "Stop it. This is embarrassing.")
         elif ct("Imouto"):
@@ -94,7 +94,7 @@ label interactions_hug:
         elif ct("Yandere"):
             $ rc("<Steps back> Don't think so.", "Let me go at once!", "You're making me uncomfortable.")
         else:
-            $ rc("What are you doing all of a sudden!?", "[hero.name], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")  
+            $ rc("What are you doing all of a sudden!?", "[char.mc_ref], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")  
         if char.disposition <= (200+50*sub):
             $ char.set_flag("_day_countdown_interactions_blowoff", 1)
             $ del sub
@@ -154,7 +154,7 @@ label interactions_grabbutt:
         $ char.override_portrait("portrait", "happy")
         $ char.show_portrait_overlay("zoom_fast", "reset")
         if ct("Yandere"):
-            $ rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "Such a perverted hand...", "You'd better have a follow-up to that, [hero.name] ♪")
+            $ rc("<She smiles and slaps you back.>", "Ha... That touching... so lewd...", "Such a perverted hand...", "You'd better have a follow-up to that, [char.mc_ref] ♪")
         elif ct("Impersonal"):
             $ rc("...That's it? You're not going any further?", "Aah... my hips... it feels... kind of strange.", "Hnn, fuaah... if you touch there, I won't be able to hold myself back...")
         elif ct("Shy") and dice(50):
@@ -177,7 +177,7 @@ label interactions_grabbutt:
         elif ct("Ane"):
             $ rc("*giggle* How troublesome ♪", "So pushy...  Are you proposing or something?", "Hmhm, don't feel like you have to hold back, hey?", "Hmhm, are you getting turned on?", "Your appetite for lust is proof of your health.")
         else:
-            $ rc("Hya! If you keep doing that, I'll get in the mood...", "Teasing people isn't good, you know ♪", "Kya...  Doing this all of sudden, that surprised me.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn", "Ooh! Are you hinting at something there, [hero.name]? ♥") 
+            $ rc("Hya! If you keep doing that, I'll get in the mood...", "Teasing people isn't good, you know ♪", "Kya...  Doing this all of sudden, that surprised me.", "Whoa... We're energetic, aren't we...", "Hya! S-such shameful hands... hnn", "Ooh! Are you hinting at something there, [char.mc_ref]? ♥") 
             $ char.restore_portrait()
             $ char.hide_portrait_overlay()
             jump girl_interactions
@@ -190,9 +190,9 @@ label interactions_grabbutt:
         $ del n
 
         if ct("Yandere"):
-            $ rc("Hey, it hurts! Stop it!", "Touching is forbidden. That hand, don't blame me if it falls off.", "You have some nerve putting your hands on me!", "Could you refrain from touching me with your dirty hands?", "It looks like you are in dire need of punishment...", "Don't anger me...")
+            $ rc("Hey, it hurts! Stop it!", "Touching is forbidden. That hand, don't blame me if it falls off.", "You have some nerve putting your hands on me!", "Could you refrain from touching me with your dirty hands?")
         elif ct("Impersonal"):
-            $ rc("I see you lack common sense.", "How about you stop your pointless struggling?", "It hurts.", "Why are you touching me? So annoying.", "...I'll hit you.")
+            $ rc("I see you lack common sense.", "How about you stop your pointless struggling?", "It hurts.", "Why are you touching me? So annoying.")
         elif ct("Shy") and dice(50):
             $ rc("No... D-don't... Do that!", "W-w-what? D-don't do it please...", "Wah! Th-That scared me!", "I think you shouldn't do p-perverted things..", "P-please stop doing this!")
         elif ct("Dandere"):
@@ -206,11 +206,11 @@ label interactions_grabbutt:
         elif ct("Kamidere"):
             $ rc("D-don't be touching anywhere weird!", "What are you doing, geez!", "Don't touch me in weird places!", "Hyauu! Hey! Nn, sexual harassment is not allowed!", "Hnyaah! Geez, don't grab me in weird places!", "S-stop that! Despicable!", "Hya! Stop acting like a pervert!", "Geez, stop that!")
         elif ct("Bokukko"):
-            $ rc("Umm... Don't go touchin' me...", "Da heck ya' doing?", "You better stop that... got it?", "Owwie... Geez... why'd you do that..?", "Whoa, what're you doing, geez...", "Fweh, hey, don't touch that!", "What the hell!? What are you doin'!?")
+            $ rc("Umm... Don't go touchin' me...", "Da heck ya' doing?", "Owwie... Geez... why'd you do that..?", "Whoa, what're you doing, geez...", "Fweh, hey, don't touch that!", "What the hell!? What are you doin'!?")
         elif ct("Imouto"):
             $ rc("Geez! If you don't stop, I'm gonna get mad!", "Nooo, what are you doing!?", "Hya! Don't touch me there!", "*sob* that hurts...", "O-owowowowow! Sto-, Wai-, AGYAAA!!", "Hey! Where are you aiming?!")
         else:
-            $ rc("Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "[hero.name]...! I'd rather you do this sort of thing with someone else...!", "Hey! Quit it, already!", "Aah! C...cut it out! ", "What are you doing over there, you sneak?", "Hmph, how unromantic! Know some shame!", "What are you doing, weirdo?!")  
+            $ rc("Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "[char.mc_ref]...! I'd rather you do this sort of thing with someone else...!", "Hey! Quit it, already!", "Aah! C...cut it out! ", "What are you doing over there, you sneak?", "Hmph, how unromantic! Know some shame!")  
         if char.disposition <= (200+50*sub):
             $ char.set_flag("_day_countdown_interactions_blowoff", 5)
             $ del sub
@@ -273,7 +273,7 @@ label interactions_grabbreasts:
         elif ct("Half-Sister") and dice(30):
             $ rc("Ah... tell me... what do you think about your sister's body...?", "It's... it's wrong to lust for your sister....", "A-are you getting excited over your sister's body?", "I wonder... if you should proceed to do this... to your sister?")
         elif ct("Shy") and dice(50):
-            $ rc("Ah... your hand is so gentle...", "When I get touched so much, [hero.name], I get confused...", "Aah... N...no... If you do it like that...I...", "P... please be more... gentle...", "Y-yes... You can... like this...", "Uah, ah, hnn, I'm sorry, I didn't know I was so perverted...")
+            $ rc("Ah... your hand is so gentle...", "When I get touched so much, [char.mc_ref], I get confused...", "Aah... N...no... If you do it like that...I...", "P... please be more... gentle...", "Y-yes... You can... like this...", "Uah, ah, hnn, I'm sorry, I didn't know I was so perverted...")
         elif ct("Dandere"):
             $ rc("Nn... Right there...is good.", "I love when you slowly rub my breasts.", "Aah... t...this is also... a form of massage... aaah...", "Hnn, is my chest... soft...?", "M...more... my body... feels so hot...", "Becoming... more perverted... by the minute...", "Ah. Feels much better than rubbing myself...", "My nipples are tingling... Feels weird...")
         elif ct("Kuudere"):
@@ -289,7 +289,7 @@ label interactions_grabbreasts:
         elif ct("Ane"):
             $ rc("Mm... You're considerably skilled.　Ah...oh yes, please, over there too...", "Be as spoiled as you like. I'll accept all of it ♪", "There... When you fondle gently, it feels really good...", "Ah... please keep rubbing me like that...", "Gently rubbing me like this... It's very good.", "When you play with my breasts like that my body feels so light." , "Yes, like that. Be gentle with them...")
         elif ct("Yandere"):
-            $ rc("This feeling... from your massage... is so good.", "...You're surprisingly bold. I like that", "Mmh, little to the left... Ah yes, yes, right there, oh god...", "Hyah! Ahn... please, spare me from this lewdness ♪", "Ah... Right there, keep your hands there...")
+            $ rc("This feeling... from your massage... is so good.", "...You're surprisingly bold. I like that.", "Mmh, little to the left... Ah yes, yes, right there, oh god...", "Hyah! Ahn... please, spare me from this lewdness ♪", "Ah... Right there, keep your hands there...")
         else:
             $ rc("Nnn... It's okay to rub it just a little.", "Mm... Being touched every now and then isn't so bad, I guess?", "My soft tits feel good, don't they?", "Ah... You like my breasts, don't you?", "Y... Yes... Continue massaging... like that.", "Aah... my chest... it feels so good.", "Hnnn, you've got... some naughty hands... uhn!", "It feels good... m...my nipples... What you did just now felt so good... ♪") 
         $ char.restore_portrait()
@@ -304,7 +304,7 @@ label interactions_grabbreasts:
         $ del n
 
         if ct("Yandere"):
-            $ rc("Hey, it hurts! Stop it!", "How... dare you!", "It looks like you are in dire need of punishment...", "Huhuhuh... I wonder how warm it would be to bathe in your blood...?")
+            $ rc("Hey, it hurts! Stop it!", "How... dare you!", "Huhuhuh... I wonder how warm it would be to bathe in your blood...?")
         elif ct("Impersonal"):
             $ rc("Don't ever think about it.", "Don't touch me.", "You're damaging the shape of my breasts.", "You shouldn't grope people.")
         elif ct("Shy") and dice(50):
@@ -318,7 +318,7 @@ label interactions_grabbreasts:
         elif ct("Ane"):
             $ rc("Stop. I feel ill.", "That's sexual harassment, you know?", "If you grasp them so rough they'll lose shape.", "Auh! Uuh, my boobs aren't for rubbing, hyauh! Geez, stop it, hnaaah!", "This is a bit too daring.", "I think you have gone a bit too far.", "Stop it! I don't want this.")
         elif ct("Bokukko"):
-            $ rc("Hey! Where do ya think you're touching, you pervert!", "Whoah, wait! Where are you touching me?", "Hya! ...What are you, a molester!?",  "Hey! Don't be such a dick.", "W-wait, hey, you're going too far!..")
+            $ rc("Hey! Where do ya think you're touching, you pervert!", "Whoah, wait! Where are you touching me?", "Hya! ...What are you, a molester!?",  "Hey! Don't be such an asshole.", "W-wait, hey, you're going too far!..")
         elif ct("Imouto"):
             $ rc("Huh? Stop it! Where are you touching!?", "Kyaa! Geez! Help! There's a lewd molester here!", "Oww..! You've made me mad..!", "Hyauuu! Noo, youuu, boob freak!", "Hey, get away from me!", "Jeez, don't be doing lewd stuff, okay?", "Whoa, what're you trying to do?!")
         elif ct("Kamidere"):
