@@ -118,7 +118,7 @@ label char_equip_loop:
                             jump("char_equip_loop")
                             
                         # See if we can access the equipment first:
-                        if equipment_access(eqtarget):
+                        if equipment_access(eqtarget, focusitem):
                             # If we're not equipping from own inventory, check if we can transfer:
                             if eqtarget != inv_source:
                                 if not transfer_items(inv_source, eqtarget, focusitem):

@@ -165,7 +165,7 @@ init -11 python:
     def can_sell(item, silent=True):
         """Checks in an item can be sold to a shop.
         """
-        if focus.unique:
+        if item.unique:
             if not silent:
                 renpy.show_screen("message_screen", "Unique Items cannot be sold!")
             return
@@ -175,14 +175,21 @@ init -11 python:
             return
         return True
     
-    def equipment_access(char, silent=False):
+    def equipment_access(char, item=None, silent=False):
         # Here we settle if a char would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
         # We return True of access is granted!
         if char == hero:
             return True # Would be weird if we could not access MCs inventory....
+            
+        if char.status == "slave":
+            return True # Always the same here as well...
         
-        if all([char.status != "slave", char.disposition < 850, not(check_lovers(char, hero))]):
+        # if item:
+            # if conditions:
+                # return True
+            
+        if all([char.disposition < 850, not(check_lovers(char, hero))]):
             if not silent:
                 char.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
             return
