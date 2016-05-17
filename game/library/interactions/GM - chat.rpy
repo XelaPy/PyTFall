@@ -577,7 +577,7 @@ label interactions_interests:
                 $ char.exp += randint(2, 4)
                 $ char.disposition += randint(2, 6)
         $ line = rts(char, {
-        "Exhibitionist": ["[char.pC] tells you pretty hot stories about her exhibitionistic adventures in a local park."],
+        "Exhibitionist": ["[char.pC] tells you pretty hot stories about [char.op] exhibitionistic adventures in a local park."],
         "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beaches to pools because it's free."],
         "Manly": ["[char.pC] gives you a lecture on how to build your muscles properly. You feel a bit offended, but keep your cool.", "[char.pC] casually remarks that you should exercise more often, and gives you some advice."],
         "Chubby": ["You have a lively discussion about your favourite local bakeries and pastry shops.", "Your conversation turns toward cooking, and [char.p] shares some of her recipes. They are all pretty high in calories..."],
