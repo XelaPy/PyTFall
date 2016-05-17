@@ -177,47 +177,53 @@
 label dev_testing_menu:
     if config.developer:
         menu:
-            "Test Intro":
-                call intro
-                call mc_setup
-            "MC Setup Screen":
-                call mc_setup
-                $ neow = True
-            "Skip MC Setup (Zero MC)":
-                $ pass
-            "MC Level 100":
+            "Debug Mode":
                 $ initial_levelup(hero, 100, max_out_stats=True)
-            "Test Matrix":
-                call test_matrix
-                jump dev_testing_menu
-
-            "Test UDD/SFX":
+                
+            "Content":
                 menu:
-                    "Test Vortex":
-                        call test_vortex
+                    "Test Intro":
+                        call intro
+                        call mc_setup
+                    "MC Setup":
+                        call mc_setup
+                        $ neow = True
+                    "Skip MC Setup":
+                        $ pass
+                    "Back":
                         jump dev_testing_menu
-                    "Quality Test":
-                        call screen testing_image_quality
-                        jump dev_testing_menu
-                    "FilmStrip":
-                        call screen testing_new_filmstrip
-                        jump dev_testing_menu
-                    "Animation":
-                        scene black
-                        show expression Transform("cataclysm", yzoom=2.5, xzoom=1.5) as cataclysm
-                        pause 5.5
-                        hide cataclysm
-                        "Done"
-                        jump dev_testing_menu
-                    "Particle":
-                        scene black
-                        show expression ParticleBurst([Solid("#%06x"%renpy.random.randint(0, 0xFFFFFF), xysize=(5, 5)) for i in xrange(50)], mouse_sparkle_mode=True) as pb
-                        pause
-                        hide pb
-                        jump dev_testing_menu
-                    "Test Robert Penners Easing":
-                        call screen test_penners_easing
-                        jump dev_testing_menu
+
+                        
+            "Logic":
+                while 1:
+                    menu:
+                        "Extend test":
+                            $ h = chars["Hinata"]
+                            h.say "ijnfiref frefre g trgt gh trh trh trh dt h h h d h yyh dtr hsgr fresgfrsgtrghtegtsg hrth trs ghrts hgrt shgrft hrt "
+                            extend "fdfs sd fs fsd f sd fsfsfsrewr gs fgs g sd g s rs  t rtr sr sr"
+                        "Back":
+                            jump dev_testing_menu
+
+            "GFX":
+                while 1:
+                    menu:
+                        "Test Matrix":
+                            call test_matrix
+                        "Test Vortex":
+                            call test_vortex
+                        "Quality Test":
+                            call screen testing_image_quality
+                        "FilmStrip":
+                            call screen testing_new_filmstrip
+                        "Particle":
+                            scene black
+                            show expression ParticleBurst([Solid("#%06x"%renpy.random.randint(0, 0xFFFFFF), xysize=(5, 5)) for i in xrange(50)], mouse_sparkle_mode=True) as pb
+                            pause
+                            hide pb
+                        "Test Robert Penners Easing":
+                            call screen test_penners_easing
+                        "Back":
+                            jump dev_testing_menu
                         
                         
         python:
