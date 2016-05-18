@@ -65,8 +65,8 @@
     "dismod": 50,
     "addtraits": ["Easy to Reward"],
     "locations": ["General Store"],
-    "goodtraits": ["Pervert", "Nymphomaniac"],
-    "badtraits": ["Iron Will", "Well-mannered", "Strict Morals"]
+    "goodtraits": ["Nymphomaniac"],
+    "badtraits": ["Well-mannered"]
     },
     {
     "id": "Shocking Harness",
@@ -84,6 +84,6 @@
     "addtraits": ["Easy to Punish"],
     "locations": ["General Store"],
     "goodtraits": ["Broken", "Masochist"],
-    "badtraits": ["Iron Will", "Well-mannered", "Strict Morals"]
+    "badtraits": ["Well-mannered"]
     }
 ]

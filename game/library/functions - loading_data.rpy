@@ -507,14 +507,15 @@ init -11 python:
                     content.extend(json.load(f))
                     
         for item in content:
-            i = Item()
+            iteminst = Item()
             for attr in item:
+                # We prolly want to convert to objects in case of traits:
                 if attr in ("badtraits", "goodtraits"):
-                    setattr(i, attr, set(item[attr])) # More convinient to have these as sets...
+                    setattr(iteminst, attr, set(traits[i] for i in item[attr])) # More convinient to have these as sets...
                 else:
-                    setattr(i, attr, item[attr])
-            i.init()
-            items[i.id] = i
+                    setattr(iteminst, attr, item[attr])
+            iteminst.init()
+            items[iteminst.id] = iteminst
             
         return items
         

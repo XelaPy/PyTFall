@@ -221,7 +221,7 @@
     "max": {"magic": 30},
     "mod": {"magic": 20},
     "locations": ["Exploration", "General Store"],
-    "goodtraits": ["Magic Gift"]
+    "goodtraits": []
     },
     {
     "id": "Gloves of Swordplay",
@@ -305,7 +305,7 @@
     "infinite": false,
     "slot": "wrist",
     "type": "other",
-    "removetraits": ["Magic Gift"],
+    "removetraits": [],
     "max": {"character": -50, "joy": -20},
     "mod": {"magic": -50},
     "locations": ["General Store", "Exploration"]
@@ -563,7 +563,7 @@
     "mod": {"agility": 30, "attack": 20, "defence": 25},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration"],
-    "goodtraits": ["Former Assassin"]
+    "goodtraits": []
     },
     {
     "id": "Imperial Leather Gloves",

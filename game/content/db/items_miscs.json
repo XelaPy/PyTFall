@@ -40,7 +40,7 @@
     "statmax": 110,
     "mod": {"constitution": 1, "attack": 1, "vitality": -25},
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": ["Combat Training"]
+    "goodtraits": []
     },
     {
     "id": "Animated Training Dummy",
@@ -271,7 +271,7 @@
     "mod": {"magic": 65},
     "max": {"magic": 25, "mp": 30},
     "locations": ["Exploration"],
-    "goodtraits": ["Magic Gift"]
+    "goodtraits": []
     },
     {
     "id": "Codex of the Courtesan",
@@ -355,7 +355,7 @@
     "mod": {"magic": 30},
     "max": {"mp": 5},
     "locations": ["Witches Hut"],
-    "goodtraits": ["Magic Gift"]
+    "goodtraits": []
     },
     {
     "id": "Manual of Sex",

@@ -149,7 +149,7 @@
     "max": {"attack": 30, "agility": 10},
     "mod": {"attack": 40, "character": 5, "defence": -20},
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": ["Former Assassin"]
+    "goodtraits": []
     },
     {
     "id": "Jeweled Poignard",
@@ -353,7 +353,7 @@
     "max": {"magic": 50},
     "mod": {"magic": 25},
     "locations": ["Exploration"],
-    "goodtraits": ["Magic Gift"]
+    "goodtraits": []
     },
     {
     "id": "Brass Knuckles",
@@ -410,7 +410,7 @@
     "max": {"attack": 20, "defence": -10, "agility": 15},
     "mod": {"attack": 10, "agility": 10},
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": ["Former Assassin"]
+    "goodtraits": []
     },
     {
     "id": "Throwing Knives",

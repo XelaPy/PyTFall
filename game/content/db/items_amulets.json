@@ -202,7 +202,7 @@
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 30},
     "locations": ["Exploration"],
-    "goodtraits": ["Combat Training"]
+    "goodtraits": []
     },
     {
     "id": "Good Luck Charm",

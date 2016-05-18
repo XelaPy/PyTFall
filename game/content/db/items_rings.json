@@ -268,7 +268,7 @@
     "max": {"agility": 60},
     "mod": {"agility": 50},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": ["Former Assassin", "Kleptomaniac"]
+    "goodtraits": ["Kleptomaniac"]
     },
     {
     "id": "Minor Ring of Protection",
@@ -302,7 +302,7 @@
     "max": {"defence": 50},
     "mod": {"defence": 30},
     "locations": ["Exploration"],
-    "goodtraits": ["Combat Training"]
+    "goodtraits": []
     },
     {
     "id": "Ring of Clear Thought",

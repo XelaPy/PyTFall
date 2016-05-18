@@ -391,7 +391,7 @@
     "max": {"attack": 80, "agility": 50, "defence": -50},
     "mod": {"attack": 35, "character": 30, "agility": 20},
     "locations": ["Work Shop", "Exploration"],
-    "goodtraits": ["Former Assassin"]
+    "goodtraits": []
     },
     {
     "id": "Scythe of Death",

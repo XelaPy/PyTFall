@@ -176,18 +176,28 @@ init -11 python:
         return True
     
     def equipment_access(char, item=None, silent=False):
-        # Here we settle if a char would be willing to give MC access to her equipment:
+        # Here we determine if a char would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
         # We return True of access is granted!
         if char == hero:
             return True # Would be weird if we could not access MCs inventory....
             
+        # Always the same here as well...
         if char.status == "slave":
-            return True # Always the same here as well...
+            return True
         
-        # if item:
-            # if conditions:
-                # return True
+        # Always refuse if char hates the player:
+        if char.disposition < -700:
+            if not silent:
+                char.say(choice(["Go away!", "Get lost!"]))
+            
+        if item:
+            # Always allow restorative items:
+            if item.type == "restore":
+                return True
+                
+            if item:
+                pass
             
         if all([char.disposition < 850, not(check_lovers(char, hero))]):
             if not silent:

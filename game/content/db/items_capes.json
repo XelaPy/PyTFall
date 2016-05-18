@@ -188,7 +188,7 @@
     "max": {"mp": 10, "defence": 30, "magic": 20, "attack": -80},
     "mod": {"defence": 40, "magic": 30},
     "locations": ["Exploration", "General Store"],
-    "goodtraits": ["Magic Gift"]
+    "goodtraits": []
     },
     {
     "id": "Cloak of Invisibility",
@@ -244,7 +244,7 @@
     "max": {"mp": 5, "defence": 10, "magic": 20, "attack": -30},
     "mod": {"defence": 10, "magic": 20},
     "locations": ["General Store"],
-    "goodtraits": ["Magic Gift"]
+    "goodtraits": []
     },
     {
     "id": "Fur Coat",
@@ -299,6 +299,6 @@
     "mod": {"defence": 15, "agility": 25, "attack": 20, "charisma": -15},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": ["Former Assassin"]
+    "goodtraits": []
     }
   ]
