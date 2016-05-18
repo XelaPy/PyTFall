@@ -137,7 +137,7 @@
     "mod": {"charisma": 10, "agility": -5, "defence": -5},
     "mod_skills": {"refinement": [0.02, 0, 0.04, 0, 0], "dancing": [-0.02, 0, -0.04, 0, 0]},
     "locations": ["Tailor Store"],
-    "badtraits": ["Combat Training", "Former Assassin"]
+    "badtraits": []
     },
     {
     "id": "Mistress Boots",
@@ -464,7 +464,7 @@
     "max": {"agility": 30, "attack": 30, "defence": 20},
     "mod": {"agility": 30, "attack": 20, "defence": 25},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": ["Former Assassin"]
+    "goodtraits": []
     },
     {
     "id": "Ice Shoes",

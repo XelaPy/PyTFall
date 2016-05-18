@@ -501,8 +501,8 @@
     "max": {"defence": 40},
     "mod": {"defence": 40, "attack": -30, "agility": -10},
     "locations": ["Witches Hut", "Ninja Shop"],
-    "goodtraits": ["Combat Training"],
-    "badtraits": ["Former Assassin"]
+    "goodtraits": [],
+    "badtraits": []
     },
     {
     "id": "Potion of Lightning Speed",
@@ -522,7 +522,7 @@
     "max": {"attack": 40},
     "mod": {"defence": -15, "attack": 40, "agility": 20, "constitution": -20},
     "locations": ["Witches Hut", "Ninja Shop"],
-    "goodtraits": ["Former Assassin"],
+    "goodtraits": [],
     "badtraits": ["Manly"]
     },
     {
@@ -766,7 +766,7 @@
     "type": "permanent",
     "max": {"health": -50},
     "mod": {"constitution": -30, "vitality": -40},
-    "addtraits": ["Magic Gift"],
+    "addtraits": [],
     "locations": ["Exploration"]
     },
     {
@@ -993,7 +993,7 @@
     "type": "food",
     "mod": {"joy": 15, "character": 1},
     "locations": ["Cafe"],
-    "goodtraits": ["Noble"]
+    "goodtraits": []
     },
     {
     "id": "Heaven-and-Earth Cake",
