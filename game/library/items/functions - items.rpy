@@ -190,14 +190,26 @@ init -11 python:
         if char.disposition < -700:
             if not silent:
                 char.say(choice(["Go away!", "Get lost!"]))
+            return False
             
         if item:
+            # Bad Traits:
+            if item.badtraits.intersection(char.traits):
+                if not silent:
+                    char.say(choice(["This item sucks!"]))
+                return False
+            
             # Always allow restorative items:
             if item.type == "restore":
                 return True
                 
-            if item:
-                pass
+            # Good traits:
+            if item.goodtraits.intersection(char.traits):
+                return True
+                
+            # Just an awesome item in general:
+            if item.eqchance >= 70:
+                return True
             
         if all([char.disposition < 850, not(check_lovers(char, hero))]):
             if not silent:
