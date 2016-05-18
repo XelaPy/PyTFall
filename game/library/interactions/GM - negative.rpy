@@ -3,9 +3,9 @@ label interactions_escalation:
     call interactions_fight_begins
     python:
         for member in hero.team:
-            if member.status <> "slave" and member <> hero:
+            if member.status != "slave" and member != hero:
                 if ("Yandere" in member.traits and member.disposition >= 50) or member.disposition >= 500 or "Vicious" in member.traits:
-                    renpy.call("interactions_protection", character=member)
+                    renpy.call_in_new_context("interactions_protection", character=member)
     hide screen girl_interactions
     if "park" in gm.label_cache:
         $ n = randint(1,4)
