@@ -1,6 +1,11 @@
 label interactions_escalation:
     $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_fight_begins
+    python:
+        for member in hero.team:
+            if member.status <> "slave" and member <> hero:
+                if ("Yandere" in member.traits and member.disposition >= 50) or member.disposition >= 500 or "Vicious" in member.traits:
+                    renpy.call("interactions_protection", character=member)
     hide screen girl_interactions
     if "park" in gm.label_cache:
         $ n = randint(1,4)
@@ -35,16 +40,14 @@ label interactions_escalation:
         for member in hero.team:
             if member <> hero:
                 if member.status <> "slave":
-                    if (member.disposition >= 700) or (check_lovers(member, hero)) or (("Yandere" in member.traits) and (member.disposition >= 200)) or ("Vicious" in member.traits): # girls usually don't support MC when he harasses other girls, unless they are close enough to him or are yandere with at least some disposition
+                    if ("Yandere" in member.traits and member.disposition >= 50) or member.disposition >= 500 or "Vicious" in member.traits: # since this battle was 100% provoked by MC, not every character is going to help him
                         your_team.add(member)
-                else:
-                    if ("Yandere" in member.traits and member.disposition >= 100) or (member.disposition >= 800): # and yandere slaves/slaves with high disp can serve as cannon fodder
-                         your_team.add(member)
             else:
                 your_team.add(member)
         for member in your_team:
             if member <> hero and member.status == "slave":
                 member.controller = Slave_BE_AI(member)
+
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
         battle.start_battle()
@@ -139,6 +142,31 @@ label interactions_fight_begins:
     else:
         $ rc("Geez, now I'm pissed!", "Geez, I will never forgive you!", "I can't deal with this. I want to hit you so bad I can't stop myself!", "Since it's come down to this, I'll have to use force!", "I didn't want to have to fight... but it seems like there's no other choice.")
     $ char.restore_portrait()
+    return
+    
+label interactions_protection(character): # battle start, character on MC side and willing to help in battle
+    $ character.override_portrait("portrait", "confident")
+    if "Impersonal" in character.traits:
+        $ character.say(choice(["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat."]))
+    elif "Imouto" in character.traits:
+        $ character.say(choice(["Ahaha, we'll totally beat you up!", "Behold of my amazing combat techniques, [character.mc_ref]! ♪"]))
+    elif "Dandere" in character.traits:
+        $ character.say(choice(["Want to fight? We'll make you regret it.", "Let's end this quickly, [character.mc_ref]. We have many other things to do."]))
+    elif "Tsundere" in character.traits:
+        $ character.say(choice(["Well-well. Looks like we have some new targets, [character.mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!"]))
+    elif "Kuudere" in character.traits:
+        $ character.say(choice(["Fine, we accept your challenge. Let's go, [character.mc_ref].", "Don't worry, [character.mc_ref]. This battle will be over soon enough."]))
+    elif "Kamidere" in character.traits:
+        $ character.say(choice(["Get ready, [character.mc_ref]. We have some lowlife to crash.", "So you want us to teach you some manners, huh?"]))
+    elif "Bokukko" in character.traits:
+        $ character.say(choice(["Wanna throw hands, huh? Better be ready to catch them!", "I'm gonna beat you silly! Cover me, [character.mc_ref]!"]))
+    elif "Ane" in character.traits:
+        $ character.say(choice(["Don't worry, [character.mc_ref]. I'll protect you.", "Can't say I approve of this sort of thing, but we are out of options, [character.mc_ref]."]))
+    elif "Yandere" in character.traits:
+        $ character.say(choice(["You... Don't you dare to touch [hero.op]!", "Please stand aside, [character.mc_ref]. Or you'll be splashed with blood..."]))
+    else:
+        $ character.say(choice(["Oh well, now we have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!"]))
+    $ character.restore_portrait()
     return
     
 label interactions_fight_won:
