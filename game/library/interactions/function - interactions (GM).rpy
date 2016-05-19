@@ -298,6 +298,7 @@ init -11 python:
         if characters:
             said_lines = set()
             for character in characters:
+                global character # ??? Ren'Py cannot interpolate in local scopes?
                 if "Impersonal" in character.traits:
                     lines = ["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]
                 elif "Imouto" in character.traits:
