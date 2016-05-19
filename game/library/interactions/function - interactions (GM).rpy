@@ -296,8 +296,8 @@ init -11 python:
         """
         characters = [c for c in characters if c != hero]
         if characters:
+            said_lines = set()
             for character in characters:
-                said_lines = set()
                 if "Impersonal" in character.traits:
                     lines = ["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]
                 elif "Imouto" in character.traits:
@@ -315,9 +315,9 @@ init -11 python:
                 elif "Ane" in character.traits:
                     lines = ["Don't worry, [character.mc_ref]. I'll protect you.", "Can't say I approve of this sort of thing, but we are out of options, [character.mc_ref].", "Don't feel sorry for them, [character.mc_ref]. They asked for it.", "We mustn't let our guard down, [character.mc_ref]."]
                 elif "Yandere" in character.traits:
-                    lines = ["Please stand aside, [character.mc_ref]. Or you'll be splashed with blood...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]
+                    lines = ["Please stand aside, [character.mc_ref]. Or you'll get blood on you...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]
                 else:
                     lines = ["I suppose we have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]
-                result = random.sample(set(lines).difference(said_lines), 1)
+                result = random.sample(set(lines).difference(said_lines), 1)[0]
                 said_lines.add(result)
                 character.say(result)
