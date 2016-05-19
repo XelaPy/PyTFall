@@ -321,7 +321,7 @@ init -11 python:
                 elif "Yandere" in character.traits:
                     lines = ["Please stand aside, [character.mc_ref]. Or you'll be splashed with blood...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]
                 else:
-                    lines = ["I suppose have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]
+                    lines = ["I suppose we have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]
                 result = choice(list(set(lines) - set(said_lines)))
                 said_lines.append(result)
                 if result:
