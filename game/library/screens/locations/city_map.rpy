@@ -1,5 +1,5 @@
 init python:
-    def appearing_for_city_map(mode="show"):
+    def appearing_for_city_map(mode="hide"):
         for key in pytfall.maps("pytfall"):
             if not key.get("hidden", False):
                 if "appearing" in key and key["appearing"]:
@@ -19,7 +19,7 @@ label city:
         play world choice(ilists.world_music["pytfall"])
     $ global_flags.del_flag("keep_playing_music")
     
-    $ appearing_for_city_map()
+    $ appearing_for_city_map("show")
     
     scene bg humans
     show screen city_screen
@@ -60,7 +60,6 @@ screen city_screen():
             $ pos = 0, 0
             if "appearing" in key and key["appearing"]:
                 $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(0.08))
-                $ appearing_img = Appearing(idle_img, 50, 200, start_alpha=.1)
                 $ pos = key["pos"]
                 
             button:
@@ -93,27 +92,27 @@ screen city_screen():
             idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.15))
             hovered tt.Action("Quest Journal!")
-            action ShowMenu("quest_log")
+            action appearing_for_city_map, ShowMenu("quest_log")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(0.15))
-            action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
+            action (appearing_for_city_map, Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
             hovered tt.Action("Return to Main Screen!")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.15))
-            action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
+            action [appearing_for_city_map, SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
             hovered tt.Action("View Hero Profile!")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png", 40, 40), im.matrix.brightness(0.15))
             hovered tt.Action("QuickSave!")
-            action QuickSave()
+            action appearing_for_city_map, QuickSave()
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/load.png", 38, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png", 38, 40), im.matrix.brightness(0.15))
             hovered tt.Action("QuickLoad!")
-            action QuickLoad()
+            action appearing_for_city_map, QuickLoad()
     
     ### ----> Mid buttons <---- ###
     add "coin_top" pos (1015, 58)
