@@ -820,7 +820,7 @@ init -5 python:
                     yield self.env.timeout(5)
 
                     temp = "{}: Debug: ".format(self.env.now)
-                    temp = temp + " {} Guards finished their response to the event, back to paroling {}".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + " {} Guards finished their response to the event, back to patrolling {}".format(set_font_color(wlen, "red"), building.name)
                     temp = temp + set_font_color("....".format(counter), "crimson")
                     self.log(temp)
                 
