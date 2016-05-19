@@ -1,12 +1,4 @@
-label interactions_escalation:
-    $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
-    call interactions_fight_begins
-    python:
-        for member in hero.team:
-            if member.status != "slave" and member != hero:
-                if ("Yandere" in member.traits and member.disposition >= 50) or member.disposition >= 500 or "Vicious" in member.traits:
-                    renpy.call_in_new_context("interactions_protection", character=member)
-    hide screen girl_interactions
+label interactions_pick_background_for_fight: # picks background for battle inside an interaction as the back string variable based on label where the interaction was called last time
     if "park" in gm.label_cache:
         $ n = randint(1,4)
         $ back = "content/gfx/bg/be/b_park_" + str(n) + ".jpg"
@@ -28,10 +20,23 @@ label interactions_escalation:
         $ back = "content/gfx/bg/be/b_tavern_1.jpg"
     else:
         $ n = randint(1,6)
-        $ back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg"
+        $ back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
+    return
+
+label interactions_escalation: # character was provoked to attack MC
+    $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
+    call interactions_provoked_character_line
     python:
-        enemy_team = Team(name="Enemy Team", max_size=3)
-        your_team = Team(name="Your Team", max_size=3)
+        for member in hero.team:
+            if member.status != "slave" and member != hero:
+                renpy.call_in_new_context("interactions_protection", character=member)
+    hide screen girl_interactions
+    call interactions_pick_background_for_fight
+
+        
+    python:
+        enemy_team = Team(name="Enemy Team")
+        your_team = Team(name="Your Team")
         enemy_team.add(char)
         for member in enemy_team:
             member.controller = BE_AI(member)
@@ -119,7 +124,7 @@ label interactions_insult:
     jump girl_interactions
         
     
-label interactions_fight_begins:
+label interactions_provoked_character_line:
     $ char.override_portrait("portrait", "angry")
     if ct("Impersonal"):
         $ rc("I now regard you as my enemy, and I will put you down by force.", "Understood... Let us discuss this matter with our fists.", "I don't want this to be a big deal. So let's just do it as quickly as possible.", "I will erase you.")
@@ -147,75 +152,75 @@ label interactions_fight_begins:
 label interactions_protection(character): # battle start, character on MC side and willing to help in battle
     $ character.override_portrait("portrait", "confident")
     if "Impersonal" in character.traits:
-        $ character.say(choice(["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat."]))
+        $ character.say(choice(["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]))
     elif "Imouto" in character.traits:
-        $ character.say(choice(["Ahaha, we'll totally beat you up!", "Behold of my amazing combat techniques, [character.mc_ref]! ♪"]))
+        $ character.say(choice(["Ahaha, we'll totally beat you up!", "Behold of my amazing combat techniques, [character.mc_ref]! ♪", "All our enemies will be punished! ♫", "Activate super duper mega ultra assault mode! ♪", "Huh? Don't they know we're too strong for them?"]))
     elif "Dandere" in character.traits:
-        $ character.say(choice(["Want to fight? We'll make you regret it.", "Let's end this quickly, [character.mc_ref]. We have many other things to do."]))
+        $ character.say(choice(["Want to fight? We'll make you regret it.", "Let's end this quickly, [character.mc_ref]. We have many other things to do.", "Of course we'll win.", "This will be over before you know it.", "If something bad happens to the enemy, don't blame me."]))
     elif "Tsundere" in character.traits:
-        $ character.say(choice(["Well-well. Looks like we have some new targets, [character.mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!"]))
+        $ character.say(choice(["Well-well. Looks like we have some new targets, [character.mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!", "We won't go easy on you!", "There's no way you could win!", "[character.mc_ref], you can stay back if you wish. I'll show you how it's done.", "I won't just defeat you, I'm gonna shatter you!"]))
     elif "Kuudere" in character.traits:
-        $ character.say(choice(["Fine, we accept your challenge. Let's go, [character.mc_ref].", "Don't worry, [character.mc_ref]. This battle will be over soon enough."]))
+        $ character.say(choice(["Oh, you dare to stand against us?", "Fine, we accept your challenge. Let's go, [character.mc_ref].", "Don't worry, [character.mc_ref]. This battle will be over soon enough.", "Are you prepared to know our power?", "You picked a fight with the wrong girl."]))
     elif "Kamidere" in character.traits:
-        $ character.say(choice(["Get ready, [character.mc_ref]. We have some lowlife to crash.", "So you want us to teach you some manners, huh?"]))
+        $ character.say(choice(["Get ready, [character.mc_ref]. We have some lowlife to crash.", "So you want us to teach you some manners, huh?", "You have made a grave error challenging us. Retreat while you can.", "Time to take out the trash.", "You should leave this place and cower in your home. That is the proper course for one so weak.", "You need to be put back in your place."]))
     elif "Bokukko" in character.traits:
-        $ character.say(choice(["Wanna throw hands, huh? Better be ready to catch them!", "I'm gonna beat you silly! Cover me, [character.mc_ref]!"]))
+        $ character.say(choice(["Wanna throw hands, huh? Better be ready to catch them!", "I'm gonna beat you silly! Cover me, [character.mc_ref]!", "You wanna go? Alrighty, eat some of this!", "Time to kick some ass.", "I'm gonna whack you good!", "All right, let's clean this up fast!"]))
     elif "Ane" in character.traits:
-        $ character.say(choice(["Don't worry, [character.mc_ref]. I'll protect you.", "Can't say I approve of this sort of thing, but we are out of options, [character.mc_ref]."]))
+        $ character.say(choice(["Don't worry, [character.mc_ref]. I'll protect you.", "Can't say I approve of this sort of thing, but we are out of options, [character.mc_ref].", "Don't feel sorry for them, [character.mc_ref]. They asked for it.", "We mustn't let our guard down, [character.mc_ref]."]))
     elif "Yandere" in character.traits:
-        $ character.say(choice(["You... Don't you dare to touch [hero.op]!", "Please stand aside, [character.mc_ref]. Or you'll be splashed with blood..."]))
+        $ character.say(choice(["Please stand aside, [character.mc_ref]. Or you'll be splashed with blood...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]))
     else:
-        $ character.say(choice(["Oh well, now we have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!"]))
+        $ character.say(choice(["I suppose have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]))
     $ character.restore_portrait()
     return
     
 label interactions_fight_won:
     $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
-        $ rc("It would be better for you if you stayed obedient for a while.", "Now do you understand your own powerlessness?")
+        $ rc("Just as I expected.", "The difference in power is so obvious.", "Now do you understand your own powerlessness?", "Not really a fair fight, was it?", "I'm not good at holding back.", "I think you underestimated me.", "An unsurprising victory.")
     elif ct("Imouto"):
-        $ rc("Flawless victory! ♪", "Th-this is all your fault, you made me so mad!", "Are you okay? Are you still alive?", "Loooooooser!") 
+        $ rc("Flawless victory! ♪", "Special service! I up my attacks by twenty percent ♪", "This must be my lucky day! Want more? ♪", "Woohoo! Getting stronger every day!", "You're no match for me! ♪", "Ha! This is kiddy stuff!")
     elif ct("Dandere"):
-        $ rc("Don't make me dirty my hands next time.", "Huu... I suppose we can leave it at this.", "Please learn from this.", "Hmph, is that it.")
+        $ rc("This victory was assured.", "That's what happens when you get in my way.", "You should pick your fights better.", "Huu... I suppose I can leave it at this.", "Like crashing a bug. Squish.", "Guess that does it.", "That was easy. *Yawn*")
     elif ct("Tsundere"):
-        $ rc("Haaa... Feels so good.", "Hah! Big mouth and little muscles!", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way."),
+        $ rc("Haaa... Feels so good.", "Hah! Big mouth and little muscles!", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way.", "That wasn't much harder than combat practice...", "Over already? I'm just starting to get serious!", "Hmph! Laughable.", "Regret messing with me? Well it's too late now!"),
     elif ct("Kuudere"):
-        $ rc("Hmph. You're out of your league.", "Well, how was that! Don't forget it!", "Phew, what a waste of time...", "And stay down.", "Tch, what a stupid waste of time.")
+        $ rc("Cowards never win.", "Hmph. You're out of your league.", "I win, you lose, we're done.", "Phew, what a waste of time...", "And stay down.", "Tch, what a stupid waste of time.", "You still have much to learn!", "I will not deny you tried, but crude effort is no match for true ability.", "Is that it? I hardly did a thing.")
     elif ct("Kamidere"):
-        $ rc("Hmph, not even worth talking about...", "Hmph, charging in without knowing your opponent's strength... You're nothing but a stupid, weak animal.", "This is what you deserve.")
+        $ rc("Hmph, not even worth talking about...", "Hmph, charging in without knowing your opponent's strength... You're nothing but a stupid, weak animal.", "This is what you deserve.", "Oh, how pitiful!", "Hmph. They were pretty weak.", "Never stood a chance...")
     elif ct("Bokukko"):
-        $ rc("What's this? You're a loser, after all.",  "Well? Now do you get it?", "Ahaha ♪ I'm so strong ♪", "Jeez, now I'm tired after all that.", "Huh, so that's all you got?")
+        $ rc("How much more of this you want?",  "'Course I won.", "Ahaha ♪ I'm so strong ♪", "Jeez, now I'm tired after all that.", "Huh, so that's all you got?", "Oh, done fighting already?", "Piece of cake! ♪", "Is that it? I thought that would be tougher.", "I've got lots more where this comes from!")
     elif ct("Ane"):
-        $ rc("Do you understand how I feel now?", "Phew, I wonder if you'll still stand up to me after that?", "Oh my, I think I may have overdone it a little.", "Have you come to your senses?")
+        $ rc("You should learn when to draw back.", "Phew, I wonder if you'll still stand up to me after that?", "Oh my, I think I may have overdone it a little.", "If you get in my way then I have no choice.", "Hmm. Was you too weak or I was too strong?", "Some problems cannot be solved by words alone.", "It didn't look pretty, but what matters is who's standing at the end.", "Not a bad exercise, was it?")
     elif ct("Yandere"):
-        $ rc("Lie on the floor... as you are...", "Hah, just a small fry.", "Good lord, look at this. You even got my clothes all dirty.")
+        $ rc("Lie on the ground... as you are...", "Another one bites the dust. I like it when it gets messy ♪", "That wasn't a battle, that was assisted suicide...", "Death is better than you deserve.", "I feel nothing for my enemy.", "Did that hurt? I hope it did ♪")
     else:
-        $ rc("Phew... I feel so much better now... ♪", "So? Do you give up?", "Now that you know the difference between you and I, would you like to try again?")
+        $ rc("Goodness, look at this. You even got my clothes all dirty.", "Phew... I feel so much better now... ♪", "That was your best?", "Now you know the difference between us.", "Not much of a challenge.")
     $ char.restore_portrait()
     return
  
 label interactions_fight_lost:
     $ char.override_portrait("portrait", "angry")
     if ct("Impersonal"):
-        $ rc("Ugh... I underestimated you...", "I've failed...", "So I was defeated...")
+        $ rc("Ugh... I underestimated you...", "I've failed...", "So I was defeated...", "My limbs are immobile...")
     elif ct("Imouto"):
         $ rc("Oh, it hurts...", "Ugh, this wasn't supposed to happen...", "Ah...ahaha... I lost...", "I-I haven't...lost...yet...uu...")
     elif ct("Dandere"):
-        $ rc("Kuh...", "This... this isn't the way it's supposed to be...", "How mean...", "Ugh... No way...")
+        $ rc("Ugh... I lost...", "Kuh... Guess I got careless...", "It seems I can do no more...", "I... I cannot move...")
     elif ct("Tsundere"):
-        $ rc("Auu... This is terrible...", "Oww... Why'd you do that..?", "Kyuu... you..."),
+        $ rc("Auu... This is terrible...", "I cannot allow myself... to be humiliated so...", "Why... has it come to this...?", "Tch... to think that I'd..."),
     elif ct("Kuudere"):
-        $ rc("Uuu... You'll regret...", "Kuh... I lost...", "Buha! ...I-impossible...I have been...", "Kuh... That's all I can...", "Tch... Damn it...!")
+        $ rc("Uuu... How foolish of me...", "...I-impossible...I have been...", "Kuh... That's all I can...", "Tch... Damn it...!")
     elif ct("Kamidere"):
-        $ rc("Ugh... Frustrating...", "Kuh, I'm so pissed...", "Guh... How did I...", "...Really, just... not my day...")
+        $ rc("Ugh... Frustrating...", "Guh... How did I...", "...Really, just... not my day...", "Why... can't I move?!")
     elif ct("Bokukko"):
-        $ rc("Why... did this happen...", "Damn... this loser beat me...?", "Uuh... I'm so uncool...", "Owie... This sucks...")
+        $ rc("Why... did this happen...", "This... this isn't the way it's supposed to be...", "Uuh... I'm so uncool...", "Owie... This sucks...")
     elif ct("Ane"):
-        $ rc("Kuu... Why, like this...", "Ugh... How could this happened...", "Kuh, I misread you...", "Tch... to think that I'd...")
+        $ rc("Kuu... Why, like this...", "Ugh... How could this happened...", "Kuh, I misread you...", "I guess I wasn't strong enough...")
     elif ct("Yandere"):
-        $ rc("You little... I won't forget this...", "Da... mn...", "Shit... This is... nothing...", "...")
+        $ rc("It has come to this...", "No... it cannot be...!", "Shit... This is... nothing...", "I... didn't expect that...")
     else:
-        $ rc("Kuh, damn, you got me...", "Ugh, what the hell... geez...", "Kuh... You're... pretty good...")
+        $ rc("Kuh, damn, you got me...", "Ugh, what the hell... geez...", "Kuh... You're... pretty good...", "But how... could I... ugh...")
     $ char.restore_portrait()
     return
     
@@ -268,7 +273,7 @@ label interactions_got_insulted:
         elif ct("Ane"):
             $ rc("You shouldn't say things like that.", "Hmm, I didn't know you were the type to say things like that...", "My, you have some nerve.", "Good grief... Your parents did a terrible job raising you.")
         elif ct("Yandere"):
-            $ rc("Hey, it would be better if you didn't talk like that.", "...You should... be careful, when walking at night.", "Please die and come back as a better person, for everyone's sake.")
+            $ rc("What's that? You say you want to get hurt?", "...You should... be careful, when walking at night.", "Please die and come back as a better person, for everyone's sake.")
         else:
             $ rc("Th-that's a terrible thing to say!", "Wh-why would you say that, that's so cruel...", "All talk and nothing to back it up. What are you even trying to do?", "What's your problem? Saying that out of nowhere.")
     else:
