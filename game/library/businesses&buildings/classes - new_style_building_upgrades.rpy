@@ -38,7 +38,7 @@ init -5 python:
             
             self.habitable = False
             self.workable = False
-            self.active = True # If not active, business is not executed and is concidered "dead", we run "inactive" method with a corresponing simpy process in this case.
+            self.active = True # If not active, business is not executed and is considered "dead", we run "inactive" method with a corresponding simpy process in this case.
             
             self.in_slots = in_slots
             self.ex_slots = ex_slots
@@ -80,7 +80,7 @@ init -5 python:
         
         # Worker methods:
         def has_workers(self, amount=1):
-            # Checks if there is a worker(s) availible.
+            # Checks if there is a worker(s) available.
             return False
             
         @property
@@ -97,7 +97,7 @@ init -5 python:
             """Tries to find workers for any given job.
             
             - Tries to get a perfect match where action == job first.
-            - Tries to get any match trying to match any occupaiton at all.
+            - Tries to get any match trying to match any occupation at all.
             
             @param: match_to_client: Will try to find the a good match to client, expects a client (or any PytC instance with .likes set) object.
             """
@@ -154,7 +154,7 @@ init -5 python:
             
             Example: Building
             Strip Club on the other hand may nor require one or one would be requested later.
-            It may be a better bet to come up with request_worker method that evaluates the same ealier, we'll see.
+            It may be a better bet to come up with request_worker method that evaluates the same earlier, we'll see.
             """
             return False
             
@@ -212,7 +212,7 @@ init -5 python:
            
         # Runs before ND calcs stats for this building.
         def pre_nd(self):
-            # Runs at the very start of execusion of SimPy loop during the next day.
+            # Runs at the very start of execution of SimPy loop during the next day.
             return
             
         @property
@@ -504,7 +504,7 @@ init -5 python:
                     self.log(temp)
                 self.job(worker) # better bet to access Class directly...
             else:
-                temp = "{}: There were no cleints for {} to serve".format(self.env.now, worker.name)
+                temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
                 self.log(temp)
                 
             self.active_workers.remove(worker)
@@ -534,7 +534,7 @@ init -5 python:
             self.res = None # Restored before every job...
             self.time = 1 # Same.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
-            self.interrupt = None # We can bind an active process here if it can be interrupted. Ima an idiot... This needs to be reset.
+            self.interrupt = None # We can bind an active process here if it can be interrupted. I'ma an idiot... This needs to be reset.
             self.expects_clients = False # See MainUpgrade.__init__
             
         def post_nd_reset(self):
@@ -756,7 +756,7 @@ init -5 python:
             workers = self.get_workers(job, amount=10, priority=priority, any=any)
             process = None
             if not workers:
-                return False, process # No workers availbile
+                return False, process # No workers available
             else:
                 # Might require optimization so we don't send all the warriors to once.
                 # Update worker lists:
@@ -802,7 +802,7 @@ init -5 python:
                         wlen = len(workers)
                         # We run this once per 2 du and only for debug purposes.
                         temp = "{}: Debug: ".format(self.env.now)
-                        temp = temp + " {} Guards are currently partolling {}!".format(set_font_color(wlen, "red"), building.name)
+                        temp = temp + " {} Guards are currently patrolling {}!".format(set_font_color(wlen, "red"), building.name)
                         temp = temp + set_font_color(" DU spent: {}!".format(counter), "blue")
                         self.log(temp)
                         
@@ -820,7 +820,7 @@ init -5 python:
                     yield self.env.timeout(5)
 
                     temp = "{}: Debug: ".format(self.env.now)
-                    temp = temp + " {} Guards finished their responce to the event, back to patroling {}".format(set_font_color(wlen, "red"), building.name)
+                    temp = temp + " {} Guards finished their response to the event, back to paroling {}".format(set_font_color(wlen, "red"), building.name)
                     temp = temp + set_font_color("....".format(counter), "crimson")
                     self.log(temp)
                 
@@ -838,7 +838,7 @@ init -5 python:
             simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
             
         def intercept(self, opfor=list(), interrupted=False):
-            """This intercepts a bunch of aggresive clients and resolves the issue through combat or intimidation.
+            """This intercepts a bunch of aggressive clients and resolves the issue through combat or intimidation.
             
             opfor = opposition forces
             
@@ -850,7 +850,7 @@ init -5 python:
             """
             job = simple_jobs["Guarding"]
             
-            # gather the responce forces:
+            # gather the response forces:
             defenders = list()
             if interrupted:
                 active_workers_backup = self.active_workers[:]
@@ -873,7 +873,7 @@ init -5 python:
                 self.log(temp)
                 
             # TODO: This should prolly be a function!
-            # Prepear the teams:
+            # Prepare the teams:
             enemy_team = Team(name="Enemy Team", max_size=5) # TODO: max_size should be len(opfor)
             mob = build_mob(id="Goblin Shaman", level=30)
             mob.front_row = True
@@ -1105,7 +1105,7 @@ init -5 python:
                 tracker.day += 1
                 
         def camping(self, tracker):
-            """Camping will allow restoration of AP/MP/Agility and so on. Might be forced on low health or schedualed closer to the end day.
+            """Camping will allow restoration of AP/MP/Agility and so on. Might be forced on low health or scheduled closer to the end day.
             """
             restore = False
             
@@ -1121,7 +1121,7 @@ init -5 python:
                     char.mp = char.get_max("mp")
                 
                 self.txt.append("Day 0: \n\n")
-                self.txt.append("The team rested in one of the frontier encampments prepearing for the run!")
+                self.txt.append("The team rested in one of the frontier encampments preparing for the run!")
                 self.txt.append("\n\n")
                 
                 return True
@@ -1361,7 +1361,7 @@ init -5 python:
             
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
-        """Usually suggests an expantion to a business upgrade that modifies some of it's workflow/properties/jobs!
+        """Usually suggests an expansion to a business upgrade that modifies some of it's workflow/properties/jobs!
         
         I want to code a skeleton for this atm.
         """
