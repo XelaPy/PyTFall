@@ -290,3 +290,40 @@ init -11 python:
         else:
             gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), place, background)
             
+    def interactions_prebattle_line(members):
+        """
+        Outputs nonrepeatable prebattle lines for provided characters, except hero if s/he was provided.
+        """
+        characters = []
+        for character in members:
+            if character != hero:
+                characters.append(character)
+        l = len(characters)
+        if len > 0:
+            said_lines = []
+            for character in characters:
+                if "Impersonal" in character.traits:
+                    lines = ["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]
+                elif "Imouto" in character.traits:
+                    lines = ["Ahaha, we'll totally beat you up!", "Behold of my amazing combat techniques, [character.mc_ref]! ♪", "All our enemies will be punished! ♫", "Activate super duper mega ultra assault mode! ♪", "Huh? Don't they know we're too strong for them?"]
+                elif "Dandere" in character.traits:
+                    lines = ["Want to fight? We'll make you regret it.", "Let's end this quickly, [character.mc_ref]. We have many other things to do.", "Of course we'll win.", "This will be over before you know it.", "If something bad happens to the enemy, don't blame me."]
+                elif "Tsundere" in character.traits:
+                    lines = ["Well-well. Looks like we have some new targets, [character.mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!", "We won't go easy on you!", "There's no way you could win!", "[character.mc_ref], you can stay back if you wish. I'll show you how it's done.", "I won't just defeat you, I'm gonna shatter you!"]
+                elif "Kuudere" in character.traits:
+                    lines = ["Oh, you dare to stand against us?", "Fine, we accept your challenge. Let's go, [character.mc_ref].", "Don't worry, [character.mc_ref]. This battle will be over soon enough.", "Are you prepared to know our power?", "You picked a fight with the wrong girl."]
+                elif "Kamidere" in character.traits:
+                    lines = ["Get ready, [character.mc_ref]. We have some lowlife to crash.", "So you want us to teach you some manners, huh?", "You have made a grave error challenging us. Retreat while you can.", "Time to take out the trash.", "You should leave this place and cower in your home. That is the proper course for one so weak.", "You need to be put back in your place."]
+                elif "Bokukko" in character.traits:
+                    lines = ["Wanna throw hands, huh? Better be ready to catch them!", "I'm gonna beat you silly! Cover me, [character.mc_ref]!", "You wanna go? Alrighty, eat some of this!", "Time to kick some ass.", "I'm gonna whack you good!", "All right, let's clean this up fast!"]
+                elif "Ane" in character.traits:
+                    lines = ["Don't worry, [character.mc_ref]. I'll protect you.", "Can't say I approve of this sort of thing, but we are out of options, [character.mc_ref].", "Don't feel sorry for them, [character.mc_ref]. They asked for it.", "We mustn't let our guard down, [character.mc_ref]."]
+                elif "Yandere" in character.traits:
+                    lines = ["Please stand aside, [character.mc_ref]. Or you'll be splashed with blood...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]
+                else:
+                    lines = ["I suppose have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]
+                result = choice(list(set(lines) - set(said_lines)))
+                said_lines.append(result)
+                if result:
+                    character.say(result)
+        return
