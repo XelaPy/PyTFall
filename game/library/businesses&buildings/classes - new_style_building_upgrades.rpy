@@ -1000,7 +1000,7 @@ init -5 python:
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
             self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit) # and "Exploration" in item.locations)
-            self.travel_time = self.area.travel_time + 0 # + 0??
+            self.distance = self.area.travel_time * 25 # We may be setting this directly in the future. Distance in KM as units. 25 is what we expect the team to be able to travel in a day. This may be offset through traits and stats/skills.
             self.hazard = self.area.hazard
             
             self.captured_charsl = list()
@@ -1010,6 +1010,7 @@ init -5 python:
             # I am putting the new attrs here:
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
+            
             
             self.day = 0
             self.days = self.area.days + 0 # + 0???
@@ -1034,14 +1035,16 @@ init -5 python:
             jump("fg_management")
     
             
-    class ExEvent(Action):
+    class ExplorationLog(Action):
         """Stores resulting text and data for SE.
         
-        Also functions as a screen action for future buttons.
+        Also functions as a screen action for future buttons. Maybe...
         """
-        def __init__(self):
-            self.name = "" # Name of the event, to be used as a name of a button in gui.
+        def __init__(self, name="", txt=""):
+            self.name = name # Name of the event, to be used as a name of a button in gui.
             self.txt = [] # I figure we use list to store text.
+            if txt:
+                self.txt.append(txt)
             self.battle_log = [] # Used to log the event.
             self.found_items = []
             
@@ -1090,8 +1093,7 @@ init -5 python:
                     
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
-            if tracker.travel_time:
-                if tracker.travel_time == tracker.area.travel_time:
+                if tracker.travel_time >= tracker.area.travel_time:
                     tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
                                                                                                                                            plural("day", self.travel_time),
                                                                                                                                            self.area.id),
