@@ -3455,11 +3455,11 @@ init -9 python:
                                 imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
                         tags = original_tags[:]
                         
-                    if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
-                        if add_mood:
-                            imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
-                        else:
-                            imgpath = self.select_image(main_tag, self.id, exclude=exclude)
+                        if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
+                            if add_mood:
+                                imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
+                            else:
+                                imgpath = self.select_image(main_tag, self.id, exclude=exclude)
                             
                 elif type == "reduce":
                     if not imgpath:
