@@ -298,7 +298,6 @@ init -11 python:
         if characters:
             said_lines = set()
             for character in characters:
-                global character # ??? Ren'Py cannot interpolate in local scopes?
                 if "Impersonal" in character.traits:
                     lines = ["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]
                 elif "Imouto" in character.traits:
@@ -320,5 +319,6 @@ init -11 python:
                 else:
                     lines = ["I suppose we have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]
                 result = random.sample(set(lines).difference(said_lines), 1)[0]
+                result = result.replace("[character.mc_ref]", character.mc_ref)
                 said_lines.add(result)
                 character.say(result)
