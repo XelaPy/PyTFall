@@ -290,18 +290,14 @@ init -11 python:
         else:
             gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), place, background)
             
-    def interactions_prebattle_line(members):
+    def interactions_prebattle_line(characters):
         """
         Outputs nonrepeatable prebattle lines for provided characters, except hero if s/he was provided.
         """
-        characters = []
-        for character in members:
-            if character != hero:
-                characters.append(character)
-        l = len(characters)
-        if len > 0:
-            said_lines = []
+        characters = [c for c in characters if c != hero]
+        if characters:
             for character in characters:
+                said_lines = set()
                 if "Impersonal" in character.traits:
                     lines = ["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]
                 elif "Imouto" in character.traits:
@@ -322,8 +318,6 @@ init -11 python:
                     lines = ["Please stand aside, [character.mc_ref]. Or you'll be splashed with blood...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]
                 else:
                     lines = ["I suppose we have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]
-                result = choice(list(set(lines) - set(said_lines)))
-                said_lines.append(result)
-                if result:
-                    character.say(result)
-        return
+                result = random.sample(set(lines).difference(said_lines), 1)
+                said_lines.add(result)
+                character.say(result)
