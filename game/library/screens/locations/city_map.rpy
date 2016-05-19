@@ -1,11 +1,25 @@
+init python:
+    def appearing_for_city_map(mode="show"):
+        for key in pytfall.maps("pytfall"):
+            if not key.get("hidden", False):
+                if "appearing" in key and key["appearing"]:
+                    idle_img = "".join([pytfall.map_pattern, key["id"], ".png"])
+                    appearing_img = Appearing(idle_img, 50, 200, start_alpha=.1)
+                    pos = key["pos"]
+                    if mode == "show":
+                        renpy.show(idle_img, what=appearing_img, at_list=[Transform(pos=pos)], layer="pytfall")
+                    if mode == "hide":
+                        renpy.hide(idle_img, layer="pytfall")
+
 label city:
-    
     # Music related:
     if not "pytfall" in ilists.world_music:
         $ ilists.world_music["pytfall"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("pytfall")]
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["pytfall"])
     $ global_flags.del_flag("keep_playing_music")
+    
+    $ appearing_for_city_map()
     
     scene bg humans
     show screen city_screen
@@ -17,10 +31,12 @@ label city:
         
         if result[0] == 'control':
             if result[1] == 'return':
+                $ appearing_for_city_map("hide")
                 $ global_flags.set_flag("keep_playing_music")            
                 hide screen city_screen
                 jump mainscreen
         elif result[0] == 'location':
+            $ appearing_for_city_map("hide")
             hide screen city_screen
             jump expression result[1]
                 
@@ -43,14 +59,19 @@ screen city_screen():
             $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.png"])
             $ pos = 0, 0
             if "appearing" in key and key["appearing"]:
-                $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(0.05))
-                $ idle_img = Appearing(idle_img, 50, 200, start_alpha=.1)
+                $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(0.08))
+                $ appearing_img = Appearing(idle_img, 50, 200, start_alpha=.1)
                 $ pos = key["pos"]
-            add idle_img pos pos
-            imagebutton:
+                
+            button:
+                style 'image_button'
                 pos pos
-                idle idle_img
-                hover hover_img
+                if not("appearing" in key and key["appearing"]):
+                    idle_background idle_img
+                    hover_background hover_img
+                else:
+                    idle_background Transform(idle_img, alpha=.01)
+                    hover_background hover_img
                 focus_mask True
                 hovered tt.action(key['name'])
                 action Return(['location', key["id"]])
