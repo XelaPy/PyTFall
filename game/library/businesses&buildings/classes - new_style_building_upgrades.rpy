@@ -10,7 +10,6 @@ init -5 python:
     class BuildingUpgrade(_object):
         """BaseClass for any building expansion! (aka Business)
         """
-        
         MATERIALS = {}
         COST = 0 # in Gold.
         CONSTRUCTION_EFFORT = 0
@@ -951,6 +950,36 @@ init -5 python:
             self.rooms = in_slots
             
             
+    def launch_exploration_run(team, area):
+        # Making sure that the team can explore the area.
+        # Ask if player wants to send the team exploring:
+        # I think this needs to be moved somewhere... it's a good fit for the class:
+        if not renpy.call_screen("yesno_prompt",
+                                 message="Are you sure that you wish to send %s exploring?" % team.name,
+                                 yes_action=Return(True),
+                                 no_action=Return(False)):
+            return
+        
+        # I think that the game should be rigged in such a way that this is impossible:
+        # for char in team:
+            # if char.action == "Exploring":
+                # renpy.show_screen("message_screen", "Team Member: %s is already on exploration run!" % char.name)
+                # return
+        
+        for char in team:
+            char.action = "Exploring" # We effectively remove char from the game so this is prolly ok.
+            char.set_flag("loc_backup", char.location)
+            if char in hero.team:
+                hero.team.remove(char)
+                
+            # TODO: Remove char from every possible team setup in any of the buildings?
+            for t in fg.teams:
+                if t != team:
+                    for char in team:
+                        for c in t:
+                            if c == char:
+                                t.remove(char)
+            
     # Temporary I'll Put Exploration code here:
     class ExplorationTracker(_object):
         """The class that stores data for an exploration job.
@@ -963,58 +992,37 @@ init -5 python:
             team = The team that is exploring.
             area = The area that is being explored.
             """
-            # Ask if player wants to send the team exploring:
-            # I think this needs to be moved somewhere... it's a good fit for the class:
-            if not renpy.call_screen("yesno_prompt",
-                                     message="Are you sure that you wish to send %s exploring?" % team.name,
-                                     yes_action=Return(True),
-                                     no_action=Return(False)):
-                return
             
-            for char in team:
-                if char.action == "Exploring":
-                    renpy.show_screen("message_screen", "Team Member: %s is already on exploration run!" % char.name)
-                    return
-            
-            for char in team:
-                char.action = "Exploring"
-                char.set_flag("loc_backup", char.location)
-                if char in hero.team:
-                    hero.team.remove(char)
-            
-            # Shitty loops to remove characters from other exploration teams.
-            # Might not be required anymore? Or should this be expanded? ..don't know yet.
-            for t in fg.teams:
-                if t != team:
-                    for char in team:
-                        for c in t:
-                            if c == char:
-                                t.remove(char)
             # We do this because this data needs to be tracked separately and area object can only be updated once team has returned.
             # There is a good chance that some of these data must be updated in real time.
+            # TODO: Keep this confined to copy of an area? Feels weird and useless to copy all of these properties.
             self.area = deepcopy(area)
             self.team = team
-            self.mobs = self.area.mobs
             
+            self.mobs = self.area.mobs
             self.risk = self.area.risk
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
-            self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit) # and "Exploration" in item.locations)
-            self.distance = self.area.travel_time * 25 # We may be setting this directly in the future. Distance in KM as units. 25 is what we expect the team to be able to travel in a day. This may be offset through traits and stats/skills.
             self.hazard = self.area.hazard
             
-            self.captured_charsl = list()
+            # Is this it? We should have area items???
+            self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit)
+            
+            # Traveling to and from + Status flags:
+            self.distance = self.area.travel_time * 25 # We may be setting this directly in the future. Distance in KM as units. 25 is what we expect the team to be able to travel in a day. This may be offset through traits and stats/skills.
+            self.traveled = 0 # Distance traveled in "KM"...
+            self.arrived = False # Set to True upon arrival to the location.
+            self.finished_exploring = False # Set to True after exploration is finished.
+            self.ep = 0 # Combined exploration points from the whole team.
+            
+            self.captured_chars = list()
             self.found_items = list()
             self.cash = list()
             
-            # I am putting the new attrs here:
-            self.arrived = False # Set to True upon arrival to the location.
-            self.finished_exploring = False # Set to True after exploration is finished.
-            
-            
             self.day = 0
-            self.days = self.area.days + 0 # + 0???
+            self.days = self.area.days + 0 # + 0??? Not even sure what thos does...
             
+            # TODO: Stats here need to be personal for each of the team members.
             self.unlocks = dict()
             for key in self.area.unlocks:
                 self.unlocks[key] = 0
@@ -1028,9 +1036,9 @@ init -5 python:
                               exp=0
                               )
             
-            self.txt = list()
+            self.logs = list() # List of all log object we create for this exploration run.
             
-            fg.exploring.append(self)
+            # fg.exploring.append(self)
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             jump("fg_management")
     
@@ -1086,6 +1094,10 @@ init -5 python:
                 
         def exploration_controller(self, trackter):
             # Controls the exploration by setting up proper simpy processes.
+            
+            # Convert AP to exploration points:
+            self.convert_AP(tracker)
+            
             if not trackter.arrived:
                 self.env.process(self.travel_to(tracker))
             elif not trackter.finished_exploring:
@@ -1093,18 +1105,18 @@ init -5 python:
                     
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
-                if tracker.travel_time >= tracker.area.travel_time:
-                    tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
-                                                                                                                                           plural("day", self.travel_time),
-                                                                                                                                           self.area.id),
-                                            "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
-                                                                                                            plural("day", self.travel_time),
-                                                                                                            self.area.id)]))
-                    
-                    tracker.days += tracker.travel_time + tracker.travel_time
+            if tracker.travel_time >= tracker.area.travel_time:
+                tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
+                                                                                                                                       plural("day", self.travel_time),
+                                                                                                                                       self.area.id),
+                                        "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
+                                                                                                        plural("day", self.travel_time),
+                                                                                                        self.area.id)]))
                 
-                tracker.travel_time -= 1
-                tracker.day += 1
+                tracker.days += tracker.travel_time + tracker.travel_time
+            
+            tracker.travel_time -= 1
+            tracker.day += 1
                 
         def camping(self, tracker):
             """Camping will allow restoration of AP/MP/Agility and so on. Might be forced on low health or scheduled closer to the end day.
@@ -1359,7 +1371,14 @@ init -5 python:
                     
                     member.mp -= randint(20, 37)
         
-
+        def convert_AP(self, tracker):
+            # Convert teams AP to Job points:
+            # The idea here is that teammates will help each other to carry out any task and act as a unit, so we don't bother tracking individual AP.
+            team = tracker.team
+            AP = 0
+            for m in team:
+                AP + m.AP
+            tracker.ep = AP * 100
             
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
