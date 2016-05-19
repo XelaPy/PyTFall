@@ -43,6 +43,8 @@ init python:
 #
 screen quest_log():
     
+    zorder 10
+    
     default display_mode = "active"
     default modes = ["active", "complete", "failed"]
     

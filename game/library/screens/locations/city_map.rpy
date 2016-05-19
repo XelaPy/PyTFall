@@ -7,9 +7,9 @@ init python:
                     appearing_img = Appearing(idle_img, 50, 200, start_alpha=.1)
                     pos = key["pos"]
                     if mode == "show":
-                        renpy.show(idle_img, what=appearing_img, at_list=[Transform(pos=pos)], layer="pytfall")
+                        renpy.show(idle_img, what=appearing_img, at_list=[Transform(pos=pos)], layer="screens", zorder=2)
                     if mode == "hide":
-                        renpy.hide(idle_img, layer="pytfall")
+                        renpy.hide(idle_img, layer="screens")
 
 label city:
     # Music related:
@@ -92,7 +92,7 @@ screen city_screen():
             idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.15))
             hovered tt.Action("Quest Journal!")
-            action appearing_for_city_map, ShowMenu("quest_log")
+            action ShowMenu("quest_log")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(0.15))
