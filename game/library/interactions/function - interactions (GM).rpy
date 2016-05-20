@@ -323,4 +323,30 @@ init -11 python:
                 result = result.replace("[mc_ref]", character.mc_ref)
                 character.say(result)
                 
-                
+    def interactions_pick_background_for_fight(place):
+        """
+        Retunrs suitble background for battles in various locations. Can be used together with gm.label_cache as a place.
+        """
+        if "park" in place:
+            n = randint(1,4)
+            back = "content/gfx/bg/be/b_park_" + str(n) + ".jpg"
+        elif "beach" in place:
+            n = randint(1,3)
+            back = "content/gfx/bg/be/b_beach_" + str(n) + ".jpg"
+        elif "forest" in place or "mage" in place:
+            n = randint(1,8)
+            back = "content/gfx/bg/be/b_forest_" + str(n) + ".jpg"
+        elif "village" in place:
+            back = "content/gfx/bg/be/b_village_1.jpg"
+        elif "grave" in place:
+            back = "content/gfx/bg/be/b_grave_1.jpg"
+        elif "academy" in place:
+            back = "content/gfx/bg/be/b_academy_1.jpg"
+        elif "arena" in place:
+            back = "content/gfx/bg/be/battle_arena_1.jpg"
+        elif "tavern" in place:
+            back = "content/gfx/bg/be/b_tavern_1.jpg"
+        else:
+            n = randint(1,6)
+            back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
+        return back
