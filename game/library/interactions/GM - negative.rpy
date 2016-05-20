@@ -1,3 +1,37 @@
+label interactions_harrasment_after_battle: # after MC provoked a free character and won the battle
+    $ m = interactions_flag_count_checker(hero, "harrasment_after_battle") # we don't allow to do it infinitely, chance of success reduces after every attempt
+    if dice(100-20*m): # base chance is 80$, -20 per attempt
+        menu:
+            "She's unconscious. You have some time before City Guards will arrive." # after adding dungeon here will be options to get her there and rape; after adding drugs here will be option to force her consume some
+
+            "Rob her":
+                if char.gold <= 0:
+                    "Sadly, she has no money. What a waste."
+                else:
+                    $ char.disposition -= randint(10, 20)
+                    $ g = char.gold
+                    while g >= randint(500, 1000):
+                        $ g = round(g*0.1)
+                    $ hero.gold += g
+                    $ char.gold -= g
+                    "In her pockets you found [g] G. Lucky!"
+            "Take her equipment":
+                "Here we take a random item from character inventory, ideally including equipped ones, with item cost <= 1000. Go, Xela! :)"
+            "Kill her":
+                "She stopped breathing. Serves her right."
+                $ char.health = 0
+                python:
+                    for member in hero.team:
+                        if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero:
+                            if "Virtuous" in member.traits:
+                                member.disposition -= randint(100, 200) # you really don't want to do it with non evil chars in team
+                            else:
+                                member.disposition -= randint(50, 100)
+            "Nothing":
+                $ pass
+        "You quickly leave before someone will see you."
+    jump girl_interactions_end
+                
 label interactions_escalation: # character was provoked to attack MC
     $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_provoked_character_line
@@ -40,7 +74,7 @@ label interactions_escalation: # character was provoked to attack MC
         $ gm.restore_img()
         call interactions_fight_won
         $ char.set_flag("_day_countdown_interactions_blowoff", 1)
-        
+        jump girl_interactions_end
     else:
         show expression gm.bg_cache
         python:
@@ -52,7 +86,7 @@ label interactions_escalation: # character was provoked to attack MC
                         member.disposition -= randint(10, 20)
         $ char.disposition -= randint(30, 60) # that's the beaten character, big penalty to disposition
         call interactions_fight_lost
-    jump girl_interactions_end
+    jump interactions_harrasment_after_battle
 
 label interactions_insult:
     $ m = interactions_flag_count_checker(char, "flag_interactions_insult")

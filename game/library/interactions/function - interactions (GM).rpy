@@ -321,11 +321,13 @@ init -11 python:
                 result = random.sample(set(lines).difference(said_lines), 1)[0]
                 said_lines.add(result)
                 result = result.replace("[mc_ref]", character.mc_ref)
+                character.override_portrait("portrait", "confident")
                 character.say(result)
+                character.restore_portrait()
                 
     def interactions_pick_background_for_fight(place):
         """
-        Retunrs suitble background for battles in various locations. Can be used together with gm.label_cache as a place.
+        Returns suitable background for battles in various locations. Can be used together with gm.label_cache as a place.
         """
         if "park" in place:
             n = randint(1,4)
