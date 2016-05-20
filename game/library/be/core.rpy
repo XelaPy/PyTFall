@@ -26,7 +26,7 @@ init -1 python: # Core classes:
     class BE_Core(object):
         """Main BE attrs, data and the loop!
         """
-        def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False):
+        def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False, quotes=True):
             """Creates an instance of BE scenario.
             
             logical: Just the calculations, without pause/gfx/sfx.
@@ -34,7 +34,7 @@ init -1 python: # Core classes:
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
-            
+            self.quotes = quotes
             if music == "random":
                 self.music = choice(ilists.battle_tracks)
             else:
@@ -158,9 +158,10 @@ init -1 python: # Core classes:
                     
                 renpy.show("bg", what=self.bg)
                 renpy.show_screen("battle_overlay", self)
+                if self.quotes:
+                    interactions_prebattle_line(self.teams[0])
                 if self.start_sfx: # Special Effects:
                     renpy.with_statement(self.start_sfx)
-                    
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()
             

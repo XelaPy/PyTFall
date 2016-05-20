@@ -26,13 +26,8 @@ label interactions_pick_background_for_fight: # picks background for battle insi
 label interactions_escalation: # character was provoked to attack MC
     $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_provoked_character_line
-    python:
-        for member in hero.team:
-            if member.status != "slave" and member != hero:
-                renpy.call_in_new_context("interactions_protection", character=member)
     hide screen girl_interactions
     call interactions_pick_background_for_fight
-
         
     python:
         enemy_team = Team(name="Enemy Team")
@@ -43,15 +38,8 @@ label interactions_escalation: # character was provoked to attack MC
 
         battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
         for member in hero.team:
-            if member <> hero:
-                if member.status <> "slave":
-                    if ("Yandere" in member.traits and member.disposition >= 50) or member.disposition >= 500 or "Vicious" in member.traits: # since this battle was 100% provoked by MC, not every character is going to help him
-                        your_team.add(member)
-            else:
-                your_team.add(member)
-        for member in your_team:
-            if member <> hero and member.status == "slave":
-                member.controller = Slave_BE_AI(member)
+            if member == hero or member.status <> "slave":
+                    your_team.add(member)
 
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
@@ -82,11 +70,11 @@ label interactions_escalation: # character was provoked to attack MC
         show expression gm.bg_cache
         python:
             for member in hero.team:
-                if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero:
+                if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero: # they don't like when MC harasses and then beats other chars, unless they are evil
                     if "Virtuous" in member.traits:
                         member.disposition -= randint(10, 20) # double for kind characters
                     else:
-                        member.disposition -= randint(5, 10) # and even if they help, they don't like it, unless it's a slave or an evil character
+                        member.disposition -= randint(5, 10)
         $ char.disposition -= randint(30, 60) # that's the beaten character, big penalty to disposition
         call interactions_fight_lost
     jump girl_interactions_end
@@ -113,7 +101,7 @@ label interactions_insult:
             $ char.disposition -= randint(1,m)
     else:
         $ char.disposition -= (randint(15,25))
-        if ct("Aggressive") and m>1 and char.status<>"slave":
+        if ct("Aggressive") and m>1 and char.status != "slave":
             jump interactions_escalation
         elif m < randint(2,3):
             call interactions_got_insulted
