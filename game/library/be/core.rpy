@@ -34,7 +34,7 @@ init -1 python: # Core classes:
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
-            self.quotes = quotes
+            
             if music == "random":
                 self.music = choice(ilists.battle_tracks)
             else:
@@ -58,6 +58,7 @@ init -1 python: # Core classes:
             self.terminate = False
             
             self.logical = logical
+            self.quotes = quotes # Decide if we run quotes at the start of the battle.
             
             self.start_sfx = start_sfx
             self.end_sfx = end_sfx
@@ -158,10 +159,12 @@ init -1 python: # Core classes:
                     
                 renpy.show("bg", what=self.bg)
                 renpy.show_screen("battle_overlay", self)
-                if self.quotes:
-                    interactions_prebattle_line(self.teams[0])
                 if self.start_sfx: # Special Effects:
                     renpy.with_statement(self.start_sfx)
+                    
+                if self.quotes:
+                    self.start_turn_events.append(RunQuotes(self.teams[0]))
+                    
             # After we've set the whole thing up, we've launch the main loop:
             self.main_loop()
             

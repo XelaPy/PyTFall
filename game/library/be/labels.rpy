@@ -60,7 +60,7 @@ label test_be:
             hero.team.add(n)
         n.AP = 6
         # ImageReference("chainfights")
-        interactions_prebattle_line(hero.team)
+        # interactions_prebattle_line(hero.team)
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)

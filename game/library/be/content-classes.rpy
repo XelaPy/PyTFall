@@ -1,5 +1,25 @@
 init python:
     # Plain Events:
+    class RunQuotes(BE_Event):
+        """
+        Anything that happens in the BE.
+        Can be executed in RT or added to queues where it will be called.
+        This is just to show off the structure...
+        """
+        def __init__(self, team):
+            self.team = team
+            
+        def check_conditions(self):
+            # We want to run this no matter the f*ck what or we'll have fighting corpses on our hands :)
+            return True
+            
+        def kill(self):
+            return True
+            
+        def apply_effects(self):
+            interactions_prebattle_line(self.team)
+            
+    
     class BE_Skip(BE_Event):
         """
         Simplest possible class that just skips the turn for the player and logs that fact.
