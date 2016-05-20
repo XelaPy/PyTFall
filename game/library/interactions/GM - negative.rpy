@@ -15,8 +15,22 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                     $ hero.gold += g
                     $ char.gold -= g
                     "In her pockets you found [g] G. Lucky!"
-            "Take her equipment":
-                "Here we take a random item from character inventory, ideally including equipped ones, with item cost <= 1000. Go, Xela! :)"
+            "Search her for items.":
+                # We unequip all of the inventory first:
+                python:
+                    for item in [i for i in char.eqslots.values() if i]:
+                        char.unequip(item)
+                    pool = [i for i in char.inventory.items if i.price <= 1000 and can_transfer(char, hero, i, amount=1, silent=True, force=True)]
+                    if hasattr(store, "temp"):
+                        del temp
+                    if pool:
+                        temp = choice(pool)
+                
+                if hasattr(store, "temp"):
+                    "On [char.op] person, you found [temp.id]!"
+                    $ transfer_items(char, hero, temp, amount=1, silent=True, force=True)
+                else:
+                    "You didn't find anything..."
             "Kill her":
                 "She stopped breathing. Serves her right."
                 $ char.health = 0

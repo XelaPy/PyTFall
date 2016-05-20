@@ -1,6 +1,18 @@
 # Characters classes and methods:
 init -9 python:
     ###### Character Helpers ######
+    def kill_char(char):
+        # Attempts to remove a character from the game world.
+        # This happens automatiaclly if char.health goes 0 or below.
+        char._location = "After Life"
+        char.alive = False
+        if char in hero.chars:
+            hero.corpses.append(char)
+            hero.remove_char(char)
+        if char in hero.team:
+            hero.team.remove(char)
+        gm.remove_girl(char)
+    
     class SmartTracker(_list):
         """
         Basically a smart list that tracks anything that can be added by items and events/game.
@@ -981,13 +993,7 @@ init -9 python:
                         return
                     elif isinstance(self.instance, Char):
                         char = self.instance
-                        char._location = "After Life"
-                        char.alive = False
-                        if char in hero.chars:
-                            hero.corpses.append(char)
-                            hero.remove_char(char)
-                        if char in hero.team:
-                            hero.team.remove(char)
+                        kill_char(char)
                         return
                         
                 maxval = self.get_max(key)
