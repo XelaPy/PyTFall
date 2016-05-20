@@ -3494,17 +3494,23 @@ init -9 python:
 
             if imgpath == "":
                 msg = "could not find image with tags %s"
-                if default == None:
-                    if add_mood:
-                        imgpath = self.select_image(self.id, 'profile', mood_tag)
-                    if not imgpath:
-                        imgpath = self.select_image(self.id, 'profile')
+                if not default:
+                    # New rule (Default Battle Sprites):
+                    if "battle_sprite" in pure_tags:
+                        force_battle_sprite = True
+                    else:
+                        if add_mood:
+                            imgpath = self.select_image(self.id, 'profile', mood_tag)
+                        if not imgpath:
+                            imgpath = self.select_image(self.id, 'profile')
                 else:
                     devlog.warning(str(msg % sorted(tags)))
                     return default
             
-            # If we got here without being able to find an image ("profile" lookup failed is the only option):        
-            if not imgpath:
+            # If we got here without being able to find an image ("profile" lookup failed is the only option):
+            if "force_battle_sprite" in locals(): # New rule (Default Battle Sprites):
+                imgpath = "content/gfx/images/" + "default_{}_battle_sprite.png".format(self.gender) 
+            elif not imgpath:
                 devlog.warning(str("Total failure while looking for image with %s tags!!!" % tags))
                 imgpath = "content/gfx/interface/images/no_image.png"
             else: # We have an image, time to convert it to full path.
