@@ -247,26 +247,26 @@ label interactions_girl_is_too_poor_to_give_money:
 label interactions_girl_disp_is_too_low_to_give_money:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
-        $ rc("Denied.")
+        $ rc("Denied.", "I forbid you.")
     elif ct("Shy") and dice(50):
-        $ rc("S-sorry, I can't do it...")
+        $ rc("S-sorry, I can't do it...", "Um, that's... not something I'm willing to do.")
     elif ct("Tsundere"):
-        $ rc("Yeah, right. Don't even think about it, smartass.")
+        $ rc("Yeah, right. Don't even think about it, smartass.", "Not in a thousand years.")
     elif ct("Kuudere"):
-        $ rc("I don't think so.")
+        $ rc("I don't think so.", "I don't see the point.")
     elif ct("Yandere"):
-        $ rc("I don't feel like it. Bother someone else.")
+        $ rc("I don't feel like it. Bother someone else.", "Right. As if I'm going to listen you.")
     elif ct("Dandere"):
-        $ rc("No.")
+        $ rc("No. Go away.", "I don't want to.")
     elif ct("Ane"):
-        $ rc("Unfortunately, I must refuse.")
+        $ rc("Unfortunately, I must refuse.", "No, I believe it would be highly unwise.")
     elif ct("Imouto"):
-        $ rc("No way! Why should I do that?!")
+        $ rc("Whaat?! Why should I do that?!", "No way!")
     elif ct("Kamidere"):
-        $ rc("I refuse. Get lost.")
+        $ rc("I refuse. Get lost.", "Know your place, fool.")
     elif ct("Bokukko"):
-        $ rc("Not gonna happen.")
+        $ rc("Not gonna happen.", "Nah, don't wanna.")
     else:
-        $ rc("I think this is not a good idea.")
+        $ rc("I think this is not a good idea.", "Why should I do it?")
     $ char.restore_portrait()
     return

@@ -189,7 +189,7 @@ init -11 python:
         # Always refuse if char hates the player:
         if char.disposition < -700:
             if not silent:
-                char.say(choice(["Go away!", "Get lost!"]))
+                renpy.call("interactions_girl_disp_is_too_low_to_give_money") # turns out money lines are perfect here
             return False
             
         if item:
