@@ -269,8 +269,8 @@ label two_sisters5(event):
     hide expression x with dissolve
     $ a.set_status("slave")
     $ k.set_status("free")
-    $ hero.add_girl(a)
-    $ hero.add_girl(k)
+    $ hero.add_char(a)
+    $ hero.add_char(k)
     show expression k_spr at mid_left
     show expression a_spr at mid_right
     $ k.show_portrait_overlay("note", "reset")
@@ -312,8 +312,8 @@ label two_sisters4(event):
     hide expression x with dissolve
     $ k.set_status("slave")
     $ a.set_status("free")
-    $ hero.add_girl(a)
-    $ hero.add_girl(k)
+    $ hero.add_char(a)
+    $ hero.add_char(k)
     show expression k_spr at mid_left
     show expression a_spr at mid_right
     with dissolve

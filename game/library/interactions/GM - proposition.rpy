@@ -331,7 +331,7 @@ label interactions_hire:
             # TODO: NEEDS TO BE UPDATED.
             "Hire her as [char.occupation].":
                 $gm.remove_girl(char)
-                $hero.add_girl(char)
+                $hero.add_char(char)
                 hide screen girl_interactions
                 
                 $ gm.see_greeting = True

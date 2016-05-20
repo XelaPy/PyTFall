@@ -21,7 +21,7 @@ label char_profile:
                 elif result[1] == "get_rid":
                     if renpy.call_screen("yesno_prompt", message="Are you sure you wish to stop looking for %s?"%char.name, yes_action=Return(True), no_action=Return(False)):
                         python:
-                            hero.remove_girl(char)
+                            hero.remove_char(char)
                             girls.remove(char)
                             char.dispoition -= 300
                             if char in hero.team: hero.team.remove(char)
@@ -72,7 +72,7 @@ label char_profile:
                         else:
                             $ char.location = 'city'
                         python:    
-                            hero.remove_girl(char)
+                            hero.remove_char(char)
                             index = girls.index(char) # Index is not set otherwise???
                             girls.remove(char)
                             char.disposition -= 300

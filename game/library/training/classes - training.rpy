@@ -2149,7 +2149,7 @@ init -9 python:
                     if self.girls[girl] > 20:
                         if dice(status) and dice(self.girls[girl]):
                             del self.girls[girl]
-                            hero.remove_girl(girl)
+                            hero.remove_char(girl)
                             
                             if cdb: txt.append("{color=[blue]}        escaped for good{/color}")
                             continue

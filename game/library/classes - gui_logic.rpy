@@ -178,7 +178,7 @@ init -1 python:
             if hero.take_ap(1):
                 if hero.take_money(self.girl.fin.get_price(), reason="Slave Purchase"):
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    hero.add_girl(self.girl)
+                    hero.add_char(self.girl)
                     self.chars_list.remove(self.girl)
                     
                     if self.chars_list:
@@ -208,7 +208,7 @@ init -1 python:
             for g in self.blue_girls.keys():
                 self.blue_girls[g] += 1
                 if self.blue_girls[g] == 30:
-                    hero.add_girl(g)
+                    hero.add_char(g)
                     del self.blue_girls[g]
                     pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % chars[g].name)
             

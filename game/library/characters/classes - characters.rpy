@@ -980,14 +980,14 @@ init -9 python:
                         jump("game_over")
                         return
                     elif isinstance(self.instance, Char):
-                        girl = self.instance
-                        girl._location = "After Life"
-                        girl.alive = False
-                        if girl in hero.chars:
-                            hero.corpses.append(girl)
-                            hero.remove_girl(girl)
-                        if girl in hero.team:
-                            hero.team.remove(girl)
+                        char = self.instance
+                        char._location = "After Life"
+                        char.alive = False
+                        if char in hero.chars:
+                            hero.corpses.append(char)
+                            hero.remove_char(char)
+                        if char in hero.team:
+                            hero.team.remove(char)
                         return
                         
                 maxval = self.get_max(key)
@@ -2593,15 +2593,16 @@ init -9 python:
             """
             return self._chars
 
-        def add_girl(self, char):
+        def add_char(self, char):
             if char not in self._chars:
                 self._chars.append(char)
 
-        def remove_girl(self, char):
-            if char in self._char:
+        def remove_char(self, char):
+            if char in self._chars:
                 self._chars.remove(char)
             else:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
+                
         # ----------------------------------------------------------------------------------
         # Show to mimic girls method behaviour:
         def has_image(self, *tags):
@@ -2815,7 +2816,7 @@ init -9 python:
                             self.remove_brothel(confiscate)
                         elif isinstance(confiscate, Char):
                             price = confiscate.fin.get_price()
-                            hero.remove_girl(confiscate)
+                            hero.remove_char(confiscate)
                             confiscate.location = 'slavemarket'
                             if confiscate in self.team:
                                 self.team.remove(confiscate)
@@ -4019,7 +4020,7 @@ init -9 python:
                         if self.days_unhappy > 7 and self.status != "slave":
                             txt += "{color=[red]}She has left your employment cause you do not give a rats ass about how she feels!{/color}"
                             flag_red = True
-                            hero.remove_girl(self)
+                            hero.remove_char(self)
                             self.location = "city"
                         
                         if self.disposition < -500:
@@ -4027,7 +4028,7 @@ init -9 python:
                                 txt += "{color=[red]}She has left your employment cause she no longer trusts or respects you!{/color}"
                                 flag_red = True
                                 self.img = self.show("profile", "sad", resize=(500, 600))
-                                hero.remove_girl(self)
+                                hero.remove_char(self)
                                 self.location = "city"
                             
                             else:

@@ -793,7 +793,7 @@ init -9 python:
                         a_team.add(member)
                     elif member in chars:
                         if chars[member] in hero.chars:
-                            hero.remove_girl(chars[member])
+                            hero.remove_char(chars[member])
                         if chars[member] in self.get_teams_fighters(teams="2v2"):
                             raise Exception, "You've added unique girl %s to 2v2 Arena teams twice!"%chars[member].name
                         if chars[member] in self.get_teams_fighters(teams="3v3"):
