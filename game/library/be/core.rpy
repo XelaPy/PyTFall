@@ -26,7 +26,7 @@ init -1 python: # Core classes:
     class BE_Core(object):
         """Main BE attrs, data and the loop!
         """
-        def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False, quotes=True):
+        def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False, quotes=False):
             """Creates an instance of BE scenario.
             
             logical: Just the calculations, without pause/gfx/sfx.
