@@ -1,33 +1,42 @@
-label interactions_pick_background_for_fight: # picks background for battle inside an interaction as the back string variable based on label where the interaction was called last time
-    if "park" in gm.label_cache:
-        $ n = randint(1,4)
-        $ back = "content/gfx/bg/be/b_park_" + str(n) + ".jpg"
-    elif "beach" in gm.label_cache:
-        $ n = randint(1,3)
-        $ back = "content/gfx/bg/be/b_beach_" + str(n) + ".jpg"
-    elif "forest" in gm.label_cache or "mage" in gm.label_cache:
-        $ n = randint(1,8)
-        $ back = "content/gfx/bg/be/b_forest_" + str(n) + ".jpg"
-    elif "village" in gm.label_cache:
-        $ back = "content/gfx/bg/be/b_village_1.jpg"
-    elif "grave" in gm.label_cache:
-        $ back = "content/gfx/bg/be/b_grave_1.jpg"
-    elif "academy" in gm.label_cache:
-        $ back = "content/gfx/bg/be/b_academy_1.jpg"
-    elif "arena" in gm.label_cache:
-        $ back = "content/gfx/bg/be/battle_arena_1.jpg"
-    elif "tavern" in gm.label_cache:
-        $ back = "content/gfx/bg/be/b_tavern_1.jpg"
-    else:
-        $ n = randint(1,6)
-        $ back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
-    return
+label interactions_harrasment_after_battle: # after MC provoked a free character and won the battle
+    $ m = interactions_flag_count_checker(hero, "harrasment_after_battle") # we don't allow to do it infinitely, chance of success reduces after every attempt
+    if dice(100-20*m): # base chance is 80$, -20 per attempt
+        menu:
+            "She's unconscious. You have some time before City Guards will arrive." # after adding dungeon here will be options to get her there and rape; after adding drugs here will be option to force her consume some
 
+            "Rob her":
+                if char.gold <= 0:
+                    "Sadly, she has no money. What a waste."
+                else:
+                    $ char.disposition -= randint(10, 20)
+                    $ g = char.gold
+                    while g >= randint(500, 1000):
+                        $ g = round(g*0.1)
+                    $ hero.gold += g
+                    $ char.gold -= g
+                    "In her pockets you found [g] G. Lucky!"
+            "Take her equipment":
+                "Here we take a random item from character inventory, ideally including equipped ones, with item cost <= 1000. Go, Xela! :)"
+            "Kill her":
+                "She stopped breathing. Serves her right."
+                $ char.health = 0
+                python:
+                    for member in hero.team:
+                        if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero:
+                            if "Virtuous" in member.traits:
+                                member.disposition -= randint(100, 200) # you really don't want to do it with non evil chars in team
+                            else:
+                                member.disposition -= randint(50, 100)
+            "Nothing":
+                $ pass
+        "You quickly leave before someone will see you."
+    jump girl_interactions_end
+                
 label interactions_escalation: # character was provoked to attack MC
     $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_provoked_character_line
     hide screen girl_interactions
-    call interactions_pick_background_for_fight
+    $ back = interactions_pick_background_for_fight(gm.label_cache)
         
     python:
         enemy_team = Team(name="Enemy Team")
@@ -35,8 +44,8 @@ label interactions_escalation: # character was provoked to attack MC
         enemy_team.add(char)
         for member in enemy_team:
             member.controller = BE_AI(member)
-
-        battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve)
+        
+        battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve, quotes=True)
         for member in hero.team:
             if member == hero or member.status <> "slave":
                     your_team.add(member)
@@ -65,19 +74,19 @@ label interactions_escalation: # character was provoked to attack MC
         $ gm.restore_img()
         call interactions_fight_won
         $ char.set_flag("_day_countdown_interactions_blowoff", 1)
-        
+        jump girl_interactions_end
     else:
         show expression gm.bg_cache
         python:
             for member in hero.team:
                 if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero: # they don't like when MC harasses and then beats other chars, unless they are evil
                     if "Virtuous" in member.traits:
-                        member.disposition -= randint(10, 20) # double for kind characters
+                        member.disposition -= randint(20, 40) # double for kind characters
                     else:
-                        member.disposition -= randint(5, 10)
+                        member.disposition -= randint(10, 20)
         $ char.disposition -= randint(30, 60) # that's the beaten character, big penalty to disposition
         call interactions_fight_lost
-    jump girl_interactions_end
+    jump interactions_harrasment_after_battle
 
 label interactions_insult:
     $ m = interactions_flag_count_checker(char, "flag_interactions_insult")
@@ -101,7 +110,7 @@ label interactions_insult:
             $ char.disposition -= randint(1,m)
     else:
         $ char.disposition -= (randint(15,25))
-        if ct("Aggressive") and m>1 and char.status != "slave":
+        if ct("Aggressive") and m>1 and char.status != "slave" and dice(50):
             jump interactions_escalation
         elif m < randint(2,3):
             call interactions_got_insulted
@@ -135,31 +144,6 @@ label interactions_provoked_character_line:
     else:
         $ rc("Geez, now I'm pissed!", "Geez, I will never forgive you!", "I can't deal with this. I want to hit you so bad I can't stop myself!", "Since it's come down to this, I'll have to use force!", "I didn't want to have to fight... but it seems like there's no other choice.")
     $ char.restore_portrait()
-    return
-    
-label interactions_protection(character): # battle start, character on MC side and willing to help in battle
-    $ character.override_portrait("portrait", "confident")
-    if "Impersonal" in character.traits:
-        $ character.say(choice(["Target acquired, initialising battle mode.", "Enemy spotted. Engaging combat.", "Battle phase, initiation. Weapons online.", "Better start running. I'm afraid I can't guarantee your safety.", "Enemy analysis completed. Switching to the combat routine.", "Target locked on. Commencing combat mode."]))
-    elif "Imouto" in character.traits:
-        $ character.say(choice(["Ahaha, we'll totally beat you up!", "Behold of my amazing combat techniques, [character.mc_ref]! ♪", "All our enemies will be punished! ♫", "Activate super duper mega ultra assault mode! ♪", "Huh? Don't they know we're too strong for them?"]))
-    elif "Dandere" in character.traits:
-        $ character.say(choice(["Want to fight? We'll make you regret it.", "Let's end this quickly, [character.mc_ref]. We have many other things to do.", "Of course we'll win.", "This will be over before you know it.", "If something bad happens to the enemy, don't blame me."]))
-    elif "Tsundere" in character.traits:
-        $ character.say(choice(["Well-well. Looks like we have some new targets, [character.mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!", "We won't go easy on you!", "There's no way you could win!", "[character.mc_ref], you can stay back if you wish. I'll show you how it's done.", "I won't just defeat you, I'm gonna shatter you!"]))
-    elif "Kuudere" in character.traits:
-        $ character.say(choice(["Oh, you dare to stand against us?", "Fine, we accept your challenge. Let's go, [character.mc_ref].", "Don't worry, [character.mc_ref]. This battle will be over soon enough.", "Are you prepared to know our power?", "You picked a fight with the wrong girl."]))
-    elif "Kamidere" in character.traits:
-        $ character.say(choice(["Get ready, [character.mc_ref]. We have some lowlife to crash.", "So you want us to teach you some manners, huh?", "You have made a grave error challenging us. Retreat while you can.", "Time to take out the trash.", "You should leave this place and cower in your home. That is the proper course for one so weak.", "You need to be put back in your place."]))
-    elif "Bokukko" in character.traits:
-        $ character.say(choice(["Wanna throw hands, huh? Better be ready to catch them!", "I'm gonna beat you silly! Cover me, [character.mc_ref]!", "You wanna go? Alrighty, eat some of this!", "Time to kick some ass.", "I'm gonna whack you good!", "All right, let's clean this up fast!"]))
-    elif "Ane" in character.traits:
-        $ character.say(choice(["Don't worry, [character.mc_ref]. I'll protect you.", "Can't say I approve of this sort of thing, but we are out of options, [character.mc_ref].", "Don't feel sorry for them, [character.mc_ref]. They asked for it.", "We mustn't let our guard down, [character.mc_ref]."]))
-    elif "Yandere" in character.traits:
-        $ character.say(choice(["Please stand aside, [character.mc_ref]. Or you'll be splashed with blood...", "Do not worry. The nothingness is gentle ♪", "Here comes the hurt!", "This could get a little rough... Because I like it rough ♫", "Mind if I go a little nuts, [character.mc_ref]?"]))
-    else:
-        $ character.say(choice(["I suppose have to use force, [character.mc_ref]. I'll cover you.", "Alright then. If you want a fight, we'll give it to you!", "Ok, let's settle this.", "I'll fight to my last breath!"]))
-    $ character.restore_portrait()
     return
     
 label interactions_fight_won:
