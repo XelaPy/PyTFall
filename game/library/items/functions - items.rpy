@@ -200,7 +200,7 @@ init -11 python:
             # Bad Traits:
             if item.badtraits.intersection(char.traits):
                 if not silent:
-                    char.say(choice(["This item sucks!"]))
+                    renpy.call("interactions_character_doesnt_want_bad_item")
                 return False
             
             # Always allow restorative items:
