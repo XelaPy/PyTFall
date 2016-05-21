@@ -244,10 +244,10 @@ label interactions_girl_is_too_poor_to_give_money:
     $ char.restore_portrait()
     return
     
-label interactions_girl_disp_is_too_low_to_give_money:
+label interactions_girl_disp_is_too_low_to_give_money: # also used for refusing to give access to items
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
-        $ rc("Denied.", "I forbid you.")
+        $ rc("Denied.", "It won't happen.")
     elif ct("Shy") and dice(50):
         $ rc("S-sorry, I can't do it...", "Um, that's... not something I'm willing to do.")
     elif ct("Tsundere"):
@@ -268,5 +268,34 @@ label interactions_girl_disp_is_too_low_to_give_money:
         $ rc("Not gonna happen.", "Nah, don't wanna.")
     else:
         $ rc("I think this is not a good idea.", "Why should I do it?")
+    $ char.restore_portrait()
+    return
+    
+label interactions_character_doesnt_want_bad_item:
+    $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
+    if ct("Impersonal"):
+        $ rc("I don't need it. It's useless.", "I' afraid I'm incompatible with this thing.")
+    elif ct("Shy") and dice(50):
+        $ rc("It's... for me? Um... I don't really need it...", "It's a... what is this, exactly? ...I see. Sorry, but...")
+    elif ct("Tsundere"):
+        $ rc("Who would want this crap?", "Whaaat? What am I supposed to do with this?!")
+    elif ct("Kuudere"):
+        $ rc("And what should I do with this... thing?", "You know, someone like me has no use for this.")
+    elif ct("Yandere"):
+        $ rc("What were you thinking? This is awful!", "This is absolute junk. I'm offended.")
+    elif ct("Dandere"):
+        $ rc("I don't want it.", "This item gives me a terrible feeling.")
+    elif ct("Ane"):
+        $ rc("Not to be ungrateful, but... I really don't like this.", "This is... interesting choice, but I think I'll pass.")
+    elif ct("Imouto"):
+        $ rc("Hey! I don't want this!", "Yuck, what is this? Looks terrible...")
+    elif ct("Kamidere"):
+        $ rc("This junk isn't useful at all.", "Please refrain from bothering me with this in the future.")
+    elif ct("Bokukko"):
+        $ rc("Hey, is this a joke? What am I supposed to do with this?", "Get this thing away from me.")
+    else:
+       $ rc("Thanks, but I don't like these kinds of things.", "I'm sorry, but I absolutely hate this.")
+    $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
