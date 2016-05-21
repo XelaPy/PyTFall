@@ -90,7 +90,7 @@ label interactions_askmoney:
             jump girl_interactions
     else:
         "But she doesn't know you well enough yet."
-        call interactions_girl_disp_is_too_low_to_give_money
+        $ interactions_girl_disp_is_too_low_to_give_money()
         $ char.disposition -= randint (5, 15)
     jump girl_interactions    
     
@@ -244,58 +244,86 @@ label interactions_girl_is_too_poor_to_give_money:
     $ char.restore_portrait()
     return
     
-label interactions_girl_disp_is_too_low_to_give_money: # also used for refusing to give access to items
-    $ char.override_portrait("portrait", "indifferent")
-    if ct("Impersonal"):
-        $ rc("Denied.", "It won't happen.")
-    elif ct("Shy") and dice(50):
-        $ rc("S-sorry, I can't do it...", "Um, that's... not something I'm willing to do.")
-    elif ct("Tsundere"):
-        $ rc("Yeah, right. Don't even think about it, smartass.", "Not in a thousand years.")
-    elif ct("Kuudere"):
-        $ rc("I don't think so.", "I don't see the point.")
-    elif ct("Yandere"):
-        $ rc("I don't feel like it. Bother someone else.", "Right. As if I'm going to listen you.")
-    elif ct("Dandere"):
-        $ rc("No. Go away.", "I don't want to.")
-    elif ct("Ane"):
-        $ rc("Unfortunately, I must refuse.", "No, I believe it would be highly unwise.")
-    elif ct("Imouto"):
-        $ rc("Whaat?! Why should I do that?!", "No way!")
-    elif ct("Kamidere"):
-        $ rc("I refuse. Get lost.", "Know your place, fool.")
-    elif ct("Bokukko"):
-        $ rc("Not gonna happen.", "Nah, don't wanna.")
-    else:
-        $ rc("I think this is not a good idea.", "Why should I do it?")
-    $ char.restore_portrait()
-    return
+init python:
+    def interactions_girl_disp_is_too_low_to_give_money(): # also used for refusing to give access to items
+        char.override_portrait("portrait", "indifferent")
+        if ct("Impersonal"):
+            rc("Denied.", "It won't happen.")
+        elif ct("Shy") and dice(50):
+            rc("S-sorry, I can't do it...", "Um, that's... not something I'm willing to do.")
+        elif ct("Tsundere"):
+            rc("Yeah, right. Don't even think about it, smartass.", "Not in a thousand years.")
+        elif ct("Kuudere"):
+            rc("I don't think so.", "I don't see the point.")
+        elif ct("Yandere"):
+            rc("I don't feel like it. Bother someone else.", "Right. As if I'm going to listen you.")
+        elif ct("Dandere"):
+            rc("No. Go away.", "I don't want to.")
+        elif ct("Ane"):
+            rc("Unfortunately, I must refuse.", "No, I believe it would be highly unwise.")
+        elif ct("Imouto"):
+            rc("Whaat?! Why should I do that?!", "No way!")
+        elif ct("Kamidere"):
+            rc("I refuse. Get lost.", "Know your place, fool.")
+        elif ct("Bokukko"):
+            rc("Not gonna happen.", "Nah, don't wanna.")
+        else:
+            rc("I think this is not a good idea.", "Why should I do it?")
+        char.restore_portrait()
+        return
     
-label interactions_character_doesnt_want_bad_item:
-    $ char.override_portrait("portrait", "indifferent")
-    $ char.show_portrait_overlay("sweat", "reset")
-    if ct("Impersonal"):
-        $ rc("I don't need it. It's useless.", "I' afraid I'm incompatible with this thing.")
-    elif ct("Shy") and dice(50):
-        $ rc("It's... for me? Um... I don't really need it...", "It's a... what is this, exactly? ...I see. Sorry, but...")
-    elif ct("Tsundere"):
-        $ rc("Who would want this crap?", "Whaaat? What am I supposed to do with this?!")
-    elif ct("Kuudere"):
-        $ rc("And what should I do with this... thing?", "You know, someone like me has no use for this.")
-    elif ct("Yandere"):
-        $ rc("What were you thinking? This is awful!", "This is absolute junk. I'm offended.")
-    elif ct("Dandere"):
-        $ rc("I don't want it.", "This item gives me a terrible feeling.")
-    elif ct("Ane"):
-        $ rc("Not to be ungrateful, but... I really don't like this.", "This is... interesting choice, but I think I'll pass.")
-    elif ct("Imouto"):
-        $ rc("Hey! I don't want this!", "Yuck, what is this? Looks terrible...")
-    elif ct("Kamidere"):
-        $ rc("This junk isn't useful at all.", "Please refrain from bothering me with this in the future.")
-    elif ct("Bokukko"):
-        $ rc("Hey, is this a joke? What am I supposed to do with this?", "Get this thing away from me.")
-    else:
-       $ rc("Thanks, but I don't like these kinds of things.", "I'm sorry, but I absolutely hate this.")
-    $ char.hide_portrait_overlay()
-    $ char.restore_portrait()
-    return
+    def interactions_character_doesnt_want_bad_item():
+        char.override_portrait("portrait", "indifferent")
+        char.show_portrait_overlay("sweat", "reset")
+        if ct("Impersonal"):
+            rc("I don't need it. It's useless.", "I' afraid I'm incompatible with this thing.")
+        elif ct("Shy") and dice(50):
+            rc("It's... for me? Um... I don't really need it...", "It's a... what is this, exactly? ...I see. Sorry, but...")
+        elif ct("Tsundere"):
+            rc("Who would want this crap?", "Whaaat? What am I supposed to do with this?!")
+        elif ct("Kuudere"):
+            rc("And what should I do with this... thing?", "You know, someone like me has no use for this.")
+        elif ct("Yandere"):
+            rc("What were you thinking? This is awful!", "This is absolute junk. I'm offended.")
+        elif ct("Dandere"):
+            rc("I don't want it.", "This item gives me a terrible feeling.")
+        elif ct("Ane"):
+            rc("Not to be ungrateful, but... I really don't like this.", "This is... interesting choice, but I think I'll pass.")
+        elif ct("Imouto"):
+            rc("Hey! I don't want this!", "Yuck, what is this? Looks terrible...")
+        elif ct("Kamidere"):
+            rc("This junk isn't useful at all.", "Please refrain from bothering me with this in the future.")
+        elif ct("Bokukko"):
+            rc("Hey, is this a joke? What am I supposed to do with this?", "Get this thing away from me.")
+        else:
+           rc("Thanks, but I don't like these kinds of things.", "I'm sorry, but I absolutely hate this.")
+        char.hide_portrait_overlay()
+        char.restore_portrait()
+        return
+        
+    def interactions_character_doesnt_want_to_equip_item():
+        char.override_portrait("portrait", "indifferent")
+        if ct("Impersonal"):
+            rc(choice(["Access denied.", "You are not authorised to make such decisions."]))
+        elif ct("Shy") and dice(50):
+            rc(choice(["M-maybe another time?", "Um... I'll think about it."]))
+        elif ct("Dandere"):
+            rc(choice(["I'm fine as it is.", "I don't feel like it."]))
+        elif ct("Kuudere"):
+            rc(choice(["I'm perfectly fine without your advices, thank you very much.", "I can handle myself without your intervention."]))
+        elif ct("Yandere"):
+            rc(choice(["I don't think we are close enough to even discuss such things.", "It's not for you to decide."]))
+        elif ct("Tsundere"):
+            rc(choice(["I can manage my things without your help!", "Hey, don't just decide something like that on your own!"]))
+        elif ct("Imouto"):
+            rc(choice(["You think I'm too stupid to take care of myself?", "Hey! Don't tell me what to do, I'm not a kid!"]))
+        elif ct("Bokukko"):
+            rc(choice(["Hey, aren't you too cocky tellin' me what to do?", "Nah, not in the mood for this stuff..."]))
+        elif ct("Kamidere"):
+            rc(choice(["You think I just will agree to do anything for you?", "If you wish to control someone's life, get yourself a pretty slave."]))
+        elif ct("Ane"):
+            rc(choice(["Thanks for the proposition, but I'm fine.", "I find this quite inappropriate."]))
+        else:
+            rc(choice(["Sorry, but I don't want to.", "Eh? Don't worry, I think I'm doing great already."]))
+        char.restore_portrait()
+        return

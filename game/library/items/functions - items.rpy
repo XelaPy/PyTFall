@@ -140,6 +140,7 @@ init -11 python:
             if all([isinstance(source, Char), source.status != "slave", not(check_lovers(source, hero))]):
                 if any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), source.given_items.get(item.id, 0) - amount < 0]):
                     if not silent:
+                        source.override_portrait("portrait", "indifferent")
                         if "Impersonal" in source.traits:
                             source.say(choice(["Denied. It belongs only to me.", "You are not authorised to dispose of my property."]))
                         elif "Shy" in source.traits and dice(50):
@@ -162,6 +163,7 @@ init -11 python:
                             source.say(choice(["Please, don't touch it. Thanks.", "Excuse me, I do not wish to part with it."]))
                         else:
                             source.say(choice(["Hey, I need this too, you know.", "Eh? Can't you just buy your own?"]))
+                        source.restore_portrait()
                     return
                 
         return True
@@ -193,14 +195,14 @@ init -11 python:
         # Always refuse if char hates the player:
         if char.disposition < -700:
             if not silent:
-                renpy.call("interactions_girl_disp_is_too_low_to_give_money") # turns out money lines are perfect here
+                interactions_girl_disp_is_too_low_to_give_money() # turns out money lines are perfect here
             return False
             
         if item:
             # Bad Traits:
             if item.badtraits.intersection(char.traits):
                 if not silent:
-                    renpy.call("interactions_character_doesnt_want_bad_item")
+                    interactions_character_doesnt_want_bad_item()
                 return False
             
             # Always allow restorative items:
@@ -217,7 +219,7 @@ init -11 python:
             
         if all([char.disposition < 850, not(check_lovers(char, hero))]):
             if not silent:
-                char.say(choice(["I can manage my own things!", "Get away from my stuff!", "Don't want to..."]))
+                interactions_character_doesnt_want_to_equip_item()
             return
             
         return True
