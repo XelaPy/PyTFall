@@ -1115,9 +1115,9 @@ init -5 python:
             self.convert_AP(tracker)
             
             while self.env.now < 99:
-                if tracker.state = "traveling to":
+                if tracker.state == "traveling to":
                     yield self.env.process(self.travel_to(tracker))
-                elif tracker.state = "exploring":
+                elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
                 
             if config.debug:
