@@ -105,6 +105,7 @@ init -9 python:
                 trait = store.traits[trait]
             char = self.instance
             
+            # All the checks required to make sure we can even apply this fucking trait: ======================>>
             if trait.sex not in ["unisex", char.gender]:
                 return
             
@@ -150,6 +151,8 @@ init -9 python:
             if not super(Traits, self).append(trait, truetrait):
                 return
             
+            # If we got here... we can apply the effect? Maybe? Please? Just maybe? I am seriouslly pissed at this system right now... ===========>>>
+                
             stats = self.instance.stats
             # If the trait is a basetrait:
             if trait in self.basetraits:

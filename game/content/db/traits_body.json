@@ -2,7 +2,7 @@
     {
     "id": "Abnormally Large Boobs",
     "desc": "One wonders how she keeps her balance. Those things are like miniature moons...",
-    "block_traits": ["Big Boobs", "Average Boobs", "Small Boobs"],
+    "blocks": ["Big Boobs", "Average Boobs", "Small Boobs"],
     "min": {"charisma": 10},
     "max": {"charisma": 20, "agility": -10},
     "mod_stats": {"charisma": [1, 4], "agility": [-1, 4]},
@@ -12,7 +12,7 @@
     {
     "id": "Big Boobs",
     "desc": "This girl really has knockers.",
-    "block_traits": ["Abnormally Large Boobs", "Average Boobs", "Small Boobs"],
+    "blocks": ["Abnormally Large Boobs", "Average Boobs", "Small Boobs"],
     "min": {"charisma": 5},
     "max": {"charisma": 10, "agility": -5},
     "mod_stats": {"charisma": [1, 5], "agility": [-1, 5]},
@@ -22,14 +22,14 @@
     {
     "id": "Average Boobs",
     "desc": "Her boobs are somewhere in the B-C cup range. Any classy guy will say that this is the ideal size.",
-    "block_traits": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
+    "blocks": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
     "mod_stats": {"charisma": [1, 10]},
     "breasts": true
     },
     {
     "id": "Small Boobs",
     "desc": "Her boobs may be small, but some people like that.",
-    "block_traits": ["Abnormally Large Boobs", "Average Boobs", "Big Boobs"],
+    "blocks": ["Abnormally Large Boobs", "Average Boobs", "Big Boobs"],
     "min": {"agility": 5},
     "max": {"charisma": -20, "agility": 10},
     "mod_stats": {"charisma": [-1, 4], "agility": [1, 4]},
@@ -69,7 +69,7 @@
     {
     "id": "Lolita",
     "desc": "This girl looks very young and small.",
-    "block_traits": ["Slim", "Chubby", "Athletic", "Manly"],
+    "blocks": ["Slim", "Chubby", "Athletic", "Manly"],
     "min": {"agility": 5},
     "mod_stats": {"constitution": [-1, 5], "agility": [1, 5]},
     "mod_skills": {"cleaning": [-0.01, 0, -0.03], "exploration": [0.01, 0, 0]},
@@ -78,14 +78,14 @@
     {
     "id": "Slim",
     "desc": "This girl has a slender, slim figure.",
-    "block_traits": ["Lolita", "Chubby", "Athletic", "Manly"],
+    "blocks": ["Lolita", "Chubby", "Athletic", "Manly"],
     "mod_stats": {"constitution": [-1, 5], "charisma": [1, 5]},
     "mod_skills": {"dancing": [0.01, 0, 0.01]},
     "body": true
     },
     {
     "id": "Chubby",
-    "block_traits": ["Lolita", "Slim", "Athletic", "Manly"],
+    "blocks": ["Lolita", "Slim", "Athletic", "Manly"],
     "desc": "This girl has plump, slightly round figure.",
     "mod_stats": {"constitution": [1, 5], "agility": [-1, 5]},
     "mod_skills": {"exploration": [-0.03, 0, -0.04]},
@@ -93,7 +93,7 @@
     },
     {
     "id": "Athletic",
-    "block_traits": ["Lolita", "Slim", "Chubby", "Athletic", "Manly"],
+    "blocks": ["Lolita", "Slim", "Chubby", "Athletic", "Manly"],
     "desc": "This girl is tough and has trained a lot. Her body is in great shape.",
     "min": {"constitution": 5},
     "mod_stats": {"health": [1, 10], "constitution": [1, 5], "agility": [1, 20]},
@@ -103,7 +103,7 @@
     },
    {
     "id": "Manly",
-    "block_traits": ["Lolita", "Slim", "Chubby", "Athletic"],
+    "blocks": ["Lolita", "Slim", "Chubby", "Athletic"],
     "desc": "This girl is very muscular. Perhaps even too muscular.",
     "min": {"constitution": 5},
     "mod_stats": {"constitution": [1, 5], "charisma": [-1, 5], "health": [1, 8], "agility": [-1, 10]},

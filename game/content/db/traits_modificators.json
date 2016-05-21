@@ -20,7 +20,7 @@
     {
     "id": "Courageous",
     "desc": "She is brave and valiant in the face of danger.",
-    "block_traits": ["Coward"],
+    "blocks": ["Coward"],
     "mod_stats": {"character": [1, 10]},
     "max": {"character": 5},
     "mod_skills": {"bdsm": [0.01, 0, 0.03], "exploration": [0.05, 0, 0.06]},
@@ -30,7 +30,7 @@
     {
     "id": "Coward",
     "desc": "This girl is very cowardly and jumpy.",
-    "block_traits": ["Courageous"],
+    "blocks": ["Courageous"],
     "mod_stats": {"character": [-1, 10]},
     "max": {"character": -5},
     "mod_skills": {"bdsm": [-0.01, 0, -0.03], "exploration": [-0.05, 0, -0.06]},
@@ -55,14 +55,14 @@
     {
     "id": "Optimist",
     "desc": "She is very cheerful and is rarely in a bad mood. She enjoys what she does, a lot.",
-    "block_traits": ["Pessimist"],
+    "blocks": ["Pessimist"],
     "effect": "Optimist",
     "character_trait": true
     },
     {
     "id": "Pessimist",
     "desc": "All it takes is one thing to send her mood down into the pits of the abyss.",
-    "block_traits": ["Optimist"],
+    "blocks": ["Optimist"],
     "effect": "Pessimist",
     "character_trait": true
     },
@@ -84,14 +84,14 @@
     {
     "id": "Vicious",
     "desc": "If there is a way to do harm to someone, she will find it.",
-    "block_traits": ["Virtuous"],
+    "blocks": ["Virtuous"],
     "mod_skills": {"oral": [-0.1, -0.05, 0], "service": [-0.02, 0, -0.03], "bdsm": [0.02, 0, 0.03]},
     "character_trait": true
     },
     {
     "id": "Virtuous",
     "desc": "She is happy as long as she is able to help to anyone.",
-    "block_traits": ["Vicious"],
+    "blocks": ["Vicious"],
     "mod_skills": {"oral": [0.1, 0.05, 0], "service": [0.02, 0, 0.03], "bdsm": [-0.02, 0, -0.03]},
     "character_trait": true
     },
@@ -115,7 +115,7 @@
     {
     "id": "Lesbian",
     "desc": "This girl prefers women to men.",
-    "block_traits": ["Bisexual"],
+    "blocks": ["Bisexual"],
     "sexual": true,
     "client": true,
     "character_trait": true
@@ -123,7 +123,7 @@
     {
     "id": "Nymphomaniac",
     "desc": "This girl just loves the sex.",
-    "block_traits": ["Frigid"],
+    "blocks": ["Frigid"],
     "mod": {"upkeep": 10},
     "mod_skills": {"bdsm": [0.03, 0.01, 0.02], "vaginal": [0.05, 0.02, 0.08], "anal": [0.05, 0.02, 0.08], "oral": [0.03, 0.01, 0.02], "teaching": [-0.05, 0, -0.1]},
     "sexual": true,
@@ -133,7 +133,7 @@
     {
     "id": "Frigid",
     "desc": "She mostly doesn't care about sex. It is waste of time, isn't it?",
-    "block_traits": ["Nymphomaniac"],
+    "blocks": ["Nymphomaniac"],
     "mod": {"upkeep": -10},
     "mod_skills": {"bdsm": [-0.03, -0.01, -0.02], "vaginal": [-0.05, -0.02, -0.08], "anal": [-0.05, -0.02, -0.08], "oral": [-0.03, -0.01, -0.02], "teaching": [0.05, 0, 0.1]},
     "sexual": true,
@@ -143,7 +143,7 @@
     {
     "id": "Bisexual",
     "desc": "This girl considers herself a bisexual.",
-    "block_traits": ["Lesbian"],
+    "blocks": ["Lesbian"],
     "sexual": true,
     "character_trait": true
     },
@@ -163,7 +163,7 @@
     },
     {
     "id": "Energetic",
-    "block_traits": ["Dawdler"],
+    "blocks": ["Dawdler"],
     "desc": "This girl is very active and vigorous.",
     "mod_stats": {"agility": [1, 5]},
     "max": {"agility": 5},
@@ -173,7 +173,7 @@
     },
     {
     "id": "Dawdler",
-    "block_traits": ["Energetic"],
+    "blocks": ["Energetic"],
     "desc": "This girl is certainly takes her time.",
     "mod": {"upkeep": -5},
     "mod_stats": {"agility": [-1, 5]},
@@ -184,14 +184,14 @@
     },
     {
     "id": "Elegant",
-    "block_traits": ["Clumsy"],
+    "blocks": ["Clumsy"],
     "desc": "She's got style and flair, every single movement of her perfectly gracious.",
     "mod_skills": {"strip": [0, 0, 0.04], "waiting": [0.01, 0, 0.02], "dancing": [0.02, 0, 0.05], "refinement": [0, 0, 0.01]},
     "character_trait": true
     },
     {
     "id": "Clumsy",
-    "block_traits": ["Elegant"],
+    "blocks": ["Elegant"],
     "desc": "This girl often makes mistakes. Maybe she will learn in time.",
     "mod_skills": {"strip": [0, 0, -0.04], "waiting": [-0.01, 0, -0.02], "dancing": [-0.02, 0, -0.05], "refinement": [0, 0, -0.01]},
     "character_trait": true

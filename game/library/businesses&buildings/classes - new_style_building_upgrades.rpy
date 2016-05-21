@@ -1010,17 +1010,22 @@ init -5 python:
             
             # Traveling to and from + Status flags:
             self.distance = self.area.travel_time * 25 # We may be setting this directly in the future. Distance in KM as units. 25 is what we expect the team to be able to travel in a day. This may be offset through traits and stats/skills.
+            # We assume that it's never right outside of the freaking city walls, so we do this:
+            if not self.distance:
+                self.distance = randint(4, 10)
+                
             self.traveled = 0 # Distance traveled in "KM"...
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
             self.ep = 0 # Combined exploration points from the whole team.
+            self.tp = 0 # travel point we use during traveling to offset ep sorrectly.
             
             self.captured_chars = list()
             self.found_items = list()
             self.cash = list()
             
             self.day = 0
-            self.days = self.area.days + 0 # + 0??? Not even sure what thos does...
+            self.days = self.area.days + 0 # + 0??? Not even sure what this does...
             
             # TODO: Stats here need to be personal for each of the team members.
             self.unlocks = dict()
@@ -1041,14 +1046,22 @@ init -5 python:
             # fg.exploring.append(self)
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             jump("fg_management")
+            
+        def log(self, txt, name=""):
+            obj = ExLog(name, txt)
+            self.logs.append(obj)
     
             
-    class ExplorationLog(Action):
+    class ExLog(Action):
         """Stores resulting text and data for SE.
         
         Also functions as a screen action for future buttons. Maybe...
         """
-        def __init__(self, name="", txt=""):
+        def __init__(self, name="", txt="", nd_log=True, ui_log=False):
+            """
+            nd_log: Printed in next day report upon arrival.
+            ui_log: Only reports worth of ui interface in FG.
+            """
             self.name = name # Name of the event, to be used as a name of a button in gui.
             self.txt = [] # I figure we use list to store text.
             if txt:
@@ -1070,7 +1083,7 @@ init -5 python:
         COST = 10000
         ID = "ExplorationGuild"
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
-        def __init__(self, name="Exploration Guild", instance=None, desc="Raid PyTFall's outskirts for loot!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+        def __init__(self, name="Exploration Guild", instance=None, desc="Travel to exotic places, meet new monsters and people... and take their shit!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(ExplorationGuild, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             # Global Values that have effects on the whole business.
@@ -1098,25 +1111,44 @@ init -5 python:
             # Convert AP to exploration points:
             self.convert_AP(tracker)
             
-            if not trackter.arrived:
-                self.env.process(self.travel_to(tracker))
-            elif not trackter.finished_exploring:
-                self.env.process(self.explore(tracker))
+            while self.env.now < 99:
+                if not trackter.arrived:
+                    yield self.env.process(self.travel_to(tracker))
+                elif not trackter.finished_exploring:
+                    yield self.env.process(self.explore(tracker))
+                
+            tracker.log("The day has come to an end.")
+            tracker.day += 1
                     
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
-            if tracker.travel_time >= tracker.area.travel_time:
-                tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
-                                                                                                                                       plural("day", self.travel_time),
-                                                                                                                                       self.area.id),
-                                        "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
-                                                                                                        plural("day", self.travel_time),
-                                                                                                        self.area.id)]))
-                
-                tracker.days += tracker.travel_time + tracker.travel_time
             
-            tracker.travel_time -= 1
-            tracker.day += 1
+            # Figure out how far we can travel in 5 du:
+            # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
+            tacker.tp = int(round(tracker.ep / 20.0))
+            
+            while 1:
+                yield self.env.timeout(5) # We travel...
+                
+                tracker.ep -= tracker.tp
+                tracker.traveled += 1.25
+                
+                # Team arrived:
+                if tracker.traveled <= tracker.distance:
+                    temp = "{} arrived to {}!".format(tracker.team.name, tracker.area.name)
+                    tracker.log(temp, name="Arrival")
+                
+                if self.evn.now == 99: # We couldn't make it there before the days end...
+                    self.env.exit("not there yet")
+                
+            tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
+                                                                                                                                                                                                         plural("day", self.travel_time),
+                                                                                                                                                                                                         self.area.id),
+                                            "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
+                                                                                                            plural("day", self.travel_time),
+                                                                                                            self.area.id)]))
+                    
+            tracker.days += tracker.travel_time + tracker.travel_time
                 
         def camping(self, tracker):
             """Camping will allow restoration of AP/MP/Agility and so on. Might be forced on low health or scheduled closer to the end day.

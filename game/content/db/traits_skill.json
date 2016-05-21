@@ -2,28 +2,28 @@
     {
     "id": "Curious",
     "desc": "This girl is very inquisitive.",
-    "block_traits": ["Indifferent"],
+    "blocks": ["Indifferent"],
     "effect": "Fast Learner",
     "character_trait": true
     },
     {
     "id": "Indifferent",
     "desc": "This girl doesn't care much about the world around as long as it doesn't concern her.",
-    "block_traits": ["Curious"],
+    "blocks": ["Curious"],
     "effect": "Slow Learner",
     "character_trait": true
     },
     {
     "id": "Adventurer",
     "desc": "This girl loves adventures.",
-    "block_traits": ["Homebody"],
+    "blocks": ["Homebody"],
     "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
     "character_trait": true
     },
     {
     "id": "Homebody",
     "desc": "Who needs adventures when you have a warm house, a tasty food and a good book?.",
-    "block_traits": ["Adventurer"],
+    "blocks": ["Adventurer"],
     "mod_skills": {"exploration": [-0.05, -0.05, -0.05]},
     "character_trait": true
     },
@@ -36,28 +36,28 @@
    {
     "id": "Neat",
     "desc": "Dirt and disorder don't stand a chance against her.",
-    "block_traits": ["Messy"],
+    "blocks": ["Messy"],
     "mod_skills": {"cleaning": [0.06, 0.03, 0.1], "anal": [-0.06, -0.03, -0.1]},
     "character_trait": true
     },
     {
     "id": "Messy",
     "desc": "Everything inevitably becomes dirty over time. Why bother with cleaning?",
-    "block_traits": ["Neat"],
+    "blocks": ["Neat"],
     "mod_skills": {"cleaning": [-0.06, -0.03, -0.1], "anal": [0.06, 0.03, 0.1]},
     "character_trait": true
     },
    {
     "id": "Natural Leader",
     "desc": "She can easily lead other people.",
-    "block_traits": ["Natural Follower"],
+    "blocks": ["Natural Follower"],
     "mod_skills": {"management": [0.07, 0.04, 0.1], "teaching": [0.03, 0.01, 0.05], "service": [-0.08, -0.05, -0.1], "bdsm": [0, 0, -0.05]},
     "character_trait": true
     },
    {
     "id": "Natural Follower",
     "desc": "She prefers to follow orders rather than make her own decisions.",
-    "block_traits": ["Natural Leader"],
+    "blocks": ["Natural Leader"],
     "mod_skills": {"management": [-0.07, -0.04, -0.1], "teaching": [-0.03, -0.01, -0.05], "service": [0.08, 0.05, 0.1], "bdsm": [0, 0, 0.05]},
     "character_trait": true
     },
@@ -82,7 +82,7 @@
     {
     "id": "Well-mannered",
     "desc": "This girl is polite, courteous and respectful to others under most circumstances",
-    "block_traits": ["Ill-mannered"],
+    "blocks": ["Ill-mannered"],
     "mod_skills": {"refinement": [0.2, 0.1, 0.08], "bdsm": [-0.07, -0.02, -0.06]},
     "character_trait": true,
     "client": true
@@ -90,7 +90,7 @@
     {
     "id": "Ill-mannered",
     "desc": "This girl is rude, insolent and uncivil under most circumstances.",
-    "block_traits": ["Well-mannered"],
+    "blocks": ["Well-mannered"],
     "mod_skills": {"refinement": [-0.2, -0.1, -0.08], "bdsm": [0.07, 0.02, 0.06]},
     "character_trait": true,
     "client": true
