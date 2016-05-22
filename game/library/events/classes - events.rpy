@@ -267,7 +267,7 @@ init -9 python:
                     # and clean-up:
                     if i < day-self.tdp[1]: self.days.remove(i)
             
-            if len(matched_days) < self.tdp[0]: return True
+            if len(matched_days) < self.tpd[0]: return True
             else: return False
         
         def run_event(self):
