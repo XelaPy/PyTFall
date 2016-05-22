@@ -10,6 +10,24 @@ init python:
             act = None
         return act
         
+    def get_rape_picture(char=None, hidden_partner=False):
+        """
+        This function returns the best possible rape picture, without specifying where or what kind of action it should have since rape pics are not common enough to be so demanding.
+        """
+        excluded = ["happy", "confident", "suggestive", "ecstatic", "gay"]
+        if char.has_image("normalsex", "rape", exclude=["gay"]):
+            if hidden_partner:
+                gm.set_img("normalsex", "rape", "partnerhidden", exclude=["gay"], type="reduce")
+            else:
+                gm.set_img("normalsex", "rape", exclude=["gay"], type="reduce")
+        elif char.has_image("normalsex", exclude=excluded):
+            if hidden_partner:
+                gm.set_img("normalsex", "partnerhidden", exclude=excluded, type="first_default")
+            else:
+                gm.set_img("normalsex", exclude=excluded, type="first_default")
+        else:
+            gm.set_img("normalsex", "partnerhidden", "ripped", exclude=["gay", "happy", "confident"], type="reduce")
+        return
         
     def get_single_sex_picture(char=None, act="stripping", location="any", hidden_partner=False):
         """A universal function that returns most suitable sex picture depending on arguments.

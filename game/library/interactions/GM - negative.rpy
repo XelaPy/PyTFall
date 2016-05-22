@@ -1,14 +1,15 @@
-label interactions_harrasment_after_battle: # after MC provoked a free character and won the battle
+label interactions_harrasment_after_battle: # after MC provoked a free character and won the battle; -->NOT FOR SLAVES<-- since options here are not suitable for them
+    # slaves will not attack MC as long as we don't have dungeon, since after that they pretty much have to be there
     $ m = interactions_flag_count_checker(hero, "harrasment_after_battle") # we don't allow to do it infinitely, chance of success reduces after every attempt
-    if dice(100-20*m): # base chance is 80$, -20 per attempt
+    if dice(100-30*m): # base chance is 70%, -30 per attempt
         menu:
-            "She's unconscious. You have some time before City Guards will arrive." # after adding dungeon here will be options to get her there and rape; after adding drugs here will be option to force her consume some
-
+            "She's unconscious. You have some time before City Guards will arrive." # after adding dungeon here will be options to get her there; after adding drugs here will be option to force her consume some;
+            # no rape since it takes a lot of time, and time here is kinda limited
             "Rob her":
                 if char.gold <= 0:
                     "Sadly, she has no money. What a waste."
                 else:
-                    $ char.disposition -= randint(10, 20)
+                    $ char.disposition -= randint(10, 25)
                     $ g = char.gold
                     while g >= randint(500, 1000):
                         $ g = round(g*0.1)
@@ -29,21 +30,29 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                 if hasattr(store, "temp"):
                     "On [char.op] person, you found [temp.id]!"
                     $ transfer_items(char, hero, temp, amount=1, silent=True, force=True)
+                    $ char.disposition -= randint(20, 45)
                 else:
                     "You didn't find anything..."
-            "Kill her":
-                "She stopped breathing. Serves her right."
-                $ char.health = 0
+            "Kill her" if (char not in hero.chars): # direct killing of hired free chars is unavailable, only in dungeon on via other special means
+                "She stopped moving. Serves her right."
+                $ hero.exp += char.level*100
+                $ char.health = 0 # killing doesn't work atm, should be fixed for release
                 python:
                     for member in hero.team:
-                        if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero:
+                        if all([member.status <> "slave", not("Vicious" in member.traits), not("Yandere" in member.traits), member<>hero]):
                             if "Virtuous" in member.traits:
-                                member.disposition -= randint(100, 200) # you really don't want to do it with non evil chars in team
+                                member.disposition -= randint(200, 300) # you really don't want to do it with non evil chars in team
                             else:
-                                member.disposition -= randint(50, 100)
+                                member.disposition -= randint(100, 200)
             "Nothing":
                 $ pass
         "You quickly leave before someone will see you."
+    else:
+        "Your fight drew attention of the City Guards, you quickly leave before they will see you."
+        
+    if char not in hero.chars:
+        $ gm.remove_girl(char)
+    $ char.set_flag("_day_countdown_interactions_blowoff", 5)
     jump girl_interactions_end
                 
 label interactions_escalation: # character was provoked to attack MC
@@ -93,12 +102,12 @@ label interactions_escalation: # character was provoked to attack MC
         show expression gm.bg_cache
         python:
             for member in hero.team:
-                if (member.status <> "slave") and not("Vicious" in member.traits) and not("Yandere" in member.traits) and member<>hero: # they don't like when MC harasses and then beats other chars, unless they are evil
+                if all([member.status <> "slave", not("Vicious" in member.traits), not("Yandere" in member.traits), member<>hero]): # they don't like when MC harasses and then beats other chars, unless they are evil
                     if "Virtuous" in member.traits:
                         member.disposition -= randint(20, 40) # double for kind characters
                     else:
                         member.disposition -= randint(10, 20)
-        $ char.disposition -= randint(30, 60) # that's the beaten character, big penalty to disposition
+        $ char.disposition -= randint(100, 200) # that's the beaten character, big penalty to disposition
         call interactions_fight_lost
     jump interactions_harrasment_after_battle
 
