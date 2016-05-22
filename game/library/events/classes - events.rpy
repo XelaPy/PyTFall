@@ -265,7 +265,7 @@ init -9 python:
                 if i in range_of_days:
                     matched_days.append(i)
                     # and clean-up:
-                    if i < day-self.tdp[1]: self.days.remove(i)
+                    if i < day-self.tpd[1]: self.days.remove(i)
             
             if len(matched_days) < self.tpd[0]: return True
             else: return False
