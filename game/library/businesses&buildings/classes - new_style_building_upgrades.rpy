@@ -1015,11 +1015,15 @@ init -5 python:
                 self.distance = randint(4, 10)
                 
             self.traveled = 0 # Distance traveled in "KM"...
+            
+            # 
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
+            
             self.ep = 0 # Combined exploration points from the whole team.
             self.tp = 0 # travel point we use during traveling to offset ep sorrectly.
             
+            self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
             self.captured_chars = list()
             self.found_items = list()
             self.cash = list()
@@ -1038,8 +1042,7 @@ init -5 python:
                               defence=0,
                               agility=0,
                               magic=0,
-                              exp=0
-                              )
+                              exp=0)
             
             self.logs = list() # List of all log object we create for this exploration run.
             
@@ -1112,12 +1115,13 @@ init -5 python:
             self.convert_AP(tracker)
             
             while self.env.now < 99:
-                if not trackter.arrived:
+                if tracker.state == "traveling to":
                     yield self.env.process(self.travel_to(tracker))
-                elif not trackter.finished_exploring:
+                elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
                 
-            tracker.log("The day has come to an end.")
+            if config.debug:
+                tracker.log("The day has come to an end for {}.".format(tracker.team.name))
             tracker.day += 1
                     
         def travel_to(self, tracker):
@@ -1135,44 +1139,34 @@ init -5 python:
                 
                 # Team arrived:
                 if tracker.traveled <= tracker.distance:
-                    temp = "{} arrived to {}!".format(tracker.team.name, tracker.area.name)
+                    temp = "{} arrived to {}!".format(tracker.team.name, tracker.area.id)
+                    if tracker.day > 0:
+                        temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Arrival")
                 
                 if self.evn.now == 99: # We couldn't make it there before the days end...
+                    temp = "{} spent the entire day on route to {}! ".format(tracker.team.name, tracker.area.id)
+                    tracker.log(temp)
                     self.env.exit("not there yet")
                 
-            tracker.txt.append(choice(["{color=[blue]}It took %s %s of travel time for expedition to get to/back from %s!\n{/color}"%(self.travel_time,
-                                                                                                                                                                                                         plural("day", self.travel_time),
-                                                                                                                                                                                                         self.area.id),
-                                            "{color=[blue]}%s %s to travel to and back from %s!{/color}\n"%(self.travel_time,
-                                                                                                            plural("day", self.travel_time),
-                                                                                                            self.area.id)]))
-                    
-            tracker.days += tracker.travel_time + tracker.travel_time
-                
         def camping(self, tracker):
-            """Camping will allow restoration of AP/MP/Agility and so on. Might be forced on low health or scheduled closer to the end day.
+            """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
             """
-            restore = False
+            team = tracker.team
             
-            for char in self.team:
-                if char.health < 60 or char.vitality < 30 or char.AP < 1:
-                    restore = True
-                    break
-            
-            if restore:
-                for char in self.team:
-                    char.health = char.get_max("health")
-                    char.vitality = char.get_max("vitality")
-                    char.mp = char.get_max("mp")
+            while 1:
+                yield self.env.timeout(5) # We camp...
                 
-                self.txt.append("Day 0: \n\n")
-                self.txt.append("The team rested in one of the frontier encampments preparing for the run!")
-                self.txt.append("\n\n")
-                
-                return True
+                for c in team:
+                    c.health += randint(5, 6)
+                    c.mp += randint(5, 6)
+                    c.vitality += randint(5, 6)
+                    
+                # Left off here. Check if we're healed or day has ended.
             
-            return False
+        def overnight(self):
+            # overnight: More effective heal. Spend the night resting.
+            pass
         
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
