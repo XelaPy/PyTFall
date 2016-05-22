@@ -1,0 +1,47 @@
+[
+    {
+        "id": "street_thug",
+        "name": "Thug",
+        "fullname": "Street Thug",
+        "desc": "Just another city thug looking for easy prey in dark alleys.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "male",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 250,
+        
+        "level": 30,
+        "basetraits": ["Warrior"],
+        
+        "stats": {
+            "charisma": 30,
+            "constitution": 50,
+            "luck": -40,
+            "character": 75,
+            "intelligence": 15,
+            "attack": 40,
+            "magic": 5,
+            "defence": 55,
+            "agility": 70
+        },
+        "blocked_traits": [
+        
+        ],
+        "ab_traits": [
+        
+        ],
+        
+        "traits": [
+
+        ],
+        "attack_skills": [
+            "SwordAttack"
+        ],
+        "magic_skills": [
+
+        ]
+    }
+]
