@@ -11,7 +11,7 @@ init python:
     # flags=Flags to check for as well 
     #
     # (Yes, setting dice to 100 would have worked as well, but I wanted to show off the condition function)
-    register_event("strange_idol1", quest="Strange Idol", locations=["main_street"], dice=None, run_conditions=[q.condition(0, True)], max_runs=1)
+    # register_event("strange_idol1", quest="Strange Idol", locations=["main_street"], dice=None, run_conditions=[q.condition(0, True)], max_runs=1)
     
 
 label strange_idol1(event):

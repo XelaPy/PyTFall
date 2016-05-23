@@ -127,8 +127,11 @@ init -9 python:
                 # Priority skip:
                 # This also restores the priority if required
                 if not event.priority:
-                    if event.day_to_restore_priority != day: continue
-                    else: event.priority = event.priority_cache
+                    if event.day_to_restore_priority <= day:
+                        event.priority = event.priority_cache
+                    else:
+                        continue
+                    # else: event.priority = event.priority_cache
                 
                 # Day range
                 if event.end_day <= day:
@@ -264,8 +267,8 @@ init -9 python:
             for i in self.days[:]:
                 if i in range_of_days:
                     matched_days.append(i)
-                    # and clean-up:
-                    if i < day-self.tpd[1]: self.days.remove(i)
+                # and clean-up:
+                if i < day-self.tpd[1]: self.days.remove(i)
             
             if len(matched_days) < self.tpd[0]: return True
             else: return False
