@@ -1153,6 +1153,7 @@ init -5 python:
             """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
             """
             team = tracker.team
+            keep_camping = True
             
             while 1:
                 yield self.env.timeout(5) # We camp...
@@ -1162,6 +1163,18 @@ init -5 python:
                     c.mp += randint(5, 6)
                     c.vitality += randint(5, 6)
                     
+                for c in team:
+                    if c.health <= c.get_max("health"):
+                        break
+                    if c.mp <= c.get_max("mp"):
+                        break
+                    if c.vitality <= c.get_max("vitality"):
+                        break
+                else:
+                    keep_camping = False
+                    
+                if not keep_camping:
+                    self.env.exit("done camping")
                 # Left off here. Check if we're healed or day has ended.
             
         def overnight(self):
