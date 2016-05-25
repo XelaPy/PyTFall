@@ -1161,25 +1161,36 @@ init -5 python:
                 for c in team:
                     c.health += randint(5, 6)
                     c.mp += randint(5, 6)
-                    c.vitality += randint(5, 6)
+                    c.vitality += randint(8, 12)
                     
                 for c in team:
-                    if c.health <= c.get_max("health"):
+                    if c.health <= c.get_max("health")*.9:
                         break
-                    if c.mp <= c.get_max("mp"):
+                    if c.mp <= c.get_max("mp")*.9:
                         break
-                    if c.vitality <= c.get_max("vitality"):
-                        break
+                    # if c.vitality <= c.get_max("vitality"):
+                        # break
                 else:
                     keep_camping = False
                     
                 if not keep_camping:
                     self.env.exit("done camping")
+                    
+            temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
+            tracker.log(temp)
+            self.env.exit("restored after camping")
+                    
                 # Left off here. Check if we're healed or day has ended.
             
-        def overnight(self):
+        def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
-            pass
+            
+            team = tracker.team
+            
+            for c in team:
+                c.health += randint(5, 6)
+                c.mp += randint(5, 6)
+                c.vitality += randint(8, 12)
         
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
