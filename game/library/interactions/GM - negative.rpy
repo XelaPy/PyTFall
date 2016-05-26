@@ -63,42 +63,14 @@ label interactions_escalation: # character was provoked to attack MC
         
     python:
         enemy_team = Team(name="Enemy Team")
-        your_team = Team(name="Your Team")
         enemy_team.add(char)
-        for member in enemy_team:
-            member.controller = BE_AI(member)
+        result = run_default_be(enemy_team, background=back)
         
-        battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve, quotes=True)
-        for member in hero.team:
-            if member == hero or member.status <> "slave":
-                    your_team.add(member)
-
-        battle.teams.append(your_team)
-        battle.teams.append(enemy_team)
-        battle.start_battle()
-        your_team.reset_controller()
-        enemy_team.reset_controller()
-        for member in your_team:
-            if member in battle.corpses:
-                member.health = 1
-                if member <> hero:
-                    member.joy -= randint(5, 15)
-            else:
+    if result == True:
+        python:
+            for member in hero.team:
                 member.exp += char.level*10
-        for member in enemy_team:
-            if member in battle.corpses:
-                member.health = 1
-                member.joy -= randint(5, 15)
-            else:
-                member.exp += hero.level*10
-    if battle.winner != your_team:
-        show expression gm.bg_cache
-        show screen girl_interactions
-        $ gm.restore_img()
-        call interactions_fight_won
-        $ char.set_flag("_day_countdown_interactions_blowoff", 1)
-        jump girl_interactions_end
-    else:
+            char.health = 1
         show expression gm.bg_cache
         python:
             for member in hero.team:
@@ -109,7 +81,15 @@ label interactions_escalation: # character was provoked to attack MC
                         member.disposition -= randint(10, 20)
         $ char.disposition -= randint(100, 200) # that's the beaten character, big penalty to disposition
         call interactions_fight_lost
-    jump interactions_harrasment_after_battle
+        jump interactions_harrasment_after_battle
+    else:
+        $ char.exp += hero.level*10
+        show expression gm.bg_cache
+        show screen girl_interactions
+        $ gm.restore_img()
+        call interactions_fight_won
+        $ char.set_flag("_day_countdown_interactions_blowoff", 1)
+        jump girl_interactions_end
 
 label interactions_insult:
     $ m = interactions_flag_count_checker(char, "flag_interactions_insult")

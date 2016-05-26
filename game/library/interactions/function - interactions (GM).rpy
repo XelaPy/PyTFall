@@ -355,3 +355,49 @@ init -11 python:
             n = randint(1,6)
             back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
         return back
+        
+    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.jpg", track="random", prebattle=True, death=False):
+        """
+        Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
+        - if slaves == True, slaves in MC team will be inside BE with passive AI, otherwise they won't be there
+        - background by default is arena, otherwise could be anything, like interactions_pick_background_for_fight(gm.label_cache) for GMs or interactions_pick_background_for_fight(pytfall.world_events.get("event name").label_cache) for events
+        - track by default is random, otherwise it could be a path to some track
+        - if prebattle is true, there will be prebattle quotes inside BE from characters before battle starts
+        - if death = 0, characters in MC team will die if defeated, otherwise they will have 1 hp left
+        """
+        for member in enemy_team:
+            member.controller = BE_AI(member)
+        
+        your_team = Team(name="Your Team")
+        if slaves:
+            for member in hero.team:
+                your_team.add(member)
+            your_team.reset_controller() # to make sure everything's fine with AI
+            for member in hero.team:
+                if member <> hero and member.status == "slave":
+                    member.controller = Slave_BE_AI(member)
+        else:
+            for member in hero.team:
+                if member.status != "slave" or member == hero:
+                    your_team.add(member)
+            your_team.reset_controller()
+            
+        battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle)
+        battle.teams.append(your_team)
+        battle.teams.append(enemy_team)
+        battle.start_battle()
+        your_team.reset_controller()
+        enemy_team.reset_controller()
+        for member in your_team:
+            if member in battle.corpses:
+                if death:
+                    member.health = 0
+                else:
+                    member.health = 1
+                    if member <> hero:
+                        member.joy -= randint(5, 15)
+                        
+        if battle.winner != your_team:
+            return False
+        else:
+            return True
