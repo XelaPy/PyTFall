@@ -383,6 +383,7 @@ init -11 python:
             your_team.reset_controller()
             
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle)
+        store.battle = battle
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
         battle.start_battle()
