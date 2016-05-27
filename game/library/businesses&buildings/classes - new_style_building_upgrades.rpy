@@ -1155,13 +1155,13 @@ init -5 python:
             team = tracker.team
             keep_camping = True
             
-            while 1:
+            while keep_camping:
                 yield self.env.timeout(5) # We camp...
                 
                 for c in team:
                     c.health += randint(5, 6)
                     c.mp += randint(5, 6)
-                    c.vitality += randint(8, 12)
+                    # c.vitality += randint(8, 12)
                     
                 for c in team:
                     if c.health <= c.get_max("health")*.9:
@@ -1171,14 +1171,10 @@ init -5 python:
                     # if c.vitality <= c.get_max("vitality"):
                         # break
                 else:
-                    keep_camping = False
-                    
-                if not keep_camping:
+                    temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
+                    tracker.log(temp)
+                    self.env.exit("restored after camping")
                     self.env.exit("done camping")
-                    
-            temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
-            tracker.log(temp)
-            self.env.exit("restored after camping")
                     
                 # Left off here. Check if we're healed or day has ended.
             
