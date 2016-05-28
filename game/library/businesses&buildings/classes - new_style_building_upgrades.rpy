@@ -1184,9 +1184,9 @@ init -5 python:
             team = tracker.team
             
             for c in team:
-                c.health += randint(5, 6)
-                c.mp += randint(5, 6)
-                c.vitality += randint(8, 12)
+                c.health += randint(60, 70)
+                c.mp += randint(60, 70)
+                # c.vitality += randint(8, 12)
         
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
@@ -1201,12 +1201,15 @@ init -5 python:
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
                 
-                if self.hazard:
-                    self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
+                # Hazzard:
+                if area.hazard:
+                    temp = "{color=[blue]}Hazardous area!{/color} The team has been effected."
+                    tracker.log(temp)
                     for char in tracker.team:
                         for stat in area.hazard:
                             char.mod(stat, -area.hazard[stat]) # TODO: Change to log + direct application.
                             
+                # Points:
                 power_flag_name = "__jobs_exploration_points"
                 for char in tracker.team:
                     # Set their cleaning capabilities as temp flag:
