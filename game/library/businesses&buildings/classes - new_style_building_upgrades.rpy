@@ -1198,6 +1198,14 @@ init -5 python:
             fought_mobs = 0
             encountered_opfor = 0
             
+            # Points:
+            power_flag_name = "__jobs_exploration_power"
+            for char in tracker.team:
+                # Set their cleaning capabilities as temp flag:
+                # TODO: Needs to be recoded to team-wide calculation...
+                value = int(round(1 + w.serviceskill * 0.025 + w.agility * 0.3)) # Exploration Points...? How do we calculate?
+                w.set_flag(power_flag_name, value)
+            
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
                 
@@ -1209,18 +1217,11 @@ init -5 python:
                         for stat in area.hazard:
                             char.mod(stat, -area.hazard[stat]) # TODO: Change to log + direct application.
                             
-                # Points:
-                power_flag_name = "__jobs_exploration_points"
-                for char in tracker.team:
-                    # Set their cleaning capabilities as temp flag:
-                    value = int(round(1 + w.serviceskill * 0.025 + w.agility * 0.3))
-                    w.set_flag(power_flag_name, value)
-                    
                 flag_name = "__jobs_exploration_points"
                 for char in tracker.team:
                     if not char.flag(flag_name) or char.flag(flag_name) <= 0:
                         if not self.convert_AP(char, cleaners, flag_name):
-                            pass # One of the chars has no job points left. They should find a place to camp here...
+                            pass # Now calculating points for the entire team, needs to be recoded...
                 
                 #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
                 risk_a_day_multiplicator = ((0.2 + (area.risk*0.008))*(1 + self.day*(0.025*(1+area.risk/100)))) # TODO: Reexamine this...
