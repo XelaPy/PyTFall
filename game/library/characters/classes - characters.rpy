@@ -4350,7 +4350,7 @@ init -9 python:
             return str(self.id)
             
 
-    class Team(_object):
+    class Team(Flags):
         def __init__(self, name="", implicit=None, free=False, max_size=3):
             if not implicit:
                 implicit = list()
