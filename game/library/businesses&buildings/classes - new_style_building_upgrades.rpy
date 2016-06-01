@@ -1016,11 +1016,11 @@ init -5 python:
                 
             self.traveled = 0 # Distance traveled in "KM"...
             
-            # 
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
             
-            self.ep = 0 # Combined exploration points from the whole team.
+            self.points = 0 # Combined exploration points from the whole team. Replaces AP.
+            self.power = 0 # Power, ability might be a better name.
             self.tp = 0 # travel point we use during traveling to offset ep sorrectly.
             
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
@@ -1198,19 +1198,23 @@ init -5 python:
             fought_mobs = 0
             encountered_opfor = 0
             
-            # Points:
-            power_flag_name = "__jobs_exploration_power"
-            value = 0
+            # Points (ability) Convertion:
+            # power_flag_name = "__jobs_exploration_power"
+            # power_points = 0
             for char in tracker.team:
                 # Set their cleaning capabilities as temp flag:
-                value += int(round(1 + w.serviceskill * 0.025 + w.agility * 0.3)) # Exploration Points...? How do we calculate?
-            tracker.team.set_flag(power_flag_name, value)
+                tracker.power += int(round(1 + w.agility * 0.1)) # Exploration Points...? How do we calculate?
+            # tracker.team.set_flag(power_flag_name, power_points)
             
-            flag_name = "__jobs_exploration_points"
-            for char in tracker.team:
-                if not char.flag(flag_name) or char.flag(flag_name) <= 0:
-                    if not self.convert_AP(char, cleaners, flag_name):
-                        pass # Now calculating points for the entire team, needs to be recoded...
+            # AP Convertion:
+            self.convert_AP(tracker)
+            
+            # flag_name = "__jobs_exploration_points"
+            # value = 0
+            # for char in tracker.team:
+                # if not char.flag(flag_name) or char.flag(flag_name) <= 0:
+                    # if not self.convert_AP(char, cleaners, flag_name):
+                        # pass # Now calculating points for the entire team, needs to be recoded...
                 
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
@@ -1428,7 +1432,7 @@ init -5 python:
             AP = 0
             for m in team:
                 AP + m.AP
-            tracker.ep = AP * 100
+            tracker.points = AP * 100
             
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):
