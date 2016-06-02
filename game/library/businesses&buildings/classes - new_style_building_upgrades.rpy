@@ -1228,10 +1228,10 @@ init -5 python:
                             char.mod(stat, -area.hazard[stat]) # TODO: Change to log + direct application.
                             
                 #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
-                risk_a_day_multiplicator = ((0.2 + (area.risk*0.008))*(1 + self.day*(0.025*(1+area.risk/100)))) # TODO: Reexamine this...
+                risk_a_day_multiplicator = ((0.2 + (area.risk*0.008))*(1 + tracker.day*(0.025*(1+area.risk/100)))) # TODO: Reexamine this...
                 
-                if tracker.items and dice(area.risk*0.2 + self.day + self.day + self.day):
-                    items.append(choice(self.items))
+                if tracker.items and dice(area.risk*0.2 + tracker.day *3:
+                    items.append(choice(tracker.items))
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
@@ -1244,10 +1244,10 @@ init -5 python:
                 
                 #  =================================================>>>
                 # Girls capture (We break off exploration run in case of success):
-                if self.capture_chars:
+                if tracker.capture_chars:
                     for g in area.girls:
                         if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
-                            self.captured_girl = chars[g]
+                            tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
                             stop = True # TODO: Here we return to the guild instead...
                             break
                             
@@ -1327,6 +1327,8 @@ init -5 python:
                             stop = True
                             break
                 
+                
+                            
                 if stop:
                     self.finish_exploring()
             
