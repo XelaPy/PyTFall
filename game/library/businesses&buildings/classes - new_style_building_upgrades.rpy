@@ -1119,6 +1119,8 @@ init -5 python:
                     yield self.env.process(self.travel_to(tracker))
                 elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
+                elif tracker.state == "traveling back":
+                    yield self.env.process(self.travel_from(tracker))
                 
             if config.debug:
                 tracker.log("The day has come to an end for {}.".format(tracker.team.name))
@@ -1149,6 +1151,12 @@ init -5 python:
                     tracker.log(temp)
                     self.env.exit("not there yet")
                 
+        def travel_from(self, tracker):
+            
+            while 1:
+                self.env.timeout(5)
+                # Travel back...
+                    
         def camping(self, tracker):
             """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
             """
