@@ -1119,6 +1119,8 @@ init -5 python:
                     yield self.env.process(self.travel_to(tracker))
                 elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
+                elif tracker.state == "camping":
+                    yield self.env.process(self.camping(tracker))
                 elif tracker.state == "traveling back":
                     yield self.env.process(self.travel_from(tracker))
                 
@@ -1207,23 +1209,13 @@ init -5 python:
             encountered_opfor = 0
             
             # Points (ability) Convertion:
-            # power_flag_name = "__jobs_exploration_power"
-            # power_points = 0
             for char in tracker.team:
                 # Set their cleaning capabilities as temp flag:
                 tracker.power += int(round(1 + w.agility * 0.1)) # Exploration Points...? How do we calculate?
-            # tracker.team.set_flag(power_flag_name, power_points)
             
             # AP Convertion:
             self.convert_AP(tracker)
             
-            # flag_name = "__jobs_exploration_points"
-            # value = 0
-            # for char in tracker.team:
-                # if not char.flag(flag_name) or char.flag(flag_name) <= 0:
-                    # if not self.convert_AP(char, cleaners, flag_name):
-                        # pass # Now calculating points for the entire team, needs to be recoded...
-                
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
                 
@@ -1331,14 +1323,9 @@ init -5 python:
                 if not stop:
                     for member in self.team:
                         if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
-                            self.txt.append("\n{color=[blue]}Your party falls back to base due to risk factors!{/color}")
-                            stop = True
-                            break
-                
-                
+                            temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
+                            tracker.log(temp)
                             
-                if stop:
-                    self.finish_exploring()
             
         def combat_mob(self, tracker):
             self.txt.append("\n")
