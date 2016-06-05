@@ -1154,10 +1154,30 @@ init -5 python:
                     self.env.exit("not there yet")
                 
         def travel_from(self, tracker):
+            # Env func that handles the travel to routine.
+            
+            # Figure out how far we can travel in 5 du:
+            # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
+            tacker.tp = int(round(tracker.ep / 20.0))
             
             while 1:
-                self.env.timeout(5)
-                # Travel back...
+                yield self.env.timeout(5) # We travel...
+                
+                tracker.ep -= tracker.tp
+                tracker.traveled += 1.25
+                
+                # Team arrived:
+                if tracker.traveled <= tracker.distance:
+                    temp = "{} came back to the guild from {}!".format(tracker.team.name, tracker.area.id)
+                    if tracker.day > 0:
+                        temp = temp + " It took {} {} to get back.".format(tracker.day, plural("day", tracker.day))
+                    tracker.log(temp, name="Return")
+                    # Leads to building a report
+                
+                if self.evn.now == 99: # We couldn't make it there before the days end...
+                    temp = "{} spent the entire day going back to the guild from {}! ".format(tracker.team.name, tracker.area.id)
+                    tracker.log(temp)
+                    self.env.exit("on the way back")
                     
         def camping(self, tracker):
             """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
