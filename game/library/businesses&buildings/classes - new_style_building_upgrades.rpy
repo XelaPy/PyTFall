@@ -1250,7 +1250,7 @@ init -5 python:
                 #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
                 risk_a_day_multiplicator = ((0.2 + (area.risk*0.008))*(1 + tracker.day*(0.025*(1+area.risk/100)))) # TODO: Reexamine this...
                 
-                if tracker.items and dice(area.risk*0.2 + tracker.day *3:
+                if tracker.items and dice(area.risk*0.2 + tracker.day *3):
                     items.append(choice(tracker.items))
                 
                 # Second round of items for those specifically specified for this area:
