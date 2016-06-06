@@ -1268,15 +1268,13 @@ init -5 python:
                     for g in area.girls:
                         if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
                             tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
-                            stop = True # TODO: Here we return to the guild instead...
-                            break
+                            self.env.exit("captured char")
                             
                         # TODO: g in rchars looks like broken code! This also need to be updated and reviewed.
                         elif g in rchars and dice(area.girls[g] + self.day*0.1):
                             new_random_girl = build_rc()
-                            self.captured_girl = new_random_girl
-                            stop = True
-                            break
+                            self.captured_girl = build_rc()
+                            self.env.exit("captured rchar")
                 
                 if not fought_mobs:
                     mob = None
