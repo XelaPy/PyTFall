@@ -1050,8 +1050,8 @@ init -5 python:
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             jump("fg_management")
             
-        def log(self, txt, name=""):
-            obj = ExLog(name, txt)
+        def log(self, txt, name="", nd_log=True, ui_log=False):
+            obj = ExLog(name, txt, nd_log, ui_log)
             self.logs.append(obj)
     
             
@@ -1255,7 +1255,10 @@ init -5 python:
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
-                    if dice((area.items[i]*risk_a_day_multiplicator)):
+                    if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
+                        temp = "{color=[blue]}Found an item {}!{/color}.".format(i.name)
+                        tracker.log("Found Item", temp, ui_log=True)
+                        
                         items.append(i)
                         # break   #too hard to calculate chances for json with that
                 
@@ -1287,13 +1290,6 @@ init -5 python:
                             self.txt.append("The Party was attacked by ")
                             self.txt.append("%d %s" % (enemies, plural(mob, enemies)))
                             break
-                    
-                    #ChW: testing the variant no mob found = no fight
-                    # if not mob:
-                        # mob = max(self.mobs.iteritems(), key=itemgetter(1))[0]
-                        # self.area.known_mobs.add(mob)
-                        # enemies = randint(1, self.mobs[key][2])
-                        # self.txt.append("%d %s!" % (enemies, plural(mob, enemies)))
                     
                     if attacked:
                         self.combat_mobs()
