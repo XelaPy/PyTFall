@@ -1248,7 +1248,9 @@ init -5 python:
                     tracker.log(temp)
                     for char in tracker.team:
                         for stat in area.hazard:
-                            char.mod(stat, -area.hazard[stat]) # TODO: Change to log + direct application.
+                            # value, because we calculated effects on daily base in the past...
+                            var = max(1, int(round(area.hazard[stat]*.05)))
+                            char.mod(stat, -var) # TODO: Change to log + direct application.
                             
                 if tracker.items and dice(area.risk*0.2 + tracker.day *3):
                     items.append(choice(tracker.items))
