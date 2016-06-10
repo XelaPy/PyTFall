@@ -1191,15 +1191,15 @@ init -5 python:
                 for c in team:
                     c.health += randint(5, 6)
                     c.mp += randint(5, 6)
-                    # c.vitality += randint(8, 12)
+                    c.vitality += randint(8, 12)
                     
                 for c in team:
                     if c.health <= c.get_max("health")*.9:
                         break
                     if c.mp <= c.get_max("mp")*.9:
                         break
-                    # if c.vitality <= c.get_max("vitality"):
-                        # break
+                    if c.vitality <= c.get_max("vitality"):
+                        break
                 else:
                     temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
