@@ -1204,10 +1204,7 @@ init -5 python:
                     temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
                     self.env.exit("restored after camping")
-                    self.env.exit("done camping")
                     
-                # Left off here. Check if we're healed or day has ended.
-            
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
             
