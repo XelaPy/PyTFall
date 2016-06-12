@@ -1207,13 +1207,14 @@ init -5 python:
                     
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
+            # Do we run this? This prolly doesn't need to be a simpy process... or maybe schedual this to run at 99.
             
             team = tracker.team
             
             for c in team:
                 c.health += randint(60, 70)
                 c.mp += randint(60, 70)
-                # c.vitality += randint(8, 12)
+                c.vitality += randint(8, 12)
         
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
@@ -1286,8 +1287,9 @@ init -5 python:
                             enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
                             mob = key
                             attacked = True
-                            self.txt.append("The Party was attacked by ")
-                            self.txt.append("%d %s" % (enemies, plural(mob, enemies)))
+                            temp = "The Party was attacked by "
+                            temp = temp + "%d %s" % (enemies, plural(mob, enemies))
+                            tracker.log("Engagement", temp, ui_log=True)
                             break
                     
                     if attacked:
