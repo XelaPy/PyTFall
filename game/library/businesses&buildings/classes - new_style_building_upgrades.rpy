@@ -1283,7 +1283,8 @@ init -5 python:
                     mob = None
                     
                     for key in tracker.mobs:
-                        if dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2))): # Needs a review, we don't have ap here anymore.
+                        encounter_chance = dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2)))*0.05
+                        if encounter_chance: # Needs a review, we don't have ap here anymore.
                             enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
                             mob = key
                             attacked = True
