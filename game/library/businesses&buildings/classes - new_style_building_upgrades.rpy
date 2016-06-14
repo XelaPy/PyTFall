@@ -1287,7 +1287,7 @@ init -5 python:
                         if encounter_chance: # Needs a review, we don't have ap here anymore.
                             enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
                             mob = key
-                            attacked = True
+                            # Create the mob and proper be scenerio here
                             temp = "The Party was attacked by "
                             temp = temp + "%d %s" % (enemies, plural(mob, enemies))
                             tracker.log("Engagement", temp, ui_log=True)
