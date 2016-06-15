@@ -1111,6 +1111,10 @@ init -5 python:
         def exploration_controller(self, trackter):
             # Controls the exploration by setting up proper simpy processes.
             
+            # Set the state to traveling back if we're done:
+            if tracker.day > tracker.days:
+                tracker.state = "traveling back"
+            
             # Convert AP to exploration points:
             self.convert_AP(tracker)
             
@@ -1122,7 +1126,7 @@ init -5 python:
                 elif tracker.state == "camping":
                     yield self.env.process(self.camping(tracker))
                 elif tracker.state == "traveling back":
-                    yield self.env.process(self.travel_from(tracker))
+                    yield self.env.process(self.travel_back(tracker))
                 
             if config.debug:
                 tracker.log("The day has come to an end for {}.".format(tracker.team.name))
@@ -1153,7 +1157,7 @@ init -5 python:
                     tracker.log(temp)
                     self.env.exit("not there yet")
                 
-        def travel_from(self, tracker):
+        def travel_back(self, tracker):
             # Env func that handles the travel to routine.
             
             # Figure out how far we can travel in 5 du:
@@ -1287,7 +1291,7 @@ init -5 python:
                         if encounter_chance: # Needs a review, we don't have ap here anymore.
                             enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
                             mob = key
-                            # Create the mob and proper be scenerio here
+                            # Create the mob and proper be scenario here
                             temp = "The Party was attacked by "
                             temp = temp + "%d %s" % (enemies, plural(mob, enemies))
                             tracker.log("Engagement", temp, ui_log=True)
