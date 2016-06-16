@@ -1189,6 +1189,9 @@ init -5 python:
             team = tracker.team
             keep_camping = True
             
+            temp = "{} (in {}) setup a camp to get some rest and recover!".format(tracker.team.name, tracker.area.id)
+            tracker.log(temp)
+            
             while keep_camping:
                 yield self.env.timeout(5) # We camp...
                 
@@ -1205,7 +1208,7 @@ init -5 python:
                     if c.vitality <= c.get_max("vitality"):
                         break
                 else:
-                    temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
+                    temp = "{} are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
                     self.env.exit("restored after camping")
                     
@@ -1214,6 +1217,9 @@ init -5 python:
             # Do we run this? This prolly doesn't need to be a simpy process... or maybe schedual this to run at 99.
             
             team = tracker.team
+            
+            temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name, tracker.area.id)
+            tracker.log(temp)
             
             for c in team:
                 c.health += randint(60, 70)
