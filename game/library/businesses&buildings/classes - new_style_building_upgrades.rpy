@@ -1218,7 +1218,7 @@ init -5 python:
             
             team = tracker.team
             
-            temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name, tracker.area.id)
+            temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name)
             tracker.log(temp)
             
             for c in team:
