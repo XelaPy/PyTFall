@@ -1354,18 +1354,32 @@ init -5 python:
                             
             
         def combat_mob(self, tracker):
-            self.txt.append("\n")
             
-            # Object mobs and combat resolver:
-            # mob = deepcopy(mobs[mob]) # Get the actual instance instead of a string!
+            enemy_team = Team(name="Enemy Team", max_size=3)
             
-            # for stat in ilists.battlestats:
-                # stat_value = int(getattr(mob, stat) * min(self.mobs[mob.name][1][2], (self.mobs[mob.name][1][0] + int(round(self.mobs[mob.name][1][1] * self.day)))))
-                # setattr(mob, stat, stat_value)
-                # mob_power += stat_value
+            # TODO: Tomorrow: Make this work:
             
-            # mob_power * enemies
-            # TODO: Create mobs using the modern way...
+            # mob = build_mob(id="Goblin Shaman", level=120)
+            # mob.apply_trait("Fire")
+            # mob.front_row = True
+            # mob.controller = BE_AI(mob)
+            # if len(enemy_team) != 3:
+                # enemy_team.add(mob)
+            # mob = build_mob(id="Goblin Archer", level=100)
+            # mob.front_row = False
+            # mob.attack_skills.append("SwordAttack")
+            # if len(enemy_team) != 3:
+                # enemy_team.add(mob)
+            # mob = build_mob(id="Goblin Archer", level=100)
+            # mob.front_row = False
+            # mob.attack_skills.append("BowAttack")
+            # mob.apply_trait("Air")
+            # if len(enemy_team) != 3:
+                # enemy_team.add(mob)
+            # # Add new attack types to see how they look on the other side:
+            # for m in enemy_team:
+                # m.magic_skills.append(battle_skills["Water Blast"])
+            
             ep = Team()
             
             for i in xrange(enemies):
