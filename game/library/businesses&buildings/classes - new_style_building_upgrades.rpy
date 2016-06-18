@@ -1293,18 +1293,17 @@ init -5 python:
                     mob = None
                     
                     for key in tracker.mobs:
-                        encounter_chance = dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2)))*0.05
+                        encounter_chance = dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2)))*0.05 # Needs a rework... what is ap here?
                         if encounter_chance: # Needs a review, we don't have ap here anymore.
-                            enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
+                            enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
-                            # Create the mob and proper be scenario here
-                            temp = "The Party was attacked by "
+                            temp = "{} were attacked by ".format(team.name)
                             temp = temp + "%d %s" % (enemies, plural(mob, enemies))
                             tracker.log("Engagement", temp, ui_log=True)
                             break
-                    
-                    if attacked:
-                        self.combat_mobs()
+                            
+                    if mob:
+                        self.combat_mobs(tracker, mob, enemies)
         
                 if items and cash:
                     self.txt.append("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
@@ -1353,7 +1352,7 @@ init -5 python:
                             tracker.log(temp)
                             
             
-        def combat_mob(self, tracker):
+        def combat_mobs(self, tracker, mob, amount):
             
             enemy_team = Team(name="Enemy Team", max_size=3)
             
