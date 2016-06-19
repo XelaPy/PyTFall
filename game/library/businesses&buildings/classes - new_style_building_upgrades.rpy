@@ -1354,35 +1354,17 @@ init -5 python:
             
         def combat_mobs(self, tracker, mob, amount):
             
-            enemy_team = Team(name="Enemy Team", max_size=3)
+            enemy_team = Team(name="Enemy Team", max_size=amount)
             
             # TODO: Tomorrow: Make this work:
+            # Get a level... for now, I am keeping it plain and simple:
+            level = tracker.mobs[mob][0]
+            mob_id = mob
             
-            # mob = build_mob(id="Goblin Shaman", level=120)
-            # mob.apply_trait("Fire")
-            # mob.front_row = True
-            # mob.controller = BE_AI(mob)
-            # if len(enemy_team) != 3:
-                # enemy_team.add(mob)
-            # mob = build_mob(id="Goblin Archer", level=100)
-            # mob.front_row = False
-            # mob.attack_skills.append("SwordAttack")
-            # if len(enemy_team) != 3:
-                # enemy_team.add(mob)
-            # mob = build_mob(id="Goblin Archer", level=100)
-            # mob.front_row = False
-            # mob.attack_skills.append("BowAttack")
-            # mob.apply_trait("Air")
-            # if len(enemy_team) != 3:
-                # enemy_team.add(mob)
-            # # Add new attack types to see how they look on the other side:
-            # for m in enemy_team:
-                # m.magic_skills.append(battle_skills["Water Blast"])
-            
-            ep = Team()
-            
-            for i in xrange(enemies):
-                ep.add(mob)
+            for i in xrange(amount):
+                mob = build_mob(id=mob, level=level)
+                mob.controller = BE_AI(mob)
+                enemy_team.add(mob)
             
             # result = s_conflict_resolver(self.team, ep, new_results=False)
             
