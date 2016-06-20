@@ -1354,9 +1354,9 @@ init -5 python:
             
         def combat_mobs(self, tracker, mob, amount):
             
-            enemy_team = Team(name="Enemy Team", max_size=amount)
+            team = tracker.team
+            opfor = Team(name="Enemy Team", max_size=amount)
             
-            # TODO: Tomorrow: Make this work:
             # Get a level... for now, I am keeping it plain and simple:
             level = tracker.mobs[mob][0]
             mob_id = mob
@@ -1364,8 +1364,16 @@ init -5 python:
             for i in xrange(amount):
                 mob = build_mob(id=mob, level=level)
                 mob.controller = BE_AI(mob)
-                enemy_team.add(mob)
+                opfor.add(mob)
             
+            # Logical battle scenario:
+            battle = BE_Core(logical=1)
+            store.battle = battle # Making it global... I need to make sure this is not needed.
+            battle.teams.append(team)
+            battle.teams.append(opfor)
+            battle.start_battle()
+            
+            # TODO: Next: Report + Event + Rewards/Penalties...
             # result = s_conflict_resolver(self.team, ep, new_results=False)
             
             # if result[0] == "victory":
