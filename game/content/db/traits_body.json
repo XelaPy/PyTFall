@@ -93,7 +93,7 @@
     },
     {
     "id": "Athletic",
-    "blocks": ["Lolita", "Slim", "Chubby", "Athletic", "Manly"],
+    "blocks": ["Lolita", "Slim", "Chubby", "Manly"],
     "desc": "This girl is tough and has trained a lot. Her body is in great shape.",
     "min": {"constitution": 5},
     "mod_stats": {"health": [1, 10], "constitution": [1, 5], "agility": [1, 20]},
