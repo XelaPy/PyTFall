@@ -4,6 +4,7 @@ init python:
     
 label drunk_lady1:
     $ t = chars["Tsunade"]
+    scene bg tavern_inside # ChW: This is to get rid of tavent picture until I create a more complex solution...
     show expression t.show("00AD-nn-e2-ec-c1-l4-lf-pr-pc.jpg", resize=(800, 600)) as x at truecenter with dissolve:
         zoom 0.7
     "Examining the room, you notice a middle aged woman with impressive knockers drinking alone in the corner."
@@ -64,6 +65,7 @@ label drunk_lady1:
     
 label drunk_lady2:
     $ t = chars["Tsunade"]
+    scene bg tavern_inside
     show expression t.show("00AD-nn-e2-ec-c1-l4-lf-pr-pc.jpg", resize=(800, 600)) as x at truecenter with dissolve:
         zoom 0.7
     "You see the woman you met before. If you want, you can accept her proposition and pay 1000 coins."
