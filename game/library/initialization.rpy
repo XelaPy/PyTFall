@@ -395,7 +395,7 @@ init -999 python:
 # X - Instant Exit
 # R - Recompilation of the game
 # Shows mouse coordinates
-screen debugTools():
+screen debug_tools():
     zorder 5
     vbox:
         align (0.02, 0.98)

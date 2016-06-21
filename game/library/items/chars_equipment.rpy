@@ -105,6 +105,7 @@ label char_equip_loop:
             
         elif result[0] == "item":
             if result[1] == 'equip/unequip':
+                $ dummy = None # Must be set here so the items that jump away to a label work properly.
                 python:
                     # Equipping:
                     if item_direction == 'equip':
@@ -114,7 +115,6 @@ label char_equip_loop:
                             selectedslot = None
                             unequip_slot = None
                             item_direction = None
-                            dummy = None
                             jump("char_equip_loop")
                             
                         # See if we can access the equipment first:
@@ -142,7 +142,6 @@ label char_equip_loop:
                     selectedslot = None
                     unequip_slot = None
                     item_direction = None
-                    dummy = None
                  
             elif result[1] == "discard":
                 python:
