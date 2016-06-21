@@ -88,6 +88,24 @@
     "goodtraits": ["Not Human"]
     },
     {
+    "id": "Mercenary Cape",
+    "desc": "A fancy and conspicuous custom made cape from high-quality leather and raven feathers.",
+    "icon": "content/items/cape/merc.png",
+    "price": 400,
+    "sex": "male",
+    "chance": 80,
+    "badness": 89,
+    "eqchance": 11,
+    "hidden": false,
+    "infinite": false,
+    "slot": "cape",
+    "type": "mc",
+    "max": {"charisma": 10, "defence": 15},
+    "mod": {"charisma": 15, "defence": 20},
+    "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0], "management": [0.01, 0.01, 0.03, 0, 0], "refinement": [0.01, 0.01, 0.01, 0, 0]},
+    "locations": ["Exploration"]
+    },
+    {
     "id": "Linen Capelet",
     "desc": "Simple piece of fabric to warn up cold shoulders in unpleasant weather.",
     "icon": "content/items/cape/lcl.png",
@@ -281,6 +299,23 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien"]
+    },
+    {
+    "id": "Armoured Cape",
+    "desc": "A heavily armoured, rigid, quite weighty cape. Widely used by City Guards officers on patrols outside city walls, it could be quickly unzipped when running speed is needed.",
+    "icon": "content/items/cape/arm.png",
+    "price": 950,
+    "sex": "unisex",
+    "chance": 10,
+    "badness": 35,
+    "eqchance": 35,
+    "hidden": false,
+    "infinite": false,
+    "slot": "cape",
+    "type": "armor",
+    "max": {"defence": 100, "vitality": -50, "agility": -60},
+    "mod": {"defence": 50},
+    "locations": ["Exploration"]
     },
     {
     "id": "Ninja Cloak",

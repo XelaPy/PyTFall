@@ -44,8 +44,6 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ n = 1
     else:
         $ n = 2
-    if check_friends(char, hero):
-        $ n += 1
     if m > n:
         call interactions_too_many_sex_lines
         $ char.disposition -= randint(5,m+5) + randint(1,2)
