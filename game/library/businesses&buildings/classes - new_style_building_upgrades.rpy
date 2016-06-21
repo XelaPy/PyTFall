@@ -1016,11 +1016,11 @@ init -5 python:
                 
             self.traveled = 0 # Distance traveled in "KM"...
             
-            # 
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
             
-            self.ep = 0 # Combined exploration points from the whole team.
+            self.points = 0 # Combined exploration points from the whole team. Replaces AP.
+            self.power = 0 # Power, ability might be a better name.
             self.tp = 0 # travel point we use during traveling to offset ep sorrectly.
             
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
@@ -1050,8 +1050,8 @@ init -5 python:
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             jump("fg_management")
             
-        def log(self, txt, name=""):
-            obj = ExLog(name, txt)
+        def log(self, txt, name="", nd_log=True, ui_log=False):
+            obj = ExLog(name, txt, nd_log, ui_log)
             self.logs.append(obj)
     
             
@@ -1111,6 +1111,10 @@ init -5 python:
         def exploration_controller(self, trackter):
             # Controls the exploration by setting up proper simpy processes.
             
+            # Set the state to traveling back if we're done:
+            if tracker.day > tracker.days:
+                tracker.state = "traveling back"
+            
             # Convert AP to exploration points:
             self.convert_AP(tracker)
             
@@ -1119,6 +1123,10 @@ init -5 python:
                     yield self.env.process(self.travel_to(tracker))
                 elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
+                elif tracker.state == "camping":
+                    yield self.env.process(self.camping(tracker))
+                elif tracker.state == "traveling back":
+                    yield self.env.process(self.travel_back(tracker))
                 
             if config.debug:
                 tracker.log("The day has come to an end for {}.".format(tracker.team.name))
@@ -1149,13 +1157,42 @@ init -5 python:
                     tracker.log(temp)
                     self.env.exit("not there yet")
                 
+        def travel_back(self, tracker):
+            # Env func that handles the travel to routine.
+            
+            # Figure out how far we can travel in 5 du:
+            # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
+            tacker.tp = int(round(tracker.ep / 20.0))
+            
+            while 1:
+                yield self.env.timeout(5) # We travel...
+                
+                tracker.ep -= tracker.tp
+                tracker.traveled += 1.25
+                
+                # Team arrived:
+                if tracker.traveled <= tracker.distance:
+                    temp = "{} came back to the guild from {}!".format(tracker.team.name, tracker.area.id)
+                    if tracker.day > 0:
+                        temp = temp + " It took {} {} to get back.".format(tracker.day, plural("day", tracker.day))
+                    tracker.log(temp, name="Return")
+                    # Leads to building a report
+                
+                if self.evn.now == 99: # We couldn't make it there before the days end...
+                    temp = "{} spent the entire day going back to the guild from {}! ".format(tracker.team.name, tracker.area.id)
+                    tracker.log(temp)
+                    self.env.exit("on the way back")
+                    
         def camping(self, tracker):
             """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
             """
             team = tracker.team
             keep_camping = True
             
-            while 1:
+            temp = "{} (in {}) setup a camp to get some rest and recover!".format(tracker.team.name, tracker.area.id)
+            tracker.log(temp)
+            
+            while keep_camping:
                 yield self.env.timeout(5) # We camp...
                 
                 for c in team:
@@ -1168,28 +1205,25 @@ init -5 python:
                         break
                     if c.mp <= c.get_max("mp")*.9:
                         break
-                    # if c.vitality <= c.get_max("vitality"):
-                        # break
+                    if c.vitality <= c.get_max("vitality"):
+                        break
                 else:
-                    keep_camping = False
+                    temp = "{} are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
+                    tracker.log(temp)
+                    self.env.exit("restored after camping")
                     
-                if not keep_camping:
-                    self.env.exit("done camping")
-                    
-            temp = "{} spent are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
-            tracker.log(temp)
-            self.env.exit("restored after camping")
-                    
-                # Left off here. Check if we're healed or day has ended.
-            
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
+            # Do we run this? This prolly doesn't need to be a simpy process... or maybe schedual this to run at 99.
             
             team = tracker.team
             
+            temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name)
+            tracker.log(temp)
+            
             for c in team:
-                c.health += randint(5, 6)
-                c.mp += randint(5, 6)
+                c.health += randint(60, 70)
+                c.mp += randint(60, 70)
                 c.vitality += randint(8, 12)
         
         def explore(self, tracker):
@@ -1202,36 +1236,39 @@ init -5 python:
             fought_mobs = 0
             encountered_opfor = 0
             
+            # Points (ability) Convertion:
+            for char in tracker.team:
+                # Set their cleaning capabilities as temp flag:
+                tracker.power += int(round(1 + w.agility * 0.1)) # Exploration Points...? How do we calculate?
+            
+            # AP Convertion:
+            self.convert_AP(tracker)
+            
+            #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
+            risk_a_day_multiplicator = int(round(((0.2 + (area.risk*0.008))*(1 + tracker.day*(0.025*(1+area.risk/100))))*0.05)) # For now, I'll just devide the damn thing by 20...
+            
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
                 
-                if self.hazard:
-                    self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
+                # Hazzard:
+                if area.hazard:
+                    temp = "{color=[blue]}Hazardous area!{/color} The team has been effected."
+                    tracker.log(temp)
                     for char in tracker.team:
                         for stat in area.hazard:
-                            char.mod(stat, -area.hazard[stat]) # TODO: Change to log + direct application.
+                            # value, because we calculated effects on daily base in the past...
+                            var = max(1, int(round(area.hazard[stat]*.05)))
+                            char.mod(stat, -var) # TODO: Change to log + direct application.
                             
-                power_flag_name = "__jobs_exploration_points"
-                for char in tracker.team:
-                    # Set their cleaning capabilities as temp flag:
-                    value = int(round(1 + w.serviceskill * 0.025 + w.agility * 0.3))
-                    w.set_flag(power_flag_name, value)
-                    
-                flag_name = "__jobs_exploration_points"
-                for char in tracker.team:
-                    if not char.flag(flag_name) or char.flag(flag_name) <= 0:
-                        if not self.convert_AP(char, cleaners, flag_name):
-                            pass # One of the chars has no job points left. They should find a place to camp here...
-                
-                #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
-                risk_a_day_multiplicator = ((0.2 + (area.risk*0.008))*(1 + self.day*(0.025*(1+area.risk/100)))) # TODO: Reexamine this...
-                
-                if tracker.items and dice(area.risk*0.2 + self.day + self.day + self.day):
-                    items.append(choice(self.items))
+                if tracker.items and dice(area.risk*0.2 + tracker.day *3):
+                    items.append(choice(tracker.items))
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
-                    if dice((area.items[i]*risk_a_day_multiplicator)):
+                    if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
+                        temp = "{color=[blue]}Found an item {}!{/color}.".format(i.name)
+                        tracker.log("Found Item", temp, ui_log=True)
+                        
                         items.append(i)
                         # break   #too hard to calculate chances for json with that
                 
@@ -1240,41 +1277,33 @@ init -5 python:
                 
                 #  =================================================>>>
                 # Girls capture (We break off exploration run in case of success):
-                if self.capture_chars:
+                if tracker.capture_chars:
                     for g in area.girls:
                         if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
-                            self.captured_girl = chars[g]
-                            stop = True # TODO: Here we return to the guild instead...
-                            break
+                            tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
+                            self.env.exit("captured char")
                             
                         # TODO: g in rchars looks like broken code! This also need to be updated and reviewed.
                         elif g in rchars and dice(area.girls[g] + self.day*0.1):
                             new_random_girl = build_rc()
-                            self.captured_girl = new_random_girl
-                            stop = True
-                            break
+                            self.captured_girl = build_rc()
+                            self.env.exit("captured rchar")
                 
                 if not fought_mobs:
                     mob = None
                     
                     for key in tracker.mobs:
-                        if dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2))): # Needs a review, we don't have ap here anymore.
-                            enemies = choice([self.mobs[key][2][0], self.mobs[key][2][1], self.mobs[key][2][2]])
+                        encounter_chance = dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2)))*0.05 # Needs a rework... what is ap here?
+                        if encounter_chance: # Needs a review, we don't have ap here anymore.
+                            enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
-                            attacked = True
-                            self.txt.append("The Party was attacked by ")
-                            self.txt.append("%d %s" % (enemies, plural(mob, enemies)))
+                            temp = "{} were attacked by ".format(team.name)
+                            temp = temp + "%d %s" % (enemies, plural(mob, enemies))
+                            tracker.log("Engagement", temp, ui_log=True)
                             break
-                    
-                    #ChW: testing the variant no mob found = no fight
-                    # if not mob:
-                        # mob = max(self.mobs.iteritems(), key=itemgetter(1))[0]
-                        # self.area.known_mobs.add(mob)
-                        # enemies = randint(1, self.mobs[key][2])
-                        # self.txt.append("%d %s!" % (enemies, plural(mob, enemies)))
-                    
-                    if attacked:
-                        self.combat_mobs()
+                            
+                    if mob:
+                        self.combat_mobs(tracker, mob, enemies)
         
                 if items and cash:
                     self.txt.append("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
@@ -1319,31 +1348,32 @@ init -5 python:
                 if not stop:
                     for member in self.team:
                         if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
-                            self.txt.append("\n{color=[blue]}Your party falls back to base due to risk factors!{/color}")
-                            stop = True
-                            break
-                
-                if stop:
-                    self.finish_exploring()
+                            temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
+                            tracker.log(temp)
+                            
             
-        def combat_mob(self, tracker):
-            self.txt.append("\n")
+        def combat_mobs(self, tracker, mob, amount):
             
-            # Object mobs and combat resolver:
-            # mob = deepcopy(mobs[mob]) # Get the actual instance instead of a string!
+            team = tracker.team
+            opfor = Team(name="Enemy Team", max_size=amount)
             
-            # for stat in ilists.battlestats:
-                # stat_value = int(getattr(mob, stat) * min(self.mobs[mob.name][1][2], (self.mobs[mob.name][1][0] + int(round(self.mobs[mob.name][1][1] * self.day)))))
-                # setattr(mob, stat, stat_value)
-                # mob_power += stat_value
+            # Get a level... for now, I am keeping it plain and simple:
+            level = tracker.mobs[mob][0]
+            mob_id = mob
             
-            # mob_power * enemies
-            # TODO: Create mobs using the modern way...
-            ep = Team()
+            for i in xrange(amount):
+                mob = build_mob(id=mob, level=level)
+                mob.controller = BE_AI(mob)
+                opfor.add(mob)
             
-            for i in xrange(enemies):
-                ep.add(mob)
+            # Logical battle scenario:
+            battle = BE_Core(logical=1)
+            store.battle = battle # Making it global... I need to make sure this is not needed.
+            battle.teams.append(team)
+            battle.teams.append(opfor)
+            battle.start_battle()
             
+            # TODO: Next: Report + Event + Rewards/Penalties...
             # result = s_conflict_resolver(self.team, ep, new_results=False)
             
             # if result[0] == "victory":
@@ -1354,7 +1384,7 @@ init -5 python:
                 # self.stats["exp"] += mob_power/10
                 # TODO: Arrange for combat and stats bonuses...
                 
-                self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
+                # self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
                 
                 # for member in self.team:
                     # damage = randint(3, 10)
@@ -1371,7 +1401,7 @@ init -5 python:
                         # member.health -= damage
                     # member.mp -= randint(3, 7)
             
-            # elif result[0] == "defeat":
+            if result[0] == "defeat":
                 # self.stats["attack"] += randrange(2)
                 # self.stats["defence"] += randrange(2)
                 # self.stats["agility"] += randrange(2)
@@ -1428,7 +1458,7 @@ init -5 python:
             AP = 0
             for m in team:
                 AP + m.AP
-            tracker.ep = AP * 100
+            tracker.points = AP * 100
             
     # Sub Upgrades
     class SubUpgrade(BuildingUpgrade):

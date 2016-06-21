@@ -125,7 +125,7 @@ label test_be_logical:
             hero.team.add(n)
         n.AP = 6
         # ImageReference("chainfights")
-        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, logical=1)
+        battle = BE_Core(logical=1)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         

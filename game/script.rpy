@@ -68,7 +68,7 @@
     call load_battle_skills
     $ tl.timer("Loading: Battle Skills")
     
-    python:    
+    python:
         # MC:
         hero = Player()
         

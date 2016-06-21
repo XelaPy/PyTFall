@@ -116,7 +116,7 @@ screen tailor_store_shopping:
         maximum (500, 400)
         align(0.5, 0.99)
         textbutton "I want to order something special":
-            action [SetField(global_flags, "tailor_special_order_ask", True), Hide("shopping", transition=dissolve), Jump("tailor_store")]
+            action [Function(global_flags.set_flag, "tailor_special_order_ask", True), Hide("shopping", transition=dissolve), Jump("tailor_store")]
             xalign 0.5
             xfill True
             
