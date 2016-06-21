@@ -567,6 +567,26 @@
     "badtraits": ["Frigid"]
     },
     {
+    "id": "Pink Dress",
+    "desc": "A casual work outfit. Short sleeves and skirt provide additional mobility and are hard to get dirty.",
+    "icon": "content/items/body/fo.png",
+    "price": 220,
+    "sex": "female",
+    "chance": 55,
+    "badness": 35,
+    "eqchance": 60,
+    "hidden": false,
+    "infinite": false,
+    "slot": "body",
+    "type": "dress",
+    "max": {"agility": 10, "charisma": 10},
+    "mod": {"charisma": 5},
+    "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "bartending": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0], "teaching": [0, 0, -0.1, 0, 0], "strip": [0, 0, -0.1, 0, 0]},
+    "locations": ["Tailor"],
+    "goodtraits": ["Human"],
+    "badtraits": ["Not Human"]
+    },
+    {
     "id": "Sailor Uniform",
     "desc": "A typical uniform worn by local schoolgirls.",
     "icon": "content/items/body/sail.png",
