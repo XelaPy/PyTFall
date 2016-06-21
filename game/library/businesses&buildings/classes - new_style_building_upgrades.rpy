@@ -1384,7 +1384,7 @@ init -5 python:
                 # self.stats["exp"] += mob_power/10
                 # TODO: Arrange for combat and stats bonuses...
                 
-                self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
+                # self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
                 
                 # for member in self.team:
                     # damage = randint(3, 10)
@@ -1401,7 +1401,7 @@ init -5 python:
                         # member.health -= damage
                     # member.mp -= randint(3, 7)
             
-            # elif result[0] == "defeat":
+            if result[0] == "defeat":
                 # self.stats["attack"] += randrange(2)
                 # self.stats["defence"] += randrange(2)
                 # self.stats["agility"] += randrange(2)
