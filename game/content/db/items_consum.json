@@ -1044,5 +1044,21 @@
     "cblock": 2,
     "mod": {"exp": 600, "vitality": 20},
     "locations": ["Cafe", "Exploration"]
+    },
+    {
+    "id": "Unusual Bottle",
+    "desc": "A tightly sealed bottle with a strange liquid inside.",
+    "icon": "content/items/cons/unus.png",
+    "price": 900,
+    "sex": "male",
+    "chance": 0.1,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": true,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "mc",
+    "jump_to_label": "special_items_slime_bottle",
+    "locations": ["Cafe", "Exploration"]
     }
   ]
