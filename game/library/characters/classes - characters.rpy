@@ -2218,8 +2218,15 @@ init -9 python:
                     if self.effects[entry]['active']:
                         self.disable_effect(entry)
                         
-            if item.jump_to_label:
-                jump(item.jump_to_label)
+            # Jump away from equipment screen if appropriate:
+            if hasattr(store, "dummy") and not dummy:
+                if item.jump_to_label:
+                    renpy.scene(layer="screens")
+                    global_flags.del_flag("hero_equip")
+                    eqtarget.inventory.set_page_size(15)
+                    hero.inventory.set_page_size(15)
+                    
+                    jump(item.jump_to_label)
                 
         def remove_item_effects(self, item):
             # Attacks/Magic:
