@@ -18,7 +18,7 @@ label special_items_slime_bottle:
                 $ new_slime.override_portrait("portrait", "happy")
                 "The liquid quickly took the form of a girl."
                 show expression spr at center with dissolve
-                if dice(1):
+                if dice(90):
                     $ new_slime.set_status("free")
                     new_slime.say "Finally someone opened it! Thanks a lot!"
                     new_slime.say "They promised me to smuggle me in the city, but something went gone wrong, and I was trapped there for months!"
