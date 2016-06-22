@@ -1165,7 +1165,7 @@ init -5 python:
                 if self.evn.now == 99: # We couldn't make it there before the days end...
                     temp = "{} spent the entire day on route to {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
-                    self.env.exit("not there yet")
+                    # self.env.exit("not there yet") Not needed?
                 
         def travel_back(self, tracker):
             # Env func that handles the travel to routine.
