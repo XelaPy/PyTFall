@@ -82,19 +82,42 @@ label special_items_slime_bottle:
         $ hero.set_flag("slime_bottle", value=False)
     jump char_equip
     
-label special_items_empty_regenerator:
-    if eqtarget<>hero:
-        "This device will extract some of [eqtarget.name]'s life energy."
+label special_items_empty_extractor:
+    scene bg h_profile with dissolve
+    if eqtarget.exp <= 2000:
+        if eqtarget<>hero:
+            "Unfortunately, [eqtarget] is not experienced enough yet to share her knowledge with anybody."
+        else:
+            "Unfortunately, you are not experienced enough yet to share your knowledge with anybody."
+        jump char_equip
     else:
-        "This device will extract some of your life energy."
-    menu:
-        "Do you want to use it?"
-        "Yes":
-            $ h = randint(30, 51)*0.01*eqtarget.get_max("health")
-            if eqtarget<>hero:
-                "She slightly shudders when the device starts to work."
-                $ eqtarget.disposition -= randint(20, 30)
-            else:
-                "You feel weak, but unpleasant pain somewhere inside your body."
-            hero.set_flag("special_items_regenerator_value", {"day": day, "times": amount})
+        if eqtarget<>hero:
+            "This device will extract some of [eqtarget.name]'s experience."
+        else:
+            "This device will extract some of your experience."
+        menu:
+            "Do you want to use it?"
+            "Yes":
+                if eqtarget<>hero:
+                    "She slightly shudders when the device starts to work."
+                    $ eqtarget.disposition -= randint(20, 30)
+                else:
+                    "For a moment you feel weak, but unpleasant pain somewhere inside your head."
+                $ eqtarget.exp -= 2000
+                $ eqtarget.remove_item("Empty Extractor", 1)
+                $ eqtarget.add_item("Full Extractor", 1)
+                "The device is full of energy."
+            "No":
+                $ pass
+jump char_equip
+
+label special_items_full_extractor:
+    scene bg h_profile with dissolve
+    if eqtarget<>hero:
+        "The energy of knowledge slowly flows inside [eqtarget.name]. She became more experienced."
+    else:
+        "The energy of knowledge slowly flows inside you. You became more experienced."
+    $ eqtarget.exp += 1000
+    "The device does not work any longer."
+    $ eqtarget.remove_item("Full Extractor", 1)
 jump char_equip
