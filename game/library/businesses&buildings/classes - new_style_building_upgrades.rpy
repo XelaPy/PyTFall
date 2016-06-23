@@ -984,7 +984,7 @@ init -5 python:
     class ExplorationTracker(_object):
         """The class that stores data for an exploration job.
         
-        *Not really a Job, it stores data and doesn't write any reports to ND.
+        *Not really a Job, it stores data and doesn't write any reports to ND. **Maybe it should create ND report once the run is done!
         Adapted from old FG, not sure what we can keep here..."""
         def __init__(self, team, area):
             """Creates a new ExplorationJob.
@@ -1028,8 +1028,9 @@ init -5 python:
             self.found_items = list()
             self.cash = list()
             
-            self.day = 0
-            self.days = self.area.days + 0 # + 0??? Not even sure what this does...
+            self.day = 0 # Day since start.
+            self.total_days = 0 # Total days, travel times included!
+            self.days = self.area.days # Days team is expected to be exploring (without travel times)!
             
             # TODO: Stats here need to be personal for each of the team members.
             self.unlocks = dict()
@@ -1046,13 +1047,21 @@ init -5 python:
             
             self.logs = list() # List of all log object we create for this exploration run.
             
-            # fg.exploring.append(self)
+            # And we got to make copies of chars stat dicts so we can show changes in ND after the exploration run is complete!
+            # TODO: Do just that!
+            
+            # fg.exploring.append(self) # TODO: Add to the proper list! Maybe not here but in fg gui.
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
-            jump("fg_management")
+            # jump("fg_management")
             
         def log(self, txt, name="", nd_log=True, ui_log=False):
             obj = ExLog(name, txt, nd_log, ui_log)
             self.logs.append(obj)
+            return obj
+            
+        def build_nd_report(self):
+            # Build one major report for next day!
+            pass
     
             
     class ExLog(Action):
@@ -1070,6 +1079,7 @@ init -5 python:
             if txt:
                 self.txt.append(txt)
             self.battle_log = [] # Used to log the event.
+            self.battle_won = False
             self.found_items = []
             
         def __call__(self):
@@ -1097,7 +1107,7 @@ init -5 python:
             if config.debug:
                 for i in range(5):
                     self.teams.append(Team(str(i), free=1))
-            self.capture_chars = False # Do we capture chars during exploration in this building.
+            self.capture_chars = False # Do we capture chars during exploration in this building. # Move to Areas?
             
         def business_control(self):
             """SimPy business controller.
@@ -1108,15 +1118,15 @@ init -5 python:
             while 1:
                 yield self.env.timeout(100)
                 
-        def exploration_controller(self, trackter):
+        def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
+            
+            # Convert AP to exploration points:
+            self.convert_AP(tracker)
             
             # Set the state to traveling back if we're done:
             if tracker.day > tracker.days:
                 tracker.state = "traveling back"
-            
-            # Convert AP to exploration points:
-            self.convert_AP(tracker)
             
             while self.env.now < 99:
                 if tracker.state == "traveling to":
@@ -1155,7 +1165,7 @@ init -5 python:
                 if self.evn.now == 99: # We couldn't make it there before the days end...
                     temp = "{} spent the entire day on route to {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
-                    self.env.exit("not there yet")
+                    # self.env.exit("not there yet") Not needed?
                 
         def travel_back(self, tracker):
             # Env func that handles the travel to routine.
@@ -1298,12 +1308,12 @@ init -5 python:
                             enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
                             temp = "{} were attacked by ".format(team.name)
-                            temp = temp + "%d %s" % (enemies, plural(mob, enemies))
-                            tracker.log("Engagement", temp, ui_log=True)
+                            temp = temp + "%d %s!" % (enemies, plural(mob, enemies))
+                            log = tracker.log("Engagement", temp, ui_log=True)
                             break
                             
                     if mob:
-                        self.combat_mobs(tracker, mob, enemies)
+                        self.combat_mobs(tracker, mob, enemies, log)
         
                 if items and cash:
                     self.txt.append("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
@@ -1352,7 +1362,9 @@ init -5 python:
                             tracker.log(temp)
                             
             
-        def combat_mobs(self, tracker, mob, amount):
+        def combat_mobs(self, tracker, mob, amount, log):
+            # amount of mobs*
+            # log is the exlog object we add be report to!
             
             team = tracker.team
             opfor = Team(name="Enemy Team", max_size=amount)
@@ -1373,19 +1385,19 @@ init -5 python:
             battle.teams.append(opfor)
             battle.start_battle()
             
-            # TODO: Next: Report + Event + Rewards/Penalties...
-            # result = s_conflict_resolver(self.team, ep, new_results=False)
+            # Add the battle report to log!:
+            log.battle_log = reversed(battle.combat_log)
             
-            # if result[0] == "victory":
-                # self.stats["attack"] += randrange(3)
-                # self.stats["defence"] += randrange(3)
-                # self.stats["agility"] += randrange(3)
-                # self.stats["magic"] += randrange(3)
-                # self.stats["exp"] += mob_power/10
-                # TODO: Arrange for combat and stats bonuses...
+            if battle.winner == team:
+                log.battle_won = True
+                for member in team:
+                    member.attack += randrange(3)
+                    member.defence + randrange(3)
+                    member.agility += randrange(3)
+                    member.magic += randrange(3)
+                    member.exp += level*10 # Adjust for levels? ! TODO:
                 
-                # self.txt.append("{color=[green]}Exploration Party beat the crap out of those damned mobs! :){/color}\n")
-                
+                # Death needs to be handled based off risk factor: TODO:
                 # for member in self.team:
                     # damage = randint(3, 10)
                     # if member.health - damage <= 0:
@@ -1401,7 +1413,7 @@ init -5 python:
                         # member.health -= damage
                     # member.mp -= randint(3, 7)
             
-            if result[0] == "defeat":
+            if result[0] == "defeat": # Defeat here...
                 # self.stats["attack"] += randrange(2)
                 # self.stats["defence"] += randrange(2)
                 # self.stats["agility"] += randrange(2)
@@ -1410,46 +1422,6 @@ init -5 python:
                 
                 self.txt.append("{color=[red]}Exploration Party was defeated!{/color}\n")
                 
-                for member in self.team:
-                    damage = randint(20, 30)
-                    if member.health - damage <= 0:
-                        if self.risk > 60:
-                            self.flag_red = True
-                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-                            stop = True
-                            member.health -= damage
-                        else:
-                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n"%member.name)
-                            stop = True
-                            member.health = 1
-                    else:
-                        member.health -= damage
-                    member.mp -= randint(10, 17)
-            else: # (Overwhelming defeat)
-                self.stats["attack"] += randrange(2)
-                self.stats["defence"] += randrange(2)
-                self.stats["agility"] += randrange(2)
-                self.stats["magic"] += randrange(2)
-                self.stats["exp"] += mob_power/20
-                
-                self.txt.append("{color=[red]}Exploration Party was destroyed by the monsters!{/color}\n")
-                
-                for member in self.team:
-                    damage = randint(50, 100)
-                    if member.health - damage <= 0:
-                        if self.risk > 25:
-                            self.flag_red = True
-                            self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-                            stop = True
-                            member.health -= damage
-                        else:
-                            self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n"%member.name)
-                            stop = True
-                            member.health = 1
-                    else:
-                        member.health -= damage
-                    
-                    member.mp -= randint(20, 37)
         
         def convert_AP(self, tracker):
             # Convert teams AP to Job points:
