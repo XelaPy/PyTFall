@@ -1044,5 +1044,53 @@
     "cblock": 2,
     "mod": {"exp": 600, "vitality": 20},
     "locations": ["Cafe", "Exploration"]
+    },
+    {
+    "id": "Unusual Bottle",
+    "desc": "A tightly sealed bottle with a strange liquid inside.",
+    "icon": "content/items/cons/unus.png",
+    "price": 900,
+    "sex": "male",
+    "chance": 0.1,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": true,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "mc",
+    "jump_to_label": "special_items_slime_bottle",
+    "locations": ["Cafe", "Exploration"]
+    },
+    {
+    "id": "Empty Regenerator",
+    "desc": "A device from ancient times, capable to extract, store and inject life energy. This particular exemplar is empty.",
+    "icon": "content/items/cons/reg_2.png",
+    "price": 400,
+    "sex": "unisex",
+    "chance": 10,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": true,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "mc",
+    "jump_to_label": "special_items_empty_regenerator",
+    "locations": ["Witches Hut", "Exploration"]
+    },
+    {
+    "id": "Full Regenerator",
+    "desc": "A device from ancient times, capable to extract, store and inject life energy. This particular exemplar is full of energy.",
+    "icon": "content/items/cons/reg_1.png",
+    "price": 400,
+    "sex": "unisex",
+    "chance": 10,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": true,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "mc",
+    "jump_to_label": "special_items_full_regenerator",
+    "locations": ["Witches Hut", "Exploration"]
     }
   ]
