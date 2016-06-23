@@ -74,10 +74,27 @@ label special_items_slime_bottle:
                         
         "No":
             "Maybe another time."
-            jump hero_profile
+            jump char_equip
     $ new_slime.restore_portrait()
     if dice(50): # no easy save scumming
         $ hero.set_flag("slime_bottle", value=True)
     else:
         $ hero.set_flag("slime_bottle", value=False)
-    jump hero_profile
+    jump char_equip
+    
+label special_items_empty_regenerator:
+    if eqtarget<>hero:
+        "This device will extract some of [eqtarget.name]'s life energy."
+    else:
+        "This device will extract some of your life energy."
+    menu:
+        "Do you want to use it?"
+        "Yes":
+            $ h = randint(30, 51)*0.01*eqtarget.get_max("health")
+            if eqtarget<>hero:
+                "She slightly shudders when the device starts to work."
+                $ eqtarget.disposition -= randint(20, 30)
+            else:
+                "You feel weak, but unpleasant pain somewhere inside your body."
+            hero.set_flag("special_items_regenerator_value", {"day": day, "times": amount})
+jump char_equip
