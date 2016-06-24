@@ -6,10 +6,10 @@ label special_items_slime_bottle:
         "An old bottle with unknown, thick liquid inside. Do you want to open it?"
         "Yes":
             "The seal is durable, but eventually it gives up, and pressurized fluid breaks out."
-            if hero.level <= 5:
-                $ levels = randint (1,5)
+            if hero.level <= 10:
+                $ levels = randint (5,15)
             else:
-                $ levels = randint(hero.level*0.7, hero.level*1.3)
+                $ levels = randint(15, 25) + hero.level/10
             $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Warrior", "ServiceGirl"]))
             $ new_slime.disposition += 300
             $ hero.remove_item("Unusual Bottle")
@@ -86,13 +86,21 @@ label special_items_empty_extractor:
     scene bg h_profile with dissolve
     if eqtarget.exp <= 2000:
         if eqtarget<>hero:
-            "Unfortunately, [eqtarget] is not experienced enough yet to share her knowledge with anybody."
+            $ spr = eqtarget.get_vnsprite()
+            show expression spr at center with dissolve
+            "Unfortunately, [eqtarget.name] is not experienced enough yet to share her knowledge with anybody."
         else:
             "Unfortunately, you are not experienced enough yet to share your knowledge with anybody."
         jump char_equip
     else:
         if eqtarget<>hero:
+            $ spr = eqtarget.get_vnsprite()
+            show expression spr at center with dissolve
             "This device will extract some of [eqtarget.name]'s experience."
+            if eqtarget.disposition >0:
+                $ eqtarget.disposition -= randint(25, 50)
+            if eqtarget.joy >=55:
+                $ eqtarget.joy -= 10
         else:
             "This device will extract some of your experience."
         menu:
@@ -113,11 +121,21 @@ jump char_equip
 
 label special_items_full_extractor:
     scene bg h_profile with dissolve
+    if not(eqtarget.has_flag("exp_extractor")):
+        $ eqtarget.set_flag("exp_extractor", value=day)
+    elif eqtarget.flag("exp_extractor") == day:
+        "You already transferred experience to this person today. It's very dangerous to do it too often."
+        jump char_equip
     if eqtarget<>hero:
+        $ spr = eqtarget.get_vnsprite()
+        show expression spr at center with dissolve
         "The energy of knowledge slowly flows inside [eqtarget.name]. She became more experienced."
+        if eqtarget.disposition < 750:
+            $ eqtarget.disposition += randint(25, 50)
+        if eqtarget.joy <50:
+            $ eqtarget.joy += 10
     else:
         "The energy of knowledge slowly flows inside you. You became more experienced."
-    $ eqtarget.exp += 1000
-    "The device does not work any longer."
+    $ eqtarget.exp += 1500
     $ eqtarget.remove_item("Full Extractor", 1)
 jump char_equip
