@@ -96,5 +96,5 @@ label special_items_empty_regenerator:
                 $ eqtarget.disposition -= randint(20, 30)
             else:
                 "You feel weak, but unpleasant pain somewhere inside your body."
-            hero.set_flag("special_items_regenerator_value", {"day": day, "times": amount})
+            $ hero.set_flag("special_items_regenerator_value", {"day": day, "times": amount})
 jump char_equip
