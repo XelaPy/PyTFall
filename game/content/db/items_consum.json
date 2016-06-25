@@ -1092,5 +1092,38 @@
     "type": "mc",
     "jump_to_label": "special_items_full_extractor",
     "locations": ["Witches Hut", "Exploration"]
+    },
+    {
+    "id": "Golden Luck",
+    "desc": "A small rare talisman capable to bestow gold to people around. Quite uplifting.",
+    "icon": "content/items/cons/gl.png",
+    "price": 500,
+    "sex": "male",
+    "chance": 40,
+    "badness": 100,
+    "eqchance": 0,
+    "mod": {"joy": 5, "gold": 25},
+    "hidden": true,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "mc",
+    "ceffect": "allgirls",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "One For All",
+    "desc": "Upon consuming transforms the body of the target into potions depending on her condition. Lethal for the consumer.",
+    "icon": "content/items/cons/ofa.png",
+    "price": 500,
+    "sex": "female",
+    "chance": 20,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": true,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "mc",
+    "jump_to_label": "special_items_one_for_all",
+    "locations": ["Exploration"]
     }
   ]

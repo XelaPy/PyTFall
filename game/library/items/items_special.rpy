@@ -124,7 +124,7 @@ label special_items_full_extractor:
     if not(eqtarget.has_flag("exp_extractor")):
         $ eqtarget.set_flag("exp_extractor", value=day)
     elif eqtarget.flag("exp_extractor") == day:
-        "You already transferred experience to this person today. It's very dangerous to do it too often."
+        "You already transferred experience to this person today. It's very dangerous to do too often."
         jump char_equip
     if eqtarget<>hero:
         $ spr = eqtarget.get_vnsprite()
@@ -139,3 +139,63 @@ label special_items_full_extractor:
     $ eqtarget.exp += 1500
     $ eqtarget.remove_item("Full Extractor", 1)
 jump char_equip
+
+label special_items_one_for_all:
+    scene bg h_profile with dissolve
+    if eqtarget.status <> "slave":
+        "It would be unwise to use it on a free girl, unless you'd like to spend the rest of your live in prison."
+        jump char_equip
+    if eqtarget.health < 50 and eqtarget.mp < 50 and eqtarget.vitality < 50:
+        "[eqtarget.name]'s body is in a poor condition. It will be a waste to use this item on her."
+        jump char_equip
+    $ health = eqtarget.health
+    $ n=health/100
+    if n>0:
+        $ hero.add_item("Great Healing Potion", amount = n)
+        $ health -= n*100
+    $ n=health/50
+    if n>0:
+        $ hero.add_item("Healing Potion", amount = n)
+        $ health -= n*50
+    $ n=health/25
+    if n>0:
+        $ hero.add_item("Small Healing Potion", amount = n)
+        $ health -= n*25
+    if health > 0:
+        $ hero.add_item("Small Healing Potion")
+        
+    $ mp = eqtarget.mp
+    $ n=mp/100
+    if n>0:
+        $ hero.add_item("Great Mana Potion", amount = n)
+        $ mp -= n*100
+    $ n=mp/50
+    if n>0:
+        $ hero.add_item("Mana Potion", amount = n)
+        $ mp -= n*50
+    $ n=mp/25
+    if n>0:
+        $ hero.add_item("Small Mana Potion", amount = n)
+        $ mp -= n*25
+    if mp > 0:
+        $ hero.add_item("Small Mana Potion")
+        
+    $ vitality = eqtarget.vitality
+    $ n=vitality/100
+    if n>0:
+        $ hero.add_item("Great Potion of Serenity", amount = n)
+        $ vitality -= n*100
+    $ n=vitality/50
+    if n>0:
+        $ hero.add_item("Potion of Serenity", amount = n)
+        $ vitality -= n*50
+    $ n=vitality/25
+    if n>0:
+        $ hero.add_item("Small Potion of Serenity", amount = n)
+        $ vitality -= n*25
+    if vitality > 0:
+        $ hero.add_item("Small Potion of Serenity")
+    "[eqtarget.name]'s body crumbles as her life energies turn into potions."
+    $ eqtarget.disposition -= 700
+    $ eqtarget.health = 0
+jump mainscreen
