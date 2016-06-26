@@ -1131,12 +1131,12 @@ init -5 python:
             while self.env.now < 99:
                 if tracker.state == "traveling to":
                     yield self.env.process(self.travel_to(tracker))
-                elif tracker.state == "exploring":
-                    yield self.env.process(self.explore(tracker))
-                elif tracker.state == "camping":
-                    yield self.env.process(self.camping(tracker))
-                elif tracker.state == "traveling back":
-                    yield self.env.process(self.travel_back(tracker))
+                # elif tracker.state == "exploring":
+                    # yield self.env.process(self.explore(tracker))
+                # elif tracker.state == "camping":
+                    # yield self.env.process(self.camping(tracker))
+                # elif tracker.state == "traveling back":
+                    # yield self.env.process(self.travel_back(tracker))
                 
             if config.debug:
                 tracker.log("The day has come to an end for {}.".format(tracker.team.name))
