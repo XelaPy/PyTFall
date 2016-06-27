@@ -402,6 +402,7 @@ screen char_equip():
                                 xysize (215, 35)
                                 style "base_stats_frame"
                                 text "{color=#79CDCD}%s"%stat.capitalize() xalign (0.02)
+                                $ tempc = "#F5F5DC"
                                 if dummy:
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
                                     text tempstr style "stats_value_text" xalign 1.0 yoffset 3
