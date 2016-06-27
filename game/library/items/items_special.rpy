@@ -199,3 +199,22 @@ label special_items_one_for_all:
     $ eqtarget.disposition -= 700
     $ eqtarget.health = 0
 jump mainscreen
+
+label special_items_herbal_extract:
+    $ h = eqtarget.get_max("health")-eqtarget.health
+    if h <= 0:
+        scene bg h_profile with dissolve
+        "There is no need to use it at the moment."
+        jump char_equip
+    if eqtarget.vitality <= 10:
+        scene bg h_profile with dissolve
+        "Not enough vitality to use it."
+        jump char_equip
+    if h<=eqtarget.vitality:
+        $ eqtarget.health = eqtarget.get_max("health")
+        $ eqtarget.vitality -= h
+    else:
+        $ eqtarget.health += eqtarget.vitality
+        $ eqtarget.vitality = 0
+$ eqtarget.remove_item("Herbal Extract", 1)
+jump char_equip
