@@ -651,7 +651,7 @@
     "type": "permanent",
     "mod": {"joy": -40, "health": -80, "mp": -10000, "disposition": -500},
     "removetraits": ["Virtuous", "Indifferent", "Well-mannered"],
-    "addtraits": ["Vicious", "Kleptomaniac", "Ill-mannered", "Curious", "Unkempt"],
+    "addtraits": ["Vicious", "Kleptomaniac", "Ill-mannered", "Curious"],
     "locations": ["Exploration"]
     },
     {
@@ -1149,5 +1149,22 @@
     "type": "restore",
     "jump_to_label": "special_items_herbal_extract",
     "locations": ["Witches Hut"]
+    },
+    {
+    "id": "Emerald Tincture",
+    "desc": "A potent herbal potion created by an ancient witch centuries ago. A saying is engraved on the bottle: “Perfection is unattainable”. Restores 50% of missing health and vitality, burns down all magic energy.",
+    "icon": "content/items/cons/eme.png",
+    "price": 600,
+    "sex": "unisex",
+    "chance": 30,
+    "badness": 80,
+    "eqchance": 30,
+    "hidden": true,
+    "infinite": false,
+    "cblock": 3,
+    "slot": "consumable",
+    "type": "restore",
+    "jump_to_label": "special_items_emerald_tincture",
+    "locations": ["Witches Hut", "Exploration"]
     }
   ]

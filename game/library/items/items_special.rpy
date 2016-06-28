@@ -218,3 +218,11 @@ label special_items_herbal_extract:
         $ eqtarget.vitality = 0
 $ eqtarget.remove_item("Herbal Extract", 1)
 jump char_equip
+
+label special_items_emerald_tincture:
+    $ h = eqtarget.get_max("health")-eqtarget.health
+    $ eqtarget.health += int(0.5*h)
+    $ h = eqtarget.get_max("vitality")-eqtarget.vitality
+    $ eqtarget.vitality += int(0.5*h)
+    $ eqtarget.mp = 0
+    jump char_equip
