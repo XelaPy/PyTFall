@@ -1,4 +1,6 @@
 init python:
+    # TODO: File prolly should be moved to businesses folder.
+    
     @renpy.pure
     class ModSet(Action, FieldEquality):
         """
@@ -861,7 +863,9 @@ init: # Screens:
             style_prefix "content"
             xysize (630, 685)
             xalign .5
-            ypos 40       
+            ypos 40
+            
+            # Fighter Guild, team launch and area info:
             if isinstance(bm_mid_frame_mode, ExplorationGuild):
                 if bm_exploration_view_mode == "explore":
                     has vbox xsize 630
@@ -906,7 +910,7 @@ init: # Screens:
                                                 temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
                                         for i in temp:
                                             add i
-                                            
+                                             
                 if bm_exploration_view_mode == "team":
                     # Backgrounds:
                     frame:
@@ -1740,6 +1744,11 @@ init: # Screens:
                                             # yalign 0.5
                                             # xsize 20
                                             # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
+                                            
+            textbutton "Launch Team":
+                align .5, .9
+                action NullAction() # TODO: Make pretty and allow changing teams.
+                                            
             hbox:
                 align (0.5, 0.98)
                 button:
