@@ -1048,7 +1048,9 @@ init -5 python:
             self.logs = list() # List of all log object we create for this exploration run.
             
             # And we got to make copies of chars stat dicts so we can show changes in ND after the exploration run is complete!
-            # TODO: Do just that!
+            self.init_stats = dict()
+            for i in self.team:
+                self.init_stats[i] = i.stats.stats
             
             # fg.exploring.append(self) # TODO: Add to the proper list! Maybe not here but in fg gui.
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
