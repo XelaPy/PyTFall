@@ -6,50 +6,64 @@ init -11 python:
         """
         if not can_equip(item, char, silent=silent):
             return
-        
+
+        # Gotta fix broken ceffect?:
         if item.slot == 'consumable' and area_effect:
             if not item.ceffect:
                 char.equip(item)
-            elif item.ceffect == 'brothelgirls':
-                if char.location in hero.buildings:
+                return
+                
+            loc = char.location
+            targets = [chars[key] for key in chars if chars[key].location == loc]
+            if hero.location == loc:
+                targets.append(hero)
+            
+            if item.ceffect == 'brothelgirls':
+                if loc in hero.buildings:
                     char.inventory.remove(item)
-                    for girl in [chars[key] for key in chars if chars[key].location == char.location]:
-                        girl.equip(item)
+                    for t in targets:
+                        t.equip(item)
                 else:
                     renpy.call_screen('message_screen', "%s in not in any brothel! "% char.nickname)
 
             elif item.ceffect == 'brothelfree':
-                if char.location in hero.buildings:
+                if loc in hero.buildings:
                     char.inventory.remove(item)
-                    for girl in [chars[key] for key in chars if chars[key].location == char.location]:
-                        if girl.status != 'slave':
-                            girl.equip(item)
+                    for t in targets:
+                        if t.status != 'slave':
+                            t.equip(item)
                 else:
                     renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
 
             elif item.ceffect == 'brothelslave':
-                if char.location in hero.buildings:
+                if loc in hero.buildings:
                     char.inventory.remove(item)
-                    for girl in [chars[key] for key in chars if chars[key].location == char.location]:
-                        if girl.status == 'slave':
-                            girl.equip(item)
+                    for t in targets:
+                        if t.status == 'slave':
+                            t.equip(item)
                 else:
                     renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
-
-            elif item.ceffect == 'allslaves':
+                    
+            if item.ceffect == 'allslaves':
                 char.inventory.remove(item)
-                for girl in [girl for girl in hero.chars if girl.status == 'slave']:
-                    girl.equip(item)
+                for t in [c for c in hero.chars if c.status == 'slave']:
+                    t.equip(item)
 
             elif item.ceffect == 'allfree':
                 char.inventory.remove(item)
-                for girl in [girl for girl in hero.chars if girl.status != 'slave']:
-                    girl.equip(item)
+                targets = [girl for girl in hero.chars if girl.status != 'slave']
+                if hero.location == loc:
+                    targets.append(hero)
+                for t in targets:
+                    t.equip(item)
 
             elif item.ceffect == 'allgirls':
                 char.inventory.remove(item)
-                for girl in [girl for girl in hero.chars]:
-                    girl.equip(item)
+                targets = hero.chars
+                if hero.location == loc:
+                    targets.append(hero)
+                for t in targets:
+                    t.equip(item)
         else:
             char.equip(item)
             
