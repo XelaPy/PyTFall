@@ -616,7 +616,7 @@ init -1 python: # Core classes:
             for t in targets:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
-                    # We get the mupliplier and any effects that those may bring.
+                    # We get the multiplier and any effects that those may bring.
                     effects, multiplier = self.get_attributes_multiplier(t, attributes)
                     
                     # Get the damage:
@@ -764,10 +764,10 @@ init -1 python: # Core classes:
             effects = list()
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
-                evasion_chance = round (0.5*t.level + t.agility - 0.5*a.level - a.agility)
+                evasion_chance = abs(t.luck-a.luck)*0.1 + 0.01*(t.level-a.level) + (t.agility - a.agility)*0.01
                 if evasion_chance > 0: # evasion
-                    if evasion_chance > 90:
-                        evasion_chance = 90
+                    if evasion_chance > 80:
+                        evasion_chance = 80
                     if dice(evasion_chance):
                         multiplier = 0
                         effects.append("missed_hit")
@@ -775,37 +775,46 @@ init -1 python: # Core classes:
                     if dice(round(((a.luck+50)-(t.luck+50))*0.35)):
                         multiplier += 1.5 + self.critpower # different weapons have different power of crit
                         effects.append("critical_hit")
-            # Magic/Attribute alignment:
-            for al in attributes:
-                # Damage first:
-                i = {}
-                # @Review: We decided that any trait should influence this:
-                for e in a.traits:
-                    if al in e.el_damage:
-                        i[e.id] = e.el_damage[al]
-                if i:
-                    i = sum(i.values()) / len(i)
-                    if i > 0.15 or i < 0.15:
-                        if i > 0:
-                            effects.append("elemental_damage_bonus")
-                        elif i < 0:
-                            effects.append("elemental_damage_penalty")
-                    multiplier += i
-                    
-                # Defence next:
-                i = {}
-                for e in t.traits:
-                    if al in e.el_defence:
-                        i[e.id] = e.el_defence[al]
-                if i:
-                    i = sum(i.values()) / len(i)
-                    # From the perspective of the attacker...
-                    if i > 0.15 or i < 0.15:
-                        if i > 0:
-                            effects.append("elemental_defence_penalty")
-                        elif i < 0:
-                            effects.append("elemental_defence_bonus")
-                    multiplier -= i
+            else:
+                evasion_chance = abs(t.luck-a.luck)*0.1 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
+                if evasion_chance > 0: # evasion
+                    if evasion_chance > 90:
+                        evasion_chance = 90
+                    if dice(evasion_chance):
+                        multiplier = 0
+                        effects.append("missed_hit")
+                    else:
+                        # Magic/Attribute alignment:
+                        for al in attributes:
+                            # Damage first:
+                            i = {}
+                            # @Review: We decided that any trait should influence this:
+                            for e in a.traits:
+                                if al in e.el_damage:
+                                    i[e.id] = e.el_damage[al]
+                            if i:
+                                i = sum(i.values()) / len(i)
+                                if i > 0.15 or i < 0.15:
+                                    if i > 0:
+                                        effects.append("elemental_damage_bonus")
+                                    elif i < 0:
+                                        effects.append("elemental_damage_penalty")
+                                multiplier += i
+                                
+                            # Defence next:
+                            i = {}
+                            for e in t.traits:
+                                if al in e.el_defence:
+                                    i[e.id] = e.el_defence[al]
+                            if i:
+                                i = sum(i.values()) / len(i)
+                                # From the perspective of the attacker...
+                                if i > 0.15 or i < 0.15:
+                                    if i > 0:
+                                        effects.append("elemental_defence_penalty")
+                                    elif i < 0:
+                                        effects.append("elemental_defence_bonus")
+                                multiplier -= i
                     
             return effects, multiplier
                 
