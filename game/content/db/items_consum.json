@@ -221,7 +221,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ceffect": "brothelgirls",
+    "ceffect": "all_local",
     "mod": {"health": 150},
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -238,7 +238,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ceffect": "brothelfree",
+    "ceffect": "freelocal",
     "mod": {"mp": 100},
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -255,7 +255,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ceffect": "brothelgirls",
+    "ceffect": "all_local",
     "mod": {"vitality": 100},
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -273,7 +273,7 @@
     "ctemp": 8,
     "slot": "consumable",
     "type": "restore",
-    "ceffect": "brothelslave",
+    "ceffect": "slavelocal",
     "mod_skills": {"bdsm": [0.01, 0.01, 0.01, 0, 0], "group": [0.01, 0.01, 0.01, 0, 0]},
     "locations": ["Witches Hut", "Exploration"]
     },

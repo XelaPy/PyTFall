@@ -1,8 +1,7 @@
 init -11 python:
     # Equipment checks and area effects!
     def equip_item(item, char, silent=False, area_effect=False):
-        """
-        First level of checks, all items should be equiped through this function!
+        """First level of checks, all items should be equiped through this function!
         """
         if not can_equip(item, char, silent=silent):
             return
@@ -18,7 +17,7 @@ init -11 python:
             if hero.location == loc:
                 targets.append(hero)
             
-            if item.ceffect == 'brothelgirls':
+            if item.ceffect == 'alllocal':
                 if loc in hero.buildings:
                     char.inventory.remove(item)
                     for t in targets:
@@ -26,7 +25,7 @@ init -11 python:
                 else:
                     renpy.call_screen('message_screen', "%s in not in any brothel! "% char.nickname)
 
-            elif item.ceffect == 'brothelfree':
+            elif item.ceffect == 'freelocal':
                 if loc in hero.buildings:
                     char.inventory.remove(item)
                     for t in targets:
@@ -35,7 +34,7 @@ init -11 python:
                 else:
                     renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
 
-            elif item.ceffect == 'brothelslave':
+            elif item.ceffect == 'slavelocal':
                 if loc in hero.buildings:
                     char.inventory.remove(item)
                     for t in targets:
