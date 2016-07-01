@@ -751,10 +751,10 @@ init -1 python: # Core classes:
             if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
                 defense = round(target.defence + target.constitution*0.2)
             elif "magic" in self.attributes:
-                defense = round(target.magic*0.4 + target.defence*0.4 + target.constitution*0.2 + target.intelligence*0.2)
+                defense = round(target.magic*0.4 + target.defence*0.3 + target.constitution*0.1 + target.intelligence*0.3)
             else:
                 defense = target.defence
-            return defense if defense != 0 else 1
+            return defense if defense > 0 else 1
                 
         def get_attributes_multiplier(self, t, attributes):
             """
@@ -764,7 +764,7 @@ init -1 python: # Core classes:
             effects = list()
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
-                evasion_chance = abs(t.luck-a.luck)*0.1 + 0.01*(t.level-a.level) + (t.agility - a.agility)*0.01
+                evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.agility - a.agility)*0.01
                 if evasion_chance > 0: # evasion
                     if evasion_chance > 80:
                         evasion_chance = 80
@@ -776,7 +776,7 @@ init -1 python: # Core classes:
                         multiplier += 1.5 + self.critpower # different weapons have different power of crit
                         effects.append("critical_hit")
             else:
-                evasion_chance = abs(t.luck-a.luck)*0.1 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
+                evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
                 if evasion_chance > 0: # evasion
                     if evasion_chance > 90:
                         evasion_chance = 90
