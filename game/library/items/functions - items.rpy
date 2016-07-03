@@ -56,7 +56,7 @@ init -11 python:
                 for t in targets:
                     t.equip(item)
 
-            elif item.ceffect == 'allgirls':
+            elif item.ceffect == 'allchars':
                 char.inventory.remove(item)
                 targets = hero.chars
                 if hero.location == loc:

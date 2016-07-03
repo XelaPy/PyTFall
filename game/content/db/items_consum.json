@@ -221,7 +221,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ceffect": "all_local",
+    "ceffect": "alllocal",
     "mod": {"health": 150},
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -255,7 +255,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ceffect": "all_local",
+    "ceffect": "alllocal",
     "mod": {"vitality": 100},
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -1115,7 +1115,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "mc",
-    "ceffect": "allgirls",
+    "ceffect": "allchars",
     "locations": ["Exploration"]
     },
     {
