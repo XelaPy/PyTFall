@@ -620,7 +620,7 @@ init -1 python: # Core classes:
                     effects, multiplier = self.get_attributes_multiplier(t, attributes)
                     
                     # Get the damage:
-                    defense = self.get_defense(t)
+                    defense = self.get_defense(t) 
                     damage = self.default_damage_calculator(t, attack, defense, multiplier)
                     
                     # Rows Damage:
@@ -630,7 +630,7 @@ init -1 python: # Core classes:
                     # Lets check the absobtion:
                     result = self.check_absorbtion(t)
                     if result:
-                        damage = -damage * result
+                        damage = -int(damage * result)
                         effects.append("absorbed")
                 else: # resisted
                     damage = 0
@@ -687,16 +687,12 @@ init -1 python: # Core classes:
             return s
                 
         def default_damage_calculator(self, t, attack, defense, multiplier):
-            damage = 0
-            # Calculate damage same as usual
-            if (defense < 1):
-                damage = attack * 1.5
-            else:
-                damage = (attack/defense) + 0.5
-                
-            # Get a random number between 0.8 and 1.2
-            rand = (random.random() * 0.4) + 0.8
-            damage = int(float(damage) * multiplier * 10 * rand)
+            
+            resist = pow(attack/defense, 0.4) * 0.5 # depending on how high the difference between attack and defense, attack power reduces or increases. Roughly, if attack is 10 times higher, damage = damage x 1.25; and if defense is 10 times higher, damage = damage * 0.2.
+            # we could cap the effect if it will be too strong, although I don't think it's needed. If you attack an enemy whose attack is 100 times (!) higher than your defense, you deserve 3x damage.
+            damage = attack/defense
+            rand = randint(80, 120) * 0.01
+            damage = int(float(damage) * multiplier * rand * resist * 10)
             return damage
                 
         def get_row_damage(self, t, damage):
@@ -746,7 +742,7 @@ init -1 python: # Core classes:
                 attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
-            return attack    
+            return attack if attack > 0 else 1
             
         def get_defense(self, target):
             """
@@ -780,9 +776,9 @@ init -1 python: # Core classes:
             else:
                 result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
                 if result:
-                    evasion_chance = 0
+                    evasion_chance = -1
                 elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
-                    evasion_chance = 0
+                    evasion_chance = -1
                 else:
                     evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
                 if evasion_chance > 90:
