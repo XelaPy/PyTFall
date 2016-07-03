@@ -738,8 +738,12 @@ init -1 python: # Core classes:
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
                 attack = (a.attack + self.effect) * self.multiplier  # TODO: ADD WEAPONS EFFECTS IF THIS IS A WEAPON SKILLS.
+            if "melee" in self.attributes:
+                attack = (a.attack*0.7 + a.agility*0.35 + self.effect) * self.multiplier
+            elif "ranged" in self.attributes:
+                attack = (a.attack*0.8 + (a.luck+50)*0.5 + self.effect) * self.multiplier # luck bonus is far more limited than agility bonus from melee, but ranged attacks should have drawbacks too
             elif "magic" in self.attributes:
-                attack = (a.magic + self.effect) * self.multiplier
+                attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
             return attack    
@@ -749,9 +753,9 @@ init -1 python: # Core classes:
             A method to get defence value vs current attack.
             """
             if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
-                defense = round(target.defence + target.constitution*0.2)
+                defense = round(target.defence*0.8 + target.constitution*0.2)
             elif "magic" in self.attributes:
-                defense = round(target.magic*0.4 + target.defence*0.3 + target.constitution*0.1 + target.intelligence*0.3)
+                defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2) 
             else:
                 defense = target.defence
             return defense if defense > 0 else 1
@@ -764,57 +768,60 @@ init -1 python: # Core classes:
             effects = list()
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
-                evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.agility - a.agility)*0.01
-                if evasion_chance > 0: # evasion
-                    if evasion_chance > 80:
-                        evasion_chance = 80
-                    if dice(evasion_chance):
-                        multiplier = 0
-                        effects.append("missed_hit")
-                elif (a.luck >= t.luck): # Critical hit, cannot be done now on higher level or too agile targets
-                    if dice(round(((a.luck+50)-(t.luck+50))*0.35)):
-                        multiplier += 1.5 + self.critpower # different weapons have different power of crit
-                        effects.append("critical_hit")
+                evasion_chance = (50+t.luck)*0.2 + 0.01*(t.level-a.level) + (t.agility - a.agility)*0.01 # too much evasion will make battles irritating, we should keep values low unless the enemy is really stronger; based on luck and differences between levels and agilities of attacker and target
+                if evasion_chance > 80:
+                    evasion_chance = 80
+                if dice(evasion_chance):
+                    multiplier = 0
+                    effects.append("missed_hit")
+                elif dice((a.luck+50)*0.35): # Critical hit
+                    multiplier += 1.5 + self.critpower # different weapons have different power of crit
+                    effects.append("critical_hit")
             else:
-                evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
-                if evasion_chance > 0: # evasion
-                    if evasion_chance > 90:
-                        evasion_chance = 90
-                    if dice(evasion_chance):
-                        multiplier = 0
-                        effects.append("missed_hit")
-                    else:
-                        # Magic/Attribute alignment:
-                        for al in attributes:
-                            # Damage first:
-                            i = {}
-                            # @Review: We decided that any trait should influence this:
-                            for e in a.traits:
-                                if al in e.el_damage:
-                                    i[e.id] = e.el_damage[al]
-                            if i:
-                                i = sum(i.values()) / len(i)
-                                if i > 0.15 or i < 0.15:
-                                    if i > 0:
-                                        effects.append("elemental_damage_bonus")
-                                    elif i < 0:
-                                        effects.append("elemental_damage_penalty")
-                                multiplier += i
-                                
-                            # Defence next:
-                            i = {}
-                            for e in t.traits:
-                                if al in e.el_defence:
-                                    i[e.id] = e.el_defence[al]
-                            if i:
-                                i = sum(i.values()) / len(i)
-                                # From the perspective of the attacker...
-                                if i > 0.15 or i < 0.15:
-                                    if i > 0:
-                                        effects.append("elemental_defence_penalty")
-                                    elif i < 0:
-                                        effects.append("elemental_defence_bonus")
-                                multiplier -= i
+                result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
+                if result:
+                    evasion_chance = 0
+                elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
+                    evasion_chance = 0
+                else:
+                    evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
+                if evasion_chance > 90:
+                    evasion_chance = 90
+                if dice(evasion_chance):
+                    multiplier = 0
+                    effects.append("missed_hit")
+                else:
+                    # Magic/Attribute alignment:
+                    for al in attributes:
+                        # Damage first:
+                        i = {}
+                        # @Review: We decided that any trait should influence this:
+                        for e in a.traits:
+                            if al in e.el_damage:
+                                i[e.id] = e.el_damage[al]
+                        if i:
+                            i = sum(i.values()) / len(i)
+                            if i > 0.15 or i < 0.15:
+                                if i > 0:
+                                    effects.append("elemental_damage_bonus")
+                                elif i < 0:
+                                    effects.append("elemental_damage_penalty")
+                            multiplier += i
+                            
+                        # Defence next:
+                        i = {}
+                        for e in t.traits:
+                            if al in e.el_defence:
+                                i[e.id] = e.el_defence[al]
+                        if i:
+                            i = sum(i.values()) / len(i)
+                            # From the perspective of the attacker...
+                            if i > 0.15 or i < 0.15:
+                                if i > 0:
+                                    effects.append("elemental_defence_penalty")
+                                elif i < 0:
+                                    effects.append("elemental_defence_bonus")
+                            multiplier -= i
                     
             return effects, multiplier
                 

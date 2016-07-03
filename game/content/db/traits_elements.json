@@ -81,88 +81,88 @@
     },
     {
     "id": "Fire Immunity",
-    "desc": "Fire element is useless here.",
+    "desc": "No damage from Fire element.",
     "resist": ["fire"]
     },
     {
     "id": "Water Immunity",
-    "desc": "Water element is useless here.",
+    "desc": "No damage from Water element.",
     "resist": ["water"]
     },
     {
     "id": "Air Immunity",
-    "desc": "Air element is useless here.",
+    "desc": "No damage from Air element.",
     "icon": "content/gfx/interface/images/elements/air.png",
     "resist": ["air"]
     },
     {
     "id": "Earth Immunity",
-    "desc": "Earth element is useless here.",
+    "desc": "No damage from Earth element.",
     "resist": ["earth"]
     },
     {
     "id": "Darkness Immunity",
-    "desc": "Darkness element is useless here.",
+    "desc": "No damage from Darkness element.",
     "resist": ["darkness"]
     },
     {
     "id": "Light Immunity",
-    "desc": "Light element is useless here.",
+    "desc": "No damage from Light element.",
     "resist": ["light"]
     },
     {
     "id": "Electricity Immunity",
-    "desc": "Electricity element is useless here.",
+    "desc": "No damage from Electricity element.",
     "resist": ["electricity"]
     },
     {
     "id": "Ice Immunity",
-    "desc": "Ice element is useless here.",
+    "desc": "No damage from Ice element.",
     "resist": ["ice"]
     },
     {
     "id": "Magic Immunity",
-    "desc": "Any magic is useless here.",
+    "desc": "No damage from any magic.",
     "resist": ["ice", "Water", "Fire", "Air", "Earth", "Electricity", "Light", "Darkness", "Healing"]
     },
     {
     "id": "Fire Absorption",
-    "desc": "Fire only makes it stronger.",
+    "desc": "Fire element restores health.",
     "el_absorbs": {"fire": 0.3}
     },
     {
     "id": "Water Absorption",
-    "desc": "Water only makes it stronger.",
+    "desc": "Water element restores health.",
     "el_absorbs": {"water": 0.3}
     },
     {
     "id": "Air Absorption",
-    "desc": "Air only makes it stronger.",
+    "desc": "Air element restores health.",
     "el_absorbs": {"air": 0.3}
     },
     {
     "id": "Earth Absorption",
-    "desc": "Earth only makes it stronger.",
+    "desc": "Earth element restores health.",
     "el_absorbs": {"earth": 0.3}
     },
     {
     "id": "Darkness Absorption",
-    "desc": "Darkness only makes it stronger.",
+    "desc": "Darkness element restores health.",
     "el_absorbs": {"darkness": 0.3}
     },
     {
     "id": "Light Absorption",
-    "desc": "Light only makes it stronger.",
+    "desc": "Light element restores health.",
     "el_absorbs": {"light": 0.3}
     },
     {
     "id": "Electricity Absorption",
-    "desc": "Electricity only makes it stronger.",
+    "desc": "Electricity element restores health.",
     "el_absorbs": {"electricity": 0.3}
     },
     {
     "id": "Ice Absorption",
-    "desc": "Ice only makes it stronger.",
+    "desc": "Ice element restores health.",
     "el_absorbs": {"ice": 0.3}
     }
     ]
