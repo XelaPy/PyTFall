@@ -1106,7 +1106,7 @@
     "desc": "A small rare talisman capable to bestow gold to people around. Quite uplifting.",
     "icon": "content/items/cons/gl.png",
     "price": 500,
-    "sex": "male",
+    "sex": "female",
     "chance": 40,
     "badness": 100,
     "eqchance": 0,
