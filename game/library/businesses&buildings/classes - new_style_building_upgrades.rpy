@@ -6,7 +6,7 @@ init -5 python:
     - It may be a good idea to create a Flags object here and pass it to the Jobs which create ND reports. It makes sense (at least) for the team jobs.
     - This needs to get a lot more generic, especially newer addons.
     """
-    # BUILDING UPGRADE CLASSES
+    # BUILDING UPGRADE CLASSES:
     class BuildingUpgrade(_object):
         """BaseClass for any building expansion! (aka Business)
         """
@@ -1110,6 +1110,18 @@ init -5 python:
                 for i in range(5):
                     self.teams.append(Team(str(i), free=1))
             self.capture_chars = False # Do we capture chars during exploration in this building. # Move to Areas?
+            
+        def teams_to_launch(self):
+            # Returns a list of teams that can be launched on an exploration run.
+            pass
+        
+        def exploring_teams(self):
+            # Teams that are busy with exploration runs,
+            pass
+        
+        def teams_for_setup(self):
+            # Teams avalible for setup in order to set them on exploration runs.
+            pass
             
         def business_control(self):
             """SimPy business controller.
