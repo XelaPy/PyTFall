@@ -1102,7 +1102,7 @@ init -5 python:
             super(ExplorationGuild, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             # Global Values that have effects on the whole business.
-            self.explorers = list() # List to hold all the (active) exploring teams.
+            self.explorers = list() # List to hold all the (active) exploring trackers.
             self.focus_team = None
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...
             self.teams.append(Team("Avengers", free=1))
@@ -1113,11 +1113,12 @@ init -5 python:
             
         def teams_to_launch(self):
             # Returns a list of teams that can be launched on an exploration run.
+            # Must have at least one member and to be exploring already!
             pass
         
         def exploring_teams(self):
-            # Teams that are busy with exploration runs,
-            pass
+            # Teams that are busy with exploration runs.
+            return [tracker.team for tracker in self.explorers]
         
         def teams_for_setup(self):
             # Teams avalible for setup in order to set them on exploration runs.
