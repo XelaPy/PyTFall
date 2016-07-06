@@ -1122,7 +1122,7 @@ init -5 python:
         
         def teams_for_setup(self):
             # Teams avalible for setup in order to set them on exploration runs.
-            pass
+            return [t for t in self.teams if t not in self.exploring_teams()]
             
         def business_control(self):
             """SimPy business controller.
