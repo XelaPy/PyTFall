@@ -1114,7 +1114,7 @@ init -5 python:
         def teams_to_launch(self):
             # Returns a list of teams that can be launched on an exploration run.
             # Must have at least one member and to be exploring already!
-            pass
+            return [t for t in self.teams_for_setup() if t]
         
         def exploring_teams(self):
             # Teams that are busy with exploration runs.
