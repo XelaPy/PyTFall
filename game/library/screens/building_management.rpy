@@ -155,7 +155,7 @@ label building_management:
             
             try:
                 temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0]
-                guild_teams = CoordsForPaging(temp.teams, columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
+                guild_teams = CoordsForPaging(temp.teams_for_setup(), columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
             except:
                 pass
     
@@ -953,6 +953,7 @@ init: # Screens:
                                     hovered tt.action("Last Page ==>")
                                     action Function(workers.last_page), SensitiveIf(workers.page != workers.max_page)
                     
+                    # Paging guild teams!
                     hbox:
                         style_prefix "paging_green"
                         align .5, .55
