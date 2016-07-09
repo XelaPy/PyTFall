@@ -688,11 +688,8 @@ init -1 python: # Core classes:
                 
         def default_damage_calculator(self, t, attack, defense, multiplier):
             
-            resist = pow(attack/defense, 0.4) * 0.5 # depending on how high the difference between attack and defense, attack power reduces or increases. Roughly, if attack is 10 times higher, damage = damage x 1.25; and if defense is 10 times higher, damage = damage * 0.2.
-            # we could cap the effect if it will be too strong, although I don't think it's needed. If you attack an enemy whose attack is 100 times (!) higher than your defense, you deserve 3x damage.
-            damage = attack/defense
-            rand = randint(80, 120) * 0.01
-            damage = int(float(damage) * multiplier * rand * resist * 10)
+            resist = pow(attack/defense, 0.5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
+            damage = int((attack/defense+randint(1,5))*multiplier*resist)
             return damage
                 
         def get_row_damage(self, t, damage):
@@ -742,6 +739,8 @@ init -1 python: # Core classes:
                 attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
+            rand = randint(85, 110)*0.1 # every time attack is random from 85 to 110%
+            attack *= rand
             return attack if attack > 0 else 1
             
         def get_defense(self, target):
@@ -754,6 +753,8 @@ init -1 python: # Core classes:
                 defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2) 
             else:
                 defense = target.defence
+            rand = randint(85, 110)*0.1 # every time defense is random from 85 to 110%
+            defense *= rand
             return defense if defense > 0 else 1
                 
         def get_attributes_multiplier(self, t, attributes):
