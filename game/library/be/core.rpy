@@ -608,6 +608,7 @@ init -1 python: # Core classes:
                 targets = [targets]
             a = self.source
             attributes = self.attributes
+            type = self.type
             
             # Get the attack power:
             attack = self.get_attack()
@@ -617,20 +618,18 @@ init -1 python: # Core classes:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the multiplier and any effects that those may bring.
-                    effects, multiplier = self.get_attributes_multiplier(t, attributes)
+                    effects, multiplier = self.get_attributes_multiplier(t, attributes, type)
                     
                     # Get the damage:
-                    defense = self.get_defense(t) 
+                    result = self.check_absorbtion(t) # we check the absorption
+                    defense = self.get_defense(t, result)
                     damage = self.default_damage_calculator(t, attack, defense, multiplier)
                     
                     # Rows Damage:
                     effects_append, damage = self.get_row_damage(t, damage)
                     effects = effects + effects_append
-                            
-                    # Lets check the absobtion:
-                    result = self.check_absorbtion(t)
                     if result:
-                        damage = -int(damage * result)
+                        damage = -int(damage * result+randint(1,10))
                         effects.append("absorbed")
                 else: # resisted
                     damage = 0
@@ -739,25 +738,28 @@ init -1 python: # Core classes:
                 attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
-            rand = randint(85, 110)*0.1 # every time attack is random from 85 to 110%
+            rand = randint(85, 110)*0.01 # every time attack is random from 85 to 110%
             attack *= rand
             return attack if attack > 0 else 1
             
-        def get_defense(self, target):
+        def get_defense(self, target, absorb=False):
             """
             A method to get defence value vs current attack.
             """
             if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
                 defense = round(target.defence*0.8 + target.constitution*0.2)
             elif "magic" in self.attributes:
-                defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2) 
+                if absorb: # we lower defense if the element is going to be absorbed
+                    defense = round(target.defence*0.4 - target.intelligence*0.2) 
+                else:
+                    defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2) 
             else:
                 defense = target.defence
-            rand = randint(85, 110)*0.1 # every time defense is random from 85 to 110%
+            rand = randint(85, 110)*0.01 # every time defense is random from 85 to 110%
             defense *= rand
             return defense if defense > 0 else 1
                 
-        def get_attributes_multiplier(self, t, attributes):
+        def get_attributes_multiplier(self, t, attributes, type):
             """
             This calculates the multiplier to use with damage.
             """
@@ -781,7 +783,9 @@ init -1 python: # Core classes:
                 elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
                     evasion_chance = -1
                 else:
-                    evasion_chance = abs(t.luck-a.luck)*0.2 + 0.01*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01
+                    evasion_chance = abs(t.luck-a.luck)*0.1 + 0.005*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01 # the chance to evade is lower than for physical attacks, aside from the intelligence difference part
+                    if type == "all_enemies":
+                        evasion_chance *= 0.5 # and only 1/2 of evasion chance is used for any mass spells
                 if evasion_chance > 90:
                     evasion_chance = 90
                 if dice(evasion_chance):
