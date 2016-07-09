@@ -1748,7 +1748,7 @@ init: # Screens:
                                             
             textbutton "Launch Team":
                 align .5, .9
-                action NullAction() # TODO: Make pretty and allow changing teams.
+                action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
                                             
             hbox:
                 align (0.5, 0.98)
