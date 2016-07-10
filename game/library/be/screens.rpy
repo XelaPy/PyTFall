@@ -1,5 +1,5 @@
 init: # screens:
-    screen target_practice(skill, targets):
+    screen target_practice(skill, targets): #Dark: normal attacks require the same tooltips as magical ones
         
         style_group "dropdown_gm"
         
@@ -63,6 +63,25 @@ init: # screens:
                     $ color = getattr(store, element.font_color)
                     text "Element: {color=[color]}[element.id]" style "content_text" size 20 color ivory
                 text "Desc: [tt.value.desc]" style "content_text" size 14 color ivory
+                hbox:
+                    if tt.value.mp_cost >0:
+                        if isinstance(tt.value.mp_cost, int):
+                            text "MP: [tt.value.mp_cost] " size 14 color blue
+                        else:
+                            $ value = int(tt.value.mp_cost * 100)
+                            text "MP: [value] % " size 14 color blue
+                    if tt.value.health_cost >0:
+                        if isinstance(tt.value.health_cost, int):
+                            text "HP: [tt.value.health_cost] " size 14 color red
+                        else:
+                            $ value = int(tt.value.health_cost * 100)
+                            text "HP: [value] % " size 14 color red
+                    if tt.value.vitality_cost >0:
+                        if isinstance(tt.value.vitality_cost, int):
+                            text "VIT: [tt.value.vitality_cost] " size 14 color green
+                        else:
+                            $ value = int(tt.value.vitality_cost * 100)
+                            text "VIT: [value] % " size 14 color green
                     # fixed:
                         # xysize (100, 100)
                         # if element.icon:
