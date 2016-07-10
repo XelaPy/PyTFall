@@ -726,7 +726,7 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        ReviveSpell(u"Revive", attributes=['magic', 'revive'], effect=10, mp_cost=10, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
+        ReviveSpell(u"Revive", attributes=['magic', 'revive'], effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
                              desc="Bring an ally back to the battlefield!",
                              attacker_action={"gfx": None},
                              attacker_effects={"gfx": "runes_1", "sfx": "default"},

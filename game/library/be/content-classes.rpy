@@ -170,7 +170,10 @@ init python:
             self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.1)
             
             self.mp_cost = mp_cost
-            self.health_cost = health_cost
+            if not(isinstance(health_cost, int)) and health_cost > 0.9:
+                self.health_cost = 0.9
+            else:
+                self.health_cost = health_cost
             self.vitality_cost = vitality_cost
             
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
@@ -272,7 +275,10 @@ init python:
                 
             # Rest:
             self.mp_cost = mp_cost
-            self.health_cost = health_cost
+            if not(isinstance(health_cost, int)) and health_cost > 0.9:
+                self.health_cost = 0.9
+            else:
+                self.health_cost = health_cost
             self.vitality_cost = vitality_cost
             self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
             self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
@@ -725,12 +731,28 @@ init python:
         def __init__(self, name, **kwargs):
             super(ReviveSpell, self).__init__(name, **kwargs)
             
+
         def check_conditions(self, source=None):
-            char = source if source else self.source
-            if (char.mp - self.mp_cost) >= 0 and (char.health - self.health_cost) >= 0:
+            if source:
+                char = source
+            else:
+                char = self.source
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(char.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(char.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+            if (char.mp - mp_cost >= 0) and (char.health - health_cost >= 0) and (char.vitality - vitality_cost >= 0):
                 if self.get_targets(char):
-                    return True
-                
+                    return True   
+                    
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
@@ -761,9 +783,22 @@ init python:
                 battle.corpses.remove(t)
                 minh, maxh = int(t.get_max("health")*0.1), int(t.get_max("health")*0.3)
                 t.health = t.beeffects[0]
-            self.source.mp -= self.mp_cost
-            self.source.health -= self.health_cost
-            self.source.vitality -= self.vitality_cost
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(self.source.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+            self.source.mp -= mp_cost
+            self.source.health -= health_cost
+            self.source.vitality -= vitality_cost
+
             return []
             
         def show_main_gfx(self, battle, attacker, targets):
