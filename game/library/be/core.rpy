@@ -622,7 +622,7 @@ init -1 python: # Core classes:
                     
                     # Get the damage:
                     result = self.check_absorbtion(t) # we check the absorption
-                    defense = self.get_defense(t, result)
+                    defense = self.get_defense(t, absorb=result)
                     damage = self.default_damage_calculator(t, attack, defense, multiplier)
                     
                     # Rows Damage:

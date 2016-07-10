@@ -137,7 +137,7 @@ init python:
         
         @Review: This will be the base for all attacks from here on out and accept all default properties relevant to Attack Skills! 
         """
-        def __init__(self, name,
+        def __init__(self, name, mp_cost=0, health_cost=0, vitality_cost=0,
                            attacker_action={},
                            attacker_effects={},
                            main_effect={}, # Start @ is not working atm.
@@ -169,15 +169,72 @@ init python:
             self.target_damage_effect["gfx"] = self.target_damage_effect.get("gfx", "battle_bounce")
             self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.1)
             
+            self.mp_cost = mp_cost
+            self.health_cost = health_cost
+            self.vitality_cost = vitality_cost
+            
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
             
+        def check_conditions(self, source=None):
+            if source:
+                char = source
+            else:
+                char = self.source
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(char.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(char.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+            # We need to make sure that we have enough resources for this one:
+            if (char.mp - mp_cost >= 0) and (char.health - health_cost >= 0) and (char.vitality - vitality_cost >= 0):
+                if self.get_targets(char):
+                    return True
+                    
+        def apply_effects(self, targets):
+            # Not 100% for that this will be required...
+            # Here it is simple since we are only focusing on damaging health:
+            # prepare the variables:
+            died = list()
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            for t in targets:
+                if t.health - t.beeffects[0] > 0:
+                    t.mod("health", -t.beeffects[0])
+                else:
+                    battle.end_turn_events.append(RPG_Death(t))
+                    died.append(t)
+                    
+            # Here we need to take of cost:
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(self.source.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+            self.source.mp -= mp_cost
+            self.source.health -= health_cost
+            self.source.vitality -= vitality_cost
+            return died
             
     class SimpleMagicalAttack(BE_Action):
         """Simplest attack, usually simple magic.
         """
-        def __init__(self, name, cost=5,
+        def __init__(self, name, mp_cost=0, health_cost=0, vitality_cost=0,
                            attacker_action={},
                            attacker_effects={},
                            main_effect={},
@@ -214,8 +271,9 @@ init python:
                 self.target_sprite_damage_effect["duration"] = target_damage_gfx[2]
                 
             # Rest:
-            self.cost = cost
-            
+            self.mp_cost = mp_cost
+            self.health_cost = health_cost
+            self.vitality_cost = vitality_cost
             self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
             self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
             
@@ -237,9 +295,20 @@ init python:
                 char = source
             else:
                 char = self.source
-                
-            # We need to make sure that we have enought mp for this one:
-            if char.mp - self.cost >= 0:
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(char.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(char.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+            # We need to make sure that we have enough resources for this one:
+            if (char.mp - mp_cost >= 0) and (char.health - health_cost >= 0) and (char.vitality - vitality_cost >= 0):
                 if self.get_targets(char):
                     return True
                     
@@ -257,8 +326,22 @@ init python:
                     battle.end_turn_events.append(RPG_Death(t))
                     died.append(t)
                     
-            # Here we need to take of MP:
-            self.source.mp -= self.cost
+            # Here we need to take of cost:
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(self.source.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+            self.source.mp -= mp_cost
+            self.source.health -= health_cost
+            self.source.vitality -= vitality_cost
             return died
             
             
@@ -644,7 +727,7 @@ init python:
             
         def check_conditions(self, source=None):
             char = source if source else self.source
-            if char.mp - self.cost >= 0:
+            if (char.mp - self.mp_cost) >= 0 and (char.health - self.health_cost) >= 0:
                 if self.get_targets(char):
                     return True
                 
@@ -655,7 +738,7 @@ init python:
             attributes = self.attributes
             
             for t in targets:
-                minh, maxh = int(t.get_max("health")*0.3), int(t.get_max("health")*0.5)
+                minh, maxh = int(t.get_max("health")*0.1), int(t.get_max("health")*0.3)
                 revive = randint(minh, maxh)
                 
                 effects = list()
@@ -676,8 +759,11 @@ init python:
                 
             for t in targets:
                 battle.corpses.remove(t)
-                minh, maxh = int(t.get_max("health")*0.3), int(t.get_max("health")*0.5)
+                minh, maxh = int(t.get_max("health")*0.1), int(t.get_max("health")*0.3)
                 t.health = t.beeffects[0]
+            self.source.mp -= self.mp_cost
+            self.source.health -= self.health_cost
+            self.source.vitality -= self.vitality_cost
             return []
             
         def show_main_gfx(self, battle, attacker, targets):
