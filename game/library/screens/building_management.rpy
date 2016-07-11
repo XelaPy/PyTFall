@@ -1746,9 +1746,15 @@ init: # Screens:
                                             # xsize 20
                                             # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
                                             
-            textbutton "Launch Team":
+            hbox:
                 align .5, .9
-                action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
+                # Implement team paging...
+                textbutton "<==":
+                    action NullAction()
+                textbutton "Launch Team":
+                    action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
+                textbutton "==>":
+                    action NullAction()
                                             
             hbox:
                 align (0.5, 0.98)
