@@ -728,12 +728,10 @@ init -1 python: # Core classes:
             Very simple method to get to attack power.
             """
             a = self.source
-            if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
-                attack = (a.attack + self.effect) * self.multiplier  # TODO: ADD WEAPONS EFFECTS IF THIS IS A WEAPON SKILLS.
-            if "melee" in self.attributes:
-                attack = (a.attack*0.7 + a.agility*0.35 + self.effect) * self.multiplier
+            if "melee" in self.attributes: # TODO: ADD WEAPONS EFFECTS IF THIS IS A WEAPON SKILLS
+                attack = (a.attack*0.8 + a.agility*0.25 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.attack*0.8 + (a.luck+50)*0.5 + self.effect) * self.multiplier # luck bonus is far more limited than agility bonus from melee, but ranged attacks should have drawbacks too
+                attack = (a.attack*0.9 + (a.luck+50)*0.5 + self.effect) * self.multiplier # luck bonus is far more limited than agility bonus from melee, but ranged attacks should have drawbacks too
             elif "magic" in self.attributes:
                 attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
             else:
@@ -746,11 +744,13 @@ init -1 python: # Core classes:
             """
             A method to get defence value vs current attack.
             """
-            if any(list(i for i in ["melee", "ranged"] if i in self.attributes)):
+            if "melee" in self.attributes:
                 defense = round(target.defence*0.8 + target.constitution*0.2)
+            elif "ranged" in self.attributes:
+                defense = round(target.defence*0.8 + target.constitution*0.1 + target.agility*0.1)
             elif "magic" in self.attributes:
-                if absorb: # we lower defense if the element is going to be absorbed
-                    defense = round(target.defence*0.4 - target.intelligence*0.2) 
+                if absorb: # we lower defense if the element is going to be absorbed, character kinda tries to not resist the magic to absorb as much as possible
+                    defense = round(target.defence*0.6 - target.intelligence*0.2)
                 else:
                     defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2) 
             else:
@@ -767,27 +767,49 @@ init -1 python: # Core classes:
             effects = list()
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
-                evasion_chance = (50+t.luck)*0.2 + 0.01*(t.level-a.level) + (t.agility - a.agility)*0.01 # too much evasion will make battles irritating, we should keep values low unless the enemy is really stronger; based on luck and differences between levels and agilities of attacker and target
-                if evasion_chance > 80:
-                    evasion_chance = 80
-                if dice(evasion_chance):
-                    multiplier = 0
-                    effects.append("missed_hit")
-                elif dice((a.luck+50)*0.35): # Critical hit
-                    multiplier += 1.5 + self.critpower # different weapons have different power of crit
+                if dice((a.luck+50)*0.35): # Critical hit prevents any evasion and depends solely on the attacker luck, 35% with luck 50
+                    multiplier += 1.5 + self.critpower
                     effects.append("critical_hit")
+                else:
+                    # Let's calculate evasion chance. Base chance is 1/20 of absolute luck value, thus at max luck (50) it will be 5%.
+                    evasion_chance = (50+t.luck)*0.5
+                    # Second is the difference between levels. Every 10 levels give 1%, cannot be more than 20%. The difference can be negative, thus actually decreasing the chance.
+                    dif = (t.level-a.level)*0.1
+                    if dif > 20:
+                        dif = 20
+                    evasion_chance += dif
+                    # Finally, the difference between agilities. Every 20 points give 1%, cannot be more than 20.
+                    dif = (t.agility - a.agility)*0.05
+                    if dif > 20:
+                        dif = 20
+                    evasion_chance += dif
+                    if "Assassin" in t.traits: # assassins always have small permanent bonus to evasion
+                        evasion_chance += 10
+                    if dice(evasion_chance):
+                        multiplier = 0
+                        effects.append("missed_hit")
+
             else:
                 result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
                 if result:
                     evasion_chance = -1
                 elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
                     evasion_chance = -1
-                else:
-                    evasion_chance = abs(t.luck-a.luck)*0.1 + 0.005*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01 # the chance to evade is lower than for physical attacks, aside from the intelligence difference part
+                else: # magic evasion is similar to usual one, with lower chance for levels difference
+                    evasion_chance = (50+t.luck)*0.25
+                    dif = (t.level-a.level)*0.025
+                    if dif > 20:
+                        dif = 20
+                    evasion_chance += dif
+                    dif = (t.magic - a.magic)*0.05 # and magic instead of agility
+                    if dif > 20:
+                        dif = 20
+                    evasion_chance += dif
+                    if "Assassin" in t.traits:
+                        evasion_chance += 5
                     if type == "all_enemies":
                         evasion_chance *= 0.5 # and only 1/2 of evasion chance is used for any mass spells
-                if evasion_chance > 90:
-                    evasion_chance = 90
+                    # thus, spells are dodgeable, especially casted by much weaker opponents, but the chance is considerably lower than for normal attack. It balances the fact that spells don't have crit hits
                 if dice(evasion_chance):
                     multiplier = 0
                     effects.append("missed_hit")
