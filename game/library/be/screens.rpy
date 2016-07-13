@@ -82,14 +82,6 @@ init: # screens:
                         else:
                             $ value = int(tt.value.vitality_cost * 100)
                             text "VIT: [value] % " size 14 color green
-                    if (tt.value.type=="all_enemies" and tt.value.piercing) or tt.value.type=="all_allies":
-                        text "target: all" size 14 color gold
-                    elif tt.value.type=="all_enemies":
-                        text "target: first row" size 14 color gold
-                    elif tt.value.piercing:
-                        text "target: any" size 14 color gold
-                    else:
-                        text "target: one" size 14 color gold
                     # fixed:
                         # xysize (100, 100)
                         # if element.icon:
