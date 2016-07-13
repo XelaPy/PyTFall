@@ -1749,12 +1749,11 @@ init: # Screens:
             hbox:
                 align .5, .9
                 
-                teams = teams_to_launch
+                $ temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0] # Bad way to get to the FG???? TODO: Review this crap!
+                $ teams = temp.teams_to_launch()
                 # Implement team paging...
                 textbutton "<==":
                     action NullAction()
-                    
-                temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0] # Bad way to get to the FG???? TODO: Review this crap!
                 textbutton "Launch [temp.focus_team.name]":
                     action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
                 textbutton "==>":
