@@ -608,7 +608,6 @@ init -1 python: # Core classes:
                 targets = [targets]
             a = self.source
             attributes = self.attributes
-            type = self.type
             
             # Get the attack power:
             attack = self.get_attack()
@@ -618,7 +617,7 @@ init -1 python: # Core classes:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the multiplier and any effects that those may bring.
-                    effects, multiplier = self.get_attributes_multiplier(t, attributes, type)
+                    effects, multiplier = self.get_attributes_multiplier(t, attributes)
                     
                     # Get the damage:
                     result = self.check_absorbtion(t) # we check the absorption
@@ -759,7 +758,7 @@ init -1 python: # Core classes:
             defense *= rand
             return defense if defense > 0 else 1
                 
-        def get_attributes_multiplier(self, t, attributes, type):
+        def get_attributes_multiplier(self, t, attributes):
             """
             This calculates the multiplier to use with damage.
             """
@@ -784,7 +783,7 @@ init -1 python: # Core classes:
                     evasion_chance = -1
                 else:
                     evasion_chance = abs(t.luck-a.luck)*0.1 + 0.005*(t.level-a.level) + (t.intelligence - a.intelligence)*0.01 # the chance to evade is lower than for physical attacks, aside from the intelligence difference part
-                    if type == "all_enemies":
+                    if self.type == "all_enemies":
                         evasion_chance *= 0.5 # and only 1/2 of evasion chance is used for any mass spells
                 if evasion_chance > 90:
                     evasion_chance = 90
