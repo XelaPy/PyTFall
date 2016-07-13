@@ -688,7 +688,7 @@ init -1 python: # Core classes:
         def default_damage_calculator(self, t, attack, defense, multiplier):
             
             resist = pow(attack/defense, 0.5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
-            damage = int((attack/defense+randint(1,5))*multiplier*resist)
+            damage = int((attack/defense)*multiplier*resist+randint(1,5))
             return damage
                 
         def get_row_damage(self, t, damage):
@@ -738,6 +738,10 @@ init -1 python: # Core classes:
                 attack = self.effect + 20
             rand = randint(85, 110)*0.01 # every time attack is random from 85 to 110%
             attack *= rand
+            healthlevel=a.health/a.get_max("health") # low health decrease attack power, down to 50%
+            if healthlevel < 0.5:
+                healthlevel = 0.5
+            attack *= healthlevel
             return attack if attack > 0 else 1
             
         def get_defense(self, target, absorb=False):
@@ -752,9 +756,9 @@ init -1 python: # Core classes:
                 if absorb: # we lower defense if the element is going to be absorbed, character kinda tries to not resist the magic to absorb as much as possible
                     defense = round(target.defence*0.6 - target.intelligence*0.2)
                 else:
-                    defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2) 
+                    defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2)
             else:
-                defense = target.defence
+                defense = target.defence+target.health
             rand = randint(85, 110)*0.01 # every time defense is random from 85 to 110%
             defense *= rand
             return defense if defense > 0 else 1
