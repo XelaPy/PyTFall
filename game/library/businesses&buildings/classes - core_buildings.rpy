@@ -743,6 +743,15 @@ init -9 python:
                     
             return False
             
+        def get_upgrade(self, up):
+            # Takes a string as an argument 
+            if up == "fg":
+                temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild]
+                if temp:
+                    return temp[0]
+                else:
+                    return False
+            
         @property
         def habitable(self):
             """
