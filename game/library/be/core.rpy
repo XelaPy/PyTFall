@@ -738,10 +738,8 @@ init -1 python: # Core classes:
                 attack = self.effect + 20
             rand = randint(85, 110)*0.01 # every time attack is random from 85 to 110%
             attack *= rand
-            healthlevel=a.health/a.get_max("health") # low health decrease attack power, down to 50%
-            if healthlevel < 0.5:
-                healthlevel = 0.5
-            attack *= healthlevel
+            healthlevel=(1-a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health
+            attack *= (1-healthlevel)
             return attack if attack > 0 else 1
             
         def get_defense(self, target, absorb=False):
@@ -789,6 +787,8 @@ init -1 python: # Core classes:
                     evasion_chance += dif
                     if "Assassin" in t.traits: # assassins always have small permanent bonus to evasion
                         evasion_chance += 10
+                    healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
+                    evasion_chance += healthlevel
                     if dice(evasion_chance):
                         multiplier = 0
                         effects.append("missed_hit")
@@ -811,6 +811,8 @@ init -1 python: # Core classes:
                     evasion_chance += dif
                     if "Assassin" in t.traits:
                         evasion_chance += 5
+                    healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
+                    evasion_chance += healthlevel
                     if self.type == "all_enemies":
                         evasion_chance *= 0.5 # and only 1/2 of evasion chance is used for any mass spells
                     # thus, spells are dodgeable, especially casted by much weaker opponents, but the chance is considerably lower than for normal attack. It balances the fact that spells don't have crit hits
