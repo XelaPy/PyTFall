@@ -1749,8 +1749,10 @@ init: # Screens:
             hbox:
                 align .5, .9
                 
-                $ temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0] # Bad way to get to the FG???? TODO: Review this crap!
-                $ teams = temp.teams_to_launch()
+                python:
+                    temp = building.get_upgrade("fg")
+                    teams = temp.teams_to_launch() if temp else []
+                    
                 # Implement team paging...
                 textbutton "<==":
                     action NullAction()
