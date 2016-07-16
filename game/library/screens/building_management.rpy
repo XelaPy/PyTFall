@@ -1754,12 +1754,15 @@ init: # Screens:
                     teams = temp.teams_to_launch() if temp else []
                     
                 # Implement team paging...
-                textbutton "<==":
-                    action NullAction()
-                textbutton "Launch [temp.focus_team.name]":
-                    action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
-                textbutton "==>":
-                    action NullAction()
+                if teams:
+                    textbutton "<==":
+                        action NullAction()
+                    textbutton "Launch [temp.focus_team.name]":
+                        action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
+                    textbutton "==>":
+                        action NullAction()
+                else:
+                    "No teams avalible!"
                                             
             hbox:
                 align (0.5, 0.98)
