@@ -1752,6 +1752,13 @@ init: # Screens:
                 python:
                     temp = building.get_upgrade("fg")
                     teams = temp.teams_to_launch() if temp else []
+                    if teams:
+                        if temp.focus_team in teams:
+                            index = teams.index(temp.focus_team)
+                        else:
+                            index = 0
+                            temp.focus_team = temp[index]
+                            
                     
                 # Implement team paging...
                 if teams:
