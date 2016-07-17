@@ -930,12 +930,13 @@ init -9 python:
                         self.lvl_max[stat] += 5
                         self.max[stat] += 2
                         
-                        # This may need to be reviced:
-                        if self.level > 50:
-                            val = self.level / 20.0 + self.stats["luck"] / 10.0
+                        # Chance to increase max stats permanently based on level
+                        if self.level >= 20:
+                            val = self.level / 20.0
+                            if dice(val):
+                                self.lvl_max[stat] +=1
                             if dice(val):
                                 self.max[stat] +=1
-                        
                 # Super Bonuses from Base Traits:
                 if hasattr(self.instance, "traits"):
                     traits = self.instance.traits.basetraits
