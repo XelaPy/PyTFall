@@ -71,6 +71,7 @@
     "desc": "This girl looks very young and small.",
     "blocks": ["Slim", "Chubby", "Athletic", "Manly"],
     "min": {"agility": 5},
+    "max": {"vitality": -100},
     "mod_stats": {"constitution": [-1, 5], "agility": [1, 5]},
     "mod_skills": {"cleaning": [-0.01, 0, -0.03], "exploration": [0.01, 0, 0]},
     "body": true
@@ -80,6 +81,7 @@
     "desc": "This girl has a slender, slim figure.",
     "blocks": ["Lolita", "Chubby", "Athletic", "Manly"],
     "mod_stats": {"constitution": [-1, 5], "charisma": [1, 5]},
+    "max": {"vitality": -50},
     "mod_skills": {"dancing": [0.01, 0, 0.01]},
     "body": true
     },
@@ -97,7 +99,7 @@
     "desc": "This girl is tough and has trained a lot. Her body is in great shape.",
     "min": {"constitution": 5},
     "mod_stats": {"health": [1, 10], "constitution": [1, 5], "agility": [1, 20]},
-    "max": {"health": 5, "vitality": 5},
+    "max": {"health": 5, "vitality": 50},
     "mod_skills": {"exploration": [0.01, 0, 0.01]},
     "body": true
     },
@@ -107,7 +109,7 @@
     "desc": "This girl is very muscular. Perhaps even too muscular.",
     "min": {"constitution": 5},
     "mod_stats": {"constitution": [1, 5], "charisma": [-1, 5], "health": [1, 8], "agility": [-1, 10]},
-    "max": {"health": 10, "vitality": 10, "charisma": -20, "attack": 5, "defence": 5, "agility": -5},
+    "max": {"health": 10, "vitality": 100, "charisma": -50, "attack": 5, "defence": 5, "agility": -5},
     "mod_skills": {"exploration": [0.02, 0, 0.02], "service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
     "body": true
     },
@@ -117,7 +119,7 @@
     "mod": {"upkeep": 40},
     "mod_stats": {"health": [1, 5]},
     "min": {"constitution": 5, "defence": 5},
-    "max": {"constitution": 5, "defence": 5, "health": 20, "vitality": 20},
+    "max": {"constitution": 5, "defence": 5, "health": 50, "vitality": 50},
     "permanent": true,
     "client": true
     },

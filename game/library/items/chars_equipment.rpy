@@ -365,7 +365,7 @@ screen char_equip():
                         style_group "stats"
                         has vbox spacing -7
                         # STATS ============================>
-                        $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "libido"] if eqtarget == hero else ["constitution", "charisma", "intelligence", "character", "reputation", "joy", "disposition"]
+                        $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"] if eqtarget == hero else ["constitution", "charisma", "intelligence", "character", "reputation", "joy", "disposition"]
                         null height 10
                         frame:
                             xalign 0.5

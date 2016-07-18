@@ -574,7 +574,7 @@ init -9 python:
  
             # else:
                 # for stat in char.stats:
-                    # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                    # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                         # wage += getattr(char, stat)
                 # wage = wage/2
  
@@ -670,7 +670,7 @@ init -9 python:
                     # bp = 3000 # Base Price
                     # sp = 0
                     # for stat in char.stats:
-                        # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                        # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                             # sp += getattr(char, stat)
                      
                     # if sp > 1200:
@@ -716,7 +716,7 @@ init -9 python:
                     # bu = 20
                     # su = 0 # Stats Upkeep
                     # for stat in char.stats:
-                        # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                        # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                             # su += getattr(char, stat)
  
                     # return int(bu + su + char.upkeep)
@@ -728,7 +728,7 @@ init -9 python:
                 # bu = 50
                 # su = 0 # Stats Upkeep
                 # for stat in char.stats:
-                    # if stat not in ["disposition", "libido", "joy", "health", "vitality", "mood"]:
+                    # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                         # su += getattr(char, stat)
  
                 # return int(bu + su + char.upkeep)
@@ -763,10 +763,10 @@ init -9 python:
         Some of it's methods assume input from self.instance__setattr__ and do extra calculations!
         @ TODO: Recode to avoid extra calculations in the future???
         """
-        FIXED_MAX = set(['libido', 'joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment'])
+        FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment'])
         
         # Stats:
-        # alignment, charisma, constitution, fame, health, intelligence, libido, reputation, vitality
+        # alignment, charisma, constitution, fame, health, intelligence, reputation, vitality
         # alignment might not be on girls?
         
         # Other Stats:
@@ -1147,7 +1147,6 @@ init -9 python:
                 
             # Stat support Dicts:
             stats = {
-                'libido': [0, 0, 100, 100],
                 'constitution': [0, 0, 100, 100],
                 'reputation': [0, 0, 100, 100],
                 'health': [100, 0, 100, 200],
@@ -3068,10 +3067,9 @@ init -9 python:
             # self.action = None # Moved to parent class
             self.previousaction = ''
             
-            ### Stats:
+            ### Stats:    <--------- Dark: we already have the same dict (with a bit different numbers) in PytCharacter class. I wonder if we need both dicts.
             stats = {
-                'charisma': [0, 0, 100, 60],
-                'libido': [0, 0, 100, 100],
+                'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
                 'constitution': [0, 0, 60, 40],
                 'joy': [0, 0, 100, 200],
                 'character': [0, 0, 100, 60],
@@ -3080,7 +3078,7 @@ init -9 python:
                 'fame': [0, 0, 100, 60],
                 'mood': [0, 0, 1000, 1000],
                 'disposition': [0, -1000, 1000, 1000],
-                'vitality': [300, 0, 300, 500],
+                'vitality': [200, 0, 200, 500],
                 'intelligence': [0, 0, 100, 60],
 
                 'luck': [0, -50, 50, 50],
@@ -3255,9 +3253,6 @@ init -9 python:
 
                 if key == 'joy' and self.__dict__['effects']['Impersonal']['active']:
                     value = value - int(round((value - self.__dict__["stats"]['joy'])*0.3))
-                        
-                if key == 'libido' and self.__dict__['effects']['Sensitive']['active']:
-                    value = value + int(round((value - self.__dict__["stats"]['libido'])*0.2))
                     
                 self.__dict__["stats"].mod_base_stat(key, value)
             elif key == 'exp':
@@ -4189,8 +4184,6 @@ init -9 python:
             # Should we use money? @ presently not...
             self.cash = 0 # carried cash
             self.cashtospend = 0 # cash the customer is willing to spend
-            
-            # self.libido = randint(20,150)
             
             # class battle stats
             # self.attack = randint(5, 40)

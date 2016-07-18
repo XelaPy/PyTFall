@@ -1725,7 +1725,6 @@
                 self.loggs('vitality', randint(35, 40))
                 self.loggs('mp', randint(1, 3))
                 self.loggs('joy', randint(1, 2))
-                self.loggs('libido', randint(1, 3))
                 self.worker.AP -= 1
             
             if not self.img:
