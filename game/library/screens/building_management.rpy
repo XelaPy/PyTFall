@@ -1749,6 +1749,8 @@ init: # Screens:
             hbox:
                 align .5, .9
                 
+                default index = 0
+                
                 python:
                     temp = building.get_upgrade("fg")
                     teams = temp.teams_to_launch() if temp else []
@@ -1763,11 +1765,11 @@ init: # Screens:
                 # Implement team paging...
                 if teams:
                     textbutton "<==":
-                        action NullAction()
+                        action SetScreenVariable(index, (index-1) % len(teams)), SetField(temp, "focus_team", teams[index])
                     textbutton "Launch [temp.focus_team.name]":
                         action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
                     textbutton "==>":
-                        action NullAction()
+                        action SetScreenVariable(index, (index+1) % len(teams)), SetField(temp, "focus_team", teams[index])
                 else:
                     "No teams avalible!"
                                             
