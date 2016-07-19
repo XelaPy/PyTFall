@@ -1759,17 +1759,17 @@ init: # Screens:
                             index = teams.index(temp.focus_team)
                         else:
                             index = 0
-                            temp.focus_team = temp[index]
+                            temp.focus_team = teams[index]
                             
                     
                 # Implement team paging...
                 if teams:
                     textbutton "<==":
-                        action SetScreenVariable(index, (index-1) % len(teams)), SetField(temp, "focus_team", teams[index])
+                        action SetScreenVariable("index", (index-1) % len(teams)), SetField(temp, "focus_team", teams[index])
                     textbutton "Launch [temp.focus_team.name]":
                         action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
                     textbutton "==>":
-                        action SetScreenVariable(index, (index+1) % len(teams)), SetField(temp, "focus_team", teams[index])
+                        action SetScreenVariable("index", (index+1) % len(teams)), SetField(temp, "focus_team", teams[index])
                 else:
                     text "No teams avalible!"
                                             
