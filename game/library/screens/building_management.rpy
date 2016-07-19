@@ -1771,7 +1771,7 @@ init: # Screens:
                     textbutton "==>":
                         action SetScreenVariable(index, (index+1) % len(teams)), SetField(temp, "focus_team", teams[index])
                 else:
-                    "No teams avalible!"
+                    text "No teams avalible!"
                                             
             hbox:
                 align (0.5, 0.98)
