@@ -1763,6 +1763,7 @@ init: # Screens:
                             
                     
                 # Implement team paging...
+                # Failed to make this work in a screen, will have to move this paging to the class where there is more control... something is off with scopes I think.
                 if teams:
                     textbutton "<==":
                         action SetScreenVariable("index", (index-1) % len(teams)), SetField(temp, "focus_team", teams[index])
