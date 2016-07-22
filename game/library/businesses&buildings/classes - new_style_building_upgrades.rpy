@@ -1104,6 +1104,7 @@ init -5 python:
             # Global Values that have effects on the whole business.
             self.explorers = list() # List to hold all the (active) exploring trackers.
             self.focus_team = None
+            self.team_to_launch_index = 0
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...
             self.teams.append(Team("Avengers", free=1))
             if config.debug:
@@ -1116,6 +1117,12 @@ init -5 python:
             # Must have at least one member and to be exploring already!
             return [t for t in self.teams_for_setup() if t]
         
+        def prev_team_to_launch(self):
+            pass
+        
+        def next_team_to_launch(self):
+            pass
+            
         def exploring_teams(self):
             # Teams that are busy with exploration runs.
             return [tracker.team for tracker in self.explorers]
