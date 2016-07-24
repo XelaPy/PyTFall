@@ -507,24 +507,24 @@
         "desc": "There is a little spark of magic within her soul giving her ability to manipulate arcane energies.",
         "basetrait": true,
         "mod": {
-            "magic": 100,
+            "magic": 10,
             "upkeep": 5,
-            "intelligence": 10
+            "intelligence": 5
         },
         "max": {
-            "magic": 50,
+            "magic": 25,
             "intelligence": 5
         },
         "init_lvlmax": {
-            "magic": 100,
-            "mp": 100
+            "magic": 40,
+            "mp": 50
         },
         "init_max": {
-            "magic": 100,
-            "mp": 100
+            "magic": 40,
+            "mp": 50
         },
         "init_mod": {
-            "magic": 50
+            "magic": 10
         },
         "init_skills": {},
         "leveling_stats": {
@@ -533,16 +533,16 @@
                 -1
             ],
             "defence": [
-                -2,
+                -1,
                 -1
             ],
             "magic": [
-                0,
+                1,
                 1
             ],
             "mp": [
-                0,
-                2
+                1,
+                1
             ]
         }
     },

@@ -195,7 +195,7 @@ label build_mc:
             
     # Now that we have our setup, max out all fixed max stats and set all normal stats to 35% of their maximum:
     python:
-        for s in ['libido', 'constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
+        for s in ['constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
             setattr(hero, s, int(round(hero.get_max(s)*0.35)))
     python:
         for s in ["health", "mp", "vitality"]:

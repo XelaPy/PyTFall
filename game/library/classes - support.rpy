@@ -177,7 +177,7 @@ init -9 python:
             self.LocList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'brothel', "-PyTFall Educators-"]
             self.clientCastes = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
             self.battlestats = ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck", "charisma"]
-            self.herostats = ['libido', 'constitution', 'reputation', 'fame', 'charisma', 'sex', 'alignment', 'vitality', 'intelligence', 'luck']
+            self.herostats = ['constitution', 'reputation', 'fame', 'charisma', 'sex', 'alignment', 'vitality', 'intelligence', 'luck']
             
             # get a list of all battle tracks:
             self.battle_tracks = list()

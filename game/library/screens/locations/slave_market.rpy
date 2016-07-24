@@ -355,8 +355,6 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             xmaximum 306
                             frame:
                                 xsize 305
-                                text "{color=#79CDCD}{size=-1}Libido:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.libido, store.girl.get_max("libido"))) style "stats_value_text" align (1.0, 0.5) ypos 10
         
         # Picture:
         frame:

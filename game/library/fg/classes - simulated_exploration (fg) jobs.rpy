@@ -19,13 +19,11 @@ init python:
                                     'vitality': 0, 
                                     'disposition': 0,
                                     'joy': 0,
-                                    'libido': 0,
                                     'mp': 0,
                                     'reputation': 0,
                                     "charisma": 0,
                                     'constitution': 0,
                                     'intelligence': 0,
-                                    'libido': 0,
                                     "strip": 0,
                                     "joy": 0,
                                     "service": 0}
@@ -38,7 +36,6 @@ init python:
                     self.girlmod['vitality'] += randint(55, 70)
                     self.girlmod['mp'] += randint(3, 6)
                     self.girlmod['joy'] += randint(3, 6)
-                    self.girlmod['libido'] += randint(3, 6)
                     self.girl.AP -= 1
                 
                 self.img = Fixed(ProportionalScale(fg.upgrades["healing onsen"][1], 740, 685, align=(0.5, 0.5)),
@@ -56,7 +53,6 @@ init python:
                     self.girlmod['vitality'] += randint(35, 40)
                     self.girlmod['mp'] += randint(1, 3)
                     self.girlmod['joy'] += randint(1, 2)
-                    self.girlmod['libido'] += randint(1, 3)
                     self.girl.AP -= 1
                 
                 self.img = self.girl.show("rest", resize=(740, 685))
