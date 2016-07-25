@@ -1749,16 +1749,14 @@ init: # Screens:
             hbox:
                 align .5, .9
                 
-                default index = 0
-                
                 python:
                     temp = building.get_upgrade("fg")
                     teams = temp.teams_to_launch() if temp else []
                     if teams:
                         if temp.focus_team in teams:
-                            index = teams.index(temp.focus_team)
+                            temp.team_to_launch_index = teams.index(temp.focus_team)
                         else:
-                            index = 0
+                            temp.team_to_launch_index = 0
                             temp.focus_team = teams[index]
                             
                     
@@ -1766,11 +1764,11 @@ init: # Screens:
                 # Failed to make this work in a screen, will have to move this paging to the class where there is more control... something is off with scopes I think.
                 if teams:
                     textbutton "<==":
-                        action SetScreenVariable("index", (index-1) % len(teams)), SetField(temp, "focus_team", teams[index])
+                        action temp.prev_team_to_launch, renpy.restart_interaction
                     textbutton "Launch [temp.focus_team.name]":
                         action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
                     textbutton "==>":
-                        action SetScreenVariable("index", (index+1) % len(teams)), SetField(temp, "focus_team", teams[index])
+                        action temp.next_team_to_launch, renpy.restart_interaction
                 else:
                     text "No teams avalible!"
                                             
