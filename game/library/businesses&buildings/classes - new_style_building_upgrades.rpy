@@ -1116,7 +1116,7 @@ init -5 python:
             # Returns a list of teams that can be launched on an exploration run.
             # Must have at least one member and NOT already running exploration!
             return [t for t in self.teams_for_setup() if t]
-        
+            
         def prev_team_to_launch(self):
             teams = self.teams_to_launch()
             index = self.team_to_launch_index
@@ -1124,6 +1124,7 @@ init -5 python:
             index = (index-1) % len(teams)
             
             self.team_to_launch_index = index
+            self.focus_team = teams[index]
         
         def next_team_to_launch(self):
             teams = self.teams_to_launch()
@@ -1132,6 +1133,7 @@ init -5 python:
             index = (index+1) % len(teams)
             
             self.team_to_launch_index = index
+            self.focus_team = teams[index]
             
         def exploring_teams(self):
             # Teams that are busy with exploration runs.

@@ -1753,21 +1753,30 @@ init: # Screens:
                     temp = building.get_upgrade("fg")
                     teams = temp.teams_to_launch() if temp else []
                     if teams:
-                        if temp.focus_team in teams:
-                            temp.team_to_launch_index = teams.index(temp.focus_team)
-                        else:
-                            temp.team_to_launch_index = 0
-                            temp.focus_team = teams[index]
+                        if not temp.focus_team:
+                            try:
+                                temp.focus_team = teams[temp.team_to_launch_index]
+                            except:
+                                temp.focus_team = teams[0]
+                    # if teams:
+                        # if temp.focus_team in teams:
+                            # temp.team_to_launch_index = teams.index(temp.focus_team)
+                        # else:
+                            # temp.team_to_launch_index = 0
+                            # temp.focus_team = teams[index]
                             
                     
                 # Implement team paging...
                 # Failed to make this work in a screen, will have to move this paging to the class where there is more control... something is off with scopes I think.
                 if teams:
                     textbutton "<==":
+                        yalign .5
                         action temp.prev_team_to_launch, renpy.restart_interaction
-                    textbutton "Launch [temp.focus_team.name]":
+                    textbutton "Launch \n[temp.focus_team.name]":
+                        xsize 300
                         action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
                     textbutton "==>":
+                        yalign .5
                         action temp.next_team_to_launch, renpy.restart_interaction
                 else:
                     text "No teams avalible!"
