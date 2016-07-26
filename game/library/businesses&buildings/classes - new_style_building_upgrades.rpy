@@ -1119,19 +1119,19 @@ init -5 python:
         
         def prev_team_to_launch(self):
             teams = self.teams_to_launch()
-            index = self.teams_to_launch_index
+            index = self.team_to_launch_index
             
-            index = (index-1) % len(team)
+            index = (index-1) % len(teams)
             
-            self.teams_to_launch_index = index
+            self.team_to_launch_index = index
         
         def next_team_to_launch(self):
             teams = self.teams_to_launch()
-            index = self.teams_to_launch_index
+            index = self.team_to_launch_index
             
-            index = (index+1) % len(team)
+            index = (index+1) % len(teams)
             
-            self.teams_to_launch_index = index
+            self.team_to_launch_index = index
             
         def exploring_teams(self):
             # Teams that are busy with exploration runs.
