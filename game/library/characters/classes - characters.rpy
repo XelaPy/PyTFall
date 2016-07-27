@@ -186,6 +186,11 @@ init -9 python:
                         msg = "'%s' trait tried to apply unknown init skillt: %s!"
                         devlog.warning(str(msg % (trait.id, skill)))
                 
+            # Only for body traits:
+            if trait.body:
+                if trait.mod_ap:
+                    self.instance.baseAP += trait.mod_ap
+                        
             for key in trait.max:
                 if key in stats.max:
                    stats.max[key] += trait.max[key]
@@ -4317,6 +4322,8 @@ init -9 python:
             self.breasts = False
             self.body = False
             self.elemental = False
+            
+            self.mod_ap = 0 # Will only work on body traits!
             
             self.mob_only = False
             self.character_trait = False
