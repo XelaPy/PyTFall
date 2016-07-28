@@ -768,7 +768,7 @@ init -9 python:
         Some of it's methods assume input from self.instance__setattr__ and do extra calculations!
         @ TODO: Recode to avoid extra calculations in the future???
         """
-        FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment'])
+        FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment', 'evasion'])
         
         # Stats:
         # alignment, charisma, constitution, fame, health, intelligence, reputation, vitality
@@ -1167,7 +1167,8 @@ init -9 python:
                 'magic': [0, 0, 100, 100],
                 'defence': [0, 0, 100, 100],
                 'agility': [0, 0, 100, 100],
-                'mp': [0, 0, 30, 30]
+                'mp': [0, 0, 30, 30],
+                'evasion': [0, 0, 100, 100]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
@@ -3092,7 +3093,8 @@ init -9 python:
                 'magic': [0, 0, 40, 30],
                 'defence': [0, 0, 50, 40],
                 'agility': [0, 0, 35, 25],
-                'mp': [0, 0, 40, 30]
+                'mp': [0, 0, 40, 30],
+                'evasion': [0, 0, 100, 100]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
