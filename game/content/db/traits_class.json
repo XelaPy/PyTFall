@@ -826,7 +826,9 @@
         "init_mod": {
             "attack": 20,
             "defence": 10,
-            "agility": 15
+            "agility": 15,
+            "evasion": 5
+            
         },
         "init_skills": {},
         "leveling_stats": {

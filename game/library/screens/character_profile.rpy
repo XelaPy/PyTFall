@@ -496,7 +496,7 @@ screen char_profile():
                         xmargin 0
                         ymargin 0
                         has vbox spacing 1
-                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
+                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A"), ("Evasion", "#FFFF94")]
                         for stat, color in stats:
                             frame:
                                 xysize (290, 27)

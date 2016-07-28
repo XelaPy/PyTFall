@@ -780,13 +780,8 @@ init -1 python: # Core classes:
                     if dif > 20:
                         dif = 20
                     evasion_chance += dif
-                    # Finally, the difference between agilities. Every 20 points give 1%, cannot be more than 20.
-                    dif = (t.agility - a.agility)*0.05
-                    if dif > 20:
-                        dif = 20
-                    evasion_chance += dif
-                    if "Assassin" in t.traits: # assassins always have small permanent bonus to evasion
-                        evasion_chance += 10
+                    # Finally, the character evasion stat
+                    evasion_chance += t.evasion
                     healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
                     evasion_chance += healthlevel
                     if dice(evasion_chance):
@@ -805,12 +800,7 @@ init -1 python: # Core classes:
                     if dif > 20:
                         dif = 20
                     evasion_chance += dif
-                    dif = (t.magic - a.magic)*0.05 # and magic instead of agility
-                    if dif > 20:
-                        dif = 20
-                    evasion_chance += dif
-                    if "Assassin" in t.traits:
-                        evasion_chance += 5
+                    evasion_chance += t.evasion
                     healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
                     evasion_chance += healthlevel
                     if self.type == "all_enemies":

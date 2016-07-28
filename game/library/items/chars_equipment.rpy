@@ -422,7 +422,7 @@ screen char_equip():
                         
                         null height 10
                         label (u"{size=18}{color=#CDCDC1}{b}Battle Stats:") xalign(0.49)
-                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
+                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A"), ("Evasion", "#FFFF94")]
                         
                         null height 10
                     
