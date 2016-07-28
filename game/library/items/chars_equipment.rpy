@@ -344,7 +344,8 @@ screen char_equip():
                 xsize 100
                 action SetScreenVariable("stats_display", "pro"), With(dissolve)
                 text "Pro Stats" style "pb_button_text"
-        
+                
+        # Stats/Skills:
         vbox:
             yfill True
             yoffset 195
@@ -352,86 +353,74 @@ screen char_equip():
             xmaximum 218
             
             if stats_display == "stats":
-                vbox spacing 5:
+                vbox:
+                    spacing 5
                     pos (4, 40)
                     frame:
                         background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
-                        yminimum 270
                         xsize 218
-                        xpadding 0
-                        ypadding 0
+                        xpadding 6
+                        ypadding 6
                         xmargin 0
                         ymargin 0
-                        style_group "stats"
-                        has vbox spacing -7
+                        style_group "proper_stats"
+                        has vbox spacing 1
                         # STATS ============================>
                         $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"] if eqtarget == hero else ["constitution", "charisma", "intelligence", "character", "reputation", "joy", "disposition"]
-                        null height 10
+                        
+                        # Health:
                         frame:
-                            xalign 0.5
-                            xysize (215, 35)
-                            style "base_stats_frame"
-                            text "{color=#CD4F39}Health:" xalign (0.02)
+                            xysize 204, 25
+                            text "Health:" xalign .02 color "#CD4F39"
                             $ tempc = red if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
                             if dummy:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "health", tempc)
-                                text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                                text tempstr style "stats_value_text" xalign .98 yoffset 3
                             else:
-                                text u"[eqtarget.health]/{}".format(eqtarget.get_max("health")) style "stats_value_text" xalign 1.0 color tempc  yoffset 3
+                                text u"[eqtarget.health]/{}".format(eqtarget.get_max("health")) xalign .98 yoffset 3 style "stats_value_text" color tempc
                         
+                        # Vitality:
                         frame:
-                            xalign 0.5
-                            xysize (215, 35)
-                            left_padding 9
-                            right_padding 11
-                            top_padding 4
-                            bottom_padding 1
-                            xmargin 0
-                            ymargin 0
-                            text "{color=#43CD80}Vitality:" xalign (0.02)
+                            xysize 204, 25
+                            text "Vitality:" xalign .02 color "#43CD80"
                             $ tempc = red if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
                             if dummy:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "vitality", tempc)
-                                text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                                text tempstr style "stats_value_text" xalign .98 yoffset 3
                             else:
-                                text u"[eqtarget.vitality]/{}".format(eqtarget.get_max("vitality")) style "stats_value_text" xalign 1.0 color tempc  yoffset 3
-                            
+                                text u"[eqtarget.vitality]/{}".format(eqtarget.get_max("vitality")) xalign .98 yoffset 3 style "stats_value_text" color tempc
+                             
+                        # Rest of stats:
                         for stat in stats:
                             frame:
-                                xalign 0.5
-                                xysize (215, 35)
-                                style "base_stats_frame"
-                                text "{color=#79CDCD}%s"%stat.capitalize() xalign (0.02)
-                                $ tempc = "#F5F5DC"
+                                xysize 204, 25
+                                text "{}".format(stat.capitalize()) xalign .02 color "#79CDCD"
                                 if dummy:
-                                    $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
-                                    text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                                    $ tempstr = build_str_for_eq(eqtarget, dummy, stat, "#F5F5DC")
+                                    text tempstr style "stats_value_text" xalign .98 yoffset 3
                                 else:
-                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) style "stats_value_text" xalign 1.0 color ivory yoffset 3
+                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) xalign .98 yoffset 3 style "stats_value_text" color tempc
                                             
                     # BATTLE STATS ============================>
                     frame:
                         background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
-                        xysize (218, 230)
-                        xpadding 0
-                        ypadding 0
+                        xsize 218
+                        xpadding 6
+                        ypadding 6
                         xmargin 0
                         ymargin 0
-                        style_group "stats"
-                        has vbox spacing -7
-                        
-                        null height 10
-                        label (u"{size=18}{color=#CDCDC1}{b}Battle Stats:") xalign(0.49)
+                        style_group "proper_stats"
+                        has vbox spacing 1
+                         
+                        null height 1
+                        label (u"{size=18}{color=#CDCDC1}{b}Battle Stats:") xalign .49
                         $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
-                        
-                        null height 10
-                    
+                        null height 1
+                     
                         for stat, color in stats:
                             frame:
-                                style "base_stats_frame"
-                                xalign 0.5
-                                xysize (215, 35)
-                                text "[stat]" color color size 16 xalign (0.02)
+                                xysize 204, 25
+                                text "[stat]" color color style "stats_value_text" yoffset 2
                                 $ stat = stat.lower()
                                 if stat == "mp":
                                     $ tempc = red if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
@@ -439,9 +428,9 @@ screen char_equip():
                                     $ tempc = color
                                 if dummy:
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
-                                    text tempstr style "stats_value_text" xalign 1.0 yoffset 3
+                                    text tempstr style "stats_value_text" xalign .98 yoffset 3
                                 else:
-                                    text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) style "stats_value_text" color color  xalign 1.0  yoffset 3
+                                    text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) xalign .98 yoffset 3 style "stats_value_text" color tempc
                                 
             
             elif stats_display == "pro":

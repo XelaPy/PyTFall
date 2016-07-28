@@ -431,8 +431,8 @@ screen char_profile():
                         $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
                         frame:
                             xysize (290, 27)
-                            xalign 0.5
-                            text "Health:" xalign 0.02 color "#CD4F39"
+                            xalign .5
+                            text "Health:" xalign .02 color "#CD4F39"
                             if char.health <= char.get_max("health")*0.3:
                                 text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
                             else:
