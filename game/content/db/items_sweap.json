@@ -50,7 +50,7 @@
     "type": "Dagger",
     "attacks": ["KnifeAttack"],
     "max": {"attack": 5, "agility": 20},
-    "mod": {"attack": 5, "agility": 15},
+    "mod": {"attack": 5, "agility": 15, "evasion": 1},
     "locations": ["Work Shop"]
     },
     {
@@ -147,7 +147,7 @@
     "type": "Dagger",
     "attacks": ["KnifeAttack"],
     "max": {"attack": 30, "agility": 10},
-    "mod": {"attack": 40, "character": 5, "defence": -20},
+    "mod": {"attack": 40, "character": 5, "defence": -20, "evasion": 1},
     "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": []
     },
@@ -333,7 +333,7 @@
     "type": "Nonweapon",
     "attacks": ["FistAttack"],
     "max": {"defence": 60},
-    "mod": {"defence": 50},
+    "mod": {"defence": 50, "evasion": 1},
     "locations": ["Exploration"]
     },
     {
@@ -522,7 +522,7 @@
     },
     {
     "id": "Vibranium Shield",
-    "desc": "A superior shield made from a rare substance.  It can block almost any attack and you look good holding it.",
+    "desc": "A superior shield made from a rare substance capable to absorb kinetic energy.",
     "icon": "content/items/sweapon/Cap shield.png",
     "price": 5000,
     "sex": "unisex",

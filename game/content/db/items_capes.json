@@ -295,7 +295,7 @@
     "slot": "cape",
     "type": "armor",
     "max": {"joy": 5, "mp": 10, "magic": 10, "defence": 15, "agility": 10},
-    "mod": {"defence": 15, "magic": 20, "character": 5, "agility": -10, "attack": -10},
+    "mod": {"defence": 15, "magic": 20, "character": 5, "agility": -10, "attack": -10, "evasion": 1},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien"]
@@ -331,7 +331,7 @@
     "slot": "cape",
     "type": "armor",
     "max": {"defence": 10, "agility": 25},
-    "mod": {"defence": 15, "agility": 25, "attack": 20, "charisma": -15},
+    "mod": {"defence": 15, "agility": 25, "attack": 20, "charisma": -15, "evasion": 1},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": []

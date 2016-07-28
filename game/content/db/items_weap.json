@@ -235,7 +235,7 @@
     "type": "Sword",
     "attacks": ["SwordAttack"],
     "max": {"attack": 80, "magic": 80, "agility": -40},
-    "mod": {"attack": 20, "magic": 20},
+    "mod": {"attack": 20, "magic": 20, "evasion": 1},
     "locations": ["Witches Hut"]
     },
     {
@@ -328,7 +328,7 @@
     "type": "Sword",
     "attacks": ["SwordAttack"],
     "max": {"attack": 150, "charisma": 30, "agility": 15, "defence": 25},
-    "mod": {"attack": 50, "character": 50, "charisma": 20, "agility": 20},
+    "mod": {"attack": 50, "character": 50, "charisma": 20, "agility": 20, "evasion": 1},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien", "Virtuous"],
@@ -349,7 +349,7 @@
     "type": "Sword",
     "attacks": ["SwordAttack"],
     "max": {"attack": 200, "charisma": -50, "agility": 50, "defence": 40},
-    "mod": {"attack": 80, "character": 100, "agility": 30},
+    "mod": {"attack": 80, "character": 100, "agility": 30, "evasion": 1},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.03, 0, 0], "bdsm": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien", "Vicious"],
@@ -371,7 +371,7 @@
     "attacks": ["SwordAttack"],
     "mod_skills": {"refinement": [0, 0, -0.5, 0, 0], "teaching": [0, 0, -0.5, 0, 0], "management": [0, 0, -0.5, 0, 0], "exploration": [0, 0, -0.5, 0, 0], "service": [0, 0, -0.5, 0, 0], "bartending": [0, 0, -0.5, 0, 0], "waiting": [0, 0, -0.5, 0, 0], "dancing": [0, 0, -0.5, 0, 0]},
     "max": {"attack": 500, "charisma": -250, "agility": 100, "defence": 100, "joy": -40},
-    "mod": {"attack": 400, "character": 50, "defence": 50, "agility": 50, "intelligence": -30},
+    "mod": {"attack": 400, "character": 50, "defence": 50, "agility": 50, "intelligence": -30, "evasion": 2},
     "locations": ["Exploration"]
     },
     {
@@ -408,7 +408,7 @@
     "type": "Scythe",
     "attacks": ["ScytheAttack"],
     "max": {"attack": 250, "agility": 50, "joy": -20, "magic": 50, "defence": 20},
-    "mod": {"attack": 100, "character": 60, "agility": 10, "magic": 10, "defence": 10},
+    "mod": {"attack": 100, "character": 60, "agility": 10, "magic": 10, "defence": 10, "evasion": 1},
     "locations": ["Exploration"]
     },
     {
