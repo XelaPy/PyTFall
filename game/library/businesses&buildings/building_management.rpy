@@ -1774,7 +1774,7 @@ init: # Screens:
                         action temp.prev_team_to_launch, renpy.restart_interaction
                     textbutton "Launch \n[temp.focus_team.name]":
                         xsize 300
-                        action NullAction() # TODO: Make pretty and allow changing teams. Make this work, I made all the list...
+                        action Function(temp.launch_team, area)
                     textbutton "==>":
                         yalign .5
                         action temp.next_team_to_launch, renpy.restart_interaction

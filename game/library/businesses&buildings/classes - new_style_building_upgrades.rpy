@@ -1110,10 +1110,12 @@ init -5 python:
                 for i in range(5):
                     self.teams.append(Team(str(i), free=1))
                     
+            self.workable = True
             self.focus_team = None
             self.team_to_launch_index = 0
             self.capture_chars = False # Do we capture chars during exploration in this building. # Move to Areas?
             
+        # Teams control methods:
         def teams_to_launch(self):
             # Returns a list of teams that can be launched on an exploration run.
             # Must have at least one member and NOT already running exploration!
@@ -1145,6 +1147,7 @@ init -5 python:
             # Teams avalible for setup in order to set them on exploration runs.
             return [t for t in self.teams if t not in self.exploring_teams()]
             
+        # SimPy methods:
         def business_control(self):
             """SimPy business controller.
             """
@@ -1199,6 +1202,8 @@ init -5 python:
             
             while 1:
                 yield self.env.timeout(5) # We travel...
+                
+                raise Exception("meow")
                 
                 tracker.ep -= tracker.tp
                 tracker.traveled += 1.25
