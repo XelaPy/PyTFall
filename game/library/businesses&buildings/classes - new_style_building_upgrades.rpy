@@ -1102,14 +1102,16 @@ init -5 python:
             super(ExplorationGuild, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
             # Global Values that have effects on the whole business.
-            self.explorers = list() # List to hold all the (active) exploring trackers.
-            self.focus_team = None
-            self.team_to_launch_index = 0
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...
+            self.explorers = list() # List to hold all the (active) exploring trackers.
+
             self.teams.append(Team("Avengers", free=1))
             if config.debug:
                 for i in range(5):
                     self.teams.append(Team(str(i), free=1))
+                    
+            self.focus_team = None
+            self.team_to_launch_index = 0
             self.capture_chars = False # Do we capture chars during exploration in this building. # Move to Areas?
             
         def teams_to_launch(self):
@@ -1152,6 +1154,18 @@ init -5 python:
             while 1:
                 yield self.env.timeout(100)
                 
+        def launch_team(self, area, _team=None):
+            # Moves the team to appropriate list, removes from main one and makes sure everything is setup right from there on out:
+            team = self.focus_team if not _team else _team
+            # self.teams.remove(team) # We prolly do not do this?
+            
+            tracker = ExplorationTracker(team, area)
+            self.explorers.append(tracker)
+            
+            if not _team:
+                self.focus_team = None
+                self.team_to_launch_index = 0
+            
         def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
             
