@@ -769,20 +769,19 @@ init -1 python: # Core classes:
             effects = list()
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
-                if dice((a.luck+50)*0.35): # Critical hit prevents any evasion and depends solely on the attacker luck, 35% with luck 50
+                if dice((a.luck+50)*0.35): # Critical hit prevents any evasion and depends solely on the attacker luck, 35% with luck 50; in the future it probably will be tied to weapon skills
                     multiplier += 1.5 + self.critpower
                     effects.append("critical_hit")
                 else:
-                    # Let's calculate evasion chance. Base chance is 1/20 of absolute luck value, thus at max luck (50) it will be 5%.
-                    evasion_chance = (50+t.luck)*0.5
-                    # Second is the difference between levels. Every 10 levels give 1%, cannot be more than 20%. The difference can be negative, thus actually decreasing the chance.
-                    dif = (t.level-a.level)*0.1
-                    if dif > 20:
-                        dif = 20
-                    evasion_chance += dif
-                    # Finally, the character evasion stat
-                    evasion_chance += t.evasion
-                    healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
+                    evasion_chance = t.evasion # starting evasion chance = evasion stat
+                    # Additional chance based on luck. At max luck (50) it will be 2%.
+                    evasion_chance += (50+t.luck)*0.2
+                    # Difference in levels. Every 10 levels give 1%, cannot be negative. 1000 levels difference means 100% evasion.
+                    if t.level>a.level:
+                        dif = (t.level-a.level)*0.1
+                        evasion_chance += dif
+                    
+                    healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
                     evasion_chance += healthlevel
                     if dice(evasion_chance):
                         multiplier = 0
@@ -794,18 +793,17 @@ init -1 python: # Core classes:
                     evasion_chance = -1
                 elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
                     evasion_chance = -1
-                else: # magic evasion is similar to usual one, with lower chance for levels difference
-                    evasion_chance = (50+t.luck)*0.25
-                    dif = (t.level-a.level)*0.025
-                    if dif > 20:
-                        dif = 20
-                    evasion_chance += dif
-                    evasion_chance += t.evasion
+                else: # magic evasion
+                    evasion_chance = t.evasion
+                    evasion_chance += (50+t.luck)*0.2
+                    if t.level>a.level:
+                        dif = (t.level-a.level)*0.05 # levels difference is less meaningful against spells
+                        evasion_chance += dif
                     healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
                     evasion_chance += healthlevel
                     if self.type == "all_enemies":
                         evasion_chance *= 0.5 # and only 1/2 of evasion chance is used for any mass spells
-                    # thus, spells are dodgeable, especially casted by much weaker opponents, but the chance is considerably lower than for normal attack. It balances the fact that spells don't have crit hits
+                    # thus, spells are dodgeable but the chance is considerably lower than for normal attack. It balances the fact that spells don't have crit hits
                 if dice(evasion_chance):
                     multiplier = 0
                     effects.append("missed_hit")

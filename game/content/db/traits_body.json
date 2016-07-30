@@ -7,6 +7,7 @@
     "max": {"charisma": 20, "agility": -10},
     "mod_stats": {"charisma": [1, 4], "agility": [-1, 4]},
     "mod_skills": {"strip": [-0.08, 0, 0.1], "dance": [-0.1, 0, -0.1]},
+    "mod": {"evasion": -8},
     "breasts": true
     },
     {
@@ -17,13 +18,14 @@
     "max": {"charisma": 10, "agility": -5},
     "mod_stats": {"charisma": [1, 5], "agility": [-1, 5]},
     "mod_skills": {"strip": [-0.04, 0, 0.05]},
+    "mod": {"evasion": -4},
     "breasts": true
     },
     {
     "id": "Average Boobs",
     "desc": "Her boobs are somewhere in the B-C cup range. Any classy guy will say that this is the ideal size.",
     "blocks": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
-    "mod_stats": {"charisma": [1, 10]},
+    "mod_stats": {"charisma": [1, 5]},
     "breasts": true
     },
     {
@@ -32,8 +34,9 @@
     "blocks": ["Abnormally Large Boobs", "Average Boobs", "Big Boobs"],
     "min": {"agility": 5},
     "max": {"charisma": -20, "agility": 10},
-    "mod_stats": {"charisma": [-1, 4], "agility": [1, 4]},
+    "mod_stats": {"charisma": [-2, 4], "agility": [1, 4]},
     "mod_skills": {"strip": [-0.1, 0, -0.1], "dancing": [0.03, 0, 0.02]},
+    "mod": {"evasion": 3},
     "breasts": true
     },
     {
@@ -47,7 +50,7 @@
     "id": "Long Legs",
     "desc": "The legs on this girl go all the way to heaven.",
     "max": {"charisma": 5},
-    "mod_stats": {"charisma": [1, 15], "agility": [1, 15]},
+    "mod_stats": {"charisma": [1, 10], "agility": [1, 5]},
     "mod_skills": {"strip": [0, 0, 0.02], "dancing": [0, 0, 0.01]},
     "permanent": true
     },
@@ -61,7 +64,7 @@
    {
     "id": "Strange Eyes",
     "desc": "Her eyes are unusual in some way.",
-    "mod_stats": {"charisma": [-1, 15]},
+    "mod_stats": {"charisma": [-2, 4]},
     "max": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01]},
     "permanent": true
@@ -71,26 +74,26 @@
     "desc": "This girl looks very young and small.",
     "blocks": ["Slim", "Chubby", "Athletic", "Manly"],
     "min": {"agility": 5},
-    "max": {"vitality": -100},
-    "mod_stats": {"constitution": [-1, 5], "agility": [1, 5]},
-    "mod_skills": {"cleaning": [-0.01, 0, -0.03], "exploration": [0.01, 0, 0]},
+    "max": {"vitality": -100, "health": -50},
+    "mod_stats": {"constitution": [-3, 1], "agility": [2, 2]},
+    "mod": {"evasion": 10},
+    "mod_ap": 1,
     "body": true
     },
     {
     "id": "Slim",
     "desc": "This girl has a slender, slim figure.",
     "blocks": ["Lolita", "Chubby", "Athletic", "Manly"],
-    "mod_stats": {"constitution": [-1, 5], "charisma": [1, 5]},
+    "mod_stats": {"constitution": [-1, 1], "charisma": [1, 1]},
     "max": {"vitality": -50},
-    "mod_skills": {"dancing": [0.01, 0, 0.01]},
     "body": true
     },
     {
     "id": "Chubby",
     "blocks": ["Lolita", "Slim", "Athletic", "Manly"],
     "desc": "This girl has plump, slightly round figure.",
-    "mod_stats": {"constitution": [1, 5], "agility": [-1, 5]},
-    "mod_skills": {"exploration": [-0.03, 0, -0.04]},
+    "mod_stats": {"constitution": [1, 2], "agility": [-2, 1]},
+    "max": {"health": 50},
     "body": true
     },
     {
@@ -98,28 +101,27 @@
     "blocks": ["Lolita", "Slim", "Chubby", "Manly"],
     "desc": "This girl is tough and has trained a lot. Her body is in great shape.",
     "min": {"constitution": 5},
-    "mod_stats": {"health": [1, 10], "constitution": [1, 5], "agility": [1, 20]},
-    "max": {"health": 5, "vitality": 50},
-    "mod_skills": {"exploration": [0.01, 0, 0.01]},
+    "mod_stats": {"constitution": [1, 2], "agility": [1, 2]},
+    "max": {"health": 25, "vitality": 50},
+    "mod": {"evasion": 5},
     "body": true
     },
    {
     "id": "Manly",
     "blocks": ["Lolita", "Slim", "Chubby", "Athletic"],
     "desc": "This girl is very muscular. Perhaps even too muscular.",
-    "min": {"constitution": 5},
-    "mod_stats": {"constitution": [1, 5], "charisma": [-1, 5], "health": [1, 8], "agility": [-1, 10]},
-    "max": {"health": 10, "vitality": 100, "charisma": -50, "attack": 5, "defence": 5, "agility": -5},
-    "mod_skills": {"exploration": [0.02, 0, 0.02], "service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
+    "min": {"constitution": 15},
+    "mod_stats": {"constitution": [1, 2], "charisma": [-3, 1], "agility": [-3, 2]},
+    "max": {"health": 25, "vitality": 100, "charisma": -50, "attack": 10, "defence": 10, "agility": -25},
+    "mod_skills": {"service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
     "body": true
     },
     {
     "id": "Artificial Body",
     "desc": "This girl's body is not alive or real, it is a machine or has been created with magic.",
-    "mod": {"upkeep": 40},
-    "mod_stats": {"health": [1, 5]},
-    "min": {"constitution": 5, "defence": 5},
-    "max": {"constitution": 5, "defence": 5, "health": 50, "vitality": 50},
+    "mod": {"upkeep": 150, "evasion": 2},
+    "min": {"constitution": 5, "defence": 15},
+    "max": {"constitution": 10, "defence": 15, "health": 50, "vitality": 50},
     "permanent": true,
     "client": true
     },
@@ -142,9 +144,9 @@
    {
     "id": "Alien",
     "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society.",
-    "mod": {"upkeep": 20},
-    "mod_stats": {"magic": [-1, 30], "constitution": [-1, 30]},
-    "max": {"magic": 10, "attack": 10, "defence": 10, "constitution": 5},
+    "mod": {"upkeep": 40},
+    "mod_stats": {"magic": [-3, 1], "constitution": [-2, 2]},
+    "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},
     "permanent": true
     }
