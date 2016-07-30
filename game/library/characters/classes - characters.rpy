@@ -873,7 +873,7 @@ init -9 python:
                 val = self.min[key]
                 
             # Normalize for displaying (if less than 0):
-            if key not in ["disposition", "luck"]:
+            if key not in ["disposition", "luck", "evasion"]:
                 if val < 0:
                     val = 0
                 

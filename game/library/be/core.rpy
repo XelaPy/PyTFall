@@ -774,8 +774,8 @@ init -1 python: # Core classes:
                     effects.append("critical_hit")
                 else:
                     evasion_chance = t.evasion # starting evasion chance = evasion stat
-                    # Additional chance based on luck. At max luck (50) it will be 2%.
-                    evasion_chance += (50+t.luck)*0.2
+                    # Additional chance based on luck. At max luck (50) it will be 5%.
+                    evasion_chance += (50+t.luck)*0.5
                     # Difference in levels. Every 10 levels give 1%, cannot be negative. 1000 levels difference means 100% evasion.
                     if t.level>a.level:
                         dif = (t.level-a.level)*0.1
@@ -795,7 +795,7 @@ init -1 python: # Core classes:
                     evasion_chance = -1
                 else: # magic evasion
                     evasion_chance = t.evasion
-                    evasion_chance += (50+t.luck)*0.2
+                    evasion_chance += (50+t.luck)*0.5
                     if t.level>a.level:
                         dif = (t.level-a.level)*0.05 # levels difference is less meaningful against spells
                         evasion_chance += dif

@@ -17,6 +17,7 @@
     "id": "Adventurer",
     "desc": "This girl loves adventures.",
     "blocks": ["Homebody"],
+    "mod": {"evasion": 1},
     "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
     "character_trait": true
     },
