@@ -547,6 +547,7 @@ init -5 python:
         def __init__(self, name="Task Default", instance=None, desc="Completes given task!", img=Null(), build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             super(TaskUpgrade, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             
+            self.res = None #*Throws an error?
             
     class BrothelBlock(PrivateBusinessUpgrade):
         COMPATIBILITY = []
