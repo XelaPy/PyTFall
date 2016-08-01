@@ -1064,7 +1064,24 @@ init -5 python:
             
         def build_nd_report(self):
             # Build one major report for next day!
-            pass
+            
+            # We need to create major report for nd to keep track of progress:
+            # if isinstance(self.txt, (list, tuple)):
+                # try:
+                    # self.txt = "".join(self.txt)
+                # except TypeError:
+                    # self.txt = "".join(str(i) for i in self.txt)
+            
+            return NDEvent(type=self.event_type,
+                                      img=self.img,
+                                      txt=self.txt,
+                                      char=self.worker,
+                                      team=self.team,
+                                      charmod=self.workermod,
+                                      loc=self.loc,
+                                      locmod=self.locmod,
+                                      green_flag=self.flag_green,
+                                      red_flag=self.flag_red)
     
             
     class ExLog(Action):
