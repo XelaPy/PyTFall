@@ -1065,18 +1065,14 @@ init -5 python:
         def build_nd_report(self):
             # Build one major report for next day!
             self.txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
+            event_type = "jobreport"
             
             # We need to create major report for nd to keep track of progress:
             for log in self.logs:
                 if log.nd_log:
-                    self.txt.append(log.)
-            if isinstance(self.txt, (list, tuple)):
-                try:
-                    self.txt = "".join(self.txt)
-                except TypeError:
-                    self.txt = "".join(str(i) for i in self.txt)
+                    self.txt.append("\n".join(log.txt))
             
-            return NDEvent(type=self.event_type,
+            return NDEvent(type=event_type,
                                       img=self.img,
                                       txt=self.txt,
                                       char=self.worker,
