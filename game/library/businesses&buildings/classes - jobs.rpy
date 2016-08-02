@@ -567,6 +567,7 @@
         def logloc(self, s, value):
             # Logs a stat for the building:
             self.locmod[s] = self.workermod.get(s, 0) + value
+            
     ####################### Whore Job  ############################
     class WhoreJob(NewStyleJob):
         #Temporarily restored for reference!
