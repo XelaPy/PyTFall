@@ -982,7 +982,8 @@ init -5 python:
                                 t.remove(char)
             
     # Temporary I'll Put Exploration code here:
-    class ExplorationTracker(_object):
+    class ExplorationTracker(Job):
+        # Added inheritance for Job so we can use the required methods,
         """The class that stores data for an exploration job.
         
         *Not really a Job, it stores data and doesn't write any reports to ND. **Maybe it should create ND report once the run is done!
@@ -1066,6 +1067,9 @@ init -5 python:
             # Build one major report for next day!
             self.txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
             event_type = "jobreport"
+            
+            # Build an image combo for the report:
+            
             
             # We need to create major report for nd to keep track of progress:
             for log in self.logs:
