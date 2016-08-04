@@ -1065,11 +1065,12 @@ init -5 python:
             
         def build_nd_report(self):
             # Build one major report for next day!
-            self.txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
+            txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
             event_type = "jobreport"
             
             # Build an image combo for the report:
-            
+            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            img.add(Transform(vp, align=(.5, .9)))
             
             # We need to create major report for nd to keep track of progress:
             for log in self.logs:
@@ -1077,8 +1078,8 @@ init -5 python:
                     self.txt.append("\n".join(log.txt))
             
             return NDEvent(type=event_type,
-                                      img=self.img,
-                                      txt=self.txt,
+                                      img=simg,
+                                      txt=txt,
                                       char=self.worker,
                                       team=self.team,
                                       charmod=self.workermod,
