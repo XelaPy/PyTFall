@@ -1205,6 +1205,9 @@ init -5 python:
             while self.env.now < 99:
                 if tracker.state == "traveling to":
                     yield self.env.process(self.travel_to(tracker))
+                    # Testing mode, we can plainly build a report to see what's happening:
+                    tracker.build_nd_report() # Report methods needs moar luv, this is not gonna fly atm. Gonna try making it work tonight.
+                    
                 # elif tracker.state == "exploring":
                     # yield self.env.process(self.explore(tracker))
                 # elif tracker.state == "camping":
@@ -1215,6 +1218,8 @@ init -5 python:
             if config.debug:
                 tracker.log("The day has come to an end for {}.".format(tracker.team.name))
             tracker.day += 1
+            
+            
                     
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
