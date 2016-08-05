@@ -589,13 +589,7 @@ init -1 python: # Core classes:
             return in_range # List: So we can support indexing...
             
         def check_conditions(self, source=None):
-            # if source:
-                # char = source
-            # else:
-                # char = self.source
-            # if self.get_targets(char):
-                # return True
-                
+            
             char = source if source else self.source
                 
             # Check if attacker has enought resources for the attack:
@@ -894,20 +888,32 @@ init -1 python: # Core classes:
             # Here it is simple since we are only focusing on damaging health:
             # prepare the variables:
             died = list()
-            
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             for t in targets:
                 if t.health - t.beeffects[0] > 0:
                     t.mod("health", -t.beeffects[0])
                 else:
-                    died.append(t)
-                    # if t.can_die:
-                        # t.health = 0 # This prolly should be moved to end routine to prevent major fuckups with teams!:
-                    # else:
-                    t.health = 1
                     battle.end_turn_events.append(RPG_Death(t))
+                    died.append(t)
                     
+            # Here we need to take of cost:
+            if not(isinstance(self.mp_cost, int)):
+                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
+            else:
+                mp_cost = self.mp_cost
+            if not(isinstance(self.health_cost, int)):
+                health_cost = int(self.source.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+            if not(isinstance(self.vitality_cost, int)):
+                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+                
+            self.source.mp -= mp_cost
+            self.source.health -= health_cost
+            self.source.vitality -= vitality_cost
             return died
             
         def __call__(self, ai=False, t=None):

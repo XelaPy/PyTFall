@@ -180,39 +180,7 @@ init python:
             else:
                 self.health_cost = health_cost
             self.vitality_cost = vitality_cost
-                    
-        def apply_effects(self, targets):
-            # Not 100% for that this will be required...
-            # Here it is simple since we are only focusing on damaging health:
-            # prepare the variables:
-            died = list()
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            for t in targets:
-                if t.health - t.beeffects[0] > 0:
-                    t.mod("health", -t.beeffects[0])
-                else:
-                    battle.end_turn_events.append(RPG_Death(t))
-                    died.append(t)
-                    
-            # Here we need to take of cost:
-            if not(isinstance(self.mp_cost, int)):
-                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
-            else:
-                mp_cost = self.mp_cost
-            if not(isinstance(self.health_cost, int)):
-                health_cost = int(self.source.get_max("health")*self.health_cost)
-            else:
-                health_cost = self.health_cost
-            if not(isinstance(self.vitality_cost, int)):
-                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
-            else:
-                vitality_cost = self.vitality_cost
-                
-            self.source.mp -= mp_cost
-            self.source.health -= health_cost
-            self.source.vitality -= vitality_cost
-            return died
+            
             
     class SimpleMagicalAttack(BE_Action):
         """Simplest attack, usually simple magic.
@@ -275,38 +243,6 @@ init python:
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + 0.1)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
-                    
-        def apply_effects(self, targets):
-            # Not 100% for that this will be required...
-            # Here it is simple since we are only focusing on damaging health:
-            # prepare the variables:
-            died = list()
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            for t in targets:
-                if t.health - t.beeffects[0] > 0:
-                    t.mod("health", -t.beeffects[0])
-                else:
-                    battle.end_turn_events.append(RPG_Death(t))
-                    died.append(t)
-                    
-            # Here we need to take of cost:
-            if not(isinstance(self.mp_cost, int)):
-                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
-            else:
-                mp_cost = self.mp_cost
-            if not(isinstance(self.health_cost, int)):
-                health_cost = int(self.source.get_max("health")*self.health_cost)
-            else:
-                health_cost = self.health_cost
-            if not(isinstance(self.vitality_cost, int)):
-                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
-            else:
-                vitality_cost = self.vitality_cost
-            self.source.mp -= mp_cost
-            self.source.health -= health_cost
-            self.source.vitality -= vitality_cost
-            return died
             
             
     class ArealMagicalAttack(SimpleMagicalAttack):
