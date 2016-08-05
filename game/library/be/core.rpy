@@ -589,12 +589,36 @@ init -1 python: # Core classes:
             return in_range # List: So we can support indexing...
             
         def check_conditions(self, source=None):
-            if source:
-                char = source
+            # if source:
+                # char = source
+            # else:
+                # char = self.source
+            # if self.get_targets(char):
+                # return True
+                
+            char = source if source else self.source
+                
+            # Check if attacker has enought resources for the attack:
+            if not isinstance(self.mp_cost, int):
+                mp_cost = int(char.get_max("mp")*self.mp_cost)
             else:
-                char = self.source
-            if self.get_targets(char):
-                return True
+                mp_cost = self.mp_cost
+                
+            if not isinstance(self.health_cost, int):
+                health_cost = int(char.get_max("health")*self.health_cost)
+            else:
+                health_cost = self.health_cost
+                
+            if not isinstance(self.vitality_cost, int):
+                vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
+            else:
+                vitality_cost = self.vitality_cost
+                
+            # We need to make sure that we have enough resources for this one:
+            # Making sure we cannot kill the source by taking off all the health:
+            if (char.mp - mp_cost >= 0) and (char.health - health_cost > 0) and (char.vitality - vitality_cost >= 0):
+                if self.get_targets(char):
+                    return True
                 
         def effects_resolver(self, targets):
             """

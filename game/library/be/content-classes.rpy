@@ -180,31 +180,6 @@ init python:
             else:
                 self.health_cost = health_cost
             self.vitality_cost = vitality_cost
-            
-        def check_conditions(self, source=None):
-            if source:
-                char = source
-            else:
-                char = self.source
-                
-            # Check if attacker has enought resources for the attack:
-            if not(isinstance(self.mp_cost, int)):
-                mp_cost = int(char.get_max("mp")*self.mp_cost)
-            else:
-                mp_cost = self.mp_cost
-            if not(isinstance(self.health_cost, int)):
-                health_cost = int(char.get_max("health")*self.health_cost)
-            else:
-                health_cost = self.health_cost
-            if not(isinstance(self.vitality_cost, int)):
-                vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
-            else:
-                vitality_cost = self.vitality_cost
-                
-            # We need to make sure that we have enough resources for this one:
-            if (char.mp - mp_cost >= 0) and (char.health - health_cost >= 0) and (char.vitality - vitality_cost >= 0):
-                if self.get_targets(char):
-                    return True
                     
         def apply_effects(self, targets):
             # Not 100% for that this will be required...
@@ -300,28 +275,6 @@ init python:
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + 0.1)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
-
-        def check_conditions(self, source=None):
-            if source:
-                char = source
-            else:
-                char = self.source
-            if not(isinstance(self.mp_cost, int)):
-                mp_cost = int(char.get_max("mp")*self.mp_cost)
-            else:
-                mp_cost = self.mp_cost
-            if not(isinstance(self.health_cost, int)):
-                health_cost = int(char.get_max("health")*self.health_cost)
-            else:
-                health_cost = self.health_cost
-            if not(isinstance(self.vitality_cost, int)):
-                vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
-            else:
-                vitality_cost = self.vitality_cost
-            # We need to make sure that we have enough resources for this one:
-            if (char.mp - mp_cost >= 0) and (char.health - health_cost >= 0) and (char.vitality - vitality_cost >= 0):
-                if self.get_targets(char):
-                    return True
                     
         def apply_effects(self, targets):
             # Not 100% for that this will be required...
