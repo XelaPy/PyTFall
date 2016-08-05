@@ -327,7 +327,10 @@ init -1: # Images and Animations
 label load_battle_skills:
     python:
         # Weapons:
+        # Sword attacks:
         SimpleAttack("SwordAttack", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword", gfx=ProportionalScale("content/gfx/be/swords.png", 150, 150), sfx="content/sfx/sound/be/sword.mp3")
+        
+        
         SimpleAttack("BowAttack", attributes=["ranged"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
         SimpleAttack("CrossbowAttack", attributes=["ranged"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
         SimpleAttack("KnifeAttack", attributes=["melee"], critpower=1.0, desc="Stabbing with a dagger.", effect=4, vitality_cost=1, menuname="Stab", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3")

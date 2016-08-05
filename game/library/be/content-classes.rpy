@@ -169,6 +169,11 @@ init python:
             self.target_damage_effect["gfx"] = self.target_damage_effect.get("gfx", "battle_bounce")
             self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.1)
             
+            self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
+            self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
+            self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
+            
+            # Cost of the attack:
             self.mp_cost = mp_cost
             if not(isinstance(health_cost, int)) and health_cost > 0.9:
                 self.health_cost = 0.9
@@ -176,15 +181,13 @@ init python:
                 self.health_cost = health_cost
             self.vitality_cost = vitality_cost
             
-            self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
-            self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
-            self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
-            
         def check_conditions(self, source=None):
             if source:
                 char = source
             else:
                 char = self.source
+                
+            # Check if attacker has enought resources for the attack:
             if not(isinstance(self.mp_cost, int)):
                 mp_cost = int(char.get_max("mp")*self.mp_cost)
             else:
@@ -197,6 +200,7 @@ init python:
                 vitality_cost = int(char.get_max("vitality")*self.vitality_cost)
             else:
                 vitality_cost = self.vitality_cost
+                
             # We need to make sure that we have enough resources for this one:
             if (char.mp - mp_cost >= 0) and (char.health - health_cost >= 0) and (char.vitality - vitality_cost >= 0):
                 if self.get_targets(char):
@@ -229,6 +233,7 @@ init python:
                 vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
             else:
                 vitality_cost = self.vitality_cost
+                
             self.source.mp -= mp_cost
             self.source.health -= health_cost
             self.source.vitality -= vitality_cost
