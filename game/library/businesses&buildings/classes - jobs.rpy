@@ -1,5 +1,4 @@
 ﻿init -9 python:
-
     def check_char(c, check_ap=True):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
         

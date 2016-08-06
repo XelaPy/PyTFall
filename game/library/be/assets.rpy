@@ -328,7 +328,9 @@ label load_battle_skills:
     python:
         # Weapons:
         # Sword attacks:
-        SimpleAttack("SwordAttack", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword", gfx=ProportionalScale("content/gfx/be/swords.png", 150, 150), sfx="content/sfx/sound/be/sword.mp3")
+        SimpleAttack("SwordAttack", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword",
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3"},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         
         
         SimpleAttack("BowAttack", attributes=["ranged"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
