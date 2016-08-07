@@ -1,4 +1,28 @@
 label test_be:
+    python: # Do this just once, otherwise they get stronger and stronger when reloading.
+        h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
+        h.status = "free"
+        h.exp += 2000000
+        for stat in h.stats:
+            h.mod(stat, 1000)
+        h.front_row = False
+        n = chars["Nami"]
+        n.status = "free"
+        n.apply_trait("Air")
+        for skill in battle_skills.values():
+            if isinstance(skill, SimpleAttack):
+                if skill not in h.attack_skills:
+                    h.attack_skills.append(skill)
+                if skill not in n.attack_skills:
+                    n.attack_skills.append(skill)
+            else:
+                if skill not in h.magic_skills:
+                    h.magic_skills.append(skill)
+                if skill not in n.magic_skills:
+                    n.magic_skills.append(skill)
+        n.front_row = False
+        n.exp += 2000000
+        
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -24,30 +48,6 @@ label test_be:
             m.magic_skills.append(battle_skills["Water Blast"])
             # m.magic_skills.append(battle_skills["Pure Ion Storm"])
             
-        
-        h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
-        h.status = "free"
-        h.exp += 2000000
-        for stat in h.stats:
-            h.mod(stat, 1000)
-        h.front_row = False
-        n = chars["Nami"]
-        n.status = "free"
-        n.apply_trait("Air")
-        for skill in battle_skills.values():
-            if isinstance(skill, SimpleAttack):
-                if skill not in h.attack_skills:
-                    h.attack_skills.append(skill)
-                if skill not in n.attack_skills:
-                    n.attack_skills.append(skill)
-            else:
-                if skill not in h.magic_skills:
-                    h.magic_skills.append(skill)
-                if skill not in n.magic_skills:
-                    n.magic_skills.append(skill)
-        n.front_row = False
-        n.exp += 2000000
-        
         for i in hero.team:
             i.besk = None
         
@@ -63,8 +63,7 @@ label test_be:
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
-
-    $ battle.start_battle() # Gets it's own statement so shit doesn't get messed up.
+        battle.start_battle()
  
     jump mainscreen
     
