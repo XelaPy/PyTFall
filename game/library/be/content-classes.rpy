@@ -222,6 +222,8 @@ init python:
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
             
+            self.dodge_effect["gfx"] = "dodge"
+            
             # Cost of the attack:
             self.mp_cost = mp_cost
             if not(isinstance(health_cost, int)) and health_cost > 0.9:
@@ -390,6 +392,8 @@ init python:
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + 0.1)
             self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
+            
+            self.dodge_effect["gfx"] = "magic_shield"
             
             
     class ArealMagicalAttack(SimpleMagicalAttack):

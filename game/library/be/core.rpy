@@ -1383,26 +1383,37 @@ init -1 python: # Core classes:
                 effect_start = effect_start + random.uniform(0.001, 0.002)
             self.timestamps[effect_start] = renpy.curry(self.show_dodge_effect)(attacker, targets)
             
-            # delay = effect_start + self.bg_main_effect["duration"]
-            # if delay in self.timestamps:
-                # delay = delay + random.uniform(0.001, 0.002)
+            # Hiding timing as well in our new version:
+            delay = effect_start + self.main_effect["duration"]
+            if delay in self.timestamps:
+                delay = delay + random.uniform(0.001, 0.002)
             
-            # self.timestamps[delay] = self.hide_bg_main_effect
+            self.timestamps[delay] = renpy.curry(self.hide_dodge_effect)(targets)
                     
-        def show_dodge_effect(self, attacker,  targets):
+        def show_dodge_effect(self, attacker, targets):
+            gfx = self.dodge_effect.get("gfx", "dodge")
             # gfx = self.dodge_effect["gfx"]
             # sfx = self.dodge_effect.get("sfx", None)
             
             # if sfx:
                 # renpy.sound.play(sfx)
                 
-            for target in targets:
+            for index, target in enumerate(targets):
                 if "missed_hit" in target.beeffects:
-                    xoffset = -100 if battle.get_cp(attacker)[0] > battle.get_cp(target)[0] else 100
-                    renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset)], zorder=target.besk["zorder"])
+                    if gfx == "dodge":
+                        xoffset = -100 if battle.get_cp(attacker)[0] > battle.get_cp(target)[0] else 100
+                        renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset)], zorder=target.besk["zorder"])
+                    elif gfx == "magic_shield":
+                        tag = "dodge" + str(index)
+                        renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
                 
-        def hide_dodge_effect(self):
-            pass
+        def hide_dodge_effect(self, targets):
+            gfx = self.dodge_effect.get("gfx", "dodge")
+            
+            if gfx == "magic_shield":
+                for index, target in enumerate(targets):
+                    tag = "dodge" + str(index)
+                    renpy.hide(tag)
             
             
     class BE_AI(object):
