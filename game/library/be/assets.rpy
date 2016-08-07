@@ -1,5 +1,24 @@
 # Assets of the BE:
 init -1: # Images and Animations
+    # To be moved to transforms file:
+    transform double_strike(d1, d2, d2_offset, delay):
+        parallel:
+            alpha 1.0
+            d1
+            pause .2
+            linear .3 alpha .0
+            # pos pos1[0]
+            # anchor pos1[1]
+        parallel:
+            pause delay
+            alpha 1.0
+            d2
+            offset d2_offset
+            pause .2
+            linear .3 alpha .0
+            # pos pos2[0]
+            # anchor pos2[1]
+        
     $ renpy.audio.music.register_channel("main_gfx_attacks", renpy.config.movie_mixer, loop=False, stop_on_mute=False, movie=True)
     
     # FilmStrips:
@@ -331,9 +350,20 @@ label load_battle_skills:
         SimpleAttack("SwordAttack", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword",
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+        SimpleAttack2X("SwordAttack2X", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=10, range=5, vitality_cost=1, menuname="Double Slash", # TODO: Restore range to 1, this is for testing!
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .9},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .8},
+                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": .3},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": .5})
         
-        
+        # Bow Attacks:
         SimpleAttack("BowAttack", attributes=["ranged"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
+        SimpleAttack2X("BowAttack2X", attributes=["ranged"], critpower=0, desc="Shooting arrows.", effect=10, range=3, vitality_cost=1, menuname="Double Shot",
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": ["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"], "duration": .9},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .8},
+                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": .3},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": .5})
+        
         SimpleAttack("CrossbowAttack", attributes=["ranged"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
         SimpleAttack("KnifeAttack", attributes=["melee"], critpower=1.0, desc="Stabbing with a dagger.", effect=4, vitality_cost=1, menuname="Stab", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3")
         SimpleAttack("ClawAttack", attributes=["melee"], critpower=0.4, desc="Ripping with claws.", effect=5, vitality_cost=1, menuname="Claws", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
