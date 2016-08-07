@@ -238,9 +238,6 @@ init python:
         def __init__(self, name, **kwargs):
             super(SimpleAttack2X, self).__init__(name, **kwargs)
             
-        def fuck(self):
-            raise Exception("Fuck!")
-            
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
@@ -275,6 +272,57 @@ init python:
                 
                 # Create ATL Transform to show to player:
                 gfx = double_strike(gfx, gfx2, (offx, offy), .3)
+                
+                for index, target in enumerate(targets):
+                    gfxtag = "attack" + str(index)
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                    
+                    
+    class SimpleAttack3X(SimpleAttack):
+        """
+        Standard tripple-attack.
+        """
+        def __init__(self, name, **kwargs):
+            super(SimpleAttack3X, self).__init__(name, **kwargs)
+            
+        def show_main_gfx(self, battle, attacker, targets):
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX:
+            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if sfx:
+                renpy.play(sfx, channel="audio")
+                temp = MyTimer(.6, Play("audio", sfx))
+                renpy.show("_tag", what=temp) # Hide this later! TODO:
+                temp = MyTimer(.9, Play("audio", sfx))
+                renpy.show("_tag2", what=temp) # Hide this later! TODO:
+            
+            # GFX:
+            if gfx:
+                # Flip the attack image if required:
+                if self.main_effect.get("hflip", None):
+                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                
+                # Posional properties:
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
+                
+                # Now the "2X" part, we need to run the image/animation twice and at slightly different positions from one another...
+                # We can do that by adjusting xo/yo:
+                offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                offx2, offy2 = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                
+                # Flip the second sprite:
+                gfx2 = Transform(gfx, xzoom=-1)
+                gfx3 = Transform(gfx, yzoom=-1)
+                
+                # Create ATL Transform to show to player:
+                gfx = triple_strike(gfx, gfx2, gfx3, (offx, offy), (offx2, offy2), .3)
                 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)

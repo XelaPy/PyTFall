@@ -64,7 +64,7 @@ label test_be:
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
 
-        battle.start_battle()
+    $ battle.start_battle() # Gets it's own statement so shit doesn't get messed up.
  
     jump mainscreen
     
