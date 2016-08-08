@@ -44,6 +44,7 @@
     "desc": "This girl doesn't look like a normal human being.",
     "mod": {"upkeep": 10},
     "mod_skills": {"strip": [0, 0, 0.01], "refinement": [0, 0, 0.01]},
+    "mod": {"resistance": 1},
     "permanent": true
     },
    {
@@ -119,7 +120,7 @@
     {
     "id": "Artificial Body",
     "desc": "This girl's body is not alive or real, it is a machine or has been created with magic.",
-    "mod": {"upkeep": 150, "evasion": 2},
+    "mod": {"upkeep": 150, "evasion": 2, "resistance": 2},
     "min": {"constitution": 5, "defence": 15},
     "max": {"constitution": 10, "defence": 15, "health": 50, "vitality": 50},
     "permanent": true,
@@ -144,7 +145,7 @@
    {
     "id": "Alien",
     "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society.",
-    "mod": {"upkeep": 40},
+    "mod": {"upkeep": 50, "resistance": 20},
     "mod_stats": {"magic": [-3, 1], "constitution": [-2, 2]},
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},

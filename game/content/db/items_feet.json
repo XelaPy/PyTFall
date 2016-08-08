@@ -440,7 +440,7 @@
     "slot": "feet",
     "type": "armor",
     "max": {"defence": 40, "agility": 20},
-    "mod": {"defence": 25, "agility": 15, "evasion": 1},
+    "mod": {"defence": 25, "agility": 15, "evasion": 1, "resistance": 1},
     "locations": ["Exploration"]
     },
     {
@@ -496,7 +496,7 @@
     "type": "armor",
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "max": {"mp": 15, "magic": 5, "defence": 15, "agility": 15},
-    "mod": {"defence": 5, "agility": 5, "luck": 10, "magic": 5},
+    "mod": {"defence": 5, "agility": 5, "luck": 10, "magic": 5, "resistance": 1},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -514,7 +514,7 @@
     "slot": "feet",
     "type": "armor",
     "max": {"mp": 20, "magic": 30, "joy": 20, "charisma": 15, "defence": 25},
-    "mod": {"character": 20, "agility": -10, "defence": 10, "magic": 10, "charisma": 10, "attack": -40, "evasion": 1},
+    "mod": {"character": 20, "agility": -10, "defence": 10, "magic": 10, "charisma": 10, "attack": -40, "resistance": 2},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien"]

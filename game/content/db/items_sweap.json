@@ -153,7 +153,7 @@
     },
     {
     "id": "Jeweled Poignard",
-    "desc": "A finely crafted dagger, inlaid with silver and bearing a precious stone on its hilt. It's almost jewelry.",
+    "desc": "A finely crafted dagger, inlaid with silver and bearing a precious stone on its hilt. It's almost jewellery.",
     "icon": "content/items/sweapon/jp.png",
     "price": 450,
     "sex": "unisex",
@@ -333,7 +333,7 @@
     "type": "Nonweapon",
     "attacks": ["FistAttack"],
     "max": {"defence": 60},
-    "mod": {"defence": 50, "evasion": 1},
+    "mod": {"defence": 50, "evasion": 1, "resistance": 1},
     "locations": ["Exploration"]
     },
     {

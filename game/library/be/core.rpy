@@ -691,7 +691,11 @@ init -1 python: # Core classes:
                 if "critical_hit" in effects:
                     s.append(" {color=[lawngreen]}Critical Hit {/color}")
                 if "missed_hit" in effects:
-                    s.append(" {color=[lawngreen]}Attack Missed {/color}")
+                    gfx = self.dodge_effect.get("gfx", "dodge")
+                    if gfx == "dodge":
+                        s.append(" {color=[lawngreen]}Attack Missed {/color}")
+                    else:
+                        s.append(" {color=[lawngreen]}Spell Deflected {/color}")
                 if "absorbed" in effects:
                     s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
                     s.append(self.set_dmg_font_color(t, attributes, color="green"))
@@ -706,7 +710,7 @@ init -1 python: # Core classes:
         def default_damage_calculator(self, t, attack, defense, multiplier):
             
             resist = pow(attack/defense, 0.5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
-            damage = int((attack/defense)*multiplier*resist+randint(1,5))
+            damage = int((attack/defense*resist+randint(1,5))*multiplier)
             return damage
                 
         def get_row_damage(self, t, damage):
@@ -792,14 +796,7 @@ init -1 python: # Core classes:
                     effects.append("critical_hit")
                 else:
                     evasion_chance = t.evasion # starting evasion chance = evasion stat
-                    # Additional chance based on luck. At max luck (50) it will be 5%.
-                    evasion_chance += (50+t.luck)*0.5
-                    # Difference in levels. Every 10 levels give 1%, cannot be negative. 1000 levels difference means 100% evasion.
-                    if t.level>a.level:
-                        dif = (t.level-a.level)*0.1
-                        evasion_chance += dif
-                    
-                    healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
+                    healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
                     evasion_chance += healthlevel
                     if dice(evasion_chance):
                         multiplier = 0
@@ -811,52 +808,44 @@ init -1 python: # Core classes:
                     evasion_chance = -1
                 elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
                     evasion_chance = -1
-                else: # magic evasion
-                    evasion_chance = t.evasion
-                    evasion_chance += (50+t.luck)*0.5
-                    if t.level>a.level:
-                        dif = (t.level-a.level)*0.05 # levels difference is less meaningful against spells
-                        evasion_chance += dif
-                    healthlevel=(1-a.health/a.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
+                else: # magic resistance
+                    evasion_chance = t.resistance # base chance is the target resistance stat
+                    healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
                     evasion_chance += healthlevel
-                    if self.type == "all_enemies":
-                        evasion_chance *= 0.5 # and only 1/2 of evasion chance is used for any mass spells
-                    # thus, spells are dodgeable but the chance is considerably lower than for normal attack. It balances the fact that spells don't have crit hits
                 if dice(evasion_chance):
-                    multiplier = 0
+                    multiplier = 0.65 # successful resistance decreases spell damage; for now it's always 0.65, but eventually it might be depending on something
                     effects.append("missed_hit")
-                else:
-                    # Magic/Attribute alignment:
-                    for al in attributes:
-                        # Damage first:
-                        i = {}
-                        # @Review: We decided that any trait should influence this:
-                        for e in a.traits:
-                            if al in e.el_damage:
-                                i[e.id] = e.el_damage[al]
-                        if i:
-                            i = sum(i.values()) / len(i)
-                            if i > 0.15 or i < 0.15:
-                                if i > 0:
-                                    effects.append("elemental_damage_bonus")
-                                elif i < 0:
-                                    effects.append("elemental_damage_penalty")
-                            multiplier += i
-                            
-                        # Defence next:
-                        i = {}
-                        for e in t.traits:
-                            if al in e.el_defence:
-                                i[e.id] = e.el_defence[al]
-                        if i:
-                            i = sum(i.values()) / len(i)
-                            # From the perspective of the attacker...
-                            if i > 0.15 or i < 0.15:
-                                if i > 0:
-                                    effects.append("elemental_defence_penalty")
-                                elif i < 0:
-                                    effects.append("elemental_defence_bonus")
-                            multiplier -= i
+                # Magic/Attribute alignment:
+                for al in attributes:
+                    # Damage first:
+                    i = {}
+                    # @Review: We decided that any trait should influence this:
+                    for e in a.traits:
+                        if al in e.el_damage:
+                            i[e.id] = e.el_damage[al]
+                    if i:
+                        i = sum(i.values()) / len(i)
+                        if i > 0.15 or i < 0.15:
+                            if i > 0:
+                                effects.append("elemental_damage_bonus")
+                            elif i < 0:
+                                effects.append("elemental_damage_penalty")
+                        multiplier += i
+                        
+                    # Defence next:
+                    i = {}
+                    for e in t.traits:
+                        if al in e.el_defence:
+                            i[e.id] = e.el_defence[al]
+                    if i:
+                        i = sum(i.values()) / len(i)
+                        # From the perspective of the attacker...
+                        if i > 0.15 or i < 0.15:
+                            if i > 0:
+                                effects.append("elemental_defence_penalty")
+                            elif i < 0:
+                                effects.append("elemental_defence_bonus")
+                        multiplier -= i
                     
             return effects, multiplier
                 
@@ -879,7 +868,9 @@ init -1 python: # Core classes:
             
             # We do not want to show damage in the log if the attack missed:
             if to_string and "missed_hit" in effects:
-                return ""
+                gfx = self.dodge_effect.get("gfx", "dodge")
+                if gfx == "dodge":
+                    return ""
                 
             return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
             
@@ -1278,8 +1269,13 @@ init -1 python: # Core classes:
                     if target not in died or force:
                         tag = "bb" + str(index)
                         if "missed_hit" in target.beeffects:
-                            s = "Missed"
-                            color = getattr(store, target.dmg_font)
+                            gfx = self.dodge_effect.get("gfx", "dodge")
+                            if gfx == "dodge":
+                                s = "Missed"
+                                color = getattr(store, target.dmg_font)
+                            else:
+                                s = "▼ "+"%s"%target.beeffects[0]
+                                color = getattr(store, target.dmg_font)
                         else:
                             s = "%s"%target.beeffects[0]
                             if "critical_hit" in target.beeffects:
