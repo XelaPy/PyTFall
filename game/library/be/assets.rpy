@@ -1,6 +1,14 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # To be moved to transforms file:
+    transform multi_strike(d, offset, t):
+        # A Single instance of simple attack for the BE.
+        pause t
+        alpha 1.0
+        d2
+        offset d2_offset
+        linear .3 alpha .0
+            
     transform double_strike(d1, d2, d2_offset, delay):
         parallel:
             alpha 1.0
