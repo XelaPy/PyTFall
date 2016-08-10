@@ -56,21 +56,21 @@ init -1: # Images and Animations
     image soul_sword:
         anchor (0.0, 1.0)
         "content/gfx/be/animations/soul_sword/soul_sword_1.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_2.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_3.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_4.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_5.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_6.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_7.png" 
-        pause 0.1
+        pause 0.3
         "content/gfx/be/animations/soul_sword/soul_sword_8.png" 
-        pause 0.1
+        pause 0.3
     # Casting:
     python:
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
@@ -433,10 +433,8 @@ label load_battle_skills:
         SimpleAttack("WhipAttack", attributes=["melee"], critpower=0.4, effect=4, vitality_cost=1, menuname="Whip", desc="Lashing with a whip.", gfx=ProportionalScale("content/gfx/be/whip.png", 150, 150), sfx=["content/sfx/sound/be/whip_attack_1.mp3", "content/sfx/sound/be/whip_attack_2.mp3"])
         
         # Battle skills
-        SimpleMagicalAttack(u"Soul Sword", menu_pos=0, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=5, desc="Ignites a small plot of land.",
-                                           main_effect={"gfx": Transform("soul_sword", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 0.8, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
-                                           target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.1, "duration": 1.7},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
+        SimpleAttack("Soul Sword", attributes=["ranged"], critpower=0.4, range=3, effect=4, vitality_cost=1, desc="Lashing with a whip.", main_effect={"gfx": Transform("soul_sword", zoom=1.7), "sfx": "content/sfx/sound/be/sword.mp3"})
+
         # Magic:
         # Fire:
         # GFX/SFX Dicts:
