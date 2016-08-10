@@ -73,9 +73,9 @@ init python:
             self.next = 0
             self.displayable = [] # List of dict bindings if (D, st) to kill.
             
-    
         def render(self, width, height, st, at):
             if self.count == self.times:
+                raise Exception("VOOT")
                 return renpy.Render(0, 0)
                 
             if self.count < self.times and st >= self.next:
@@ -89,7 +89,7 @@ init python:
                 self.next = st + self.delay
                 self.displayable.append((gfx, self.next))
                 
-                self.next = st + self.delay
+                
                 
                 # We can just play the sound here:
                 if self.chain_sfx is None:
@@ -345,7 +345,7 @@ init python:
                 # gfx = triple_strike(gfx, gfx2, gfx3, (offx, offy), (offx2, offy2), .3)
                 
                 # Create a UDD:
-                
+                gfx = ChainedAttack(gfx, sfx, chain_sfx=True, times=5, delay=.3)
                 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
