@@ -68,17 +68,49 @@ init python:
             self.times = times
             self.delay = delay
             self.count = 0
+            
+            # Timing controls:
+            self.next = 0
+            self.displayable = [] # List of dict bindings if (D, st) to kill.
+            
     
         def render(self, width, height, st, at):
             if self.count == self.times:
                 return renpy.Render(0, 0)
                 
-            flip = choice([{"zoom": 0}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}])
-            offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
-            gfx = Transform(gfx, **flip)
+            if self.count < self.times and st >= self.next:
+                # Prep the data:
+                flip = choice([{"zoom": 0}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}])
+                offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                gfx = Transform(gfx, **flip)
+                gfx = multi_strike(gfx, (offx, offy), st)
+                
+                # Calc when we add the next gfx and remove the old one from the list. Right now it's a steady stream of ds but I'll prolly change it in the future.
+                self.next = st + self.delay
+                self.displayable.append((gfx, self.next))
+                
+                self.next = st + self.delay
+                
+                # We can just play the sound here:
+                if self.chain_sfx is None:
+                    pass
+                elif self.chain_sfx is False and self.count == 0 and len(self.displayable) == 1:
+                    renpy.play(self.sfx, channel="audio")
+                else:
+                    renpy.play(self.sfx, channel="audio")
+                
+            # Remove if we're done with this displayable:
+            for d, t in self.displayable[:]:
+                if t >= st:
+                    self.displayable.remove((d, t))
+                    self.count += 1 # Keeping the count.
+                    
+            # Render everything else:
+            render = renpy.Render(width, height)
+            for d, t in self.displayable:
+                render.place(d)
             
-            self.function()
-            return renpy.Render(0, 0)
+            return render
     
     
     # Plain Events:
@@ -264,6 +296,60 @@ init python:
             else:
                 self.health_cost = health_cost
             self.vitality_cost = vitality_cost
+            
+            
+    class MultiAttack(SimpleAttack):
+        """
+        Base class for multi attack skills, which basically show the same displayable and play sounds (conditioned),
+        """
+        def __init__(self, name, **kwargs):
+            super(MultiAttack, self).__init__(name, **kwargs)
+            
+        def show_main_gfx(self, battle, attacker, targets):
+            # Shows the MAIN part of the attack and handles appropriate sfx.
+            gfx = self.main_effect["gfx"]
+            sfx = self.main_effect["sfx"]
+            
+            # SFX: # we handle sfx in the UDD for this...
+            # sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            # if sfx:
+                # renpy.play(sfx, channel="audio")
+                # temp = MyTimer(.6, Play("audio", sfx))
+                # renpy.show("_tag", what=temp) # Hide this later! TODO:
+                # temp = MyTimer(.9, Play("audio", sfx))
+                # renpy.show("_tag2", what=temp) # Hide this later! TODO:
+            
+            # GFX:
+            if gfx:
+                # Flip the attack image if required:
+                if self.main_effect.get("hflip", None):
+                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                
+                # Posional properties:
+                aim = self.main_effect["aim"]
+                point = aim.get("point", "center")
+                anchor = aim.get("anchor", (0.5, 0.5))
+                xo = aim.get("xo", 0)
+                yo = aim.get("yo", 0)
+                
+                # Now the "2X" part, we need to run the image/animation twice and at slightly different positions from one another...
+                # We can do that by adjusting xo/yo:
+                # offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                # offx2, offy2 = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                
+                # Flip the second sprite:
+                # gfx2 = Transform(gfx, xzoom=-1)
+                # gfx3 = Transform(gfx, yzoom=-1)
+                
+                # Create ATL Transform to show to player:
+                # gfx = triple_strike(gfx, gfx2, gfx3, (offx, offy), (offx2, offy2), .3)
+                
+                # Create a UDD:
+                
+                
+                for index, target in enumerate(targets):
+                    gfxtag = "attack" + str(index)
+                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
             
             
     class SimpleAttack2X(SimpleAttack):
