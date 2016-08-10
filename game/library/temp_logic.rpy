@@ -455,3 +455,19 @@ screen test_penners_easing():
     textbutton "All Done":
         align (0.5, 0.9)
         action Return()
+        
+label testing_chain_udd:
+    # Testing under simpler conditions than the BE:
+    while 1:
+        $ gfx = ChainedAttack(ProportionalScale("content/gfx/be/swords.png", 150, 150), "content/sfx/sound/be/sword.mp3", chain_sfx=True, times=5, delay=.3)
+        $ renpy.show("_tag", what=gfx, at_list=[Transform(align=(.5, .5))])
+        pause 2.5
+        $ renpy.hide("_tag")
+        
+        menu:
+            "Try Again?"
+            
+            "Yes":
+                $ pass
+            "No":
+                return

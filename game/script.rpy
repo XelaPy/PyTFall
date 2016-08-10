@@ -208,6 +208,8 @@ label dev_testing_menu:
             "GFX":
                 while 1:
                     menu:
+                        "Chain UDD":
+                            call testing_chain_udd
                         "Test Matrix":
                             call test_matrix
                         "Test Vortex":

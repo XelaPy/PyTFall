@@ -68,28 +68,29 @@ init python:
             self.times = times
             self.delay = delay
             self.count = 0
+            self.size = get_size(self.gfx)
             
             # Timing controls:
             self.next = 0
             self.displayable = [] # List of dict bindings if (D, st) to kill.
             
         def render(self, width, height, st, at):
-            if self.count == self.times:
-                raise Exception("VOOT")
+            # raise Exception("VOOT") 
+            if self.count > self.times:
+                # raise Exception("VOOT") 
                 return renpy.Render(0, 0)
                 
             if self.count < self.times and st >= self.next:
                 # Prep the data:
-                flip = choice([{"zoom": 0}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}])
+                flip = choice([{"zoom": 1}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}])
                 offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
-                gfx = Transform(gfx, **flip)
+                gfx = Transform(self.gfx, **flip)
                 gfx = multi_strike(gfx, (offx, offy), st)
                 
                 # Calc when we add the next gfx and remove the old one from the list. Right now it's a steady stream of ds but I'll prolly change it in the future.
                 self.next = st + self.delay
+                self.count += 1
                 self.displayable.append((gfx, self.next))
-                
-                
                 
                 # We can just play the sound here:
                 if self.chain_sfx is None:
@@ -99,17 +100,16 @@ init python:
                 else:
                     renpy.play(self.sfx, channel="audio")
                 
-            # Remove if we're done with this displayable:
-            for d, t in self.displayable[:]:
-                if t >= st:
-                    self.displayable.remove((d, t))
-                    self.count += 1 # Keeping the count.
-                    
             # Render everything else:
-            render = renpy.Render(width, height)
-            for d, t in self.displayable:
-                render.place(d)
+            render = renpy.Render(self.size[0] + 60, self.size[1] + 60)
+            for d, t in self.displayable[:]:
+                if st <= t:
+                    render.place(d, st=st)
+                else: # Remove if we're done with this displayable:
+                    self.displayable.remove((d, t))
+                    
             
+            renpy.redraw(self, 0)
             return render
     
     
