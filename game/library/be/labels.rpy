@@ -15,6 +15,7 @@ label test_be:
                     h.attack_skills.append(skill)
                 if skill not in n.attack_skills:
                     n.attack_skills.append(skill)
+                    n.attack_skills.append("Soul Sword")
             else:
                 if skill not in h.magic_skills:
                     h.magic_skills.append(skill)

@@ -11,7 +11,7 @@
     {
     "id": "Psychic",
     "desc": "This girl always seems to know what people want.",
-    "mod": {"upkeep": 10, "evasion": 1},
+    "mod": {"upkeep": 10, "evasion": 1, "resistance": 1},
     "min": {"luck": 5},
     "max": {"intelligence": 5},
     "mod_skills": {"refinement": [0.02, 0, 0.02], "service": [0.01, 0, 0.01], "vaginal": [0, 0, 0.01], "anal": [0, 0, 0.01], "oral": [0, 0, 0.01], "strip": [0, 0, 0.01], "management": [0.02, 0.01, 0.02], "teaching": [0.01, 0, 0.01]},
@@ -180,7 +180,7 @@
     "id": "Dawdler",
     "blocks": ["Energetic"],
     "desc": "This girl is certainly takes her time.",
-    "mod": {"upkeep": -20},
+    "mod": {"upkeep": -20, "resistance": 2},
     "mod_stats": {"agility": [-1, 5]},
     "max": {"agility": -5},
     "mod_skills": {"strip": [0, 0, 0.1], "waiting": [-0.01, 0, -0.1]},

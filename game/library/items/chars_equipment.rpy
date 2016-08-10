@@ -414,7 +414,7 @@ screen char_equip():
                          
                         null height 1
                         label (u"{size=18}{color=#CDCDC1}{b}Battle Stats:") xalign .49
-                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A"), ("Evasion", "#FFFF94")]
+                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A"), ("Evasion", "#FFFF94"), ("Resistance", "#FFA500")]
                         null height 1
                      
                         for stat, color in stats:

@@ -225,6 +225,8 @@ init -9 python:
                     char.upkeep += trait.mod[key]
                 elif key == 'evasion':
                     char.evasion += trait.mod[key]
+                elif key == 'resistance':
+                    char.resistance += trait.mod[key]
                 for level in xrange(char.level+1):
                     char.stats.apply_traits_mod_on_levelup()
                 
@@ -236,6 +238,8 @@ init -9 python:
                     char.upkeep += trait.mod_stats[key][0]
                 elif key == 'evasion':
                     char.evasion += trait.mod_stats[key][0]
+                elif key == 'resistance':
+                    char.resistance += trait.mod_stats[key][0]
                 for level in xrange(char.level+1):
                     char.stats.apply_traits_mod_on_levelup()
                     
@@ -328,7 +332,8 @@ init -9 python:
                     char.upkeep -= trait.mod[key]
                 elif key == 'evasion':
                     char.evasion -= trait.mod[key]
-                
+                elif key == 'resistance':
+                    char.resistance -= trait.mod[key]
                 for level in xrange(char.level+1):
                    char.stats.apply_traits_mod_on_levelup(reverse=True)
 
@@ -774,7 +779,7 @@ init -9 python:
         Some of it's methods assume input from self.instance__setattr__ and do extra calculations!
         @ TODO: Recode to avoid extra calculations in the future???
         """
-        FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment', 'evasion'])
+        FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment', 'evasion', 'resistance'])
         
         # Stats:
         # alignment, charisma, constitution, fame, health, intelligence, reputation, vitality
@@ -873,7 +878,7 @@ init -9 python:
                 val = self.min[key]
                 
             # Normalize for displaying (if less than 0):
-            if key not in ["disposition", "luck", "evasion"]:
+            if key not in ["disposition", "luck", "evasion", "resistance"]:
                 if val < 0:
                     val = 0
                 
@@ -984,13 +989,13 @@ init -9 python:
             if hasattr(self.instance, "traits"):
                 for trait in self.instance.traits:
                     for key in trait.mod: # This needs to be removed:
-                        if key not in ["disposition", "upkeep", "evasion"]:
+                        if key not in ["disposition", "upkeep", "evasion", "resistance"]:
                             if not self.level%5:
                                 mod_value = int(round(trait.mod[key]*0.05))
                                 self.mod(key, mod_value) if not reverse else self.mod(key, -mod_value)
                                 
                     for key in trait.mod_stats:
-                        if key not in ["disposition", "upkeep", "evasion"]:
+                        if key not in ["disposition", "upkeep", "evasion", "resistance"]:
                             if not self.level%trait.mod_stats[key][1]:
                                 self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, -trait.mod_stats[key][0])
                 
@@ -1174,7 +1179,8 @@ init -9 python:
                 'defence': [0, 0, 100, 100],
                 'agility': [0, 0, 100, 100],
                 'mp': [0, 0, 30, 30],
-                'evasion': [0, -100, 100, 100]
+                'evasion': [0, -100, 100, 100],
+                'resistance': [0, -100, 100, 100]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
@@ -3100,7 +3106,8 @@ init -9 python:
                 'defence': [0, 0, 50, 40],
                 'agility': [0, 0, 35, 25],
                 'mp': [0, 0, 40, 30],
-                'evasion': [0, -100, 100, 100]
+                'evasion': [0, -100, 100, 100],
+                'resistance': [0, -100, 100, 100]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())

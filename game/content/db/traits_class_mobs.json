@@ -171,7 +171,8 @@
             "magic": 50,
             "attack": 25,
             "defence": 10,
-            "evasion": 5
+            "evasion": 5,
+            "resistance": 10
         },
         "init_skills": {},
         "leveling_stats": {
@@ -295,7 +296,8 @@
             "magic": 50,
             "attack": 50,
             "defence": 25,
-            "evasion": 20
+            "evasion": 20,
+            "resistance": 40
         },
         "init_skills": {},
         "leveling_stats": {
