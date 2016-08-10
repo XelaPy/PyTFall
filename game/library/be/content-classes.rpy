@@ -46,6 +46,39 @@ init python:
             
             self.function()
             return renpy.Render(0, 0)
+            
+    class ChainedAttack(renpy.Displayable):
+        """
+        Going to try and chain gfx/sfx for simple BE attacks using a UDD.
+        """
+        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3, **properties):
+            """
+            chain_sfx: Do we play the sound and do we chain it?
+                True = Play and Chain.
+                False = Play once and don't play again.
+                None = Do not play SFX at all.
+            times = how many times we run the animation in a sequence.
+            delay = interval between the two runs.
+            """
+            super(ChainedAttack, self).__init__(**properties)
+            
+            self.gfx = gfx
+            self.sfx = sfx
+            self.chain_sfx = chain_sfx
+            self.times = times
+            self.delay = delay
+            self.count = 0
+    
+        def render(self, width, height, st, at):
+            if self.count == self.times:
+                return renpy.Render(0, 0)
+                
+            flip = choice([{"zoom": 0}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}])
+            offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+            gfx = Transform(gfx, **flip)
+            
+            self.function()
+            return renpy.Render(0, 0)
     
     
     # Plain Events:
