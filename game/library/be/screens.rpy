@@ -45,8 +45,9 @@ init: # screens:
         if menu_mode != "top":
             frame:
                 align (0.95, 0.07)
-                style_group "dropdown_gm"
+                style "dropdown_gm_frame"
                 textbutton "{color=[black]}{size=-5}Back":
+                    style "basic_choice_button"
                     xsize 100
                     action SetScreenVariable("menu_mode", "top")
                     
@@ -149,17 +150,18 @@ init: # screens:
                     
         elif menu_mode == "attacks":
             frame:
-                style_group "dropdown_gm"
+                style_prefix "dropdown_gm"
                 pos (0.5, 0.2) anchor (0.5, 0)
-                ymaximum 400
-                has hbox box_wrap True 
+                has hbox box_wrap True xmaximum 400
                 
                 at fade_in_out(t1=0.6, t2=0.3)
+                
                 if len(attacks) == 1:
-                    timer 0.01 action Return(attacks[0])
+                    timer .01 action Return(attacks[0])
                 for skill in attacks:
-                    textbutton "[skill.mn]":
+                    textbutton "%s"%skill.mn:
                         action SensitiveIf(skill.check_conditions(char)), Return(skill)
+                        hovered tt.action(skill)
                         
         elif menu_mode == "magic":
             python:
