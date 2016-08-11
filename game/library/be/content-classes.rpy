@@ -88,7 +88,7 @@ init python:
                 gfx = multi_strike(gfx, (offx, offy), st)
                 
                 # Calc when we add the next gfx and remove the old one from the list. Right now it's a steady stream of ds but I'll prolly change it in the future.
-                self.next = st + self.delay
+                self.next = st + random.uniform(.15, self.delay)
                 self.count += 1
                 self.displayable.append((gfx, self.next))
                 
