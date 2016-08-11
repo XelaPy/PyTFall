@@ -409,16 +409,22 @@ label load_battle_skills:
         SimpleAttack("SwordAttack", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword",
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
-        SimpleAttack2X("SwordAttack2X", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=10, range=5, vitality_cost=1, menuname="Double Slash", # TODO: Restore range to 1, this is for testing!
-                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .9},
-                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .8},
-                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": .3},
-                              target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": .5})
-        MultiAttack("SwordAttack5X", attributes=["melee"], critpower=0, desc="Slashing with a blade.", effect=10, range=5, vitality_cost=1, menuname="Penta Slash", # TODO: Restore range to 1, this is for testing!
-                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 1.6},
+        MultiAttack("SwordAttack2X", attributes=["melee"], critpower=.05, desc="Slashing with a blade.", effect=10, range=5, vitality_cost=1, menuname="Double Slash", # TODO: Restore range to 1, this is for testing!
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .6},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
+        MultiAttack("SwordAttack3X", attributes=["melee"], critpower=.1, desc="Slashing with a blade.", effect=15, range=5, vitality_cost=1, menuname="Triple Slash", # TODO: Restore range to 1, this is for testing!
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .9, "times": 3},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
+        MultiAttack("SwordAttack5X", attributes=["melee"], critpower=.1, desc="Slashing with a blade.", effect=25, range=5, vitality_cost=1, menuname="Penta Slash", # TODO: Restore range to 1, this is for testing!
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 1.25, "times": 5, "interval": .25},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.2},
-                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": .3},
-                              target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .5})
+                              target_death_effect={"gfx": "dissolve", "initial_pause": 1.25, "duration": .5})
+        MultiAttack("SwordAttack10X", attributes=["melee"], critpower=.15, desc="Slashing with a blade.", effect=60, range=5, vitality_cost=1, menuname="Multi Slash", # TODO: Restore range to 1, this is for testing!
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 2.0, "times": 10, "interval": .2},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.95},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": .5})
         
         # Bow Attacks:
         SimpleAttack("BowAttack", attributes=["ranged"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])

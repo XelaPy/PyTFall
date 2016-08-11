@@ -1247,7 +1247,8 @@ init -1 python: # Core classes:
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
             
         def time_target_damage_effect(self, targets, died, start):
-            damage_effect_start = start + self.target_damage_effect.get("initial_pause", 0.2)
+            default =  self.main_effect["duration"] * .75 # Used to be .2 but it is a better idea to show it after the attack gfx effects are finished if no value was specified directly.
+            damage_effect_start = start + self.target_damage_effect.get("initial_pause", default)
             
             if damage_effect_start in self.timestamps:
                 damage_effect_start = damage_effect_start + random.uniform(0.001, 0.002)
@@ -1282,7 +1283,7 @@ init -1 python: # Core classes:
                                 s = "\n".join([s, "Critical hit!"])
                             color = getattr(store, target.dmg_font)
                         txt = Text(s, style="TisaOTM", min_width=200, text_align=0.5, color=color, size=18)
-                        renpy.show(tag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-20))], zorder=target.besk["zorder"]+2)
+                        renpy.show(tag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-30))], zorder=target.besk["zorder"]+2)
                         target.dmg_font = "red"
             
         def get_target_damage_effect_duration(self):

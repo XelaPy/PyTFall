@@ -69,6 +69,7 @@ init python:
             self.delay = delay
             self.count = 0
             self.size = get_size(self.gfx)
+            self.last_flip = None # This is meant to make sure that we don't get two exactly same flips in the row!
             
             # Timing controls:
             self.next = 0
@@ -82,13 +83,30 @@ init python:
                 
             if self.count < self.times and st >= self.next:
                 # Prep the data:
-                flip = choice([{"zoom": 1}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}])
-                offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                
+                # get the "flip":
+                flips = [{"zoom": 1}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}]
+                
+                if self.last_flip is None:
+                    flip = choice(flips)
+                    self.last_flip = flip
+                else:
+                    flips.remove(self.last_flip)
+                    flip = choice(flips)
+                    self.last_flip = flip
+                    
+                # Offset:
+                # offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
+                
+                # Adjusting to UDD feature that I do not completely understand...
+                offx, offy = choice(range(0, 15) + range(30, 60)), choice(range(0, 15) + range(30, 60))
+                
+                # GFX:
                 gfx = Transform(self.gfx, **flip)
                 gfx = multi_strike(gfx, (offx, offy), st)
                 
                 # Calc when we add the next gfx and remove the old one from the list. Right now it's a steady stream of ds but I'll prolly change it in the future.
-                self.next = st + random.uniform(.15, self.delay)
+                self.next = st + random.uniform(self.delay*.5, self.delay)
                 self.count += 1
                 self.displayable.append((gfx, self.next))
                 
@@ -281,7 +299,7 @@ init python:
             self.target_sprite_damage_effect["duration"] = self.target_sprite_damage_effect.get("duration", self.main_effect["duration"])
             
             self.target_damage_effect["gfx"] = self.target_damage_effect.get("gfx", "battle_bounce")
-            self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.1)
+            # self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.1)
             
             self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
             self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
@@ -309,15 +327,8 @@ init python:
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
             sfx = self.main_effect["sfx"]
-            
-            # SFX: # we handle sfx in the UDD for this...
-            # sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
-            # if sfx:
-                # renpy.play(sfx, channel="audio")
-                # temp = MyTimer(.6, Play("audio", sfx))
-                # renpy.show("_tag", what=temp) # Hide this later! TODO:
-                # temp = MyTimer(.9, Play("audio", sfx))
-                # renpy.show("_tag2", what=temp) # Hide this later! TODO:
+            times = self.main_effect.get("times", 2)
+            interval = self.main_effect.get("interval", .3)
             
             # GFX:
             if gfx:
@@ -328,24 +339,12 @@ init python:
                 # Posional properties:
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
-                anchor = aim.get("anchor", (0.5, 0.5))
+                anchor = aim.get("anchor", (.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
                 
-                # Now the "2X" part, we need to run the image/animation twice and at slightly different positions from one another...
-                # We can do that by adjusting xo/yo:
-                # offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
-                # offx2, offy2 = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
-                
-                # Flip the second sprite:
-                # gfx2 = Transform(gfx, xzoom=-1)
-                # gfx3 = Transform(gfx, yzoom=-1)
-                
-                # Create ATL Transform to show to player:
-                # gfx = triple_strike(gfx, gfx2, gfx3, (offx, offy), (offx2, offy2), .3)
-                
                 # Create a UDD:
-                gfx = ChainedAttack(gfx, sfx, chain_sfx=True, times=5, delay=.3)
+                gfx = ChainedAttack(gfx, sfx, chain_sfx=True, times=times, delay=interval)
                 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
