@@ -695,7 +695,7 @@ init -1 python: # Core classes:
                     if gfx == "dodge":
                         s.append(" {color=[lawngreen]}Attack Missed {/color}")
                     else:
-                        s.append(" {color=[lawngreen]}Spell Deflected {/color}")
+                        s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
                 if "absorbed" in effects:
                     s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
                     s.append(self.set_dmg_font_color(t, attributes, color="green"))
