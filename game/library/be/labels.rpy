@@ -1,14 +1,16 @@
 label test_be:
     python: # Do this just once, otherwise they get stronger and stronger when reloading.
         h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
-        h.status = "free"
-        h.exp += 2000000
-        for stat in h.stats:
-            h.mod(stat, 1000)
+        initial_levelup(h, 50, True)
         h.front_row = False
+        h.status = "free"
+        
         n = chars["Nami"]
+        initial_levelup(n, 50, True)
+        n.front_row = False
         n.status = "free"
         n.apply_trait("Air")
+        
         for skill in battle_skills.values():
             if isinstance(skill, SimpleAttack):
                 if skill not in h.attack_skills:
@@ -20,8 +22,8 @@ label test_be:
                     h.magic_skills.append(skill)
                 if skill not in n.magic_skills:
                     n.magic_skills.append(skill)
-        n.front_row = False
-        n.exp += 2000000
+        
+        
         
     python:
         # Prepare the teams:
@@ -51,8 +53,6 @@ label test_be:
         for i in hero.team:
             i.besk = None
         
-        for stat in n.stats:
-            n.mod(stat, 1000)
         if len(hero.team) != 3 and h not in hero.team:
             hero.team.add(h)
         h.AP = 6
@@ -94,9 +94,7 @@ label test_be_logical:
         h = chars["Hinata"]
         h.status = "free"
         h.controller = BE_AI(h)
-        h.exp += 2000000
-        for stat in h.stats:
-            h.mod(stat, 1000)
+        initial_levelup(h, 50, True)
         h.front_row = True
         n = chars["Nami"]
         n.status = "free"
@@ -110,13 +108,11 @@ label test_be_logical:
                 # h.magic_skills.append(skill)
                 # n.magic_skills.append(skill)
         n.front_row = True
-        n.exp += 2000000
+        initial_levelup(n, 50, True)
         
         for i in hero.team:
             i.besk = None
         
-        for stat in n.stats:
-            n.mod(stat, 1000)
         if len(hero.team) != 3 and h not in hero.team:
             hero.team.add(h)
         h.AP = 6
