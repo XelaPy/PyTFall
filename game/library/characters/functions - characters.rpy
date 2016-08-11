@@ -319,7 +319,7 @@ init -11 python:
         
         if max_out_stats:
             for stat in char.stats.stats:
-                if stat not in ["alignment", "disposition"]:
+                if stat not in char.stats.FIXED_MAX:
                     setattr(char, stat, char.get_max(stat))
         # -------- 
         
