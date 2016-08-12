@@ -54,7 +54,13 @@ init -1: # Images and Animations
             
     # Battle skills:
     image soul_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_sword/soul_sword.webm", mask="content/gfx/be/webm/soul_sword/soul_sword_alpha.webm")
-    image soul_spear = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
+    image soul_spear:
+        MovieLooped(channel="main_gfx_attacks", loops=3, play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
+        pause 0.4
+        yoffset 60
+        pause 0.4
+        yoffset -90
+    # image soul_spear = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
     image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
     image multi_hit = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
     # Casting:
@@ -434,9 +440,9 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": 1.0},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
                                            
-        SimpleAttack(u"Soul Spear", menu_pos=0, range=3, attributes=['ranged'], effect=20, multiplier=1.2, vitality_cost=20, desc="Projects a huge blade made from the user's soul energy towards the target.",
-                                           main_effect={"gfx": Transform("soul_spear", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "bc", "anchor": (0.5, 0.5), "xo": 40, "yo": -80}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .4},
+        SimpleAttack(u"Soul Spear", menu_pos=0, range=3, attributes=['ranged'], effect=20, multiplier=1.2, vitality_cost=20, desc="Projects multiple spears made from the user's soul energy towards the target.",
+                                           main_effect={"gfx": Transform("soul_spear", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 0.5), "xo": 40, "yo": -80}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": 1.1},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
                                            
         SimpleAttack(u"Solar Incision", menu_pos=0, range=3, attributes=['ranged', 'fire', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sacrifices a small artificial sun in front of the target.",
