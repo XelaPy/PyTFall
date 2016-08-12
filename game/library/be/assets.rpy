@@ -54,12 +54,7 @@ init -1: # Images and Animations
             
     # Battle skills:
     image soul_sword = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_sword/soul_sword.webm", mask="content/gfx/be/webm/soul_sword/soul_sword_alpha.webm")
-    image soul_spear:
-        MovieLooped(channel="main_gfx_attacks", loops=2, play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
-        pause 1.4
-        yoffset 20
-        pause 1.4
-    # = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
+    image soul_spear = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
     image fire_sword = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
     image multi_hit = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
     # Casting:
