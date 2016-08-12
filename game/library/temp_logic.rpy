@@ -473,12 +473,18 @@ label testing_chain_udd:
             "No":
                 return
                 
+                
+image wemb_test:
+    MovieLooped(channel="main_gfx_attacks", loops=2, play="content/gfx/be/webm/moz_movie.webm", mask="content/gfx/be/webm/moz_mask.webm")
+    pause 3.4
+    yoffset 100
+    pause 3.4
+    
 label test_webm:
     while 1:
-        $ temp = MovieLooped(channel="main_gfx_attacks", loops=3, play="content/gfx/be/webm/moz_movie.webm", mask="content/gfx/be/webm/moz_mask.webm")
-        show expression temp as meow
-        pause 20
-        hide meow
+        show wemb_test
+        pause 10
+        hide wemb_test
         
         menu:
             "Try Again?"
