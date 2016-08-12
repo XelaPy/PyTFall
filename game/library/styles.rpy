@@ -392,11 +392,9 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         
     style proper_stats_frame:
         is frame
-        xpadding 0
-        ypadding 0
-        xmargin 0
-        ymargin 0
-        background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
+        padding (0, 0)
+        margin (0, 0)
+        background Frame("content/gfx/frame/stat_box_proper.png")
     style proper_stats_text:
         is stats_text
     style proper_stats_label_text:

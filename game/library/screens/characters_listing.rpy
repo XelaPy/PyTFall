@@ -105,10 +105,11 @@ screen chars_list(source=None, page=0, total_pages=1):
                                 
                                 # Girl Image:
                                 frame:
-                                    align (0, 0.5)
-                                    background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                                    padding 0, 0
+                                    align 0, .5
                                     xysize(100, 100)
-                                    add char_profile_img align (0.5, 0.5) alpha 0.96
+                                    add char_profile_img align .5, .5 alpha 0.96
                                    
                                 # Texts/Status:
                                 frame:
