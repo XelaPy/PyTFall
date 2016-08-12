@@ -422,67 +422,68 @@ screen char_profile():
                 elif stats_display == "stats":
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xsize 300
-                        xpadding 12
-                        ypadding 12
-                        xmargin 0
-                        ymargin 0
+                        xsize 318
+                        padding 12, 12
                         has vbox spacing 1
                         $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
                         frame:
+                            xoffset 4
                             xysize (290, 27)
-                            xalign .5
-                            text "Health:" xalign .02 color "#CD4F39"
+                            xpadding 7
+                            text "Health:" color "#CD4F39"
                             if char.health <= char.get_max("health")*0.3:
-                                text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                                text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" yoffset 4
                             else:
-                                text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                                text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" yoffset 4
                         frame:
+                            xoffset 4
                             xysize (290, 27)
-                            xalign 0.5
-                            text "Vitality:" xalign 0.02 color "#43CD80"
+                            xpadding 7
+                            text "Vitality:" color "#43CD80"
                             if char.vitality < char.get_max("vitality")*0.3:
-                                text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                                text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" yoffset 4
                             else:
-                                text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                                text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" yoffset 4
                         for stat in stats:
                             frame:
+                                xoffset 4
                                 xysize (290, 27)
-                                xalign 0.5
-                                text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
-                                text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                                xpadding 7
+                                text '{}'.format(stat.capitalize()) color "#79CDCD"
+                                text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style "stats_value_text" yoffset 4
                         frame:
+                            xoffset 4
                             xysize (290, 27)
-                            xalign 0.5
-                            text "Gold:" xalign 0.02 color gold
-                            text (u"{color=[gold]}[char.gold]") xalign 1.0 style "stats_value_text" xoffset 12 yoffset 4
+                            xpadding 7
+                            text "Gold:" color gold
+                            text (u"{color=[gold]}[char.gold]") xalign 1.0 style "stats_value_text" yoffset 4
                             
-                    label (u"{size=20}{color=[ivory]}{b}Info:") xalign (0.48) text_outlines [(2, "#424242", 0, 0)]
+                    label (u"{size=20}{color=[ivory]}{b}Info:") xalign .48 text_outlines [(2, "#424242", 0, 0)]
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xsize 300
-                        xpadding 12
-                        ypadding 12
-                        xmargin 0
-                        ymargin 0
+                        xsize 318
+                        padding 12, 12
                         has vbox spacing 1
                         frame:
+                            xoffset 4
                             xysize (290, 27)
-                            xalign 0.5
-                            text "{color=#79CDCD}Upkeep:" xalign 0.02
-                            text u"%s"%(char.fin.get_upkeep()) style "stats_value_text" xalign 1.0 xoffset 12 yoffset 4
+                            xpadding 7
+                            text "{color=#79CDCD}Upkeep:"
+                            text u"%s"%(char.fin.get_upkeep()) style "stats_value_text" xalign 1.0 yoffset 4
                         if char.status == "slave":
                             frame:
+                                xoffset 4
                                 xysize (290, 27)
-                                xalign 0.5                                
-                                text "{color=#79CDCD}Market Price:" xalign 0.02
-                                text (u"%s"%(char.fin.get_price())) style "stats_value_text" xalign 1.0  xoffset 12 yoffset 4
+                                xpadding 7                          
+                                text "{color=#79CDCD}Market Price:"
+                                text (u"%s"%(char.fin.get_price())) style "stats_value_text" xalign 1.0 yoffset 4
                         if traits['Prostitute'] in char.occupations:
                             frame:
+                                xoffset 4
                                 xysize (290, 27)
-                                xalign 0.5
-                                text "{color=#79CDCD}Work Price:" xalign 0.02
-                                text (u"%s"%(char.fin.get_whore_price())) style "stats_value_text" xalign 1.0 xoffset 12 yoffset 4
+                                xpadding 7
+                                text "{color=#79CDCD}Work Price:"
+                                text (u"%s"%(char.fin.get_whore_price())) style "stats_value_text" xalign 1.0 yoffset 4
                             
                 ##############################################################################
                 # Stats 2 (pro)
