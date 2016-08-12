@@ -665,11 +665,12 @@ init -100 python:
             return [v["d"] for v in self.displayable.values()]
             
             
-    class MovieLoopedOnce(renpy.display.video.Movie):
+    class MovieLooped(renpy.display.video.Movie):
         """Play Movie Sprites without loops. Until Ren'Py permits that by defualt, this can be used.
         """
         def __init__(self, *args, **kwargs):
-            super(MovieLoopedOnce, self).__init__(*args, **kwargs)
+            super(MovieLooped, self).__init__(*args, **kwargs)
+            self.loops = kwargs.get("loops", 1)
             
         def play(self, old):
             if old is None:
@@ -679,19 +680,18 @@ init -100 python:
     
             if self._play != old_play:
                 if self._play:
-                    renpy.audio.music.play(self._play, channel=self.channel, loop=False, synchro_start=True)
+                    renpy.audio.music.play([self._play]*self.loops, channel=self.channel, loop=False, synchro_start=True)
     
                     if self.mask:
-                        renpy.audio.music.play(self.mask, channel=self.mask_channel, loop=False, synchro_start=True)
+                        renpy.audio.music.play([self.mask]*self.loops, channel=self.mask_channel, loop=False, synchro_start=True)
     
                 else:
                     renpy.audio.music.stop(channel=self.channel)
     
                     if self.mask:
                         renpy.audio.music.stop(channel=self.mask_channel)
-            
                         
-
+                        
     class Appearing(renpy.Displayable):
 
         def __init__(self, child, opaque_distance, transparent_distance, start_alpha=0.0, **kwargs):
