@@ -54,9 +54,9 @@ init -1: # Images and Animations
             
     # Battle skills:
     image soul_sword = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_sword/soul_sword.webm", mask="content/gfx/be/webm/soul_sword/soul_sword_alpha.webm")
-    
+    image soul_spear = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
     image fire_sword = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
-
+    image multi_hit = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
     # Casting:
     python:
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
@@ -429,8 +429,17 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("soul_sword", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "bc", "anchor": (1.0, 1.0), "xo": -80}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        SimpleAttack(u"Weapon Dance", menu_pos=0, range=3, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=20, desc="Multiple elegant attacks in quick succession.",
+                                           main_effect={"gfx": Transform("multi_hit", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.2, "aim": {"point": "bc", "anchor": (1.0, 1.0), "xo": -80}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": 1.0},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
                                            
-        SimpleAttack(u"Solar Incision", menu_pos=0, range=3, attributes=['ranged', 'fire'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sacrifices a small artificial sun in front of the target.",
+        SimpleAttack(u"Soul Spear", menu_pos=0, range=3, attributes=['ranged'], effect=20, multiplier=1.2, vitality_cost=20, desc="Projects a huge blade made from the user's soul energy towards the target.",
+                                           main_effect={"gfx": Transform("soul_spear_2", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "bc", "anchor": (0.5, 0.5), "xo": 40, "yo": -80}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .4},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+                                           
+        SimpleAttack(u"Solar Incision", menu_pos=0, range=3, attributes=['ranged', 'fire', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sacrifices a small artificial sun in front of the target.",
                                            main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
@@ -446,7 +455,7 @@ label load_battle_skills:
         # target_death_effect = {"gfx": "dissolve", "sfx": None, "initial_pause": 0.1, "duration": 0.9}
         SimpleMagicalAttack(u"Fire", menu_pos=0, attributes=['magic', 'fire'], effect=20, multiplier=1.2, type="all_enemies", mp_cost=5, range=4, desc="Ignites a small plot of land.",
                                            attacker_effects={"gfx": "fire_1", "sfx": "default"},
-                                           main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
+                                           main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.1, "duration": 1.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
         SimpleMagicalAttack(u"Fira", menu_pos=1, attributes=['magic', 'fire'], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Ignites the air in a limited area.",
