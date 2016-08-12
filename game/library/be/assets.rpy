@@ -62,6 +62,7 @@ init -1: # Images and Animations
         yoffset -90
     # image soul_spear = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
     image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
+    image earth_hammer = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/earth_hammer/earth_hammer.webm", mask="content/gfx/be/webm/earth_hammer/earth_hammer_alpha.webm")
     image multi_hit = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
     # Casting:
     python:
@@ -448,6 +449,11 @@ label load_battle_skills:
         SimpleAttack(u"Solar Incision", menu_pos=0, range=3, attributes=['ranged', 'fire', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sacrifices a small artificial sun in front of the target.",
                                            main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
+                                           
+        SimpleAttack(u"Ground Shockwave", menu_pos=0, range=3, attributes=['ranged', 'earth', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sends a shock wave powerful enough to cause a local earthquake.",
+                                           main_effect={"gfx": Transform("earth_hammer"), "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
 
         # Magic:
