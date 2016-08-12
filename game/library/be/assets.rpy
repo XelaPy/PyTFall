@@ -53,10 +53,10 @@ init -1: # Images and Animations
             renpy.image("melee_%d" % i, FilmStrip('content/gfx/be/filmstrips/melee_%d.png' % i, (192, 192), (5, 2), 0.05, loop=False))
             
     # Battle skills:
-    image soul_sword = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_sword/soul_sword.webm", mask="content/gfx/be/webm/soul_sword/soul_sword_alpha.webm")
-    image soul_spear = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
-    image fire_sword = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
-    image multi_hit = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
+    image soul_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_sword/soul_sword.webm", mask="content/gfx/be/webm/soul_sword/soul_sword_alpha.webm")
+    image soul_spear = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
+    image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
+    image multi_hit = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
     # Casting:
     python:
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
@@ -72,7 +72,7 @@ init -1: # Images and Animations
     image fire_4 = FilmStrip('content/gfx/be/filmstrips/fire_4.png', (192, 192), (5, 10), 0.1, loop=False)
     image fire_mask = FilmStrip('content/gfx/be/filmstrips/fire_mask.jpg', (240, 180), (5, 5), 0.05, loop=True)
     image flame_bm = FilmStrip('content/gfx/be/filmstrips/fire_mask_bm.png', (240, 180), (5, 5), 0.05, loop=True)
-    image cataclysm_webm = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/cataclysm.webm", mask="content/gfx/be/webm/cataclysm.webm")
+    image cataclysm_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/cataclysm.webm", mask="content/gfx/be/webm/cataclysm.webm")
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png" 
         pause 0.06
@@ -357,7 +357,7 @@ init -1: # Images and Animations
         rotate 0
         linear 1.0 rotate 360
     image thunder_storm_2 = FilmStrip('content/gfx/be/filmstrips/thunder_storm_2.png', (354, 389), (4, 4), 0.1, loop=False)
-    image moz = MovieLoopedOnce(channel="main_gfx_attacks", play="content/gfx/be/webm/moz_movie.webm", mask="content/gfx/be/webm/moz_mask.webm")
+    image moz = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/moz_movie.webm", mask="content/gfx/be/webm/moz_mask.webm")
     image moz_stretch:
         VBox(Transform("moz", crop=(0, 0, 1199, 320)),
                   Transform("moz", crop=(0, 320, 1199, 278), yzoom=2))

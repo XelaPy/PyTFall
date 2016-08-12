@@ -208,14 +208,16 @@ label dev_testing_menu:
             "GFX":
                 while 1:
                     menu:
+                        "Webm":
+                            call test_webm
                         "Chain UDD":
                             call testing_chain_udd
                         "Test Matrix":
                             call test_matrix
                         "Test Vortex":
                             call test_vortex
-                        "Quality Test":
-                            call screen testing_image_quality
+                        # "Quality Test":
+                            # call screen testing_image_quality
                         "FilmStrip":
                             call screen testing_new_filmstrip
                         "Particle":
