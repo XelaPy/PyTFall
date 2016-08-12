@@ -794,7 +794,7 @@ init -1 python: # Core classes:
                 if dice((a.luck+50)*0.35): # Critical hit prevents any evasion and depends solely on the attacker luck, 35% with luck 50; in the future it probably will be tied to weapon skills
                     multiplier += 1.5 + self.critpower
                     effects.append("critical_hit")
-                else:
+                elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
                     evasion_chance = t.evasion # starting evasion chance = evasion stat
                     healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
                     evasion_chance += healthlevel
@@ -806,7 +806,7 @@ init -1 python: # Core classes:
                 result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
                 if result:
                     evasion_chance = -1
-                elif any(list(i for i in ["healing", "revive", "status"] if i in attributes)): # no escape from healing and status effects
+                elif any(list(i for i in ["healing", "revive", "status", "inevitable"] if i in attributes)): # no escape from healing and status effects
                     evasion_chance = -1
                 else: # magic resistance
                     evasion_chance = t.resistance # base chance is the target resistance stat
