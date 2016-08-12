@@ -76,9 +76,7 @@ init python:
             self.displayable = [] # List of dict bindings if (D, st) to kill.
             
         def render(self, width, height, st, at):
-            # raise Exception("VOOT") 
             if self.count > self.times:
-                # raise Exception("VOOT") 
                 return renpy.Render(0, 0)
                 
             if self.count < self.times and st >= self.next:
@@ -126,7 +124,6 @@ init python:
                 else: # Remove if we're done with this displayable:
                     self.displayable.remove((d, t))
                     
-            
             renpy.redraw(self, 0)
             return render
     
@@ -459,6 +456,7 @@ init python:
                            target_sprite_damage_effect={},
                            target_damage_effect={},
                            target_death_effect={},
+                           dodge_effect={},
                            sfx=None, gfx=None, zoom=None, aim=None, xo=0, yo=0, pause=None, anchor=None, casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
                            **kwargs):
             super(SimpleMagicalAttack, self).__init__(name,
@@ -467,7 +465,7 @@ init python:
                                                                                main_effect=main_effect,
                                                                                target_sprite_damage_effect=target_sprite_damage_effect,
                                                                                target_damage_effect=target_damage_effect,
-                                                                               target_death_effect=target_death_effect,
+                                                                               target_death_effect=target_death_effect, dodge_effect=dodge_effect,
                                                                                sfx=sfx, gfx=gfx, pause=pause, zoom=zoom,
                                                                                **kwargs)
             
@@ -615,7 +613,7 @@ init python:
             for i in xrange(len(targets)):
                 gfxtag = "attack" + str(i)
                 renpy.hide(gfxtag)
-            
+                
                 
     class P2P_ArealMagicalAttack(P2P_MagicAttack):
         """ ==> @Review: There may not be a good reason for this to be a magical attack instead of any attack at all!

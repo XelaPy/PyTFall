@@ -424,7 +424,7 @@ init -1 python: # Core classes:
                            target_damage_effect={},
                            target_death_effect={},
                            bg_main_effect={},
-                           **kwrags):
+                           **kwargs):
             """
             range: range of the spell, 1 is minimum.
             damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases
@@ -915,7 +915,7 @@ init -1 python: # Core classes:
                 died = list()
             
             if not battle.logical:
-                self.show_gfx(t, died)
+                self.time_gfx(t, died)
             
                 for tag in self.tags_to_hide:
                     renpy.hide(tag)
@@ -928,7 +928,7 @@ init -1 python: # Core classes:
                     return traits[t]
                 
         # GFX/SFX:
-        def show_gfx(self, targets, died):
+        def time_gfx(self, targets, died):
             """Executes GFX part of an attack. Diregarded during logical combat.
             
             Usually, this has the following order:
@@ -1372,9 +1372,18 @@ init -1 python: # Core classes:
             
             
         def time_dodge_effect(self, targets, attacker, start):
-            effect_start = start - 0.3
-            if effect_start < 0:
-                effect_start = 0
+            # effect_start = start - .3
+            # if effect_start < 0:
+                # effect_start = 0
+                
+            # Ok, so since we'll be using it for all kinds of attacks now, we need better timing controls:
+            effect_start = self.dodge_effect.get("initial_pause", None)
+            if effect_start is None:
+                effect_start = start - .3
+                if effect_start < 0:
+                    effect_start = 0
+            else:
+                effect_start = effect_start + start
             
             if effect_start in self.timestamps:
                 effect_start = effect_start + random.uniform(0.001, 0.002)

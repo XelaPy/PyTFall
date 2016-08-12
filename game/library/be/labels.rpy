@@ -29,6 +29,7 @@ label test_be:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Goblin Shaman", level=120)
+        mob.resistance = 100
         mob.apply_trait("Fire")
         mob.front_row = True
         mob.controller = BE_AI(mob)

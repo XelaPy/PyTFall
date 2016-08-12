@@ -472,7 +472,8 @@ label load_battle_skills:
                                       main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                                       attacker_effects={"gfx": "fire_2", "sfx": "default"},
                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
-                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5})
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
+                                      dodge_effect={"initial_pause": .1})
         P2P_MagicAttack(u"Solar Flash", menu_pos=11, attributes=['magic', 'fire'], effect=50, multiplier=3.0, mp_cost=12, range=4,
                                       desc="Sends towards the target a small piece of solar plazma.",
                                       projectile_effects={"gfx": 'fire_5', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
