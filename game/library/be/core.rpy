@@ -1408,7 +1408,16 @@ init -1 python: # Core classes:
                 if "missed_hit" in target.beeffects:
                     if gfx == "dodge":
                         xoffset = -100 if battle.get_cp(attacker)[0] > battle.get_cp(target)[0] else 100
-                        renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset)], zorder=target.besk["zorder"])
+                        
+                        # Figure out the pause:
+                        pause = self.main_effect["duration"]
+                        if pause < .5:
+                            pause = 0
+                        else:
+                            pause = pause - .5
+                        
+                        renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
+                        
                     elif gfx == "magic_shield":
                         tag = "dodge" + str(index)
                         renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)

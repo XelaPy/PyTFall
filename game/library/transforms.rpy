@@ -335,9 +335,10 @@ init -997: # Transforms:
         on idle:
             linear 0.3 xoffset 300
         
-    transform be_dodge(xoffset):
-        easein 0.5 xoffset xoffset
-        linear 0.5 xoffset 0
+    transform be_dodge(xoffset, t):
+        easein .5 xoffset xoffset
+        pause t
+        linear .4 xoffset 0
             
     # GUI ===>>>    
     transform circle_around(t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
