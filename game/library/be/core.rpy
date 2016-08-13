@@ -935,9 +935,9 @@ init -1 python: # Core classes:
             # This may have to be expanded if we permit multi-elemental attacks in the future.
             # Returns (if any) an element bound to spell or attack:
             for t in tgs.elemental:
-                element = t.name
+                element = t.id
                 if element.lower() in self.attributes and element.lower() not in ["magic", "melee", "ranged"]:
-                    return traits[t]
+                    return t
                 
         # GFX/SFX:
         def time_gfx(self, targets, died):
