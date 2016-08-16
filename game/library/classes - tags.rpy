@@ -1,5 +1,4 @@
-# The image tagging system of PyTFall
-
+# The image tagging system of PyTFall:
 init -9 python:
     class TagDatabase(_object):
         '''Maps image tags to image paths.
@@ -98,13 +97,13 @@ init -9 python:
             return self.untagged.copy()
             
         def get_imgset_with_tag(self, tag):
-            '''Returns a set of paths to images, all of which are tagged with tag.
+            '''Returns a set of paths to images, all of which are tagged
             '''
             try:
                 imgpathset = self.tagmap[tag]
             except KeyError:
                 imgpathset = set([])
-            return imgpathset.copy()  
+            return imgpathset.copy()
             
         def get_imgset_with_all_tags(self, requiredtags):
             '''Returns a set of images that are all tagged with all specified tags.

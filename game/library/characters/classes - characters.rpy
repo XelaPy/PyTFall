@@ -3374,11 +3374,9 @@ init -9 python:
             exclude = kwargs.get("exclude", None)
             
             # search for images
+            imgset = tagdb.get_imgset_with_all_tags(tagset)
             if exclude:
-                imgset = tagdb.get_imgset_with_all_tags(tagset)
                 imgset = tagdb.remove_excluded_images(imgset, exclude)
-            else:
-                imgset = tagdb.get_imgset_with_all_tags(tagset)
                 
             # randomly select an image
             if imgset:

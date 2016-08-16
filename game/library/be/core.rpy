@@ -509,7 +509,21 @@ init -1 python: # Core classes:
             if pause:
                 self.main_effect["duration"] = pause
             
-        
+        def __call__(self, ai=False, t=None):
+            self.effects_resolver(t)
+            died = self.apply_effects(t)
+            
+            if not isinstance(died, (list, set, tuple)):
+                died = list()
+            
+            if not battle.logical:
+                self.time_gfx(t, died)
+            
+                for tag in self.tags_to_hide:
+                    renpy.hide(tag)
+                self.tags_to_hide= list()
+                
+        # Targeting/Conditioning.
         def get_targets(self, source=None):
             """
             Gets tagets that can be hit with this action.
@@ -589,7 +603,7 @@ init -1 python: # Core classes:
             return in_range # List: So we can support indexing...
             
         def check_conditions(self, source=None):
-            
+            # Check if the source can manage the attack.
             char = source if source else self.source
                 
             # Check if attacker has enought resources for the attack:
@@ -614,9 +628,11 @@ init -1 python: # Core classes:
                 if self.get_targets(char):
                     return True
                 
+        # Logical Effects:
         def effects_resolver(self, targets):
-            """
-            Logical effect of the action. More often than not, it calculates the damage.
+            """Logical effect of the action.
+            
+            - For normal attacks, it calculates the damage.
             Expects a list or tuple with targets.
             This should return it's results through PytCharacters property called damage so the show_gfx method can be adjusted accordingly.
             But it is this method that writes to the log to be displayed later... (But you can change even this :D)
@@ -624,6 +640,7 @@ init -1 python: # Core classes:
             # prepare the variables:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
+                
             a = self.source
             attributes = self.attributes
             type = self.type
@@ -636,12 +653,12 @@ init -1 python: # Core classes:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the multiplier and any effects that those may bring.
-                    effects, multiplier = self.get_attributes_multiplier(t, attributes)
+                    effects, multiplier = self.get_damage_multiplier(t, attributes)
                     
                     # Get the damage:
                     result = self.check_absorbtion(t) # we check the absorption
                     defense = self.get_defense(t, absorb=result)
-                    damage = self.default_damage_calculator(t, attack, defense, multiplier)
+                    damage = self.damage_calculator(t, attack, defense, multiplier)
                     
                     # Rows Damage:
                     effects_append, damage = self.get_row_damage(t, damage)
@@ -663,56 +680,10 @@ init -1 python: # Core classes:
                 s = list()
                 s.append("{color=[teal]}%s{/color} attacks %s with %s!" % (a.nickname, t.nickname, self.name))
                 
-                s = s + self.effects_for_string(t)
+                s = s + self.effects_to_string(t)
                 
                 battle.log("".join(s))
         
-        def effects_for_string(self, t, default_color="red"):
-            # String for the log:
-            effects = t.beeffects
-            attributes = self.attributes
-            s = list()
-            if "resisted" not in effects:
-                if "elemental_damage_bonus" in effects:
-                    # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (positevely) with one or more if the attackers elements:
-                    s.append(" {color=[lawngreen]}ElDmg+! {/color}")
-                if "elemental_damage_penatly" in effects:
-                    # The opposite of the above
-                    s.append(" {color=[red]}ElDmg-! {/color}")
-                if "elemental_defence_bonus" in effects:
-                    # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (negatevely) with one or more if the defenders elements
-                    s.append(" {color=[lawngreen]}ElDef- {/color}")
-                if "elemental_defence_penalty" in effects:
-                    # The opposite of the above
-                    s.append(" {color=[red]}ElDef+ {/color}")
-                if "backrow_penalty" in effects:
-                    # Damage halved due to the target being in the back row!
-                    s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
-                if "critical_hit" in effects:
-                    s.append(" {color=[lawngreen]}Critical Hit {/color}")
-                if "missed_hit" in effects:
-                    gfx = self.dodge_effect.get("gfx", "dodge")
-                    if gfx == "dodge":
-                        s.append(" {color=[lawngreen]}Attack Missed {/color}")
-                    else:
-                        s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
-                if "absorbed" in effects:
-                    s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
-                    s.append(self.set_dmg_font_color(t, attributes, color="green"))
-                else:
-                    s.append(self.set_dmg_font_color(t, attributes, color=default_color))    
-            else: # If resisted:
-                s.append(" {color=[crimson]}Resisted the attack{/color}")
-                s.append(self.set_dmg_font_color(t, attributes, color="green"))
-                
-            return s
-                
-        def default_damage_calculator(self, t, attack, defense, multiplier):
-            
-            resist = pow(attack/defense, 0.5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
-            damage = int((attack/defense*resist+randint(1,5))*multiplier)
-            return damage
-                
         def get_row_damage(self, t, damage):
             # It's always the normal damage except for rows 0 and 3 (unless everyone in the front row are dead :) ).
             # Adding true_piece there as well:
@@ -783,7 +754,15 @@ init -1 python: # Core classes:
             defense *= rand
             return defense if defense > 0 else 1
                 
-        def get_attributes_multiplier(self, t, attributes):
+        def damage_calculator(self, t, attack, defense, multiplier):
+            """Used to calc damage of the attack.
+            Before multipliers and effects are apllied.
+            """
+            resist = pow(attack/defense, 0.5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
+            damage = int((attack/defense*resist+randint(1,5))*multiplier)
+            return damage
+            
+        def get_damage_multiplier(self, t, attributes):
             """
             This calculates the multiplier to use with damage.
             """
@@ -848,7 +827,8 @@ init -1 python: # Core classes:
                         multiplier -= i
                     
             return effects, multiplier
-                
+            
+        # To String methods:
         def set_dmg_font_color(self, t, attributes, to_string=True, color="red"):
             """
             Sets up the color for damage graphics and returns a correct string for the log if to_string is True
@@ -874,7 +854,50 @@ init -1 python: # Core classes:
                 
             return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
             
+        def effects_to_string(self, t, default_color="red"):
+            # String for the log:
+            effects = t.beeffects
+            attributes = self.attributes
+            s = list()
+            if "resisted" not in effects:
+                if "elemental_damage_bonus" in effects:
+                    # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (positevely) with one or more if the attackers elements:
+                    s.append(" {color=[lawngreen]}ElDmg+! {/color}")
+                if "elemental_damage_penatly" in effects:
+                    # The opposite of the above
+                    s.append(" {color=[red]}ElDmg-! {/color}")
+                if "elemental_defence_bonus" in effects:
+                    # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (negatevely) with one or more if the defenders elements
+                    s.append(" {color=[lawngreen]}ElDef- {/color}")
+                if "elemental_defence_penalty" in effects:
+                    # The opposite of the above
+                    s.append(" {color=[red]}ElDef+ {/color}")
+                if "backrow_penalty" in effects:
+                    # Damage halved due to the target being in the back row!
+                    s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
+                if "critical_hit" in effects:
+                    s.append(" {color=[lawngreen]}Critical Hit {/color}")
+                if "missed_hit" in effects:
+                    gfx = self.dodge_effect.get("gfx", "dodge")
+                    if gfx == "dodge":
+                        s.append(" {color=[lawngreen]}Attack Missed {/color}")
+                    else:
+                        s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
+                if "absorbed" in effects:
+                    s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
+                    s.append(self.set_dmg_font_color(t, attributes, color="green"))
+                else:
+                    s.append(self.set_dmg_font_color(t, attributes, color=default_color))    
+            else: # If resisted:
+                s.append(" {color=[crimson]}Resisted the attack{/color}")
+                s.append(self.set_dmg_font_color(t, attributes, color="green"))
+                
+            return s
+            
         def apply_effects(self, targets):
+            """This is a more or less final methods where all effects of the attacks are being dished out on the objects.
+            """
+            
             # Not 100% for that this will be required...
             # Here it is simple since we are only focusing on damaging health:
             # prepare the variables:
@@ -907,25 +930,14 @@ init -1 python: # Core classes:
             self.source.vitality -= vitality_cost
             return died
             
-        def __call__(self, ai=False, t=None):
-            self.effects_resolver(t)
-            died = self.apply_effects(t)
-            
-            if not isinstance(died, (list, set, tuple)):
-                died = list()
-            
-            if not battle.logical:
-                self.time_gfx(t, died)
-            
-                for tag in self.tags_to_hide:
-                    renpy.hide(tag)
-                self.tags_to_hide= list()
-                
+        # Game/Gui Assists:
         def get_element(self):
+            # This may have to be expanded if we permit multi-elemental attacks in the future.
             # Returns (if any) an element bound to spell or attack:
-            for t in traits:
-                if t.lower() in self.attributes and t.lower() not in ["magic", "melee", "ranged"]:
-                    return traits[t]
+            for t in tgs.elemental:
+                element = t.id
+                if element.lower() in self.attributes and element.lower() not in ["magic", "melee", "ranged"]:
+                    return t
                 
         # GFX/SFX:
         def time_gfx(self, targets, died):
