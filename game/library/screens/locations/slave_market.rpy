@@ -198,7 +198,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     default tt = Tooltip("%s"%tt_text)
     
     frame:
-        background Frame(Transform("content/gfx/frame/ink_box2.png", alpha=1.0), 10, 10)
+        background Frame("content/gfx/frame/black_frame.png", 10, 10)
         align(0.995, 1.0)
         xysize (953, 92)
         vbox:

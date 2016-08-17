@@ -68,7 +68,7 @@ screen hero_profile():
     
     # BASE FRAME 2 "bottom layer" and portrait ====================================>
     add "content/gfx/frame/h_profile.png"
-    add (hero.show("cportrait", resize=(100, 100))) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
+    add hero.show("cportrait", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
     
     # BATTLE STATS ====================================>
     fixed:
@@ -142,7 +142,7 @@ screen hero_profile():
         if lframe_display == "status":
             # STATS ====================================>
             null height 20
-            $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"]
+            $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "evasion", "resistance"]
             vbox:
                 style_group "proper_stats"
                 spacing 1
@@ -178,30 +178,22 @@ screen hero_profile():
                         text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
                         text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
                         
-            # LOCATION ====================================>
-            vbox:
-                pos (10, 8)
-                button:
-                    style_group "ddlist"
-                    action Return(["dropdown", "loc"])
-                    alternate Return(["dropdown", "home"])
-                    text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
-                        if len(str(hero.location)) > 18:
-                            size 15
-                        else:
-                            size 16
-                    hovered tt.Action("Change MCs Home/Location.")
-                    
-                # AP ====================================>
-                frame:
-                    xysize (100, 80)
-                    background ProportionalScale("content/gfx/frame/frame_ap2.png", 190, 80)
-                    label "[hero.AP]":
-                        pos (130, -2)
-                        style "content_label"
-                        text_color ivory
-                        text_size 22
+            null height 5
                         
+            # LOCATION ====================================>
+            button:
+                style_group "ddlist"
+                action Return(["dropdown", "loc"])
+                alternate Return(["dropdown", "home"])
+                text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
+                    if len(str(hero.location)) > 18:
+                        size 15
+                    else:
+                        size 16
+                hovered tt.Action("Change MCs Home/Location.")
+            
+            null height 3
+                    
             # ELEMENTAL ALIGNMENT ====================================>
             $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
             frame:
@@ -209,7 +201,6 @@ screen hero_profile():
                 background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
                 xysize (210, 120)
                 xalign 0.5
-                xoffset -5
                 
                 $ x = 0
                 $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
@@ -402,12 +393,10 @@ screen hero_profile():
         spacing 3
         pos (459, 9)
         button:
-            xsize 75
             action SetScreenVariable("lframe_display", "status"), With(dissolve)
             text "Status" style "pb_button_text"
             hovered tt.Action("Show Hero Stats")
         button:
-            xsize 75
             action Show("hero_team", transition=dissolve)#, With(dissolve)
             text "Team" style "pb_button_text"
             hovered tt.Action("Show [hero.team.name]!")#, With(dissolve)
@@ -419,9 +408,19 @@ screen hero_profile():
             action Show("hero_finances")#, With(dissolve)
             text "Finance" style "pb_button_text"
         button:
-            xsize 75
             action If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
             text "Friends" style "pb_button_text"
+            
+    # AP ====================================>
+    frame:
+        xalign .45
+        ypos 50
+        background ProportionalScale("content/gfx/frame/frame_ap2.png", 190, 80)
+        label "[hero.AP]":
+            pos (130, -2)
+            style "content_label"
+            text_color ivory
+            text_size 22
     
     imagebutton:
         pos (900, 7) # (178, 70)

@@ -390,23 +390,33 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         size 14
         color ivory
         
+    style proper_stats_main_frame:
+        is frame
+        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+        padding (12, 12)
+        margin (0, 0)
     style proper_stats_frame:
         is frame
+        background Frame("content/gfx/frame/stat_box_proper.png")
         padding (0, 0)
         margin (0, 0)
-        background Frame("content/gfx/frame/stat_box_proper.png")
     style proper_stats_text:
         is stats_text
     style proper_stats_label_text:
         is stats_label_text
     style proper_stats_value_text:
         is stats_value_text
+    style proper_stats_value_text:
+        is stats_value_text
+        yoffset 4
+        xalign 1.0
     
     # Style for profile buttons "pb"
     # Pretty and advanced style used in Heros Profile:
     style pb_button:
         is hframe_button
-        xysize (60, 30)
+        padding (6, 5)
+        
     style pb_button_text:
         font "fonts/rubius.ttf"
         size 17
@@ -415,7 +425,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         selected_idle_color "#CDAD00"
         selected_hover_color "#CDAD00"
         xalign 0.5
-        ypos 15
     
     # Notifications:
     style notify_bubble:

@@ -362,7 +362,7 @@ screen char_profile():
                         
             null height 4
             vbox:
-                style_group "proper_stats"
+                style_prefix "proper_stats"
                 xsize 318
                 if stats_display == "main":
                     frame:
@@ -421,9 +421,8 @@ screen char_profile():
                     
                 elif stats_display == "stats":
                     frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        style_suffix "main_frame"
                         xsize 318
-                        padding 12, 12
                         has vbox spacing 1
                         $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
                         frame:
@@ -490,20 +489,17 @@ screen char_profile():
                 elif stats_display == "pro_stats": 
                     label (u"{size=20}{color=[ivory]}{b}Battle Stats:") xalign(0.48) text_outlines [(2, "#424242", 0, 0)]
                     frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xsize 300
-                        xpadding 12
-                        ypadding 12
-                        xmargin 0
-                        ymargin 0
+                        style_suffix "main_frame"
+                        xsize 318
                         has vbox spacing 1
                         $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A"), ("Evasion", "#FFFF94"), ("Resistance", "#FFA500")]
                         for stat, color in stats:
                             frame:
+                                xoffset 4
                                 xysize (290, 27)
-                                xalign 0.5
-                                text "[stat]" color color xalign 0.02 
-                                text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style "stats_value_text" color color xalign 1.0 xoffset 12 yoffset 4
+                                xpadding 7
+                                text "[stat]" color color
+                                text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
                                 
                     null height 4
                     
@@ -515,7 +511,6 @@ screen char_profile():
                         xysize (300, 130)
                         ymaximum 120
                         xalign 0.5
-                        xoffset -5
                         
                         $ x = 0
                         $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
@@ -536,13 +531,20 @@ screen char_profile():
                         add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (185, 12)
                                         
                 elif stats_display == "skillstest":
-                    viewport:
-                        scrollbars "vertical"
-                        xysize (310, 500)
-                        mousewheel True
-                        has vbox spacing 1
-                        for skill in char.stats.skills:
-                            text "[skill]: {true} <{action}, {training}>".format(true=int(char.get_skill(skill)), action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1]))
+                    frame:
+                        style_suffix "main_frame"
+                        xsize 318
+                        has viewport scrollbars "vertical" xysize(310, 392) mousewheel True child_size (300, 1000)
+                        vbox spacing 1:
+                            for skill in char.stats.skills:
+                                $ skill_val = int(char.get_skill(skill))
+                                if config.debug or skill_val > char.level * 10:
+                                    frame:
+                                        xoffset 4
+                                        xysize (270, 27)
+                                        xpadding 7    
+                                        text "{}:".format(skill.capitalize())
+                                        text "{true} <{action}, {training}>".format(true=skill_val, action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1])) style_suffix "value_text"
 
         # Level, experience ====================================>
         fixed:
@@ -557,15 +559,16 @@ screen char_profile():
             
         # Right frame ====================================>
         frame:
-            ypos 37
+            ypos 38
             xalign 1.0
-            xysize (345, 590)
-            background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            xysize (345, 586)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             has vbox spacing 1
             null height 1
+            
             # Buttons ====================================>
             frame:
-                background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
                 xalign 0.5
                 # ypos 5
                 xysize (325, 150)
@@ -619,18 +622,17 @@ screen char_profile():
                     text_color ivory
                     text_size 28
             
-            # Traits/Effects ====================================>
+            # Traits/Effects/Attacks/Magix ====================================>
             null height -25
-            
             frame:
-                background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                xsize 325
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6))
+                xsize 335
                 style_group "proper_stats"
                 xanchor 1
                 ypadding 7
                 xpadding 8
                 has vbox xoffset 3 spacing 2
-                
+                # Traits/Effects ====================================>
                 hbox:
                     # Traits:
                     vbox:
@@ -645,10 +647,10 @@ screen char_profile():
                             for trait in list(t for t in char.traits if not any([t.basetrait, t.personality, t.race, t.elemental])):
                                 if not trait.hidden:
                                     frame:
-                                        xysize (147, 25)
+                                        xsize 147
                                         button:
                                             background Null()
-                                            xysize (147, 25)
+                                            xsize 147
                                             action NullAction()
                                             text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson
                                             hovered tt.Action(u"%s"%trait.desc)
@@ -664,9 +666,9 @@ screen char_profile():
                             mousewheel True
                             has vbox spacing 1
                             for key in char.effects:
-                                frame:
-                                    xysize (147, 25)
-                                    if char.effects[key]['active']:
+                                if char.effects[key]['active']:
+                                    frame:
+                                        xysize (147, 25)
                                         button:
                                             background Null()
                                             xysize (147, 25)
@@ -674,7 +676,7 @@ screen char_profile():
                                             text "[key]" idle_color ivory size 15 align .5, .5 hover_color crimson
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                     
-            # Attacks/Magic ====================================>
+                # Attacks/Magic ====================================>
                 hbox:
                     vbox:
                         xysize (160, 146)
@@ -719,10 +721,10 @@ screen char_profile():
                             
         # Tooltip ====================================>
         frame:
-            background Frame(Transform("content/gfx/frame/ink_box.png"), 10, 10)
-            pos 333, 618
+            background Frame("content/gfx/frame/black_frame.png")
+            pos 325, 622
             xpadding 10
-            xysize (947, 100)
+            xysize (951, 100)
             has hbox spacing 1
             if isinstance(tt.value, BE_Action):
                 $ element = tt.value.get_element()

@@ -343,7 +343,7 @@ init -997: # Transforms:
     # GUI ===>>>    
     transform circle_around(t=10, around=(config.screen_width/2, config.screen_height/2), angle=0, radius=200):
         subpixel True
-        anchor (0.5, 0.5)
+        anchor (.5, .5)
         around around
         angle angle
         radius radius

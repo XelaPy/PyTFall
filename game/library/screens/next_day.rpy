@@ -1054,6 +1054,7 @@ screen next_day():
             $ fin_exp = hero.fin.game_fin_log[str(day-1)][1]["private"]
             
             frame:
+                style_prefix "proper_stats"
                 background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                 xysize (270, 550)
                 xanchor 5
@@ -1065,6 +1066,7 @@ screen next_day():
                     background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
                     label (u"Daily Balance") text_size 23 text_color ivory align(0.55, 0.03)
                 vbox:
+                    # LEFT OFF HERE: FIX THIS INSANE CODE!!!!
                     style_group "stats"
                     hbox:
                         yfill True
