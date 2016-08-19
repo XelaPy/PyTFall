@@ -410,189 +410,178 @@ screen next_day():
     default summary_filter = "buildings" # Not applicable atm
     default report_stats = False
     
+    # Right frame (Building/Businesses reports):
     if show_summary:
-        # Here summary screen is build and constructed, most of the required logic is done directly here:
-        # Right info/Filters frame:
         frame:
-            background Frame (Transform("content/gfx/frame/p_frame6.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame6.png", alpha=0.98), 10, 10)
             xysize (581, 683)
             ypos 37
             xalign 1.0
-            
+            # ALL Buildings/Workers SUMMARY:
             vbox:
                 xalign 0.38
                 
-                frame: 
+                frame:
                     style_group "content"
                     xalign 0.5
                     ypos 5
                     xysize (330, 50)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"Buildings") text_size 23 text_color ivory align(0.5, 0.6)
+                    label (u"Buildings") text_size 23 text_color ivory align .5, .6
                     add ProportionalScale("content/gfx/images/birds1.png", 548, 115) pos (-100, 5)
                 
                 null height 80
-                # ALL:
+                # ALL Buildings/Workers SUMMARY:
                 frame:
-                    xalign 0.5
-                    xysize (515, 134)
-                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                    align .5, .5
+                    top_padding 6
+                    xysize 515, 136
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                     hbox:
-                        null width 3
+                        xalign .5
+                        # ALL Reports button:
                         $ img = "content/gfx/frame/MC_bg3.png"
                         button:
-                            xysize (95, 95)
-                            yalign 0.5
+                            xysize 95, 95
+                            yalign .5
                             idle_background Frame(img, 5 ,5)
                             hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(0.20)), 5, 5)
-                            text "All" align (0.5, 0.5) style "stats_label_text" size 32
+                            text "All" align .5, .5 style "proper_stats_label_text" size 32
                             action [Return(['filter', 'all']), SetScreenVariable("show_summary", None)]
                             hovered tt.action(u"Show full report tree!")
                         
                         null width 5
-                        frame:
-                            align(0.5, 0.5)
-                            xysize (300, 130)
-                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
-                            vbox:
-                                style_group "stats"
-                                yfill True
-                                spacing -7
-                            
-                                # Active (Numeric Info):
-                                hbox:
-                                    xpos 2
-                                    spacing 2
-                                    hbox:
-                                        frame:
-                                            xysize (285, 33)
-                                            text "Active" yalign 0.5 xpos 3
-                                            text str(ndactive["ALL"]["Service"]) style "stats_value_text" xpos 115 yalign 0.6
-                                            text str(ndactive["ALL"]["Warriors"]) style "stats_value_text" xpos 155 yalign 0.6
-                                            text str(ndactive["ALL"]["Managers"]) style "stats_value_text" xpos 195 yalign 0.6
-                                            text str(ndactive["ALL"]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
-                                
-                                # Resting:
-                                hbox:
-                                    xpos 2
-                                    spacing 2
-                                    hbox:
-                                        frame:
-                                            xysize (285, 33)
-                                            text "Resting" pos (3, -3)
-                                            text str(ndresting["ALL"]["Service"])   style "stats_value_text" xpos 115 yalign 0.6
-                                            text str(ndresting["ALL"]["Warriors"])  style "stats_value_text" xpos 155 yalign 0.6
-                                            text str(ndresting["ALL"]["Managers"])  style "stats_value_text" xpos 195 yalign 0.6
-                                            text str(ndresting["ALL"]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
-                                 
-                                # Events: 
                         
-                                frame:
-                                    xpos 2
-                                    xysize (285, 33)
-                                    text "Events" yalign 0.5 xpos 3
-                                                    
-                                    hbox:
-                                        xpos 115
-                                        xmaximum 40
-                                        text str(ndevents["ALL"]["Service"]["count"]) style "stats_value_text" yalign 0.6
-
-                                        if ndevents["ALL"]["Service"]["red_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color red
-                                                action NullAction()
-
-                                        if ndevents["ALL"]["Service"]["green_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color red
-                                                action NullAction()
-
-                                        
-                                    hbox:
-                                        xpos 155
-                                        xmaximum 40
-                                        text str(ndevents["ALL"]["Warriors"]["count"]) style "stats_value_text" yalign 0.6
-                                        
-                                        if ndevents["ALL"]["Warriors"]["red_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color red
-                                                action NullAction()
-
-                                        if ndevents["ALL"]["Warriors"]["green_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color green
-                                                action NullAction()
-
+                        # DATA:
+                        frame:
+                            align .5, .5
+                            xysize 300, 122
+                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
+                            style_group "proper_stats"
+                            padding 8, 10
+                            has vbox spacing 1
                                 
-                                    hbox:
-                                        xpos 195
-                                        xmaximum 40
-                                        text str(ndevents["ALL"]["Managers"]["count"])  style "stats_value_text" yalign 0.6
+                            # Active (Numeric Info):
+                            frame:
+                                xysize (285, 25)
+                                text "Active" yalign 0.5 xpos 3
+                                text str(ndactive["ALL"]["Service"]) style_suffix "value_text" xpos 135
+                                text str(ndactive["ALL"]["Warriors"]) style_suffix "value_text" xpos 175
+                                text str(ndactive["ALL"]["Managers"]) style_suffix "value_text" xpos 215
+                                text str(ndactive["ALL"]["IDLE"]) style_suffix "value_text" xpos 255
+                            
+                            # Resting:
+                            frame:
+                                xysize (285, 25)
+                                text "Resting" yalign 0.5 xpos 3
+                                text str(ndresting["ALL"]["Service"]) style_suffix "value_text" xpos 135
+                                text str(ndresting["ALL"]["Warriors"]) style_suffix "value_text" xpos 175
+                                text str(ndresting["ALL"]["Managers"]) style_suffix "value_text" xpos 215
+                                text str(ndresting["ALL"]["IDLE"]) style_suffix "value_text" xpos 255
+                             
+                            # Events:
+                            frame:
+                                xpos 2
+                                xysize (285, 25)
+                                text "Events" yalign 0.5 xpos 3
+                                                
+                                hbox:
+                                    xpos 120
+                                    xmaximum 40
+                                    text str(ndevents["ALL"]["Service"]["count"]) style_suffix "value_text"
 
-                                        if ndevents["ALL"]["Managers"]["red_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color red
-                                                action NullAction()
+                                    if ndevents["ALL"]["Service"]["red_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color red
+                                            action NullAction()
 
-                                        if ndevents["ALL"]["Managers"]["green_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color green
-                                                action NullAction()
+                                    if ndevents["ALL"]["Service"]["green_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color green
+                                            action NullAction()
 
-                                    hbox:
-                                        xpos 235
-                                        xmaximum 40
-                                        text str(ndevents["ALL"]["IDLE"]["count"]) style "stats_value_text" yalign 0.6
+                                hbox:
+                                    xpos 164
+                                    xmaximum 40
+                                    text str(ndevents["ALL"]["Warriors"]["count"]) style_suffix "value_text"
+                                    
+                                    if ndevents["ALL"]["Warriors"]["red_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color red
+                                            action NullAction()
 
-                                        if ndevents["ALL"]["IDLE"]["red_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color red
-                                                action NullAction()
+                                    if ndevents["ALL"]["Warriors"]["green_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color green
+                                            action NullAction()
+                                            
+                                hbox:
+                                    xpos 205
+                                    xmaximum 40
+                                    text str(ndevents["ALL"]["Managers"]["count"]) style_suffix "value_text"
 
-                                        if ndevents["ALL"]["IDLE"]["green_flag"]:
-                                            button:
-                                                xpadding 1
-                                                ypadding 1
-                                                background Null()
-                                                text "!" style "next_day_summary_text" color green
-                                                action NullAction()
+                                    if ndevents["ALL"]["Managers"]["red_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color red
+                                            action NullAction()
 
-                                frame:
-                                    xpos 2
-                                    xysize (285, 33)
-                                    text "Customers:" yalign 0.5 xpos 3
-                                    python:
-                                        clients = 0
-                                        businesses = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
-                                        for b in businesses:
-                                            clients = clients + b.total_clients
-                                    hbox:
-                                        xpos 115
-                                        xmaximum 40
-                                        text "[clients]" style "stats_value_text" ypos 1
+                                    if ndevents["ALL"]["Managers"]["green_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color green
+                                            action NullAction()
+
+                                hbox:
+                                    xpos 245
+                                    xmaximum 40
+                                    text str(ndevents["ALL"]["IDLE"]["count"]) style_suffix "value_text"
+
+                                    if ndevents["ALL"]["IDLE"]["red_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color red
+                                            action NullAction()
+
+                                    if ndevents["ALL"]["IDLE"]["green_flag"]:
+                                        button:
+                                            yoffset 4
+                                            padding 1, 1
+                                            background Null()
+                                            text "!" style "next_day_summary_text" color green
+                                            action NullAction()
+
+                            frame:
+                                xpos 2
+                                xysize (285, 25)
+                                text "Customers:" xpos 3
+                                python:
+                                    clients = 0
+                                    for b in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+                                        clients = clients + b.total_clients
+                                text "[clients]" style_suffix "value_text"  xpos 135
                                 
                         null width 4
+                        
+                        # RED FLAG Button:
                         # View all red flagged events:
                         python:
                             red_flags = False
@@ -617,10 +606,11 @@ screen next_day():
                                 idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                                 hover_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                                 action NullAction()
-                    
-                    
-            side "c r":
-                xalign 0.5
+                                
+            # Separate Buildings data ------------------------------------------------->>>
+            side "c l":
+                style_prefix "proper_stats"
+                xalign .5
                 ypos 285
                 viewport id "Reports":
                     xysize (580, 365)
@@ -629,33 +619,34 @@ screen next_day():
                     mousewheel True
                     has vbox
                     
-                    # Buildings ------------------------------------------------->>>
+                    # Buildings:
                     for building in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
-                        # Image/Name
-                        null height 7
-                        text "[building.name]" style "stats_label_text" xpos 10
-                        null height 3
+                        # Image/Name:
+                        null height 4
+                        label "[building.name]" xpos 10
+                        null height 1
                         frame:
-                            xalign 1.0
-                            xysize (555, 134)
+                            xoffset 9
+                            xysize 550, 136
                             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                             hbox:
-                                yalign 0.5
+                                yalign .5
                                 null width 10
                                 frame:
-                                    yalign 0.5
-                                    xysize (95, 95)
-                                    background Frame("content/gfx/frame/MC_bg3.png", 5 ,5)
-                                    $ img = im.Scale(building.img, 95, 95)
+                                    yalign .5
+                                    xysize 95, 95
+                                    background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
+                                    $ img = im.Scale(building.img, 89, 89)
                                     imagebutton:
-                                        align (0.5, 0.5)
+                                        align .5, .5
                                         idle (img)
-                                        hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
+                                        hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
                                         action [Return(['filter', 'building', building]), SetScreenVariable("show_summary", None)]
                                         hovered tt.action(u"View Events in %s building." % building.name)
+                                        
                                     if building.flag_red:
                                         button:
-                                            align (0.95, 0.95)
+                                            align .95, .95
                                             background Null()
                                             text "!" color red size 40 italic True
                                             action NullAction()
@@ -663,158 +654,146 @@ screen next_day():
                                 
                                 null width 6
                                 
-                                # Stats:
+                                # DATA:
                                 frame:
-                                    align(0.5, 0.5)
-                                    xysize (410, 130)
+                                    align .5, .5
+                                    xysize 426, 122
                                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
-                                    vbox:
-                                        style_group "stats"
-                                        #yfill true
-                                        spacing -7
+                                    style_prefix "proper_stats"
+                                    padding 8, 10
+                                    has vbox spacing 1
+                                        
+                                    # Active:
+                                    frame:
+                                        xysize 410, 25
+                                        text "Active" yalign .5 xpos 3
+                                        text str(ndactive[building]["Service"]) style_suffix "value_text" xpos 135
+                                        text str(ndactive[building]["Warriors"]) style_suffix "value_text" xpos 175
+                                        text str(ndactive[building]["Managers"]) style_suffix "value_text" xpos 215
+                                        text str(ndactive[building]["IDLE"]) style_suffix "value_text" xpos 255
+                                        text "Dirt" yalign .5 xpos 285
+                                        text ("%d%%" % building.get_dirt_percentage()[0]) style_suffix "value_text" xalign .99
+                              
+                                    # Resting:
+                                    frame:
+                                        xysize (410, 25)
+                                        text "Resting" yalign .5 xpos 3
+                                        text str(ndresting[building]["Service"]) style_suffix "value_text" xpos 135
+                                        text str(ndresting[building]["Warriors"]) style_suffix "value_text" xpos 175
+                                        text str(ndresting[building]["Managers"]) style_suffix "value_text" xpos 215
+                                        text str(ndresting[building]["IDLE"]) style_suffix "value_text" xpos 255
+                                        text "Fame" yalign .5 xpos 285
+                                        text ("%d/%d" % (building.fame, building.maxfame)) style_suffix "value_text" xalign .99
+                                 
+                                    # Events:
+                                    frame:
+                                        xpos 2
+                                        xysize (410, 25)
+                                        text "Events" yalign 0.5 xpos 3
+                                        
+                                        hbox:
+                                            xpos 120
+                                            xmaximum 40
+                                            text str(ndevents[building]["Service"]["count"]) style_suffix "value_text"
+
+                                            if ndevents[building]["Service"]["red_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "!" style "next_day_summary_text" color red
+                                                    action NullAction()
+
+                                            if ndevents[building]["Service"]["green_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "!" style "next_day_summary_text" color green
+                                                    action NullAction()
+
+                                        hbox:
+                                            xpos 164
+                                            xmaximum 40
+                                            text str(ndevents[building]["Warriors"]["count"]) style_suffix "value_text"
+                                            
+                                            if ndevents[building]["Warriors"]["red_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "{color=[red]}!" style "next_day_summary_text"
+                                                    action NullAction()
+                                                
+                                            if ndevents[building]["Warriors"]["green_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "{color=[green]}!" style "next_day_summary_text"
+                                                    action NullAction()
+
+                                        
+                                        hbox:
+                                            xpos 205
+                                            xmaximum 40
+                                            text str(ndevents[building]["Managers"]["count"]) style_suffix "value_text"
+
+                                            if ndevents[building]["Managers"]["red_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "{color=[red]}!" style "next_day_summary_text"
+                                                    action NullAction()
+
+                                            if ndevents[building]["Managers"]["green_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "{color=[green]}!" style "next_day_summary_text"
+                                                    action NullAction()
+
+                                        
+                                        hbox:
+                                            xpos 245
+                                            xmaximum 40
+                                            text str(ndevents[building]["IDLE"]["count"]) style_suffix "value_text"
+
+                                            if ndevents[building]["IDLE"]["red_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "{color=[red]}!" style "next_day_summary_text"
+                                                    action NullAction()
+                                            
+                                            if ndevents[building]["IDLE"]["green_flag"]:
+                                                button:
+                                                    yoffset 4
+                                                    padding 1, 1
+                                                    background Null()
+                                                    text "{color=[green]}!" style "next_day_summary_text"
+                                                    action NullAction()
+
+                                            
+                                        hbox:
+                                            xpos 284
+                                            xmaximum 48
+                                            text "Rep."
+                                        hbox:
+                                            xalign .99
+                                            xmaximum 100
+                                            text ("%d/%d" % (building.rep, building.maxrep)) style_suffix "value_text"
                                 
-                                        # Active:
-                                        hbox:
-                                            xpos 2
-                                            spacing 2
-                                            hbox:
-                                                frame:
-                                                    xysize (405, 33)
-                                                    text "Active" yalign 0.5 xpos 3
-                                                    text str(ndactive[building]["Service"]) style "stats_value_text" xpos 115 yalign 0.6
-                                                    text str(ndactive[building]["Warriors"]) style "stats_value_text" xpos 155 yalign 0.6
-                                                    text str(ndactive[building]["Managers"]) style "stats_value_text" xpos 195 yalign 0.6
-                                                    text str(ndactive[building]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
-                                                    text "Dirt" yalign 0.5 xpos 275
-                                                    text ("%d%%" % building.get_dirt_percentage()[0]) style "stats_value_text" xalign 1.0 yalign 0.9
-                                  
-                                        # Rest:
-                                        hbox:
-                                            xpos 2
-                                            spacing 2
-                                            hbox:
-                                                frame:
-                                                    xysize (405, 33)
-                                                    text "Resting" yalign 0.5 xpos 3
-                                                    text str(ndresting[building]["Service"]) style "stats_value_text" xpos 115 yalign 0.6
-                                                    text str(ndresting[building]["Warriors"]) style "stats_value_text" xpos 155 yalign 0.6
-                                                    text str(ndresting[building]["Managers"]) style "stats_value_text" xpos 195 yalign 0.6
-                                                    text str(ndresting[building]["IDLE"]) style "stats_value_text" xpos 235 yalign 0.6
-                                                    text "Fame" yalign 0.5 xpos 275
-                                                    text ("%d/%d" % (building.fame, building.maxfame)) style "stats_value_text" xalign 1.0 yalign 0.9
-                                     
-                                        # Events:
+                                    hbox:
                                         frame:
                                             xpos 2
-                                            xysize (405, 33)
-                                            text "Events" yalign 0.5 xpos 3
-                                                    
-                                            hbox:
-                                                xpos 115
-                                                xmaximum 40
-                                                text str(ndevents[building]["Service"]["count"]) style "stats_value_text" yalign 0.6
-
-                                                if ndevents[building]["Service"]["red_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "!" style "next_day_summary_text" color red
-                                                        action NullAction()
-
-                                                if ndevents[building]["Service"]["green_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "!" style "next_day_summary_text" color green
-                                                        action NullAction()
-
-                                                    
-                                            hbox:
-                                                xpos 155
-                                                xmaximum 40
-                                                text str(ndevents[building]["Warriors"]["count"]) style "stats_value_text" yalign 0.6
-                                                
-                                                if ndevents[building]["Warriors"]["red_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "{color=[red]}!" style "next_day_summary_text"
-                                                        action NullAction()
-                                                    
-                                                if ndevents[building]["Warriors"]["green_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "{color=[green]}!" style "next_day_summary_text"
-                                                        action NullAction()
-
-                                            
-                                            hbox:
-                                                xpos 195
-                                                xmaximum 40
-                                                text str(ndevents[building]["Managers"]["count"]) style "stats_value_text" yalign 0.6
-
-                                                if ndevents[building]["Managers"]["red_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "{color=[red]}!" style "next_day_summary_text"
-                                                        action NullAction()
-
-                                                if ndevents[building]["Managers"]["green_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "{color=[green]}!" style "next_day_summary_text"
-                                                        action NullAction()
-
-                                            
-                                            hbox:
-                                                xpos 235
-                                                xmaximum 40
-                                                text str(ndevents[building]["IDLE"]["count"]) style "stats_value_text" yalign 0.6
-
-                                                if ndevents[building]["IDLE"]["red_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "{color=[red]}!" style "next_day_summary_text"
-                                                        action NullAction()
-                                                
-                                                if ndevents[building]["IDLE"]["green_flag"]:
-                                                    button:
-                                                        xpadding 1
-                                                        ypadding 1
-                                                        background Null()
-                                                        text "{color=[green]}!" style "next_day_summary_text"
-                                                        action NullAction()
-
-                                                
-                                            hbox:
-                                                yalign 0.5
-                                                xpos 275
-                                                xmaximum 48
-                                                text "Rep."
-                                            hbox:
-                                                yalign 0.5
-                                                xalign 1.0
-                                                xmaximum 100
-                                                text ("%d/%d" % (building.rep, building.maxrep)) style "stats_value_text" yalign 0.9
-                                    
-                                        hbox:
-                                            frame:
-                                                xpos 2
-                                                xysize (405, 33)
-                                                if hasattr(building, "total_clients"):
-                                                    text "Customers:" yalign 0.5 xpos 3
-                                                    text "[building.total_clients]" style "stats_value_text" ypos 1 xpos 115
+                                            xysize (410, 25)
+                                            if hasattr(building, "total_clients"):
+                                                text "Customers:" xpos 3
+                                                text "[building.total_clients]" style_suffix "value_text" xpos 135
                                     
                 vbar value YScrollValue("Reports")
         
@@ -830,33 +809,33 @@ screen next_day():
                     background Frame("content/gfx/interface/buttons/button_wood_right_hover.png", 3, 3)
                     text "[i]" size 12 bold True xalign .4
                 
-        # Mid frame:
+        # Mid frame: ------------------------------------->>>
+        # Hero Filter/Portrait:
         frame:
             pos (275, 250)
             xysize (430, 349)
             background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             vbox:
-                xalign 0.5
-                # Hero Filter/Portrait:
+                xalign .5
                 frame:
-                    xalign 0.5
-                    xysize (414, 120)
+                    xalign .5
+                    xysize 414, 120
                     background Frame("content/gfx/frame/ink_box.png", 10 ,10)
                     $ img = hero.show("portrait", resize=(95, 95), cache=True)
                     frame:
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        align (0.25, 0.8)
+                        align .23, .8
                         imagebutton:
-                            idle (img)
-                            hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
+                            idle img
+                            hover im.MatrixColor(img, im.matrix.brightness(.15))
                             action [Return(['filter', 'mc']), SetScreenVariable("show_summary", None)]
                             hovered tt.action(u"Show personal MC report!")
                     frame:
-                        style_group "stats"
-                        yalign 0.5
+                        style_group "proper_stats"
+                        yalign .5
                         xpos 178
-                        xysize (148, 105)
-                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 10, 10)
+                        xysize 155, 110
+                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
                         vbox:
                             label "[hero.name]":
                                 text_size 16
@@ -877,9 +856,9 @@ screen next_day():
                                     xysize (150, 20)
                                 text "HP" size 14 color ivory bold True yalign 0.1 xpos 8
                                 if hero.health <= hero.get_max("health")*0.2:
-                                    text "[hero.health]" size 14 color red bold True style "stats_value_text" yoffset -3 xpos 102
+                                    text "[hero.health]" size 14 color red bold True style_suffix "value_text" yoffset -3 xpos 102
                                 else:
-                                    text "[hero.health]" size 14 color ivory bold True style "stats_value_text" yoffset -3 xpos 102
+                                    text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" yoffset -3 xpos 102
                     
                             fixed: # MP
                                 xysize (150, 25)
@@ -894,9 +873,9 @@ screen next_day():
                                     xysize (150, 20)
                                 text "MP" size 14 color ivory bold True yalign 0.8 xpos 7
                                 if hero.mp <= hero.get_max("mp")*0.2:
-                                    text "[hero.mp]" size 14 color red bold True style "stats_value_text" yoffset 2 xpos 99
+                                    text "[hero.mp]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
-                                    text "[hero.mp]" size 14 color ivory bold True style "stats_value_text" yoffset 2 xpos 99
+                                    text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
                     
                             fixed: # VIT
                                 xysize (150, 25)
@@ -911,9 +890,9 @@ screen next_day():
                                     xysize (150, 20)
                                 text "VP" size 14 color ivory bold True yalign 0.8 xpos 7
                                 if hero.vitality <= hero.get_max("vitality")*0.2:
-                                    text "[hero.vitality]" size 14 color red bold True style "stats_value_text" yoffset 2 xpos 99
+                                    text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
-                                    text "[hero.vitality]" size 14 color ivory bold True style "stats_value_text" yoffset 2 xpos 99
+                                    text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
                                 add ProportionalScale("content/gfx/images/c1.png", 123, 111) pos (-42, 55)
             
         # MC (extra info) -------------------------------------------->>>
@@ -927,39 +906,40 @@ screen next_day():
                     button:
                         anchor (-196, 50)
                         yalign 1.0
-                        background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
+                        background Frame("content/gfx/frame/p_frame5.png", 5, 5)
                         text "!" color red size 40 style "stats_text"
                         action NullAction()
                         hovered tt.action(u"Red flag in MC's Report!")
             
             # School:
             frame:
-                align (0, 1.0)
+                align 0.02, 0.98
                 xysize (95, 95)
+                padding 2, 2
                 background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
-                $ img = im.Scale(schools["-PyTFall Educators-"].img, 95, 95)
+                $ img = im.Scale(schools["-PyTFall Educators-"].img, 89, 89)
                 imagebutton:
-                    align (0.5, 0.5)
-                    idle (img)
+                    align .5, .5
+                    idle img
                     hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
                     action [Return(['filter', 'school']), SetScreenVariable("show_summary", None)]
                     hovered tt.action(u"View School and School Events!")
                     
-            # Girlz:
+            # Girlz/Other Data like flags/char types/unassigned and filters (bid-bottom frame):
             frame:
-                align (1.0, 1.0)
-                xysize (95, 95)
+                align 0.98, 0.98
+                xysize 95, 95
                 background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
-                $ img = im.Scale("content/gfx/bg/gallery.jpg", 95, 95)
+                $ img = im.Scale("content/gfx/bg/gallery.jpg", 89, 89)
                 imagebutton:
-                    align (0.5, 0.5)
-                    idle (img)
+                    align .5, .5
+                    idle img
                     hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
                     action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
                     hovered tt.action(u"Show personal girl reports!")
             
             vbox:
-                align (0.5, 0.85)
+                align .5, .85
                 spacing 3
                 # Getting data:
                 python:
@@ -974,9 +954,9 @@ screen next_day():
                 hbox:
                     spacing 5
                     add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
-                    text ("%d" % slaves) style "agrevue"
+                    text "[slaves]" style "agrevue"
                     null width 240
-                    text ("%d" % free) style "agrevue"
+                    text "[free]" style "agrevue"
                     add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
                     
                 null height 90
@@ -1042,12 +1022,12 @@ screen next_day():
                     hovered tt.action(u"Red flag in Girlz personal Reports!")
                         
                         
-        # Left Box ==========================================================================>>>>            
-        # Fin:
+        # Left Frame ==========================================================================>>>>            
+        # Finances:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-            xysize (277, 560)
-            pos(2, 37)
+            xysize 277, 560
+            ypos 37
             
             # Day Total ===========================================>>>
             $ fin_inc = hero.fin.game_fin_log[str(day-1)][0]["private"]
@@ -1055,251 +1035,109 @@ screen next_day():
             
             frame:
                 style_prefix "proper_stats"
-                background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                xysize (270, 550)
-                xanchor 5
-                yanchor 2
-                frame:
-                    style_group "content"
-                    align (0.5, 0.015)
-                    xysize (210, 40)
-                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
-                    label (u"Daily Balance") text_size 23 text_color ivory align(0.55, 0.03)
-                vbox:
-                    # LEFT OFF HERE: FIX THIS INSANE CODE!!!!
-                    style_group "stats"
-                    hbox:
-                        yfill True
-                        ypos 53
-                        vbox:
-                            spacing -7
-                            xanchor 0
-                            xmaximum 140
-                            xfill True
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            frame:
-                                xsize 260
-                                text("")
-                            add ProportionalScale("content/gfx/images/magic2.png", 120, 120) pos (150, -50)
-                        hbox:
-                            vbox:
-                                spacing 5
-                                yanchor -5
-                                xanchor 130
-                                xmaximum 185
-                                xfill True
-                                for key in fin_inc:
-                                    text("[key]") color green
-                                for key in fin_exp:
-                                    text("[key]") color red
-                            vbox:
-                                yanchor -9
-                                spacing 9
-                                xfill True
-                                xanchor 110
-                                xminimum 108
-                                xmaximum 108
-                                for key in fin_inc:
-                                    $ val = fin_inc[key]
-                                    text("[val]") color green style "stats_value_text" xalign (1.0)
-                                for key in fin_exp:
-                                    $ val = fin_exp[key]
-                                    text("[val]") color red style "stats_value_text" xalign (1.0)
-                        
-                    python:
-                        total_income = 0
-                        total_expenses = 0
-                    
-                        for key in fin_inc:
-                            total_income += fin_inc[key]
-                        for key in fin_exp:
-                            total_expenses += fin_exp[key]
-                        
-                        total = total_income - total_expenses
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                xysize 270, 550
+                has vbox spacing 1
+                # xoffset -3
                 
-                    if total > 0:
-                        hbox:
-                            yfill True
-                            vbox:
-                                yalign (1.0)
-                                xmaximum 90
-                                xfill True
-                                text "-------------------------------------------------" color green anchor (-8, -13)
-                                frame:
-                                    xsize 260
-                                    text("Total") color green size 24 xpos 2 yanchor 7
-                                    text "-------------------------------------------------" color green anchor (-2, -6)
-                            vbox:
-                                yalign 1.0
-                                xfill True
-                                xminimum 160
-                                xmaximum 160
-                                text("[total]") color green size 20 style "stats_value_text" xalign 1.0
-                    else:
-                        hbox:
-                            yfill True
-                            vbox:
-                                yalign (1.0)
-                                xmaximum 90
-                                xfill True
-                                text "------------------------------------------------" color red anchor (-8, -13)
-                                frame:
-                                    xsize 260
-                                    text("Total") color red size 24 xpos 2 yanchor 7
-                                    text "------------------------------------------------" color red anchor (-2, -6)
-                            vbox:
-                                yalign 1.0
-                                xfill True
-                                xminimum 160
-                                xmaximum 160
-                                text("[total]") color red size 20 style "stats_value_text" xalign 1.0
-                        
-        # Game Total!    =============================================>>>
+                null height 10
+                frame:
+                    style "content_frame"
+                    xalign .55
+                    xysize 210, 40
+                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    label (u"Daily Balance") text_size 23 text_color ivory xalign .5 yoffset -4
+                null height 4
+                
+                $ counter = 0
+                for k, v in fin_inc.iteritems():
+                    if v:
+                        $ counter += 1
+                        frame:
+                            xysize 250, 25
+                            xoffset 10
+                            text "[k]" color green xoffset 3
+                            text "[v]" color green style_suffix "value_text" xoffset -3
+                           
+                for k, v in fin_exp.iteritems():
+                    if v:
+                        $ counter += 1
+                        frame:
+                            xysize 250, 25
+                            xoffset 10
+                            text "[k]" color red xoffset 3
+                            text "[v]" color red style_suffix "value_text" xoffset -3
+                                    
+                if counter < 16:
+                    for i in xrange(16 - counter):
+                        frame:
+                            xysize 250, 25
+                            xoffset 10
+                          
+                python:
+                    total_income = 0
+                    total_expenses = 0
+                    for key in fin_inc:
+                        total_income += fin_inc[key]
+                    for key in fin_exp:
+                        total_expenses += fin_exp[key]
+                    total = total_income - total_expenses
+                    
+                add ProportionalScale("content/gfx/images/magic2.png", 120, 120) offset 140, -140
+                
+        # Game Total (Top-Mid Frame)  =============================================>>>
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             xysize (429, 220)
-            pos(276, 37)
+            pos (276, 37)
             style_group "content"
+            
             frame: 
                 ypos 6
                 xalign 0.5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"Game Total") text_size 23 text_color ivory align(0.5, 0.6) #text_outlines [(2, "#424242", 0, 0)]
+                label (u"Game Total") text_size 23 text_color ivory align .5, .6
+                
             null height 1
             frame:
-                align(0.5, 0.95)
+                align .5, .95
                 xysize (414, 150)
+                style_prefix "proper_stats"
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
-                add ProportionalScale("content/gfx/images/jp1.png", 68, 101) pos (325, 5)
-                add ProportionalScale("content/gfx/images/jp2.png", 73, 103) pos (12, 5)
-                python:
-                    income = dict()
-                    for _day in hero.fin.game_fin_log:
-                        for key in hero.fin.game_fin_log[_day][0]["private"]:
-                            income[key] = income.get(key, 0) + hero.fin.game_fin_log[_day][0]["private"][key]
-                    expenses = dict()
-                    for _day in hero.fin.game_fin_log:
-                        for key in hero.fin.game_fin_log[_day][1]["private"]:
-                            expenses[key] = expenses.get(key, 0) + hero.fin.game_fin_log[_day][1]["private"][key]
-                            
-                    game_total = 0
-                    total_income = sum(income.values())
-                    total_expenses = sum(expenses.values())
-                    game_total = total_income - total_expenses
-                                
-                hbox:
-                    style_group "stats"
-                    yfill True
-                    vbox:
-                        spacing -7
-                        yanchor -24
-                        xanchor -82
-                        xmaximum 75
-                        xfill True
-                        frame:
-                            xsize 240
-                            text("Earnings") color green
-                        frame:
-                            xsize 240
-                            text("Expences") color red
-                    vbox:
-                        yanchor -34
-                        spacing 9
-                        xfill True
-                        xanchor -82
-                        xminimum 158
-                        xmaximum 158
-                        text("[total_income]") color green style "stats_value_text" xalign (1.0)
-                        text("[total_expenses]") color red style "stats_value_text" xalign (1.0)
+                add ProportionalScale("content/gfx/images/jp1.png", 68, 101) pos (330, 20)
+                add ProportionalScale("content/gfx/images/jp2.png", 73, 103) pos (12, 20)
+                
+                vbox:
+                    align .5, .3
+                    frame:
+                        xysize 240, 30
+                        xalign .5
+                        text ("Earnings") color green xoffset 2
+                        text ("[total_income]") color green style_suffix "value_text" xoffset -2
+                    frame:
+                        xysize 240, 30
+                        xalign .5
+                        text ("Expences") color red xoffset 2
+                        text ("[total_expenses]") color red style_suffix "value_text" xoffset -2
                         
+                null height 2
+                $ cl = green if total > 0 else red
+                frame:
+                    align .5, .90
+                    xysize 250, 30
+                    frame:
+                        text "Total" color cl size 24 xpos 2
+                        text "[total]" color cl style_suffix "value_text" xoffset -3 size 19
                     
-                if game_total > 0:
-                    hbox:
-                        style_group "stats"
-                        yfill True
-                        vbox:
-                            yalign (1.0)
-                            xmaximum 90
-                            xfill True
-                            text "------------------------------------------------------------------------------" color green anchor (-8, -13)
-                            frame:
-                                xsize 404
-                                text("Total") color green size 24 xpos 60 yanchor 7
-                                text "------------------------------------------------------------------------------" color green anchor (-2, -6)
-                        vbox:
-                            yalign 1.0
-                            xfill True
-                            xminimum 240
-                            xmaximum 240
-                            text("[game_total]") color green size 20 style "stats_value_text" xalign 1.0
-                else:
-                    hbox:
-                        style_group "stats"
-                        yfill True
-                        vbox:
-                            yalign (1.0)
-                            xmaximum 90
-                            xfill True
-                            text "------------------------------------------------------------------------------" color red anchor (-8, -13)
-                            frame:
-                                xsize 404
-                                text("Total") color red size 24 xpos 60 yanchor 7
-                                text "------------------------------------------------------------------------------" color red anchor (-2, -6)
-                        vbox:
-                            yalign 1.0
-                            xfill True
-                            xminimum 240
-                            xmaximum 240
-                            text("[game_total]") color red size 20 style "stats_value_text" xalign 1.0
                             
-        # Tooltip Frame       
-        frame background Frame("content/gfx/frame/mes12.jpg", 10, 10):
+        # Tooltip Frame:
+        frame:
+            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
             xysize (700, 125)
-            xpadding 10
+            padding 10, 5
             pos (3, 594)
-            text(u"{size=20}{color=[ivory]}%s" % tt.value) yalign 0.1 style "TisaOTM"
+            text (u"{size=20}{color=[ivory]}%s" % tt.value) style "TisaOTM"
                    
         use top_stripe(True)
             

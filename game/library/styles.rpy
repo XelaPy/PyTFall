@@ -369,45 +369,35 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         bottom_padding 1
         xmargin 0
         ymargin 0
-    
-    style stats_frame:
-        is frame
-        xysize (307, 31)
-        background Frame("content/gfx/frame/stat_box.png", 1, 1)
-    style stats_text:
-        is garamond
-        color ivory
-        outlines [(1, "#3a3a3a", 0, 0)]
-        size 18
-    style stats_label_text:
-        is della_respira
-        outlines [(2, "#424242", 0, 0)]
-        size 19
-        color ivory
-    style stats_value_text:
-        is della_respira
-        outlines [(1, "#3a3a3a", 0, 0)]
-        size 14
-        color ivory
         
-    style proper_stats_main_frame:
-        is frame
-        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-        padding (12, 12)
-        margin (0, 0)
     style proper_stats_frame:
         is frame
         background Frame("content/gfx/frame/stat_box_proper.png")
         padding (0, 0)
         margin (0, 0)
+    style proper_stats_frame:
+        is vbox
+        spacing 1
+    style proper_stats_main_frame:
+        is frame
+        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+        padding (12, 12)
+        margin (0, 0)
     style proper_stats_text:
-        is stats_text
+        is garamond
+        color ivory
+        outlines [(1, "#3a3a3a", 0, 0)]
+        size 18
     style proper_stats_label_text:
-        is stats_label_text
+        is della_respira
+        outlines [(2, "#424242", 0, 0)]
+        size 19
+        color ivory
     style proper_stats_value_text:
-        is stats_value_text
-    style proper_stats_value_text:
-        is stats_value_text
+        is della_respira
+        outlines [(1, "#3a3a3a", 0, 0)]
+        size 14
+        color ivory
         yoffset 4
         xalign 1.0
     
