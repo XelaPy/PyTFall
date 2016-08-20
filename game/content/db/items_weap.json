@@ -69,6 +69,7 @@
     "attacks": ["RodAttack"],
     "max": {"magic": 80, "mp": 60},
     "mod": {"magic": 30, "character": 30, "attack": -40},
+    "add_be_spells": ["Thunder Loop"],
     "locations": ["Witches Hut", "Exploration"]
     },
     {

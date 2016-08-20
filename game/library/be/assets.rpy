@@ -64,6 +64,7 @@ init -1: # Images and Animations
     image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
     image earth_hammer = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/earth_hammer/earth_hammer.webm", mask="content/gfx/be/webm/earth_hammer/earth_hammer_alpha.webm")
     image multi_hit = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
+    image archmage = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/staff/ele/weapon.webm", mask="content/gfx/be/webm/staff/ele/weapon_alpha.webm") # Archmage Staff
     # Casting:
     python:
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
@@ -455,7 +456,10 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("earth_hammer"), "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
-
+        SimpleAttack(u"Thunder Loop", menu_pos=0, range=3, attributes=['ranged', 'earth', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Releases accumulated electricity at each stroke.",
+                                           main_effect={"gfx": Transform("archmage"), "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
         # Magic:
         # Fire:
         # GFX/SFX Dicts:
