@@ -51,12 +51,12 @@ screen quest_log():
     frame:
         ypos 42
         background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-        xalign 0.5
-        xysize (1272, 10)
+        xalign .5
+        xysize (1272, 44)
         hbox:
             style_group "basic"
             spacing 10
-            yalign 0.5
+            yalign .5
             button:
                 style_group "basic"
                 text ("Hide Quest Popups" if USE_QUEST_POPUP else "Show Quest Popups") size 16
@@ -71,7 +71,7 @@ screen quest_log():
     frame:
         ypos 78
         background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-        xalign 0.5
+        xalign .5
         xysize (1270, 638)
         hbox:
             frame:
@@ -88,10 +88,10 @@ screen quest_log():
                             style_group "basic"
                             frame:
                                 style_group "content"
-                                xalign 0.5
+                                xalign .5
                                 xysize (270, 50)
                                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                                label (u"Active:") text_size 23 text_color ivory align(0.5, 0.6)
+                                label (u"Active:") text_size 23 text_color ivory align .5, .6
                             null height 20
                             for i in pytfall.world_quests.active:
                                 textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]

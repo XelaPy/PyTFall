@@ -639,8 +639,8 @@ screen next_day():
                                     $ img = im.Scale(building.img, 89, 89)
                                     imagebutton:
                                         align .5, .5
-                                        idle (img)
-                                        hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
+                                        idle img
+                                        hover im.MatrixColor(img ,im.matrix.brightness(.15))
                                         action [Return(['filter', 'building', building]), SetScreenVariable("show_summary", None)]
                                         hovered tt.action(u"View Events in %s building." % building.name)
                                         
