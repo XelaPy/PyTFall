@@ -196,6 +196,7 @@ init: # Main Screens:
                     yalign .5
                     add img align .5, .5
                     
+                # Name + Stats:
                 frame:
                     padding 8, 2
                     background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
@@ -238,7 +239,7 @@ init: # Main Screens:
                         else:
                             text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
             
-                    fixed: # VIT:
+                    fixed: # VP:
                         ysize 25
                         bar:
                             left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)

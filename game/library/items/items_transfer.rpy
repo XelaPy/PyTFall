@@ -299,7 +299,7 @@ screen items_transfer():
                     yalign 0.5
                     spacing 5
                     text (u'{size=-5}Amount:') yalign 0.5 xpos 46 size 20 color ivory style "garamond"
-                    text (u'{size=-5}[pytfall.it.items_amount]') yalign 0.5 xpos 60 size 20 color ivory style "stats_value_text"
+                    text (u'{size=-5}[pytfall.it.items_amount]') yalign 0.5 xpos 60 size 20 color ivory style "proper_stats_value_text"
 
                 $ img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 25, 25, align=(0.5, 0.5))
                 button:

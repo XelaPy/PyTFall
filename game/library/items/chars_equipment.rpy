@@ -375,9 +375,9 @@ screen char_equip():
                             $ tempc = red if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
                             if dummy:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "health", tempc)
-                                text tempstr style "stats_value_text" xalign .98 yoffset 3
+                                text tempstr style_suffix "value_text" xalign .98 yoffset 3
                             else:
-                                text u"[eqtarget.health]/{}".format(eqtarget.get_max("health")) xalign .98 yoffset 3 style "stats_value_text" color tempc
+                                text u"[eqtarget.health]/{}".format(eqtarget.get_max("health")) xalign .98 yoffset 3 style_suffix "value_text" color tempc
                         
                         # Vitality:
                         frame:
@@ -386,9 +386,9 @@ screen char_equip():
                             $ tempc = red if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
                             if dummy:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "vitality", tempc)
-                                text tempstr style "stats_value_text" xalign .98 yoffset 3
+                                text tempstr style_suffix "value_text" xalign .98 yoffset 3
                             else:
-                                text u"[eqtarget.vitality]/{}".format(eqtarget.get_max("vitality")) xalign .98 yoffset 3 style "stats_value_text" color tempc
+                                text u"[eqtarget.vitality]/{}".format(eqtarget.get_max("vitality")) xalign .98 yoffset 3 style_suffix "value_text" color tempc
                              
                         # Rest of stats:
                         for stat in stats:
@@ -397,18 +397,15 @@ screen char_equip():
                                 text "{}".format(stat.capitalize()) xalign .02 color "#79CDCD"
                                 if dummy:
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, "#F5F5DC")
-                                    text tempstr style "stats_value_text" xalign .98 yoffset 3
+                                    text tempstr style_suffix "value_text" xalign .98 yoffset 3
                                 else:
-                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) xalign .98 yoffset 3 style "stats_value_text" color tempc
+                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) xalign .98 yoffset 3 style_suffix "value_text" color tempc
                                             
                     # BATTLE STATS ============================>
                     frame:
                         background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
                         xsize 218
-                        xpadding 6
-                        ypadding 6
-                        xmargin 0
-                        ymargin 0
+                        padding 6, 6
                         style_group "proper_stats"
                         has vbox spacing 1
                          
@@ -420,7 +417,7 @@ screen char_equip():
                         for stat, color in stats:
                             frame:
                                 xysize 204, 25
-                                text "[stat]" color color style "stats_value_text" yoffset 2
+                                text "[stat]" color color
                                 $ stat = stat.lower()
                                 if stat == "mp":
                                     $ tempc = red if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
@@ -428,9 +425,9 @@ screen char_equip():
                                     $ tempc = color
                                 if dummy:
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
-                                    text tempstr style "stats_value_text" xalign .98 yoffset 3
+                                    text tempstr style_suffix "value_text" xalign .98 yoffset 3
                                 else:
-                                    text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) xalign .98 yoffset 3 style "stats_value_text" color tempc
+                                    text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) xalign .98 yoffset 3 style_suffix "value_text" color tempc
                                 
             
             elif stats_display == "pro":
@@ -683,6 +680,7 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
         $ xs = size[0]
         $ ys = size[1]
         fixed:
+            style_prefix "proper_stats"
             xysize (xs, ys)
             
             # Top HBox: Discard/Close buttons and the Item ID:
@@ -710,8 +708,8 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         hovered tt.Action("Close item info")
             
             # Separation Strip (Outside of alignments):
-            label ('{color=#ecc88a}__________________________________________') text_style "stats_value_text" xalign .5 ypos 28
-            label ('{color=#ecc88a}__________________________________________') text_style "stats_value_text" xalign .5 ypos 163
+            label ('{color=#ecc88a}__________________________________________') xalign .5 ypos 28
+            label ('{color=#ecc88a}__________________________________________') xalign .5 ypos 163
             
             # Mid HBox:
             hbox:
@@ -722,8 +720,8 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                 
                 # Left Items Info:
                 frame:
-                    xalign 0.02
-                    style_group "proper_stats"
+                    xalign .02
+                    style_prefix "proper_stats"
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
                     xysize (180, 130)
                     xpadding 0
@@ -732,8 +730,8 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     null height 15
                     frame:
                         xysize (160, 25)
-                        text ('Price:') color gold xalign 0.02
-                        label ('{size=-4}{color=[gold]}[item.price]') align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        text 'Price:' color gold xalign .02
+                        label '{size=-4}{color=[gold]}[item.price]' align .98, .5 text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Slot:') xalign 0.02
