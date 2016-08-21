@@ -456,7 +456,7 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("earth_hammer"), "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
-        SimpleAttack(u"Thunder Loop", menu_pos=0, range=3, attributes=['ranged', 'earth', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Releases accumulated electricity at each stroke.",
+        SimpleAttack(u"Thunder Loop", menu_pos=0, range=3, attributes=['melee', 'electricity', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Releases accumulated electricity at each stroke.",
                                            main_effect={"gfx": Transform("archmage"), "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
