@@ -67,237 +67,213 @@ init: # Main Screens:
                 action Return(["challenge", "start_match"])
                 text "Start Match!" style "wood_text" xalign(0.4) size 20
                  
-        # Kickass sign         
+        # Kickass sign:
         frame:
-            xalign 0.501
+            xalign .5
             ypos 39
             background Frame("content/gfx/frame/Mc_bg.png", 10, 10)
             xysize (725, 120)
             add Transform(Text("{=content}{size=30}{color=[crimson]}Get your ass kicked in our Arena!"), alpha=0.8) align (0.5, 0.5)
-            
-        # Daily report and Hero info:
-        # Hero stats at Jaeke's request:
-        # Now a vbox:
-        frame:
-            xalign 1.0
-            ypos 39
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=1.0), 10, 10)
-            xysize (270, 682)
-            vbox:
-                align(0.5, 0.0)
-                style_group "content"
-                vbox:
-                    xalign 0.5
-                    #label "Hero Stats:" xalign 0.5 text_size 20 text_color ivory
-                    frame:
-                        xalign 0.5
-                        xysize (270, 120)
-                        background Frame("content/gfx/frame/ink_box.png", 10 ,10)
-                        $ img = hero.show("portrait", resize=(95, 95), cache=True)
-                        frame:
-                            background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                            align (0.0, 0.9)
-                            imagebutton:
-                                idle (img)
-                                hover (img) #(im.MatrixColor(img ,im.matrix.brightness(0.15)))
-                                action NullAction()
-                        frame:
-                            style_group "stats"
-                            yalign 0.5
-                            xpos 103
-                            xysize (148, 105)
-                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 10, 10)
-                            vbox:
-                                label "[hero.name]":
-                                    text_size 16
-                                    text_bold True
-                                    xpos 38
-                                    yalign 0.03
-                                    text_color ivory
-                                fixed: # HP
-                                    xysize (150, 25)
-                                    xanchor -8
-                                    bar:
-                                        yalign 0.5
-                                        left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                                        right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                        value hero.health
-                                        range hero.get_max("health")
-                                        thumb None
-                                        xysize (150, 20)
-                                    text "HP" size 14 color ivory bold True yalign 0.1 xpos 8
-                                    if hero.health <= hero.get_max("health")*0.2:
-                                        text "[hero.health]" size 14 color red bold True style "stats_value_text" yoffset -3 xpos 102
-                                    else:
-                                        text "[hero.health]" size 14 color ivory bold True style "stats_value_text" yoffset -3 xpos 102
-                        
-                                fixed: # MP
-                                    xysize (150, 25)
-                                    xanchor -5
-                                    bar:
-                                        yalign 0.2
-                                        left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
-                                        right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                        value hero.mp
-                                        range hero.get_max("mp")
-                                        thumb None
-                                        xysize (150, 20)
-                                    text "MP" size 14 color ivory bold True yalign 0.8 xpos 7
-                                    if hero.mp <= hero.get_max("mp")*0.2:
-                                        text "[hero.mp]" size 14 color red bold True style "stats_value_text" yoffset 2 xpos 99
-                                    else:
-                                        text "[hero.mp]" size 14 color ivory bold True style "stats_value_text" yoffset 2 xpos 99
-                        
-                                fixed: # VIT
-                                    xysize (150, 25)
-                                    xanchor -2
-                                    bar:
-                                        yalign 0.5
-                                        left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
-                                        right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                        value hero.vitality
-                                        range hero.get_max("vitality")
-                                        thumb None
-                                        xysize (150, 20)
-                                    text "VP" size 14 color ivory bold True yalign 0.8 xpos 7
-                                    if hero.vitality <= hero.get_max("vitality")*0.2:
-                                        text "[hero.vitality]" size 14 color red bold True style "stats_value_text" yoffset 2 xpos 99
-                                    else:
-                                        text "[hero.vitality]" size 14 color ivory bold True style "stats_value_text" yoffset 2 xpos 99
-                        
-                                #fixed:
-                                   # align(0.1, 0.5)
-                                   # xysize (105, 105)
-                                   # add hero.show("battle_sprite", resize=(100, 100)) align(0.5, 0.5)
-                            
-                                            
-                frame:
-                    background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
-                    xysize (270, 110)
-                    label "Reputation: [hero.arena_rep]" text_size 25 text_color ivory align (0.5, 0.5)
-            
-                frame:
-                    background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
-                    style_group "basic"
-                    xysize (270, 110)
-                    vbox:
-                        align (0.5, 0.5)
-                        spacing 10
-                        textbutton "Show Daily Report":
-                            xalign 0.5
-                            action [ShowTransient("arena_report")]
-                        textbutton "Reputation Ladder":
-                            xalign 0.5
-                            action [ShowTransient("arena_rep_ladder")]
-              
+                    
+        # LEFT FRAME:
         # Buttons:
-        # Beast Fights:
         frame:
+            style_group "content"
             pos (2, 39)
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=1.0), 10, 10)
             xysize (280, 682)
-            vbox:
-                align (0.5, 0.03)
+            has vbox align .5, .03 spacing 1
+            
+            # Beast Fights:
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                padding 10, 10
+                has vbox spacing 2
+                
                 frame:
-                    xysize (270, 90)
-                    style_group "content"
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 10, 10)
-                    xpadding 10
-                    ypadding 10
-                    vbox:
-                        align (0.5, 0.5)
-                        spacing 2
-                        frame:
-                            xfill True
-                            align (0.5, 0.5)
-                            background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                            label "{size=28}{color=[bisque]}== Beast Fights ==" xalign 0.5 text_outlines [(1, "#3a3a3a", 0, 0)]
-                        hbox:
-                            style_group "basic"
-                            align (0.5, 0.5)
-                            spacing 5
-                            textbutton "{size=24}{color=[black]}Bestiary":
-                                action Return(["show", "bestiary"])
-                            textbutton "{size=24}{color=[black]}Survival!":
-                                action Return(["challenge", "start_chainfight"])
+                    xfill True
+                    align .5, .5
+                    background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                    label "{size=28}{color=[bisque]}== Beast Fights ==" xalign .5 text_outlines [(1, "#3a3a3a", 0, 0)]
+                hbox:
+                    style_group "basic"
+                    align .5, .5
+                    spacing 5
+                    textbutton "{size=20}{color=[black]}Bestiary":
+                        action Return(["show", "bestiary"])
+                    textbutton "{size=20}{color=[black]}Survival!":
+                        action Return(["challenge", "start_chainfight"])
+                    
+            # Ladders (Just Info):
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                padding 10, 10
+                has vbox spacing 2
+                
+                frame:
+                    xfill True
+                    align .5, .5
+                    background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                    label "{size=28}{color=[bisque]}== Ladders ==" xalign .5 text_outlines [(1, "#3a3a3a", 0, 0)]
+                hbox:
+                    style_group "basic"
+                    align .5, .5
+                    spacing 5
+                    textbutton "{size=20}{color=[black]}1v1":
+                        action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_1v1)
+                    textbutton "{size=20}{color=[black]}2v2":
+                        action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_2v2)
+                    textbutton "{size=20}{color=[black]}3v3":
+                        action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_3v3)
+
+            # Official matches:
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                padding 10, 10
+                has vbox spacing 2
+            
+                frame:
+                    xfill True
+                    align .5, .5
+                    background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                    label "{size=28}{color=[bisque]}== Matches ==" xalign .5 text_outlines [(1, "#3a3a3a", 0, 0)]
+                hbox:
+                    align .5, .5
+                    spacing 5
+                    style_group "basic"
+                    textbutton "{size=20}{color=[black]}1v1":
+                        action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_3.png", 130, 130))
+                    textbutton "{size=20}{color=[black]}2v2":
+                        action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 130, 130))
+                    textbutton "{size=20}{color=[black]}3v3":
+                        action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_4.png", 130, 130))
+     
+            # Dogfights:
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                padding 10, 10
+                has vbox spacing 2
+                
+                frame:
+                    xfill True
+                    align .5, .5
+                    background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                    label ("{size=28}{color=[bisque]}== Dogfights ==") xalign .5 text_outlines [(1, "#3a3a3a", 0, 0)]
+                hbox:
+                    style_group "basic"
+                    align .5, .5
+                    spacing 5
+                    textbutton "{size=20}{color=[black]}1v1":
+                        action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_1v1)
+                    textbutton "{size=20}{color=[black]}2v2":
+                        action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_2v2)
+                    textbutton "{size=20}{color=[black]}3v3":
+                        action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_3v3)
                         
-                # Ladders (Just Info):
+        # RIGHT FRAME::
+        # Hero stats + Some Buttons:
+        frame:
+            xalign 1.0
+            ypos 39
+            background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+            xysize 282, 682
+            style_prefix "proper_stats"
+            has vbox align .5, .0
+            
+            null height 10
+            
+            # Player Stats:
+            frame:
+                xalign .5
+                padding 5, 1
+                background Frame("content/gfx/frame/ink_box.png", 5, 5)
+                has hbox spacing 2
+                
                 frame:
-                    xysize (270, 90)
-                    style_group "content"
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 10, 10)
-                    xpadding 10
-                    ypadding 10
-                    vbox:
-                        align (0.5, 0.5)
-                        spacing 2
-                        frame:
-                            xfill True
-                            align (0.5, 0.5)
-                            background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                            label "{size=28}{color=[bisque]}== Ladders ==" xalign 0.5 text_outlines [(1, "#3a3a3a", 0, 0)]
-                        hbox:
-                            style_group "basic"
-                            align (0.5, 0.5)
-                            spacing 5
-                            textbutton "{size=24}{color=[black]}1v1":
-                                action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_1v1)
-                            textbutton "{size=24}{color=[black]}2v2":
-                                action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_2v2)
-                            textbutton "{size=24}{color=[black]}3v3":
-                                action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_3v3)
-    
-                # Official matches:
+                    background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
+                    $ img = hero.show("portrait", resize=(95, 95), cache=True)
+                    padding 2, 2
+                    yalign .5
+                    add img align .5, .5
+                    
                 frame:
-                    xysize (270, 90)
-                    style_group "content"
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 10, 10)
-                    xpadding 10
-                    ypadding 10
-                    vbox:
-                        align (0.5, 0.5)
-                        spacing 2
-                        frame:
-                            xfill True
-                            align (0.5, 0.5)
-                            background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                            label "{size=28}{color=[bisque]}== Matches ==" xalign 0.5 text_outlines [(1, "#3a3a3a", 0, 0)]
-                        hbox:
-                            align (0.5, 0.5)
-                            spacing 5
-                            style_group "basic"
-                            textbutton "{size=24}{color=[black]}1v1":
-                                action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_3.png", 130, 130))
-                            textbutton "{size=24}{color=[black]}2v2":
-                                action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 130, 130))
-                            textbutton "{size=24}{color=[black]}3v3":
-                                action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_4.png", 130, 130))
-         
-                # Dogfights:
-                frame:
-                    xysize (270, 90)
-                    style_group "content"
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 10, 10)
-                    xpadding 10
-                    ypadding 10
-                    vbox:
-                        align (0.5, 0.5)
-                        spacing 2
-                        frame:
-                            xfill True
-                            align (0.5, 0.5)
-                            background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                            label ("{size=28}{color=[bisque]}== Dogfights ==") xalign 0.5 text_outlines [(1, "#3a3a3a", 0, 0)]
-                        hbox:
-                            style_group "basic"
-                            align (0.5, 0.5)
-                            spacing 5
-                            textbutton "{size=24}{color=[black]}1v1":
-                                action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_1v1)
-                            textbutton "{size=24}{color=[black]}2v2":
-                                action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_2v2)
-                            textbutton "{size=24}{color=[black]}3v3":
-                                action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_3v3)
+                    padding 8, 2
+                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
+                    xsize 155
+                    has vbox
+                    
+                    label "[hero.name]":
+                        text_size 16
+                        text_bold True
+                        yalign .03
+                        text_color ivory
+                        
+                    fixed: # HP:
+                        ysize 25
+                        bar:
+                            left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
+                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            value hero.health
+                            range hero.get_max("health")
+                            thumb None
+                            xysize (150, 20)
+                        text "HP" size 14 color ivory bold True xpos 8
+                        if hero.health <= hero.get_max("health")*0.2:
+                            text "[hero.health]" size 14 color red style_suffix "value_text" xpos 125 yoffset -8
+                        else:
+                            text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+            
+                    fixed: # MP:
+                        ysize 25
+                        bar:
+                            left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
+                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            value hero.mp
+                            range hero.get_max("mp")
+                            thumb None
+                            xysize (150, 20)
+                        text "MP" size 14 color ivory bold True xpos 8
+                        if hero.mp <= hero.get_max("mp")*0.2:
+                            text "[hero.mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                        else:
+                            text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+            
+                    fixed: # VIT:
+                        ysize 25
+                        bar:
+                            left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            value hero.vitality
+                            range hero.get_max("vitality")
+                            thumb None
+                            xysize (150, 20)
+                        text "VP" size 14 color ivory bold True xpos 8
+                        if hero.vitality <= hero.get_max("vitality")*0.2:
+                            text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                        else:
+                            text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                                
+            # Rep:
+            frame:
+                background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
+                xysize (270, 110)
+                label "Reputation: [hero.arena_rep]" text_size 25 text_color ivory align .5, .5
+                
+            # Buttons:
+            frame:
+                background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
+                style_group "basic"
+                xysize (270, 110)
+                vbox:
+                    align (0.5, 0.5)
+                    spacing 10
+                    textbutton "Show Daily Report":
+                        xalign 0.5
+                        action [ShowTransient("arena_report")]
+                    textbutton "Reputation Ladder":
+                        xalign 0.5
+                        action [ShowTransient("arena_rep_ladder")]
+                                
         use top_stripe(True)
                  
     screen arena_matches(container=None, vs_img=None):
@@ -355,7 +331,7 @@ init: # Main Screens:
                                         frame:
                                             xfill True
                                             align (0.5, 0.01)
-                                            background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                            background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                             $ name = lineup[0][0].nickname if len(lineup[0]) == 1 else lineup[0].name
                                             label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
                                         hbox:
@@ -378,7 +354,7 @@ init: # Main Screens:
                                     frame:
                                         xfill True
                                         align (0.5, 0.01)
-                                        background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                        background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                         $ name = lineup[1][0].nickname if len(lineup[1]) == 1 else lineup[1].name
                                         label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
                                     hbox:
@@ -447,7 +423,7 @@ init: # Main Screens:
                                     xfill True
                                     align (0.5, 0.5)
                                     xminimum 300
-                                    background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                    background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                     label "[name]" align (0.5, 0.5) text_size 25 text_style "stats_text" text_color gold
                                     
                 vbar value YScrollValue("arena_lineups")
@@ -496,7 +472,7 @@ init: # Main Screens:
                                 frame:
                                     xfill True
                                     align (0.5, 0.5)
-                                    background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                    background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                     hbox:
                                         xfill True
                                         align (0.5, 0.5)
@@ -561,7 +537,7 @@ init: # Main Screens:
                                 frame:
                                     xfill True
                                     align (0.5, 0.01)
-                                    background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                    background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                     $ name = team[0].nickname if len(team) == 1 else team.name
                                     label ("[name]") align(0.5, 0.0) text_size 25 text_style "stats_text" text_color gold
                                 hbox:

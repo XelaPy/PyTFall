@@ -430,17 +430,17 @@ init: # Screens:
                     frame:
                         has vbox xysize (130, 40)
                         text "Indoor Slots:" size 10 color yellow xalign .5
-                        text "%d/%d" % (building.in_slots, building.in_slots_max) color beige size 12 xalign .5 style "stats_value_text"
+                        text "%d/%d" % (building.in_slots, building.in_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
                     frame:
                         has vbox xysize (130, 40)
                         text "Outdoor Slots:" size 10 color yellow xalign .5
-                        text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style "stats_value_text"
+                        text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
                 frame:
                     xysize (145, 40)
                     xalign .5
                     # has vbox
                     text "Construction" size 10 color yellow align .5, .5
-                    # text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style "stats_value_text"
+                    # text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
                     
         # Tooltip related:
         frame:
@@ -531,11 +531,8 @@ init: # Screens:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
             style_group "proper_stats"
-            xsize 300
-            xpadding 12
-            ypadding 12
-            xmargin 0
-            ymargin 0
+            xsize 316
+            padding 10, 10
             has vbox spacing 1
             
             # Old Style Rooms:
@@ -544,19 +541,18 @@ init: # Screens:
                     # xysize (290, 27)
                     # xalign 0.5
                     # text "Rooms:" xalign 0.02 color ivory
-                    # text "%d/%d" % (building.rooms, building.maxrooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    # text "%d/%d" % (building.rooms, building.maxrooms) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
                 # frame:
                     # xysize (290, 27)
                     # xalign 0.5
                     # text "Free Rooms:" xalign 0.02 color ivory
-                    # text "%d/%d" % (building.free_rooms(), building.rooms) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    # text "%d/%d" % (building.free_rooms(), building.rooms) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
                 
             # Security Rating:
             frame:
-                xysize (290, 27)
-                xalign 0.5
+                xysize (296, 27)
                 text "Security Rating:" xalign 0.02 color ivory
-                text "%s/1000" % building.security_rating xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                text "%s/1000" % building.security_rating xalign .98 style_suffix "value_text" yoffset 4
                 
             # Old Style Slots and Quarters:
             # if isinstance(building, UpgradableBuilding):
@@ -565,34 +561,31 @@ init: # Screens:
                         # xysize (290, 27)
                         # xalign 0.5
                         # text "Slots:" xalign 0.02 color ivory
-                        # text "%s/%s" % (building.used_upgrade_slots, building.upgrade_slots) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                        # text "%s/%s" % (building.used_upgrade_slots, building.upgrade_slots) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
                 # if building.get_upgrade_mod("guards") > 0:
                     # frame:
                         # xysize (290, 27)
                         # xalign 0.5
                         # text "Guard Quarters:" xalign 0.02 color ivory
-                        # text "%d/5  " % min(len([girl for girl in hero.chars if girl.location == building and "Warrior" in girl.occupations]), 5) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                        # text "%d/5  " % min(len([girl for girl in hero.chars if girl.location == building and "Warrior" in girl.occupations]), 5) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
             
             # Dirt:
             if isinstance(building, DirtyBuilding):
                 frame:
-                    xysize (290, 27)
-                    xalign 0.5
+                    xysize (296, 27)
                     text "Dirt:" xalign 0.02 color ivory
-                    text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
                     
             # Fame/Rep:
             if isinstance(building, FamousBuilding):
                 frame:
-                    xysize (290, 27)
-                    xalign 0.5
+                    xysize (296, 27)
                     text "Fame:" xalign 0.02 color ivory
-                    text "%s/%s" % (building.fame, building.maxfame) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    text "%s/%s" % (building.fame, building.maxfame) xalign .98 style_suffix "value_text" yoffset 4
                 frame:
-                    xysize (290, 27)
-                    xalign 0.5
+                    xysize (296, 27)
                     text "Reputation:" xalign 0.02 color ivory
-                    text "%s/%s" % (building.rep, building.maxrep) xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                    text "%s/%s" % (building.rep, building.maxrep) xalign .98 style_suffix "value_text" yoffset 4
                     
         null height 5
         frame:
@@ -621,7 +614,7 @@ init: # Screens:
                 frame:
                     align .5, 0.02
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                    xysize (180, 30)
+                    xysize (180, 40)
                     label 'Constructed:' text_color ivory xalign 0.5 text_bold True
                 vbox:
                     ypos 55
@@ -642,7 +635,7 @@ init: # Screens:
                                 xpos 125
                                 yalign 0.5
                                 xysize 150, 60
-                                text "[u.name]" xalign .5 style "stats_text" size 20
+                                text "[u.name]" xalign .5 style "proper_stats_text" size 20
                                 null height 2
                                 textbutton "{size=15}Upgrade" xalign .5 action SetVariable("bm_mid_frame_mode", u)
                                             
@@ -677,12 +670,12 @@ init: # Screens:
                 xysize (290, 27)
                 xalign 0.5
                 text "In Slots:" xalign 0.02 color ivory
-                text "[bm_mid_frame_mode.in_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
             frame:
                 xysize (290, 27)
                 xalign 0.5
                 text "Ext Slots:" xalign 0.02 color ivory
-                text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style "stats_value_text" xoffset 12 yoffset 4
+                text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
                 
         if isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "team":
             frame:

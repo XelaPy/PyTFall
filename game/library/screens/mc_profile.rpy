@@ -84,40 +84,35 @@ screen hero_profile():
         
     fixed:
         frame:
-            xysize (100,40)
-            pos(375, 402)
-            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-            has hbox xfill True yfill True
-            add ProportionalScale("content/gfx/interface/images/atk.png", 24, 24) align (0.5, 0.5)
-            text("{size=-5}{font=fonts/Rubius.ttf}{color=[red]}[hero.attack]|%d"%(hero.get_max("attack"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+            pos (375, 402)
+            background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+            has hbox
+            add ProportionalScale("content/gfx/interface/images/atk.png", 24, 24)
+            text("{size=-5}{font=fonts/Rubius.ttf}{color=[red]}[hero.attack]|%d"%(hero.get_max("attack"))) outlines [(1, "#0d0d0d", 0, 0)]
         frame:
-            xysize (100,40)
-            pos(223, 483)
-            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-            has hbox xfill True yfill True
-            add ProportionalScale("content/gfx/interface/images/def.png", 24, 24) align (0.5, 0.5)
-            text("{size=-5}{font=fonts/Rubius.ttf}{color=#dc762c}[hero.defence]|%d"%(hero.get_max("defence"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+            pos (223, 483)
+            background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+            has hbox
+            add ProportionalScale("content/gfx/interface/images/def.png", 24, 24)
+            text("{size=-5}{font=fonts/Rubius.ttf}{color=#dc762c}[hero.defence]|%d"%(hero.get_max("defence"))) outlines [(1, "#0d0d0d", 0, 0)]
         frame:
-            xysize (100,40)
-            pos(255, 643)
-            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-            has hbox xfill True yfill True
-            add ProportionalScale("content/gfx/interface/images/agi.png", 24, 24) align (0.5, 0.5)
-            text("{size=-5}{font=fonts/Rubius.ttf}{color=#1E90FF} [hero.agility]|%d"%(hero.get_max("agility"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+            pos (255, 643)
+            background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+            has hbox
+            add ProportionalScale("content/gfx/interface/images/agi.png", 24, 24)
+            text("{size=-5}{font=fonts/Rubius.ttf}{color=#1E90FF} [hero.agility]|%d"%(hero.get_max("agility"))) outlines [(1, "#0d0d0d", 0, 0)]
         frame:
-            xysize (100,40)
-            pos(495, 643)
-            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-            has hbox xfill True yfill True
-            add ProportionalScale("content/gfx/interface/images/luck.png", 24, 24) align (0.5, 0.5)
-            text("{size=-5}{font=fonts/Rubius.ttf}{color=#00FA9A}[hero.luck]|%d"%(hero.get_max("luck"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+            pos (495, 643)
+            background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+            has hbox
+            add ProportionalScale("content/gfx/interface/images/luck.png", 24, 24)
+            text("{size=-5}{font=fonts/Rubius.ttf}{color=#00FA9A}[hero.luck]|%d"%(hero.get_max("luck"))) outlines [(1, "#0d0d0d", 0, 0)]
         frame:
-            xysize (100,40)
-            pos(526, 483)
-            background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
-            has hbox xfill True yfill True
-            add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24) align (0.5, 0.5)
-            text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) align (0.5, 0.63) outlines [(1, "#0d0d0d", 0, 0)]
+            pos (526, 483)
+            background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+            has hbox
+            add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24)
+            text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) outlines [(1, "#0d0d0d", 0, 0)]
     
     # LEFT FRAME ====================================>
     vbox:
@@ -152,31 +147,31 @@ screen hero_profile():
                     xalign 0.5
                     text "Health:" xalign 0.02 color "#CD4F39"
                     if hero.health <= hero.get_max("health")*0.3:
-                        text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                     else:
-                        text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                 frame:
                     xysize (212, 27)
                     xalign 0.5
                     text "MP:" xalign 0.02 color "#009ACD"
                     if hero.mp <= hero.get_max("mp")*0.3:
-                        text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                     else:
-                        text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                 frame:
                     xysize (212, 27)
                     xalign 0.5
                     text "{color=#43CD80}Vitality:" xalign (0.02)
                     if hero.vitality <= hero.get_max("vitality")*0.3:
-                        text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                     else:
-                        text (u"{color=#F5F5DC}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text (u"{color=#F5F5DC}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                 for stat in stats:
                     frame:
                         xysize (212, 27)
                         xalign 0.5
                         text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
-                        text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style "stats_value_text" xoffset -6 yoffset 4
+                        text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         
             null height 5
                         
@@ -262,7 +257,7 @@ screen hero_profile():
     hbox:
         style_group "pb"
         spacing 1
-        pos (1131, 155)
+        pos (1142, 156)
         button:
             action SetScreenVariable("rframe_display", "skills"), With(dissolve)
             text "Skills" style "pb_button_text"
@@ -280,13 +275,13 @@ screen hero_profile():
             background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
             xysize (153, 60)
             text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.6)
+        null height 2
         frame:
             xalign 0.5
-            xsize 142
-            style_group "proper_stats"
-            has hbox xfill True
-            text "{color=#DAA520}Gold:" size 16  outlines [(1, "#3a3a3a", 0, 0)] align (0.08, 0.5)
-            text (u"{color=#DAA520}%d"%int(hero.gold)) size 16 outlines [(1, "#3a3a3a", 0, 0)] align (0.92, 0.5) yoffset -2
+            xysize 142, 22
+            style_prefix "proper_stats"
+            text "Gold:" size 16  outlines [(1, "#3a3a3a", 0, 0)] color gold xalign .1
+            text "[hero.gold]" size 14 outlines [(1, "#3a3a3a", 0, 0)] style_suffix "value_text" color gold xalign .9 yoffset 2
         
     # ATTACKS/MAGIC SKILLS ====================================>
     if rframe_display == "skills":
@@ -391,7 +386,7 @@ screen hero_profile():
     hbox:
         style_group "pb"
         spacing 3
-        pos (459, 9)
+        pos (492, 9)
         button:
             action SetScreenVariable("lframe_display", "status"), With(dissolve)
             text "Status" style "pb_button_text"
@@ -445,7 +440,7 @@ screen hero_profile():
             xmaximum 160
             xfill True
             add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
-            text "[hero.exp]/[hero.goal]" style "stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+            text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
 
 screen hero_equip():
     modal True
@@ -641,7 +636,7 @@ screen hero_team():
                             maximum (150, 20)
                         text "{color=#F5F5DC}HP" size 14 bold True align (0.1, 0.9)
                         $ tmb = red if member.health <= member.get_max("health")*0.3 else "#F5F5DC"
-                        text "[member.health]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
+                        text "[member.health]" size 14 color tmb bold True style_suffix "value_text" xalign 0.7 yoffset -5
                     
                     fixed:
                         xysize (152, 22)
@@ -656,7 +651,7 @@ screen hero_team():
                             maximum (150, 20)
                         text "{color=#F5F5DC}MP" size 14 bold True align (0.1, 0.9)
                         $ tmb = red if member.mp <= member.get_max("mp")*0.3 else "#F5F5DC"
-                        text "[member.mp]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
+                        text "[member.mp]" size 14 color tmb bold True style_suffix "value_text" xalign 0.7 yoffset -5
                         
                     # VP
                     fixed:
@@ -672,7 +667,7 @@ screen hero_team():
                             maximum (150, 20)
                         text "{color=#F5F5DC}VP" size 14 bold True align (0.1, 0.9)
                         $ tmb = red if member.vitality <= member.get_max("vitality")*0.3 else "#F5F5DC"
-                        text "[member.vitality]" size 14 color tmb bold True style "stats_value_text" xalign 0.7 yoffset -5
+                        text "[member.vitality]" size 14 color tmb bold True style_suffix "value_text" xalign 0.7 yoffset -5
         
         button:
             style_group "pb"
@@ -721,7 +716,7 @@ screen hero_finances():
                                 spacing 4
                                 for key in fin_inc:
                                     $ val = fin_inc[key]
-                                    text "[val]" style "stats_value_text"
+                                    text "[val]" style_suffix "value_text"
                                     
                     # Expense:
                     vbox:
@@ -739,7 +734,7 @@ screen hero_finances():
                                 spacing 4
                                 for key in fin_exp:
                                     $ val = fin_exp[key]
-                                    text ("[val]") style "stats_value_text"
+                                    text ("[val]") style_suffix "value_text"
                                 
                     python:
                         total_income = 0
@@ -757,9 +752,9 @@ screen hero_finances():
                             size 20
                             xpos 15
                             if total > 0:
-                                color lawngreen style "stats_value_text"
+                                color lawngreen style_suffix "value_text"
                             else:
-                                color red style "stats_value_text"
+                                color red style_suffix "value_text"
                         
                     hbox:
                         style_group "basic"
@@ -789,7 +784,7 @@ screen hero_finances():
                                 spacing 4
                                 for key in income:
                                     $ val = income[key]
-                                    text ("[val]") style "stats_value_text"
+                                    text ("[val]") style_suffix "value_text"
                                     
                     python:
                         expenses = dict()
@@ -812,7 +807,7 @@ screen hero_finances():
                                 spacing 4
                                 for key in expenses:
                                     $ val = expenses[key]
-                                    text ("[val]") style "stats_value_text"
+                                    text ("[val]") style_suffix "value_text"
                                 
                     python:
                         game_total = 0
@@ -827,9 +822,9 @@ screen hero_finances():
                             size 20
                             xpos 15
                             if game_total > 0:
-                                color lawngreen style "stats_value_text"
+                                color lawngreen style_suffix "value_text"
                             else:
-                                color red style "stats_value_text"
+                                color red style_suffix "value_text"
                         
                     hbox:
                         style_group "basic"
@@ -851,18 +846,18 @@ screen hero_finances():
                         if hero.fin.property_tax_debt:
                             null height 4
                             spacing 4
-                            text ("[hero.fin.property_tax_debt]\n ") color red style "stats_value_text"
+                            text ("[hero.fin.property_tax_debt]\n ") color red style_suffix "value_text"
                         if hero.fin.income_tax_debt:
                             null height 4
                             spacing 4
-                            text ("[hero.fin.income_tax_debt]\n ") color crimson style "stats_value_text"
+                            text ("[hero.fin.income_tax_debt]\n ") color crimson style_suffix "value_text"
                         if day != 1:
                             python:
                                 days = calendar.days.index(calendar.weekday())
                                 taxes = hero.fin.get_total_taxes(days)
                             null height 4
                             spacing 4
-                            text ("[taxes]\n ") style "stats_value_text"
+                            text ("[taxes]\n ") style_suffix "value_text"
                                 
             # vbar value YScrollValue("herofin_vp")
         button:

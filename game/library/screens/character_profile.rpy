@@ -431,31 +431,31 @@ screen char_profile():
                             xpadding 7
                             text "Health:" color "#CD4F39"
                             if char.health <= char.get_max("health")*0.3:
-                                text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" yoffset 4
+                                text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                             else:
-                                text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style "stats_value_text" yoffset 4
+                                text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                         frame:
                             xoffset 4
                             xysize (290, 27)
                             xpadding 7
                             text "Vitality:" color "#43CD80"
                             if char.vitality < char.get_max("vitality")*0.3:
-                                text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" yoffset 4
+                                text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
                             else:
-                                text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style "stats_value_text" yoffset 4
+                                text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
                         for stat in stats:
                             frame:
                                 xoffset 4
                                 xysize (290, 27)
                                 xpadding 7
                                 text '{}'.format(stat.capitalize()) color "#79CDCD"
-                                text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style "stats_value_text" yoffset 4
+                                text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style_suffix "value_text"
                         frame:
                             xoffset 4
                             xysize (290, 27)
                             xpadding 7
                             text "Gold:" color gold
-                            text (u"{color=[gold]}[char.gold]") xalign 1.0 style "stats_value_text" yoffset 4
+                            text (u"{color=[gold]}[char.gold]") xalign 1.0 style_suffix "value_text"
                             
                     label (u"{size=20}{color=[ivory]}{b}Info:") xalign .48 text_outlines [(2, "#424242", 0, 0)]
                     frame:
@@ -468,21 +468,21 @@ screen char_profile():
                             xysize (290, 27)
                             xpadding 7
                             text "{color=#79CDCD}Upkeep:"
-                            text u"%s"%(char.fin.get_upkeep()) style "stats_value_text" xalign 1.0 yoffset 4
+                            text u"%s"%(char.fin.get_upkeep()) xalign 1.0 style_suffix "value_text"
                         if char.status == "slave":
                             frame:
                                 xoffset 4
                                 xysize (290, 27)
                                 xpadding 7                          
                                 text "{color=#79CDCD}Market Price:"
-                                text (u"%s"%(char.fin.get_price())) style "stats_value_text" xalign 1.0 yoffset 4
+                                text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
                         if traits['Prostitute'] in char.occupations:
                             frame:
                                 xoffset 4
                                 xysize (290, 27)
                                 xpadding 7
                                 text "{color=#79CDCD}Work Price:"
-                                text (u"%s"%(char.fin.get_whore_price())) style "stats_value_text" xalign 1.0 yoffset 4
+                                text (u"%s"%(char.fin.get_whore_price())) xalign 1.0 style_suffix "value_text"
                             
                 ##############################################################################
                 # Stats 2 (pro)
