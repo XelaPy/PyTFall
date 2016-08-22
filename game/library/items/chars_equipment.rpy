@@ -312,7 +312,10 @@ screen char_equip():
         text (u"{color=#ecc88a}[eqtarget.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.53 ypos 126
         
         # PORTRAIT ============================>
-        add eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
+        frame:
+            xysize (100, 100)
+            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
+            foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
             
         # LVL ============================>
         hbox:
