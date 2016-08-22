@@ -208,6 +208,7 @@ init -1: # Images and Animations
     image air_4 = FilmStrip('content/gfx/be/filmstrips/air_4.png', (192, 192), (5, 6), 0.05, loop=False)
     image air_6 = FilmStrip('content/gfx/be/filmstrips/air_6.png', (151, 151), (5, 7), 0.04, loop=False, reverse=True)
     image vortex = FilmStrip('content/gfx/be/filmstrips/vortex.png', (277, 277), (15, 1), 0.1, loop=True)
+    image north = MovieLooped(channel="main_gfx_attacks", loops=2, play="content/gfx/be/webm/air/north/movie.webm", mask="content/gfx/be/webm/air/north/mask.webm")
     image tornado:
         FilmStrip('content/gfx/be/filmstrips/tornado.png', (674, 592), (2, 3), 0.05, loop=True)
         anchor (0.5, 1.0)
@@ -694,6 +695,13 @@ label load_battle_skills:
         SimpleMagicalAttack("Vortex", menu_pos=12, attributes=['magic', 'air'], effect=80, multiplier=3.8, mp_cost=18, range=4, casting_effects=["orb", "default"], gfx='vortex', zoom=2.2, pause=1.5, target_damage_gfx=[0.1, "shake", 1.4], sfx="content/sfx/sound/be/vortex.mp3", type="all_enemies",
                                            aim="center", anchor=(0.5, 0.5),
                                            desc="Creates a small, but very powerful sphere of hurricane winds around the target.")
+        ArealMagicalAttack("Northern Flow", menu_pos=13, attributes=['magic', 'air', 'ice', 'inevitable'], effect=130, multiplier=5.0, mp_cost=15, range=4, type="all_enemies", piercing=True,
+                                        desc="Summons a flow of frozen air from the upper atmosphere.",
+                                        attacker_effects={"gfx": "orb", "sfx": "default"},
+                                        main_effect={"gfx": "north", "sfx": "content/sfx/sound/be/air5.mp3", "duration": 3.8, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 15}},
+                                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.1, "duration": 0.1},
+                                        target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.1, "duration": 3.7},
+                                        target_death_effect={"gfx": "dissolve",  "initial_pause": 3.7, "duration": 0.2})
         ArealMagicalAttack("Tornado", menu_pos=13, attributes=['magic', 'air', 'inevitable'], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Conjures a full-fledged but short-lived tornado to wipe out all enemies.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
