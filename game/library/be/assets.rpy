@@ -53,18 +53,16 @@ init -1: # Images and Animations
             renpy.image("melee_%d" % i, FilmStrip('content/gfx/be/filmstrips/melee_%d.png' % i, (192, 192), (5, 2), 0.05, loop=False))
             
     # Battle skills:
-    image soul_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_sword/soul_sword.webm", mask="content/gfx/be/webm/soul_sword/soul_sword_alpha.webm")
+    image soul_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/soul_sword/movie.webm", mask="content/gfx/be/webm/melee/soul_sword/mask.webm")
     image soul_spear:
-        MovieLooped(channel="main_gfx_attacks", loops=3, play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
+        MovieLooped(channel="main_gfx_attacks", loops=3, play="content/gfx/be/webm/melee/soul_spear/movie.webm", mask="content/gfx/be/webm/melee/soul_spear/mask.webm") # needs to be fixed for new animation
         pause 0.4
         yoffset 60
         pause 0.4
         yoffset -90
-    # image soul_spear = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/soul_spear/soul_spear.webm", mask="content/gfx/be/webm/soul_spear/soul_spear_alpha.webm")
-    image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/fire_sword/fire_sword.webm", mask="content/gfx/be/webm/fire_sword/fire_sword_alpha.webm")
+    image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/fire_sword/movie.webm", mask="content/gfx/be/webm/melee/fire_sword/mask.webm")
     image earth_hammer = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/earth_hammer/earth_hammer.webm", mask="content/gfx/be/webm/earth_hammer/earth_hammer_alpha.webm")
-    image multi_hit = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/multi_1/multi.webm", mask="content/gfx/be/webm/multi_1/multi_alpha.webm")
-    image archmage = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/staff/ele/weapon.webm", mask="content/gfx/be/webm/staff/ele/weapon_alpha.webm") # Archmage Staff
+    image archmage = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/staff_1/movie.webm", mask="content/gfx/be/webm/melee/staff_1/mask.webm") # Archmage Staff
     # Casting:
     python:
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
@@ -198,7 +196,7 @@ init -1: # Images and Animations
     image earth_2 = FilmStrip('content/gfx/be/filmstrips/earth_2.png', (192, 192), (5, 2), 0.1, loop=False)
     image earth_3 = FilmStrip('content/gfx/be/filmstrips/earth_3.png', (192, 192), (5, 3), 0.1, loop=False)
     image earth_4 = FilmStrip('content/gfx/be/filmstrips/earth_4.png', (192, 192), (5, 2), 0.12, loop=False)
-    image earth_5 = FilmStrip('content/gfx/be/filmstrips/earth_5.png', (192, 192), (5, 8), 0.07, loop=False)
+    image earth_5 = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/earth/mud/movie.webm", mask="content/gfx/be/webm/earth/mud/mask.webm")
     image earth_6 = FilmStrip('content/gfx/be/filmstrips/earth_6.png', (192, 192), (5, 4), 0.1, loop=False)
     image magma = FilmStrip('content/gfx/be/filmstrips/magma.png', (192, 192), (5, 8), 0.08, loop=False)
     image crushing_hand = FilmStrip('content/gfx/be/filmstrips/crushing_hand.png', (513, 297), (3, 6), 0.15, loop=False)
@@ -649,9 +647,9 @@ label load_battle_skills:
                                            aim="bc", anchor=(0.5, 1.0), yo=40,
                                            desc="Small part of the target becomes stone and shatters into a thousand pieces.")
         SimpleMagicalAttack(u"Mudslide", menu_pos=10, attributes=['magic', 'earth'], effect=50, multiplier=3.0, mp_cost=12, range=4,
-                                           desc="Dirt, rocks and poisonous gases are pulled out of the ground under high pressure.",
+                                           desc="Dirt and poisonous gases are pulled out of the ground under high pressure.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
-                                           main_effect={"gfx": Transform('earth_5', zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 2.8, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
+                                           main_effect={"gfx": Transform('earth_5', zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 0.9, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 0}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.7},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.1},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": 0.5}) #looks not very good!!!
