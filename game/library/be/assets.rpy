@@ -646,8 +646,8 @@ label load_battle_skills:
         SimpleMagicalAttack(u"Stoneja", menu_pos=3, attributes=['magic', 'earth'], effect=20, multiplier=1.0, mp_cost=7, range=4, casting_effects=["earth_2", "default"], gfx='earth_4', pause=1.2, target_damage_gfx=[0.1, "shake", 0.9], sfx="content/sfx/sound/be/earth2.mp3", piercing=True, type="all_enemies",
                                            aim="bc", anchor=(0.5, 1.0), yo=40,
                                            desc="Small part of the target becomes stone and shatters into a thousand pieces.")
-        SimpleMagicalAttack(u"Mudslide", menu_pos=10, attributes=['magic', 'earth'], effect=50, multiplier=3.0, mp_cost=12, range=4,
-                                           desc="Dirt and poisonous gases are pulled out of the ground under high pressure.",
+        SimpleMagicalAttack(u"Breach", menu_pos=10, attributes=['magic', 'earth'], effect=50, multiplier=3.0, mp_cost=12, range=4,
+                                           desc="Hot dust and poisonous gases are pulled out of the ground under high pressure.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
                                            main_effect={"gfx": Transform('earth_5', zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 0.9, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 0}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.7},
