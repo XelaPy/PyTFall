@@ -637,6 +637,8 @@ init -1 python: # Core classes:
             This should return it's results through PytCharacters property called damage so the show_gfx method can be adjusted accordingly.
             But it is this method that writes to the log to be displayed later... (But you can change even this :D)
             """
+            # TODO: Make a list of all required checks!
+            
             # prepare the variables:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
