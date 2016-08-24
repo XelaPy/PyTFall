@@ -731,10 +731,14 @@ init -1 python: # Core classes:
                 attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
-            rand = randint(85, 110)*0.01 # every time attack is random from 85 to 110%
-            attack *= rand
+                
+            # Simple randomization factor?:
+            attack *= random.uniform(.85, 1.1) # every time attack is random from 85 to 110%
+            
+            # Decreasing based of current health:
             healthlevel=(1-a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health
             attack *= (1-healthlevel)
+            
             return attack if attack > 0 else 1
             
         def get_defense(self, target, absorb=False):
@@ -766,10 +770,11 @@ init -1 python: # Core classes:
             
         def get_multiplier(self, t, attributes, multiplier=1.0):
             """
-            This calculates the multiplier to use with damage.
+            This calculates the multiplier to use with effect of the skill.
             """
             effects = list()
             a = self.source
+            
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
                 if dice((a.luck+50)*0.35): # Critical hit prevents any evasion and depends solely on the attacker luck, 35% with luck 50; in the future it probably will be tied to weapon skills
                     multiplier += 1.5 + self.critpower
@@ -796,38 +801,34 @@ init -1 python: # Core classes:
                     multiplier = 0.65 # successful resistance decreases spell damage; for now it's always 0.65, but eventually it might be depending on something
                     effects.append("missed_hit")
                     
-                # Magic/Attribute alignment:
-                for al in attributes:
-                    # Damage first:
-                    i = {}
-                    # @Review: We decided that any trait should influence this:
-                    for e in a.traits:
-                        if al in e.el_damage:
-                            i[e.id] = e.el_damage[al]
-                    if i:
-                        i = sum(i.values()) / len(i)
-                        if i > 0.15 or i < 0.15:
-                            if i > 0:
-                                effects.append("elemental_damage_bonus")
-                            elif i < 0:
-                                effects.append("elemental_damage_penalty")
-                        multiplier += i
+            # Get multiplier from traits:
+            # We decided that any trait could influence this:
+            damage = []
+            defence = []
+            for attr in attributes:
+                # Damage first:
+                for trait in a.traits:
+                    if attr in trait.el_damage:
+                        damage.append(trait.el_damage[attr])
                         
-                    # Defence next:
-                    i = {}
-                    for e in t.traits:
-                        if al in e.el_defence:
-                            i[e.id] = e.el_defence[al]
-                    if i:
-                        i = sum(i.values()) / len(i)
-                        # From the perspective of the attacker...
-                        if i > 0.15 or i < 0.15:
-                            if i > 0:
-                                effects.append("elemental_defence_penalty")
-                            elif i < 0:
-                                effects.append("elemental_defence_bonus")
-                        multiplier -= i
-                    
+                # Defence next:
+                for trait in t.traits:
+                    if attr in trait.el_defence:
+                         defence.append(trait.el_defence[attr])
+                         
+            if damage:
+                damage = float(sum(damage)) / len(damage)
+                # if i > 0.15 or i < 0.15:
+                effects.append(("damage_mod", damage))
+                multiplier += damage
+                
+            if defence:
+                defence = float(sum(defence)) / len(defence)
+                # From the perspective of the attacker...
+                # if i > 0.15 or i < 0.15:
+                effects.append(("defence_mod", defence))
+                multiplier -= defence
+                        
             return effects, multiplier
             
         # To String methods:
@@ -862,34 +863,42 @@ init -1 python: # Core classes:
             attributes = self.attributes
             s = list()
             if "resisted" not in effects:
-                if "elemental_damage_bonus" in effects:
-                    # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (positevely) with one or more if the attackers elements:
-                    s.append(" {color=[lawngreen]}ElDmg+! {/color}")
-                if "elemental_damage_penatly" in effects:
-                    # The opposite of the above
-                    s.append(" {color=[red]}ElDmg-! {/color}")
-                if "elemental_defence_bonus" in effects:
-                    # Elemental Damage Bonus, means attacker caused extra damage due to a spell aligning (negatevely) with one or more if the defenders elements
-                    s.append(" {color=[lawngreen]}ElDef- {/color}")
-                if "elemental_defence_penalty" in effects:
-                    # The opposite of the above
-                    s.append(" {color=[red]}ElDef+ {/color}")
-                if "backrow_penalty" in effects:
-                    # Damage halved due to the target being in the back row!
-                    s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
-                if "critical_hit" in effects:
-                    s.append(" {color=[lawngreen]}Critical Hit {/color}")
-                if "missed_hit" in effects:
-                    gfx = self.dodge_effect.get("gfx", "dodge")
-                    if gfx == "dodge":
-                        s.append(" {color=[lawngreen]}Attack Missed {/color}")
-                    else:
-                        s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
-                if "absorbed" in effects:
-                    s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
-                    s.append(self.set_dmg_font_color(t, attributes, color="green"))
-                else:
-                    s.append(self.set_dmg_font_color(t, attributes, color=default_color))    
+                for effect in effects:
+                    if isinstance(effect, tuple):
+                        if not isinstance(effect[1], float):
+                            raise Exception(effect)
+                        if effect[0] == "damage_mod":
+                            damage = round(float(effect[1]), 1)
+                            if damage > 0:
+                                s.append(" {color=[lawngreen]}⚔+ (%s){/color} "%damage)
+                            elif damage < 0:
+                                s.append(" {color=[red]}⚔- (%s){/color} "%-damage)
+                                
+                        elif effect[0] == "defence_mod":
+                            defence = round(float(effect[1]), 1)
+                            if defence > 0:
+                                s.append(" {color=[red]}☗+ (%s){/color} "%defence)
+                            elif defence < 0:
+                                s.append(" {color=[lawngreen]}☗- (%s){/color} "%-defence)
+                                    
+                    else: # it's a string...
+                        if effect == "backrow_penalty":
+                            # Damage halved due to the target being in the back row!
+                            s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
+                        elif effect == "critical_hit":
+                            s.append(" {color=[lawngreen]}Critical Hit {/color}")
+                        elif effect == "missed_hit":
+                            gfx = self.dodge_effect.get("gfx", "dodge")
+                            if gfx == "dodge":
+                                s.append(" {color=[lawngreen]}Attack Missed {/color}")
+                            else:
+                                s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
+                        elif effect == "absorbed":
+                            s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
+                            s.append(self.set_dmg_font_color(t, attributes, color="green"))
+                        else:
+                            s.append(self.set_dmg_font_color(t, attributes, color=default_color))   
+                            
             else: # If resisted:
                 s.append(" {color=[crimson]}Resisted the attack{/color}")
                 s.append(self.set_dmg_font_color(t, attributes, color="green"))
@@ -936,10 +945,10 @@ init -1 python: # Core classes:
         # Game/Gui Assists:
         def get_element(self):
             # This may have to be expanded if we permit multi-elemental attacks in the future.
-            # Returns (if any) an element bound to spell or attack:
+            # Returns first (if any) an element bound to spell or attack:
             for t in tgs.elemental:
                 element = t.id
-                if element.lower() in self.attributes and element.lower() not in ["magic", "melee", "ranged"]:
+                if element.lower() in self.attributes:
                     return t
                 
         # GFX/SFX:
