@@ -1099,7 +1099,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame(Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Display -") style "TisaOTMolxm"
                             textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
                             textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
@@ -1113,7 +1113,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Transitions -") style "TisaOTMolxm"
                             textbutton _("All") action Preference("transitions", "all") xsize 150 xalign 0.5 text_size 16
                             textbutton _("None") action Preference("transitions", "none") xsize 150 xalign 0.5 text_size 16
@@ -1127,7 +1127,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Text Speed -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("text speed") align (0.5, 0.5)
@@ -1156,7 +1156,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Skip -") style "TisaOTMolxm"
                             textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign 0.5 text_size 16
                             textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign 0.5 text_size 16
@@ -1170,7 +1170,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- After Choices -") style "TisaOTMolxm"
                             textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign 0.5 text_size 16
                             textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign 0.5 text_size 16
@@ -1184,7 +1184,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- A-Forward Time -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("auto-forward time") align (0.5, 0.5)
@@ -1216,7 +1216,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Mute -") style "TisaOTMolxm"
                             textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign 0.5 text_size 16
                             textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign 0.5 text_size 16
@@ -1230,7 +1230,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Music Volume -") align (0.5, 0.0) style "TisaOTMolxm"
                             null height 8
                             bar value Preference("music volume") align (0.5, 0.5)
@@ -1244,7 +1244,7 @@ init: # Settings:
                             frame:
                                 xsize 184
                                 align (0.5, 0.5)
-                                background Frame (Transform("content/gfx/frame/stat_box.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Sound Volume -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("sound volume") align (0.5, 0.5)

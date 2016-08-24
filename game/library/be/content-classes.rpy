@@ -806,7 +806,7 @@ init python:
             for t in targets:
                 if not self.check_resistance(t):
                     # We get the multi and any effects that those may bring.
-                    effects, multiplier = self.get_attributes_multiplier(t, attributes)
+                    effects, multiplier = self.get_multiplier(t, attributes)
                     restore = int(restore*multiplier)
                 else: # resisted
                     damage = 0
@@ -820,7 +820,7 @@ init python:
                 s = list()
                 s.append("%s used %s to restore HP of %s!" % (char.nickname, self.name, t.name))
                 
-                s = s + self.effects_for_string(t, default_color="green")
+                s = s + self.effects_to_string(t, default_color="green")
                 
                 battle.log("".join(s))
             
@@ -864,7 +864,7 @@ init python:
                         t.beeffects = [0]
                         break
                 else: # Damage Calculations:
-                    effects, multiplier = self.get_attributes_multiplier(t, self.attributes)
+                    effects, multiplier = self.get_multiplier(t, self.attributes)
                     
                     damage = t.get_max("health") * (self.effect/1000.0)
                     damage = max(randint(15, 20), int(damage) + randint(-4, 4))
@@ -883,7 +883,7 @@ init python:
                     s = list()
                     s.append("{color=[teal]}%s{/color} poisoned %s!" % (a.nickname, t.nickname))
                     
-                    s = s + self.effects_for_string(t)
+                    s = s + self.effects_to_string(t)
                     
                     battle.log("".join(s))
                     
@@ -932,7 +932,7 @@ init python:
                 s = list()
                 s.append("%s brings %s back!" % (char.nickname, t.name))
                 
-                s = s + self.effects_for_string(t, default_color="green")
+                s = s + self.effects_to_string(t, default_color="green")
                 
                 battle.log("".join(s))
                 

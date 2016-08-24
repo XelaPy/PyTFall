@@ -603,7 +603,7 @@ init -1 python: # Core classes:
             return in_range # List: So we can support indexing...
             
         def check_conditions(self, source=None):
-            # Check if the source can manage the attack.
+            """Checks if the source can manage the attack."""
             char = source if source else self.source
                 
             # Check if attacker has enought resources for the attack:
@@ -655,7 +655,7 @@ init -1 python: # Core classes:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the multiplier and any effects that those may bring.
-                    effects, multiplier = self.get_damage_multiplier(t, attributes)
+                    effects, multiplier = self.get_multiplier(t, attributes)
                     
                     # Get the damage:
                     result = self.check_absorbtion(t) # we check the absorption
@@ -764,11 +764,10 @@ init -1 python: # Core classes:
             damage = int((attack/defense*resist+randint(1,5))*multiplier)
             return damage
             
-        def get_damage_multiplier(self, t, attributes):
+        def get_multiplier(self, t, attributes, multiplier=1.0):
             """
             This calculates the multiplier to use with damage.
             """
-            multiplier = 1.0
             effects = list()
             a = self.source
             if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
@@ -796,6 +795,7 @@ init -1 python: # Core classes:
                 if dice(evasion_chance):
                     multiplier = 0.65 # successful resistance decreases spell damage; for now it's always 0.65, but eventually it might be depending on something
                     effects.append("missed_hit")
+                    
                 # Magic/Attribute alignment:
                 for al in attributes:
                     # Damage first:
@@ -897,7 +897,7 @@ init -1 python: # Core classes:
             return s
             
         def apply_effects(self, targets):
-            """This is a more or less final methods where all effects of the attacks are being dished out on the objects.
+            """This is a  final method where all effects of the attacks are being dished out on the objects.
             """
             
             # Not 100% for that this will be required...
@@ -910,6 +910,7 @@ init -1 python: # Core classes:
                 if t.health - t.beeffects[0] > 0:
                     t.mod("health", -t.beeffects[0])
                 else:
+                    t.health = 1
                     battle.end_turn_events.append(RPG_Death(t))
                     died.append(t)
                     

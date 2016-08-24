@@ -586,7 +586,7 @@ screen fg_management():
                                 # vbox:
                                     # null height 5
                                     # frame:
-                                        # background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                        # background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                         # text "[u_name]   Inactive" color ivory size 16 xalign 0.5
                                         # xmaximum 200
                                         # xminimum 100
@@ -605,7 +605,7 @@ screen fg_management():
                                 # vbox:
                                     # null height 5
                                     # frame:
-                                        # background Frame("content/gfx/frame/stat_box.png", 5, 5)
+                                        # background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                         # xmaximum 200
                                         # xminimum 100
                                         # xalign 0.5
