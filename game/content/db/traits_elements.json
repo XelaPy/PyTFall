@@ -123,7 +123,7 @@
     {
     "id": "Magic Immunity",
     "desc": "No damage from any magic.",
-    "resist": ["ice", "Water", "Fire", "Air", "Earth", "Electricity", "Light", "Darkness", "Healing"]
+    "resist": ["ice", "water", "fire", "air", "earth", "electricity", "light", "darkness", "healing"]
     },
     {
     "id": "Fire Absorption",
