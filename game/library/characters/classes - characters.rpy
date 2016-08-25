@@ -1584,7 +1584,14 @@ init -9 python:
             self.stats.log["level"] = self.level
             
         # -------------------------------------------------------------------------------->
-        # Equipment Methods (They assume a character has an inventory)
+        # Equipment Methods (They often assume a character has an inventory)
+        def eq_items(self):
+            """Returns a list of all equiped items."""
+            if hasattr(self, "eqslots"):
+                return self.eqslots.values()
+            else:
+                return []
+            
         def add_item(self, item, amount=1):
             self.inventory.append(item, amount=amount)
         
