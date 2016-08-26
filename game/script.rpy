@@ -53,6 +53,7 @@
         tgs.body = [i for i in traits.values() if i.body]
         tgs.base = [i for i in traits.values() if i.basetrait and not i.mob_only]
         tgs.elemental = [i for i in traits.values() if i.elemental]
+        tgs.el_strings = [i.id.lower() for i in tgs.elemental]
         tgs.ct = [i for i in traits.values() if i.character_trait]
         tgs.sexual = [i for i in traits.values() if i.sexual] # This is a subset of character traits!
         tgs.race = [i for i in traits.values() if i.race]

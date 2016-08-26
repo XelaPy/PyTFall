@@ -413,6 +413,8 @@ init -1 python: # Core classes:
     class BE_Action(BE_Event):
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
+        DELIVERY = ["magic", "ranged", "melee", "status"] # Damage/Effects Delivery Methods!
+        
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
                            add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
@@ -723,6 +725,7 @@ init -1 python: # Core classes:
             Very simple method to get to attack power.
             """
             a = self.source
+            
             if "melee" in self.attributes: # TODO: ADD WEAPONS EFFECTS IF THIS IS A WEAPON SKILLS
                 attack = (a.attack*0.8 + a.agility*0.25 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
@@ -733,7 +736,7 @@ init -1 python: # Core classes:
                 attack = self.effect + 20
                 
             # Simple randomization factor?:
-            attack *= random.uniform(.85, 1.1) # every time attack is random from 85 to 110%
+            attack *= random.uniform(.85, 1.15) # every time attack is random from 85 to 115%
             
             # Decreasing based of current health:
             healthlevel=(1-a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health

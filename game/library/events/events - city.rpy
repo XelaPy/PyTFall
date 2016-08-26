@@ -1,5 +1,5 @@
 init python:
-    register_event("city_events_thugs_robbery", locations=["main_street"], dice=100, trigger_type = "look_around", priority = 50, start_day=1, jump=True, times_per_days=(1,7))
+    register_event("city_events_thugs_robbery", locations=["main_street"], dice=100, trigger_type = "look_around", priority=50, start_day=1, jump=True, times_per_days=(1,7))
 
 label city_events_thugs_robbery:
     scene
