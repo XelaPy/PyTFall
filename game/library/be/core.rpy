@@ -414,6 +414,7 @@ init -1 python: # Core classes:
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
         DELIVERY = ["magic", "ranged", "melee", "status"] # Damage/Effects Delivery Methods!
+        DAMAGE = ["physical", "fire", "water", "ice", "earth", "air", "electricity", "light", "darkness", "healing", "poison"] # Damage (Effect) types...
         
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
