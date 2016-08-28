@@ -806,7 +806,7 @@ init python:
             for t in targets:
                 if not self.check_resistance(t):
                     # We get the multi and any effects that those may bring.
-                    effects, multiplier = self.get_multiplier(t, attributes)
+                    effects, multiplier = self.get_damage_multiplier(t, attributes)
                     restore = int(restore*multiplier)
                 else: # resisted
                     damage = 0
@@ -864,7 +864,7 @@ init python:
                         t.beeffects = [0]
                         break
                 else: # Damage Calculations:
-                    effects, multiplier = self.get_multiplier(t, self.attributes)
+                    effects, multiplier = self.get_damage_multiplier(t, self.attributes)
                     
                     damage = t.get_max("health") * (self.effect/1000.0)
                     damage = max(randint(15, 20), int(damage) + randint(-4, 4))

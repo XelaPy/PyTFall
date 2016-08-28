@@ -413,8 +413,8 @@ init -1 python: # Core classes:
     class BE_Action(BE_Event):
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
-        DELIVERY = ["magic", "ranged", "melee", "status"] # Damage/Effects Delivery Methods!
-        DAMAGE = ["physical", "fire", "water", "ice", "earth", "air", "electricity", "light", "darkness", "healing", "poison"] # Damage (Effect) types...
+        DELIVERY = set(["magic", "ranged", "melee", "status"]) # Damage/Effects Delivery Methods!
+        DAMAGE = set(["physical", "fire", "water", "ice", "earth", "air", "electricity", "light", "darkness", "healing", "poison"]) # Damage (Effect) types...
         
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
@@ -460,6 +460,15 @@ init -1 python: # Core classes:
             self.desc = desc
             self.target_state = target_state
             self.menu_pos = menu_pos
+            try:
+                selt.delivery = self.DELIVERY.intersection(self.attributes).pop()
+            except:
+                self.delivery = ""
+                
+            try:
+                selt.damage = self.DAMAGE.intersection(self.attributes)
+            except:
+                self.damage = []
             
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
@@ -649,6 +658,7 @@ init -1 python: # Core classes:
             a = self.source
             attributes = self.attributes
             type = self.type
+            attacker_items = a.eq_items()
             
             # Get the attack power:
             attack = self.get_attack()
@@ -658,11 +668,24 @@ init -1 python: # Core classes:
                 # If character does NOT resists the attack:
                 if not self.check_resistance(t):
                     # We get the multiplier and any effects that those may bring.
-                    effects, multiplier = self.get_multiplier(t, attributes)
+                    # effects, multiplier = self.get_damage_multiplier(t, attributes)
+                    if self.delivery in ["melee", "ranged"]:
+                        ch = (a.luck - t.luck + 15) * .75
+                        
+                        # Items bonuses:
+                        m = .0
+                        for i in attacker_items:
+                            if hasattr(i, "ch_multiplier"):
+                                m += i.ch_multiplier
+                        ch += 100*m
+                                
+                        if dice(ch):
+                            multiplier += 1.5 + self.critpower
+                            effects.append("critical_hit")
                     
                     # Get the damage:
                     result = self.check_absorbtion(t) # we check the absorption
-                    defense = self.get_defense(t, absorb=result)
+                    defense = self.get_defense(t)
                     damage = self.damage_calculator(t, attack, defense, multiplier)
                     
                     # Rows Damage:
@@ -727,52 +750,74 @@ init -1 python: # Core classes:
             """
             a = self.source
             
-            if "melee" in self.attributes: # TODO: ADD WEAPONS EFFECTS IF THIS IS A WEAPON SKILLS
-                attack = (a.attack*0.8 + a.agility*0.25 + self.effect) * self.multiplier
+            if "melee" in self.attributes:
+                attack = (a.attack*1.75 + a.agility*.25 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.attack*0.9 + (a.luck+50)*0.5 + self.effect) * self.multiplier # luck bonus is far more limited than agility bonus from melee, but ranged attacks should have drawbacks too
+                attack = (a.agility*1.45 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*0.8 + a.intelligence*0.2 + self.effect) * self.multiplier
+                attack = (a.magic*1.3 + a.intelligence*.7 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
                 
+            delivery = self.delivery
+                
+            # Items bonuses:
+            items = a.eq_items()
+            for i in items:
+                if hasattr(i, "delivery_bonus"):
+                    attack = attack + i.delivery_bonus.get(delivery, 0)
+                
+            m = 1.0
+            for i in items:
+                if hasattr(i, "delivery_multiplier"):
+                    m = m + i.delivery_multiplier.get(delivery, 0)
+            attack = attack * m
+                
             # Simple randomization factor?:
-            attack *= random.uniform(.85, 1.15) # every time attack is random from 85 to 115%
+            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this?
             
             # Decreasing based of current health:
-            healthlevel=(1-a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health
+            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health
             attack *= (1-healthlevel)
             
             return attack if attack > 0 else 1
             
-        def get_defense(self, target, absorb=False):
+        def get_defense(self, target):
             """
             A method to get defence value vs current attack.
             """
             if "melee" in self.attributes:
-                defense = round(target.defence*0.8 + target.constitution*0.2)
+                defense = round(target.defence*.6 + target.constitution*.4)
             elif "ranged" in self.attributes:
-                defense = round(target.defence*0.8 + target.constitution*0.1 + target.agility*0.1)
+                defense = round(target.defence*.6 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
-                if absorb: # we lower defense if the element is going to be absorbed, character kinda tries to not resist the magic to absorb as much as possible
-                    defense = round(target.defence*0.6 - target.intelligence*0.2)
-                else:
-                    defense = round(target.magic*0.2 + target.defence*0.6 + target.intelligence*0.2)
-            else:
-                defense = target.defence+target.health
-            rand = randint(85, 110)*0.01 # every time defense is random from 85 to 110%
-            defense *= rand
+                defense = round(target.defence*.4 + target.magic*.2 + target.intelligence*.2)
+                
+            # Items bonuses:
+            items = target.eq_items()
+            for i in items:
+                if hasattr(i, "defence_bonus"):
+                    defense = defense + i.defence_bonus.get(self.delivery, 0)
+                
+            m = 1.0
+            for i in items:
+                if hasattr(i, "defence_multiplier"):
+                    m = m + i.defence_multiplier.get(self.delivery, 0)
+            defense *= m
+                
+            defense *= random.uniform(.90, 1.10)
+            
             return defense if defense > 0 else 1
                 
         def damage_calculator(self, t, attack, defense, multiplier):
             """Used to calc damage of the attack.
             Before multipliers and effects are apllied.
             """
-            resist = pow(attack/defense, 0.5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
-            damage = int((attack/defense*resist+randint(1,5))*multiplier)
-            return damage
+            resist = pow(attack/defense, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
+            damage = 1 + ((attack/defense)*resist) * multiplier
+            return int(damage)
             
-        def get_multiplier(self, t, attributes, multiplier=1.0):
+        def get_damage_multiplier(self, t, attributes, multiplier=1.0):
             """
             This calculates the multiplier to use with effect of the skill.
             """

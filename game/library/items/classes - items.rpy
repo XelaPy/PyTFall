@@ -39,6 +39,16 @@ init -9 python:
             self.locations = []
             self.chance = 50
             self.badness = 0
+            
+            # BE attributes:
+            # self.evasion_multiplier = 0
+            # self.ch_multiplier = 0 # Critical hit multi...
+            
+            # self.defence_bonus = {}
+            # self.defence_multiplier = {}
+            # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
+            # self.delivery_multiplier = {} 
+            # self.damage_multiplier = {}
 
         def init(self):
             # Rules:
