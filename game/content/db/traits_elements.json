@@ -13,7 +13,7 @@
     "desc": "The most mysterious among the elements. Hiding it twisted and destructive nature under the calm surface. Leaving behind only rumble and bodies as proof of it fatal capabilities. ",
     "icon": "content/gfx/interface/images/elements/water.png",
     "elemental": true,
-    "el_damage": {"electricity": -0.5, "water": 0.5},
+    "el_damage": {"water": 0.5, "electricity": -0.5},
     "el_defence": {"water": 0.2, "fire": 0.3, "ice": -0.6},
     "font_color": "blue"
     },
