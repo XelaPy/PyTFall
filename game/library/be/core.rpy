@@ -658,6 +658,7 @@ init -1 python: # Core classes:
             a = self.source
             attributes = self.attributes
             type = self.type
+            effects = []
             attacker_items = a.eq_items()
             
             # Get the attack power:
@@ -665,39 +666,62 @@ init -1 python: # Core classes:
             name = self.name
             
             for t in targets:
-                # If character does NOT resists the attack:
-                if not self.check_resistance(t):
-                    # We get the multiplier and any effects that those may bring.
-                    # effects, multiplier = self.get_damage_multiplier(t, attributes)
-                    if self.delivery in ["melee", "ranged"]:
-                        ch = (a.luck - t.luck + 15) * .75
+                # if not self.check_resistance(t):
+                # We get the multiplier and any effects that those may bring.
+                multiplier = 0
+                damage = {} # Dict of type: damage pairs.
+                # effects, multiplier = self.get_damage_multiplier(t, attributes)
+                
+                # DAMAGE Mods:
+                if self.damage:
+                    dmg = attack/len(self.damage)
+                    
+                for type in self.damage:
+                    damage[type] = dmg
+                
+                # Critical Strike and Evasion checks:
+                if self.delivery in ["melee", "ranged"]:
+                    ch = (a.luck - t.luck + 15) * .75
+                    
+                    # Items bonuses:
+                    m = .0
+                    for i in attacker_items:
+                        if hasattr(i, "ch_multiplier"):
+                            m += i.ch_multiplier
+                    ch += 100*m
+                    
+                    if dice(ch):
+                        multiplier += 1.5 + self.critpower
+                        effects.append("critical_hit")
+                    elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
+                        evasion_chance = t.evasion # starting evasion chance = evasion stat
+                        healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
+                        evasion_chance += healthlevel
+                        if dice(evasion_chance):
+                            multiplier = 0
+                            effects.append("missed_hit")
+                
+                for type in self.damage:
+                    result = self.get_damage_multiplier(t, dmg, type) # Can return a number or "resisted"
+                    effects.append((type, result))
+                    if not isinstance(result, basestring):
+                        damage += result
                         
-                        # Items bonuses:
-                        m = .0
-                        for i in attacker_items:
-                            if hasattr(i, "ch_multiplier"):
-                                m += i.ch_multiplier
-                        ch += 100*m
-                                
-                        if dice(ch):
-                            multiplier += 1.5 + self.critpower
-                            effects.append("critical_hit")
-                    
-                    # Get the damage:
-                    result = self.check_absorbtion(t) # we check the absorption
-                    defense = self.get_defense(t)
-                    damage = self.damage_calculator(t, attack, defense, multiplier)
-                    
-                    # Rows Damage:
-                    effects_append, damage = self.get_row_damage(t, damage)
-                    effects = effects + effects_append
-                    if result:
-                        damage = -int(damage * result+randint(1,10))
-                        effects.append("absorbed")
-                else: # resisted
-                    damage = 0
-                    effects = list()
-                    effects.append("resisted")
+                # Get the damage:
+                result = self.check_absorbtion(t) # we check the absorption
+                defense = self.get_defense(t)
+                damage = self.damage_calculator(t, attack, defense, multiplier)
+                
+                # Rows Damage:
+                effects_append, damage = self.get_row_damage(t, damage)
+                effects = effects + effects_append
+                if result:
+                    damage = -int(damage * result+randint(1,10))
+                    effects.append("absorbed")
+                # else: # resisted
+                    # damage = 0
+                    # effects = list()
+                    # effects.append("resisted")
                     
                 effects.insert(0, damage)
                 
@@ -726,23 +750,23 @@ init -1 python: # Core classes:
                     effects.append("backrow_penalty")
             return effects, damage        
                 
-        def check_absorbtion(self, t):
+        def check_absorbtion(self, t, type):
             # Get all absorption capable traits:
             l = list(trait for trait in t.traits if trait.el_absorbs)
-            # Get ratio:
-            d = dict()
-            if l:
-                for attr in self.attributes:
-                    for trait in l:
-                        if attr in trait.el_absorbs:
-                            d[trait.id] = trait.el_absorbs[attr]
-                if d:
-                    ratio = sum(d.values()) / len(d)
-                    return ratio
+            # # Get ratio:
+            # d = dict()
+            # if l:
+                # for attr in self.attributes:
+            for trait in l:
+                if type in trait.el_absorbs:
+                    return True
+                # if d:
+                    # ratio = sum(d.values()) / len(d)
+                    # return ratio
                     
-        def check_resistance(self, t):
-            if list(i for i in self.attributes if i in t.resist):
-                return True
+        # def check_resistance(self, t, type):
+            # if type in t.resist:
+                # return True
                 
         def get_attack(self):
             """
@@ -817,68 +841,63 @@ init -1 python: # Core classes:
             damage = 1 + ((attack/defense)*resist) * multiplier
             return int(damage)
             
-        def get_damage_multiplier(self, t, attributes, multiplier=1.0):
+        def get_damage_multiplier(self, t, damage, type):
             """
             This calculates the multiplier to use with effect of the skill.
+            d: Damage (number per type)
+            type: Damage Type
             """
             effects = list()
             a = self.source
+            m = 1.0
             
-            if any(list(i for i in ["melee", "ranged"] if i in attributes)): 
-                if dice((a.luck+50)*0.35): # Critical hit prevents any evasion and depends solely on the attacker luck, 35% with luck 50; in the future it probably will be tied to weapon skills
-                    multiplier += 1.5 + self.critpower
-                    effects.append("critical_hit")
-                elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                    evasion_chance = t.evasion # starting evasion chance = evasion stat
-                    healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
-                    evasion_chance += healthlevel
-                    if dice(evasion_chance):
-                        multiplier = 0
-                        effects.append("missed_hit")
-
-            else:
-                result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
-                if result:
-                    evasion_chance = -1
-                elif any(list(i for i in ["healing", "revive", "status", "inevitable"] if i in attributes)): # no escape from healing and status effects
-                    evasion_chance = -1
-                else: # magic resistance
-                    evasion_chance = t.resistance # base chance is the target resistance stat
-                    healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
-                    evasion_chance += healthlevel
-                if dice(evasion_chance):
-                    multiplier = 0.65 # successful resistance decreases spell damage; for now it's always 0.65, but eventually it might be depending on something
-                    effects.append("missed_hit")
-                    
+            # result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
+            # if result:
+                # evasion_chance = -1
+            # elif any(list(i for i in ["healing", "revive", "status", "inevitable"] if i in attributes)): # no escape from healing and status effects
+                # evasion_chance = -1
+            # else: # magic resistance
+                # evasion_chance = t.resistance # base chance is the target resistance stat
+                # healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
+                # evasion_chance += healthlevel
+            # if dice(evasion_chance):
+                # multiplier = 0.65 # successful resistance decreases spell damage; for now it's always 0.65, but eventually it might be depending on something
+                # effects.append("missed_hit")
+                
+            if type in t.resist:
+                return "resisted"
+                
             # Get multiplier from traits:
             # We decided that any trait could influence this:
-            damage = []
-            defence = []
-            for attr in attributes:
-                # Damage first:
-                for trait in a.traits:
-                    if attr in trait.el_damage:
-                        damage.append(trait.el_damage[attr])
+            # damage = 0
+            # defence = 0
+            
+            # Damage first:
+            for trait in a.traits:
+                if type in trait.el_damage:
+                    m += trait.el_damage[type]
                         
-                # Defence next:
-                for trait in t.traits:
-                    if attr in trait.el_defence:
-                         defence.append(trait.el_defence[attr])
+            # Defence next:
+            for trait in t.traits:
+                if type in trait.el_defence:
+                     m -= trait.el_defence[type]
+                     
+            damage *= m
                          
-            if damage:
-                damage = float(sum(damage)) / len(damage)
+            # if damage:
+                # damage = float(sum(damage)) / len(damage)
                 # if i > 0.15 or i < 0.15:
-                effects.append(("damage_mod", damage))
-                multiplier += damage
+                # effects.append(("damage_mod", damage))
+                # multiplier += damage
                 
-            if defence:
-                defence = float(sum(defence)) / len(defence)
+            # if defence:
+                # defence = float(sum(defence)) / len(defence)
                 # From the perspective of the attacker...
                 # if i > 0.15 or i < 0.15:
-                effects.append(("defence_mod", defence))
-                multiplier -= defence
+                # effects.append(("defence_mod", defence))
+                # multiplier -= defence
                         
-            return effects, multiplier
+            return damage
             
         # To String methods:
         def set_dmg_font_color(self, t, attributes, to_string=True, color="red"):
