@@ -702,13 +702,21 @@ init -1 python: # Core classes:
                             effects.append("missed_hit")
                 
                 for type in self.damage:
-                    result = self.get_damage_multiplier(t, dmg, type) # Can return a number or "resisted"
+                    result = self.get_damage_multiplier(t, dmg, type) # Can return a number or "resisted" string
+                    
+                    # We also check for absorbsion:
+                    absorb_ratio = self.check_absorbtion(t, type)
+                    if absorb_ratio:
+                        # Settle logging!
+                        absorbed = True
+                    else:
+                        absorbed = False
+                    
                     effects.append((type, result))
                     if not isinstance(result, basestring):
                         damage += result
                         
                 # Get the damage:
-                result = self.check_absorbtion(t) # we check the absorption
                 defense = self.get_defense(t)
                 damage = self.damage_calculator(t, attack, defense, multiplier)
                 
@@ -718,10 +726,6 @@ init -1 python: # Core classes:
                 if result:
                     damage = -int(damage * result+randint(1,10))
                     effects.append("absorbed")
-                # else: # resisted
-                    # damage = 0
-                    # effects = list()
-                    # effects.append("resisted")
                     
                 effects.insert(0, damage)
                 
@@ -753,16 +757,16 @@ init -1 python: # Core classes:
         def check_absorbtion(self, t, type):
             # Get all absorption capable traits:
             l = list(trait for trait in t.traits if trait.el_absorbs)
+            
             # # Get ratio:
-            # d = dict()
-            # if l:
-                # for attr in self.attributes:
+            ratio = []
             for trait in l:
                 if type in trait.el_absorbs:
-                    return True
-                # if d:
-                    # ratio = sum(d.values()) / len(d)
-                    # return ratio
+                    ratio.append(trait.el_absorbs[type])
+            if ratio:
+                return sum(ratio) / len(ratio)
+            else:
+                return None
                     
         # def check_resistance(self, t, type):
             # if type in t.resist:
