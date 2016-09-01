@@ -705,12 +705,12 @@ init -1 python: # Core classes:
                     result = self.get_damage_multiplier(t, dmg, type) # Can return a number or "resisted" string
                     
                     # We also check for absorbsion:
-                    absorb_ratio = self.check_absorbtion(t, type)
-                    if absorb_ratio:
-                        # Settle logging!
-                        absorbed = True
-                    else:
-                        absorbed = False
+                    if isinstance(result, (float, int)):
+                        absorb_ratio = self.check_absorbtion(t, type)
+                        if absorb_ratio:
+                            result = -(absorb_ratio)*result
+                        # else:
+                            # absorbed = False
                     
                     effects.append((type, result))
                     if not isinstance(result, basestring):
