@@ -457,7 +457,7 @@
     },
     {
     "id": "Elven Vail",
-    "desc": "A light and sturdy mask soft leather and an unknown metal.",
+    "desc": "A light and sturdy mask from soft leather and an unknown metal.",
     "icon": "content/items/head/ev.png",
     "price": 700,
     "sex": "female",
@@ -473,5 +473,40 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
+    },
+    {
+    "id": "Ancient Helmet",
+    "desc": "A fancy foreign helmet. Despite its age it still provides solid protection.",
+    "icon": "content/items/head/sm.png",
+    "price": 500,
+    "sex": "unisex",
+    "chance": 25,
+    "badness": 35,
+    "eqchance": 65,
+    "hidden": false,
+    "infinite": false,
+    "slot": "head",
+    "type": "armor",
+    "mod_skills": {"management": [0.03, 0.03, 0.1, 0, 0]},
+    "max": {"agility": 5, "defence": 20},
+    "mod": {"defence": 10, "agility": 5},
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Safety Glasses",
+    "desc": "Fortified shatterproof glasses for dangerous jobs.",
+    "icon": "content/items/head/glas.png",
+    "price": 350,
+    "sex": "unisex",
+    "chance": 20,
+    "badness": 25,
+    "eqchance": 75,
+    "hidden": false,
+    "infinite": false,
+    "slot": "head",
+    "type": "other",
+    "mod_skills": {"exploration": [0.03, 0.03, 0.1, 0, 0], "cleaning": [0, 0, 0.1, 0, 0], "refinement": [0, 0, -0.1, 0, 0], "service": [0, 0, -0.1, 0, 0]},
+    "max": {"defence": 5},
+    "locations": ["Work Shop"]
     }
   ]
