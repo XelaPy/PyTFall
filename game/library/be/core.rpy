@@ -460,15 +460,16 @@ init -1 python: # Core classes:
             self.desc = desc
             self.target_state = target_state
             self.menu_pos = menu_pos
+            
             try:
-                selt.delivery = self.DELIVERY.intersection(self.attributes).pop()
+                self.delivery = self.DELIVERY.intersection(self.attributes).pop()
             except:
                 self.delivery = ""
                 
-            try:
-                selt.damage = self.DAMAGE.intersection(self.attributes)
-            except:
-                self.damage = []
+            # try:
+            self.damage = self.DAMAGE.intersection(self.attributes)
+            # except:
+                # self.damage = []
             
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
             
