@@ -701,7 +701,7 @@ init -1 python: # Core classes:
                             multiplier = 0
                             effects.append("missed_hit")
                 
-                for type in self.damage:
+                for type in self.damage: # result is not caled at aero WTF!>>>>??
                     result = self.get_damage_multiplier(t, dmg, type) # Can return a number or "resisted" string
                     
                     # We also check for absorbsion:
