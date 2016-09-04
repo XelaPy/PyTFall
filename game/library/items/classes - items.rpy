@@ -43,12 +43,12 @@ init -9 python:
             # BE attributes:
             # self.evasion_multiplier = 0
             # self.ch_multiplier = 0 # Critical hit multi...
+            # self.damage_multiplier = 0
             
-            # self.defence_bonus = {}
+            # self.defence_bonus = {} # Delivery! Not damage types!
             # self.defence_multiplier = {}
             # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
-            # self.delivery_multiplier = {} 
-            # self.damage_multiplier = {}
+            # self.delivery_multiplier = {}
 
         def init(self):
             # Rules:

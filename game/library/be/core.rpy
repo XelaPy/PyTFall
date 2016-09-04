@@ -414,7 +414,8 @@ init -1 python: # Core classes:
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
         DELIVERY = set(["magic", "ranged", "melee", "status"]) # Damage/Effects Delivery Methods!
-        DAMAGE = set(["physical", "fire", "water", "ice", "earth", "air", "electricity", "light", "darkness", "healing", "poison"]) # Damage (Effect) types...
+        # DAMAGE = set(["physical", "fire", "water", "ice", "earth", "air", "electricity", "light", "darkness", "healing", "poison"]) # Damage (Effect) types...
+        DAMAGE = {"physical": "⚔", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}", "ice": "❄", "earth": "{image=earth_element_be_viewport}", "air": "☁", "electricity": "⚡", "light": "☀", "darkness": "{image=darkness_element_be_viewport}", "healing": "Heal", "poison": "☠"} # Damage (Effect) types...
         
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
@@ -467,7 +468,7 @@ init -1 python: # Core classes:
                 self.delivery = ""
                 
             # try:
-            self.damage = self.DAMAGE.intersection(self.attributes)
+            self.damage = [d for d in self.attributes if d in self.DAMAGE]
             # except:
                 # self.damage = []
             
@@ -679,14 +680,11 @@ init -1 python: # Core classes:
                 multiplier = 1.0
                 effects = []
                 total_damage = 0
-                # effects, multiplier = self.damage_modifier(t, attributes)
-                
-                # for type in self.damage:
-                    # damage[type] = dmg
                 
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
-                    ch = (a.luck - t.luck + 15) * .75
+                    # Critical Hit Chance:
+                    ch = (a.luck - t.luck + 10) * .75
                     
                     # Items bonuses:
                     m = .0
@@ -699,38 +697,59 @@ init -1 python: # Core classes:
                         multiplier += 1.5 + self.critpower
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        evasion_chance = t.evasion # starting evasion chance = evasion stat
+                        ev = min(t.agility*.1-a.agility*.1, 25) + max(0, min(t.luck-a.luck, 25)) # Max 25 for agility and luck each...
+                        
+                        # Items bonuses:
+                        m = .0
+                        for i in t.eq_items():
+                            if hasattr(i, "evasion_multiplier"):
+                                m += i.evasion_multiplier
+                        ev += 100*m
+                        
                         healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
-                        evasion_chance += healthlevel
-                        if dice(evasion_chance):
-                            multiplier = 0
+                        ev += healthlevel
+                        if dice(ev):
                             effects.append("missed_hit")
                             effects.insert(0, 0)
+                            
+                            # Log the effects:
+                            t.beeffects = effects
+                            
+                            # String for the log:
+                            s = list()
+                            s.append("{color=[teal]}%s{/color} attacks %s with %s!" % (a.nickname, t.nickname, self.name))
+                            
+                            s = s + self.effects_to_string(t)
+                            
+                            battle.log("".join(s))
                             # And we're done with this iteration:
                             continue
                             
                 # Rows Damage:
-                if "critical_hit" not in effects and self.row_penalty(t):
+                if self.row_penalty(t):
                     multiplier *= .5
                     effects.append("backrow_penalty")
                 
                 for type in self.damage:
                     result = self.damage_modifier(t, attack, type) # Can return a number or "resisted" string
                     
+                    # Resisted:
+                    if result == "resisted":
+                        effects.append((type, result))
+                        continue
+                    
                     # We also check for absorbsion:
-                    if isinstance(result, (float, int)):
-                        absorb_ratio = self.check_absorbtion(t, type)
-                        if absorb_ratio:
-                            result = -(absorb_ratio)*result
+                    absorb_ratio = self.check_absorbtion(t, type)
+                    if absorb_ratio:
+                        result = -(absorb_ratio)*result
+                        # We also set defence to 1, no point in defending against absorbtion:
+                        defense = 1
                             
                     # Get the damage:
-                    if not isinstance(result, basestring):
-                        result = self.damage_calculator(t, result, defense, multiplier)
-                        
-                        result = int(round(result))
-                        
-                        effects.append((type, result))
-                        total_damage += result
+                    result = self.damage_calculator(t, result, defense, multiplier, attacker_items)
+                    
+                    effects.append((type, result))
+                    total_damage += result
                         
                 effects.insert(0, total_damage)
                 
@@ -802,7 +821,7 @@ init -1 python: # Core classes:
             attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this?
             
             # Decreasing based of current health:
-            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health
+            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health.
             attack *= (1-healthlevel)
             
             return attack if attack > 0 else 1
@@ -834,13 +853,20 @@ init -1 python: # Core classes:
             
             return defense if defense > 0 else 1
                 
-        def damage_calculator(self, t, attack, defense, multiplier):
+        def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[]):
             """Used to calc damage of the attack.
             Before multipliers and effects are apllied.
             """
             resist = pow(attack/defense, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
             damage = 1 + ((attack/defense)*resist) * multiplier
-            return int(damage)
+            
+            m = 1.0
+            for i in items:
+                if hasattr(i, "damage_multiplier"):
+                    m = m + i.damage_multiplier
+            damage = damage * m
+            
+            return int(round(damage))
             
         def damage_modifier(self, t, damage, type):
             """
@@ -926,6 +952,18 @@ init -1 python: # Core classes:
                 
             return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
             
+        def color_string_by_DAMAGE_type(self, s, type):
+            # Takes a string "s" and colors it based of damage "type".
+            # If type is not an element, color will be red or some preset (in this method) default.
+            for e in tgs.elemental:
+                if e.id.lower() == type:
+                    color = e.font_color
+                    break
+            else:
+                color = "red"
+                
+            return "{color=[%s]} %s {/color}" % (color, s)
+            
         def effects_to_string(self, t, default_color="red"):
             """Writes to viewport reports log.
             
@@ -939,7 +977,8 @@ init -1 python: # Core classes:
             
             for effect in effects:
                 if isinstance(effect, tuple):
-                    s.append(" %s: %s "%(effect[0], effect[1]))
+                    temp = " %s:%s "%(self.DAMAGE[effect[0]], effect[1])
+                    s.append(self.color_string_by_DAMAGE_type(temp, effect[0]))
                     # if effect[0] == "damage_mod":
                         # damage = round(float(effect[1]), 1)
                         # if damage > 0:

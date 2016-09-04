@@ -230,3 +230,8 @@ init:
         "content/gfx/animations/interactions/hearts/heart15.png"
         pause 0.07
         repeat
+        
+    image fire_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/fire.png", 15, 15)
+    image water_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/water.png", 15, 15)
+    image earth_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/earth.png", 15, 15)
+    image darkness_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/darkness.png", 15, 15)
