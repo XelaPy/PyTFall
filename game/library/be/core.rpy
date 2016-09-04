@@ -659,26 +659,30 @@ init -1 python: # Core classes:
             a = self.source
             attributes = self.attributes
             type = self.type
-            effects = []
+            
             attacker_items = a.eq_items()
             
             # Get the attack power:
             attack = self.get_attack()
             name = self.name
             
+            # DAMAGE Mods:
+            if self.damage:
+                attack = attack/len(self.damage)
+            
             for t in targets:
-                # if not self.check_resistance(t):
+                defense = self.get_defense(t)
+                if self.damage:
+                    defense = defense/len(self.damage)
+                
                 # We get the multiplier and any effects that those may bring.
-                multiplier = 0
-                damage = {} # Dict of type: damage pairs.
+                multiplier = 1.0
+                effects = []
+                total_damage = 0
                 # effects, multiplier = self.get_damage_multiplier(t, attributes)
                 
-                # DAMAGE Mods:
-                if self.damage:
-                    dmg = attack/len(self.damage)
-                    
-                for type in self.damage:
-                    damage[type] = dmg
+                # for type in self.damage:
+                    # damage[type] = dmg
                 
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
@@ -701,36 +705,35 @@ init -1 python: # Core classes:
                         if dice(evasion_chance):
                             multiplier = 0
                             effects.append("missed_hit")
+                            # And we're done with this iteration:
+                            continue
+                            
+                # Rows Damage:
+                if "critical_hit" not in effects and self.row_penalty(t):
+                    multiplier *= .5
+                    effects.append("backrow_penalty")
                 
-                for type in self.damage: # result is not caled at aero WTF!>>>>??
-                    result = self.get_damage_multiplier(t, dmg, type) # Can return a number or "resisted" string
+                for type in self.damage:
+                    result = self.get_damage_multiplier(t, attack, type) # Can return a number or "resisted" string
                     
                     # We also check for absorbsion:
                     if isinstance(result, (float, int)):
                         absorb_ratio = self.check_absorbtion(t, type)
                         if absorb_ratio:
                             result = -(absorb_ratio)*result
-                        # else:
-                            # absorbed = False
-                    
-                    effects.append((type, result))
+                            
+                    # Get the damage:
                     if not isinstance(result, basestring):
-                        damage += result
+                        result = self.damage_calculator(t, result, defense, multiplier)
                         
-                # Get the damage:
-                defense = self.get_defense(t)
-                damage = self.damage_calculator(t, attack, defense, multiplier)
+                        result = int(round(result))
+                        
+                        effects.append((type, result))
+                        total_damage += result
+                        
+                effects.insert(0, total_damage)
                 
-                # Rows Damage:
-                effects_append, damage = self.get_row_damage(t, damage)
-                effects = effects + effects_append
-                if result:
-                    damage = -int(damage * result+randint(1,10))
-                    effects.append("absorbed")
-                    
-                effects.insert(0, damage)
-                
-                # log the effects:
+                # Log the effects:
                 t.beeffects = effects
             
                 # String for the log:
@@ -741,19 +744,15 @@ init -1 python: # Core classes:
                 
                 battle.log("".join(s))
         
-        def get_row_damage(self, t, damage):
+        def row_penalty(self, t):
             # It's always the normal damage except for rows 0 and 3 (unless everyone in the front row are dead :) ).
             # Adding true_piece there as well:
-            effects = list()
             if t.row == 3:
                 if battle.get_fighters(rows=[2]) and not self.true_pierce:
-                    damage = damage / 2
-                    effects.append("backrow_penalty")
+                    return True
             if t.row == 0:
                 if battle.get_fighters(rows=[1]) and not self.true_pierce:
-                    damage = damage / 2
-                    effects.append("backrow_penalty")
-            return effects, damage        
+                    return True      
                 
         def check_absorbtion(self, t, type):
             # Get all absorption capable traits:
@@ -768,10 +767,6 @@ init -1 python: # Core classes:
                 return sum(ratio) / len(ratio)
             else:
                 return None
-                    
-        # def check_resistance(self, t, type):
-            # if type in t.resist:
-                # return True
                 
         def get_attack(self):
             """
@@ -931,50 +926,51 @@ init -1 python: # Core classes:
             return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
             
         def effects_to_string(self, t, default_color="red"):
+            """Writes to viewport reports log.
+            
+            - We assume that all tuples in effects are damages by type!
+            """
             # String for the log:
             effects = t.beeffects
             attributes = self.attributes
+            damage_attrs = [i for i in effects if isinstance(i, tuple)]
             s = list()
-            if "resisted" not in effects:
-                for effect in effects:
-                    if isinstance(effect, tuple):
-                        if not isinstance(effect[1], float):
-                            raise Exception(effect)
-                        if effect[0] == "damage_mod":
-                            damage = round(float(effect[1]), 1)
-                            if damage > 0:
-                                s.append(" {color=[lawngreen]}⚔+ (%s){/color} "%damage)
-                            elif damage < 0:
-                                s.append(" {color=[red]}⚔- (%s){/color} "%-damage)
-                                
-                        elif effect[0] == "defence_mod":
-                            defence = round(float(effect[1]), 1)
-                            if defence > 0:
-                                s.append(" {color=[red]}☗+ (%s){/color} "%defence)
-                            elif defence < 0:
-                                s.append(" {color=[lawngreen]}☗- (%s){/color} "%-defence)
-                                    
-                    else: # it's a string...
-                        if effect == "backrow_penalty":
-                            # Damage halved due to the target being in the back row!
-                            s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
-                        elif effect == "critical_hit":
-                            s.append(" {color=[lawngreen]}Critical Hit {/color}")
-                        elif effect == "missed_hit":
-                            gfx = self.dodge_effect.get("gfx", "dodge")
-                            if gfx == "dodge":
-                                s.append(" {color=[lawngreen]}Attack Missed {/color}")
-                            else:
-                                s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
-                        elif effect == "absorbed":
-                            s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
-                            s.append(self.set_dmg_font_color(t, attributes, color="green"))
-                        else:
-                            s.append(self.set_dmg_font_color(t, attributes, color=default_color))   
+            
+            for effect in effects:
+                if isinstance(effect, tuple):
+                    s.append(" %s: %s "%(effect[0], effect[1]))
+                    # if effect[0] == "damage_mod":
+                        # damage = round(float(effect[1]), 1)
+                        # if damage > 0:
+                            # s.append(" {color=[lawngreen]}⚔+ (%s){/color} "%damage)
+                        # elif damage < 0:
+                            # s.append(" {color=[red]}⚔- (%s){/color} "%-damage)
                             
-            else: # If resisted:
-                s.append(" {color=[crimson]}Resisted the attack{/color}")
-                s.append(self.set_dmg_font_color(t, attributes, color="green"))
+                    # elif effect[0] == "defence_mod":
+                        # defence = round(float(effect[1]), 1)
+                        # if defence > 0:
+                            # s.append(" {color=[red]}☗+ (%s){/color} "%defence)
+                        # elif defence < 0:
+                            # s.append(" {color=[lawngreen]}☗- (%s){/color} "%-defence)
+                                
+                else: # it's a string...
+                    if effect == "backrow_penalty":
+                        # Damage halved due to the target being in the back row!
+                        s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
+                    elif effect == "critical_hit":
+                        s.append(" {color=[lawngreen]}Critical Hit {/color}")
+                    elif effect == "missed_hit":
+                        gfx = self.dodge_effect.get("gfx", "dodge")
+                        if gfx == "dodge":
+                            s.append(" {color=[lawngreen]}Attack Missed {/color}")
+                        # else:
+                            # s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
+                    # elif effect == "absorbed":
+                        # s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
+                        # s.append(self.set_dmg_font_color(t, attributes, color="green"))
+                    else:
+                        if len(damage_attrs) > 1:
+                            s.append(self.set_dmg_font_color(t, attributes, color=default_color))
                 
             return s
             
