@@ -743,10 +743,12 @@ init -1 python: # Core classes:
                     if absorb_ratio:
                         result = -(absorb_ratio)*result
                         # We also set defence to 1, no point in defending against absorbtion:
-                        defense = 1
+                        temp_def = 1
+                    else:
+                        temp_def = defense
                             
                     # Get the damage:
-                    result = self.damage_calculator(t, result, defense, multiplier, attacker_items)
+                    result = self.damage_calculator(t, result, temp_def, multiplier, attacker_items)
                     
                     effects.append((type, result))
                     total_damage += result
@@ -795,11 +797,11 @@ init -1 python: # Core classes:
             a = self.source
             
             if "melee" in self.attributes:
-                attack = (a.attack*1.75 + a.agility*.25 + self.effect) * self.multiplier
+                attack = (a.attack*1.75 + a.agility*.5 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.agility*1.45 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
+                attack = (a.agility*1.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*1.3 + a.intelligence*.7 + self.effect) * self.multiplier
+                attack = (a.magic*1.75 + a.intelligence*.5 + self.effect) * self.multiplier
             else:
                 attack = self.effect + 20
                 
@@ -831,11 +833,11 @@ init -1 python: # Core classes:
             A method to get defence value vs current attack.
             """
             if "melee" in self.attributes:
-                defense = round(target.defence*.6 + target.constitution*.4)
+                defense = round(target.defence*.8 + target.constitution*.4)
             elif "ranged" in self.attributes:
-                defense = round(target.defence*.6 + target.constitution*.2 + target.agility*.2)
+                defense = round(target.defence*.8 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
-                defense = round(target.defence*.4 + target.magic*.2 + target.intelligence*.2)
+                defense = round(target.defence*.8 + target.magic*.3 + target.intelligence*.1)
                 
             # Items bonuses:
             items = target.eq_items()

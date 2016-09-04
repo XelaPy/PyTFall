@@ -237,95 +237,94 @@ init: # screens:
         hbox:
             spacing 2
             align .5, .01
-            if hero.team in battle.teams:
-                for member in hero.team:
-                    if member not in battle.corpses:
-                        python:
-                            profile_img = member.show('portrait', resize=(93, 93), cache=True)
-                            scr = renpy.get_screen("pick_skill")
-                            if scr:
-                                char = scr.scope["_args"][0] # This is not the best code :(
-                            if scr and member == char:
-                                portrait_frame = im.Twocolor("content/gfx/frame/MC_bg3.png", grey, grey)
-                                img = "content/gfx/frame/ink_box.png"
-                            else:
-                                portrait_frame = "content/gfx/frame/MC_bg3.png"
-                                img = "content/gfx/frame/ink_box.png"
-                                
-                        frame:
-                            style_prefix "proper_stats"
-                            background Frame(Transform(img, alpha=0.5), 5, 5)
-                            padding 5, 3
-                            has hbox spacing 3
+            for member in battle.teams[0]:
+                if member not in battle.corpses:
+                    python:
+                        profile_img = member.show('portrait', resize=(93, 93), cache=True)
+                        scr = renpy.get_screen("pick_skill")
+                        if scr:
+                            char = scr.scope["_args"][0] # This is not the best code :(
+                        if scr and member == char:
+                            portrait_frame = im.Twocolor("content/gfx/frame/MC_bg3.png", grey, grey)
+                            img = "content/gfx/frame/ink_box.png"
+                        else:
+                            portrait_frame = "content/gfx/frame/MC_bg3.png"
+                            img = "content/gfx/frame/ink_box.png"
                             
-                            # Girl Image:
-                            frame:
-                                background Frame(portrait_frame, 5 ,5)
-                                xysize 95, 95
-                                padding 2, 2
-                                yalign .5
-                                add profile_img align .5, .5 alpha .96
-                               
-                            # Name/Stats:
-                            frame:
-                                padding 8, 2
-                                xsize 155
-                                background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
-                                has vbox
-                                
-                                label "[member.name]":
-                                    text_size 16
-                                    text_bold True
-                                    yalign .03
-                                    if isinstance(member, Char):
-                                        text_color pink
-                                    else:
-                                        text_color ivory
-                                        
-                                fixed:
-                                    ysize 25
-                                    bar:
-                                        left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                                        right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                        value member.health
-                                        range member.get_max("health")
-                                        thumb None
-                                        xysize (150, 20)
-                                    text "HP" size 14 color ivory bold True xpos 8
-                                    if member.health <= member.get_max("health")*0.2:
-                                        text "[member.health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                    else:
-                                        text "[member.health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
-                                        
-                                fixed:
-                                    ysize 25
-                                    bar:
-                                        left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
-                                        right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                        value member.mp
-                                        range member.get_max("mp")
-                                        thumb None
-                                        xysize (150, 20)
-                                    text "MP" size 14 color ivory bold True xpos 8
-                                    if member.mp <= member.get_max("mp")*0.2:
-                                        text "[member.mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                    else:
-                                        text "[member.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
-                                        
-                                fixed:
-                                    ysize 25
-                                    bar:
-                                        left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
-                                        right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                        value member.vitality
-                                        range member.get_max("vitality")
-                                        thumb None
-                                        xysize (150, 20)
-                                    text "VP" size 14 color ivory bold True xpos 8
-                                    if member.vitality <= member.get_max("vitality")*0.2:
-                                        text "[member.vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                    else:
-                                        text "[member.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                    frame:
+                        style_prefix "proper_stats"
+                        background Frame(Transform(img, alpha=0.5), 5, 5)
+                        padding 5, 3
+                        has hbox spacing 3
+                        
+                        # Girl Image:
+                        frame:
+                            background Frame(portrait_frame, 5 ,5)
+                            xysize 95, 95
+                            padding 2, 2
+                            yalign .5
+                            add profile_img align .5, .5 alpha .96
+                           
+                        # Name/Stats:
+                        frame:
+                            padding 8, 2
+                            xsize 155
+                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
+                            has vbox
+                            
+                            label "[member.name]":
+                                text_size 16
+                                text_bold True
+                                yalign .03
+                                if isinstance(member, Char):
+                                    text_color pink
+                                else:
+                                    text_color ivory
+                                    
+                            fixed:
+                                ysize 25
+                                bar:
+                                    left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
+                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                    value member.health
+                                    range member.get_max("health")
+                                    thumb None
+                                    xysize (150, 20)
+                                text "HP" size 14 color ivory bold True xpos 8
+                                if member.health <= member.get_max("health")*0.2:
+                                    text "[member.health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                                else:
+                                    text "[member.health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                                    
+                            fixed:
+                                ysize 25
+                                bar:
+                                    left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
+                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                    value member.mp
+                                    range member.get_max("mp")
+                                    thumb None
+                                    xysize (150, 20)
+                                text "MP" size 14 color ivory bold True xpos 8
+                                if member.mp <= member.get_max("mp")*0.2:
+                                    text "[member.mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                                else:
+                                    text "[member.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                                    
+                            fixed:
+                                ysize 25
+                                bar:
+                                    left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                    value member.vitality
+                                    range member.get_max("vitality")
+                                    thumb None
+                                    xysize (150, 20)
+                                text "VP" size 14 color ivory bold True xpos 8
+                                if member.vitality <= member.get_max("vitality")*0.2:
+                                    text "[member.vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                                else:
+                                    text "[member.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
                     
         if config.debug:
             vbox:
