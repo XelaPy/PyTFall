@@ -404,30 +404,26 @@ screen yesno_prompt(message, yes_action, no_action):
     # window:
         # style "gm_root"
 
-    add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
     frame:
-        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
-        style_group "dropdown_gm2"
-
-        xfill True
-        xmargin .05
-        ypos .1
-        yanchor 0
-        ypadding .05
-
+        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.65), 10, 10)
+        style_prefix "dropdown_gm2"
+        minimum 550, 200
+        margin 10, 10
+        padding 10, 10
+        align .5, .1
         has vbox:
-            xalign .5
-            yalign .5
+            align .5, .5
             spacing 30
 
         label _(message) xalign 0.5 text_text_align 0.5 text_color "#ecc88a" text_font "fonts/TisaOTM.otf" text_size 17 text_outlines [(1, "#3a3a3a", 0, 0)]
 
         hbox:
-            xalign 0.5
+            xalign .5
             spacing 100
 
-            textbutton _("Yes") action yes_action xysize (15, 10)
-            textbutton _("No") action no_action xysize (20, 10)
+            textbutton _("Yes") action yes_action
+            textbutton _("No") action no_action
 
     # Right-click and escape answer "no".
     key "game_menu" action no_action

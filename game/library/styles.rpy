@@ -290,6 +290,8 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
     # Second set of DD buttons:
     style dropdown_gm2_button:
         is basic_choice2_button
+        padding (2, 0)
+        margin (1, 1)
         
     style dropdown_gm2_button_text:
         is TisaOTMc
