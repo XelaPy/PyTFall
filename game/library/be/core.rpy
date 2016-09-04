@@ -705,6 +705,7 @@ init -1 python: # Core classes:
                         if dice(evasion_chance):
                             multiplier = 0
                             effects.append("missed_hit")
+                            effects.insert(0, 0)
                             # And we're done with this iteration:
                             continue
                             
