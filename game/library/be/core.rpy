@@ -679,7 +679,7 @@ init -1 python: # Core classes:
                 multiplier = 1.0
                 effects = []
                 total_damage = 0
-                # effects, multiplier = self.get_damage_multiplier(t, attributes)
+                # effects, multiplier = self.damage_modifier(t, attributes)
                 
                 # for type in self.damage:
                     # damage[type] = dmg
@@ -715,7 +715,7 @@ init -1 python: # Core classes:
                     effects.append("backrow_penalty")
                 
                 for type in self.damage:
-                    result = self.get_damage_multiplier(t, attack, type) # Can return a number or "resisted" string
+                    result = self.damage_modifier(t, attack, type) # Can return a number or "resisted" string
                     
                     # We also check for absorbsion:
                     if isinstance(result, (float, int)):
@@ -842,7 +842,7 @@ init -1 python: # Core classes:
             damage = 1 + ((attack/defense)*resist) * multiplier
             return int(damage)
             
-        def get_damage_multiplier(self, t, damage, type):
+        def damage_modifier(self, t, damage, type):
             """
             This calculates the multiplier to use with effect of the skill.
             d: Damage (number per type)

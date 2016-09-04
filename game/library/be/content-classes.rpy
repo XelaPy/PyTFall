@@ -804,18 +804,17 @@ init python:
             restore = self.effect + (char.intelligence + char.magic) * 0.25
             
             for t in targets:
-                if not self.check_resistance(t):
-                    # We get the multi and any effects that those may bring.
-                    effects, multiplier = self.get_damage_multiplier(t, attributes)
-                    restore = int(restore*multiplier)
-                else: # resisted
-                    damage = 0
-                    effects = list()
-                    effects.append("resisted")
-                    
+                effects = []
+                
+                # We get the multi and any effects that those may bring.
+                restore = self.damage_modifier(t, restore, "healing")
+                if restore == "resisted":
+                    restore = 0
+                
+                restore = int(round(restore))
                 effects.insert(0, restore)
                 t.beeffects = effects
-                
+            
                 # String for the log:
                 s = list()
                 s.append("%s used %s to restore HP of %s!" % (char.nickname, self.name, t.name))
@@ -847,6 +846,8 @@ init python:
                 targets = [targets]
             a = self.source
             for t in targets:
+                effects = []
+                
                 # Make sure target does not resist poison by nature:
                 if "poison" in t.resist:
                     battle.log("%s resisted poison!" % t.nickname)
@@ -864,16 +865,19 @@ init python:
                         t.beeffects = [0]
                         break
                 else: # Damage Calculations:
-                    effects, multiplier = self.get_damage_multiplier(t, self.attributes)
-                    
                     damage = t.get_max("health") * (self.effect/1000.0)
                     damage = max(randint(15, 20), int(damage) + randint(-4, 4))
+                    damage = self.damage_modifier(t, damage, "poison")
+                    if damage == "resisted":
+                        damage = 0
                     
                     # Lets check the absobtion:
-                    result = self.check_absorbtion(t)
+                    result = self.check_absorbtion(t, "poison")
                     if result:
                         damage = -damage * result
                         effects.append("absorbed")
+                        
+                    damage = int(round(damage))
                     effects.insert(0, damage)
                     
                     battle.mid_turn_events.append(PoisonEvent(t, a, damage))
