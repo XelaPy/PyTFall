@@ -414,8 +414,7 @@ init -1 python: # Core classes:
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
         DELIVERY = set(["magic", "ranged", "melee", "status"]) # Damage/Effects Delivery Methods!
-        # DAMAGE = set(["physical", "fire", "water", "ice", "earth", "air", "electricity", "light", "darkness", "healing", "poison"]) # Damage (Effect) types...
-        DAMAGE = {"physical": "⚔", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}", "ice": "❄", "earth": "{image=earth_element_be_viewport}", "air": "☁", "electricity": "⚡", "light": "☀", "darkness": "{image=darkness_element_be_viewport}", "healing": "Heal", "poison": "☠"} # Damage (Effect) types...
+        DAMAGE = {"physical": "⚔", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}", "ice": "❄", "earth": "{image=earth_element_be_viewport}", "air": "☁", "electricity": "⚡", "light": "☀", "darkness": "{image=darkness_element_be_viewport}", "healing": "{image=healing_be_viewport}", "poison": "☠"} # Damage (Effect) types...
         
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
@@ -428,6 +427,7 @@ init -1 python: # Core classes:
                            target_damage_effect={},
                            target_death_effect={},
                            bg_main_effect={},
+                           event_class = None, # If a class, instance of this even will be created and placed in the queue. This envokes special checks in the effects method.
                            **kwargs):
             """
             range: range of the spell, 1 is minimum.
@@ -461,6 +461,8 @@ init -1 python: # Core classes:
             self.desc = desc
             self.target_state = target_state
             self.menu_pos = menu_pos
+            
+            self.event_class = event_class
             
             try:
                 self.delivery = self.DELIVERY.intersection(self.attributes).pop()
@@ -672,6 +674,7 @@ init -1 python: # Core classes:
                 attack = attack/len(self.damage)
             
             for t in targets:
+                
                 defense = self.get_defense(t)
                 if self.damage:
                     defense = defense/len(self.damage)
@@ -684,7 +687,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = (a.luck - t.luck + 10) * .75
+                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance?
                     
                     # Items bonuses:
                     m = .0
@@ -710,19 +713,7 @@ init -1 python: # Core classes:
                         ev += healthlevel
                         if dice(ev):
                             effects.append("missed_hit")
-                            effects.insert(0, 0)
-                            
-                            # Log the effects:
-                            t.beeffects = effects
-                            
-                            # String for the log:
-                            s = list()
-                            s.append("{color=[teal]}%s{/color} attacks %s with %s!" % (a.nickname, t.nickname, self.name))
-                            
-                            s = s + self.effects_to_string(t)
-                            
-                            battle.log("".join(s))
-                            # And we're done with this iteration:
+                            self.log_to_battle(effects, 0, a, t, message=None)
                             continue
                             
                 # Rows Damage:
@@ -731,6 +722,22 @@ init -1 python: # Core classes:
                     effects.append("backrow_penalty")
                 
                 for type in self.damage:
+                    
+                    # # New logic of BE Events requires extra checks:
+                    # # This may not be really needed... or could even be a bad idea...
+                    # if self.event_class:
+                        # # Check if event is in play already:
+                        # temp = False
+                        # for event in store.battle.mid_turn_events:
+                            # if isinstance(event, self.event_class) and (t == event.target) and (type in event.attributes): # TODO: Add field to event that would allow being hit multiple times?
+                                # # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
+                                # # t.beeffects = [0]
+                                # temp = "resisted"
+                                # break
+                        # if temp:
+                            # effects.append((type, temp))
+                            # continue
+                    
                     result = self.damage_modifier(t, attack, type) # Can return a number or "resisted" string
                     
                     # Resisted:
@@ -752,19 +759,18 @@ init -1 python: # Core classes:
                     
                     effects.append((type, result))
                     total_damage += result
-                        
-                effects.insert(0, total_damage)
-                
-                # Log the effects:
-                t.beeffects = effects
-            
-                # String for the log:
-                s = list()
-                s.append("{color=[teal]}%s{/color} attacks %s with %s!" % (a.nickname, t.nickname, self.name))
-                
-                s = s + self.effects_to_string(t)
-                
-                battle.log("".join(s))
+                    
+                if self.event_class:
+                    # Check if event is in play already:
+                    for event in store.battle.mid_turn_events:
+                        if (isinstance(event, self.event_class) and t == event.target) or event.type in t.resist: # TODO: Add field to event that would allow being hit multiple times?
+                            # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
+                            break
+                    else:
+                        battle.mid_turn_events.append(self.event_class(a, t, total_damage))
+                    
+                # Finally, log to battle:
+                self.log_to_battle(effects, total_damage, a, t, message=None)
         
         def row_penalty(self, t):
             # It's always the normal damage except for rows 0 and 3 (unless everyone in the front row are dead :) ).
@@ -802,8 +808,8 @@ init -1 python: # Core classes:
                 attack = (a.agility*1.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
                 attack = (a.magic*1.75 + a.intelligence*.5 + self.effect) * self.multiplier
-            else:
-                attack = self.effect + 20
+            elif "status" in self.attributes:
+                attack = (a.intelligence*1.5 + a.attack*.75 + self.effect) * self.multiplier
                 
             delivery = self.delivery
                 
@@ -838,6 +844,8 @@ init -1 python: # Core classes:
                 defense = round(target.defence*.8 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
                 defense = round(target.defence*.8 + target.magic*.3 + target.intelligence*.1)
+            elif "status" in self.attributes:
+                defense = round(target.defence*.6 + target.magic*.1 + target.intelligence*.5)
                 
             # Items bonuses:
             items = target.eq_items()
@@ -929,6 +937,24 @@ init -1 python: # Core classes:
             return damage
             
         # To String methods:
+        def log_to_battle(self, effects, total_damage, a, t, message=None):
+            # Logs effects to battle, target...
+            effects.insert(0, total_damage)
+            
+            # Log the effects:
+            t.beeffects = effects
+        
+            # String for the log:
+            s = list()
+            if not message:
+                s.append("{color=[teal]}%s{/color} attacks %s with %s!" % (a.nickname, t.nickname, self.name))
+            else:
+                s.append(message)
+            
+            s = s + self.effects_to_string(t)
+            
+            battle.log("".join(s))
+        
         def set_dmg_font_color(self, t, attributes, to_string=True, color="red"):
             """
             Sets up the color for damage graphics and returns a correct string for the log if to_string is True
@@ -944,7 +970,8 @@ init -1 python: # Core classes:
                 e = l[0]
                 if e.font_color:
                     color = e.font_color
-            t.dmg_font = color # Set the font to pass it to show_damage_effect method, where it is reset back to red.
+            # We do not color battle bounce anymore:
+            # t.dmg_font = color # Set the font to pass it to show_damage_effect method, where it is reset back to red.
             
             # We do not want to show damage in the log if the attack missed:
             if to_string and "missed_hit" in effects:
@@ -952,17 +979,25 @@ init -1 python: # Core classes:
                 if gfx == "dodge":
                     return ""
                 
-            return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
+            # return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
+            # Simpler now, no special colors:
+            return " DMG: %d" % (t.beeffects[0])
             
         def color_string_by_DAMAGE_type(self, s, type):
             # Takes a string "s" and colors it based of damage "type".
             # If type is not an element, color will be red or some preset (in this method) default.
-            for e in tgs.elemental:
-                if e.id.lower() == type:
-                    color = e.font_color
-                    break
-            else:
-                color = "red"
+            
+            # Account for poison damage:
+            if type == "poison":
+                color = "green"
+            # Elements:
+            if not "color" in locals():
+                for e in tgs.elemental:
+                    if e.id.lower() == type:
+                        color = e.font_color
+                        break
+                else:
+                    color = "red"
                 
             return "{color=[%s]} %s {/color}" % (color, s)
             

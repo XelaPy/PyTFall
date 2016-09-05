@@ -208,15 +208,16 @@ init python:
             
             
     class PoisonEvent(BE_Event):
-        def __init__(self, target, source, effect):
+        def __init__(self, source, target, effect):
             self.target = target
             self.source = source
-            if target.constitution <= 0:
-                self.counter = source.intelligence+2
-            else:
-                self.counter = round(source.intelligence/target.constitution)+2 # We remove the event if counter reaches 0.
+            # if target.constitution <= 0:
+                # self.counter = source.intelligence+2
+            # else:
+                # self.counter = round(source.intelligence/target.constitution)+2 # We remove the event if counter reaches 0.
+            self.counter = 3 # Poisoned for 3 turns, the above makes no sense to me... @Review...
             self.effect = effect / 1000.0
-            self.attributes = ['status', 'poison']
+            self.type = "poison"
             
         def check_conditions(self):
             if battle.controller == self.target:
@@ -232,22 +233,22 @@ init python:
             
             # Damage Calculations:
             damage = t.get_max("health") * self.effect
-            damage = max(randint(15, 20), int(damage) + randint(-4, 4))
+            damage = max(randint(5, 10), int(damage) + randint(-2, 2))
             
             # GFX:
             if not battle.logical:
                 gfx = Transform("poison_2", zoom=1.5)
-                renpy.show("poison", what=gfx, at_list=[Transform(pos=battle.get_cp(t, type="center"), anchor=(0.5, 0.5))], zorder=t.besk["zorder"]+1)
+                renpy.show("poison", what=gfx, at_list=[Transform(pos=battle.get_cp(t, type="center"), anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
                 txt = Text("%d"%damage, style="content_label", color=red, size=15)
                 renpy.show("bb", what=txt, at_list=[battle_bounce(store.battle.get_cp(t, type="tc", yo=-10))], zorder=t.besk["zorder"]+2)
                 renpy.pause(1.5)
                 renpy.hide("poison")
-                renpy.pause(0.2)
+                renpy.pause(.2)
                 renpy.hide("bb")
             
             if t.health - damage > 0:
                 t.mod("health", -damage)
-                msg = "{color=[red]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
+                msg = "{color=[green]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
                 battle.log(msg)
             else:
                 death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name, death_effect="dissolve")
@@ -256,7 +257,7 @@ init python:
             self.counter -= 1
             
             if self.counter <= 0:
-                msg = "{color=[red]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
+                msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
                 battle.log(msg)
             
     # Actions:
@@ -801,7 +802,7 @@ init python:
             char = self.source
             attributes = self.attributes
                 
-            restore = self.effect + (char.intelligence + char.magic) * 0.25
+            restore = self.get_attack()
             
             for t in targets:
                 effects = []
@@ -814,7 +815,7 @@ init python:
                 restore = int(round(restore))
                 effects.insert(0, restore)
                 t.beeffects = effects
-            
+                
                 # String for the log:
                 s = list()
                 s.append("%s used %s to restore HP of %s!" % (char.nickname, self.name, t.name))
@@ -833,65 +834,9 @@ init python:
     class BasicPoisonSpell(SimpleMagicalAttack):
         def __init__(self, *args, **kwargs):
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
+            self.event_class = PoisonEvent
             
-        def effects_resolver(self, targets):
-            """Logical effect of the action. More often than not, it calculates the damage.
             
-            Expects a list or tuple with targets.
-            This should return it's results through PytCharacters property called damage so the show_gfx method can be adjusted accordingly.
-            But it is this method that writes to the log to be displayed later... (But you can change even this :D)
-            """
-            # prepare the variables:
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            a = self.source
-            for t in targets:
-                effects = []
-                
-                # Make sure target does not resist poison by nature:
-                if "poison" in t.resist:
-                    battle.log("%s resisted poison!" % t.nickname)
-                    t.beeffects = [0]
-                    continue
-                # Target resisted due to stats being too l33t:
-                elif (t.intelligence + t.luck) > (a.intelligence + a.luck) * 1.3:
-                    battle.log("%s not skilled enough to poison %s!" % (a.nickname, t.nickname))
-                    t.beeffects = [0]
-                    continue
-                # And last, in case target is already poisoned:
-                for ev in store.battle.mid_turn_events:
-                    if t == ev.target and "poison" in ev.attributes:
-                        battle.log("%s is already poisoned!" % (t.nickname))
-                        t.beeffects = [0]
-                        break
-                else: # Damage Calculations:
-                    damage = t.get_max("health") * (self.effect/1000.0)
-                    damage = max(randint(15, 20), int(damage) + randint(-4, 4))
-                    damage = self.damage_modifier(t, damage, "poison")
-                    if damage == "resisted":
-                        damage = 0
-                    
-                    # Lets check the absobtion:
-                    result = self.check_absorbtion(t, "poison")
-                    if result:
-                        damage = -damage * result
-                        effects.append("absorbed")
-                        
-                    damage = int(round(damage))
-                    effects.insert(0, damage)
-                    
-                    battle.mid_turn_events.append(PoisonEvent(t, a, damage))
-                    
-                    t.beeffects = effects
-                    # String for the log:
-                    s = list()
-                    s.append("{color=[teal]}%s{/color} poisoned %s!" % (a.nickname, t.nickname))
-                    
-                    s = s + self.effects_to_string(t)
-                    
-                    battle.log("".join(s))
-                    
-                    
     class ReviveSpell(SimpleMagicalAttack):
         def __init__(self, name, **kwargs):
             super(ReviveSpell, self).__init__(name, **kwargs)
