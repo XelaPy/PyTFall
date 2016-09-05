@@ -390,7 +390,8 @@
     "slot": "body",
     "type": "armor",
     "max": {"defence": 90, "agility": 30},
-    "mod": {"agility": 10, "defence": 80, "evasion": 1, "resistance": 1},
+    "mod": {"agility": 10, "defence": 80},
+    "evasion_multiplier": 0.01,
     "locations": ["Exploration"]
     },
     {
@@ -484,8 +485,9 @@
     "slot": "body",
     "type": "armor",
     "max": {"defence": 75, "agility": 45},
-    "mod": {"agility": 20, "defence": 55, "luck": 10, "evasion": 1},
+    "mod": {"agility": 20, "defence": 55, "luck": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "evasion_multiplier": 0.01,
     "locations": ["Exploration"]
     },
     {
@@ -502,7 +504,8 @@
     "slot": "body",
     "type": "armor",
     "max": {"defence": 50, "agility": 50},
-    "mod": {"agility": 35, "defence": 40, "luck": 10, "evasion": 2},
+    "mod": {"agility": 35, "defence": 40, "luck": 10},
+    "evasion_multiplier": 0.02,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
@@ -521,7 +524,7 @@
     "slot": "body",
     "type": "armor",
     "max": {"defence": 60, "agility": 40, "mp": 30, "magic": 25},
-    "mod": {"agility": 35, "defence": 40, "luck": 10, "magic": 40, "resistance": 5},
+    "mod": {"agility": 35, "defence": 40, "luck": 10, "magic": 40},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
@@ -541,7 +544,8 @@
     "type": "armor",
     "dismod": 35,
     "max": {"agility": 70, "attack": 40, "defence": 45, "charisma": 20},
-    "mod": {"agility": 50, "attack": 30, "defence": 40, "charisma": 10, "evasion": 7},
+    "mod": {"agility": 50, "attack": 30, "defence": 40, "charisma": 10},
+    "evasion_multiplier": 0.1,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": []
@@ -560,7 +564,8 @@
     "slot": "body",
     "type": "dress",
     "max": {"agility": 90, "attack": 50, "charisma": 30, "defence": 20},
-    "mod": {"agility": 70, "attack": 30, "defence": 20, "charisma": 30, "evasion": 5},
+    "mod": {"agility": 70, "attack": 30, "defence": 20, "charisma": 30},
+    "evasion_multiplier": 0.05,
     "mod_skills": {"strip": [0.2, 0, 0.08, 0, 0], "vaginal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": [],
@@ -681,7 +686,8 @@
     "slot": "body",
     "type": "armor",
     "max": {"charisma": 50, "joy": 40, "mp": 50, "magic": 80, "defence": 50},
-    "mod": {"charisma": 30, "character": 50, "agility": -20, "attack": -100, "magic": 20, "evasion": 2, "resistance": 8},
+    "mod": {"charisma": 30, "character": 50, "agility": -20, "attack": -100, "magic": 20},
+    "evasion_multiplier": 0.02,
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien"]

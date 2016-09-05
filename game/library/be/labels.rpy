@@ -30,9 +30,6 @@ label test_be:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Goblin Shaman", level=120)
         
-        # For Xtra testing:
-        mob.resistance = 100
-        mob.evasion = 100
         
         mob.apply_trait("Fire")
         mob.front_row = True
