@@ -524,8 +524,7 @@
             "mp": 50
         },
         "init_mod": {
-            "magic": 10,
-            "resistance": 5
+            "magic": 10
         },
         "init_skills": {},
         "leveling_stats": {
@@ -573,9 +572,7 @@
             "mp": 50
         },
         "init_mod": {
-            "magic": 25,
-            "evasion": 2,
-            "resistance": 2
+            "magic": 25
         },
         "init_skills": {},
         "leveling_stats": {
@@ -673,8 +670,7 @@
         },
         "init_mod": {
             "attack": 50,
-            "defence": 25,
-            "evasion": 4
+            "defence": 25
         },
         "init_skills": {},
         "leveling_stats": {
@@ -726,9 +722,7 @@
             "health": 100
         },
         "init_mod": {
-            "defence": 25,
-            "evasion": 6,
-            "resistance": 1
+            "defence": 25
         },
         "init_skills": {},
         "leveling_stats": {
@@ -832,9 +826,7 @@
         "init_mod": {
             "attack": 20,
             "defence": 10,
-            "agility": 15,
-            "evasion": 10,
-            "resistance": 1
+            "agility": 15
             
         },
         "init_skills": {},

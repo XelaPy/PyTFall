@@ -138,7 +138,7 @@ init:
             if lframe_display == "status":
                 # STATS ====================================>
                 null height 20
-                $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation", "evasion", "resistance"]
+                $ stats = ["constitution", "charisma", "intelligence", "fame", "reputation"]
                 vbox:
                     style_group "proper_stats"
                     spacing 1
