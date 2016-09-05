@@ -987,17 +987,11 @@ init -1 python: # Core classes:
             # Takes a string "s" and colors it based of damage "type".
             # If type is not an element, color will be red or some preset (in this method) default.
             
-            # Account for poison damage:
-            if type == "poison":
-                color = "green"
-            # Elements:
-            if not "color" in locals():
-                for e in tgs.elemental:
-                    if e.id.lower() == type:
-                        color = e.font_color
-                        break
-                else:
-                    color = "red"
+            type_to_color_map = {e.id.lower(): e.font_color for e in tgs.elemental}
+            type_to_color_map["poison"] = "green"
+            type_to_color_map["healing"] = "lightgreen"
+            
+            color = type_to_color_map.get(type, "red")
                 
             return "{color=[%s]} %s {/color}" % (color, s)
             

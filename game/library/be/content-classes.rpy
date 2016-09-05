@@ -799,7 +799,7 @@ init python:
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
-            char = self.source
+            source = self.source
             attributes = self.attributes
                 
             restore = self.get_attack()
@@ -813,16 +813,11 @@ init python:
                     restore = 0
                 
                 restore = int(round(restore))
-                effects.insert(0, restore)
-                t.beeffects = effects
+                effects.append(("healing", restore))
                 
                 # String for the log:
-                s = list()
-                s.append("%s used %s to restore HP of %s!" % (char.nickname, self.name, t.name))
-                
-                s = s + self.effects_to_string(t, default_color="green")
-                
-                battle.log("".join(s))
+                temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, t.name)
+                self.log_to_battle(effects, restore, source, t, message=temp)
             
         def apply_effects(self, targets):
             if not isinstance(targets, (list, tuple, set)):
