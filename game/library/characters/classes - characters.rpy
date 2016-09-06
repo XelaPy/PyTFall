@@ -4356,6 +4356,16 @@ init -9 python:
             self.init_max = dict() # Mod value setting
             self.init_skills = dict() # {skill: [actions, training]}
             
+            # Special BE Fields:
+            # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
+            # self.ch_multiplier = 0 # Critical hit multi...
+            # self.damage_multiplier = 0
+            
+            # self.defence_bonus = {} # Delivery! Not damage types!
+            # self.defence_multiplier = {}
+            # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
+            # self.delivery_multiplier = {}
+            
             self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
             
         def __str__(self):

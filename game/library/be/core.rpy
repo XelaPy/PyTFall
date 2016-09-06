@@ -696,6 +696,13 @@ init -1 python: # Core classes:
                             m += i.ch_multiplier
                     ch += 100*m
                     
+                    # Traits bonuses:
+                    m = .0
+                    for i in a.traits:
+                        if hasattr(i, "ch_multiplier"):
+                            m += i.ch_multiplier
+                    ch += 100*m
+                    
                     if dice(ch):
                         multiplier += 1.5 + self.critpower
                         effects.append("critical_hit")
@@ -708,6 +715,18 @@ init -1 python: # Core classes:
                             if hasattr(i, "evasion_multiplier"):
                                 m += i.evasion_multiplier
                         ev += 100*m
+                        
+                        # Traits Bonuses:
+                        temp = 0
+                        for i in t.traits:
+                            if hasattr(i, "evasion_bonus"):
+                                # Reference: (minv, maxv, lvl)
+                                minv, maxv, lvl = i.evasion_bonus
+                                if lvl >= t.level:
+                                    temp += maxv
+                                else:
+                                    temp += max(minv, float(t.level)*max/lvl)
+                        ev += temp
                         
                         healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
                         ev += healthlevel
@@ -814,16 +833,28 @@ init -1 python: # Core classes:
             delivery = self.delivery
                 
             # Items bonuses:
+            m = 1.0
             items = a.eq_items()
             for i in items:
                 if hasattr(i, "delivery_bonus"):
                     attack = attack + i.delivery_bonus.get(delivery, 0)
-                
-            m = 1.0
-            for i in items:
                 if hasattr(i, "delivery_multiplier"):
                     m = m + i.delivery_multiplier.get(delivery, 0)
             attack = attack * m
+            
+            # Trait Bonuses:
+            m = 1.0
+            for i in a.traits:
+                if hasattr(i, "delivery_bonus"):
+                    # Reference: (minv, maxv, lvl)
+                    minv, maxv, lvl = i.delivery_bonus.get(self.delivery, (0, 0, 0))
+                    if lvl >= a.level:
+                        attack += maxv
+                    else:
+                        attack += max(minv, float(a.level)*max/lvl)
+                if hasattr(i, "delivery_multiplier"):
+                    m = m + i.delivery_multiplier.get(self.delivery, 0)
+            attack *= m
                 
             # Simple randomization factor?:
             attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this?
@@ -849,12 +880,24 @@ init -1 python: # Core classes:
                 
             # Items bonuses:
             items = target.eq_items()
+            m = 1.0
             for i in items:
                 if hasattr(i, "defence_bonus"):
                     defense = defense + i.defence_bonus.get(self.delivery, 0)
-                
+                if hasattr(i, "defence_multiplier"):
+                    m = m + i.defence_multiplier.get(self.delivery, 0)
+            defense *= m
+            
+            # Trait Bonuses:
             m = 1.0
-            for i in items:
+            for i in target.traits:
+                if hasattr(i, "defence_bonus"):
+                    # Reference: (minv, maxv, lvl)
+                    minv, maxv, lvl = i.defence_bonus.get(self.delivery, (0, 0, 0))
+                    if lvl >= target.level:
+                        defense += maxv
+                    else:
+                        defense += max(minv, float(target.level)*max/lvl)
                 if hasattr(i, "defence_multiplier"):
                     m = m + i.defence_multiplier.get(self.delivery, 0)
             defense *= m
@@ -867,14 +910,23 @@ init -1 python: # Core classes:
             """Used to calc damage of the attack.
             Before multipliers and effects are apllied.
             """
+            a = self.source
             resist = pow(attack/defense, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
             damage = 1 + ((attack/defense)*resist) * multiplier
             
+            # Items Bonus:
             m = 1.0
-            for i in items:
+            for i in attacker_items:
                 if hasattr(i, "damage_multiplier"):
                     m = m + i.damage_multiplier
-            damage = damage * m
+            damage *= m
+            
+            # Traits Bonus:
+            m = 1.0
+            for i in a.traits:
+                if hasattr(i, "damage_multiplier"):
+                    m = m + i.damage_multiplier
+            damage *= m
             
             return int(round(damage))
             
