@@ -211,11 +211,7 @@ init python:
         def __init__(self, source, target, effect):
             self.target = target
             self.source = source
-            # if target.constitution <= 0:
-                # self.counter = source.intelligence+2
-            # else:
-                # self.counter = round(source.intelligence/target.constitution)+2 # We remove the event if counter reaches 0.
-            self.counter = 3 # Poisoned for 3 turns, the above makes no sense to me... @Review...
+            self.counter = randint(3, 5) # Poisoned for 3-5 turns
             self.effect = effect / 1000.0
             self.type = "poison"
             
@@ -259,6 +255,8 @@ init python:
             if self.counter <= 0:
                 msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
                 battle.log(msg)
+                
+                
             
     # Actions:
     # Simple Attack:
@@ -830,7 +828,6 @@ init python:
         def __init__(self, *args, **kwargs):
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             self.event_class = PoisonEvent
-            
             
     class ReviveSpell(SimpleMagicalAttack):
         def __init__(self, name, **kwargs):
