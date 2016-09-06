@@ -24,7 +24,7 @@
     "elemental": true,
     "el_damage": {"air": 0.35, "earth": -0.65},
     "el_defence": {"air": 0.25, "electricity": 0.35, "fire": -0.6},
-    "font_color": "lightgreen"
+    "font_color": "lime"
     },
     {
     "id": "Earth",
