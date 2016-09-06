@@ -231,8 +231,8 @@ init:
         pause 0.07
         repeat
         
-    image fire_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/fire.png", 15, 15)
-    image water_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/water.png", 15, 15)
-    image earth_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/earth.png", 15, 15)
-    image darkness_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/darkness.png", 15, 15)
+    image fire_element_be_viewport = ProportionalScale("content/gfx/interface/images/small_fire.png", 15, 15)
+    image water_element_be_viewport = ProportionalScale("content/gfx/interface/images/small_water.png", 15, 15)
+    image earth_element_be_viewport = ProportionalScale("content/gfx/interface/images/small_earth.png", 15, 15)
+    image darkness_element_be_viewport = ProportionalScale("content/gfx/interface/images/small_darkness.png", 15, 15)
     image healing_be_viewport = ProportionalScale("content/gfx/interface/images/healing.png", 13, 13)
