@@ -248,7 +248,7 @@ init python:
             
             if t.health - damage > 0:
                 t.mod("health", -damage)
-                msg = "{color=[green]}%s is poisoned!! DMG: %d{/color}" % (self.target.name, damage)
+                msg = "{color=[green]}%s is poisoned! ☠: %d{/color}" % (self.target.name, damage)
                 battle.log(msg)
             else:
                 death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name, death_effect="dissolve")
