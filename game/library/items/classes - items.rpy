@@ -41,7 +41,7 @@ init -9 python:
             self.badness = 0
             
             # BE attributes:
-            # self.evasion_multiplier = 0
+            # self.evasion_bonus = 0 # Needs a int, will be used a percentage (1 = 1%)
             # self.ch_multiplier = 0 # Critical hit multi...
             # self.damage_multiplier = 0
             

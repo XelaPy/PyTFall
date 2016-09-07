@@ -661,7 +661,7 @@ init -1 python: # Core classes:
                 
             a = self.source
             attributes = self.attributes
-            type = self.type
+            # type = self.type <=== WTF was this?
             
             attacker_items = a.eq_items()
             
@@ -710,11 +710,11 @@ init -1 python: # Core classes:
                         ev = min(t.agility*.1-a.agility*.1, 25) + max(0, min(t.luck-a.luck, 25)) # Max 25 for agility and luck each...
                         
                         # Items bonuses:
-                        m = .0
+                        temp = 0
                         for i in t.eq_items():
-                            if hasattr(i, "evasion_multiplier"):
-                                m += i.evasion_multiplier
-                        ev += 100*m
+                            if hasattr(i, "evasion_bonus"):
+                                m += i.evasion_bonus
+                        ev += temp
                         
                         # Traits Bonuses:
                         temp = 0
@@ -781,12 +781,17 @@ init -1 python: # Core classes:
                     
                 if self.event_class:
                     # Check if event is in play already:
-                    for event in store.battle.mid_turn_events:
-                        if (isinstance(event, self.event_class) and t == event.target) or event.type in t.resist: # TODO: Add field to event that would allow being hit multiple times?
-                            # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
-                            break
+                    # Check for resistance first:
+                    temp = self.event_class(a, t, total_damage)
+                    if temp.type in t.resist:
+                        pass
                     else:
-                        battle.mid_turn_events.append(self.event_class(a, t, total_damage))
+                        for event in store.battle.mid_turn_events:
+                            if (isinstance(event, self.event_class) and t == event.target): # TODO: Add field to event that would allow being hit multiple times?
+                                # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
+                                break
+                        else:
+                            battle.mid_turn_events.append(temp)
                     
                 # Finally, log to battle:
                 self.log_to_battle(effects, total_damage, a, t, message=None)
