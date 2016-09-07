@@ -172,6 +172,7 @@ init: # screens:
             python:
                 d = OrderedDict()
                 ne = []
+                me = []
                 
                 for e in tgs.elemental:
                     d[e] = []
@@ -180,6 +181,8 @@ init: # screens:
                     e = skill.get_element()
                     if e in d:
                         d[e].append(skill)
+                    elif e == "me":
+                        me.append(skill)
                     else:
                         ne.append(skill)
                         
@@ -190,27 +193,59 @@ init: # screens:
             frame:
                 style_group "dropdown_gm"
                 pos (.5, .2) anchor (.5, .0)
+                margin 0, 0
+                padding 5, 5
                 has vbox
-                
+
                 at fade_in_out(t1=0.6, t2=0.3)
                 
                 hbox:
-                    xalign 0.5
+                    spacing 1
+                    xalign .5
                     for e in d:
                         if d[e]:
                             frame:
+                                margin 0, 0
+                                padding 1, 3
                                 xalign .5
-                                xysize 115, 250
+                                xysize 140, 250
                                 if e.icon:
-                                    $ img = ProportionalScale(e.icon, 130, 130)
+                                    $ img = ProportionalScale(e.icon, 120, 120)
                                     add img align .5, .1
                                 vbox:
                                     for skill in d[e]:
-                                        textbutton "{=text}{color=[black]}{size=-8}[skill.mn]":
-                                            xsize 110
-                                            xalign 0.5
+                                        textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
+                                            padding 0, 1
+                                            margin 0, 0
+                                            xsize 138
+                                            xalign .5
                                             action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                             hovered tt.action(skill)
+                    if me:
+                        frame:
+                            margin 0, 0
+                            padding 3, 3
+                            xalign .5
+                            xysize 134, 250
+                            python:
+                                size = 120
+                                x = 0
+                                els = [Transform(e.icon, size=(size, size)) for e in tgs.elemental]
+                                els = [Transform(i, crop=(size/len(els)*els.index(i), 0, size/len(els), size), subpixel=True, xpos=(x + size/len(els)*els.index(i))) for i in els]
+                                f = Fixed(*els, xysize=(size, size))
+                            add f align .5, .1 # xcenter 230 ycenter 58
+                            vbox:
+                                for skill in me:
+                                    textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
+                                        padding 0, 1
+                                        margin 0, 0
+                                        xsize 125
+                                        xalign .5
+                                        action SensitiveIf(skill.check_conditions(char)), Return(skill)
+                                        hovered tt.action(skill)
+                            
+                            
+
                                         
                 if ne:
                     frame:
