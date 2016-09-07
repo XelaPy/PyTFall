@@ -1202,6 +1202,8 @@ init -9 python:
             # We add Neutral element here to all classes to be replaced later:
             self.apply_trait(traits["Neutral"])
             
+            self.say = None # Speaker...
+            
         def __getattr__(self, key):
             if key in self.STATS:
                 val = self.__dict__["stats"].get_stat(key)
@@ -2393,13 +2395,13 @@ init -9 python:
                 self.fullname = self.name
             if not self.nickname:
                 self.nickname = self.name
-                
-            # Stats log:        
-            self.log_stats()
-            
+
             # add Character:
-            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
-            
+            if not self.say:
+                self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
+                
+            # Stats log:
+            self.log_stats()
             self.restore_ap()
             
         def next_day(self):
@@ -2470,9 +2472,7 @@ init -9 python:
                 self.arena_active = False # Indicates that char fights at Arena at the time.
 
             # add Character:
-            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
-                
-            self.restore_ap()
+            super(ArenaFighter, self).init()
             
             
     class Mob(PytCharacter):
@@ -2527,10 +2527,7 @@ init -9 python:
             if not self.portrait:
                 self.portrait = self.battle_sprite
                 
-            # add Character:
-            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
-                
-            self.restore_ap()
+            super(Mob, self).init()
         
             
     class Player(PytCharacter):
@@ -3106,7 +3103,7 @@ init -9 python:
             
             self.txt = list()
             self.fin = Finances(self)
-
+            
         def init(self):
             # Normalize girls
             # Names:
@@ -3187,11 +3184,6 @@ init -9 python:
             # Arena:
             if "Warrior" in self.occupations and self not in hero.chars and self.arena_willing is not False:
                 self.arena_willing = True
-                
-            # AP:
-            self.restore_ap()
-            # Log initial stats:
-            self.log_stats()
             
             # Settle auto-equip + auto-buy:
             if self.status != "slave":
@@ -3205,6 +3197,8 @@ init -9 python:
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
+            
+            super(Char, self).init()
         
         def get_availible_pics(self):
             """
