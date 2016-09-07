@@ -201,8 +201,7 @@
     "slot": "amulet",
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 30},
-    "locations": ["Exploration"],
-    "goodtraits": []
+    "locations": ["Exploration"]
     },
     {
     "id": "Good Luck Charm",
@@ -329,5 +328,23 @@
     "mod": {"character": 30},
     "mod_skills": {"management": [0, 0, 0.08, 0, 0]},
     "locations": ["Exploration"]
+    },
+    {
+    "id": "Bandana",
+    "desc": "A piece of cloth tied around the neck  for protective and decorative purposes.",
+    "icon": "content/items/amulet/ban.png",
+    "price": 40,
+    "sex": "female",
+    "chance": 75,
+    "badness": 70,
+    "eqchance": 20,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "max": {"character": 5},
+    "mod": {"character": 50},
+    "mod_skills": {"exploration": [0, 0, 0.01, 0, 0]},
+    "locations": ["Exploration", "Tailor Store"],
+    "goodtraits": []
     }
   ]
