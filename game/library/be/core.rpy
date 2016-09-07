@@ -911,7 +911,10 @@ init -1 python: # Core classes:
             Before multipliers and effects are apllied.
             """
             a = self.source
-            resist = pow(attack/defense, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
+            if attack/defense>0:
+                resist = pow(attack/defense, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
+            else:
+                resist = 1
             damage = 1 + ((attack/defense)*resist) * multiplier
             
             # Items Bonus:

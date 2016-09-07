@@ -123,7 +123,17 @@
     {
     "id": "Magic Immunity",
     "desc": "No damage from any magic.",
-    "resist": ["ice", "water", "fire", "air", "earth", "electricity", "light", "darkness", "healing"]
+    "resist": ["ice", "water", "fire", "air", "earth", "electricity", "light", "darkness"]
+    },
+    {
+    "id": "Healing Immunity",
+    "desc": "Cannot be healed by skills and spells.",
+    "resist": ["healing"]
+    },
+    {
+    "id": "Poison Immunity",
+    "desc": "Cannot be poisoned.",
+    "resist": ["poison"]
     },
     {
     "id": "Fire Absorption",
@@ -164,5 +174,10 @@
     "id": "Ice Absorption",
     "desc": "Ice element restores health.",
     "el_absorbs": {"ice": 0.3}
+    },
+    {
+    "id": "Poison Absorption",
+    "desc": "Ice element restores health.",
+    "el_absorbs": {"poison": 0.3}
     }
     ]
