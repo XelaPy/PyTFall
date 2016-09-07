@@ -472,6 +472,7 @@
     "mod": {"defence": 10, "agility": 10, "luck": 5},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
+    "evasion_bonus": 1,
     "goodtraits": ["Not Human"]
     },
     {

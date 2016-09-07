@@ -140,6 +140,7 @@
     "max": {"charisma": 40, "agility": 25},
     "mod": {"charisma": 15, "agility": 5},
     "mod_skills": {"refinement": [0.01, 0.01, 0.01, 0, 0], "strip": [0.02, 0, 0.02, 0, 0], "vaginal": [0, 0, 0.01, 0, 0], "oral": [0, 0, 0.01, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
+    "evasion_bonus": 10,
     "locations": ["Ninja Shop"]
     },
     {
@@ -305,6 +306,7 @@
     "type": "armor",
     "max": {"defence": 20},
     "mod": {"defence": 15, "magic": -15},
+    "evasion_bonus": 1,
     "locations": ["Work Shop", "Look around"]
     },
     {
@@ -322,6 +324,7 @@
     "type": "armor",
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 10, "agility": 10, "magic": -10},
+    "evasion_bonus": 4,
     "locations": ["Work Shop"],
     "goodtraits": ["Manly"]
     },
@@ -338,6 +341,7 @@
     "infinite": false,
     "slot": "body",
     "type": "armor",
+    "evasion_bonus": -10,
     "max": {"defence": 40, "attack": 10, "agility": -15},
     "mod": {"defence": 45, "constitution": 5, "agility": -20, "magic": -40},
     "locations": ["Work Shop"]
@@ -372,6 +376,7 @@
     "infinite": false,
     "slot": "body",
     "type": "armor",
+    "evasion_bonus": 2,
     "max": {"defence": 70, "agility": 35},
     "mod": {"agility": 10, "defence": 60},
     "locations": ["Exploration"]
@@ -391,7 +396,7 @@
     "type": "armor",
     "max": {"defence": 90, "agility": 30},
     "mod": {"agility": 10, "defence": 80},
-    "evasion_bonus": 4,
+    "evasion_bonus": 5,
     "locations": ["Exploration"]
     },
     {
@@ -407,6 +412,7 @@
     "infinite": false,
     "slot": "body",
     "type": "armor",
+    "evasion_bonus": 6,
     "max": {"defence": 60, "agility": 25},
     "mod": {"attack": 15, "defence": 40, "character": 15, "agility": -20, "magic": -20},
     "locations": ["Work Shop", "Exploration"],
@@ -425,6 +431,7 @@
     "infinite": false,
     "slot": "body",
     "type": "other",
+    "evasion_bonus": 5,
     "max": {"vitality": 50},
     "mod_skills": {"refinement": [-0.1, 0, -0.1, 0, 0], "dancing": [0.1, 0, 0, 0, 0], "strip": [0.1, 0, 0, 0, 0], "exploration": [0.1, 0, 0, 0, 0]},
     "mod": {"agility": 20},
@@ -447,6 +454,7 @@
     "max": {"agility": 10, "charisma": 20, "joy": 10},
     "mod": {"agility": 5, "charisma": 10},
     "mod_skills": {"refinement": [0.04, 0.02, 0.04, 0, 0], "bartending": [0.04, 0, 0.1, 0, 0], "waiting": [0.01, 0, 0.3, 0, 0], "service": [0.01, 0, 0.3, 0, 0]},
+    "evasion_bonus": 5,
     "removetraits": ["Clumsy"],
     "locations": ["Ninja Shop"],
     "goodtraits": [],
@@ -468,6 +476,7 @@
     "max": {"defence": 75, "agility": 35},
     "mod": {"agility": 20, "defence": 55, "luck": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "evasion_bonus": 3,
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -526,6 +535,7 @@
     "max": {"defence": 60, "agility": 40, "mp": 30, "magic": 25},
     "mod": {"agility": 35, "defence": 40, "luck": 10, "magic": 40},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "evasion_bonus": 1,
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -565,7 +575,7 @@
     "type": "dress",
     "max": {"agility": 90, "attack": 50, "charisma": 30, "defence": 20},
     "mod": {"agility": 70, "attack": 30, "defence": 20, "charisma": 30},
-    "evasion_bonus": 7,
+    "evasion_bonus": 10,
     "mod_skills": {"strip": [0.2, 0, 0.08, 0, 0], "vaginal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": [],
@@ -586,6 +596,7 @@
     "type": "dress",
     "max": {"agility": 10, "charisma": 10},
     "mod": {"charisma": 5},
+    "evasion_bonus": 2,
     "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "bartending": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0], "teaching": [0, 0, -0.1, 0, 0], "strip": [0, 0, -0.1, 0, 0]},
     "locations": ["Tailor"],
     "goodtraits": ["Human"],
@@ -645,6 +656,7 @@
     "slot": "body",
     "type": "dress",
     "max": {"agility": 15, "charisma": 25},
+    "evasion_bonus": 1,
     "mod": {"charisma": 25, "agility": 5},
     "mod_skills": {"sex": [0.01, 0.01, 0.01, 0, 0], "strip": [0.01, 0.01, 0.02, 0, 0]},
     "locations": ["Tailor"],
@@ -664,6 +676,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "body",
+    "evasion_bonus": 1,
     "type": "dress",
     "max": {"agility": 20, "charisma": 15, "joy": 5},
     "mod": {"charisma": 15, "agility": 10},
@@ -687,7 +700,7 @@
     "type": "armor",
     "max": {"charisma": 50, "joy": 40, "mp": 50, "magic": 80, "defence": 50},
     "mod": {"charisma": 30, "character": 50, "agility": -20, "attack": -100, "magic": 20},
-    "evasion_bonus": 3,
+    "evasion_bonus": 4,
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien"]
@@ -704,6 +717,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "body",
+    "evasion_bonus": -15,
     "type": "armor",
     "max": {"constitution": 40, "defence": 150, "magic": -50, "vitality": 20, "health": 150},
     "mod": {"constitution": 30, "defence": 90, "agility": -20, "magic": -50},
@@ -743,25 +757,6 @@
     "max": {"mp": 30, "magic": 60, "agility": -40, "attack": -50, "defence": 60},
     "mod": {"magic": 40, "constitution": 15, "defence": 40, "attack": -15},
     "locations": ["Exploration"]
-    },
-    {
-    "id": "White String Bikini",
-    "desc": "A classic amongst the fetish set.",
-    "icon": "content/items/body/wsb.png",
-    "price": 650,
-    "sex": "female",
-    "chance": 60,
-    "badness": 40,
-    "eqchance": 30,
-    "hidden": false,
-    "infinite": false,
-    "slot": "body",
-    "type": "dress",
-    "max": {"joy": 10, "charisma": 35},
-    "mod": {"agility": 10, "strip": 35, "service": 20, "charisma": 20},
-    "mod_skills": {"strip": [0.02, 0, 0.03, 0, 0], "service": [0.03, 0, 0.04, 0, 0]},
-    "locations": ["Tailor Store"],
-    "badtraits": ["Shy"]
     },
     {
     "id": "Tiger Leotard",
@@ -907,6 +902,7 @@
     "infinite": false,
     "slot": "body",
     "type": "mc",
+    "evasion_bonus": 3,
     "max": {"charisma": 70, "defence": 80},
     "mod": {"charisma": 35, "defence": 40},
     "mod_skills": {"exploration": [0.02, 0.02, 0.06, 0, 0], "management": [0.02, 0.02, 0.06, 0, 0], "refinement": [0.01, 0.01, 0.05, 0, 0]},
@@ -924,6 +920,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "body",
+    "evasion_bonus": 1,
     "type": "mc",
     "max": {"defence": 20, "character": 20},
     "mod": {"character": 25, "defence": 10, "attack": 10, "constitution": 2}

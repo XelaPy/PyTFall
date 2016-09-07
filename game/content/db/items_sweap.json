@@ -14,7 +14,7 @@
     "type": "Dagger",
     "max": {"attack": 5, "agility": 20},
     "mod": {"attack": 5, "agility": 15},
-    "evasion_bonus": 2,
+    "evasion_bonus": 4,
     "locations": ["Work Shop"]
     },
     {
@@ -109,7 +109,7 @@
     {
     "id": "Tower Shield",
     "desc": "A very large heavy shield utilized by only the strongest foot soldiers.",
-    "icon": "content/items/weapon/ts.png",
+    "icon": "content/items/sweapon/ts.png",
     "price": 1000,
     "sex": "unisex",
     "chance": 15,
@@ -118,6 +118,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "smallweapon",
+    "evasion_bonus": -15,
     "type": "shield",
     "max": {"defence": 80, "health": 40, "constitution": 35, "agility": -40},
     "mod": {"defence": 50, "agility": -65},
@@ -277,6 +278,7 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "shield",
+    "evasion_bonus": 3,
     "max": {"defence": 15, "agility": 10},
     "mod": {"defence": 10},
     "locations": ["Work Shop", "Look around"]
@@ -309,6 +311,7 @@
     "eqchance": 35,
     "hidden": false,
     "infinite": false,
+    "evasion_bonus": -3,
     "slot": "smallweapon",
     "type": "shield",
     "max": {"defence": 55, "health": 20, "constitution": 20, "agility": -20},
@@ -327,6 +330,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "smallweapon",
+    "evasion_bonus": -10,
     "type": "shield",
     "max": {"defence": 300, "health": 50, "constitution": 40, "agility": -30, "charisma": 20},
     "mod": {"defence": 150, "agility": -35, "charisma": 10},
