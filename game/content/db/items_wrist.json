@@ -116,7 +116,7 @@
     "type": "armor",
     "max": {"defence": 40, "agility": 20},
     "mod": {"defence": 25, "agility": 15},
-    "evasion_bonus": 0.01,
+    "evasion_bonus": 1,
     "locations": ["Exploration"]
     },
     {
@@ -486,7 +486,7 @@
     "type": "armor",
     "max": {"agility": 10, "defence": 30},
     "mod": {"defence": 10, "agility": 10, "luck": 5},
-    "evasion_bonus": 0.01,
+    "evasion_bonus": 1,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
@@ -506,7 +506,7 @@
     "type": "armor",
     "max": {"agility": 20, "defence": 20},
     "mod": {"defence": 5, "agility": 15, "luck": 5},
-    "evasion_bonus": 0.01,
+    "evasion_bonus": 2,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
@@ -564,7 +564,7 @@
     "type": "armor",
     "max": {"agility": 30, "attack": 30, "defence": 20},
     "mod": {"agility": 30, "attack": 20, "defence": 25},
-    "evasion_bonus": 0.02,
+    "evasion_bonus": 2,
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": []
