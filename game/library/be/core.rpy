@@ -783,7 +783,7 @@ init -1 python: # Core classes:
                     # Check if event is in play already:
                     # Check for resistance first:
                     temp = self.event_class(a, t, total_damage)
-                    if temp.type in t.resist:
+                    if temp.type in t.resist or self.check_absorbtion(t, temp.type):
                         pass
                     else:
                         for event in store.battle.mid_turn_events:
