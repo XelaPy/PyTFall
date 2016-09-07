@@ -526,7 +526,7 @@ label load_battle_skills:
         ArealSkill("Cataclysm", menu_pos=13, attributes=['magic', 'fire', 'inevitable'], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="A larger vesrion of Cataclysm capable of causing desctruction on a much larger scale.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("cataclysm_webm", zoom=0.85), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 330}},
+                                        main_effect={"gfx": Transform("cataclysm_webm", zoom=0.85), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 1.0), "yo": 330}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 2, "duration": 2.5},
                                         target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001},
@@ -705,9 +705,9 @@ label load_battle_skills:
         ArealSkill("Tornado", menu_pos=13, attributes=['magic', 'air', 'inevitable'], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Conjures a full-fledged but short-lived tornado to wipe out all enemies.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": "tornado", "sfx": "content/sfx/sound/be/air4.mp3", "duration": 3.5, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 150}},
+                                        main_effect={"gfx": "tornado", "sfx": "content/sfx/sound/be/air4.mp3", "duration": 3.5, "aim": {"anchor": (0.5, 1.0), "yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
-                                        target_sprite_damage_effect={"gfx": "fly_away", "initial_pause": 0.2, "duration": 5.2},
+                                        target_sprite_damage_effect={"gfx": "fly_away", "initial_pause": 0.2, "duration": 5.1},
                                         target_death_effect={"gfx": "shatter", "initial_pause": 4.7, "duration": 0.2})
     
         # Electricity:
@@ -755,7 +755,7 @@ label load_battle_skills:
         ArealSkill("Thunderstorm Front", menu_pos=13, menuname="T Front", attributes=['magic', 'electricity', 'inevitable'], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Releases a full-scale thunderstorm incinerating enemies with countless lightnings.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("moz_stretch", zoom=.7), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "xo": -10 ,"yo": 150}},
+                                        main_effect={"gfx": Transform("moz_stretch", zoom=.7), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 2.5},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": 0.5})
@@ -793,7 +793,7 @@ label load_battle_skills:
         ArealSkill("Holy Blast", menu_pos=13, attributes=['magic', 'light', 'inevitable'], effect=200, multiplier=11.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="Concentrates all holy energy in the area into one point, forcing it to explode as it reaches critical levels!",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/light6.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "xo":-50 ,"yo": 320}},
+                                        main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/light6.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "yo": 320}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
                                         target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": 0.5})
