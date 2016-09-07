@@ -61,41 +61,42 @@ init: # screens:
                 pos (.5, .89) anchor (.5, 1.0)
                 style "dropdown_gm_frame"
                 ymaximum 400
-                has vbox spacing 2
+                has vbox spacing 1
                 # Elements:
-                text "Name: [tt.value.name]" style "content_text" size 20 color ivory
-                $ element = tt.value.get_element()
-                if element and element != "me":
-                    $ color = getattr(store, element.font_color)
-                    text "Element: {color=[color]}[element.id]" style "content_text" size 20 color ivory
-                text "Desc: [tt.value.desc]" style "content_text" size 14 color ivory
+                text "Name: [tt.value.name]" style "TisaOTM" size 20 color ivory
+                $ temp = ""
+                for t in tt.value.damage:
+                    $ temp += tt.value.DAMAGE_20[t]
+                text "Damage: [temp]" style "TisaOTM" size 18 color ivory
+                text "Desc: [tt.value.desc]" size 14 color ivory style "TisaOTM"
                 hbox:
-                    if tt.value.mp_cost >0:
-                        if isinstance(tt.value.mp_cost, int):
-                            text "MP: [tt.value.mp_cost] " size 14 color blue
-                        else:
-                            $ value = int(tt.value.mp_cost * 100)
-                            text "MP: [value] % " size 14 color blue
-                    if tt.value.health_cost >0:
+                    if tt.value.health_cost > 0:
                         if isinstance(tt.value.health_cost, int):
-                            text "HP: [tt.value.health_cost] " size 14 color red
+                            text "HP: [tt.value.health_cost] " size 14 color red style "TisaOTM"
                         else:
                             $ value = int(tt.value.health_cost * 100)
-                            text "HP: [value] % " size 14 color red
-                    if tt.value.vitality_cost >0:
+                            text "HP: [value] % " size 14 color red style "TisaOTM"
+                    if tt.value.mp_cost >0:
+                        if isinstance(tt.value.mp_cost, int):
+                            text "MP: [tt.value.mp_cost] " size 14 color blue style "TisaOTM"
+                        else:
+                            $ value = int(tt.value.mp_cost * 100)
+                            text "MP: [value] % " size 14 color blue style "TisaOTM"
+
+                    if tt.value.vitality_cost > 0:
                         if isinstance(tt.value.vitality_cost, int):
-                            text "VIT: [tt.value.vitality_cost] " size 14 color green
+                            text "VP: [tt.value.vitality_cost] " size 14 color green style "TisaOTM"
                         else:
                             $ value = int(tt.value.vitality_cost * 100)
-                            text "VIT: [value] % " size 14 color green
+                            text "VP: [value] % " size 14 color green style "TisaOTM"
                     if (tt.value.type=="all_enemies" and tt.value.piercing) or tt.value.type=="all_allies":
-                        text "target: all" size 14 color gold
+                        text "TARGET: All" size 14 color gold style "TisaOTM"
                     elif tt.value.type=="all_enemies":
-                        text "target: first row" size 14 color gold
+                        text "TARGET: First Row" size 14 color gold style "TisaOTM"
                     elif tt.value.piercing:
-                        text "target: any" size 14 color gold
+                        text "TARGET: Any" size 14 color gold style "TisaOTM"
                     else:
-                        text "target: one" size 14 color gold
+                        text "TARGET: One" size 14 color gold style "TisaOTM"
                     # fixed:
                         # xysize (100, 100)
                         # if element.icon:
@@ -244,9 +245,6 @@ init: # screens:
                                         action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                         hovered tt.action(skill)
                             
-                            
-
-                                        
                 if ne:
                     frame:
                         xalign 0.5

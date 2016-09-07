@@ -236,3 +236,9 @@ init:
     image earth_element_be_viewport = ProportionalScale("content/gfx/interface/images/small_earth.png", 15, 15)
     image darkness_element_be_viewport = ProportionalScale("content/gfx/interface/images/small_darkness.png", 15, 15)
     image healing_be_viewport = ProportionalScale("content/gfx/interface/images/healing.png", 13, 13)
+    
+    image fire_element_be_size20 = ProportionalScale("content/gfx/interface/images/small_fire.png", 20, 20)
+    image water_element_be_size20 = ProportionalScale("content/gfx/interface/images/small_water.png", 20, 20)
+    image earth_element_be_size20 = ProportionalScale("content/gfx/interface/images/small_earth.png", 20, 20)
+    image darkness_element_be_size20 = ProportionalScale("content/gfx/interface/images/small_darkness.png", 20, 20)
+    image healing_be_size20 = ProportionalScale("content/gfx/interface/images/healing.png", 18, 18)

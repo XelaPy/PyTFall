@@ -415,7 +415,7 @@ init -1 python: # Core classes:
         """
         DELIVERY = set(["magic", "ranged", "melee", "status"]) # Damage/Effects Delivery Methods!
         DAMAGE = {"physical": "⚔", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}", "ice": "❄", "earth": "{image=earth_element_be_viewport}", "air": "☁", "electricity": "⚡", "light": "☀", "darkness": "{image=darkness_element_be_viewport}", "healing": "{image=healing_be_viewport}", "poison": "☠"} # Damage (Effect) types...
-        
+        DAMAGE_20 = {"physical": "⚔", "fire": "{image=fire_element_be_size20}", "water": "{image=water_element_be_size20}", "ice": "❄", "earth": "{image=earth_element_be_size20}", "air": "☁", "electricity": "⚡", "light": "☀", "darkness": "{image=darkness_element_be_size20}", "healing": "{image=healing_be_size20}", "poison": "☠"}
         def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
                            menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
                            add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
