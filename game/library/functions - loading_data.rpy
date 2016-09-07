@@ -165,6 +165,13 @@ init -11 python:
                                         devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
                                 del gd["skills"]
                                 
+                            if "default_attack_skill" in gd:
+                                skill = gd["default_attack_skill"]
+                                if skill in store.battle_skills:
+                                    char.default_attack_skill = store.battle_skills[skill]
+                                else:
+                                    devlog.warning("%s JSON Loading func tried to apply unknown default attack skill: %s!" % (gd["id"], skill))
+                                
                             for key in ("magic_skills", "attack_skills"):
                                 if key in gd:
                                     # Skills can be either a list or a dict:
@@ -178,7 +185,7 @@ init -11 python:
                                             char.__dict__[key].append(skill)
                                         else:
                                             devlog.warning("%s JSON Loading func tried to apply unknown battle skill: %s!" % (gd["id"], skill))
-                            
+                                            
                             for key in ("color", "what_color"):
                                 if key in gd:
                                     if gd[key] in globals():

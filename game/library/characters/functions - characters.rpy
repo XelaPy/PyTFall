@@ -53,7 +53,6 @@ init -11 python:
         for i in ("battle_sprite", "portrait", "origin", "locations", "base_race", "race", "front_row"):
             if i in data:
                 setattr(mob, i, data[i])
-        
         if "stats" in data:
             d = data["stats"]
             for key in d:
@@ -108,6 +107,13 @@ init -11 python:
                     devlog.warning(str("Trait: {} for Mob with id: {} is invalid! ".format(trait, id)))
                     continue
                 mob.apply_trait(trait)
+                
+        if "default_attack_skill" in data:
+            skill = data["default_attack_skill"]
+            if skill in store.battle_skills:
+                mob.default_attack_skill = store.battle_skills[skill]
+            else:
+                devlog.warning("%s Mob tried to apply unknown default attack skill: %s!" % (mob.id, skill))
                 
         if "attack_skills" in data:
             d = data["attack_skills"]

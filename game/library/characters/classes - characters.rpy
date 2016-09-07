@@ -1190,6 +1190,7 @@ init -9 python:
             
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
+            self.default_attack_skill = battle_skills["FistAttack"] # This can be overwritten on character creation!
             
             # Game world status:
             self.alive = True
@@ -2109,21 +2110,13 @@ init -9 python:
                         returns.append(item.id)
             
             return returns
-                   
-        # Trait methods *now for all characters:
-        # Traits methods
-        def apply_trait(self, trait, truetrait=True): # Applies trait effects
-            self.traits.apply(trait, truetrait=truetrait)
-
-        def remove_trait(self, trait, truetrait=True):  # Removes trait effects
-            self.traits.remove(trait, truetrait=truetrait)
             
         # Applies Item Effects:
         def apply_item_effects(self, item):
             # Attacks/Magic
             if hasattr(item, "attacks"):
                 if item.attacks:
-                    default = store.battle_skills["FistAttack"]
+                    default = self.default_attack_skill
                     if default in self.attack_skills:
                         self.attack_skills.remove(default)
                 for attack in item.attacks:
@@ -2249,7 +2242,7 @@ init -9 python:
                     else:
                         devlog.warning("Unknown battle skill %s applied by character: %s (%s)!" % (attack, self.fullname, self.__class__))
                 if not self.attack_skills:
-                    default = store.battle_skills["FistAttack"]
+                    default = self.default_attack_skill
                     self.attack_skills.append(default)
                       
             for spell in item.add_be_spells:
@@ -2378,6 +2371,14 @@ init -9 python:
 
                     self.miscitems[key] = items[key].mtemp
 
+        # Trait methods *now for all characters:
+        # Traits methods
+        def apply_trait(self, trait, truetrait=True): # Applies trait effects
+            self.traits.apply(trait, truetrait=truetrait)
+
+        def remove_trait(self, trait, truetrait=True):  # Removes trait effects
+            self.traits.remove(trait, truetrait=truetrait)
+                    
         # Relationships:
         def is_friend(self, char):
             return char in self.friends

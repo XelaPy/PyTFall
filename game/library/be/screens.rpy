@@ -97,11 +97,6 @@ init: # screens:
                         text "TARGET: Any" size 14 color gold style "TisaOTM"
                     else:
                         text "TARGET: One" size 14 color gold style "TisaOTM"
-                    # fixed:
-                        # xysize (100, 100)
-                        # if element.icon:
-                            # $ img = ProportionalScale(element.icon, 90, 90)
-                            # add img align (0.5, 0.5)
                 
         # Skillz Menu:
         frame:
