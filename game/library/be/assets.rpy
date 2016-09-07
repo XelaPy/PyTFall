@@ -506,7 +506,7 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5},
                                       dodge_effect={"initial_pause": .1})
-        ArrowsSkill(u"Fire Arrow", menu_pos=8, attributes=['magic', 'fire'], effect=75, multiplier=4.5, mp_cost=20, range=4, piercing=True,
+        ArrowsSkill(u"Fire Arrow", menu_pos=8, attributes=['ranged', 'fire', 'physical'], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
                               desc="Creates a bow and arrow of scorching air.",
                               firing_effects={"gfx": 'Fire Arrow cast', "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
                               projectile_effects={"gfx": 'Fire Arrow fly', "sfx": None, "duration": 0.4},
@@ -514,7 +514,7 @@ label load_battle_skills:
                               target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
                               main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
-                              target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6},
+                              target_death_effect={"gfx": "shatter", "initial_pause": 0.4, "duration": 0.6},
                               dodge_effect={"initial_pause": .1})
         SimpleSkill("Meteor", menu_pos=12, attributes=['magic', 'fire'], effect=100, multiplier=6.0, mp_cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
