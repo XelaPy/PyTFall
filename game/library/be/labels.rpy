@@ -27,27 +27,29 @@ label test_be:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Goblin Shaman", level=120)
-        
-        
         mob.apply_trait("Fire")
         mob.front_row = True
         mob.controller = BE_AI(mob)
         if len(enemy_team) != 3:
             enemy_team.add(mob)
+            
         mob = build_mob(id="Goblin Archer", level=100)
         mob.front_row = False
-        mob.attack_skills.append("SwordAttack")
+        # mob.attack_skills.append("SwordAttack")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
+            
         mob = build_mob(id="Goblin Archer", level=100)
         mob.front_row = False
-        mob.attack_skills.append("BowAttack")
+        # mob.attack_skills.append("BowAttack")
         mob.apply_trait("Air")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
         # Add new attack types to see how they look on the other side:
         for m in enemy_team:
-            m.magic_skills.append(battle_skills["Water Blast"])
+            m.attack_skills.append(battle_skills["Soul Blade"])
+        for m in enemy_team:
+            m.magic_skills.append(battle_skills["Northern Flow"])
             # m.magic_skills.append(battle_skills["Pure Ion Storm"])
             
         for i in hero.team:

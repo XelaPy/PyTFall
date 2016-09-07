@@ -433,7 +433,7 @@ label load_battle_skills:
         
         # Battle skills
         SimpleSkill(u"Soul Blade", menu_pos=0, range=3, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=20, desc="Projects a huge blade made from the user's soul energy towards the target.",
-                                           main_effect={"gfx": Transform("soul_sword", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "bc", "anchor": (1.0, 1.0), "xo": -80}},
+                                           main_effect={"gfx": Transform("soul_sword", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5), "xo": 80}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         SimpleSkill(u"Weapon Dance", menu_pos=0, range=3, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=20, desc="Multiple elegant attacks in quick succession.",
@@ -698,7 +698,7 @@ label load_battle_skills:
         ArealSkill("Northern Flow", menu_pos=13, attributes=['magic', 'air', 'ice', 'inevitable'], effect=130, multiplier=5.0, mp_cost=15, range=4, type="all_enemies", piercing=True,
                                         desc="Summons a flow of frozen air from the upper atmosphere.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": "north", "sfx": "content/sfx/sound/be/air5.mp3", "duration": 3.8, "aim": {"anchor": (0.5, 1.0), "xo": -80 ,"yo": 15}},
+                                        main_effect={"gfx": "north", "sfx": "content/sfx/sound/be/air5.mp3", "duration": 3.8, "aim": {"anchor": (.5, .5)}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.1, "duration": 0.1},
                                         target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.1, "duration": 3.7},
                                         target_death_effect={"gfx": "dissolve",  "initial_pause": 3.7, "duration": 0.2})

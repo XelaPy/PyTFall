@@ -153,12 +153,19 @@ init python:
         """
         Simplest possible class that just skips the turn for the player and logs that fact.
         This can/should be a function but heck :D
+        
+        This will now also restore 3 - 6% of Vitality!
         """
         def __init__(self, source=None):
             self.source = source
         
         def __call__(self, *args, **kwargs):
-            msg = "{} skips a turn.".format(self.source.nickname)
+            msg = "{} skips a turn. ".format(self.source.nickname)
+            
+            # Restoring Vitality:
+            temp = int(self.source.get_max("vitality") * random.uniform(.03, .06)) 
+            self.source.vitality += temp
+            msg = msg + "Restored: {color=[green]}%d vitality{/color} points!"%(temp)
             battle.log(msg)
             
     class Slave_BE_Skip(BE_Event):
@@ -472,8 +479,7 @@ init python:
                 
                 
     class P2P_ArealSkill(P2P_Skill):
-        """ ==> @Review: There may not be a good reason for this to be a magical attack instead of any attack at all!
-        Point to Point magical strikes without any added effects. This is one step simpler than the ArrowsSkill attack.
+        """
         Used to attacks like FireBall.
         """
         def __init__(self, name, **kwargs):
@@ -662,13 +668,15 @@ init python:
             for t in targets:
                 effects = []
                 
-                # We get the multi and any effects that those may bring.
+                # We get the multi and any effects that those may bring:
                 restore = self.damage_modifier(t, base_restore, "healing")
                 if restore == "resisted":
                     restore = 0
                 
                 restore = int(round(restore))
                 effects.append(("healing", restore))
+                
+                t.dmg_font = lawngreen # Color the battle bounce green!
                 
                 # String for the log:
                 temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, t.name)

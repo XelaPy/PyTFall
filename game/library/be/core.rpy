@@ -14,7 +14,7 @@ init -1 python: # Core classes:
     # Get the perfect middle x:
     perfect_middle_xl = BDP["l0"][1][0] + (BDP["l1"][1][0] - BDP["l0"][1][0])
     perfect_middle_yl = BDP["l0"][1][1] + (BDP["l1"][1][0] - BDP["l0"][1][0])
-    perfect_middle_xr = BDP["r1"][1][0] + (BDP["r1"][1][0] - BDP["r0"][1][0])
+    perfect_middle_xr = BDP["r0"][1][0] + (BDP["r1"][1][0] - BDP["r0"][1][0])
     perfect_middle_yr = perfect_middle_yl
     BDP["perfect_middle_right"] = (perfect_middle_xl, perfect_middle_yl)
     BDP["perfect_middle_left"] = (perfect_middle_xr, perfect_middle_yr)
@@ -1162,6 +1162,9 @@ init -1 python: # Core classes:
         def get_element(self):
             # This may have to be expanded if we permit multi-elemental attacks in the future.
             # Returns first (if any) an element bound to spell or attack:
+            if len(tgs.el_names.intersection(self.attributes)) > 1:
+                return "me" 
+            
             for t in tgs.elemental:
                 element = t.id
                 if element.lower() in self.attributes:

@@ -8,6 +8,10 @@ init: # screens:
         if "all" in skill.type:
             $ return_all = True
             
+        # testing mid pos:
+        # add Solid("F00", xysize=(30, 30)) pos BDP["perfect_middle_right"] anchor .5, .5
+        # add Solid("F00", xysize=(30, 30)) pos BDP["perfect_middle_left"] anchor .5, .5
+            
         for t in targets:
             $ pos = battle.get_cp(t, type="tc", yo=-40)
             imagebutton:
@@ -51,16 +55,17 @@ init: # screens:
                     xsize 100
                     action SetScreenVariable("menu_mode", "top")
                     
+        # Tooltip:
         if tt.value:
             frame: # This is the spell/attack description frame:
-                pos (0.5, 0.89) anchor (0.5, 1.0)
+                pos (.5, .89) anchor (.5, 1.0)
                 style "dropdown_gm_frame"
                 ymaximum 400
                 has vbox spacing 2
                 # Elements:
                 text "Name: [tt.value.name]" style "content_text" size 20 color ivory
                 $ element = tt.value.get_element()
-                if element:
+                if element and element != "me":
                     $ color = getattr(store, element.font_color)
                     text "Element: {color=[color]}[element.id]" style "content_text" size 20 color ivory
                 text "Desc: [tt.value.desc]" style "content_text" size 14 color ivory
@@ -97,16 +102,16 @@ init: # screens:
                             # $ img = ProportionalScale(element.icon, 90, 90)
                             # add img align (0.5, 0.5)
                 
-            
+        # Skillz Menu:
         frame:
             style_group "dropdown_gm"
-            pos (0.5, 0.2) anchor (0.5, 0)
+            pos (.5, .2) anchor (.5, .0)
             ymaximum 400
             has hbox box_wrap True 
             
             at fade_in_out(t1=0.6, t2=0.3)
             
-            # First we'll get all the skills and sort them into:
+            # First we'll get all the skills and sort them into: @Review: Might be a good idea to move this sorting off the screen!
             # *Attack (battle) skills.
             # *Magic skills.
             python:
@@ -123,19 +128,19 @@ init: # screens:
                 active_attacks = list() # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!
                 for i in attacks:
                     if i.check_conditions(char):
-                        active_attacks.append(char)
+                        active_attacks.append(i)
                         break
                 # active_magic = list(s for s in magic if battle_skills[s].check_conditions(char)) # BUG IN REN'PY!
                 active_magic = list()
                 for i in magic:
                     if i.check_conditions(char):
-                        active_magic.append(char)
+                        active_magic.append(i)
                         break
             
         if menu_mode == "top":
             frame:
                 style_group "dropdown_gm"
-                pos (0.5, 0.2) anchor (0.5, 0)
+                pos (.5, .2) anchor (.5, .0)
                 ymaximum 400
                 has hbox box_wrap True 
                 
@@ -146,15 +151,15 @@ init: # screens:
                     action SensitiveIf(active_magic), SetScreenVariable("menu_mode", "magic")
                 textbutton "Skip":
                     xminimum 100
-                    action Return(BE_Skip())
+                    action Return(BE_Skip(char))
                     
         elif menu_mode == "attacks":
             frame:
                 style_prefix "dropdown_gm"
-                pos (0.5, 0.2) anchor (0.5, 0)
+                pos (.5, .2) anchor (.5, .0)
                 has hbox box_wrap True xmaximum 400
                 
-                at fade_in_out(t1=0.6, t2=0.3)
+                at fade_in_out(t1=.6, t2=.3)
                 
                 if len(attacks) == 1:
                     timer .01 action Return(attacks[0])
@@ -184,7 +189,7 @@ init: # screens:
                             
             frame:
                 style_group "dropdown_gm"
-                pos (0.5, 0.2) anchor (0.5, 0)
+                pos (.5, .2) anchor (.5, .0)
                 has vbox
                 
                 at fade_in_out(t1=0.6, t2=0.3)
@@ -194,15 +199,15 @@ init: # screens:
                     for e in d:
                         if d[e]:
                             frame:
-                                xalign 0.5
-                                xysize (155, 250)
+                                xalign .5
+                                xysize 115, 250
                                 if e.icon:
                                     $ img = ProportionalScale(e.icon, 130, 130)
-                                    add img align (0.5, 0.1)
+                                    add img align .5, .1
                                 vbox:
                                     for skill in d[e]:
-                                        textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
-                                            xsize 130
+                                        textbutton "{=text}{color=[black]}{size=-8}[skill.mn]":
+                                            xsize 110
                                             xalign 0.5
                                             action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                             hovered tt.action(skill)
