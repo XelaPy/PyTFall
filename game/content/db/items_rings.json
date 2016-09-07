@@ -268,6 +268,7 @@
     "max": {"agility": 60},
     "mod": {"agility": 50},
     "locations": ["Exploration", "Ninja Shop"],
+    "evasion_bonus": 1,
     "goodtraits": ["Kleptomaniac"]
     },
     {
@@ -334,6 +335,7 @@
     "slot": "ring",
     "mod": {"defence": -100, "attack": 50},
     "removetraits": ["Shy", "Edgy"],
+    "evasion_bonus": -3,
     "addtraits": ["Courageous", "Exhibitionist"],
     "locations": ["Exploration"]
     },
@@ -578,7 +580,7 @@
     },
     {
     "id": "Mysterious Gray Ring",
-    "desc": "«If early day, or late at night it's not my problem, I'll be alright. No cause you name is worth the fight, but if I'm bored, then yeah, I might.»",
+    "desc": "«If early day, or late at night, it's not my problem, I'll be alright. No cause you name is worth the fight, but if I'm bored, then yeah, I might.»",
     "icon": "content/items/ring/gray_l.png",
     "price": 5000,
     "sex": "female",
@@ -591,6 +593,7 @@
     "max": {"joy": -50, "magic": 50, "mp": 50},
     "mod": {"luck": 5, "defence": 50},
     "min": {"joy": 50},
+    "evasion_bonus": 2,
     "locations": ["Exploration"],
     "goodtraits": ["Indifferent"]
     }

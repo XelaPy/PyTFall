@@ -345,6 +345,7 @@
     "mod": {"character": 50},
     "mod_skills": {"exploration": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration", "Tailor Store"],
+    "evasion_bonus": 1,
     "goodtraits": []
     }
   ]
