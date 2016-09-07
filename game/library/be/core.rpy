@@ -713,7 +713,7 @@ init -1 python: # Core classes:
                         temp = 0
                         for i in t.eq_items():
                             if hasattr(i, "evasion_bonus"):
-                                m += i.evasion_bonus
+                                temp += i.evasion_bonus
                         ev += temp
                         
                         # Traits Bonuses:
