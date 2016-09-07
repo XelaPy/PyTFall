@@ -177,7 +177,7 @@
     },
     {
     "id": "Poison Absorption",
-    "desc": "Ice element restores health.",
+    "desc": "Poison restores health.",
     "el_absorbs": {"poison": 0.3}
     }
     ]
