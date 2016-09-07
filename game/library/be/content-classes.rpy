@@ -800,13 +800,13 @@ init python:
             source = self.source
             attributes = self.attributes
                 
-            restore = self.get_attack()
+            base_restore = self.get_attack()
             
             for t in targets:
                 effects = []
                 
                 # We get the multi and any effects that those may bring.
-                restore = self.damage_modifier(t, restore, "healing")
+                restore = self.damage_modifier(t, base_restore, "healing")
                 if restore == "resisted":
                     restore = 0
                 
