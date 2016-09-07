@@ -179,5 +179,35 @@
     "id": "Poison Absorption",
     "desc": "Poison restores health.",
     "el_absorbs": {"poison": 0.3}
+    },
+    {
+    "id": "Minor Physical Resistance",
+    "desc": "Physical attacks are not very effective.",
+    "el_defence": {"physical": 0.4}
+    },
+    {
+    "id": "Physical Resistance",
+    "desc": "Physical attacks are almost ineffective.",
+    "el_defence": {"physical": 0.8}
+    },
+    {
+    "id": "Physical Immunity",
+    "desc": "Physical attacks are completely ineffective.",
+    "resist": ["physical"]
+    },
+    {
+    "id": "Physical Absorption",
+    "desc": "Physical attacks restore health.",
+    "el_absorbs": {"physical": 0.2}
+    },
+    {
+    "id": "Physical Weakness",
+    "desc": "Physical attacks are unusually effective.",
+    "el_defence": {"physical": -0.35}
+    },
+    {
+    "id": "Physical Vulnerability",
+    "desc": "Physical attacks are extremely effective.",
+    "el_defence": {"physical": -0.7}
     }
     ]

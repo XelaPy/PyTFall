@@ -14,7 +14,7 @@
     "type": "Dagger",
     "max": {"attack": 5, "agility": 20},
     "mod": {"attack": 5, "agility": 15},
-    "evasion_multiplier": 0.02,
+    "evasion_bonus": 0.02,
     "locations": ["Work Shop"]
     },
     {
@@ -226,7 +226,7 @@
     "type": "Nonweapon",
     "max": {"defence": 60},
     "mod": {"defence": 50},
-    "evasion_multiplier": 0.01,
+    "evasion_bonus": 0.01,
     "locations": ["Exploration"]
     },
     {

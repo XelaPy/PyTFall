@@ -332,7 +332,7 @@
     "type": "armor",
     "max": {"defence": 10, "agility": 25},
     "mod": {"defence": 15, "agility": 25, "attack": 20, "charisma": -15},
-    "evasion_multiplier": 0.01,
+    "evasion_bonus": 0.01,
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": []
