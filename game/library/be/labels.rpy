@@ -12,7 +12,7 @@ label test_be:
         n.apply_trait("Air")
         
         for skill in battle_skills.values():
-            if isinstance(skill, SimpleAttack):
+            if not skill.sorting_index:
                 if skill not in h.attack_skills:
                     h.attack_skills.append(skill)
                 if skill not in n.attack_skills:
@@ -22,9 +22,7 @@ label test_be:
                     h.magic_skills.append(skill)
                 if skill not in n.magic_skills:
                     n.magic_skills.append(skill)
-        
-        
-        
+                    
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -102,13 +100,6 @@ label test_be_logical:
         n.status = "free"
         n.controller = BE_AI(n)
         n.apply_trait("Air")
-        # for skill in battle_skills.values():
-            # if isinstance(skill, SimpleAttack):
-                # h.attack_skills.append(skill)
-                # n.attack_skills.append(skill)
-            # else:
-                # h.magic_skills.append(skill)
-                # n.magic_skills.append(skill)
         n.front_row = True
         initial_levelup(n, 50, True)
         

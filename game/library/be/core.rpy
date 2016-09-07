@@ -1145,6 +1145,20 @@ init -1 python: # Core classes:
             return died
             
         # Game/Gui Assists:
+        @property
+        def sorting_index(self):
+            """Returns 0, 1, 2 depending on DELIVERY  type if this attack.
+            0 => Weapons (Ranged or Melee)
+            1 => Magic (All kinds)
+            2 => Everythign else...
+            """
+            if self.delivery in ["melee", "ranged"]:
+                return 0
+            elif self.delivery == "magic":
+                return 1
+            else:
+                return 2
+        
         def get_element(self):
             # This may have to be expanded if we permit multi-elemental attacks in the future.
             # Returns first (if any) an element bound to spell or attack:
