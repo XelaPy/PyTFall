@@ -1,7 +1,7 @@
 [
     {
     "id": "Parrying Dagger",
-    "desc": "A Dagger designed for parrying.",
+    "desc": "A Dagger designed for parrying and evading attacks.",
     "icon": "content/items/sweapon/parry dagger.png",
     "price": 300,
     "sex": "unisex",
@@ -14,7 +14,8 @@
     "type": "Dagger",
     "max": {"attack": 5, "agility": 20},
     "mod": {"attack": 5, "agility": 15},
-    "evasion_bonus": 4,
+    "evasion_bonus": 5,
+    "defence_bonus": {"melee": 20},
     "locations": ["Work Shop"]
     },
     {
@@ -30,8 +31,10 @@
     "infinite": true,
     "slot": "smallweapon",
     "type": "Rod",
+    "ch_multiplier": -0.1,
     "max": {"magic": 20, "mp": 20},
     "mod": {"magic": 15, "character": 5, "defence": 5, "attack": -10},
+    "delivery_bonus": {"magic": 15},
     "locations": ["Witches Hut"]
     },
     {
@@ -45,9 +48,11 @@
     "eqchance": 12,
     "hidden": false,
     "infinite": true,
+    "ch_multiplier": -0.1,
     "slot": "smallweapon",
     "type": "Rod",
     "max": {"magic": 50, "mp": 20},
+    "delivery_bonus": {"magic": 20},
     "mod": {"magic": 20, "defence": 5, "attack": -10},
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -62,11 +67,14 @@
     "eqchance": 20,
     "hidden": true,
     "infinite": false,
+    "ch_multiplier": -0.1,
     "slot": "smallweapon",
     "type": "Rod",
     "max": {"magic": 80, "mp": 60},
     "mod": {"magic": 30, "character": 30, "attack": -40},
     "add_be_spells": ["Thunder Loop"],
+    "delivery_bonus": {"magic": 25},
+    "delivery_multiplier": {"magic": 0.05},
     "locations": ["Witches Hut", "Exploration"]
     },
     {
@@ -82,9 +90,11 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "Rod",
-    "max": {"magic": 120, "mp": 100},
+    "max": {"magic": 100, "mp": 100},
     "mod": {"magic": 40, "character": 50, "attack": -80},
     "min": {"mp": 5},
+    "delivery_bonus": {"magic": 50},
+    "delivery_multiplier": {"magic": 0.1},
     "locations": ["Exploration"]
     },
     {
@@ -100,6 +110,8 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "Sword",
+    "ch_multiplier": -0.02,
+    "evasion_bonus": -1,
     "max": {"attack": 15, "joy": 10},
     "mod": {"attack": 10, "character": 5},
     "mod_skills": {"refinement": [-0.03, 0, -0.01, 0, 0], "teaching": [0.03, 0, 0.01, 0, 0]},
@@ -108,7 +120,7 @@
     },
     {
     "id": "Tower Shield",
-    "desc": "A very large heavy shield utilized by only the strongest foot soldiers.",
+    "desc": "A very large heavy shield utilized by only the strongest foot soldiers. Has high protection, but considerably slows down the carrier.",
     "icon": "content/items/sweapon/ts.png",
     "price": 1000,
     "sex": "unisex",
@@ -119,14 +131,17 @@
     "infinite": false,
     "slot": "smallweapon",
     "evasion_bonus": -15,
+    "ch_multiplier": -0.4,
+    "damage_multiplier": -0.25,
     "type": "shield",
     "max": {"defence": 80, "health": 40, "constitution": 35, "agility": -40},
     "mod": {"defence": 50, "agility": -65},
+    "defence_multiplier": {"melee": 0.5, "ranged": 0.5},
     "locations": ["Work Shop"]
     },
     {
     "id": "Dildo Sword",
-    "desc": "A rather impressive dildo with a hilt.  Perhaps it is not intended for the arena?",
+    "desc": "A rather impressive dildo with a hilt.  Perhaps it is not intended for the actual combat?",
     "icon": "content/items/weapon/Melee_penetrator.png",
     "price": 220,
     "sex": "female",
@@ -154,6 +169,8 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "Dagger",
+    "evasion_bonus": 1,
+    "ch_multiplier": 0.01,
     "max": {"attack": 15, "charisma": 5},
     "mod": {"attack": 10, "character": 10, "charisma": 10},
     "locations": ["Work Shop", "Exploration"],
@@ -190,9 +207,12 @@
     "hidden": false,
     "infinite": false,
     "slot": "smallweapon",
+    "evasion_bonus": -5,
+    "ch_multiplier": -0.1,
     "type": "Rod",
     "max": {"magic": 20, "mp": 25},
     "mod": {"attack": -15, "magic": 10},
+    "delivery_bonus": {"magic": 10},
     "locations": ["Work Shop"]
     },
     {
@@ -208,7 +228,9 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "Spray",
+    "ch_multiplier": 0.02,
     "max": {"attack": 5, "defence": 25},
+    "delivery_bonus": {"status": 25},
     "mod": {"character": 20, "agility": 10, "defence": 15},
     "locations": ["Witches Hut"]
     },
@@ -227,7 +249,7 @@
     "type": "Nonweapon",
     "max": {"defence": 60},
     "mod": {"defence": 50},
-    "evasion_bonus": 1,
+    "evasion_bonus": 2,
     "locations": ["Exploration"]
     },
     {
@@ -261,8 +283,10 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "shield",
+    "damage_multiplier": -0.15,
     "max": {"defence": 40, "health": 10, "constitution": 10},
     "mod": {"defence": 20, "agility": -15, "charisma": 15, "character": 10},
+    "defence_multiplier": {"melee": 0.45, "ranged": 0.45},
     "locations": ["Work Shop"]
     },
     {
@@ -279,8 +303,10 @@
     "slot": "smallweapon",
     "type": "shield",
     "evasion_bonus": 3,
+    "damage_multiplier": -0.05,
     "max": {"defence": 15, "agility": 10},
     "mod": {"defence": 10},
+    "defence_multiplier": {"melee": 0.05, "ranged": 0.05},
     "locations": ["Work Shop", "Look around"]
     },
     {
@@ -295,8 +321,10 @@
     "hidden": false,
     "infinite": false,
     "slot": "smallweapon",
+    "damage_multiplier": -0.05,
     "type": "shield",
     "max": {"defence": 25, "health": 5},
+    "defence_multiplier": {"melee": 0.1, "ranged": 0.1},
     "mod": {"defence": 15},
     "locations": ["Work Shop"]
     },
@@ -312,10 +340,12 @@
     "hidden": false,
     "infinite": false,
     "evasion_bonus": -3,
+    "damage_multiplier": -0.1,
     "slot": "smallweapon",
     "type": "shield",
     "max": {"defence": 55, "health": 20, "constitution": 20, "agility": -20},
     "mod": {"defence": 30, "agility": -45},
+    "defence_multiplier": {"melee": 0.3, "ranged": 0.3},
     "locations": ["Work Shop"]
     },
     {
@@ -331,9 +361,11 @@
     "infinite": false,
     "slot": "smallweapon",
     "evasion_bonus": -10,
+    "damage_multiplier": -0.2,
     "type": "shield",
     "max": {"defence": 300, "health": 50, "constitution": 40, "agility": -30, "charisma": 20},
     "mod": {"defence": 150, "agility": -35, "charisma": 10},
+    "defence_multiplier": {"melee": 0.6, "ranged": 0.6},
     "locations": ["Exploration"]
     }
   ]

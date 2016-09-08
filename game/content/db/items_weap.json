@@ -36,7 +36,7 @@
     },
     {
     "id": "Assassin Dagger",
-    "desc": "When equipped, this dagger awakens the killer instinct.",
+    "desc": "When equipped, this dagger awakens the killer instinct. Greatly increases the chance of critical hit.",
     "icon": "content/items/sweapon/ad.png",
     "price": 450,
     "sex": "female",
@@ -51,8 +51,8 @@
     "max": {"attack": 35},
     "mod": {"attack": 20, "character": 25},
     "removetraits": ["Virtuous"],
+    "ch_multiplier": 0.1,
     "addtraits": ["Sadist"],
-    "locations": ["Exploration"],
     "goodtraits": ["Yandere"],
     "badtraits": ["Virtuous"],
     "locations": ["Ninja Shop"]
@@ -95,7 +95,7 @@
     },
     {
     "id": "Kunai",
-    "desc": "A ninjas favorite weapon. Convenient in the attack, but ineffective in defending.",
+    "desc": "A ninjas favorite weapon. Convenient in the attack, but ineffective in defending. Increases the chance of critical hit but reduces the chance of evasion.",
     "icon": "content/items/sweapon/kunai.png",
     "price": 550,
     "sex": "unisex",
@@ -109,7 +109,8 @@
     "attacks": ["KnifeAttack"],
     "max": {"attack": 30, "agility": 10},
     "mod": {"attack": 40, "character": 5, "defence": -20},
-    "evasion_bonus": 1,
+    "evasion_bonus": -8,
+    "ch_multiplier": 0.08,
     "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": []
     },
@@ -128,6 +129,7 @@
     "type": "Rod",
     "attacks": ["RodAttack"],
     "max": {"magic": 10},
+    "ch_multiplier": -0.1,
     "mod": {"magic": 5, "character": 3, "attack": 3},
     "locations": ["Work Shop"]
     },
@@ -153,7 +155,7 @@
     },
     {
     "id": "Cat O'Nine Tails",
-    "desc": "The nine lashes of this dreadful torture implement, while difficult to use on unwilling and unrestrained victims, awakens sadistic tendencies in any person.",
+    "desc": "The nine lashes of this dreadful torture implement, while difficult to use on unwilling and unrestrained victims, awakens sadistic tendencies in any person. Increases the chance of critical hit.",
     "icon": "content/items/sweapon/cont.png",
     "price": 600,
     "sex": "female",
@@ -168,6 +170,7 @@
     "max": {"attack": 35},
     "mod": {"attack": 15, "character": 30, "agility": 15},
     "mod_skills": {"bdsm": [0.04, 0.02, 0.08, 0, 0], "management": [0.01, 0, 0.02, 0, 0]},
+    "ch_multiplier": 0.05,
     "addtraits": ["Sadist"],
     "locations": ["Exploration"]
     },
@@ -205,6 +208,7 @@
     "attacks": ["ClawAttack"],
     "max": {"attack": 15, "defence": -10, "agility": 35},
     "mod": {"character": 15, "agility": 15},
+    "ch_multiplier": 0.01,
     "locations": ["Ninja Shop", "Exploration"]
     },
     {
@@ -223,6 +227,7 @@
     "attacks": ["RodAttack"],
     "max": {"mp": 25},
     "mod": {"attack": 5},
+    "ch_multiplier": -0.1,
     "locations": ["Work Shop"]
     },
     {
@@ -260,6 +265,7 @@
     "attacks": ["FistAttack"],
     "max": {"attack": 25, "agility": 25},
     "mod": {"attack": 10, "agility": 10, "defence": 10},
+    "ch_multiplier": 0.02,
     "locations": ["Exploration"],
     "goodtraits": ["Manly"]
     },
@@ -302,7 +308,7 @@
     },
     {
     "id": "Foldable Crossbow",
-    "desc": "This small, but powerful crossbow is easy to hide in a sleeve. Widely used for self-protection, it has only one drawback: long reloading time.",
+    "desc": "This small, but powerful crossbow is easy to hide in a sleeve. Widely used for self-protection, it has one major drawback: long reloading time.",
     "icon": "content/items/sweapon/fc.png",
     "price": 1000,
     "sex": "unisex",
@@ -316,6 +322,7 @@
     "attacks": ["CrossbowAttack"],
     "max": {"attack": 60, "agility": -50},
     "mod": {"attack": 70, "agility": -70},
+    "delivery_multiplier": {"ranged": 0.1},
     "locations": ["Exploration", "Ninja Shop"]
     },
     {
@@ -407,6 +414,7 @@
     "type": "Sword",
     "attacks": ["SwordAttack"],
     "max": {"attack": 70},
+    "delivery_multiplier": {"melee": 0.05},
     "mod": {"attack": 30, "character": 30},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.02, 0, 0]},
     "locations": ["Work Shop", "Exploration"]
@@ -426,6 +434,7 @@
     "type": "Sword",
     "attacks": ["SwordAttack"],
     "max": {"attack": 40, "magic": 15},
+    "delivery_multiplier": {"melee": 0.05, "magic": 0.07},
     "mod": {"attack": 15, "magic": 10, "character": 10},
     "locations": ["Exploration"]
     },
@@ -443,6 +452,7 @@
     "slot": "weapon",
     "type": "Sword",
     "attacks": ["SwordAttack"],
+    "delivery_multiplier": {"melee": 0.03},
     "max": {"attack": 100, "agility": -30},
     "mod": {"attack": 60},
     "locations": ["Work Shop"]
@@ -463,7 +473,8 @@
     "attacks": ["SwordAttack"],
     "max": {"attack": 80, "magic": 80, "agility": -40},
     "mod": {"attack": 20, "magic": 20},
-    "evasion_bonus": 1,
+    "evasion_bonus": 3,
+    "ch_multiplier": 0.05,
     "locations": ["Witches Hut"]
     },
     {
@@ -498,6 +509,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Sword",
+    "ch_multiplier": 0.01,
     "attacks": ["SwordAttack"],
     "max": {"attack": 13, "character": 13, "agility": 13, "charisma": 13, "constitution": 13, "health": 13, "mp": 13, "vitality": 13},
     "mod": {"attack": 13, "character": 13, "agility": 13, "charisma": 13, "constitution": 13},
@@ -505,7 +517,7 @@
     },
     {
     "id": "Elven Rapier",
-    "desc": "Light, flexible blade with elegant decorations on the hilt for pinpoint, but fatal strikes.",
+    "desc": "Light, flexible blade with elegant decorations on the hilt for pinpoint, but fatal strikes and easy evasion maneuvers.",
     "icon": "content/items/weapon/er.png",
     "price": 1000,
     "sex": "unisex",
@@ -521,6 +533,8 @@
     "mod": {"attack": 30, "character": 40, "charisma": 10, "agility": 5},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
+    "evasion_bonus": 5,
+    "delivery_multiplier": {"melee": 0.02},
     "goodtraits": ["Not Human"]
     },
     {
@@ -539,7 +553,8 @@
     "attacks": ["SwordAttack"],
     "max": {"attack": 150, "charisma": 30, "agility": 15, "defence": 25},
     "mod": {"attack": 50, "character": 50, "charisma": 20, "agility": 20},
-    "evasion_bonus": 1,
+    "evasion_bonus": 2,
+    "ch_multiplier": 0.02,
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien", "Virtuous"],
@@ -547,7 +562,7 @@
     },
     {
     "id": "Demonic Blade",
-    "desc": "Forged somewhere in netherworlds, this sizzling hot blade passes through conventional armor like a knife through butter.",
+    "desc": "Forged somewhere in netherworlds, this sizzling hot blade passes through conventional armor like a knife through butter. Has increased chance of critical hit.",
     "icon": "content/items/weapon/deb.png",
     "price": 3500,
     "sex": "unisex",
@@ -563,6 +578,7 @@
     "mod": {"attack": 80, "character": 100, "agility": 30},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.03, 0, 0], "bdsm": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
+    "ch_multiplier": 0.1,
     "goodtraits": ["Alien", "Vicious"],
     "badtraits": ["Virtuous"]
     },
@@ -583,7 +599,8 @@
     "mod_skills": {"refinement": [0, 0, -0.5, 0, 0], "teaching": [0, 0, -0.5, 0, 0], "management": [0, 0, -0.5, 0, 0], "exploration": [0, 0, -0.5, 0, 0], "service": [0, 0, -0.5, 0, 0], "bartending": [0, 0, -0.5, 0, 0], "waiting": [0, 0, -0.5, 0, 0], "dancing": [0, 0, -0.5, 0, 0]},
     "max": {"attack": 500, "charisma": -250, "agility": 100, "defence": 100, "joy": -40},
     "mod": {"attack": 400, "character": 50, "defence": 50, "agility": 50, "intelligence": -30},
-    "evasion_bonus": 2,
+    "evasion_bonus": 3,
+    "ch_multiplier": 0.15,
     "locations": ["Exploration"]
     },
     {
@@ -600,10 +617,11 @@
     "slot": "weapon",
     "type": "Scythe",
     "attacks": ["ScytheAttack"],
+    "evasion_bonus": 7,
     "max": {"attack": 80, "agility": 50, "defence": -50},
     "mod": {"attack": 35, "character": 30, "agility": 20},
-    "locations": ["Work Shop", "Exploration"],
-    "goodtraits": []
+    "delivery_multiplier": {"melee": 0.01},
+    "locations": ["Work Shop", "Exploration"]
     },
     {
     "id": "Scythe of Death",
@@ -611,7 +629,7 @@
     "icon": "content/items/weapon/sod.png",
     "price": 4000,
     "sex": "unisex",
-    "chance": 5,
+    "chance": 2,
     "badness": 50,
     "eqchance": 50,
     "hidden": true,
@@ -622,6 +640,7 @@
     "max": {"attack": 250, "agility": 50, "joy": -20, "magic": 50, "defence": 20},
     "mod": {"attack": 100, "character": 60, "agility": 10, "magic": 10, "defence": 10},
     "evasion_bonus": 1,
+    "ch_multiplier": 0.2,
     "locations": ["Exploration"]
     },
     {
@@ -730,6 +749,7 @@
     "attacks": ["AxeAttack"],
     "max": {"attack": 70},
     "mod": {"character": 30, "attack": 30, "agility": -10, "defence": -5},
+    "delivery_multiplier": {"melee": 0.05},
     "locations": ["Work Shop"]
     },
     {
@@ -784,6 +804,7 @@
     "attacks": ["BowAttack"],
     "max": {"attack": 70, "defence": -20, "agility": 10},
     "mod": {"attack": 30, "character": 20, "defence": -20},
+    "ch_multiplier": 0.02,
     "locations": ["Work Shop", "Exploration"]
     },
     {
@@ -803,6 +824,8 @@
     "max": {"attack": 100, "charisma": 30, "agility": 20, "defence": -30},
     "mod": {"attack": 30, "character": 40, "charisma": 20, "agility": 10, "defence": -30},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "delivery_multiplier": {"ranged": 0.04},
+    "evasion_bonus": 1,
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -824,6 +847,7 @@
     "mod": {"attack": 80, "character": 50, "charisma": 35, "agility": 30, "defence": -70},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
+    "ch_multiplier": 0.1,
     "goodtraits": ["Alien", "Virtuous"],
     "badtraits": ["Vicious"]
     },
@@ -845,6 +869,7 @@
     "mod": {"attack": 100, "character": 70, "agility": 50, "defence": -100},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.03, 0, 0], "bdsm": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
+    "ch_multiplier": 0.12,
     "goodtraits": ["Alien", "Vicious"],
     "badtraits": ["Virtuous"]
     },

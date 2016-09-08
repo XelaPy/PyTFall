@@ -187,6 +187,7 @@
     "type": "armor",
     "max": {"agility": 30},
     "mod": {"agility": 30},
+    "defence_bonus": {"ranged": 10},
     "mod_skills": {"refinement": [-0.04, 0, -0.03, 0, 0]},
     "locations": ["Workshop"]
     },
@@ -224,7 +225,7 @@
     "slot": "head",
     "type": "armor",
     "max": {"magic": 30, "mp": 25, "agility": 20},
-    "max": {"magic": 20},
+    "delivery_multiplier": {"magic": 0.05},
     "addtraits": ["Nerd"],
     "locations": ["Exploration"]
     },
@@ -435,6 +436,7 @@
     "type": "dress",
     "mod": {"luck": 20},
     "mod_skills": {"management": [0.01, 0.01, 0.02, 0, 0]},
+    "defence_multiplier": {"magic": 0.05},
     "locations": ["Exploration", "Tailor Store"]
     },
     {
@@ -472,6 +474,7 @@
     "mod": {"defence": 10, "agility": 10, "luck": 5},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
+    "defence_bonus": {"magic": 5},
     "evasion_bonus": 1,
     "goodtraits": ["Not Human"]
     },
@@ -491,6 +494,7 @@
     "mod_skills": {"management": [0.03, 0.03, 0.1, 0, 0]},
     "max": {"agility": 5, "defence": 20},
     "mod": {"defence": 10, "agility": 5},
+    "defence_bonus": {"melee": 5},
     "locations": ["Exploration"]
     },
     {
