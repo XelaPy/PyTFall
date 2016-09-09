@@ -13,6 +13,7 @@
     "slot": "ring",
     "mod": {"intelligence": -50, "character": 50},
     "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "exploration": [0.01, 0, 0.01, 0, 0]},
+    "damage_multiplier": 0.01,
     "locations": ["Witches Hut", "Exploration"]
     },
     {
@@ -323,7 +324,7 @@
     },
     {
     "id": "Ring of Recklessness",
-    "desc": "Bearers of this ring immediately gets rid of any fears, gaining courage bordering on insanity.",
+    "desc": "Bearers of this ring immediately gets rid of any fears, gaining courage bordering on insanity and increasing the power of all spells and attacks.",
     "icon": "content/items/ring/rrec.png",
     "price": 1500,
     "sex": "female",
@@ -336,6 +337,7 @@
     "mod": {"defence": -100, "attack": 50},
     "removetraits": ["Shy", "Edgy"],
     "evasion_bonus": -3,
+    "damage_multiplier": 0.04,
     "addtraits": ["Courageous", "Exhibitionist"],
     "locations": ["Exploration"]
     },
@@ -584,7 +586,7 @@
     "icon": "content/items/ring/gray_l.png",
     "price": 5000,
     "sex": "female",
-    "chance": 0.001,
+    "chance": 1,
     "badness": 0,
     "eqchance": 5,
     "hidden": false,
@@ -594,6 +596,8 @@
     "mod": {"luck": 5, "defence": 50},
     "min": {"joy": 50},
     "evasion_bonus": 2,
+    "damage_multiplier": 0.05,
+    "defence_multiplier": {"melee": 0.1, "ranged": 0.05, "magic": 0.05},
     "locations": ["Exploration"],
     "goodtraits": ["Indifferent"]
     }

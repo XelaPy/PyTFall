@@ -44,7 +44,7 @@
     "eqchance": 100,
     "hidden": true,
     "infinite": false,
-    "evasion_bonus": 5,
+    "evasion_bonus": 2,
     "slot": "cape",
     "type": "other",
     "max": {"mp": 200, "magic": 70, "agility": 30, "luck": 20, "intelligence": 15, "health": 20},
@@ -65,10 +65,11 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "evasion_bonus": -4,
+    "evasion_bonus": 4,
     "max": {"defence": 25},
     "mod": {"defence": 40},
     "mod_skills": {"refinement": [-0.01, 0, -0.02, 0, 0], "service": [-0.01, 0, -0.01, 0, 0]},
+    "defence_bonus": {"melee": 10},
     "locations": ["Work Shop"]
     },
     {
@@ -89,6 +90,7 @@
     "mod": {"defence": 35, "agility": 20},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
+    "defence_bonus": {"ranged": 5, "magic": 15},
     "goodtraits": ["Not Human"]
     },
     {
@@ -108,6 +110,7 @@
     "max": {"charisma": 10, "defence": 15},
     "mod": {"charisma": 15, "defence": 20},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0], "management": [0.01, 0.01, 0.03, 0, 0], "refinement": [0.01, 0.01, 0.01, 0, 0]},
+    "defence_bonus": {"melee": 15},
     "locations": ["Exploration"]
     },
     {
@@ -176,6 +179,7 @@
     "type": "other",
     "max": {"mp": 50, "magic": 25, "charisma": -10},
     "mod": {"magic": 30, "charisma": -30, "luck": 10, "intelligence": 10},
+    "defence_bonus": {"magic": 15},
     "locations": ["Witches Hut", "Exploration"]
     },
     {
@@ -192,7 +196,8 @@
     "slot": "cape",
     "type": "other",
     "max": {"mp": 50, "vitality": -40, "agility": -10},
-    "mod": {"magic": 25},
+    "mod": {"magic": 5},
+    "delivery_bonus": {"magic": 30},
     "locations": ["Exploration"]
     },
     {
@@ -211,6 +216,7 @@
     "type": "armor",
     "max": {"mp": 10, "defence": 30, "magic": 20, "attack": -80},
     "mod": {"defence": 40, "magic": 30},
+    "defence_bonus": {"magic": 45, "ranged": 15},
     "locations": ["Exploration", "General Store"],
     "goodtraits": []
     },
@@ -251,6 +257,7 @@
     "type": "armor",
     "max": {"defence": 5, "agility": 10},
     "mod": {"defence": 15, "agility": 5, "attack": 5},
+    "defence_bonus": {"ranged": 20},
     "locations": ["Exploration", "Ninja Shop"]
     },
     {
@@ -273,7 +280,7 @@
     },
     {
     "id": "Fur Coat",
-    "desc": "Made from northern dear's thick hide. Guaranteed protection from wind and cold. Perfect for traveling in snowy regions.",
+    "desc": "Made from northern dear's thick hide. Perfect for travelling in snowy regions.",
     "icon": "content/items/cape/fr.png",
     "price": 250,
     "sex": "unisex",
@@ -306,6 +313,8 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "evasion_bonus": 1,
+    "defence_multiplier": {"magic": 0.1, "ranged": 0.05},
+    "delivery_multiplier": {"magic": 0.1},
     "goodtraits": ["Alien"]
     },
     {
@@ -320,10 +329,12 @@
     "hidden": false,
     "infinite": false,
     "slot": "cape",
-    "evasion_bonus": -3,
+    "evasion_bonus": 3,
     "type": "armor",
     "max": {"defence": 100, "vitality": -50, "agility": -60},
     "mod": {"defence": 50},
+    "defence_bonus": {"melee": 50},
+    "defence_multiplier": {"melee": 0.1, "ranged": 0.15},
     "locations": ["Exploration"]
     },
     {
@@ -344,6 +355,7 @@
     "evasion_bonus": 3,
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": []
+    "defence_multiplier": {"status": 0.1},
+    "delivery_multiplier": {"status": 0.1}
     }
   ]

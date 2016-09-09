@@ -344,6 +344,7 @@
     "evasion_bonus": -10,
     "max": {"defence": 40, "attack": 10, "agility": -15},
     "mod": {"defence": 45, "constitution": 5, "agility": -20, "magic": -40},
+    "defence_bonus": {"melee": 20},
     "locations": ["Work Shop"]
     },
     {
@@ -361,6 +362,7 @@
     "type": "armor",
     "max": {"defence": 65, "attack": 5},
     "mod": {"magic": -30, "defence": 50},
+    "defence_bonus": {"ranged": 20, "melee": 20},
     "locations": ["Work Shop", "Exploration"]
     },
     {
@@ -379,6 +381,7 @@
     "evasion_bonus": 2,
     "max": {"defence": 70, "agility": 35},
     "mod": {"agility": 10, "defence": 60},
+    "defence_bonus": {"ranged": 30, "melee": 30},
     "locations": ["Exploration"]
     },
     {
@@ -396,6 +399,7 @@
     "type": "armor",
     "max": {"defence": 90, "agility": 30},
     "mod": {"agility": 10, "defence": 80},
+    "defence_bonus": {"ranged": 40, "magic": 60},
     "evasion_bonus": 5,
     "locations": ["Exploration"]
     },
@@ -416,6 +420,7 @@
     "max": {"defence": 60, "agility": 25},
     "mod": {"attack": 15, "defence": 40, "character": 15, "agility": -20, "magic": -20},
     "locations": ["Work Shop", "Exploration"],
+    "defence_bonus": {"ranged": 15, "melee": 15},
     "badtraits": ["Shy"]
     },
     {
@@ -477,6 +482,7 @@
     "mod": {"agility": 20, "defence": 55, "luck": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "evasion_bonus": 3,
+    "defence_bonus": {"magic": 30, "melee": 30},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -496,6 +502,7 @@
     "max": {"defence": 75, "agility": 45},
     "mod": {"agility": 20, "defence": 55, "luck": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "defence_bonus": {"magic": 30, "melee": 30},
     "evasion_bonus": 3,
     "locations": ["Exploration"]
     },
@@ -514,6 +521,7 @@
     "type": "armor",
     "max": {"defence": 50, "agility": 50},
     "mod": {"agility": 35, "defence": 40, "luck": 10},
+    "defence_bonus": {"magic": 30, "ranged": 30},
     "evasion_bonus": 5,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
@@ -536,6 +544,7 @@
     "mod": {"agility": 35, "defence": 40, "luck": 10, "magic": 40},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "evasion_bonus": 1,
+    "defence_bonus": {"magic": 60},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -556,6 +565,9 @@
     "max": {"agility": 70, "attack": 40, "defence": 45, "charisma": 20},
     "mod": {"agility": 50, "attack": 30, "defence": 40, "charisma": 10},
     "evasion_bonus": 8,
+    "defence_multiplier": {"status": 0.2},
+    "delivery_multiplier": {"status": 0.2},
+    "defence_bonus": {"ranged": 15, "melee": 20},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": []
@@ -578,6 +590,8 @@
     "evasion_bonus": 10,
     "mod_skills": {"strip": [0.2, 0, 0.08, 0, 0], "vaginal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration", "Ninja Shop"],
+    "defence_multiplier": {"status": 0.25},
+    "delivery_multiplier": {"status": 0.25},
     "goodtraits": [],
     "badtraits": ["Frigid"]
     },
@@ -687,7 +701,7 @@
     },
     {
     "id": "Faerie Gown",
-    "desc": "This incredibly rare garment bears an otherworldly beauty; its magical origin is visible even to the untrained eye. Woven from the silk of unknown insects, it carries a powerful spell that enhances the wearer's natural looks, and even though it seems heavy and difficult to move in it is actually much lighter than it appears.",
+    "desc": "This incredibly rare garment bears an otherworldly beauty; its magical origin is visible even to the untrained eye. Woven from the silk of unknown insects, it carries a powerful spell that enhances the wearer's natural looks and magic abilities.",
     "icon": "content/items/body/fg.png",
     "price": 4000,
     "sex": "female",
@@ -701,6 +715,8 @@
     "max": {"charisma": 50, "joy": 40, "mp": 50, "magic": 80, "defence": 50},
     "mod": {"charisma": 30, "character": 50, "agility": -20, "attack": -100, "magic": 20},
     "evasion_bonus": 4,
+    "defence_multiplier": {"magic": 0.15},
+    "delivery_multiplier": {"magic": 0.15},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien"]
@@ -721,6 +737,7 @@
     "type": "armor",
     "max": {"constitution": 40, "defence": 150, "magic": -50, "vitality": 20, "health": 150},
     "mod": {"constitution": 30, "defence": 90, "agility": -20, "magic": -50},
+    "defence_multiplier": {"melee": 0.3, "ranged": 0.3, "status": -0.5},
     "mod_skills": {"refinement": [0, 0, -0.3, 0, 0], "dancing": [0, 0, -0.3, 0, 0], "waiting": [0, 0, -0.3, 0, 0], "bartending": [0, 0, -0.3, 0, 0]},
     "locations": ["Exploration"]
     },
@@ -738,6 +755,7 @@
     "slot": "body",
     "type": "armor",
     "max": {"agility": -5, "magic": 40, "defence": 40},
+    "defence_multiplier": {"magic": 0.1},
     "mod": {"magic": 20, "constitution": 15, "agility": -15, "attack": -15, "defence": 20},
     "locations": ["Work Shop"]
     },
@@ -752,6 +770,8 @@
     "eqchance": 25,
     "hidden": true,
     "infinite": false,
+    "defence_multiplier": {"magic": 0.2},
+    "delivery_multiplier": {"magic": 0.2},
     "slot": "body",
     "type": "armor",
     "max": {"mp": 30, "magic": 60, "agility": -40, "attack": -50, "defence": 60},
@@ -812,6 +832,7 @@
     "max": {"defence": 60},
     "mod": {"defence": 50, "character": 60},
     "mod_skills": {"strip": [0, 0, 0.01, 0, 0], "vaginal": [0, 0, 0.01, 0, 0], "group": [0, 0, 0.01, 0, 0], "anal": [0, 0, 0.01, 0, 0], "oral": [0, 0, 0.01, 0, 0], "bdsm": [0, 0, 0.01, 0, 0], "sex": [0, 0, 0.01, 0, 0]},
+    "defence_multiplier": {"melee": 0.2, "ranged": 0.2, "magic": 0.1},
     "removetraits": ["Frigid"],
     "locations": ["Exploration"]
     },
@@ -905,6 +926,7 @@
     "evasion_bonus": 3,
     "max": {"charisma": 70, "defence": 80},
     "mod": {"charisma": 35, "defence": 40},
+    "defence_multiplier": {"melee": 0.15, "ranged": 0.15},
     "mod_skills": {"exploration": [0.02, 0.02, 0.06, 0, 0], "management": [0.02, 0.02, 0.06, 0, 0], "refinement": [0.01, 0.01, 0.05, 0, 0]},
     "locations": ["Tailor Store"]
     },

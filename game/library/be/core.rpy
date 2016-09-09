@@ -728,7 +728,7 @@ init -1 python: # Core classes:
                                     temp += max(minv, float(t.level)*max/lvl)
                         ev += temp
                         
-                        healthlevel=(1-t.health/t.get_max("health"))*10 # low health provides additional evasion, up to 10% with close to 0 hp
+                        healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
                         ev += healthlevel
                         if dice(ev):
                             effects.append("missed_hit")

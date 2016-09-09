@@ -32,6 +32,7 @@
     "type": "armor",
     "max": {"vitality": 5, "defence": 10},
     "mod": {"defence": 10},
+    "defence_bonus": {"ranged": 10},
     "evasion_bonus": 1,
     "locations": ["Exploration"]
     },
@@ -69,6 +70,7 @@
     "evasion_bonus": -1,
     "max": {"defence": 15},
     "mod": {"defence": 15, "agility": -10},
+    "defence_bonus": {"melee": 10},
     "locations": ["Exploration"]
     },
     {
@@ -86,6 +88,7 @@
     "type": "armor",
     "max": {"defence": 20},
     "mod": {"defence": 20, "agility": 5},
+    "defence_bonus": {"ranged": 10, "melee": 10},
     "locations": ["Exploration", "Work Shop"]
     },
     {
@@ -104,6 +107,7 @@
     "evasion_bonus": 1,
     "max": {"defence": 30, "agility": 10},
     "mod": {"defence": 20, "agility": 10},
+    "defence_bonus": {"ranged": 15, "melee": 15},
     "locations": ["Exploration"]
     },
     {
@@ -121,6 +125,7 @@
     "type": "armor",
     "max": {"defence": 40, "agility": 20},
     "mod": {"defence": 25, "agility": 15},
+    "defence_bonus": {"ranged": 10, "magic": 20, "melee": 5},
     "evasion_bonus": 2,
     "locations": ["Exploration"]
     },
@@ -228,6 +233,7 @@
     "max": {"magic": 30},
     "mod": {"magic": 20},
     "evasion_bonus": -5,
+    "delivery_multiplier": {"magic": 0.05},
     "locations": ["Exploration", "General Store"],
     "goodtraits": []
     },
@@ -247,6 +253,7 @@
     "max": {"defence": 30},
     "mod": {"defence": 20},
     "evasion_bonus": 1,
+    "defence_multiplier": {"melee": 0.05, "ranged": 0.05},
     "locations": ["Exploration", "General Store"]
     },
     {
@@ -356,6 +363,7 @@
     "mod": {"charisma": -20, "refinement": -25, "attack": 30, "defence": 20, "agility": -5},
     "mod_skills": {"vaginal": [-0.02, 0, 0, 0, 0], "oral": [-0.02, 0, 0, 0, 0], "anal": [-0.02, 0, 0, 0, 0], "bdsm": [-0.02, 0, 0, 0, 0], "group": [-0.02, 0, 0, 0, 0], "sex": [-0.02, 0, 0, 0, 0]},
     "min": {"attack": 10},
+    "delivery_multiplier": {"melee": 0.05},
     "locations": ["Exploration"]
     },
     {
@@ -498,6 +506,7 @@
     "mod": {"defence": 10, "agility": 10, "luck": 5},
     "evasion_bonus": 2,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "defence_bonus": {"magic": 20, "melee": 20},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -518,6 +527,7 @@
     "mod": {"defence": 5, "agility": 15, "luck": 5},
     "evasion_bonus": 3,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "defence_bonus": {"magic": 20, "ranged": 20},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -537,6 +547,7 @@
     "max": {"mp": 15, "magic": 5, "defence": 15, "agility": 15},
     "mod": {"defence": 5, "agility": 5, "luck": 10, "magic": 5},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
+    "defence_bonus": {"magic": 35},
     "locations": ["Exploration"],
     "goodtraits": ["Not Human"]
     },
@@ -558,6 +569,8 @@
     "mod": {"character": 20, "agility": -10, "defence": 10, "magic": 10, "charisma": 10, "attack": -40},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
+    "defence_multiplier": {"magic": 0.05},
+    "delivery_multiplier": {"magic": 0.05},
     "goodtraits": ["Alien"]
     },
     {
@@ -578,6 +591,8 @@
     "evasion_bonus": 4,
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "exploration": [0.02, 0.01, 0.02, 0, 0]},
     "locations": ["Exploration"],
+    "defence_multiplier": {"status": 0.05},
+    "delivery_multiplier": {"status": 0.05},
     "goodtraits": []
     },
     {

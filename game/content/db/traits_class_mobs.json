@@ -7,6 +7,7 @@
         "desc": "Berserker attacks no matter the cost.",
         "basetrait": true,
         "mob_only": true,
+        "evasion_bonus": [-10, -10, 1],
         "mod": {
             "attack": 300,
             "defence": 80,
@@ -71,6 +72,8 @@
         "desc": "Juggernauts may be slow, but very difficult to kill.",
         "basetrait": true,
         "mob_only": true,
+        "defence_multiplier": {"melee":0.5, "ranged":0.5},
+        
         "mod": {
             "attack": 100,
             "defence": 300,
@@ -139,6 +142,7 @@
         "desc": "This creature has magic in it's blood, flesh and soul.",
         "basetrait": true,
         "mob_only": true,
+        "defence_multiplier": {"magic":0.5},
         "mod": {
             "magic": 100,
             "upkeep": 5,
@@ -198,6 +202,7 @@
         ],
         "desc": "This creature is not too strong, but extremely agile and fast.",
         "basetrait": true,
+        "defence_multiplier": {"status":0.5},
         "mob_only": true,
         "mod": {
             "attack": 10,
@@ -259,6 +264,7 @@
         "desc": "This creature does not have any weaknesses.",
         "basetrait": true,
         "mob_only": true,
+        "defence_multiplier": {"magic":0.5, "status":0.5, "melee":0.5, "ranged":0.5},
         "mod": {
             "magic": 100,
             "upkeep": 5,
