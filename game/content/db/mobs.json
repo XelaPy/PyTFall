@@ -22,7 +22,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Water", "Slime"],
+        "traits": ["Water", "Slime", "Minor Physical Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -54,7 +54,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Water", "Slime"],
+        "traits": ["Water", "Slime", "Poison Absorption"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -146,7 +146,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Water", "Slime"],
+        "traits": ["Water", "Slime", "Minor Physical Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -177,9 +177,9 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Water", "Slime"],
+        "traits": ["Water", "Slime", "Poison Absorption"],
         "attack_skills": [
-            "SprayAttack", "FistAttack"
+            "FistAttack"
         ],
         "magic_skills": [
             "Waterga", "Water"
@@ -538,7 +538,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Darkness", "Monster"],
+        "traits": ["Darkness", "Monster", "Poison Resistance"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -568,7 +568,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Darkness", "Undead", "Darkness Immunity"],
+        "traits": ["Darkness", "Undead", "Darkness Immunity", "Minor Physical Resistance", "Healing Immunity", "Poison Immunity"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -577,7 +577,7 @@
     },
     {
         "name": "Harpy",
-        "desc": "Harpies are known for their love to seduce travelers in order to breed, and protected by the law in many countries unless they attack first.",
+        "desc": "Harpies are known for their love to seduce travellers in order to breed, and protected by the law in many countries unless they attack first.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/t.png",
         "portrait": "content/npc/mobs/t1.png",
@@ -958,7 +958,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Monster", "Water", "Ice", "Ice Immunity"],
+        "traits": ["Monster", "Water", "Ice", "Ice Immunity", "Water Resistance"],
         "attack_skills": [
             "SwordAttack"
         ],
@@ -988,7 +988,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth"],
+        "traits": ["Monster", "Earth", "Poison Immunity"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -1018,7 +1018,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Immunity"],
+        "traits": ["Monster", "Earth", "Earth Immunity", "Poison Immunity"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -1048,7 +1048,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption"],
+        "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption", "Poison Immunity"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -1078,7 +1078,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Undead", "Light", "Light Immunity"],
+        "traits": ["Undead", "Light", "Light Immunity", "Physical Weakness", "Darkness Resistance"],
         "attack_skills": [
             
         ],
@@ -1108,7 +1108,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Absorption"],
+        "traits": ["Monster", "Earth", "Earth Absorption", "Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -1168,7 +1168,7 @@
             "intelligence": 70
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance"],
         "attack_skills": [
             "SwordAttack"
         ],
@@ -1198,7 +1198,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance"],
         "attack_skills": [
             "RodAttack"
         ],
@@ -1228,7 +1228,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Earth Immunity", "Neutral"],
+        "traits": ["Monster", "Earth Resistance", "Neutral", "Minor Physical Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -1288,7 +1288,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Water"],
+        "traits": ["Monster", "Earth", "Water", "Water Resistance"],
         "attack_skills": [
         ],
         "magic_skills": ["Water", "Watera", "Stone", "Stonera"
@@ -1317,7 +1317,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Fire"],
+        "traits": ["Monster", "Fire", "Air Resistance"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -1437,7 +1437,7 @@
             "intelligence": 3
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Poison Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -1527,7 +1527,7 @@
             "intelligence": 75
         },
         "skills": {},
-        "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity"],
+        "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity", "Physical Resistance", "Poison Immunity"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -1647,7 +1647,7 @@
             "intelligence": 60
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -1677,7 +1677,7 @@
             "intelligence": 66
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Absorption"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -1686,7 +1686,7 @@
     },
     {
         "name": "Oni",
-        "desc": "A weird creature from ancient legends of distant lands. They actually have not existed, but the potential of faith of many generations eventually gave them life.",
+        "desc": "A weird creature from ancient legends of distant lands. Initially they have not existed, but the potential of faith of many generations eventually gave them life.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/oni.png",
         "portrait": "content/npc/mobs/oni1.png",
@@ -1707,7 +1707,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
         "attack_skills": [
             "SwordAttack"
         ],
@@ -1737,7 +1737,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Darkness Absorption"],
+        "traits": ["Undead", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -1767,7 +1767,7 @@
             "intelligence": 66
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Immunity"],
         "attack_skills": [
             "WhipAttack"
         ],
@@ -1887,7 +1887,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Darkness"],
+        "traits": ["Monster", "Darkness", "Minor Physical Resistance", "Poison Resistance"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -1917,7 +1917,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Furry", "Fire", "Earth"],
+        "traits": ["Furry", "Fire", "Earth", "Minor Physical Resistance"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -1977,7 +1977,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Elf", "Earth", "Earth Immunity", "Water Absorption"],
+        "traits": ["Elf", "Earth", "Earth Immunity", "Water Absorption", "Poison Absorption"],
         "attack_skills": [
             "WhipAttack"
         ],
@@ -1986,7 +1986,7 @@
     },
     {
         "name": "Druid",
-        "desc": "A crazy old hermit. Noone can keep the sanity and healthy stomach eating only mushrooms and berries.",
+        "desc": "A crazy old hermit. Noone can keep the sanity and healthy stomach eating only mushrooms and berries for decades.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/bj.png",
         "portrait": "content/npc/mobs/bj1.png",
@@ -2007,7 +2007,7 @@
             "intelligence": 45
         },
         "skills": {},
-        "traits": ["Human", "Earth", "Water", "Air"],
+        "traits": ["Human", "Earth", "Water", "Air", "Poison Immunity"],
         "attack_skills": [
             "RodAttack"
         ],
@@ -2037,7 +2037,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Darkness Absorption"],
+        "traits": ["Undead", "Darkness", "Darkness Absorption", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2067,7 +2067,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Neutral"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
         "attack_skills": [
             "SwordAttack"
         ],
@@ -2097,7 +2097,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Neutral"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
         "attack_skills": [
             "RodAttack"
         ],
@@ -2127,7 +2127,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Darkness Immunity"],
+        "traits": ["Undead", "Darkness", "Darkness Immunity", "Healing Immunity", "Poison Immunity", "Minor Physical Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2157,7 +2157,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Furry", "Ice"],
+        "traits": ["Furry", "Ice Resistance"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -2187,7 +2187,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Furry", "Ice"],
+        "traits": ["Furry", "Ice Resistance"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -2307,7 +2307,7 @@
             "intelligence": 65
         },
         "skills": {},
-        "traits": ["Human", "Ice Absorption", "Ice"],
+        "traits": ["Human", "Ice Absorption", "Ice", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -2337,7 +2337,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Human", "Ice Absorption", "Ice"],
+        "traits": ["Human", "Ice Absorption", "Ice", "Physical Immunity", "Poison Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -2346,7 +2346,7 @@
     },
     {
         "name": "Ice Golem",
-        "desc": "Animated by magic humanoid mass of ice.",
+        "desc": "Animated humanoid made of ice.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bu.png",
         "portrait": "content/npc/mobs/bu1.png",
@@ -2367,7 +2367,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Ice Absorption", "Ice"],
+        "traits": ["Monster", "Ice Absorption", "Ice", "Physical Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2397,7 +2397,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Monster", "Ice Absorption", "Ice"],
+        "traits": ["Monster", "Ice Absorption", "Ice", "Physical Weakness"],
         "attack_skills": [
             
         ],
@@ -2577,7 +2577,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Unknown", "Electricity", "Electricity Absorption"],
+        "traits": ["Unknown", "Electricity", "Electricity Absorption", "Physical Immunity", "Poison Resistance"],
         "attack_skills": [
           
         ],
@@ -2607,7 +2607,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Unknown", "Water", "Fire", "Water Absorption"],
+        "traits": ["Unknown", "Water", "Fire", "Water Absorption", "Physical Immunity", "Poison Resistance"],
         "attack_skills": [
          
         ],
@@ -2616,7 +2616,7 @@
     },
     {
         "name": "Mimicess",
-        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travelers and drag them inside for mating.",
+        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travellers and drag them inside for mating.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cf.png",
         "portrait": "content/npc/mobs/cf1.png",
@@ -2646,7 +2646,7 @@
     },
     {
         "name": "Mimic",
-        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travelers and devour them.",
+        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travellers and devour them.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/mim.png",
         "portrait": "content/npc/mobs/mim.png",
@@ -2676,7 +2676,7 @@
     },
     {
         "name": "Stoner",
-        "desc": "A small and kinda cuit creature from the elemental dimension of Earth.",
+        "desc": "A small and kinda suit creature from the elemental dimension of Earth.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cg.png",
         "portrait": "content/npc/mobs/cg1.png",
@@ -2697,7 +2697,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Immunity"],
+        "traits": ["Monster", "Earth", "Earth Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -2727,7 +2727,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Undead", "Neutral"],
+        "traits": ["Undead", "Neutral", "Physical Vulnerability"],
         "attack_skills": [
             
         ],
@@ -2757,7 +2757,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Air", "Air Immunity", "Undead"],
+        "traits": ["Air", "Air Immunity", "Undead"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2787,7 +2787,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Water", "Water Immunity", "Undead"],
+        "traits": ["Water", "Water Immunity", "Undead"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2817,7 +2817,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Immunity", "Undead"],
+        "traits": ["Fire", "Fire Immunity", "Undead"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2847,7 +2847,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Absorption"],
+        "traits": ["Monster", "Fire", "Fire Absorption", "Physical Resistance", "Poison Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -2937,7 +2937,7 @@
             "intelligence": 77
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity", "Minor Physical Resistance"],
         "attack_skills": [
             "ThrowAttack"
         ],
@@ -2967,7 +2967,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Unknown", "Neutral"],
+        "traits": ["Unknown", "Neutral", "Physical Resistance"],
         "attack_skills": [
            
         ],
@@ -3057,7 +3057,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Absorption", "Darkness", "Darkness Immunity", "Air Immunity"],
+        "traits": ["Monster", "Fire", "Fire Absorption", "Darkness", "Darkness Immunity", "Air Immunity", "Minor Physical Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -3267,7 +3267,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption"],
+        "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption", "Minor Physical Resistance"],
         "attack_skills": [
             "RodAttack"
         ],
@@ -3335,7 +3335,7 @@
         ]
     },
     {
-        "name": "Undead Cemetry",
+        "name": "Undead Cemetery",
         "desc": "Woven together remains of multiple once living beings.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cu.png",
@@ -3357,7 +3357,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Darkness"],
+        "traits": ["Undead", "Darkness Immunity", "Darkness", "Physical Immunity", "Poison Absorption", "Healing Immunity"],
         "attack_skills": [
             "ClawAttack", "BiteAttack"
         ],
@@ -3387,7 +3387,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Darkness Absorption", "Darkness"],
+        "traits": ["Darkness Absorption", "Darkness", "Physical Absorption", "Poison Absorption"],
         "attack_skills": [
             "ScytheAttack"
         ],
@@ -3417,7 +3417,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Slime", "Magic Immunity", "Neutral"],
+        "traits": ["Slime", "Magic Immunity", "Neutral", "Healing Immunity"],
         "attack_skills": [
             "SprayAttack"
         ],
@@ -3507,7 +3507,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Darkness Absorption", "Darkness"],
+        "traits": ["Monster", "Darkness Absorption", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             
         ],
@@ -3537,7 +3537,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Slime", "Fire", "Darkness"],
+        "traits": ["Undead", "Fire", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "SprayAttack"
         ],
@@ -3567,7 +3567,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Slime", "Electricity", "Darkness"],
+        "traits": ["Undead", "Electricity", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "SprayAttack"
         ],
@@ -3597,7 +3597,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Immunity"],
+        "traits": ["Monster", "Fire", "Fire Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3627,7 +3627,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Electricity", "Electricity Immunity"],
+        "traits": ["Monster", "Electricity", "Electricity Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3657,7 +3657,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Darkness", "Darkness Immunity"],
+        "traits": ["Monster", "Darkness", "Darkness Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3687,7 +3687,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Water", "Water Immunity"],
+        "traits": ["Monster", "Water", "Water Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3717,7 +3717,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Air", "Air Immunity"],
+        "traits": ["Monster", "Air", "Air Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3777,7 +3777,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Poison Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -3837,7 +3837,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Minor Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -3876,7 +3876,7 @@
     },
     {
         "name": "Lust",
-        "desc": "An artificially created succubus. She doesn't need to eat and breath, but sex is mandatory for her survival.",
+        "desc": "An artificially created succubus. She doesn't need to eat and breath, but raping is mandatory for her survival.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dj.png",
         "portrait": "content/npc/mobs/dj1.png",
@@ -3897,7 +3897,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Minor Physical Resistance"],
         "attack_skills": [
             "ClawAttack", "FistAttack"
         ],
@@ -3927,7 +3927,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Undead", "Darkness"],
+        "traits": ["Undead", "Darkness", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
             "FistAttack"
         ],
@@ -3957,7 +3957,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Ice Immunity"],
+        "traits": ["Monster", "Fire", "Ice Immunity", "Fire Resistance"],
         "attack_skills": [
             "CannonAttack", "ClawAttack"
         ],
@@ -3987,7 +3987,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Fire Immunity", "Ice Immunity", "Neutral"],
+        "traits": ["Monster", "Fire Immunity", "Ice Immunity", "Neutral", "Air Resistance"],
         "attack_skills": [
             "AxeAttack"
         ],
@@ -4047,7 +4047,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral"],
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
             "ThrowAttack"
         ],
@@ -4056,7 +4056,7 @@
     },
     {
         "name": "Angry Rabber",
-        "desc": "Anything that once lived and died can be raised as undead. This specific creature is the result of rape.",
+        "desc": "Anything that once lived and died can be raised as undead. This specific creature is the result of a rape.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dp.png",
         "portrait": "content/npc/mobs/dp1.png",
@@ -4077,7 +4077,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral"],
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
             "BiteAttack"
         ],
@@ -4137,7 +4137,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Furry", "Air"],
+        "traits": ["Furry", "Air", "Air Resistance"],
         "attack_skills": [
             "ClawAttack"
         ],
@@ -4256,7 +4256,7 @@
             "intelligence": 45
         },
         "skills": {},
-        "traits": ["Monster", "Fire"],
+        "traits": ["Monster", "Fire", "Minor Physical Resistance"],
         "attack_skills": [
             "CannonAttack", "BiteAttack"
         ],
@@ -4286,7 +4286,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Minor Physical Resistance"],
         "attack_skills": [
             "RodAttack"
         ],
