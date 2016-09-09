@@ -7,7 +7,7 @@
         "desc": "She will love anyone no matter who they are or what they look like as long as they have something in return.",
         "basetrait": true,
         "mod": {
-            "charisma": 60
+            "charisma": 20
         },
         "max": {
             "charisma": 60
@@ -45,13 +45,13 @@
             ]
         },
         "init_lvlmax": {
-            "charisma": 60
+            "charisma": 50
         },
         "init_max": {
-            "charisma": 30
+            "charisma": 25
         },
         "init_mod": {
-            "charisma": 20
+            "charisma": 10
         },
         "init_skills": {
             "vaginal": [
@@ -75,118 +75,6 @@
             "charisma": [
                 0,
                 1
-            ]
-        }
-    },
-    {
-        "id": "Anal Prostitute",
-        "occupations": [
-            "SIW"
-        ],
-        "desc": "She specializes in anal sex.",
-        "higher_tiers": ["Prostitute"],
-        "basetrait": true,
-        "mod_skills": {
-            "anal": [
-                0.1,
-                0.1,
-                0.1
-            ]
-        },
-        "init_skills": {
-            "anal": [
-                40,
-                80
-            ]
-        }
-    },
-    {
-        "id": "Oral Prostitute",
-        "occupations": [
-            "SIW"
-        ],
-        "desc": "She specializes in oral sex.",
-        "higher_tiers": ["Prostitute"],
-        "basetrait": true,
-        "mod_skills": {
-            "oral": [
-                0.1,
-                0.1,
-                0.1
-            ]
-        },
-        "init_skills": {
-            "oral": [
-                40,
-                80
-            ]
-        }
-    },
-    {
-        "id": "Straight Prostitute",
-        "occupations": [
-            "SIW"
-        ],
-        "blocks": ["Virgin"],
-        "desc": "She specializes in vaginal sex.",
-        "higher_tiers": ["Prostitute"],
-        "basetrait": true,
-        "mod_skills": {
-            "vaginal": [
-                0.1,
-                0.1,
-                0.1
-            ]
-        },
-        "init_skills": {
-            "vaginal": [
-                40,
-                80
-            ]
-        }
-    },
-    {
-        "id": "Group Prostitute",
-        "occupations": [
-            "SIW"
-        ],
-        "blocks": ["Virgin"],
-        "desc": "She specializes in group sex.",
-        "higher_tiers": ["Prostitute"],
-        "basetrait": true,
-        "mod_skills": {
-            "group": [
-                0.1,
-                0.1,
-                0.1
-            ]
-        },
-        "init_skills": {
-            "group": [
-                40,
-                80
-            ]
-        }
-    },
-    {
-        "id": "Mistress",
-        "occupations": [
-            "SIW"
-        ],
-        "desc": "She specializes in bdsm sex.",
-        "higher_tiers": ["Prostitute"],
-        "basetrait": true,
-        "mod_skills": {
-            "bdsm": [
-                0.1,
-                0.1,
-                0.1
-            ]
-        },
-        "init_skills": {
-            "bdsm": [
-                40,
-                80
             ]
         }
     },

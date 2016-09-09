@@ -5,8 +5,9 @@
     "blocks": ["Big Boobs", "Average Boobs", "Small Boobs"],
     "min": {"charisma": 10},
     "max": {"charisma": 20, "agility": -10},
-    "mod_stats": {"charisma": [1, 4], "agility": [-1, 4]},
-    "mod_skills": {"strip": [-0.08, 0, 0.1], "dance": [-0.1, 0, -0.1]},
+    "mod_stats": {"charisma": [1, 1], "agility": [-1, 1]},
+    "mod_skills": {"strip": [-0.1, 0, 0.2], "dancing": [-0.1, 0, -0.1]},
+    "evasion_bonus": [-10, -10, 1],
     "breasts": true
     },
     {
@@ -15,15 +16,16 @@
     "blocks": ["Abnormally Large Boobs", "Average Boobs", "Small Boobs"],
     "min": {"charisma": 5},
     "max": {"charisma": 10, "agility": -5},
-    "mod_stats": {"charisma": [1, 5], "agility": [-1, 5]},
-    "mod_skills": {"strip": [-0.04, 0, 0.05]},
+    "mod_stats": {"charisma": [1, 2], "agility": [-1, 2]},
+    "mod_skills": {"strip": [-0.05, 0, 0.1]},
+    "evasion_bonus": [-5, -5, 1],
     "breasts": true
     },
     {
     "id": "Average Boobs",
     "desc": "Her boobs are somewhere in the B-C cup range. Any classy guy will say that this is the ideal size.",
     "blocks": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
-    "mod_stats": {"charisma": [1, 5]},
+    "mod_stats": {"charisma": [1, 4]},
     "breasts": true
     },
     {
@@ -32,22 +34,23 @@
     "blocks": ["Abnormally Large Boobs", "Average Boobs", "Big Boobs"],
     "min": {"agility": 5},
     "max": {"charisma": -20, "agility": 10},
-    "mod_stats": {"charisma": [-2, 4], "agility": [1, 4]},
-    "mod_skills": {"strip": [-0.1, 0, -0.1], "dancing": [0.03, 0, 0.02]},
-    "breasts": true
+    "mod_stats": {"charisma": [-2, 2], "agility": [1, 2]},
+    "mod_skills": {"strip": [-0.2, 0, -0.1], "dancing": [0.05, 0, 0.05]},
+    "breasts": true,
+    "evasion_bonus": [5, 5, 1]
     },
     {
     "id": "Not Human",
     "desc": "This girl doesn't look like a normal human being.",
     "mod": {"upkeep": 10},
-    "mod_skills": {"strip": [0, 0, 0.01], "refinement": [0, 0, 0.01]},
+    "mod_skills": {"strip": [0, 0, 0.03], "refinement": [-0.03, -0.03, 0.03]},
     "permanent": true
     },
    {
     "id": "Long Legs",
     "desc": "The legs on this girl go all the way to heaven.",
     "max": {"charisma": 5},
-    "mod_stats": {"charisma": [1, 10], "agility": [1, 5]},
+    "mod_stats": {"charisma": [1, 5], "agility": [1, 5]},
     "mod_skills": {"strip": [0, 0, 0.02], "dancing": [0, 0, 0.01]},
     "permanent": true
     },
@@ -74,7 +77,8 @@
     "max": {"vitality": -100, "health": -50},
     "mod_stats": {"constitution": [-3, 1], "agility": [2, 2]},
     "mod_ap": 1,
-    "body": true
+    "body": true,
+    "evasion_bonus": [5, 5, 1]
     },
     {
     "id": "Slim",
@@ -82,7 +86,8 @@
     "blocks": ["Lolita", "Chubby", "Athletic", "Manly"],
     "mod_stats": {"constitution": [-1, 1], "charisma": [1, 1]},
     "max": {"vitality": -50},
-    "body": true
+    "body": true,
+    "evasion_bonus": [1, 1, 1]
     },
     {
     "id": "Chubby",
@@ -90,7 +95,8 @@
     "desc": "This girl has plump, slightly round figure.",
     "mod_stats": {"constitution": [1, 2], "agility": [-2, 1]},
     "max": {"health": 50},
-    "body": true
+    "body": true,
+    "evasion_bonus": [-5, -5, 1]
     },
     {
     "id": "Athletic",
@@ -99,7 +105,8 @@
     "min": {"constitution": 5},
     "mod_stats": {"constitution": [1, 2], "agility": [1, 2]},
     "max": {"health": 25, "vitality": 50},
-    "body": true
+    "body": true,
+    "evasion_bonus": [3, 3, 1]
     },
    {
     "id": "Manly",
@@ -109,7 +116,8 @@
     "mod_stats": {"constitution": [1, 2], "charisma": [-3, 1], "agility": [-3, 2]},
     "max": {"health": 25, "vitality": 100, "charisma": -50, "attack": 10, "defence": 10, "agility": -25},
     "mod_skills": {"service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
-    "body": true
+    "body": true,
+    "evasion_bonus": [-5, -5, 1]
     },
     {
     "id": "Artificial Body",
@@ -118,15 +126,17 @@
     "min": {"constitution": 5, "defence": 15},
     "max": {"constitution": 10, "defence": 15, "health": 50, "vitality": 50},
     "permanent": true,
-    "client": true
+    "client": true,
+    "el_defence": {"healing": 0.3, "poison": 0.35},
+    "defence_bonus": {"melee":[20, 80, 50], "ranged":[15, 60, 50]}
     },
     {
     "id": "Scars",
     "desc": "This poor girl has some scars.",
     "mod": {"upkeep": 5},
-    "mod_stats": {"constitution": [1, 20]},
+    "mod_stats": {"constitution": [1, 2]},
     "max": {"charisma": -5},
-    "mod_skills": {"strip": [0, 0, -0.09]},
+    "mod_skills": {"strip": [0, 0, -0.1]},
     "permanent": true
     },
     {
@@ -143,6 +153,7 @@
     "mod_stats": {"magic": [-3, 1], "constitution": [-2, 2]},
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},
-    "permanent": true
+    "permanent": true,
+    "defence_bonus": {"magic":[0, 50, 50], "status":[5, 50, 50]}
     }
 ]
