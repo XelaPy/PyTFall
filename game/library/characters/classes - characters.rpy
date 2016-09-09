@@ -216,24 +216,14 @@ init -9 python:
             if hasattr(char, "effects"):
                 for entry in trait.effects:
                     char.enable_effect(entry)
-                
-            for key in trait.mod:
-                # We prevent disposition from being changed by the traits or it will mess with girl_meets:
-                if key == "disposition":
-                    char.disposition += trait.mod[key]
-                elif key == 'upkeep':
-                    char.upkeep += trait.mod[key]
+                    
+            if trait.mod_stats:
+                for key in trait.mod_stats:
+                    # We prevent disposition from being changed by the traits or it will mess with girl_meets:
+                    if key in ["disposition", 'upkeep']:
+                        char.disposition += trait.mod_stats[key][0]
                 for level in xrange(char.level+1):
-                    char.stats.apply_traits_mod_on_levelup()
-                
-            for key in trait.mod_stats:
-                # We prevent disposition from being changed by the traits or it will mess with girl_meets:
-                if key == "disposition":
-                    char.disposition += trait.mod_stats[key][0]
-                elif key == 'upkeep':
-                    char.upkeep += trait.mod_stats[key][0]
-                for level in xrange(char.level+1):
-                    char.stats.apply_traits_mod_on_levelup()
+                    char.stats.apply_trait_statsmod(trait)
                     
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
@@ -316,14 +306,14 @@ init -9 python:
             if isinstance(char, Char):
                 for entry in trait.effects:
                     self.intance.disable_effect(entry)
-
-            for key in trait.mod:
-                if key == "disposition":
-                    stats -= trait.mod[key]
-                elif key == 'upkeep':
-                    char.upkeep -= trait.mod[key]
+                    
+            if trait.mod_stats:
+                for key in trait.mod_stats:
+                    # We prevent disposition from being changed by the traits or it will mess with girl_meets:
+                    if key in ["disposition", 'upkeep']:
+                        char.disposition -= trait.mod_stats[key][0]
                 for level in xrange(char.level+1):
-                   char.stats.apply_traits_mod_on_levelup(reverse=True)
+                    char.stats.apply_trait_statsmod(trait, reverse=True)
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
@@ -926,7 +916,8 @@ init -9 python:
                 self.level += 1
                 
                 # Bonuses from traits:
-                self.apply_traits_mod_on_levelup()
+                for trait in self.instance.traits:
+                    self.apply_trait_statsmod(trait)
                 
                 # Normal Max stat Bonuses:
                 for stat in self.stats:
@@ -970,22 +961,13 @@ init -9 python:
                 self.stats["mp"] = self.get_max("mp")
                 self.stats["vitality"] = self.get_max("vitality")
                 
-        def apply_traits_mod_on_levelup(self, reverse=False):
-            """Applies "mod" field on characters levelup.
-            
+        def apply_trait_statsmod(self, trait, reverse=False):
+            """Applies "stats_mod" field on characters.
             """
-            if hasattr(self.instance, "traits"):
-                for trait in self.instance.traits:
-                    for key in trait.mod: # This needs to be removed:
-                        if key not in ["disposition", "upkeep"]:
-                            if not self.level%5:
-                                mod_value = int(round(trait.mod[key]*0.05))
-                                self.mod(key, mod_value) if not reverse else self.mod(key, -mod_value)
-                                
-                    for key in trait.mod_stats:
-                        if key not in ["disposition", "upkeep"]:
-                            if not self.level%trait.mod_stats[key][1]:
-                                self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, -trait.mod_stats[key][0])
+            for key in trait.mod_stats:
+                if key not in ["disposition", "upkeep"]:
+                    if not self.level%trait.mod_stats[key][1]:
+                        self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, -trait.mod_stats[key][0])
                 
         def mod(self, key, value):
             """Modifies a stat.
@@ -4328,8 +4310,6 @@ init -9 python:
             self.character_trait = False
             self.sexual = False
             self.client = False
-            
-            self.add_beskills = list()
             
             # Elemental:
             self.font_color = None
