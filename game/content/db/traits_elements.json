@@ -5,7 +5,7 @@
     "icon": "content/gfx/interface/images/elements/fire.png",
     "elemental": true,
     "el_damage": {"fire": 0.35, "ice": -0.65},
-    "el_defence": {"fire": 0.25, "wind": 0.35, "water": -0.6},
+    "el_defence": {"fire": 0.2, "wind": 0.3, "water": -0.5},
     "font_color": "orangered"
     },
     {
@@ -14,7 +14,7 @@
     "icon": "content/gfx/interface/images/elements/water.png",
     "elemental": true,
     "el_damage": {"water": 0.35, "electricity": -0.65},
-    "el_defence": {"water": 0.25, "fire": 0.35, "earth": -0.6},
+    "el_defence": {"water": 0.2, "fire": 0.3, "earth": -0.5},
     "font_color": "blue"
     },
     {
@@ -23,7 +23,7 @@
     "icon": "content/gfx/interface/images/elements/air.png",
     "elemental": true,
     "el_damage": {"air": 0.35, "earth": -0.65},
-    "el_defence": {"air": 0.25, "electricity": 0.35, "fire": -0.6},
+    "el_defence": {"air": 0.2, "electricity": 0.3, "fire": -0.5},
     "font_color": "lime"
     },
     {
@@ -32,26 +32,8 @@
     "icon": "content/gfx/interface/images/elements/earth.png",
     "elemental": true,
     "el_damage": {"earth": 0.35, "air": -0.65},
-    "el_defence": {"earth": 0.25, "water": 0.35, "ice": -0.6},
+    "el_defence": {"earth": 0.2, "water": 0.3, "ice": -0.5},
     "font_color": "tan"
-    },
-    {
-    "id": "Darkness",
-    "desc": "Good with Darkness but very bad with Light in both offence and defence. Gives small protection against Water, Earth and Ice.",
-    "icon": "content/gfx/interface/images/elements/darkness.png",
-    "elemental": true,
-    "el_damage": {"darkness": 0.4, "light": -0.8},
-    "el_defence": {"light": -0.8, "darkness": 0.5, "water": 0.1, "earth": 0.1, "ice": 0.1},
-    "font_color": "darkviolet"
-    },
-    {
-    "id": "Light",
-    "desc": "Good with Light but very bad with Darkness in both offence and defence. Gives small protection against Fire, Air and Electricity.",
-    "icon": "content/gfx/interface/images/elements/light.png",
-    "elemental": true,
-    "el_damage": {"light": 0.4, "darkness": -0.8},
-    "el_defence": {"darkness": -0.8, "light": 0.5, "fire": 0.1, "air": 0.1, "electricity": 0.1},
-    "font_color": "lightyellow"
     },
     {
     "id": "Electricity",
@@ -59,7 +41,7 @@
     "icon": "content/gfx/interface/images/elements/electricity.png",
     "elemental": true,
     "el_damage": {"electricity": 0.35, "water": -0.65},
-    "el_defence": {"electricity": 0.25, "ice": 0.35, "air": -0.6},
+    "el_defence": {"electricity": 0.2, "ice": 0.3, "air": -0.5},
     "font_color": "yellow"
     },
     {
@@ -68,8 +50,26 @@
     "icon": "content/gfx/interface/images/elements/ice.png",
     "elemental": true,
     "el_damage": {"ice": 0.35, "fire": -0.65},
-    "el_defence": {"ice": 0.25, "water": 0.35, "earth": -0.6},
+    "el_defence": {"ice": 0.2, "water": 0.3, "earth": -0.5},
     "font_color": "lightblue"
+    },
+    {
+    "id": "Darkness",
+    "desc": "Good with Darkness but bad with Light in both offence and defence. Gives small protection against Water, Earth and Ice.",
+    "icon": "content/gfx/interface/images/elements/darkness.png",
+    "elemental": true,
+    "el_damage": {"darkness": 0.35, "light": -0.65},
+    "el_defence": {"light": -0.7, "darkness": 0.4, "water": 0.1, "earth": 0.1, "ice": 0.1},
+    "font_color": "darkviolet"
+    },
+    {
+    "id": "Light",
+    "desc": "Good with Light but very bad with Darkness in both offence and defence. Gives small protection against Fire, Air and Electricity.",
+    "icon": "content/gfx/interface/images/elements/light.png",
+    "elemental": true,
+    "el_damage": {"light": 0.35, "darkness": -0.65},
+    "el_defence": {"darkness": -0.7, "light": 0.4, "fire": 0.1, "air": 0.1, "electricity": 0.1},
+    "font_color": "lightyellow"
     },
     {
     "id": "Neutral",
@@ -77,7 +77,7 @@
     "icon": "content/gfx/interface/images/elements/neutral.png",
     "elemental": true,
     "el_damage": {"fire": -0.4, "water": -0.4, "earth": -0.4, "air": -0.4, "ice": -0.4, "electricity": -0.4, "darkness": -0.5, "light": -0.5},
-    "el_defence": {"fire": -0.15, "water": -0.15, "earth": -0.15, "air": -0.15, "ice": -0.15, "electricity": -0.15, "darkness": -0.3, "light": -0.3}
+    "el_defence": {"fire": 0.15, "water": 0.15, "earth": 0.15, "air": 0.15, "ice": 0.15, "electricity": 0.15, "darkness": 0.2, "light": 0.2}
     },
     {
     "id": "Fire Immunity",
@@ -136,6 +136,11 @@
     "resist": ["poison"]
     },
     {
+    "id": "Physical Immunity",
+    "desc": "Physical attacks are completely ineffective.",
+    "resist": ["physical"]
+    },
+    {
     "id": "Fire Absorption",
     "desc": "Fire element restores health.",
     "el_absorbs": {"fire": 0.3}
@@ -181,6 +186,16 @@
     "el_absorbs": {"poison": 0.3}
     },
     {
+    "id": "Physical Absorption",
+    "desc": "Physical attacks restore health.",
+    "el_absorbs": {"physical": 0.2}
+    },
+    {
+    "id": "Poison Resistance",
+    "desc": "Poisons are not very effective.",
+    "el_defence": {"poison": 0.4}
+    },
+    {
     "id": "Minor Physical Resistance",
     "desc": "Physical attacks are not very effective.",
     "el_defence": {"physical": 0.4}
@@ -191,16 +206,6 @@
     "el_defence": {"physical": 0.8}
     },
     {
-    "id": "Physical Immunity",
-    "desc": "Physical attacks are completely ineffective.",
-    "resist": ["physical"]
-    },
-    {
-    "id": "Physical Absorption",
-    "desc": "Physical attacks restore health.",
-    "el_absorbs": {"physical": 0.2}
-    },
-    {
     "id": "Physical Weakness",
     "desc": "Physical attacks are unusually effective.",
     "el_defence": {"physical": -0.35}
@@ -209,5 +214,45 @@
     "id": "Physical Vulnerability",
     "desc": "Physical attacks are extremely effective.",
     "el_defence": {"physical": -0.7}
+    },
+    {
+    "id": "Fire Resistance",
+    "desc": "Fire is not very effective.",
+    "el_defence": {"fire": 0.4}
+    },
+    {
+    "id": "Water Resistance",
+    "desc": "Water is not very effective.",
+    "el_defence": {"water": 0.4}
+    },
+    {
+    "id": "Earth Resistance",
+    "desc": "Earth is not very effective.",
+    "el_defence": {"earth": 0.4}
+    },
+    {
+    "id": "Air Resistance",
+    "desc": "Air is not very effective.",
+    "el_defence": {"air": 0.4}
+    },
+    {
+    "id": "Ice Resistance",
+    "desc": "Ice is not very effective.",
+    "el_defence": {"ice": 0.4}
+    },
+    {
+    "id": "Electricity Resistance",
+    "desc": "Electricity is not very effective.",
+    "el_defence": {"electricity": 0.4}
+    },
+    {
+    "id": "Light Resistance",
+    "desc": "Light is not very effective.",
+    "el_defence": {"light": 0.4}
+    },
+    {
+    "id": "Darkness Resistance",
+    "desc": "Darkness is not very effective.",
+    "el_defence": {"darkness": 0.4}
     }
     ]
