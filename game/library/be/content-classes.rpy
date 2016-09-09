@@ -676,7 +676,7 @@ init python:
                 restore = int(round(restore))
                 effects.append(("healing", restore))
                 
-                t.dmg_font = lawngreen # Color the battle bounce green!
+                t.dmg_font = "lawngreen" # Color the battle bounce green!
                 
                 # String for the log:
                 temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, t.name)
