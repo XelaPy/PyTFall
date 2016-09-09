@@ -221,7 +221,7 @@ init -9 python:
                 for key in trait.mod_stats:
                     # We prevent disposition from being changed by the traits or it will mess with girl_meets:
                     if key in ["disposition", 'upkeep']:
-                        char.disposition += trait.mod_stats[key][0]
+                        setattr(char, key, getattr(char, key) + trait.mod_stats[key][0])
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait)
                     
@@ -311,7 +311,7 @@ init -9 python:
                 for key in trait.mod_stats:
                     # We prevent disposition from being changed by the traits or it will mess with girl_meets:
                     if key in ["disposition", 'upkeep']:
-                        char.disposition -= trait.mod_stats[key][0]
+                        setattr(char, key, getattr(char, key) - trait.mod_stats[key][0])
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait, reverse=True)
 
