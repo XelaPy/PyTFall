@@ -902,7 +902,7 @@ init -1 python: # Core classes:
                     if lvl >= target.level:
                         defense += maxv
                     else:
-                        defense += max(minv, float(target.level)*max/lvl)
+                        defense += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
                     m = m + i.defence_multiplier.get(self.delivery, 0)
             defense *= m

@@ -526,7 +526,6 @@ init -9 python:
                 
             return tax
         # ================================>
-        
         # Rest
         def expects_wage(self):
             """
@@ -2983,7 +2982,6 @@ init -9 python:
             self.nd_ap = 0 # next day action points
             self.gold = 0
             self.price = 500
-            self.upkeep = 0
             self.alive = True
 
             # Image related:
