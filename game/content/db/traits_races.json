@@ -14,7 +14,7 @@
     "type": "race",
     "icon": "content/races/undead.png",
     "el_damage": {"darkness": 0.1},
-    "el_defence": {"healing": 0.5, "darkness": 0.2, "poison": 0.5, "light": -0.2, "physical": 0.25},
+    "el_defence": {"healing": 0.5, "darkness": 0.1, "poison": 0.5, "light": -0.1, "physical": 0.2},
     "race": true
     },
     {
