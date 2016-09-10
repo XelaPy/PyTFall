@@ -378,6 +378,8 @@ init -1: # Images and Animations
     image resurrection = FilmStrip('content/gfx/be/filmstrips/resurrection2x.png', (288, 247), (5, 4), 0.1, loop=False)
     image bg test_grid = "content/gfx/bg/maps/map17x6.jpg"
     
+    # Special weapons attacks
+    image ice_dagger = FilmStrip('content/gfx/be/filmstrips/ice_dagger.png', (192, 192), (5, 3), 0.05, loop=False)
     
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
@@ -418,11 +420,22 @@ label load_battle_skills:
                               # target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .5})
         
         SimpleSkill("CrossbowAttack", attributes=["ranged", "physical"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow Attack",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
+        
+        # Daggers attacks
         SimpleSkill("KnifeAttack", attributes=["melee", "physical"], critpower=1.0, desc="Stabbing with a dagger.", effect=4, vitality_cost=1, menuname="Dagger Attack", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3")
         MultiAttack("KnifeAttack4X", attributes=["melee", "physical"], critpower=1.0, desc="Multiple strikes with a dagger.", effect=16, vitality_cost=5, menuname="Quadruple Strike", range=1,
-                      main_effect={"gfx": ProportionalScale("content/gfx/be/knives.png", 150, 150), "sfx": "content/sfx/sound/be/knife.mp3", "duration": 1.2, "times": 4, "interval": .2},
+                      main_effect={"gfx": ProportionalScale("content/gfx/be/knives.png", 150, 150), "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                       target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
+        SimpleSkill(u"Ice Dagger Attack", menu_pos=0, range=1, attributes=['melee', 'ice', 'physical'], effect=10, multiplier=1.1, vitality_cost=2, desc="Stabbing with an ice dagger.",
+                                           main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        MultiAttack("Ice Dagger Attack3X", attributes=["melee", "physical", "ice"], critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=50, vitality_cost=20, menuname="Triple Ice Attack", range=1,
+                      main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "times": 3, "interval": .75},
+                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
+                      target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
+                      
         SimpleSkill("ClawAttack", attributes=["melee", "physical"], critpower=0.4, desc="Ripping with claws.", effect=5, vitality_cost=1, menuname="Claws Attack", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
         SimpleSkill("FistAttack", attributes=["melee", "physical"], critpower=-0.4, effect=3, desc="Attacking with bare hands.", vitality_cost=1, menuname="Fists Attack", gfx=ProportionalScale("content/gfx/be/fists.png", 150, 150), sfx=list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)))
         SimpleSkill("CannonAttack", attributes=["ranged", "physical"], critpower=-0.6, effect=6, desc="Shooting a large caliber.", range=3, vitality_cost=1, menuname="Cannon Attack", gfx=ProportionalScale("content/gfx/be/cannons.png", 150, 150), sfx=["content/sfx/sound/be/cannon_1.mp3", "content/sfx/sound/be/cannon_2.mp3", "content/sfx/sound/be/cannon_3.mp3"])
