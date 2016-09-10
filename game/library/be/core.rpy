@@ -1483,6 +1483,10 @@ init -1 python: # Core classes:
                     if target not in died:
                         renpy.hide(target.betag)
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(0.3, 1, 0.3)], zorder=target.besk["zorder"])
+            elif type in ["shake"] and self.target_death_effect["gfx"] == "shatter":
+                for target in targets:
+                    renpy.hide(target.betag)
+                    renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
             else:
                 for target in targets:
                     if target not in died:

@@ -516,9 +516,9 @@ label load_battle_skills:
                               projectile_effects={"gfx": 'Fire Arrow fly', "sfx": None, "duration": 0.4},
                               attacker_effects={"gfx": "default_1", "sfx": "default"},
                               target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
-                              main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
-                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
-                              target_death_effect={"gfx": "shatter", "initial_pause": 0.4, "duration": 0.6},
+                              main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (.5, .5)}},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
+                              target_death_effect={"gfx": "shatter", "initial_pause": .3, "duration": .5},
                               dodge_effect={"initial_pause": .1})
         SimpleSkill("Meteor", menu_pos=12, attributes=['magic', 'fire'], effect=100, multiplier=6.0, mp_cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
