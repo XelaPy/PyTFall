@@ -11,7 +11,7 @@
     "infinite": true,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["KnifeAttack"],
+    "attacks": ["KnifeAttack", "KnifeAttack4X"],
     "max": {"attack": 10},
     "mod": {"attack": 5, "character": 3},
     "locations": ["Work Shop", "Look around"]
