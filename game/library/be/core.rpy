@@ -725,7 +725,7 @@ init -1 python: # Core classes:
                                 if lvl >= t.level:
                                     temp += maxv
                                 else:
-                                    temp += max(minv, float(t.level)*max/lvl)
+                                    temp += max(minv, float(t.level)*maxv/lvl)
                         ev += temp
                         
                         healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
@@ -856,7 +856,7 @@ init -1 python: # Core classes:
                     if lvl >= a.level:
                         attack += maxv
                     else:
-                        attack += max(minv, float(a.level)*max/lvl)
+                        attack += max(minv, float(a.level)*maxv/lvl)
                 if hasattr(i, "delivery_multiplier"):
                     m = m + i.delivery_multiplier.get(self.delivery, 0)
             attack *= m
@@ -1483,6 +1483,10 @@ init -1 python: # Core classes:
                     if target not in died:
                         renpy.hide(target.betag)
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(0.3, 1, 0.3)], zorder=target.besk["zorder"])
+            elif type in ["shake"] and self.target_death_effect["gfx"] == "shatter":
+                for target in targets:
+                    renpy.hide(target.betag)
+                    renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
             else:
                 for target in targets:
                     if target not in died:
