@@ -51,7 +51,7 @@ init python:
         """
         Going to try and chain gfx/sfx for simple BE attacks using a UDD.
         """
-        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3, **properties):
+        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3, sf_duration=.75, **properties):
             """
             chain_sfx: Do we play the sound and do we chain it?
                 True = Play and Chain.
@@ -74,10 +74,11 @@ init python:
             # Timing controls:
             self.next = 0
             self.displayable = [] # List of dict bindings if (D, st) to kill.
+            self.single_animation_duration = sf_duration
             
         def render(self, width, height, st, at):
-            if self.count > self.times:
-                return renpy.Render(0, 0)
+            # if self.count > self.times:
+                # return renpy.Render(0, 0)
                 
             if self.count < self.times and st >= self.next:
                 # Prep the data:
@@ -94,19 +95,17 @@ init python:
                     self.last_flip = flip
                     
                 # Offset:
-                # offx, offy = choice(range(-30, -15) + range(15, 30)), choice(range(-30, -15) + range(15, 30))
-                
                 # Adjusting to UDD feature that I do not completely understand...
                 offx, offy = choice(range(0, 15) + range(30, 60)), choice(range(0, 15) + range(30, 60))
                 
                 # GFX:
                 gfx = Transform(self.gfx, **flip)
-                gfx = multi_strike(gfx, (offx, offy), st)
+                gfx = multi_strike(gfx, (offx, offy), st, self.single_animation_duration)
                 
                 # Calc when we add the next gfx and remove the old one from the list. Right now it's a steady stream of ds but I'll prolly change it in the future.
                 self.next = st + random.uniform(self.delay*.5, self.delay)
                 self.count += 1
-                self.displayable.append((gfx, self.next))
+                self.displayable.append((gfx, st + self.single_animation_duration))
                 
                 # We can just play the sound here:
                 if self.chain_sfx is None:
