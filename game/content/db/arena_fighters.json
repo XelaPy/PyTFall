@@ -25,7 +25,7 @@
 "name": "Masou Shizuka",
 "exp": 10000,
 "stats": {"attack": 60, "defence": 70, "magic": 100, "agility": 60, "luck": 0},
-"attack_skills": {"KnifeAttack": 1},
+"attack_skills": {"Dagger Attack": 1},
 "magic_skills": {"Fire 1": 1, "Fire 2": 2, "Fire 3": 1},
 "unique": true
 },

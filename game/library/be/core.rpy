@@ -1449,6 +1449,11 @@ init -1 python: # Core classes:
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     at_list=[]
+                elif type == "poisoned":
+                    child = Transform("content/gfx/be/poisoned.jpg", size=target.besprite_size)
+                    mask = target.besprite
+                    what = AlphaMask(child, mask)
+                    at_list=[]
                 elif type == "frozen":
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))

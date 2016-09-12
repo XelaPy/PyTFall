@@ -11,7 +11,7 @@
     "infinite": true,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["KnifeAttack", "KnifeAttack4X"],
+    "attacks": ["Dagger Attack", "Dagger Attack 4X"],
     "max": {"attack": 10},
     "mod": {"attack": 5, "character": 3},
     "locations": ["Work Shop", "Look around"]
@@ -29,7 +29,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["KnifeAttack", "KnifeAttack4X"],
+    "attacks": ["Dagger Attack", "Dagger Attack 4X"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
     "locations": ["Work Shop", "Look around"]
@@ -47,7 +47,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["KnifeAttack", "KnifeAttack4X"],
+    "attacks": ["Poison Dagger Attack"],
     "max": {"attack": 35},
     "mod": {"attack": 20, "character": 25},
     "removetraits": ["Virtuous"],
@@ -70,7 +70,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["Ice Dagger Attack"],
+    "attacks": ["Ice Dagger Attack", "Ice Break"],
     "max": {"attack": 25, "magic": 5},
     "mod": {"attack": 10, "magic": 5},
     "locations": ["Exploration"]
@@ -88,7 +88,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["KnifeAttack", "KnifeAttack4X"],
+    "attacks": ["Dagger Attack", "Dagger Attack 4X"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "charisma": -5},
     "locations": ["Exploration"]
@@ -106,7 +106,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["KnifeAttack"],
+    "attacks": ["Dagger Attack"],
     "max": {"attack": 30, "agility": 10},
     "mod": {"attack": 40, "character": 5, "defence": -20},
     "evasion_bonus": -8,
