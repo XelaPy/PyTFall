@@ -1,13 +1,13 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # To be moved to transforms file:
-    transform multi_strike(d, offset, t, duration):
+    transform multi_strike(d, offset, t, duration, af):
         # A Single instance of simple attack for the BE.
         pause t
         alpha 1.0
         d
         offset offset
-        linear duration alpha .9
+        linear duration alpha af
             
     transform double_strike(d1, d2, d2_offset, delay):
         parallel:
@@ -412,16 +412,6 @@ label load_battle_skills:
         
         # Bow Attacks:
         SimpleSkill("BowAttack", attributes=["ranged", "physical"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow Attack", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
-        # SimpleSkill2X("BowAttack2X", attributes=["ranged", "physical"], critpower=0, desc="Shooting arrows.", effect=10, range=3, vitality_cost=1, menuname="Double Shot",
-                              # main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": ["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"], "duration": .9},
-                              # target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .8},
-                              # target_damage_effect={"gfx": "battle_bounce", "initial_pause": .3},
-                              # target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": .5})
-        # SimpleSkill3X("BowAttack3X", attributes=["ranged", "physical"], critpower=0, desc="Shooting arrows.", effect=10, range=3, vitality_cost=1, menuname="Triple Shot",
-                              # main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": ["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"], "duration": 1.2},
-                              # target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.2},
-                              # target_damage_effect={"gfx": "battle_bounce", "initial_pause": .3},
-                              # target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .5})
         
         SimpleSkill("CrossbowAttack", attributes=["ranged", "physical"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow Attack",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
         
@@ -435,6 +425,10 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        MultiAttack("Ice Dagger Attack3X", attributes=["melee", "physical", "ice"], critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=50, vitality_cost=20, menuname="Triple Ice Attack", range=1,
+                      main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 1.5, "times": 3, "interval": .5, "alpha_fade": 1.0, "sd_duration": .75},
+                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.5},
+                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
         SimpleSkill(u"Ice Break", menu_pos=0, range=2, attributes=['melee', 'ice'], effect=30, multiplier=1.3, vitality_cost=10, mp_cost=5, desc="Released inner powers of the dagger form a sharp ice formation flying towards the target.",
                                            main_effect={"gfx": Transform("ice_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": .3, "duration": .4},
