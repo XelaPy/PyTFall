@@ -157,6 +157,9 @@ init: # screens:
                 
                 at fade_in_out(t1=.6, t2=.3)
                 
+                # Sorting off manu_pos:
+                $ attacks.sort(key=attrgetter("menu_pos"))
+                
                 if len(attacks) == 1:
                     timer .01 action Return(attacks[0])
                 for skill in attacks:
