@@ -1,13 +1,13 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # To be moved to transforms file:
-    transform multi_strike(d, offset, t, duration):
+    transform multi_strike(d, offset, t, duration, af):
         # A Single instance of simple attack for the BE.
         pause t
         alpha 1.0
         d
         offset offset
-        linear duration alpha .9
+        linear duration alpha af
             
     transform double_strike(d1, d2, d2_offset, delay):
         parallel:
@@ -432,9 +432,9 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         MultiAttack("Ice Dagger Attack3X", attributes=["melee", "physical", "ice"], critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=50, vitality_cost=20, menuname="Triple Ice Attack", range=1,
-                      main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "times": 3, "interval": .75},
-                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-                      target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
+                      main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 1.5, "times": 3, "interval": .6, "alpha_fade": 1.0, "sd_duration": .75},
+                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.7},
+                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.7, "duration": .5})
                       
         SimpleSkill("ClawAttack", attributes=["melee", "physical"], critpower=0.4, desc="Ripping with claws.", effect=5, vitality_cost=1, menuname="Claws Attack", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
         SimpleSkill("FistAttack", attributes=["melee", "physical"], critpower=-0.4, effect=3, desc="Attacking with bare hands.", vitality_cost=1, menuname="Fists Attack", gfx=ProportionalScale("content/gfx/be/fists.png", 150, 150), sfx=list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)))
