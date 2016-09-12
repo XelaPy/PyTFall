@@ -152,8 +152,8 @@ init: # screens:
         elif menu_mode == "attacks":
             frame:
                 style_prefix "dropdown_gm"
-                pos (.5, .2) anchor (.5, .0)
-                has hbox box_wrap True xmaximum 400
+                align .5, .36
+                has vbox box_wrap True maximum (1280, 400)
                 
                 at fade_in_out(t1=.6, t2=.3)
                 
