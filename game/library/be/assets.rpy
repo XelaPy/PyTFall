@@ -381,7 +381,9 @@ init -1: # Images and Animations
     # Special weapons attacks
     image ice_dagger = FilmStrip('content/gfx/be/filmstrips/ice_dagger.png', (192, 192), (5, 3), 0.05, loop=False)
     image ice_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/ice_sword/movie.webm", mask="content/gfx/be/webm/melee/ice_sword/mask.webm")
-    image poison_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/poison/spirit/movie.webm", mask="content/gfx/be/webm/poison/spirit/mask.webm")
+    image poison_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/poison/rune/movie.webm", mask="content/gfx/be/webm/poison/rune/mask.webm")
+    image kunai_throw_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/kunai/k/movie.webm", mask="content/gfx/be/webm/ranged/kunai/k/mask.webm")
+    image kunai_exp_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/kunai/exp/movie.webm", mask="content/gfx/be/webm/ranged/kunai/exp/mask.webm")
     
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
@@ -438,10 +440,19 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": .3, "duration": .4},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         SimpleSkill("Poison Dagger Attack", attributes=["melee", "physical", "poison"], critpower=1.2, desc="Stabbing with a dagger.", effect=12, vitality_cost=3, gfx=ProportionalScale("content/gfx/be/posion_dagger.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3", target_sprite_damage_effect={"gfx": "poisoned","duration": .6})
-        SimpleSkill(u"Poison Spirit", menu_pos=0, range=3, attributes=['status', 'poison', 'physical'], effect=30, multiplier=1.3, vitality_cost=10, mp_cost=5, desc="Released inner powers of the dagger form a small poison spirit flying towards the target.",
-                                           main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
-                                           target_sprite_damage_effect={"gfx": "poisoned", "initial_pause": .3, "duration": .4},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=['status', 'poison'], effect=30, multiplier=1.3, vitality_cost=10, mp_cost=5, desc="An ancient rune applied to the blade materializes a good deal of poison above the target.",
+                                           main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/poison_cloud.mp3", "duration": 1.8, "aim": {"point": "tc", "anchor": (.5, .5)}},
+                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
+                                           target_sprite_damage_effect={"gfx": "poisoned", "initial_pause": 1.0, "duration": .8},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .4})
+        P2P_Skill("Shadow Kunai", menu_pos=1, attributes=['ranged', 'darkness', 'physical'], effect=45, vitality_cost=10, multiplier=1.5, mp_cost=10, range=4, piercing=True,
+                                      desc="Creates an explosive shadow copy of the weapon which can be thrown at the target.",
+                                      projectile_effects={"gfx": 'kunai_throw_webm', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 0.75},
+                                      main_effect={"gfx": Transform("kunai_exp_webm", zoom=1), "sfx": None, "duration": 0.55, "aim": {"anchor": (0.5, 0.5)}},
+                                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.5},
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
+                                      dodge_effect={"initial_pause": .7})
+        
         
         SimpleSkill("ClawAttack", attributes=["melee", "physical"], critpower=0.4, desc="Ripping with claws.", effect=5, vitality_cost=1, menuname="Claws Attack", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
         SimpleSkill("FistAttack", attributes=["melee", "physical"], critpower=-0.4, effect=3, desc="Attacking with bare hands.", vitality_cost=1, menuname="Fists Attack", gfx=ProportionalScale("content/gfx/be/fists.png", 150, 150), sfx=list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)))
