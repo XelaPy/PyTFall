@@ -438,7 +438,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         MultiAttack("Dagger Double Attack 3X", attributes=["melee", "physical"], critpower=0.5, menu_pos=1, desc="A short series of double strikes. Due to low durability this weapon does not allow more powerful and long attacks.", effect=24, vitality_cost=6, range=1,
-                      main_effect={"gfx": "double_dagger_webm", "sfx": "content/sfx/sound/be/dagger_attack_1.mp3", "duration": 1.5, "times": 3, "interval": .1},
+                      main_effect={"gfx": "double_dagger_webm", "sfx": "content/sfx/sound/be/dagger_attack_1.mp3", "duration": 1.5, "times": 3, "interval": .1, "webm_size": (149, 120)},
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                       target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
         MultiAttack("Ice Dagger Attack 3X", attributes=["melee", "physical", "ice"], menu_pos=1, critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=40, vitality_cost=18, range=1,
