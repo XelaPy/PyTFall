@@ -390,7 +390,7 @@
         "skills": {},
         "traits": ["Human", "Neutral"],
         "attack_skills": [
-            "KnifeAttack"
+            "Dagger Attack"
         ],
         "magic_skills": [
         ]
@@ -3329,7 +3329,7 @@
         "skills": {},
         "traits": ["Human", "Neutral"],
         "attack_skills": [
-            "KnifeAttack", "ThrowAttack"
+            "Dagger Attack", "ThrowAttack"
         ],
         "magic_skills": [
         ]

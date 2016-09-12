@@ -11,17 +11,17 @@ label test_be:
         n.status = "free"
         n.apply_trait("Air")
         
-        for skill in battle_skills.values():
-            if not skill.sorting_index:
-                if skill not in h.attack_skills:
-                    h.attack_skills.append(skill)
-                if skill not in n.attack_skills:
-                    n.attack_skills.append(skill)
-            else:
-                if skill not in h.magic_skills:
-                    h.magic_skills.append(skill)
-                if skill not in n.magic_skills:
-                    n.magic_skills.append(skill)
+        # for skill in battle_skills.values():
+            # if not skill.sorting_index:
+                # if skill not in h.attack_skills:
+                    # h.attack_skills.append(skill)
+                # if skill not in n.attack_skills:
+                    # n.attack_skills.append(skill)
+            # else:
+                # if skill not in h.magic_skills:
+                    # h.magic_skills.append(skill)
+                # if skill not in n.magic_skills:
+                    # n.magic_skills.append(skill)
                     
     python:
         # Prepare the teams:
