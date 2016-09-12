@@ -441,11 +441,11 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .4})
         P2P_Skill("Shadow Kunai", menu_pos=1, attributes=['ranged', 'darkness', 'physical'], effect=45, vitality_cost=10, multiplier=1.5, mp_cost=10, range=4, piercing=True,
                                       desc="Creates an explosive shadow copy of the weapon which can be thrown at the target.",
-                                      projectile_effects={"gfx": 'kunai_throw_webm', "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 0.75},
-                                      main_effect={"gfx": Transform("kunai_exp_webm", zoom=1), "sfx": None, "duration": 0.55, "aim": {"anchor": (0.5, 0.5)}},
-                                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.5},
-                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
-                                      dodge_effect={"initial_pause": .7})
+                                      projectile_effects={"gfx": 'kunai_throw_webm', "sfx": "content/sfx/sound/be/kunai_throw.mp3", "duration": 0.75},
+                                      main_effect={"gfx": Transform("kunai_exp_webm", zoom=1), "sfx": "content/sfx/sound/be/kunai_exp.mp3", "duration": 0.55, "aim": {"anchor": (0.5, 0.5)}},
+                                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.4},
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.4},
+                                      dodge_effect={"initial_pause": 0.6})
         
         
         SimpleSkill("ClawAttack", attributes=["melee", "physical"], critpower=0.4, desc="Ripping with claws.", effect=5, vitality_cost=1, menuname="Claws Attack", gfx=ProportionalScale("content/gfx/be/claws.png", 150, 150), sfx="content/sfx/sound/be/claw_attack.mp3")
