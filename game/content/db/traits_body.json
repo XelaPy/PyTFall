@@ -116,6 +116,7 @@
     "mod_stats": {"constitution": [1, 2], "charisma": [-3, 1], "agility": [-3, 2]},
     "max": {"health": 25, "vitality": 100, "charisma": -50, "attack": 10, "defence": 10, "agility": -25},
     "mod_skills": {"service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
+    "el_damage": {"physical": 0.2},
     "body": true,
     "evasion_bonus": [-5, -5, 1]
     },

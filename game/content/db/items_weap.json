@@ -39,7 +39,7 @@
     "desc": "When equipped, this dagger awakens the killer instinct. Greatly increases the chance of critical hit.",
     "icon": "content/items/sweapon/ad.png",
     "price": 450,
-    "sex": "female",
+    "sex": "unisex",
     "chance": 25,
     "badness": 80,
     "eqchance": 30,
