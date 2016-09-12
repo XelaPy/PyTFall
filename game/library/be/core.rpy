@@ -1449,6 +1449,11 @@ init -1 python: # Core classes:
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     at_list=[]
+                elif type == "darken":
+                    child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
+                    mask = target.besprite
+                    what = AlphaMask(child, mask)
+                    at_list=[]
                 elif type == "poisoned":
                     child = Transform("content/gfx/be/poisoned.jpg", size=target.besprite_size)
                     mask = target.besprite

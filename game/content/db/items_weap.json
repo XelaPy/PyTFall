@@ -29,7 +29,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["Dagger Attack", "Dagger Attack 4X"],
+    "attacks": ["Dagger Attack", "Dagger Attack 4X", "Dagger Rapid Strikes"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
     "locations": ["Work Shop", "Look around"]
@@ -88,7 +88,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["Dagger Attack", "Dagger Attack 4X"],
+    "attacks": ["Dagger Attack", "Dagger Double Strike"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "charisma": -5},
     "locations": ["Exploration"]
@@ -106,7 +106,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["Dagger Attack", "Shadow Kunai"],
+    "attacks": ["Dagger Attack", "Shadow Kunai", "Shadow Contract"],
     "max": {"attack": 30, "agility": 10},
     "mod": {"attack": 40, "character": 5, "defence": -20},
     "evasion_bonus": -8,
