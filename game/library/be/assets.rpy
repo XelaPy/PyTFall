@@ -387,6 +387,7 @@ init -1: # Images and Animations
     image kunai_bomb_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/kunai/movie.webm", mask="content/gfx/be/webm/melee/kunai/mask.webm")
     image speed_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_12/hit.webm", mask="content/gfx/be/webm/hits/hit_12/hit_alpha.webm")
     image double_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_22/hit.webm", mask="content/gfx/be/webm/hits/hit_22/hit_alpha.webm")
+    
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
@@ -436,7 +437,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         MultiAttack("Bone Dagger Attack 4X", attributes=["melee", "physical"], critpower=1.0, desc="Multiple strikes with a dagger.", effect=16, vitality_cost=5, range=1,
-                      main_effect={"gfx": "double_dagger_webm", "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
+                      main_effect={"gfx": "double_dagger_webm", "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2, "webm_size": (149, 120)},
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                       target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
         MultiAttack("Ice Dagger Attack3X", attributes=["melee", "physical", "ice"], critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=50, vitality_cost=20, menuname="Triple Ice Attack", range=1,

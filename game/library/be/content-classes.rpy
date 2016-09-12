@@ -47,11 +47,12 @@ init python:
             self.function()
             return renpy.Render(0, 0)
             
+            
     class ChainedAttack(renpy.Displayable):
         """
         Going to try and chain gfx/sfx for simple BE attacks using a UDD.
         """
-        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3, sd_duration=.75, alpha_fade=.0, **properties):
+        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3, sd_duration=.75, alpha_fade=.0, webm_size=(), **properties):
             """
             chain_sfx: Do we play the sound and do we chain it?
                 True = Play and Chain.
@@ -70,7 +71,11 @@ init python:
             self.times = times
             self.delay = delay
             self.count = 0
-            self.size = get_size(self.gfx)
+            if webm_size:
+                self.size = webm_size
+            else:
+                self.size = get_size(self.gfx)
+            # raise Exception(self.size)
             self.last_flip = None # This is meant to make sure that we don't get two exactly same flips in the row!
             
             # Timing controls:
@@ -358,7 +363,7 @@ init python:
             interval = self.main_effect.get("interval", .3)
             sd_duration = self.main_effect.get("sd_duration", .3)
             alpha_fade = self.main_effect.get("alpha_fade", .3)
-            
+            webm_size  = self.main_effect.get("webm_size", ())
             
             # GFX:
             if gfx:
@@ -374,7 +379,7 @@ init python:
                 yo = aim.get("yo", 0)
                 
                 # Create a UDD:
-                gfx = ChainedAttack(gfx, sfx, chain_sfx=True, times=times, delay=interval, sd_duration=sd_duration, alpha_fade=alpha_fade)
+                gfx = ChainedAttack(gfx, sfx, chain_sfx=True, times=times, delay=interval, sd_duration=sd_duration, alpha_fade=alpha_fade, webm_size=webm_size)
                 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
