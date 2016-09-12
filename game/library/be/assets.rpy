@@ -379,6 +379,8 @@ init -1: # Images and Animations
     image bg test_grid = "content/gfx/bg/maps/map17x6.jpg"
     
     # Special weapons attacks
+    image simple_poison_dagger_attack = im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
+    
     image ice_dagger = FilmStrip('content/gfx/be/filmstrips/ice_dagger.png', (192, 192), (5, 3), 0.05, loop=False)
     image ice_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/ice_sword/movie.webm", mask="content/gfx/be/webm/melee/ice_sword/mask.webm")
     image poison_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/poison/rune/movie.webm", mask="content/gfx/be/webm/poison/rune/mask.webm")
@@ -418,8 +420,8 @@ label load_battle_skills:
         SimpleSkill("CrossbowAttack", attributes=["ranged", "physical"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow Attack",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
         
         # Daggers attacks
-        SimpleSkill("Dagger Attack", attributes=["melee", "physical"], critpower=1.0, desc="Stabbing with a dagger.", effect=4, vitality_cost=1, menuname="Dagger Attack", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3")
-        MultiAttack("Dagger Attack 4X", attributes=["melee", "physical"], critpower=1.0, desc="Multiple strikes with a dagger.", effect=16, vitality_cost=5, range=1,
+        SimpleSkill("Dagger Attack", attributes=["melee", "physical"], critpower=1.0, menu_pos=0, desc="Attacking with a dagger.", effect=4, vitality_cost=1, menuname="Dagger Attack", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3", target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+        MultiAttack("Dagger Attack 4X", attributes=["melee", "physical"], critpower=1.0, desc="Four quick strikes with a dagger.", effect=16, vitality_cost=5, range=1,
                       main_effect={"gfx": ProportionalScale("content/gfx/be/knives.png", 150, 150), "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                       target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
@@ -427,40 +429,40 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-        SimpleSkill(u"Dagger Rapid Strikes", menu_pos=0, range=1, attributes=['melee', 'physical'], effect=50, multiplier=1.2, vitality_cost=10, desc="Special enchantment can temporally decrease weapon weight and momentum, allowing this rapid succession of strikes.",
-                                           main_effect={"gfx": Transform("speed_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
+        SimpleSkill(u"Dagger Rapid Strikes", range=1, attributes=['melee', 'physical', 'inevitable'], effect=30, menu_pos=1, multiplier=1.3, vitality_cost=35, desc="Special enchantments can temporally decrease weapon weight and momentum, allowing to perform completely unavoidable rapid succession of strikes.", 
+                                           main_effect={"gfx": Transform("speed_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/multi_dagger.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .4},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .2})
+        SimpleSkill(u"Dagger Double Strike", range=1, attributes=['melee', 'physical'], critpower=0.5, effect=8, vitality_cost=2, menu_pos=0, desc="Low weapon weight allows performing two strikes instead of one with minimal additional cost.",
+                                           main_effect={"gfx": Transform("double_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/agger_attack_1.mp3", "duration": 0.55, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-        SimpleSkill(u"Dagger Double Strike", menu_pos=0, range=1, attributes=['melee', 'physical'], effect=8, multiplier=1.2, vitality_cost=2, desc="Light weapon weight allows performing two strikes instead of one with minimal additional cost.",
-                                           main_effect={"gfx": Transform("double_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-        MultiAttack("Bone Dagger Attack 4X", attributes=["melee", "physical"], critpower=1.0, desc="Multiple strikes with a dagger.", effect=16, vitality_cost=5, range=1,
-                      main_effect={"gfx": "double_dagger_webm", "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
+        MultiAttack("Dagger Double Attack 3X", attributes=["melee", "physical"], critpower=0.5, menu_pos=1, desc="A short series of double strikes. Due to low durability this weapon does not allow more powerful and long attacks.", effect=24, vitality_cost=6, range=1,
+                      main_effect={"gfx": "double_dagger_webm", "sfx": "content/sfx/sound/be/dagger_attack_1.mp3", "duration": 1.5, "times": 3, "interval": .1},
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                       target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
-        MultiAttack("Ice Dagger Attack3X", attributes=["melee", "physical", "ice"], critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=50, vitality_cost=20, menuname="Triple Ice Attack", range=1,
+        MultiAttack("Ice Dagger Attack 3X", attributes=["melee", "physical", "ice"], menu_pos=1, critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=40, vitality_cost=18, range=1,
                       main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 1.5, "times": 3, "interval": .5, "alpha_fade": 1.0, "sd_duration": .75},
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.5},
                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
-        SimpleSkill(u"Ice Break", menu_pos=0, range=2, attributes=['melee', 'ice'], effect=30, multiplier=1.3, vitality_cost=10, mp_cost=5, desc="Released inner powers of the dagger form a sharp ice formation flying towards the target.",
+        SimpleSkill(u"Ice Break", range=2, attributes=['melee', 'ice'], menu_pos=2, effect=70, multiplier=1.3, vitality_cost=15, mp_cost=10, desc="Released inner powers of the dagger send a sharp ice formation towards the target.",
                                            main_effect={"gfx": Transform("ice_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": .3, "duration": .4},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-        SimpleSkill("Poison Dagger Attack", attributes=["melee", "physical", "poison"], critpower=1.2, desc="Stabbing with a dagger.", effect=12, vitality_cost=3, gfx=ProportionalScale("content/gfx/be/posion_dagger.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3", target_sprite_damage_effect={"gfx": "poisoned","duration": .6})
-        BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=['status', 'poison'], effect=30, multiplier=1.3, vitality_cost=10, mp_cost=5, desc="An ancient rune applied to the blade materializes a good deal of poison above the target.",
+        SimpleSkill("Poison Dagger Attack", attributes=["melee", "physical", "poison"], menu_pos=0, critpower=1.2, desc="Stabbing with a poisoned dagger.", effect=12, vitality_cost=3, gfx="simple_poison_dagger_attack", sfx="content/sfx/sound/be/knife.mp3", target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+        BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=['status', 'poison'], effect=30, menu_pos=1, multiplier=1.3, vitality_cost=10, mp_cost=5, desc="An ancient rune applied to the blade materializes a good deal of poison above the target.",
                                            main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/poison_cloud.mp3", "duration": 1.8, "aim": {"point": "tc", "anchor": (.5, .5)}},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
                                            target_sprite_damage_effect={"gfx": "poisoned", "initial_pause": 1.0, "duration": .8},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .4})
-        P2P_Skill("Shadow Kunai", menu_pos=1, attributes=['ranged', 'darkness', 'physical'], effect=45, vitality_cost=10, multiplier=1.5, mp_cost=10, range=4, piercing=True,
+        P2P_Skill("Shadow Kunai", attributes=['ranged', 'darkness', 'physical'], menu_pos=1, effect=45, vitality_cost=10, multiplier=1.5, mp_cost=10, range=4, piercing=True,
                                       desc="Creates an explosive shadow copy of the weapon which can be thrown at the target.",
                                       projectile_effects={"gfx": 'kunai_throw_webm', "sfx": "content/sfx/sound/be/kunai_throw.mp3", "duration": 0.75},
                                       main_effect={"gfx": Transform("kunai_exp_webm", zoom=1), "sfx": "content/sfx/sound/be/kunai_exp.mp3", "duration": 0.55, "aim": {"anchor": (0.5, 0.5)}},
                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.4},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.4},
                                       dodge_effect={"initial_pause": 0.01})
-        ArealSkill(u"Shadow Contract", menu_pos=0, range=2, attributes=['melee', 'darkness', "physical", "poison"], effect=60, multiplier=1.6, vitality_cost=20, mp_cost=15, type="all_enemies", piercing=True, desc="Establishes spiritual connection between shadow scrolls and targets body parts. All that remains is to destroy the said scrolls.",
+        ArealSkill(u"Shadow Contract", range=2, attributes=['melee', 'darkness', "physical", "poison"], menu_pos=2, effect=60, multiplier=1.6, vitality_cost=20, mp_cost=15, type="all_enemies", piercing=True, desc="Establishes spiritual connection between shadow scrolls and targets body parts. All that remains is to destroy the said scrolls.",
                                        main_effect={"gfx": Transform("kunai_bomb_webm", zoom=1.2), "sfx": "content/sfx/sound/be/shadow_contract.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                                        target_sprite_damage_effect={"gfx": "darken", "initial_pause": .2, "duration": 1.2},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5},

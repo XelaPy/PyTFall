@@ -70,7 +70,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["Ice Dagger Attack", "Ice Break"],
+    "attacks": ["Ice Dagger Attack", "Ice Break", "Ice Dagger Attack 3X"],
     "max": {"attack": 25, "magic": 5},
     "mod": {"attack": 10, "magic": 5},
     "locations": ["Exploration"]
@@ -88,7 +88,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "Dagger",
-    "attacks": ["Dagger Attack", "Dagger Double Strike"],
+    "attacks": ["Dagger Attack", "Dagger Double Strike", "Dagger Double Attack 3X"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "charisma": -5},
     "locations": ["Exploration"]
