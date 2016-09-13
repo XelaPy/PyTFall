@@ -384,11 +384,22 @@ init -1: # Images and Animations
     image dark_projective = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/2/ps.webm", mask="content/gfx/be/webm/projective_slash/2/ps_alpha.webm")
     image weapon_dance = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/6/ps.webm", mask="content/gfx/be/webm/projective_slash/6/ps_alpha.webm")
     image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm")
+    image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm")
+    image angel_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_11/hit.webm", mask="content/gfx/be/webm/hits/hit_11/hit_alpha.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
         # Weapons:
         # Sword attacks:
+        
+        SimpleSkill(u"Angel Attack", range=1, attributes=['melee', 'physical', 'light'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with a holy sword.",
+                                           main_effect={"gfx": Transform("angel_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 0.35, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
+        MultiAttack("Angel Attack 3X", attributes=["melee", "physical", "light"], critpower=.1, desc="Four quick attacks with a blade.", effect=15, range=1, vitality_cost=6, menu_pos=2,
+                              main_effect={"gfx": "angel_sword_webm", "sfx": "content/sfx/sound/be/light3.mp3", "duration": 1.5, "times": 3, "webm_size": (164, 142), "interval": .2},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
         SimpleSkill("Sword Attack", attributes=["melee", "physical"], critpower=0, desc="Attacking with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword Attack", menu_pos=0,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
@@ -458,7 +469,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .4},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .2})
         SimpleSkill(u"Dagger Double Strike", range=1, attributes=['melee', 'physical'], critpower=0.5, effect=8, vitality_cost=2, menu_pos=0, desc="Low weapon weight allows performing two strikes instead of one with minimal additional cost.",
-                                           main_effect={"gfx": Transform("double_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/agger_attack_1.mp3", "duration": 0.55, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           main_effect={"gfx": Transform("double_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/dagger_attack_1.mp3", "duration": 0.55, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         MultiAttack("Dagger Double Attack 3X", attributes=["melee", "physical"], critpower=0.5, menu_pos=1, desc="A short series of double strikes. Due to low durability this weapon does not allow more powerful and long attacks.", effect=24, vitality_cost=6, range=1,
