@@ -40,7 +40,7 @@ label test_be:
             enemy_team.add(mob)
             
         mob = build_mob(id="Goblin Archer", level=100)
-        mob.front_row = False
+        mob.front_row = True
         # mob.attack_skills.append("BowAttack")
         mob.apply_trait("Air")
         if len(enemy_team) != 3:
