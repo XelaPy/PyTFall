@@ -412,10 +412,14 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("soul_sword", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5), "xo": 80}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-        SimpleSkill(u"Weapon Dance", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", type="all_enemies",
-                                           main_effect={"gfx": Transform("weapon_dance", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3", "duration": 0.65, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 0.55},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        SimpleSkill(u"Weapon Dance", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", 
+                                           main_effect={"gfx": Transform("weapon_dance", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .3})
+        MultiAttack(u"Weapon Dance Multi", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", 
+                                           main_effect={"gfx": "weapon_dance", "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.5, "times":2, "webm_size": (659, 237), "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .3})
         SimpleSkill(u"Solar Incision", menu_pos=7, range=2, attributes=['melee', 'fire', 'physical'], effect=80, multiplier=1.5, vitality_cost=25, mp_cost=5, desc="A small artificial sun explodes in front of the target.",
                                            main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
