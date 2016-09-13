@@ -3,7 +3,7 @@
 "name": "Uesugi Kenshin",
 "exp": 10000,
 "stats": {"attack": 120, "defence": 100, "magic": 20, "agility": 60, "luck": 10},
-"attack_skills": {"SwordAttack": 1},
+"attack_skills": {"Sword Attack": 1},
 "unique": true
 },
 {
@@ -18,7 +18,7 @@
 "name": "Uesugi Katsuko",
 "exp": 10000,
 "stats": {"attack": 75, "defence": 70, "magic": 20, "agility": 55, "luck": -10},
-"attack_skills": {"SwordAttack": 1},
+"attack_skills": {"Sword Attack": 1},
 "unique": true
 },
 {
@@ -64,28 +64,28 @@
 "name": "Shishio Makoto",
 "exp": 10000,
 "stats": {"attack": 135, "defence": 100, "magic": 30, "agility": 70, "luck": 50},
-"attack_skills": {"SwordAttack": 1},
+"attack_skills": {"Sword Attack": 1},
 "unique": true
 },
 {
 "name": "Sion Eltnam Atlasia",
 "exp": 10000,
 "stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"SwordAttack": 1},
+"attack_skills": {"Sword Attack": 1},
 "unique": true
 },
 {
 "name": "Yumizuka Satsuki",
 "exp": 10000,
 "stats": {"attack": 50, "defence": 30, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"SwordAttack": 1},
+"attack_skills": {"Sword Attack": 1},
 "unique": true
 },
 {
 "name": "Riesbyfe Stridberg",
 "exp": 10000,
 "stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"SwordAttack": 1},
+"attack_skills": {"Sword Attack": 1},
 "unique": true
 }
 ]

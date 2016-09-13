@@ -51,18 +51,6 @@ init -1: # Images and Animations
     python:
         for i in xrange(1, 6):
             renpy.image("melee_%d" % i, FilmStrip('content/gfx/be/filmstrips/melee_%d.png' % i, (192, 192), (5, 2), 0.05, loop=False))
-            
-    # Battle skills:
-    image soul_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/soul_sword/movie.webm", mask="content/gfx/be/webm/melee/soul_sword/mask.webm")
-    image soul_spear:
-        MovieLooped(channel="main_gfx_attacks", loops=3, play="content/gfx/be/webm/melee/soul_spear/movie.webm", mask="content/gfx/be/webm/melee/soul_spear/mask.webm") # needs to be fixed for new animation
-        pause 0.4
-        yoffset 60
-        pause 0.4
-        yoffset -90
-    image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/fire_sword/movie.webm", mask="content/gfx/be/webm/melee/fire_sword/mask.webm")
-    image earth_hammer = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/earth_hammer/earth_hammer.webm", mask="content/gfx/be/webm/earth_hammer/earth_hammer_alpha.webm")
-    image archmage = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/staff_1/movie.webm", mask="content/gfx/be/webm/melee/staff_1/mask.webm") # Archmage Staff
     # Casting:
     python:
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
@@ -378,7 +366,7 @@ init -1: # Images and Animations
     image resurrection = FilmStrip('content/gfx/be/filmstrips/resurrection2x.png', (288, 247), (5, 4), 0.1, loop=False)
     image bg test_grid = "content/gfx/bg/maps/map17x6.jpg"
     
-    # Special weapons attacks
+    # Weapons-only attacks
     image simple_poison_dagger_attack = im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
     
     image ice_dagger = FilmStrip('content/gfx/be/filmstrips/ice_dagger.png', (192, 192), (5, 3), 0.05, loop=False)
@@ -389,31 +377,53 @@ init -1: # Images and Animations
     image kunai_bomb_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/kunai/movie.webm", mask="content/gfx/be/webm/melee/kunai/mask.webm")
     image speed_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_12/hit.webm", mask="content/gfx/be/webm/hits/hit_12/hit_alpha.webm")
     image double_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_22/hit.webm", mask="content/gfx/be/webm/hits/hit_22/hit_alpha.webm")
+    image soul_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/soul_sword/movie.webm", mask="content/gfx/be/webm/melee/soul_sword/mask.webm")
+    image fire_sword = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/fire_sword/movie.webm", mask="content/gfx/be/webm/melee/fire_sword/mask.webm")
+    image earth_hammer = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/earth_hammer/movie.webm", mask="content/gfx/be/webm/melee/earth_hammer/mask.webm") # should make a weapon and a skill for that one!
+    image simple_projective = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/1/ps.webm", mask="content/gfx/be/webm/projective_slash/1/ps_alpha.webm")
+
+    
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
         # Weapons:
         # Sword attacks:
-        SimpleSkill("SwordAttack", attributes=["melee", "physical"], critpower=0, desc="Slashing with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword Attack",
+        SimpleSkill("Sword Attack", attributes=["melee", "physical"], critpower=0, desc="Attacking with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword Attack", menu_pos=0,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
-        MultiAttack("SwordAttack2X", attributes=["melee", "physical"], critpower=.05, desc="Slashing with a blade.", effect=10, range=5, vitality_cost=1, menuname="Double Slash", # TODO: Restore range to 1, this is for testing!
+        MultiAttack("Sword Attack 2X", attributes=["melee", "physical"], critpower=.05, desc="Two quick attacks with a blade.", effect=10, range=1, vitality_cost=3, menu_pos=1,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .6},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
-        MultiAttack("SwordAttack3X", attributes=["melee", "physical"], critpower=.1, desc="Slashing with a blade.", effect=15, range=5, vitality_cost=1, menuname="Triple Slash", # TODO: Restore range to 1, this is for testing!
-                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .9, "times": 3},
+        MultiAttack("Sword Attack 4X", attributes=["melee", "physical"], critpower=.1, desc="Four quick attacks with a blade.", effect=15, range=1, vitality_cost=6, menu_pos=2,
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 1.2, "times": 4},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
-        MultiAttack("SwordAttack5X", attributes=["melee", "physical"], critpower=.1, desc="Slashing with a blade.", effect=25, range=5, vitality_cost=1, menuname="Penta Slash", # TODO: Restore range to 1, this is for testing!
-                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 1.25, "times": 5, "interval": .25},
+        MultiAttack("Sword Attack 6X", attributes=["melee", "physical"], critpower=.1, desc="Six quick attacks with a blade.", effect=25, range=1, vitality_cost=9, menu_pos=3,
+                              main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 1.5, "times": 6, "interval": .25},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.2},
                               target_death_effect={"gfx": "dissolve", "initial_pause": 1.25, "duration": .5})
-        MultiAttack("SwordAttack10X", attributes=["melee", "physical"], critpower=.15, desc="Slashing with a blade.", effect=60, range=5, vitality_cost=1, menuname="Multi Slash", # TODO: Restore range to 1, this is for testing!
+        MultiAttack("Sword Attack 10X", attributes=["melee", "physical"], critpower=.15, desc="Ten quick attacks with a blade.", effect=60, range=1, vitality_cost=15, menu_pos=4,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 2.0, "times": 10, "interval": .2},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.95},
                               target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": .5})
-        
+        SimpleSkill(u"Soul Blade", menu_pos=6, range=2, attributes=['melee', 'physical'], effect=50, multiplier=1.5, vitality_cost=15, mp_cost=4, desc="Projects a huge blade made from the user's soul energy towards the target.",
+                                           main_effect={"gfx": Transform("soul_sword", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5), "xo": 80}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        SimpleSkill(u"Weapon Dance", menu_pos=0, range=3, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=20, desc="Multiple elegant attacks in quick succession.",
+                                           main_effect={"gfx": Transform("multi_hit", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.2, "aim": {"point": "bc", "anchor": (1.0, 1.0), "xo": -80}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": 1.0},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        SimpleSkill(u"Solar Incision", menu_pos=7, range=2, attributes=['melee', 'fire', 'physical'], effect=80, multiplier=1.5, vitality_cost=25, mp_cost=5, desc="A small artificial sun explodes in front of the target.",
+                                           main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
+        P2P_Skill(u"Projective Slash", menu_pos=7, range=3, attributes=['melee', 'physical'], effect=35, multiplier=1.1, vitality_cost=10, mp_cost=2, desc="With training even simplest blades can be used to send cutting waves at a distance.",
+                                           projectile_effects={"gfx": "simple_projective", "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.55, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.15},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .15})
+                                           
         # Bow Attacks:
         SimpleSkill("BowAttack", attributes=["ranged", "physical"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow Attack", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
         
@@ -482,24 +492,9 @@ label load_battle_skills:
         SimpleSkill("WhipAttack", attributes=["melee", "physical"], critpower=0.4, effect=4, vitality_cost=1, menuname="Whip Attack", desc="Lashing with a whip.", gfx=ProportionalScale("content/gfx/be/whip.png", 150, 150), sfx=["content/sfx/sound/be/whip_attack_1.mp3", "content/sfx/sound/be/whip_attack_2.mp3"])
         
         # Battle skills
-        SimpleSkill(u"Soul Blade", menu_pos=0, range=3, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=20, desc="Projects a huge blade made from the user's soul energy towards the target.",
-                                           main_effect={"gfx": Transform("soul_sword", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5), "xo": 80}, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-        SimpleSkill(u"Weapon Dance", menu_pos=0, range=3, attributes=['melee'], effect=20, multiplier=1.2, vitality_cost=20, desc="Multiple elegant attacks in quick succession.",
-                                           main_effect={"gfx": Transform("multi_hit", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.2, "aim": {"point": "bc", "anchor": (1.0, 1.0), "xo": -80}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": 1.0},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        
                                            
-        SimpleSkill(u"Soul Spear", menu_pos=0, range=3, attributes=['ranged'], effect=20, multiplier=1.2, vitality_cost=20, desc="Projects multiple spears made from the user's soul energy towards the target.",
-                                           main_effect={"gfx": Transform("soul_spear", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 0.5), "xo": 40, "yo": -80}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": 1.1},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-                                           
-        SimpleSkill(u"Solar Incision", menu_pos=0, range=3, attributes=['ranged', 'fire', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sacrifices a small artificial sun in front of the target.",
-                                           main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}},
-                                           target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
+
                                            
         SimpleSkill(u"Ground Shockwave", menu_pos=0, range=3, attributes=['ranged', 'earth', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sends a shock wave powerful enough to cause a local earthquake.",
                                            main_effect={"gfx": Transform("earth_hammer"), "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},

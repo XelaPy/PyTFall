@@ -157,7 +157,7 @@ init -9 python:
                 for entry in member.attack_skills:
                     if entry == 'FistAttack':
                         Member.RegisterSkill(Library.Skills.FistAttack)
-                    if entry == 'SwordAttack':
+                    if entry == 'Sword Attack':
                         Member.RegisterSkill(Library.Skills.SwordAttack)
                     if entry == 'KnifeAttack':
                         Member.RegisterSkill(Library.Skills.KnifeAttack)
@@ -204,7 +204,7 @@ init -9 python:
                     for entry in self.map[self.player_tile[0]][self.player_tile[1]].attack_skills:
                         if entry == 'FistAttack':
                             Enemy.RegisterSkill(Library.Skills.FistAttack, 1)
-                        if entry == 'SwordAttack':
+                        if entry == 'Sword Attack':
                             Enemy.RegisterSkill(Library.Skills.SwordAttack, 1)
                         if entry == 'KnifeAttack':
                             Enemy.RegisterSkill(Library.Skills.KnifeAttack, 1)

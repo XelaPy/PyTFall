@@ -35,7 +35,7 @@ label test_be:
             
         mob = build_mob(id="Goblin Archer", level=100)
         mob.front_row = False
-        # mob.attack_skills.append("SwordAttack")
+        # mob.attack_skills.append("Sword Attack")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
             
@@ -47,7 +47,7 @@ label test_be:
             enemy_team.add(mob)
         # Add new attack types to see how they look on the other side:
         for m in enemy_team:
-            m.attack_skills.append(battle_skills["Soul Blade"])
+            m.attack_skills.append(battle_skills["Projective Slash"])
         for m in enemy_team:
             m.magic_skills.append(battle_skills["Northern Flow"])
             # m.magic_skills.append(battle_skills["Pure Ion Storm"])
@@ -82,7 +82,7 @@ label test_be_logical:
             enemy_team.add(mob)
         mob = build_mob(id="Goblin Archer", level=100)
         mob.front_row = False
-        mob.attack_skills.append("SwordAttack")
+        mob.attack_skills.append("Sword Attack")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
         mob = build_mob(id="Goblin Archer", level=100)

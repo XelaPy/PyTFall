@@ -865,7 +865,7 @@ init -9 python:
                 if candidates:
                     self.king = choice(candidates)
                     self.king.exp += 700000 # TODO: Improve
-                    self.king.attack_skills.append("SwordAttack")
+                    self.king.attack_skills.append("Sword Attack")
                     self.king.magic_skills.append("Windwhirl")
                     self.king.magic_skills.append("Fire Arrow")
                     
@@ -888,7 +888,7 @@ init -9 python:
                 if str_lvl_1 > 0:
                     fighter = choice(candidates)
                     fighter.exp += randint(500000, 600000)
-                    fighter.attack_skills.append("SwordAttack")
+                    fighter.attack_skills.append("Sword Attack")
                     mskillz = list(["Fire 2", "Fire 3",
                                          "Water 2", "Water 3",
                                          "Earth 2", "Earth 3",
@@ -910,7 +910,7 @@ init -9 python:
                 elif str_lvl_2 > 0:
                     fighter = choice(candidates)
                     fighter.exp += randint(350000, 400000)
-                    fighter.attack_skills.append("SwordAttack")
+                    fighter.attack_skills.append("Sword Attack")
                     mskillz = list(["Fire 1", "Fire 2", "Fire 3",
                                          "Water 1", "Water 2", "Water 3",
                                          "Earth 1", "Earth 2", "Earth 3",
@@ -932,7 +932,7 @@ init -9 python:
                 elif str_lvl_3 > 0:
                     fighter = choice(candidates)
                     fighter.exp += randint(150000, 200000)
-                    fighter.attack_skills.append("SwordAttack")
+                    fighter.attack_skills.append("Sword Attack")
                     mskillz = list(["Fire 1", "Fire 2",
                                          "Water 1",
                                          "Earth 1",
@@ -954,7 +954,7 @@ init -9 python:
                 elif str_lvl_4 > 0:
                     fighter = choice(candidates)
                     fighter.exp += randint(20000, 60000)
-                    fighter.attack_skills.append("SwordAttack")
+                    fighter.attack_skills.append("Sword Attack")
                     mskillz = list(["Fire 1", "Fire 2",
                                          "Ice Arrow",
                                          "Wrath Of Nature",
