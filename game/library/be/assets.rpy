@@ -391,7 +391,9 @@ init -1: # Images and Animations
         "weapon_dance"
         yoffset 50
         
-    image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm")
+    image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm") # needs to be tied to the chopper!
+    image demon_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_9/hit.webm", mask="content/gfx/be/webm/hits/hit_9/hit_alpha.webm")
+    image demon_slash_webm = Movie(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/dark_sword/movie.webm", mask="content/gfx/be/webm/melee/dark_sword/mask.webm")
     image holy_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/light_field/movie.webm", mask="content/gfx/be/webm/melee/light_field/mask.webm")
     image angel_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_11/hit.webm", mask="content/gfx/be/webm/hits/hit_11/hit_alpha.webm")
     image angel_slash_webm = Movie(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/15/ps.webm", mask="content/gfx/be/webm/projective_slash/15/ps_alpha.webm")
@@ -400,15 +402,18 @@ label load_battle_skills:
     python:
         # Weapons:
         # Sword attacks:
-        
-        SimpleSkill(u"Light Attack", range=1, attributes=['melee', 'physical', 'light'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with a holy sword.",
+        SimpleSkill(u"Dark Attack", range=1, attributes=['melee', 'physical', 'darkness'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with a dark sword.",
+                                           main_effect={"gfx": Transform("demon_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/demon_sword.ogg", "duration": 0.27, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
+        SimpleSkill(u"Demonic Core", menu_pos=2, range=1, attributes=['melee', 'physical', 'darkness', 'fire'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="Concentrates inner powers of the weapon to perform a powerful attack.",
+                                           main_effect={"gfx": Transform("demon_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/demon_core.ogg", "duration": 1.6, "aim": {"point": "tc", "anchor": (.5, .5), "xo": 80}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": 1.0},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
+        SimpleSkill(u"Light Attack", range=1, attributes=['melee', 'physical', 'light'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with a light sword.",
                                            main_effect={"gfx": Transform("angel_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 0.35, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
-        MultiAttack("Light Attack 3X", attributes=["melee", "physical", "light"], critpower=.1, desc="Four quick attacks with a blade.", effect=15, range=1, vitality_cost=6, menu_pos=2,
-                              main_effect={"gfx": "angel_sword_webm", "sfx": "content/sfx/sound/be/light3.mp3", "duration": 1.5, "times": 3, "webm_size": (164, 142), "interval": .2},
-                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
-                              target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
         ArealSkill(u"Light Field", range=3, attributes=['melee', 'light', "unavoidable"], menu_pos=3, effect=60, multiplier=1.6, vitality_cost=20, mp_cost=15, health_cost=5, type="all_enemies", piercing=True, desc="Countless cascading blades of pure light leave no place for escape.",
                                        main_effect={"gfx": Transform("holy_sword_webm", zoom=1.2), "sfx": "content/sfx/sound/be/light_field.mp3", "duration": 2.7, "aim": {"anchor": (0.6, 0.8), "xo": 0, "yo":0}, "hflip": True},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.3, "duration": 1.3},
