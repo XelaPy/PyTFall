@@ -127,7 +127,7 @@ init python:
             render = renpy.Render(self.size[0] + 60, self.size[1] + 60)
             for d, t in self.displayable[:]:
                 if st <= t:
-                    render.place(d, st=st)
+                    render.place(d)
                 else: # Remove if we're done with this displayable:
                     self.displayable.remove((d, t))
                     

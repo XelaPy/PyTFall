@@ -360,7 +360,7 @@ init -1: # Images and Animations
     image poison_1 = FilmStrip('content/gfx/be/filmstrips/poison_1.png', (192, 192), (5, 6), 0.07, loop=False)
     image poison_2 = FilmStrip('content/gfx/be/filmstrips/poison_2.png', (192, 192), (5, 3), 0.1, loop=False)
     image poison_3 = FilmStrip('content/gfx/be/filmstrips/poison_3.png', (192, 192), (5, 5), 0.06, loop=False)
-        
+    
     image heal_1 = FilmStrip('content/gfx/be/filmstrips/heal_1.png', (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip('content/gfx/be/filmstrips/heal_2.png', (192, 192), (5, 5), 0.1, loop=False)
     image resurrection = FilmStrip('content/gfx/be/filmstrips/resurrection2x.png', (288, 247), (5, 4), 0.1, loop=False)
@@ -383,9 +383,17 @@ init -1: # Images and Animations
     image simple_projective = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/1/ps.webm", mask="content/gfx/be/webm/projective_slash/1/ps_alpha.webm")
     image dark_projective = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/2/ps.webm", mask="content/gfx/be/webm/projective_slash/2/ps_alpha.webm")
     image weapon_dance = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/6/ps.webm", mask="content/gfx/be/webm/projective_slash/6/ps_alpha.webm")
-    image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm")
+    image weapon_dance_looped = Movie(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/6/ps.webm", mask="content/gfx/be/webm/projective_slash/6/ps_alpha.webm")
+    image multi_weapon_dance:
+        "weapon_dance"
+        yoffset -50
+        pause .7
+        "weapon_dance"
+        yoffset 50
+        
     image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm")
     image angel_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_11/hit.webm", mask="content/gfx/be/webm/hits/hit_11/hit_alpha.webm")
+    
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
@@ -428,9 +436,9 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .3})
         MultiAttack(u"Weapon Dance Multi", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", 
-                                           main_effect={"gfx": "weapon_dance", "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.5, "times":2, "webm_size": (659, 237), "aim": {"point": "center", "anchor": (0.5, 0.5)}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .3})
+                                           main_effect={"gfx": "weapon_dance_looped", "sfx": "content/sfx/sound/be/multi.mp3", "duration": 2.1, "times": 3, "interval": .7, "alpha_fade": 1.0, "sd_duration": .7, "webm_size": (659, 237)},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.6},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.6, "duration": .5})
         SimpleSkill(u"Solar Incision", menu_pos=7, range=2, attributes=['melee', 'fire', 'physical'], effect=80, multiplier=1.5, vitality_cost=25, mp_cost=5, desc="A small artificial sun explodes in front of the target.",
                                            main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
@@ -516,11 +524,7 @@ label load_battle_skills:
         SimpleSkill("ThrowAttack", attributes=["ranged", "physical"], critpower=-0.1, effect=5, vitality_cost=1, menuname="Throw Attack", desc="Throwing a projectile.", gfx=ProportionalScale("content/gfx/be/throw.png", 150, 150), sfx=["content/sfx/sound/be/throwing_attack_1.mp3", "content/sfx/sound/be/throwing_attack_2.mp3"])
         SimpleSkill("WhipAttack", attributes=["melee", "physical"], critpower=0.4, effect=4, vitality_cost=1, menuname="Whip Attack", desc="Lashing with a whip.", gfx=ProportionalScale("content/gfx/be/whip.png", 150, 150), sfx=["content/sfx/sound/be/whip_attack_1.mp3", "content/sfx/sound/be/whip_attack_2.mp3"])
         
-        # Battle skills
-        
-                                           
-
-                                           
+        # Battle skills:         
         SimpleSkill(u"Ground Shockwave", menu_pos=0, range=3, attributes=['ranged', 'earth', 'physical'], effect=20, multiplier=1.2, vitality_cost=20, desc="Sends a shock wave powerful enough to cause a local earthquake.",
                                            main_effect={"gfx": Transform("earth_hammer"), "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
