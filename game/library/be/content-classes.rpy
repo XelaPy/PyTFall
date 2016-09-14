@@ -131,7 +131,7 @@ init python:
                 else: # Remove if we're done with this displayable:
                     self.displayable.remove((d, t))
                     
-            renpy.redraw(self, 0)
+            renpy.redraw(self, .1)
             return render
     
     
@@ -397,11 +397,15 @@ init python:
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
             sfx = self.main_effect["sfx"]
+            loop_sfx = self.main_effect.get("loop_sfx", False)
             
             # SFX:
-            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if isinstance(sfx, (list, tuple)):
+                if not loop_sfx:
+                    sfx = choice(sfx)
+                
             if sfx:
-                renpy.sound.play(sfx)
+                renpy.music.play(sfx, channel='audio')
             
             # GFX:
             if gfx:
@@ -630,11 +634,15 @@ init python:
             # Shows the MAIN part of the attack and handles appropriate sfx.
             sfx = self.main_effect["sfx"]
             gfx = self.main_effect["atl"]
+            loop_sfx = self.main_effect.get("loop_sfx", False)
             
             # SFX:
-            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if isinstance(sfx, (list, tuple)):
+                if not loop_sfx:
+                    sfx = choice(sfx)
+                
             if sfx:
-                renpy.sound.play(sfx)
+                renpy.music.play(sfx, channel='audio')
             
             # GFX:
             gfx = gfx(*self.main_effect["left_args"]) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx(*self.main_effect["right_args"])
@@ -652,11 +660,15 @@ init python:
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
             sfx = self.main_effect["sfx"]
+            loop_sfx = self.main_effect.get("loop_sfx", False)
             
             # SFX:
-            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if isinstance(sfx, (list, tuple)):
+                if not loop_sfx:
+                    sfx = choice(sfx)
+                
             if sfx:
-                renpy.sound.play(sfx)
+                renpy.music.play(sfx, channel='audio')
             
             # GFX:
             if gfx:
