@@ -1390,11 +1390,15 @@ init -1 python: # Core classes:
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
             sfx = self.main_effect["sfx"]
+            loop_sfx = self.main_effect.get("loop_sfx", False)
             
             # SFX:
-            sfx = choice(sfx) if isinstance(sfx, (list, tuple)) else sfx
+            if isinstance(sfx, (list, tuple)):
+                if not loop_sfx:
+                    sfx = choice(sfx)
+                
             if sfx:
-                renpy.sound.play(sfx)
+                renpy.music.play(sfx, channel='audio')
             
             # GFX:
             if gfx:

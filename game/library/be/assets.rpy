@@ -450,10 +450,10 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("weapon_dance", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .3})
-        MultiAttack(u"Weapon Dance Multi", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", 
-                                           main_effect={"gfx": "weapon_dance_looped", "sfx": "content/sfx/sound/be/multi.mp3", "duration": 2.1, "times": 3, "interval": .7, "alpha_fade": 1.0, "sd_duration": .7, "webm_size": (659, 237)},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.6},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.6, "duration": .5})
+        SimpleSkill(u"Weapon Dance Multi", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", 
+                                           main_effect={"gfx": "weapon_dance_looped", "sfx": ["content/sfx/sound/be/multi.mp3"]*2, "loop_sfx": True, "duration": 1.3}, # , "times": 3, "interval": .7, "alpha_fade": 1.0, "sd_duration": .7, "webm_size": (659, 237)},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": .5})
         SimpleSkill(u"Solar Incision", menu_pos=7, range=2, attributes=['melee', 'fire', 'physical'], effect=80, multiplier=1.5, vitality_cost=25, mp_cost=5, desc="A small artificial sun explodes in front of the target.",
                                            main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
