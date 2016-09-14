@@ -393,10 +393,10 @@ init -1: # Images and Animations
         
     image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm") # needs to be tied to the chopper!
     image demon_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_9/hit.webm", mask="content/gfx/be/webm/hits/hit_9/hit_alpha.webm")
-    image demon_slash_webm = Movie(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/dark_sword/movie.webm", mask="content/gfx/be/webm/melee/dark_sword/mask.webm")
+    image demon_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/dark_sword/movie.webm", mask="content/gfx/be/webm/melee/dark_sword/mask.webm")
     image holy_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/light_field/movie.webm", mask="content/gfx/be/webm/melee/light_field/mask.webm")
     image angel_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_11/hit.webm", mask="content/gfx/be/webm/hits/hit_11/hit_alpha.webm")
-    image angel_slash_webm = Movie(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/15/ps.webm", mask="content/gfx/be/webm/projective_slash/15/ps_alpha.webm")
+    image angel_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/15/ps.webm", mask="content/gfx/be/webm/projective_slash/15/ps_alpha.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
