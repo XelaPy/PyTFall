@@ -384,24 +384,33 @@ init -1: # Images and Animations
     image dark_projective = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/2/ps.webm", mask="content/gfx/be/webm/projective_slash/2/ps_alpha.webm")
     image weapon_dance = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/6/ps.webm", mask="content/gfx/be/webm/projective_slash/6/ps_alpha.webm")
     image weapon_dance_looped = Movie(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/6/ps.webm", mask="content/gfx/be/webm/projective_slash/6/ps_alpha.webm")
-    image multi_weapon_dance:
-        "weapon_dance"
-        yoffset -50
-        pause .7
-        "weapon_dance"
-        yoffset 50
         
-    image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/f_r/movie.webm", mask="content/gfx/be/wwebm/melee/f_r/mask.webm") # needs to be tied to the chopper!
+    image weapon_chopper = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/line/movie.webm", mask="content/gfx/be/webm/melee/line/mask.webm")
     image demon_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_9/hit.webm", mask="content/gfx/be/webm/hits/hit_9/hit_alpha.webm")
+    image omni_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_21/hit.webm", mask="content/gfx/be/webm/hits/hit_21/hit_alpha.webm")
     image demon_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/dark_sword/movie.webm", mask="content/gfx/be/webm/melee/dark_sword/mask.webm")
     image holy_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/light_field/movie.webm", mask="content/gfx/be/webm/melee/light_field/mask.webm")
     image angel_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_11/hit.webm", mask="content/gfx/be/webm/hits/hit_11/hit_alpha.webm")
-    image angel_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/15/ps.webm", mask="content/gfx/be/webm/projective_slash/15/ps_alpha.webm")
+    image planet_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/15/ps.webm", mask="content/gfx/be/webm/projective_slash/15/ps_alpha.webm")
+    image moon_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/planet/movie.webm", mask="content/gfx/be/webm/melee/planet/mask.webm")
+    image angel_swords_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/multi/1/multi.webm", mask="content/gfx/be/webm/melee/multi/1/multi_alpha.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
         # Weapons:
         # Sword attacks:
+        SimpleSkill(u"Legendary Attack", range=1, attributes=['melee', 'light', 'darkness', 'physical'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Even a normal attack draws in multiple elements as a result of microcracks in the space itself.",
+                                           main_effect={"gfx": Transform("omni_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/excal.ogg", "duration": 0.27, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
+        SimpleSkill(u"Space Buster", menu_pos=2, range=1, attributes=['melee', 'physical', 'light', 'darkness', 'earth', 'fire', 'air'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="Inner power of the blade distorts space on the path of the blade, increasing the resulting momentum and power beyond the capabilities of living creatures.",
+                                           main_effect={"gfx": Transform("planet_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/exc_bl.ogg", "duration": 1.2, "aim": {"point": "tc", "anchor": (.5, .5), "xo": 80}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .5, "duration": .6},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
+        SimpleSkill(u"Moon Slice", menu_pos=2, range=1, attributes=['melee', 'physical', 'light', 'darkness', 'ice', 'electricity'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="The power sufficient to cut a moon into pieces concentrated in one quick strike.",
+                                           main_effect={"gfx": Transform("moon_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/exc_moon.ogg", "duration": 0.77, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .6},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.6, "duration": .2})
         SimpleSkill(u"Dark Attack", range=1, attributes=['melee', 'physical', 'darkness'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with a dark sword.",
                                            main_effect={"gfx": Transform("demon_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/demon_sword.ogg", "duration": 0.27, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
@@ -418,11 +427,28 @@ label load_battle_skills:
                                        main_effect={"gfx": Transform("holy_sword_webm", zoom=1.2), "sfx": "content/sfx/sound/be/light_field.mp3", "duration": 2.7, "aim": {"anchor": (0.6, 0.8), "xo": 0, "yo":0}, "hflip": True},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.3, "duration": 1.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2.3, "duration": .5})
-        SimpleSkill(u"Angelic Core", menu_pos=2, range=1, attributes=['melee', 'physical', 'light', 'earth'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="Concentrates inner powers of the weapon to perform a powerful attack.",
-                                           main_effect={"gfx": Transform("angel_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/angel_sl.ogg", "duration": 1.2, "aim": {"point": "tc", "anchor": (.5, .5), "xo": 80}, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .5, "duration": .6},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
-                              
+        SimpleSkill(u"Angelic Rain", menu_pos=2, range=2, attributes=['melee', 'physical', 'light', 'earth'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="Concentrates inner powers of the weapon to summon blades of light upon the target.",
+                                           main_effect={"gfx": Transform("angel_swords_webm", zoom=1.3), "sfx": "content/sfx/sound/be/light_rain.ogg", "duration": 0.97, "aim": {"point": "tc", "anchor": (0.5, 0.5)}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .6},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": .5})
+        SimpleSkill(u"Chop Rush", menu_pos=2, range=1, attributes=['melee', 'physical'], effect=50, critpower=4.5, multiplier=1.5, vitality_cost=25, desc="A deadly combination of heavy sharp blade and high speed. Critical hits are especially dangerous.",
+                                           main_effect={"gfx": Transform("weapon_chopper", zoom=1.1), "sfx": "content/sfx/sound/be/chop_1.ogg", "duration": 1.17, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.0},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .4})
+                                           
+        SimpleSkill(u"Ice Sword Attack", menu_pos=0, range=1, attributes=['melee', 'ice', 'physical'], effect=10, multiplier=1.1, vitality_cost=2, desc="Attacking with an ice blade.",
+                                           main_effect={"gfx": Transform("ice_dagger", zoom=1.6), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+        MultiAttack("Ice Sword Attack 4X", attributes=["melee", "physical", "ice"], menu_pos=1, critpower=0.8, desc="Three quick strikes with an ice dagger.", effect=40, vitality_cost=18, range=1,
+                      main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 1.8, "times": 4, "interval": .5, "alpha_fade": 1.0, "sd_duration": .75},
+                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.5},
+                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
+        SimpleSkill(u"Big Ice Break", range=2, attributes=['melee', 'ice'], menu_pos=2, effect=70, multiplier=1.3, vitality_cost=15, mp_cost=10, desc="Released inner powers of the dagger send a sharp ice formation towards the target.",
+                                           main_effect={"gfx": Transform("ice_dagger_webm", zoom=1.4), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
+                                           target_sprite_damage_effect={"gfx": "iced", "initial_pause": .3, "duration": .4},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+                                           
         SimpleSkill("Sword Attack", attributes=["melee", "physical"], critpower=0, desc="Attacking with a blade.", effect=5, range=1, vitality_cost=1, menuname="Sword Attack", menu_pos=0,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
@@ -453,7 +479,7 @@ label load_battle_skills:
         SimpleSkill(u"Weapon Dance Multi", menu_pos=6, range=3, attributes=['melee', 'physical'], effect=25, multiplier=1.0, vitality_cost=10, desc="Multiple elegant strikes in quick succession.", 
                                            main_effect={"gfx": "weapon_dance_looped", "sfx": ["content/sfx/sound/be/multi.mp3"]*2, "loop_sfx": True, "duration": 1.3}, # , "times": 3, "interval": .7, "alpha_fade": 1.0, "sd_duration": .7, "webm_size": (659, 237)},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.3},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": .5})
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": .5}) # will need sound editing before the beta!
         SimpleSkill(u"Solar Incision", menu_pos=7, range=2, attributes=['melee', 'fire', 'physical'], effect=80, multiplier=1.5, vitality_cost=25, mp_cost=5, desc="A small artificial sun explodes in front of the target.",
                                            main_effect={"gfx": Transform("fire_sword"), "sfx": "content/sfx/sound/be/fire_sword.mp3", "duration": 1.1, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "on_fire", "initial_pause": 0.4, "duration": 0.7},
@@ -504,7 +530,7 @@ label load_battle_skills:
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.5},
                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
         SimpleSkill(u"Ice Break", range=2, attributes=['melee', 'ice'], menu_pos=2, effect=70, multiplier=1.3, vitality_cost=15, mp_cost=10, desc="Released inner powers of the dagger send a sharp ice formation towards the target.",
-                                           main_effect={"gfx": Transform("ice_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
+                                           main_effect={"gfx": Transform("ice_dagger_webm", zoom=0.8), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": .3, "duration": .4},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         SimpleSkill("Poison Dagger Attack", attributes=["melee", "physical", "poison"], menu_pos=0, critpower=1.2, desc="Stabbing with a poisoned dagger.", effect=12, vitality_cost=3, gfx="simple_poison_dagger_attack", sfx="content/sfx/sound/be/knife.mp3", target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
