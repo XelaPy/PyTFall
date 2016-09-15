@@ -397,6 +397,9 @@ init -1: # Images and Animations
     image angel_swords_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/multi/1/multi.webm", mask="content/gfx/be/webm/melee/multi/1/multi_alpha.webm")
     image moon_proj_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/moon_blade/slash.webm", mask="content/gfx/be/webm/melee/moon_blade/slash_alpha.webm")
     image moon_hit_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/moon_blade/hit.webm", mask="content/gfx/be/webm/melee/moon_blade/hit_alpha.webm")
+    image steel_flourish_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier/movie.webm", mask="content/gfx/be/webm/melee/rapier/mask.webm")
+    image elven_rapier_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier_3/movie.webm", mask="content/gfx/be/webm/melee/rapier_3/mask.webm")
+    image elven_combo_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier_2/movie.webm", mask="content/gfx/be/webm/melee/rapier_2/mask.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
@@ -415,6 +418,18 @@ label load_battle_skills:
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.5},
                                        target_death_effect={"gfx": "shatter", "initial_pause": 1.75, "duration": 0.7},
                                        bg_main_effect={"gfx": "mirrage", "initial_pause": 0.1, "duration": 1.3})
+        SimpleSkill(u"Steel Flourish", range=1, attributes=['melee', 'physical'], critpower=3.5, effect=20, vitality_cost=2, menu_pos=2, desc="Quick consecutive slashes form an ancient rune capable to increase critical damage.",
+                                           main_effect={"gfx": Transform("steel_flourish_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg", "duration": 0.97, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": .8},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .4})
+        SimpleSkill(u"Toxic Core", range=1, attributes=['melee', 'physical', 'poison'], critpower=3.5, effect=20, vitality_cost=2, menu_pos=1, desc="Inner layers of the weapon produce natural toxins which could be released if necessary.",
+                                           main_effect={"gfx": Transform("elven_rapier_webm", zoom=0.9), "sfx": "content/sfx/sound/be/sword.mp3", "duration": 0.47, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": .8},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .4})
+        SimpleSkill(u"Air Assault", range=1, attributes=['melee', 'physical', 'air'], critpower=3.5, effect=20, vitality_cost=2, menu_pos=2, desc="Countless quick slashes rip the air itself, sending local shockwaves.",
+                                           main_effect={"gfx": Transform("elven_combo_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elven_combo.mp3", "duration": 1.4, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.2},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": .3})
         SimpleSkill(u"Moon Attack", range=1, attributes=['melee', 'ice', 'light', 'physical'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with the moon sword.",
                                            main_effect={"gfx": "moon_hit_webm", "sfx": "content/sfx/sound/be/moon_attack.ogg", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.3},
