@@ -392,23 +392,41 @@ init -1: # Images and Animations
     image holy_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/light_field/movie.webm", mask="content/gfx/be/webm/melee/light_field/mask.webm")
     image angel_sword_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_11/hit.webm", mask="content/gfx/be/webm/hits/hit_11/hit_alpha.webm")
     image planet_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/projective_slash/15/ps.webm", mask="content/gfx/be/webm/projective_slash/15/ps_alpha.webm")
+    image universe_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/excal/movie.webm", mask="content/gfx/be/webm/melee/excal/mask.webm")
     image moon_slash_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/planet/movie.webm", mask="content/gfx/be/webm/melee/planet/mask.webm")
     image angel_swords_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/multi/1/multi.webm", mask="content/gfx/be/webm/melee/multi/1/multi_alpha.webm")
+    image moon_proj_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/moon_blade/slash.webm", mask="content/gfx/be/webm/melee/moon_blade/slash_alpha.webm")
+    image moon_hit_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/moon_blade/hit.webm", mask="content/gfx/be/webm/melee/moon_blade/hit_alpha.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
         # Weapons:
         # Sword attacks:
-        SimpleSkill(u"Legendary Attack", range=1, attributes=['melee', 'light', 'darkness', 'physical'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Even a normal attack draws in multiple elements as a result of microcracks in the space itself.",
+        SimpleSkill(u"Excalibur Attack", range=1, attributes=['melee', 'light', 'darkness', 'physical'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Even a normal attack draws in the power of elements as a result of microcracks in the space itself.",
                                            main_effect={"gfx": Transform("omni_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/excal.ogg", "duration": 0.27, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
-        SimpleSkill(u"Space Buster", menu_pos=2, range=1, attributes=['melee', 'physical', 'light', 'darkness', 'earth', 'fire', 'air'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="Inner power of the blade distorts space on the path of the blade, increasing the resulting momentum and power beyond the capabilities of living creatures.",
+        SimpleSkill(u"Full Attack", menu_pos=2, range=1, attributes=['melee', 'physical', 'light', 'darkness', 'earth', 'fire', 'air'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="Power of the weapon distorts space on the path of the blade, causing shockwave and local earthquake.",
                                            main_effect={"gfx": Transform("planet_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/exc_bl.ogg", "duration": 1.2, "aim": {"point": "tc", "anchor": (.5, .5), "xo": 80}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .5, "duration": .6},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
-        SimpleSkill(u"Moon Slice", menu_pos=2, range=1, attributes=['melee', 'physical', 'light', 'darkness', 'ice', 'electricity'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="The power sufficient to cut a moon into pieces concentrated in one quick strike.",
-                                           main_effect={"gfx": Transform("moon_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/exc_moon.ogg", "duration": 0.77, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+        ArealSkill(u"Consecutive Full Attacks", range=3, attributes=['melee', 'physical', 'light', 'darkness', 'ice', 'electricity', 'unavoidable'], menu_pos=3, effect=60, multiplier=1.6, vitality_cost=20, mp_cost=15, health_cost=5, type="all_enemies", piercing=True, desc="Multiple rapid attacks cause local space collapsing.",
+                                       main_effect={"gfx": Transform("universe_slash_webm", zoom=0.9), "sfx": "content/sfx/sound/be/exc_full.ogg", "duration": 1.7, "aim": {"anchor": (0.5, 0.5), "xo": 100, "yo":-100}, "hflip": True, "webm_size": (1000,800)},
+                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.5},
+                                       target_death_effect={"gfx": "shatter", "initial_pause": 1.75, "duration": 0.7},
+                                       bg_main_effect={"gfx": "mirrage", "initial_pause": 0.1, "duration": 1.3})
+        SimpleSkill(u"Moon Attack", range=1, attributes=['melee', 'ice', 'light', 'physical'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with the moon sword.",
+                                           main_effect={"gfx": "moon_hit_webm", "sfx": "content/sfx/sound/be/moon_attack.ogg", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.3},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
+        P2P_Skill(u"Moon Projective Slash", menu_pos=7, range=3, attributes=['melee', 'light', 'ice'], effect=65, multiplier=1.2, vitality_cost=15, mp_cost=3, desc="The inner powers of the weapon allow to perform attacks even at great distance.",
+                                           projectile_effects={"gfx": "moon_proj_webm", "sfx": "content/sfx/sound/be/pr_sl.mp3", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           main_effect={"gfx": "moon_hit_webm", "sfx": "content/sfx/sound/be/moon_attack.ogg", "duration": 0.37, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.3},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
+                                           dodge_effect={"initial_pause": 0.005})
+        SimpleSkill(u"Moon Slice", menu_pos=2, range=3, attributes=['melee', 'light', 'ice', 'electricity'], effect=50, multiplier=1.5, vitality_cost=25, mp_cost=10, desc="The power sufficient to cut a moon into pieces concentrated in one quick strike.",
+                                           main_effect={"gfx": Transform("moon_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/moon.ogg", "duration": 0.77, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .6},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.6, "duration": .2})
         SimpleSkill(u"Dark Attack", range=1, attributes=['melee', 'physical', 'darkness'], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Attacking with a dark sword.",
