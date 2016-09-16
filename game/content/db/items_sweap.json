@@ -80,7 +80,7 @@
     {
     "id": "Rune Staff",
     "desc": "This staff is constantly drawing energy from other planes of existence and channels it to its wielder.",
-    "icon": "content/items/weapon/rus.png",
+    "icon": "content/items/sweapon/rus.png",
     "price": 3000,
     "sex": "unisex",
     "chance": 10,
@@ -100,7 +100,7 @@
     {
     "id": "Replica Sword",
     "desc": "This imitation of some legendary sword or other is basically no good in a fight and bears little resemblance to a weapon one would actually wield in battle. If you're into that sort of thing, it looks kind of cool. If you're not, it looks kind of silly.",
-    "icon": "content/items/weapon/rs.png",
+    "icon": "content/items/sweapon/rs.png",
     "price": 300,
     "sex": "unisex",
     "chance": 75,
@@ -142,7 +142,7 @@
     {
     "id": "Dildo Sword",
     "desc": "A rather impressive dildo with a hilt.  Perhaps it is not intended for the actual combat?",
-    "icon": "content/items/weapon/Melee_penetrator.png",
+    "icon": "content/items/sweapon/pen.png",
     "price": 220,
     "sex": "female",
     "chance": 65,
@@ -273,7 +273,7 @@
     {
     "id": "Rose Shield",
     "desc": "This type of shield was crafted during times of peace, rather than war. Still an effective blocking device.",
-    "icon": "content/items/sweapon/Blossom_Kite_Shield.png",
+    "icon": "content/items/sweapon/bks.png",
     "price": 520,
     "sex": "unisex",
     "chance": 45,
@@ -292,7 +292,7 @@
     {
     "id": "Buckler",
     "desc": "A small dinner plate size shield.  Used for parrying rather than blocking",
-    "icon": "content/items/sweapon/buckler_II.png",
+    "icon": "content/items/sweapon/b.png",
     "price": 120,
     "sex": "unisex",
     "chance": 70,
@@ -312,7 +312,7 @@
     {
     "id": "Wooden Shield",
     "desc": "A round shield made of wood and reinforced with metal.",
-    "icon": "content/items/sweapon/shield-icon.png",
+    "icon": "content/items/sweapon/s.png",
     "price": 210,
     "sex": "unisex",
     "chance": 60,
@@ -331,7 +331,7 @@
     {
     "id": "Kite Shield",
     "desc": "A standard size shield. Often used by cavalry soldiers.",
-    "icon": "content/items/sweapon/kite shield.png",
+    "icon": "content/items/sweapon/ks.png",
     "price": 600,
     "sex": "unisex",
     "chance": 30,
@@ -351,7 +351,7 @@
     {
     "id": "Vibranium Shield",
     "desc": "A superior shield made from a rare substance capable to absorb kinetic energy.",
-    "icon": "content/items/sweapon/Cap shield.png",
+    "icon": "content/items/sweapon/cap.png",
     "price": 5000,
     "sex": "unisex",
     "chance": 3,

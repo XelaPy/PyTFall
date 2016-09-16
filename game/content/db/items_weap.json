@@ -1,7 +1,7 @@
 [    {
     "id": "Dagger",
     "desc": "A simple iron dagger which is easily concealed under clothing for self-defense.",
-    "icon": "content/items/sweapon/d.png",
+    "icon": "content/items/weapon/d.png",
     "price": 80,
     "sex": "unisex",
     "chance": 100,
@@ -19,7 +19,7 @@
     {
     "id": "Enchanted Dagger",
     "desc": "This magic dagger has an enhancement bonus to attack. It is the most common weapon among the local thugs.",
-    "icon": "content/items/sweapon/ed.png",
+    "icon": "content/items/weapon/ed.png",
     "price": 150,
     "sex": "unisex",
     "chance": 75,
@@ -37,7 +37,7 @@
     {
     "id": "Assassin Dagger",
     "desc": "When equipped, this dagger awakens the killer instinct. Greatly increases the chance of critical hit.",
-    "icon": "content/items/sweapon/ad.png",
+    "icon": "content/items/weapon/ad.png",
     "price": 450,
     "sex": "unisex",
     "chance": 25,
@@ -60,7 +60,7 @@
     {
     "id": "Ice Daggers",
     "desc": "Wanting to be an ice-cold assassin isn’t enough. For those who want to show off their cool, this weapon is the perfect solution.",
-    "icon": "content/items/sweapon/id.png",
+    "icon": "content/items/weapon/id.png",
     "price": 350,
     "sex": "unisex",
     "chance": 30,
@@ -78,7 +78,7 @@
     {
     "id": "Bone Knife",
     "desc": "Made from a chipped bone wrapped around with a piece of cloth for better grip. Really primitive, but still very effective.",
-    "icon": "content/items/sweapon/bo.png",
+    "icon": "content/items/weapon/bo.png",
     "price": 150,
     "sex": "unisex",
     "chance": 60,
@@ -96,7 +96,7 @@
     {
     "id": "Kunai",
     "desc": "A ninjas favorite weapon. Convenient in the attack, but ineffective in defending. Increases the chance of critical hit but reduces the chance of evasion.",
-    "icon": "content/items/sweapon/kunai.png",
+    "icon": "content/items/weapon/kunai.png",
     "price": 550,
     "sex": "unisex",
     "chance": 15,
@@ -117,7 +117,7 @@
     {
     "id": "Small Cane",
     "desc": "Mages can use it to help focus and direct arcane energy. It can also deliver a good whack if need be.",
-    "icon": "content/items/sweapon/gc.png",
+    "icon": "content/items/weapon/gc.png",
     "price": 110,
     "sex": "unisex",
     "chance": 100,
@@ -136,7 +136,7 @@
     {
     "id": "Bullwhip",
     "desc": "This tough leather whip, originally used on oxen, is more than capable of causing severely painful wounds on humans, though it is awkward and difficult to use in actual combat. Some find it of more practical use in the bedroom.",
-    "icon": "content/items/sweapon/bw.png",
+    "icon": "content/items/weapon/bw.png",
     "price": 150,
     "sex": "female",
     "chance": 60,
@@ -156,7 +156,7 @@
     {
     "id": "Cat O'Nine Tails",
     "desc": "The nine lashes of this dreadful torture implement, while difficult to use on unwilling and unrestrained victims, awakens sadistic tendencies in any person. Increases the chance of critical hit.",
-    "icon": "content/items/sweapon/cont.png",
+    "icon": "content/items/weapon/cont.png",
     "price": 600,
     "sex": "female",
     "chance": 20,
@@ -177,7 +177,7 @@
     {
     "id": "Claws",
     "desc": "Sharp iron claws. Not the most convenient weapon, but sometimes additional agility is worth it.",
-    "icon": "content/items/sweapon/claws.png",
+    "icon": "content/items/weapon/claws.png",
     "price": 250,
     "sex": "unisex",
     "chance": 70,
@@ -195,7 +195,7 @@
     {
     "id": "Balanced Claws",
     "desc": "Balanced and sharp enchanted claws. Provide additional agility without major drawbacks.",
-    "icon": "content/items/sweapon/bc.png",
+    "icon": "content/items/weapon/bc.png",
     "price": 650,
     "sex": "unisex",
     "chance": 40,
@@ -214,7 +214,7 @@
     {
     "id": "Crystal Wand",
     "desc": "This wand carry a crystal capable of storing magical energy, but is also durable enough to smash someone in the face if needed.",
-    "icon": "content/items/sweapon/cw.png",
+    "icon": "content/items/weapon/cw.png",
     "price": 300,
     "sex": "unisex",
     "chance": 90,
@@ -233,7 +233,7 @@
     {
     "id": "Brass Knuckles",
     "desc": "Not the most elegant weapon, but it gets the job done.",
-    "icon": "content/items/sweapon/bk.png",
+    "icon": "content/items/weapon/bk.png",
     "price": 220,
     "sex": "unisex",
     "chance": 75,
@@ -252,7 +252,7 @@
     {
     "id": "Spiked Brass Knuckles",
     "desc": "These are knuckles with molded spikes. Very deadly and very intimidating.",
-    "icon": "content/items/sweapon/sbk.png",
+    "icon": "content/items/weapon/sbk.png",
     "price": 620,
     "sex": "unisex",
     "chance": 35,
@@ -272,7 +272,7 @@
     {
     "id": "Shuriken",
     "desc": "Favorite ninja ranged weapon. Quick and accurate, but not too powerful.",
-    "icon": "content/items/sweapon/s.png",
+    "icon": "content/items/weapon/s.png",
     "price": 250,
     "sex": "unisex",
     "chance": 70,
@@ -291,7 +291,7 @@
     {
     "id": "Throwing Knives",
     "desc": "A set of throwing knives, which are easy to hide under clothing.",
-    "icon": "content/items/sweapon/tk.png",
+    "icon": "content/items/weapon/tk.png",
     "price": 400,
     "sex": "unisex",
     "chance": 50,
@@ -309,7 +309,7 @@
     {
     "id": "Foldable Crossbow",
     "desc": "This small, but powerful crossbow is easy to hide in a sleeve. Widely used for self-protection, it has one major drawback: long reloading time.",
-    "icon": "content/items/sweapon/fc.png",
+    "icon": "content/items/weapon/fc.png",
     "price": 1000,
     "sex": "unisex",
     "chance": 20,
@@ -478,7 +478,7 @@
     {
     "id": "Silver-Eyed Witch's Claymore",
     "desc": "A sword of a mysterious organization. Some say they are demons in women's bodies; others say they hunt monsters. Whichever is true, blades such as these are rare and powerful.",
-    "icon": "content/items/weapon/Claymore_sword_by_Moonasha.png",
+    "icon": "content/items/weapon/sewc.png",
     "price": 1300,
     "sex": "unisex",
     "chance": 15,
@@ -498,7 +498,7 @@
     {
     "id": "Crescent Moon Sword",
     "desc": "A curved sword imbued with the power of the moon.",
-    "icon": "content/items/weapon/Crescent-Moon-Sword.png",
+    "icon": "content/items/weapon/cms.png",
     "price": 1000,
     "sex": "unisex",
     "chance": 20,
@@ -518,7 +518,7 @@
     {
     "id": "Sword of Luck",
     "desc": "This sword comes from a distant and mystical Emerald Isle. Some say these blades can make you lucky; in more ways than one.",
-    "icon": "content/items/weapon/celtic-sword-by-medieval.png",
+    "icon": "content/items/weapon/sol.png",
     "price": 13,
     "sex": "unisex",
     "chance": 70,
