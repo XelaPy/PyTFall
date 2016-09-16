@@ -368,8 +368,8 @@ init -1: # Images and Animations
     
     # Weapons-only attacks
     image simple_poison_dagger_attack = im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
-    image simple_bow_fire_attack = im.Recolor("content/gfx/be/bows.png", 255, 45, 0, 255) # orange attack for fire bow
-    image simple_bow_ice_attack = im.Recolor("content/gfx/be/bows.png", 0, 173, 233, 255) # blue attack for ice dagger
+    image simple_bow_fire_attack = im.Recolor("content/gfx/be/bows.png", 255, 45, 10, 255) # orange attack for fire bow
+    image simple_bow_ice_attack = im.Recolor("content/gfx/be/bows.png", 0, 173, 233, 255) # blue attack for ice bow
     
     image ice_dagger = FilmStrip('content/gfx/be/filmstrips/ice_dagger.png', (192, 192), (5, 3), 0.05, loop=False)
     image ice_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/ice_sword/movie.webm", mask="content/gfx/be/webm/melee/ice_sword/mask.webm")
