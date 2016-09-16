@@ -270,7 +270,7 @@
         "skills": {},
         "traits": ["Human", "Neutral"],
         "attack_skills": [
-            "BowAttack", "FistAttack"
+            "Bow Attack", "FistAttack"
         ],
         "magic_skills": [
         ]
@@ -450,7 +450,7 @@
         "skills": {},
         "traits": ["Human", "Neutral"],
         "attack_skills": [
-            "BowAttack", "FistAttack"
+            "Bow Attack", "FistAttack"
         ],
         "magic_skills": [
         ]
@@ -720,7 +720,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "BowAttack", "FistAttack"
+            "Bow Attack", "FistAttack"
         ],
         "magic_skills": [
         ]
@@ -2489,7 +2489,7 @@
         "skills": {},
         "traits": ["Furry", "Earth"],
         "attack_skills": [
-            "BowAttack", "FistAttack"
+            "Bow Attack", "FistAttack"
         ],
         "magic_skills": ["Stonera", "Stoneja"
         ]
@@ -3749,7 +3749,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "BowAttack", "FistAttack"
+            "Bow Attack", "FistAttack"
         ],
         "magic_skills": [
         ]
@@ -4109,7 +4109,7 @@
         "skills": {},
         "traits": ["Elf", "Darkness"],
         "attack_skills": [
-            "BowAttack", "FistAttack"
+            "Bow Attack", "FistAttack"
         ],
         "magic_skills": ["Darkga", "Dark"
         ]

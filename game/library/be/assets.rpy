@@ -368,6 +368,8 @@ init -1: # Images and Animations
     
     # Weapons-only attacks
     image simple_poison_dagger_attack = im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
+    image simple_bow_fire_attack = im.Recolor("content/gfx/be/bows.png", 255, 45, 0, 255) # orange attack for fire bow
+    image simple_bow_ice_attack = im.Recolor("content/gfx/be/bows.png", 0, 173, 233, 255) # blue attack for ice dagger
     
     image ice_dagger = FilmStrip('content/gfx/be/filmstrips/ice_dagger.png', (192, 192), (5, 3), 0.05, loop=False)
     image ice_dagger_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/ice_sword/movie.webm", mask="content/gfx/be/webm/melee/ice_sword/mask.webm")
@@ -532,9 +534,32 @@ label load_battle_skills:
 
                                            
         # Bow Attacks:
-        SimpleSkill("BowAttack", attributes=["ranged", "physical"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menuname="Bow Attack", gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx=["content/sfx/sound/be/bow_attack_1.mp3", "content/sfx/sound/be/bow_attack_2.mp3"])
+        SimpleSkill("Bow Attack", menu_pos=0, attributes=["ranged", "physical"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx="content/sfx/sound/be/bow_attack.mp3")
+        SimpleSkill("Fire Bow Attack", menu_pos=0, attributes=["ranged", "physical", "fire"], critpower=0, desc="Shooting a fire arrow.", effect=5, range=3, vitality_cost=1, gfx="simple_bow_fire_attack", sfx="content/sfx/sound/be/bow_attack.mp3")
+        SimpleSkill("Ice Bow Attack", menu_pos=0, attributes=["ranged", "physical", "ice"], critpower=0, desc="Shooting an ice arrow.", effect=5, range=3, vitality_cost=1, gfx="simple_bow_ice_attack", sfx="content/sfx/sound/be/bow_attack.mp3")
+        ArrowsSkill(u"Fire Arrow", menu_pos=1, attributes=['ranged', 'fire', 'air'], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
+                              desc="Shooting an arrow of scorching air.",
+                              firing_effects={"gfx": 'Fire Arrow cast', "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
+                              projectile_effects={"gfx": 'Fire Arrow fly', "sfx": None, "duration": 0.4},
+                              attacker_effects={"gfx": "default_1", "sfx": "default"},
+                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
+                              main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (.5, .5)}},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
+                              dodge_effect={"initial_pause": .1})
+        ArrowsSkill("Ice Arrow", menu_pos=1, attributes=['ranged', 'ice', 'water'], effect=75, multiplier=4.5, mp_cost=10, range=4,
+                              desc="Shooting an arrow of frozen water.",
+                              firing_effects={"gfx": 'Ice Arrow cast', "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
+                              projectile_effects={"gfx": 'Ice Arrow fly', "sfx": None, "duration": 0.4},
+                              main_effect={"gfx": 'Ice Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                              attacker_effects={"gfx": "ice_2", "sfx": "default"},
+                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
+                              dodge_effect={"initial_pause": .1})  
         
-        SimpleSkill("CrossbowAttack", attributes=["ranged", "physical"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow Attack",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
+        
+        SimpleSkill("CrossBow Attack", attributes=["ranged", "physical"], critpower=0.2, desc="Shooting a bolt.",  effect=7, range=4, vitality_cost=1, menuname="Crossbow Attack",  piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
         
         # Daggers attacks
         SimpleSkill("Dagger Attack", attributes=["melee", "physical"], critpower=1.0, menu_pos=0, desc="Attacking with a dagger.", effect=4, vitality_cost=1, menuname="Dagger Attack", gfx=ProportionalScale("content/gfx/be/knives.png", 150, 150), sfx="content/sfx/sound/be/knife.mp3", target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
@@ -654,16 +679,6 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5},
                                       dodge_effect={"initial_pause": .1})
-        ArrowsSkill(u"Fire Arrow", menu_pos=8, attributes=['ranged', 'fire', 'physical'], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
-                              desc="Creates a bow and arrow of scorching air.",
-                              firing_effects={"gfx": 'Fire Arrow cast', "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
-                              projectile_effects={"gfx": 'Fire Arrow fly', "sfx": None, "duration": 0.4},
-                              attacker_effects={"gfx": "default_1", "sfx": "default"},
-                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
-                              main_effect={"gfx": 'Fire Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (.5, .5)}},
-                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
-                              target_death_effect={"gfx": "shatter", "initial_pause": .3, "duration": .5},
-                              dodge_effect={"initial_pause": .1})
         SimpleSkill("Meteor", menu_pos=12, attributes=['magic', 'fire'], effect=100, multiplier=6.0, mp_cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform('cataclysm_sideways', xzoom=-1), "sfx": "content/sfx/sound/be/fire8.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
@@ -726,16 +741,6 @@ label load_battle_skills:
                                                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         
         # Ice:
-        ArrowsSkill("Ice Arrow", menu_pos=8, attributes=['magic', 'ice'], effect=75, multiplier=4.5, mp_cost=10, range=4,
-                              desc="Creates a an arrow of ice crystals that pierces through the target.",
-                              firing_effects={"gfx": 'Ice Arrow cast', "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
-                              projectile_effects={"gfx": 'Ice Arrow fly', "sfx": None, "duration": 0.4},
-                              main_effect={"gfx": 'Ice Arrow impact', "sfx": None, "duration": 0.51, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
-                              attacker_effects={"gfx": "ice_2", "sfx": "default"},
-                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
-                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.4},
-                              target_death_effect={"gfx": "shatter", "initial_pause": 0.011, "duration": 0.6},
-                              dodge_effect={"initial_pause": .1})   
         SimpleSkill(u"Blizzard", menu_pos=0, attributes=['magic', 'ice'], effect=20, multiplier=1.2, mp_cost=5, range=4, casting_effects=["ice_1", "default"], gfx='ice_1', zoom=1.9, pause=2.5, target_damage_gfx=[0.2, "shake", 1.8], sfx="content/sfx/sound/be/ice3.mp3", type="all_enemies",
                                            aim="bc", anchor=(0.5, 1.0), yo=60,
                                            desc="Creates a cloud of sharp ice splinters.")
