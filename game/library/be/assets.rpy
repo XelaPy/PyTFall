@@ -402,11 +402,11 @@ init -1: # Images and Animations
     image steel_flourish_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier/movie.webm", mask="content/gfx/be/webm/melee/rapier/mask.webm")
     image elven_rapier_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier_3/movie.webm", mask="content/gfx/be/webm/melee/rapier_3/mask.webm")
     image elven_combo_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier_2/movie.webm", mask="content/gfx/be/webm/melee/rapier_2/mask.webm")
-    image magic_bow_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/above/movie.webm", mask="content/gfx/be/webm/ranged/above/mask.webm")
-    image emerald_bow_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/green/bow.webm", mask="content/gfx/be/webm/ranged/green/bow_alpha.webm")
-    image emerald_bow_arrow_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/green/fly.webm", mask="content/gfx/be/webm/ranged/green/fly_alpha.webm")
+    image magic_bow_webm = MovieLooped(channel="kickass_channel_1", play="content/gfx/be/webm/ranged/above/movie.webm", mask="content/gfx/be/webm/ranged/above/mask.webm")
+    image emerald_bow_webm = MovieLooped(channel="shoot_em_up_1", play="content/gfx/be/webm/ranged/green/bow.webm", mask="content/gfx/be/webm/ranged/green/bow_alpha.webm")
+    image emerald_bow_arrow_webm = MovieLooped(channel="with_speed_of_light", play="content/gfx/be/webm/ranged/green/fly.webm", mask="content/gfx/be/webm/ranged/green/fly_alpha.webm")
     image emerald_bow_hit_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/green/exp.webm", mask="content/gfx/be/webm/ranged/green/exp_alpha.webm")
-    image emerald_bow_cast_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/green/cast.webm", mask="content/gfx/be/webm/ranged/green/cast_alpha.webm")
+    image emerald_bow_cast_webm = MovieLooped(channel="none_will_survive", play="content/gfx/be/webm/ranged/green/cast.webm", mask="content/gfx/be/webm/ranged/green/cast_alpha.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
