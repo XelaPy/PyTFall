@@ -40,7 +40,7 @@
 "name": "EVA-Beatrice",
 "exp": 10000,
 "stats": {"attack": 50, "defence": 60, "magic": 90, "agility": 50, "luck": 10},
-"attack_skills": {"RodAttack": 1},
+"attack_skills": {"Blunt Attack": 1},
 "magic_skills": {"Windwhirl": 2, "Fire 2": 1, "Fire 3": 1, "Earth 2": 1, "Earth 3": 1},
 "unique": true
 },

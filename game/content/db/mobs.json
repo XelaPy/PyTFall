@@ -780,7 +780,7 @@
         "skills": {},
         "traits": ["Monster", "Fire"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": ["Fire"
         ]
@@ -1200,7 +1200,7 @@
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Light Heal"
         ]
@@ -2009,7 +2009,7 @@
         "skills": {},
         "traits": ["Human", "Earth", "Water", "Air", "Poison Immunity"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": ["Waterga", "Stonega", "Aeroga"
         ]
@@ -2099,7 +2099,7 @@
         "skills": {},
         "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": [
         ]
@@ -2999,7 +2999,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": [
         ]
@@ -3269,7 +3269,7 @@
         "skills": {},
         "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption", "Minor Physical Resistance"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": [
         ]
@@ -4288,7 +4288,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral", "Minor Physical Resistance"],
         "attack_skills": [
-            "RodAttack"
+            "Blunt Attack"
         ],
         "magic_skills": [
         ]
