@@ -402,11 +402,15 @@ init -1: # Images and Animations
     image steel_flourish_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier/movie.webm", mask="content/gfx/be/webm/melee/rapier/mask.webm")
     image elven_rapier_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier_3/movie.webm", mask="content/gfx/be/webm/melee/rapier_3/mask.webm")
     image elven_combo_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/rapier_2/movie.webm", mask="content/gfx/be/webm/melee/rapier_2/mask.webm")
-    image magic_bow_webm = MovieLooped(channel="kickass_channel_1", play="content/gfx/be/webm/ranged/above/movie.webm", mask="content/gfx/be/webm/ranged/above/mask.webm")
-    image emerald_bow_webm = MovieLooped(channel="shoot_em_up_1", play="content/gfx/be/webm/ranged/green/bow.webm", mask="content/gfx/be/webm/ranged/green/bow_alpha.webm")
-    image emerald_bow_arrow_webm = MovieLooped(channel="with_speed_of_light", play="content/gfx/be/webm/ranged/green/fly.webm", mask="content/gfx/be/webm/ranged/green/fly_alpha.webm")
+    image magic_bow_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/above/movie.webm", mask="content/gfx/be/webm/ranged/above/mask.webm")
+    image emerald_bow_webm = MovieLooped(channel="main_gfx_bow", play="content/gfx/be/webm/ranged/green/bow.webm", mask="content/gfx/be/webm/ranged/green/bow_alpha.webm")
+    image emerald_bow_arrow_webm = MovieLooped(channel="main_gfx_arrow", play="content/gfx/be/webm/ranged/green/fly.webm", mask="content/gfx/be/webm/ranged/green/fly_alpha.webm")
     image emerald_bow_hit_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/ranged/green/exp.webm", mask="content/gfx/be/webm/ranged/green/exp_alpha.webm")
-    image emerald_bow_cast_webm = MovieLooped(channel="none_will_survive", play="content/gfx/be/webm/ranged/green/cast.webm", mask="content/gfx/be/webm/ranged/green/cast_alpha.webm")
+    image green_hit_webm = MovieLooped(channel="main_gfx_cast", play="content/gfx/be/webm/ranged/green/cast.webm", mask="content/gfx/be/webm/ranged/green/cast_alpha.webm")
+    image angel_bow_attack_webm = MovieLooped(channel="main_gfx_bow", play="content/gfx/be/webm/hits/hit_4/hit.webm", mask="content/gfx/be/webm/hits/hit_4/hit_alpha.webm")
+    image angel_bow_arrow_webm = MovieLooped(channel="main_gfx_arrow", play="content/gfx/be/webm/ranged/triple/arrow/movie.webm", mask="content/gfx/be/webm/ranged/triple/arrow/mask.webm")
+    image angel_bow_webm = MovieLooped(channel="main_gfx_bow", play="content/gfx/be/webm/ranged/triple/bow/movie.webm", mask="content/gfx/be/webm/ranged/triple/bow/mask.webm")
+    image angel_bow_hit_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/hits/hit_19/hit.webm", mask="content/gfx/be/webm/hits/hit_19/hit_alpha.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
@@ -539,6 +543,10 @@ label load_battle_skills:
 
                                            
         # Bow Attacks:
+        SimpleSkill(u"Light Bow Attack", range=4, attributes=["melee", "physical", "light"], critpower=1.5, effect=20, vitality_cost=2, menu_pos=0, desc="Shooting an arrow made of light.",
+                                           main_effect={"gfx": Transform("angel_bow_attack_webm", zoom=1.1), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
         SimpleSkill("Bow Attack", menu_pos=0, attributes=["ranged", "physical"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, gfx=ProportionalScale("content/gfx/be/bows.png", 150, 150), sfx="content/sfx/sound/be/bow_attack.mp3")
         MultiAttack("Bow Attack 2X", attributes=["melee", "physical"], critpower=.05, desc="Shooting two arrows in quick succession.", effect=10, range=3, vitality_cost=3, menu_pos=1,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .6},
@@ -548,12 +556,24 @@ label load_battle_skills:
                               main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": 1.2, "times": 4},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.1},
                               target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
-        ArrowsSkill(u"Emerald Arrow", menu_pos=1, attributes=["ranged", "poison", "earth"], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
+        SimpleSkill("Poison Arrow", menu_pos=3, attributes=["ranged", "physical", "poison"], critpower=0, desc="Shooting a poisonous arrow.", effect=1, range=3, vitality_cost=1, gfx="green_hit_webm", sfx="content/sfx/sound/be/elf_arrow.ogg", duration=0.56)
+        ArrowsSkill(u"Emerald Arrow", menu_pos=1, attributes=["ranged", "air", "earth"], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
                               desc="Shooting an arrow empowered with the nature itself.",
-                              firing_effects={"gfx": "emerald_bow_webm", "sfx": "content/sfx/sound/be/fire_arrow.mp3", "duration": 0.86},
+                              firing_effects={"gfx": "emerald_bow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 0.86},
                               projectile_effects={"gfx": "emerald_bow_arrow_webm", "sfx": None, "duration": 0.76},
+                              attacker_effects={"gfx": "earth_2", "sfx": "default"},
                               target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
-                              main_effect={"gfx": "emerald_bow_hit_webm", "sfx": None, "duration": 0.46, "aim": {"anchor": (.5, .5)}},
+                              main_effect={"gfx": "emerald_bow_hit_webm", "sfx": "content/sfx/sound/be/elf_arrow.ogg", "duration": 0.46, "aim": {"anchor": (.5, .5)}},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
+                              dodge_effect={"initial_pause": .1})
+        ArrowsSkill(u"Trinity Arrow", menu_pos=1, attributes=["ranged", "light"], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
+                              desc="Shooting triple arrow made of highly concentrated light.",
+                              firing_effects={"gfx": Transform("angel_bow_webm", zoom=1.5), "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 2.69},
+                              projectile_effects={"gfx": "angel_bow_arrow_webm", "sfx": None, "duration": 0.46},
+                              attacker_effects={"gfx": "light_2", "sfx": "default"},
+                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
+                              main_effect={"gfx": Transform("angel_bow_hit_webm", zoom=1.5), "sfx": "content/sfx/sound/be/elf_arrow.ogg", "duration": 0.36, "aim": {"anchor": (.5, .5)}},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
                               dodge_effect={"initial_pause": .1})
