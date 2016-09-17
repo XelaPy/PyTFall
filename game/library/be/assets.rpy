@@ -569,7 +569,7 @@ label load_battle_skills:
                               dodge_effect={"initial_pause": .1})
         ArrowsSkill(u"Trinity Arrow", menu_pos=1, attributes=["ranged", "light"], effect=75, multiplier=1.5, mp_cost=20, range=4, piercing=True,
                               desc="Shooting triple arrow made of highly concentrated light.",
-                              firing_effects={"gfx": Transform("angel_bow_webm", zoom=1.5), "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 2.69},
+                              firing_effects={"gfx": Transform("angel_bow_webm", zoom=1.5), "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 1.2},
                               projectile_effects={"gfx": "angel_bow_arrow_webm", "sfx": None, "duration": 0.46},
                               attacker_effects={"gfx": "light_2", "sfx": "default"},
                               target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},

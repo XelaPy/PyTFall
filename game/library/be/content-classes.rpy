@@ -593,7 +593,7 @@ init python:
             firing_gfx = self.firing_effects["gfx"]
             firing_sfx = self.firing_effects["sfx"]
             firing_sfx = choice(firing_sfx) if isinstance(firing_sfx, (list, tuple)) else firing_sfx
-            # pause = self.firing_effects["duration"]
+            pause = self.firing_effects.get("duration", .1)
             
             bow = Transform(firing_gfx, zoom=-1, xanchor=1.0) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else firing_gfx
             
@@ -603,7 +603,10 @@ init python:
             castpos = battle.get_cp(attacker, type="fc", xo=30)
                 
             renpy.show("casting", what=bow, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=attacker.besk["zorder"]+50)
-            renpy.pause(0.6)
+            if pause > .6:
+                renpy.pause(pause)
+            else:
+                renpy.pause(0.6)
             
             # We simply want to add projectile effect here:
             pro_gfx = self.projectile_effects["gfx"]
