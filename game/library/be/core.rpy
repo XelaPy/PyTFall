@@ -52,9 +52,9 @@ init -1 python: # Core classes:
             self.combat_log = list()
             
             # Events:
-            self.end_turn_events = list() # Events we execute on start of the turn.
-            self.start_turn_events = list() # Events we execute on the end of the turn.
-            self.mid_turn_events = list() # Events to execute after controller was set.
+            self.start_turn_events = list() # Events we execute on start of the turn.
+            self.mid_turn_events = list() # Events we execute on the end of the turn.
+            self.end_turn_events = list() # Events to execute after controller was set.
             self.terminate = False
             
             self.logical = logical
@@ -373,6 +373,10 @@ init -1 python: # Core classes:
             if len(self.teams[1]) == len(self.get_fighters(state="dead", rows=(2, 3))):
                 self.winner = self.teams[0]
                 return True
+                
+        def get_all_events(self):
+            # returns a list of all events on this battle field:
+            return self.start_turn_events + self.mid_turn_events + self.end_turn_events
                 
                 
     class BE_Event(object):
@@ -905,6 +909,15 @@ init -1 python: # Core classes:
                         defense += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
                     m = m + i.defence_multiplier.get(self.delivery, 0)
+            defense *= m
+            
+            # Testing status mods:
+            m = 1.0
+            for event in battle.get_all_events():
+                if hasattr(event, "defence_bonus"):
+                    defense += event.defence_bonus.get(self.delivery, 0)
+                if hasattr(event, "defence_multiplier"):
+                    m = m + event.defence_multiplier.get(self.delivery, 0)
             defense *= m
                 
             defense *= random.uniform(.90, 1.10)

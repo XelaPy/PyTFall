@@ -271,7 +271,42 @@ init python:
                 battle.log(msg)
                 
                 
+    class DefenceBuff(BE_Event):
+        def __init__(self, source, target, bonus=None, multi=None):
+            # bonus and multi both expect dicts if mods are desirable.
+            self.target = target
+            self.source = source
+            self.type = type
+            self.buff = True # We may need this for debuffing later on?
             
+            self.counter = randint(3, 5) # Active for 3-5 turns
+            
+            if bonus:
+                self.defence_bonus = {}
+                if "melee" in self.attributes:
+                    self.defence_bonus["melee"] = int(round(source.defence*.8 + source.constitution*.4) / 3)
+                elif "ranged" in self.attributes:
+                    self.defence_bonus["ranged"] = int(round(source.defence*.8 + source.constitution*.2 + source.agility*.2) / 3)
+                elif "magic" in self.attributes:
+                    self.defence_bonus["magic"] = int(round(source.defence*.8 + source.magic*.3 + source.intelligence*.1) / 3)
+                elif "status" in self.attributes:
+                    self.defence_bonus["status"] = int(round(source.defence*.6 + source.magic*.1 + source.intelligence*.5) / 3)
+                    
+            if multi:
+                self.defence_multiplier = multi
+            
+        def check_conditions(self):
+            # Always return False? It is a passive skill to be activated during execution of skill methods...
+            return False
+                
+        def kill(self):
+            if not self.counter:
+                return True
+                
+        def apply_effects(self):
+            pass
+        
+        
     # Actions:
     # Simple Attack:
     class SimpleSkill(BE_Action):
