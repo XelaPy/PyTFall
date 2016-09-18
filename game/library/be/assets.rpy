@@ -418,6 +418,7 @@ init -1: # Images and Animations
     image death_scythe_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/death/movie.webm", mask="content/gfx/be/webm/melee/death/mask.webm")
     image shock_whip_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/whip/movie.webm", mask="content/gfx/be/webm/melee/whip/mask.webm")
     image multi_fist_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/fist/movie.webm", mask="content/gfx/be/webm/melee/fist/mask.webm")
+    image ice_axe_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/melee/ice_axe/movie.webm", mask="content/gfx/be/webm/melee/ice_axe/mask.webm")
 # Skillz (We do not want to do this in the init so I am making it a label):
 label load_battle_skills:
     python:
@@ -711,8 +712,10 @@ label load_battle_skills:
                               main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150), "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": 1.2, "times": 4},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
-        
-        
+        SimpleSkill(u"Ice Axe Attack", menu_pos=2, range=1, attributes=["melee", "ice", "physical"], effect=20, multiplier=1.2, vitality_cost=20, desc="Attack with an ice axe.",
+                                           main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3", "duration": 0.7, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.4},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .4})
         
         SimpleSkill("BiteAttack", attributes=["melee", "physical"], critpower=0.5, effect=3, vitality_cost=1, menuname="Bite Attack", desc="Biting with fangs.", gfx=ProportionalScale("content/gfx/be/bites.png", 150, 150), sfx="content/sfx/sound/be/bite_attack.mp3")
         SimpleSkill("GunAttack", attributes=["ranged", "physical"], critpower=0.3, effect=5, desc="Shooting a bullet.", vitality_cost=1, menuname="Gun Attack", gfx=ProportionalScale("content/gfx/be/shoots.png", 150, 150), sfx="content/sfx/sound/be/gun_attack.mp3")

@@ -791,6 +791,25 @@
     "locations": ["Work Shop"]
     },
     {
+    "id": "Ice Axe",
+    "desc": "A huge, heavy, sharp piece of magic ice. Steel hilt wrapped in a thin cloth to prevent frostbites.",
+    "icon": "content/items/weapon/iaxe.png",
+    "price": 850,
+    "sex": "unisex",
+    "chance": 40,
+    "badness": 75,
+    "eqchance": 30,
+    "hidden": true,
+    "infinite": false,
+    "slot": "weapon",
+    "type": "Axe",
+    "attacks": ["Ice Axe Attack"],
+    "max": {"attack": 70},
+    "mod": {"character": 20, "attack": 35, "agility": -5, "defence": -5},
+    "delivery_multiplier": {"melee": 0.06},
+    "locations": ["Exploration"]
+    },
+    {
     "id": "Short Bow",
     "desc": "A short-range, repeat fire bow which is easy to handle.",
     "icon": "content/items/weapon/sb.png",
