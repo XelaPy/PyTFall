@@ -580,15 +580,11 @@ init -1 python: # Core classes:
                 in_range = set([f for f in in_range if char.allegiance == f.allegiance])
                 
             # In a perfect world, we're done, however we have to overwrite normal rules if no targets are found and backrow can hit over it's own range (for example):
-            if not in_range: # <== We need to run "frenemy code prior to this!"
+            if not in_range: # <== We need to run "frenemy" code prior to this!
                 # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
                 # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
                 if char.row == 0:
-                    # Case: Fighter in backrow and no defenders on opfor.
-                    if not battle.get_fighters(rows=[2]) and self.range > 1:
-                        # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[3])) # TODO: Union is prolly utterly useless here, confirm and remove!
-                    # Case: Fighter in backrow and there is no defender on own team,
+                    # Case: Fighter in backrow and there is no defender on own team:
                     if not battle.get_fighters(rows=[1]):
                         # but there is at least one on the opfor:
                         if battle.get_fighters(rows=[2]):
