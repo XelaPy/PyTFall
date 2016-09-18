@@ -540,7 +540,7 @@
         "skills": {},
         "traits": ["Darkness", "Monster", "Poison Resistance"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Dark"
         ]
@@ -570,7 +570,7 @@
         "skills": {},
         "traits": ["Darkness", "Undead", "Darkness Immunity", "Minor Physical Resistance", "Healing Immunity", "Poison Immunity"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Dark", "Darkra"
         ]
@@ -1110,7 +1110,7 @@
         "skills": {},
         "traits": ["Monster", "Earth", "Earth Absorption", "Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Stoneja"
         ]
@@ -1140,7 +1140,7 @@
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Immunity"],
         "attack_skills": [
-            "ThrowAttack"
+            "Throw Attack"
         ],
         "magic_skills": ["Holy", "Holyra"
         ]
@@ -1319,7 +1319,7 @@
         "skills": {},
         "traits": ["Monster", "Fire", "Air Resistance"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Fireball"
         ]
@@ -1349,7 +1349,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -1379,7 +1379,7 @@
         "skills": {},
         "traits": ["Monster", "Darkness"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Dark"
         ]
@@ -1439,7 +1439,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral", "Poison Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Poison"
         ]
@@ -1499,7 +1499,7 @@
         "skills": {},
         "traits": ["Monster", "Water"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Waterga"
         ]
@@ -1529,7 +1529,7 @@
         "skills": {},
         "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity", "Physical Resistance", "Poison Immunity"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Firaga", "Firaja", "Fireball", "Solar Flash"
         ]
@@ -1799,7 +1799,7 @@
         "skills": {},
         "traits": ["Furry", "Neutral"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -1829,7 +1829,7 @@
         "skills": {},
         "traits": ["Furry", "Neutral"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -1859,7 +1859,7 @@
         "skills": {},
         "traits": ["Furry", "Neutral"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -1889,7 +1889,7 @@
         "skills": {},
         "traits": ["Monster", "Darkness", "Minor Physical Resistance", "Poison Resistance"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -1919,7 +1919,7 @@
         "skills": {},
         "traits": ["Furry", "Fire", "Earth", "Minor Physical Resistance"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Fira", "Stonera"
         ]
@@ -1949,7 +1949,7 @@
         "skills": {},
         "traits": ["Furry", "Earth"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Light Heal"
         ]
@@ -2159,7 +2159,7 @@
         "skills": {},
         "traits": ["Furry", "Ice Resistance"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -2189,7 +2189,7 @@
         "skills": {},
         "traits": ["Furry", "Ice Resistance"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -2879,7 +2879,7 @@
         "skills": {},
         "traits": ["Demonic Creature", "Neutral"],
         "attack_skills": [
-            "ThrowAttack"
+            "Throw Attack"
         ],
         "magic_skills": [
         ]
@@ -2939,7 +2939,7 @@
         "skills": {},
         "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity", "Minor Physical Resistance"],
         "attack_skills": [
-            "ThrowAttack"
+            "Throw Attack"
         ],
         "magic_skills": ["Holyda", "Holyja", "Light Heal", "Light Mass Heal", "Photon Blade", "Star Light"
         ]
@@ -3089,7 +3089,7 @@
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Immunity"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -3119,7 +3119,7 @@
         "skills": {},
         "traits": ["Monster", "Water Absorption", "Earth Absorption", "Air Absorption", "Light Absorption", "Earth"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -3149,7 +3149,7 @@
         "skills": {},
         "traits": ["Monster", "Air"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Aero"
         ]
@@ -3239,7 +3239,7 @@
         "skills": {},
         "traits": ["Android", "Neutral", "Electricity Immunity"],
         "attack_skills": [
-            "ThrowAttack"
+            "Throw Attack"
         ],
         "magic_skills": ["Thunder"
         ]
@@ -3329,7 +3329,7 @@
         "skills": {},
         "traits": ["Human", "Neutral"],
         "attack_skills": [
-            "Dagger Attack", "ThrowAttack"
+            "Dagger Attack", "Throw Attack"
         ],
         "magic_skills": [
         ]
@@ -3359,7 +3359,7 @@
         "skills": {},
         "traits": ["Undead", "Darkness Immunity", "Darkness", "Physical Immunity", "Poison Absorption", "Healing Immunity"],
         "attack_skills": [
-            "Claw Attack", "BiteAttack"
+            "Claw Attack", "Bite Attack"
         ],
         "magic_skills": ["Eternal Gluttony", "Darkra", "Darkga"
         ]
@@ -3599,7 +3599,7 @@
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Fire", "Fira"
         ]
@@ -3629,7 +3629,7 @@
         "skills": {},
         "traits": ["Monster", "Electricity", "Electricity Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Thunder", "Thundara"
         ]
@@ -3659,7 +3659,7 @@
         "skills": {},
         "traits": ["Monster", "Darkness", "Darkness Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Dark", "Darkra"
         ]
@@ -3689,7 +3689,7 @@
         "skills": {},
         "traits": ["Monster", "Water", "Water Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Water", "Watera"
         ]
@@ -3719,7 +3719,7 @@
         "skills": {},
         "traits": ["Monster", "Air", "Air Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Aero", "Aerora"
         ]
@@ -3809,7 +3809,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": ["Poison"
         ]
@@ -3839,7 +3839,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral", "Minor Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -3869,7 +3869,7 @@
         "skills": {},
         "traits": ["Monster", "Water"],
         "attack_skills": [
-            "ThrowAttack"
+            "Throw Attack"
         ],
         "magic_skills": [
         ]
@@ -3959,7 +3959,7 @@
         "skills": {},
         "traits": ["Monster", "Fire", "Ice Immunity", "Fire Resistance"],
         "attack_skills": [
-            "CannonAttack", "Claw Attack"
+            "Cannon Attack", "Claw Attack"
         ],
         "magic_skills": ["Fireball", "Firaga"
         ]
@@ -4049,7 +4049,7 @@
         "skills": {},
         "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
-            "ThrowAttack"
+            "Throw Attack"
         ],
         "magic_skills": [
         ]
@@ -4079,7 +4079,7 @@
         "skills": {},
         "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -4199,7 +4199,7 @@
         "skills": {},
         "traits": ["Monster", "Water", "Air"],
         "attack_skills": [
-            "BiteAttack"
+            "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -4258,7 +4258,7 @@
         "skills": {},
         "traits": ["Monster", "Fire", "Minor Physical Resistance"],
         "attack_skills": [
-            "CannonAttack", "BiteAttack"
+            "Cannon Attack", "Bite Attack"
         ],
         "magic_skills": [
         ]
@@ -4378,7 +4378,7 @@
         "skills": {},
         "traits": ["Monster", "Water"],
         "attack_skills": [
-            "GunAttack"
+            "Gun Attack"
         ],
         "magic_skills": ["Waterga", "Watera"
         ]
@@ -4408,7 +4408,7 @@
         "skills": {},
         "traits": ["Human", "Electricity"],
         "attack_skills": [
-            "CannonAttack", "Fist Attack"
+            "Cannon Attack", "Fist Attack"
         ],
         "magic_skills": ["Electromagnetism", "Thunderstorm", "Thundaga"
         ]

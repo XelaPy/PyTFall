@@ -163,7 +163,7 @@ init -9 python:
                         Member.RegisterSkill(Library.Skills.KnifeAttack)
                     if entry == 'Claw Attack':
                         Member.RegisterSkill(Library.Skills.SwordAttack)
-                    if entry == 'CannonAttack':
+                    if entry == 'Cannon Attack':
                         Member.RegisterSkill(Library.Skills.CannonAttack)                        
                 for entry in member.magic_skills:
                     if entry == 'Fire 1':

@@ -1528,7 +1528,6 @@ init -9 python:
             renpy.music.play(choice(ilists.battle_tracks), fadein=1.5)
             
             battle = Battle(ActiveSchema())
-            # battlefield = GridBattlefield(BattlefieldSprite('bg test_grid'), origin=(50, 50), gridSize=(17,6), spaceSize=(100, 100), diagonals=False)
             # battlefield = GridBattlefield(BattlefieldSprite(map_image), origin=(48, 48), gridSize=(40, 25), spaceSize=(96, 96), diagonals=False)
             battlefield = GridBattlefield(BattlefieldSprite(map_image), origin=(48, 48), gridSize=(40, 25), spaceSize=(96, 96), diagonals=False)
             battle.SetBattlefield(battlefield)
