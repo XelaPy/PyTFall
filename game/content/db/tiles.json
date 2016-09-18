@@ -4,7 +4,7 @@
 "id": "forest_1",
 
 "hostile": true,
-"bskills": ["FistAttack"],
+"bskills": ["Fist Attack"],
 "mskills": ["Fire 1", "Water 1"],
 "enemy_enounters": 0,
 "battle_bg": "bg battle_nature_1",

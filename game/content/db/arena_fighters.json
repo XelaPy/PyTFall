@@ -10,7 +10,7 @@
 "name": "Uesugi Torako",
 "exp": 10000,
 "stats": {"attack": 50, "defence": 60, "magic": 80, "agility": 50, "luck": 10},
-"attack_skills": {"FistAttack": 1},
+"attack_skills": {"Fist Attack": 1},
 "magic_skills": {"Fire 1": 1},
 "unique": true
 },
@@ -48,7 +48,7 @@
 "name": "Siesta 410",
 "exp": 10000,
 "stats": {"attack": 40, "defence": 50, "magic": 60, "agility": 60, "luck": 20},
-"attack_skills": {"FistAttack": 1},
+"attack_skills": {"Fist Attack": 1},
 "magic_skills": {"Fire Arrow": 1},
 "unique": true
 },
@@ -56,7 +56,7 @@
 "name": "Siesta 45",
 "exp": 10000,
 "stats": {"attack": 30, "defence": 45, "magic": 60, "agility": 60, "luck": 30},
-"attack_skills": {"FistAttack": 1},
+"attack_skills": {"Fist Attack": 1},
 "magic_skills": {"Fire Arrow": 1},
 "unique": true
 },

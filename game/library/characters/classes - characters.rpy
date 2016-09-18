@@ -1171,7 +1171,7 @@ init -9 python:
             
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
-            self.default_attack_skill = battle_skills["FistAttack"] # This can be overwritten on character creation!
+            self.default_attack_skill = battle_skills["Fist Attack"] # This can be overwritten on character creation!
             
             # Game world status:
             self.alive = True
@@ -3140,7 +3140,7 @@ init -9 python:
                 
             # Battle and Magic skills:
             if not self.attack_skills:
-                default = store.battle_skills["FistAttack"]
+                default = store.battle_skills["Fist Attack"]
                 self.attack_skills.append(default)
                 
             # FOUR BASE TRAITS THAT EVERY GIRL SHOULD HAVE AT LEAST ONE OF:
