@@ -155,13 +155,13 @@ init -9 python:
                 Member._baseStats.MP = member.max['mp']
                 Member._baseStats.Speed = member.max['agility']
                 for entry in member.attack_skills:
-                    if entry == 'FistAttack':
+                    if entry == 'Fist Attack':
                         Member.RegisterSkill(Library.Skills.FistAttack)
                     if entry == 'Sword Attack':
                         Member.RegisterSkill(Library.Skills.SwordAttack)
                     if entry == 'KnifeAttack':
                         Member.RegisterSkill(Library.Skills.KnifeAttack)
-                    if entry == 'ClawAttack':
+                    if entry == 'Claw Attack':
                         Member.RegisterSkill(Library.Skills.SwordAttack)
                     if entry == 'CannonAttack':
                         Member.RegisterSkill(Library.Skills.CannonAttack)                        
@@ -202,13 +202,13 @@ init -9 python:
                 
                 if self.map[self.player_tile[0]][self.player_tile[1]].attack_skills:
                     for entry in self.map[self.player_tile[0]][self.player_tile[1]].attack_skills:
-                        if entry == 'FistAttack':
+                        if entry == 'Fist Attack':
                             Enemy.RegisterSkill(Library.Skills.FistAttack, 1)
                         if entry == 'Sword Attack':
                             Enemy.RegisterSkill(Library.Skills.SwordAttack, 1)
                         if entry == 'KnifeAttack':
                             Enemy.RegisterSkill(Library.Skills.KnifeAttack, 1)
-                        if entry == 'ClawAttack':
+                        if entry == 'Claw Attack':
                             Enemy.RegisterSkill(Library.Skills.SwordAttack, 1)
                         
                 if self.map[self.player_tile[0]][self.player_tile[1]].magic_skills:
