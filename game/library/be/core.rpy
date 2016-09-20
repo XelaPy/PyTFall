@@ -653,15 +653,12 @@ init -1 python: # Core classes:
             This should return it's results through PytCharacters property called damage so the show_gfx method can be adjusted accordingly.
             But it is this method that writes to the log to be displayed later... (But you can change even this :D)
             """
-            # TODO: Make a list of all required checks!
-            
             # prepare the variables:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
                 
             a = self.source
             attributes = self.attributes
-            # type = self.type <=== WTF was this?
             
             attacker_items = a.eq_items()
             
@@ -741,21 +738,6 @@ init -1 python: # Core classes:
                     effects.append("backrow_penalty")
                 
                 for type in self.damage:
-                    
-                    # # New logic of BE Events requires extra checks:
-                    # # This may not be really needed... or could even be a bad idea...
-                    # if self.event_class:
-                        # # Check if event is in play already:
-                        # temp = False
-                        # for event in store.battle.mid_turn_events:
-                            # if isinstance(event, self.event_class) and (t == event.target) and (type in event.attributes): # TODO: Add field to event that would allow being hit multiple times?
-                                # # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
-                                # # t.beeffects = [0]
-                                # temp = "resisted"
-                                # break
-                        # if temp:
-                            # effects.append((type, temp))
-                            # continue
                     
                     result = self.damage_modifier(t, attack, type) # Can return a number or "resisted" string
                     
