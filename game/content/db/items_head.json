@@ -1,7 +1,7 @@
 [
     {
     "id": "Bunny Ears",
-    "desc": "A pair of long fluffy animal ears. Quite popular among young girls, possibly because the thought about the fate of their original owner never crossed their minds.",
+    "desc": "A pair of long fluffy animal ears. Quite popular among young girls, probably because the thought about the fate of their original owner never crossed their minds.",
     "icon": "content/items/head/bunny_ears.png",
     "price": 50,
     "sex": "female",
@@ -123,7 +123,7 @@
     },
     {
     "id": "General Helmet",
-    "desc": "Legacy of the last age and fights around PyTFall. This replica of the Dragon Cult Army is now available to all military enthusiasms and collectors but also for people that want to terrify their enemies in combat.",
+    "desc": "This replica of the Dragon Cult Army is now available to all military enthusiasms and collectors but also for people that want to terrify their enemies in combat.",
     "icon": "content/items/head/gen.png",
     "price": 800,
     "sex": "unisex",
@@ -140,7 +140,7 @@
     },
     {
     "id": "Officer Helmet",
-    "desc": "This helmet is a replica of the Dragon Cult Army officer. Much lighter from the general option, this helmet gives a wider view field. More heavier then the scrub helmet gives more protection to the face and horns inform about the rank.",
+    "desc": "A replica of the Dragon Cult Army officer. Much lighter from the general option, this helmet gives a wider view field. More heavier then the scrub helmet gives more protection to the face and horns inform about the rank.",
     "icon": "content/items/head/oh.png",
     "price": 600,
     "sex": "unisex",
