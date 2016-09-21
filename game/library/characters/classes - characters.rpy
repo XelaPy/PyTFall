@@ -1152,7 +1152,7 @@ init -9 python:
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
             
-            # BE Bridge assets
+            # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
             self.besprite = None # Used to keep track of sprite displayable in the BE.
             self.beinx = 0 # Passes index from logical execution to SFX setup.
             self.beteampos = None # This manages team position bound to target (left or right on the screen).
@@ -1168,6 +1168,7 @@ init -9 python:
             self.beeffects = 0
             self.can_die = False
             self.dmg_font = "red"
+            self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
             
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
