@@ -956,7 +956,7 @@ init: # PyTFall:
             textbutton "Back":
                 action Hide("char_rename")
                 
-    screen poly_matrix(in_file, show_exit_button=False):
+    screen poly_matrix(in_file, show_exit_button=False, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
         
         default tooltip = False
@@ -970,59 +970,60 @@ init: # PyTFall:
                 
         $ func = renpy.curry(point_in_poly)
         for i in matrix:
-            if "tooltip" in i:
-                if "align" in i:
-                    python:
-                        align = tuple(i["align"])
-                        pos = ()
-                        anchor = ()
-                else:
-                    python:
-                        align = ()
-                        # Get a proper placement:
-                        allx, ally = list(), list()
-                        
-                        for t in i["xy"]:
-                            allx.append(t[0])
-                            ally.append(t[1])
+            if i["id"] not in hidden:
+                if "tooltip" in i:
+                    if "align" in i:
+                        python:
+                            align = tuple(i["align"])
+                            pos = ()
+                            anchor = ()
+                    else:
+                        python:
+                            align = ()
+                            # Get a proper placement:
+                            allx, ally = list(), list()
                             
-                        maxx = max(allx)
-                        maxy = max(ally)
-                        minx = min(allx)
-                        miny = min(ally)
-                        
-                        w, h = config.screen_width, config.screen_height
-                        
-                        side = i.get("place", "left")
-                        
-                        if side == "left":
-                            pos = (minx - 10, sum(ally)/len(ally))
-                            anchor = (1.0, 0.5)
-                        elif side == "right":
-                            pos = (maxx + 10, sum(ally)/len(ally))
-                            anchor = (0.0, 0.5)
-                        elif side == "bottom":
-                            pos = (sum(allx)/len(allx), maxy + 10)
-                            anchor = (0.5, 0.0)
-                        elif side == "top":
-                            pos = (sum(allx)/len(allx), miny - 10)
-                            anchor = (0.5, 1.0)
-            
-                button:
-                    background Null()
-                    focus_mask func(i["xy"])
-                    action Return(i["id"])      
-                    hovered [SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]}),
-                                   Show("show_poly_matrix_tt", pos=pos, anchor=anchor, align=align, text=i["tooltip"]), With(dissolve)]
-                    unhovered [SetField(config, "mouse", None),
-                                       Hide("show_poly_matrix_tt"), With(dissolve)]
-            else:
-                button:
-                    background Null()
-                    focus_mask func(i["xy"])
-                    action Return(i["id"])
-                    hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
-                    unhovered SetField(config, "mouse", None)
+                            for t in i["xy"]:
+                                allx.append(t[0])
+                                ally.append(t[1])
+                                
+                            maxx = max(allx)
+                            maxy = max(ally)
+                            minx = min(allx)
+                            miny = min(ally)
+                            
+                            w, h = config.screen_width, config.screen_height
+                            
+                            side = i.get("place", "left")
+                            
+                            if side == "left":
+                                pos = (minx - 10, sum(ally)/len(ally))
+                                anchor = (1.0, 0.5)
+                            elif side == "right":
+                                pos = (maxx + 10, sum(ally)/len(ally))
+                                anchor = (0.0, 0.5)
+                            elif side == "bottom":
+                                pos = (sum(allx)/len(allx), maxy + 10)
+                                anchor = (0.5, 0.0)
+                            elif side == "top":
+                                pos = (sum(allx)/len(allx), miny - 10)
+                                anchor = (0.5, 1.0)
+                
+                    button:
+                        background Null()
+                        focus_mask func(i["xy"])
+                        action Return(i["id"])
+                        hovered [SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]}),
+                                       Show("show_poly_matrix_tt", pos=pos, anchor=anchor, align=align, text=i["tooltip"]), With(dissolve)]
+                        unhovered [SetField(config, "mouse", None),
+                                           Hide("show_poly_matrix_tt"), With(dissolve)]
+                else:
+                    button:
+                        background Null()
+                        focus_mask func(i["xy"])
+                        action Return(i["id"])
+                        hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
+                        unhovered SetField(config, "mouse", None)
                 
         if show_exit_button:
             textbutton "All Done":
