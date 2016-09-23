@@ -98,27 +98,6 @@
     "locations": ["Exploration"]
     },
     {
-    "id": "Replica Sword",
-    "desc": "This imitation of some legendary sword or other is basically no good in a fight and bears little resemblance to a weapon one would actually wield in battle. If you're into that sort of thing, it looks kind of cool. If you're not, it looks kind of silly.",
-    "icon": "content/items/sweapon/rs.png",
-    "price": 300,
-    "sex": "unisex",
-    "chance": 75,
-    "badness": 96,
-    "eqchance": 4,
-    "hidden": false,
-    "infinite": false,
-    "slot": "smallweapon",
-    "type": "Sword",
-    "ch_multiplier": -0.02,
-    "evasion_bonus": -1,
-    "max": {"attack": 15, "joy": 10},
-    "mod": {"attack": 10, "character": 5},
-    "mod_skills": {"refinement": [-0.03, 0, -0.01, 0, 0], "teaching": [0.03, 0, 0.01, 0, 0]},
-    "locations": ["Work Shop"],
-    "goodtraits": ["Nerd"]
-    },
-    {
     "id": "Tower Shield",
     "desc": "A very large heavy shield utilized by only the strongest foot soldiers. Has high protection, but considerably slows down the carrier.",
     "icon": "content/items/sweapon/ts.png",
@@ -138,23 +117,6 @@
     "mod": {"defence": 50, "agility": -65},
     "defence_multiplier": {"melee": 0.5, "ranged": 0.5},
     "locations": ["Work Shop"]
-    },
-    {
-    "id": "Dildo Sword",
-    "desc": "A rather impressive dildo with a hilt.  Perhaps it is not intended for the actual combat?",
-    "icon": "content/items/sweapon/pen.png",
-    "price": 220,
-    "sex": "female",
-    "chance": 65,
-    "badness": 75,
-    "eqchance": 45,
-    "hidden": false,
-    "infinite": false,
-    "slot": "smallweapon",
-    "type": "Notaweapon",
-    "max": {"attack": 1},
-    "mod_skills": {"vaginal": [0, 0.01, 0, 0, 0], "anal": [0, 0.01, 0, 0, 0], "oral": [0, 0.01, 0, 0, 0], "group": [0, 0.01, 0, 0, 0], "bdsm": [0, 0.01, 0, 0, 0], "sex": [0, 0.01, 0, 0, 0]},
-    "locations": ["General Store"]
     },
     {
     "id": "Courtesan Dagger",
