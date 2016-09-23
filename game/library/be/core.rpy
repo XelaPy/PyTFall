@@ -209,6 +209,7 @@ init -1 python: # Core classes:
                     i.betag = None
                     i.besk = None
                     i.besprite_size = None
+                    i.status_overlay = [] # Clear the overlay.
                     
         def next_turn(self):
             """

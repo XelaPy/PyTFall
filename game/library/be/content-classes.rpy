@@ -229,12 +229,16 @@ init python:
             self.effect = effect / 1000.0
             self.type = "poison"
             
+            # We also add the icon to targets status overlay:
+            target.status_overlay.append(BE_Action.DAMAGE["poison"])
+            
         def check_conditions(self):
             if battle.controller == self.target:
                 return True
                 
         def kill(self):
             if not self.counter:
+                self.target.status_overlay.remove(BE_Action.DAMAGE["remove"])
                 return True
                 
         def apply_effects(self):
