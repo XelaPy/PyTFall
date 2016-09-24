@@ -392,7 +392,7 @@
         "occupations": [
             "Warrior", "Caster"
         ],
-        "desc": "There is a little spark of magic within her soul giving her ability to manipulate arcane energies.",
+        "desc": "A little spark of magic within one's soul gives the ability to manipulate arcane energies.",
         "basetrait": true,
         "mod": {
             "magic": 10,
@@ -435,59 +435,11 @@
         }
     },
     {
-        "id": "Battle Mage",
-        "occupations": [
-            "Warrior", "Caster"
-        ],
-        "desc": "She specializes in battle magic.",
-        "basetrait": true,
-        "higher_tiers": ["Mage"],
-        "el_damage": {"fire": 0.1, "ice": 0.1, "water": 0.1, "air": 0.1, "earth": 0.1, "darkness": 0.1, "light": 0.1, "electricity": 0.1},
-        "mod": {
-            "magic": 50,
-            "upkeep": 5,
-            "intelligence": 5
-        },
-        "max": {
-            "magic": 25
-        },
-        "init_lvlmax": {
-            "magic": 50,
-            "mp": 50
-        },
-        "init_max": {
-            "magic": 50,
-            "mp": 50
-        },
-        "init_mod": {
-            "magic": 25
-        },
-        "init_skills": {},
-        "leveling_stats": {
-            "attack": [
-                -2,
-                -1
-            ],
-            "defence": [
-                -2,
-                -1
-            ],
-            "magic": [
-                0,
-                1
-            ],
-            "mp": [
-                0,
-                1
-            ]
-        }
-    },
-    {
         "id": "Healer",
         "occupations": [
            "Caster"
         ],
-        "desc": "She specializes in healing.",
+        "desc": "Specializes in healing.",
         "basetrait": true,
         "higher_tiers": ["Mage"],
         "el_damage": {"healing": 1.0},
@@ -535,7 +487,7 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "She has been trained to fight with a weapon of some sort.",
+        "desc": "Has been trained to fight with a weapon of some sort.",
         "basetrait": true,
         "mod": {
             "attack": 100,
@@ -589,7 +541,7 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "She specializes in close combat.",
+        "desc": "Specializes in close combat.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
         "mod": {
@@ -637,7 +589,7 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "She specializes in ranged combat.",
+        "desc": "Specializes in ranged combat.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
         "mod": {
@@ -685,34 +637,31 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "This girl has had training to kill - just name a price.",
+        "desc": "Specializes in agility and critical hits.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
-        "mod": {
-            "attack": 30,
-            "defence": 30,
-            "agility": 30
+        "mod_stats": {"attack": [1, 1], "defence": [1, 1], "agility": [3, 1]
         },
         "max": {
             "attack": 15,
             "defence": 15,
             "agility": 15
         },
-        "mod_skills": {},
+        "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
         "init_lvlmax": {
-            "attack": 30,
-            "defence": 20,
-            "health": 20,
-            "agility": 30
+            "attack": 25,
+            "defence": 25,
+            "health": 50,
+            "agility": 50
         },
         "init_max": {
-            "attack": 30,
-            "defence": 30,
-            "health": 20,
-            "agility": 30
+            "attack": 15,
+            "defence": 15,
+            "health": 50,
+            "agility": 25
         },
         "init_mod": {
-            "attack": 20,
+            "attack": 10,
             "defence": 10,
             "agility": 15
             
@@ -720,23 +669,23 @@
         "init_skills": {},
         "leveling_stats": {
             "attack": [
-                0,
+                2,
                 2
             ],
             "defence": [
-                0,
+                1,
                 1
             ],
             "health": [
-                0,
+                1,
                 1
             ],
             "magic": [
-                -2,
+                0,
                 -1
             ],
             "mp": [
-                -2,
+                0,
                 -1
             ]
         }

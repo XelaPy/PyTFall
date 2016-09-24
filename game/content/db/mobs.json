@@ -615,7 +615,7 @@
         "locations": [],
         "min_lvl": 38,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 20,
@@ -645,7 +645,7 @@
         "locations": [],
         "min_lvl": 40,
         "basetraits": [
-            "Battle Mage", "Mage"
+            "Mage", "Warrior"
         ],
         "stats": {
             "attack": 25,
@@ -885,7 +885,7 @@
         "locations": [],
         "min_lvl": 45,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 21,
@@ -915,7 +915,7 @@
         "locations": [],
         "min_lvl": 50,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 40,
@@ -2114,7 +2114,7 @@
         "locations": [],
         "min_lvl": 60,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 15,
@@ -3434,7 +3434,7 @@
         "locations": [],
         "min_lvl": 10,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 10,
@@ -4094,7 +4094,7 @@
         "locations": [],
         "min_lvl": 40,
         "basetraits": [
-            "Shooter", "Battle Mage"
+            "Shooter", "Mage"
         ],
         "stats": {
             "attack": 80,
@@ -4124,7 +4124,7 @@
         "locations": [],
         "min_lvl": 90,
         "basetraits": [
-            "Defender", "Battle Mage"
+            "Defender", "Mage"
         ],
         "stats": {
             "attack": 40,
@@ -4333,7 +4333,7 @@
         "locations": [],
         "min_lvl": 45,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 20,
@@ -4363,7 +4363,7 @@
         "locations": [],
         "min_lvl": 25,
         "basetraits": [
-            "Battle Mage"
+            "Mage"
         ],
         "stats": {
             "attack": 10,
@@ -4393,7 +4393,7 @@
         "locations": [],
         "min_lvl": 55,
         "basetraits": [
-            "Battle Mage", "Defender"
+            "Mage", "Defender"
         ],
         "stats": {
             "attack": 50,
