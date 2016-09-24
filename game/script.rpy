@@ -190,18 +190,6 @@ label dev_testing_menu:
                         $ pass
                     "Back":
                         jump dev_testing_menu
-
-                        
-            "Logic":
-                while 1:
-                    menu:
-                        "Extend test":
-                            $ h = chars["Hinata"]
-                            "[h.name] prepares herself, awaiting for further orders."
-                            extend " You ask her to sit on top of you, immersing your dick inside."
-                        "Back":
-                            jump dev_testing_menu
-
             "GFX":
                 while 1:
                     menu:
