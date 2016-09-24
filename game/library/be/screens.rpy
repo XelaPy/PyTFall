@@ -368,3 +368,6 @@ init: # screens:
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
                 
+    screen be_status_overlay(be):
+        # This screen will add overlay to the screen.
+        $ pass
