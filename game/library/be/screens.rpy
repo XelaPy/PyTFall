@@ -255,7 +255,7 @@ init: # screens:
                                 hovered tt.action(skill)
           
     screen battle_overlay(be):
-        # be reffers to battle core instance
+        # be reffers to battle core instance, we access the global directly atm.
         # Averything that is displayed all the time:
         frame:
             align (0.5, 0.99)
@@ -368,6 +368,13 @@ init: # screens:
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
                 
-    screen be_status_overlay(be):
+    screen be_status_overlay():
         # This screen will add overlay to the screen.
-        $ pass
+        for fighter in battle.get_fighters(state="alive"):
+            python:
+                # Get coords for each box.
+                pass
+            
+            hbox:
+                for status_icon in fighter.status_overlay:
+                    add "temp"

@@ -378,7 +378,7 @@ init -1 python: # Core classes:
         def get_all_events(self):
             # returns a list of all events on this battle field:
             return self.start_turn_events + self.mid_turn_events + self.end_turn_events
-                
+            
                 
     class BE_Event(object):
         """
