@@ -371,10 +371,10 @@ init: # screens:
     screen be_status_overlay():
         # This screen will add overlay to the screen.
         for fighter in battle.get_fighters(state="alive"):
-            python:
-                # Get coords for each box.
-                pass
+            # Get coords for each box:
+            $ temp = battle.get_cp(fighter, type="tc", yo=-30)
             
             hbox:
+                pos temp
                 for status_icon in fighter.status_overlay:
                     add status_icon at fade_in_out(sv1=.3, ev1=1.0, t1=.4, sv2=1.0, ev2=.3, t2=.4) yalign .5
