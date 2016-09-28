@@ -362,6 +362,9 @@ init: # screens:
                                 else:
                                     text "[member.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
                     
+        # Overlay for stats:
+        use be_status_overlay()
+                                    
         if config.debug:
             vbox:
                 align (0.99, 0)
@@ -377,4 +380,4 @@ init: # screens:
             hbox:
                 pos temp
                 for status_icon in fighter.status_overlay:
-                    add status_icon at fade_in_out(sv1=.3, ev1=1.0, t1=.4, sv2=1.0, ev2=.3, t2=.4) yalign .5
+                    add Text(status_icon) at fade_in_out(sv1=.3, ev1=1.0, t1=.4, sv2=1.0, ev2=.3, t2=.4) yalign .5
