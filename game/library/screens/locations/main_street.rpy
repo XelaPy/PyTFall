@@ -50,19 +50,19 @@ screen main_street():
     use location_actions("main_street")
     $ img_tailor = ProportionalScale("content/gfx/interface/icons/tailor_shop.png", 50, 50)
     imagebutton:
-        pos(250, 355)
+        pos(245, 374)
         idle (img_tailor)
         hover (im.MatrixColor(img_tailor, im.matrix.brightness(0.15)))
         action [Hide("main_street"), Jump("tailor_store")]
     $ img_cafe = ProportionalScale("content/gfx/interface/icons/cafe_shop.png", 60, 60)
     imagebutton:
-        pos(43, 540)
+        pos(31, 540)
         idle (img_cafe)
         hover (im.MatrixColor(img_cafe, im.matrix.brightness(0.15)))
         action [Hide("main_street"), Jump("cafe")]
-    $ img_general = ProportionalScale("content/gfx/interface/icons/general_shop.png", 60, 60)
+    $ img_general = ProportionalScale("content/gfx/interface/icons/general_shop.png", 65, 65)
     imagebutton:
-        pos(640, 345)
+        pos(640, 360)
         idle (img_general)
         hover (im.MatrixColor(img_general, im.matrix.brightness(0.15)))
         action [Hide("main_street"), Jump("general_store")]
@@ -74,7 +74,7 @@ screen main_street():
         action [Hide("main_street"), Jump("workshop")]
     $ img_realtor = ProportionalScale("content/gfx/interface/icons/realtor_shop.png", 50, 50)
     imagebutton:
-        pos(250, 200)
+        pos(245, 203)
         idle (img_realtor)
         hover (im.MatrixColor(img_realtor, im.matrix.brightness(0.15)))
         action [Hide("main_street"), Jump("realtor_agency")]
