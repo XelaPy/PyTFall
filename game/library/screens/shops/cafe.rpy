@@ -24,7 +24,7 @@ label cafe:
         "Welcome Back!"
     else:
         $global_flags.set_flag('visited_cafe')
-        "Welcome to PyTFall's Cafe!"
+        "Welcome to the Cafe!"
         "Here you can buy food and tasty beverages!"
         "Please take a look at our selection: "
     

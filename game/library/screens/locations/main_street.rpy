@@ -78,6 +78,12 @@ screen main_street():
         idle (img_realtor)
         hover (im.MatrixColor(img_realtor, im.matrix.brightness(0.15)))
         action [Hide("main_street"), Jump("realtor_agency")]
+    $ img_cafe_eating = ProportionalScale("content/gfx/interface/icons/cafe_eating.png", 50, 50)
+    imagebutton:
+        pos(65, 575)
+        idle (img_cafe_eating)
+        hover (im.MatrixColor(img_cafe_eating, im.matrix.brightness(0.15)))
+        action [Hide("main_street"), Jump("cafe")]
     # Girlsmeets screen
     if gm.show_girls:
     
