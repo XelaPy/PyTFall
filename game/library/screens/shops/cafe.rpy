@@ -91,9 +91,10 @@ screen cafe_eating:
                 text "Leave" size 15
     
 label cafe_eat_alone:
+
     menu:
         "What will it be?"
-        
+
         "Junk Food (10 GP)":
             if hero.take_money(10):
                 $ hero.set_flag("ate_in_cafe", value=day)
@@ -223,9 +224,9 @@ label cafe_eat_group:
                         money += randint (10, 20)
                 result += money
     if hero.take_money(result):
-        $ n = randint (1, 6)
-        $ img = "content/gfx/images/food/cafe_mass_" + str(n) + ".jpg"
-        show img at center with dissolve
+        $ n = renpy.random.randint(1, 6)
+        $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
+        show expression img at truecenter with dissolve
         $ interactions_eating_line(hero.team)
         "You enjoy your meals together. Overall health and mood were improved."
         $ hero.set_flag("ate_in_cafe", value=day)
@@ -252,6 +253,7 @@ label cafe_eat_group:
         $ del stat
         $ del img
         $ del n
+        hide expression img with dissolve
         jump cafe_menu
     else:
         "Sadly, you don't have enough money to reserve a table."

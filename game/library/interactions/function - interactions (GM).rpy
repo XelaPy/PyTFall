@@ -337,31 +337,31 @@ init -11 python:
             said_lines = set()
             for character in characters:
                 if "Impersonal" in character.traits:
-                    lines = ["It's all sticky from the sauce...　Nn... *chu* Mm... *slurp*", "Nn... mm... Delicious...", "That looks tasty... *slurp*"]
+                    lines = ["It's all sticky from the sauce... Nn... *chu* Mm... *slurp*", "Nn... mm... Delicious...", "That looks tasty... *slurp*"]
                 elif "Shy" in character.traits and dice(50):
                     lines = ["That looks so good! Ah! That one looks good too... Aww, I can't decide...", "Hehe, sweet tea is so calming, isn't it?", "Uhm, w-were you going to eat that? Er... Y-yes, I'll eat it..."]
                 elif "Imouto" in character.traits:
-                    lines = ["Custard here and chocolate here.　Looks delicious, doesn't it? ♪", "So many sweets! What should I start with? ♪", "Oh, that looks yummy... Diggin' in! Nom!"]
+                    lines = ["Custard here and chocolate here. Looks delicious, doesn't it? ♪", "So many sweets! What should I start with? ♪", "Oh, that looks yummy... Diggin' in! Nom!"]
                 elif "Dandere" in character.traits:
                     lines = ["*munch munch*... Huh? You want some too? Here.", "Omelette rolls are so sweet and sticky...", "Munch munch... Sugar intake is important.", "Thanks for the food... *munch*"]
                 elif "Tsundere" in character.traits:
-                    lines = ["Ah, I'm tired from eating too much...", "How long do you plan on staring at my lunch?　I'm not sharing any.", "Lately, I am worrying quite a bit about calories... But I just can't help myself... ugh..."]
+                    lines = ["Ah, I'm tired from eating too much...", "How long do you plan on staring at my lunch? I'm not sharing any.", "Lately, I am worrying quite a bit about calories... But I just can't help myself... ugh..."]
                 elif "Kuudere" in character.traits:
                     lines = ["Mmm, this is actually pretty good.", "They don't have any teacakes today..? A pity.", "You've got a good appetite. It's refreshing to see.", "I don't need any... Well, if you insist... *aaaah*..."]
                 elif "Kamidere" in character.traits:
                     lines = ["OK, say ah~n... Yeah right, like I would ever do such a thing.", "Can't you just be quiet and eat? It's improper.", "Don't talk to me when I'm eating."]
                 elif "Bokukko" in character.traits:
-                    lines = ["Hm, which one tastes better... I wonder...", "Nom nom... Mmm, delishus ♪　Back to full health ♪", "Mm, delicious meat. The meatiest of meats. Om nom.", "Let's dig in! Ehehe, egg omelet, egg omelet ♪"]
+                    lines = ["Hm, which one tastes better... I wonder...", "Nom nom... Mmm, delishus ♪ Back to full health ♪", "Mm, delicious meat. The meatiest of meats. Om nom.", "Let's dig in! Ehehe, egg omelet, egg omelet ♪"]
                 elif "Ane" in character.traits:
-                    lines = ["This kind of food is good for your health, you know? It'll fill you with lots of energy ♪", "You don't get to be picky.　Come, say aaa... ♪", "Now, why don't we have an enjoyable meal?"]
+                    lines = ["This kind of food is good for your health, you know? It'll fill you with lots of energy ♪", "You don't get to be picky. Come, say aaa... ♪", "Now, why don't we have an enjoyable meal?"]
                 elif "Yandere" in character.traits:
-                    lines = ["...Here, have this too. I'm finished.", "Mmm...　Vanilla milkshakes are the best ♪", "I've been gaining weight, so I'm holding back today... Haah...", "Just go ahead and order whatever.　I'll leave it up to you."]
+                    lines = ["...Here, have this too. I'm finished.", "Mmm... Vanilla milkshakes are the best ♪", "I've been gaining weight, so I'm holding back today... Haah...", "Just go ahead and order whatever. I'll leave it up to you."]
                 else:
                     lines = ["This place's tea and cake is amazing. The tarts are good, too.", "Ah, that looks yummy ♪", "Let's eaaaat! But, what should I eat first? Hmm..."]
                 result = random.sample(set(lines).difference(said_lines), 1)[0]
                 said_lines.add(result)
                 result = result.replace("[mc_ref]", character.mc_ref)
-                character.override_portrait("portrait", "happy")
+                character.override_portrait("portrait", "indifferent")
                 character.say(result)
                 character.restore_portrait()
 
