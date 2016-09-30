@@ -364,7 +364,8 @@ init -11 python:
                 character.override_portrait("portrait", "happy")
                 character.say(result)
                 character.restore_portrait()
-                
+
+
     def interactions_pick_background_for_fight(place):
         """
         Returns suitable background for battles in various locations. Can be used together with gm.label_cache as a place.
