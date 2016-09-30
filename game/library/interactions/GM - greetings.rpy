@@ -762,30 +762,6 @@ label interactions_alone_together:
         $ rc("There's nobody around... Hehe ♪", "I-Is it alright? We're here...alone together...")
     $ char.restore_portrait()
     return
-    
-label food_already_eaten:
-    if ct("Impersonal"):
-        $ rc("Sorry, I'm full.", "I've already eaten.")
-    elif ct("Shy") and dice(50):
-        $ rc("Ah... I've eaten already, unfortunately...")
-    elif ct("Imouto"):
-        $ rc("My stomach is already about to explode.") 
-    elif ct("Dandere"):
-        $ rc("I have already eaten.")
-    elif ct("Tsundere"):
-        $ rc("Hey, do you want me to get fat?"),
-    elif ct("Kuudere"):
-        $ rc("Sorry, I already ate.")
-    elif ct("Kamidere"):
-        $ rc("I already ate.")
-    elif ct("Bokukko"):
-        $ rc("I've already eaten, alright?")
-    elif ct("Ane"):
-        $ rc("Sorry, I already ate, so...")
-    elif ct("Yandere"):
-        $ rc("No way. If I eat any more, I'll get fat.")
-    else:
-        $ rc("I'm already so stuffed...", "Ah, I already ate. I'm sorry.")
         
 label food_propose:
     if ct("Impersonal"):
@@ -811,26 +787,3 @@ label food_propose:
     else:
         $ rc("Hey, you got some snacks or something? I'm kinda hungry.", "Shall we take a break? I'm hungry.", "Aaah, I'm hungry...")
         
-label food_eating:
-    if ct("Impersonal"):
-        $ rc("It's all sticky from the sauce...　Nn... *chu* Mm... *slurp*", "Nn... mm... Delicious...", "That looks tasty... *slurp*")
-    elif ct("Shy") and dice(50):
-        $ rc("That looks so good! Ah! That one looks good too... Aww, I can't decide...", "Hehe, sweet tea is so calming, isn't it?", "Uhm, w-were you going to eat that? Er... Y-yes, I'll eat it...")
-    elif ct("Imouto"):
-        $ rc("Custard here and chocolate here.　Looks delicious, doesn't it? ♪", "So many sweets! What should I start with? ♪", "Oh, that looks yummy... Diggin' in! Nom!") 
-    elif ct("Dandere"):
-        $ rc("*munch munch*... Huh? You want some too? Here.", "Omelette rolls are so sweet and sticky...", "Munch munch... Sugar intake is important.", "Thanks for the food... *munch*")
-    elif ct("Tsundere"):
-        $ rc("Ah, I'm tired from eating too much...", "How long do you plan on staring at my lunch?　I'm not sharing any.", "Lately, I am worrying quite a bit about calories... But I just can't help myself... ugh..."),
-    elif ct("Kuudere"):
-        $ rc("Mmm, this is actually pretty good.", "They don't have any teacakes today..? A pity.", "You've got a good appetite. It's refreshing to see.", "I don't need any... Well, if you insist... *aaaah*...")
-    elif ct("Kamidere"):
-        $ rc("OK, say ah~n... Yeah right, like I would ever do such a thing.", "Can't you just be quiet and eat? It's improper.", "Don't talk to me when I'm eating.")
-    elif ct("Bokukko"):
-        $ rc("Hm, which one tastes better... I wonder...", "Nom nom... Mmm, delishus ♪　Back to full health ♪", "Mm, delicious meat. The meatiest of meats. Om nom.", "Let's dig in! Ehehe, egg omelet, egg omelet ♪")
-    elif ct("Ane"):
-        $ rc("This kind of food is good for your health, you know? It'll fill you with lots of energy ♪", "You don't get to be picky.　Come, say aaa... ♪", "Now, why don't we have an enjoyable meal?")
-    elif ct("Yandere"):
-        $ rc("...Here, have this too. I'm finished.", "Mmm...　Vanilla milkshakes are the best ♪", "I've been gaining weight, so I'm holding back today... Haah...", "Just go ahead and order whatever.　I'll leave it up to you ♪")
-    else:
-        $ rc("This place's tea and cake is amazing. The tarts are good, too.", "Ah, that looks yummy ♪", "Let's eaaaat! But, what should I eat first? Hmm...")
