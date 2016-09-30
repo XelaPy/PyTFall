@@ -228,9 +228,10 @@ init python:
             self.counter = randint(3, 5) # Poisoned for 3-5 turns
             self.effect = effect / 1000.0
             self.type = "poison"
+            self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
             
             # We also add the icon to targets status overlay:
-            target.status_overlay.append(BE_Action.DAMAGE["poison"])
+            target.status_overlay.append(self.icon)
             
         def check_conditions(self):
             if battle.controller == self.target:
@@ -238,7 +239,7 @@ init python:
                 
         def kill(self):
             if not self.counter:
-                self.target.status_overlay.remove(BE_Action.DAMAGE["remove"])
+                self.target.status_overlay.remove(self.icon)
                 return True
                 
         def apply_effects(self):
