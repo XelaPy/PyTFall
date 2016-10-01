@@ -762,28 +762,3 @@ label interactions_alone_together:
         $ rc("There's nobody around... Hehe ♪", "I-Is it alright? We're here...alone together...")
     $ char.restore_portrait()
     return
-        
-label food_propose:
-    if ct("Impersonal"):
-        $ rc("Let's have some tea.", "I was thinking about grabbing a bite.", "Lunch...?")
-    elif ct("Shy") and dice(50):
-        $ rc("H-hey, how about a cup of tea?", "I was just thinking about eating something...", "It's lunch time... ")
-    elif ct("Imouto"):
-        $ rc("I really want some sweets ♪", "My tummy's growling. Wanna grab a bite?", "Woo! Lunch time, lunch time!") 
-    elif ct("Dandere"):
-        $ rc("Snack time?", "Want to have a snack?", "How about having lunch?")
-    elif ct("Tsundere"):
-        $ rc("C-come on, invite me for tea or something.", "Hey... Do you want to grab some food? O-Or something?", "Y-you're going to join me for lunch... okay?"),
-    elif ct("Kuudere"):
-        $ rc("Would you like to have some tea together?", "Let's get something to eat.")
-    elif ct("Kamidere"):
-        $ rc("I think it's time for tea.", "Are you hungry? I was thinking about eating somewhere...")
-    elif ct("Bokukko"):
-        $ rc("Hey, let's have a snack, alright?", "Let's eat something! I'm starved!", "It's time to eat! Come on, let's go!")
-    elif ct("Ane"):
-        $ rc("Shall we sip some drinks and take it easy...?", "What would you say to a cup of tea with me?")
-    elif ct("Yandere"):
-        $ rc("Do you want to take a tea break?", "Hey, aren't you hungry? Want to go get something to eat?", "If you'd like, we could have lunch?")
-    else:
-        $ rc("Hey, you got some snacks or something? I'm kinda hungry.", "Shall we take a break? I'm hungry.", "Aaah, I'm hungry...")
-        

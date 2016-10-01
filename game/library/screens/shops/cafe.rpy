@@ -28,6 +28,19 @@ label cafe:
         $ hero.set_flag("health_bonus_from_eating_in_cafe", value=0)
         "Welcome to the Cafe!"
         "Here you can buy food and tasty beverages!"
+        
+    if dice(100) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
+        python:
+            members = [] # all chars willing to invite will be in this list
+            for member in hero.team:
+                if member != hero:
+                    if member.status == "free" and member.gold >= randint(500, 1000) and member.disposition >= 200 and member.joy >= 40:
+                        members.append(member)
+            if not(members):
+                pass # no one wants to invite
+            else:
+                inviting_character = random.choice(members)
+                interactions_eating_propose(inviting_character)
 label cafe_menu: # after she said her lines but before we show menu controls, to return here when needed
     show screen cafe_eating
     while 1:
@@ -95,8 +108,11 @@ label cafe_eat_alone:
     menu:
         "What will it be?"
 
-        "Junk Food (10 GP)":
+        "Light Snack (10 GP)":
             if hero.take_money(10):
+                $ name = "content/gfx/images/food/animated/small_" + str(renpy.random.randint(1, 3)) + ".webm"
+                show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
+                # show image random.choice(movie_list)
                 $ hero.set_flag("ate_in_cafe", value=day)
                 $ result = "You feel a bit better!"
                 if hero.vitality < hero.get_max("vitality"):
@@ -118,11 +134,15 @@ label cafe_eat_alone:
                 $ del result
                 $ del result_v
                 $ del result_m
+                hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
+                $ del name
             else:
                 "You don't have that amount of gold."
                 
         "Ordinary Meal (25 GP)":
             if hero.take_money(25):
+                $ name = "content/gfx/images/food/animated/medium_" + str(renpy.random.randint(1, 3)) + ".webm"
+                show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
                 $ hero.set_flag("ate_in_cafe", value=day)
                 $ result = "You feel quite satisfied."
                 if hero.vitality < hero.get_max("vitality"):
@@ -152,10 +172,14 @@ label cafe_eat_alone:
                 $ del result_v
                 $ del result_m
                 $ del result_h
+                hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
+                $ del name
             else:
                 "You don't have that amount of gold."
         "Extra Large Meal (50 GP)":   # by eating big meals hero can increase max health by 2 with 75% chance; after increasing it by 50 the chance drops to 10% with smaller bonus
             if hero.take_money(50):
+                $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
+                show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
                 $ hero.set_flag("ate_in_cafe", value=day)
                 $ result = "You feel extremely full and satisfied."
                 if hero.vitality < hero.get_max("vitality"):
@@ -198,6 +222,8 @@ label cafe_eat_alone:
                 $ del result_v
                 $ del result_m
                 $ del result_h
+                hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
+                $ del name
     jump cafe_menu
             
 label cafe_eat_group:
@@ -224,7 +250,7 @@ label cafe_eat_group:
                         money += randint (10, 20)
                 result += money
     if hero.take_money(result):
-        $ n = renpy.random.randint(1, 6)
+        $ n = renpy.random.randint(1, 9)
         $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
         show expression img at truecenter with dissolve
         $ interactions_eating_line(hero.team)
@@ -259,27 +285,3 @@ label cafe_eat_group:
         "Sadly, you don't have enough money to reserve a table."
         $ del result
         jump cafe_menu
-
-        
-        
-                
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
