@@ -365,42 +365,36 @@ init -11 python:
                 character.say(result)
                 character.restore_portrait()
 
-    def interactions_eating_propose(characters):
+    def interactions_eating_propose(character):
         """
-        Outputs nonrepeatable lines before eating for provided characters, except hero if s/he was provided.
+        Outputs a line before eating for provided character
         """
-        characters = [c for c in characters if c != hero]
-        if characters:
-            said_lines = set()
-            for character in characters:
-                if "Impersonal" in character.traits:
-                    lines = ["Let's have some tea.", "I was thinking about grabbing a bite.", "Lunch...?"]
-                elif "Shy" in character.traits and dice(50):
-                    lines = ["H-hey, how about a cup of tea?", "I was just thinking about eating something...", "It's lunch time... "]
-                elif "Imouto" in character.traits:
-                    lines = ["I really want some sweets ♪", "My tummy's growling. Wanna grab a bite?", "Woo! Lunch time, lunch time!"]
-                elif "Dandere" in character.traits:
-                    lines = ["Snack time?", "Want to have a snack?", "How about having lunch?"]
-                elif "Tsundere" in character.traits:
-                    lines = ["C-come on, invite me for tea or something.", "Hey... Do you want to grab some food? O-Or something?", "Y-you're going to join me for lunch... okay?"]
-                elif "Kuudere" in character.traits:
-                    lines = ["Would you like to have some tea together?", "Let's get something to eat.", "How about lunch?"]
-                elif "Kamidere" in character.traits:
-                    lines = ["I think it's time for tea.", "Are you hungry? I was thinking about eating.", "Let's eat, I'm hungry."]
-                elif "Bokukko" in character.traits:
-                    lines = ["Hey, let's have a snack, alright?", "Let's eat something! I'm starved!", "It's time to eat! Come on, let's go!"]
-                elif "Ane" in character.traits:
-                    lines = ["Shall we sip some drinks and take it easy...?", "What would you say to a cup of tea with me?", "Would you like to join me for lunch?"]
-                elif "Yandere" in character.traits:
-                    lines = ["Do you want to take a tea break?", "Hey, aren't you hungry? Want to go get something to eat?", "If you'd like, we could have lunch?"]
-                else:
-                    lines = ["Hey, you got some snacks or something? I'm kinda hungry.", "Shall we take a break? I'm hungry.", "Aaah, I'm hungry..."]
-                result = random.sample(set(lines).difference(said_lines), 1)[0]
-                said_lines.add(result)
-                result = result.replace("[mc_ref]", character.mc_ref)
-                character.override_portrait("portrait", "indifferent")
-                character.say(result)
-                character.restore_portrait()
+        if "Impersonal" in character.traits:
+            lines = ["Let's have some tea.", "Hey, I was thinking about grabbing a bite.", "How about lunch?"]
+        elif "Shy" in character.traits and dice(50):
+            lines = ["H-hey, how about a cup of tea?", "I was just thinking about eating something...", "It's lunch time... S-so maybe we..."]
+        elif "Imouto" in character.traits:
+            lines = ["I really want some sweets ♪ C'mon!", "My tummy's growling. Wanna grab a bite?", "Woo! Lunch time, lunch time! Hurry!"]
+        elif "Dandere" in character.traits:
+            lines = ["Snack time?", "Want to have a snack?", "Lunch..?"]
+        elif "Tsundere" in character.traits:
+            lines = ["C-come on, invite me for tea or something.", "Hey... Do you want to grab some food? O-Or something?", "Y-you're going to join me for lunch... okay?"]
+        elif "Kuudere" in character.traits:
+            lines = ["Would you like to have some tea together?", "Let's get something to eat.", "Are you hungry? How about lunch?"]
+        elif "Kamidere" in character.traits:
+            lines = ["I think it's time for tea.", "Are you hungry? I was thinking about eating.", "Let's eat, I'm hungry."]
+        elif "Bokukko" in character.traits:
+            lines = ["Hey, let's have a snack, alright?", "Let's eat something! I'm starved!", "It's time to eat! Come on, let's go!"]
+        elif "Ane" in character.traits:
+            lines = ["Shall we sip some drinks and take it easy?", "What would you say to a cup of tea with me?", "Would you like to join me for lunch?"]
+        elif "Yandere" in character.traits:
+            lines = ["Do you want to take a tea break?", "Hey, aren't you hungry? Want to go get something to eat?", "If you'd like, we could have lunch?"]
+        else:
+            lines = ["Hey, you got some snacks or something? I'm kinda hungry.", "Shall we take a break? I'm hungry.", "Aaah, I'm hungry... What about you?"]
+        result = random.choice(lines)
+        character.override_portrait("portrait", "indifferent")
+        character.say(result)
+        character.restore_portrait()
 
     def interactions_pick_background_for_fight(place):
         """

@@ -28,19 +28,27 @@ label cafe:
         $ hero.set_flag("health_bonus_from_eating_in_cafe", value=0)
         "Welcome to the Cafe!"
         "Here you can buy food and tasty beverages!"
-        
-    if dice(100) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
+    $ inviting_character = hero
+    if dice(30) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
         python:
             members = [] # all chars willing to invite will be in this list
             for member in hero.team:
                 if member != hero:
-                    if member.status == "free" and member.gold >= randint(500, 1000) and member.disposition >= 200 and member.joy >= 40:
+                    if member.status == "free" and member.gold >= randint(500, 1000) and member.disposition >= 200 and member.joy >= 30:
                         members.append(member)
-            if not(members):
-                pass # no one wants to invite
-            else:
+            if members:
                 inviting_character = random.choice(members)
                 interactions_eating_propose(inviting_character)
+    if inviting_character != hero:
+        menu:
+            "Do you want to accept her invitation (free of charge)?"
+            
+            "Yes":
+                $ del members
+                jump cafe_invitation
+            "No":
+                $ del members
+                
 label cafe_menu: # after she said her lines but before we show menu controls, to return here when needed
     show screen cafe_eating
     while 1:
@@ -232,7 +240,7 @@ label cafe_eat_group:
     if hero.gold < 200:
         "Sadly, you don't have enough money to reserve a table." # MC doesn't even have 200 gold, it's not a good idea to spend money here so we just stop it immediately
         jump cafe_menu
-    
+label cafe_invitation: # we jump here when the group was invited by one of chars
     $ result = randint (30, 40) # base price MC pays for himself and the table
     python:
         for member in hero.team:
@@ -249,12 +257,12 @@ label cafe_eat_group:
                     if "Always Hungry" in member.traits:
                         money += randint (10, 20)
                 result += money
-    if hero.take_money(result):
+    if inviting_character.take_money(result):
         $ n = renpy.random.randint(1, 9)
         $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
         show expression img at truecenter with dissolve
         $ interactions_eating_line(hero.team)
-        "You enjoy your meals together. Overall health and mood were improved."
+        "You enjoy your meals together. Overall health and mood were improved." 
         $ hero.set_flag("ate_in_cafe", value=day)
         python:
             for member in hero.team:
@@ -282,6 +290,5 @@ label cafe_eat_group:
         hide expression img with dissolve
         jump cafe_menu
     else:
-        "Sadly, you don't have enough money to reserve a table."
         $ del result
         jump cafe_menu
