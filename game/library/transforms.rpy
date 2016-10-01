@@ -84,7 +84,7 @@ init -997: # Transforms:
             fade_from_to(sv1, ev1, t1)
         on hide:
             fade_from_to(sv2, ev2, t2)
-        
+            
     transform rotate_by(degrees):
         # When used with x/ycenter in SL, this will (or at leastshould) be positioned correctly!
         rotate degrees
@@ -268,6 +268,12 @@ init -997: # Transforms:
             repeat
         
     # BE Transforms:
+    transform status_overlay(sv1=0.0, ev1=1.0, t1=1.0,
+                                        sv2=1.0, ev2=0.0, t2=1.0):
+        fade_from_to(sv1, ev1, t1)
+        fade_from_to(sv2, ev2, t2)
+        repeat
+    
     transform damage_color(img): # Note: Testing case, this should become a DD/UDD with moar options at some point.
         im.MatrixColor(img, im.matrix.saturation(1))
         0.05
