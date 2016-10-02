@@ -286,6 +286,10 @@ init python:
             
             self.counter = randint(3, 5) # Active for 3-5 turns
             
+            self.icon = ProportionalScale("content/gfx/be/fists.png", 30, 30)
+            # We also add the icon to targets status overlay:
+            target.status_overlay.append(self.icon)
+            
             if bonus:
                 self.defence_bonus = {}
                 if "melee" in self.attributes:
@@ -306,6 +310,7 @@ init python:
                 
         def kill(self):
             if not self.counter:
+                self.target.status_overlay.remove(self.icon)
                 return True
                 
         def apply_effects(self):
