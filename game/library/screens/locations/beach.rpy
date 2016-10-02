@@ -60,7 +60,12 @@ screen city_beach():
         action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
     
     use location_actions("city_beach")
-    
+    $ img_pool = ProportionalScale("content/gfx/interface/icons/swimming_pool.png", 60, 60)
+    imagebutton:
+        pos(1040, 80)
+        idle (img_pool)
+        hover (im.MatrixColor(img_pool, im.matrix.brightness(0.15)))
+        action [Hide("city_beach"), Jump("swimming_pool")]
     if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
