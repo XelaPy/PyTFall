@@ -277,7 +277,7 @@ init python:
                 
                 
     class DefenceBuff(BE_Event):
-        def __init__(self, source, target, bonus=None, multi=None):
+        def __init__(self, source, target, bonus=0, multi=0):
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
@@ -765,6 +765,7 @@ init python:
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             self.event_class = PoisonEvent
             
+            
     class ReviveSpell(SimpleSkill):
         def __init__(self, name, **kwargs):
             super(ReviveSpell, self).__init__(name, **kwargs)
@@ -845,6 +846,11 @@ init python:
             super(ReviveSpell, self).show_main_gfx(battle, attacker, targets)
         
     
+    class DefenceBuffSpell(SimpleSkill):
+        def __init__(self, *args, **kwargs):
+            super(BasicPoisonSpell, self).__init__(*args, **kwargs)
+            self.event_class = DefenceBuff
+            
 init python: # Helper Functions:
     def death_effect(char, kind, sfx=None, pause=False):
         if kind == "shatter":
