@@ -1471,6 +1471,12 @@ init -1 python: # Core classes:
                     mask = Transform("flame_bm", size=size)
                     what = AlphaMask(child, mask)
                     at_list=[]
+                elif type == "on_water":
+                    # child = Transform("water_bm", size=target.besprite_size)
+                    # mask = target.besprite
+                    # what = AlphaMask(child, mask)
+                    # at_list=[]
+                    pass
                 elif isinstance(type, basestring) and type.startswith("fire"):
                     what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     if type == "fire":

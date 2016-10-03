@@ -127,7 +127,7 @@ init python:
         
 label academy_town:
     
-    $ gm.enter_location(goodtraits=["Nerd", "Dandere", "Impersonal", "Serious"], badtraits=["Aggressive", "Adventurer", "Ill-mannered", "Slime", "Monster", "Elf"], curious_priority=True)
+    $ gm.enter_location(badtraits=["Adventurer", "Slime", "Monster"], curious_priority=True, has_tags=["sfw", "schoolgirl"])
     
     if not "library" in ilists.world_music:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]

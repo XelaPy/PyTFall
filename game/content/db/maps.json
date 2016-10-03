@@ -51,44 +51,6 @@
             "name": "City Jail"
         }
     ],
-    "pytfall_ms": [
-        {
-            "id": "general_store",
-            "name": "General Store",
-            "hidden": false,
-            "x": 475,
-            "y": 530,
-            "img": "content/gfx/interface/icons/neitral.png"
-        },
-        {
-            "id": "realtor_agency",
-            "name": "Realtor",
-            "x": 365,
-            "y": 535,
-            "img": "content/gfx/interface/icons/neitral.png"
-        },
-        {
-            "id": "cafe",
-            "name": "Cafe",
-            "x": 70,
-            "y": 545,
-            "img": "content/gfx/interface/icons/neitral.png"
-        },
-        {
-            "id": "workshop",
-            "name": "Work Shop",
-            "x": 1055,
-            "y": 615,
-            "img": "content/gfx/interface/icons/neitral.png"
-        },
-        {
-            "id": "tailor_store",
-            "name": "Tailor Store",
-            "x": 635,
-            "y": 535,
-            "img": "content/gfx/interface/icons/neitral.png"
-        }
-    ],
     "pytfall_fe": [
         {
             "id": "witches_hut",

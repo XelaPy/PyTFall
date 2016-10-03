@@ -33,7 +33,7 @@
 "name": "Maria Custard",
 "exp": 10000,
 "stats": {"attack": 80, "defence": 50, "magic": 50, "agility": 50, "luck": 10},
-"attack_skills": {"CannonAttack": 1},
+"attack_skills": {"Cannon Attack": 1},
 "unique": true
 },
 {

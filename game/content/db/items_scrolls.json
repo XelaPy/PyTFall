@@ -12,7 +12,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Fireball"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -29,7 +29,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Solar Flash"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -46,7 +46,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Cataclysm"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -63,7 +63,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Geyser"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -80,7 +80,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Last Drop"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -97,7 +97,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Heavy Rain"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -114,7 +114,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Zero Prism"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -131,7 +131,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Shards"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -148,7 +148,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Hailstorm"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -165,7 +165,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Mudslide"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -182,7 +182,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Transmutation"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -199,7 +199,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Rift Line"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -216,7 +216,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Air Pressure"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -233,7 +233,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Air Blast"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -250,7 +250,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Vortex"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -267,7 +267,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thunderstorm"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -284,7 +284,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Electromagnetism"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -301,7 +301,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ion Storm"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -318,7 +318,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Photon Blade"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -335,7 +335,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Star Light"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -352,7 +352,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Forced Dawn"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -369,7 +369,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Eternal Gluttony"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -386,7 +386,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Black Hole"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },
     {
@@ -403,7 +403,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Other Light"],
-    "goodtraits": ["Battle Mage"],
+    "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     }
   ]

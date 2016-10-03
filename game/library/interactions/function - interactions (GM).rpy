@@ -328,6 +328,74 @@ init -11 python:
                 character.say(result)
                 character.restore_portrait()
                 
+    def interactions_eating_line(characters):
+        """
+        Outputs nonrepeatable lines during eating for provided characters, except hero if s/he was provided.
+        """
+        characters = [c for c in characters if c != hero]
+        if characters:
+            said_lines = set()
+            for character in characters:
+                if "Impersonal" in character.traits:
+                    lines = ["It's all sticky from the sauce... Nn... *chu* Mm... *slurp*", "Nn... mm... Delicious...", "That looks tasty... *slurp*"]
+                elif "Shy" in character.traits and dice(50):
+                    lines = ["That looks so good! Ah! That one looks good too... Aww, I can't decide...", "Hehe, sweet tea is so calming, isn't it?", "Uhm, w-were you going to eat that? Er... Y-yes, I'll eat it..."]
+                elif "Imouto" in character.traits:
+                    lines = ["Custard here and chocolate here. Looks delicious, doesn't it? ♪", "So many sweets! What should I start with? ♪", "Oh, that looks yummy... Diggin' in! Nom!"]
+                elif "Dandere" in character.traits:
+                    lines = ["*munch munch*... Huh? You want some too? Here.", "Omelette rolls are so sweet and sticky...", "Munch munch... Sugar intake is important.", "Thanks for the food... *munch*"]
+                elif "Tsundere" in character.traits:
+                    lines = ["Ah, I'm tired from eating too much...", "How long do you plan on staring at my lunch? I'm not sharing any.", "Lately, I am worrying quite a bit about calories... But I just can't help myself... ugh..."]
+                elif "Kuudere" in character.traits:
+                    lines = ["Mmm, this is actually pretty good.", "They don't have any teacakes today..? A pity.", "You've got a good appetite. It's refreshing to see.", "I don't need any... Well, if you insist... *aaaah*..."]
+                elif "Kamidere" in character.traits:
+                    lines = ["OK, say ah~n... Yeah right, like I would ever do such a thing.", "Can't you just be quiet and eat? It's improper.", "Don't talk to me when I'm eating."]
+                elif "Bokukko" in character.traits:
+                    lines = ["Hm, which one tastes better... I wonder...", "Nom nom... Mmm, delishus ♪ Back to full health ♪", "Mm, delicious meat. The meatiest of meats. Om nom.", "Let's dig in! Ehehe, egg omelet, egg omelet ♪"]
+                elif "Ane" in character.traits:
+                    lines = ["This kind of food is good for your health, you know? It'll fill you with lots of energy ♪", "You don't get to be picky. Come, say aaa... ♪", "Now, why don't we have an enjoyable meal?"]
+                elif "Yandere" in character.traits:
+                    lines = ["...Here, have this too. I'm finished.", "Mmm... Vanilla milkshakes are the best ♪", "I've been gaining weight, so I'm holding back today... Haah...", "Just go ahead and order whatever. I'll leave it up to you."]
+                else:
+                    lines = ["This place's tea and cake is amazing. The tarts are good, too.", "Ah, that looks yummy ♪", "Let's eaaaat! But, what should I eat first? Hmm..."]
+                result = random.sample(set(lines).difference(said_lines), 1)[0]
+                said_lines.add(result)
+                result = result.replace("[mc_ref]", character.mc_ref)
+                character.override_portrait("portrait", "indifferent")
+                character.say(result)
+                character.restore_portrait()
+
+    def interactions_eating_propose(character):
+        """
+        Outputs a line before eating for provided character
+        """
+        if "Impersonal" in character.traits:
+            lines = ["Let's have some tea.", "Hey, I was thinking about grabbing a bite.", "How about lunch?"]
+        elif "Shy" in character.traits and dice(50):
+            lines = ["H-hey, how about a cup of tea?", "I was just thinking about eating something...", "It's lunch time... S-so maybe we..."]
+        elif "Imouto" in character.traits:
+            lines = ["I really want some sweets ♪ C'mon!", "My tummy's growling. Wanna grab a bite?", "Woo! Lunch time, lunch time! Hurry!"]
+        elif "Dandere" in character.traits:
+            lines = ["Snack time?", "Want to have a snack?", "Lunch..?"]
+        elif "Tsundere" in character.traits:
+            lines = ["C-come on, invite me for tea or something.", "Hey... Do you want to grab some food? O-Or something?", "Y-you're going to join me for lunch... okay?"]
+        elif "Kuudere" in character.traits:
+            lines = ["Would you like to have some tea together?", "Let's get something to eat.", "Are you hungry? How about lunch?"]
+        elif "Kamidere" in character.traits:
+            lines = ["I think it's time for tea.", "Are you hungry? I was thinking about eating.", "Let's eat, I'm hungry."]
+        elif "Bokukko" in character.traits:
+            lines = ["Hey, let's have a snack, alright?", "Let's eat something! I'm starved!", "It's time to eat! Come on, let's go!"]
+        elif "Ane" in character.traits:
+            lines = ["Shall we sip some drinks and take it easy?", "What would you say to a cup of tea with me?", "Would you like to join me for lunch?"]
+        elif "Yandere" in character.traits:
+            lines = ["Do you want to take a tea break?", "Hey, aren't you hungry? Want to go get something to eat?", "If you'd like, we could have lunch?"]
+        else:
+            lines = ["Hey, you got some snacks or something? I'm kinda hungry.", "Shall we take a break? I'm hungry.", "Aaah, I'm hungry... What about you?"]
+        result = random.choice(lines)
+        character.override_portrait("portrait", "indifferent")
+        character.say(result)
+        character.restore_portrait()
+
     def interactions_pick_background_for_fight(place):
         """
         Returns suitable background for battles in various locations. Can be used together with gm.label_cache as a place.

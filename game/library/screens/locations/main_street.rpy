@@ -48,7 +48,36 @@ screen main_street():
     use top_stripe(True)
     
     use location_actions("main_street")
-    
+    $ img_tailor = ProportionalScale("content/gfx/interface/icons/tailor_shop.png", 50, 50)
+    imagebutton:
+        pos(245, 374)
+        idle (img_tailor)
+        hover (im.MatrixColor(img_tailor, im.matrix.brightness(0.15)))
+        action [Hide("main_street"), Jump("tailor_store")]
+    $ img_cafe = ProportionalScale("content/gfx/interface/icons/cafe_shop.png", 60, 60)
+    imagebutton:
+        pos(31, 540)
+        idle (img_cafe)
+        hover (im.MatrixColor(img_cafe, im.matrix.brightness(0.15)))
+        action [Hide("main_street"), Jump("cafe")]
+    $ img_general = ProportionalScale("content/gfx/interface/icons/general_shop.png", 65, 65)
+    imagebutton:
+        pos(640, 360)
+        idle (img_general)
+        hover (im.MatrixColor(img_general, im.matrix.brightness(0.15)))
+        action [Hide("main_street"), Jump("general_store")]
+    $ img_workshop = ProportionalScale("content/gfx/interface/icons/work_shop.png", 50, 50)
+    imagebutton:
+        pos(90, 390)
+        idle (img_workshop)
+        hover (im.MatrixColor(img_workshop, im.matrix.brightness(0.15)))
+        action [Hide("main_street"), Jump("workshop")]
+    $ img_realtor = ProportionalScale("content/gfx/interface/icons/realtor_shop.png", 50, 50)
+    imagebutton:
+        pos(245, 203)
+        idle (img_realtor)
+        hover (im.MatrixColor(img_realtor, im.matrix.brightness(0.15)))
+        action [Hide("main_street"), Jump("realtor_agency")]
     # Girlsmeets screen
     if gm.show_girls:
     
@@ -59,19 +88,3 @@ screen main_street():
             spacing 70
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
-
-    # Normal screen
-    else:
-        for key in pytfall.maps("pytfall_ms"):
-            if not key.get("hidden", False):
-                if "img" in key:
-                    python:
-                        rx = int(key["rx"]) if "rx" in key else 25
-                        ry = int(key["ry"]) if "ry" in key else 25
-                        x = int(key['x']) / float(config.screen_width)
-                        y = int(key['y']) / float(config.screen_height)
-                    use r_lightbutton(img=ProportionalScale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
-                    frame:
-                        background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, grey), alpha=0.5), 5, 5)
-                        align (x, y+0.05)
-                        text (u"%s"%(key['name'])) size 16 color black
