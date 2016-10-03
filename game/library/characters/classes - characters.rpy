@@ -826,7 +826,7 @@ init -9 python:
         def get_skill(self, key):
             """Returns pure skills, for proper modified return value, call PytCharacter method of the same name!
             
-            !!! = Do not mix up with the same methos of PytCharcter classes = !!!
+            !!! = Do not mix up with the same method of PytCharcter classes = !!!
             
             0: Action counter (Practical knowledge)
             1: Training counter (Theoretical knowledge)
@@ -1047,7 +1047,7 @@ init -9 python:
     class PytCharacter(Flags):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
-                               "bartending", "cleaning", "waiting", "management", "exploration", "teaching"])
+                               "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming"])
         PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"])
         CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"])
         STATUS = set(["slave", "free"])

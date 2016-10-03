@@ -1,6 +1,4 @@
 label swimming_pool:
-    # gm.enter_location(goodtraits=["Energetic", "Exhibitionist"], badtraits=["Scars", "Undead", "Furry", "Monster", "Not Human"], curious_priority=False) # should be reconsidered!
-    # Music related:
     $ gm.enter_location(has_tags=["swimsuit", "sfw"], has_no_tags=["beach", "sleeping"], curious_priority=False)
     if not "swimming_pool" in ilists.world_music:
         $ ilists.world_music["swimming_pool"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("swimming_pool")]
@@ -9,7 +7,6 @@ label swimming_pool:
     $ global_flags.del_flag("keep_playing_music")
     
     python:
-        # Build the actions
         if pytfall.world_actions.location("swimming_pool"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
@@ -26,7 +23,6 @@ label swimming_pool:
     
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    
     while 1:
         $ result = ui.interact()
         
@@ -40,7 +36,7 @@ label swimming_pool:
                 
                 
 screen swimming_pool():
-    
+    use top_stripe(True)
         
     $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
     imagebutton:
@@ -55,7 +51,7 @@ screen swimming_pool():
         pos(290, 510)
         idle (img_swim_pool)
         hover (im.MatrixColor(img_swim_pool, im.matrix.brightness(0.15)))
-        action [Hide("swimming_pool"), Jump("swimming_pool_swimming")]
+        action [Hide("swimming_pool"), Show("swimmong_pool_swim")]
     
     if gm.show_girls:
     
@@ -67,3 +63,138 @@ screen swimming_pool():
             
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+                
+screen swimmong_pool_swim():
+    frame:
+        xalign 0.95
+        ypos 20
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            style_group "wood"
+            align (0.5, 0.5)
+            spacing 10
+            button:
+                xysize (240, 40)
+                yalign 0.5
+                action [Hide("swimmong_pool_swim"), Jump("single_swim_pool")]
+                text "Swim (10 G)" size 15
+            button:
+                xysize (240, 40)
+                yalign 0.5
+                action [Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")]
+                text "Hire an instructor (50 G)" size 15
+            if hero.get_skill("swimming") >= 100:
+                button:
+                    xysize (240, 40)
+                    yalign 0.5
+                    action [Hide("swimmong_pool_swim"), Jump("work_swim_pool")]
+                    text "Work as instructor" size 15
+            button:
+                xysize (240, 40)
+                yalign 0.5
+                action [Hide("swimmong_pool_swim"), Show("swimming_pool")]
+                text "Leave" size 15
+                
+label single_swim_pool:
+    if hero.vitality < 50 or hero.AP <= 0:
+        "You are too tired at the moment."
+    elif hero.health < hero.get_max("health")*0.5:
+        "You are too wounded at the moment."
+    elif hero.take_money(10):
+        play world "underwater.mp3"
+        scene bg pool_swim
+        with dissolve
+        call hero_swimming_pool_skill_checks
+    else:
+        "You don't have enough gold."
+    jump swimming_pool
+    
+label instructor_swim_pool:
+    if hero.vitality < 50 or hero.AP <= 0:
+        "You are too tired at the moment."
+    elif hero.health < hero.get_max("health")*0.5:
+        "You are too wounded at the moment."
+    elif hero.take_money(50):
+        play world "underwater.mp3"
+        scene bg pool_swim
+        with dissolve
+        call instructor_swimming_pool_skill_checks
+    else:
+        "You don't have enough gold."
+    jump swimming_pool
+        
+label hero_swimming_pool_skill_checks:
+    $ hero.AP -= 1
+    if hero.get_skill("swimming") < 20:
+        if dice(60):
+            "You barely stay afloat. Clearly more practice is needed."
+            $ hero.swimming += randint(1,2)
+        else:
+            "You barely stay afloat. At some point you lose you cool and start drowning, but swimming instructors immediately come to your aid."
+            $ hero.swimming += 1
+            $ hero.health -= 5
+        $ hero.vitality -= randint (40, 50)
+    elif hero.get_skill("swimming") < 50:
+        "You can swim well enough to not drown in a swimming pool, but more practice is needed."
+        $ hero.swimming += randint(2,3)
+        $ hero.vitality -= randint (35, 45)
+    elif hero.get_skill("swimming") < 100:
+        "You are somewhat confident about your swimming skills, but big waves and playful dolphins are still bad news."
+        $ hero.swimming += randint(2,4)
+        $ hero.vitality -= randint (30, 40)
+    else:
+        "It feels nice swimming in the pool, but the sea is more suitable to learn something new."
+        $ hero.swimming += randint(0,1)
+        $ hero.vitality -= randint (20, 30)
+    if dice(65) and hero.get_skill("swimming") >= 50:
+        $ hero.mod("constitution", 1)
+    return
+    
+label instructor_swimming_pool_skill_checks:
+    $ hero.AP -= 1
+    if hero.get_skill("swimming") < 20:
+        "She teaches you water safety to avoid mouth-to-mouth accidents once and for all."
+        $ hero.swimming += randint(2,4)
+        $ hero.SWIMMING += randint(2,4) # theoretical part
+        $ hero.vitality -= randint (35, 45)
+    elif hero.get_skill("swimming") < 50:
+        "She shows you the most basic swimming styles."
+        $ hero.swimming += randint(4,6)
+        $ hero.SWIMMING += randint(4,6)
+        $ hero.vitality -= randint (30, 40)
+    elif hero.get_skill("swimming") < 100:
+        "She shows you common swimming styles and the very basics of underwater swimming."
+        $ hero.swimming += randint(4,8)
+        $ hero.SWIMMING += randint(4,8)
+        $ hero.vitality -= randint (25, 35)
+    elif hero.get_skill("swimming") < 250:
+        "She shows you advanced swimming styles, including underwater ones."
+        $ hero.swimming += randint(1,3)
+        $ hero.SWIMMING += randint(5,10)
+        $ hero.vitality -= randint (20, 30)
+    else:
+        "There is not much she can show you now, but her knowledge about behaviour on the water is second to none."
+        $ hero.swimming += randint(0,1)
+        $ hero.SWIMMING += randint(5,10)
+        $ hero.vitality -= randint (20, 25)
+    if dice(65) and hero.get_skill("swimming") >= 50:
+        $ hero.mod("constitution", 1)
+    return
+
+label work_swim_pool: # here we could use an option to meet characters with a certain probability
+    $ result = randint(5, round(hero.get_skill("swimming")*0.1))
+    if result > 200:
+        $ result = randint (190, 220)
+    $ hero.AP -= 1
+    $ hero.swimming += randint(0,2)
+    $ hero.SWIMMING += randint(1,2)
+    $ hero.vitality -= randint (40, 50)
+    $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".jpg"
+    show expression picture at truecenter with dissolve
+    $ narrator.say ("You teach local kids to swim. The payment is low, but at least can use the pool for free. (+ %d)" %result)
+    hide expression picture with dissolve
+    $ del result
+    show screen swimming_pool
+    jump swimming_pool
