@@ -11,16 +11,17 @@ label swimming_pool:
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-    
     scene bg pool_inside
     with dissolve
     show screen swimming_pool
     
     if not global_flags.flag('visited_swimming_pool'):
         $ global_flags.set_flag('visited_swimming_pool')
+        show npc trainer with dissolve
         "Welcome to the swimming pool!"
-        "It's not free, but they don't have sea monsters and big waves here, so it's perfect for a novice swimmer."
-    
+        "It's not free, but we don't have sea monsters and big waves here, so it's perfect for a novice swimmer!"
+        "We also provide swimming lessons at a reasonable price. Feel free to ask anytime!"
+        hide npc trainer with dissolve
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     while 1:
@@ -37,7 +38,7 @@ label swimming_pool:
                 
 screen swimming_pool():
     use top_stripe(True)
-        
+
     $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
     imagebutton:
         align (0.01, 0.5)
@@ -132,7 +133,7 @@ label hero_swimming_pool_skill_checks:
             "You barely stay afloat. Clearly more practice is needed."
             $ hero.swimming += randint(1,2)
         else:
-            "You barely stay afloat. At some point you lose you cool and start drowning, but swimming instructors immediately come to your aid."
+            "You barely stay afloat. At some point you lose you cool and start drowning, but the swimming instructor immediately come to your aid."
             $ hero.swimming += 1
             $ hero.health -= 5
         $ hero.vitality -= randint (40, 50)
@@ -155,27 +156,27 @@ label hero_swimming_pool_skill_checks:
 label instructor_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:
-        "She teaches you water safety to avoid mouth-to-mouth accidents once and for all."
+        "He teaches you water safety to prevent mouth-to-mouth accidents once and for all."
         $ hero.swimming += randint(2,4)
         $ hero.SWIMMING += randint(2,4) # theoretical part
         $ hero.vitality -= randint (35, 45)
     elif hero.get_skill("swimming") < 50:
-        "She shows you the most basic swimming styles."
+        "He shows you the most basic swimming styles."
         $ hero.swimming += randint(4,6)
         $ hero.SWIMMING += randint(4,6)
         $ hero.vitality -= randint (30, 40)
     elif hero.get_skill("swimming") < 100:
-        "She shows you common swimming styles and the very basics of underwater swimming."
+        "He shows you common swimming styles and the very basics of underwater swimming."
         $ hero.swimming += randint(4,8)
         $ hero.SWIMMING += randint(4,8)
         $ hero.vitality -= randint (25, 35)
     elif hero.get_skill("swimming") < 250:
-        "She shows you advanced swimming styles, including underwater ones."
+        "He shows you advanced swimming styles, including underwater ones."
         $ hero.swimming += randint(1,3)
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 30)
     else:
-        "There is not much she can show you now, but her knowledge about behaviour on the water is second to none."
+        "Here is not much he can show you now, but his knowledge about behaviour on the water is second to none."
         $ hero.swimming += randint(0,1)
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 25)

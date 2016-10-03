@@ -18,7 +18,7 @@ label cafe:
         $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
         $ global_flags.set_flag("waitress_chosen_today", value=day)
         
-    $renpy.show(cafe_waitress_who)
+    $ renpy.show(cafe_waitress_who)
     with dissolve
 
     if global_flags.flag('visited_cafe'):
