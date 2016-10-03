@@ -18,7 +18,7 @@ label cafe:
         $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
         $ global_flags.set_flag("waitress_chosen_today", value=day)
         
-    $renpy.show(cafe_waitress_who)
+    $ renpy.show(cafe_waitress_who)
     with dissolve
 
     if global_flags.flag('visited_cafe'):
@@ -116,7 +116,7 @@ label cafe_eat_alone:
     menu:
         "What will it be?"
 
-        "Light Snack (10 GP)":
+        "Light Snack (10 G)":
             if hero.take_money(10):
                 $ name = "content/gfx/images/food/animated/small_" + str(renpy.random.randint(1, 3)) + ".webm"
                 show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
@@ -147,7 +147,7 @@ label cafe_eat_alone:
             else:
                 "You don't have that amount of gold."
                 
-        "Ordinary Meal (25 GP)":
+        "Ordinary Meal (25 G)":
             if hero.take_money(25):
                 $ name = "content/gfx/images/food/animated/medium_" + str(renpy.random.randint(1, 3)) + ".webm"
                 show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
@@ -184,7 +184,7 @@ label cafe_eat_alone:
                 $ del name
             else:
                 "You don't have that amount of gold."
-        "Extra Large Meal (50 GP)":   # by eating big meals hero can increase max health by 2 with 75% chance; after increasing it by 50 the chance drops to 10% with smaller bonus
+        "Extra Large Meal (50 G)":   # by eating big meals hero can increase max health by 2 with 75% chance; after increasing it by 50 the chance drops to 10% with smaller bonus
             if hero.take_money(50):
                 $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
                 show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
