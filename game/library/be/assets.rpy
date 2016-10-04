@@ -619,7 +619,7 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("magic_bow_webm", zoom=1.1), "sfx": "content/sfx/sound/be/enc_arrows.ogg", "duration": 0.67, "aim": {"point": "center", "anchor": (.5, .5)}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-    #Crossbow Attacks:
+    # Crossbow Attacks:
         SimpleSkill("Crossbow Attack", attributes=["ranged", "physical"], critpower=0.2, desc="Shooting a bolt.", menu_pos=0, effect=8, range=4, vitality_cost=1, piercing=True, gfx=ProportionalScale("content/gfx/be/crossbows.png", 150, 150), sfx="content/sfx/sound/be/crossbow_attack.mp3")
         SimpleSkill(u"Penetrating Bolt", range=3, attributes=["ranged", "physical"], critpower=.5, piercing=True, true_pierce=True, effect=20, vitality_cost=10, menu_pos=1, desc="Special high-density bolt ignores the rows damage penalty.",
                                            main_effect={"gfx": Transform("crossbow_hit_webm", zoom=1.3), "sfx": "content/sfx/sound/be/crossbow_1.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
