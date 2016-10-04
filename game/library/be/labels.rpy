@@ -12,7 +12,7 @@ label test_be:
         n.apply_trait("Air")
         
         for skill in battle_skills.values():
-            if not skill.sorting_index:
+            if "melee" in skill.attributes or "ranged" in skill.attributes:
                 if skill not in h.attack_skills:
                     h.attack_skills.append(skill)
                 if skill not in n.attack_skills:
@@ -62,7 +62,7 @@ label test_be:
             hero.team.add(n)
         n.AP = 6
         # ImageReference("chainfights")
-        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music= "random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         battle.start_battle()

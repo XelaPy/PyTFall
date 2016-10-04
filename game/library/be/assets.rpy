@@ -1113,7 +1113,7 @@ label load_battle_skills:
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
                                                                         bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
     # Healing:
-        BasicHealingSpell(u"Cure", attributes=["magic", "healing"], effect=25, mp_cost=8, range=5, type="sa",
+        BasicHealingSpell(u"Cure", attributes=["magic", "healing", "light"], effect=25, mp_cost=8, range=5, type="sa",
                                       desc="Heals superficial wounds and accelerates the healing of internal ones.",
                                       attacker_action={"gfx": None},
                                       attacker_effects={"gfx": "runes_1", "sfx": "default"},
@@ -1121,7 +1121,7 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        BasicHealingSpell(u"Curaga", attributes=["magic", "healing"], effect=10, mp_cost=10, range=5, type="all_allies", piercing=True, true_pierce=True,
+        BasicHealingSpell(u"Curaga", attributes=["magic", "healing", "water"], effect=10, mp_cost=10, range=5, type="all_allies", piercing=True, true_pierce=True,
                                       desc="Heals the whole party at once.",
                                       attacker_action={"gfx": None},
                                       attacker_effects={"gfx": "runes_1", "sfx": "default"},
@@ -1138,7 +1138,7 @@ label load_battle_skills:
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
     # Reviving:
-        ReviveSpell(u"Revive", attributes=["magic", "revive"], effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
+        ReviveSpell(u"Revive", attributes=["magic", "light"], effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
                              desc="Brings an unconscious ally back to the battlefield by sharing some life energy.",
                              attacker_action={"gfx": None},
                              attacker_effects={"gfx": "runes_1", "sfx": "default"},
@@ -1149,7 +1149,7 @@ label load_battle_skills:
                                       
     # Effects:
     # Poison:
-        BasicPoisonSpell("Poison", attributes=["status", "poison"], effect=100, multiplier=1.0, mp_cost=30, range=4,
+        BasicPoisonSpell("Poison", attributes=["status", "poison", "darkness"], effect=100, multiplier=1.0, mp_cost=30, range=4,
                                      desc="Poisons the target causing additional damage each turn.",
                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
                                      main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -25}},
@@ -1157,7 +1157,7 @@ label load_battle_skills:
                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
     # Buffs:
-        DefenceBuffSpell("Magic Shield", attributes=["status"], defence_multiplier={"magic": .5}, mp_cost=100, range=4, type="sa",
+        DefenceBuffSpell("Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": .5}, mp_cost=100, range=4, type="sa",
                                      desc="Sets up a force field around the target, partly shielding from magical damage.",
                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
                                      main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},

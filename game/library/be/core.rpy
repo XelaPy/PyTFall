@@ -114,7 +114,12 @@ init -1 python: # Core classes:
                             
                             t = renpy.call_screen("target_practice", s, targets)
                             
-                        s(t=t)
+                        # We don't need to see status icons during skill executions!
+                        if not self.logical:
+                            renpy.hide_screen("be_status_overlay")
+                        s(t=t) # This actually executes the skill!
+                        if not self.logical:
+                            renpy.show_screen("be_status_overlay")
                 
                 if not self.logical:
                     renpy.hide_screen("pick_skill")
@@ -159,6 +164,7 @@ init -1 python: # Core classes:
                     
                 renpy.show("bg", what=self.bg)
                 renpy.show_screen("battle_overlay", self)
+                renpy.show_screen("be_status_overlay")
                 if self.start_sfx: # Special Effects:
                     renpy.with_statement(self.start_sfx)
                     
@@ -193,6 +199,7 @@ init -1 python: # Core classes:
             """
             if not self.logical:
                 # We'll have to reset any attributes of the charcters classes:
+                renpy.hide_screen("be_status_overlay")
                 renpy.hide_screen("be_test")
                 renpy.hide_screen("target_practice")
                 renpy.hide_screen("pick_skill")
@@ -296,6 +303,7 @@ init -1 python: # Core classes:
             Old Comment: For now it will report initial position + types:
             **Updated to using Current Position + Types.
             pos: Character position (pos)
+            sopos: This is tc of default character position. Used to place status overlay icons.
             center: center of the charcters image
             tc: top center of the characters image
             bc: bottom center of the characters image
@@ -307,6 +315,11 @@ init -1 python: # Core classes:
             if not override:
                 if not char.cpos or not char.besprite_size:
                     raise Exception([char.cpos, char.besprite_size])
+                    
+                if type == "sopos":
+                    xpos = char.dpos[0] + char.besprite_size[0] / 2
+                    ypos = char.dpos[1] + yo
+                    
                 if type == "pos":
                     xpos = char.cpos[0]
                     ypos = char.cpos[1] + yo

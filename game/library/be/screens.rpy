@@ -1,5 +1,6 @@
 init: # screens:
     screen target_practice(skill, targets): #Dark: normal attacks require the same tooltips as magical ones
+        zorder 2
         
         style_group "dropdown_gm"
         
@@ -42,6 +43,7 @@ init: # screens:
                     action Return(False)
                  
     screen pick_skill(char):
+        zorder 2
         
         default tt = Tooltip("")
         default menu_mode = "top"
@@ -180,10 +182,10 @@ init: # screens:
                     e = skill.get_element()
                     if e in d:
                         d[e].append(skill)
-                    elif e == "me":
-                        me.append(skill)
                     else:
-                        ne.append(skill)
+                        me.append(skill)
+                    # else:
+                        # ne.append(skill)
                         
                 for e in d:
                     if d[e]:
@@ -255,6 +257,7 @@ init: # screens:
                                 hovered tt.action(skill)
           
     screen battle_overlay(be):
+        zorder 2
         # be reffers to battle core instance, we access the global directly atm.
         # Averything that is displayed all the time:
         frame:
@@ -363,7 +366,7 @@ init: # screens:
                                     text "[member.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
                     
         # Overlay for stats:
-        use be_status_overlay()
+        # use be_status_overlay() Moving to a better location...
                                     
         if config.debug:
             vbox:
@@ -372,10 +375,11 @@ init: # screens:
                     action SetField(be, "terminate", True)
                 
     screen be_status_overlay():
+        zorder 1
         # This screen will add overlay to the screen.
         for fighter in battle.get_fighters(state="alive"):
             # Get coords for each box:
-            $ temp = battle.get_cp(fighter, type="tc", yo=-45)
+            $ temp = battle.get_cp(fighter, type="sopos", yo=-45)
             
             hbox:
                 pos temp xanchor .5

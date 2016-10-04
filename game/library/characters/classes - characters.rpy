@@ -1160,6 +1160,7 @@ init -9 python:
             self.front_row = True # 1 for front row and 0 for back row.
             self.betag = None # Tag to keep track of the sprite.
             self.dpos = None # Default position based on row + team.
+            self.sopos = () # Status underlay position, which should be fixed.
             self.cpos = None # Current position of a sprite.
             self.besk = None # BE Show **Kwargs!
             self.besprite_size = None # Sprite size in pixels.
