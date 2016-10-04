@@ -195,6 +195,7 @@ label work_swim_pool: # here we could use an option to meet characters with a ce
     $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".jpg"
     show expression picture at truecenter with dissolve
     $ narrator ("You teach local kids to swim. The payment is low, but at least you can use the pool for free. (+ %d) G" %result)
+    $ hero.add_money (result)
     hide expression picture with dissolve
     $ del result
     jump swimming_pool
