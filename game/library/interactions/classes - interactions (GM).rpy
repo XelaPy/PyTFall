@@ -276,7 +276,7 @@ init -1 python:
                 self.bg_cache = "bg " + (bg or exit)
             
             elif bg is not None:
-                self.bg_cache = "bg " + bg
+                self.bg_cache = bg
             
             # Routine to get the correct image for this interaction:
             if img is None:
@@ -310,7 +310,7 @@ init -1 python:
             else:
                 self.start("girl_meets", girl, img, exit, bg)
         
-        def start_int(self, girl, img=None, exit="char_profile", bg="gallery"):
+        def start_int(self, girl, img=None, exit="char_profile", bg="bg gallery"):
             """
             Starts the interaction scenario.
             girl = The girl to use.
@@ -323,7 +323,7 @@ init -1 python:
             
             self.start("girl_interactions", girl, img, exit, bg)
         
-        def start_tr(self, girl, img=None, exit="char_profile", bg="sex_dungeon_1"):
+        def start_tr(self, girl, img=None, exit="char_profile", bg="bg sex_dungeon_1"):
             """
             Starts the training scenario.
             girl = The girl to use.
