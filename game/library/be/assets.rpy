@@ -1154,4 +1154,12 @@ label load_battle_skills:
                                      target_sprite_damage_effect={"gfx": None},
                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
+    # Buffs:
+        DefenceBuffSpell("Magic Shield", attributes=["status"], defence_multiplier={"magic": .5}, mp_cost=100, range=4, type="sa",
+                                     desc="Sets up a force field around the target, partly shielding from magical damage.",
+                                     attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                     main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                                     target_sprite_damage_effect={"gfx": None},
+                                     target_damage_effect={"gfx": None},
+                                     target_death_effect={"gfx": None})
     return

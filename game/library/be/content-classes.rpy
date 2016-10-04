@@ -277,7 +277,7 @@ init python:
                 
                 
     class DefenceBuff(BE_Event):
-        def __init__(self, source, target, bonus=0, multi=0):
+        def __init__(self, source, target, bonus={}, multi=0):
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
@@ -291,22 +291,22 @@ init python:
             target.status_overlay.append(self.icon)
             
             if bonus:
-                self.defence_bonus = {}
-                if "melee" in self.attributes:
-                    self.defence_bonus["melee"] = int(round(source.defence*.8 + source.constitution*.4) / 3)
-                elif "ranged" in self.attributes:
-                    self.defence_bonus["ranged"] = int(round(source.defence*.8 + source.constitution*.2 + source.agility*.2) / 3)
-                elif "magic" in self.attributes:
-                    self.defence_bonus["magic"] = int(round(source.defence*.8 + source.magic*.3 + source.intelligence*.1) / 3)
-                elif "status" in self.attributes:
-                    self.defence_bonus["status"] = int(round(source.defence*.6 + source.magic*.1 + source.intelligence*.5) / 3)
+                self.defence_bonus = bonus
+                # if "melee" in self.attributes:
+                    # self.defence_bonus["melee"] = int(round(source.defence*.8 + source.constitution*.4) / 3)
+                # elif "ranged" in self.attributes:
+                    # self.defence_bonus["ranged"] = int(round(source.defence*.8 + source.constitution*.2 + source.agility*.2) / 3)
+                # elif "magic" in self.attributes:
+                    # self.defence_bonus["magic"] = int(round(source.defence*.8 + source.magic*.3 + source.intelligence*.1) / 3)
+                # elif "status" in self.attributes:
+                    # self.defence_bonus["status"] = int(round(source.defence*.6 + source.magic*.1 + source.intelligence*.5) / 3)
                     
             if multi:
                 self.defence_multiplier = multi
             
         def check_conditions(self):
-            # Always return False? It is a passive skill to be activated during execution of skill methods...
-            return False
+            if battle.controller == self.target:
+                return True
                 
         def kill(self):
             if not self.counter:
@@ -314,7 +314,11 @@ init python:
                 return True
                 
         def apply_effects(self):
-            pass
+            self.counter -= 1
+            
+            if self.counter <= 0:
+                msg = "{color=[teal]}Defence Buff on %s has warn out!{/color}" % (self.target.name)
+                battle.log(msg)
         
         
     # Actions:
@@ -848,9 +852,55 @@ init python:
     
     class DefenceBuffSpell(SimpleSkill):
         def __init__(self, *args, **kwargs):
-            super(BasicPoisonSpell, self).__init__(*args, **kwargs)
+            super(DefenceBuffSpell, self).__init__(*args, **kwargs)
             self.event_class = DefenceBuff
             
+            self.defence_bonus = kwargs.get("defence_bonus", {}) # This is the direct def bonus. 
+            self.defence_multiplier = kwargs.get("defence_multiplier", {}) # This is the def multiplier.
+            
+        def effects_resolver(self, targets):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            source = self.source
+            attributes = self.attributes
+                
+            base_effect = 100
+            
+            for t in targets:
+                effects = []
+                
+                # We get the multi and any effects that those may bring:
+                effect = self.damage_modifier(t, base_effect, "status")
+                if effect == "resisted":
+                    effect = 0
+                
+                effect = int(round(effect))
+                
+                if effect:
+                    # Check if event is in play already:
+                    # Check for resistance first:
+                    temp = self.event_class(source, t, self.defence_bonus, self.defence_multiplier)
+                    # if temp.type in t.resist or self.check_absorbtion(t, temp.type):
+                        # pass
+                    # else:
+                    for event in store.battle.mid_turn_events:
+                        if (isinstance(event, self.event_class) and t == event.target): # TODO: Add field to event that would allow being hit multiple times?
+                            # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
+                            break
+                    else:
+                        battle.mid_turn_events.append(temp)
+                    
+                    # String for the log:
+                    temp = "%s buffs %ss defence!" % (source.nickname, t.name)
+                    self.log_to_battle(effects, effect, source, t, message=temp)
+                else:
+                    temp = "%s resisted the defence buff!" % (t.name)
+                    self.log_to_battle(effects, effect, source, t, message=temp)
+                
+        def apply_effects(self, targets):
+            pass
+                
+                    
 init python: # Helper Functions:
     def death_effect(char, kind, sfx=None, pause=False):
         if kind == "shatter":

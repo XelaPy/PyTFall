@@ -544,6 +544,10 @@ init -1 python: # Core classes:
                     renpy.hide(tag)
                 self.tags_to_hide= list()
                 
+            # Clear (maybe move to separate method if this ever gets complicated), should be moved to core???
+            for f in battle.get_fighters(state="all"):
+                f.beeffects= []
+                
         # Targeting/Conditioning.
         def get_targets(self, source=None):
             """
@@ -672,6 +676,8 @@ init -1 python: # Core classes:
                 attack = attack/len(self.damage)
             
             for t in targets:
+                # effect list must be cleared here first thing... preferebly in the future, at the end of each skill execution...
+                effects = t.beeffects
                 
                 defense = self.get_defense(t)
                 if self.damage:
@@ -679,7 +685,6 @@ init -1 python: # Core classes:
                 
                 # We get the multiplier and any effects that those may bring.
                 multiplier = 1.0
-                effects = []
                 total_damage = 0
                 
                 # Critical Strike and Evasion checks:
@@ -890,14 +895,20 @@ init -1 python: # Core classes:
                     m = m + i.defence_multiplier.get(self.delivery, 0)
             defense *= m
             
-            # Testing status mods:
+            # Testing status mods through be skillz:
             m = 1.0
+            d = 0
             for event in battle.get_all_events():
-                if hasattr(event, "defence_bonus"):
-                    defense += event.defence_bonus.get(self.delivery, 0)
-                if hasattr(event, "defence_multiplier"):
-                    m = m + event.defence_multiplier.get(self.delivery, 0)
-            defense *= m
+                if event.target == target:
+                    if hasattr(event, "defence_bonus"):
+                        d += event.defence_bonus.get(self.delivery, 0)
+                    if hasattr(event, "defence_multiplier"):
+                        m = m + event.defence_multiplier.get(self.delivery, 0)
+                    
+            if d or m != 1.0:
+                target.beeffects.append("magic_shield")
+                defense += d
+                defense *= m
                 
             defense *= random.uniform(.90, 1.10)
             
@@ -1084,6 +1095,8 @@ init -1 python: # Core classes:
                         s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
                     elif effect == "critical_hit":
                         s.append(" {color=[lawngreen]}Critical Hit {/color}")
+                    elif effect == "magic_shield":
+                        s.append(" {color=[lawngreen]}☗+{/color} ")
                     elif effect == "missed_hit":
                         gfx = self.dodge_effect.get("gfx", "dodge")
                         if gfx == "dodge":
@@ -1656,6 +1669,8 @@ init -1 python: # Core classes:
             self.timestamps[delay] = renpy.curry(self.hide_dodge_effect)(targets)
                     
         def show_dodge_effect(self, attacker, targets):
+            # This also handles shielding... which might not be appropriate and future safe...
+            
             gfx = self.dodge_effect.get("gfx", "dodge")
             # gfx = self.dodge_effect["gfx"]
             # sfx = self.dodge_effect.get("sfx", None)
@@ -1677,15 +1692,14 @@ init -1 python: # Core classes:
                         
                         renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
                         
-                    elif gfx == "magic_shield":
-                        tag = "dodge" + str(index)
-                        renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                elif "magic_shield" in target.beeffects:
+                    tag = "dodge" + str(index)
+                    renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
                 
         def hide_dodge_effect(self, targets):
-            gfx = self.dodge_effect.get("gfx", "dodge")
-            
-            if gfx == "magic_shield":
-                for index, target in enumerate(targets):
+            # gfx = self.dodge_effect.get("gfx", "dodge")
+            for index, target in enumerate(targets):
+                if "magic_shield" in target.beeffects:
                     tag = "dodge" + str(index)
                     renpy.hide(tag)
             
