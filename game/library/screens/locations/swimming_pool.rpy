@@ -11,7 +11,7 @@ label swimming_pool:
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-    scene bg pool_inside
+    scene bg swimming_pool
     with dissolve
    
     if not global_flags.flag('visited_swimming_pool'):
