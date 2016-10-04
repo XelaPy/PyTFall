@@ -1130,6 +1130,10 @@ init -1 python: # Core classes:
                     battle.end_turn_events.append(RPG_Death(t))
                     died.append(t)
                     
+            self.settle_cost()
+            return died
+            
+        def settle_cost(self):
             # Here we need to take of cost:
             if not(isinstance(self.mp_cost, int)):
                 mp_cost = int(self.source.get_max("mp")*self.mp_cost)
@@ -1147,7 +1151,6 @@ init -1 python: # Core classes:
             self.source.mp -= mp_cost
             self.source.health -= health_cost
             self.source.vitality -= vitality_cost
-            return died
             
         # Game/Gui Assists:
         @property

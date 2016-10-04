@@ -763,6 +763,7 @@ init python:
             for t in targets:
                 t.mod("health", t.beeffects[0])
                 
+            self.settle_cost()
                 
     class BasicPoisonSpell(SimpleSkill):
         def __init__(self, *args, **kwargs):
@@ -898,7 +899,7 @@ init python:
                     self.log_to_battle(effects, effect, source, t, message=temp)
                 
         def apply_effects(self, targets):
-            pass
+            self.settle_cost()
                 
                     
 init python: # Helper Functions:
