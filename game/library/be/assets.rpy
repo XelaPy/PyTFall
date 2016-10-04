@@ -272,6 +272,8 @@ init -1: # Images and Animations
     image heal_1 = FilmStrip("content/gfx/be/filmstrips/heal_1.png", (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip("content/gfx/be/filmstrips/heal_2.png", (192, 192), (5, 5), 0.1, loop=False)
     image resurrection = FilmStrip("content/gfx/be/filmstrips/resurrection2x.png", (288, 247), (5, 4), 0.1, loop=False)
+    ########### Magic Shields:
+    image magic_shield_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/shields/magic_shield/movie.webm", mask="content/gfx/be/webm/shields/magic_shield/mask.webm")
     
     ########### Weapons-only attacks
     image simple_poison_dagger_attack = im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
@@ -1158,7 +1160,7 @@ label load_battle_skills:
         DefenceBuffSpell("Magic Shield", attributes=["status"], defence_multiplier={"magic": .5}, mp_cost=100, range=4, type="sa",
                                      desc="Sets up a force field around the target, partly shielding from magical damage.",
                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
-                                     main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                                     main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                                      target_sprite_damage_effect={"gfx": None},
                                      target_damage_effect={"gfx": None},
                                      target_death_effect={"gfx": None})
