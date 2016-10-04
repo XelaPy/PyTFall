@@ -13,8 +13,7 @@ label swimming_pool:
             pytfall.world_actions.finish()
     scene bg pool_inside
     with dissolve
-    show screen swimming_pool
-    
+   
     if not global_flags.flag('visited_swimming_pool'):
         $ global_flags.set_flag('visited_swimming_pool')
         show npc trainer with dissolve
@@ -22,6 +21,7 @@ label swimming_pool:
         "It's not free, but we don't have sea monsters and big waves here, so it's perfect for a novice swimmer!"
         "We also provide swimming lessons at a reasonable price. Feel free to ask anytime!"
         hide npc trainer with dissolve
+    show screen swimming_pool
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     while 1:
@@ -52,7 +52,7 @@ screen swimming_pool():
         pos(290, 510)
         idle (img_swim_pool)
         hover (im.MatrixColor(img_swim_pool, im.matrix.brightness(0.15)))
-        action [Hide("swimming_pool"), Show("swimmong_pool_swim")]
+        action [Hide("swimming_pool"), Show("swimmong_pool_swim"), With(dissolve)]
     
     if gm.show_girls:
     
@@ -95,7 +95,7 @@ screen swimmong_pool_swim():
             button:
                 xysize (240, 40)
                 yalign 0.5
-                action [Hide("swimmong_pool_swim"), Show("swimming_pool")]
+                action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
                 
 label single_swim_pool:
@@ -176,7 +176,7 @@ label instructor_swimming_pool_skill_checks:
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 30)
     else:
-        "Here is not much he can show you now, but his knowledge about behaviour on the water is second to none."
+        "There is not much he can show you now, but his knowledge about behaviour on the water is second to none."
         $ hero.swimming += randint(0,1)
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 25)
@@ -194,8 +194,7 @@ label work_swim_pool: # here we could use an option to meet characters with a ce
     $ hero.vitality -= randint (40, 50)
     $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".jpg"
     show expression picture at truecenter with dissolve
-    $ narrator.say ("You teach local kids to swim. The payment is low, but at least you can use the pool for free. (+ %d)" %result)
+    $ narrator ("You teach local kids to swim. The payment is low, but at least you can use the pool for free. (+ %d) G" %result)
     hide expression picture with dissolve
     $ del result
-    show screen swimming_pool
     jump swimming_pool
