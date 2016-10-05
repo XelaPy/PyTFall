@@ -115,4 +115,5 @@ label city_beach_swimming_checks:
         scene bg open_sea
         with dissolve
         "Since it's your first time, you stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills."
+    $ global_flags.set_flag("keep_playing_music")
     jump city_beach
