@@ -108,5 +108,125 @@
     "slot": "loot",
     "type": "fish",
     "locations": ["Fishing"]
+    },
+    {
+    "id": "Stinky Boot",
+    "desc": "Someone threw it away long time ago. You probably should do the same.",
+    "icon": "content/items/fish/boot.png",
+    "price": 0,
+    "chance": 90,
+    "slot": "loot",
+    "type": "fish?",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Squeaker",
+    "desc": "Squeakers are called such due to their ability to make noises to communicate with one another.",
+    "icon": "content/items/fish/squeaker.png",
+    "price": 20,
+    "chance": 55,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Mahi-Mahi",
+    "desc": "A very swift and acrobatic predatory fish adapted to hunting Flying Fish.",
+    "icon": "content/items/fish/mahi.png",
+    "price": 120,
+    "chance": 10,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Octopus",
+    "desc": "A predatory mollusc with four pairs of arms, is eaten in some cultures.",
+    "icon": "content/items/fish/octopus.png",
+    "price": 30,
+    "chance": 30,
+    "slot": "loot",
+    "type": "fish?",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Salmon",
+    "desc": "A widespread edible fish. The main source of food for coastal bears.",
+    "icon": "content/items/fish/salmon.png",
+    "price": 50,
+    "chance": 35,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Swordfish",
+    "desc": "A large, highly migratory, predatory fish characterized by a long, flat bill.",
+    "icon": "content/items/fish/swordfish.png",
+    "price": 80,
+    "chance": 30,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Trout",
+    "desc": "A bony predatory fish with colored scales.",
+    "icon": "content/items/fish/trout.png",
+    "price": 80,
+    "chance": 30,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Red Snapper",
+    "desc": "A massive plankton-feeding fish popular among fishermen.",
+    "icon": "content/items/fish/snapper.png",
+    "price": 70,
+    "chance": 35,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Deep-Sea Fish",
+    "desc": "A rare fish that lives in the eternal darkness below the sunlit surface waters.",
+    "icon": "content/items/fish/cosmic.png",
+    "price": 150,
+    "chance": 10,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Betta Fish",
+    "desc": "A small, but very territorial omnivorous fish",
+    "icon": "content/items/fish/betta.png",
+    "price": 25,
+    "chance": 60,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Undead Fish",
+    "desc": "Anything that once lived and died can be raised as undead. Fortunately, these creatures immediately break apart and die forever once extracted from water.",
+    "icon": "content/items/fish/undead.png",
+    "price": 0,
+    "chance": 90,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Fishing Pole",
+    "desc": "A long, flexible rod used to catch fish.",
+    "icon": "content/items/fish/fishing_pole.png",
+    "price": 200,
+    "chance": 50,
+    "slot": "weapon",
+    "type": "Notaweapon",
+    "locations": ["General Store"]
     }
   ]
