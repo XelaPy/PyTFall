@@ -114,6 +114,6 @@ label city_beach_swimming_checks:
         "Those who are not confident in their abilities prefer the local swimming pool, although it's not free unlike the sea."
         scene bg open_sea
         with dissolve
-        "Since it's your first time, you stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills."
+        "You stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills next time."
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
