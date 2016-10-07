@@ -153,21 +153,38 @@ init: # screens:
                     
         elif menu_mode == "attacks":
             frame:
-                style_prefix "dropdown_gm"
-                align .5, .36
-                has vbox box_wrap True maximum (1280, 400)
-                
                 at fade_in_out(t1=.6, t2=.3)
                 
-                # Sorting off manu_pos:
+                style_prefix "dropdown_gm"
+                align .5, .36
+                
+                # Sorting off menu_pos:
                 $ attacks.sort(key=attrgetter("menu_pos"))
+                
+                if not config.debug:
+                    vbox box_wrap True maximum (1280, 400):
+                        for skill in attacks:
+                            textbutton "%s"%skill.mn:
+                                action SensitiveIf(skill.check_conditions(char)), Return(skill)
+                                hovered tt.action(skill)
+                else:
+                    vpgrid:
+                        cols 6
+                        spacing 3
+                        scrollbars "vertical"
+                        xysize (1280, 380)
+                        side_xalign .5
+                        
+                        for skill in attacks:
+                            textbutton "%s"%skill.mn:
+                                xysize 200, 25
+                                action SensitiveIf(skill.check_conditions(char)), Return(skill)
+                                hovered tt.action(skill)
                 
                 if len(attacks) == 1:
                     timer .01 action Return(attacks[0])
-                for skill in attacks:
-                    textbutton "%s"%skill.mn:
-                        action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                        hovered tt.action(skill)
+                
+
                         
         elif menu_mode == "magic":
             python:
