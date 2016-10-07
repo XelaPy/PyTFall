@@ -213,7 +213,7 @@
     "id": "Undead Fish",
     "desc": "Anything that once lived and died can be raised as undead. Fortunately, these creatures immediately break apart and die forever once extracted from water.",
     "icon": "content/items/fish/undead.png",
-    "price": 0,
+    "price": 1,
     "chance": 90,
     "slot": "loot",
     "type": "fish",
