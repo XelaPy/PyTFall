@@ -160,7 +160,7 @@ init -9 python:
             if last_label in ("items_transfer"):
                 self.FILTERS = self.GEQ_FILTERS
             else:
-                self.FILTERS = self.ALL_FILTERS + ["resources"] # TODO: Fix this to a more sound design.
+                self.FILTERS = self.ALL_FILTERS + ["resources", "loot"] # TODO: Fix this to a more sound design.
             
             index = self.FILTERS.index(self.filter)
             if direction == 'next':
