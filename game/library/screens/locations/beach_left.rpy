@@ -55,6 +55,13 @@ screen city_beach_left():
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Hide("city_beach_left"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]    
     
+    $ img_beach_fish = ProportionalScale("content/gfx/interface/icons/beach_fishing.png", 90, 90)
+    imagebutton:
+        pos(280, 240)
+        idle (img_beach_fish)
+        hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(0.15)))
+        action [Hide("city_beach_left"), Jump("fishing_logic"), With(dissolve)]
+    
     use location_actions("city_beach_left")
     
     if gm.show_girls:
@@ -89,3 +96,53 @@ screen city_beach_left():
                         $ entry.set_flag("beach_left_tags", (day, choice(beach_left_tags_list)))
             
                     use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+
+screen city_beach_fishing():
+    frame:
+        xalign 0.95
+        ypos 20
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            style_group "wood"
+            align (0.5, 0.5)
+            spacing 10
+            button:
+                xysize (240, 40)
+                yalign 0.5
+                action [Hide("swimmong_pool_swim"), Jump("single_swim_pool")]
+                text "Swim (10 G)" size 15
+            button:
+                xysize (240, 40)
+                yalign 0.5
+                action [Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")]
+                text "Hire an instructor (50 G)" size 15
+            if hero.get_skill("swimming") >= 100:
+                button:
+                    xysize (240, 40)
+                    yalign 0.5
+                    action [Hide("swimmong_pool_swim"), Jump("work_swim_pool")]
+                    text "Work as instructor" size 15
+            button:
+                xysize (240, 40)
+                yalign 0.5
+                action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
+                text "Leave" size 15
+                
+label fishing_logic:
+    scene bg open_sea
+    with dissolve
+    if not global_flags.flag('fish_city_beach'):
+        $ global_flags.set_flag('fish_city_beach')
+        "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items. For every Action Point you will get three attempts."
+    if not("Fishing Pole") in hero.inventory:
+        "You don't have a fishing rode at the moment. Try to get one from local shops."
+        jump city_beach_left
+    else:
+    # placeholder for fishing:
+    python:
+        fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing"))
+        result = random.choice(fish)
+        hero.say ("%s" % result.id)
+    jump city_beach_left

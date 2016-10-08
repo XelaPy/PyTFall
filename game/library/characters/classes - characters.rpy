@@ -1047,7 +1047,7 @@ init -9 python:
     class PytCharacter(Flags):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
-                               "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming"])
+                               "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing"])
         PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"])
         CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"])
         STATUS = set(["slave", "free"])

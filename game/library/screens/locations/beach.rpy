@@ -23,7 +23,7 @@ label city_beach:
         "Welcome to the beach!"
         "Sand, sun and girls in bikinis, what else did you expect?"
         "Oh, we might have a kraken hiding somewhere as well :)"
-    
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
@@ -117,3 +117,4 @@ label city_beach_swimming_checks:
         "You stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills next time."
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
+    
