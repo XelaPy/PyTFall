@@ -140,9 +140,13 @@ label fishing_logic:
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
     else:
-    # placeholder for fishing:
-    python:
-        fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing"))
-        result = random.choice(fish)
-        hero.say ("%s" % result.id)
-    jump city_beach_left
+        python:
+            result = []
+            fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing"))
+            while len(result) < 10:
+                result.append(random.choice(fish))
+        call screen hidden_area(areas={"fish_0": ((100, 100), (.1, .5)), "fish_1": ((100, 100), (.1, .5)), "fish_2": ((100, 100), (.1, .5)), "fish_3": ((100, 100), (.1, .5)), "fish_4": ((100, 100), (.1, .5)), "fish_5": ((100, 100), (.1, .5)), "fish_6": ((100, 100), (.1, .5)), "fish_7": ((100, 100), (.1, .5)), "fish_8": ((100, 100), (.1, .5)), "fish_9": ((100, 100), (.1, .5))})
+        $ item = int(_return[-1:])
+        $ hero.add_item(fish[item])
+        $ hero.say("%s" % fish[item].id)
+        jump city_beach_left
