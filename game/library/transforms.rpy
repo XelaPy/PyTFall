@@ -65,7 +65,6 @@ init -997: # Transforms:
     transform fade_from_to(start_val=1.0, end_val=0.0, t=1.0, wait=0):
         # Setup as a fade out, reverse the values for the fade in
         # simple_fade (fade is reserved...)
-        subpixel True
         alpha start_val
         pause wait
         linear t alpha end_val
@@ -103,7 +102,7 @@ init -997: # Transforms:
     transform simple_zoom_from_to_with_linear(start_val=1.0, end_val=0.0, t=1.0):
         # Simple zoom...
         subpixel True
-        anchor (0.5, 0.5)
+        anchor (.5, .5)
         zoom start_val
         linear t zoom end_val
         
