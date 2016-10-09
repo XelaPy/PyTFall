@@ -57,7 +57,7 @@ screen city_beach_left():
     
     $ img_beach_fish = ProportionalScale("content/gfx/interface/icons/beach_fishing.png", 90, 90)
     imagebutton:
-        pos(280, 240)
+        pos(960, 400)
         idle (img_beach_fish)
         hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(0.15)))
         action [Hide("city_beach_left"), Jump("fishing_logic"), With(dissolve)]
@@ -131,7 +131,7 @@ screen city_beach_fishing():
                 text "Leave" size 15
                 
 label fishing_logic:
-    scene bg open_sea
+    scene bg fishing_bg
     with dissolve
     if not global_flags.flag('fish_city_beach'):
         $ global_flags.set_flag('fish_city_beach')
@@ -145,8 +145,8 @@ label fishing_logic:
             fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing"))
             while len(result) < 10:
                 result.append(random.choice(fish))
-        call screen hidden_area(areas={"fish_0": ((100, 100), (.1, .5)), "fish_1": ((100, 100), (.1, .5)), "fish_2": ((100, 100), (.1, .5)), "fish_3": ((100, 100), (.1, .5)), "fish_4": ((100, 100), (.1, .5)), "fish_5": ((100, 100), (.1, .5)), "fish_6": ((100, 100), (.1, .5)), "fish_7": ((100, 100), (.1, .5)), "fish_8": ((100, 100), (.1, .5)), "fish_9": ((100, 100), (.1, .5))})
-        $ item = int(_return[-1:])
+        call screen fishing_area(areas={"fish_0": ((100, 100), (.1, .5)), "fish_1": ((100, 100), (.5, .5)), "fish_2": ((100, 100), (.1, .5)), "fish_3": ((100, 100), (.1, .5)), "fish_4": ((100, 100), (.1, .5)), "fish_5": ((100, 100), (.1, .5)), "fish_6": ((100, 100), (.1, .5)), "fish_7": ((100, 100), (.1, .5)), "fish_8": ((100, 100), (.1, .5)), "fish_9": ((100, 100), (.1, .5))})
+        $ item = int(_result[-1:])
         $ hero.add_item(fish[item])
         $ hero.say("%s" % fish[item].id)
         jump city_beach_left
