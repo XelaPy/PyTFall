@@ -1047,7 +1047,7 @@ init: # PyTFall:
         for area, args in areas.iteritems():
             button:
                 align args[1]
-                background Transform(Solid("#000000", xysize=args[0]), alpha=.901)
+                background Transform(Solid("#000000", xysize=args[0]), alpha=.001)
                 focus_mask True
                 action Return(area)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})

@@ -153,7 +153,7 @@ label fishing_logic:
                 temp = {}
                 for i in fish_list:
                     temp[i] = ((100, 100), (random.random(), random.random()))
-                item = renpy.call_screen("hidden_area", temp)
+                item = renpy.call_screen("fishing_area", temp)
                 hero.add_item(item)
                 hero.say("I caught %s!" % item.id)
         jump city_beach_left
