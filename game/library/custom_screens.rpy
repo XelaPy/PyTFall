@@ -1047,7 +1047,7 @@ init: # PyTFall:
         for area, args in areas.iteritems():
             button:
                 align args[1]
-                background Transform(Solid("#000000", xysize=args[0]), alpha=.001)
+                background Transform(Solid("#000000", xysize=args[0]), alpha=.901)
                 focus_mask True
                 action Return(area)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
@@ -1057,7 +1057,7 @@ init: # PyTFall:
         on "hide":
             action SetField(config, "mouse", None)
         
-        # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas; doesn't work atm because hidden_area doesn't work too -_-
+        # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas
         $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/fishing_webm/movie.webm", mask="content/gfx/animations/fishing_webm/mask.webm"), zoom=0.1)
         for area, args in areas.iteritems():
             imagebutton:

@@ -140,19 +140,20 @@ label fishing_logic:
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
     else:
-        # I didn't understand what some of the code was supposed to do so I rewrote it best I could.
-        $ fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing")) # Get a list of fishing items player is skilled enough to fish out! We should prolly add some normal items here as well.
-        # Also maybe one super, buper item at very low chance of catching :D
-            
+        python:
+            fish_list = []
+            fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing")) # Get a list of fishing items player is skilled enough to fish out! We should prolly add some normal items here as well.
+            # Also maybe one super, buper item at very low chance of catching :D
+            while len(fish_list) < 9:
+                fish_list.append(random.choice(fish))
         if not fish:
-            $ hero.say("I suck at this to badly to catch anything :()")
+            $ hero.say("There is no fish at the moment.")
         else:
             python:
                 temp = {}
-                for i in fish:
+                for i in fish_list:
                     temp[i] = ((100, 100), (random.random(), random.random()))
-                item = renpy.call_screen("fishing_area", temp)
-        
+                item = renpy.call_screen("hidden_area", temp)
                 hero.add_item(item)
                 hero.say("I caught %s!" % item.id)
         jump city_beach_left
