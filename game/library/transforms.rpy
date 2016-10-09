@@ -161,6 +161,55 @@ init -997: # Transforms:
         on hide:
             fade_from_to(t=0.5)
     
+    transform fish():
+        align(random.random(), random.random())
+        block:
+            subpixel True
+            choice:
+                linear randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_quad randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_quad randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_cubic randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_cubic randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_quart randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_quart randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_quint randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_quint randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_expo randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_expo randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_circ randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_circ randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_back randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_back randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_elastic randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_elastic randint(16, 22) align(random.random(), random.random())
+            choice:
+                easein_bounce randint(16, 22) align(random.random(), random.random())
+            choice:
+                easeout_bounce randint(16, 22) align(random.random(), random.random())
+            pause randint(1, 3)
+            repeat
+            
     # Interactions:
     transform interactions_angry_pulse_tr:
         "angry_pulse"

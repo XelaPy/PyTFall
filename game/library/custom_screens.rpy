@@ -1057,10 +1057,11 @@ init: # PyTFall:
         on "hide":
             action SetField(config, "mouse", None)
         
-        # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas
+        # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
         $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/fishing_webm/movie.webm", mask="content/gfx/animations/fishing_webm/mask.webm"), zoom=0.1)
         for area, args in areas.iteritems():
             imagebutton:
+                at fish
                 align args[1]
                 idle (fishing_circles_webm)
                 hover (fishing_circles_webm)

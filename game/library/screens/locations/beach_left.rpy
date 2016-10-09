@@ -131,8 +131,9 @@ screen city_beach_fishing():
                 text "Leave" size 15
                 
 label fishing_logic:
-    scene bg fishing_bg
-    with dissolve
+    
+    scene bg fishing_bg with dissolve
+    
     if not global_flags.flag('fish_city_beach'):
         $ global_flags.set_flag('fish_city_beach')
         "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items. For every Action Point you will get three attempts."
@@ -151,9 +152,10 @@ label fishing_logic:
         else:
             python:
                 temp = {}
-                for i in fish_list:
-                    temp[i] = ((100, 100), (random.random(), random.random()))
-                item = renpy.call_screen("fishing_area", temp)
-                hero.add_item(item)
+                for index, item in enumerate(fish_list):
+                    temp[index] = ((100, 100), (random.random(), random.random()))
+                index = renpy.call_screen("fishing_area", temp)
+                
+                hero.add_item(fish_list[index])
                 hero.say("I caught %s!" % item.id)
         jump city_beach_left
