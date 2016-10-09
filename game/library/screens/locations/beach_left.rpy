@@ -137,6 +137,7 @@ label fishing_logic:
     if not global_flags.flag('fish_city_beach'):
         $ global_flags.set_flag('fish_city_beach')
         "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items. For every Action Point you will get three attempts."
+        
     if not("Fishing Pole") in hero.inventory:
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
@@ -151,11 +152,8 @@ label fishing_logic:
             $ hero.say("There is no fish at the moment.")
         else:
             python:
-                temp = {}
-                for index, item in enumerate(fish_list):
-                    temp[index] = ((100, 100), (random.random(), random.random()))
-                index = renpy.call_screen("fishing_area", temp)
-                
-                hero.add_item(fish_list[index])
+                item = renpy.call_screen("fishing_area", fish_list)
+                hero.add_item(item)
                 hero.say("I caught %s!" % item.id)
+                
         jump city_beach_left

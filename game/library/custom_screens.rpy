@@ -1053,20 +1053,19 @@ init: # PyTFall:
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
                 unhovered SetField(config, "mouse", None)
                 
-    screen fishing_area(areas={}):
+    screen fishing_area(items):
         on "hide":
             action SetField(config, "mouse", None)
         
         # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
         $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/fishing_webm/movie.webm", mask="content/gfx/animations/fishing_webm/mask.webm"), zoom=0.1)
-        for area, args in areas.iteritems():
+        for item in items:
             imagebutton:
-                at fish
-                align args[1]
+                at fish # Randomization is now done here.
                 idle (fishing_circles_webm)
                 hover (fishing_circles_webm)
-                action Return(area)
-                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
+                action Return(item)
+                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
                 unhovered SetField(config, "mouse", None)
             
     ##############################################################################
