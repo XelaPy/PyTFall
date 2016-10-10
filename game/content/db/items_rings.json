@@ -28,7 +28,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "ring",
-    "mod": {"charisma": 60},
+    "mod": {"charisma": 40},
     "removetraits": ["Well-mannered"],
     "addtraits": ["Ill-mannered", "Serious"],
     "locations": ["Witches Hut"]
@@ -110,7 +110,7 @@
     "slot": "ring",
     "max": {"charisma": 30},
     "mod": {"charisma": 20},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Fishing"]
     },
     {
     "id": "Ring of Charisma",
@@ -236,7 +236,7 @@
     "slot": "ring",
     "max": {"vitality": 20, "constitution": 5},
     "mod": {"constitution": 20},
-    "locations": ["Ninja Shop"]
+    "locations": ["Ninja Shop", "Fishing"]
     },
     {
     "id": "Ring of Physique",
@@ -252,7 +252,7 @@
     "slot": "ring",
     "max": {"vitality": 50, "constitution": 25},
     "mod": {"constitution": 30},
-    "locations": ["Exploration"]
+    "locations": ["Ninja Shop", "Exploration"]
     },
     {
     "id": "Rogue's Ring",
@@ -286,7 +286,7 @@
     "slot": "ring",
     "max": {"defence": 25},
     "mod": {"defence": 20},
-    "locations": ["Ninja Shop"],
+    "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": ["Adventurer"]
     },
     {
@@ -303,7 +303,7 @@
     "slot": "ring",
     "max": {"defence": 50},
     "mod": {"defence": 30},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Ninja Shop"],
     "goodtraits": []
     },
     {
@@ -335,11 +335,11 @@
     "infinite": false,
     "slot": "ring",
     "mod": {"defence": -100, "attack": 50},
-    "removetraits": ["Shy", "Edgy"],
+    "removetraits": ["Shy", "Coward"],
     "evasion_bonus": -3,
     "damage_multiplier": 0.04,
     "addtraits": ["Courageous", "Exhibitionist"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Ring of Luck",
@@ -400,7 +400,7 @@
     "slot": "ring",
     "max": {"magic": 50, "mp": 60, "charisma": -50},
     "mod": {"magic": 50, "charisma": -70},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Fishing"]
     },
     {
     "id": "Divergent Ring",
@@ -534,7 +534,7 @@
     },
     {
     "id": "Frozen Tear",
-    "desc": "There is a really interesting story behind the origin of these rings. But somehow everyone forgot it long ago.",
+    "desc": "They say there was a really unusual story behind the origin of these rings, but, curiously enough, everyone forgot it long ago.",
     "icon": "content/items/ring/ft.png",
     "price": 1800,
     "sex": "female",
@@ -577,7 +577,7 @@
     "slot": "ring",
     "max": {"agility": 5, "charisma": 25},
     "mod": {"luck": 5},
-    "locations": ["General Shop", "Look around"],
+    "locations": ["General Shop", "Look around", "Fishing"],
     "goodtraits": ["Lolita"]
     },
     {
@@ -592,13 +592,13 @@
     "hidden": false,
     "infinite": false,
     "slot": "ring",
-    "max": {"joy": -50, "magic": 50, "mp": 50},
-    "mod": {"luck": 5, "defence": 50},
+    "max": {"joy": -50, "magic": 150, "mp": 150},
+    "mod": {"luck": 5, "defence": 100},
     "min": {"joy": 50},
     "evasion_bonus": 2,
     "damage_multiplier": 0.05,
     "defence_multiplier": {"melee": 0.1, "ranged": 0.05, "magic": 0.05},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Fishing"],
     "goodtraits": ["Indifferent"]
     }
   ]

@@ -148,6 +148,16 @@ label special_items_one_for_all:
     if eqtarget.health < 50 and eqtarget.mp < 50 and eqtarget.vitality < 50:
         "[eqtarget.name]'s body is in a poor condition. It will be a waste to use this item on her."
         jump char_equip
+    $ spr = eqtarget.get_vnsprite()
+    show expression spr at center with dissolve
+    menu:
+        "Using this item will kill [eqtarget.name] on spot. Continue?"
+        
+        "Yes":
+            $ pass
+        "No":
+            jump char_equip
+    $ eqtarget.remove_item("One For All")
     $ health = eqtarget.health
     $ n=health/100
     if n>0:
@@ -195,6 +205,7 @@ label special_items_one_for_all:
         $ vitality -= n*25
     if vitality > 0:
         $ hero.add_item("Small Potion of Serenity")
+    hide expression spr with dissolve
     "[eqtarget.name]'s body crumbles as her life energies turn into potions."
     $ eqtarget.disposition -= 700
     $ eqtarget.health = 0
@@ -216,8 +227,8 @@ label special_items_herbal_extract:
     else:
         $ eqtarget.health += eqtarget.vitality
         $ eqtarget.vitality = 0
-$ eqtarget.remove_item("Herbal Extract", 1)
-jump char_equip
+    $ eqtarget.remove_item("Herbal Extract")
+    jump char_equip
 
 label special_items_emerald_tincture:
     $ h = eqtarget.get_max("health")-eqtarget.health
@@ -225,4 +236,5 @@ label special_items_emerald_tincture:
     $ h = eqtarget.get_max("vitality")-eqtarget.vitality
     $ eqtarget.vitality += int(0.5*h)
     $ eqtarget.mp = 0
+    $ eqtarget.remove_item("Emerald Tincture")
     jump char_equip
