@@ -29,7 +29,6 @@ init -9 python:
     class WorldEventsManager(_object):
         """Manager of all events in PyTFall.
         """
-        
         def __init__(self, data):
             """
             Manages the events making sure that everything runs smoothly. Basically a smart list :)
@@ -151,7 +150,7 @@ init -9 python:
                     continue
                 
                 # Simple Conditions:
-                if event.simple_conditions and not all(list(bool(eval(c)) for c in event.simple_conditions)):
+                if event.simple_conditions and not all(list(bool(renpy.python.py_eval_bytecode(c)) for c in event.simple_conditions)):
                     continue
                 
                 # We got to the final part:
@@ -165,7 +164,7 @@ init -9 python:
         """Container for the world event.
         """
         def __init__(self, name, label=None, priority=100, restore_priority=5, dice=0, start_day=1, end_day=float('inf'), jump=False, screen=False,
-                           times_per_days=(), locations=list(), trigger_type="look_around", custom_condition=False, simple_conditions=None, run_conditions=None, stop_music=False, max_runs=0,
+                           times_per_days=(), locations=list(), trigger_type="look_around", custom_condition=False, simple_conditions=(), run_conditions=(), stop_music=False, max_runs=0,
                            quest=None):
             """
             name = name of the event, will be used as label if label if not specified.
@@ -190,7 +189,7 @@ init -9 python:
             - auto - on label entry
             - custom (custom event trigger)
             custom_condition (Edited condition method) ==> For complex conditioning, inherit from this class and add custom_conditions() method to return True or False
-            simple_conditions = container of strings to be evaluated, if all return True, event will run. If any of those returns false, event will skip until all the conditions are met.
+            simple_conditions = container of strings to be evaluated, if all return True, event will be added to list of possible event for the day. If any of those returns false, event will skip until all the conditions are met.
             - Note: Custom conditions will overrule simple once!
             max_runs = maximum amount of times this event can run until it is removed from the game.
             stop_music = selfexplanatory, defaults to false.
@@ -206,7 +205,7 @@ init -9 python:
             if not label: self.label = name
             else: self.label = label
             self.dice = dice
-            self.run_conditions = run_conditions
+            self.run_conditions = [renpy.python.py_compile(c, 'eval') for c in run_conditions]
             # Prority related    
             self.priority = priority
             self.priority_cache = priority
@@ -225,13 +224,12 @@ init -9 python:
             self.max_runs = max_runs
             self.runs = 0
             
-            
             # Quest support
             self.quest = quest
             
             # Rest/Not used
             self.custom_condition = custom_condition
-            self.simple_conditions = simple_conditions
+            self.simple_conditions = [renpy.python.py_compile(c, 'eval') for c in simple_conditions]
             self.stop_music = stop_music
             self.disabled = False
             self.enable_on = 0 # Day to restore the event
@@ -246,13 +244,13 @@ init -9 python:
             if self.tpd:
                 if self.resolve_tpd():
                     if self.dice and dice(self.dice): return True
-                    elif self.run_conditions and all(list(bool(eval(c)) for c in self.run_conditions)): return True
+                    elif self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return True
                 
                 else: return False
             
             elif self.dice and dice(self.dice): return True
             
-            elif self.run_conditions and all(list(bool(eval(c)) for c in self.run_conditions)): return True
+            elif self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return True
             
             return False
         
