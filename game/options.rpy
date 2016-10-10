@@ -53,7 +53,7 @@ init -5 python hide:
     config.rollback_length = 1
     
     # Game may bug out on saving, in such case, comment should be removed
-    # config.use_cpickle = False
+    config.use_cpickle = False
     config.save_dump = False
     
     config.layers.append("pytfall")
