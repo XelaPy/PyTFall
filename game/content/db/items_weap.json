@@ -635,7 +635,7 @@
     "mod": {"attack": 400, "character": 50, "defence": 50, "agility": 50, "intelligence": -30},
     "evasion_bonus": 3,
     "ch_multiplier": 0.15,
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Rapier",
