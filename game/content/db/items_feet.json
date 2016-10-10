@@ -13,7 +13,7 @@
     "slot": "feet",
     "type": "dress",
     "mod": {"agility": 2, "defence": 1},
-    "locations": ["Tailor Store", "Look around"],
+    "locations": ["Tailor Store", "Look around", "Fishing"],
     "badtraits": ["Not Human"]
     },
     {
@@ -87,7 +87,7 @@
     "goodtraits": ["Athletic"]
     },
     {
-    "id": "Work Boots",
+    "id": "Female Work Boots",
     "desc": "A pair of low-heeled boots. Comfortable and dirt-repellent.",
     "icon": "content/items/feet/hb.png",
     "price": 150,
@@ -105,7 +105,7 @@
     "locations": ["Tailor Store"]
     },
     {
-    "id": "Work Boots",
+    "id": "Male Work Boots",
     "desc": "A pair of low-heeled boots. Comfortable and dirt-repellent.",
     "icon": "content/items/feet/mwb.png",
     "price": 150,
@@ -255,7 +255,7 @@
     "min": {"joy": 5},
     "mod_skills": {"refinement": [0.07, 0, 0.1, 0, 0], "strip": [0.05, 0, 0.05, 0, 0]},
     "addtraits": ["Optimist"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Designer Pumps",
@@ -277,7 +277,7 @@
     },
     {
     "id": "Boots of Mercury",
-    "desc": "These cute boots each bear a small wing at the heel. The rumors that they let you fly have proven false, but they do let you run exceptionally fast.",
+    "desc": "These cute boots each bear a small wing at the heel. The rumours that they let you fly have proven false, but they do let you run exceptionally fast.",
     "icon": "content/items/feet/som.png",
     "price": 1000,
     "sex": "female",
@@ -583,7 +583,7 @@
     "max": {"charisma": 10},
     "mod": {"defence": -10, "attack": -5, "charisma": 15, "vitality": -5, "constitution": -5, "joy": -10},
     "mod_skills": {"refinement": [0.11, 0.01, 0.14, 0, 0], "management": [0, 0, 0.06, 0, 0]},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Imperial Leather Boots",

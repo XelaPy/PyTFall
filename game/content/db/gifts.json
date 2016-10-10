@@ -61,7 +61,7 @@
     "dismod": 5,
     "cblock": 5,
     "infinite": false,
-    "locations": ["General Store", "Forest"],
+    "locations": ["General Store", "Fishing"],
     "traits": {"Impersonal": 5, "Coward": 10, "Undead": -10, "Elf": 5, "Alien": 5}
     },
     {
@@ -140,7 +140,7 @@
     "dismod": 5,
     "cblock": 7,
     "infinite": false,
-    "locations": ["General Shop"],
+    "locations": ["Fishing"],
     "traits": {"Shy": 5, "Dandere": 5, "Kamidere": -5, "Not Human": 5}
     },
     {
@@ -526,7 +526,7 @@
     "dismod": 35,
     "cblock": 15,
     "infinite": false,
-    "locations": ["General Store"],
+    "locations": ["General Store", "Fishing"],
     "traits": {"Not Human": 5, "Alien": 10, "Homebody": 10, "Curious": 10, "Indifferent": -5, "Nerd": 10}
     },
     {
@@ -584,7 +584,7 @@
     {
     "id": "Red Bow-Knot",
     "icon": "content/items/gift/rbk.png",
-    "desc": "A huge red silken bow-knot. You honestly have no idea how and where to use it, but at least it looks pretty.",
+    "desc": "A huge red silken bow-knot. Most people have no idea how and where to use it, but at least it looks pretty.",
     "price": 30,
     "slot": "gift",
     "chance": 95,
@@ -617,7 +617,7 @@
     "dismod": 5,
     "cblock": 10,
     "infinite": false,
-    "locations": ["General Store"],
+    "locations": ["General Store", "Fishing"],
     "traits": {"Alien": 5, "Bokukko": -10, "Kamidere": -15, "Dandere": -10, "Impersonal": -15, "Nymphomaniac": 5, "Slime": -10}
     },
     {
@@ -837,7 +837,7 @@
     "dismod": 5,
     "cblock": 6,
     "infinite": false,
-    "locations": ["General Store"],
+    "locations": ["General Store", "Fishing"],
     "traits": {"Not Human": 5, "Elf": 10}
     },
     {

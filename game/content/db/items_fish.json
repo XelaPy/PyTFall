@@ -228,5 +228,35 @@
     "slot": "weapon",
     "type": "Notaweapon",
     "locations": ["General Store"]
+    },
+    {
+    "id": "Simple Bait",
+    "desc": "A simple bait for a simple fish.",
+    "icon": "content/items/fish/simple_bait.png",
+    "price": 50,
+    "chance": 80,
+    "slot": "loot",
+    "type": "Notaweapon",
+    "locations": ["General Store", "Look around"]
+    },
+    {
+    "id": "Good Bait",
+    "desc": "A good bait for a decent catch.",
+    "icon": "content/items/fish/good_bait.png",
+    "price": 100,
+    "chance": 40,
+    "slot": "loot",
+    "type": "Notaweapon",
+    "locations": ["General Store"]
+    },
+    {
+    "id": "Magic Bait",
+    "desc": "An enchanted bait for the best possible result.",
+    "icon": "content/items/fish/magic_bait.png",
+    "price": 300,
+    "chance": 20,
+    "slot": "loot",
+    "type": "Notaweapon",
+    "locations": ["Exploration"]
     }
   ]

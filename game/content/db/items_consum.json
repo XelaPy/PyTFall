@@ -13,7 +13,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"mp": 25},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {
     "id": "Mana Potion",
@@ -83,7 +83,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"health": 25},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {
     "id": "Healing Potion",
@@ -153,7 +153,7 @@
     "type": "restore",
     "cblock": 2,
     "mod": {"vitality": 25},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {
     "id": "Potion of Serenity",
@@ -223,7 +223,7 @@
     "type": "restore",
     "ceffect": "alllocal",
     "mod": {"health": 150},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Fishing", "Exploration"]
     },
     {
     "id": "Mana Powder",
@@ -240,11 +240,11 @@
     "type": "restore",
     "ceffect": "freelocal",
     "mod": {"mp": 100},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Aromatic Dust",
-    "desc": "This ancient vial contains volatile, mildly fruity suspension of unknown substances with a small tonic effect on the body.",
+    "desc": "This ancient vial contains volatile, mildly fruity suspension of unknown substances with a small tonic effect on the body. Works within a certain radius.",
     "icon": "content/items/cons/ad.png",
     "price": 1500,
     "sex": "female",
@@ -257,7 +257,7 @@
     "type": "restore",
     "ceffect": "alllocal",
     "mod": {"vitality": 100},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Succubus Flour",
@@ -487,7 +487,7 @@
     "cblock": 6,
     "mod": {"character": -50},
     "mod_skills": {"vaginal": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "bdsm": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Fishing"],
     "goodtraits": ["Curious"],
     "badtraits": ["Frigid"]
     },
@@ -599,7 +599,7 @@
     "removetraits": ["MILF"],
     "addtraits": ["Virgin"],
     "mod_skills": {"vaginal": [0, 0, 0, -500, 0], "anal": [0, 0, 0, -500, 0], "oral": [0, 0, 0, -500, 0], "group": [0, 0, 0, -500, 0], "bdsm": [0, 0, 0, -500, 0], "sex": [0, 0, 0, -500, 0]},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Nostalgia Extract",
@@ -616,7 +616,7 @@
     "addtraits": ["Homebody"],
     "slot": "consumable",
     "type": "permanent",
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Potion of Redemption",
@@ -763,18 +763,16 @@
     "id": "Liquid Magic",
     "desc": "They say only those who are born with a spark of magic within their soul are able to use real magic. While this is partly true, there are other ways to acquire this power, and one of them is this sparkling potion.",
     "icon": "content/items/cons/lm.png",
-    "price": 1000,
+    "price": 1500,
     "sex": "female",
-    "chance": 15,
+    "chance": 5,
     "badness": 30,
     "eqchance": 80,
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
     "type": "permanent",
-    "max": {"health": -50},
-    "mod": {"constitution": -30, "vitality": -40},
-    "addtraits": [],
+    "max": {"health": -50, "mp": 150, "magic": 100, "constitution": -50, "vitality": -30},
     "locations": ["Exploration"]
     },
     {
@@ -1034,11 +1032,11 @@
     "type": "food",
     "cblock": 1,
     "mod": {"exp": 300, "joy": -10},
-    "locations": ["Cafe", "Exploration"]
+    "locations": ["Cafe", "Fishing"]
     },
     {
     "id": "Watermelon of Knowledge",
-    "desc": "The watermelon is the god of knowledge's favorite food, and he has personally blessed this particular specimen. It takes a while to eat, but it is packed with experience and is pleasantly refreshing in the summer.",
+    "desc": "The watermelon is the god of knowledge's favorite food, and he has personally blessed this particular specimen. It takes a while to eat, but it is packed with experience and is pleasantly refreshing.",
     "icon": "content/items/cons/wok.png",
     "price": 800,
     "sex": "unisex",
@@ -1051,7 +1049,7 @@
     "type": "food",
     "cblock": 2,
     "mod": {"exp": 600, "vitality": 20},
-    "locations": ["Cafe", "Exploration"]
+    "locations": ["Cafe", "Fishing"]
     },
     {
     "id": "Unusual Bottle",
@@ -1067,7 +1065,7 @@
     "slot": "consumable",
     "type": "mc",
     "jump_to_label": "special_items_slime_bottle",
-    "locations": ["Cafe", "Exploration"]
+    "locations": ["Fishing"]
     },
     {
     "id": "Empty Extractor",
@@ -1116,11 +1114,11 @@
     "slot": "consumable",
     "type": "mc",
     "ceffect": "allchars",
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "One For All",
-    "desc": "Upon consuming transforms the body of the target into potions depending on her condition. Lethal for the consumer.",
+    "desc": "Upon consuming transforms the body of the target into potions depending on her body condition. Lethal for the consumer.",
     "icon": "content/items/cons/ofa.png",
     "price": 500,
     "sex": "female",
@@ -1132,7 +1130,7 @@
     "slot": "consumable",
     "type": "mc",
     "jump_to_label": "special_items_one_for_all",
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Herbal Extract",

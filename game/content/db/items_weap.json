@@ -266,7 +266,7 @@
     "type": "Notaweapon",
     "max": {"attack": 1},
     "mod_skills": {"vaginal": [0, 0.01, 0, 0, 0], "anal": [0, 0.01, 0, 0, 0], "oral": [0, 0.01, 0, 0, 0], "group": [0, 0.01, 0, 0, 0], "bdsm": [0, 0.01, 0, 0, 0], "sex": [0, 0.01, 0, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["Fishing"]
     },
     {
     "id": "Brass Knuckles",

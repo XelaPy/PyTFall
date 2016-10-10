@@ -512,6 +512,6 @@
     "type": "other",
     "mod_skills": {"exploration": [0.03, 0.03, 0.1, 0, 0], "cleaning": [0, 0, 0.1, 0, 0], "refinement": [0, 0, -0.1, 0, 0], "service": [0, 0, -0.1, 0, 0]},
     "max": {"defence": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Fishing"]
     }
   ]

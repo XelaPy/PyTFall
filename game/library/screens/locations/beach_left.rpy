@@ -131,29 +131,51 @@ screen city_beach_fishing():
                 text "Leave" size 15
                 
 label fishing_logic:
-    
+    # during fishing itself only practical part of skill could be improved; theoretical part will be available via items and asking fishermen in tavern
     scene bg fishing_bg with dissolve
-    
     if not global_flags.flag('fish_city_beach'):
         $ global_flags.set_flag('fish_city_beach')
-        "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items. For every Action Point you will get three attempts."
-        
+        "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items."
+        "You can increase your chances to catch something good by using baits which could be bought or found in various places. However, they are mostly ineffective if your fishing skill is too low, so make sure you practice a lot."
     if not("Fishing Pole") in hero.inventory:
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
+    elif hero.AP <= 0:
+        "You don't have Action Points left. Try again tomorrow."
+        jump city_beach_left
     else:
-        python:
-            fish_list = []
-            fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing")) # Get a list of fishing items player is skilled enough to fish out! We should prolly add some normal items here as well.
-            # Also maybe one super, buper item at very low chance of catching :D
-            while len(fish_list) < 9:
-                fish_list.append(random.choice(fish))
-        if not fish:
-            $ hero.say("There is no fish at the moment.")
-        else:
+        if any(["Simple Bait" in hero.inventory, "Good Bait" in hero.inventory, "Magic Bait" in hero.inventory]):
+            menu:
+                "Use Simple Bite" if "Simple Bait" in hero.inventory:
+                    $ pass
+                "Use Good Bite" if "Good Bait" in hero.inventory:
+                    $ pass
+                "Use Magic Bite" if "Magic Bait" in hero.inventory:
+                    $ pass
+                "Don't use baits":
+                    $ pass
+        $ hero.AP -= 1
+        $ fishing_attempts = 3
+        while fishing_attempts > 0:
+            $ fishing_attempts -= 1
             python:
-                item = renpy.call_screen("fishing_area", fish_list)
-                hero.add_item(item)
-                hero.say("I caught %s!" % item.id)
+                fish_list = []
+                fish = list(i for i in items.values() if i.slot == "loot" and "Fishing" in i.locations and i.price <= hero.get_skill("fishing")) # Get a list of fishing items player is skilled enough to fish out! 
+                while len(fish_list) < 9:
+                    fish_list.append(random.choice(fish))
+            if not fish:
+                $ hero.say("There is no fish at the moment.")
+            else:
+                python:
+                    item = renpy.call_screen("fishing_area", fish_list)
+                    hero.add_item(item)
+                    our_image = ProportionalScale(item.icon, 150, 150)
                 
+                show expression our_image at truecenter with dissolve
+                $ hero.say("I caught %s!" % item.id)
+                hide expression our_image with dissolve
+                $ hero.fishing += (round((100-item.chance)*0.1)) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
+        $ del our_image
+        $ del fish_list
+        $ del fishing_attempts
         jump city_beach_left

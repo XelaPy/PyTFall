@@ -5,7 +5,7 @@
     "icon": "content/items/amulet/bn.png",
     "price": 15,
     "sex": "female",
-    "chance": 100,
+    "chance": 95,
     "badness": 90,
     "eqchance": 10,
     "hidden": false,
@@ -13,13 +13,13 @@
     "slot": "amulet",
     "max": {"charisma": 3},
     "mod": {"charisma": 7},
-    "locations": ["General Store", "Look around"]
+    "locations": ["General Store", "Look around", "Fishing"]
     },
     {
     "id": "Leash",
     "desc": "This length of rope attached to a leather collar isn't just an effective physical restraint: it's an humiliating punishment. In many ways, a woman wearing this is at the complete mercy of whoever is holding it.",
     "icon": "content/items/amulet/l.png",
-    "price": 100,
+    "price": 95,
     "sex": "female",
     "chance": 45,
     "badness": 95,
@@ -118,7 +118,7 @@
     "max": {"charisma": 5},
     "mod": {"charisma": 7},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.01, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store", "Fishing"]
     },
     {
     "id": "Spiked Collar",
@@ -134,7 +134,7 @@
     "slot": "amulet",
     "max": {"attack": 5},
     "locations": ["General Store", "Look around"],
-    "goodtraits": ["Manly", "Kuudere"]
+    "goodtraits": ["Manly", "Yandere"]
     },
     {
     "id": "Aromatic Pendant",
@@ -294,7 +294,7 @@
     "slot": "amulet",
     "max": {"joy": -10},
     "removetraits": ["Extremely Jealous"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Darksome Trophy",
@@ -310,7 +310,7 @@
     "slot": "amulet",
     "max": {"attack": 5, "mp": 5},
     "mod": {"attack": 5, "character": 2},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Master Charm",
@@ -326,12 +326,12 @@
     "slot": "amulet",
     "max": {"character": 10},
     "mod": {"character": 30},
-    "mod_skills": {"management": [0, 0, 0.08, 0, 0]},
+    "mod_skills": {"management": [0, 0, 0.1, 0, 0]},
     "locations": ["Exploration"]
     },
     {
     "id": "Bandana",
-    "desc": "A piece of cloth tied around the neck  for protective and decorative purposes.",
+    "desc": "A piece of cloth tied around the neck for protective and decorative purposes.",
     "icon": "content/items/amulet/ban.png",
     "price": 40,
     "sex": "female",
@@ -346,6 +346,6 @@
     "mod_skills": {"exploration": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration", "Tailor Store"],
     "evasion_bonus": 1,
-    "goodtraits": []
+    "goodtraits": ["Bokukko"]
     }
   ]
