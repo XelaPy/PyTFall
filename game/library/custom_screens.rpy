@@ -1056,6 +1056,8 @@ init: # PyTFall:
     screen fishing_area(items):
         on "hide":
             action SetField(config, "mouse", None)
+            
+        add Transform("water_texture2", size=(1280, 720))
         
         # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
         $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/fishing_webm/movie.webm", mask="content/gfx/animations/fishing_webm/mask.webm"), zoom=0.1)
