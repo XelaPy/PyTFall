@@ -592,7 +592,7 @@ init -100 python:
                 self.conditions = OrderedDict()
                 for c, a in conditions:
                     code = renpy.python.py_compile(c, 'eval')
-                    self.conditions[c] = a
+                    self.conditions[code] = a # @Alex: Should prolly be code here instead of c as a key
                     
             self.always_reset = always_reset
             self.d = self.displayable[start_displayable]

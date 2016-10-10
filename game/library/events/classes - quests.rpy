@@ -1,5 +1,4 @@
-# Quests
-
+# Quests:
 init -9 python:
     
     # Allow easy setting of quest notifications
