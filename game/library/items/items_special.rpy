@@ -205,9 +205,12 @@ label special_items_one_for_all:
         $ vitality -= n*25
     if vitality > 0:
         $ hero.add_item("Small Potion of Serenity")
-    hide expression spr with dissolve
+    hide expression spr
+    show expression HitlerKaputt(spr, 50) as death
+    pause 1.5
+    hide death
     "[eqtarget.name]'s body crumbles as her life energies turn into potions."
-    $ eqtarget.disposition -= 700
+    $ eqtarget.disposition -= 1000
     $ eqtarget.health = 0
 jump mainscreen
 
