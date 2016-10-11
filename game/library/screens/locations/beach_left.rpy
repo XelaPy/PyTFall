@@ -156,11 +156,11 @@ label fishing_logic:
                 "Use Good Bite" if ("Good Bait" in hero.inventory and hero.get_skill("fishing") >= 100):
                     $ min_fish_price += 50
                     $ hero.remove_item("Good Bait")
-                    $ fishing_attempts = randint(3, 4)
+                    $ fishing_attempts = 4
                 "Use Magic Bite" if ("Magic Bait" in hero.inventory and hero.get_skill("fishing") >= 200):
                     $ min_fish_price += 100
                     $ hero.remove_item("Magic Bait")
-                    $ fishing_attempts = 4
+                    $ fishing_attempts = 5
                 "Don't use baits":
                     $ pass
                     $ fishing_attempts = 2
@@ -183,7 +183,7 @@ label fishing_logic:
                 show expression our_image at truecenter with dissolve
                 $ hero.say("I caught %s!" % item.id)
                 hide expression our_image with dissolve
-                $ hero.fishing += (round((100-item.chance)*0.1)) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
+                $ hero.fishing += round((100-item.chance)*0.1) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
         $ del our_image
         $ del fish_list
         $ del fish

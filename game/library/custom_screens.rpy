@@ -1057,15 +1057,16 @@ init: # PyTFall:
         on "hide":
             action SetField(config, "mouse", None)
             
-        add Frame("water_texture2", tile=True, xysize=(1280, 720))
+        add Frame("water_texture", tile=True, xysize=(1280, 720))
         
         # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
-        $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/fishing_webm/movie.webm", mask="content/gfx/animations/fishing_webm/mask.webm"), zoom=0.1)
+        $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.4, alpha=0.4)
+        $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.8, alpha=1.0)
         for item in items:
             imagebutton:
                 at fish # Randomization is now done here.
                 idle (fishing_circles_webm)
-                hover (fishing_circles_webm)
+                hover (fishing_circles_webm_alpha)
                 action Return(item)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
                 unhovered SetField(config, "mouse", None)
