@@ -133,11 +133,13 @@ screen city_beach_fishing():
 label fishing_logic:
     # during fishing itself only practical part of skill could be improved; theoretical part will be available via items and asking fishermen in tavern
     scene bg fishing_bg with dissolve
+    
     if not global_flags.flag('fish_city_beach'):
         $ global_flags.set_flag('fish_city_beach')
         "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items."
         "You can increase your chances to catch something good by using baits which could be bought or found in various places. However, they cannot be used if your fishing skill is too low, so make sure you practice a lot."
         "Bites also increase the amount of attempts you can make for every Action Point."
+        
     if not("Fishing Pole") in hero.inventory:
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
@@ -164,7 +166,9 @@ label fishing_logic:
                 "Don't use baits":
                     $ pass
                     $ fishing_attempts = 2
+                    
         $ hero.AP -= 1
+        
         while fishing_attempts > 0:
             $ fishing_attempts -= 1
             python:
@@ -184,6 +188,7 @@ label fishing_logic:
                 $ hero.say("I caught %s!" % item.id)
                 hide expression our_image with dissolve
                 $ hero.fishing += round((100-item.chance)*0.1) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
+                
         $ del our_image
         $ del fish_list
         $ del fish

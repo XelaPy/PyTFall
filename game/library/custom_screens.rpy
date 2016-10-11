@@ -1,6 +1,6 @@
 ################### Specialized ####################
 init: # Items:
-    image water_texture = Movie(channel="main_gfx_bow", play="content/gfx/animations/water_texture_webm/movie.webm")
+    image water_texture__ = Movie(channel="main_gfx_bow", play="content/gfx/animations/water_texture_webm/movie.webm")
     screen items_inv(char=None, main_size=(553, 282), frame_size=(90, 90), return_value=['item', 'get']):
         frame:
             background Null()
@@ -1057,7 +1057,12 @@ init: # PyTFall:
     screen fishing_area(items):
         on "hide":
             action SetField(config, "mouse", None)
-        add Frame("water_texture", tile=True, xysize=(1280, 720))
+            
+        hbox:
+            xsize 1280
+            box_wrap True
+            for i in xrange(15):
+                add "water_texture__"
         
         # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
         $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.4, alpha=0.4)
