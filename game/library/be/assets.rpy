@@ -533,7 +533,7 @@ label load_battle_skills:
                                            main_effect={"gfx": Null(), "sfx": None, "duration": 0.01, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.2},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
-                                           dodge_effect={"initial_pause": 0.005})
+                                           dodge_effect={"initial_pause": -.01})
 
     # Rapier attacks:
         SimpleSkill(u"Steel Flourish", range=1, attributes=["melee", "physical"], critpower=1.5, effect=20, multiplier=1.1, vitality_cost=8, menu_pos=2, desc="Quick consecutive slashes form an ancient rune capable to increase critical damage.",

@@ -48,8 +48,8 @@ label test_be:
         # Add new attack types to see how they look on the other side:
         for m in enemy_team:
             m.attack_skills.append(battle_skills["Projective Slash"])
-        for m in enemy_team:
-            m.magic_skills.append(battle_skills["Northern Flow"])
+        # for m in enemy_team:
+            # m.magic_skills.append(battle_skills["Northern Flow"])
             # m.magic_skills.append(battle_skills["Pure Ion Storm"])
             
         for i in hero.team:
