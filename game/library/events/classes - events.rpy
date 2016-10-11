@@ -205,7 +205,7 @@ init -9 python:
             if not label: self.label = name
             else: self.label = label
             self.dice = dice
-            self.run_conditions = [renpy.python.py_compile(c, 'eval') for c in run_conditions]
+            self.run_conditions = run_conditions
             # Prority related    
             self.priority = priority
             self.priority_cache = priority
@@ -229,7 +229,7 @@ init -9 python:
             
             # Rest/Not used
             self.custom_condition = custom_condition
-            self.simple_conditions = [renpy.python.py_compile(c, 'eval') for c in simple_conditions]
+            self.simple_conditions = simple_conditions
             self.stop_music = stop_music
             self.disabled = False
             self.enable_on = 0 # Day to restore the event
