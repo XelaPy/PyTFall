@@ -54,7 +54,10 @@ label hidden_village_matrix:
 
     hide screen hiddenvillage_entrance
     scene bg hiddenvillage_entrance
-    call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8))
+    $ hidden_list = []
+    if global_flags.flag('hidden_village_shop_first_enter'):
+        $ hidden_list.append("House_6")
+    call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8), hidden=hidden_list)
     if not(_return):
         jump hiddenvillage_entrance
     if _return == "Alley": # to do: clear up the quest
