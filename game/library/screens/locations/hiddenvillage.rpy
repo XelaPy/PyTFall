@@ -1,5 +1,4 @@
 label hiddenvillage_entrance:
-    $ gm.enter_location(goodtraits=["Assassin"], badoccupations=["SIW", "Caster"], curious_priority=False, badtraits=("Monster", "Slime"))
     if not "village" in ilists.world_music:
         $ ilists.world_music["village"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("village")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -9,29 +8,19 @@ label hiddenvillage_entrance:
     python:
         # Build the actions
         if pytfall.world_actions.location("hiddenvillage_entrance"):
-            pytfall.world_actions.meet_girls()
             pytfall.world_actions.add("hiddenvillage_matrix", "Explore", Jump("hidden_village_matrix"))
             pytfall.world_actions.finish()
-    $ pytfall.world_quests.run_quests("auto")
-    $ pytfall.world_events.run_events("auto")
+
     scene bg hiddenvillage_entrance
     with dissolve
     show screen hiddenvillage_entrance
     
-    if not global_flags.flag('visited_hidden_village') and pytfall.world_quests.check_stage("Medic's Request") >= 3:
+    if not global_flags.flag('visited_hidden_village'):
         $ global_flags.set_flag('visited_hidden_village')
-        "From now on you have an access to the hidden village."
+        # place for introduction
         
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    if pytfall.world_quests.check_stage("Sixth Sense") == 2 and not('Virgin' in chars['Karin'].traits) and pytfall.world_quests.check_quest_not_finished("Sixth Sense"):
-        jump karin_finish_quest
-    if pytfall.world_quests.check_stage("Stubborn Kunoichi") == 3 and not('Virgin' in chars['Temari'].traits) and pytfall.world_quests.check_quest_not_finished("Stubborn Kunoichi"):
-        jump temari_finish_quest
-    if pytfall.world_quests.check_stage("Uzumaki Clan") == 7 and not('Virgin' in chars['Naruko_Uzumaki'].traits) and pytfall.world_quests.check_quest_not_finished("Uzumaki Clan"):
-        jump naruko_finish_quest
-    if pytfall.world_quests.check_stage("Weapons Specialist") >= 2 and not('Virgin' in chars['Tenten'].traits) and pytfall.world_quests.check_quest_not_finished("Weapons Specialist"):
-        jump tenten_finish_quest
         
     while True:
 
@@ -53,31 +42,22 @@ screen hiddenvillage_entrance:
     use top_stripe(True)
     
     use location_actions("hiddenvillage_entrance")
+    if global_flags.flag('hidden_village_shop_first_enter'): # the shop is hidden until found via matrix
+        $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
+        imagebutton:
+            pos(300, 315)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
     
-    $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
-    imagebutton:
-        pos(300, 315)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
-        
-    if gm.show_girls:
-    
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "stage", "onsen", "indoors", "indoor"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
-    
-label hidden_village_matrix: # either we make packs I use for matrix mandatory, or code a system that disables events unsupported by existing packs in case if player doesn't have all of them
+label hidden_village_matrix: 
+
     hide screen hiddenvillage_entrance
     scene bg hiddenvillage_entrance
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8))
     if not(_return):
         jump hiddenvillage_entrance
-    if _return == "Alley":
+    if _return == "Alley": # to do: clear up the quest
         if pytfall.world_quests.check_quest_not_finished("Two Sisters"):
             if pytfall.world_quests.check_stage("Two Sisters") == 0:
                 $ pytfall.world_events.force_event("two_sisters0")
@@ -92,6 +72,8 @@ label hidden_village_matrix: # either we make packs I use for matrix mandatory, 
                 "Nothing interesting there."
         else:
             "Nothing interesting there."
+    elif _return == "House_6":
+        jump hidden_village_shop
     "Result: [_return]"
     jump hidden_village_matrix
     
@@ -116,7 +98,7 @@ label hidden_village_shop:
     else:
         $ r = Character("???", color=red, what_color=orange, show_two_window=True)
         $ global_flags.set_flag('hidden_village_shop_first_enter')
-        r "Hm? Ah, you are that new guy."
+        r "Hm? Ah, heard about you."
         extend " Welcome to my Tools Shop."
         r "I'm Ren. We sell ninja stuff here."
         r "If we are interested, I can sell you some leftovers. Of course it won't be cheap for an outsider like you."
