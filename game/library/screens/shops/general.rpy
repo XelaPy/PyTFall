@@ -7,8 +7,7 @@ label general_store:
 
     hide screen main_street
     
-    # scene bg general_store
-    scene bg general_store_alt
+    scene bg general_store
     with dissolve
     
     show npc shop_yukiko_novel

@@ -44,19 +44,19 @@
     {
     "id": "House_7",
     "xy": [[505, 297], [507, 196], [557, 196], [559, 228], [619, 226], [624, 234], [623, 279], [570, 287], [566, 319]],
-    "tooltip": "Konan House",
+    "tooltip": "Old Library",
     "place": "left"
     },
     {
     "id": "House_8",
     "xy": [[319, 313], [320, 267], [281, 267], [274, 295], [260, 300], [264, 311]],
-    "tooltip": "Sakura House",
+    "tooltip": "Haruno Clan",
     "place": "top"
     },
     {
     "id": "House_9",
     "xy": [[672, 534], [662, 359], [955, 357], [1081, 431], [939, 487], [935, 534]],
-    "tooltip": "Kunoichi Dormitory",
+    "tooltip": "Dormitory",
     "place": "top"
     },
     {

@@ -30,8 +30,7 @@ label realtor_agency:
         nvl_ra "Blouse and skirt that she wore was well fitted, and stick really tightly to her body emphasizing her breasts and hips."
         nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes, that you almost didn't notice."
         
-        show npc rose
-        with dissolve
+        show npc rose at right with dissolve
         
         g "Welcome to Rose Real Estates."
         extend " My name is Rose. I'm the owner and the realtor."
