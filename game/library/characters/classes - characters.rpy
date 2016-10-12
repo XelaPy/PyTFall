@@ -13,16 +13,89 @@ init -9 python:
             hero.team.remove(char)
         gm.remove_girl(char)
     
-    class SmartTracker(_list):
-        """
-        Basically a smart list that tracks anything that can be added by items and events/game.
-        Prevents removal when unequipping items and/or other types of ralated errors/bugs.
-        """
+    class SmartTracker(collections.MutableSequence):
         def __init__(self, instance, be_skill=True):
             self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
             self.normal = set() # Normal we concider anything that's been applied by normal game operations like events, loading routines and etc.
             self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
             self.be_skill = be_skill # If we expect a be skill or similar mode.
+            self.list = _list()
+    
+        def __len__(self): return len(self.list)
+    
+        def __getitem__(self, i): return self.list[i]
+    
+        def __delitem__(self, i): del self.list[i]
+    
+        def __setitem__(self, i, v):
+            self.list[i] = v
+    
+        def insert(self, i, v):
+            self.list.insert(i, v)
+    
+        def __str__(self):
+            return str(self.list)
+            
+        def append(self, item, normal=True):
+            # Overwriting default list method, always assumed normal game operations and never adding through items.
+            # ==> For battle & magic skills:
+            if self.be_skill:
+                if isinstance(item, basestring):
+                    if item in store.battle_skills:
+                        item = store.battle_skills[item]
+                    else:
+                        devlog.warning("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
+                        return
+            if normal: #  Item applied by anything other than that 
+                self.normal.add(item)
+            else:
+                self.items[item] = self.items.get(item, 0) + 1
+                
+            # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
+            if item in self.normal or self.items.get(item, 0) > 0:
+                if not item in self.list:
+                    self.list.append(item)
+                    return True
+        
+        def remove(self, item, normal=True):
+            # Overwriting default list method.
+            # ==> For battle & magic skills:
+            if self.be_skill:
+                if isinstance(item, basestring):
+                    if item in store.battle_skills:
+                        item = store.battle_skills[item]
+                    else:
+                        devlog.warning("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__))
+                        return
+            if normal:
+                if item in self.normal:
+                    self.normal.remove(item)
+            else:
+                self.items[item] = self.items.get(item, 0) - 1
+                
+            # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
+            if not item in self.normal and self.items.get(item, 0) <= 0:
+                if item in self.list:
+                    self.list.remove(item)
+                    return True
+                    
+        
+    class SmartTrackerOld(_list):
+        """
+        Basically a smart list that tracks anything that can be added by items and events/game.
+        Prevents removal when unequipping items and/or other types of ralated errors/bugs.
+        """
+        def __init__(self, instance, be_skill=True):
+            _list.__init__(self)
+            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
+            self.normal = set() # Normal we concider anything that's been applied by normal game operations like events, loading routines and etc.
+            self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
+            self.be_skill = be_skill # If we expect a be skill or similar mode.
+            # raise Exception("zzzz", self.instance)
+            
+        def __getattr__(self, item):
+            raise AttributeError("%s object has no attribute named %r, __dict__: %s" %
+                                 (self.__class__.__name__, item, self.__dict__))
             
         def set_instance(self, instance):
             self.instance = instance
@@ -76,6 +149,8 @@ init -9 python:
             """
             Trait effects are being applied per level on activation of a trait and on level-ups.
             """
+            # raise Exception(args[0])
+            # SmartTracker.__init__(self, args[0])
             super(Traits, self).__init__(args[0])
             # self.instance = args[0]
             
@@ -84,6 +159,13 @@ init -9 python:
             
             self.basetraits = set() # A set with basetraits (2 maximum)
             
+            # if not hasattr(self, "be_skills"):
+                # raise Exception("Meow~")
+            
+        def __getattr__(self, item):
+            raise AttributeError("%s object has no attribute named %r" %
+                                 (self.__class__.__name__, item))
+                
         def __contains__(self, item):
             if isinstance(item, basestring):
                 if item in store.traits: item = store.traits[item]
@@ -1188,16 +1270,15 @@ init -9 python:
             self.say = None # Speaker...
             
         def __getattr__(self, key):
+            stats = self.__dict__.get("stats", {})
             if key in self.STATS:
-                val = self.__dict__["stats"].get_stat(key)
+                return stats.get_stat(key)
             elif key.lower() in self.SKILLS:
-                val = self.__dict__["stats"].get_skill(key)
+                return stats.get_skill(key)
             elif key in set(["".join([skill, "skill"]) for skill in self.SKILLS]):
-                val = self.get_skill(key[:-5])
-            else:
-                msg = "'%s' is neither a gamestat nor an attribute of %s"
-                raise AttributeError(msg % (key, self.__class__.__name__))
-            return val
+                return self.get_skill(key[:-5])
+            raise AttributeError("%r object has no attribute %r" %
+                                          (self.__class__, key))
 
         def __setattr__(self, key, value):
             # Base stats
@@ -1208,13 +1289,13 @@ init -9 python:
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 
-        def __str__(self):
-            """
-            Will fail for Arena Fighters!
-            This should be deleted after code review post @ release
-            For now it's a workaround for Courses...
-            """
-            return ", ".join([self.fullname, self.id])
+        # def __str__(self):
+            # """
+            # Will fail for Arena Fighters!
+            # This should be deleted after code review post @ release
+            # For now it's a workaround for Courses...
+            # """
+            # return ", ".join([self.fullname, self.id])
             
         
         # Money:
@@ -1414,7 +1495,7 @@ init -9 python:
             
         @property
         def elements(self):
-            return list(e for e in self.traits if e.elemental)
+            return _list(e for e in self.traits if e.elemental)
             
         @property
         def exp(self):

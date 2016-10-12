@@ -514,8 +514,8 @@ screen char_equip():
                     has vbox
                     style_group "proper_stats"
                     python:
-                        s_old = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
-                        s_new = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
+                        s_old = set(s.name for s in list(eqtarget.attack_skills) + list(eqtarget.magic_skills))
+                        s_new = set(s.name for s in list(dummy.attack_skills) + list(dummy.magic_skills))
                         temp = s_new.difference(s_old)
                         temp = sorted(list(temp)) 
                     if temp:
@@ -525,8 +525,8 @@ screen char_equip():
                                 text u'{color=#43CD80}%s'%skill.capitalize() size 16 
                                     
                     python:
-                        s_old = set(s.name for s in dummy.attack_skills + dummy.magic_skills)
-                        s_new = set(s.name for s in eqtarget.attack_skills + eqtarget.magic_skills)
+                        s_old = set(s.name for s in list(dummy.attack_skills) + list(dummy.magic_skills))
+                        s_new = set(s.name for s in list(eqtarget.attack_skills) + list(eqtarget.magic_skills))
                         temp = s_new.difference(s_old)
                         temp = sorted(list(temp))
                     if temp:

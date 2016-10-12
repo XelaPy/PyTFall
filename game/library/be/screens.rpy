@@ -113,10 +113,10 @@ init: # screens:
             # *Attack (battle) skills.
             # *Magic skills.
             python:
-                attacks = copy.copy(char.attack_skills)
+                attacks = list(char.attack_skills)
                 attacks =  list(set(attacks)) # This will make sure that we'll never get two of the same attack skills.
                 attacks.sort(key=attrgetter("name"))
-                magic = copy.copy(char.magic_skills)
+                magic = list(char.magic_skills)
                 try:
                     magic.sort(key=attrgetter("name"))
                 except AttributeError:

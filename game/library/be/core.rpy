@@ -1742,7 +1742,7 @@ init -1 python: # Core classes:
                 skill()
         
         def get_skills(self):
-            allskills = self.source.attack_skills + self.source.magic_skills
+            allskills = list(self.source.attack_skills) + list(self.source.magic_skills)
             skills = [s for s in allskills if s.check_conditions(self.source)]
             
             # for skill in allskills:
