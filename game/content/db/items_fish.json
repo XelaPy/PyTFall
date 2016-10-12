@@ -227,6 +227,7 @@
     "chance": 50,
     "slot": "weapon",
     "type": "Notaweapon",
+    "mod_skills": {"fishing": [0.05, 0.05, 0.05, 0, 0]},
     "locations": ["General Store"]
     },
     {

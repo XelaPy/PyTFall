@@ -139,7 +139,13 @@ label fishing_logic:
         "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items."
         "You can increase your chances to catch something good by using baits which could be bought or found in various places. However, they cannot be used if your fishing skill is too low, so make sure you practice a lot."
         "Bites also increase the amount of attempts you can make for every Action Point."
-        
+    menu:
+        "Try out fishing?"
+        "Yes":
+            $ pass
+        "Maybe later":
+            jump city_beach_left
+            
     if not("Fishing Pole") in hero.inventory:
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
