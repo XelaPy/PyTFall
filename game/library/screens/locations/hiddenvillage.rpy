@@ -56,7 +56,7 @@ label hidden_village_matrix:
     scene bg hiddenvillage_entrance
     $ hidden_list = []
     if global_flags.flag('hidden_village_shop_first_enter'):
-        $ hidden_list.append("House_6")
+        $ hidden_list.append("hidden_village_shop")
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8), hidden=hidden_list)
     if not(_return):
         jump hiddenvillage_entrance
@@ -75,9 +75,9 @@ label hidden_village_matrix:
                 "Nothing interesting there."
         else:
             "Nothing interesting there."
-    elif _return == "House_6":
-        jump hidden_village_shop
-    "Result: [_return]"
+    else:
+        $ renpy.jump (_return)
+    # "Result: [_return]"
     jump hidden_village_matrix
     
 label hidden_village_shop:
@@ -128,3 +128,34 @@ label hidden_village_shop:
     hide screen shopping
     with dissolve
     jump hiddenvillage_entrance
+    
+label Tsunade_Event:
+    $ interactions_run_gm_anywhere ("Tsunade", "hiddenvillage_entrance", "story cab_2")
+    
+label Naruko_Event:
+    $ interactions_run_gm_anywhere ("Kushina_Uzumaki", "hiddenvillage_entrance", "girl_room_5")
+    
+label Hinata_Event:
+    $ interactions_run_gm_anywhere ("Hinata", "hiddenvillage_entrance", "story asian_house")
+    
+label Ino_Event:
+    $ interactions_run_gm_anywhere ("Ino_Yamanaka", "hiddenvillage_entrance", "story asian_house_1")
+    
+label Karin_Event:
+    $ interactions_run_gm_anywhere ("Karin", "hiddenvillage_entrance", "story asian_house_2")
+    
+label Konan_Event:
+    $ interactions_run_gm_anywhere ("Konan", "hiddenvillage_entrance", "story small_library")
+    
+label Sakura_Event:
+    $ interactions_run_gm_anywhere ("Sakura", "hiddenvillage_entrance", "girl_room_4")
+    
+label Dormitory_Event:
+    scene bg story dormitory with dissolve
+    menu:
+        "Tenten":
+            $ interactions_run_gm_anywhere ("Tenten", "hiddenvillage_entrance", "girl_room_9")
+        "Temari":
+            $ interactions_run_gm_anywhere ("Temari", "hiddenvillage_entrance", "girl_room_9")
+        "Leave":
+            jump hiddenvillage_entrance
