@@ -323,3 +323,55 @@ label naruko_first_feeding:
         $ n.restore_portrait()
         $ k.restore_portrait()
     jump main_street
+    
+label qwe:
+    scene bg story study
+    python:
+        temp = list(i for i in chars.values() if "Naruto" in i.origin)
+        characters = {}
+        for i in temp:
+            emo=random.choice(["happy", "sad", "indifferent", "shy"])
+            characters[i]=emo
+    $ q = renpy.call_screen("hidden_village_chars_list", characters)
+    hero.say "[q.id]"
+    $ ff = characters[q]
+    hero.say "[ff]"
+    
+    
+screen hidden_village_chars_list(characters):
+    # $ img = chars["Naruko_Uzumaki"].show("0007-po-e5.png", resize=(100, 100))
+    # imagebutton:
+        # pos(380, 300)
+        # idle (img)
+        # hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+        # action [Hide("city_beach_left"), Jump("city_beach_cafe_main")]
+    
+    
+    hbox:
+        spacing 25
+        pos (17, 605)
+        for l in characters.keys():
+            $ char_profile_img = l.show('portrait', characters[l], resize=(98, 98), cache=True, type="reduce")
+            $ img = "content/gfx/frame/ink_box.png"
+            imagebutton:
+                background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                idle (char_profile_img)
+                hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                action [Return(l), Hide("qqq")]
+                align 0, .5
+                xysize (102, 102)
+
+            # button:
+                # idle_background Frame(Transform(img, alpha=0.4), 10 ,10)
+                # hover_background Frame(Transform(img, alpha=0.9), 10 ,10)
+                # align 0, .5
+                # xysize (102, 102)
+                # action Return(['choice', l])
+                
+
+                # frame:
+                    # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                    # padding 0, 0
+                    # align 0, .5
+                    # xysize(100, 100)
+                    # add char_profile_img align .5, .5 alpha 0.96
