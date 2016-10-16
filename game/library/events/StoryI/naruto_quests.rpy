@@ -333,9 +333,14 @@ label hidden_village_study:
         python:
             for i in naruto_quest_characters_list:
                 naruto_quest_characters_skill_list[i] = 0 # at the beginning it's 0 for everyone
-            
+        "Every time you can pick up to three characters to interact with. The outcome depends on their mood."
+        "If they look serious, the interaction will give additional knowledge. If they look happy, it will give additional disposition. If they are blushing, a special event will take place."
+        "Note that after picking a blushing character you cannot pick anyone else. But if you wait for too long before picking them, their mood might change, so pick wisely."
+
     python:
-        temp = list(i for i in naruto_quest_characters_list if dice(80)) # not 100% attendance; there should be a separate list of non hired quest chars instead of picking from chars.values
+        temp = list(i for i in naruto_quest_characters_list if dice(80)) # not everyone may be there every day
+        if not(temp):
+            temp = naruto_quest_characters_list # a countermeasure against empty list due to dice; if no one is there, then we force everyone to be there
         characters = {}
         for i in temp:
             if dice(90): # will be additional checks, even with 10% chance it happens too often when so many chars involved
@@ -343,14 +348,32 @@ label hidden_village_study:
             else:
                 l="shy"
             characters[i]=l
-    $ q = renpy.call_screen("hidden_village_chars_list", characters)
-    hide screen hidden_village_study
-    hero.say "[q.id]" # 
-    $ ff = characters[q] # lines to control how stuff works, should be deleted
-    hero.say "[ff]" #
+    $ j = 0
+    while j < 3:
+        if j > 0:
+            for i in temp:
+                l=random.choice(["happy", "indifferent"])
+                characters[i]=l
+        $ j += 1
+        $ q = renpy.call_screen("hidden_village_chars_list", characters)
+        hero.say "[q.id]" # 
+        $ ff = characters[q] # lines to control how stuff works, should be deleted
+        hero.say "[ff]" #
+        $ ff = naruto_quest_characters_skill_list[q]
+        hero.say "her knowledge is [ff]"
+        if characters[q] == "indifferent":
+            "Looks like [q.name] has troubles with understanding your lesson. You take your time to explain everything better."
+            $ char=q
+            call interactions_teaching
+            $ naruto_quest_characters_skill_list[q] += 1
+        elif characters[q] == "happy":
+            "You have a small chat with [q.name]."
+            $ q.disposition += randint(2,5)
+    $ del j
     jump hiddenvillage_entrance
     
-screen hidden_village_chars_list(characters):
+screen hidden_village_chars_list(characters): # the screen shows portraits of given characters dict as imagebuttons at the bottom and returns the selected character; the dict is "character: [emotion tag]"
+# TODO FOR XELA: portraits are not symmetrical for small groups, the screen will look better if they will always be
     hbox:
         spacing 25
         pos (17, 605)
@@ -361,7 +384,7 @@ screen hidden_village_chars_list(characters):
                 background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                 idle (char_profile_img)
                 hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                action [Return(l), Hide("qqq")]
+                action [Return(l), Hide("hidden_village_chars_list")]
                 align 0, .5
                 xysize (102, 102)
 
