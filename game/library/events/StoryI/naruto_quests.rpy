@@ -324,29 +324,33 @@ label naruko_first_feeding:
         $ k.restore_portrait()
     jump main_street
     
-label qwe:
+label hidden_village_study:
     scene bg story study
+    if not global_flags.flag('visited_hidden_village_study'):
+        $ global_flags.set_flag('visited_hidden_village_study')
+        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i not in hero.chars) # list of all quest characters
+        $ naruto_quest_characters_skill_list = {}   # dict of their knowledge levels
+        python:
+            for i in naruto_quest_characters_list:
+                naruto_quest_characters_skill_list[i] = 0 # at the beginning it's 0 for everyone
+            
     python:
-        temp = list(i for i in chars.values() if "Naruto" in i.origin)
+        temp = list(i for i in naruto_quest_characters_list if dice(80)) # not 100% attendance; there should be a separate list of non hired quest chars instead of picking from chars.values
         characters = {}
         for i in temp:
-            emo=random.choice(["happy", "sad", "indifferent", "shy"])
-            characters[i]=emo
+            if dice(90): # will be additional checks, even with 10% chance it happens too often when so many chars involved
+                l=random.choice(["happy", "indifferent"])
+            else:
+                l="shy"
+            characters[i]=l
     $ q = renpy.call_screen("hidden_village_chars_list", characters)
-    hero.say "[q.id]"
-    $ ff = characters[q]
-    hero.say "[ff]"
-    
+    hide screen hidden_village_study
+    hero.say "[q.id]" # 
+    $ ff = characters[q] # lines to control how stuff works, should be deleted
+    hero.say "[ff]" #
+    jump hiddenvillage_entrance
     
 screen hidden_village_chars_list(characters):
-    # $ img = chars["Naruko_Uzumaki"].show("0007-po-e5.png", resize=(100, 100))
-    # imagebutton:
-        # pos(380, 300)
-        # idle (img)
-        # hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        # action [Hide("city_beach_left"), Jump("city_beach_cafe_main")]
-    
-    
     hbox:
         spacing 25
         pos (17, 605)
@@ -361,17 +365,3 @@ screen hidden_village_chars_list(characters):
                 align 0, .5
                 xysize (102, 102)
 
-            # button:
-                # idle_background Frame(Transform(img, alpha=0.4), 10 ,10)
-                # hover_background Frame(Transform(img, alpha=0.9), 10 ,10)
-                # align 0, .5
-                # xysize (102, 102)
-                # action Return(['choice', l])
-                
-
-                # frame:
-                    # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                    # padding 0, 0
-                    # align 0, .5
-                    # xysize(100, 100)
-                    # add char_profile_img align .5, .5 alpha 0.96

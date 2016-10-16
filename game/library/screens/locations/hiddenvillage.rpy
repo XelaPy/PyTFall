@@ -40,7 +40,12 @@ label hiddenvillage_entrance:
 screen hiddenvillage_entrance:
 
     use top_stripe(True)
-    
+    $ img_study = ProportionalScale("content/gfx/interface/icons/studing.png", 70, 70)
+    imagebutton: # to do: add conditions for the button!
+        pos(120, 200)
+        idle (img_study)
+        hover (im.MatrixColor(img_study, im.matrix.brightness(0.15)))
+        action [Hide("hiddenvillage_entrance"), Jump("hidden_village_study"), With(dissolve)]
     use location_actions("hiddenvillage_entrance")
     if global_flags.flag('hidden_village_shop_first_enter'): # the shop is hidden until found via matrix
         $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
