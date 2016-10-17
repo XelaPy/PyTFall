@@ -56,12 +56,23 @@ screen hiddenvillage_entrance:
             action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
     
 label hidden_village_matrix: 
-
     hide screen hiddenvillage_entrance
     scene bg hiddenvillage_entrance
     $ hidden_list = []
     if global_flags.flag('hidden_village_shop_first_enter'):
         $ hidden_list.append("hidden_village_shop")
+    # if chars["Tsunade"].disposition < 50:
+        # $ hidden_list.append("Tsunade_Event")
+    # if chars["Hinata"].disposition < 50:
+        # $ hidden_list.append("Hinata_Event")
+    # if chars["Kushina_Uzumaki"].disposition < 50 and chars["Naruko_Uzumaki"].disposition < 50:
+        # $ hidden_list.append("Naruko_Event")
+    # if chars["Ino_Yamanaka"].disposition < 50:
+        # $ hidden_list.append("Ino_Event")
+    # if chars["Karin"].disposition < 50:
+        # $ hidden_list.append("Karin_Event")
+    # if chars["Konan"].disposition < 50:
+        # $ hidden_list.append("Konan_Event")
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8), hidden=hidden_list)
     if not(_return):
         jump hiddenvillage_entrance
@@ -136,10 +147,16 @@ label hidden_village_shop:
     
 label Tsunade_Event:
     $ interactions_run_gm_anywhere ("Tsunade", "hiddenvillage_entrance", "story cab_2")
-    
+
 label Naruko_Event:
-    $ interactions_run_gm_anywhere ("Kushina_Uzumaki", "hiddenvillage_entrance", "girl_room_5")
-    
+    scene bg girl_room_5 with dissolve
+    menu:
+        "Find Kushina" if chars["Kushina_Uzumaki"] not in hero.chars:
+            $ interactions_run_gm_anywhere ("Kushina_Uzumaki", "hiddenvillage_entrance", "girl_room_5")
+        "Find Naruko" if chars["Naruko_Uzumaki"] not in hero.chars:
+            $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenvillage_entrance", "girl_room_5")
+        "Leave":
+            jump hiddenvillage_entrance
 label Hinata_Event:
     $ interactions_run_gm_anywhere ("Hinata", "hiddenvillage_entrance", "story asian_house")
     

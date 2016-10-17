@@ -334,7 +334,7 @@ label interactions_guy_never_came: # due to low sex skill character was unable t
     $ char.hide_portrait_overlay()
     return
     
-label interactions_guy_cum_alot:
+label interactions_guy_cum_alot: # guy cum a lot
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("Is it normal for someone to be able to cum so much? Are you not a human?", "As a side note, creampies are okay.", "Nn... Your load exceeded my maximum capacity...", "I have all your weak spots memorized.", "Your semen will be my food.")
@@ -762,9 +762,9 @@ label interactions_alone_together:
         $ rc("There's nobody around... Hehe ♪", "I-Is it alright? We're here...alone together...")
     $ char.restore_portrait()
     return
-    # some lines from AA just in case
-label interactions_study_together:
-    $ char.override_portrait("portrait", "happy")
+
+label interactions_study_together: # used in the village, char invites mc to house
+    $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
         $ rc("Want to study at my house? If it's you, I'm sure we'll be able to work together.")
     elif ct("Shy") and dice(50):
@@ -772,9 +772,9 @@ label interactions_study_together:
     elif ct("Imouto"):
         $ rc("How about it? If you're free, want to come over and study?", "Hey, you free? You're free, right? You wanna study at my place? Right?") 
     elif ct("Dandere"):
-        $ rc("Come study at my place?")
+        $ rc("Come study at my place?", "How about studying in my house?")
     elif ct("Tsundere"):
-        $ rc("You're free, aren't you? Wanna study at my place?", "Come on, we're studying at my place."),
+        $ rc("You're free, aren't you? Wanna study at my place?", "Come to my house. You can help my with studies, right?"),
     elif ct("Kuudere"):
         $ rc("We're studying at my house. Sound good?", "Hey, wanna come over for studies?")
     elif ct("Kamidere"):
@@ -782,7 +782,7 @@ label interactions_study_together:
     elif ct("Bokukko"):
         $ rc("I was thinking about studying at my place, what do you think?", "Want to drop by my house to study?")
     elif ct("Ane"):
-        $ rc("Come to my house. You can help my with studies, right?", "Let's go study at my house! I'll make us some tea.", "It would be lovely to have you over to study. What do you say?")
+        $ rc("Let's go study at my house! I'll make us some tea.", "It would be lovely to have you over to study. What do you say?")
     elif ct("Yandere"):
         $ rc("How about it? Would you like to study at my place?", "If you're free, wanna come over to my place for a study session?")
     else:
@@ -790,7 +790,7 @@ label interactions_study_together:
     $ char.restore_portrait()
     return
     
-label interactions_study_s:
+label interactions_study_sex: # used in the village, char invites mc to house for sex
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("Come to my room. To study.")
@@ -801,7 +801,7 @@ label interactions_study_s:
     elif ct("Dandere"):
         $ rc("...Come to my house. ...To study, of course.", "Come study and do various other things at my place?")
     elif ct("Tsundere"):
-        $ rc("ant to come over? ...T-to study, obviously.", "Come up to my room. ...For studying, of course! Studying!"),
+        $ rc("Want to come over? ...T-to study, obviously.", "Come up to my room. ...For studying, of course! Studying!"),
     elif ct("Kuudere"):
         $ rc("Come to my house. You're not allowed to complain.", "Um, so... do you wanna come over and, um...study?")
     elif ct("Kamidere"):
@@ -817,38 +817,38 @@ label interactions_study_s:
     $ char.restore_portrait()
     return
     
-label interactions_study_ss:
-    $ char.override_portrait("portrait", "shy")
+label interactions_study_sex_lines: # used in the village, char invites mc to house and does it
+    $ char.override_portrait("portrait", "suggestive")
     if ct("Impersonal"):
         $ rc("Doesn't look like you can concentrate well... That's because...of this, isn't it?", "You looked like you wanted it. I just thought I'd make it easier on you.")
     elif ct("Shy") and dice(50):
-        $ rc("Um... I'm sorry. I just wanted to know more about you.")
+        $ rc("Um... I'm sorry. I just wanted to know more about you.", "S-sorry, I couldn't control myself... P-please don't hate me...")
     elif ct("Imouto"):
-        $ rc("Ah, you, what happened to studying...? Geez...", "Okay, okay! I think we should study some naughty stuff too! Don't you agree?") 
+        $ rc("Hey, I bored... Maybe we should do something else, like, you know...", "Okay, okay! I think we should study some naughty stuff too! Don't you agree?") 
     elif ct("Dandere"):
-        $ rc("Studying is important, but... So is studying this here.", "This is also an important subject. Physical education.")
+        $ rc("Studying is important, but... So is studying this here.", "Let's study physical education today.")
     elif ct("Tsundere"):
-        $ rc("What's wrong? What you really want is this here, right...?", "W-we can study any time we want, right? C'mon...!"),
+        $ rc("What's wrong? You are not against it, right...?", "W-we can study any time we want, right? So..."),
     elif ct("Kuudere"):
-        $ rc("You tempted me. You're not allowed to say no.")
+        $ rc("You tempted me. You're not allowed to say no.", "This is also an important subject. Physical education.")
     elif ct("Kamidere"):
         $ rc("My my... You knew things were going to end up like this, right?", "I studied really hard, right?　So I'd like to be rewarded...")
     elif ct("Bokukko"):
-        $ rc("Well then, after a bit of light study... Shall we do it?", "Jeez, and it's finally just the two of us. There's, you know... other things we can do, right...?")
+        $ rc("Well then, after a bit of light study... Shall we do it?", "Alright, so... There's, you know... other things we can do, right...?")
     elif ct("Ane"):
         $ rc("Ahh... It's so hot in here... What should we do about it... *glance*", "Hmhm, I've thought of something else we might try... Would you care to take a guess?")
     elif ct("Yandere"):
-        $ rc("Hehe, studying is great and all, but... Can't I interest you in a little of this right here...?", "Pervert... Fine, but just for a little while.")
+        $ rc("Hehe, studying is great and all, but... Can't I interest you in a little of this right here...?", "Hey, what do you this about studying 'this'? You don't mind, don't you?")
     else:
         $ rc("It'll be alright. As long as we aren't too loud, no one will find out. Right?", "Well then, let's get right to studying 'this' ♪")
     $ char.restore_portrait()
     return
 
-label interactions_teaching:
+label interactions_teaching_lines: # used in the village, mc teaches a character
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $ rc("Understood. It all makes sense now.")
-    elif ct("Shy") and dice(50):
+    elif ct("Shy"):
         $ rc("Ah...that's...really easy to understand... You're amazing...")
     elif ct("Imouto"):
         $ rc("...Wow, that really helped, it's a lot easier to understand now!") 
@@ -871,8 +871,8 @@ label interactions_teaching:
     $ char.restore_portrait()
     return
     
-label interactions_visit_house:
-    $ char.override_portrait("portrait", "indifferent")
+label interactions_visit_house: # not used atm, maybe will be useful later
+    $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("I want you to come to my room. I want... to be alone with you.", "I've made space at my house, where we can be alone.")
     elif ct("Shy") and dice(50):
@@ -895,5 +895,32 @@ label interactions_visit_house:
         $ rc("Want to go to my house? Fufu, when we get there, we can have some fun.")
     else:
         $ rc("Um, er... There's no one home at my place right now... Wanna come over?", "You know... right now... There's nobody at my house...")
+    $ char.restore_portrait()
+    return
+    
+label interactions_invite_to_beach: # used in hidden village at very least, might be useful for other places
+    $ char.override_portrait("portrait", "happy")
+    if ct("Impersonal"):
+        $ rc("I'm going to the beach. Would you like to accompany me?")
+    elif ct("Shy") and dice(50):
+        $ rc("Umm... I'd like to visit the beach, but it's too embarrassing to go alone... Do you m-mind?")
+    elif ct("Imouto"):
+        $ rc("Hey, let's go to the beach! C'mon, let's have some fun!") 
+    elif ct("Dandere"):
+        $ rc("I'm heading to the beach. Feel free to join.")
+    elif ct("Tsundere"):
+        $ rc("If you want, you could accompany me at the beach today. Just saying."),
+    elif ct("Kuudere"):
+        $ rc("How about resting at the beach today? I think we deserved it.")
+    elif ct("Kamidere"):
+        $ rc("I'm about to visit the beach. Come with me.")
+    elif ct("Bokukko"):
+        $ rc("Hey, sup? Wanna hang out at the beach? It will be fun, I promise!")
+    elif ct("Ane"):
+        $ rc("Would you like to take it easy today and rest together at the beach?")
+    elif ct("Yandere"):
+        $ rc("Want to go to the beach together? I bet it will be fun.")
+    else:
+        $ rc("I'm going to the beach a bit later. If you want to join, I don't mind.")
     $ char.restore_portrait()
     return

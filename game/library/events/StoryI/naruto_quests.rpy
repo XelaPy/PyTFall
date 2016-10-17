@@ -328,50 +328,121 @@ label hidden_village_study:
     scene bg story study
     if not global_flags.flag('visited_hidden_village_study'):
         $ global_flags.set_flag('visited_hidden_village_study')
-        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i not in hero.chars) # list of all quest characters
+        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i not in hero.chars) # list of all quest characters from the pack
         $ naruto_quest_characters_skill_list = {}   # dict of their knowledge levels
         python:
-            for i in naruto_quest_characters_list:
-                naruto_quest_characters_skill_list[i] = 0 # at the beginning it's 0 for everyone
-        "Every time you can pick up to three characters to interact with. The outcome depends on their mood."
-        "If they look serious, the interaction will give additional knowledge. If they look happy, it will give additional disposition. If they are blushing, a special event will take place."
-        "Note that after picking a blushing character you cannot pick anyone else. But if you wait for too long before picking them, their mood might change, so pick wisely."
-
+            for c in naruto_quest_characters_list:
+                naruto_quest_characters_skill_list[c] = 0 # at the beginning it's 0 for everyone
+        "This is the main building where you can teach multiple villagers at once. Every time after the main lesson you can pick one of the characters to spend additional time with her."
+        "The outcome however depends on her mood, so pay attention."
+    # python:
+        # k=11
+        # while k<10:
+            # for char in naruto_quest_characters_list:
+                # for j in ["beach", "school", "sparring", "talking", "revealing"]:
+                    # renpy.call("naruto_pack_image_list", char, j)
+                    # narrator ("u wot")
     python:
         temp = list(i for i in naruto_quest_characters_list if dice(80)) # not everyone may be there every day
         if not(temp):
             temp = naruto_quest_characters_list # a countermeasure against empty list due to dice; if no one is there, then we force everyone to be there
         characters = {}
         for i in temp:
-            if dice(90): # will be additional checks, even with 10% chance it happens too often when so many chars involved
-                l=random.choice(["happy", "indifferent"])
+            if i.disposition <= 300:
+                l=random.choice(["happy", "indifferent", "shy"]) # every character gets random mood via a dict
             else:
-                l="shy"
+                l=random.choice(["happy", "indifferent"]) # every character gets random mood via a dict
             characters[i]=l
-    $ j = 0
-    while j < 3:
-        if j > 0:
-            for i in temp:
-                l=random.choice(["happy", "indifferent"])
-                characters[i]=l
-        $ j += 1
-        $ q = renpy.call_screen("hidden_village_chars_list", characters)
-        hero.say "[q.id]" # 
-        $ ff = characters[q] # lines to control how stuff works, should be deleted
-        hero.say "[ff]" #
-        $ ff = naruto_quest_characters_skill_list[q]
-        hero.say "her knowledge is [ff]"
-        if characters[q] == "indifferent":
+
+    $ q = renpy.call_screen("hidden_village_chars_list", characters)
+    hero.say "[q.id]" # 
+    $ ff = characters[q] # lines to control how stuff works, should be deleted
+    hero.say "[ff]" #
+    $ ff = naruto_quest_characters_skill_list[q]
+    hero.say "her knowledge is [ff]"
+    if characters[q] == "indifferent":
+        if dice(50):
+            call naruto_pack_image_list(q, "school")
             "Looks like [q.name] has troubles with understanding your lesson. You take your time to explain everything better."
             $ char=q
-            call interactions_teaching
-            $ naruto_quest_characters_skill_list[q] += 1
-        elif characters[q] == "happy":
+            call interactions_teaching_lines
+            $ naruto_quest_characters_skill_list[q] += 2
+            $ q.disposition += 1
+        else:
+            scene bg hiddenvillage_entrance with dissolve
+            call naruto_pack_image_list(q, "talking")
             "You have a small chat with [q.name]."
+            call hidden_village_special_chat(q)
+            $ naruto_quest_characters_skill_list[q] += 1
             $ q.disposition += randint(2,5)
-    $ del j
+    elif characters[q] == "happy":
+        $ char=q
+        if dice(50):
+            call naruto_pack_image_list(q, "school")
+            call interactions_invite_to_beach
+            menu:
+                "Sure thing":
+                    scene bg city_beach_right with dissolve
+                    call naruto_pack_image_list(q, "beach")
+                    call interactions_alone_together
+                    "You had fun together."
+                "Maybe later":
+                    scene bg hiddenvillage_entrance with dissolve
+                    call naruto_pack_image_list(q, "talking")
+                    "You have a small chat with [q.name]."
+                    call hidden_village_special_chat(q)
+                    $ naruto_quest_characters_skill_list[q] += 1
+                    $ q.disposition += randint(2,5)
+        else:
+            # here should be sparring lines
+            menu:
+                "Sure thing":
+                    scene bg forest_1 with dissolve
+                    call naruto_pack_image_list(q, "sparring")
+                    call interactions_alone_together
+                "Maybe later":
+                    scene bg hiddenvillage_entrance with dissolve
+                    call naruto_pack_image_list(q, "talking")
+                    "You have a small chat with [q.name]."
+                    call hidden_village_special_chat(q)
+                    $ naruto_quest_characters_skill_list[q] += 1
+                    $ q.disposition += randint(2,5)
+    elif characters[q] == "shy":
+        $ char=q
+        call naruto_pack_image_list(q, "school")
+        call interactions_study_sex
+        menu:
+            "Sure thing":
+                show bg girl_room with fade
+                call naruto_pack_image_list(q, "revealing")
+                call interactions_study_sex_lines
+                $ act = random.choice(["blowjob", "titsjob", "handjob", "footjob"])
+                $ picture = get_single_sex_picture_not_for_gm(q, act=act, location="room", hidden_partner=True)
+                show expression picture at truecenter with dissolve
+                call interactions_guy_cum_alot
+            "Maybe later":
+                scene bg hiddenvillage_entrance with dissolve
+                call naruto_pack_image_list(q, "talking")
+                "You have a small chat with [q.name]."
+                call hidden_village_special_chat(q)
+                $ naruto_quest_characters_skill_list[q] += 1
+                $ q.disposition += randint(2,5)
     jump hiddenvillage_entrance
-    
+
+label hidden_village_special_chat(char): # normally we jump to the chat label, but it this case we want call, so I copy part of the interactions chatting code here
+    if char.disposition >= 100:
+        if ct("Impersonal") or ct("Dandere") or ct("Shy"):
+            $ narrator(choice(["[char.pC] didn't talked much, but [char.pC] enjoyed your company nevertheless.", "You had to do most of the talking, but [char.p] listened you with a smile.", "[char.pC] welcomed the chance to spend some time with you.", "[char.pC] is visibly at ease when talking to you, even though [char.p] didn't talked much."]))
+        else:
+            $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "[char.pC] welcomed the chance to spend some time with you.", "[char.pC] is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
+    elif char.disposition >=50:
+        if ct("Impersonal") or ct("Dandere") or ct("Shy"):
+            $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of [char.op] opening up to you yet.", "But it was kind of one-sided."]))      
+        else:
+            $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though...", "It's hard to find common ground.", "But it was somewhat forced."]))
+    else:
+        $ narrator(choice(["Looks like there's a good amount of mistrust between you.", "But it was difficult for both of you.", "Sadly, [char.p] was not very interested in chatting with you.", "It was clearly uncomfortable for [char.op] to speak to you.", "[char.pC] was suspicious of you the entire time and never let [char.op] guard down."]))
+    return
 screen hidden_village_chars_list(characters): # the screen shows portraits of given characters dict as imagebuttons at the bottom and returns the selected character; the dict is "character: [emotion tag]"
 # TODO FOR XELA: portraits are not symmetrical for small groups, the screen will look better if they will always be
     hbox:
@@ -388,3 +459,149 @@ screen hidden_village_chars_list(characters): # the screen shows portraits of gi
                 align 0, .5
                 xysize (102, 102)
 
+label naruto_pack_image_list(char, location): # this label shows fixed pictures for naruto chars depending on the character and location; should be called
+    if location == "beach":
+        if char.id == "Tsunade":
+            if dice(50):
+                $ picture = char.show("0091-nn-eb-c4-cb-l5-pr.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("008E-nn-e2-cb-l5-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Tenten":
+            $ picture = char.show("009F-nn-e2-e5-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Temari":
+            $ picture = char.show("0027-nn-e5-c4-cb-l5-pr-ah.jpg", resize=(800, 600))
+        elif char.id == "Sakura":
+            if dice(50):
+                $ picture = char.show("00BD-nn-e5-cb-l5-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("00EC-nn-e6-cb-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Naruko_Uzumaki":
+            if dice(50):
+                $ picture = char.show("0001-nn-e2-c4-cb-l5-pr.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("0032-nn-e2-e5-c4-cb-l5-pr-pc.jpg", resize=(800, 600))
+        elif char.id == "Kushina_Uzumaki":
+            if dice(50):
+                $ picture = char.show("00A6-nn-e6-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("00A0-nn-e2-e6-c4-cb-l5-pr.jpg", resize=(800, 600))
+        elif char.id == "Konan":
+            $ picture = char.show("001E-nn-e5-eb-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Karin":
+            if dice(50):
+                $ picture = char.show("001A-nn-e2-cb-l5-pr-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("0063-nn-e2-e3-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Ino_Yamanaka":
+            if dice(50):
+                $ picture = char.show("0007-nn-e5-cb-l5-pr.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("002F-nn-e2-c4-cb-l3-pr-pa.jpg", resize=(800, 600))
+        else: # Hinata
+            if dice(50):
+                $ picture = char.show("0008-nn-e5-cb-l5-pa-pc.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("01EC-nn-e2-e5-c4-cb-l5-a2.jpg", resize=(800, 600))
+    elif location == "school":
+        if char.id == "Tsunade":
+            $ picture = char.show("0079-nn-e6-c1-l2-pr.jpg", resize=(800, 600))
+        elif char.id == "Tenten":
+            $ picture = char.show("007A-nn-e5-cf-l2-pd.jpg", resize=(800, 600))
+        elif char.id == "Temari":
+            $ picture = char.show("005D-nn-e2-e6-c1-cm-l2-pr.jpg", resize=(800, 600))
+        elif char.id == "Sakura":
+            $ picture = char.show("000A-nn-e2-cf-l2-pd.jpg", resize=(800, 600))
+        elif char.id == "Naruko_Uzumaki":
+            $ picture = char.show("009A-nn-e5-cf-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Kushina_Uzumaki":
+            $ picture = char.show("0099-nn-e9-ed-c1-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Konan":
+            $ picture = char.show("001A-nn-e6-cf-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Karin":
+            $ picture = char.show("0039-nn-ee-c1-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Ino_Yamanaka":
+            $ picture = char.show("0010-nn-e2-cf-l2-pr.jpg", resize=(800, 600))
+        else: # Hinata
+            $ picture = char.show("0015-nn-e5-c1-l2-pr-pa.jpg", resize=(800, 600))
+    elif location == "sparring":
+        if char.id == "Tsunade":
+            $ picture = char.show("0011-nn-e2-ca-l2-pb.jpg", resize=(800, 600))
+        elif char.id == "Tenten":
+            $ picture = char.show("0052-nn-e1-c1-l2-pb.jpg", resize=(800, 600))
+        elif char.id == "Temari":
+            $ picture = char.show("004E-nn-e5-ca-l2-pr-pb.jpg", resize=(800, 600))
+        elif char.id == "Sakura":
+            $ picture = char.show("00C0-nn-e2-c1-l2-pr-pb.jpg", resize=(800, 600))
+        elif char.id == "Naruko_Uzumaki":
+            $ picture = char.show("0011-nn-e2-z2-c2-cm-l3-pb-pf.jpg", resize=(800, 600))
+        elif char.id == "Kushina_Uzumaki":
+            $ picture = char.show("000E-nn-e2-e6-ca-l1-pb.png", resize=(800, 600))
+        elif char.id == "Konan":
+            $ picture = char.show("0018-nn-e1-e2-c4-l2-pr-pb.jpg", resize=(800, 600))
+        elif char.id == "Karin":
+            $ picture = char.show("0038-nn-e2-c2-l3-la-lc-pr-pb.jpg", resize=(800, 600))
+        elif char.id == "Ino_Yamanaka":
+            $ picture = char.show("005A-nn-e1-c1-cm-l2-pb-a8.jpg", resize=(800, 600))
+        else: # Hinata
+            $ picture = char.show("00B5-nn-e6-c1-l2-pb.jpg", resize=(800, 600))
+    elif location == "talking":
+        if char.id == "Tsunade":
+            $ picture = char.show("00AD-nn-e2-ec-c1-l4-lf-pr-pc.jpg", resize=(800, 600))
+        elif char.id == "Tenten":
+            $ picture = char.show("0096-nn-c1-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Temari":
+            $ picture = char.show("0062-nn-c1-l3-l9-lc-pc.jpg", resize=(800, 600))
+        elif char.id == "Sakura":
+            if dice(50):
+                $ picture = char.show("009D-nn-e2-c1-l2-l3-pr-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("009C-nn-e2-e5-c1-l3-l9-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Naruko_Uzumaki":
+            $ picture = char.show("0099-nn-e2-e5-c1-l3-pr.jpg", resize=(800, 600))
+        elif char.id == "Kushina_Uzumaki":
+            $ picture = char.show("0091-nn-e2-e4-c6-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Konan":
+            $ picture = char.show("001B-nn-e5-cm-l3-lb-lc-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Karin":
+            $ picture = char.show("0049-nn-e6-c1-l3-l9-lc-pr.jpg", resize=(800, 600))
+        elif char.id == "Ino_Yamanaka":
+            $ picture = char.show("0054-nn-e6-eb-c1-cm-l3-l9-pr-pa.jpg", resize=(800, 600))
+        else: # Hinata
+            if dice(50):
+                $ picture = char.show("00BE-nn-e5-c1-l3-la-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("0090-nn-e4-c1-l3-l9-pr.jpg", resize=(800, 600))
+            
+    else: # revealing
+        if char.id == "Tsunade":
+            if dice(50):
+                $ picture = char.show("0014-nn-e2-c4-l2-pr-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("0034-nn-e2-ec-c4-l2-pr.jpg", resize=(800, 600))
+        elif char.id == "Tenten":
+            $ picture = char.show("0082-nn-e2-ec-c2-l2-pr-pf.jpg", resize=(800, 600))
+        elif char.id == "Temari":
+            $ picture = char.show("0068-nn-e2-e5-ec-c1-l4-le-pr-pc.jpg", resize=(800, 600))
+        elif char.id == "Sakura":
+            $ picture = char.show("00DA-nn-e2-c4-l2-pr.jpg", resize=(800, 600))
+        elif char.id == "Naruko_Uzumaki":
+            $ picture = char.show("0013-nn-e2-c4-cf-l2-pr-pa.jpg", resize=(800, 600))
+        elif char.id == "Kushina_Uzumaki":
+            $ picture = char.show("007C-nn-eb-c4-l2-pr-pb.jpg", resize=(800, 600))
+        elif char.id == "Konan":
+            $ picture = char.show("0054-nn-e6-c1-l2-pr.jpg", resize=(800, 600))
+        elif char.id == "Karin":
+            $ picture = char.show("003E-nn-eb-ee-c1-l2-pr-pb.jpg", resize=(800, 600))
+        elif char.id == "Ino_Yamanaka":
+            if dice(50):
+                $ picture = char.show("004C-nn-e6-ec-c4-cm-l2-pr.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("000B-nn-ee-c4-l1-pr-pa.png", resize=(800, 600))
+        else: # Hinata
+            if dice(50):
+                $ picture = char.show("0072-nn-e6-c1-l2-pr-pa.jpg", resize=(800, 600))
+            else:
+                $ picture = char.show("00BF-nn-e6-l2-pr.jpg", resize=(800, 600))
+                
+    show expression picture at truecenter with dissolve
+    return

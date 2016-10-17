@@ -151,6 +151,7 @@ label interactions_sex_scene_select_place: # we go here if price for hiring is l
             "Room":
                 show bg girl_room with fade
                 $ sex_scene_location="room"
+    $ picture_before_sex = True
     jump interactions_sex_scene_begins
                     
 label interactions_sex: # we go to this label from GM menu propose sex
@@ -269,11 +270,12 @@ label interactions_sex: # we go to this label from GM menu propose sex
         "She wants to do it in her room."
         show bg girl_room with fade
         $ sex_scene_location="room"
-
+    $ picture_before_sex = True
 label interactions_sex_scene_begins: # here we set initial picture before the scene and set local variables
     $ scene_picked_by_character = True # when it's false, there is a chance that the character might wish to do something on her own
     $ sub = check_submissivity(char)
-    $ get_picture_before_sex(char, location=sex_scene_location)
+    if picture_before_sex:
+        $ get_picture_before_sex(char, location=sex_scene_location)
     
     $ sex_count = guy_count = girl_count = together_count = cum_count = 0 # these variable will decide the outcome of sex scene
     $ max_sex_scene_libido = sex_scene_libido = get_character_libido(char)
