@@ -184,7 +184,7 @@ init -9 python:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].slot == filter and items[item].sex != 'female')
                 elif last_label in ("char_equip", "items_transfer") or self.female_filter:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].slot == filter and items[item].sex != 'male')
-                else:    
+                else:
                     self.items = list(items[item] for item in self.content.iterkeys() if items[item].slot == filter)
 
             self.page = 0

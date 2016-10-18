@@ -1,6 +1,19 @@
 # Quests:
 init -9 python:
+    # Unility funcs to alias otherwise long command lines:
+    # TO BE USED IN LABELS (during gameplay aka not in init)!
+    def create_quest(*args, **kwargs):
+        return register_quest(*args, **kwargs)
     
+    def advance_quest(name, *args, **kwargs):
+        quest = pytfall.world_quests.get(name)
+        quest.next_in_label(*args, **kwargs)
+        
+    def finish_quest(name, *args, **kwargs):
+        quest = pytfall.world_quests.get(name)
+        quest.finish_in_label(*args, **kwargs)
+    
+        
     # Allow easy setting of quest notifications
     USE_QUEST_POPUP = True
     
