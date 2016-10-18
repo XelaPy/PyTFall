@@ -176,7 +176,7 @@ label instructor_swimming_pool_skill_checks:
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 30)
     else:
-        "There is not much he can show you now, but his knowledge about behaviour on the water is second to none."
+        "There is not much he can show you now, but his knowledge about behavior on the water is second to none."
         $ hero.swimming += randint(0,1)
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 25)

@@ -905,22 +905,49 @@ label interactions_invite_to_sparring: # used in hidden village at very least, m
     elif ct("Shy") and dice(50):
         $ rc("I thought I would exercise a bit... Um... What do you say we go together...?", "I was t-thinking of doing a bit of exercise... D-do you wanna come along?", "Um, I'd like to practice with you... is that okay...?")
     elif ct("Imouto"):
-        $ rc("Hey, It's sparring time! Together, of course!", "Hey hey, come work out with me for a bit!", "Hey, help me practice a little!") 
+        $ rc("Hey, It's training time! Together, of course!", "Hey hey, come work out with me for a bit!", "Hey, help me practice a little!") 
     elif ct("Dandere"):
         $ rc("Excuse me, I want to build up my strength... Would you like to join me?", "I wish to train my body. Join me?", "Wanna practice with me?")
     elif ct("Tsundere"):
-        $ rc("I was thinking about doing some sparring, how about it?", "Come on, you need to work out. I'll even help you."),
+        $ rc("I was thinking about doing some training, how about it?", "Come on, you need to work out. I'll even help you."),
     elif ct("Kuudere"):
-        $ rc("I was thinking about sparring, but I can't do it alone, so...", "Practice drills. Let's go.", "Come on, keep me company in my practice, ok?", "Sorry to ask, but I need help with my training.")
+        $ rc("I was thinking about training, but I can't do it alone, so...", "Come on, keep me company in my practice, ok?", "Sorry to ask, but I need help with my training.")
     elif ct("Kamidere"):
-        $ rc("We can at least exercise together, don't you think?", "Would you care to build up some endurance with me?", "I wonder, could I ask for a match with you?")
+        $ rc("We can at least exercise together, don't you think?", "Would you care to build up some endurance with me?", "Sorry to ask, but could you join me for warming up?")
     elif ct("Bokukko"):
         $ rc("Yo. Keep me company for practice, it's a pain by myself.", "C'mon, let's exercise together!", "Umm, could you come practice with me?", "Hey, there's an exercise I'd like to have a little help with but...")
     elif ct("Ane"):
         $ rc("I need to lose some weight... Want to join me for some exercise?", "Would you care to join me in training our bodies?", "Hey, do you mind helping me practice a bit?", "I'd like you to help me train for a bit, if that's okay?")
     elif ct("Yandere"):
-        $ rc("Hey, how about sparring for a bit?", "You should get a little exercise... Want to do it together?", "Hey, can you come with me to practice for a while?")
+        $ rc("Hey, how about training for a bit?", "You should get a little exercise... Want to do it together?", "Hey, can you come with me to practice for a while?")
     else:
-        $ rc("How about it? Want to go for some light exercise?", "Um, would you like to go exercise?", "Come on, let's practice together?", "Sorry to ask, but could you join me for warming up?")
+        $ rc("How about it? Want to go for some light exercise?", "Um, would you like to go exercise?", "Come on, let's practice together?")
+    $ char.restore_portrait()
+    return
+    
+label interactions_invite_to_beach: # used in hidden village atm, will be useful for other places
+    $ char.override_portrait("portrait", "happy")
+    if ct("Impersonal"):
+        $ rc("The water is pretty warm here. Interesting.", "I like this swimsuit, it doesn't restrict my movements.")
+    elif ct("Shy"):
+        $ rc("Swimsuits are s-so embarrassing... P-please don't look at me too much...", "I was t-thinking of swimming a bit... D-do you want to join?")
+    elif ct("Imouto"):
+        $ rc("Yay! The water is great, let's go swim!", "Hey, you like my swimsuit, don't you? I think it's pretty cool!") 
+    elif ct("Dandere"):
+        $ rc("The weather is nice. Perfect for swimming.", "Do you like this swimsuit? Me? I think it's ok.")
+    elif ct("Tsundere"):
+        $ rc("Hey, w-where are you looking it?! Don't stare at my swimsuit!", "Come on, at least swim a bit. I'll even keep you company."),
+    elif ct("Kuudere"):
+        $ rc("It's pretty hot here. Let's try out the water.", "Hmm, maybe this swimsuit is too revealing after all... Hm? You like it? I s-see...")
+    elif ct("Kamidere"):
+        $ rc("Ahh, the water looks nice. I'm going to swim.", "What do you think? Does my swimsuit suit me? Of course it does.")
+    elif ct("Bokukko"):
+        $ rc("C'mon, it's swimming time! Don't lag behind! ♪", "Hmm, this swimsuit is kinda tight... Maybe I should try swimming without it, what do you think? ♪")
+    elif ct("Ane"):
+        $ rc("My, the weather is pretty nice today. Perfect for swimming.", "What do you think about my swimsuit? It's not too revealing, is it?")
+    elif ct("Yandere"):
+        $ rc("What is it? You like my swimsuit? I'm glad ♪", "Would you like to swim with me? It will be more fun if we do it together.")
+    else:
+        $ rc("How about it? Do you like my swimsuit? It wasn't easy to pick a good one, you know.", "Come on, let's swim together! I bet the water feels nice! ♪")
     $ char.restore_portrait()
     return

@@ -324,89 +324,76 @@ label naruko_first_feeding:
         $ k.restore_portrait()
     jump main_street
     
-label hidden_village_study:
+label hidden_village_study: # here MC teaches the villagers about the outside world
     scene bg story study
+    if hero.AP > 0:
+        $ hero.AP -= 1
+    else:
+        "You don't have Action Points left. Try again tomorrow."
+        jump hiddenvillage_entrance
     if not global_flags.flag('visited_hidden_village_study'):
         $ global_flags.set_flag('visited_hidden_village_study')
-        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i not in hero.chars) # list of all quest characters from the pack
-        $ naruto_quest_characters_skill_list = {}   # dict of their knowledge levels
-        python:
-            for c in naruto_quest_characters_list:
-                naruto_quest_characters_skill_list[c] = 0 # at the beginning it's 0 for everyone
-        "This is the main building where you can teach multiple villagers at once. Every time after the main lesson you can pick one of the characters to spend additional time with her."
-        "The outcome however depends on her mood, so pay attention."
-    # python:
-        # k=11
-        # while k<10:
-            # for char in naruto_quest_characters_list:
-                # for j in ["beach", "school", "sparring", "talking", "revealing"]:
-                    # renpy.call("naruto_pack_image_list", char, j)
-                    # narrator ("u wot")
+        "This is the main building where you can teach multiple villagers at once. Every time after the lesson you can pick one of the characters to spend additional time with her."
+        "The outcome however depends on her mood, so pay attention to their portraits."
     python:
         temp = list(i for i in naruto_quest_characters_list if dice(80)) # not everyone may be there every day
         if not(temp):
             temp = naruto_quest_characters_list # a countermeasure against empty list due to dice; if no one is there, then we force everyone to be there
+        for i in temp:
+            i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(0,1))
+            i.disposition += randint(5, 10)
         characters = {}
         for i in temp:
-            if i.disposition <= 300:
-                l=random.choice(["happy", "indifferent", "shy"]) # every character gets random mood via a dict
+            if i.disposition < 50:
+                l="indifferent"
+            elif i.disposition < 200:
+                l=random.choice(["happy", "indifferent"])
+                
+            else: # might be a good idea to limit the amount of shy ones even further
+                l=random.choice(["happy", "indifferent", "shy"]) # every character gets random mood via a dict based on disposition
+            if l == "indifferent":
+                i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(0,1))
+                i.disposition += randint(1, 2)
+            elif l == "happy":
+                i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+1)
+                i.disposition += randint(3, 4)
             else:
-                l=random.choice(["happy", "indifferent"]) # every character gets random mood via a dict
+                i.disposition += randint(4, 6)
+                i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(1,2))
             characters[i]=l
 
     $ q = renpy.call_screen("hidden_village_chars_list", characters)
-    hero.say "[q.id]" # 
-    $ ff = characters[q] # lines to control how stuff works, should be deleted
-    hero.say "[ff]" #
-    $ ff = naruto_quest_characters_skill_list[q]
-    hero.say "her knowledge is [ff]"
+    $ ff = q.flag("village_quest_knowledge_level") # lines to control how stuff works, should be deleted
+    hero.say "her knowledge is [ff]" # lines to control how stuff works, should be deleted
     if characters[q] == "indifferent":
         if dice(50):
             call naruto_pack_image_list(q, "school")
             "Looks like [q.name] has troubles with understanding your lesson. You take your time to explain everything better."
             $ char=q
             call interactions_teaching_lines
-            $ naruto_quest_characters_skill_list[q] += 2
-            $ q.disposition += 1
+            $ q.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(1,2))
+            $ q.disposition += randint(1,3)
         else:
             scene bg hiddenvillage_entrance with dissolve
             call naruto_pack_image_list(q, "talking")
-            "You have a small chat with [q.name]."
+            "You have a small chat with [q.name] after the studies are over."
             call hidden_village_special_chat(q)
-            $ naruto_quest_characters_skill_list[q] += 1
-            $ q.disposition += randint(2,5)
+            $ q.disposition += randint(3,4)
     elif characters[q] == "happy":
         $ char=q
+        call naruto_pack_image_list(q, "school")
+        call interactions_invite_to_sparring
         if dice(50):
-            call naruto_pack_image_list(q, "school")
+            scene bg city_beach_right
+            "After short warming up she invites you to visit the beach."
+            call naruto_pack_image_list(q, "beach")
             call interactions_invite_to_beach
-            menu:
-                "Sure thing":
-                    scene bg city_beach_right with dissolve
-                    call naruto_pack_image_list(q, "beach")
-                    call interactions_alone_together
-                    "You had fun together."
-                "Maybe later":
-                    scene bg hiddenvillage_entrance with dissolve
-                    call naruto_pack_image_list(q, "talking")
-                    "You have a small chat with [q.name]."
-                    call hidden_village_special_chat(q)
-                    $ naruto_quest_characters_skill_list[q] += 1
-                    $ q.disposition += randint(2,5)
+            "You had fun together."
         else:
-            # here should be sparring lines
-            menu:
-                "Sure thing":
-                    scene bg forest_1 with dissolve
-                    call naruto_pack_image_list(q, "sparring")
-                    call interactions_alone_together
-                "Maybe later":
-                    scene bg hiddenvillage_entrance with dissolve
-                    call naruto_pack_image_list(q, "talking")
-                    "You have a small chat with [q.name]."
-                    call hidden_village_special_chat(q)
-                    $ naruto_quest_characters_skill_list[q] += 1
-                    $ q.disposition += randint(2,5)
+            scene bg forest_1 with dissolve
+            call naruto_pack_image_list(q, "sparring")
+            "You spent some time helping [q.name] with her training. She really appreciates it."
+            $ q.disposition += randint(10, 15)
     elif characters[q] == "shy":
         $ char=q
         call naruto_pack_image_list(q, "school")
@@ -429,7 +416,7 @@ label hidden_village_study:
                 $ q.disposition += randint(2,5)
     jump hiddenvillage_entrance
 
-label hidden_village_special_chat(char): # normally we jump to the chat label, but it this case we want call, so I copy part of the interactions chatting code here
+label hidden_village_special_chat(char): # normally we jump to the chat label, but it this case we want call, so I copy part of the interactions chatting code here; TODO: a few special lines for every char
     if char.disposition >= 100:
         if ct("Impersonal") or ct("Dandere") or ct("Shy"):
             $ narrator(choice(["[char.pC] didn't talked much, but [char.pC] enjoyed your company nevertheless.", "You had to do most of the talking, but [char.p] listened you with a smile.", "[char.pC] welcomed the chance to spend some time with you.", "[char.pC] is visibly at ease when talking to you, even though [char.p] didn't talked much."]))
