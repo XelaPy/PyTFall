@@ -179,7 +179,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement
         jump girl_interactions
-    if ct("Lesbian"):
+    if ct("Lesbian") and not ct("Open Minded"):
         call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
     if char.vitality < round(char.get_max("vitality")*0.25):
@@ -209,6 +209,8 @@ label interactions_sex: # we go to this label from GM menu propose sex
         else:
             $ disposition_level_for_sex += randint(50, 100)
     # so normal (without flag) required level of disposition could be from 200 to 1200 for non lovers
+    if ct("Open Minded"):
+        $ disposition_level_for_sex -= randint(400, 500)
     if disposition_level_for_sex < 100:
         $ disposition_level_for_sex = 100 # normalization, no free sex with too low disposition no matter the character
     if char.disposition < disposition_level_for_sex:

@@ -220,4 +220,8 @@
     "desc": "This woman has had children before.",
     "mod_skills": {"vaginal": [0.01, 0, 0.01]},
     "virginity": true
+    },
+    {
+    "id": "Open Minded",
+    "desc": "She has no problems trying different things sexually and will accept anything as-is."
     }]

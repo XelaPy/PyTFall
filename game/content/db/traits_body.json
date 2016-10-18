@@ -156,5 +156,13 @@
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},
     "permanent": true,
     "defence_bonus": {"magic":[0, 50, 50], "status":[5, 50, 50]}
+    },
+   {
+    "id": "Bad Eyesight",
+    "desc": "This girl needs glasses to see; without them, she is almost blind.",
+    "mod": {"upkeep": 5},
+    "mod_stats": {"agility": [-1, 2], "intelligence": [1, 2]},
+    "max": {"agility": -5, "intelligence": 5},
+    "mod_skills": {"refinement": [0, 0, 0.01]}
     }
 ]
