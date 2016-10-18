@@ -18,7 +18,14 @@ label hiddenvillage_entrance:
     if not global_flags.flag('visited_hidden_village'):
         $ global_flags.set_flag('visited_hidden_village')
         # place for introduction
-        
+        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin) # list of all quest characters from the pack that are still a part of the quest; we'll remove them from here as player finishes their personal quests
+        python:
+            for i in naruto_quest_characters_list:
+                if i.name != "Naruko":
+                    i.set_flag("village_quest_knowledge_level", value=0) # all chars have integer flags = 0, it's the starting level level of their knowledge
+                else:
+                    i.set_flag("village_quest_knowledge_level", value=20) # except her since she had a quest in the city already
+                    i.set_flag("village_quest_house_is_visible") # these flags control if MC has access to character house inside the matrix, we give one to her
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
         
@@ -40,7 +47,12 @@ label hiddenvillage_entrance:
 screen hiddenvillage_entrance:
 
     use top_stripe(True)
-    
+    $ img_study = ProportionalScale("content/gfx/interface/icons/studing.png", 70, 70)
+    imagebutton: # to do: add conditions for the button!
+        pos(120, 200)
+        idle (img_study)
+        hover (im.MatrixColor(img_study, im.matrix.brightness(0.15)))
+        action [Hide("hiddenvillage_entrance"), Jump("hidden_village_study_building"), With(dissolve)]
     use location_actions("hiddenvillage_entrance")
     if global_flags.flag('hidden_village_shop_first_enter'): # the shop is hidden until found via matrix
         $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
@@ -50,13 +62,96 @@ screen hiddenvillage_entrance:
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
     
-label hidden_village_matrix: 
+label hidden_village_study_building:
+    scene bg story study
+    show screen hidden_village_study_menu
 
+    while 1:
+        $ result = ui.interact()
+        
+screen hidden_village_study_menu():
+    frame:
+        xalign 0.95
+        ypos 20
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            style_group "wood"
+            align (0.5, 0.5)
+            spacing 10
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("hidden_village_study_menu"), Jump("hidden_village_check_knowledge")]
+                text "Exam" size 15
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("hidden_village_study_menu"), Jump("hidden_village_study")]
+                text "Teach" size 15
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("hidden_village_study_menu"), Jump("hiddenvillage_entrance"), With(dissolve)]
+                text "Leave" size 15
+    
+label hidden_village_check_knowledge: # here we form a screen of characters and return the level of knowledge for the selected one
+    if not global_flags.flag('visited_hidden_village_exam'):
+        $ global_flags.set_flag('visited_hidden_village_exam')
+        "Here you can check the level of knowledge for every villager. Once their knowledge about the world will be high enough, you will get a chance to hire them."
+    python:
+        characters = {}
+        for i in naruto_quest_characters_list:
+            if i.disposition < 200:
+                l = "indifferent"
+            elif i.disposition < 400:
+                l = "happy"
+            else:
+                l = "shy"
+            characters[i]=l
+        del l
+    $ q = renpy.call_screen("hidden_village_chars_list", characters)
+    $ level = q.flag("village_quest_knowledge_level")
+    if level < 20:
+        q.say "[q.name] knows nothing about the world outside. It's too dangerous for her to even leave the village unattended."
+    elif level < 40:
+        q.say "[q.name] knows the most basic facts about the world outside, but she's still far from self-dependence."
+    elif level < 60:
+        q.say "[q.name] knows enough about the world outside to avoid problems with the law, but not enough to not get into awkward situations."
+    elif level < 80:
+        q.say "[q.name] can act naturally most of the time, but flawless communication with the locals is sill problematic for her."
+    elif level < 100:
+        q.say "[q.name] knows enough about the world outside to pass for a tourist from a nearby country. There is still a room for improvement though."
+    else:
+        q.say "[q.name] is ready for the outside world, there is nothing more you can teach her."
+    jump hidden_village_study_building
+    
+label hidden_village_matrix: 
     hide screen hiddenvillage_entrance
     scene bg hiddenvillage_entrance
     $ hidden_list = []
+    # the shop is hidden in matrix after found once, could be accessed via icon outside of the matrix instead
     if global_flags.flag('hidden_village_shop_first_enter'):
-        $ hidden_list.append("House_6")
+        $ hidden_list.append("hidden_village_shop")
+    # here we check personal characters flags and decide if their houses should be hidden from MC or not
+    # in theory it could be automated via "for" loop; however we sometimes have 2 characters per matrix location, and location should be available even if only one of the characters has the needed flag, so it won't be a simple loop anyway
+    if not chars["Tsunade"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Tsunade_Event")
+    if not chars["Hinata"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Hinata_Event")
+    if not chars["Kushina_Uzumaki"].flag("village_quest_house_is_visible") and not chars["Naruko_Uzumaki"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Naruko_Event")
+    if not chars["Ino_Yamanaka"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Ino_Event")
+    if not chars["Karin"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Karin_Event")
+    if not chars["Konan"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Konan_Event")
+    if not chars["Sakura"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Sakura_Event")
+    if not chars["Temari"].flag("village_quest_house_is_visible") and not chars["Tenten"].flag("village_quest_house_is_visible"):
+        $ hidden_list.append("Dormitory_Event")
     call screen poly_matrix("library/events/StoryI/coordinates_hidden_village.json", show_exit_button=(0.8, 0.8), hidden=hidden_list)
     if not(_return):
         jump hiddenvillage_entrance
@@ -75,13 +170,12 @@ label hidden_village_matrix:
                 "Nothing interesting there."
         else:
             "Nothing interesting there."
-    elif _return == "House_6":
-        jump hidden_village_shop
-    "Result: [_return]"
+    else:
+        $ renpy.jump (_return)
+    # "Result: [_return]"
     jump hidden_village_matrix
     
-label hidden_village_shop:
-
+label hidden_village_shop: # ninja shop logic
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -128,3 +222,41 @@ label hidden_village_shop:
     hide screen shopping
     with dissolve
     jump hiddenvillage_entrance
+    
+# further go personal chars events when MC visits their houses
+label Tsunade_Event:
+    $ interactions_run_gm_anywhere ("Tsunade", "hiddenvillage_entrance", "story cab_2")
+
+label Naruko_Event:
+    scene bg girl_room_5 with dissolve
+    menu:
+        "Find Kushina" if chars["Kushina_Uzumaki"].flag("village_quest_house_is_visible"):
+            $ interactions_run_gm_anywhere ("Kushina_Uzumaki", "hiddenvillage_entrance", "girl_room_5")
+        "Find Naruko" if chars["Naruko_Uzumaki"].flag("village_quest_house_is_visible"):
+            $ interactions_run_gm_anywhere ("Naruko_Uzumaki", "hiddenvillage_entrance", "girl_room_5")
+        "Leave":
+            jump hiddenvillage_entrance
+label Hinata_Event:
+    $ interactions_run_gm_anywhere ("Hinata", "hiddenvillage_entrance", "story asian_house")
+    
+label Ino_Event:
+    $ interactions_run_gm_anywhere ("Ino_Yamanaka", "hiddenvillage_entrance", "story asian_house_1")
+    
+label Karin_Event:
+    $ interactions_run_gm_anywhere ("Karin", "hiddenvillage_entrance", "story asian_house_2")
+    
+label Konan_Event:
+    $ interactions_run_gm_anywhere ("Konan", "hiddenvillage_entrance", "story small_library")
+    
+label Sakura_Event:
+    $ interactions_run_gm_anywhere ("Sakura", "hiddenvillage_entrance", "girl_room_4")
+    
+label Dormitory_Event:
+    scene bg story dormitory with dissolve
+    menu:
+        "Find Tenten" if chars["Tenten"].flag("village_quest_house_is_visible"):
+            $ interactions_run_gm_anywhere ("Tenten", "hiddenvillage_entrance", "girl_room_9")
+        "Find Temari" if chars["Temari"].flag("village_quest_house_is_visible"):
+            $ interactions_run_gm_anywhere ("Temari", "hiddenvillage_entrance", "girl_room_9")
+        "Leave":
+            jump hiddenvillage_entrance

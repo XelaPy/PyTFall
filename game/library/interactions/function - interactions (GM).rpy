@@ -283,7 +283,7 @@ init -11 python:
         
     def interactions_run_gm_anywhere(char, place, background):
         """           
-        Runs (or doesn't) gm or interactions with the char based on her status
+        Runs (or doesn't) gm or interactions with the char based on her status; place is where we jump after gm is over
         """
         if chars[char].status == "slave" or not(chars[char].is_available):
             narrator("Nobody's here...")

@@ -310,7 +310,7 @@ init -1 python:
             else:
                 self.start("girl_meets", girl, img, exit, bg)
         
-        def start_int(self, girl, img=None, exit="char_profile", bg="bg gallery"):
+        def start_int(self, girl, img=None, exit="char_profile", bg="gallery"):
             """
             Starts the interaction scenario.
             girl = The girl to use.
