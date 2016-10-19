@@ -149,7 +149,7 @@
     },
     {
     "id": "Bisexual",
-    "desc": "This girl considers herself a bisexual.",
+    "desc": "She has no problems sleeping with guys or gals.",
     "blocks": ["Lesbian"],
     "sexual": true,
     "character_trait": true

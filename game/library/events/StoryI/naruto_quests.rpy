@@ -339,37 +339,32 @@ label hidden_village_study: # here MC teaches the villagers about the outside wo
         temp = list(i for i in naruto_quest_characters_list if dice(80)) # not everyone may be there every day
         if not(temp):
             temp = naruto_quest_characters_list # a countermeasure against empty list due to dice; if no one is there, then we force everyone to be there
-        for i in temp:
-            i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(0,1))
-            i.disposition += randint(5, 10)
         characters = {}
-        for i in temp:
+        for i in temp: # every character gets random mood via a dict based on disposition
             if i.disposition < 50:
                 l="indifferent"
             elif i.disposition < 200:
                 l=random.choice(["happy", "indifferent"])
-                
             else: # might be a good idea to limit the amount of shy ones even further
-                l=random.choice(["happy", "indifferent", "shy"]) # every character gets random mood via a dict based on disposition
+                l=random.choice(["happy", "indifferent", "shy"]) 
             if l == "indifferent":
                 i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(0,1))
                 i.disposition += randint(1, 2)
             elif l == "happy":
                 i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+1)
-                i.disposition += randint(3, 4)
+                i.disposition += randint(2, 4)
             else:
                 i.disposition += randint(4, 6)
                 i.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(1,2))
             characters[i]=l
 
-    $ q = renpy.call_screen("hidden_village_chars_list", characters)
+    $ char = q = renpy.call_screen("hidden_village_chars_list", characters)
     $ ff = q.flag("village_quest_knowledge_level") # lines to control how stuff works, should be deleted
     hero.say "her knowledge is [ff]" # lines to control how stuff works, should be deleted
     if characters[q] == "indifferent":
         if dice(50):
             call naruto_pack_image_list(q, "school")
             "Looks like [q.name] has troubles with understanding your lesson. You take your time to explain everything better."
-            $ char=q
             call interactions_teaching_lines
             $ q.set_flag("village_quest_knowledge_level", value=i.flag("village_quest_knowledge_level")+randint(1,2))
             $ q.disposition += randint(1,3)
@@ -380,43 +375,59 @@ label hidden_village_study: # here MC teaches the villagers about the outside wo
             call hidden_village_special_chat(q)
             $ q.disposition += randint(3,4)
     elif characters[q] == "happy":
-        $ char=q
-        call naruto_pack_image_list(q, "school")
-        call interactions_invite_to_sparring
-        if dice(50):
-            scene bg city_beach_right
-            "After short warming up she invites you to visit the beach."
-            call naruto_pack_image_list(q, "beach")
-            call interactions_invite_to_beach
-            "You had fun together."
+        if not q.flag("village_quest_house_is_visible"):
+            call naruto_pack_image_list(q, "school")
+            $ q.set_flag("village_quest_house_is_visible")
+            call interactions_study_together
+            "Now you can visit her house in the exploration mode!"
         else:
-            scene bg forest_1 with dissolve
-            call naruto_pack_image_list(q, "sparring")
-            "You spent some time helping [q.name] with her training. She really appreciates it."
-            $ q.disposition += randint(10, 15)
+            call naruto_pack_image_list(q, "school")
+            call interactions_invite_to_sparring
+            if dice(50):
+                scene bg city_beach_right
+                "After short warming up she invites you to the beach."
+                call naruto_pack_image_list(q, "beach")
+                call interactions_invite_to_beach
+                $ q.disposition += randint(5, 20)
+            else:
+                scene bg forest_1 with dissolve
+                call naruto_pack_image_list(q, "sparring")
+                "You spent some time helping [q.name] with her training. She really appreciates it."
+                $ q.disposition += randint(10, 15)
     elif characters[q] == "shy":
-        $ char=q
-        call naruto_pack_image_list(q, "school")
-        call interactions_study_sex
-        menu:
-            "Sure thing":
-                show bg girl_room with fade
-                call naruto_pack_image_list(q, "revealing")
-                call interactions_study_sex_lines
-                $ act = random.choice(["blowjob", "titsjob", "handjob", "footjob"])
-                $ picture = get_single_sex_picture_not_for_gm(q, act=act, location="room", hidden_partner=True)
-                show expression picture at truecenter with dissolve
-                call interactions_guy_cum_alot
-            "Maybe later":
-                scene bg hiddenvillage_entrance with dissolve
-                call naruto_pack_image_list(q, "talking")
-                "You have a small chat with [q.name]."
-                call hidden_village_special_chat(q)
-                $ naruto_quest_characters_skill_list[q] += 1
-                $ q.disposition += randint(2,5)
+        if dice(50):
+            call naruto_pack_image_list(q, "school")
+            call interactions_study_sex
+            show bg girl_room with fade
+            call naruto_pack_image_list(q, "revealing")
+            call interactions_study_sex_lines
+            $ act = random.choice(["blowjob", "titsjob", "handjob", "footjob"])
+            $ picture = get_single_sex_picture_not_for_gm(q, act=act, location="room", hidden_partner=True)
+            show expression picture at truecenter with dissolve
+            call interactions_guy_cum_alot
+        else:
+            call naruto_pack_image_list(q, "school")
+            call interactions_invite_to_sparring
+            scene bg city_beach_right
+            "After short warming up she invites you to the beach."
+            call naruto_pack_image_list(q, "beach")
+            call interactions_alone_together
+            $ act = random.choice(["blowjob", "titsjob", "handjob", "footjob"])
+            $ picture = get_single_sex_picture_not_for_gm(q, act=act, location="beach", hidden_partner=True)
+            show expression picture at truecenter with dissolve
+            call interactions_guy_cum_alot
+            
+        if q.flag("quest_cannot_be_fucked"):
+            $ q.del_flag("quest_cannot_be_fucked")
+            if not("Open Minded" in q.traits):
+                $ q.apply_trait("Open Minded")
+            "Now [q.name] can be your sex partner, assuming that she likes you enough of course."
+            if not q.flag("village_quest_house_is_visible"):
+                $ q.set_flag("village_quest_house_is_visible")
+                "You can also visit her house in the exploration mode."
     jump hiddenvillage_entrance
 
-label hidden_village_special_chat(char): # normally we jump to the chat label, but it this case we want call, so I copy part of the interactions chatting code here; TODO: a few special lines for every char
+label hidden_village_special_chat(char): # normally we jump to the chat label, but it this case we want call, so I copy part of the interactions chatting code here;
     if char.disposition >= 100:
         if ct("Impersonal") or ct("Dandere") or ct("Shy"):
             $ narrator(choice(["[char.pC] didn't talked much, but [char.pC] enjoyed your company nevertheless.", "You had to do most of the talking, but [char.p] listened you with a smile.", "[char.pC] welcomed the chance to spend some time with you.", "[char.pC] is visibly at ease when talking to you, even though [char.p] didn't talked much."]))
@@ -486,7 +497,7 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
                 $ picture = char.show("002F-nn-e2-c4-cb-l3-pr-pa.jpg", resize=(800, 600))
         else: # Hinata
             if dice(50):
-                $ picture = char.show("0008-nn-e5-cb-l5-pa-pc.jpg", resize=(800, 600))
+                $ picture = char.show("0008-nn-e5-cb-l5-pa.jpg", resize=(800, 600))
             else:
                 $ picture = char.show("01EC-nn-e2-e5-c4-cb-l5-a2.jpg", resize=(800, 600))
     elif location == "school":

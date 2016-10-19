@@ -195,7 +195,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if ct("Frigid"):
         $ disposition_level_for_sex += randint(100, 200) # and it's totally possible that with some traits and high character stat the character will never agree, unless lover status is involved
     elif ct("Nymphomaniac"):
-        $ disposition_level_for_sex -= randint(100, 200)
+        $ disposition_level_for_sex -= randint(100, 300)
     
     if char.status == "slave":
         $ disposition_level_for_sex -= randint(50, 100)
@@ -209,7 +209,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         else:
             $ disposition_level_for_sex += randint(50, 100)
     # so normal (without flag) required level of disposition could be from 200 to 1200 for non lovers
-    if ct("Open Minded"):
+    if ct("Open Minded"): # open minded trait greatly reduces the needed disposition level
         $ disposition_level_for_sex -= randint(400, 500)
     if disposition_level_for_sex < 100:
         $ disposition_level_for_sex = 100 # normalization, no free sex with too low disposition no matter the character
@@ -537,7 +537,7 @@ label interactions_lesbian_choice:
     $ sex_scene_libido -= 1
     # The interactions itself.
     # Since we called a function, we need to do so again (Consider making this func a method so it can be called just once)...
-    if ct("Lesbian") or ct("Bisexual"):
+    if ct("Lesbian") or ct("Bisexual") or ct("Open Minded"):
         if char.disposition <= 500 or not(check_friends(hero, char) or check_lovers(hero, char)):
             "Unfortunately she does not want to do it."
             jump interaction_scene_choice
@@ -612,7 +612,7 @@ label interactions_lesbian_choice:
         char2.say "..."
         char.say "Sorry..."
     elif char.oral < 100 and char.sex < 100:
-        "[char.nickname] was not skilled enough to make her partner come. On the bright side, [char2.nickname] made her come a lot."
+        "[char.nickname] was not skilled enough to make her partner cum. On the bright side, [char2.nickname] made her cum a lot."
         $ char.oral += randint (2,4)
         $ char2.oral += randint (2,4)
         $ char.sex += randint (0,1)
@@ -623,7 +623,7 @@ label interactions_lesbian_choice:
         char.say "Sorry..."
         char2.say "Don't worry. You'll become better in time."
     elif char2.oral < 100 and char2.sex < 100:
-        "[char2.nickname] was not skilled enough to make her partner come. On the bright side, [char.nickname] made her come a lot."
+        "[char2.nickname] was not skilled enough to make her partner cum. On the bright side, [char.nickname] made her cum a lot."
         $ char.oral += randint (2,4)
         $ char2.oral += randint (2,4)
         $ char.sex += randint (0,1)
@@ -634,7 +634,7 @@ label interactions_lesbian_choice:
         char2.say "I'm sorry..."
         char.say "Don't be. We had our fun (*looking at you*)."
     else:
-        "They both come a lot. What a beautiful sight."
+        "They both cum a lot. What a beautiful sight."
         $ char.oral += randint (2,4)
         $ char2.oral += randint (2,4)
         $ char.sex += randint (2,4)
@@ -691,7 +691,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ skill_for_checking = char.get_skill("strip")
         $ male_skill_for_checking = char.get_skill("strip")
         if skill_for_checking >= 2000:
-            "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly coming. She looks at you with a smile and superiority in her eyes."
+            "She looks unbearably hot and sexy. After a short time you cannot withstand it anymore and begin to masturbate, quickly cumming. She looks at you with a smile and superiority in her eyes."
         elif skill_for_checking >= 1000:
             "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
         elif skill_for_checking >= 500:
@@ -848,24 +848,24 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             "[char.name] sits next to you."
         if ct("Athletic"):
             if ct("Long Legs"):
-                "She squeezes your dick her between her long muscular legs and stimulates it until you come."
+                "She squeezes your dick her between her long muscular legs and stimulates it until you cum."
             else:
-                "She squeezes your dick her between her muscular legs and stimulates it until you come."
+                "She squeezes your dick her between her muscular legs and stimulates it until you cum."
         elif ct("Slim"):
             if ct("Long Legs"):
-                "She squeezes your dick her between her long slim legs and stimulates it until you come."
+                "She squeezes your dick her between her long slim legs and stimulates it until you cum."
             else:
-                "She squeezes your dick her between her slim legs and stimulates it until you come."
+                "She squeezes your dick her between her slim legs and stimulates it until you cum."
         elif ct("Lolita"):
             if ct("Long Legs"):
-                "She squeezes your dick her between her long thin legs and stimulates it until you come."
+                "She squeezes your dick her between her long thin legs and stimulates it until you cum."
             else:
-                "She squeezes your dick her between her thin legs and stimulates it until you come."
+                "She squeezes your dick her between her thin legs and stimulates it until you cum."
         else:
             if ct("Long Legs"):
-                "She squeezes your dick her between her long legs and stimulates it until you come."
+                "She squeezes your dick her between her long legs and stimulates it until you cum."
             else:
-                "She squeezes your dick her between her legs and stimulates it until you come."
+                "She squeezes your dick her between her legs and stimulates it until you cum."
         if "after sex" in image_tags:
             extend " You generously cover her body with your thick liquid."
         if ct("Lesbian"):
@@ -1214,16 +1214,16 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
             extend " Your bodies merged into a single entity, filling each other with pleasure and satisfaction."
             $ char.joy += randint(3, 5)
         elif male_skill_for_checking >= 2000:
-            extend " In the end you both simultaneously come multiple times."
+            extend " In the end you both simultaneously cum multiple times."
             $ char.joy += randint(2, 4)
         elif male_skill_for_checking >= 1000:
-            extend " In the end you both simultaneously come."
+            extend " In the end you both simultaneously cum."
             $ char.joy += randint(1, 2)
         elif male_skill_for_checking >= 500:
-            extend " You fucked her until you both come. It was pretty good."
+            extend " You fucked her until you both cum. It was pretty good."
             $ char.joy += randint(0, 1)
         elif male_skill_for_checking >= 200:
-            extend " You fucked her until you both come."
+            extend " You fucked her until you both cum."
             $ hero.vitality -= randint(5, 10)
         elif male_skill_for_checking >= 50:
             extend " You had some difficulties with bringing her to orgasm, but managed to overcome them in the end."
@@ -1233,9 +1233,9 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
             $ hero.vitality -= randint(10, 15)
     else:
         if male_skill_for_checking >= 1000:
-            extend " You did your best to make her come, but it brought more pain than pleasure judging by her expression."
+            extend " You did your best to make her cum, but it brought more pain than pleasure judging by her expression."
         else:
-            " She is not in the mood anymore, your efforts to make her come were in vain."
+            " She is not in the mood anymore, your efforts to make her cum were in vain."
         
     if "after sex" in image_tags:
         $ cum_count += 1
@@ -1298,7 +1298,7 @@ label interactions_sex_agreement: # the character agrees to do it
     elif ct("Ane"):
         $ rc("Heh, fine, do me to your heart's content.", "If we're going to do it, then let's make it the best performance possible. Promise?", "Come on, show me what you've got...", "This looks like it will be enjoyable.", "If you can do this properly... I'll give you a nice pat on the head.", "Seems like you can't help it, huh...", "Fufufu, please don't overdo it, okay?", "Go ahead and do it as you like, it's okay.", "Very well, I can show you a few things... Hmhm.", "You want to do it with me too? Huhu, by all means.")
     elif ct("Bokukko"):
-        $ rc("Wha? You wanna to do it? Geez, you're so hopeless.. ♪", "Right, yeah... As long as you don't just come on your own, sure, let's do it", "Y-yeah... I sort of want to do it, too... ehehe...", "S-sure... Ehehe, I'm, uh, kind of interested, too...", "Gotcha, sounds like a plan!", "Huhu... I want to do it with a pervert like you.", "Ehehe... In that case, let's go hog wild ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Huhuh, I sort of want to do it too.", "Well, I s'pose once in a while wouldn't hurt ♪")
+        $ rc("Wha? You wanna to do it? Geez, you're so hopeless.. ♪", "Right, yeah... As long as you don't just cum on your own, sure, let's do it", "Y-yeah... I sort of want to do it, too... ehehe...", "S-sure... Ehehe, I'm, uh, kind of interested, too...", "Gotcha, sounds like a plan!", "Huhu... I want to do it with a pervert like you.", "Ehehe... In that case, let's go hog wild ♪", "Got'cha. Hehe. Now I won't go easy on you.", "Huhuh, I sort of want to do it too.", "Well, I s'pose once in a while wouldn't hurt ♪")
     elif ct("Yandere"):
         $ rc("You won't be able to think about anybody else besides me after I'm done with you ♪", "Oh? You seem quite confident. I'm looking forward to this ♪", "*giggle* I'll give you a feeling you'll never get from anyone else...", "Yes, let's have passionate sex, locked together ♪", "If we have sex you will never forget me, right? ♪", "Heh heh... You're going to feel a lot of pleasure. Try not to break on me.")
     elif ct("Kamidere"):
@@ -1359,7 +1359,7 @@ label interactions_sex_disagreement: # the character disagrees to do it
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
         if char.status == "slave":
-            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)):
+            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)) or ct("Open Minded"):
                 menu:
                     "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                     "Yes":
@@ -1390,7 +1390,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         "You agreed to do something else instead. She sighs with relief."
                         jump interaction_scene_choice
         else:
-            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 400):
+            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 250) or (ct("Open Minded") and char.disposition >= 350):
                 menu:
                     "Looks like this is her first time, and she does not mind. Do you want to continue?"
                     "Yes":
