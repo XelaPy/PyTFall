@@ -21,8 +21,11 @@ label hiddenvillage_entrance:
         $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin) # list of all quest characters from the pack that are still a part of the quest; we'll remove them from here as player finishes their personal quests
         python:
             for i in naruto_quest_characters_list:
+                i.set_flag("quest_cannot_be_hired") # cannot be hired until the quest is finished
+                i.set_flag("quest_cannot_be_fucked") # cannot be fucked until we remove this flag via an event
+                i.set_flag("event_to_interactions_hidden_village_teaching", value={"label": "hidden_village_home_teaching", "button_name": "Teach her about the world", "condition": "True"})
                 if i.name != "Naruko":
-                    i.set_flag("village_quest_knowledge_level", value=0) # all chars have integer flags = 0, it's the starting level level of their knowledge
+                    i.set_flag("village_quest_knowledge_level", value=0) # all chars have integer flags = 0, it's the starting level of their knowledge
                 else:
                     i.set_flag("village_quest_knowledge_level", value=20) # except her since she had a quest in the city already
                     i.set_flag("village_quest_house_is_visible") # these flags control if MC has access to character house inside the matrix, we give one to her
@@ -125,6 +128,24 @@ label hidden_village_check_knowledge: # here we form a screen of characters and 
         q.say "[q.name] knows enough about the world outside to pass for a tourist from a nearby country. There is still a room for improvement though."
     else:
         q.say "[q.name] is ready for the outside world, there is nothing more you can teach her."
+    if level >= 100 and "Virgin" not in q.traits:
+        menu:
+            "You fulfilled all conditions. Do you wish to hire her?"
+            "Yes":
+                if len(naruto_quest_characters_list) > 1 and q.name == "Tsunade":
+                    q.say "As the leader of the village, I cannot leave until you complete your task. Talk to me once your job is done."
+                    jump hidden_village_study_building
+                $ q.del_flag("quest_cannot_be_hired")
+                "You propose [q.name] to work for you."
+                call interactions_agrees_to_be_hired
+                $ hero.add_char(q)
+                $ naruto_quest_characters_list.remove(q)
+                if q.flag("village_quest_house_is_visible"):
+                    $ q.del_flag("village_quest_house_is_visible")
+                $ q.del_flag("village_quest_knowledge_level")
+                $ q.del_flag("event_to_interactions_hidden_village_teaching")
+            "Maybe later":
+                $ pass
     jump hidden_village_study_building
     
 label hidden_village_matrix: 
@@ -260,3 +281,13 @@ label Dormitory_Event:
             $ interactions_run_gm_anywhere ("Temari", "hiddenvillage_entrance", "girl_room_9")
         "Leave":
             jump hiddenvillage_entrance
+            
+label hidden_village_home_teaching:
+    if hero.AP > 0:
+        "You tell her stories about the outside world. She listens with interest."
+        $ char.set_flag("village_quest_knowledge_level", value=char.flag("village_quest_knowledge_level")+500)
+        call interactions_teaching_lines
+        $ hero.AP -= 1
+    else:
+        "You don't have Action Points left. Try again tomorrow."
+    jump girl_interactions

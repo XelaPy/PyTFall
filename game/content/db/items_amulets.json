@@ -347,5 +347,23 @@
     "locations": ["Exploration", "Tailor Store"],
     "evasion_bonus": 1,
     "goodtraits": ["Bokukko"]
+    },
+    {
+    "id": "Spectacles",
+    "desc": "A device for vision correction.",
+    "icon": "content/items/amulet/spectacles.png",
+    "price": 150,
+    "sex": "unisex",
+    "chance": 70,
+    "badness": 90,
+    "eqchance": 20,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
+    "locations": ["Tailor Store"],
+    "evasion_bonus": 1,
+    "removetraits": ["Bad Eyesight"],
+    "goodtraits": ["Bad Eyesight"]
     }
   ]

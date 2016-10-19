@@ -149,7 +149,7 @@
     },
     {
     "id": "Bisexual",
-    "desc": "This girl considers herself a bisexual.",
+    "desc": "She has no problems sleeping with guys or gals.",
     "blocks": ["Lesbian"],
     "sexual": true,
     "character_trait": true
@@ -220,4 +220,8 @@
     "desc": "This woman has had children before.",
     "mod_skills": {"vaginal": [0.01, 0, 0.01]},
     "virginity": true
+    },
+    {
+    "id": "Open Minded",
+    "desc": "She has no problems trying different things sexually and will accept anything as-is."
     }]

@@ -58,7 +58,14 @@
     "id": "Great Arse",
     "desc": "She has a really nice arse.",
     "max": {"charisma": 5},
-    "mod_skills": {"strip": [0, 0, 0.02], "anal": [0.01, 0, 0.01]},
+    "mod_skills": {"strip": [0, 0, 0.02], "anal": [0.01, 0, 0.01], "service": [-0.05, 0, -0.05]},
+    "permanent": true
+    },
+   {
+    "id": "Flat Ass",
+    "desc": "Her posterior isn't really anything special. Not much to grope or slap whatsoever.",
+    "max": {"charisma": -5, "agility": 5},
+    "mod_skills": {"strip": [0, 0, -0.02], "service": [0.02, 0, 0.02]},
     "permanent": true
     },
    {
@@ -156,5 +163,25 @@
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},
     "permanent": true,
     "defence_bonus": {"magic":[0, 50, 50], "status":[5, 50, 50]}
+    },
+   {
+    "id": "Bad Eyesight",
+    "desc": "This girl needs glasses to see properly.",
+    "mod": {"upkeep": 5},
+    "mod_stats": {"attack": [-5, 1], "intelligence": [1, 2]},
+    "max": {"agility": -5, "intelligence": 5, "attack": -30},
+    "mod_skills": {"refinement": [0, 0, 0.01]}
+    },
+   {
+    "id": "Lactation",
+    "desc": "Her breasts are capable to produce milk every day.",
+    "mod": {"upkeep": 5}
+    },
+   {
+    "id": "Flexible",
+    "desc": "She is able to bend her body in many different ways.",
+    "mod_stats": {"agility": [2, 1], "defence": [-3, 1]},
+    "max": {"agility": 15, "defence": -15, "vitality": -25},
+    "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]}
     }
 ]

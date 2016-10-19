@@ -79,9 +79,9 @@ label interactions_friends:
         elif ct("Dandere"):
             $ rc("Smells suspicious. I will refrain.", "If I feel like it.")
         elif ct("Imouto"):
-            $ rc("Umm, uh... Sorry. Hehe♪", "Sure... Pfft... Just kidding, I lied!")
+            $ rc("Umm, uh... Sorry. Hehe ♪", "Sure... Pfft... Just kidding, I lied!")
         elif ct("Yandere"):
-           $ rc("Maybe later", "I don't trust you.")
+           $ rc("I don't see any prerequisites to this.", "I don't trust you.")
         elif ct("Ane"):
             $ rc("Could you perhaps not get me involved in this? It is quite the bother.", "Sorry. Maybe some other time.")
         elif ct("Kamidere"):
@@ -171,7 +171,7 @@ label interactions_girlfriend:
         elif ct("Kamidere"):
             $ rc("Yes, I suppose it's time things got serious.", "I feel the same way.", "Alright, you'd better take good care of me as your girlfriend.")
         elif ct("Yandere"):
-            $ rc("Of course! Now no one can keep us apart! Hehe ♪", "We're sweethearts now?　Finally! ♪", "I want to be yours as well♪", "Huhu, I'm not responsible if you regret it...", "You wanna do something dirty with me, right? You'd better!")
+            $ rc("Of course! Now no one can keep us apart! Hehe ♪", "We're sweethearts now?　Finally! ♪", "I want to be yours as well ♪", "Huhu, I'm not responsible if you regret it...", "You wanna do something dirty with me, right? You'd better!")
         else:
             $ rc("Yes... I'll be by your side forever... Hehehe ♪", "O-Okay... Ahaha, this is kinda embarrassing...", "I guess I'm your girlfriend now. Hehe ♪")
     else:
@@ -232,7 +232,7 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
 ##### j3    
 label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
-        $g(choice(["You're kidding, right?", "I don't want to work for you.", "Me working for you? Seriously?"]))
+        call interactions_refuses_to_be_hired
         jump girl_interactions
     if cgo("Warrior"):
         python:
@@ -321,9 +321,7 @@ label interactions_hire:
     
     # Solve chance
     if char.disposition > 500 - mod_chance:
-        $g(choice(["Ok. I guess I could try working for you.",
-                   "You seem like a good employer!",
-                   "Thanks, I'll take the offer!"]))
+        call interactions_agrees_to_be_hired
         
         $ del mod_chance
         
@@ -344,6 +342,59 @@ label interactions_hire:
     else:
         $ del mod_chance
         
-        $g(choice(["You're kidding, right?", "I don't want to work for you.", "Me working for you? Seriously?"]))
+        call interactions_refuses_to_be_hired
         jump girl_interactions
     
+label interactions_agrees_to_be_hired:
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $ rc("You want me work for you. Understood.")
+    elif ct("Shy") and dice(50):
+        $ rc("P-please take care of me...")
+    elif ct("Imouto"):
+        $ rc("Okey! Just, you know, don't boss me around too much ♪") 
+    elif ct("Dandere"):
+        $ rc("Your proposition meets my goals. I accept it.")
+    elif ct("Tsundere"):
+        $ rc("Fine, fine. If you want it so much, I won't refuse."),
+    elif ct("Kuudere"):
+        $ rc("Very well. Please treat me well.")
+    elif ct("Kamidere"):
+        $ rc("I suppose I don't have any reasons to refuse.")
+    elif ct("Bokukko"):
+        $ rc("Sure, why not. Just be a good boss, ok?")
+    elif ct("Ane"):
+        $ rc("It's an acceptable proposition.")
+    elif ct("Yandere"):
+        $ rc("I don't have any objections.")
+    else:
+        $ rc("Alright, I agree ♪")
+    $ char.restore_portrait()
+    return
+    
+label interactions_refuses_to_be_hired:
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $ rc("Denied.")
+    elif ct("Shy") and dice(50):
+        $ rc("S-sorry, I don't think I can...")
+    elif ct("Imouto"):
+        $ rc("Sounds boring... Think I'm gonna pass.") 
+    elif ct("Dandere"):
+        $ rc("Thanks, but I will refrain.")
+    elif ct("Tsundere"):
+        $ rc("Are you out of your mind? Why should I agree to that?"),
+    elif ct("Kuudere"):
+        $ rc("No. Don't want to.")
+    elif ct("Kamidere"):
+        $ rc("Please don't involve me in your business. I have enough things to worry about already.")
+    elif ct("Bokukko"):
+        $ rc("Nah, too much trouble.")
+    elif ct("Ane"):
+        $ rc("Sorry. Maybe some other time.")
+    elif ct("Yandere"):
+        $ rc("No, I have no such intentions.")
+    else:
+        $ rc("Sorry, not interested.")
+    $ char.restore_portrait()
+    return

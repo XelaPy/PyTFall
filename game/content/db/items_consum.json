@@ -998,8 +998,7 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"joy": 15, "character": 1},
-    "locations": ["Cafe"],
-    "goodtraits": []
+    "locations": ["Cafe"]
     },
     {
     "id": "Heaven-and-Earth Cake",
@@ -1164,5 +1163,21 @@
     "type": "restore",
     "jump_to_label": "special_items_emerald_tincture",
     "locations": ["Witches Hut", "Exploration"]
+    },
+    {
+    "id": "Bottle of Milk",
+    "desc": "A bottle of refreshing and delicious milk. There is no dairy cattle around the city, so it comes from an unusual source.",
+    "icon": "content/items/cons/milk.png",
+    "price": 20,
+    "sex": "unisex",
+    "chance": 0,
+    "badness": 100,
+    "eqchance": 20,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "restore",
+    "mod": {"mp": 5, "health": 5, "vitality": 5},
+    "goodtraits": ["Open Minded", "Curious"]
     }
   ]

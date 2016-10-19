@@ -252,10 +252,10 @@ label interactions_girl_never_come:
     $ char.show_portrait_overlay("angry", "reset")
     if ct("Impersonal"):
         $ rc("Doesn't it count as sex only if we've actually both came?", "I'm not sure how to feel about this kind of sex.", "I guess you need to get used to this. Can I count on you to practice with me?")
-    elif ct("Shy") and dice(60):
+    elif ct("Shy"):
         $ rc("But I'm still not... You're so cruel...", "But I'm... Not yet...", "Is... is it already over? No, that's fine...")
     elif ct("Tsundere"):
-        $ rc("Uuh... But, but...! I just got so horny!", "Gosh, how could you forget! About what...? About me c-coming!!", "Hey, can't you even tell whether or not your partner came?")
+        $ rc("Uuh... But, but...! I just got so horny!", "Gosh, how could you forget! About what...? About me c-cumming!!", "Hey, can't you even tell whether or not your partner came?")
     elif ct("Dandere"):
         $ rc("...What? Done already?", "Did you...do that...on purpose?", "I can't say I really approve of this sort of one-sided sex...", "Hmph, so selfish...")
     elif ct("Kuudere"):
@@ -280,7 +280,7 @@ label interactions_girl_virgin_line:  # character agrees to get rid of virgin tr
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("I'm not going to stay a virgin all my life. Please make me an ex-virgin.", "W-would you make me... a woman?", "You can confirm for yourself that I'm a virgin.", "I understand... When you put it in, please tear my hymen apart slowly, okay?", "This is my first time, so I won't be any good... Please help and guide me.", "You're going to break my hymen... Okay.")
-    elif ct("Shy") and dice(60):
+    elif ct("Shy"):
         $ rc("Um, I'm a virgin! ...Please, umm, take my first time...", "I, um... I've never did it before... So...", "I've never done this before, but... If you'll be gentle, then...", "Eh? H-how would we do that... Eh!? Th-that goes... in here...? Y-yeah! ...Let's do it...", "Pl-please... Be my... first time...", "I'm, uh... still... a virgin, okay? So... you know...")
     elif ct("Nymphomaniac") and dice(40):
         $ rc("...T-this is...unexpectedly embarrassing... It is my first time and all.", "Y-you'll have to teach me a few things...")
@@ -310,7 +310,7 @@ label interactions_guy_never_came: # due to low sex skill character was unable t
     $ char.show_portrait_overlay("scared", "reset")
     if ct("Impersonal"):
         $ rc("...Was my technique that bad?", "I'm sorry, I'm just so incompetent...", "I feel like that was all about me... I apologize.")
-    elif ct("Shy") and dice(60):
+    elif ct("Shy"):
         $ rc("I'm sorry... I wasn't very good...", "Sorry... Because of my weakness...", "I'm very sorry... Y-yes, I made sure to practice...")
     elif ct("Tsundere"):
         $ rc("S-sorry... I'll try harder next time, okay...?", "I-if I'm bad at this, j-just say so already...", "Wh-what? Are you trying to say I'm bad at this? ...Kuh, just you wait.")
@@ -338,12 +338,12 @@ label interactions_guy_cum_alot: # guy cum a lot
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("Is it normal for someone to be able to cum so much? Are you not a human?", "As a side note, creampies are okay.", "Nn... Your load exceeded my maximum capacity...", "I have all your weak spots memorized.", "Your semen will be my food.")
-    elif ct("Shy") and dice(60):
+    elif ct("Shy"):
         $ rc("Y-You came so much... You were really saving it up...!", "Snf snf... It smells...", "I-I... what an embarrassing thing to do...", "I-I can't believe I... did that... Aaahhh...", "I made you feel really good, huh... I-I'm glad...")
     elif ct("Nymphomaniac") and dice(40):
         $ rc("Hehehe, thanks for the meal ♪", "The flavor of semen differs depending on the food you eat and how you're feeling...", "What a perverted scent... ehehe.", "Huhuh... look at me, I'm a dirty girl covered in your spunk.")
     elif ct("Tsundere"):
-        $ rc("Geez, you got so much on my face that some went up my nose!", "T-That's embarrassing! Geez...", "I'm happy that you came so many times because of me, but... Didn't you come too much?", "Yes, yes, you did well by cumming so much... Seriously...", "And? I'm great, right? ...Tell me that I am G-R-E-A-T!")
+        $ rc("Geez, you got so much on my face that some went up my nose!", "T-That's embarrassing! Geez...", "I'm happy that you came so many times because of me, but... Didn't you cum too much?", "Yes, yes, you did well by cumming so much... Seriously...", "And? I'm great, right? ...Tell me that I am G-R-E-A-T!")
     elif ct("Dandere"):
         $ rc("Your semen's still so warm...", "I could get used to this scent...", "You came quite a bit...", "Don't worry, it's not unpleasant. Don't hold back on me next time.", "I became all slimy...", "How was it? My technique is something else, don't you think?", "I love it... when you cum for me.")
     elif ct("Kuudere"):
@@ -367,12 +367,12 @@ label interactions_after_good_sex: # after very good sex
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $ rc("Thanks for your hard work... Let's have fun the next time too.", "When we make direct contact, it feels like we are melting into each other.", "I thought you would break me...", "I came too much...", "I guess it's possible for something to feel too good...")
-    elif ct("Shy") and dice(30):
+    elif ct("Shy") and dice(65):
         $ rc("Ah, please, don't make me feel so much pleasure... You'll turn me into a bad girl...", "No, please... I can't look you in the eye right now...", "Uuugh... I did such an embarrassing thing... Pl-please forget about it...", "Auh... I'm sorry for being so perverted...")
     elif ct("Nymphomaniac") and dice(40):
         $ rc("Hafu... It was totally worth it practising with all those bananas...♪", "That was incredible... I thought I was gonna lose myself there.", "Ah ♪, I did it again today... Alright, starting tomorrow I'll control myself!")
     elif ct("Tsundere"):
-        $ rc("I-I was... C-cute? ...S-Shut up! One more word and I'll kill you!", "You made me come so many times, it's kind of frustrating...", "Hu-hmph! Don't get a big head just 'cause you did it right once!", "H-hmph! Just because you're a little good doesn't make you the best in the world!", "I-it's not like you've got good technique or anything! Don't get so full of yourself!")
+        $ rc("I-I was... C-cute? ...S-Shut up! One more word and I'll kill you!", "You made me cum so many times, it's kind of frustrating...", "Hu-hmph! Don't get a big head just 'cause you did it right once!", "H-hmph! Just because you're a little good doesn't make you the best in the world!", "I-it's not like you've got good technique or anything! Don't get so full of yourself!")
     elif ct("Dandere"):
         $ rc("If you do it like that, anyone would go crazy...", "Mn... You did good...", "...Looks like we're a good match.", "We're quite compatible, you and I." "I came way too many times... Haa...", "D-do I also have such a shameful erotic face?", "Whew... I came so much... I surprised myself...")
     elif ct("Kuudere"):
@@ -396,7 +396,7 @@ label interactions_after_normal_sex: # after not good and not bad sex, not via r
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $ rc("I can still feel you between my legs.", "So how was it, sex with me? Are you satisfied?", "Yeah... felt good.", "Haa... Satisfying...", "Please entertain me again sometime.")
-    elif ct("Shy") and dice(30):
+    elif ct("Shy"):
         $ rc("I... I wonder how good I was... I don't want you to hate me...", "I-I need to reflect... On the things that I've done...", "Aah... I want it like that, again... Maybe I'm a really dirty girl..?", "I'm very happy... Because... you know... huhuh...")
     elif ct("Nymphomaniac") and dice(40):
         $ rc("Hehe... It looks like we were naughty, huh...", "Ehehe... I feel like doing it again...", "Um, how about we do it again? Maybe even two or three more times, if you want...")
@@ -411,7 +411,7 @@ label interactions_after_normal_sex: # after not good and not bad sex, not via r
     elif ct("Ane"):
         $ rc("What did you think? It felt wonderful, right?", "*sigh*... I'm exhausted... Hehe ♪", "I didn't expect it to be that good... Good job, hehe.", "Huhu... please keep desiring me as many times as you want.", "You did it very well... Uhuhu, it felt great.", "I'm ready for you any time, okay? ♪")
     elif ct("Bokukko"):
-        $ rc("Hum, thank you for letting me come...", "Muhuhu... your orgasm face is nice ♪", "Geez... You made me feel so too good...", "Weeell, I s'pose you're pretty good. Not as good as me, though.")
+        $ rc("Hum, thank you for letting me cum...", "Muhuhu... your orgasm face is nice ♪", "Geez... You made me feel so too good...", "Weeell, I s'pose you're pretty good. Not as good as me, though.")
     elif ct("Yandere"):
         $ rc("How was it? Are you refreshed? ...Fufu, you should thank me.", "That wasn't bad, I guess... I'm sure you'll do even better next time.", "How does my face look when I cum? ...It doesn't go weird, does it?", "Ahaha ♪　It's so floppy ♪ And warm ♪")
     elif ct("Kamidere"):
@@ -425,7 +425,7 @@ label interactions_after_virginity_was_taken: # right after removing virgin trai
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("With this, next time I'll be able to feel good, right?", "Hmm, It did hurt, but... I'm happy.", "It was so big that I thought it would hurt a lot... It is all because of your gentleness. Thank you very much.", "Hm... So this makes me an ex-virgin, it seems.")
-    elif ct("Shy") and dice(70):
+    elif ct("Shy"):
         $ rc("Uh, i-it's ok... I can endure it...", "Kuh... I'm okay... But... I didn't think it would hurt so much...", "I-It's alright. It did hurt a little, but... I'm really happy ♪", "I-It's okay... You were very gentle...")
     elif ct("Tsundere"):
         $ rc("Uuh... That really hurt... Of-of course you could have helped it!", "Kuh... I had to go through this one day anyway so it's fine!", "Kuh... This pain makes the world so dazzling...", "What's with this...? Why does it hurt so much? Geez...")
@@ -452,7 +452,7 @@ label interactions_lesbian_refuse_because_of_gender: # for lesbians, when they r
         $ char.override_portrait("portrait", "indifferent") # obviously will be needed alternative for female MC
         if ct("Impersonal"):
             $ rc("Opposite sex... Dismissed.", "You are a male. Denied.")
-        elif ct("Shy") and dice(50):  
+        elif ct("Shy"):  
             $ rc("Ah, I'm sorry, I can't do that with a boy...", "Um, I-I like girls... Sorry!")
         elif ct("Imouto"):
             $ rc("If you were a girl...it'd be alright, but...", "I don't really like boys... So no.")
@@ -535,7 +535,7 @@ label interactions_girl_proposes_sex: # character proposes MC sex
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("So... do you want to have sex?", "I need sex. Let's do it.", "Please do perverted things to me. I'm ready.", "Please allow me to check if our bodies match. I'll take full responsibility.", "I would like to have sex with you. Is that going to be a problem?", "Can we have sex? I feel like I need it.")
-    elif ct("Shy") and dice(50):
+    elif ct("Shy"):
         $ rc("Uh... p-please d-do it for me... my whole body's aching right now...", "Aah... p-please... I-I want it... I can't think of anything else now!", "Ummm.... do you... not wish to do it...? ...I... really want it...", "I-I want to... be... with you...", "Right now... I want you to do it with me now... Please...", "I-I'm actually really good at sex! So... I-I'd like to show you...", "Um, I-I want to do it... So... Could we have sex?")
     elif ct("Imouto"):
         $ rc("Let's do kinky things... Come on? Puh-leaaase.", "I've got a huge favor to ask! Fuck me right now! Pleaaase!", "So, um... are you interested in sex? I mean, uhm... I'd kinda like to... do it with you?", "Uuu... I'm boooored! Let's do something fun! Like um...maybe have sex or something...") 
@@ -563,7 +563,7 @@ label interactions_sex_begins: # lines in the beginning of a non-rape scene
     $ char.show_portrait_overlay("like", "reset")
     if ct("Impersonal"):
         $ rc("So, I'll begin the sexual interaction...", "I want you to feel really good.", "Hmm. Now how should I fuck you?", "Come. Touch me gently...", "...I have high expectations.", "I will try to do my best to meet your expectations.", "Now, let's enjoy some sex.", "I'll serve you.")
-    elif ct("Shy") and dice(50):
+    elif ct("Shy"):
         $ rc("I-I'll do my best... for your sake!", "Uhm... I want you... to be gentle...", "Uuh... Don't stare at me so much, it's embarrassing...", "...I'm ready now... Do it any time...", "Uh, uhm, how should I...? Eh? You want it like this...? O-okay! Then, h-here I go...", "As I thought, I'm nervous... B-but that's ok... I prepared myself...", "P-Please look... It's become so gushy just from thinking about you...♪", "Sorry if I'm no good at this...")
     elif ct("Imouto"):
         $ rc("Uhuhu, well then, what should I tease first ♪", "Hm hmm! Be amazed at my fabulous technique!", "Umm... please do perverted things to me ♪", "Hehe, I'm going to move a lot for you...", "Aah... I want you...To love me lots...", "Ehehe... now my clothes are all soaked...", "Ehehe, make me feel really good, okay?", "Please be gentle, ok?") 
@@ -572,7 +572,7 @@ label interactions_sex_begins: # lines in the beginning of a non-rape scene
     elif ct("Tsundere"):
         $ rc("S-shut up and... entrust your body to me... Okay?", "Humph! I'll show you I can do it!", "I-I'm actually really good at sex! So... I-I'd like to show you...", "D-do it properly, would you? ...I don't want a shoddy performance." , "I'm gonna have sex with you! ..G-get ready!", "You can be rough, I guess... If it's just a little bit...", "Y-you just need to be still and let me do everything... You got that?", "D-do whatever you want..."),
     elif ct("Kuudere"):
-        $ rc("I'm going to make you come. You had better prepare yourself.", "C'mon, I'll do kinky things, so make the preparations.", "Well then, shall I do something that'll make you feel good?", "Let's make this feel really good.", "L-leave it to me... Here, I'll take off your clothes...", "I-I'll make sure to satisfy you...!", "You can do with me... as you'd like...", "In the end, I'm just a normal woman too, you know...")
+        $ rc("I'm going to make you cum. You had better prepare yourself.", "C'mon, I'll do kinky things, so make the preparations.", "Well then, shall I do something that'll make you feel good?", "Let's make this feel really good.", "L-leave it to me... Here, I'll take off your clothes...", "I-I'll make sure to satisfy you...!", "You can do with me... as you'd like...", "In the end, I'm just a normal woman too, you know...")
     elif ct("Kamidere"):
         $ rc("Hmph, I'll prove that I'm the greatest you'll ever have.", "Now... show me the dirty side of you...", "I won't let you go until I'm fully satisfied, so prepare yourself.", "I'll give you a run you'll never forget ♪", "Okay... I suppose I'll just do as I please, uhuhu...", "Now, why don't you just give up and let me at that body of yours?", "Please, show me what you can do... I'm expecting great things.")
     elif ct("Bokukko"):
@@ -618,7 +618,7 @@ label interactions_seen_mast:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("What is it? I want to get back to what I was doing...", "Looks like I've been caught touching myself.")
-    elif ct("Shy") and dice(50):
+    elif ct("Shy"):
         $ rc("Hyah!? I-I'm sorry! I'll wipe it off right away...!", "I-I... what an embarrassing thing to do...")
     elif ct("Imouto"):
         $ rc("Ehehe, I'm all sticky...♪", "I-It's nothing, I was just a little itchy...") 
@@ -766,7 +766,7 @@ label interactions_alone_together:
 label interactions_study_together: # used in the village, char invites mc to house
     $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
-        $ rc("Want to study at my house? If it's you, I'm sure we'll be able to work together.")
+        $ rc("Want to study at my house?", "If it's you, I'm sure we'll be able to work together. Let's study at my house.")
     elif ct("Shy") and dice(50):
         $ rc("Um... Want to study at my place...?", "Um, if you're free, would you like to come to my place? Just thought we could study together...")
     elif ct("Imouto"):
