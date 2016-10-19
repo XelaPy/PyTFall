@@ -1,5 +1,11 @@
 init -11 python:
     # Equipment checks and area effects!
+    def has_items(item, chars):
+        amount = 0
+        for c in chars:
+            amount += c.inventory[item]
+        return amount
+    
     def equip_item(item, char, silent=False, area_effect=False):
         """First level of checks, all items should be equiped through this function!
         """
