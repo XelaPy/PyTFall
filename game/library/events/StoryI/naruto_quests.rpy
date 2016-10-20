@@ -1,7 +1,8 @@
 init python:
     q = register_quest("A Fugitive")
     # register_event("drunk_lady1", quest="Drunk Lady", locations=["tavern_inside"], dice=100, restore_priority=0, jump=True)
-    register_event("naruko_first_meeting", quest="A Fugitive", simple_conditions=["hero.level >= 20", "hero.gold >= 1000"], locations=["cafe"], dice=100, restore_priority=0, jump=True, trigger_type="auto")
+    register_event("naruko_first_meeting", quest="A Fugitive", simple_conditions=["hero.level >= 10", "hero.gold >= 500"], locations=["cafe"], dice=100, restore_priority=0, jump=True, trigger_type="auto")
+    q1 = register_quest("The Hidden Ones")
 # label drunk_lady1:
     # $ t = chars["Tsunade"]
     # scene bg tavern_inside # ChW: This is to get rid of tavent picture until I create a more complex solution...
@@ -194,7 +195,7 @@ label naruko_first_feeding:
         $ n.override_portrait("portrait", "happy")
         n.say "For real? That's awesome! I'm fine though, I just need some food to restore my strength."
         hero.say "You call the waitress and offer Naruko to make an order."
-        $ cost = randint(190, 210)
+        $ cost = randint(100, 150)
         if hero.take_money(cost):
             $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
             show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
@@ -202,7 +203,7 @@ label naruko_first_feeding:
         hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
         "It cost you more than you expected. She ate a whole mountain of food."
         n.say "Aaaah, it feels so good... You are a lifesaver!"
-        $ n.disposition += 100
+        $ n.disposition += 20
         n.say "I'll repay you, I promise. Let's meet here tomorrow, ok?"
         hide expression n_spr with dissolve
         $ pytfall.world_quests.get("A Fugitive").next_in_label("You paid for her food. Perhaps later you will meet her again at the same place.")
@@ -218,14 +219,14 @@ label naruko_first_feeding:
         hide expression our_image with dissolve
         n.say "I wanted to stay there a bit more, but some angry people showed up and chased me away..."
         n.say "Anyway, I'm really hungry! Let's eat!"
-        $ cost = randint(100, 150)
+        $ cost = randint(40, 60)
         if hero.take_money(cost):
             $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
             show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
         "You order some food too, and you eat together as she tells you about her misadventures in the city."
         hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
         waitress "It will be [cost] gold, thank you very much!"
-        $ n.disposition += 50
+        $ n.disposition += 10
         n.say "Aaaah, so tasty! See ya around!"
         hide expression n_spr with dissolve
         $ n.set_flag("quest_ate_in_cafe", value=day)
@@ -242,8 +243,8 @@ label naruko_first_feeding:
         n.say "Well, it took my bra. I tried to find it, but instead found a small underwater cave with this pretty stone. You can have it."
         $ n.override_portrait("portrait", "happy")
         n.say "Oh well, I can live without it anyway. I still have the remaining clothes. Let's eat."
-        $ cost = randint(100, 150)
-        $ n.disposition += 50
+        $ cost = randint(40, 60)
+        $ n.disposition += 10
         if hero.take_money(cost):
             $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
             show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
@@ -265,9 +266,9 @@ label naruko_first_feeding:
         n.say "So, you know, I said 'screw it' and ran away. I'm not gonna waste my life hiding in a bushes when there is a huge, amazing world around."
         $ n.override_portrait("portrait", "happy")
         n.say "No matter. Hey, let's try those cupcakes, they look awesome!"
-        $ n.disposition += 50
+        $ n.disposition += 10
         $ n.override_portrait("portrait", "happy")
-        $ cost = randint(100, 150)
+        $ cost = randint(40, 60)
         if hero.take_money(cost):
             $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
             show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
@@ -309,8 +310,8 @@ label naruko_first_feeding:
                 $ hero.add_money(700)
             "Refuse":
                 $ k.override_portrait("portrait", "happy")
-                $ n.disposition += 50
-                $ k.disposition += 100
+                $ n.disposition += 10
+                $ k.disposition += 20
                 k.say "Oh? That's very nice of you."
         $ k.override_portrait("portrait", "angry")
         k.say "Now then, time to return home, Naruko. And don't even try to pull something."
@@ -322,8 +323,86 @@ label naruko_first_feeding:
         $ n.del_flag("quest_ate_in_cafe")
         $ n.restore_portrait()
         $ k.restore_portrait()
+        $ register_event("quest_to_unlock_village", quest="The Hidden Ones", simple_conditions=["hero.level >= 20"], locations=["main_street"], dice=100, restore_priority=0, jump=True, trigger_type="auto")
     jump main_street
     
+label quest_to_unlock_village:
+    "As you walked down the street, something landed just before you."
+    show expression Image("content/items/quest/orig_1.png") as i with dissolve 
+    "It's a bird or something like that made from colored paper."
+    hide i with dissolve
+    "You picked it up and examined. Suddenly, the bird's head turned, pointing somewhere to the north-west."
+    "Perhaps it's worth investigating?" # FOR XELA: until this part the village location is hidden on the map, but at this moment we unlock it.
+    $ pytfall.world_quests.get("The Hidden Ones").next_in_label("You found an animated paper figure which points to the north-west. Check the city map to travel there!")
+    $ pytfall.world_events.kill_event("quest_to_unlock_village", cached=True)
+    jump main_street
+    
+label first_arrive_to_the_hidden_village:
+    scene bg hiddenvillage_entrance
+    $ k = chars["Konan"]
+    $ k_spr = chars["Konan"].get_vnsprite()
+    $ k.override_portrait("portrait", "indifferent")
+    $ t = chars["Tsunade"]
+    $ t_spr = chars["Tsunade"].get_vnsprite()
+    $ t.override_portrait("portrait", "indifferent")
+    "You always thought that there is nothing but endless forest, but soon enough the paper figure brought you to small village."
+    "Once you entered it, the figure stopped moving, and at the next second you felt someone's hand on your shoulder."
+    show expression k_spr at center with dissolve
+    k.say "Welcome, visitor. Please follow me."
+    menu:
+        "Ask something":
+            k.say "All your questions will be answered by the head of our village."
+        "Silently follow her":
+            $ pass
+    hide expression k_spr with dissolve
+    "You decided to follow her for now. The village seems quite peaceful and underpopulated."
+    scene bg story cab_2
+    show expression k_spr at center
+    show expression t_spr at center
+    with dissolve
+    k.say "Your guest is here, ma'am."
+    t.say "Wonderful. You may go now."
+    hide expression k_spr with dissolve
+    t.say "Welcome to our village, [hero.name]. Make yourself at home. You can call me Tsunade."
+    $ i = 1
+    while i == 1:
+        $ t.override_portrait("portrait", "indifferent")
+        menu:
+            "Ask about the village":
+                t.say "We just call it the hidden village. Once it had another name, but it's meaningless now."
+                t.say "We are refugees. Twelve years ago we ran away from a war that is impossible to win. Before he died, our previous leader sent this part of the village as far as he could."
+                t.say "This place is different from our homeland. Our enemies, almost invincible there, are powerless here. Therefore there is no need to worry about pursuers."
+            "Ask about villagers":
+                t.say "It's a village built for ninjas. You probably noticed that we don't have many people here. We tried to attract new people, but it's not that simple."
+            "Ask about her":
+                t.say "Oh, I'm just a medic. After our last leader passed away, I was the best alternative."
+                $ t.override_portrait("portrait", "happy")
+                t.say "Don't let it get to your head."
+            "Ask why they brought you here":
+                $ i = 2
+    $ del i
+    t.say "Oh, it's very simple. You are the first citizen who offered help to one of our people."
+    $ t.override_portrait("portrait", "indifferent")
+    t.say "I was looking for a chance to establish a relationship with the city, and you proved yourself to to somewhat trustworthy."
+    t.say "Now, let's get down to the business. You must have noticed how Naruko knows next to nothing about your world. This is also true for most other villagers."
+    t.say "I visit the city regularly, but they rarely left the village. They don't know how to behave, don't know about the laws."
+    t.say "This village is doomed. We don't have enough people to maintain population. The city is our only future."
+    t.say "So I propose a deal. The first part is to teach our people about your world and laws. It should be pretty simple for someone who lived in the city the whole life."
+    $ t.override_portrait("portrait", "confident")
+    t.say "The second part is a bit more... personal. I am the head medic for the village. As such, it is my position to watch over certain... customs."
+    t.say "We have an older custom. When a female ninja qualifies for the jobs above a certain clearance, there is a real danger that she gets captured. You probably understand that females do get a 'special treatment', right?"
+    t.say "Back in my days, we kept it in the family. Don't look at me like that. You usually had an older member of the family, that liked the young ninja a lot, and that agreed to, you know."
+    t.say "That was back then, but now, things are different. We don't have any males left, not to mention that they have all those modern ideas about finding love outside the village."
+    t.say "I am not asking you to rape them, or to force yourself on them. If you get idea, it would be a miracle if you survive the attempt."
+    t.say "Their first time should be with someone that they trust, someone that has shown them how beautiful a thing this can be. Not some slobbering pimply faced boy that has to drink his courage, pukes all over their dresses, and then can't get it up."
+    t.say "I'm talking about a first time that will stay with them forever, and that will shield them against all the bad things they will have. A woman can go through much if she has good memories. Good memories carry you through being imprisoned, captured, and a whole lot more."
+    $ t.override_portrait("portrait", "indifferent")
+    t.say "I'm sure they will be more than happy to join you after the education is over. You could use a few highly skilled fighters, right?"
+    $ t.restore_portrait()
+    $ k.restore_portrait()
+    "From now on you can use the main village building to teach locals. Over time they will begin to trust you enough to do something else."
+    $ global_flags.set_flag('hidden_village_study_icon')
+    jump hiddenvillage_entrance
 label hidden_village_study: # here MC teaches the villagers about the outside world
     scene bg story study
     if hero.AP > 0:
@@ -459,12 +538,7 @@ screen hidden_village_chars_list(characters): # the screen shows portraits of gi
 
 label naruto_pack_image_list(char, location): # this label shows fixed pictures for naruto chars depending on the character and location; should be called
     if location == "beach":
-        if char.id == "Tsunade":
-            if dice(50):
-                $ picture = char.show("0091-nn-eb-c4-cb-l5-pr.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("008E-nn-e2-cb-l5-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Tenten":
+        if char.id == "Tenten":
             $ picture = char.show("009F-nn-e2-e5-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Temari":
             $ picture = char.show("0027-nn-e5-c4-cb-l5-pr-ah.jpg", resize=(800, 600))
@@ -483,8 +557,6 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
                 $ picture = char.show("00A6-nn-e6-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
             else:
                 $ picture = char.show("00A0-nn-e2-e6-c4-cb-l5-pr.jpg", resize=(800, 600))
-        elif char.id == "Konan":
-            $ picture = char.show("001E-nn-e5-eb-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Karin":
             if dice(50):
                 $ picture = char.show("001A-nn-e2-cb-l5-pr-pa.jpg", resize=(800, 600))
@@ -501,9 +573,7 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
             else:
                 $ picture = char.show("01EC-nn-e2-e5-c4-cb-l5-a2.jpg", resize=(800, 600))
     elif location == "school":
-        if char.id == "Tsunade":
-            $ picture = char.show("0079-nn-e6-c1-l2-pr.jpg", resize=(800, 600))
-        elif char.id == "Tenten":
+        if char.id == "Tenten":
             $ picture = char.show("007A-nn-e5-cf-l2-pd.jpg", resize=(800, 600))
         elif char.id == "Temari":
             $ picture = char.show("005D-nn-e2-e6-c1-cm-l2-pr.jpg", resize=(800, 600))
@@ -513,8 +583,6 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
             $ picture = char.show("009A-nn-e5-cf-l2-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Kushina_Uzumaki":
             $ picture = char.show("0099-nn-e9-ed-c1-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Konan":
-            $ picture = char.show("001A-nn-e6-cf-l2-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Karin":
             $ picture = char.show("0039-nn-ee-c1-l2-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Ino_Yamanaka":
@@ -522,9 +590,7 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
         else: # Hinata
             $ picture = char.show("0015-nn-e5-c1-l2-pr-pa.jpg", resize=(800, 600))
     elif location == "sparring":
-        if char.id == "Tsunade":
-            $ picture = char.show("0011-nn-e2-ca-l2-pb.jpg", resize=(800, 600))
-        elif char.id == "Tenten":
+        if char.id == "Tenten":
             $ picture = char.show("0052-nn-e1-c1-l2-pb.jpg", resize=(800, 600))
         elif char.id == "Temari":
             $ picture = char.show("004E-nn-e5-ca-l2-pr-pb.jpg", resize=(800, 600))
@@ -534,8 +600,6 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
             $ picture = char.show("0011-nn-e2-z2-c2-cm-l3-pb-pf.jpg", resize=(800, 600))
         elif char.id == "Kushina_Uzumaki":
             $ picture = char.show("000E-nn-e2-e6-ca-l1-pb.png", resize=(800, 600))
-        elif char.id == "Konan":
-            $ picture = char.show("0018-nn-e1-e2-c4-l2-pr-pb.jpg", resize=(800, 600))
         elif char.id == "Karin":
             $ picture = char.show("0038-nn-e2-c2-l3-la-lc-pr-pb.jpg", resize=(800, 600))
         elif char.id == "Ino_Yamanaka":
@@ -543,9 +607,7 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
         else: # Hinata
             $ picture = char.show("00B5-nn-e6-c1-l2-pb.jpg", resize=(800, 600))
     elif location == "talking":
-        if char.id == "Tsunade":
-            $ picture = char.show("00AD-nn-e2-ec-c1-l4-lf-pr-pc.jpg", resize=(800, 600))
-        elif char.id == "Tenten":
+        if char.id == "Tenten":
             $ picture = char.show("0096-nn-c1-l2-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Temari":
             $ picture = char.show("0062-nn-c1-l3-l9-lc-pc.jpg", resize=(800, 600))
@@ -558,8 +620,6 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
             $ picture = char.show("0099-nn-e2-e5-c1-l3-pr.jpg", resize=(800, 600))
         elif char.id == "Kushina_Uzumaki":
             $ picture = char.show("0091-nn-e2-e4-c6-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Konan":
-            $ picture = char.show("001B-nn-e5-cm-l3-lb-lc-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Karin":
             $ picture = char.show("0049-nn-e6-c1-l3-l9-lc-pr.jpg", resize=(800, 600))
         elif char.id == "Ino_Yamanaka":
@@ -571,12 +631,7 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
                 $ picture = char.show("0090-nn-e4-c1-l3-l9-pr.jpg", resize=(800, 600))
             
     else: # revealing
-        if char.id == "Tsunade":
-            if dice(50):
-                $ picture = char.show("0014-nn-e2-c4-l2-pr-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("0034-nn-e2-ec-c4-l2-pr.jpg", resize=(800, 600))
-        elif char.id == "Tenten":
+        if char.id == "Tenten":
             $ picture = char.show("0082-nn-e2-ec-c2-l2-pr-pf.jpg", resize=(800, 600))
         elif char.id == "Temari":
             $ picture = char.show("0068-nn-e2-e5-ec-c1-l4-le-pr-pc.jpg", resize=(800, 600))
@@ -586,8 +641,6 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
             $ picture = char.show("0013-nn-e2-c4-cf-l2-pr-pa.jpg", resize=(800, 600))
         elif char.id == "Kushina_Uzumaki":
             $ picture = char.show("007C-nn-eb-c4-l2-pr-pb.jpg", resize=(800, 600))
-        elif char.id == "Konan":
-            $ picture = char.show("0054-nn-e6-c1-l2-pr.jpg", resize=(800, 600))
         elif char.id == "Karin":
             $ picture = char.show("003E-nn-eb-ee-c1-l2-pr-pb.jpg", resize=(800, 600))
         elif char.id == "Ino_Yamanaka":
@@ -603,3 +656,63 @@ label naruto_pack_image_list(char, location): # this label shows fixed pictures 
                 
     show expression picture at truecenter with dissolve
     return
+    
+label hidden_village_hiring_tsunade:
+    $ char.override_portrait("portrait", "confident")
+    "You ask her to join you."
+    char.say "I don't mind, I'm tired of this village as much as others. But I need to pay my gambling debts first. It will be 5000 G."
+    if hero.gold >= 5000:
+        menu:
+            "Pay her 5000 G?"
+            "Yes":
+                if hero.take_money(5000):
+                    char.say "Great, one debt less... I'll meet you outside the village then."
+                    $ char.del_flag("event_to_interactions_hidden_village_hiring_tsunade")
+                    $ char.del_flag("quest_cannot_be_hired")
+                    $ char.del_flag("village_quest_house_is_visible")
+                    $ hero.add_char(char)
+                    $ char.restore_portrait()
+                    jump hiddenvillage_entrance
+                else:
+                    char.say "Oh, that's too bad. Tell me if you change your mind."
+                    $ char.restore_portrait()
+                    jump girl_interactions
+            "No":
+                char.say "Oh, that's too bad. Tell me if you change your mind."
+                $ char.restore_portrait()
+                jump girl_interactions
+    else:
+        "Sadly, you don't have so much gold."
+        char.say "Oh, that's too bad. The proposition still stands though."
+        $ char.restore_portrait()
+        jump girl_interactions
+                    
+label hidden_village_hiring_konan:
+    "You ask her to join you."
+    $ char.override_portrait("portrait", "indifferent")
+    char.say "It's not a problem. However, I an a mercenary. I want 1000 G for my services."
+    if hero.gold >= 1000:
+        menu:
+            "Pay her 1000 G?"
+            "Yes":
+                if hero.take_money(1000):
+                    char.say "In this case, I'm at your service."
+                    $ char.del_flag("event_to_interactions_hidden_village_hiring_konan")
+                    $ char.del_flag("quest_cannot_be_hired")
+                    $ char.del_flag("village_quest_house_is_visible")
+                    $ hero.add_char(char)
+                    $ char.restore_portrait()
+                    jump hiddenvillage_entrance
+                else:
+                    char.say "Then please return when you will have the money."
+                    $ char.restore_portrait()
+                    jump girl_interactions
+            "No":
+                char.say "Then please return when you will have the money."
+                $ char.restore_portrait()
+                jump girl_interactions
+    else:
+        "Sadly, you don't have so much gold."
+        char.say "Then please return when you will have the money."
+        $ char.restore_portrait()
+    jump girl_interactions
