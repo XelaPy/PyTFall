@@ -338,7 +338,7 @@ label quest_to_unlock_village:
     jump main_street
     
 label first_arrive_to_the_hidden_village:
-    scene bg hiddenvillage_entrance
+    scene bg hiddenvillage_entrance with dissolve
     $ k = chars["Konan"]
     $ k_spr = chars["Konan"].get_vnsprite()
     $ k.override_portrait("portrait", "indifferent")
@@ -357,8 +357,8 @@ label first_arrive_to_the_hidden_village:
     hide expression k_spr with dissolve
     "You decided to follow her for now. The village seems quite peaceful and underpopulated."
     scene bg story cab_2
-    show expression k_spr at center
-    show expression t_spr at center
+    show expression k_spr at left
+    show expression t_spr at right
     with dissolve
     k.say "Your guest is here, ma'am."
     t.say "Wonderful. You may go now."
@@ -401,6 +401,7 @@ label first_arrive_to_the_hidden_village:
     $ t.restore_portrait()
     $ k.restore_portrait()
     "From now on you can use the main village building to teach locals. Over time they will begin to trust you enough to do something else."
+    $ pytfall.world_quests.get("The Hidden Ones").finish_in_label("You found a village of ninjas in the forest near the city.", "complete")
     $ global_flags.set_flag('hidden_village_study_icon')
     jump hiddenvillage_entrance
 label hidden_village_study: # here MC teaches the villagers about the outside world
@@ -536,123 +537,21 @@ screen hidden_village_chars_list(characters): # the screen shows portraits of gi
                 align 0, .5
                 xysize (102, 102)
 
-label naruto_pack_image_list(char, location): # this label shows fixed pictures for naruto chars depending on the character and location; should be called
+label naruto_pack_image_list(char, location): # this label shows pictures for naruto chars depending on the location; should be called
     if location == "beach":
-        if char.id == "Tenten":
-            $ picture = char.show("009F-nn-e2-e5-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Temari":
-            $ picture = char.show("0027-nn-e5-c4-cb-l5-pr-ah.jpg", resize=(800, 600))
-        elif char.id == "Sakura":
-            if dice(50):
-                $ picture = char.show("00BD-nn-e5-cb-l5-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("00EC-nn-e6-cb-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Naruko_Uzumaki":
-            if dice(50):
-                $ picture = char.show("0001-nn-e2-c4-cb-l5-pr.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("0032-nn-e2-e5-c4-cb-l5-pr-pc.jpg", resize=(800, 600))
-        elif char.id == "Kushina_Uzumaki":
-            if dice(50):
-                $ picture = char.show("00A6-nn-e6-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("00A0-nn-e2-e6-c4-cb-l5-pr.jpg", resize=(800, 600))
-        elif char.id == "Karin":
-            if dice(50):
-                $ picture = char.show("001A-nn-e2-cb-l5-pr-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("0063-nn-e2-e3-c4-cb-l5-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Ino_Yamanaka":
-            if dice(50):
-                $ picture = char.show("0007-nn-e5-cb-l5-pr.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("002F-nn-e2-c4-cb-l3-pr-pa.jpg", resize=(800, 600))
-        else: # Hinata
-            if dice(50):
-                $ picture = char.show("0008-nn-e5-cb-l5-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("01EC-nn-e2-e5-c4-cb-l5-a2.jpg", resize=(800, 600))
+        $ picture = char.show("sfw", "swimsuit", exclude=["pool", "sleeping", "sad", "angry", "scared"], type="reduce", resize=(800, 600))
+
     elif location == "school":
-        if char.id == "Tenten":
-            $ picture = char.show("007A-nn-e5-cf-l2-pd.jpg", resize=(800, 600))
-        elif char.id == "Temari":
-            $ picture = char.show("005D-nn-e2-e6-c1-cm-l2-pr.jpg", resize=(800, 600))
-        elif char.id == "Sakura":
-            $ picture = char.show("000A-nn-e2-cf-l2-pd.jpg", resize=(800, 600))
-        elif char.id == "Naruko_Uzumaki":
-            $ picture = char.show("009A-nn-e5-cf-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Kushina_Uzumaki":
-            $ picture = char.show("0099-nn-e9-ed-c1-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Karin":
-            $ picture = char.show("0039-nn-ee-c1-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Ino_Yamanaka":
-            $ picture = char.show("0010-nn-e2-cf-l2-pr.jpg", resize=(800, 600))
-        else: # Hinata
-            $ picture = char.show("0015-nn-e5-c1-l2-pr-pa.jpg", resize=(800, 600))
+        $ picture = char.show("sfw", "girlmeets", "schoolgirl", exclude=["outdoors", "sleeping", "revealing", "formal", "sad", "angry", "scared", "swimsuit"], type="reduce", resize=(800, 600))
+
     elif location == "sparring":
-        if char.id == "Tenten":
-            $ picture = char.show("0052-nn-e1-c1-l2-pb.jpg", resize=(800, 600))
-        elif char.id == "Temari":
-            $ picture = char.show("004E-nn-e5-ca-l2-pr-pb.jpg", resize=(800, 600))
-        elif char.id == "Sakura":
-            $ picture = char.show("00C0-nn-e2-c1-l2-pr-pb.jpg", resize=(800, 600))
-        elif char.id == "Naruko_Uzumaki":
-            $ picture = char.show("0011-nn-e2-z2-c2-cm-l3-pb-pf.jpg", resize=(800, 600))
-        elif char.id == "Kushina_Uzumaki":
-            $ picture = char.show("000E-nn-e2-e6-ca-l1-pb.png", resize=(800, 600))
-        elif char.id == "Karin":
-            $ picture = char.show("0038-nn-e2-c2-l3-la-lc-pr-pb.jpg", resize=(800, 600))
-        elif char.id == "Ino_Yamanaka":
-            $ picture = char.show("005A-nn-e1-c1-cm-l2-pb-a8.jpg", resize=(800, 600))
-        else: # Hinata
-            $ picture = char.show("00B5-nn-e6-c1-l2-pb.jpg", resize=(800, 600))
+        $ picture = char.show("sfw", "battle", "outdoors", "nature", exclude=["indoors", "swimsuit"], type="reduce", resize=(800, 600))
+
     elif location == "talking":
-        if char.id == "Tenten":
-            $ picture = char.show("0096-nn-c1-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Temari":
-            $ picture = char.show("0062-nn-c1-l3-l9-lc-pc.jpg", resize=(800, 600))
-        elif char.id == "Sakura":
-            if dice(50):
-                $ picture = char.show("009D-nn-e2-c1-l2-l3-pr-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("009C-nn-e2-e5-c1-l3-l9-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Naruko_Uzumaki":
-            $ picture = char.show("0099-nn-e2-e5-c1-l3-pr.jpg", resize=(800, 600))
-        elif char.id == "Kushina_Uzumaki":
-            $ picture = char.show("0091-nn-e2-e4-c6-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Karin":
-            $ picture = char.show("0049-nn-e6-c1-l3-l9-lc-pr.jpg", resize=(800, 600))
-        elif char.id == "Ino_Yamanaka":
-            $ picture = char.show("0054-nn-e6-eb-c1-cm-l3-l9-pr-pa.jpg", resize=(800, 600))
-        else: # Hinata
-            if dice(50):
-                $ picture = char.show("00BE-nn-e5-c1-l3-la-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("0090-nn-e4-c1-l3-l9-pr.jpg", resize=(800, 600))
+        $ picture = char.show("sfw", "girlmeets", "outdoors", exclude=["wildness", "revealing", "formal", "sad", "angry", "scared", "swimsuit"], type="reduce", resize=(800, 600))
             
     else: # revealing
-        if char.id == "Tenten":
-            $ picture = char.show("0082-nn-e2-ec-c2-l2-pr-pf.jpg", resize=(800, 600))
-        elif char.id == "Temari":
-            $ picture = char.show("0068-nn-e2-e5-ec-c1-l4-le-pr-pc.jpg", resize=(800, 600))
-        elif char.id == "Sakura":
-            $ picture = char.show("00DA-nn-e2-c4-l2-pr.jpg", resize=(800, 600))
-        elif char.id == "Naruko_Uzumaki":
-            $ picture = char.show("0013-nn-e2-c4-cf-l2-pr-pa.jpg", resize=(800, 600))
-        elif char.id == "Kushina_Uzumaki":
-            $ picture = char.show("007C-nn-eb-c4-l2-pr-pb.jpg", resize=(800, 600))
-        elif char.id == "Karin":
-            $ picture = char.show("003E-nn-eb-ee-c1-l2-pr-pb.jpg", resize=(800, 600))
-        elif char.id == "Ino_Yamanaka":
-            if dice(50):
-                $ picture = char.show("004C-nn-e6-ec-c4-cm-l2-pr.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("000B-nn-ee-c4-l1-pr-pa.png", resize=(800, 600))
-        else: # Hinata
-            if dice(50):
-                $ picture = char.show("0072-nn-e6-c1-l2-pr-pa.jpg", resize=(800, 600))
-            else:
-                $ picture = char.show("00BF-nn-e6-l2-pr.jpg", resize=(800, 600))
+        $ picture = char.show("nude", "indoors", "living", exclude=["striptease", "sad", "angry", "scared", "swimsuit"], type="reduce", resize=(800, 600))
                 
     show expression picture at truecenter with dissolve
     return
@@ -672,7 +571,7 @@ label hidden_village_hiring_tsunade:
                     $ char.del_flag("village_quest_house_is_visible")
                     $ hero.add_char(char)
                     $ char.restore_portrait()
-                    jump hiddenvillage_entrance
+                    jump hiddenvillage_entrance # TODO for XELA: for some reason after I jump to the entrance the girlmeets screen remains; I dunno how to fix it
                 else:
                     char.say "Oh, that's too bad. Tell me if you change your mind."
                     $ char.restore_portrait()
@@ -702,7 +601,7 @@ label hidden_village_hiring_konan:
                     $ char.del_flag("village_quest_house_is_visible")
                     $ hero.add_char(char)
                     $ char.restore_portrait()
-                    jump hiddenvillage_entrance
+                    jump hiddenvillage_entrance # TODO for XELA: for some reason after I jump to the entrance the girlmeets screen remains; I dunno how to fix it
                 else:
                     char.say "Then please return when you will have the money."
                     $ char.restore_portrait()

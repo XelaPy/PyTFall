@@ -13,7 +13,6 @@ label hiddenvillage_entrance:
     
     if not global_flags.flag('visited_hidden_village'):
         $ global_flags.set_flag('visited_hidden_village')
-        # place for introduction
         $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i.name != "Tsunade" and i.name != "Konan") # list of all quest characters from the pack that are still a part of the quest; we'll remove them from here as player finishes their personal quests
         python:
             for i in naruto_quest_characters_list:
@@ -31,6 +30,7 @@ label hiddenvillage_entrance:
             chars["Konan"].set_flag("quest_cannot_be_hired")
             chars["Konan"].set_flag("event_to_interactions_hidden_village_hiring_konan", value={"label": "hidden_village_hiring_konan", "button_name": "Ask her to join you", "condition": "True"})
             chars["Konan"].set_flag("village_quest_house_is_visible")
+        jump first_arrive_to_the_hidden_village
     scene bg hiddenvillage_entrance
     with dissolve
     show screen hiddenvillage_entrance
