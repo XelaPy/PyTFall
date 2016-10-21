@@ -92,7 +92,7 @@
     {
     "id": "Clownfish",
     "desc": "A small omnivorous fish with a very unusual appearance. Can be found in most aquariums.",
-    "icon": "content/items/fish/ruby.png",
+    "icon": "content/items/fish/clown.png",
     "price": 30,
     "chance": 25,
     "slot": "loot",
