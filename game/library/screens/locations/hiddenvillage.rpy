@@ -10,15 +10,10 @@ label hiddenvillage_entrance:
         if pytfall.world_actions.location("hiddenvillage_entrance"):
             pytfall.world_actions.add("hiddenvillage_matrix", "Explore", Jump("hidden_village_matrix"))
             pytfall.world_actions.finish()
-
-    scene bg hiddenvillage_entrance
-    with dissolve
-    show screen hiddenvillage_entrance
     
     if not global_flags.flag('visited_hidden_village'):
         $ global_flags.set_flag('visited_hidden_village')
-        # place for introduction
-        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin) # list of all quest characters from the pack that are still a part of the quest; we'll remove them from here as player finishes their personal quests
+        $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i.name != "Tsunade" and i.name != "Konan") # list of all quest characters from the pack that are still a part of the quest; we'll remove them from here as player finishes their personal quests
         python:
             for i in naruto_quest_characters_list:
                 i.set_flag("quest_cannot_be_hired") # cannot be hired until the quest is finished
@@ -29,6 +24,17 @@ label hiddenvillage_entrance:
                 else:
                     i.set_flag("village_quest_knowledge_level", value=20) # except her since she had a quest in the city already
                     i.set_flag("village_quest_house_is_visible") # these flags control if MC has access to character house inside the matrix, we give one to her
+            chars["Tsunade"].set_flag("quest_cannot_be_hired")
+            chars["Tsunade"].set_flag("event_to_interactions_hidden_village_hiring_tsunade", value={"label": "hidden_village_hiring_tsunade", "button_name": "Ask her to join you", "condition": "True"})
+            chars["Tsunade"].set_flag("village_quest_house_is_visible")
+            chars["Konan"].set_flag("quest_cannot_be_hired")
+            chars["Konan"].set_flag("event_to_interactions_hidden_village_hiring_konan", value={"label": "hidden_village_hiring_konan", "button_name": "Ask her to join you", "condition": "True"})
+            chars["Konan"].set_flag("village_quest_house_is_visible")
+        jump first_arrive_to_the_hidden_village
+    scene bg hiddenvillage_entrance
+    with dissolve
+    show screen hiddenvillage_entrance
+    
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
         
@@ -51,11 +57,12 @@ screen hiddenvillage_entrance:
 
     use top_stripe(True)
     $ img_study = ProportionalScale("content/gfx/interface/icons/studing.png", 70, 70)
-    imagebutton: # to do: add conditions for the button!
-        pos(120, 200)
-        idle (img_study)
-        hover (im.MatrixColor(img_study, im.matrix.brightness(0.15)))
-        action [Hide("hiddenvillage_entrance"), Jump("hidden_village_study_building"), With(dissolve)]
+    if global_flags.flag('hidden_village_study_icon'):
+        imagebutton:
+            pos(120, 200)
+            idle (img_study)
+            hover (im.MatrixColor(img_study, im.matrix.brightness(0.15)))
+            action [Hide("hiddenvillage_entrance"), Jump("hidden_village_study_building"), With(dissolve)]
     use location_actions("hiddenvillage_entrance")
     if global_flags.flag('hidden_village_shop_first_enter'): # the shop is hidden until found via matrix
         $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
@@ -102,13 +109,13 @@ screen hidden_village_study_menu():
 label hidden_village_check_knowledge: # here we form a screen of characters and return the level of knowledge for the selected one
     if not global_flags.flag('visited_hidden_village_exam'):
         $ global_flags.set_flag('visited_hidden_village_exam')
-        "Here you can check the level of knowledge for every villager. Once their knowledge about the world will be high enough, you will get a chance to hire them."
+        "Here you can check the level of knowledge for every villager. Once their knowledge about the world will be high enough, you will be able to hire them at this screen."
     python:
         characters = {}
         for i in naruto_quest_characters_list:
-            if i.disposition < 200:
+            if i.disposition < 100:
                 l = "indifferent"
-            elif i.disposition < 400:
+            elif i.disposition < 300:
                 l = "happy"
             else:
                 l = "shy"
@@ -132,9 +139,6 @@ label hidden_village_check_knowledge: # here we form a screen of characters and 
         menu:
             "You fulfilled all conditions. Do you wish to hire her?"
             "Yes":
-                if len(naruto_quest_characters_list) > 1 and q.name == "Tsunade":
-                    q.say "As the leader of the village, I cannot leave until you complete your task. Talk to me once your job is done."
-                    jump hidden_village_study_building
                 $ q.del_flag("quest_cannot_be_hired")
                 "You propose [q.name] to work for you."
                 call interactions_agrees_to_be_hired
@@ -144,6 +148,9 @@ label hidden_village_check_knowledge: # here we form a screen of characters and 
                     $ q.del_flag("village_quest_house_is_visible")
                 $ q.del_flag("village_quest_knowledge_level")
                 $ q.del_flag("event_to_interactions_hidden_village_teaching")
+                if not naruto_quest_characters_list:
+                    $ global_flags.del_flag('hidden_village_study_icon')
+                    jump hiddenvillage_entrance
             "Maybe later":
                 $ pass
     jump hidden_village_study_building

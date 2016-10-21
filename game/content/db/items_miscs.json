@@ -663,4 +663,23 @@
     "mod_skills": {"swimming": [0, 0, 0, 0, 1]},
     "skillmax": 100,
     "locations": ["General Store"]
+    },
+    {
+    "id": "Personal Memory Storage",
+    "desc": "All memories of countless former owners are stored inside, giving almost unquenchable source of experience.",
+    "icon": "content/items/misc/mem.png",
+    "price": 1000,
+    "sex": "unisex",
+    "chance": 20,
+    "badness": 100,
+    "eqchance": 50,
+    "hidden": false,
+    "infinite": false,
+    "slot": "misc",
+    "type": "upgrade",
+    "mtemp": 1,
+    "mreusable": true,
+    "mdestruct": false,
+    "mod": {"exp": 30},
+    "locations": ["Fishing", "Exploration"]
     }]

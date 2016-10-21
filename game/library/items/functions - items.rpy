@@ -1,6 +1,6 @@
 init -11 python:
     # Equipment checks and area effects!
-    def has_items(item, chars):
+    def has_items(item, chars): # TO DO AFTER THE BETA: make sure this function can see all equipped items too
         amount = 0
         for c in chars:
             amount += c.inventory[item]
