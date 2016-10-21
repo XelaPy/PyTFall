@@ -376,7 +376,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         background Frame("content/gfx/frame/stat_box_proper.png")
         padding (0, 0)
         margin (0, 0)
-    style proper_stats_frame:
+    style proper_stats_vbox:
         is vbox
         spacing 1
     style proper_stats_main_frame:

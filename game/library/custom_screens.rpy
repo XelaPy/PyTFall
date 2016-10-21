@@ -4,11 +4,9 @@ init: # Items:
     screen items_inv(char=None, main_size=(553, 282), frame_size=(90, 90), return_value=['item', 'get']):
         frame:
             background Null()
-            #background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             xysize main_size
             has hbox box_wrap True
-            #align (0.5, 0.5)
-            for item in list(item for item in char.inventory.getpage()):
+            for item in char.inventory.page_content:
                 frame:
                     if item.bg_color == "dark":
                         background Frame("content/gfx/frame/frame_it2.png", -1, -1)
@@ -16,13 +14,11 @@ init: # Items:
                         background Frame("content/gfx/frame/frame_it2.png", -1, -1)
                     xysize frame_size
                     use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
-                    label (u"{color=#ecc88a}%d" % char.inventory.content[item.id]):
+                    label (u"{color=#ecc88a}%d" % char.inventory[item]):
                         align (0.995, 0.995)
                         style "stats_label_text"
                         text_size 18
                         text_outlines [(2, "#9c8975", 0, 0), (1, "#000000", 0, 0)]
-                        #if item.bg_color == "dark":
-                            #text_color ivory
     
     screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
@@ -100,50 +96,49 @@ init: # Items:
         
         if focus:
             vbox:
-                align (0.5, 0.5)
+                align .5, .5
                 frame:
                     background Frame("content/gfx/frame/frame_dec_1.png", 30, 30)
-                    align (0.5, 0.5)
-                    xpadding 30
-                    ypadding 30
-                    xysize (555, 400)
-                    style_group "content"
-    
+                    xalign .5
+                    padding 30, 30
+                    
                     use itemstats(item=focus, size=(580, 350))
+                    
+                null height 3
                     
                 frame:
                     background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-                    align (0.5, 1.0)
-                    xysize (300, 110)
-                    vbox:
-                        align (0.5, 1.0)
-                        xysize (400, 110)
-                        frame:
-                            align (0.5, 0.5)
-                            style_group "stats"
-                            $ total_price = item_price * amount
-                            label "Retail Price: [total_price]":
-                                text_color gold
-                                text_size 22
-                                xalign 0.5
-                        
+                    xalign .5
+                    padding 10, 10
+                    
+                    has vbox ysize 100
+                    
+                    frame:
+                        xalign .5
+                        style_prefix "proper_stats"
+                        $ total_price = item_price * amount
+                        padding 3, 3
                         fixed:
-                            xsize 150
-                            xalign 0.5
-                            spacing 25
-                            use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_left.png', 40, 40), return_value=['control', "decrease_amount"], align=(0, 0.5))
-                            text ("{size=36}[amount]") align (0.5, 0.5) color ivory style "proper_stats_label_text"
-                            use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 40, 40), return_value=['control', "increase_amount"], align=(1.0, 0.5))
-                        
-                        button:
-                            style_group "basic"
-                            action Return(['item', 'buy/sell'])
-                            xsize 100
-                            xalign 0.5
-                            if purchasing_dir == "buy":
-                                text "Buy"
-                            elif purchasing_dir == "sell":
-                                text "Sell"
+                            xysize 250, 25
+                            label "Retail Price:" text_color gold text_size 22 xalign .0 yalign .5
+                            label "[total_price]" text_color gold text_size 22 xalign 1.0 yalign .5
+                    
+                    fixed:
+                        xsize 180
+                        xalign .5
+                        use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_left.png', 40, 40), return_value=['control', "decrease_amount"], align=(0, .5))
+                        text ("{size=36}[amount]") align .5, .5 color ivory style "proper_stats_label_text"
+                        use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 40, 40), return_value=['control', "increase_amount"], align=(1.0, 0.5))
+                    
+                    button:
+                        style_prefix "basic"
+                        action Return(['item', 'buy/sell'])
+                        xsize 100
+                        xalign 0.5
+                        if purchasing_dir == "buy":
+                            text "Buy"
+                        elif purchasing_dir == "sell":
+                            text "Sell"
         
         use exit_button
     
@@ -162,74 +157,73 @@ init: # Items:
     screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=False):
         if item:
             fixed:
-                maximum (size[0], size[1])
+                xysize size
                 vbox:
-                    align (0.5, 0.5)
-                    yfill True
+                    align .5, .5
                     frame:
-                        xalign 0.5
+                        xalign .5
                         xysize (440, 40)
                         background Frame("content/gfx/frame/p_frame7.png", 10, 10)
                         label '[item.id]' text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
+                        
                     vbox:
-                        yfill True
-                        align (0.5, 0.5)
-                        #xmaximum (size[0]-15-175)
-                        null height -15
-                        label ('{color=#ecc88a}_____________________________________') align (0.5, 0.5)
+                        align .5, .5
+                        label ('{color=#ecc88a}----------------------------------------') xalign .5
                         hbox:
-                            align (0.5, 0.5)
+                            xalign .5
                             xfill True
                             frame:
                                 xpos 0
                                 yalign 0.5
                                 background Frame("content/gfx/frame/frame_it2.png", 5, 5)
                                 xysize (130, 130)
-                                add (ProportionalScale(item.icon, 110, 110)) align(0.5, 0.5)
+                                add (ProportionalScale(item.icon, 110, 110)) align .5, .5
                             frame:
                                 background Frame("content/gfx/frame/p_frame4.png", 10, 10)
-                                xysize (205, 130)
-                                vbox:
-                                    style_group "stats"
-                                    spacing -7
-                                    xfill True
-                                    null height 15
-                                    frame:
-                                        xsize 195
-                                        text ('Price:') color gold yalign 0.5
-                                        label ('{size=-3}{color=[gold]}[item.price]') align (1.0, 0.5)
-                                    frame:
-                                        xsize 195
-                                        text ('Slot:') color ivory yalign 0.5
-                                        label ('{size=-3}%s'%item.slot.capitalize()) align (1.0, 0.5)
-                                    frame:
-                                        xsize 195
-                                        text ('Type:') color ivory yalign 0.5
-                                        label ('{size=-3}%s'%item.type.capitalize()) xalign 1.0 align (1.0, 0.5)
-                                    frame:
-                                        xsize 195
-                                        text ('Sex:') color ivory yalign 0.5
-                                        if item.slot in ["gift", "resources", "loot"]:
-                                            label "{size=-3}N/A" xalign 1.0 align (1.0, 0.5)
-                                        elif item.type == "food" and item.sex == 'unisex':
-                                            label "{size=-3}N/A" xalign 1.0 align (1.0, 0.5)
-                                        elif item.sex == 'male':
-                                            label ('{size=-3}{color=#FFA54F}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
-                                        elif item.sex == 'female':
-                                            label ('{size=-3}{color=#FFAEB9}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
-                                        elif item.sex == 'unisex':
-                                            label ('{size=-3}%s'%item.sex.capitalize()) xalign 1.0 align (1.0, 0.5)
+                                padding 15, 15
+                                yalign .5
+                                style_prefix "proper_stats"
+                                has vbox spacing 1
+                                frame:
+                                    xysize 195, 22
+                                    padding 4, 1
+                                    text ('Price:') color gold xalign .0 yoffset -1
+                                    label ('[item.price]') xalign 1.0 text_size 18 text_color gold yoffset -2
+                                frame:
+                                    xysize 195, 22
+                                    padding 4, 1
+                                    text ('Slot:') color ivory xalign .0 yoffset -1
+                                    label ('{size=-3}%s'%item.slot.capitalize()) align (1.0, 0.5)
+                                frame:
+                                    xysize 195, 22
+                                    padding 4, 1
+                                    text ('Type:') color ivory yalign 0.5
+                                    label ('{size=-3}%s'%item.type.capitalize()) xalign 1.0 text_size 18 yoffset -2
+                                frame:
+                                    xysize 195, 22
+                                    padding 4, 1
+                                    text ('Sex:') color ivory xalign .0 yoffset -1
+                                    if item.slot in ["gift", "resources", "loot"]:
+                                        label "N/A" xalign 1.0 text_size 18 yoffset -2
+                                    elif item.type == "food" and item.sex == 'unisex':
+                                        label "N/A" xalign 1.0 text_size 18 yoffset -2
+                                    elif item.sex == 'male':
+                                        label ('{color=#FFA54F}%s'%item.sex.capitalize()) xalign 1.0 text_size 18 yoffset -2
+                                    elif item.sex == 'female':
+                                        label ('{color=#FFAEB9}%s'%item.sex.capitalize()) xalign 1.0 text_size 18 yoffset -2
+                                    elif item.sex == 'unisex':
+                                        label ('%s'%item.sex.capitalize()) xalign 1.0 text_size 18 yoffset -2
                             frame:
                                 xysize (165, 130)
                                 background Frame("content/gfx/frame/p_frame7.png", 5, 5)
-                                has viewport scrollbars "vertical" mousewheel True style_group "proper_stats" xysize (165, 125) child_size 160, 500
+                                has viewport mousewheel True draggable True style_group "proper_stats" xysize (165, 122) child_size 160, 500
                                 vbox:
                                     spacing 1
                                     if item.mod:
                                         label ('Stats:') text_size 18 text_color gold xpos 10
                                         for stat, value in item.mod.items():
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text stat.capitalize() color ivory size 16 align (0.02, 0.5)
                                                 label (u'{size=-4}[value]') align (0.98, 0.5)
                                         null height 2
@@ -237,7 +231,7 @@ init: # Items:
                                         label ('Max:') text_size 18 text_color gold xpos 10
                                         for stat, value in item.max.items():
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text stat.capitalize() color ivory size 16 align (0.02, 0.5)
                                                 label u'{size=-4}[value]' align (0.98, 0.5)
                                         null height 2
@@ -245,7 +239,7 @@ init: # Items:
                                         label ('Min:') text_size 18 text_color gold xpos 10
                                         for stat, value in item.min.items():
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text stat.capitalize() color ivory size 16 align (0.02, 0.5)
                                                 label (u'{size=-4}%d'%value) align (0.98, 0.5)
                                         null height 2
@@ -253,50 +247,49 @@ init: # Items:
                                         label ('Adds Traits:') text_size 16 text_color gold xpos 10
                                         for trait in item.addtraits:
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text(u'%s'%trait.capitalize()) color ivory size 16 align (0.5, 0.5)
                                         null height 2
                                     if item.removetraits:
                                         label ('Removes Traits:') text_size 16 text_color gold xpos 10
                                         for trait in item.removetraits:
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text(u'%s'%trait.capitalize()) color ivory size 16 align (0.5, 0.5)
                                         null height 2
                                     if item.add_be_spells:
                                         label ('Adds Skills:') text_size 16 text_color gold xpos 10
                                         for skill in item.add_be_spells:
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text(u'%s'%skill.capitalize()) color ivory size 16 align (0.5, 0.5)
                                         null height 2
                                     if item.remove_be_spells:
                                         label ('Removes Skills:') text_size 16 text_color gold xpos 10
                                         for skill in item.remove_be_spells:
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text (u'%s'%skill.capitalize()) color ivory size 16 align (0.5, 0.5)
                                         null height 2
                                     if item.addeffects:
                                         label ('Adds Effects:') text_size 16 text_color gold xpos 10
                                         for effect in item.addeffects:
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text(u'%s'%effect.capitalize()) color ivory size 16 align (0.5, 0.5)
                                         null height 2
                                     if item.removeeffects:
                                         label ('Removes Effects:') text_size 16 text_color gold xpos 10
                                         for effect in item.removeeffects:
                                             frame:
-                                                xysize 140, 20
+                                                xysize 153, 20
                                                 text(u'%s'%effect.capitalize()) color ivory size 16 align (0.5, 0.5)
                                                 
-                        null height -15
-                        label ('{color=#ecc88a}_____________________________________') align (0.5, 0.5)
+                        label ('{color=#ecc88a}----------------------------------------') xalign .5
                         frame:
                             xalign .5
                             background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-                            has viewport mousewheel True xysize (460, 120)
+                            has viewport mousewheel True xysize (460, 100)
                             text '[item.desc]' style "TisaOTM" size 16 color gold
                                     
     # Equipment slot frame (of an item)
@@ -342,7 +335,7 @@ init: # Items:
                             idle img
                             hover im.MatrixColor(img, im.matrix.brightness(0.15))
                             action Function(ref.apply_filter, "prev")
-                        label ("%s " % (ref.filter).capitalize()) align (0.5, 0.5)  text_color ivory
+                        label ("%s " % (ref.slot_filter).capitalize()) align (0.5, 0.5)  text_color ivory
                         imagebutton:
                             align (1.0, 0.5)
                             idle (path+'next.png')
@@ -371,7 +364,7 @@ init: # Items:
                                 action Return([root, 'prev_page'])
                             else:
                                 action Function(ref.prev)
-                    label ("%d - %d"%(ref.page+1, ref.max_page+1)) align (0.5, 0.5) text_color ivory
+                    label ("%d - %d"%(ref.page+1, ref.max_page)) align (0.5, 0.5) text_color ivory
                     hbox:
                         align (1.0, 0.5)
                         imagebutton:
@@ -380,7 +373,7 @@ init: # Items:
                             hover (im.MatrixColor(path+'next.png', im.matrix.brightness(0.15)))
                             if root:
                                 action Return([root, 'next_page'])
-                            else:    
+                            else:
                                 action Function(ref.next)
                         imagebutton:
                             yalign 0.5
@@ -388,7 +381,7 @@ init: # Items:
                             hover (im.MatrixColor(path+'last.png', im.matrix.brightness(0.15)))
                             if root:
                                 action Return([root, 'last_page'])
-                            else:    
+                            else:
                                 action Function(ref.last)
                         
     screen shop_inventory(ref=None, x=0.0):

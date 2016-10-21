@@ -263,7 +263,7 @@ init -1 python:
                 return True
                 
         def show_equip_button(self):
-            if self.item and self.item.sex != "female" and self.item.id in hero.inventory.content:
+            if self.item and self.item.sex != "female" and self.item in hero.inventory:
                 return True
                 
                 

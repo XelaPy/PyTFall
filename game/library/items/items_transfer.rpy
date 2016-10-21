@@ -144,7 +144,7 @@ screen items_transfer():
                 has vbox
                 if pytfall.it.show_left_items_selection():
                     for litem in pytfall.it.get_left_inventory():
-                        $ left_vp_items_amount = pytfall.it.left_char.inventory.content[litem.id]
+                        $ left_vp_items_amount = pytfall.it.left_char.inventory[litem]
                         button:
                             xysize (330, 28)
                             action [Return(['select_left_item', litem]), SelectedIf(litem == pytfall.it.left_item)]
@@ -205,7 +205,7 @@ screen items_transfer():
                 has vbox xoffset 33
                 if pytfall.it.show_right_items_selection():
                     for ritem in pytfall.it.get_right_inventory():
-                        $ right_vp_items_amount = pytfall.it.right_char.inventory.content[ritem.id]  
+                        $ right_vp_items_amount = pytfall.it.right_char.inventory[ritem]
                         button:
                             xysize (330, 28)
                             action [Return(['select_right_item', ritem]), SelectedIf(ritem == pytfall.it.right_item)]

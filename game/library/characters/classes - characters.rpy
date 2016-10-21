@@ -1966,7 +1966,7 @@ init -9 python:
             for inv in source:
                 # Get a dict of all useful items:
                 d = dict()
-                content = inv.content
+                content = inv.items
                 
                 for item in content:
                     
@@ -2146,14 +2146,14 @@ init -9 python:
                                 returns.append(item.id)
                                 
                                 # Check is there any new conditions preventing repeating the process:
-                                if any([item.id not in inv.content, item.id in self.consblock, item.id in self.constemp, 
+                                if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
                                            item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
                                     break
                                     
                     for skill in target_skills:
                         for item in l:
                             # Check is there any conditions preventing repeating the process:
-                            if any([item.id not in inv.content, item.id in self.consblock, item.id in self.constemp, 
+                            if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
                                        item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
                                 continue
                             

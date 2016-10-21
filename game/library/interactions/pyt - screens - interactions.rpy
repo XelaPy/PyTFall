@@ -235,21 +235,8 @@ label girl_interactions_after_greetings: # when character wants to say something
     jump girl_interactions_control
 
 label girl_interactions_end:
-    python:
-        # Music flag
-        # This causes an issue when run from interactions, trying to fix:
-        if renpy.music.get_playing(channel='world'):
-            global_flags.set_flag("keep_playing_music")
-        
-        # Reset GM counters
-        gm_disp_mult = 1
-        
-        # Reset scene
-        renpy.scene()
-        renpy.hide_screen("girl_interactions")
-        
-        # End the GM
-        gm.end()
+        # End the GM:
+        $ gm.end()
         
 label girl_interactions_control:
     while 1:
@@ -423,7 +410,6 @@ screen girl_interactions():
                 has vbox
                 
                 for item in hero.inventory:
-                    $ item = items[item]
                     if item.slot == "gift":
                         button:
                             style "main_screen_3_button"
@@ -433,7 +419,7 @@ screen girl_interactions():
                                     yoffset 3
                                     xysize (90, 90)
                                     add im.Scale(item.icon, 90, 90)
-                                    text str(hero.inventory.content[item.id]) color ivory style "library_book_header_main" align (0, 0)
+                                    text str(hero.inventory[item]) color ivory style "library_book_header_main" align (0, 0)
                                 null width 10
                                 text "[item.id]" yalign 0.5 style "library_book_header_sub" color ivory
                             action If(hero.AP > 0, Return(["gift", item]))

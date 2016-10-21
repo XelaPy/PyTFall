@@ -21,7 +21,7 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                 python:
                     for item in [i for i in char.eqslots.values() if i]:
                         char.unequip(item)
-                    pool = [i for i in char.inventory.items if i.price <= 1000 and can_transfer(char, hero, i, amount=1, silent=True, force=True)]
+                    pool = [i for i in char.inventory.items.keys() if i.price <= 1000 and can_transfer(char, hero, i, amount=1, silent=True, force=True)]
                     if hasattr(store, "temp"):
                         del temp
                     if pool:

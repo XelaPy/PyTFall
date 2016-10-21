@@ -300,7 +300,7 @@ screen char_equip():
                 at fade_in_out()
                 background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
                 xysize (710, 296)
-                use itemstats2(item=focusitem, size=(703, 296), tt=tt)
+                use itemstats2(item=focusitem, size=(703, 287), tt=tt)
         
     # Left Frame: =====================================>
     fixed:
@@ -567,12 +567,12 @@ screen char_equip():
             spacing 100
             button:
                 xsize 70
-                action SelectedIf(eqtarget == hero or inv_source == hero), If(eqtarget != hero, true=[SetVariable("inv_source", hero), Function(eqtarget.inventory.apply_filter, hero.inventory.filter), Return(['con', 'return']), With(dissolve)]) 
+                action SelectedIf(eqtarget == hero or inv_source == hero), If(eqtarget != hero, true=[SetVariable("inv_source", hero), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)]) 
                 hovered tt.Action("Equip from [hero.nickname]'s Inventory")
                 text "Hero" style "pb_button_text"
             button:
                 xsize 70
-                action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.filter), Return(['con', 'return']), With(dissolve)])
+                action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
         button:
@@ -605,20 +605,25 @@ screen char_equip():
         style_group "dropdown_gm"
         xsize 340
         spacing 2 
-        for filter in inv_source.inventory.ALL_FILTERS:
+        for filter in inv_source.inventory.filters:
             frame:
                 xpadding 0
                 ymargin -8
-                background Null() 
-                $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
-                $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 44, 44)
-                $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 44, 44)
+                background Null()
+                if renpy.loadable("content/gfx/interface/buttons/filters/%s.png" % filter):
+                    $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
+                    $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 44, 44)
+                    $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 44, 44)
+                else:
+                    $ img = Solid("#FFF", xysize=(44, 44))
+                    $ img_hover = Solid("#FFF", xysize=(44, 44))
+                    $ img_selected = Solid("#FFF", xysize=(44, 44))
                 imagebutton:
                     idle img
                     hover Transform(img_hover, alpha=1.1)
                     selected_idle img_selected
                     selected_hover Transform(img_selected, alpha=1.15)
-                    action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.filter)], With(dissolve)
+                    action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.slot_filter)], With(dissolve)
                     focus_mask True
         
     # Inventory: ====================================>
@@ -684,11 +689,11 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
         $ ys = size[1]
         fixed:
             style_prefix "proper_stats"
-            xysize (xs, ys)
+            xysize size
             
             # Top HBox: Discard/Close buttons and the Item ID:
             hbox:
-                align .5, 0
+                align .5, .0
                 xsize xs-10
                 imagebutton:
                     xalign 0
@@ -698,10 +703,10 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     if tt:
                         hovered tt.Action("Discard item")
                 frame:
-                    xalign .5
-                    xysize (439, 20)
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
-                    label ('[item.id]') text_color gold xalign 0.5 text_size 19 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
+                    align .5, .5
+                    xysize (439, 35)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 10, 10), alpha=0.9)
+                    label ('[item.id]') text_color gold align .5, .5 text_size 19 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
                 imagebutton:
                     xalign 1.0
                     idle ("content/gfx/interface/buttons/close3.png")
@@ -711,8 +716,8 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                         hovered tt.Action("Close item info")
             
             # Separation Strip (Outside of alignments):
-            label ('{color=#ecc88a}__________________________________________') xalign .5 ypos 28
-            label ('{color=#ecc88a}__________________________________________') xalign .5 ypos 163
+            label ('{color=#ecc88a}--------------------------------------------------------------------------------------------------') xalign .5 ypos 25
+            label ('{color=#ecc88a}--------------------------------------------------------------------------------------------------') xalign .5 ypos 163
             
             # Mid HBox:
             hbox:
@@ -844,11 +849,12 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                 
             # Bottom HBox: Desc/Traits/Effects/Skills:
             hbox:
-                yalign 0.98
+                yalign 1.0
                 # Traits, Effects:
                 frame:
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
-                    xysize (158, 108)
+                    xysize 158, 104
+                    padding 2, 3
                     has viewport scrollbars "vertical" draggable True mousewheel True
                     
                     # Traits:
@@ -897,14 +903,16 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                                     text (u'{color=#CD4F39}%s'%effect.capitalize()) size 15 align .5, .5
                 
                 frame:
-                    xysize 382, 108 
+                    xysize 382, 104
+                    padding 10, 5
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.9)
                     has viewport scrollbars "vertical" mousewheel True
-                    text '[item.desc]' font "fonts/TisaOTM.otf" size 15 color "#ecc88a" outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
+                    text '[item.desc]' font "fonts/TisaOTM.otf" size 15 color "#ecc88a" outlines [(1, "#3a3a3a", 0, 0)]
                     
                 frame:
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
-                    xysize (158, 108)
+                    xysize 158, 104
+                    padding 2, 3
                     has viewport scrollbars "vertical" draggable True mousewheel True
                     vbox:
                         style_group "proper_stats"

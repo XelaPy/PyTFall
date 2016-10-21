@@ -352,6 +352,17 @@ init -1 python:
             Ends the current scenario.
             safe = Whether to prevent the label jump.
             """
+            # Music flag:
+            if not self.mode in self.USE_GI and renpy.music.get_playing(channel='world'):
+                global_flags.set_flag("keep_playing_music")
+            
+            # Reset GM counters
+            gm_disp_mult = 1
+            
+            # Reset scene
+            renpy.scene()
+            renpy.hide_screen("girl_interactions")
+            
             self.see_greeting = True
             self.show_menu = False
             self.show_menu_givegift = False
