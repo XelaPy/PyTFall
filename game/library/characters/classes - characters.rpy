@@ -1281,11 +1281,10 @@ init -9 python:
                                           (self.__class__, key))
 
         def __setattr__(self, key, value):
-            # Base stats
             if key in self.STATS:
                 self.__dict__["stats"].mod_base_stat(key, value)
             elif key.lower() in self.SKILLS:
-                val = self.__dict__["stats"].mod_skill(key, value)
+                self.__dict__["stats"].mod_skill(key, value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 
@@ -3293,38 +3292,34 @@ init -9 python:
                 
                 if key == 'disposition':
                     # This is a temporary crutch:
-                    if last_label.startswith("gm_"):
-                        if key == "disposition":
-                            value = value + hero.charisma / 2
-
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    
                     if effects['Sibling']['active']:
-                        if effects['Introvert']['active']:
-                            value = value + int((value + stats['disposition'])*0.2)
-                        elif effects['Extrovert']['active']:
-                            value = value + int((value - stats'disposition'])*0.6)
-                        elif effects['Impersonal']['active']:
-                            value = value + int(round((value - stats['disposition'])*0.1))
-                        else:
-                            value = value + int(round((value - stats['disposition'])*0.4))
-                    elif effects['Introvert']['active']:
-                        value = value - int((value - stats['disposition'])*0.2)
+                        mod_val = mod_val*1.2
+                    if effects['Introvert']['active']:
+                        mod_val = mod_val*.8
                     elif effects['Extrovert']['active']:
-                        value = value + int((value - stats['disposition'])*0.2)
+                        mod_val = mod_val*1.2
                     elif effects['Impersonal']['active']:
-                        value = value - int(round((value - stats['disposition'])*0.3))
+                        mod_val = mod_val*.8
                         
-                    # Another crutch, should prolly be moved elsewhere during the code review!!!
-                    value = int(round(value))
-                    if last_label.startswith("gm_"):
-                        value = value - hero.charisma / 2
-                        value = value + hero.charisma / 9
-                        self.__dict__["stats"].exp += self.adjust_exp(randint(3, 6))
-                        hero.exp += self.adjust_exp(randint(3, 6))
+                    if last_label.startswith("interactions_"):
+                        # value = value - hero.charisma / 2
+                        # value = value + hero.charisma / 9
+                        # stats.exp += self.adjust_exp(randint(3, 6))
+                        # hero.exp += self.adjust_exp(randint(3, 6))
                         tag = str(random.random())
-                        renpy.show_screen("display_disposition", tag, value - self.__dict__["stats"]['disposition'], 40, 530, 400, 1)
+                        renpy.show_screen("display_disposition", tag, mod_val, 40, 530, 400, 1)
+                        
+                    value = int(round(old_val + mod_val))
 
                 if key == 'joy' and effects['Impersonal']['active']:
-                    value = value - int(round((value - stats['joy'])*0.3))
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    
+                    mod_val = mod_val*.8
+                    value = int(round(old_val + mod_val))
                     
                 stats.mod_base_stat(key, value)
                 
