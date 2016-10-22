@@ -198,7 +198,7 @@ label interactions_shopping:
     jump girl_interactions
     
 
-screen tailor_store_shopping_girl:
+screen tailor_store_shopping_girl():
     
     frame:
         align(0.5,0)
@@ -221,7 +221,7 @@ screen tailor_store_shopping_girl:
         frame background Frame("content/gfx/frame/mes12.jpg",5,5): 
             align (0.5,0.15)
             xmaximum 700
-            ymaximum 400 #changed so the other frame can go below
+            ymaximum 400 # changed so the other frame can go below
             hbox:
                 use itemstats(item=focus,mode='normal')                                                                 
             frame background Solid((0,0,0,0)):
@@ -230,12 +230,12 @@ screen tailor_store_shopping_girl:
                     text (u' Price: %s'%focus.price)
                     null width 20
                     textbutton "Buy/Sell" action Return(['control','buy/sell']) maximum(150,30)
-        if char.eqslots['body']: #only show the currently equiped item if there is one
+        if char.eqslots['body']: # only show the currently equiped item if there is one
             frame background Frame("content/gfx/frame/mes12.jpg",5,5): 
                 align (0.5,0.95)
                 xmaximum 700
                 ymaximum 300
-                use itemstats(item=char.eqslots['body']) #added a mode to the itemstats
+                use itemstats(item=char.eqslots['body']) # added a mode to the itemstats
                     
         
     use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/shape69.png",40,40),return_value =['control','return'], align=(0.99,0))

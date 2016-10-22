@@ -300,7 +300,7 @@ screen char_equip():
                 at fade_in_out()
                 background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
                 xysize (710, 296)
-                use itemstats2(item=focusitem, size=(703, 287), tt=tt)
+                use char_equip_item_info(item=focusitem, size=(703, 287), tt=tt)
         
     # Left Frame: =====================================>
     fixed:
@@ -678,7 +678,7 @@ screen chars_list1(source=None, page=0, total_pages=1):
                     action Hide("chars_list1")
                 
                     
-screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):
+screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):
     
     key "mousedown_3" action Return(['con', 'return'])
     
@@ -743,7 +743,12 @@ screen itemstats2(item=None, char=None, size=(635, 380), style_group="content", 
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Slot:') xalign 0.02
-                        label ('{color=#F5F5DC}{size=-4}%s'%item.slot.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        python:
+                            if item.slot in SLOTALIASES:
+                                slot = SLOTALIASES[item.slot]
+                            else:
+                                slot = item.slot.capitalize()
+                        label ('{color=#F5F5DC}{size=-4}%s'%slot) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Type:') xalign 0.02
