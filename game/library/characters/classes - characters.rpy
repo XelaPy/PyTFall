@@ -3111,7 +3111,8 @@ init -9 python:
             "Optimist": {"active": False},
             "Pessimist": {"active": False},
             "Composure": {"active": False},
-            "Kleptomaniac": {"active": False}
+            "Kleptomaniac": {"active": False},
+            "Drowsy": {"active": False}
             }
             
             # Trait assets
@@ -3315,7 +3316,11 @@ init -9 python:
                     value = int(round(old_val + mod_val))
                         
                 if key == 'vitality' and effects['Drowsy']['active']:
-                    mod_val = mod_val*.5
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    if mod_val < 0:
+                        mod_val = int(mod_val*.5)
+                        value = int(round(old_val + mod_val))
                     
                 if key == 'joy' and effects['Impersonal']['active']:
                     old_val = stats.get_stat(key)
