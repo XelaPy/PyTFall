@@ -2400,7 +2400,7 @@ init -9 python:
                         
                 for entry in item.removeeffects:
                     if not self.effects[entry]['active']:
-                        self.activate_effect(entry)
+                        self.enable_effect(entry)
                     
         def item_counter(self):
             # Timer to clear consumable blocks
@@ -3097,7 +3097,7 @@ init -9 python:
             self.days_depressed = 0
             
             # Effects assets
-            self.__dict__['effects'] = {
+            self.effects = {
             'Poison': {"active": False, "penalty": False, "duration": False},
             'Slow Learner': {'active': False},
             'Fast Learner': {'active': False},
@@ -4354,7 +4354,6 @@ init -9 python:
         """
         def __init__(self):
             super(NPC, self).__init__()
-            
             
     ### ==>> Rest:
     class Trait(_object):
