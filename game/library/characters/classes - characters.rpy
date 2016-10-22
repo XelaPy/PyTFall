@@ -3301,7 +3301,7 @@ init -9 python:
                         if effects['Introvert']['active']:
                             value = value + int((value + stats['disposition'])*0.2)
                         elif effects['Extrovert']['active']:
-                            value = value + int((value - stats'disposition'])*0.6)
+                            value = value + int((value - stats['disposition'])*0.6)
                         elif effects['Impersonal']['active']:
                             value = value + int(round((value - stats['disposition'])*0.1))
                         else:
