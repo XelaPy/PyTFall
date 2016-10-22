@@ -3288,27 +3288,30 @@ init -9 python:
                     
         def __setattr__(self, key, value):
             if key in self.STATS:
+                stats = self.__dict__["stats"]
+                effects = self.__dict__['effects']
+                
                 if key == 'disposition':
                     # This is a temporary crutch:
                     if last_label.startswith("gm_"):
                         if key == "disposition":
                             value = value + hero.charisma / 2
 
-                    if self.__dict__['effects']['Sibling']['active']:
-                        if self.__dict__['effects']['Introvert']['active']:
-                            value = value + int((value + self.__dict__["stats"]['disposition'])*0.2)
-                        elif self.__dict__['effects']['Extrovert']['active']:
-                            value = value + int((value - self.__dict__["stats"]['disposition'])*0.6)
-                        elif self.__dict__['effects']['Impersonal']['active']:
-                            value = value + int(round((value - self.__dict__["stats"]['disposition'])*0.1))
+                    if effects['Sibling']['active']:
+                        if effects['Introvert']['active']:
+                            value = value + int((value + stats['disposition'])*0.2)
+                        elif effects['Extrovert']['active']:
+                            value = value + int((value - stats'disposition'])*0.6)
+                        elif effects['Impersonal']['active']:
+                            value = value + int(round((value - stats['disposition'])*0.1))
                         else:
-                            value = value + int(round((value - self.__dict__["stats"]['disposition'])*0.4))
-                    elif self.__dict__['effects']['Introvert']['active']:
-                        value = value - int((value - self.__dict__["stats"]['disposition'])*0.2)
-                    elif self.__dict__['effects']['Extrovert']['active']:
-                        value = value + int((value - self.__dict__["stats"]['disposition'])*0.2)
-                    elif self.__dict__['effects']['Impersonal']['active']:
-                        value = value - int(round((value - self.__dict__["stats"]['disposition'])*0.3))
+                            value = value + int(round((value - stats['disposition'])*0.4))
+                    elif effects['Introvert']['active']:
+                        value = value - int((value - stats['disposition'])*0.2)
+                    elif effects['Extrovert']['active']:
+                        value = value + int((value - stats['disposition'])*0.2)
+                    elif effects['Impersonal']['active']:
+                        value = value - int(round((value - stats['disposition'])*0.3))
                         
                     # Another crutch, should prolly be moved elsewhere during the code review!!!
                     value = int(round(value))
@@ -3320,17 +3323,19 @@ init -9 python:
                         tag = str(random.random())
                         renpy.show_screen("display_disposition", tag, value - self.__dict__["stats"]['disposition'], 40, 530, 400, 1)
 
-                if key == 'joy' and self.__dict__['effects']['Impersonal']['active']:
-                    value = value - int(round((value - self.__dict__["stats"]['joy'])*0.3))
+                if key == 'joy' and effects['Impersonal']['active']:
+                    value = value - int(round((value - stats['joy'])*0.3))
                     
-                self.__dict__["stats"].mod_base_stat(key, value)
+                stats.mod_base_stat(key, value)
+                
             elif key == 'exp':
-                self.__dict__["stats"].mod_exp(value)
+                stats = self.__dict__["stats"]
+                stats.mod_exp(value)
+                
             elif key.lower() in self.SKILLS:
-                val = self.__dict__["stats"].mod_skill(key, value)
-            # elif key in set(['normalsex', 'blowjob', 'lesbian', 'strip', "sex"]):
-                # # This is TEMPORARY, UNTIL WE GET RID OF OLD STATS!
-                # pass
+                stats = self.__dict__["stats"]
+                stats.mod_skill(key, value)
+                
             else:
                 super(Char, self).__setattr__(key, value)
                 

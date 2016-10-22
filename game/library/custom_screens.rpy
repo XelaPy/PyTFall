@@ -192,7 +192,12 @@ init: # Items:
                                 xysize 195, 22
                                 padding 4, 1
                                 text ('Slot:') color ivory xalign .0 yoffset -1
-                                label ('{size=-3}%s'%item.slot.capitalize()) align (1.0, 0.5)
+                                python:
+                                    if item.slot in SLOTALIASES:
+                                        slot = SLOTALIASES[item.slot]
+                                    else:
+                                        slot = item.slot.capitalize()
+                                label ('{size=-3}[slot]') align 1.0, .5
                             frame:
                                 xysize 195, 22
                                 padding 4, 1

@@ -229,6 +229,5 @@ screen items_transfer(it_members):
                 xalign .5
                 background Frame("content/gfx/frame/frame_dec_1.png", 10, 10)
                 padding 30, 34
-                # xysize 555, 400
                 use itemstats(item=focused_item, size=(540, 330))
 
