@@ -94,9 +94,9 @@ label char_equip_loop:
         
         if result[0] == "jump":
             if result[1] == "item_transfer":
-                hide char_equip
-                $ pytfall.it = GuiItemsTransfer("personal_transfer", char=eqtarget, last_label="char_equip")
-                jump items_transfer
+                hide screen char_equip
+                $ items_transfer([hero, eqtarget])
+                show screen char_equip
                 
         elif result[0] == "equip_for":
             python:

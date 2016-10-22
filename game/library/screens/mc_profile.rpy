@@ -468,7 +468,7 @@ init:
             spacing 3
             hbox:
                 spacing 52
-                use paging(root='hero', ref=hero.inventory, use_filter=True)
+                use paging(ref=hero.inventory, use_filter=True)
                 use items_inv(char=hero)
                 
             # Buttons:    

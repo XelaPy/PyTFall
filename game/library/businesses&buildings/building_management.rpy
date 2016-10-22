@@ -194,8 +194,14 @@ label building_management_loop:
                         renpy.call_screen('message_screen', "No more rooms can be added to this building!")
             
             elif result[1] == 'items_transfer':
-                $ pytfall.it = GuiItemsTransfer(building, last_label=last_label)
-                $ jump(result[1])
+                python:
+                    it_members = list(w for w in hero.chars if w.location == building)
+                    if hero.location == building:
+                        it_members.insert(0, hero)
+                        
+                hide screen building_management
+                $ items_transfer(it_members)
+                show screen building_management
             
             elif result[1] == "sign":
                 python:
@@ -369,7 +375,7 @@ init: # Screens:
                 if len(building.get_girls()) > 0:
                     button:
                         xysize (135, 40)
-                        action [Hide("building_management"), Return(['building', "items_transfer"])]
+                        action Return(['building', "items_transfer"])
                         hovered tt.action('Transfer items between characters in this building!')
                         text "Transfer Items"
                 else:
