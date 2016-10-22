@@ -3295,14 +3295,14 @@ init -9 python:
                     old_val = stats.get_stat(key)
                     mod_val = value - stats.get_stat(key)
                     
-                    if effects['Sibling']['active']:
-                        mod_val = mod_val*1.2
                     if effects['Introvert']['active']:
                         mod_val = mod_val*.8
                     elif effects['Extrovert']['active']:
                         mod_val = mod_val*1.2
                     elif effects['Impersonal']['active']:
                         mod_val = mod_val*.8
+                        
+
                         
                     if last_label.startswith("interactions_"):
                         # value = value - hero.charisma / 2
@@ -3313,7 +3313,10 @@ init -9 python:
                         renpy.show_screen("display_disposition", tag, mod_val, 40, 530, 400, 1)
                         
                     value = int(round(old_val + mod_val))
-
+                        
+                if key == 'vitality' and effects['Drowsy']['active']:
+                    mod_val = mod_val*.5
+                    
                 if key == 'joy' and effects['Impersonal']['active']:
                     old_val = stats.get_stat(key)
                     mod_val = value - stats.get_stat(key)
@@ -3663,6 +3666,9 @@ init -9 python:
             elif effect == "Fast Learner":
                 self.effects["Fast Learner"]['active'] = True
                 
+            elif effect == "Drowsy":
+                self.effects["Drowsy"]['active'] = True
+                
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = True
                 
@@ -3721,6 +3727,9 @@ init -9 python:
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = False
                 
+            elif effect == "Drowsy":
+                self.effects['Drowsy']['active'] = False
+                
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = False
 
@@ -3753,13 +3762,18 @@ init -9 python:
                     self.effects['Unstable']['joy_mod'] = randint(20, 30)
                     if dice(50):
                         self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
+                        
     
             elif effect == "Optimist":
-                if self.joy < 80:
+                if self.joy < 30:
+                    self.joy += 2
+                elif self.joy < 70:
                     self.joy += 1
                     
             elif effect == "Pessimist":
-                if self.joy > 20:
+                if self.joy > 70:
+                    self.joy -= 2
+                elif self.joy > 30:
                     self.joy -= 1
                         
             elif effect == "Composure":
@@ -3781,8 +3795,14 @@ init -9 python:
                     self.disable_effect('Down with Cold')
                 
             elif effect == "Kleptomaniac":
-                if dice(int(self.agility/10 + max(self.level, 50))):
-                    self.gold += int(self.agility + self.level*randint(1,3))
+                if dice(75):
+                    self.gold += max(1, randint(1, self.luck+50))
+                
+            elif effect == "Sibling":
+                if self.disposition < 100:
+                    self.disposition += 2
+                elif self.disposition < 200 and dice(50):
+                    self.disposition += 1
                     
             elif effect == "Food Poisoning":
                 if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:

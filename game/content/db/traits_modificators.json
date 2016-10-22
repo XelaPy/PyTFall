@@ -75,7 +75,7 @@
     "id": "Serious",
     "desc": "This girl doesn't joke around.",
     "mod_skills": {"management": [0.01, 0, 0.01], "bartending": [0, 0, -0.01]},
-    "effect": "Composure",
+    "effects": ["Composure"],
     "character_trait": true
     },
     {
@@ -190,6 +190,7 @@
     "mod_skills": {"strip": [0, 0, 0.1], "waiting": [-0.01, 0, -0.1]},
     "character_trait": true,
     "client": true,
+    "effects": ["Drowsy"],
     "evasion_bonus": [-5, -5, 1],
     "defence_multiplier": {"status":0.1}
     },

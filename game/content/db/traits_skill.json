@@ -3,14 +3,14 @@
     "id": "Curious",
     "desc": "This girl is very inquisitive.",
     "blocks": ["Indifferent"],
-    "effect": "Fast Learner",
+    "effects": ["Fast Learner"],
     "character_trait": true
     },
     {
     "id": "Indifferent",
     "desc": "This girl doesn't care much about the world around as long as it doesn't concern her.",
     "blocks": ["Curious"],
-    "effect": "Slow Learner",
+    "effects": ["Slow Learner"],
     "character_trait": true
     },
     {
@@ -22,15 +22,15 @@
     },
     {
     "id": "Homebody",
-    "desc": "Who needs adventures when you have a warm house, a tasty food and a good book?.",
+    "desc": "Who needs adventures when you have a warm house, a tasty food and a good book?",
     "blocks": ["Adventurer"],
     "mod_skills": {"exploration": [-0.05, -0.05, -0.05]},
     "character_trait": true
     },
     {
     "id": "Kleptomaniac",
-    "desc": "She cannot resist taking a souvenir from every new place she visits.",
-    "effect": "Kleptomaniac",
+    "desc": "She cannot resist taking a souvenir from every new place she visits (+gold every day if she's lucky).",
+    "effects": ["Kleptomaniac"],
     "character_trait": true
     },
    {

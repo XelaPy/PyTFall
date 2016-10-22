@@ -149,8 +149,9 @@
     },
     {
     "id": "Half-Sister",
-    "desc": "This girl has one parent in common with you",
-    "effect": "Sibling",
+    "desc": "This girl has one parent in common with you. In childhood you spent a lot of time together.",
+    "effects": ["Sibling"],
+    "mod_stats": {"disposition": [200, 1]},
     "permanent": true,
     "client": true
     },

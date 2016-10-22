@@ -14,7 +14,7 @@
     "mod_stats": {"attack": [1, 10]},
     "max": {"character": 10, "intelligence": -10},
     "mod_skills": {"management": [-0.3, 0.1, -0.2], "waiting": [-0.1, 0, -0.2], "bartending": [-0.1, 0, -0.1], "bdsm": [0.2, 0.1, 0.2], "teaching": [0, 0, -0.2], "cleaning": [0, 0, 0.03], "strip": [0, 0.02, 0], "refinement": [0, 0, -0.1], "service": [0, 0.03, -0.1]},
-    "effect": "Unstable",
+    "effects": ["Unstable"],
     "personality": true
     },
     {
@@ -31,7 +31,7 @@
     "mod_stats": {"character": [-1, 5]},
     "max": {"character": -20},
     "mod_skills": {"management": [-0.2, -0.05, -0.15], "waiting": [0, 0.06, -0.01], "bartending": [0, 0, -0.1], "bdsm": [-0.15, 0.15, 0.1], "teaching": [0.02, 0.02, 0.06], "cleaning": [0.1, 0.1, 0.15], "refinement": [-0.15, -0.05, -0.25], "service": [-0.02, 0.03, 0.1]},
-    "effect": "Introvert",
+    "effects": ["Introvert"],
     "personality": true
     },
     {
@@ -42,7 +42,7 @@
     "min": {"intelligence": 5},
     "max": {"character": -10, "intelligence": 10},
     "mod_skills": {"management": [-0.1, 0.1, -0.2], "waiting": [0, 0.1, 0.02], "bartending": [0, 0.1, 0.01], "bdsm": [-0.2, 0.1, -0.1], "teaching": [0.15, 0.1, 0.1], "cleaning": [0, 0.1, 0.2], "refinement": [-0.2, 0.1, -0.1], "service": [0, 0.1, 0], "dancing": [-0.3, -0.1, -0.2], "vaginal": [0, 0.1, 0], "anal": [0, 0.1, 0], "oral": [0, 0.1, 0], "strip": [0, 0.1, -0.1], "exploration": [0, 0.1, 0.1]},
-    "effect": "Impersonal",
+    "effects": ["Impersonal"],
     "personality": true
     },
     {
@@ -80,7 +80,7 @@
     "id": "Deredere",
     "desc": "Sweet, friendly and outgoing personality, without any issues with emotions or behavior.",
     "mod_skills": {"management": [0, 0, 0.1], "waiting": [0.05, 0, 0.05], "cleaning": [0, 0, 0.03], "service": [0, 0, 0.02], "dancing": [0.1, 0.1, 0.1]},
-    "effect": "Extrovert",
+    "effects": ["Extrovert"],
     "personality": true
     }
     ]
