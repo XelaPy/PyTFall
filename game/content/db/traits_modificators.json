@@ -61,14 +61,14 @@
     "id": "Optimist",
     "desc": "She is very cheerful and is rarely in a bad mood. She enjoys what she does, a lot.",
     "blocks": ["Pessimist"],
-    "effect": "Optimist",
+    "effects": ["Optimist"],
     "character_trait": true
     },
     {
     "id": "Pessimist",
     "desc": "All it takes is one thing to send her mood down into the pits of the abyss.",
     "blocks": ["Optimist"],
-    "effect": "Pessimist",
+    "effects": ["Pessimist"],
     "character_trait": true
     },
     {

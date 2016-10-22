@@ -11,7 +11,7 @@ label hiddenvillage_entrance:
             pytfall.world_actions.add("hiddenvillage_matrix", "Explore", Jump("hidden_village_matrix"))
             pytfall.world_actions.finish()
     
-    if not global_flags.flag('visited_hidden_village'):
+    if global_flags.flag('visited_hidden_village'): # should be changed to not global_flags.flag('visited_hidden_village') before the release !!!!!!!!!!!!!!!!!!!
         $ global_flags.set_flag('visited_hidden_village')
         $ naruto_quest_characters_list = list(i for i in chars.values() if "Naruto" in i.origin and i.name != "Tsunade" and i.name != "Konan") # list of all quest characters from the pack that are still a part of the quest; we'll remove them from here as player finishes their personal quests
         python:
