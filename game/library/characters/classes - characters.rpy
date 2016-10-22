@@ -1678,7 +1678,7 @@ init -9 python:
                 pool = list(item for item in auto_buy_items if not(item.badtraits.intersection(self.traits)) and (item.price <= self.gold))
             
             # we form inventory set anyway
-            hasitems = set([items[i] for i in self.inventory]) if self.inventory else set()
+            hasitems = set([i for i in self.inventory]) if self.inventory else set()
             for key in self.eqslots:
                 if self.eqslots[key]:
                     hasitems.add(self.eqslots[key])
