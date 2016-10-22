@@ -290,6 +290,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
+    "mod": {"vitality": -30},
     "removeeffects": ["Down with Cold"],
     "locations": ["Witches Hut", "Look around"]
     },
@@ -1062,7 +1063,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
-    "type": "mc",
+    "type": "special",
     "jump_to_label": "special_items_slime_bottle",
     "locations": ["Fishing"]
     },
@@ -1078,7 +1079,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
-    "type": "mc",
+    "type": "special",
     "jump_to_label": "special_items_empty_extractor",
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -1094,7 +1095,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
-    "type": "mc",
+    "type": "special",
     "jump_to_label": "special_items_full_extractor",
     "locations": ["Witches Hut", "Exploration"]
     },
@@ -1103,7 +1104,7 @@
     "desc": "A small rare talisman capable to bestow gold to people around. Quite uplifting.",
     "icon": "content/items/cons/gl.png",
     "price": 500,
-    "sex": "female",
+    "sex": "male",
     "chance": 40,
     "badness": 100,
     "eqchance": 0,
@@ -1111,7 +1112,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
-    "type": "mc",
+    "type": "special",
     "ceffect": "allchars",
     "locations": ["Exploration", "Fishing"]
     },
@@ -1127,7 +1128,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
-    "type": "mc",
+    "type": "special",
     "jump_to_label": "special_items_one_for_all",
     "locations": ["Exploration", "Fishing"]
     },
@@ -1143,7 +1144,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
-    "type": "restore",
+    "type": "special",
     "jump_to_label": "special_items_herbal_extract",
     "locations": ["Witches Hut"]
     },
@@ -1160,7 +1161,7 @@
     "infinite": false,
     "cblock": 3,
     "slot": "consumable",
-    "type": "restore",
+    "type": "special",
     "jump_to_label": "special_items_emerald_tincture",
     "locations": ["Witches Hut", "Exploration"]
     },

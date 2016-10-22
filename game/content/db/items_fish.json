@@ -226,7 +226,8 @@
     "price": 200,
     "chance": 50,
     "slot": "weapon",
-    "type": "Notaweapon",
+    "type": "tool",
+    "sex": "male",
     "mod_skills": {"fishing": [0.05, 0.05, 0.05, 0, 0]},
     "locations": ["General Store"]
     },
@@ -237,7 +238,7 @@
     "price": 50,
     "chance": 80,
     "slot": "loot",
-    "type": "Notaweapon",
+    "type": "bait",
     "locations": ["General Store", "Look around"]
     },
     {
@@ -247,7 +248,7 @@
     "price": 100,
     "chance": 40,
     "slot": "loot",
-    "type": "Notaweapon",
+    "type": "bait",
     "locations": ["General Store"]
     },
     {
@@ -257,7 +258,7 @@
     "price": 300,
     "chance": 20,
     "slot": "loot",
-    "type": "Notaweapon",
+    "type": "bait",
     "locations": ["Exploration"]
     }
   ]
