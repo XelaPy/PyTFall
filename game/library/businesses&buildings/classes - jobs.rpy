@@ -1719,14 +1719,16 @@
                     else:
                             self.txt.append(choice(["{} is relaxing during her free time.".format(self.worker.name),
                                                     "{} is taking a break during her free time.".format(self.worker.name)]))
-            while self.worker.AP and not all([(self.worker.vitality + self.workermod.get('vitality', 0) >= self.worker.get_max("vitality") - 50),
-                                                          (self.worker.health + self.workermod.get('health', 0) >= self.worker.get_max('health') - 5)]):
-                self.loggs('health', randint(2, 3))
-                self.loggs('vitality', randint(35, 40))
-                self.loggs('mp', randint(1, 3))
-                self.loggs('joy', randint(1, 2))
-                self.worker.AP -= 1
-            
+
+                                                    
+            self.loggs('health', randint(2, 3))
+            if self.worker.effects['Drowsy']['active']:
+                self.loggs('vitality', (randint(30, 50)*self.worker.AP))
+            else:
+                self.loggs('vitality', (randint(15, 30)*self.worker.AP))
+            self.loggs('mp', randint(1, 3))
+            self.loggs('joy', randint(1, 2))
+
             if not self.img:
                 self.img = self.worker.show("rest", resize=(740, 685))
                 

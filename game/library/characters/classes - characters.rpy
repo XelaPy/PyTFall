@@ -4145,16 +4145,7 @@ init -9 python:
                             else:
                                 txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
                         
-                        if self.AP > 0:
-                            if self.health < 90:
-                                txt += "She had some strength left left over today so she took some time to heal her wounds. \n"
-                                self.health += self.AP*2
-                                self.vitality += self.AP*4
-                            
-                            else:
-                                txt += "She had some strength left over today so she spent some time taking a break and having fun. \n"
-                                self.joy += self.AP
-                                self.vitality += self.AP * 5
+
                         
                         # --------------------------------->>>
                         
