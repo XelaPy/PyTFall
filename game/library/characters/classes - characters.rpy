@@ -2208,7 +2208,12 @@ init -9 python:
             # Taking care of stats: -------------------------------------------------->
             for key in item.max:
                 if key in self.STATS:
-                    self.stats.max[key] += item.max[key]
+                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                        self.stats.max[key] += item.max[key]*2
+                    elif "Left-Handed" in self.traits and item.slot == "weapon":
+                        self.stats.max[key] += int(item.max[key]*0.5)
+                    else:
+                        self.stats.max[key] += item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2216,6 +2221,12 @@ init -9 python:
                 if key in self.STATS:
                     # if (self.stats.min[key] + item.min[key]) >= 0: @ Review, this is prolly no longer required.
                     self.stats.min[key] += item.min[key]
+                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                        self.stats.min[key] += item.min[key]*2
+                    elif "Left-Handed" in self.traits and item.slot == "weapon":
+                        self.stats.min[key] += int(item.min[key]*0.5)
+                    else:
+                        self.stats.min[key] += item.min[key]
                 else:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2228,7 +2239,12 @@ init -9 python:
                             elif key in ['health', 'mp', 'vitality', 'joy']:
                                 self.mod(key, item.mod[key])
                             else:
-                                self.stats.imod[key] += item.mod[key]
+                                if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                                    self.stats.imod[key] += item.mod[key]*2
+                                elif "Left-Handed" in self.traits and item.slot == "weapon":
+                                    self.stats.imod[key] += int(item.mod[key]*0.5)
+                                else:
+                                    self.stats.imod[key] += item.mod[key]
                         else:
                             if key == 'gold':
                                 self.gold += item.mod[key]
@@ -2327,14 +2343,24 @@ init -9 python:
             # Taking care of stats:
             for key in item.max:
                 if key in self.STATS:
-                    self.stats.max[key] -= item.max[key]
+                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                        self.stats.max[key] -= item.max[key]*2
+                    elif "Left-Handed" in self.traits and item.slot == "weapon":
+                        self.stats.max[key] -= int(item.max[key]*0.5)
+                    else:
+                        self.stats.max[key] -= item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
             for key in item.min:
                 if key in self.STATS:
                     # if (self.stats.min[key] - item.min[key]) >= 0: @Review, prolly no longer required.
-                    self.stats.min[key] -= item.min[key]
+                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                        self.stats.min[key] -= item.min[key]*2
+                    elif "Left-Handed" in self.traits and item.slot == "weapon":
+                        self.stats.min[key] -= int(item.min[key]*0.5)
+                    else:
+                        self.stats.min[key] -= item.min[key]
                 else:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2349,7 +2375,12 @@ init -9 python:
                         elif key in ['health', 'mp', 'vitality', 'joy']:
                             self.mod(key, -item.mod[key])
                         else:
-                            self.stats.imod[key] -= item.mod[key]
+                            if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                                self.stats.imod[key] -= item.mod[key]*2
+                            elif "Left-Handed" in self.traits and item.slot == "weapon":
+                                self.stats.imod[key] -= int(item.mod[key]*0.5)
+                            else:
+                                self.stats.imod[key] -= item.mod[key]
                     else:
                         if key == 'gold':
                             self.gold -= item.mod[key]
@@ -3318,8 +3349,8 @@ init -9 python:
                 if key == 'vitality' and effects['Drowsy']['active']:
                     old_val = stats.get_stat(key)
                     mod_val = value - stats.get_stat(key)
-                    if mod_val < 0:
-                        mod_val = int(mod_val*.5)
+                    if mod_val > 0:
+                        mod_val = int(mod_val*5)
                         value = int(round(old_val + mod_val))
                     
                 if key == 'joy' and effects['Impersonal']['active']:
