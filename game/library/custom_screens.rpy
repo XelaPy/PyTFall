@@ -314,7 +314,7 @@ init: # Items:
                 action Return(value)
     
     # Inventory paging
-    screen paging(path="content/gfx/interface/buttons/", use_filter=True, ref=None, xysize=(270, 60), root=None, align=(0.5, 0.0)):
+    screen paging(path="content/gfx/interface/buttons/", use_filter=True, ref=None, xysize=(270, 60), root=None, align=(.5, .0)):
         frame:
             if global_flags.flag("hero_equip"):
                 background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
@@ -322,12 +322,14 @@ init: # Items:
             else:
                 background Frame("content/gfx/frame/frame_bg.png", 5, 5)
                 ypadding 15
+                
             style_group "content"
             xpadding 15
             xysize xysize
             align align
+            
             vbox:
-                align (0.5, 0.5)
+                align .5, .5
                 # Filter
                 if use_filter:
                     hbox:
@@ -336,15 +338,22 @@ init: # Items:
                         xalign 0.5
                         $ img = "".join([path, 'prev.png'])
                         imagebutton:
-                            align (0.0, 0.5)
+                            align .0, .5
                             idle img
-                            hover im.MatrixColor(img, im.matrix.brightness(0.15))
+                            hover im.MatrixColor(img, im.matrix.brightness(.15))
                             action Function(ref.apply_filter, "prev")
-                        label ("%s " % (ref.slot_filter).capitalize()) align (0.5, 0.5)  text_color ivory
+                            
+                        python:
+                            if ref.slot_filter in SLOTALIASES:
+                                slot = SLOTALIASES[ref.slot_filter]
+                            else:
+                                slot = ref.slot_filter.capitalize()
+                        label "[slot] " align .5, .5  text_color ivory
+                        
                         imagebutton:
-                            align (1.0, 0.5)
-                            idle (path+'next.png')
-                            hover (im.MatrixColor(path+'next.png', im.matrix.brightness(0.15)))
+                            align 1.0, .5
+                            idle path+'next.png'
+                            hover im.MatrixColor(path+'next.png', im.matrix.brightness(.15))
                             action Function(ref.apply_filter, "next")
                 # Listing
                 hbox:
@@ -380,6 +389,7 @@ init: # Items:
     screen shop_inventory(ref=None, x=0.0):
         key "mousedown_4" action ref.inventory.next
         key "mousedown_5" action ref.inventory.prev
+        
         frame at fade_in_out(t1=0.5, t2=0.5):
             style_group "content"
             background Frame(Transform("content/gfx/frame/mes11.jpg", alpha=0.5), 5, 5)

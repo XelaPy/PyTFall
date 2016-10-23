@@ -3087,7 +3087,7 @@ init -9 python:
                 "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
             }
             
-            # Set relays that use the RelayProxy.
+            # Set relays that use the RelayProxy:
             for p in pytRelayProxyStore:
                 p.reset(self)
             
@@ -3095,7 +3095,7 @@ init -9 python:
             self.days_unhappy = 0
             self.days_depressed = 0
             
-            # Effects assets
+            # Effects assets:
             self.effects = {
             'Poison': {"active": False, "penalty": False, "duration": False},
             'Slow Learner': {'active': False},
