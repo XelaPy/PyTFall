@@ -185,7 +185,7 @@
     "max": {"defence": 5, "agility": 5},
     "mod": {"defence": 15},
     "locations": ["Work Shop"],
-    "goodtraits": ["Adventurer"]
+    "goodtraits": ["Adventurous"]
     },
     {
     "id": "Reflector",

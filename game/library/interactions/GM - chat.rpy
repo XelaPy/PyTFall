@@ -379,7 +379,7 @@ label interactions_abouther:
                 $gm_abouther_list.append(choice(["I have been trained in combat, but I really dislike violence.", "I know a lot about self-defense... but I really hope that I wouldn’t ever need to use it.", "I know how to use a weapon... but it still scares me a bit.", "I can do well in combat training, but in practice...", "They say that I may have the skill, but not the spirit of a warrior...", "I carry a weapon, but I don’t think I would have the heart to hurt someone."]))
             elif ct("Virtuous"): 
                 $gm_abouther_list.append(choice(["I know how to pacify someone without hurting them. That’s the right way to do it.", "I learned how to fight so I can protect others."]))
-            elif ct("Adventurer"): 
+            elif ct("Adventurous"): 
                 $gm_abouther_list.append(choice(["I like to sharpen my battle skills.", "I enjoy exploring catacombs.", "A duel sounds interesting, do you mind?"]))
             else:
                 $gm_abouther_list.append(choice(["I have been trained in combat. So you better not be trying anything funny <grins>", "I may not look like it, but I can handle my weapons really well.", "Some creeps tried to ambush me once. I gave them plenty of time to repent at the infirmary.", "Sometimes I watch the matches in the arena to get inspiration to improve my own technique.", "It's better to know how to defend yourself in this town. You never know what may happen, especially if you are a woman."]))
@@ -402,7 +402,7 @@ label interactions_abouther:
         if ct("Half-Sister"):
             $gm_abouther_list.append(choice(["Do you miss our father? ...Yes, I miss him too.", "We should chat more often. We are family after all."])) 
             
-        if not(cgo("Warrior")) and ct("Adventurer"):
+        if not(cgo("Warrior")) and ct("Adventurous"):
             $gm_abouther_list.append(choice(["I always dreamed about my own adventures. But I never had a combat training, so... <sigh>"]))
             
         if cgo("Caster"):

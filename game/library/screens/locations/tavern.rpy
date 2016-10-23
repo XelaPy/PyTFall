@@ -1,5 +1,5 @@
 label tavern_town:
-    $ gm.enter_location(goodtraits=["Adventurer", "Heavy Drinker", "Kleptomaniac"], curious_priority=False, badtraits=["Alien", "Homebody", "Artificial Body", "Shy", "Elegant", "Dandere", "Imouto"])
+    $ gm.enter_location(goodtraits=["Adventurous", "Heavy Drinker", "Kleptomaniac"], curious_priority=False, badtraits=["Alien", "Homebody", "Artificial Body", "Shy", "Elegant", "Dandere", "Imouto"])
     
     python:
         # Build the actions

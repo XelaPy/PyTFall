@@ -313,7 +313,7 @@
     "mdestruct": false,
     "mod": {"attack": 15, "defence": 15},
     "locations": ["General Store"],
-    "goodtraits": ["Adventurer"]
+    "goodtraits": ["Adventurous"]
     },
     {
     "id": "Manual of Health",
