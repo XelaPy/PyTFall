@@ -2294,8 +2294,12 @@ init -9 python:
             if hasattr(self, "effects"):
                 if item.slot == 'consumable' and item.type == 'food':
                     self.effects['Food Poisoning']['activation_count'] += 1
-                    if self.effects['Food Poisoning']['activation_count'] == 10:
-                        self.enable_effect('Food Poisoning')
+                    if "Always Hungry" in self.traits:
+                        if self.effects['Food Poisoning']['activation_count'] == 20:
+                            self.enable_effect('Food Poisoning')
+                    else:
+                        if self.effects['Food Poisoning']['activation_count'] == 10:
+                            self.enable_effect('Food Poisoning')
                     
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:

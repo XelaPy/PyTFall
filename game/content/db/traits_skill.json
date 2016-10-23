@@ -72,7 +72,7 @@
     },
     {
     "id": "Always Hungry",
-    "desc": "There is never enough for this girl's appetite.",
+    "desc": "There is never enough for this girl's appetite (prone to buying food, harder to get food poisoning).",
     "mod": {"upkeep": 10},
     "mod_skills": {"refinement": [0, 0, -0.04]},
     "mod_stats": {"constitution": [1, 15]},
