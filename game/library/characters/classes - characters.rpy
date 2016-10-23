@@ -617,6 +617,8 @@ init -9 python:
             char = self.instance
             
             wage = 100
+            if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
+                wage = int(wage*0.65)
              
             # if traits['Prostitute'] in char.occupations:
                 # bw = 5 # Base wage
@@ -3143,7 +3145,8 @@ init -9 python:
             "Pessimist": {"active": False},
             "Composure": {"active": False},
             "Kleptomaniac": {"active": False},
-            "Drowsy": {"active": False}
+            "Drowsy": {"active": False},
+            "Loyal": {"active": False}
             }
             
             # Trait assets
@@ -3705,6 +3708,9 @@ init -9 python:
             elif effect == "Drowsy":
                 self.effects["Drowsy"]['active'] = True
                 
+            elif effect == "Loyal":
+                self.effects["Loyal"]['active'] = True
+                
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = True
                 
@@ -3765,6 +3771,9 @@ init -9 python:
                 
             elif effect == "Drowsy":
                 self.effects['Drowsy']['active'] = False
+                
+            elif effect == "Loyal":
+                self.effects['Loyal']['active'] = False
                 
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = False
@@ -3837,7 +3846,11 @@ init -9 python:
             elif effect == "Sibling":
                 if self.disposition < 100:
                     self.disposition += 2
-                elif self.disposition < 200 and dice(50):
+                elif self.disposition < 200:
+                    self.disposition += 1
+                    
+            elif effect == "Loyal":
+                if self.disposition < 50 and dice(50):
                     self.disposition += 1
                     
             elif effect == "Food Poisoning":

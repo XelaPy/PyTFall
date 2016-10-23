@@ -225,4 +225,9 @@
     {
     "id": "Open Minded",
     "desc": "She has no problems trying different things sexually and will accept anything as-is."
+    },
+    {
+    "id": "Dedicated",
+    "desc": "She works not just for money. She is loyal to you and will expect less wage.",
+    "effects": ["Loyal"]
     }]
