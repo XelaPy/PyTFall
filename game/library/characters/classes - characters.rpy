@@ -2172,7 +2172,6 @@ init -9 python:
                     self.stats.max[key] += int(item.max[key]*0.5)
                 else:
                     self.stats.max[key] += item.max[key]
-                        
             for key in item.min:
                 self.stats.min[key] += item.min[key]
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
@@ -2181,7 +2180,6 @@ init -9 python:
                     self.stats.min[key] += int(item.min[key]*0.5)
                 else:
                     self.stats.min[key] += item.min[key]
-
             for key in item.mod:
                 if key == "health" and self.health + item.mod[key] <= 0:
                     self.health = 1 # prevents death by accident...
@@ -2193,7 +2191,10 @@ init -9 python:
                     elif key == "exp":
                         self.exp += item.mod[key]
                     elif key in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
-                        self.mod_stat(key, item.mod[key])
+                        if self.effects['Fast Metabolism']['active'] and item.type == "food":
+                            self.mod_stat(key, (2*item.mod[key]))
+                        else:
+                            self.mod_stat(key, item.mod[key])
                     else:
                         if "Left-Handed" in self.traits and item.slot == "smallweapon":
                             self.stats.imod[key] += item.mod[key]*2
@@ -2201,7 +2202,6 @@ init -9 python:
                             self.stats.imod[key] += int(item.mod[key]*0.5)
                         else:
                             self.stats.imod[key] += item.mod[key]
-                                
             for key in item.mod_skills:
                 if key in self.SKILLS:
                     if not (item.skillmax and self.get_skill(key) >= item.skillmax): # Multi messes this up a bit.
@@ -3090,10 +3090,11 @@ init -9 python:
             "Kleptomaniac": {"active": False, "desc": "With some luck, gold increases every day."},
             "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
             "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
-            "Lactation": {"active": False, "desc": "Her breasts produce milk every day. The amount is based on boobs size."},
+            "Lactation": {"active": False, "desc": "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."},
             "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
             "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
-            "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."}
+            "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
+            "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."}
             }
             
             # Trait assets
@@ -3608,6 +3609,9 @@ init -9 python:
             elif effect == "Drowsy":
                 self.effects["Drowsy"]['active'] = True
                 
+            elif effect == "Fast Metabolism":
+                self.effects["Fast Metabolism"]["active"] = True
+                
             elif effect == "Lactation":
                 self.effects["Lactation"]['active'] = True
                 
@@ -3655,6 +3659,9 @@ init -9 python:
 
             elif effect == "Pessimist":
                 self.effects["Pessimist"]["active"] = False
+                
+            elif effect == "Fast Metabolism":
+                self.effects["Fast Metabolism"]["active"] = False
 
             elif effect == "Composure":
                 self.effects['Composure']['active'] = False
@@ -3729,9 +3736,9 @@ init -9 python:
                     self.joy -= 1
                     
             elif effect == "Vigorous":
-                if self.vitality < self.get_max(vitality)*0.25:
+                if self.vitality < self.get_max("vitality")*0.25:
                     self.vitality += 2
-                elif self.vitality < self.get_max(vitality)*0.5:
+                elif self.vitality < self.get_max("vitality")*0.5:
                     self.vitality += 1
                     
             elif effect == "Down with Cold":
@@ -3773,17 +3780,13 @@ init -9 python:
                     self.intelligence = 20
                     
             elif effect == "Intelligent":
-                if self.joy >= 75 and self.vitality >= self.get_max(vitality)*0.75 and self.health >= self.get_max(health)*0.75:
+                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*0.75 and self.health >= self.get_max("health")*0.75:
                     self.intelligence += 1
                 
             elif effect == "Sibling":
                 if self.disposition < 100:
                     self.disposition += 2
                 elif self.disposition < 200:
-                    self.disposition += 1
-                    
-            elif effect == "Loyal":
-                if self.disposition < 50 and dice(50):
                     self.disposition += 1
                     
             elif effect == "Food Poisoning":
