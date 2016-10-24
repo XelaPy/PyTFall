@@ -2173,52 +2173,42 @@ init -9 python:
             
             # Taking care of stats: -------------------------------------------------->
             for key in item.max:
-                if key in self.STATS:
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.max[key] += item.max[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.max[key] += int(item.max[key]*0.5)
-                    else:
-                        self.stats.max[key] += item.max[key]
+                if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                    self.stats.max[key] += item.max[key]*2
+                elif "Left-Handed" in self.traits and item.slot == "weapon":
+                    self.stats.max[key] += int(item.max[key]*0.5)
                 else:
-                    devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
-
+                    self.stats.max[key] += item.max[key]
+                        
             for key in item.min:
-                if key in self.STATS:
-                    # if (self.stats.min[key] + item.min[key]) >= 0: @ Review, this is prolly no longer required.
-                    self.stats.min[key] += item.min[key]
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.min[key] += item.min[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.min[key] += int(item.min[key]*0.5)
-                    else:
-                        self.stats.min[key] += item.min[key]
+                self.stats.min[key] += item.min[key]
+                if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                    self.stats.min[key] += item.min[key]*2
+                elif "Left-Handed" in self.traits and item.slot == "weapon":
+                    self.stats.min[key] += int(item.min[key]*0.5)
                 else:
-                    devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
+                    self.stats.min[key] += item.min[key]
 
             for key in item.mod:
-                if key in self.STATS or key in ["gold", "exp"]:
-                    if not (item.statmax and (key not in ['exp', 'gold']) and (getattr(self, key) >= item.statmax)):
-                        if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
-                            if key in ['gold', 'exp']:
-                                pass
-                            elif key in ['health', 'mp', 'vitality', 'joy']:
-                                self.mod_stat(key, item.mod[key])
-                            else:
-                                if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                                    self.stats.imod[key] += item.mod[key]*2
-                                elif "Left-Handed" in self.traits and item.slot == "weapon":
-                                    self.stats.imod[key] += int(item.mod[key]*0.5)
-                                else:
-                                    self.stats.imod[key] += item.mod[key]
+                if key == "health" and self.health + item.mod[key] <= 0:
+                    self.health = 1 # prevents death by accident...
+                    continue
+                
+                if not item.statmax or getattr(self, key) >= item.statmax:
+                    if key == 'gold':
+                        self.gold += item.mod[key]
+                    elif key == "exp":
+                        self.exp += item.mod[key]
+                    elif not (item.slot == 'consumable' and item.ctemp) or key in ['health', 'mp', 'vitality', 'joy'] or item.slot in ['consumable', 'misc']:
+                        self.mod_stat(key, item.mod[key])
+                    else:
+                        if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                            self.stats.imod[key] += item.mod[key]*2
+                        elif "Left-Handed" in self.traits and item.slot == "weapon":
+                            self.stats.imod[key] += int(item.mod[key]*0.5)
                         else:
-                            if key == 'gold':
-                                self.gold += item.mod[key]
-                            else:    
-                                self.mod_stat(key, item.mod[key])
-                else:
-                    devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
-
+                            self.stats.imod[key] += item.mod[key]
+                                
             for key in item.mod_skills:
                 if key in self.SKILLS:
                     if not (item.skillmax and self.get_skill(key) >= item.skillmax): # Multi messes this up a bit.
@@ -2335,29 +2325,23 @@ init -9 python:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
             for key in item.mod:
-                if key in self.STATS or key in ["gold", "exp"]:
-                    if key == "health" and (self.stats.get_stat("health") - item.mod[key] <= 0):
-                        self.health = 1 # prevents death by accident...
-                        continue
-                    if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
-                        if key in ['gold', 'exp']:
-                            pass
-                        elif key in ['health', 'mp', 'vitality', 'joy']:
-                            self.mod_stat(key, -item.mod[key])
-                        else:
-                            if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                                self.stats.imod[key] -= item.mod[key]*2
-                            elif "Left-Handed" in self.traits and item.slot == "weapon":
-                                self.stats.imod[key] -= int(item.mod[key]*0.5)
-                            else:
-                                self.stats.imod[key] -= item.mod[key]
-                    else:
-                        if key == 'gold':
-                            self.gold -= item.mod[key]
-                        else:    
-                            self.mod_stat(key, -item.mod[key])
+                if key == "health" and self.health - item.mod[key] <= 0:
+                    self.health = 1 # prevents death by accident...
+                    continue
+                    
+                if key == 'gold':
+                    self.gold -= item.mod[key]
+                elif key == "exp":
+                    self.exp -= item.mod[key]
+                elif not (item.slot == 'consumable' and item.ctemp) or key in ['health', 'mp', 'vitality', 'joy'] or item.slot in ['consumable', 'misc']:
+                    self.mod_stat(key, -item.mod[key])
                 else:
-                    devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
+                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
+                        self.stats.imod[key] -= item.mod[key]*2
+                    elif "Left-Handed" in self.traits and item.slot == "weapon":
+                        self.stats.imod[key] -= int(item.mod[key]*0.5)
+                    else:
+                        self.stats.imod[key] -= item.mod[key]
                         
             for key in item.mod_skills:
                 if key in self.SKILLS:
