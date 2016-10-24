@@ -2199,7 +2199,7 @@ init -9 python:
                         self.gold += item.mod[key]
                     elif key == "exp":
                         self.exp += item.mod[key]
-                    elif not (item.slot == 'consumable' and item.ctemp) or key in ['health', 'mp', 'vitality', 'joy'] or item.slot in ['consumable', 'misc']:
+                    elif key in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
                         self.mod_stat(key, item.mod[key])
                     else:
                         if "Left-Handed" in self.traits and item.slot == "smallweapon":
@@ -2333,7 +2333,7 @@ init -9 python:
                     self.gold -= item.mod[key]
                 elif key == "exp":
                     self.exp -= item.mod[key]
-                elif not (item.slot == 'consumable' and item.ctemp) or key in ['health', 'mp', 'vitality', 'joy'] or item.slot in ['consumable', 'misc']:
+                elif key in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
                     self.mod_stat(key, -item.mod[key])
                 else:
                     if "Left-Handed" in self.traits and item.slot == "smallweapon":
