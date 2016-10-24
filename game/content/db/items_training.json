@@ -45,7 +45,7 @@
     "hidden": false,
     "infinite": true,
     "slot": "feet",
-    "dimod": -50,
+    "dismod": -50,
     "addtraits": ["Restrained"],
     "locations": ["General Store"],
     "goodtraits": ["Broken", "Masochist"]
