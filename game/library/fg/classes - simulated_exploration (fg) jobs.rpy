@@ -88,7 +88,7 @@ init python:
                     self.girl.exp += self.girlmod[stat]
                 
                 else:
-                    self.girl.mod(stat, self.girlmod[stat])
+                    self.girl.mod_stat(stat, self.girlmod[stat])
             
             evt = NDEvent()
             # evt.red_flag = self.flag_red
@@ -215,7 +215,7 @@ init python:
                     self.girl.exp += self.girlmod[stat]
                 
                 else:
-                    self.girl.mod(stat, self.girlmod[stat])
+                    self.girl.mod_stat(stat, self.girlmod[stat])
             
             evt = NDEvent()
             evt.charmod = self.girlmod
@@ -364,7 +364,7 @@ init python:
                 self.txt.append("{color=[blue]}Hazardous area!{/color}\n")
                 for char in self.team:
                     for stat in self.hazard:
-                        char.mod(stat, -self.hazard[stat])
+                        char.mod_stat(stat, -self.hazard[stat])
             
             ap = sum(list(girl.AP for girl in self.team))
             
@@ -602,7 +602,7 @@ init python:
                             self.stats[stat] = char.adjust_exp(self.stats[stat])
                             char.exp += self.stats[stat]
                         else:
-                            char.mod(stat, self.stats[stat])
+                            char.mod_stat(stat, self.stats[stat])
                 
                 else:
                     characters[char] = True

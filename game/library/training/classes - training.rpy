@@ -1123,7 +1123,7 @@ init -9 python:
                             girlmod[k] = girlmod.get(k, 0) + int(v*mult)
                         
                         else:
-                            girl.mod(k, int(v*mult))
+                            girl.mod_stat(k, int(v*mult))
                     
                     # If a skill
                     elif girl.stats.is_skill(k) and can():
@@ -1156,7 +1156,7 @@ init -9 python:
                         else: girl.stats.min[k] = 0
                         
                         # Update data
-                        if girl.stats.get_stat(k) < girl.stats.min[k]: girl.mod(k, girl.stats.min[k] - girl.stats.get_skill(k))
+                        if girl.stats.get_stat(k) < girl.stats.min[k]: girl.mod_stat(k, girl.stats.min[k] - girl.stats.get_skill(k))
             
             if self.max is not None:
                 for k,v in self.max.iteritems():
@@ -1179,7 +1179,7 @@ init -9 python:
                             girl.stats.min[k] = 0
                         
                         # Update data
-                        if girl.stats.get_stat(k) > girl.stats.max[k]: girl.mod(k, girl.stats.max[k] - girl.stats.get_skill(k))
+                        if girl.stats.get_stat(k) > girl.stats.max[k]: girl.mod_stat(k, girl.stats.max[k] - girl.stats.get_skill(k))
             
             if self.props is not None:
                 for k,v in self.props.iteritems():

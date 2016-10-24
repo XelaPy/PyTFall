@@ -150,7 +150,7 @@ label hero_swimming_pool_skill_checks:
         $ hero.swimming += randint(0,1)
         $ hero.vitality -= randint (20, 30)
     if dice(65) and hero.get_skill("swimming") >= 50:
-        $ hero.mod("constitution", 1)
+        $ hero.mod_stat("constitution", 1)
     return
     
 label instructor_swimming_pool_skill_checks:
@@ -181,7 +181,7 @@ label instructor_swimming_pool_skill_checks:
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 25)
     if dice(65) and hero.get_skill("swimming") >= 50:
-        $ hero.mod("constitution", 1)
+        $ hero.mod_stat("constitution", 1)
     return
 
 label work_swim_pool: # here we could use an option to meet characters with a certain probability

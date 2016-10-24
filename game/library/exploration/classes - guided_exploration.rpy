@@ -248,9 +248,9 @@ init -9 python:
                         if member.name == fighter._name:
                             member.health = fighter._rawStats.Health
                             member.mp = fighter._rawStats.MP
-                            member.mod('attack', randint(0,2))
-                            member.mod('magic', randint(0,2))
-                            member.mod('agility', randint(0,2))
+                            member.mod_stat('attack', randint(0,2))
+                            member.mod_stat('magic', randint(0,2))
+                            member.mod_stat('agility', randint(0,2))
             else:
                 raise Exception, "Game Over!!!"
     

@@ -60,9 +60,9 @@ init -11 python:
                     if key != "luck":
                         value = d[key]
                         value = int(round(float(value)*100 / mob.get_max(key)))
-                        mob.mod(key, value)
+                        mob.mod_stat(key, value)
                     elif key == "luck":
-                        mob.mod(key, d[key])
+                        mob.mod_stat(key, d[key])
                 else:
                     devlog.warning(str("Stat: {} for Mob with id: {} is invalid! ".format(key, id)))
                     
@@ -261,9 +261,9 @@ init -11 python:
                     if key != "luck":
                         value = randint(d[key][0], d[key][1])
                         value = int(round(float(value)*100 / rg.get_max(key)))
-                        rg.mod(key, value)
+                        rg.mod_stat(key, value)
                     elif key == "luck":
-                        rg.mod(key, randint(d[key][0], d[key][1]))
+                        rg.mod_stat(key, randint(d[key][0], d[key][1]))
                 else:
                     devlog.warning(str("Stat: %s for random girl with id: %s is invalid! " % (key, id)))
         

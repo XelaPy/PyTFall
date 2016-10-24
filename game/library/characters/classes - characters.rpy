@@ -2203,7 +2203,7 @@ init -9 python:
                             if key in ['gold', 'exp']:
                                 pass
                             elif key in ['health', 'mp', 'vitality', 'joy']:
-                                self.mod(key, item.mod[key])
+                                self.mod_stat(key, item.mod[key])
                             else:
                                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
                                     self.stats.imod[key] += item.mod[key]*2
@@ -2215,7 +2215,7 @@ init -9 python:
                             if key == 'gold':
                                 self.gold += item.mod[key]
                             else:    
-                                self.mod(key, item.mod[key])
+                                self.mod_stat(key, item.mod[key])
                 else:
                     devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2343,7 +2343,7 @@ init -9 python:
                         if key in ['gold', 'exp']:
                             pass
                         elif key in ['health', 'mp', 'vitality', 'joy']:
-                            self.mod(key, -item.mod[key])
+                            self.mod_stat(key, -item.mod[key])
                         else:
                             if "Left-Handed" in self.traits and item.slot == "smallweapon":
                                 self.stats.imod[key] -= item.mod[key]*2
@@ -2355,7 +2355,7 @@ init -9 python:
                         if key == 'gold':
                             self.gold -= item.mod[key]
                         else:    
-                            self.mod(key, -item.mod[key])
+                            self.mod_stat(key, -item.mod[key])
                 else:
                     devlog.warning(str("Failed to apply stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
                         
@@ -2942,7 +2942,7 @@ init -9 python:
                     if stat == "exp":
                         self.exp += self.guard_relay[event]["stats"][stat]
                     elif stat in self.STATS:
-                        self.mod(stat, self.guard_relay[event]["stats"][stat])
+                        self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
                         
             # -------------------->
             txt += "MC Report:\n\n"
@@ -2965,7 +2965,7 @@ init -9 python:
                         for stat in self.STATS:
                             if stat not in ["luck", "alignment", "vitality"]:
                                 if dice(1 + int(round(self.luck/20.0))):
-                                        self.mod(stat, 1)
+                                        self.mod_stat(stat, 1)
             
             else:
                 txt += "You've comfortably spent a night under the roof of your dwelling."
@@ -2979,7 +2979,7 @@ init -9 python:
                         for stat in self.STATS:
                             if stat not in ["luck", "alignment", "vitality"]:
                                 if dice(1 + int(round(self.luck/20.0))):
-                                        self.mod(stat, 1)
+                                        self.mod_stat(stat, 1)
                                 
             # Training with NPCs --------------------------------------->
             self.nd_auto_train()
@@ -3849,7 +3849,7 @@ init -9 python:
                         for stat in self.STATS: # --- Resources hungry?
                             if stat != "luck":
                                 if dice(7):
-                                    self.mod(stat, 1)
+                                    self.mod_stat(stat, 1)
                         
                         self.exp += self.adjust_exp(randint(10, 50))
                         self.health += randint(1, 5)

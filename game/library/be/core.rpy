@@ -1137,7 +1137,7 @@ init -1 python: # Core classes:
                 targets = [targets]
             for t in targets:
                 if t.health - t.beeffects[0] > 0:
-                    t.mod("health", -t.beeffects[0])
+                    t.mod_stat("health", -t.beeffects[0])
                 else:
                     t.health = 1
                     battle.end_turn_events.append(RPG_Death(t))

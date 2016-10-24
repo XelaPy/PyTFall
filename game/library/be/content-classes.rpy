@@ -262,7 +262,7 @@ init python:
                 renpy.hide("bb")
             
             if t.health - damage > 0:
-                t.mod("health", -damage)
+                t.mod_stat("health", -damage)
                 msg = "%s is poisoned! {color=[green]}☠: %d{/color}" % (self.target.name, damage)
                 battle.log(msg)
             else:
@@ -761,7 +761,7 @@ init python:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             for t in targets:
-                t.mod("health", t.beeffects[0])
+                t.mod_stat("health", t.beeffects[0])
                 
             self.settle_cost()
                 

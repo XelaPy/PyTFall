@@ -601,7 +601,7 @@ init -9 python:
                         elif stat == "Arena Rep":
                             member.arena_rep += statdict[stat]
                         else:
-                            member.mod(stat, statdict[stat])
+                            member.mod_stat(stat, statdict[stat])
                         
                 for member in def_team:
                     member.health = 1
@@ -629,7 +629,7 @@ init -9 python:
                         elif stat == "Arena Rep":
                             member.arena_rep += statdict[stat]
                         else:
-                            member.mod(stat, statdict[stat])
+                            member.mod_stat(stat, statdict[stat])
                         
                 for member in off_team:
                     member.health = 1
@@ -1233,7 +1233,7 @@ init -9 python:
                             elif stat == "Arena Rep":
                                 member.arena_rep += statdict[stat]
                             else:
-                                member.mod(stat, statdict[stat])
+                                member.mod_stat(stat, statdict[stat])
                         member.combat_stats = statdict
                     else:
                         member.combat_stats = "K.O."
@@ -1375,7 +1375,7 @@ init -9 python:
                             elif stat == "gold":
                                 member.add_money(statdict[stat], reason="Arena")
                             else:
-                                member.mod(stat, statdict[stat])
+                                member.mod_stat(stat, statdict[stat])
                         member.combat_stats = statdict
                     else:
                         member.combat_stats = "K.O."
@@ -1406,7 +1406,7 @@ init -9 python:
                             elif stat == "gold":
                                 member.add_money(statdict[stat], reason="Arena")
                             else:
-                                member.mod(stat, statdict[stat])
+                                member.mod_stat(stat, statdict[stat])
                     self.remove_team_from_dogfights(member)
                         
                 for member in hero.team:
@@ -1465,7 +1465,7 @@ init -9 python:
                             elif stat == "Arena Rep":
                                 member.arena_rep += statdict[stat]
                             else:
-                                member.mod(stat, statdict[stat])
+                                member.mod_stat(stat, statdict[stat])
                         member.combat_stats = statdict
                     else:
                         member.combat_stats = "K.O."
@@ -1498,7 +1498,7 @@ init -9 python:
                             elif stat == "Arena Rep":
                                 member.arena_rep += statdict[stat]
                             else:
-                                member.mod(stat, statdict[stat])
+                                member.mod_stat(stat, statdict[stat])
                     self.remove_team_from_dogfights(member)
                             
                 for member in hero.team:

@@ -132,12 +132,12 @@ label cafe_eat_alone:
                     $ result_v = randint(4, 10)
                 else:
                     $ result_v = 0
-                $ hero.mod("vitality", result_v)
+                $ hero.mod_stat("vitality", result_v)
                 if hero.mp < hero.get_max("mp"):
                     $ result_m = randint(4, 10)
                 else:
                     $ result_m = 0
-                $ hero.mod("mp", result_m)
+                $ hero.mod_stat("mp", result_m)
                 if result_v > 0:
                     $ result += "{color=[green]} +%d Vitality{/color}" % result_v
                 if result_m > 0:
@@ -162,17 +162,17 @@ label cafe_eat_alone:
                     $ result_v = randint(8, 15)
                 else:
                     $ result_v = 0
-                $ hero.mod("vitality", result_v)
+                $ hero.mod_stat("vitality", result_v)
                 if hero.mp < hero.get_max("mp"):
                     $ result_m = randint(8, 15)
                 else:
                     $ result_m = 0
-                $ hero.mod("mp", result_m)
+                $ hero.mod_stat("mp", result_m)
                 if hero.health < hero.get_max("health"):
                     $ result_h = randint(8, 15)
                 else:
                     $ result_h = 0
-                $ hero.mod("health", result_h)
+                $ hero.mod_stat("health", result_h)
                 if result_v > 0:
                     $ result += "{color=[green]} +%d Vitality{/color}" % result_v
                 if result_m > 0:
@@ -199,27 +199,27 @@ label cafe_eat_alone:
                     $ result_v = randint(10, 20)
                 else:
                     $ result_v = 0
-                $ hero.mod("vitality", result_v)
+                $ hero.mod_stat("vitality", result_v)
                 if hero.mp < hero.get_max("mp"):
                     $ result_m = randint(10, 20)
                 else:
                     $ result_m = 0
-                $ hero.mod("mp", result_m)
+                $ hero.mod_stat("mp", result_m)
                 if hero.health < hero.get_max("health"):
                     $ result_h = randint(10, 20)
                 else:
                     $ result_h = 0
-                $ hero.mod("health", result_h)
+                $ hero.mod_stat("health", result_h)
                 if hero.flag("health_bonus_from_eating_in_cafe") <= 25 and dice(75):
                     $ hero.stats.lvl_max["health"] += 2
                     $ hero.stats.max["health"] += 2
-                    $ hero.mod("health", 2)
+                    $ hero.mod_stat("health", 2)
                     $ result += "{color=[goldenrod]} +2 Max Health{/color}"
                     $ hero.set_flag("health_bonus_from_eating_in_cafe", value=hero.flag("health_bonus_from_eating_in_cafe")+1)
                 elif dice(10) and hero.flag("health_bonus_from_eating_in_cafe") <= 50: # after 50 successful attempts bonus no longer applies
                     $ hero.stats.lvl_max["health"] += 1
                     $ hero.stats.max["health"] += 1
-                    $ hero.mod("health", 1)
+                    $ hero.mod_stat("health", 1)
                     $ result += "{color=[goldenrod]} +1 Max Health{/color}"
                     $ hero.set_flag("health_bonus_from_eating_in_cafe", value=hero.flag("health_bonus_from_eating_in_cafe")+1)
                     
@@ -276,18 +276,18 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
                 else:
                     d = 1
                 stat = round(randint(5, 10)*d)
-                member.mod("vitality", stat)
+                member.mod_stat("vitality", stat)
                 stat = round(randint(5, 10)*d)
-                member.mod("health", stat)
+                member.mod_stat("health", stat)
                 stat = round(randint(5, 10)*d)
-                member.mod("mp", stat)
+                member.mod_stat("mp", stat)
                 if member != hero:
                     stat = round(randint(4, 8)*d)
-                    member.mod("joy", stat)
+                    member.mod_stat("joy", stat)
                     stat = round(randint(10, 20)*d)
                     if len(hero.team)<3: # when there is only one char, disposition bonus is higher
                         stat += randint(5, 10)
-                    member.mod("disposition", stat)
+                    member.mod_stat("disposition", stat)
         $ del result
         $ del stat
         $ del img

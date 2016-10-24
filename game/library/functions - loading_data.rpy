@@ -150,7 +150,7 @@ init -11 python:
                                         value = gd["stats"][stat]
                                         if stat != "luck":
                                             value = int(round(float(value)*char.get_max(stat))/100)
-                                        char.mod(stat, value)
+                                        char.mod_stat(stat, value)
                                     else:
                                         devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
                                 del gd["stats"]
@@ -396,7 +396,7 @@ init -11 python:
                 else:
                     f.__dict__[attr] = fighter[attr]
             for stat in stats:
-                f.mod(stat, fighter["stats"][stat])
+                f.mod_stat(stat, fighter["stats"][stat])
             # Get da picz:     
             dir = content_path("npc/arena")
             for file in os.listdir("/".join([dir, f.name])):
