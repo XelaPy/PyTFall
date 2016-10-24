@@ -944,7 +944,7 @@ init -9 python:
             value = value - self._get_stat(key)
             self._mod_base_stat(key, int(round(value)))
             
-        def settle_skills(self, key, value):
+        def settle_effects(self, key, value):
             if hasattr(self.instance, "effects"):
                 effects = self.instance.effects
                 
@@ -1033,7 +1033,7 @@ init -9 python:
                 
         def _mod_base_stat(self, key, value):
             # Modifies the first layer of stats (self.stats)
-            value = self.settle_skills(key, value)
+            value = self.settle_effects(key, value)
             
             val = self.stats[key] + value
             
@@ -1057,7 +1057,7 @@ init -9 python:
 
             self.stats[key] = val
                 
-        def mod_skill(self, key, value):
+        def _mod_raw_skill(self, key, value):
             """Modifies a skill.
             
             # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharcter.__setattr__
@@ -1257,7 +1257,7 @@ init -9 python:
             if key in self.STATS:
                 self.__dict__["stats"]._mod_base_stats_from__setattr__(key, value)
             elif key.lower() in self.SKILLS:
-                self.__dict__["stats"].mod_skill(key, value)
+                self.__dict__["stats"]._mod_raw_skill(key, value)
             elif key == 'exp':
                 self.__dict__["stats"].mod_exp(value)
             else:
@@ -1429,7 +1429,7 @@ init -9 python:
             self._home = value
             
         # Alternative Method for modding first layer of stats:
-        def mod(self, stat, value):
+        def mod_stat(self, stat, value):
             self.stats._mod_base_stat(stat, value)
                 
         def get_max(self, stat):
