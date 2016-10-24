@@ -459,7 +459,7 @@ init -9 python:
                 # customer.favtraits.add(choice(['Genius',  'Smart', 'Ill-mannered', 'Merciless', 'Yandere', 'Fearless', 'Kuudere',  'Masochist',
                                                # 'Dandere', 'Clumsy',  'Old Scars', 'Pessimist', 'Sadistic', 'Heavy Drinker', 'Tsundere', 'Optimist', 'Impersonal']))
             # if not customer.favtraits and dice(10):
-                # customer.favtraits.add(choice(['Psychic', 'Artificial Body', 'Adventurer', 'Broken Will', 'Frigid', 'Silly', 'Fragile', 'Alien', 'Manly', 'Mind Fucked']))
+                # customer.favtraits.add(choice(['Psychic', 'Artificial Body', 'Adventurous', 'Broken Will', 'Frigid', 'Silly', 'Fragile', 'Alien', 'Manly', 'Mind Fucked']))
             
             return customer
         

@@ -1,5 +1,5 @@
 label city_parkgates:
-    $ gm.enter_location(goodtraits=["Elf", "Furry", "Human"], badtraits=["Aggressive", "Adventurer"], curious_priority=False)
+    $ gm.enter_location(goodtraits=["Elf", "Furry", "Human"], badtraits=["Aggressive", "Adventurous"], curious_priority=False)
     
     # Music related:
     if not "park" in ilists.world_music:

@@ -617,8 +617,6 @@ init -9 python:
             char = self.instance
             
             wage = 100
-            if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = int(wage*0.65)
              
             # if traits['Prostitute'] in char.occupations:
                 # bw = 5 # Base wage
@@ -2174,12 +2172,7 @@ init -9 python:
             # Taking care of stats: -------------------------------------------------->
             for key in item.max:
                 if key in self.STATS:
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.max[key] += item.max[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.max[key] += int(item.max[key]*0.5)
-                    else:
-                        self.stats.max[key] += item.max[key]
+                    self.stats.max[key] += item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2187,12 +2180,6 @@ init -9 python:
                 if key in self.STATS:
                     # if (self.stats.min[key] + item.min[key]) >= 0: @ Review, this is prolly no longer required.
                     self.stats.min[key] += item.min[key]
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.min[key] += item.min[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.min[key] += int(item.min[key]*0.5)
-                    else:
-                        self.stats.min[key] += item.min[key]
                 else:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2205,12 +2192,7 @@ init -9 python:
                             elif key in ['health', 'mp', 'vitality', 'joy']:
                                 self.mod(key, item.mod[key])
                             else:
-                                if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                                    self.stats.imod[key] += item.mod[key]*2
-                                elif "Left-Handed" in self.traits and item.slot == "weapon":
-                                    self.stats.imod[key] += int(item.mod[key]*0.5)
-                                else:
-                                    self.stats.imod[key] += item.mod[key]
+                                self.stats.imod[key] += item.mod[key]
                         else:
                             if key == 'gold':
                                 self.gold += item.mod[key]
@@ -2258,12 +2240,8 @@ init -9 python:
             if hasattr(self, "effects"):
                 if item.slot == 'consumable' and item.type == 'food':
                     self.effects['Food Poisoning']['activation_count'] += 1
-                    if "Always Hungry" in self.traits:
-                        if self.effects['Food Poisoning']['activation_count'] == 20:
-                            self.enable_effect('Food Poisoning')
-                    else:
-                        if self.effects['Food Poisoning']['activation_count'] == 10:
-                            self.enable_effect('Food Poisoning')
+                    if self.effects['Food Poisoning']['activation_count'] == 10:
+                        self.enable_effect('Food Poisoning')
                     
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:
@@ -2313,24 +2291,14 @@ init -9 python:
             # Taking care of stats:
             for key in item.max:
                 if key in self.STATS:
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.max[key] -= item.max[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.max[key] -= int(item.max[key]*0.5)
-                    else:
-                        self.stats.max[key] -= item.max[key]
+                    self.stats.max[key] -= item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
             for key in item.min:
                 if key in self.STATS:
                     # if (self.stats.min[key] - item.min[key]) >= 0: @Review, prolly no longer required.
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.min[key] -= item.min[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.min[key] -= int(item.min[key]*0.5)
-                    else:
-                        self.stats.min[key] -= item.min[key]
+                    self.stats.min[key] -= item.min[key]
                 else:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2345,12 +2313,7 @@ init -9 python:
                         elif key in ['health', 'mp', 'vitality', 'joy']:
                             self.mod(key, -item.mod[key])
                         else:
-                            if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                                self.stats.imod[key] -= item.mod[key]*2
-                            elif "Left-Handed" in self.traits and item.slot == "weapon":
-                                self.stats.imod[key] -= int(item.mod[key]*0.5)
-                            else:
-                                self.stats.imod[key] -= item.mod[key]
+                            self.stats.imod[key] -= item.mod[key]
                     else:
                         if key == 'gold':
                             self.gold -= item.mod[key]
@@ -3619,9 +3582,6 @@ init -9 python:
             elif effect == "Drowsy":
                 self.effects["Drowsy"]['active'] = True
                 
-            elif effect == "Loyal":
-                self.effects["Loyal"]['active'] = True
-                
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = True
                 
@@ -3682,9 +3642,6 @@ init -9 python:
                 
             elif effect == "Drowsy":
                 self.effects['Drowsy']['active'] = False
-                
-            elif effect == "Loyal":
-                self.effects['Loyal']['active'] = False
                 
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = False
@@ -3757,11 +3714,7 @@ init -9 python:
             elif effect == "Sibling":
                 if self.disposition < 100:
                     self.disposition += 2
-                elif self.disposition < 200:
-                    self.disposition += 1
-                    
-            elif effect == "Loyal":
-                if self.disposition < 50 and dice(50):
+                elif self.disposition < 200 and dice(50):
                     self.disposition += 1
                     
             elif effect == "Food Poisoning":
@@ -4054,7 +4007,18 @@ init -9 python:
                                 self.joy += 5 * len(result)
                             
                             else:
-                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])                        
+                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
+                        
+                        if self.AP > 0:
+                            if self.health < 90:
+                                txt += "She had some strength left left over today so she took some time to heal her wounds. \n"
+                                self.health += self.AP*2
+                                self.vitality += self.AP*4
+                            
+                            else:
+                                txt += "She had some strength left over today so she spent some time taking a break and having fun. \n"
+                                self.joy += self.AP
+                                self.vitality += self.AP * 5
                         
                         # --------------------------------->>>
                         

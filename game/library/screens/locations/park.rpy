@@ -1,5 +1,5 @@
 label city_park:
-    $ gm.enter_location(goodtraits=["Elf", "Furry"], badtraits=["Aggressive", "Adventurer"], curious_priority=False)
+    $ gm.enter_location(goodtraits=["Elf", "Furry"], badtraits=["Aggressive", "Adventurous"], curious_priority=False)
     
     python:
         # Build the actions

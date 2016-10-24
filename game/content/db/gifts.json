@@ -128,7 +128,7 @@
     "cblock": 15,
     "infinite": false,
     "locations": ["General Shop"],
-    "traits": {"Alien": 5, "Adventurer": 10, "Homebody": -10, "Curious": 5, "Indifferent": -5}
+    "traits": {"Alien": 5, "Adventurous": 10, "Homebody": -10, "Curious": 5, "Indifferent": -5}
     },
     {
     "id": "Ocarina",
@@ -243,7 +243,7 @@
     "cblock": 10,
     "infinite": false,
     "locations": ["General Store"],
-    "traits": {"Adventurer": 15, "Homebody": -20, "Curious": 5, "Indifferent": -5}
+    "traits": {"Adventurous": 15, "Homebody": -20, "Curious": 5, "Indifferent": -5}
     },
     {
     "id": "Assorted Macaroons",
@@ -371,7 +371,7 @@
     "cblock": 2,
     "infinite": false,
     "locations": ["General Store", "Witches Hut"],
-    "traits": {"Homebody": 5, "Adventurer": -10, "Alien": 5, "Not Human": 5}
+    "traits": {"Homebody": 5, "Adventurous": -10, "Alien": 5, "Not Human": 5}
     },
     {
     "id": "Handkerchief",
@@ -514,7 +514,7 @@
     "cblock": 10,
     "infinite": false,
     "locations": ["Ninja Shop"],
-    "traits": {"Elf": 10, "Assassin": 10, "Homebody": 5, "Adventurer": -5}
+    "traits": {"Elf": 10, "Assassin": 10, "Homebody": 5, "Adventurous": -5}
     },
     {
     "id": "Bottled Ship",

@@ -300,10 +300,10 @@ init -9 python:
                     char.enable_effect(entry)
                     
             if trait.mod_stats:
-                if hasattr(char, "upkeep"):
-                    char.upkeep += trait.mod_stats.get("upkeep", 0)
-                if hasattr(char, "disposition"):
-                    char.disposition += trait.mod_stats.get("disposition", 0)
+                for key in trait.mod_stats:
+                    # We prevent disposition from being changed by the traits or it will mess with girl_meets:
+                    if key in ["disposition", 'upkeep']:
+                        setattr(char, key, getattr(char, key) + trait.mod_stats[key][0])
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait)
                     
@@ -390,10 +390,10 @@ init -9 python:
                     self.intance.disable_effect(entry)
                     
             if trait.mod_stats:
-                if hasattr(char, "upkeep"):
-                    char.upkeep -= trait.mod_stats.get("upkeep", 0)
-                if hasattr(char, "disposition"):
-                    char.disposition -= trait.mod_stats.get("disposition", 0)
+                for key in trait.mod_stats:
+                    # We prevent disposition from being changed by the traits or it will mess with girl_meets:
+                    if key in ["disposition", 'upkeep']:
+                        setattr(char, key, getattr(char, key) - trait.mod_stats[key][0])
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait, reverse=True)
 
@@ -617,8 +617,6 @@ init -9 python:
             char = self.instance
             
             wage = 100
-            if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = int(wage*0.65)
              
             # if traits['Prostitute'] in char.occupations:
                 # bw = 5 # Base wage
@@ -835,11 +833,34 @@ init -9 python:
             
             
     class Stats(_object):
-        """Holds and manages stats for PytCharacter Classes.
+        """
         DEVNOTE: Be VERY careful when accesing this class directly!
         Some of it's methods assume input from self.instance__setattr__ and do extra calculations!
+        @ TODO: Recode to avoid extra calculations in the future???
         """
         FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment'])
+        
+        # Stats:
+        # alignment, charisma, constitution, fame, health, intelligence, reputation, vitality
+        # alignment might not be on girls?
+        
+        # Other Stats:
+        # exp, luck
+        
+        # Girl-only Stats:
+        # character, disposition, joy, mood
+        
+        # BE Stats:
+        # agility, attack, defence, magic, mp
+        
+        # Skills:
+        # anal, bartending, bdsm, cleaning, dancing, exploration, group, management, oral, refinement, service, strip, teaching, vaginal, waiting
+        
+        # Max Stats: Maximum can now no longer go below 10.
+        """
+        Holds and manages stats for PytCharacter Classes.
+        The idea is to scale down Character class (currently Huge)
+        """
         def __init__(self, *args, **kwargs):
             """
             instance = reference to Character object
@@ -849,20 +870,27 @@ init -9 python:
             DevNote: Training skills have a capital letter in them, action skills do not. This should be done thought the class of the character and NEVER using self.mod_skill directly!
             """
             self.instance = args[0]
-            self.stats, self.imod, self.min, self.max, self.lvl_max = dict(), dict(), dict(), dict(), dict()
-            
-            # Load the stat values:
-            for stat, values in kwargs.get("stats", {}).iteritems():
-                self.stats[stat] = values[0]
-                self.imod[stat] = 0
-                self.min[stat] = values[1]
-                self.max[stat] = values[2]
-                self.lvl_max[stat] = values[3]
-                
-            # [action_value, training_value]
+            self.stats = dict()
+            self.imod = dict()
+            self.min = dict()
+            self.max = dict()
+            self.lvl_max = dict()
+            for key in kwargs:
+                if key == "stats":
+                    for stat in kwargs[key]:
+                        self.stats[stat] = kwargs[key][stat][0]
+                        self.imod[stat] = 0
+                        self.min[stat] = kwargs[key][stat][1]
+                        self.max[stat] = kwargs[key][stat][2]
+                        self.lvl_max[stat] = kwargs[key][stat][3]
+                        
             self.skills = {k: [0, 0] for k in self.instance.SKILLS}
-            # [actions_multi, training_multi, value_multi]
+            # 0 index, actions
+            # 1 index, training
             self.skills_multipliers = {k: [1, 1, 1] for k in self.skills}
+            # 0 index, multi for actions
+            # 1 index, multi for training
+            # 2 index, multi to use when getting the skill values
             
             # Leveling system assets:
             self.goal = 1000
@@ -873,58 +901,70 @@ init -9 python:
             # Statslog:
             self.log = dict()
             
-        def _raw_skill(self, key):
-            """Raw Skills:
-            [action_value, training_value]
+            # Related to BE:
+            # self.battle_overlay = dict() # overlay for the stats during the battle.
+            # self.battle_mode = False # Do we use Battle mod for the overlay or not.
+            
+        def get_skill(self, key):
+            """Returns pure skills, for proper modified return value, call PytCharacter method of the same name!
+            
+            !!! = Do not mix up with the same method of PytCharcter classes = !!!
+            
+            0: Action counter (Practical knowledge)
+            1: Training counter (Theoretical knowledge)
             """
+            # This is temporary before we get the system working right:
+            if not key.lower() in self.skills:
+                devlog.warning(str(str("%s skill not found for %s!" % (key, self.instance.fullname))))
+                return 0
             if key.islower(): return self.skills[key][0]
             else: return self.skills[key.lower()][1]
             
-        def _get_stat(self, key):
+        def get_stat(self, key):
             maxval = self.get_max(key)
-            minval = self.min[key]
             val = self.stats[key] + self.imod[key]
             
-            # Normalization:
             if val > maxval:
-                if self.stats[key] > maxval:
-                    self.stats[key] = maxval
+                # Extra normalization routine:
+                if self.stats[key] > self.get_max(key):
+                    self.stats[key] = self.get_max(key)
                 val = maxval
                 
-            elif val < minval:
-                if self.stats[key] < minval:
-                    self.stats[key] = minval
-                val = minval
+            elif val < self.min[key]:
+                # Extra normalization routine:
+                if self.stats[key] < self.min[key]:
+                    self.stats[key] = self.min[key]
+                val = self.min[key]
                 
-            if key not in ["disposition", "luck"] and val < 0:
-                val = 0
+            # Normalize for displaying (if less than 0):
+            if key not in ["disposition", "luck"]:
+                if val < 0:
+                    val = 0
                 
             return val
                 
         def is_skill(self, key):
-            # Easy check for skills.
+            """
+            Easy check for skills.
+            """
             return key.lower() in self.skills
             
         def is_stat(self, key):
-            # Easy check for stats.
+            """Easy check for stats.
+            """
             return key.lower() in self.stats
             
         def normalize_stats(self):
-            # Makes sure main stats dict is properly aligned to max/min values
+            """ Makes sure main stats dict is properly aligned to max/min values
+            """
             for stat in self.stats:
-                self.normalize_stat(stat)
-                    
-        def normalize_stat(self, stat):
-            val = self.stats[stat]
-            minval = self.min[stat]
-            maxval = self.get_max(stat)
-            if val > maxval:
-                self.stats[stat] = maxval
-            if val < minval:
-                self.stats[stat] = minval
+                if self.stats[stat] > self.get_max(stat):
+                    self.stats[stat] = self.get_max(stat)
+                if self.stats[stat] < self.min[stat]:
+                    self.stats[stat] = self.min[stat]
             
         def __getitem__(self, key):
-            return self._get_stat(key)
+            return self.get_stat(key)
             
         def __iter__(self):
             return iter(self.stats)
@@ -939,38 +979,17 @@ init -9 python:
         def mod_item_stat(self, key, value):
             self.imod[key] = self.imod[key] + value
         
-        def _mod_base_stats_from__setattr__(self, key, value):
-            # Primary stat dict modifier...
-            value = value - self._get_stat(key)
-            self._mod_base_stat(key, int(round(value)))
+        def mod_base_stat(self, key, value):
+            """Modified primary stats dict.
             
-        def settle_skills(self, key, value):
-            if hasattr(self.instance, "effects"):
-                effects = self.instance.effects
-                
-                if key == 'disposition':
-                    if effects['Introvert']['active']:
-                        value = value*.8
-                    elif effects['Extrovert']['active']:
-                        value = value*1.2
-                    elif effects['Impersonal']['active']:
-                        value = value*.8
-                        
-                    if last_label.startswith("interactions_"):
-                        tag = str(random.random())
-                        renpy.show_screen("display_disposition", tag, value, 40, 530, 400, 1)
-                        
-                elif key == 'vitality' and effects['Drowsy']['active']:
-                    if value < 0:
-                        value = value*.5
-                    
-                elif key == 'joy' and effects['Impersonal']['active']:
-                    value = value*.8
-                    
-            return value
+            Input from __setattr__ of self.instance is expected.
+            """
+            value = value - self.get_stat(key)
+            # if self.battle_mode:
+                # value = value - self.battle_overlay.get(key, 0)
+            self.mod(key, value)
             
         def mod_exp(self, value):
-            
             self.exp = value
             while self.exp >= self.goal:
                 self.goal_increase += 1000
@@ -1029,33 +1048,41 @@ init -9 python:
             for key in trait.mod_stats:
                 if key not in ["disposition", "upkeep"]:
                     if not self.level%trait.mod_stats[key][1]:
-                        self._mod_base_stat(key, trait.mod_stats[key][0]) if not reverse else self._mod_base_stat(key, -trait.mod_stats[key][0])
+                        self.mod(key, trait.mod_stats[key][0]) if not reverse else self.mod(key, -trait.mod_stats[key][0])
                 
-        def _mod_base_stat(self, key, value):
-            # Modifies the first layer of stats (self.stats)
-            value = self.settle_skills(key, value)
+        def mod(self, key, value):
+            """Modifies a stat.
             
-            val = self.stats[key] + value
-            
-            if key == 'health' and val <= 0:
-                if isinstance(self.instance, Player):
-                    jump("game_over")
-                elif isinstance(self.instance, Char):
-                    char = self.instance
-                    kill_char(char)
+            This directly changes the value, can be used from anywhere.
+            """
+            if key in self.stats:
+                val = self.stats[key] + value
+                
+                if key == 'health' and val <= 0:
+                    if isinstance(self.instance, Player):
+                        jump("game_over")
+                        return
+                    elif isinstance(self.instance, Char):
+                        char = self.instance
+                        kill_char(char)
+                        return
+                        
+                maxval = self.get_max(key)
+                
+                if val >= maxval:
+                    self.stats[key] = maxval
                     return
-                    
-            maxval = self.get_max(key)
-            minval = self.min[key]
-            
-            if val >= maxval:
-                self.stats[key] = maxval
-                return
-            elif val <= minval:
-                self.stats[key] = minval
-                return
-
-            self.stats[key] = val
+                elif val <= self.min[key]:
+                    self.stats[key] = self.min[key]
+                    return
+    
+                self.stats[key] = val
+                
+            elif key == "exp":
+                self.mod_exp(self.exp + value)
+                
+            else:
+                devlog.warning(str("Tried to apply an unknown stat: %s to %s" % (key, self.instance.__class__.__name__)))
                 
         def mod_skill(self, key, value):
             """Modifies a skill.
@@ -1091,7 +1118,7 @@ init -9 python:
                     return
                 elif current_full_value <= threshold: # Too low... so we add the full value.
                     self.skills[key][1] += value
-                else:
+                else: 
                     at_zero = skill_max - threshold
                     at_zero_current = current_full_value - threshold
                     mod = max(0.1, 1 - float(at_zero_current)/at_zero)
@@ -1245,9 +1272,9 @@ init -9 python:
         def __getattr__(self, key):
             stats = self.__dict__.get("stats", {})
             if key in self.STATS:
-                return stats._get_stat(key)
+                return stats.get_stat(key)
             elif key.lower() in self.SKILLS:
-                return stats._raw_skill(key)
+                return stats.get_skill(key)
             elif key in set(["".join([skill, "skill"]) for skill in self.SKILLS]):
                 return self.get_skill(key[:-5])
             raise AttributeError("%r object has no attribute %r" %
@@ -1255,14 +1282,21 @@ init -9 python:
 
         def __setattr__(self, key, value):
             if key in self.STATS:
-                self.__dict__["stats"]._mod_base_stats_from__setattr__(key, value)
+                self.__dict__["stats"].mod_base_stat(key, value)
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"].mod_skill(key, value)
-            elif key == 'exp':
-                self.__dict__["stats"].mod_exp(value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 
+        # def __str__(self):
+            # """
+            # Will fail for Arena Fighters!
+            # This should be deleted after code review post @ release
+            # For now it's a workaround for Courses...
+            # """
+            # return ", ".join([self.fullname, self.id])
+            
+        
         # Money:
         def take_money(self, amount, reason="Other"):
             if amount < self.gold:
@@ -1428,9 +1462,9 @@ init -9 python:
         def home(self, value):
             self._home = value
             
-        # Alternative Method for modding first layer of stats:
+        # Alternative Method for modding first layer of stats.
         def mod(self, stat, value):
-            self.stats._mod_base_stat(stat, value)
+            self.stats.mod(stat, value)
                 
         def get_max(self, stat):
             return self.stats.get_max(stat)
@@ -1448,8 +1482,8 @@ init -9 python:
             """
             skill = skill.lower()
             points = 0
-            action = self.stats._raw_skill(skill.lower())
-            training = self.stats._raw_skill(skill.capitalize())
+            action = self.stats.get_skill(skill.lower())
+            training = self.stats.get_skill(skill.capitalize())
             full_action_points = training * 3
             if action >= full_action_points:
                 points = training + full_action_points
@@ -2174,12 +2208,7 @@ init -9 python:
             # Taking care of stats: -------------------------------------------------->
             for key in item.max:
                 if key in self.STATS:
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.max[key] += item.max[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.max[key] += int(item.max[key]*0.5)
-                    else:
-                        self.stats.max[key] += item.max[key]
+                    self.stats.max[key] += item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2187,12 +2216,6 @@ init -9 python:
                 if key in self.STATS:
                     # if (self.stats.min[key] + item.min[key]) >= 0: @ Review, this is prolly no longer required.
                     self.stats.min[key] += item.min[key]
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.min[key] += item.min[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.min[key] += int(item.min[key]*0.5)
-                    else:
-                        self.stats.min[key] += item.min[key]
                 else:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2205,12 +2228,7 @@ init -9 python:
                             elif key in ['health', 'mp', 'vitality', 'joy']:
                                 self.mod(key, item.mod[key])
                             else:
-                                if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                                    self.stats.imod[key] += item.mod[key]*2
-                                elif "Left-Handed" in self.traits and item.slot == "weapon":
-                                    self.stats.imod[key] += int(item.mod[key]*0.5)
-                                else:
-                                    self.stats.imod[key] += item.mod[key]
+                                self.stats.imod[key] += item.mod[key]
                         else:
                             if key == 'gold':
                                 self.gold += item.mod[key]
@@ -2258,12 +2276,8 @@ init -9 python:
             if hasattr(self, "effects"):
                 if item.slot == 'consumable' and item.type == 'food':
                     self.effects['Food Poisoning']['activation_count'] += 1
-                    if "Always Hungry" in self.traits:
-                        if self.effects['Food Poisoning']['activation_count'] == 20:
-                            self.enable_effect('Food Poisoning')
-                    else:
-                        if self.effects['Food Poisoning']['activation_count'] == 10:
-                            self.enable_effect('Food Poisoning')
+                    if self.effects['Food Poisoning']['activation_count'] == 10:
+                        self.enable_effect('Food Poisoning')
                     
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:
@@ -2313,24 +2327,14 @@ init -9 python:
             # Taking care of stats:
             for key in item.max:
                 if key in self.STATS:
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.max[key] -= item.max[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.max[key] -= int(item.max[key]*0.5)
-                    else:
-                        self.stats.max[key] -= item.max[key]
+                    self.stats.max[key] -= item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
             for key in item.min:
                 if key in self.STATS:
                     # if (self.stats.min[key] - item.min[key]) >= 0: @Review, prolly no longer required.
-                    if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                        self.stats.min[key] -= item.min[key]*2
-                    elif "Left-Handed" in self.traits and item.slot == "weapon":
-                        self.stats.min[key] -= int(item.min[key]*0.5)
-                    else:
-                        self.stats.min[key] -= item.min[key]
+                    self.stats.min[key] -= item.min[key]
                 else:
                     devlog.warning(str("Failed to apply min stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
 
@@ -2345,12 +2349,7 @@ init -9 python:
                         elif key in ['health', 'mp', 'vitality', 'joy']:
                             self.mod(key, -item.mod[key])
                         else:
-                            if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                                self.stats.imod[key] -= item.mod[key]*2
-                            elif "Left-Handed" in self.traits and item.slot == "weapon":
-                                self.stats.imod[key] -= int(item.mod[key]*0.5)
-                            else:
-                                self.stats.imod[key] -= item.mod[key]
+                            self.stats.imod[key] -= item.mod[key]
                     else:
                         if key == 'gold':
                             self.gold -= item.mod[key]
@@ -3287,6 +3286,62 @@ init -9 python:
                 else:
                     self.picture_base["sex"]["missionary"] = False
                     
+        def __setattr__(self, key, value):
+            if key in self.STATS:
+                stats = self.__dict__["stats"]
+                effects = self.__dict__['effects']
+                
+                if key == 'disposition':
+                    # This is a temporary crutch:
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    
+                    if effects['Introvert']['active']:
+                        mod_val = mod_val*.8
+                    elif effects['Extrovert']['active']:
+                        mod_val = mod_val*1.2
+                    elif effects['Impersonal']['active']:
+                        mod_val = mod_val*.8
+                        
+
+                        
+                    if last_label.startswith("interactions_"):
+                        # value = value - hero.charisma / 2
+                        # value = value + hero.charisma / 9
+                        # stats.exp += self.adjust_exp(randint(3, 6))
+                        # hero.exp += self.adjust_exp(randint(3, 6))
+                        tag = str(random.random())
+                        renpy.show_screen("display_disposition", tag, mod_val, 40, 530, 400, 1)
+                        
+                    value = int(round(old_val + mod_val))
+                        
+                if key == 'vitality' and effects['Drowsy']['active']:
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    if mod_val < 0:
+                        mod_val = int(mod_val*.5)
+                        value = int(round(old_val + mod_val))
+                    
+                if key == 'joy' and effects['Impersonal']['active']:
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    
+                    mod_val = mod_val*.8
+                    value = int(round(old_val + mod_val))
+                    
+                stats.mod_base_stat(key, value)
+                
+            elif key == 'exp':
+                stats = self.__dict__["stats"]
+                stats.mod_exp(value)
+                
+            elif key.lower() in self.SKILLS:
+                stats = self.__dict__["stats"]
+                stats.mod_skill(key, value)
+                
+            else:
+                super(Char, self).__setattr__(key, value)
+                
         ### Girls fin methods
         def take_money(self, value, reason="Other"):
             return self.fin.take_money(value, reason)
@@ -3619,9 +3674,6 @@ init -9 python:
             elif effect == "Drowsy":
                 self.effects["Drowsy"]['active'] = True
                 
-            elif effect == "Loyal":
-                self.effects["Loyal"]['active'] = True
-                
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = True
                 
@@ -3682,9 +3734,6 @@ init -9 python:
                 
             elif effect == "Drowsy":
                 self.effects['Drowsy']['active'] = False
-                
-            elif effect == "Loyal":
-                self.effects['Loyal']['active'] = False
                 
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = False
@@ -3757,11 +3806,7 @@ init -9 python:
             elif effect == "Sibling":
                 if self.disposition < 100:
                     self.disposition += 2
-                elif self.disposition < 200:
-                    self.disposition += 1
-                    
-            elif effect == "Loyal":
-                if self.disposition < 50 and dice(50):
+                elif self.disposition < 200 and dice(50):
                     self.disposition += 1
                     
             elif effect == "Food Poisoning":
@@ -4054,7 +4099,18 @@ init -9 python:
                                 self.joy += 5 * len(result)
                             
                             else:
-                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])                        
+                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
+                        
+                        if self.AP > 0:
+                            if self.health < 90:
+                                txt += "She had some strength left left over today so she took some time to heal her wounds. \n"
+                                self.health += self.AP*2
+                                self.vitality += self.AP*4
+                            
+                            else:
+                                txt += "She had some strength left over today so she spent some time taking a break and having fun. \n"
+                                self.joy += self.AP
+                                self.vitality += self.AP * 5
                         
                         # --------------------------------->>>
                         
@@ -4227,6 +4283,7 @@ init -9 python:
             # self.defence = randint(5, 40)
             # self.mp = randint(5, 40)
             # self.agility = randint(5, 40)
+            
             
             # if "Aggressive" in self.traits:
                 # self.attack += randint(5,20)

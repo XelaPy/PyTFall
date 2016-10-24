@@ -613,7 +613,7 @@
     "eqchance": 30,
     "hidden": true,
     "infinite": false,
-    "removetraits": ["Adventurer"],
+    "removetraits": ["Adventurous"],
     "addtraits": ["Homebody"],
     "slot": "consumable",
     "type": "permanent",

@@ -3113,7 +3113,8 @@ init -9 python:
             "Pessimist": {"active": False},
             "Composure": {"active": False},
             "Kleptomaniac": {"active": False},
-            "Drowsy": {"active": False}
+            "Drowsy": {"active": False},
+            "Loyal": {"active": False}
             }
             
             # Trait assets
@@ -3287,6 +3288,65 @@ init -9 python:
                 else:
                     self.picture_base["sex"]["missionary"] = False
                     
+<<<<<<< HEAD
+=======
+        def __setattr__(self, key, value):
+            if key in self.STATS:
+                stats = self.__dict__["stats"]
+                effects = self.__dict__['effects']
+                
+                if key == 'disposition':
+                    # This is a temporary crutch:
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    
+                    if effects['Introvert']['active']:
+                        mod_val = mod_val*.8
+                    elif effects['Extrovert']['active']:
+                        mod_val = mod_val*1.2
+                    elif effects['Impersonal']['active']:
+                        mod_val = mod_val*.8
+                        
+
+                        
+                    if last_label.startswith("interactions_"):
+                        # value = value - hero.charisma / 2
+                        # value = value + hero.charisma / 9
+                        # stats.exp += self.adjust_exp(randint(3, 6))
+                        # hero.exp += self.adjust_exp(randint(3, 6))
+                        tag = str(random.random())
+                        renpy.show_screen("display_disposition", tag, mod_val, 40, 530, 400, 1)
+                        
+                    value = int(round(old_val + mod_val))
+                        
+                if key == 'vitality' and effects['Drowsy']['active']:
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    if mod_val > 0:
+                        mod_val = int(mod_val*5)
+                        value = int(round(old_val + mod_val))
+                    
+                if key == 'joy' and effects['Impersonal']['active']:
+                    old_val = stats.get_stat(key)
+                    mod_val = value - stats.get_stat(key)
+                    
+                    mod_val = mod_val*.8
+                    value = int(round(old_val + mod_val))
+                    
+                stats.mod_base_stat(key, value)
+                
+            elif key == 'exp':
+                stats = self.__dict__["stats"]
+                stats.mod_exp(value)
+                
+            elif key.lower() in self.SKILLS:
+                stats = self.__dict__["stats"]
+                stats.mod_skill(key, value)
+                
+            else:
+                super(Char, self).__setattr__(key, value)
+                
+>>>>>>> 6e7c4727be41f142901a34d9637bd015a05cd4fd
         ### Girls fin methods
         def take_money(self, value, reason="Other"):
             return self.fin.take_money(value, reason)
@@ -4054,7 +4114,9 @@ init -9 python:
                                 self.joy += 5 * len(result)
                             
                             else:
-                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])                        
+                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
+                        
+
                         
                         # --------------------------------->>>
                         

@@ -184,5 +184,10 @@
     "mod_stats": {"agility": [2, 1], "defence": [-3, 1]},
     "max": {"agility": 15, "defence": -15, "vitality": -25},
     "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]}
+    },
+   {
+    "id": "Left-Handed",
+    "desc": "Equipment in her right hand is not very effective. On the other hand, left hand equipment is more effective than usual.",
+    "permanent": true
     }
 ]

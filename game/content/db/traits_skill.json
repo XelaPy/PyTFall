@@ -14,7 +14,7 @@
     "character_trait": true
     },
     {
-    "id": "Adventurer",
+    "id": "Adventurous",
     "desc": "This girl loves adventures.",
     "blocks": ["Homebody"],
     "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
@@ -23,7 +23,7 @@
     {
     "id": "Homebody",
     "desc": "Who needs adventures when you have a warm house, a tasty food and a good book?",
-    "blocks": ["Adventurer"],
+    "blocks": ["Adventurous"],
     "mod_skills": {"exploration": [-0.05, -0.05, -0.05]},
     "character_trait": true
     },
@@ -72,7 +72,7 @@
     },
     {
     "id": "Always Hungry",
-    "desc": "There is never enough for this girl's appetite.",
+    "desc": "There is never enough for this girl's appetite (prone to buying food, harder to get food poisoning).",
     "mod": {"upkeep": 10},
     "mod_skills": {"refinement": [0, 0, -0.04]},
     "mod_stats": {"constitution": [1, 15]},
