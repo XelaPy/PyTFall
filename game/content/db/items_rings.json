@@ -599,7 +599,6 @@
     "damage_multiplier": 0.05,
     "defence_multiplier": {"melee": 0.1, "ranged": 0.05, "magic": 0.05},
     "locations": ["Exploration", "Fishing"],
-    "goodtraits": ["Indifferent"],
-    "removetraits": ["Pessimist", "Optimist", "Serious"]
+    "goodtraits": ["Indifferent"]
     }
   ]

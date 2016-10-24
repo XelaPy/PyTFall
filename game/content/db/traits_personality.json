@@ -1,6 +1,6 @@
 [    {
     "id": "Tsundere",
-    "desc": "Sharp, irritable, abusive, harsh and sometimes sarcastic personality.",
+    "desc": "Sharp, irritable, abusive, harsh and sometimes sarcastic personality that becomes caring and loving when triggered by some sort of cause.",
     "mod": {"upkeep": 5},
     "mod_stats": {"character": [1, 5]},
     "max": {"character": 10},
@@ -9,7 +9,7 @@
     },
     {
     "id": "Yandere",
-    "desc": "Mentally and emotionally unstable personality. Can suddenly change to extremely brutal, psychotic or deranged.",
+    "desc": "Mentally and emotionally unstable personality. It has a very romantic, nice and caring side that can suddenly change to extremely brutal, psychotic or deranged.",
     "mod": {"upkeep": 5},
     "mod_stats": {"attack": [1, 10]},
     "max": {"character": 10, "intelligence": -10},
@@ -19,7 +19,7 @@
     },
     {
     "id": "Kuudere",
-    "desc": "Cold, blunt, calm, seemingly uncaring on the outside personality with great emotional control.",
+    "desc": "Cold, blunt, calm, seemingly uncaring on the outside personality with great emotional control that occasionally shows her caring side.",
     "mod_stats": {"defence": [1, 10]},
     "max": {"character": 15},
     "mod_skills": {"management": [0.05, 0.1, 0.1], "waiting": [0, 0.01, 0], "bartending": [0, 0, 0.1], "bdsm": [-0.05, 0.05, -0.1], "teaching": [0, 0.02, 0], "cleaning": [0, 0, 0.06], "refinement": [0.05, 0.05, 0], "service": [-0.02, 0.03, -0.08], "dancing": [-0.1, 0, -0.1], "strip": [0, 0, -0.1]},
@@ -50,12 +50,11 @@
     "desc": "An «older sister» type personality. Mature, caring, parenial, practical and helpful.",
     "mod": {"upkeep": -5},
     "mod_skills": {"management": [0.15, 0.1, 0.15], "waiting": [0.05, 0.05, 0.04], "bartending": [0.05, 0.05, 0.1], "bdsm": [-0.2, -0.1, -0.1], "teaching": [0.2, 0.1, 0.15], "cleaning": [0.1, 0.1, 0.1], "refinement": [0.05, 0.03, 0], "service": [0.1, 0.1, 0.1], "dancing": [0, 0, 0.07], "strip": [0, 0.1, -0.1], "exploration": [-0.04, 0, -0.08]},
-    "effects": ["Extrovert"],
     "personality": true
     },
     {
     "id": "Imouto",
-    "desc": "A «little sister» type. Looks up to others, childish and dependent.",
+    "desc": "A «little sister» type. Looks up to others, childish and dependant.",
     "mod": {"upkeep": 5},
      "mod_skills": {"management": [-0.15, 0, -0.15], "waiting": [0.05, -0.04, 0.07], "bartending": [-0.1, -0.2, -0.1], "bdsm": [-0.3, -0.3, -0.2], "teaching": [-0.2, -0.1, -0.15], "cleaning": [-0.1, -0.1, -0.1], "refinement": [-0.05, -0.03, 0], "service": [-0.1, -0.1, -0.1], "dancing": [0.06, 0.03, 0.08], "strip": [-0.1, 0.1, 0], "exploration": [0.08, -0.06, 0.1]},
     "personality": true
@@ -81,6 +80,7 @@
     "id": "Deredere",
     "desc": "Sweet, friendly and outgoing personality, without any issues with emotions or behavior.",
     "mod_skills": {"management": [0, 0, 0.1], "waiting": [0.05, 0, 0.05], "cleaning": [0, 0, 0.03], "service": [0, 0, 0.02], "dancing": [0.1, 0.1, 0.1]},
+    "effects": ["Extrovert"],
     "personality": true
     }
     ]
