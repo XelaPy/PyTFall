@@ -101,17 +101,7 @@ label next_day:
     hide screen next_day
     jump mainscreen
 
-label lactation_logic: # small script which makes the lactation trait taken from WM work every day by adding a bottle of milk; i'll add more advanced logic in the future, but for now it's fine
-    python:
-        for i in hero.chars:
-            if "Lactation" in i.traits and i.health >= 50 and i.vitality >= 50:
-                if i.status == "slave" or check_lovers(i, hero):
-                    hero.add_item("Bottle of Milk")
-                else:
-                    i.add_item("Bottle of Milk")
-    return
 label next_day_calculations:
-    call lactation_logic
     $ FilteredList=list()
     
     if global_flags.flag("nd_music_play"):
