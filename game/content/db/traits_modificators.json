@@ -73,7 +73,7 @@
     },
     {
     "id": "Serious",
-    "desc": "This girl doesn't joke around.",
+    "desc": "She has no time to joke around or mope.",
     "mod_skills": {"management": [0.01, 0, 0.01], "bartending": [0, 0, -0.01]},
     "effects": ["Composure"],
     "character_trait": true
@@ -177,6 +177,7 @@
     "mod_skills": {"strip": [0, 0, -0.1], "waiting": [-0.05, 0, 0.1]},
     "character_trait": true,
     "client": true,
+    "effects": ["Vigorous"],
     "evasion_bonus": [3, 6, 40],
     "defence_multiplier": {"status":-0.1}
     },
@@ -227,6 +228,6 @@
     },
     {
     "id": "Dedicated",
-    "desc": "She works not just for money. She is loyal to you and will expect less wage.",
+    "desc": "She works not just for money. She is loyal to you and will expect less wage than usual.",
     "effects": ["Loyal"]
     }]

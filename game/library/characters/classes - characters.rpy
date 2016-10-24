@@ -3137,20 +3137,22 @@ init -9 python:
             'Poison': {"active": False, "penalty": False, "duration": False},
             'Slow Learner': {'active': False},
             'Fast Learner': {'active': False},
-            "Introvert": {'active': False},
-            "Extrovert": {'active': False},
-            "Sibling": {'active': False},
-            "Sensitive": {'active': False},
-            "Impersonal": {'active': False},
-            'Food Poisoning': {'active': False, 'activation_count': 0},
-            'Down with Cold': {'active': False},
-            "Unstable": {"active": False},
-            "Optimist": {"active": False},
-            "Pessimist": {"active": False},
-            "Composure": {"active": False},
-            "Kleptomaniac": {"active": False},
-            "Drowsy": {"active": False},
-            "Loyal": {"active": False}
+            "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
+            "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
+            "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
+            'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
+            'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
+            "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
+            "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
+            "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough."},
+            "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
+            "Kleptomaniac": {"active": False, "desc": "With some luck, gold increases every day."},
+            "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
+            "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
+            "Lactation": {"active": False, "desc": "Her breasts produce milk every day. The amount is based on boobs size."},
+            "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
+            "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
+            "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."}
             }
             
             # Trait assets
@@ -3338,7 +3340,7 @@ init -9 python:
                         mod_val = mod_val*.8
                     elif effects['Extrovert']['active']:
                         mod_val = mod_val*1.2
-                    elif effects['Impersonal']['active']:
+                    if effects['Loyal']['active'] and mod_val < 0: # works together with other traits
                         mod_val = mod_val*.8
                         
 
@@ -3360,13 +3362,7 @@ init -9 python:
                         mod_val = int(mod_val*5)
                         value = int(round(old_val + mod_val))
                     
-                if key == 'joy' and effects['Impersonal']['active']:
-                    old_val = stats.get_stat(key)
-                    mod_val = value - stats.get_stat(key)
-                    
-                    mod_val = mod_val*.8
-                    value = int(round(old_val + mod_val))
-                    
+                   
                 stats.mod_base_stat(key, value)
                 
             elif key == 'exp':
@@ -3685,8 +3681,17 @@ init -9 python:
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
                 
+            elif effect == "Silly":
+                self.effects['Silly']['active'] = True
+                
+            elif effect == "Intelligent":
+                self.effects['Intelligent']['active'] = True
+                
             elif effect == "Pessimist":
                 self.effects["Pessimist"]["active"] = True
+                
+            elif effect == "Vigorous":
+                self.effects["Vigorous"]["active"] = True
                 
             elif effect == "Composure":
                 self.effects['Composure']['active'] = True
@@ -3712,6 +3717,9 @@ init -9 python:
             elif effect == "Drowsy":
                 self.effects["Drowsy"]['active'] = True
                 
+            elif effect == "Lactation":
+                self.effects["Lactation"]['active'] = True
+                
             elif effect == "Loyal":
                 self.effects["Loyal"]['active'] = True
                 
@@ -3723,12 +3731,6 @@ init -9 python:
 
             elif effect == "Sibling":
                 self.effects['Sibling']['active'] = True
-                
-            elif effect == "Sensitive":
-                self.effects['Sensitive']['active'] = True
-                
-            elif effect == "Impersonal":
-                self.effects['Impersonal']['active'] = True
                 
             elif effect == "Food Poisoning":
                 self.effects['Food Poisoning']['active'] = True
@@ -3750,6 +3752,15 @@ init -9 python:
                     
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = False
+                
+            elif effect == "Silly":
+                self.effects['Silly']['active'] = False
+                
+            elif effect == "Intelligent":
+                self.effects['Intelligent']['active'] = False
+                
+            elif effect == "Vigorous":
+                self.effects['Vigorous']['active'] = False
 
             elif effect == "Pessimist":
                 self.effects["Pessimist"]["active"] = False
@@ -3776,6 +3787,9 @@ init -9 python:
             elif effect == "Drowsy":
                 self.effects['Drowsy']['active'] = False
                 
+            elif effect == "Lactation":
+                self.effects['Lactation']['active'] = False
+                
             elif effect == "Loyal":
                 self.effects['Loyal']['active'] = False
                 
@@ -3784,12 +3798,6 @@ init -9 python:
 
             elif effect == "Sibling":
                 self.effects['Sibling']['active'] = False
-                
-            elif effect == "Sensitive":
-                self.effects['Sensitive']['active'] = False
-                
-            elif effect == "Impersonal":
-                self.effects['Impersonal']['active'] = False
                 
             elif effect == "Food Poisoning":
                 for key in self.effects["Food Poisoning"]:
@@ -3811,19 +3819,48 @@ init -9 python:
                     self.effects['Unstable']['joy_mod'] = randint(20, 30)
                     if dice(50):
                         self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
-                        
     
+            elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
+                if self.health >= 30 and self.vitality >= 30:
+                    if self.status == "slave" or check_lovers(self, hero):
+                        if "Small Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk")
+                        elif "Average Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk", randint(1, 2))
+                        elif "Big Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk", randint(2, 3))
+                        else:
+                            hero.add_item("Bottle of Milk", randint(2, 5))
+                            
+            elif effect == "Silly":
+                if self.intelligence >= 200:
+                    self.intelligence -= 20
+                if self.intelligence >= 100:
+                    self.intelligence -= 10
+                elif self.intelligence >= 25:
+                    self.intelligence -= 5
+                else:
+                    self.intelligence = 20
+                    
+            elif effect == "Intelligent":
+                if self.joy >= 75 and self.vitality >= self.get_max(vitality)*0.75 and self.health >= self.get_max(health)*0.75:
+                    self.intelligence += 1
+                            
             elif effect == "Optimist":
-                if self.joy < 30:
-                    self.joy += 2
-                elif self.joy < 70:
+                if self.joy >= 45:
                     self.joy += 1
                     
             elif effect == "Pessimist":
-                if self.joy > 70:
+                if self.joy > 80:
                     self.joy -= 2
-                elif self.joy > 30:
+                elif self.joy > 25:
                     self.joy -= 1
+                        
+            elif effect == "Vigorous":
+                if self.vitality < self.get_max(vitality)*0.25:
+                    self.vitality += 2
+                elif self.vitality < self.get_max(vitality)*0.5:
+                    self.vitality += 1
                         
             elif effect == "Composure":
                 if self.joy < 60:
@@ -3851,10 +3888,6 @@ init -9 python:
                 if self.disposition < 100:
                     self.disposition += 2
                 elif self.disposition < 200:
-                    self.disposition += 1
-                    
-            elif effect == "Loyal":
-                if self.disposition < 50 and dice(50):
                     self.disposition += 1
                     
             elif effect == "Food Poisoning":
