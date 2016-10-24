@@ -744,7 +744,7 @@ init -9 python:
                 m = 0
                 for i in self.based:
                     if girl.stats.is_stat(i):
-                        s += girl.stats.get_stat(i)
+                        s += girl.stats._get_stat(i)
                         m += girl.stats.max[i]
                         
                     elif girl.stats.is_skill(i):
@@ -840,7 +840,7 @@ init -9 python:
             s = 0
             
             for i in self.knowledge:
-                if hero.stats.is_stat(i): s += hero.stats.get_stat(i.lower())
+                if hero.stats.is_stat(i): s += hero.stats._get_stat(i.lower())
                 elif hero.stats.is_skill(i): s += hero.stats.get_skill(i)
                 else:
                     devlog.warning(str("Tried to access \"%s\" in STATS and SKILLS for %s."%(i, hero.fullname)))
@@ -858,7 +858,7 @@ init -9 python:
             m = 0
             for i in self.skill:
                 if hero.stats.is_stat(i):
-                    s += hero.stats.get_stat(i.lower())
+                    s += hero.stats._get_stat(i.lower())
                     m += hero.stats.max[i.lower()]
                     
                 elif hero.stats.is_skill(i):
@@ -1046,7 +1046,7 @@ init -9 python:
                 s = 0
                 
                 for i in self.primary.mod:
-                    if hero.stats.is_stat(i): s += hero.stats.get_stat(i)
+                    if hero.stats.is_stat(i): s += hero.stats._get_stat(i)
                     elif hero.stats.is_skill(i): s += hero.stats.get_skill(i)
                 
                 return int(s / len(self.primary.mod))
@@ -1156,7 +1156,7 @@ init -9 python:
                         else: girl.stats.min[k] = 0
                         
                         # Update data
-                        if girl.stats.get_stat(k) < girl.stats.min[k]: girl.mod_stat(k, girl.stats.min[k] - girl.stats.get_skill(k))
+                        if girl.stats._get_stat(k) < girl.stats.min[k]: girl.mod_stat(k, girl.stats.min[k] - girl.stats.get_skill(k))
             
             if self.max is not None:
                 for k,v in self.max.iteritems():
@@ -1179,7 +1179,7 @@ init -9 python:
                             girl.stats.min[k] = 0
                         
                         # Update data
-                        if girl.stats.get_stat(k) > girl.stats.max[k]: girl.mod_stat(k, girl.stats.max[k] - girl.stats.get_skill(k))
+                        if girl.stats._get_stat(k) > girl.stats.max[k]: girl.mod_stat(k, girl.stats.max[k] - girl.stats.get_skill(k))
             
             if self.props is not None:
                 for k,v in self.props.iteritems():
@@ -1480,7 +1480,7 @@ init -9 python:
             girl = The character to return the value from.
             key = The stat or skill to return.
             """
-            if girl.stats.is_stat(key): return girl.stats.get_stat(key.lower())
+            if girl.stats.is_stat(key): return girl.stats._get_stat(key.lower())
             elif girl.stats.is_skill(key): return girl.get_skill(key)
             else:
                 devlog.warning("Tried to access \"%s\" in SKILLS or STATS for %s in StatCheck."%(key, girl.fullname))
@@ -1512,7 +1512,6 @@ init -9 python:
             for i in sub:
                 if nott:
                     if i in girl.effects and girl.effects[i]["active"]: return False
-                
                 else:
                     if i in girl.effects and not girl.effects[i]["active"]: return False
             
@@ -1529,7 +1528,7 @@ init -9 python:
                     if type == "mod": a = self.girl_get(girl, k)
                     elif type == "min": a = girl.stats.min[k]
                     elif type == "max": a = girl.stats.max[k]
-                    elif type == "per": a = (girl.stats.get_stat(k) / girl.stats.max[k]) * 100
+                    elif type == "per": a = (girl.stats._get_stat(k) / girl.stats.max[k]) * 100
                     
                     if g == "lt":
                         if a >= v: return False

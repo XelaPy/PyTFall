@@ -177,7 +177,7 @@ init -9 python:
         def base_to_string(self):
             return ", ".join(sorted(list(str(t) for t in self.basetraits)))
             
-        def apply(self, trait, truetrait=True): # Applies trait effects
+        def apply(self, trait, truetrait=True):
             """
             Activates trait and applies it's effects all the way up to a current level of the characters.
             Truetraits basially means that the trait is not applied throught items (Jobs, GameStart, Events and etc.)
@@ -301,9 +301,9 @@ init -9 python:
                     
             if trait.mod_stats:
                 if hasattr(char, "upkeep"):
-                    char.upkeep += trait.mod_stats.get("upkeep", 0)
+                    char.upkeep += trait.mod_stats.get("upkeep", [0, 0])[0]
                 if hasattr(char, "disposition"):
-                    char.disposition += trait.mod_stats.get("disposition", 0)
+                    char.disposition += trait.mod_stats.get("disposition", [0, 0])[0]
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait)
                     
@@ -331,7 +331,7 @@ init -9 python:
             # Finally, make sure stats are working:
             char.stats.normalize_stats()
                         
-        def remove(self, trait, truetrait=True):  # Removes trait effects
+        def remove(self, trait, truetrait=True):
             """
             Removes trait and removes it's effects gained up to a current level of the characters.
             Truetraits basially means that the trait is not applied throught items (Jobs, GameStart, Events and etc.)
@@ -391,9 +391,9 @@ init -9 python:
                     
             if trait.mod_stats:
                 if hasattr(char, "upkeep"):
-                    char.upkeep -= trait.mod_stats.get("upkeep", 0)
+                    char.upkeep -= trait.mod_stats.get("upkeep", [0, 0])[0]
                 if hasattr(char, "disposition"):
-                    char.disposition -= trait.mod_stats.get("disposition", 0)
+                    char.disposition -= trait.mod_stats.get("disposition", [0, 0])[0]
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait, reverse=True)
 
@@ -1934,9 +1934,6 @@ init -9 python:
                 content = inv.items
                 
                 for item in content:
-                    
-                    item = items[item]
-                    
                     # Note: We check for gender in can_equip function, no need to do it again!
                     if item.slot != slot or item.badtraits.intersection(self.traits) or not can_equip(item, self) or not item.eqchance or item.type == "permanent":
                         continue
@@ -2093,7 +2090,7 @@ init -9 python:
                     l = list(items[i] for i in l) # Get a list of item instances. 
                     for stat in target_stats:
                         for item in l:
-                            while self.get_max(stat) - self.stats.get_stat(stat) > 0:
+                            while self.get_max(stat) - self.stats._get_stat(stat) > 0:
                                 # apply the actual item effects, do checks and repeat until stat is close to it's max.
                                 
                                 # Break out immediately if item is not capable of increasing this stat:
@@ -2101,9 +2098,9 @@ init -9 python:
                                     break
                                 
                                 # Since we do not want to waste items we:
-                                if self.stats.get_stat(stat) > self.get_max(stat)*0.40: # If stat is below 40% of it's max, we most likely want to use the item anyhow... so we don't run the code.
+                                if self.stats._get_stat(stat) > self.get_max(stat)*0.40: # If stat is below 40% of it's max, we most likely want to use the item anyhow... so we don't run the code.
                                     bonus = item.get_stat_eq_bonus(self, stat)
-                                    if self.get_max(stat) - self.stats.get_stat(stat) > bonus and item.price > 100: # if bonus is smaller than 50 and item is expensive, we break the loop.
+                                    if self.get_max(stat) - self.stats._get_stat(stat) > bonus and item.price > 100: # if bonus is smaller than 50 and item is expensive, we break the loop.
                                         break
                                 
                                 inv.remove(item)
