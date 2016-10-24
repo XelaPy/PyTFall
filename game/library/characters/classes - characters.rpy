@@ -3713,13 +3713,11 @@ init -9 python:
                         
     
             elif effect == "Optimist":
-                if self.joy < 30:
-                    self.joy += 2
-                elif self.joy < 70:
+                if self.joy >= 45:
                     self.joy += 1
                     
             elif effect == "Pessimist":
-                if self.joy > 70:
+                if self.joy > 80:
                     self.joy -= 2
                 elif self.joy > 30:
                     self.joy -= 1
@@ -3729,6 +3727,12 @@ init -9 python:
                     self.joy += 1
                 elif self.joy > 60:
                     self.joy -= 1
+                    
+            elif effect == "Vigorous":
+                if self.vitality < self.get_max(vitality)*0.25:
+                    self.vitality += 2
+                elif self.vitality < self.get_max(vitality)*0.5:
+                    self.vitality += 1
                     
             elif effect == "Down with Cold":
                 if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
@@ -3745,6 +3749,32 @@ init -9 python:
             elif effect == "Kleptomaniac":
                 if dice(75):
                     self.gold += max(1, randint(1, self.luck+50))
+                
+            elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
+                if self.health >= 30 and self.vitality >= 30:
+                    if self.status == "slave" or check_lovers(self, hero):
+                        if "Small Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk")
+                        elif "Average Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk", randint(1, 2))
+                        elif "Big Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk", randint(2, 3))
+                        else:
+                            hero.add_item("Bottle of Milk", randint(2, 5))
+                            
+            elif effect == "Silly":
+                if self.intelligence >= 200:
+                    self.intelligence -= 20
+                if self.intelligence >= 100:
+                    self.intelligence -= 10
+                elif self.intelligence >= 25:
+                    self.intelligence -= 5
+                else:
+                    self.intelligence = 20
+                    
+            elif effect == "Intelligent":
+                if self.joy >= 75 and self.vitality >= self.get_max(vitality)*0.75 and self.health >= self.get_max(health)*0.75:
+                    self.intelligence += 1
                 
             elif effect == "Sibling":
                 if self.disposition < 100:
