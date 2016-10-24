@@ -106,11 +106,11 @@ init -10 python:
                             value = parse(db[entry][key])
                             key = key.lower()
                             value = int(round(float(value)*dictionary[entry].get_max(key))/100)
-                            dictionary[entry].mod(key, value)
+                            dictionary[entry].mod_stat(key, value)
                         elif key == "luck":
                             value = parse(db[entry][key])
                             key = key.lower()
-                            dictionary[entry].mod(key, value)
+                            dictionary[entry].mod_stat(key, value)
                         else:
                             raise Exception, "During loading of unique girls in load_database function. key.lower() = %s"%key
                     elif key == "Desc":

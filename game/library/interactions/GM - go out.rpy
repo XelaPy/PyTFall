@@ -62,26 +62,26 @@
         # elif interact_date_beach_drinkmenu == 'Lemonade':
             # if hero.take_money(50, "Gifts"):
                 # "Thanks, this is a great drink!"
-                # $ char.mod('disposition', 20)
-                # $ char.mod('joy', 3)
+                # $ char.mod_stat('disposition', 20)
+                # $ char.mod_stat('joy', 3)
             
             # else:
                 # "You do not have enough money to pay for the drink, so you leave."
-                # $ char.mod('disposition', -5)
+                # $ char.mod_stat('disposition', -5)
         
         # elif interact_date_beach_drinkmenu == 'Cocktail':
             # if hero.take_money(100, "Gifts"):
                 # "Wow, this tastes amazing! Thank you!"
-                # $ char.mod('disposition', randint(25, 30))
-                # $ char.mod('joy', randint(4, 7))
+                # $ char.mod_stat('disposition', randint(25, 30))
+                # $ char.mod_stat('joy', randint(4, 7))
             
             # else:
                 # "You do not have enough money to pay for the drink, so you leave."
-                # $ char.mod('disposition', -10)
+                # $ char.mod_stat('disposition', -10)
     
     # else:
         # g "To bad, I was really thirsty."
-        # $ char.mod('disposition', -10) 
+        # $ char.mod_stat('disposition', -10) 
         
     # $renpy.show('bg city_street_1')
     # $renpy.show('char', what=char.show('date', resize=(700,600)), at_list=[Position(ypos = 0.77)])
@@ -116,22 +116,22 @@
     # elif char.refinement > 60:
         # $ gm.set_img("date")
         # "She is learning to behave like a noble so she courteously says goodbye and goes to her room. "
-        # $ char.mod('reputation', 5)
-        # $ char.mod('joy', 5)
+        # $ char.mod_stat('reputation', 5)
+        # $ char.mod_stat('joy', 5)
         # jump girl_interactions
     
     # elif char.charisma > 40:
         # $ gm.set_img("date")
         # "She looks really nice, going back to her room and friends. "
         # "But you feel that the date went well. "
-        # $ char.mod('joy', 2)
-        # $ char.mod('reputation', 2)
+        # $ char.mod_stat('joy', 2)
+        # $ char.mod_stat('reputation', 2)
     
     # else:
         # $ gm.set_img("date")
         # "The date went as well as could be expected... "
-        # $ char.mod('joy', 2)
-        # $ char.mod('constitution', 2)
+        # $ char.mod_stat('joy', 2)
+        # $ char.mod_stat('constitution', 2)
     
     # jump girl_interactions
     
