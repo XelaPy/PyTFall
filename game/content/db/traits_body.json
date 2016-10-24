@@ -23,7 +23,7 @@
     },
     {
     "id": "Average Boobs",
-    "desc": "Her boobs are somewhere in the B-C cup range. Any classy guy will say that this is the ideal size.",
+    "desc": "Her boobs are not too big and not too small. Any classy guy will say that this is the ideal size.",
     "blocks": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
     "mod_stats": {"charisma": [1, 4]},
     "breasts": true
@@ -78,14 +78,14 @@
     },
     {
     "id": "Lolita",
-    "desc": "This girl looks very young and small.",
+    "desc": "This girl looks very young and small (+ 1AP).",
     "blocks": ["Slim", "Chubby", "Athletic", "Manly"],
     "min": {"agility": 5},
     "max": {"vitality": -100, "health": -50},
     "mod_stats": {"constitution": [-3, 1], "agility": [2, 2]},
     "mod_ap": 1,
     "body": true,
-    "evasion_bonus": [5, 5, 1]
+    "evasion_bonus": [2, 2, 1]
     },
     {
     "id": "Slim",
@@ -108,17 +108,17 @@
     {
     "id": "Athletic",
     "blocks": ["Lolita", "Slim", "Chubby", "Manly"],
-    "desc": "This girl is tough and has trained a lot. Her body is in great shape.",
+    "desc": "This girl is tough and has trained a lot. Her body is in great shape (+evasion chance).",
     "min": {"constitution": 5},
     "mod_stats": {"constitution": [1, 2], "agility": [1, 2]},
     "max": {"health": 25, "vitality": 50},
     "body": true,
-    "evasion_bonus": [3, 3, 1]
+    "evasion_bonus": [4, 4, 1]
     },
    {
     "id": "Manly",
     "blocks": ["Lolita", "Slim", "Chubby", "Athletic"],
-    "desc": "This girl is very muscular. Perhaps even too muscular.",
+    "desc": "This girl is very muscular. Perhaps even too muscular (+additional melee damage).",
     "min": {"constitution": 15},
     "mod_stats": {"constitution": [1, 2], "charisma": [-3, 1], "agility": [-3, 2]},
     "max": {"health": 25, "vitality": 100, "charisma": -50, "attack": 10, "defence": 10, "agility": -25},
@@ -129,7 +129,7 @@
     },
     {
     "id": "Artificial Body",
-    "desc": "This girl's body is not alive or real, it is a machine or has been created with magic.",
+    "desc": "This girl's body is not alive or real, it is a machine or has been created with magic (healing spells and poisons are not very effective).",
     "mod": {"upkeep": 15},
     "min": {"constitution": 5, "defence": 15},
     "max": {"constitution": 10, "defence": 15, "health": 50, "vitality": 50},
@@ -175,19 +175,35 @@
     },
    {
     "id": "Lactation",
-    "desc": "Her breasts are capable to produce milk every day.",
-    "mod": {"upkeep": 5}
+    "desc": "She's capable to produce milk.",
+    "mod": {"upkeep": 5},
+    "effects": ["Lactation"],
+    "max": {"vitality": -20, "health": -10, "mp": -10}
     },
    {
     "id": "Flexible",
     "desc": "She is able to bend her body in many different ways.",
-    "mod_stats": {"agility": [2, 1], "defence": [-3, 1]},
-    "max": {"agility": 15, "defence": -15, "vitality": -25},
+    "mod_stats": {"agility": [1, 2], "defence": [-3, 1]},
+    "max": {"agility": 15, "defence": -25, "vitality": -25},
     "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]}
     },
    {
     "id": "Left-Handed",
-    "desc": "Equipment in her right hand is not very effective. On the other hand, left hand equipment is more effective than usual.",
+    "desc": "Items in her right hand is not very effective, but items in her left hand are more effective than usual.",
     "permanent": true
+    },
+   {
+    "id": "Stupid",
+    "blocks": ["Smart"],
+    "desc": "The difference between stupidity and genius is that genius has its limits.",
+    "max": {"vitality": 25},
+    "effects": ["Silly"]
+    },
+   {
+    "id": "Smart",
+    "blocks": ["Stupid"],
+    "desc": "Being smart creates more questions than answers.",
+    "max": {"intelligence": 10},
+    "effects": ["Intelligent"]
     }
 ]
