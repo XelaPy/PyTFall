@@ -3,7 +3,6 @@ init python:
     # Note that simpler jobs are part of the FG classes next day method itself!
     
     # This all should prolly be adapted to serve SimPy soon.
-    
     class FG_Rest(_object):
         """Resting in the Fighting Guild.
         """

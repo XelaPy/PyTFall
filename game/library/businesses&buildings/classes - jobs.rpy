@@ -241,11 +241,10 @@
                 
                 else:
                     if self.girl.stats.is_stat(stat):
-                        self.girl.stats.mod(stat, self.girlmod[stat])
+                        self.girl.mod(stat, self.girlmod[stat])
                         
                     elif self.girl.stats.is_skill(stat):
-                        setattr(self.girl, stat, self.girlmod[stat])
-                        # self.girl.stats.mod_skill(stat, self.girlmod[stat])
+                        self.girl.mod(stat, self.girlmod[stat])
             
             for stat in self.locmod:
                 if stat == 'fame':
@@ -546,7 +545,7 @@
                         worker.constitution -= 5
                 else:
                     if worker.stats.is_stat(key):
-                        worker.stats.mod(key, mods[key])
+                        worker.mod(key, mods[key])
                         
                     elif worker.stats.is_skill(key):
                         setattr(worker, key, mods[key])
