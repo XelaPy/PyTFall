@@ -648,7 +648,7 @@
                     if difference < 1:
                         difference = 1
                     char.set_flag("jobs_introjoy", -randint(5, 10))
-                    char.set_flag("jobs_introdis", -randint(0, difference))
+                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
                     self.loggs('vitality', -randint(5,15))
                 else:
                     if sub<0:
@@ -669,7 +669,7 @@
                     if char.joy < 50: # slaves additionally get more disposition penalty with low joy
                         difference += randint(0, (50-char.joy))
                     char.set_flag("jobs_introjoy", -randint(10, 15))
-                    char.set_flag("jobs_introdis", -randint(0, difference))
+                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
                     self.loggs('vitality', -randint(10,25))
             else:
                 char.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a harlot." % char.name, "%s gets busy with a client." % char.fullname, "%s serves customers as a whore." % char.nickname]))
@@ -1448,7 +1448,7 @@
                         if dice(35):
                             self.loggs('character', 1)
                     char.set_flag("jobs_introjoy", -randint(1, 10))
-                    char.set_flag("jobs_introdis", -randint(0, difference))
+                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
                     self.loggs('vitality', -randint(5,15))
                 else:
                     sub = check_submissivity(char)
@@ -1470,7 +1470,7 @@
                     if char.joy < 50:
                         difference += randint(0, (50-char.joy))
                     char.set_flag("jobs_introjoy", -randint(10, 15))
-                    char.set_flag("jobs_introdis", -randint(0, difference))
+                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
                     self.loggs('vitality', -randint(10,20))
 
             else:

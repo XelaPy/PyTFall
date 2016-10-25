@@ -1,18 +1,6 @@
 # Characters classes and methods:
 init -9 python:
     ###### Character Helpers ######
-    def kill_char(char):
-        # Attempts to remove a character from the game world.
-        # This happens automatiaclly if char.health goes 0 or below.
-        char._location = "After Life"
-        char.alive = False
-        if char in hero.chars:
-            hero.corpses.append(char)
-            hero.remove_char(char)
-        if char in hero.team:
-            hero.team.remove(char)
-        gm.remove_girl(char)
-    
     class SmartTracker(collections.MutableSequence):
         def __init__(self, instance, be_skill=True):
             self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
@@ -1105,7 +1093,7 @@ init -9 python:
         """
         Decided to create a base class for characters (finally)...
         """
-        def __init__(self, arena=False, inventory=False):
+        def __init__(self, arena=False, inventory=False, effects=False):
             super(PytCharacter, self).__init__()
             self.img = ""
             self.portrait = ""
@@ -1199,6 +1187,31 @@ init -9 python:
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
+            
+            if effects:
+                # Effects assets:
+                self.effects = {
+                'Poison': {"active": False, "penalty": False, "duration": False},
+                'Slow Learner': {'active': False},
+                'Fast Learner': {'active': False},
+                "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
+                "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
+                "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
+                'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
+                'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
+                "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
+                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
+                "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough."},
+                "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
+                "Kleptomaniac": {"active": False, "desc": "With some luck, gold increases every day."},
+                "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
+                "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
+                "Lactation": {"active": False, "desc": "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."},
+                "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
+                "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
+                "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
+                "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."}
+                }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
             self.besprite = None # Used to keep track of sprite displayable in the BE.
@@ -2570,7 +2583,7 @@ init -9 python:
             
     class Player(PytCharacter):
         def __init__(self):
-            super(Player, self).__init__(arena=True, inventory=True)
+            super(Player, self).__init__(arena=True, inventory=True, effects=True)
             
             self.img_db = None
             self.id = "mc" # Added for unique items methods.
@@ -3020,7 +3033,7 @@ init -9 python:
         MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
         UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
         def __init__(self):
-            super(Char, self).__init__(arena=True, inventory=True)
+            super(Char, self).__init__(arena=True, inventory=True, effects=True)
             # Game mechanics assets
             self.gender = 'female'
             self.race = ""
@@ -3070,30 +3083,6 @@ init -9 python:
             self.days_unhappy = 0
             self.days_depressed = 0
             
-            # Effects assets:
-            self.effects = {
-            'Poison': {"active": False, "penalty": False, "duration": False},
-            'Slow Learner': {'active': False},
-            'Fast Learner': {'active': False},
-            "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
-            "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
-            "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
-            'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
-            'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
-            "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
-            "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
-            "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough."},
-            "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
-            "Kleptomaniac": {"active": False, "desc": "With some luck, gold increases every day."},
-            "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
-            "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
-            "Lactation": {"active": False, "desc": "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."},
-            "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
-            "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
-            "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
-            "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."}
-            }
-            
             # Trait assets
             self.init_traits = list() # List of traits to be enabled on game startup (should be deleted in init method)
                      
@@ -3112,7 +3101,6 @@ init -9 python:
             self.autobuy = False
             self.autoequip = False
             self.given_items = dict()
-            
             
             # Actions:
             # self.action = None # Moved to parent class
