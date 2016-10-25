@@ -1274,8 +1274,8 @@ init -9 python:
                 self.__dict__["stats"]._mod_base_stats_from__setattr__(key, value)
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
-            elif key == 'exp':
-                self.__dict__["stats"]._mod_exp(value)
+            # elif key == 'exp': # We handle this through properties...
+                # self.__dict__["stats"]._mod_exp(value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 
@@ -1446,6 +1446,7 @@ init -9 python:
             
         # Alternative Method for modding first layer of stats:
         def add_exp(self, value, adjust=True):
+            # Adds experience, adjusts it by default...
             if adjust:
                 value = adjust_exp(self, value)
             self.exp += value
