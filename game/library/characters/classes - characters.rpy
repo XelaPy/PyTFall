@@ -1223,7 +1223,8 @@ init -9 python:
                 "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
                 "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
                 "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
-                "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."}
+                "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
+                "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -1967,7 +1968,8 @@ init -9 python:
                     if slot == "consumable":
                         if any([item.ceffect,
                                   item.id in self.consblock, item.id in self.constemp,
-                                  item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
+                                  item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
+                                  item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 9]):
                             continue
                             
                     elif slot == "misc":
@@ -2134,14 +2136,16 @@ init -9 python:
                                 
                                 # Check is there any new conditions preventing repeating the process:
                                 if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
-                                           item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
+                                           item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
+                                           item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 9]):
                                     break
                                     
                     for skill in target_skills:
                         for item in l:
                             # Check is there any conditions preventing repeating the process:
                             if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
-                                       item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 9]):
+                                       item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
+                                       item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 9]):
                                 continue
                             
                             # continue if item is not capable of increasing this skill:
@@ -2270,12 +2274,13 @@ init -9 python:
             if hasattr(self, "effects"):
                 if item.slot == 'consumable' and item.type == 'food':
                     self.effects['Food Poisoning']['activation_count'] += 1
-                    if "Always Hungry" in self.traits:
-                        if self.effects['Food Poisoning']['activation_count'] == 20:
-                            self.enable_effect('Food Poisoning')
-                    else:
-                        if self.effects['Food Poisoning']['activation_count'] == 10:
-                            self.enable_effect('Food Poisoning')
+                    if self.effects['Food Poisoning']['activation_count'] == 7:
+                        self.enable_effect('Food Poisoning')
+                    
+                if item.slot == 'consumable' and item.type == 'alcohol':
+                    self.effects['Drunk']['activation_count'] += 1
+                    if self.effects['Drunk']['activation_count'] == 2:
+                        self.enable_effect('Drunk')
                     
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:
@@ -2509,6 +2514,9 @@ init -9 python:
             elif effect == "Fast Metabolism":
                 self.effects["Fast Metabolism"]["active"] = True
                 
+            elif effect == "Drunk":
+                self.effects["Drunk"]["active"] = True
+                
             elif effect == "Lactation":
                 self.effects["Lactation"]['active'] = True
                 
@@ -2559,6 +2567,10 @@ init -9 python:
                 
             elif effect == "Fast Metabolism":
                 self.effects["Fast Metabolism"]["active"] = False
+                
+            elif effect == "Drunk":
+                for key in self.effects["Drunk"]:
+                    self.effects["Drunk"][key] = False
 
             elif effect == "Composure":
                 self.effects['Composure']['active'] = False
@@ -2685,6 +2697,13 @@ init -9 python:
                     self.disposition += 2
                 elif self.disposition < 200:
                     self.disposition += 1
+                    
+            elif effect == "Drunk":
+                self.vitality -= 50
+                if self.health > 50:
+                    self.health -= 10
+                self.joy -= 10
+                self.disable_effect('Drunk')
                     
             elif effect == "Food Poisoning":
                 if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:

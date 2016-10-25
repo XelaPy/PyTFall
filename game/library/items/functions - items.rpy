@@ -124,8 +124,12 @@ init -11 python:
             if not silent:
                 renpy.show_screen("message_screen", "This item cannot be used or equipped!")
             return
+        elif item.type in ["food"] and char.effects['Food Poisoning']['active']:
+            if not silent:
+                renpy.show_screen('message_screen', "She's already suffering from food poisoning. More food won't do any good.")
+            return
         elif char.status == "slave":
-            if item.slot in ["weapon"] and not item.type.lower().startswith("nw"):
+            if item.slot in ["weapon"] and not item.type.lower().startswith("tool"):
                 if not silent:
                     renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law!")
                 return
