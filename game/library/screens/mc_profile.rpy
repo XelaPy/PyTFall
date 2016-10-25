@@ -344,11 +344,12 @@ init:
                 has vbox
                 label (u"Traits:") text_size 20 text_color ivory text_bold True xalign .45
                 viewport:
-                    xysize (160, 300)
-                    scrollbars "vertical"
+                    xysize (160, 150)
                     draggable True
                     mousewheel True
                     has vbox spacing 1
+                    # for i in range(200):
+                        # add Solid("#F00", xysize=(100, 20))
                     for trait in list(t for t in hero.traits if not any([t.personality, t.race, t.elemental])):
                         if not trait.hidden:
                             frame:
@@ -359,6 +360,26 @@ init:
                                     action NullAction()
                                     text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson
                                     hovered tt.Action(u"%s"%trait.desc)
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                
+                null height 10
+                                    
+                label (u"Effects:") text_size 20 text_color ivory text_bold True xalign .45
+                viewport:
+                    xysize (160, 150)
+                    draggable True
+                    mousewheel True
+                    has vbox spacing 1
+                    for effect, val in hero.effects.iteritems():
+                        if val['active']:
+                            frame:
+                                xysize (147, 25)
+                                button:
+                                    background Null()
+                                    xysize (147, 25)
+                                    action NullAction()
+                                    text "[effect]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                    hovered tt.Action(u"%s"%val.get("desc", "No Description availible."))
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
                                     
         # TOOLTIP TEXT ====================================>

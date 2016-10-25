@@ -122,7 +122,7 @@ init -9 python:
             new_stat = stats.stats[stat] + stats.imod[stat] + self.mod[stat]
             if new_stat > new_max:
                 new_stat = new_max
-            return new_stat - stats.get_stat(stat)
+            return new_stat - stats._get_stat(stat)
             
             
     # Inventory with listing

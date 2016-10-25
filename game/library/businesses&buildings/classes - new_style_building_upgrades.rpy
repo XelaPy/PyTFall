@@ -1413,7 +1413,7 @@ init -5 python:
                     self.txt.append("It was a quite day of exploration, nothing of interest happened...")
                 
                 self.stats["agility"] += randrange(2)
-                self.stats["exp"] += randint(5, max(15, self.risk/4))
+                self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
                 
                 inv = list(g.inventory for g in self.team)
                 
