@@ -950,9 +950,19 @@ init -9 python:
                     
             return value
             
-        def mod_exp(self, value):
+        def _mod_exp(self, value):
+            # Assumes input from setattr of self.instance:
+            if hasattr(self.instance, "effects"):
+                effects = self.instance.effects
+                if effects["Slow Learner"]["active"]:
+                    val = value - self.exp
+                    value = self.exp + int(round(val*.9))
+                if effects["Fast Learner"]["active"]:
+                    val = value - self.exp
+                    value = self.exp + int(round(val*1.1))
             
             self.exp = value
+            
             while self.exp >= self.goal:
                 self.goal_increase += 1000
                 self.goal += self.goal_increase
@@ -1265,7 +1275,7 @@ init -9 python:
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
             elif key == 'exp':
-                self.__dict__["stats"].mod_exp(value)
+                self.__dict__["stats"]._mod_exp(value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
                 
@@ -1435,6 +1445,11 @@ init -9 python:
             self._home = value
             
         # Alternative Method for modding first layer of stats:
+        def add_exp(self, value, adjust=True):
+            if adjust:
+                value = adjust_exp(self, value)
+            self.exp += value
+            
         def mod_stat(self, stat, value):
             self.stats._mod_base_stat(stat, value)
                 
@@ -1469,12 +1484,12 @@ init -9 python:
             return _list(e for e in self.traits if e.elemental)
             
         @property
-        def exp(self):
+        def exp(self): # This is already handled in __setattr__ ????
             return self.stats.exp
             
         @exp.setter
         def exp(self, value):
-            self.stats.mod_exp(value)
+            self.stats._mod_exp(value)
             
         @property
         def level(self):
