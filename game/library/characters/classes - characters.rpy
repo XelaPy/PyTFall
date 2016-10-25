@@ -2278,9 +2278,11 @@ init -9 python:
                         self.enable_effect('Food Poisoning')
                     
                 if item.slot == 'consumable' and item.type == 'alcohol':
-                    self.effects['Drunk']['activation_count'] += 1
-                    if self.effects['Drunk']['activation_count'] == 2:
+                    self.effects['Drunk']['activation_count'] += item.mod["joy"]
+                    if self.effects['Drunk']['activation_count'] >= 35 and not self.effects['Drunk']['active']:
                         self.enable_effect('Drunk')
+                    elif self.effects['Drunk']['active'] and self.AP > 0:
+                        self.AP -=1
                     
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:

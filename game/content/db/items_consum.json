@@ -790,7 +790,7 @@
     "slot": "consumable",
     "type": "food",
     "cblock": 7,
-    "mod": {"joy": 65, "disposition": 5},
+    "mod": {"joy": 5, "disposition": 5},
     "locations": ["Cafe"]
     },
     {
@@ -806,7 +806,7 @@
     "infinite": true,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 2},
+    "mod": {"joy": 1, "vitality": 4},
     "locations": ["Cafe"]
     },
     {
@@ -822,7 +822,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"vitality": 3, "joy": 3},
+    "mod": {"vitality": 3, "health": 3},
     "locations": ["Cafe"]
     },
     {
@@ -838,7 +838,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 4, "health": 1},
+    "mod": {"vitality": 4, "health": 1},
     "locations": ["Cafe"]
     },
     {
@@ -870,7 +870,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 1, "health": 8},
+    "mod": {"vitality": 1, "health": 8},
     "locations": ["Cafe"]
     },
     {
@@ -886,7 +886,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 8, "health": 8, "vitality": 8, "agility": -3},
+    "mod": {"joy": 1, "health": 8, "vitality": 8, "mp": -3},
     "locations": ["Cafe"]
     },
     {
@@ -902,7 +902,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 5, "health": 5, "vitality": 5, "agility": -2},
+    "mod": {"joy": 1, "health": 5, "vitality": 5, "mp": -2},
     "locations": ["Cafe"]
     },
     {
@@ -918,7 +918,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 6, "health": 6, "vitality": 6, "agility": -2},
+    "mod": {"joy": 1, "health": 6, "vitality": 6, "mp": -2},
     "locations": ["Cafe"]
     },
     {
@@ -966,7 +966,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 2},
+    "mod": {"joy": 1, "vitality": 2},
     "locations": ["Cafe"]
     },
     {
@@ -982,7 +982,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"mp": 3, "joy": 1},
+    "mod": {"vitality": 3, "joy": 1},
     "locations": ["Cafe"]
     },
     {
@@ -998,7 +998,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"joy": 15, "character": 1},
+    "mod": {"vitality": 2, "character": 1},
     "locations": ["Cafe"]
     },
     {
@@ -1014,7 +1014,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "food",
-    "mod": {"mp": 10, "joy": 10},
+    "mod": {"vitality": 10, "joy": 3},
     "locations": ["Cafe"]
     },
     {
@@ -1177,7 +1177,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
-    "type": "restore",
+    "type": "food",
     "mod": {"mp": 5, "health": 5, "vitality": 5},
     "goodtraits": ["Open Minded", "Curious"]
     },
@@ -1185,7 +1185,7 @@
     "id": "Red Wine",
     "desc": "An aged wine made from dark-colored grape.",
     "icon": "content/items/cons/rwine.png",
-    "price": 50,
+    "price": 18,
     "sex": "unisex",
     "chance": 40,
     "badness": 60,
@@ -1194,14 +1194,14 @@
     "infinite": false,
     "slot": "consumable",
     "type": "alcohol",
-    "mod": {"mp": 5},
-    "locations": ["General Store"]
+    "mod": {"mp": 10, "joy": 10},
+    "locations": ["Cafe"]
     },
     {
     "id": "White Wine",
     "desc": "A dry and sweet white wine.",
     "icon": "content/items/cons/wwine.png",
-    "price": 25,
+    "price": 12,
     "sex": "unisex",
     "chance": 70,
     "badness": 70,
@@ -1210,14 +1210,14 @@
     "infinite": false,
     "slot": "consumable",
     "type": "alcohol",
-    "mod": {"mp": 5},
-    "locations": ["General Store"]
+    "mod": {"mp": 8, "joy": 8},
+    "locations": ["Cafe"]
     },
     {
     "id": "Champagne",
-    "desc": "A bottle of fizzy sparkling wine.",
+    "desc": "A common fizzy sparkling wine.",
     "icon": "content/items/cons/champagne.png",
-    "price": 15,
+    "price": 9,
     "sex": "unisex",
     "chance": 70,
     "badness": 75,
@@ -1226,14 +1226,14 @@
     "infinite": false,
     "slot": "consumable",
     "type": "alcohol",
-    "mod": {"mp": 5},
-    "locations": ["General Store"]
+    "mod": {"mp": 5, "joy": 5},
+    "locations": ["Cafe"]
     },
     {
     "id": "Beer",
     "desc": "A popular and cheap, yet the oldest known alcoholic beverage.",
     "icon": "content/items/cons/beer.png",
-    "price": 80,
+    "price": 4,
     "sex": "unisex",
     "chance": 100,
     "badness": 80,
@@ -1242,14 +1242,14 @@
     "infinite": false,
     "slot": "consumable",
     "type": "alcohol",
-    "mod": {"mp": 5},
-    "locations": ["General Store"]
+    "mod": {"joy": 3},
+    "locations": ["Cafe"]
     },
     {
     "id": "Whiskey",
     "desc": "A distilled alcoholic beverage made from fermented grain mash.",
     "icon": "content/items/cons/whiskey.png",
-    "price": 80,
+    "price": 35,
     "sex": "unisex",
     "chance": 100,
     "badness": 80,
@@ -1258,14 +1258,14 @@
     "infinite": false,
     "slot": "consumable",
     "type": "alcohol",
-    "mod": {"mp": 5},
-    "locations": ["General Store"]
+    "mod": {"mp": 25, "joy": 25},
+    "locations": ["Cafe"]
     },
     {
     "id": "Sake",
     "desc": "A foreign wine made by fermenting rice that has been polished to remove the bran.",
     "icon": "content/items/cons/sake.png",
-    "price": 80,
+    "price": 25,
     "sex": "unisex",
     "chance": 100,
     "badness": 80,
@@ -1274,7 +1274,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "alcohol",
-    "mod": {"mp": 5},
-    "locations": ["General Store"]
+    "mod": {"mp": 15, "joy": 15},
+    "locations": ["Cafe"]
     }
   ]
