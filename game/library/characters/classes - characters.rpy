@@ -925,7 +925,8 @@ init -9 python:
             return val
         
         def mod_item_stat(self, key, value):
-            self.imod[key] = self.imod[key] + value
+            if key in self.stats:
+                self.imod[key] = self.imod[key] + value
         
         def _mod_base_stats_from__setattr__(self, key, value):
             # Primary stat dict modifier...
@@ -1024,29 +1025,30 @@ init -9 python:
                 
         def _mod_base_stat(self, key, value):
             # Modifies the first layer of stats (self.stats)
-            value = self.settle_effects(key, value)
-            
-            val = self.stats[key] + value
-            
-            if key == 'health' and val <= 0:
-                if isinstance(self.instance, Player):
-                    jump("game_over")
-                elif isinstance(self.instance, Char):
-                    char = self.instance
-                    kill_char(char)
+            if key in self.stats: # As different character types may come with different stats.
+                value = self.settle_effects(key, value)
+                
+                val = self.stats[key] + value
+                
+                if key == 'health' and val <= 0:
+                    if isinstance(self.instance, Player):
+                        jump("game_over")
+                    elif isinstance(self.instance, Char):
+                        char = self.instance
+                        kill_char(char)
+                        return
+                        
+                maxval = self.get_max(key)
+                minval = self.min[key]
+                
+                if val >= maxval:
+                    self.stats[key] = maxval
                     return
-                    
-            maxval = self.get_max(key)
-            minval = self.min[key]
-            
-            if val >= maxval:
-                self.stats[key] = maxval
-                return
-            elif val <= minval:
-                self.stats[key] = minval
-                return
-
-            self.stats[key] = val
+                elif val <= minval:
+                    self.stats[key] = minval
+                    return
+    
+                self.stats[key] = val
                 
         def _mod_raw_skill(self, key, value):
             """Modifies a skill.
@@ -1094,12 +1096,13 @@ init -9 python:
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
                                "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing"])
-        PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"])
-        CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"])
+        FULLSKILLS = set(skill + "skill" for skill in SKILLS) # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
+        PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"]) # Do we still need this? Traits themselves are now flagged!
+        CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"]) # This is prolly now also too old...
         STATUS = set(["slave", "free"])
         ATTACKS = dict(Rod = "Rod Attack", Sword = "Sword Attack",
                                    Ranged = "Bow Attack", Dagger = "Knife Attack",
-                                   Whip = "Whip Attack", Fists = "Fist Attack")
+                                   Whip = "Whip Attack", Fists = "Fist Attack") # Also should be worked out of the class...
         """
         Decided to create a base class for characters (finally)...
         """
@@ -1264,8 +1267,8 @@ init -9 python:
                 return stats._get_stat(key)
             elif key.lower() in self.SKILLS:
                 return stats._raw_skill(key)
-            elif key in set(["".join([skill, "skill"]) for skill in self.SKILLS]):
-                return self.get_skill(key[:-5])
+            elif key in self.FULLSKILLS:
+                return self.get_skill(key)
             raise AttributeError("%r object has no attribute %r" %
                                           (self.__class__, key))
 
