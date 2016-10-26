@@ -120,8 +120,8 @@ label interactions_strong:
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
-        jump praise_nope
-        
+        call praise_nope
+        jump girl_interactions
 label interactions_cute:
     if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
         "You trying to compliment her appearance."
