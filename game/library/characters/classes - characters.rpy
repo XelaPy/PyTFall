@@ -1969,7 +1969,7 @@ init -9 python:
                         if any([item.ceffect,
                                   item.id in self.consblock, item.id in self.constemp,
                                   item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                  item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 9]):
+                                  item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                             continue
                             
                     elif slot == "misc":
@@ -2137,7 +2137,7 @@ init -9 python:
                                 # Check is there any new conditions preventing repeating the process:
                                 if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
                                            item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                           item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 9]):
+                                           item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                                     break
                                     
                     for skill in target_skills:
@@ -2145,7 +2145,7 @@ init -9 python:
                             # Check is there any conditions preventing repeating the process:
                             if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
                                        item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                       item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 9]):
+                                       item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                                 continue
                             
                             # continue if item is not capable of increasing this skill:
@@ -2701,10 +2701,11 @@ init -9 python:
                     self.disposition += 1
                     
             elif effect == "Drunk":
-                self.vitality -= 50
+                self.vitality -= self.effects['Drunk']['activation_count']
                 if self.health > 50:
                     self.health -= 10
-                self.joy -= 10
+                self.joy -= 5
+                self.mp -= 20
                 self.disable_effect('Drunk')
                     
             elif effect == "Food Poisoning":

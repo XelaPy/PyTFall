@@ -203,6 +203,9 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.flag("quest_sex_anytime"): # special flag for cases when we don't want character to refuse unless disposition is ridiculously low
         $ disposition_level_for_sex -= 1000
         
+    if char.effects['Drunk']['active']: # a bit less disposition for drunk ones
+        $ disposition_level_for_sex -= randint(50, 100)
+        
     if cgo("SIW"): # SIWs won't be against it if they know MC well, but at the same time would prefer to get paid if they don't
         if char.disposition >= 400:
             $ disposition_level_for_sex -= randint(50, 100)
