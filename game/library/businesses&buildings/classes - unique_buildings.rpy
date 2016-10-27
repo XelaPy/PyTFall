@@ -476,64 +476,29 @@ init -9 python:
                 # txt += "Clients loved having a reception where they could enquire about girls, prices and possibilieties. \n"
                 # repinc = choice([0, 0, 1])
                 # self.modrep(repinc)
-            
+
             # Applies effects of adverticement:
             if self.can_advert:
-                if 'Sign' in self.adverts and self.adverts['Sign']['active']:
-                    modfsign = randint(0, 1)
-                    self.modfame(modfsign)
-                    tmodfame = tmodfame + modfsign
 
-                if 'Flyers' in self.adverts and self.adverts['Flyers']['active']:
-                    modfflyers = randint(0, 1)
-                    self.modfame(modfflyers)
-                    tmodfame = tmodfame + modfflyers
+                for name, advert in self.adverts.iteritems():
 
-                    spentcash = spentcash + 30
+                    if advert['active']:
+                        if 'fame' in advert:
+                            modf = randint(advert['fame'][0], advert['fame'][1])
+                            self.modfame(modf)
+                            tmodfame = tmodfame + modf
 
-                if 'Magazine' in self.adverts and self.adverts['Magazine']['active']:
-                    modfmag = randint(2, 3)
-                    self.modfame(modfmag)
-                    tmodfame = tmodfame + modfmag
+                        if 'reputation' in advert:
+                            modr = randint(advert['reputation'][0], advert['reputation'][1])
+                            self.modreputation(modr)
+                            tmodrep = tmodrep + modr
 
-                    modrmag = randint(0, 3)
-                    self.modrep(modrmag)
-                    tmodrep = tmodrep + modrmag
+                        spentcash = spentcash + advert['upkeep']
 
-                    spentcash += 50
+                        if name == 'Celebrity':
+                            self.adverts['Celebrity']['active'] = False
+                            txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr,modf))
 
-                if 'Billboard' in self.adverts and self.adverts['Billboard']['active']:
-                    modfbill = randint(0, 2)
-                    self.modfame(modfbill)
-                    tmodfame = tmodfame + modfbill
-
-                    spentcash += 100
-
-                if 'Girl' in self.adverts and self.adverts['Girl']['active']:
-                    modfgirl = randint(0, 1)
-                    self.modfame(modfgirl)
-                    tmodfame = tmodfame + modfgirl
-
-                    modrgirl = randint(0, 2)
-                    self.modrep(modfgirl)
-                    tmodrep = tmodrep + modrgirl
-
-                    spentcash = spentcash + 150
-
-                if 'Celebrity' in self.adverts and self.adverts['Celebrity']['active']:
-                    modrcel = randint(50, 100)
-                    self.modrep(modrcel)
-                    tmodrep = tmodrep + modrcel
-
-                    modfcel = randint(50, 100)
-                    self.modfame(modfcel)
-                    tmodfame = tmodfame + modfcel
-
-                    spentcash = spentcash + 5000
-
-                    txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modrcel,modfcel))
-
-                    self.adverts['celeb']['active'] = False
             
             txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
             
