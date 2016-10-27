@@ -19,7 +19,7 @@
         random_team_names = load_team_names(50)
         
         # Load random names selections for Teams:
-        file = open(renpy.loader.transfn(content_path("db/RandomTeamNames_1.txt")))
+        file = open(content_path("db/RandomTeamNames_1.txt"))
         randomTeamNames = file.readlines()
         shuffle(randomTeamNames)
         file.close()
