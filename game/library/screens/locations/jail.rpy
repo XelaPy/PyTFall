@@ -25,7 +25,7 @@ label city_jail:
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
     
-    scene bg city_jail
+    scene bg jail
     with dissolve
     
     if not global_flags.flag('visited_city_jail'):
