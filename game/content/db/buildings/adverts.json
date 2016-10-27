@@ -1,0 +1,28 @@
+{
+    "Sign": {
+        "desc": "Put up a sign above entrance. Sensible advertisement for every brothel that you own. You obviously pay full fee for this only once and then 10% of the fee if you removed the sign for some reason and put it up again.",
+        "price": 200
+    },
+    "Flyers": {
+        "desc": "Hire someone to handout flyers in the city. You will pay fee for this service each day",
+        "upkeep": 30
+    },
+    "Magazine": {
+        "desc": "Put an advertisement in local 'Playdude' magazine. Target your audience for a modest fee. Will cost you an amount of gold each day",
+        "upkeep": 50
+    },
+    "Billboard": {
+        "desc": "Get some pro's to put a large billboard on the road to city. Upkeep and rent will cost you a daily fee",
+        "upkeep": 100
+    },
+    "Girl": {
+        "desc": "Hire a pretty girl to attact clients into your buildings. This will cost you 50 once and 150 a day.",
+        "price": 50,
+        "upkeep": 150
+    },
+    "Celebrity": {
+        "desc": "Pay a celebrity to come into your building and publicly endorse it! You will pay 5000 once and 1000 a day to keep her.",
+        "price": 5000,
+        "upkeep": 1000
+    }
+}

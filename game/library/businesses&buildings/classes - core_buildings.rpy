@@ -506,6 +506,52 @@ init -9 python:
             """
             return len(self.upgrades) > 0
         
+    class NewStyleAdvertableBuilding(BaseBuilding):
+
+        def add_adverts(self, adverts):
+            self._adverts = OrderedDict(adverts)
+
+            for k in self._adverts.keys():
+
+                self._adverts[k]['name'] = k
+                self._adverts[k]['active'] = False
+
+                if not 'price' in self._adverts[k]:
+                    self._adverts[k]['price'] = 0
+
+                if not 'upkeep' in self._adverts[k]:
+                    self._adverts[k]['upkeep'] = 0
+        @property
+        def adverts(self):
+            return self._adverts
+
+        @property
+        def can_advert(self):
+            return len(self._adverts) != 0
+
+        def toggle_advert(self, advert):
+            """
+            toggle advertation, returns whether it worked
+            """
+
+            if self._adverts[advert]['active']:
+                self._adverts[advert]['active'] = False
+                return True
+
+            if hero.gold < advert['price'] + advert['upkeep']:
+                return False
+
+            self._adverts[advert]['active'] = True
+            return True
+
+        def advertising(self, advert):
+            return self._adverts[advert]['active']
+
+        def use_adverts(self):
+            """Whether this building has any adverts.
+            """
+            return len(self._adverts) > 0
+
     class NewStyleUpgradableBuilding(BaseBuilding):
         def __init__(self, *args, **kwargs):
             """
@@ -569,14 +615,14 @@ init -9 python:
             self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs) # The last check may not be good enought, may need rewriting.
             self.nd_ups = list(up for up in self._upgrades if up.workable) # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
             
-            # Clietns:
+            # Clients:
             tl.timer("Generating clients")
             self.get_client_count(write_to_nd=True)
             clnts = self.total_clients
             # TODO: Generate and add regulars!
             # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
-            if self.nd_ups and self.available_workers:
-                if len(self.all_clients) < clnts:
+            if self.available_workers and len(self.all_clients) < clnts:
+                if self.nd_ups:
                     for i in xrange(clnts - len(self.all_clients)):
                         if dice(80):
                             self.all_clients.add(build_client(likes=[choice(self.nd_ups)]))
@@ -608,7 +654,7 @@ init -9 python:
             """Get the amount of clients that will visit the brothel the next day.
             """
             
-            if not self.fame and not self.rep and not self.adverts['sign']['active']:
+            if not self.fame and not self.rep and not self.adverts['Sign']['active']:
                 if write_to_nd:
                     self.log("{}".format(set_font_color("Noone came to your unknown establishment that doesn't have as much as a sign!", "red")))
                     self.flag_red = True

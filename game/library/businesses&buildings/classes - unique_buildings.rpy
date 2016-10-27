@@ -220,7 +220,7 @@ init -9 python:
         def show(self, *tags, **kwargs):
             return ProportionalScale(self.img, 205, 205)
         
-    class Building(NewStyleUpgradableBuilding, DirtyBuilding, FamousBuilding):
+    class Building(NewStyleUpgradableBuilding, NewStyleAdvertableBuilding, DirtyBuilding, FamousBuilding):
         """
         The building that represents Business Buildings.
         """
@@ -303,45 +303,7 @@ init -9 python:
                 # '3': {'id': 3, 'active': False, 'available': False, 'price': 1000, 'name': 'Statue of Sex Goddess', 'desc': 'Great way to improve fame and income of your brothel! ',
                       # 'img': 'content/buildings/upgrades/statue_sexgoddess.jpg', "whore_mult": 0.2}
                 # }
-            
-            # Adverts
-            self.adverts = {}
-            self.adverts['sign'] = {
-                    'name': 'Sign',
-                    'desc': 'Put up a sign above entrance. Sensible advertisement for every brothel that you own. You obviously pay full fee for this only once and then 10% of the fee if you removed the sign for some reason and put it up again.',
-                    'price': 200,
-                    "active": False}
-            
-            self.adverts['flyers'] = {
-                    'name': 'Flyers',
-                    'desc': 'Hire someone to handout flyers in the city. You will pay fee for this service each day',
-                    'price': 30,
-                    "active": False}
-            
-            self.adverts['magazine'] = {
-                    'name': 'Magazine',
-                    'desc': 'Put an advertisement in local "Playdude" magazine. Target your audience for a modest fee. Will cost you an amount of gold each day',
-                    'price': 50,
-                    "active": False}
-            
-            self.adverts['billboard'] = {
-                    'name': 'Billboard',
-                    'desc': "Get some pro's to put a large billboard on the road to city. Upkeep and rent will cost you a daily fee",
-                    'price': 100,
-                    "active": False}
-            
-            self.adverts['girl'] = {
-                    'name': 'Girl',
-                    'desc': 'Hire a pretty girl to attact clients into your buildings. This will cost you a daily fee.',
-                    'price': 150,
-                    "active": False}
-            
-            self.adverts['celeb'] = {
-                    'name': 'Celebrity',
-                    'desc': 'Pay a celebrity to come into your building and publicly endorse it! You will pay this fee every time you hire someone like that.',
-                    'price': 5000,
-                    "active": False}
-            
+
             # Guard events delimiters
             # self.guardevents = dict(prostituteattackedevents = 0, barbrawlevents = 0)
             
@@ -363,7 +325,7 @@ init -9 python:
             
             self.txt += "OLD CODE THAT NEEDS TO DIE OFF:\n\n"
             
-            if not self.fame and not self.rep and not self.adverts['sign']['active']:
+            if not self.fame and not self.rep and self.hasattr('toggle_advert') and not adverts['Sign'].active:
                 no_clients = True
                 self.flag_red = True
             else:
@@ -516,61 +478,62 @@ init -9 python:
                 # self.modrep(repinc)
             
             # Applies effects of adverticement:
-            if self.adverts['sign']['active']:
-                modfsign = randint(0, 1)
-                self.modfame(modfsign)
-                tmodfame = tmodfame + modfsign
-            
-            if self.adverts['flyers']['active']:
-                modfflyers = randint(0, 1)
-                self.modfame(modfflyers)
-                tmodfame = tmodfame + modfflyers
-                
-                spentcash = spentcash + 30
-            
-            if self.adverts['magazine']['active']:
-                modfmag = randint(2, 3)
-                self.modfame(modfmag)
-                tmodfame = tmodfame + modfmag
-                
-                modrmag = randint(0, 3)
-                self.modrep(modrmag)
-                tmodrep = tmodrep + modrmag
-                
-                spentcash += 50
-            
-            if self.adverts['billboard']['active']:
-                modfbill = randint(0, 2)
-                self.modfame(modfbill)
-                tmodfame = tmodfame + modfbill
-                
-                spentcash += 100
-            
-            if self.adverts['girl']['active']:
-                modfgirl = randint(0, 1)
-                self.modfame(modfgirl)
-                tmodfame = tmodfame + modfgirl
-                
-                modrgirl = randint(0, 2)
-                self.modrep(modfgirl)
-                tmodrep = tmodrep + modrgirl
-                
-                spentcash = spentcash + 150
-            
-            if self.adverts['celeb']['active']:
-                modrcel = randint(50, 100)
-                self.modrep(modrcel)
-                tmodrep = tmodrep + modrcel
-                
-                modfcel = randint(50, 100)
-                self.modfame(modfcel)
-                tmodfame = tmodfame + modfcel
-                
-                spentcash = spentcash + 5000
-                
-                txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modrcel,modfcel))
-                
-                self.adverts['celeb']['active'] = False
+            if self.can_advert:
+                if 'Sign' in self.adverts and self.adverts['Sign']['active']:
+                    modfsign = randint(0, 1)
+                    self.modfame(modfsign)
+                    tmodfame = tmodfame + modfsign
+
+                if 'Flyers' in self.adverts and self.adverts['Flyers']['active']:
+                    modfflyers = randint(0, 1)
+                    self.modfame(modfflyers)
+                    tmodfame = tmodfame + modfflyers
+
+                    spentcash = spentcash + 30
+
+                if 'Magazine' in self.adverts and self.adverts['Magazine']['active']:
+                    modfmag = randint(2, 3)
+                    self.modfame(modfmag)
+                    tmodfame = tmodfame + modfmag
+
+                    modrmag = randint(0, 3)
+                    self.modrep(modrmag)
+                    tmodrep = tmodrep + modrmag
+
+                    spentcash += 50
+
+                if 'Billboard' in self.adverts and self.adverts['Billboard']['active']:
+                    modfbill = randint(0, 2)
+                    self.modfame(modfbill)
+                    tmodfame = tmodfame + modfbill
+
+                    spentcash += 100
+
+                if 'Girl' in self.adverts and self.adverts['Girl']['active']:
+                    modfgirl = randint(0, 1)
+                    self.modfame(modfgirl)
+                    tmodfame = tmodfame + modfgirl
+
+                    modrgirl = randint(0, 2)
+                    self.modrep(modfgirl)
+                    tmodrep = tmodrep + modrgirl
+
+                    spentcash = spentcash + 150
+
+                if 'Celebrity' in self.adverts and self.adverts['Celebrity']['active']:
+                    modrcel = randint(50, 100)
+                    self.modrep(modrcel)
+                    tmodrep = tmodrep + modrcel
+
+                    modfcel = randint(50, 100)
+                    self.modfame(modfcel)
+                    tmodfame = tmodfame + modfcel
+
+                    spentcash = spentcash + 5000
+
+                    txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modrcel,modfcel))
+
+                    self.adverts['celeb']['active'] = False
             
             txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
             

@@ -12,7 +12,8 @@
     "maxrep": 100,
     "maxrank": 2,
     "mod": 1,
-    "sq_meters": 100, 
+    "sq_meters": 100,
+    "adverts": ["Sign", "Flyers"],
     
     "upgrade_slots": 2,
     "garden": 2,
@@ -37,6 +38,7 @@
     "upgrade_slots": 2,
     "garden": 2,
     "mainhall": 1,
+    "adverts": ["Sign", "Flyers", "Magazine"],
     
     "img": "content/buildings/smallhouse.jpg"
   },
@@ -60,6 +62,7 @@
     "garden": 2,
     "room_upgrades": 1,
     "mainhall": 1,
+    "adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
     
     "img": "content/buildings/house1.jpg"
   },
@@ -84,6 +87,7 @@
     "stripclub": 1,
     "room_upgrades": 1,
     "mainhall": 2,
+    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
     
     "img": "content/buildings/house2.jpg"
   },
@@ -109,6 +113,7 @@
     "room_upgrades": 2,
     "mainhall": 2,
     "guards": 1,
+    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
     
     
     "img": "content/buildings/mansion.jpg"
@@ -135,6 +140,7 @@
     "room_upgrades": 3,
     "mainhall": 2,
     "guards": 2,
+    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
     
     
     "img": "content/buildings/palace.jpg"
@@ -161,6 +167,7 @@
     "room_upgrades": 3,
     "mainhall": 3,
     "guards": 3,
+    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
     
     "img": "content/buildings/centralpalace.jpg"
   }

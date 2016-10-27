@@ -425,8 +425,7 @@ init -11 python:
             mobs[mob["id"]] = mob
         return mobs
 
-    def load_businesses():
-        # Outdated, may not be used in the future...
+    def load_businesses(adverts):
         # Load json content
         in_file = content_path('db/buildings.json')
         with open(in_file) as f:
@@ -435,8 +434,11 @@ init -11 python:
         businesses = dict()
         for building in content:
             b = Building()
-            for attr in building:
-                b.__dict__[attr] = building[attr]
+            for attr, entry in building.iteritems():
+                if attr == "adverts":
+                    b.add_adverts((n, adverts[n]) for n in entry)
+                else:
+                    b.__dict__[attr] = entry
             businesses[b.id] = b
         return businesses
 

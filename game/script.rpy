@@ -84,7 +84,8 @@
         tl.timer("Loading: SimpleJobs")
         
         tl.timer("Loading: Businesses")
-        businesses = load_businesses() # Disabling for now, should be renamed soon to businesses.
+        adverts = load_json("buildings/adverts.json")
+        businesses = load_businesses(adverts)
         tl.timer("Loading: Businesses")
         
         tl.timer("Loading: Training")
