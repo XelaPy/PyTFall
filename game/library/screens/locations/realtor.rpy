@@ -44,11 +44,8 @@ label realtor_agency:
         
         
     # Added the next three lines to disable this feature without crashing the game   --fenec250
-    g "disabled until Buisnesses are finished" 
-    hide screen realtor_agency
-    jump city
     
-    $ market_buildings = sorted(set(chain(brothels.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
+    $ market_buildings = sorted(set(chain(businesses.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
     
     show screen realtor_agency
     with fade

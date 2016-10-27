@@ -425,21 +425,20 @@ init -11 python:
             mobs[mob["id"]] = mob
         return mobs
 
-    def load_brothels():
+    def load_businesses():
         # Outdated, may not be used in the future...
         # Load json content
         in_file = content_path('db/buildings.json')
         with open(in_file) as f:
             content = json.load(f)
         # Populate into brothel objects
-        brothels = dict()
+        businesses = dict()
         for building in content:
-            b = Brothel()
+            b = Building()
             for attr in building:
                 b.__dict__[attr] = building[attr]
-            b.init()
-            brothels[b.id] = b
-        return brothels
+            businesses[b.id] = b
+        return businesses
 
     def load_tiles():
         # Load json content

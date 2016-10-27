@@ -83,10 +83,9 @@
         del temp
         tl.timer("Loading: SimpleJobs")
         
-        tl.timer("Loading: Brothels")
-        # brothels = load_brothels() # Disabling for now, should be renamed soon to businesses.
-        # pytWhoringActs = build_whoring_acts()
-        tl.timer("Loading: Brothels")
+        tl.timer("Loading: Businesses")
+        businesses = load_businesses() # Disabling for now, should be renamed soon to businesses.
+        tl.timer("Loading: Businesses")
         
         tl.timer("Loading: Training")
         schools = load_schools()
