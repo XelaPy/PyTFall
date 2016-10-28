@@ -231,13 +231,13 @@ label girl_interactions_after_greetings: # when character wants to say something
                 
             pytfall.world_actions.finish()
     
-    jump girl_interactions_control
+    jump interactions_control
 
 label girl_interactions_end:
         # End the GM:
         $ gm.end()
         
-label girl_interactions_control:
+label interactions_control:
     while 1:
         $ result = ui.interact()
         
@@ -274,7 +274,6 @@ label girl_interactions_control:
             
                 # Give gift:
                 else:
-                    
                     # Prevent repeteation of this action (any gift, we do this on per gift basis already):
                     flag_name = "_day_countdown_interactions_gifts"
                     flag_value = int(char.flag(flag_name))
@@ -282,28 +281,19 @@ label girl_interactions_control:
                     char.set_flag(flag_name, flag_value + 1)
                     
                     item = result[1]
-                    dismod = item.dismod if hasattr(item, "dismod") else 0
+                    dismod = getattr(item, "dismod", 0)
                     
-                    if hasattr(item, "traits"):
-                        for t in item.traits:
-                            if traits[t] in char.traits:
-                                dismod += item.traits[t]
-                         
-                    if hasattr(item, "occupations"):
-                        for occ in item.occupations:
-                            if occ in char.occupations:
-                                dismod += item.occupations[occ]
+                    for t, v in getattr(items, "traits", {}).iteritems():
+                        if t in char.traits:
+                            dismod += v
                      
                     flag_name = "_day_countdown_{}".format(item.id)
                     flag_value = int(char.flag(flag_name))
+                    
+                    # We never award more than 70 disposition for a single gift:
                     if dismod > 70:
                         dismod = 70
-                    if char.disposition > 50:
-                        if dismod*10 > char.disposition:
-                            dismod = round(char.disposition * 0.1)
-                    else:
-                        if dismod > 5:
-                            dismod = 5
+                        
                     # Add the appropriate dismod value:
                     if flag_value != 0:
                         if flag_value < item.cblock:
