@@ -29,7 +29,6 @@
     "Celebrity": {
         "desc": "Pay a celebrity to come into your building and publicly endorse it! You will pay 5000 once and 1000 a day to keep her.",
         "price": 5000,
-        "upkeep": 1000,
         "fame": [50, 100],
         "reputation": [50, 100]
     }
