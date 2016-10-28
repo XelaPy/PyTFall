@@ -101,6 +101,12 @@ screen city_beach_swim():
                 yalign 0.5
                 action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
                 text "Swim" size 15
+            if hero.get_skill("swimming") >= 100:
+                button:
+                    xysize (240, 40)
+                    yalign 0.5
+                    action [Hide("city_beach_swim"), Jump("city_beach_diving_checks")]
+                    text "Diving" size 15
             button:
                 xysize (240, 40)
                 yalign 0.5
@@ -112,9 +118,53 @@ label city_beach_swimming_checks:
         $ global_flags.set_flag('swam_city_beach')
         "The city is washed by the ocean. The water is quite warm all year round, but it can be pretty dangerous for a novice swimmers due to big waves and sea monsters."
         "Those who are not confident in their abilities prefer the local swimming pool, although it's not free unlike the sea."
+        "In general, the swimming skill will increase faster in the ocean, unless you drown immediately due to low skill."
         scene bg open_sea
         with dissolve
         "You stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills next time."
+    else:
+        if hero.vitality < 50 or hero.AP <= 0:
+            "You are too tired at the moment."
+        elif hero.health < hero.get_max("health")*0.5:
+            "You are too wounded at the moment."
+        else:
+            scene bg open_sea with dissolve
+            call hero_ocean_skill_checks
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
     
+label hero_ocean_skill_checks:
+    $ hero.AP -= 1
+    if hero.get_skill("swimming") < 50:
+        if dice(50):
+            $ narrator ("You trying to swim, but strong tide keeps you away {color=[red]}(no bonus to swimming skill this time){/color}.")
+        else:
+            scene bg ocean_underwater with dissolve
+            "Waves are pretty big today. You trying to fight them, but they quickly win, sending you under the water."
+            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-25% health){/color}.")
+            $ hero.health -= int(hero.get_max("health")*0.25) # we don't allow MC to do it unless his health is more than 50%, so it's fine to take 25% due to low skill
+            $ hero.swimming += randint(1, 2)
+        $ hero.vitality -= randint (40, 50)
+    elif hero.get_skill("swimming") < 100:
+        "You trying to swim, but rapid underwater currents make it very difficult for a novice swimmer."
+        if dice(30):
+            scene bg ocean_underwater with dissolve
+            "Waves are pretty big today. You trying to fight them, but they win, sending you under the water."
+            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-20% health){/color}.")
+            $ hero.health -= int(hero.get_max("health")*0.2)
+        $ hero.swimming += randint(3, 5)
+        $ hero.vitality -= randint (40, 50)
+    elif hero.get_skill("swimming") < 150:
+        "You cautiously swim in the ocean, trying to stay close to the shore just in case."
+        if dice(10):
+            scene bg ocean_underwater with dissolve
+            "Waves are pretty big today. You trying to fight them, but eventually they win, sending you under the water."
+            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-15% health){/color}.")
+            $ hero.health -= int(hero.get_max("health")*0.15)
+        $ hero.swimming += randint(4, 8)
+        $ hero.vitality -= randint (30, 40)
+    else:
+        "You take your time enjoying the water. Even big ocean waves are no match for your swimming skill."
+        $ hero.swimming += randint(6, 10)
+        $ hero.vitality -= randint (20, 30)
+    return

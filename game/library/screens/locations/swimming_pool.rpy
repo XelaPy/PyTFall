@@ -149,7 +149,7 @@ label hero_swimming_pool_skill_checks:
         "It feels nice swimming in the pool, but the sea is more suitable to learn something new."
         $ hero.swimming += randint(0,1)
         $ hero.vitality -= randint (20, 30)
-    if dice(65) and hero.get_skill("swimming") >= 50:
+    if dice(75) and hero.get_skill("swimming") >= 50:
         $ hero.mod_stat("constitution", 1)
     return
     
