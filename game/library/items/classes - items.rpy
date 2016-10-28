@@ -343,9 +343,6 @@ init -9 python:
                 if self.gold > self.normal_gold_amount: self.gold = randint(int(self.normal_gold_amount * 1.3), int(self.normal_gold_amount * 1.6))
                 self.restock()
                 self.restockday += randint(3, 7)
-
-        def get(self, id):
-            return self.inventory.pop(id)
             
             
     class GeneralStore(ItemShop):
