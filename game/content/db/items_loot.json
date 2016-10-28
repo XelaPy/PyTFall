@@ -108,5 +108,55 @@
     "slot": "loot",
     "type": "treasure",
     "locations": ["Exploration"]
+    },
+    {
+    "id": "Gold Ingots",
+    "desc": "Gold bars of high purity.",
+    "icon": "content/items/loot/gold.png",
+    "price": 3000,
+    "chance": 5,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Golden Mask",
+    "desc": "A ceremonial golden mask remained from ancient civilisations.",
+    "icon": "content/items/loot/gm.png",
+    "price": 250,
+    "chance": 75,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Golden Statue",
+    "desc": "A ceremonial golden statue remained from ancient civilisations.",
+    "icon": "content/items/loot/gs.png",
+    "price": 250,
+    "chance": 48,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Golden Piranha",
+    "desc": "A golden statue of extinct predatory fish remained from ancient civilisations.",
+    "icon": "content/items/loot/gs.png",
+    "price": 200,
+    "chance": 30,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Fishing"]
+    },
+    {
+    "id": "Golden God",
+    "desc": "A golden statue of the god of the hunt remained from ancient civilisations.",
+    "icon": "content/items/loot/gg.png",
+    "price": 1500,
+    "chance": 15,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
     }
   ]
