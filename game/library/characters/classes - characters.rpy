@@ -1216,8 +1216,8 @@ init -9 python:
                 'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
                 'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
                 "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
-                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
-                "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough."},
+                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low. Grants immunity to Elation."},
+                "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."},
                 "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
                 "Kleptomaniac": {"active": False, "desc": "With some luck, gold increases every day."},
                 "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
@@ -1227,7 +1227,9 @@ init -9 python:
                 "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
                 "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
-                "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching."}
+                "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching."},
+                "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP)."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2486,6 +2488,12 @@ init -9 python:
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = True
                 
+            elif effect == "Depression":
+                self.effects['Depression']['active'] = True
+                
+            elif effect == "Elation":
+                self.effects['Elation']['active'] = True
+                
             elif effect == "Pessimist":
                 self.effects["Pessimist"]["active"] = True
                 
@@ -2562,6 +2570,12 @@ init -9 python:
             elif effect == "Silly":
                 self.effects['Silly']['active'] = False
                 
+            elif effect == "Depression":
+                self.effects['Depression']['active'] = False
+                
+            elif effect == "Elation":
+                self.effects['Elation']['active'] = False
+                
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = False
                 
@@ -2634,13 +2648,25 @@ init -9 python:
                     unstable['joy_mod'] = randint(20, 30) if randrange(2) else -randint(20, 30)
                     
             elif effect == "Optimist":
-                if self.joy >= 45:
+                if self.joy >= 30:
                     self.joy += 1
+                    
+            elif effect == "Depression":
+                if self.joy >= 30:
+                    self.disable_effect('Depression')
+                else:
+                    self.AP -= 1
+                    
+            elif effect == "Elation":
+                if self.joy < 95:
+                    self.disable_effect('Elation')
+                else:
+                    self.AP += 1
                     
             elif effect == "Pessimist":
                 if self.joy > 80:
                     self.joy -= 2
-                elif self.joy > 30:
+                elif self.joy > 10:
                     self.joy -= 1
                         
             elif effect == "Composure":

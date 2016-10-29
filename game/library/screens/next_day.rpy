@@ -69,8 +69,18 @@ init python:
                                 
         return actions, rest, events
         
+label next_day_joy_check: # chars with low or high joy get joy-related effects every day
+    python:
+        for i in hero.chars:
+            if not "Pessimist" in i.traits and i.joy <= 20 and not i.effects['Depression']['active']:
+                i.enable_effect('Depression')
+            elif not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
+                i.enable_effect('Elation')
+    return
+        
         
 label next_day:
+    call next_day_joy_check
     scene bg profile_2
     
     if just_view_next_day: # Review old reports:
