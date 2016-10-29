@@ -1227,9 +1227,10 @@ init -9 python:
                 "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
                 "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
-                "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching."},
+                "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (restores some vitality and mp every day)."}
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (restores some vitality and mp every day)."},
+                "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2286,7 +2287,7 @@ init -9 python:
                     self.effects['Drunk']['activation_count'] += item.mod["joy"]
                     if self.effects['Drunk']['activation_count'] >= 35 and not self.effects['Drunk']['active']:
                         self.enable_effect('Drunk')
-                    elif self.effects['Drunk']['active'] and self.AP > 0:
+                    elif self.effects['Drunk']['active'] and self.AP > 0 and not self.effects['Drinker']['active']:
                         self.AP -=1
                     
                 for entry in item.addeffects:
@@ -2482,6 +2483,9 @@ init -9 python:
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
                 
+            elif effect == "Drinker":
+                self.effects['Drinker']['active'] = True
+                
             elif effect == "Silly":
                 self.effects['Silly']['active'] = True
                 
@@ -2562,10 +2566,14 @@ init -9 python:
                 
             elif effect == "Unstable":
                 for key in self.effects["Unstable"]:
-                    self.effects["Unstable"][key] = False
+                    if key != "desc":
+                        self.effects["Unstable"][key] = False
                     
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = False
+                
+            elif effect == "Drinker":
+                self.effects['Drinker']['active'] = False
                 
             elif effect == "Silly":
                 self.effects['Silly']['active'] = False
@@ -2598,7 +2606,8 @@ init -9 python:
                 
             elif effect == "Down with Cold":
                 for key in self.effects["Down with Cold"]:
-                    self.effects["Down with Cold"][key] = False
+                    if key != "desc":
+                        self.effects["Down with Cold"][key] = False
                 
             elif effect == "Kleptomaniac":
                 self.effects["Kleptomaniac "]['active'] = False
@@ -2629,7 +2638,8 @@ init -9 python:
                 
             elif effect == "Food Poisoning":
                 for key in self.effects["Food Poisoning"]:
-                    self.effects["Food Poisoning"][key] = False
+                    if key != "desc":
+                        self.effects["Food Poisoning"][key] = False
                 
         def apply_effects(self, effect):
             '''Called on next day, applies effects'''

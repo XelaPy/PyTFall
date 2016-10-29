@@ -63,8 +63,9 @@
     },
     {
     "id": "Heavy Drinker",
-    "desc": "She just can't hold her liquor.",
+    "desc": "She really can hold her liquor.",
     "mod": {"upkeep": 10},
+    "effects": ["Drinker"],
     "mod_stats": {"character": [1, 15]},
     "mod_skills": {"refinement": [0, 0, -0.01]},
     "character_trait": true,
