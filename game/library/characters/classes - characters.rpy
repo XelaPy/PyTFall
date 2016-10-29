@@ -1181,22 +1181,25 @@ init -9 python:
                 
             # Stat support Dicts:
             stats = {
-                'constitution': [0, 0, 100, 100],
+                'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
+                'constitution': [0, 0, 60, 40],
+                'joy': [0, 0, 100, 200],
+                'character': [0, 0, 100, 60],
                 'reputation': [0, 0, 100, 100],
                 'health': [100, 0, 100, 200],
-                'fame': [0, 0, 100, 100],
-                'alignment': [0, -1000, 1000, 1000],
-                'vitality': [300, 0, 300, 500],
-                'intelligence': [0, 0, 100, 100],
-                'charisma': [0, 0, 100, 100],
+                'fame': [0, 0, 100, 60],
+                'mood': [0, 0, 1000, 1000],
+                'disposition': [0, -1000, 1000, 1000],
+                'vitality': [200, 0, 200, 500],
+                'intelligence': [0, 0, 100, 60],
 
                 'luck': [0, -50, 50, 50],
 
-                'attack': [0, 0, 100, 100],
-                'magic': [0, 0, 100, 100],
-                'defence': [0, 0, 100, 100],
-                'agility': [0, 0, 100, 100],
-                'mp': [0, 0, 30, 30]
+                'attack': [0, 0, 60, 40],
+                'magic': [0, 0, 40, 30],
+                'defence': [0, 0, 50, 40],
+                'agility': [0, 0, 35, 25],
+                'mp': [0, 0, 40, 30]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
@@ -2546,7 +2549,8 @@ init -9 python:
         def disable_effect(self, effect):
             if effect == "Poison":
                 for key in self.effects["Poison"]:
-                    self.effects["Poison"][key] = False
+                    if key != "desc":
+                        self.effects["Poison"][key] = False
                 
             elif effect == "Unstable":
                 for key in self.effects["Unstable"]:
@@ -2572,7 +2576,8 @@ init -9 python:
                 
             elif effect == "Drunk":
                 for key in self.effects["Drunk"]:
-                    self.effects["Drunk"][key] = False
+                    if key != "desc":
+                        self.effects["Drunk"][key] = False
 
             elif effect == "Composure":
                 self.effects['Composure']['active'] = False
@@ -2620,16 +2625,14 @@ init -9 python:
                 self.health -= self.effects['Poison']['penalty']
                 
             elif effect == "Unstable":
-                self.effects['Unstable']['day_log'] += 1
-                if self.effects['Unstable']['day_log'] == self.effects['Unstable']['day_target']:
-                    self.joy += self.effects['Unstable']['joy_mod']
-                    self.effects['Unstable']['day_log'] = day
-                    self.effects['Unstable']['day_target'] = day + randint(2,4)
-                    self.effects['Unstable']['joy_mod'] = randint(20, 30)
-                    if dice(50):
-                        self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
-                        
-    
+                unstable = self.effects['Unstable']
+                unstable['day_log'] += 1
+                if unstable['day_log'] == unstable['day_target']:
+                    self.joy += unstable['joy_mod']
+                    unstable['day_log'] = day
+                    unstable['day_target'] = day + randint(2, 4)
+                    unstable['joy_mod'] = randint(20, 30) if randrange(2) else -randint(20, 30)
+                    
             elif effect == "Optimist":
                 if self.joy >= 45:
                     self.joy += 1
@@ -2744,6 +2747,7 @@ init -9 python:
             self.restore_ap()
             
         def next_day(self):
+            # We assume this to be safe for any character...
             # Day counter flags:
             for flag in self.flags.keys():
                 if flag.startswith("_day_countdown"):
@@ -3310,6 +3314,8 @@ init -9 python:
             
             self.arena_stats = dict()
             
+            super(Player, self).next_day()
+            
                 
     class Char(PytCharacter):
         # wranks = {
@@ -3396,33 +3402,7 @@ init -9 python:
             self.given_items = dict()
             
             # Actions:
-            # self.action = None # Moved to parent class
             self.previousaction = ''
-            
-            ### Stats:    <--------- Dark: we already have the same dict (with a bit different numbers) in PytCharacter class. I wonder if we need both dicts.
-            stats = {
-                'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
-                'constitution': [0, 0, 60, 40],
-                'joy': [0, 0, 100, 200],
-                'character': [0, 0, 100, 60],
-                'reputation': [0, 0, 100, 100],
-                'health': [100, 0, 100, 200],
-                'fame': [0, 0, 100, 60],
-                'mood': [0, 0, 1000, 1000],
-                'disposition': [0, -1000, 1000, 1000],
-                'vitality': [200, 0, 200, 500],
-                'intelligence': [0, 0, 100, 60],
-
-                'luck': [0, -50, 50, 50],
-
-                'attack': [0, 0, 60, 40],
-                'magic': [0, 0, 40, 30],
-                'defence': [0, 0, 50, 40],
-                'agility': [0, 0, 35, 25],
-                'mp': [0, 0, 40, 30]
-            }
-            self.stats = Stats(self, stats=stats)
-            self.STATS = set(self.stats.stats.keys())
             
             self.txt = list()
             self.fin = Finances(self)
