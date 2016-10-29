@@ -2546,7 +2546,8 @@ init -9 python:
         def disable_effect(self, effect):
             if effect == "Poison":
                 for key in self.effects["Poison"]:
-                    self.effects["Poison"][key] = False
+                    if key != "desc":
+                        self.effects["Poison"][key] = False
                 
             elif effect == "Unstable":
                 for key in self.effects["Unstable"]:
@@ -2572,7 +2573,8 @@ init -9 python:
                 
             elif effect == "Drunk":
                 for key in self.effects["Drunk"]:
-                    self.effects["Drunk"][key] = False
+                    if key != "desc":
+                        self.effects["Drunk"][key] = False
 
             elif effect == "Composure":
                 self.effects['Composure']['active'] = False
@@ -2620,14 +2622,15 @@ init -9 python:
                 self.health -= self.effects['Poison']['penalty']
                 
             elif effect == "Unstable":
-                self.effects['Unstable']['day_log'] += 1
-                if self.effects['Unstable']['day_log'] == self.effects['Unstable']['day_target']:
-                    self.joy += self.effects['Unstable']['joy_mod']
-                    self.effects['Unstable']['day_log'] = day
-                    self.effects['Unstable']['day_target'] = day + randint(2,4)
-                    self.effects['Unstable']['joy_mod'] = randint(20, 30)
+                unstable = self.effects['Unstable']
+                unstable['day_log'] += 1
+                if unstable['day_log'] == unstable['day_target']:
+                    self.joy += unstable['joy_mod']
+                    unstable['day_log'] = day
+                    unstable['day_target'] = day + randint(2,4)
+                    unstable['joy_mod'] = randint(20, 30)
                     if dice(50):
-                        self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
+                        unstable['joy_mod'] = -unstable['joy_mod']
                         
     
             elif effect == "Optimist":
@@ -2744,6 +2747,7 @@ init -9 python:
             self.restore_ap()
             
         def next_day(self):
+            # We assume this to be safe for any character...
             # Day counter flags:
             for flag in self.flags.keys():
                 if flag.startswith("_day_countdown"):
@@ -3309,6 +3313,8 @@ init -9 python:
                 p.reset(self)
             
             self.arena_stats = dict()
+            
+            super(Player, self).next_day()
             
                 
     class Char(PytCharacter):
