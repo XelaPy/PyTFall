@@ -1230,7 +1230,8 @@ init -9 python:
                 "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
                 "Elation": {"active": False, "desc": "She's in a very high mood right now (restores some vitality and mp every day)."},
-                "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."}
+                "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
+                "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. Special medicines or sufficient time are needed."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2483,6 +2484,9 @@ init -9 python:
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
                 
+            elif effect == "Injured":
+                self.effects['Injured']['active'] = True
+                
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = True
                 
@@ -2574,6 +2578,9 @@ init -9 python:
                 
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = False
+                
+            elif effect == "Injured":
+                self.effects['Injured']['active'] = False
                 
             elif effect == "Silly":
                 self.effects['Silly']['active'] = False
@@ -2707,6 +2714,14 @@ init -9 python:
             elif effect == "Kleptomaniac":
                 if dice(75):
                     self.gold += max(1, randint(1, self.luck+50))
+                    
+            elif effect == "Injured":
+                if self.health > int(self.get_max("health")*0.35):
+                    self.health = int(self.get_max("health")*0.35)
+                if self.vitality > int(self.get_max("vitality")*0.5):
+                    self.vitality = int(self.get_max("vitality")*0.5)
+                self.AP -= 2
+                self.joy -= 10
                 
             elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
                 if self.health >= 30 and self.vitality >= 30:
