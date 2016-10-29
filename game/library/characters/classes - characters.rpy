@@ -2627,12 +2627,9 @@ init -9 python:
                 if unstable['day_log'] == unstable['day_target']:
                     self.joy += unstable['joy_mod']
                     unstable['day_log'] = day
-                    unstable['day_target'] = day + randint(2,4)
-                    unstable['joy_mod'] = randint(20, 30)
-                    if dice(50):
-                        unstable['joy_mod'] = -unstable['joy_mod']
-                        
-    
+                    unstable['day_target'] = day + randint(2, 4)
+                    unstable['joy_mod'] = randint(20, 30) if randrange(2) else -randint(20, 30)
+                    
             elif effect == "Optimist":
                 if self.joy >= 45:
                     self.joy += 1
