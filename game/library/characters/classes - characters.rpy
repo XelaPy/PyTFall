@@ -1181,22 +1181,25 @@ init -9 python:
                 
             # Stat support Dicts:
             stats = {
-                'constitution': [0, 0, 100, 100],
+                'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
+                'constitution': [0, 0, 60, 40],
+                'joy': [0, 0, 100, 200],
+                'character': [0, 0, 100, 60],
                 'reputation': [0, 0, 100, 100],
                 'health': [100, 0, 100, 200],
-                'fame': [0, 0, 100, 100],
-                'alignment': [0, -1000, 1000, 1000],
-                'vitality': [300, 0, 300, 500],
-                'intelligence': [0, 0, 100, 100],
-                'charisma': [0, 0, 100, 100],
+                'fame': [0, 0, 100, 60],
+                'mood': [0, 0, 1000, 1000],
+                'disposition': [0, -1000, 1000, 1000],
+                'vitality': [200, 0, 200, 500],
+                'intelligence': [0, 0, 100, 60],
 
                 'luck': [0, -50, 50, 50],
 
-                'attack': [0, 0, 100, 100],
-                'magic': [0, 0, 100, 100],
-                'defence': [0, 0, 100, 100],
-                'agility': [0, 0, 100, 100],
-                'mp': [0, 0, 30, 30]
+                'attack': [0, 0, 60, 40],
+                'magic': [0, 0, 40, 30],
+                'defence': [0, 0, 50, 40],
+                'agility': [0, 0, 35, 25],
+                'mp': [0, 0, 40, 30]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
@@ -3399,33 +3402,7 @@ init -9 python:
             self.given_items = dict()
             
             # Actions:
-            # self.action = None # Moved to parent class
             self.previousaction = ''
-            
-            ### Stats:    <--------- Dark: we already have the same dict (with a bit different numbers) in PytCharacter class. I wonder if we need both dicts.
-            stats = {
-                'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
-                'constitution': [0, 0, 60, 40],
-                'joy': [0, 0, 100, 200],
-                'character': [0, 0, 100, 60],
-                'reputation': [0, 0, 100, 100],
-                'health': [100, 0, 100, 200],
-                'fame': [0, 0, 100, 60],
-                'mood': [0, 0, 1000, 1000],
-                'disposition': [0, -1000, 1000, 1000],
-                'vitality': [200, 0, 200, 500],
-                'intelligence': [0, 0, 100, 60],
-
-                'luck': [0, -50, 50, 50],
-
-                'attack': [0, 0, 60, 40],
-                'magic': [0, 0, 40, 30],
-                'defence': [0, 0, 50, 40],
-                'agility': [0, 0, 35, 25],
-                'mp': [0, 0, 40, 30]
-            }
-            self.stats = Stats(self, stats=stats)
-            self.STATS = set(self.stats.stats.keys())
             
             self.txt = list()
             self.fin = Finances(self)
