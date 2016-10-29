@@ -1229,7 +1229,7 @@ init -9 python:
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
                 "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching."},
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP)."}
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (restores some vitality and mp every day)."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2661,7 +2661,8 @@ init -9 python:
                 if self.joy < 95:
                     self.disable_effect('Elation')
                 else:
-                    self.AP += 1
+                    self.vitality += randint(10, 15)
+                    self.mp += randint(10, 15)
                     
             elif effect == "Pessimist":
                 if self.joy > 80:
