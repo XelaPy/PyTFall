@@ -163,8 +163,48 @@
     "id": "Green Pearl",
     "desc": "A valuable object produced by living shelled molluscs.",
     "icon": "content/items/loot/green_pearl.png",
+    "price": 300,
+    "chance": 30,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Diving"]
+    },
+    {
+    "id": "Pink Pearl",
+    "desc": "A valuable object produced by living shelled molluscs.",
+    "icon": "content/items/loot/pink_pearl.png",
+    "price": 200,
+    "chance": 45,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Diving"]
+    },
+    {
+    "id": "Blue Pearl",
+    "desc": "A valuable object produced by living shelled molluscs.",
+    "icon": "content/items/loot/blue_pearl.png",
+    "price": 100,
+    "chance": 60,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Diving"]
+    },
+    {
+    "id": "Black Pearl",
+    "desc": "A valuable object produced by living shelled molluscs.",
+    "icon": "content/items/loot/black_pearl.png",
     "price": 400,
     "chance": 15,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Diving"]
+    },
+    {
+    "id": "Pearl",
+    "desc": "A valuable object produced by living shelled molluscs.",
+    "icon": "content/items/loot/blue_pearl.png",
+    "price": 50,
+    "chance": 80,
     "slot": "loot",
     "type": "treasure",
     "locations": ["Diving"]

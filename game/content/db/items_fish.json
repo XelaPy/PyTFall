@@ -220,6 +220,16 @@
     "locations": ["Fishing"]
     },
     {
+    "id": "Starfish",
+    "desc": "A star-shaped creature from deep-sea floor.",
+    "icon": "content/items/fish/starfish.png",
+    "price": 15,
+    "chance": 100,
+    "slot": "loot",
+    "type": "fish",
+    "locations": ["Diving"]
+    },
+    {
     "id": "Fishing Pole",
     "desc": "A long, flexible rod used to catch fish.",
     "icon": "content/items/fish/fishing_pole.png",
