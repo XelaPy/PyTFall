@@ -457,9 +457,11 @@ init -9 python:
             # Do we have an image
             if self.image is not None:
                 # Is the last character not a slash
-                if self.image[-1] != "/": return self.image
-                else: p = self.image[:-1]
-                
+                if self.image[-1] != "/":
+                    if not "schools/" in self.image:
+                        self.image = "schools/"+self.image
+                    return 'content/'+self.image
+                p = self.image[:-1]
             else:
                 # Else use name for random folder
                 p = self.name
@@ -474,7 +476,7 @@ init -9 python:
             if len(images) > 0: self.image = choice(images)
             else: self.image = "gfx/interface/images/no_image.png"
             
-            return self.image
+            return 'content/'+self.image
         
         def get_options(self, girl, hero, one_off_only=None):
             """
@@ -706,10 +708,11 @@ init -9 python:
             """
             # Do we have an image
             if self.image is not None:
-                # Is the last character not a slash
-                if self.image[-1] != "/": return self.image
-                else: p = self.image[:-1]
-                
+                if self.image[-1] != "/":
+                    if not "schools/" in self.image:
+                        self.image = "schools/"+self.image
+                    return 'content/'+self.image
+                p = self.image[:-1]
             else:
                 # Else use name for random folder
                 p = self.type
@@ -724,7 +727,7 @@ init -9 python:
             if len(images) > 0: self.image = choice(images)
             else: self.image = "gfx/interface/images/no_image.png"
             
-            return self.image
+            return 'content/'+self.image
         
         def get_scaling(self, girl):
             """

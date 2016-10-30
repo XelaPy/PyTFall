@@ -198,8 +198,8 @@ screen girl_training_trainer:
                                         xysize (170, 170)
                                         imagebutton:
                                             align (0.5, 0.5)
-                                            idle ProportionalScale(content_path(course.get_lesson_image()), 155, 155)
-                                            hover im.MatrixColor(ProportionalScale(content_path(course.get_lesson_image()), 155, 155), im.matrix.brightness(0.15))
+                                            idle ProportionalScale(course.get_lesson_image(), 155, 155)
+                                            hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 155, 155), im.matrix.brightness(0.15))
                                             action Return(["open", course])
                                             hovered tt.action(u"%s"%course.desc)
                                     null height 5
@@ -257,8 +257,8 @@ screen girl_training_lesson(course, tt, show_image):
                 xysize (190, 190)
                 imagebutton:
                     align (0.5, 0.5)
-                    idle ProportionalScale(content_path(course.get_lesson_image()), 175, 175)
-                    hover im.MatrixColor(ProportionalScale(content_path(course.get_lesson_image()), 175, 175), im.matrix.brightness(0.15))
+                    idle ProportionalScale(course.get_lesson_image(), 175, 175)
+                    hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 175, 175), im.matrix.brightness(0.15))
                     action Return(["setto", course])
                     hovered tt.action(u"%s\nGirls being trained: %s"%(course.desc, ", ".join([girl.fullname for girl in hero.chars if char_is_training(girl) is course])))
              
