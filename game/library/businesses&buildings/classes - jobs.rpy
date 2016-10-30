@@ -261,7 +261,7 @@
                     self.loc.modrep(self.locmod[stat])
                 
                 else:
-                    raise Exception("Stat: {} does not exits for Brothels".format(stat))
+                    raise Exception("Stat: {} does not exits for Businesses".format(stat))
         
         def auto_clean(self):
             """
@@ -524,7 +524,7 @@
                     self.loc.modrep(self.locmod[stat])
                 
                 else:
-                    raise Exception("Stat: {} does not exits for Brothels".format(stat))
+                    raise Exception("Stat: {} does not exits for Businesses".format(stat))
         
         def apply_worker_stats(self, worker, mods):
             """Apply stats for a single worker.
@@ -1285,7 +1285,7 @@
                 self.logloc("fame", choice([0, 1, 1, 1]))
                 self.logloc("reputation", choice([0, 1]))
             elif self.worker.charisma >= 800:
-                self.txt.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our brothels..." %self.worker.name)
+                self.txt.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our businesses..." %self.worker.name)
                 self.loggs("joy", 1)
                 self.logloc("fame", choice([0, 1]))
                 self.logloc("reputation", choice([0, 0, 1]))

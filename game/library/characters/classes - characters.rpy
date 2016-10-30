@@ -654,13 +654,13 @@ init -9 python:
             """
             Settle wages between girls and player.
             Called during next day method per each individual girl.
-            Right now being used for Brothels only, all FG profit goes directly into MC's pockets.
+            Right now being used for Businesses only, all FG profit goes directly into MC's pockets.
             """
             char = self.instance
             
             if self.wage_conditions():
                 total_wage = sum(self.daily_income_log["work"].values())
-                hero.add_money(total_wage, reason="Brothels")
+                hero.add_money(total_wage, reason="Businesses")
                 
                 if char.status != "slave":
                     if char.wagemod >= 100:
