@@ -199,8 +199,8 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     
     frame:
         background Frame("content/gfx/frame/black_frame.png", 10, 10)
-        align(0.995, 1.0)
-        xysize (953, 92)
+        align(0.977, 1.0)
+        xysize (1003, 92)
         vbox:
             label (u"{=stats_text}%s"%tt.value) text_outlines [(1, "#3a3a3a", 0, 0)]
     
@@ -208,7 +208,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
         # Stats and Info (Left Frame):
         frame:
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
-            xysize(330, 678)
+            xysize(270, 678)
             ypos 41
             style_group "content"
             has vbox
@@ -216,7 +216,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             vbox:
                 # Name:
                 frame:
-                    xanchor -0.14
+                    xanchor -0.01
                     xysize (250, 50)
                     background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
                     label "{color=[gold]}[store.girl.fullname]":
@@ -230,7 +230,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 if False and traits['Prostitute'] in store.girl.occupations:
                     frame:
                         xanchor -0.01
-                        xysize(313, 47)
+                        xysize(253, 47)
                         background Frame("content/gfx/frame/rank_frame.png", 10, 10)
                         text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (0.1, 0.2) color ivory size 16
                         text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (0.5, 0.96) color ivory size 16
@@ -245,31 +245,39 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 
                 vbox:
                     style_group "stats"
+                    spacing 5
                     pos(0.015, 10)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 10)
+                        #xysize (317, 10)
+                        xsize 258
                         xanchor 5
+                        xpadding 6
+                        ypadding 6
+                        xmargin 1
+                        ymargin 1
+                        style_group "proper_stats"
+                        has vbox spacing 1
                         vbox:
-                            spacing -7
-                            xmaximum 306
+                            spacing -1
+                            xmaximum 246
                             frame:
-                                xsize 305
+                                xysize 244, 20
                                 text ("{color=#79CDCD}{size=-1}Class:") pos (1, -4)
                                 label "{size=-3}[store.girl.traits.base_to_string]" align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)
-                                label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) align (1.0, 0.5) ypos 10
                             if traits['Prostitute'] in store.girl.occupations:
                                 frame:
-                                    xsize 305
+                                    xysize 244, 20
                                     text "{color=#79CDCD}{size=-1}Work Price:" pos (1, -4)
-                                    label (u"{size=-5}%s"%store.girlfin.get_whore_price()) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                    label (u"{size=-5}%s"%store.girlfin.get_whore_price()) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girlfin.get_upkeep()) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s"%store.girlfin.get_upkeep()) align (1.0, 0.5) ypos 10
                         
                 null height 8
                 
@@ -282,59 +290,73 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     pos(0.015, 10)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 10)
+                        #xysize (317, 10)
+                        xsize 258
                         xanchor 5
+                        xpadding 6
+                        ypadding 6
+                        xmargin 1
+                        ymargin 1
+                        style_group "proper_stats"
+                        has vbox spacing 1
                         vbox:
-                            spacing -7
-                            xmaximum 306
+                            spacing -1
+                            xmaximum 246
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Health:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.health, store.girl.get_max("health"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.health, store.girl.get_max("health"))) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Vitality:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.vitality, store.girl.get_max("vitality"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.vitality, store.girl.get_max("vitality"))) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Charisma:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.charisma, store.girl.get_max("charisma"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.charisma, store.girl.get_max("charisma"))) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Character:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Reputation:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.reputation, store.girl.get_max("reputation"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.reputation, store.girl.get_max("reputation"))) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Constitution:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Joy:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.joy, store.girl.get_max("joy"))) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.joy, store.girl.get_max("joy"))) align (1.0, 0.5) ypos 10
                             #text (u"| %d"%store.girl.goal)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 10)
+                        #xysize (317, 10)
+                        xsize 258
                         xanchor 5
+                        xpadding 6
+                        ypadding 6
+                        xmargin 1
+                        ymargin 1
+                        style_group "proper_stats"
+                        has vbox spacing 1
                         vbox:
-                            spacing -7
-                            xmaximum 306
+                            spacing -1
+                            xmaximum 246
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Level:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girl.level) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s"%store.girl.level) align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Experience:" pos (1, -4)
-                                label (u"{size=-5}[store.girl.exp]") style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}[store.girl.exp]") align (1.0, 0.5) ypos 10
                             frame:
-                                xsize 305
+                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Disposition:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girl.disposition) style "stats_value_text" align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s"%store.girl.disposition) align (1.0, 0.5) ypos 10
                         
                      
                 null height 8
@@ -348,18 +370,25 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     pos(0.015, 10)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xysize (317, 10)
+                        #xysize (317, 10)
+                        xsize 258
                         xanchor 5
+                        xpadding 6
+                        ypadding 6
+                        xmargin 1
+                        ymargin 1
+                        style_group "proper_stats"
+                        has vbox spacing 1
                         vbox:
                             spacing -7
-                            xmaximum 306
+                            xmaximum 246
                             frame:
-                                xsize 305
+                                xsize 245
         
         # Picture:
         frame:
-            pos(325, 41)
-            xysize (609, 423)
+            pos(265, 41)
+            xysize (669, 423)
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=1.0), 10, 10)
             frame:
                 align (0.5, 0.5)
@@ -433,6 +462,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             action (Function(store.buy_girl))
                             hovered tt.Action("" + buy_tt % store.girlfin.get_price())
                     textbutton "Back":
+                        xsize 150
                         action Hide("slave_shopping", transition=Dissolve(1.0))
                         hovered tt.Action("All Done!")
             
@@ -448,11 +478,11 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
         
         # Girl choice:
         frame:
-            pos(325, 459)
+            pos(265, 459)
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
             side "c t":
                 viewport id "sm_vp_glist":
-                    maximum (941, 150)
+                    maximum (1001, 150)
                     draggable True
                     mousewheel True
                     hbox:
