@@ -794,26 +794,26 @@ init: # PyTFall:
                             action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
             
             # Fighters Guild
-            elif isinstance(char.location, FighterGuild):
-                for entry in FighterGuild.ACTIONS:
-                    if entry == 'Training':
-                        if char.status != "slave":
-                            textbutton "[entry]":
-                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                    elif entry == 'ServiceGirl':
-                        if (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "ServiceGirl"):
-                            textbutton "[entry]":
-                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                    elif entry == 'BarGirl':
-                        if fg.upgrades["bar"][0] and (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "BarGirl"):
-                            textbutton "[entry]":
-                                action [SetField(char, "action", entry), Function(equip_for, char, "ServiceGirl"), Hide("set_action_dropdown")]
-                    elif entry == 'Rest':
-                        textbutton "[entry]":
-                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                    else:
-                        textbutton "[entry]":
-                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+            #elif isinstance(char.location, FighterGuild):
+            #    for entry in FighterGuild.ACTIONS:
+            #        if entry == 'Training':
+            #            if char.status != "slave":
+            #                textbutton "[entry]":
+            #                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+            #        elif entry == 'ServiceGirl':
+            #            if (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "ServiceGirl"):
+            #                textbutton "[entry]":
+            #                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+            #        elif entry == 'BarGirl':
+            #            if fg.upgrades["bar"][0] and (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "BarGirl"):
+            #                textbutton "[entry]":
+            #                    action [SetField(char, "action", entry), Function(equip_for, char, "ServiceGirl"), Hide("set_action_dropdown")]
+            #        elif entry == 'Rest':
+            #            textbutton "[entry]":
+            #                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
+            #        else:
+            #            textbutton "[entry]":
+            #                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
             
             # Other buildings
             elif hasattr(char.location, "actions"):
