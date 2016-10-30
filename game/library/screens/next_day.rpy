@@ -69,18 +69,22 @@ init python:
                                 
         return actions, rest, events
         
-label next_day_joy_check: # chars with low or high joy get joy-related effects every day
+label next_day_effects_check: 
     python:
-        for i in hero.chars:
+        for i in hero.chars: # chars with low or high joy get joy-related effects every day
             if not "Pessimist" in i.traits and i.joy <= 15 and not i.effects['Depression']['active']:
                 i.enable_effect('Depression')
             elif not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
                 i.enable_effect('Elation')
+            if i.vitality < 50 and not i.effects['Exhausted']['active']: # 10+ days with vitality < 50 lead to Exhausted effect, can be removed by one day of rest
+                i.effects['Exhausted']['activation_count'] += 1
+            if i.effects['Exhausted']['activation_count'] >= 1 and not i.effects['Exhausted']['active']:
+                i.enable_effect('Exhausted')
     return
         
         
 label next_day:
-    call next_day_joy_check
+    call next_day_effects_check
     scene bg profile_2
     
     if just_view_next_day: # Review old reports:

@@ -283,9 +283,13 @@ label interactions_control:
                     item = result[1]
                     dismod = getattr(item, "dismod", 0)
                     
-                    for t, v in getattr(items, "traits", {}).iteritems():
-                        if t in char.traits:
-                            dismod += v
+                    if item.type == "romantic":
+                        if not check_lovers(char, hero) and char.disposition < 800: # cannot give romantic gifts to anyone
+                            dismod = -10
+                    else:
+                        for t, v in getattr(items, "traits", {}).iteritems():
+                            if t in char.traits:
+                                dismod += v
                      
                     flag_name = "_day_countdown_{}".format(item.id)
                     flag_value = int(char.flag(flag_name))

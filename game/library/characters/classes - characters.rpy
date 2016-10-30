@@ -1207,9 +1207,9 @@ init -9 python:
             if effects:
                 # Effects assets:
                 self.effects = {
-                'Poison': {"active": False, "penalty": False, "duration": False},
-                'Slow Learner': {'active': False},
-                'Fast Learner': {'active': False},
+                'Poisoned': {"active": False, "penalty": False, "duration": False, 'desc': "Poison decreases health every day. Make sure you cure it as fast as possible."},
+                'Slow Learner': {'active': False, 'desc': "-10% experience"},
+                'Fast Learner': {'active': False, 'desc': "+10% experience"},
                 "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
                 "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
                 "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
@@ -1231,7 +1231,8 @@ init -9 python:
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
                 "Elation": {"active": False, "desc": "She's in a very high mood right now (restores some vitality and mp every day)."},
                 "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
-                "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. Special medicines or sufficient time are needed."}
+                "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
+                "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2468,10 +2469,10 @@ init -9 python:
         # Effects:
         ### Effects Methods
         def enable_effect(self, effect):
-            if effect == "Poison" and "Artificial Body" not in self.traits:
-                self.effects['Poison']['active'] = True
-                self.effects['Poison']['duration'] = 0
-                self.effects['Poison']['penalty'] = randint(1, 3)
+            if effect == "Poisoned" and "Artificial Body" not in self.traits:
+                self.effects['Poisoned']['active'] = True
+                self.effects['Poisoned']['duration'] = 0
+                self.effects['Poisoned']['penalty'] = randint(1, 3)
                 
             elif effect == "Unstable":
                 self.effects['Unstable']['active'] = True
@@ -2486,6 +2487,9 @@ init -9 python:
                 
             elif effect == "Injured":
                 self.effects['Injured']['active'] = True
+                
+            elif effect == "Exhausted":
+                self.effects['Exhausted']['active'] = True
                 
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = True
@@ -2563,10 +2567,10 @@ init -9 python:
                 
 
         def disable_effect(self, effect):
-            if effect == "Poison":
-                for key in self.effects["Poison"]:
+            if effect == "Poisoned":
+                for key in self.effects["Poisoned"]:
                     if key != "desc":
-                        self.effects["Poison"][key] = False
+                        self.effects["Poisoned"][key] = False
                 
             elif effect == "Unstable":
                 for key in self.effects["Unstable"]:
@@ -2581,6 +2585,9 @@ init -9 python:
                 
             elif effect == "Injured":
                 self.effects['Injured']['active'] = False
+                
+            elif effect == "Exhausted":
+                self.effects['Exhausted']['active'] = False
                 
             elif effect == "Silly":
                 self.effects['Silly']['active'] = False
@@ -2650,10 +2657,10 @@ init -9 python:
                 
         def apply_effects(self, effect):
             '''Called on next day, applies effects'''
-            if effect == "Poison":
-                self.effects['Poison']['duration'] += 1
-                self.effects['Poison']['penalty'] += self.effects['Poison']['duration'] * 5
-                self.health -= self.effects['Poison']['penalty']
+            if effect == "Poisoned":
+                self.effects['Poisoned']['duration'] += 1
+                self.effects['Poisoned']['penalty'] += self.effects['Poisoned']['duration'] * 5
+                self.health -= self.effects['Poisoned']['penalty']
                 
             elif effect == "Unstable":
                 unstable = self.effects['Unstable']
@@ -2720,8 +2727,13 @@ init -9 python:
                     self.health = int(self.get_max("health")*0.35)
                 if self.vitality > int(self.get_max("vitality")*0.5):
                     self.vitality = int(self.get_max("vitality")*0.5)
-                self.AP -= 2
+                self.AP -= 1
                 self.joy -= 10
+                
+            elif effect == "Exhausted":
+                if self.vitality > 5:
+                    self.vitality = 5
+                self.AP -= 1
                 
             elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
                 if self.health >= 30 and self.vitality >= 30:
@@ -4189,7 +4201,7 @@ init -9 python:
                                         self.health = 1
                 
                 # Effects
-                if self.effects['Poison']['active']:
+                if self.effects['Poisoned']['active']:
                     txt += "\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n"
                     flag_red = True
                 

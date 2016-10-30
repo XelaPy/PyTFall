@@ -11,20 +11,21 @@
     "desc": "This girl doesn't care much about the world around as long as it doesn't concern her.",
     "blocks": ["Curious"],
     "effects": ["Slow Learner"],
+    "mod_skills": {"cleaning": [0.05, 0.05, 0], "anal": [0.05, 0.05, 0], "oral": [0.05, 0.05, 0], "sex": [0.05, 0.05, 0], "vaginal": [0.05, 0.05, 0]},
     "character_trait": true
     },
     {
     "id": "Adventurous",
     "desc": "This girl loves adventures.",
     "blocks": ["Homebody"],
-    "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
+    "mod_skills": {"exploration": [0.05, 0.05, 0.05], "service": [-0.05, -0.05, -0.05]},
     "character_trait": true
     },
     {
     "id": "Homebody",
     "desc": "Who needs adventures when you have a warm house, a tasty food and a good book?",
     "blocks": ["Adventurous"],
-    "mod_skills": {"exploration": [-0.05, -0.05, -0.05]},
+    "mod_skills": {"exploration": [-0.05, -0.05, -0.05], "service": [0.05, 0.05, 0.05]},
     "character_trait": true
     },
     {

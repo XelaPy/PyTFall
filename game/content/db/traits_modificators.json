@@ -50,11 +50,23 @@
     {
     "id": "Aggressive",
     "desc": "She never hesitates to pick a fight.",
+    "blocks": ["Peaceful"],
     "max": {"character": 5},
-    "mod_skills": {"service": [0.02, 0, -0.03], "refinement": [0.01, 0, 0], "management": [0.01, 0, 0.04], "strip": [0.01, 0.01, 0]},
+    "mod_skills": {"service": [0.02, 0, -0.03], "management": [-0.01, 0, -0.04]},
     "character_trait": true,
     "evasion_bonus": [-5, -5, 0],
     "damage_multiplier": 0.05,
+    "client": true
+    },
+    {
+    "id": "Peaceful",
+    "desc": "She prefers to avoid fights if possible.",
+    "blocks": ["Aggressive"],
+    "max": {"character": 5},
+    "mod_skills": {"service": [-0.02, 0, 0.03], "management": [0.01, 0, 0.04]},
+    "character_trait": true,
+    "evasion_bonus": [5, 5, 0],
+    "damage_multiplier": -0.05,
     "client": true
     },
     {

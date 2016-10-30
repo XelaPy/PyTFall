@@ -13,6 +13,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"mp": 25},
+    "addeffects": ["Poisoned"],
     "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {
@@ -136,6 +137,7 @@
     "cblock": 5,
     "max": {"health": 50},
     "mod": {"health": 10000, "constitution": 50, "vitality": 200, "defence": 10},
+    "removeeffects": ["Injured"],
     "locations": ["Exploration"]
     },
     {
@@ -187,6 +189,7 @@
     "type": "restore",
     "cblock": 6,
     "mod": {"vitality": 100, "mp": 20},
+    "removeeffects": ["Exhausted"],
     "locations": ["Witches Hut", "Exploration"]
     },
     {

@@ -1620,7 +1620,9 @@
             """
             # Stat Mods:
 
-                                                 
+            if self.worker.effects['Exhausted']['active']: # rest immediately disables the effect
+                self.worker.disable_effect('Exhausted')
+                
             available = list()
             if (self.worker.disposition >= 250) or ("Exhibitionist" in self.worker.traits):
                 kwargs = dict(exclude=["dungeon", "sad", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False) # with not too low disposition nude pics become available during rest
