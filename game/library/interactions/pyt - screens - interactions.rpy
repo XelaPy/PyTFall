@@ -283,8 +283,7 @@ label interactions_control:
                     item = result[1]
                     dismod = getattr(item, "dismod", 0)
                     
-                    if item.type == "romantic":
-                        if not check_lovers(char, hero) and char.disposition < 800: # cannot give romantic gifts to anyone
+                    if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 800:  # cannot give romantic gifts to anyone
                             dismod = -10
                     else:
                         for t, v in getattr(items, "traits", {}).iteritems():
