@@ -540,7 +540,7 @@ init: # PyTFall:
                     style_group "content"
                     align(0.023, 0.5)
                     null width 10 
-                    add "coin_top" yalign 0.5
+                    add "coin_top" yalign 0.5 zoom 0.25
                     null width 5
                     text (u"%d"%int(hero.gold)) size 20 color gold yalign 0.5
                     null width 15

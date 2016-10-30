@@ -115,7 +115,7 @@ screen city_screen():
             action QuickLoad()
     
     ### ----> Mid buttons <---- ###
-    add "coin_top" pos (1015, 58)
+    add "coin_top" pos (1015, 58) zoom 0.25
     text "[hero.gold]" size 18 color gold pos (1052, 62) outlines [(1, "#3a3a3a", 0, 0)]
     button:
         style "sound_button"
