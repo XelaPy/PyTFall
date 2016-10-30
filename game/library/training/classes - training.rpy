@@ -1047,7 +1047,7 @@ init -9 python:
                 
                 for i in self.primary.mod:
                     if hero.stats.is_stat(i): s += hero.stats._get_stat(i)
-                    elif hero.stats.is_skill(i): s += hero.stats.get_skill(i)
+                    elif hero.stats.is_skill(i): s += hero.stats._raw_skill(i)
                 
                 return int(s / len(self.primary.mod))
                 
