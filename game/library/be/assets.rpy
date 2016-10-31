@@ -273,7 +273,6 @@ init -1: # Images and Animations
     image heal_2 = FilmStrip("content/gfx/be/filmstrips/heal_2.png", (192, 192), (5, 5), 0.1, loop=False)
     image resurrection = FilmStrip("content/gfx/be/filmstrips/resurrection2x.png", (288, 247), (5, 4), 0.1, loop=False)
     ########### Magic Shields:
-    image magic_shield_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/shields/magic_shield/movie.webm", mask="content/gfx/be/webm/shields/magic_shield/mask.webm")
     
     ########### Weapons-only attacks
     image simple_poison_dagger_attack = im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger

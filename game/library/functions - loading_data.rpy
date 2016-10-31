@@ -1,3 +1,31 @@
+# The whole thing should one day be recoded over a single renpy.list_files loop.
+init 11 python:
+    def load_webms():
+        webms = {}
+        for path in renpy.list_files():
+            if "content/gfx/autowebm/" in path:
+                split_path = path.split("/")
+                folder = split_path[-2]
+                file = split_path[-1]
+                if "mask" in file:
+                    webms.setdefault(folder, {})["mask"] = path
+                if "movie" in file:
+                    webms.setdefault(folder, {})["movie"] = path
+        
+        for folder in webms:
+            temp = folder.split(" ")
+            
+            tag = temp[0]
+            channel = temp[2] if len(temp) == 3 else "main_gfx_attacks"
+            loops = temp[1] if len(temp) >= 2 else 1
+            if loops == "inf":
+                renpy.image(tag, Movie(channel=channel, play=webms[folder]["movie"], mask=webms[folder].get("mask", None)))
+            else:
+                loops = int(loops)
+                renpy.image(tag, MovieLooped(channel=channel, loops=loops, play=webms[folder]["movie"], mask=webms[folder].get("mask", None)))
+                
+    load_webms()
+
 init -11 python:
     # ---------------------- Loading game data:
     def load_team_names(amount):
