@@ -231,7 +231,8 @@ label next_day_calculations:
     python:
         # Append building report to the list
         tl.timer("Building.next_day")
-        building.next_day()
+        if len(nd_buildings):
+            building.next_day()
         tl.timer("Building.next_day")
             
     $ tl.timer("Buildings")
