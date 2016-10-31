@@ -45,6 +45,7 @@
     "desc": "She is nervous and afraid to speak her mind sometimes.",
     "mod_stats": {"character": [-1, 5]},
     "mod_skills": {"service": [-0.02, 0, 0.03], "refinement": [-0.01, 0, 0], "management": [-0.01, 0, -0.04], "strip": [-0.01, -0.01, -0.01]},
+    "effects": ["Diffident"],
     "character_trait": true
     },
     {
