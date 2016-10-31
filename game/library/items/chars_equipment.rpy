@@ -362,10 +362,8 @@ screen char_equip():
                     frame:
                         background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
                         xsize 218
-                        xpadding 6
-                        ypadding 6
-                        xmargin 0
-                        ymargin 0
+                        padding 6, 6
+                        margin 0, 0
                         style_group "proper_stats"
                         has vbox spacing 1
                         # STATS ============================>
@@ -402,7 +400,7 @@ screen char_equip():
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, "#F5F5DC")
                                     text tempstr style_suffix "value_text" xalign .98 yoffset 3
                                 else:
-                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) xalign .98 yoffset 3 style_suffix "value_text" color tempc
+                                    text u"{}/{}".format(getattr(eqtarget, stat), eqtarget.get_max(stat)) xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
                                             
                     # BATTLE STATS ============================>
                     frame:
