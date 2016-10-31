@@ -301,17 +301,14 @@ label shop_control:
                     $ focus = None
             
     elif result[0] == 'control':
-        if result[1] == "increase_amount":
-            if purchasing_dir == 'sell':
-                if amount < char.inventory[focus]:
-                    $ amount += 1
-            elif purchasing_dir == 'buy':
-                if amount < shop.inventory[focus]:
-                    $ amount += 1
-        elif result[1] == "decrease_amount":
-            if amount > 1:
-                $ amount -= 1
-        elif result[1] == 'return':
+        if isinstance(result[1], basestring):
             $ focus = None
             return
+        elif result[1] > 0:
+            if purchasing_dir == 'sell':
+                $ amount = min(amount + result[1], char.inventory[focus])
+            elif purchasing_dir == 'buy':
+                $ amount = min(amount + result[1], shop.inventory[focus])
+        elif result[1] < 0:
+            $ amount = max(amount + result[1], 1)
     jump shop_control
