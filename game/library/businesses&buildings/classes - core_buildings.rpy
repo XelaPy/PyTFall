@@ -859,7 +859,7 @@ init -9 python:
             # This is a weird way to distribute clients... I'll come up with a better one in the future.
             i = 0
             ii = 0
-            if self.clients:
+            if self.clients and len(self.clients) > 60:
                 iii = randint(3, len(self.clients)/20)
             else:
                 iii = 0
@@ -893,7 +893,7 @@ init -9 python:
             self.log(temp)
             
             # Visit counter:
-            client.up_counter("visited_building" + self.id)
+            client.up_counter("visited_building" + str(self.id))
             
             # Prepear data:
             businesses = self.nd_ups[:]
