@@ -312,91 +312,40 @@ label next_day_controls:
     with dissolve
 
     while 1:
-        $ result = ui.interact()
+        python:
+            result = ui.interact()
 
-        if result[0] == 'filter':
+            if result[0] == 'filter':
+                FilteredList = []
 
-            if result[1] == 'all':
-                python:
+                if result[1] == 'all':
                     FilteredList = NextDayEvents * 1
-                    event = FilteredList[0]
-                    index = FilteredList.index(event)
-                    # raise Exception, [event, type(event), event.__class__, event.__dict__]
-                    gimg = event.load_image()
 
-            if result[1] == 'red_flags':
-                python:
-                    FilteredList = list()
-                    for event in NextDayEvents:
-                        if event.red_flag:
-                            FilteredList.append(event)
-                    event = FilteredList[0]
-                    index = FilteredList.index(event)
-                    # raise Exception, [event, type(event), event.__class__, event.__dict__]
-                    gimg = event.load_image()
+                elif result[1] == 'red_flags':
+                    FilteredList = [e for e in NextDayEvents if e.red_flag]
 
-            elif result[1] == 'mc':
-                python:
-                    FilteredList = []
-                    for entry in NextDayEvents:
-                        if entry.type == 'mcndreport':
-                            FilteredList.append(entry)
-                    event = FilteredList[0]
-                    index = FilteredList.index(event)
-                    gimg = event.load_image()
+                elif result[1] == 'mc':
+                    FilteredList = [e for e in NextDayEvents if event.type == 'mcndreport']
 
-            elif result[1] == 'school':
-                python:
-                    FilteredList = []
-                    for entry in NextDayEvents:
-                        if entry.type == 'schoolndreport':
-                            FilteredList.insert(0, entry)
-                        if entry.type == 'schoolreport':
-                            FilteredList.append(entry)
-                    event = FilteredList[0]
-                    index = FilteredList.index(event)
-                    gimg = event.load_image()
+                elif result[1] == 'school':
+                    FilteredList = [e for e in NextDayEvents if e.type in ['schoolndreport', 'schoolreport']]
 
-            elif result[1] == 'gndreports': # Girl Next Day Reports
-                python:
-                    FilteredList = []
-                    for entry in NextDayEvents:
-                        if entry.type == 'girlndreport':
-                            FilteredList.append(entry)
+                elif result[1] == 'gndreports': # Girl Next Day Reports
+                    FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
 
-                # Preventing Index Exception on empty filter
-                python:
-                    if FilteredList:
-                        event = FilteredList[0]
-                        index = FilteredList.index(event)
-                        gimg = event.load_image()
-                    else:
-                        FilteredList = NextDayEvents
-
-            elif result[1] == 'building':
-                python:
+                elif result[1] == 'building':
                     building = result[2]
-                    FilteredList = []
-                    for entry in NextDayEvents:
-                        if entry.type == 'buildingreport' and entry.loc == building:
-                            FilteredList.insert(0, entry)
-                        elif entry.type == "jobreport" and entry.loc == building:
-                            FilteredList.append(entry)
-                    event = FilteredList[0]
-                    index = FilteredList.index(event)
-                    gimg = event.load_image()
+                    order = {"buildingreport":1, "jobreport":2}
+                    FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e])
 
-            elif result[1] == "fighters_guild":
-                python:
-                    FilteredList = []
-                    for entry in NextDayEvents:
-                        if entry.type == "fg_report":
-                            FilteredList.insert(0, entry)
-                        elif entry.type == "exploration_report":
-                            FilteredList.insert(1, entry)
-                        elif entry.type == 'fg_job':
-                            FilteredList.append(entry)
+                elif result[1] == "fighters_guild":
+                    order = {"fg_report":1, "exploration_report":2, "fg_job":3}
+                    FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e])
 
+                else:
+                    devlog.warn("unhandled event:"+result[1])
+
+                if len(FilteredList):
                     event = FilteredList[0]
                     gimg = event.load_image()
                     index = 0
