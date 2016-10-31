@@ -316,7 +316,6 @@ label next_day_controls:
             result = ui.interact()
 
             if result[0] == 'filter':
-                FilteredList = []
 
                 if result[1] == 'all':
                     FilteredList = NextDayEvents * 1
@@ -328,7 +327,8 @@ label next_day_controls:
                     FilteredList = [e for e in NextDayEvents if event.type == 'mcndreport']
 
                 elif result[1] == 'school':
-                    FilteredList = [e for e in NextDayEvents if e.type in ['schoolndreport', 'schoolreport']]
+                    order = {"schoolndreport":1, "schoolreport":2}
+                    FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
 
                 elif result[1] == 'gndreports': # Girl Next Day Reports
                     FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
@@ -336,11 +336,11 @@ label next_day_controls:
                 elif result[1] == 'building':
                     building = result[2]
                     order = {"buildingreport":1, "jobreport":2}
-                    FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e])
+                    FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
 
                 elif result[1] == "fighters_guild":
                     order = {"fg_report":1, "exploration_report":2, "fg_job":3}
-                    FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e])
+                    FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
 
                 else:
                     devlog.warn("unhandled event:"+result[1])
