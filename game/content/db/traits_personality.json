@@ -5,7 +5,8 @@
     "mod_stats": {"character": [1, 5]},
     "max": {"character": 10},
     "mod_skills": {"management": [0.05, 0, 0.01], "waiting": [-0.1, -0.02, -0.1], "bartending": [0, 0, -0.08], "bdsm": [-0.02, 0.04, 0.01], "teaching": [0, 0, -0.1], "cleaning": [0, 0, -0.04], "refinement": [0, 0, -0.2], "service": [-0.05, 0, -0.07], "dancing": [0.1, 0.1, 0.1], "oral": [-0.1, 0.1, 0]},
-    "personality": true
+    "personality": true,
+    "effects": ["Insecure"]
     },
     {
     "id": "Yandere",

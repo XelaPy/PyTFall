@@ -13,7 +13,6 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"mp": 25},
-    "addeffects": ["Poisoned"],
     "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {

@@ -938,6 +938,11 @@ init -9 python:
                 effects = self.instance.effects
                 
                 if key == 'disposition':
+                    if effects['Insecure']['active']:
+                        if value >= 5:
+                            self.instance.joy += 1
+                        elif value <= -5:
+                            self.instance.joy -= 1
                     if effects['Introvert']['active']:
                         value = int(value*.8)
                     elif effects['Extrovert']['active']:
@@ -1216,8 +1221,10 @@ init -9 python:
                 'Fast Learner': {'active': False, 'desc': "+10% experience"},
                 "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
                 "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
+                "Insecure": {'active': False, 'desc': "Significant changes in disposition also change joy."},
                 "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
                 "Assertive": {'active': False, 'desc': "If character is low enough, it increases over time."},
+                "Diffident": {'active': False, 'desc': "If character is high enough, it slowly decreases over time."},
                 'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
                 'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
                 "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
@@ -2564,6 +2571,9 @@ init -9 python:
             elif effect == "Calm":
                 self.effects['Calm']['active'] = True
                 
+            elif effect == "Insecure":
+                self.effects['Insecure']['active'] = True
+                
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = True
 
@@ -2572,6 +2582,9 @@ init -9 python:
                 
             elif effect == "Assertive":
                 self.effects['Assertive']['active'] = True
+                
+            elif effect == "Diffident":
+                self.effects['Diffident']['active'] = True
                 
             elif effect == "Food Poisoning":
                 self.effects['Food Poisoning']['active'] = True
@@ -2668,12 +2681,18 @@ init -9 python:
                 
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = False
+                
+            elif effect == "Insecure":
+                self.effects['Insecure']['active'] = False
 
             elif effect == "Sibling":
                 self.effects['Sibling']['active'] = False
                 
             elif effect == "Assertive":
                 self.effects['Assertive']['active'] = False
+                
+            elif effect == "Diffident":
+                self.effects['Diffident']['active'] = False
                 
             elif effect == "Food Poisoning":
                 for key in self.effects["Food Poisoning"]:
@@ -2721,7 +2740,11 @@ init -9 python:
                         
             elif effect == "Assertive":
                 if self.character < self.get_max("character")*0.5:
-                    self.character += 1
+                    self.character += 2
+                    
+            elif effect == "Diffident":
+                if self.character > self.get_max("character")*0.6:
+                    self.character -= 1
                         
             elif effect == "Composure":
                 if self.joy < 50:
