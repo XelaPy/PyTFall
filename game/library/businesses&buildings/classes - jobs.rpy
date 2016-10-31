@@ -1620,8 +1620,8 @@
             """
             # Stat Mods:
 
-            if self.worker.effects['Exhausted']['active']: # rest immediately disables the effect
-                self.worker.disable_effect('Exhausted')
+
+            self.worker.disable_effect('Exhausted')  # rest immediately disables the effect and removes its counter
                 
             available = list()
             if (self.worker.disposition >= 250) or ("Exhibitionist" in self.worker.traits):
