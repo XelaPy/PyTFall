@@ -4,7 +4,7 @@ init python:
         To Be Moved to appropriate file and vastly improved later!
         Ren'Py's original timer failed completely for chaining sounds in BE, this seems to be working fine.
         """
-        def __init__(self, delay, action=None, repeat=False, args=(), kwargs={}, replaces=None, **properties):
+        def __init__(self, delay, action=None, repeat=False, args=None, kwargs=None, replaces=None, **properties):
             super(MyTimer, self).__init__(**properties)
     
             if action is None:
@@ -26,8 +26,8 @@ init python:
     
             # The function and its arguments.
             self.function = action
-            self.args = args
-            self.kwargs = kwargs
+            self.args = args if args else ()
+            self.kwargs = kwargs if kwargs else {}
     
             # Did we start the timer?
             self.started = False
@@ -277,7 +277,7 @@ init python:
                 
                 
     class DefenceBuff(BE_Event):
-        def __init__(self, source, target, bonus={}, multi=0):
+        def __init__(self, source, target, bonus=None, multi=0):
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
@@ -290,7 +290,7 @@ init python:
             # We also add the icon to targets status overlay:
             target.status_overlay.append(self.icon)
             
-            if bonus:
+            if bonus is not None:
                 self.defence_bonus = bonus
                 # if "melee" in self.attributes:
                     # self.defence_bonus["melee"] = int(round(source.defence*.8 + source.constitution*.4) / 3)

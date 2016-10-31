@@ -53,7 +53,7 @@ init -9 python:
         # add images with or without tags to the database
         #-----------------------------------
             
-        def add_image(self, relpath, tags=[]):
+        def add_image(self, relpath, tags=None):
             '''Adds the image at relpath to the database.
             
             If tags is defined, it must be an iterable containing strings.
@@ -61,7 +61,7 @@ init -9 python:
             untagged images.
             '''
             assert isinstance(relpath, str) or isinstance(relpath, unicode)
-            if tags is []:
+            if tags is None:
                 self.untagged.add(relpath)
             else:
                 for t in tags:
@@ -182,7 +182,7 @@ init -9 python:
                     tagset.add(tag)
             return imgmap
             
-        def dump_json(self, targetfiles=[]):
+        def dump_json(self, targetfiles=None):
             '''Dumps the tag information into tags.json files.
             
             targetfiles is a list of paths to files.
@@ -190,7 +190,7 @@ init -9 python:
             the game directory and will contain the complete database contents.
             '''
             # ensure that all target files have valid paths
-            if targetfiles==[]:
+            if targetfiles is None:
                 targets = {os.path.join(gamedir, "tags.json") : {}}
             else:
                 targets = {}
