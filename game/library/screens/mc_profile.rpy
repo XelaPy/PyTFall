@@ -115,7 +115,7 @@ init:
                 add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) outlines [(1, "#0d0d0d", 0, 0)]
         
-        # LEFT FRAME ====================================>
+        # LEFT FRAME (Stats/Friends/Etc) ====================================>
         vbox:
             xsize 217
             pos (8, 110)
@@ -464,7 +464,7 @@ init:
                 add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
                 text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
     
-    screen hero_equip():
+    screen hero_equip(): # This is not used any longer...?
         modal True
         zorder 1
         default tt = Tooltip(None)
