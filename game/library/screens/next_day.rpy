@@ -310,12 +310,12 @@ label next_day_controls:
     scene bg profile_2
     show screen next_day
     with dissolve
-    
+
     while 1:
         $ result = ui.interact()
-        
+
         if result[0] == 'filter':
-            
+
             if result[1] == 'all':
                 python:
                     FilteredList = NextDayEvents * 1
@@ -323,7 +323,7 @@ label next_day_controls:
                     index = FilteredList.index(event)
                     # raise Exception, [event, type(event), event.__class__, event.__dict__]
                     gimg = event.load_image()
-                
+
             if result[1] == 'red_flags':
                 python:
                     FilteredList = list()
@@ -334,7 +334,7 @@ label next_day_controls:
                     index = FilteredList.index(event)
                     # raise Exception, [event, type(event), event.__class__, event.__dict__]
                     gimg = event.load_image()
-                
+
             elif result[1] == 'mc':
                 python:
                     FilteredList = []
@@ -344,7 +344,7 @@ label next_day_controls:
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     gimg = event.load_image()
-            
+
             elif result[1] == 'school':
                 python:
                     FilteredList = []
@@ -356,14 +356,14 @@ label next_day_controls:
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     gimg = event.load_image()
-                        
+
             elif result[1] == 'gndreports': # Girl Next Day Reports
                 python:
                     FilteredList = []
                     for entry in NextDayEvents:
                         if entry.type == 'girlndreport':
                             FilteredList.append(entry)
-                    
+
                 # Preventing Index Exception on empty filter
                 python:
                     if FilteredList:
@@ -372,7 +372,7 @@ label next_day_controls:
                         gimg = event.load_image()
                     else:
                         FilteredList = NextDayEvents
-                        
+
             elif result[1] == 'building':
                 python:
                     building = result[2]
@@ -385,7 +385,7 @@ label next_day_controls:
                     event = FilteredList[0]
                     index = FilteredList.index(event)
                     gimg = event.load_image()
-                
+
             elif result[1] == "fighters_guild":
                 python:
                     FilteredList = []
@@ -396,9 +396,15 @@ label next_day_controls:
                             FilteredList.insert(1, entry)
                         elif entry.type == 'fg_job':
                             FilteredList.append(entry)
+
                     event = FilteredList[0]
-                    index = FilteredList.index(event)
                     gimg = event.load_image()
+                    index = 0
+                else:
+                    devlog.warn("all NextDayEvents were filtered for: "+result[0]+", "+result[1])
+                    if result[1] == 'gndreports':
+                        # Preventing Index Exception on empty filter
+                        FilteredList = NextDayEvents
 
         if result[0] == 'control':
             if result[1] == 'left':
@@ -414,7 +420,7 @@ label next_day_controls:
                     if index < len(FilteredList)-1:
                         event = FilteredList[index+1]
                         gimg = event.load_image()
-                    
+
             elif result[1] == 'return':
                 return
 
