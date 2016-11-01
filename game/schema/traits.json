@@ -1,0 +1,770 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "basetrait": {
+      "type": "boolean"
+    },
+    "blocks": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "body": {
+      "type": "boolean"
+    },
+    "breasts": {
+      "type": "boolean"
+    },
+    "ch_multiplier": {
+      "type": "number"
+    },
+    "character_trait": {
+      "type": "boolean"
+    },
+    "client": {
+      "type": "boolean"
+    },
+    "damage_multiplier": {
+      "type": "number"
+    },
+    "defence_bonus": {
+      "properties": {
+        "magic": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "melee": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "ranged": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "status": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "defence_multiplier": {
+      "properties": {
+        "magic": {
+          "type": "number"
+        },
+        "melee": {
+          "type": "number"
+        },
+        "ranged": {
+          "type": "number"
+        },
+        "status": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "delivery_multiplier": {
+      "properties": {
+        "melee": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "melee"
+      ],
+      "type": "object"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "effects": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "el_absorbs": {
+      "properties": {
+        "air": {
+          "type": "number"
+        },
+        "darkness": {
+          "type": "number"
+        },
+        "earth": {
+          "type": "number"
+        },
+        "electricity": {
+          "type": "number"
+        },
+        "fire": {
+          "type": "number"
+        },
+        "ice": {
+          "type": "number"
+        },
+        "light": {
+          "type": "number"
+        },
+        "physical": {
+          "type": "number"
+        },
+        "poison": {
+          "type": "number"
+        },
+        "water": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "el_damage": {
+      "properties": {
+        "air": {
+          "type": "number"
+        },
+        "darkness": {
+          "type": "number"
+        },
+        "earth": {
+          "type": "number"
+        },
+        "electricity": {
+          "type": "number"
+        },
+        "fire": {
+          "type": "number"
+        },
+        "healing": {
+          "type": "number"
+        },
+        "ice": {
+          "type": "number"
+        },
+        "light": {
+          "type": "number"
+        },
+        "physical": {
+          "type": "number"
+        },
+        "poison": {
+          "type": "number"
+        },
+        "water": {
+          "type": "number"
+        },
+        "wind": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "el_defence": {
+      "properties": {
+        "air": {
+          "type": "number"
+        },
+        "darkness": {
+          "type": "number"
+        },
+        "earth": {
+          "type": "number"
+        },
+        "electricity": {
+          "type": "number"
+        },
+        "fire": {
+          "type": "number"
+        },
+        "healing": {
+          "type": "number"
+        },
+        "ice": {
+          "type": "number"
+        },
+        "light": {
+          "type": "number"
+        },
+        "physical": {
+          "type": "number"
+        },
+        "poison": {
+          "type": "number"
+        },
+        "water": {
+          "type": "number"
+        },
+        "wind": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "elemental": {
+      "type": "boolean"
+    },
+    "evasion_bonus": {
+      "items": {
+        "type": "number"
+      },
+      "type": "array"
+    },
+    "font_color": {
+      "type": "string"
+    },
+    "higher_tiers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "init_lvlmax": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "attack": {
+          "type": "number"
+        },
+        "character": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "defence": {
+          "type": "number"
+        },
+        "health": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "magic": {
+          "type": "number"
+        },
+        "mp": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "init_max": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "attack": {
+          "type": "number"
+        },
+        "character": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "defence": {
+          "type": "number"
+        },
+        "health": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "magic": {
+          "type": "number"
+        },
+        "mp": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "init_mod": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "attack": {
+          "type": "number"
+        },
+        "character": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "defence": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "luck": {
+          "type": "number"
+        },
+        "magic": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "init_skills": {
+      "properties": {
+        "anal": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "bartending": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "cleaning": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "dancing": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "management": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "oral": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "refinement": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "service": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "sex": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "strip": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "vaginal": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "waiting": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "leveling_stats": {
+      "properties": {
+        "agility": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "attack": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "character": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "charisma": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "constitution": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "defence": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "health": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "intelligence": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "magic": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "mp": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "max": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "attack": {
+          "type": "number"
+        },
+        "character": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "defence": {
+          "type": "number"
+        },
+        "health": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "magic": {
+          "type": "number"
+        },
+        "mp": {
+          "type": "number"
+        },
+        "vitality": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "min": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "defence": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "luck": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "mob_only": {
+      "type": "boolean"
+    },
+    "mod": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "character": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "upkeep": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "mod_ap": {
+      "type": "number"
+    },
+    "mod_skills": {
+      "properties": {
+        "anal": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "bartending": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "bdsm": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "cleaning": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "dancing": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "exploration": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "group": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "management": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "oral": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "refinement": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "service": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "sex": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "strip": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "teaching": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "vaginal": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "waiting": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "mod_stats": {
+      "properties": {
+        "agility": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "attack": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "character": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "charisma": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "constitution": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "defence": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "disposition": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "intelligence": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "magic": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "occupations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "permanent": {
+      "type": "boolean"
+    },
+    "personality": {
+      "type": "boolean"
+    },
+    "race": {
+      "type": "boolean"
+    },
+    "resist": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "sexual": {
+      "type": "boolean"
+    },
+    "trEffMax": {
+      "type": "number"
+    },
+    "type": {
+      "type": "string"
+    },
+    "virginity": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "type": "object"
+}
