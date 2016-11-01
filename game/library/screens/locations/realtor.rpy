@@ -44,11 +44,8 @@ label realtor_agency:
         
         
     # Added the next three lines to disable this feature without crashing the game   --fenec250
-    g "disabled until Buisnesses are finished" 
-    hide screen realtor_agency
-    jump city
     
-    $ market_buildings = sorted(set(chain(brothels.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
+    $ market_buildings = sorted(set(chain(businesses.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
     
     show screen realtor_agency
     with fade
@@ -153,36 +150,42 @@ screen realtor_agency():
                             label (u"[focus.name]") text_size 23 text_color ivory align(0.5, 0.8)
                         null height 50
                         hbox:
-                            xalign 0.5
+                            style_group "proper_stats"
                             frame:
-                                xalign 0.5
+                                xpadding 12
+                                ypadding 12
                                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.98), 10, 10)
                                 vbox:
-                                    style_group "stats"
-                                    spacing -7
+                                    spacing -1
                                     frame:
+                                        xysize 380, 24
                                         text "{color=[gold]}Price:" yalign 0.5
-                                        label (u"{color=[gold]}%d"%(focus.price)) style "stats_value_text" align (1.0, 0.5)
+                                        label (u"{color=[gold]}%d"%(focus.price)) align (1.0, 0.5)
                                     frame:
+                                        xysize 380, 24
                                         text "Rooms:" yalign 0.5
-                                        label (u"{color=[ivory]}%s/%s" % (focus.rooms, focus.maxrooms)) style "stats_value_text" align (1.0, 0.5)
+                                        label (u"{color=[ivory]}%s/%s" % (focus.rooms, focus.maxrooms)) align (1.0, 0.5)
                                     if isinstance(focus, UpgradableBuilding):
                                         frame:
+                                            xysize 380, 24
                                             text "Slots:" yalign 0.5
-                                            label (u"{color=[ivory]}%s/%s" % (focus.used_upgrade_slots, focus.upgrade_slots)) style "stats_value_text" align (1.0, 0.5)
+                                            label (u"{color=[ivory]}%s/%s" % (focus.used_upgrade_slots, focus.upgrade_slots)) align (1.0, 0.5)
                                 
                                     if isinstance(focus, FamousBuilding):
                                         frame:
+                                            xysize 380, 24
                                             text "Fame:" yalign 0.5
-                                            label (u"%s/%s" % (focus.fame, focus.maxfame)) style "stats_value_text" align (1.0, 0.5)
+                                            label (u"%s/%s" % (focus.fame, focus.maxfame)) align (1.0, 0.5)
                                         frame:
+                                            xysize 380, 24
                                             text "Reputation:" yalign 0.5
-                                            label (u"%s/%s" % (focus.rep, focus.maxrep)) style "stats_value_text" align (1.0, 0.5)
+                                            label (u"%s/%s" % (focus.rep, focus.maxrep)) align (1.0, 0.5)
                                 
                                     if isinstance(focus, Building):
                                         frame:
+                                            xysize 380, 24
                                             text "Max Rank:" yalign 0.5
-                                            label (u"%s" % (focus.maxrank)) style "stats_value_text" align (1.0, 0.5)
+                                            label (u"%s" % (focus.maxrank)) align (1.0, 0.5)
                                     
                         null height 50            
                         

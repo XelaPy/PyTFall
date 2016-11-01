@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "ab_traits": {
+      "type": "array"
+    },
+    "base_race": {
+      "type": "string"
+    },
+    "base_rase": {
+      "type": "string"
+    },
+    "battle_skill": {
+      "type": "string"
+    },
+    "blocked_traits": {
+      "type": "array"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "elements": {
+      "properties": {
+        "Air 1": {
+          "type": "number"
+        },
+        "Darkness 1": {
+          "type": "number"
+        },
+        "Earth 1": {
+          "type": "number"
+        },
+        "Fire 1": {
+          "type": "number"
+        },
+        "Light 1": {
+          "type": "number"
+        },
+        "Light 2": {
+          "type": "number"
+        },
+        "Light 3": {
+          "type": "number"
+        },
+        "Water 1": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "force_location": {
+      "type": "boolean"
+    },
+    "force_status": {
+      "type": "boolean"
+    },
+    "height": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "magic_skills": {
+      "type": "array"
+    },
+    "occupations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "race": {
+      "type": "string"
+    },
+    "random_stats": {
+      "properties": {
+        "character": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "charisma": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "constitution": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "intelligence": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "refinement": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "intelligence",
+        "charisma",
+        "character",
+        "constitution"
+      ],
+      "type": "object"
+    },
+    "random_traits": {
+      "items": {
+        "items": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "type": "array"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "random_stats",
+    "magic_skills",
+    "occupations",
+    "random_traits",
+    "force_status",
+    "desc",
+    "id",
+    "force_location"
+  ],
+  "type": "object"
+}

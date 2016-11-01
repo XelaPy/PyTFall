@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "attack_skills": {
+      "type": "array"
+    },
+    "basetraits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "battle_sprite": {
+      "type": "string"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "front_row": {
+      "type": "number"
+    },
+    "locations": {
+      "type": "array"
+    },
+    "magic_skills": {
+      "type": "array"
+    },
+    "min_lvl": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "portrait": {
+      "type": "string"
+    },
+    "race": {
+      "type": "string"
+    },
+    "skills": {
+      "properties": {},
+      "type": "object"
+    },
+    "stats": {
+      "properties": {
+        "agility": {
+          "type": "number"
+        },
+        "attack": {
+          "type": "number"
+        },
+        "charisma": {
+          "type": "number"
+        },
+        "constitution": {
+          "type": "number"
+        },
+        "defence": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "luck": {
+          "type": "number"
+        },
+        "magic": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "agility",
+        "defence",
+        "magic",
+        "constitution",
+        "intelligence",
+        "attack",
+        "charisma",
+        "luck"
+      ],
+      "type": "object"
+    },
+    "traits": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "stats",
+    "name",
+    "magic_skills",
+    "skills",
+    "locations",
+    "front_row",
+    "min_lvl",
+    "traits",
+    "basetraits",
+    "race",
+    "portrait",
+    "battle_sprite",
+    "attack_skills",
+    "desc"
+  ],
+  "type": "object"
+}

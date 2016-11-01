@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "cblock": {
+      "type": "number"
+    },
+    "chance": {
+      "type": "number"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "dismod": {
+      "type": "number"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "infinite": {
+      "type": "boolean"
+    },
+    "locations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "price": {
+      "type": "number"
+    },
+    "slot": {
+      "type": "string"
+    },
+    "traits": {
+      "properties": {
+        "Ane": {
+          "type": "number"
+        },
+        "Bokukko": {
+          "type": "number"
+        },
+        "Dandere": {
+          "type": "number"
+        },
+        "Deredere": {
+          "type": "number"
+        },
+        "Imouto": {
+          "type": "number"
+        },
+        "Impersonal": {
+          "type": "number"
+        },
+        "Kamidere": {
+          "type": "number"
+        },
+        "Kuudere": {
+          "type": "number"
+        },
+        "Tsundere": {
+          "type": "number"
+        },
+        "Yandere": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "slot",
+    "price",
+    "locations",
+    "dismod",
+    "chance",
+    "infinite",
+    "icon",
+    "cblock",
+    "id",
+    "desc"
+  ],
+  "type": "object"
+}
