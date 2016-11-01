@@ -146,7 +146,7 @@ label fishing_logic:
         "Maybe later":
             jump city_beach_left
             
-    if not("Fishing Pole") in hero.inventory:
+    if not has_items("Fishing Pole", [hero]):
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
     elif hero.AP <= 0:
@@ -170,7 +170,6 @@ label fishing_logic:
                     $ hero.remove_item("Magic Bait")
                     $ fishing_attempts = 5
                 "Don't use baits":
-                    $ pass
                     $ fishing_attempts = 2
                     
         $ hero.AP -= 1
