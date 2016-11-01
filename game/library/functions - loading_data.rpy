@@ -11,6 +11,9 @@ init 11 python:
                     webms.setdefault(folder, {})["mask"] = path
                 if "movie" in file:
                     webms.setdefault(folder, {})["movie"] = path
+                if "moviemask" in file: # rare cases when movie itself is also the mask
+                    webms.setdefault(folder, {})["movie"] = path
+                    webms.setdefault(folder, {})["mask"] = path
         
         for folder in webms:
             temp = folder.split(" ")
