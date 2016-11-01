@@ -74,43 +74,6 @@ init -999 python:
                     self.log[msg] = time.time()
                     devlog.info("Starting timer: %s"%msg)
 
-    class JasonSchemator(object):
-        def __init__(self, validate=True):
-            self._validate = validate
-            self._s = {}
-            if validate:
-                for fin in os.listdir(os.sep.join(["game", "schema"])):
-                    with open(os.sep.join(["game", "schema", fin])) as f:
-                        self._s[fin[:-5]] = json.load(f)
-
-        def add(self, name, content, filename=""):
-            if self._validate:
-                if not name in self._s:
-                    devlog.warn("No schema yet to validate a "+name+" json file")
-                else:
-                    import jsonschema
-                    for cn in content:
-                        v = jsonschema.Draft4Validator(self._s[name])
-                        errors = sorted(v.iter_errors(cn), key=lambda e: e.path)
-                        for error in errors:
-                            devlog.warn(error.message)
-                            for suberror in sorted(error.context, key=lambda e: e.schema_path):
-                                devlog.warn(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
-            elif self._validate == False:
-                import skinfer
-                if name in self._s:
-                    self._s[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._s[name])
-                else:
-                    self._s[name] = skinfer.infer_schema(content)
-        def finish(self):
-            if self._validate == False:
-                for tag in schema.keys():
-                    with open("game/schema/"+tag+".json", 'w') as outfile:
-                        json.dump(schema[tag], outfile, sort_keys = True, indent = 2, ensure_ascii=False)
-
-    # set to False to update existing json files in schema directory, Noe skips validation and writing
-    jsstor = JasonSchemator(False)
-
     tl = TimeLog()
     tl.timer("Ren'Py User Init!")
 
@@ -322,14 +285,88 @@ init -999 python:
                 else:
                     value = string
         return value
-        
+
     # Returns the position of cursor if show cursorPosition is called
     # show cursorPosition on bottom
     def dd_cursor_position(st, at):
         x, y = renpy.get_mouse_pos()
         return Text("{size=-5}%d - %d"%(x, y)), .1
-        # -------------------------------------------------------------------------------------------------------- Ends here    
-    
+    class JasonSchemator(object):
+
+        def __init__(self, validate=True, timelog=None):
+
+            self._validate = validate
+
+            if validate is not None:
+                self._tl = timelog
+                self._s = {}
+
+                for fin in listdir("schema"):
+
+                    filename = renpy.loader.transfn("schema"+os.path.sep+fin)
+
+                    if validate == False:
+                        devlog.warn("schema already exists for "+filename+" (remove beforehand to get an updated one)")
+                    else:
+                        with open(filename) as f:
+                            self._s[fin[:-5]] = json.load(f)
+
+        def _get_schema(self, name):
+            return renpy.loader.transfn("schema"+os.path.sep+"{0}.json".format(name))
+
+        def add(self, name, content, filename=""):
+
+            if self._validate:
+
+                if not name in self._s:
+                    devlog.warn("No schema yet to validate a "+name+" json file")
+                else:
+
+                    import jsonschema
+                    schemafile = self._get_schema(name)
+                    if self._tl:
+                        time_msg = "Validating\n\t"+filename+"\n\tusing schema "+schemafile
+                        self._tl.timer(time_msg)
+                    data = open(schemafile, 'rb').read()
+                    schema = json.loads(data.decode("utf-8"))
+
+                    for cn in content:
+                        try:
+                            jsonschema.validate(cn, schema)
+                            continue
+                        except ValidationError as e:
+                            devlog.warn(filename+" did not validate: "+schemafile+": "+repr(e))
+                        except SchemaError as e:
+                            renpy.error("Schema is invalid: "+schemafile+" "+repr(e))
+
+                        v = Draft4Validator(schema)
+                        errors = sorted(v.iter_errors(cn), key=lambda e: e.path)
+                        for error in errors:
+                            devlog.warn(error.message)
+                            for suberror in sorted(error.context, key=lambda e: e.schema_path):
+                                devlog.warn(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
+
+                    if self._tl:
+                        self._tl.timer(time_msg)
+
+            elif self._validate == False:
+                import skinfer
+                if name in self._s:
+                    self._s[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._s[name])
+                else:
+                    self._s[name] = skinfer.infer_schema(content)
+
+        def finish(self):
+            if self._validate == False:
+                for name in self._s.keys():
+                    with open(self._get_schema(name), 'w') as outfile:
+                        json.dump(self._s[name], outfile, sort_keys = True, indent = 2, ensure_ascii=False, separators=(',', ': '))
+
+    # set to False to update existing json files in schema directory, None skips validation and writing
+    jsstor = JasonSchemator(validate=None, timelog=tl)
+
+    # -------------------------------------------------------------------------------------------------------- Ends here
+
     ########################## Images ##########################
     # Colors are defined in colors.rpy to global namespace, prolly was not the best way but file was ready to be used.
     

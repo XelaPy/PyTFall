@@ -251,6 +251,7 @@ label dev_testing_menu:
         pytfall.arena.find_opfor()
         pytfall.arena.update_dogfights()
         tl.timer("Loading: Arena!")
+        jsstor.finish()
         
     # Call girls starting labels:
     $ all_chars = chars.values()
