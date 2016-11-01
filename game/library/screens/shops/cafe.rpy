@@ -123,8 +123,8 @@ label cafe_eat_alone:
 
         "Light Snack (10 G)":
             if hero.take_money(10):
-                $ name = "content/gfx/images/food/animated/small_" + str(renpy.random.randint(1, 3)) + ".webm"
-                show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
+                $ name = "small_food_" + str(renpy.random.randint(1, 3))
+                show image name at truecenter with dissolve
                 # show image random.choice(movie_list)
                 $ hero.set_flag("ate_in_cafe", value=day)
                 $ result = "You feel a bit better!"
@@ -147,15 +147,15 @@ label cafe_eat_alone:
                 $ del result
                 $ del result_v
                 $ del result_m
-                hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
+                hide image name with dissolve
                 $ del name
             else:
                 "You don't have that amount of gold."
                 
         "Ordinary Meal (25 G)":
             if hero.take_money(25):
-                $ name = "content/gfx/images/food/animated/medium_" + str(renpy.random.randint(1, 3)) + ".webm"
-                show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
+                $ name = "medium_food_" + str(renpy.random.randint(1, 3))
+                show image name at truecenter with dissolve
                 $ hero.set_flag("ate_in_cafe", value=day)
                 $ result = "You feel quite satisfied."
                 if hero.vitality < hero.get_max("vitality"):
@@ -185,14 +185,14 @@ label cafe_eat_alone:
                 $ del result_v
                 $ del result_m
                 $ del result_h
-                hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
+                hide image name with dissolve
                 $ del name
             else:
                 "You don't have that amount of gold."
         "Extra Large Meal (50 G)":   # by eating big meals hero can increase max health by 2 with 75% chance; after increasing it by 50 the chance drops to 10% with smaller bonus
             if hero.take_money(50):
-                $ name = "content/gfx/images/food/animated/big_" + str(renpy.random.randint(1, 3)) + ".webm"
-                show image Movie(channel="main_gfx_attacks", play=name) at truecenter with dissolve
+                $ name = "big_food_" + str(renpy.random.randint(1, 3))
+                show image name at truecenter with dissolve
                 $ hero.set_flag("ate_in_cafe", value=day)
                 $ result = "You feel extremely full and satisfied."
                 if hero.vitality < hero.get_max("vitality"):
@@ -235,7 +235,7 @@ label cafe_eat_alone:
                 $ del result_v
                 $ del result_m
                 $ del result_h
-                hide image Movie(channel="main_gfx_attacks", play=name) with dissolve
+                hide image name with dissolve
                 $ del name
     jump cafe_menu
             
