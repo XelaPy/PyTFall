@@ -1,6 +1,6 @@
 init python:
     q = register_quest("A Fugitive")
-    register_event("naruko_first_meeting", quest="A Fugitive", simple_conditions=["hero.level >= 10", "hero.gold >= 500"], locations=["cafe"], dice=100, restore_priority=0, jump=True, trigger_type="auto")
+    register_event("naruko_first_meeting", quest="A Fugitive", simple_conditions=["hero.level >= 1000", "hero.gold >= 500"], locations=["cafe"], dice=100, restore_priority=0, jump=True, trigger_type="auto") # disabled for testing; TODO before the release: make "hero.level >= 10"
     q1 = register_quest("The Hidden Ones")
     
 label naruko_first_meeting:

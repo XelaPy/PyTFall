@@ -66,7 +66,6 @@ init -1: # Images and Animations
     image fire_4 = FilmStrip("content/gfx/be/filmstrips/fire_4.png", (192, 192), (5, 10), 0.1, loop=False)
     image fire_mask = FilmStrip("content/gfx/be/filmstrips/fire_mask.jpg", (240, 180), (5, 5), 0.05, loop=True)
     image flame_bm = FilmStrip("content/gfx/be/filmstrips/fire_mask_bm.png", (240, 180), (5, 5), 0.05, loop=True)
-    image cataclysm_webm = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/fire/cataclysm.webm", mask="content/gfx/be/webm/fire/cataclysm.webm")
 
         
     image fire_5_1:
@@ -140,7 +139,6 @@ init -1: # Images and Animations
     image earth_2 = FilmStrip("content/gfx/be/filmstrips/earth_2.png", (192, 192), (5, 2), 0.1, loop=False)
     image earth_3 = FilmStrip("content/gfx/be/filmstrips/earth_3.png", (192, 192), (5, 3), 0.1, loop=False)
     image earth_4 = FilmStrip("content/gfx/be/filmstrips/earth_4.png", (192, 192), (5, 2), 0.12, loop=False)
-    image earth_5 = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/earth/mud/movie.webm", mask="content/gfx/be/webm/earth/mud/mask.webm")
     image earth_6 = FilmStrip("content/gfx/be/filmstrips/earth_6.png", (192, 192), (5, 4), 0.1, loop=False)
     image magma = FilmStrip("content/gfx/be/filmstrips/magma.png", (192, 192), (5, 8), 0.08, loop=False)
     image crushing_hand = FilmStrip("content/gfx/be/filmstrips/crushing_hand.png", (513, 297), (3, 6), 0.15, loop=False)
@@ -152,7 +150,6 @@ init -1: # Images and Animations
     image air_4 = FilmStrip("content/gfx/be/filmstrips/air_4.png", (192, 192), (5, 6), 0.05, loop=False)
     image air_6 = FilmStrip("content/gfx/be/filmstrips/air_6.png", (151, 151), (5, 7), 0.04, loop=False, reverse=True)
     image vortex = FilmStrip("content/gfx/be/filmstrips/vortex.png", (277, 277), (15, 1), 0.1, loop=True)
-    image north = MovieLooped(channel="main_gfx_attacks", loops=2, play="content/gfx/be/webm/air/north/movie.webm", mask="content/gfx/be/webm/air/north/mask.webm")
     image tornado:
         FilmStrip("content/gfx/be/filmstrips/tornado.png", (674, 592), (2, 3), 0.05, loop=True)
         anchor (0.5, 1.0)
@@ -260,7 +257,6 @@ init -1: # Images and Animations
         rotate 0
         linear 1.0 rotate 360
     image thunder_storm_2 = FilmStrip("content/gfx/be/filmstrips/thunder_storm_2.png", (354, 389), (4, 4), 0.1, loop=False)
-    image moz = MovieLooped(channel="main_gfx_attacks", play="content/gfx/be/webm/electricity/moz_movie.webm", mask="content/gfx/be/webm/electricity/moz_mask.webm")
     image moz_stretch:
         VBox(Transform("moz", crop=(0, 0, 1199, 320)),
                   Transform("moz", crop=(0, 320, 1199, 278), yzoom=2))
@@ -931,10 +927,10 @@ label load_battle_skills:
         SimpleSkill(u"Breach", menu_pos=10, attributes=["magic", "earth"], effect=50, multiplier=3.0, mp_cost=12, range=4,
                                            desc="Hot dust and poisonous gases are pulled out of the ground under high pressure.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
-                                           main_effect={"gfx": Transform("earth_5", zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 0.9, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 0}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.7},
-                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.1},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": 0.5}) #looks not very good!!!
+                                           main_effect={"gfx": Transform("earth_5", zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 0.86, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 0}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
+                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 0.3})
         SimpleSkill(u"Transmutation", menu_pos=11, menuname="Transmute", attributes=["magic", "earth"], effect=40, multiplier=1.8, mp_cost=10, range=4, casting_effects=["earth_2", "default"], gfx="earth_6", zoom=1.5, pause=2.0, target_damage_gfx=[0.2, "shake", 1.8], sfx="content/sfx/sound/be/earth6.mp3", piercing=True,
                                            aim="bc", anchor=(0.5, 1.0), yo=50,
                                            desc="The land itself under the target becomes explosive and detonates.",
