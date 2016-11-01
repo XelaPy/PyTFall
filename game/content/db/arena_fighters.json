@@ -3,7 +3,7 @@
 "name": "Uesugi Kenshin",
 "exp": 10000,
 "stats": {"attack": 120, "defence": 100, "magic": 20, "agility": 60, "luck": 10},
-"attack_skills": {"Sword Attack": 1},
+"attack_skills": {"Sword Slash": 1},
 "unique": true
 },
 {
@@ -18,14 +18,14 @@
 "name": "Uesugi Katsuko",
 "exp": 10000,
 "stats": {"attack": 75, "defence": 70, "magic": 20, "agility": 55, "luck": -10},
-"attack_skills": {"Sword Attack": 1},
+"attack_skills": {"Sword Slash": 1},
 "unique": true
 },
 {
 "name": "Masou Shizuka",
 "exp": 10000,
 "stats": {"attack": 60, "defence": 70, "magic": 100, "agility": 60, "luck": 0},
-"attack_skills": {"Dagger Attack": 1},
+"attack_skills": {"Dagger Strike": 1},
 "magic_skills": {"Fire 1": 1, "Fire 2": 2, "Fire 3": 1},
 "unique": true
 },
@@ -33,14 +33,14 @@
 "name": "Maria Custard",
 "exp": 10000,
 "stats": {"attack": 80, "defence": 50, "magic": 50, "agility": 50, "luck": 10},
-"attack_skills": {"Cannon Attack": 1},
+"attack_skills": {"Cannon Shot": 1},
 "unique": true
 },
 {
 "name": "EVA-Beatrice",
 "exp": 10000,
 "stats": {"attack": 50, "defence": 60, "magic": 90, "agility": 50, "luck": 10},
-"attack_skills": {"Blunt Attack": 1},
+"attack_skills": {"Blunt Strike": 1},
 "magic_skills": {"Windwhirl": 2, "Fire 2": 1, "Fire 3": 1, "Earth 2": 1, "Earth 3": 1},
 "unique": true
 },
@@ -64,28 +64,28 @@
 "name": "Shishio Makoto",
 "exp": 10000,
 "stats": {"attack": 135, "defence": 100, "magic": 30, "agility": 70, "luck": 50},
-"attack_skills": {"Sword Attack": 1},
+"attack_skills": {"Sword Slash": 1},
 "unique": true
 },
 {
 "name": "Sion Eltnam Atlasia",
 "exp": 10000,
 "stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"Sword Attack": 1},
+"attack_skills": {"Sword Slash": 1},
 "unique": true
 },
 {
 "name": "Yumizuka Satsuki",
 "exp": 10000,
 "stats": {"attack": 50, "defence": 30, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"Sword Attack": 1},
+"attack_skills": {"Sword Slash": 1},
 "unique": true
 },
 {
 "name": "Riesbyfe Stridberg",
 "exp": 10000,
 "stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"Sword Attack": 1},
+"attack_skills": {"Sword Slash": 1},
 "unique": true
 }
 ]
