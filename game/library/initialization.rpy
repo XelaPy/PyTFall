@@ -41,6 +41,8 @@ init -999 python:
     
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
+        if "/conent/" in path:
+            renpy.error("/conent/ already in path: "+path)
         return renpy.loader.transfn('content/' + path)
     
     # enable logging via the 'logging' module
@@ -71,7 +73,44 @@ init -999 python:
                 else:
                     self.log[msg] = time.time()
                     devlog.info("Starting timer: %s"%msg)
-                    
+
+    class JasonSchemator(object):
+        def __init__(self, validate=True):
+            self._validate = validate
+            self._s = {}
+            if validate:
+                for fin in os.listdir(os.sep.join(["game", "schema"])):
+                    with open(os.sep.join(["game", "schema", fin])) as f:
+                        self._s[fin[:-5]] = json.load(f)
+
+        def add(self, name, content, filename=""):
+            if self._validate:
+                if not name in self._s:
+                    devlog.warn("No schema yet to validate a "+name+" json file")
+                else:
+                    import jsonschema
+                    for cn in content:
+                        v = jsonschema.Draft4Validator(self._s[name])
+                        errors = sorted(v.iter_errors(cn), key=lambda e: e.path)
+                        for error in errors:
+                            devlog.warn(error.message)
+                            for suberror in sorted(error.context, key=lambda e: e.schema_path):
+                                devlog.warn(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
+            elif self._validate == False:
+                import skinfer
+                if name in self._s:
+                    self._s[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._s[name])
+                else:
+                    self._s[name] = skinfer.infer_schema(content)
+        def finish(self):
+            if self._validate == False:
+                for tag in schema.keys():
+                    with open("game/schema/"+tag+".json", 'w') as outfile:
+                        json.dump(schema[tag], outfile, sort_keys = True, indent = 2, ensure_ascii=False)
+
+    # set to False to update existing json files in schema directory, Noe skips validation and writing
+    jsstor = JasonSchemator(False)
+
     tl = TimeLog()
     tl.timer("Ren'Py User Init!")
 
