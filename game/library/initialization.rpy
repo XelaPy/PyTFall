@@ -292,12 +292,10 @@ init -999 python:
         x, y = renpy.get_mouse_pos()
         return Text("{size=-5}%d - %d"%(x, y)), .1
     class JasonSchemator(object):
+        action = "skip"
 
-        def __init__(self, validate=True, timelog=None):
-
-            self._validate = validate
-
-            if validate is not None:
+        def configure(self, timelog=None):
+            if self.action != "skip":
                 self._tl = timelog
                 self._s = {}
 
@@ -305,7 +303,7 @@ init -999 python:
 
                     filename = renpy.loader.transfn("schema"+os.path.sep+fin)
 
-                    if validate == False:
+                    if self.action == "generate":
                         devlog.warn("schema already exists for "+filename+" (remove beforehand to get an updated one)")
                     else:
                         with open(filename) as f:
@@ -316,7 +314,7 @@ init -999 python:
 
         def add(self, name, content, filename=""):
 
-            if self._validate:
+            if self.action == "validate":
 
                 if not name in self._s:
                     devlog.warn("No schema yet to validate a "+name+" json file")
@@ -347,7 +345,7 @@ init -999 python:
                     if self._tl:
                         self._tl.timer(time_msg)
 
-            elif self._validate == False:
+            elif self.action == "generate":
                 import skinfer
                 if name in self._s:
                     self._s[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._s[name])
@@ -355,13 +353,13 @@ init -999 python:
                     self._s[name] = skinfer.infer_schema(content)
 
         def finish(self):
-            if self._validate == False:
+            if self.action == "generate":
                 for name in self._s.keys():
                     with open(self._get_schema(name), 'w') as outfile:
                         json.dump(self._s[name], outfile, sort_keys = True, indent = 2, ensure_ascii=False, separators=(',', ': '))
 
     # set to False to update existing json files in schema directory, None skips validation and writing
-    jsstor = JasonSchemator(validate=True, timelog=tl)
+    jsstor = JasonSchemator()
 
     # -------------------------------------------------------------------------------------------------------- Ends here
 

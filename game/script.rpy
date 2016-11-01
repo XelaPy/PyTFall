@@ -10,7 +10,10 @@
         # Global variables and loading content:
         day = 1
         # difficulty = Difficulties()
-        
+
+        # load json schemas for validation
+        jsstor.configure(timelog=tl)
+
         # Load random names selections for rGirls:
         tl.timer("Loading: Random Name Files")
         female_first_names = load_female_first_names(200)
