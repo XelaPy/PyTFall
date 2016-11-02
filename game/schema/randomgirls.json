@@ -4,7 +4,7 @@
   "properties": {
     "ab_traits": { "type": "array" },
     "base_race": { "type": "string" },
-    "battle_skill": { "type": "string" },
+    "battle_skills": { "type": "string" },
     "blocked_traits": { "type": "array" },
     "desc": { "type": "string" },
     "elements": {

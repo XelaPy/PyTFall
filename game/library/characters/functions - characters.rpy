@@ -237,9 +237,8 @@ init -11 python:
             # rg.occupation = choice(d)
         
         # Battle and Magic skills:
-        # TODO: This should be battle_skills! (plural and a list))
-        if "battle_skill" in data:
-            d = data["battle_skill"]
+        if "battle_skills" in data:
+            d = data["battle_skills"]
             if d in store.battle_skills:
                 rg.attack_skills.append(store.battle_skills[d])
             else:
