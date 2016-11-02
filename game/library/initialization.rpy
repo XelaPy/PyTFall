@@ -294,7 +294,8 @@ init -999 python:
         return Text("{size=-5}%d - %d"%(x, y)), .1
 
     class JasonSchemator(object):
-        action = "skip" # the default: no validation.
+        def __init__(self, action=None)
+            action = action if action else "skip" # the default: no validation.
 
         def configure(self, timelog=None):
             """ load schemas from schema directory """
