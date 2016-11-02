@@ -101,7 +101,7 @@ screen city_beach_swim():
                 yalign 0.5
                 action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
                 text "Swim" size 15
-            if hero.get_skill("swimming") >= 100:
+            if hero.get_skill("swimming") >= -100: # FOR TESTING! do not forget to change back to >= 100
                 button:
                     xysize (240, 40)
                     yalign 0.5
@@ -169,6 +169,16 @@ label hero_ocean_skill_checks:
         $ hero.vitality -= randint (20, 30)
     return
     
+screen diving_progress_bar(oxigen, max_oxigen): # oxygen bar for diving
+    bar:
+        right_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
+        left_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
+        value oxigen
+        range max_oxigen
+        thumb None
+        xysize (300, 50)
+    
+    
 python:
     def create_loot_for_diving(additional_chance): # the function returns list of loot (sometimes empty if the player is unlucky) for diving location; additional_chance can increase or decrease the chance
         our_loot = list(i for i in items.values() if "Diving" in i.locations and dice(i.chance+additional_chance))
@@ -185,18 +195,24 @@ label city_beach_diving_checks:
         "The more your swimming skill, the deeper you can go. And the deeper you go, the more the chance to find something."
     play world "underwater.mp3"
     scene bg ocean_underwater with dissolve
-    
-    $ i = 1
-    $ j = hero.get_skill("swimming") / 50
-    while i < j:
-        $ i += 1
-        $ item = create_loot_for_diving(i*5)
-        if item:
-            $ hero.add_item(item)
-            $ our_image = ProportionalScale(item.icon, 150, 150)
-            show expression our_image at truecenter with dissolve
-            $ hero.say("You found %s." % item.id)
-            hide expression our_image with dissolve
-        else:
-            $ hero.say("You found nothing...")
+    show screen diving_progress_bar(100, 100)
+    "..."
+    show screen diving_progress_bar(90, 100)
+    "..."
+    show screen diving_progress_bar(80, 100)
+    "..."
+    hide screen diving_progress_bar
+    # $ i = 1
+    # $ j = hero.get_skill("swimming") / 50
+    # while i < j:
+        # $ i += 1
+        # $ item = create_loot_for_diving(i*5)
+        # if item:
+            # $ hero.add_item(item)
+            # $ our_image = ProportionalScale(item.icon, 150, 150)
+            # show expression our_image at truecenter with dissolve
+            # $ hero.say("You found %s." % item.id)
+            # hide expression our_image with dissolve
+        # else:
+            # $ hero.say("You found nothing...")
 jump city_beach
