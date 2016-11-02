@@ -473,9 +473,10 @@ label testing_chain_udd:
             "No":
                 return
                 
+
                 
 image wemb_test:
-    MovieLooped(channel="main_gfx_attacks", loops=2, play="content/gfx/be/webm/electricity/moz_movie.webm", mask="content/gfx/be/webm/electricity/moz_mask.webm")
+    "moz"
     pause 3.4
     yoffset 100
     pause 3.4
