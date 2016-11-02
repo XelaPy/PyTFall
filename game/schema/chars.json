@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arena_willing": { "type": "string" },
+    "attack_skills": {
+      "additionalProperties": false,
+      "properties": {
+        "FistAttack": { "type": "number" }
+      },
+      "required": [ "FistAttack" ],
+      "type": "object"
+    },
+    "basetraits": {
+      "anyOf": [
+        { "type": "string" },
+        {
+          "items": { "type": "string" },
+          "type": "array"
+        }
+      ]
+    },
+    "battle_skills": {
+      "additionalProperties": false,
+      "properties": {
+        "Fist Attack": { "type": "number" },
+        "Knife Attack": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "blocked_traits": { "type": "array" },
+    "breasts": { "type": "string" },
+    "btraits": { "type": "array" },
+    "color": { "type": "string" },
+    "desc": { "type": "string" },
+    "elements": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "full_race": { "type": "string" },
+    "fullname": { "type": "string" },
+    "gender": { "type": "string" },
+    "gold": { "type": "number" },
+    "height": { "type": "string" },
+    "id": { "type": "string" },
+    "level": { "type": "number" },
+    "location": { "type": "string" },
+    "magic_skills": {
+      "properties": {},
+      "type": "object"
+    },
+    "name": { "type": "string" },
+    "nickname": { "type": "string" },
+    "occupation": { "type": "string" },
+    "origin": { "type": "string" },
+    "personality": { "type": "string" },
+    "race": { "type": "string" },
+    "skills": {
+      "additionalProperties": false,
+      "properties": {
+        "anal": { "type": "number" },
+        "bartending": { "type": "number" },
+        "cleaning": { "type": "number" },
+        "dancing": { "type": "number" },
+        "exploration": { "type": "number" },
+        "management": { "type": "number" },
+        "oral": { "type": "number" },
+        "refinement": { "type": "number" },
+        "service": { "type": "number" },
+        "sex": { "type": "number" },
+        "strip": { "type": "number" },
+        "teaching": { "type": "number" },
+        "vaginal": { "type": "number" },
+        "waiting": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "stats": {
+      "additionalProperties": false,
+      "properties": {
+        "agility": { "type": "number" },
+        "attack": { "type": "number" },
+        "character": { "type": "number" },
+        "charisma": { "type": "number" },
+        "constitution": { "type": "number" },
+        "defence": { "type": "number" },
+        "evasion": { "type": "number" },
+        "intelligence": { "type": "number" },
+        "luck": { "type": "number" },
+        "magic": { "type": "number" },
+        "mp": { "type": "number" },
+        "reputation": { "type": "number" }
+      },
+      "required": [
+        "agility",
+        "attack",
+        "character",
+        "charisma",
+        "constitution",
+        "defence",
+        "intelligence",
+        "magic",
+        "luck"
+      ],
+      "type": "object"
+    },
+    "status": { "type": "string" },
+    "traits": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "what_color": { "type": "string" }
+  },
+  "required": [
+    "blocked_traits",
+    "gold",
+    "id",
+    "location",
+    "magic_skills",
+    "name",
+    "origin",
+    "race",
+    "skills",
+    "stats",
+    "status",
+    "traits",
+    "desc"
+  ],
+  "type": "object"
+}

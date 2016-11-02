@@ -10,7 +10,10 @@
         # Global variables and loading content:
         day = 1
         # difficulty = Difficulties()
-        
+
+        # load json schemas for validation
+        jsstor.configure(timelog=tl)
+
         # Load random names selections for rGirls:
         tl.timer("Loading: Random Name Files")
         female_first_names = load_female_first_names(200)
@@ -19,7 +22,7 @@
         random_team_names = load_team_names(50)
         
         # Load random names selections for Teams:
-        file = open(renpy.loader.transfn(content_path("db/RandomTeamNames_1.txt")))
+        file = open(content_path("db/RandomTeamNames_1.txt"))
         randomTeamNames = file.readlines()
         shuffle(randomTeamNames)
         file.close()
@@ -83,10 +86,10 @@
         del temp
         tl.timer("Loading: SimpleJobs")
         
-        tl.timer("Loading: Brothels")
-        # brothels = load_brothels() # Disabling for now, should be renamed soon to businesses.
-        # pytWhoringActs = build_whoring_acts()
-        tl.timer("Loading: Brothels")
+        tl.timer("Loading: Businesses")
+        adverts = load_json("buildings/adverts.json")
+        businesses = load_businesses(adverts)
+        tl.timer("Loading: Businesses")
         
         tl.timer("Loading: Training")
         schools = load_schools()
@@ -251,6 +254,7 @@ label dev_testing_menu:
         pytfall.arena.find_opfor()
         pytfall.arena.update_dogfights()
         tl.timer("Loading: Arena!")
+        jsstor.finish()
         
     # Call girls starting labels:
     $ all_chars = chars.values()

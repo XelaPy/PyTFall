@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adverts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "bar": { "type": "number" },
+    "desc": { "type": "string" },
+    "fame": { "type": "number" },
+    "garden": { "type": "number" },
+    "guards": { "type": "number" },
+    "id": { "type": "number" },
+    "img": { "type": "string" },
+    "mainhall": { "type": "number" },
+    "maxfame": { "type": "number" },
+    "maxrank": { "type": "number" },
+    "maxrep": { "type": "number" },
+    "maxrooms": { "type": "number" },
+    "mod": { "type": "number" },
+    "name": { "type": "string" },
+    "price": { "type": "number" },
+    "rep": { "type": "number" },
+    "room_upgrades": { "type": "number" },
+    "rooms": { "type": "number" },
+    "sq_meters": { "type": "number" },
+    "stripclub": { "type": "number" },
+    "upgrade_slots": { "type": "number" }
+  },
+  "required": [
+    "adverts",
+    "desc",
+    "fame",
+    "garden",
+    "id",
+    "img",
+    "mod",
+    "maxfame",
+    "maxrank",
+    "maxrep",
+    "maxrooms",
+    "name",
+    "price",
+    "rep",
+    "rooms",
+    "sq_meters",
+    "upgrade_slots"
+  ],
+  "type": "object"
+}

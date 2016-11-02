@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
+  "properties": {
+    "ab_traits": { "type": "array" },
+    "attack_skills": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "base_race": { "type": "string" },
+    "basetraits": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "blocked_traits": { "type": "array" },
+    "color": { "type": "string" },
+    "desc": { "type": "string" },
+    "fullname": { "type": "string" },
+    "gender": { "type": "string" },
+    "gold": { "type": "number" },
+    "id": { "type": "string" },
+    "level": { "type": "number" },
+    "location": { "type": "string" },
+    "magic_skills": { "type": "array" },
+    "name": { "type": "string" },
+    "origin": { "type": "string" },
+    "race": { "type": "string" },
+    "skills": {
+      "additionalProperties": false,
+      "properties": {
+        "cleaning": { "type": "number" },
+        "exploration": { "type": "number" },
+        "management": { "type": "number" },
+        "teaching": { "type": "number" }
+      },
+      "required": [
+        "exploration",
+        "management",
+        "teaching",
+        "cleaning"
+      ],
+      "type": "object"
+    },
+    "stats": {
+      "additionalProperties": false,
+      "properties": {
+        "agility": { "type": "number" },
+        "attack": { "type": "number" },
+        "character": { "type": "number" },
+        "charisma": { "type": "number" },
+        "constitution": { "type": "number" },
+        "defence": { "type": "number" },
+        "intelligence": { "type": "number" },
+        "luck": { "type": "number" },
+        "magic": { "type": "number" }
+      },
+      "required": [
+        "agility",
+        "attack",
+        "character",
+        "charisma",
+        "constitution",
+        "defence",
+        "intelligence",
+        "magic",
+        "luck"
+      ],
+      "type": "object"
+    },
+    "status": { "type": "string" },
+    "traits": { "type": "array" },
+    "what_color": { "type": "string" }
+  },
+  "required": [
+    "ab_traits",
+    "attack_skills",
+    "base_race",
+    "basetraits",
+    "blocked_traits",
+    "fullname",
+    "gender",
+    "gold",
+    "id",
+    "level",
+    "location",
+    "magic_skills",
+    "name",
+    "origin",
+    "race",
+    "stats",
+    "status",
+    "traits",
+    "desc"
+  ],
+  "type": "object"
+}

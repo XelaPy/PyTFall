@@ -1,0 +1,276 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
+  "properties": {
+    "add_be_spells": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "addeffects": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "addtraits": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "attacks": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "badness": { "type": "number" },
+    "badtraits": { "type": "array" },
+    "cblock": { "type": "number" },
+    "ceffect": { "type": "string" },
+    "ch_multiplier": { "type": "number" },
+    "chance": { "type": "number" },
+    "ctemp": { "type": "number" },
+    "damage_multiplier": { "type": "number" },
+    "defence_bonus": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": { "type": "number" },
+        "melee": { "type": "number" },
+        "ranged": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "defence_multiplier": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": { "type": "number" },
+        "melee": { "type": "number" },
+        "ranged": { "type": "number" },
+        "status": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "delivery_bonus": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": { "type": "number" },
+        "status": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "delivery_multiplier": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": { "type": "number" },
+        "melee": { "type": "number" },
+        "ranged": { "type": "number" },
+        "status": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "desc": { "type": "string" },
+    "dismod": { "type": "number" },
+    "eqchance": { "type": "number" },
+    "evasion_bonus": { "type": "number" },
+    "goodrait": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "goodtraits": { "type": "array" },
+    "hidden": { "type": "boolean" },
+    "icon": { "type": "string" },
+    "id": { "type": "string" },
+    "infinite": { "type": "boolean" },
+    "jump_to_label": { "type": "string" },
+    "locations": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "max": {
+      "additionalProperties": false,
+      "properties": {
+        "agility": { "type": "number" },
+        "attack": { "type": "number" },
+        "character": { "type": "number" },
+        "charisma": { "type": "number" },
+        "constitution": { "type": "number" },
+        "defence": { "type": "number" },
+        "health": { "type": "number" },
+        "intelligence": { "type": "number" },
+        "joy": { "type": "number" },
+        "luck": { "type": "number" },
+        "magic": { "type": "number" },
+        "mp": { "type": "number" },
+        "refinement": { "type": "number" },
+        "vitality": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "mdestruct": { "type": "boolean" },
+    "min": {
+      "additionalProperties": false,
+      "properties": {
+        "attack": { "type": "number" },
+        "character": { "type": "number" },
+        "joy": { "type": "number" },
+        "mp": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "mod": {
+      "additionalProperties": false,
+      "properties": {
+        "agility": { "type": "number" },
+        "attack": { "type": "number" },
+        "character": { "type": "number" },
+        "charisma": { "type": "number" },
+        "constitution": { "type": "number" },
+        "defence": { "type": "number" },
+        "disposition": { "type": "number" },
+        "exp": { "type": "number" },
+        "gold": { "type": "number" },
+        "health": { "type": "number" },
+        "intelligence": { "type": "number" },
+        "joy": { "type": "number" },
+        "luck": { "type": "number" },
+        "magic": { "type": "number" },
+        "mp": { "type": "number" },
+        "refinement": { "type": "number" },
+        "service": { "type": "number" },
+        "vitality": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "mod_skills": {
+      "additionalProperties": false,
+      "properties": {
+        "anal": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "bartending": {
+          "items": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "type": "array"
+        },
+        "bdsm": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "cleaning": {
+          "items": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "type": "array"
+        },
+        "dancing": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "exploration": {
+          "items": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "type": "array"
+        },
+        "fishing": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "group": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "management": {
+          "items": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "type": "array"
+        },
+        "oral": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "refinement": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "service": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "sex": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "strip": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "swimming": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "teaching": {
+          "items": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "type": "array"
+        },
+        "vaginal": {
+          "items": { "type": "number" },
+          "type": "array"
+        },
+        "waiting": {
+          "items": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "mreusable": { "type": "boolean" },
+    "mtemp": { "type": "number" },
+    "price": { "type": "number" },
+    "removeeffects": {
+      "items": { "type": "string" },
+      "type": "array"
+    },
+    "removetraits": { "type": "array" },
+    "sex": { "type": "string" },
+    "skillmax": { "type": "number" },
+    "slot": { "type": "string" },
+    "statmax": { "type": "number" },
+    "type": { "type": "string" }
+  },
+  "required": [
+    "chance",
+    "icon",
+    "id",
+    "price",
+    "slot",
+    "desc"
+  ],
+  "type": "object"
+}

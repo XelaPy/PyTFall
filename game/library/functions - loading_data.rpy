@@ -95,13 +95,15 @@ init -11 python:
                 for file in girlfolders: # Load data files one after another.
                     if file.startswith("data") and file.endswith(".json"):
                         kind = "pytfall_native"
-                        
+
                         # Load the file:
                         in_file = os.sep.join([dir, packfolder, file])
                         devlog.info("Loading from %s!"%str(in_file)) # Str call to avoid unicode
                         with open(in_file) as f:
                             ugirls = json.load(f)
-                            
+
+                        jsstor.add(path, ugirls, in_file)
+
                         # Apply the content of the file to the character:
                         for gd in ugirls: # We go over each dict one mainaining correct order of application:
                             
@@ -373,7 +375,8 @@ init -11 python:
                         devlog.info("Loading from %s!"%str(in_file)) # Str call to avoid unicode
                         with open(in_file) as f:
                             rgirls = json.load(f)
-                            
+
+                        jsstor.add("randomgirls", rgirls, in_file)
                         for gd in rgirls:
                             # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
                             # rg = rChar()
@@ -411,6 +414,7 @@ init -11 python:
         in_file = content_path("db/arena_fighters.json")
         with open(in_file) as f:
             content = json.load(f)
+        jsstor.add("arena_fighters", content, in_file)
         ac = dict()
         for fighter in content:
             f = ArenaFighter()
@@ -448,7 +452,8 @@ init -11 python:
         mobs = dict()
         with open(in_file) as f:
             content = json.load(f)
-        
+
+        jsstor.add("mobs", content, in_file)
         for mob in content:
             if "id" not in mob:
                 mob["id"] = mob["name"]
@@ -456,21 +461,24 @@ init -11 python:
             mobs[mob["id"]] = mob
         return mobs
 
-    def load_brothels():
-        # Outdated, may not be used in the future...
+    def load_businesses(adverts):
         # Load json content
         in_file = content_path('db/buildings.json')
         with open(in_file) as f:
             content = json.load(f)
+
+        jsstor.add("buildings", content, in_file)
         # Populate into brothel objects
-        brothels = dict()
+        businesses = dict()
         for building in content:
-            b = Brothel()
-            for attr in building:
-                b.__dict__[attr] = building[attr]
-            b.init()
-            brothels[b.id] = b
-        return brothels
+            b = Building()
+            for attr, entry in building.iteritems():
+                if attr == "adverts":
+                    b.add_adverts((n, adverts[n]) for n in entry)
+                else:
+                    b.__dict__[attr] = entry
+            businesses[b.id] = b
+        return businesses
 
     def load_tiles():
         # Load json content
@@ -478,6 +486,7 @@ init -11 python:
         with open(in_file) as f:
             content = json.load(f)
 
+        jsstor.add("tiles", content, in_file)
         tiles = {}
         for tile in content:
             t = Tile()
@@ -494,6 +503,10 @@ init -11 python:
         in_file = content_path("/".join(["db", file]))
         with open(in_file) as f:
             content = json.load(f)
+        try:
+            jsstor.add("misc", content, in_file)
+        except Exception:
+            devlog.warn("could not add misc "+file+" to jsstor")
         return content
         
     def load_traits():
@@ -507,6 +520,7 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
+                jsstor.add("traits", content, in_file)
         traits = dict()
         for trait in content:
             t = Trait()
@@ -523,6 +537,7 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))            
+                jsstor.add("fg_areas", content, in_file)
         areas = dict()
         for area in content:
             a = FG_Area()
@@ -543,6 +558,7 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
+                jsstor.add("items", content, in_file)
                     
         for item in content:
             iteminst = Item()
@@ -569,6 +585,8 @@ init -11 python:
                 in_file = content_path("/".join(["db", file]))
                 with open(in_file) as f:
                     unprocessed = json.load(f)
+
+                jsstor.add("gifts", unprocessed, in_file)
                 for key in unprocessed:
                     item = Item()
                     item.slot = "gift"

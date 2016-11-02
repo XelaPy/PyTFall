@@ -1,0 +1,554 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
+  "properties": {
+    "area": { "type": "string" },
+    "cash_limit": { "type": "number" },
+    "desc": { "type": "string" },
+    "girls": {
+      "additionalProperties": false,
+      "properties": {
+        "Angel": { "type": "number" }
+      },
+      "required": [ "Angel" ],
+      "type": "object"
+    },
+    "hazard": {
+      "additionalProperties": false,
+      "properties": {
+        "health": { "type": "number" },
+        "mp": { "type": "number" },
+        "vitality": { "type": "number" }
+      },
+      "required": [
+        "health",
+        "mp",
+        "vitality"
+      ],
+      "type": "object"
+    },
+    "id": { "type": "string" },
+    "img": { "type": "string" },
+    "items": {
+      "additionalProperties": false,
+      "properties": {
+        "Arcane Club": { "type": "number" },
+        "Balanced Claws": { "type": "number" },
+        "Bauble Necklace": { "type": "number" },
+        "Bestial Ring": { "type": "number" },
+        "Bone Knife": { "type": "number" },
+        "Bullwhip": { "type": "number" },
+        "Casual Clothes": { "type": "number" },
+        "Claws": { "type": "number" },
+        "Cold Medicine": { "type": "number" },
+        "Concentration Orb": { "type": "number" },
+        "Crystal Shard": { "type": "number" },
+        "Crystal Wand": { "type": "number" },
+        "Dagger": { "type": "number" },
+        "Darksome Trophy": { "type": "number" },
+        "Exotic Bouquet": { "type": "number" },
+        "Forest Brooch": { "type": "number" },
+        "Frost Fairy": { "type": "number" },
+        "Frozen Flower": { "type": "number" },
+        "Fur Coat": { "type": "number" },
+        "Fur Slippers": { "type": "number" },
+        "Glass Cane": { "type": "number" },
+        "Gloves of Concentration": { "type": "number" },
+        "Good Luck Charm": { "type": "number" },
+        "Great Axe": { "type": "number" },
+        "Health Charm": { "type": "number" },
+        "Huntsman Hat": { "type": "number" },
+        "Ice Daggers": { "type": "number" },
+        "Ice Shoes": { "type": "number" },
+        "Icicle Staff": { "type": "number" },
+        "Icy Sword": { "type": "number" },
+        "Leather Armor": { "type": "number" },
+        "Leather Boots": { "type": "number" },
+        "Leather Cape": { "type": "number" },
+        "Leather Gloves": { "type": "number" },
+        "Leather Kilt": { "type": "number" },
+        "Linen Cape": { "type": "number" },
+        "Linen Capelet": { "type": "number" },
+        "Linen Dress": { "type": "number" },
+        "Liquid Magic": { "type": "number" },
+        "Long Sword": { "type": "number" },
+        "Mallet": { "type": "number" },
+        "Mana Charm": { "type": "number" },
+        "Minor Reflector": { "type": "number" },
+        "Obsidian Choker": { "type": "number" },
+        "Ocarina": { "type": "number" },
+        "Organic Lingerie": { "type": "number" },
+        "Ornate Gladius": { "type": "number" },
+        "Peasant Gown": { "type": "number" },
+        "Pet Collar": { "type": "number" },
+        "Pitchfork": { "type": "number" },
+        "Rainbow Ring": { "type": "number" },
+        "Rogue Cape": { "type": "number" },
+        "Running Boots": { "type": "number" },
+        "Scarf": { "type": "number" },
+        "Short Bow": { "type": "number" },
+        "Short Sword": { "type": "number" },
+        "Silver Necklace": { "type": "number" },
+        "Slave Shackles": { "type": "number" },
+        "Slippers": { "type": "number" },
+        "Snow-knit Gown": { "type": "number" },
+        "Spiked Collar": { "type": "number" },
+        "Tanned Leather Boots": { "type": "number" },
+        "Tanned Leather Gloves": { "type": "number" },
+        "Viny-patterned Corset": { "type": "number" },
+        "Wand of Concentration": { "type": "number" },
+        "War Axe": { "type": "number" },
+        "Water of Life": { "type": "number" },
+        "Wild Flowers": { "type": "number" },
+        "Woodcutting Axe": { "type": "number" },
+        "Wooden Club": { "type": "number" },
+        "Worn Clothes": { "type": "number" }
+      },
+      "type": "object"
+    },
+    "items_limit": { "type": "number" },
+    "main": { "type": "boolean" },
+    "mobs": {
+      "additionalProperties": false,
+      "properties": {
+        "Bear": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Black Wolf": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Dark Mage": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Druid": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Dryad": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Earth Elemental": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Feonix": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Frost Giant": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Frozen Heart": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Goblin Archer": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Goblin Warrior": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Ice Golem": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Ice Maiden": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Link Wolf": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Orc": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Phantasm": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Polar Bear": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Skeleton": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Skeleton Warrior": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Tundra Wolf": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Werewolf": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Wikkawak": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Wolf": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        },
+        "Yeti": {
+          "items": [
+            { "type": "number" },
+            {
+              "items": [
+                { "type": "number" },
+                { "type": "number" },
+                { "type": "number" }
+              ],
+              "type": "array"
+            },
+            {
+              "items": { "type": "number" },
+              "type": "array"
+            }
+          ],
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "travel_time": { "type": "number" },
+    "unlocked": { "type": "boolean" },
+    "unlocks": {
+      "additionalProperties": false,
+      "properties": {
+        "Burial Grounds - lv 1": { "type": "number" },
+        "Burial Grounds - lv 2": { "type": "number" },
+        "Cursed Forest lvl-1": { "type": "number" },
+        "Deep Northern Forest": { "type": "number" },
+        "Frozen Passage - Entrance": { "type": "number" },
+        "Frozen Passage - lv 1": { "type": "number" },
+        "Frozen Passage - lv 2": { "type": "number" },
+        "Hearth of the Forest": { "type": "number" },
+        "High Pass": { "type": "number" },
+        "Mountain Pass": { "type": "number" }
+      },
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "img",
+    "unlocked"
+  ],
+  "type": "object"
+}

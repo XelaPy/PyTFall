@@ -5,17 +5,47 @@
 	"max": {"character": -50}
 	},
 	{
+	"id": "Passive",
+	"desc": "She doesn't react, no manifestations of emotion or feeling.",
+	"max": {"character": -40}
+	},
+	{
+	"id": "Puppet-like",
+	"desc": "She only responds to external stimuli.",
+	"max": {"character": -25}
+	},
+	{
+	"id": "Slavish",
+	"desc": "She behaves abjectly submissive.",
+	"max": {"character": -5}
+	},
+	{
+	"id": "Servile",
+	"desc": "Her behavior is quite submissive"
+	},
+	{
+	"id": "Tame",
+	"desc": "She lost all will to fight."
+	},
+	{
+	"id": "Docile",
+	"desc": "She is readily trained and taught."
+	},
+	{
+	"id": "Trained",
+	"desc": "Her behaviour is almost flawless."
+	},
+	{
+	"id": "Disciplined",
+	"desc": "She behaves just like she should."
+	},
+	{
 	"id": "Obedient",
-	"desc": "She has been very obedient during her training lately."
+	"desc": "She has been very compliant during her training lately."
 	},
 	{
-	"id": "Disobedient",
-	"desc": "She has been very disobedient during her training lately."
-	},
-	{
-	"id": "Restrained",
-	"desc": "She has been restrained to prevent her from running away.",
-	"trEffMax": 5
+	"id": "Willing",
+	"desc": "She really tries to do her best."
 	},
 	{
 	"id": "Easy to Reward",
@@ -23,8 +53,72 @@
 	"trEffMax": 5
 	},
 	{
+	"id": "Amenable",
+	"desc": "She seems more positively responsive."
+	},
+	{
+	"id": "Cooperating",
+	"desc": "She does what you want, that's all."
+	},
+	{
+	"id": "Reluctant",
+	"desc": "She does what you want, but it takes some coaching."
+	},
+	{
+	"id": "Manageable",
+	"desc": "She usually goes without a fight now."
+	},
+	{
+	"id": "Hesitant",
+	"desc": "She doesn't trust you."
+	},
+	{
+	"id": "Self-willed",
+	"desc": "Sometimes she listens, but not always."
+	},
+	{
+	"id": "Mischievous",
+	"desc": "There is still a little resistance left in her."
+	},
+	{
+	"id": "Involuntary",
+	"desc": "She's always complaining."
+	},
+	{
+	"id": "Uncompliant",
+	"desc": "She refuses more often than not."
+	},
+	{
+	"id": "Naughty",
+	"desc": "You'd better keep an eye on her."
+	},
+	{
+	"id": "Restrained",
+	"desc": "She has been restrained to prevent her from running away.",
+	"trEffMax": 5
+	},
+	{
+	"id": "Insubordinate",
+	"desc": "She refuses to see you as her master."
+	},
+	{
+	"id": "Disobedient",
+	"desc": "She just won't even listen to you."
+	},
+	{
 	"id": "Easy to Punish",
 	"desc": "She is carrying equipment that makes it easier to punish her.",
 	"trEffMax": 5
-	}
-]
+	},
+	{
+	"id": "Misbehaving",
+	"desc": "She'll hurt you if she can get away with it."
+	},
+	{
+	"id": "Resisting",
+	"desc": "She may take her chances."
+	},
+	{
+	"id": "Violent",
+	"desc": "Just stay away from her. Far away."
+	}]

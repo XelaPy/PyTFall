@@ -590,9 +590,9 @@ init -9 python:
                  
             for b in businesses:
                 tax += int(b.price*0.04)
-            for girl in char.girls:
-                if girl.status == "slave":
-                    tax += int(girl.fin.get_price()*0.05)
+            for ch in char.chars:
+                if ch.status == "slave":
+                    tax += int(ch.fin.get_price()*0.05)
                 
             return tax
         # ================================>
@@ -654,13 +654,13 @@ init -9 python:
             """
             Settle wages between girls and player.
             Called during next day method per each individual girl.
-            Right now being used for Brothels only, all FG profit goes directly into MC's pockets.
+            Right now being used for Businesses only, all FG profit goes directly into MC's pockets.
             """
             char = self.instance
             
             if self.wage_conditions():
                 total_wage = sum(self.daily_income_log["work"].values())
-                hero.add_money(total_wage, reason="Brothels")
+                hero.add_money(total_wage, reason="Businesses")
                 
                 if char.status != "slave":
                     if char.wagemod >= 100:
@@ -3257,9 +3257,9 @@ init -9 python:
                 s_tax = 0
                 for b in businesses:
                     b_tax += int(b.price*0.04)
-                for girl in self.girls:
-                    if girl.status == "slave":
-                        s_tax += int(girl.fin.get_price()*0.05)
+                for char in self.chars:
+                    if char.status == "slave":
+                        s_tax += int(char.fin.get_price()*0.05)
                 if b_tax:        
                     txt += "Your property taxes for your real estate are: %d Gold. " % b_tax
                 if s_tax:
@@ -3286,9 +3286,9 @@ init -9 python:
                 if total_debt > 50000:
                     txt += " {color=[red]}... And... your're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated :("
                     all_properties = list()    
-                    for girl in hero.chars:
-                        if girl.status == "slave":
-                            all_properties.append(girl)
+                    for char in hero.chars:
+                        if char.status == "slave":
+                            all_properties.append(char)
                     for b in businesses:
                         all_properties.append(b)
                     shuffle(all_properties)
@@ -3299,10 +3299,10 @@ init -9 python:
                             price = confiscate.price
                             if self.location == confiscate:
                                 self.location = hero
-                            for girl in self.girls:
-                                if girl.location == confiscate:
-                                    girl.location = hero
-                                    girl.action = None
+                            for char in self.chars:
+                                if char.location == confiscate:
+                                    char.location = hero
+                                    char.action = None
                             self.remove_brothel(confiscate)
                         elif isinstance(confiscate, Char):
                             price = confiscate.fin.get_price()
