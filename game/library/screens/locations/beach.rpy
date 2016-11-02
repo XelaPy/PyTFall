@@ -1,3 +1,6 @@
+init:
+    $ oxigen = max_oxigen = 0
+
 label city_beach:
     $ gm.enter_location(goodtraits=["Energetic", "Exhibitionist"], badtraits=["Scars", "Undead", "Furry", "Monster", "Not Human"], curious_priority=False)
     # Music related:
@@ -175,8 +178,8 @@ transform alpha_dissolve:
     on hide:
         linear 0.5 alpha 0
     
-screen diving_progress_bar(oxigen, max_oxigen): # oxygen bar for diving
-    timer 1 repeat True action If(oxigen > 0, true=SetVariable('oxigen', oxigen - 1), false=[Hide('diving_progress_bar'), Jump('city_beach')])
+screen diving_progress_bar: # oxygen bar for diving
+    timer 1.0 repeat True action If(oxigen > 0, true=SetVariable('oxigen', oxigen - 1), false=[Hide('diving_progress_bar'), Jump('city_beach')])
     bar:
         right_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
         left_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
@@ -203,7 +206,9 @@ label city_beach_diving_checks:
         "The more your swimming skill, the deeper you can go. And the deeper you go, the more the chance to find something."
     play world "underwater.mp3"
     scene bg ocean_underwater with dissolve
-    show screen diving_progress_bar(100, 100)
+    $ oxygen = max_oxigen = 300
+    show screen diving_progress_bar
+    "..."
 
     # $ i = 1
     # $ j = hero.get_skill("swimming") / 50
