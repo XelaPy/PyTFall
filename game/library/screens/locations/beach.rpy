@@ -1,3 +1,6 @@
+init:
+    $ oxigen = max_oxigen = 0
+
 label city_beach:
     $ gm.enter_location(goodtraits=["Energetic", "Exhibitionist"], badtraits=["Scars", "Undead", "Furry", "Monster", "Not Human"], curious_priority=False)
     # Music related:
@@ -101,7 +104,7 @@ screen city_beach_swim():
                 yalign 0.5
                 action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
                 text "Swim" size 15
-            if hero.get_skill("swimming") >= 100:
+            if hero.get_skill("swimming") >= -100: # FOR TESTING! do not forget to change back to >= 100
                 button:
                     xysize (240, 40)
                     yalign 0.5
@@ -168,3 +171,56 @@ label hero_ocean_skill_checks:
         $ hero.swimming += randint(6, 10)
         $ hero.vitality -= randint (20, 30)
     return
+    
+transform alpha_dissolve:
+    alpha 0.0
+    linear 0.5 alpha 1.0
+    on hide:
+        linear 0.5 alpha 0
+    
+screen diving_progress_bar: # oxygen bar for diving
+    timer 1.0 repeat True action If(oxigen > 0, true=SetVariable('oxigen', oxigen - 1), false=[Hide('diving_progress_bar'), Jump('city_beach')])
+    bar:
+        right_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
+        left_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
+        value oxigen
+        range max_oxigen
+        thumb None
+        xysize (300, 50)
+        at alpha_dissolve
+    
+    
+python:
+    def create_loot_for_diving(additional_chance): # the function returns list of loot (sometimes empty if the player is unlucky) for diving location; additional_chance can increase or decrease the chance
+        our_loot = list(i for i in items.values() if "Diving" in i.locations and dice(i.chance+additional_chance))
+        if our_loot:
+            item = random.choice(our_loot)
+            return item
+        else:
+            return None
+    
+label city_beach_diving_checks:
+    if not global_flags.flag('diving_city_beach'):
+        $ global_flags.set_flag('diving_city_beach')
+        "With high enough swimming skill you can try diving in the ocean. Every action under water consumes the oxygen. Once you run out of it, the diving is over. If it will happen very deep, the game is over too."
+        "The more your swimming skill, the deeper you can go. And the deeper you go, the more the chance to find something."
+    play world "underwater.mp3"
+    scene bg ocean_underwater with dissolve
+    $ oxygen = max_oxigen = 300
+    show screen diving_progress_bar
+    "..."
+
+    # $ i = 1
+    # $ j = hero.get_skill("swimming") / 50
+    # while i < j:
+        # $ i += 1
+        # $ item = create_loot_for_diving(i*5)
+        # if item:
+            # $ hero.add_item(item)
+            # $ our_image = ProportionalScale(item.icon, 150, 150)
+            # show expression our_image at truecenter with dissolve
+            # $ hero.say("You found %s." % item.id)
+            # hide expression our_image with dissolve
+        # else:
+            # $ hero.say("You found nothing...")
+jump city_beach
