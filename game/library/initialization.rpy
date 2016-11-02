@@ -26,6 +26,7 @@ init -999 python:
     import simpy
     import cPickle as pickle
     import bisect
+    import jsonschema
                 
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according
@@ -291,23 +292,27 @@ init -999 python:
     def dd_cursor_position(st, at):
         x, y = renpy.get_mouse_pos()
         return Text("{size=-5}%d - %d"%(x, y)), .1
+
     class JasonSchemator(object):
-        action = "skip"
+        action = "skip" # the default: no validation.
 
         def configure(self, timelog=None):
+            """ load schemas from schema directory """
+
             if self.action != "skip":
                 self._tl = timelog
-                self._s = {}
+                self._validator = {}
+                self._schema = {}
 
                 for fin in listdir("schema"):
-
                     filename = renpy.loader.transfn("schema"+os.path.sep+fin)
 
                     if self.action == "generate":
                         devlog.warn("schema already exists for "+filename+" (remove beforehand to get an updated one)")
                     else:
-                        with open(filename) as f:
-                            self._s[fin[:-5]] = json.load(f)
+                        name = fin[:-5]
+                        self._schema[name] = json.loads(open(filename, 'rb').read().decode("utf-8"))
+                        self._validator[name] = jsonschema.Draft4Validator(self._schema[name])
 
         def _get_schema(self, name):
             return renpy.loader.transfn("schema"+os.path.sep+"{0}.json".format(name))
@@ -316,29 +321,23 @@ init -999 python:
 
             if self.action == "validate":
 
-                if not name in self._s:
+                if not name in self._validator:
                     devlog.warn("No schema yet to validate a "+name+" json file")
                 else:
-
-                    from jsonschema import validate, Draft4Validator
-                    schemafile = self._get_schema(name)
                     if self._tl:
                         time_msg = "Validating "+filename.rsplit(os.path.sep+"game"+os.path.sep, 1)[1]
                         self._tl.timer(time_msg)
-                    data = open(schemafile, 'rb').read()
-                    schema = json.loads(data.decode("utf-8"))
 
                     for cn in content:
                         try:
-                            validate(cn, schema)
-                            continue
+                            self._validator[name].validate(cn)
                         except Exception, e:
                             devlog.warn("Did not validate as "+name)
 
-                            v = Draft4Validator(schema)
-                            errors = sorted(v.iter_errors(cn), key=lambda e: e.path)
+                            errors = sorted(self._validator[name].iter_errors(cn), key=lambda e: e.path)
                             for error in errors:
                                 devlog.warn(error.message)
+
                                 for suberror in sorted(error.context, key=lambda e: e.schema_path):
                                     devlog.warn(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
 
@@ -347,16 +346,17 @@ init -999 python:
 
             elif self.action == "generate":
                 import skinfer
-                if name in self._s:
-                    self._s[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._s[name])
+                if name in self._validator:
+                    self._schema[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._schema[name])
                 else:
-                    self._s[name] = skinfer.infer_schema(content)
+                    self._schema[name] = skinfer.infer_schema(content)
 
         def finish(self):
             if self.action == "generate":
-                for name in self._s.keys():
+                for name in self._schema.keys():
                     with open(self._get_schema(name), 'w') as outfile:
-                        json.dump(self._s[name], outfile, sort_keys = True, indent = 2, ensure_ascii=False, separators=(',', ': '))
+                        json.dump(self._schema[name], outfile, sort_keys=True, indent=2,
+                                  ensure_ascii=False, separators=(',', ': '))
 
     # set to False to update existing json files in schema directory, None skips validation and writing
     jsstor = JasonSchemator()
