@@ -169,7 +169,14 @@ label hero_ocean_skill_checks:
         $ hero.vitality -= randint (20, 30)
     return
     
+transform alpha_dissolve:
+    alpha 0.0
+    linear 0.5 alpha 1.0
+    on hide:
+        linear 0.5 alpha 0
+    
 screen diving_progress_bar(oxigen, max_oxigen): # oxygen bar for diving
+    timer 1 repeat True action If(oxigen > 0, true=SetVariable('oxigen', oxigen - 1), false=[Hide('diving_progress_bar'), Jump('city_beach')])
     bar:
         right_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
         left_bar ProportionalScale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
@@ -177,6 +184,7 @@ screen diving_progress_bar(oxigen, max_oxigen): # oxygen bar for diving
         range max_oxigen
         thumb None
         xysize (300, 50)
+        at alpha_dissolve
     
     
 python:
@@ -196,12 +204,7 @@ label city_beach_diving_checks:
     play world "underwater.mp3"
     scene bg ocean_underwater with dissolve
     show screen diving_progress_bar(100, 100)
-    "..."
-    show screen diving_progress_bar(90, 100)
-    "..."
-    show screen diving_progress_bar(80, 100)
-    "..."
-    hide screen diving_progress_bar
+
     # $ i = 1
     # $ j = hero.get_skill("swimming") / 50
     # while i < j:
