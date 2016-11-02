@@ -503,8 +503,10 @@ init -11 python:
         in_file = content_path("/".join(["db", file]))
         with open(in_file) as f:
             content = json.load(f)
-
-        jsstor.add("misc", content, in_file)
+        try:
+            jsstor.add("misc", content, in_file)
+        except Exception:
+            devlog.warn("could not add misc "+file+" to jsstor")
         return content
         
     def load_traits():
