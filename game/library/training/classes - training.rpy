@@ -1718,7 +1718,7 @@ init -9 python:
             if not self.chars_list:
                 renpy.hide_screen("slave_shopping")
         
-        def can_escape(self, girl, location, guards=None, girlmod=None, pos_traits=None, neg_traits=["Restrained"], use_be=True, simulate=True, be_kwargs=dict()):
+        def can_escape(self, girl, location, guards=None, girlmod=None, pos_traits=None, neg_traits=["Restrained"], use_be=True, simulate=True, be_kwargs=None):
             """
             Calculates whether a girl can the location.
             girl = The girl check.
@@ -1739,6 +1739,7 @@ init -9 python:
                 if "disposition" not in girlmod: girlmod["dosposition"] = 0
                 if "exp" not in girlmod: girlmod["exp"] = 0
             
+            be_kwargs = dict() if be_kwargs is None else be_kwargs
             # Get traits
             p = 0
             if pos_traits:
