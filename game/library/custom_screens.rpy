@@ -1041,20 +1041,20 @@ init: # PyTFall:
                 anchor anchor
             text text
         
-    screen hidden_area(areas={}):
+    screen hidden_area(items=()):
         on "hide":
             action SetField(config, "mouse", None)
             
         # randomly places a "hidden" rectangular area(s) on the screen. Areas are actually plain buttons with super low alpha...
-        # Expects a dict, like: {"hidden_cache_1": ((100, 100), (.1, .5)), "hidden_cache_2": ((50, 50), (.54, .10)), } If cache is found, screen (which should be called) will return: "hidden_cache_1" string. Tuple is the size in pixels.
+        # Expects a list/tuple, like: (["hidden_cache_1", (100, 100), (.1, .5)], ["hidden_cache_2", (50, 50), (.54, .10)] If cache is found, screen (which should be called) will return: "hidden_cache_1" string. Tuple is the size in pixels.
         # Data is randomized outside of this screen!
-        for area, args in areas.iteritems():
+        for item, size, align in items:
             button:
-                align args[1]
-                background Transform(Solid("#000000", xysize=args[0]), alpha=.01)
-                xysize args[0]
+                align align
+                background Transform(Solid("#000000", xysize=size), alpha=.01)
+                xysize size
                 focus_mask True
-                action Return(area)
+                action Return(item)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
                 unhovered SetField(config, "mouse", None)
                 
