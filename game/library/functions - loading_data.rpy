@@ -474,7 +474,7 @@ init -11 python:
             b = Building()
             for attr, entry in building.iteritems():
                 if attr == "adverts":
-                    b.add_adverts((n, adverts[n]) for n in entry)
+                    b.add_adverts([adv for adv in adverts if adv['name'] in entry])
                 else:
                     b.__dict__[attr] = entry
             businesses[b.id] = b
@@ -503,10 +503,8 @@ init -11 python:
         in_file = content_path("/".join(["db", file]))
         with open(in_file) as f:
             content = json.load(f)
-        try:
-            jsstor.add("misc", content, in_file)
-        except Exception:
-            devlog.warn("could not add misc "+file+" to jsstor")
+
+        jsstor.add("misc", content, in_file)
         return content
         
     def load_traits():
