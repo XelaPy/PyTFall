@@ -209,26 +209,15 @@ label city_beach_diving_checks:
     "..."
     python:
         dive_list = []
-        while len(dive_list) < 5:
-            our_loot = list(i for i in items.values() if "Diving" in i.locations and dice(i.chance))
-            if our_loot:
-                item = random.choice(our_loot)
-            else:
-                item = None
-            dive_list.append(item)
-        underwater_loot = {}
-        i = 0
-        while len(underwater_loot) < 5:
-            m = random.random()
-            n = random.random()
-            underwater_loot[i] = [(100, 100), (m, n)]
-            i += 1
-        item = renpy.call_screen("hidden_area", underwater_loot)
-    if dive_list[item]:
-        $ hero.add_item(dive_list[item])
-        $ our_image = ProportionalScale(dive_list[item].icon, 150, 150)
+        our_loot = list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [None]
+        underwater_loot = {choice(our_loot): [(100, 100), (random.random(), random.random())] for i in range(5)}
+        
+    $ item = renpy.call_screen("hidden_area", underwater_loot)
+    if item:
+        $ hero.add_item(item)
+        $ our_image = ProportionalScale(item.icon, 150, 150)
         show expression our_image at truecenter with dissolve
-        $ hero.say("I caught %s!" % dive_list[item].id)
+        $ hero.say("I caught %s!" % item.id)
     else:
         $ hero.say("There is nothing there.")
 
