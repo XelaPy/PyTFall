@@ -294,8 +294,8 @@ init -999 python:
         return Text("{size=-5}%d - %d"%(x, y)), .1
 
     class JasonSchemator(object):
-        def __init__(self, action=None)
-            action = action if action else "skip" # the default: no validation.
+        def __init__(self, action=None):
+            self.action = action if action is not None else "skip" # the default: no validation.
 
         def configure(self, timelog=None):
             """ load schemas from schema directory """
@@ -304,6 +304,7 @@ init -999 python:
                 self._tl = timelog
                 self._validator = {}
                 self._schema = {}
+                self._err = []
 
                 for fin in listdir("schema"):
                     filename = renpy.loader.transfn("schema"+os.path.sep+fin)
@@ -315,32 +316,36 @@ init -999 python:
                         self._schema[name] = json.loads(open(filename, 'rb').read().decode("utf-8"))
                         self._validator[name] = jsonschema.Draft4Validator(self._schema[name])
 
-        def _get_schema(self, name):
-            return renpy.loader.transfn("schema"+os.path.sep+"{0}.json".format(name))
+        def err(self, err, file=None):
+            devlog.warn(err)
+            if file is not None:
+                err = err + ":"+os.linesep+renpy.loader.transfn(file)
+            self._err.append(err)
 
         def add(self, name, content, filename=""):
 
-            if self.action == "validate":
+            if self.action == "validate" or self.action == "strict":
 
                 if not name in self._validator:
-                    devlog.warn("No schema yet to validate a "+name+" json file")
+                    self.err("No schema yet to validate a "+name+" json file")
                 else:
+                    file = filename.rsplit(os.path.sep+"game"+os.path.sep, 1)[1]
                     if self._tl:
-                        time_msg = "Validating "+filename.rsplit(os.path.sep+"game"+os.path.sep, 1)[1]
+                        time_msg = "Validating "+file
                         self._tl.timer(time_msg)
 
                     for cn in content:
                         try:
                             self._validator[name].validate(cn)
                         except Exception, e:
-                            devlog.warn("Did not validate as "+name)
+                            self.err("Did not validate as "+name, file)
 
                             errors = sorted(self._validator[name].iter_errors(cn), key=lambda e: e.path)
                             for error in errors:
-                                devlog.warn(error.message)
+                                self.err(error.message)
 
                                 for suberror in sorted(error.context, key=lambda e: e.schema_path):
-                                    devlog.warn(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
+                                    self.err(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
 
                     if self._tl:
                         self._tl.timer(time_msg)
@@ -355,9 +360,13 @@ init -999 python:
         def finish(self):
             if self.action == "generate":
                 for name in self._schema.keys():
-                    with open(self._get_schema(name), 'w') as outfile:
-                        json.dump(self._schema[name], outfile, sort_keys=True, indent=2,
-                                  ensure_ascii=False, separators=(',', ': '))
+                    file = renpy.loader.transfn("schema")+os.path.sep+"{0}.json".format(name)
+                    if not os.path.isfile(file):
+                        with open(file, 'w') as outfile:
+                            json.dump(self._schema[name], outfile, sort_keys=True, indent=2,
+                                      ensure_ascii=False, separators=(',', ': '))
+            elif self.action == "strict" and len(self._err) > 0:
+                renpy.error(os.linesep.join(self._err))
 
     # set to False to update existing json files in schema directory, None skips validation and writing
     jsstor = JasonSchemator()
