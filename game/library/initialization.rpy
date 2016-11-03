@@ -352,8 +352,8 @@ init -999 python:
 
             elif self.action == "generate":
                 import skinfer
-                if name in self._validator:
-                    self._schema[name] = skinfer.merge_schema(skinfer.infer_schema(content), self._schema[name])
+                if name in self._schema:
+                    self._schema[name] = skinfer.merge_schema(self._schema[name], skinfer.infer_schema(content))
                 else:
                     self._schema[name] = skinfer.infer_schema(content)
 
