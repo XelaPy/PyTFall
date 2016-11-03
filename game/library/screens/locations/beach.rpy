@@ -179,7 +179,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
     default oxigen = o2
     default max_oxigen = max_o2
     
-    timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=Return())
+    timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=[Hide('diving_progress_bar'), Hide('hidden_area'), Jump('city_beach')])
     
     if config.debug:
         vbox:
@@ -204,30 +204,20 @@ label city_beach_diving_checks:
         "With high enough swimming skill you can try diving in the ocean. Every action under water consumes the oxygen. Once you run out of it, the diving is over. If it will happen very deep, the game is over too."
         "The more your swimming skill, the deeper you can go. And the deeper you go, the more the chance to find something."
     play world "underwater.mp3"
-    scene bg ocean_underwater with dissolve
-    # call screen diving_progress_bar(300, 300)
-    "..."
-    $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [None]), (100, 100), (random.random(), random.random())] for i in range(5))
-    $ item = renpy.call_screen("hidden_area", underwater_loot)
-    if item:
-        $ hero.add_item(item)
-        $ our_image = ProportionalScale(item.icon, 150, 150)
-        show expression our_image at truecenter with dissolve
-        $ hero.say("I caught %s!" % item.id)
-    else:
-        $ hero.say("There is nothing there.")
-
-    # $ i = 1
-    # $ j = hero.get_skill("swimming") / 50
-    # while i < j:
-        # $ i += 1
-        # $ item = create_loot_for_diving(i*5)
-        # if item:
-            # $ hero.add_item(item)
-            # $ our_image = ProportionalScale(item.icon, 150, 150)
-            # show expression our_image at truecenter with dissolve
-            # $ hero.say("You found %s." % item.id)
-            # hide expression our_image with dissolve
-        # else:
-            # $ hero.say("You found nothing...")
+    scene bg ocean_underwater_1 with dissolve
+    $ i = int(hero.get_skill("swimming")+1)
+    show screen diving_progress_bar(i, i)
+    while hero.vitality > 10:
+        $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [None]), (100, 100), (random.random(), random.random())] for i in range(5))
+        $ item = renpy.call_screen("hidden_area", underwater_loot)
+        if item:
+            $ hero.add_item(item)
+            $ our_image = ProportionalScale(item.icon, 150, 150)
+            show expression our_image at truecenter with dissolve
+            $ hero.say("I caught %s!" % item.id)
+            hide expression our_image with dissolve
+        else:
+            $ hero.say("There is nothing there.")
+        $ hero.vitality -= randint(5, 10) 
+    hide screen diving_progress_bar
     jump city_beach
