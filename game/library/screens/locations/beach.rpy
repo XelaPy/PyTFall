@@ -197,14 +197,6 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         at alpha_dissolve
     
     
-python:
-    def create_loot_for_diving(additional_chance): # the function returns list of loot (sometimes empty if the player is unlucky) for diving location; additional_chance can increase or decrease the chance
-        our_loot = list(i for i in items.values() if "Diving" in i.locations and dice(i.chance+additional_chance))
-        if our_loot:
-            item = random.choice(our_loot)
-            return item
-        else:
-            return None
     
 label city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
@@ -213,8 +205,32 @@ label city_beach_diving_checks:
         "The more your swimming skill, the deeper you can go. And the deeper you go, the more the chance to find something."
     play world "underwater.mp3"
     scene bg ocean_underwater with dissolve
-    call screen diving_progress_bar(300, 300)
+    # call screen diving_progress_bar(300, 300)
     "..."
+    python:
+        dive_list = []
+        while len(dive_list) < 5:
+            our_loot = list(i for i in items.values() if "Diving" in i.locations and dice(i.chance))
+            if our_loot:
+                item = random.choice(our_loot)
+            else:
+                item = None
+            dive_list.append(item)
+        underwater_loot = {}
+        i = 0
+        while len(underwater_loot) < 5:
+            m = random.random()
+            n = random.random()
+            underwater_loot[i] = [(100, 100), (m, n)]
+            i += 1
+        item = renpy.call_screen("hidden_area", underwater_loot)
+    if dive_list[item]:
+        $ hero.add_item(dive_list[item])
+        $ our_image = ProportionalScale(dive_list[item].icon, 150, 150)
+        show expression our_image at truecenter with dissolve
+        $ hero.say("I caught %s!" % dive_list[item].id)
+    else:
+        $ hero.say("There is nothing there.")
 
     # $ i = 1
     # $ j = hero.get_skill("swimming") / 50
@@ -229,4 +245,4 @@ label city_beach_diving_checks:
             # hide expression our_image with dissolve
         # else:
             # $ hero.say("You found nothing...")
-jump city_beach
+    jump city_beach
