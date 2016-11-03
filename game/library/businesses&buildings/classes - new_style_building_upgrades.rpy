@@ -841,7 +841,7 @@ init -5 python:
             # Build the report:
             simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
             
-        def intercept(self, opfor=list(), interrupted=False):
+        def intercept(self, opfor=None, interrupted=False):
             """This intercepts a bunch of aggressive clients and resolves the issue through combat or intimidation.
             
             opfor = opposition forces
@@ -853,6 +853,7 @@ init -5 python:
             - Check if previous guard action was interrupted and act (look for defenders/restore older process) accordingly.
             """
             job = simple_jobs["Guarding"]
+            opfor = list() if opfor is None else opfor
             
             # gather the response forces:
             defenders = list()
