@@ -207,14 +207,13 @@ label city_beach_diving_checks:
     scene bg ocean_underwater with dissolve
     # call screen diving_progress_bar(300, 300)
     "..."
-    $ underwater_loot = {(choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [None]), i): [(100, 100), (random.random(), random.random())] for i in range(5)}
-        
+    $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [None]), (100, 100), (random.random(), random.random())] for i in range(5))
     $ item = renpy.call_screen("hidden_area", underwater_loot)
-    if item[0]:
-        $ hero.add_item(item[0])
-        $ our_image = ProportionalScale(item[0].icon, 150, 150)
+    if item:
+        $ hero.add_item(item)
+        $ our_image = ProportionalScale(item.icon, 150, 150)
         show expression our_image at truecenter with dissolve
-        $ hero.say("I caught %s!" % item[0].id)
+        $ hero.say("I caught %s!" % item.id)
     else:
         $ hero.say("There is nothing there.")
 
