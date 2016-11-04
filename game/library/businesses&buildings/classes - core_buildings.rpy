@@ -509,18 +509,17 @@ init -9 python:
     class NewStyleAdvertableBuilding(BaseBuilding):
 
         def add_adverts(self, adverts):
-            self._adverts = OrderedDict(adverts)
+            self._adverts = adverts
 
-            for k in self._adverts.keys():
+            for adv in self._adverts:
 
-                self._adverts[k]['name'] = k
-                self._adverts[k]['active'] = False
+                adv['active'] = False
 
-                if not 'price' in self._adverts[k]:
-                    self._adverts[k]['price'] = 0
+                if not 'price' in adv:
+                    adv['price'] = 0
 
-                if not 'upkeep' in self._adverts[k]:
-                    self._adverts[k]['upkeep'] = 0
+                if not 'upkeep' in adv:
+                    adv['upkeep'] = 0
         @property
         def adverts(self):
             return self._adverts

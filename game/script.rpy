@@ -254,7 +254,6 @@ label dev_testing_menu:
         pytfall.arena.find_opfor()
         pytfall.arena.update_dogfights()
         tl.timer("Loading: Arena!")
-        jsstor.finish()
         
     # Call girls starting labels:
     $ all_chars = chars.values()
@@ -282,6 +281,7 @@ label dev_testing_menu:
     if config.developer and renpy.has_label("testing"):
         call testing
     
+    $ jsstor.finish()
     jump mainscreen
     
 label after_load:

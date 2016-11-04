@@ -4,6 +4,11 @@
   "properties": {
     "boss": { "type": "string" },
     "boss_name": { "type": "string" },
+    "desc": { "type": "string" },
+    "fame": {
+      "items": { "type": "number" },
+      "type": "array"
+    },
     "id": { "type": "string" },
     "items": {
       "additionalProperties": false,
@@ -152,6 +157,12 @@
       "items": { "type": "number" },
       "type": "array"
     },
+    "name": { "type": "string" },
+    "price": { "type": "number" },
+    "reputation": {
+      "items": { "type": "number" },
+      "type": "array"
+    },
     "reward": {
       "additionalProperties": false,
       "properties": {
@@ -170,10 +181,8 @@
         "Weapon": { "type": "number" }
       },
       "type": "object"
-    }
+    },
+    "upkeep": { "type": "number" }
   },
-  "required": [
-    "id"
-  ],
   "type": "object"
 }
