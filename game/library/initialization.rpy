@@ -26,7 +26,7 @@ init -999 python:
     import simpy
     import cPickle as pickle
     import bisect
-    import jsonschema
+    # import jsonschema
                 
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according

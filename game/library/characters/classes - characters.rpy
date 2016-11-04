@@ -3615,6 +3615,7 @@ init -9 python:
             
             # add Character:
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
+                
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
             
