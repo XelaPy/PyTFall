@@ -648,7 +648,7 @@ init: # Screens:
                 # vbox:
                     # null height 35
                     # spacing -6
-                    # for advert in building.adverts.values():
+                    # for advert in building.adverts:
                         # if advert['active']:
                             # frame:
                                 # xysize (305, 27)
@@ -1223,8 +1223,7 @@ init: # Screens:
                 align(0.5, 0.4)
                 box_wrap True
                 spacing 20
-                for name in building.adverts:
-                    $ advert = building.adverts[name]
+                for advert in building.adverts:
                     vbox:
                         style_group "basic"
                         align (0.5, 0.5)
@@ -1235,7 +1234,7 @@ init: # Screens:
                                 action ToggleDict(advert, "active")
                                 text ("Stop %s!" % advert['name']) color black align (0.5, 0.5)
                         else:
-                            if name == "sign":
+                            if advert['name'] == "sign":
                                 button:
                                     xysize(280, 32)
                                     hovered tt.action(advert['desc'])

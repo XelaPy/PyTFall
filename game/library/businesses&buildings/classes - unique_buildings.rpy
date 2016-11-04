@@ -480,23 +480,23 @@ init -9 python:
             # Applies effects of adverticement:
             if self.can_advert:
 
-                for name, advert in self.adverts.iteritems():
+                for advert in self.adverts:
 
                     if advert['active']:
                         if 'fame' in advert:
-                            modf = randint(advert['fame'][0], advert['fame'][1])
+                            modf = randint(*advert['fame'])
                             self.modfame(modf)
                             tmodfame = tmodfame + modf
 
                         if 'reputation' in advert:
-                            modr = randint(advert['reputation'][0], advert['reputation'][1])
+                            modr = randint(*advert['reputation'])
                             self.modreputation(modr)
                             tmodrep = tmodrep + modr
 
                         spentcash = spentcash + advert['upkeep']
 
-                        if name == 'Celebrity':
-                            self.adverts['Celebrity']['active'] = False
+                        if advert['name'] == 'Celebrity':
+                            advert['active'] = False
                             txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr,modf))
 
             
@@ -1005,9 +1005,5 @@ init -9 python:
             while self.one_off_events:
                 NextDayEvents.append(self.one_off_events.pop())
             
-            evt = NDEvent()
-            evt.type = type
-            evt.char = char
-            evt.img = img
-            evt.txt = txt
+            evt = NDEvent(type=type, txt=txt, img=img, char=char)
             NextDayEvents.append(evt)
