@@ -262,7 +262,7 @@ screen mc_stories(choices=OrderedDict()): # This is the fathers SUB occupation c
                 else:
                     # greycolor = True
                     sepia = True
-                img = im.Sepia(img_choices[key]) if sepia else img_choices[key]
+                img = im.Scale(im.Sepia(img_choices[key]) if sepia else img_choices[key], 40, 40)
             button:
                 if img_choices.keys().index(key) % 2:
                     text key align (1.0, 0.52)
@@ -395,15 +395,15 @@ screen mc_setup():
             align (0.32, 0.06)
             action NullAction()
             
-    if store.mc_story and mc_stories[main_story]["class"] != mc_stories[main_story]["MC"][sub_story][mc_story]["class"]:
-        python:
-            try:
-                bc = mc_stories[main_story]["MC"][sub_story][mc_story]["class"]
-            except:
-                bc = "Error: No Class Specified!"
-        textbutton "[bc]":
-            align (0.42, 0.17)
-            action NullAction()
+    # if store.mc_story and mc_stories[main_story]["class"] != mc_stories[main_story]["MC"][sub_story][mc_story]["class"]:
+        # python:
+            # try:
+                # bc = mc_stories[main_story]["MC"][sub_story][mc_story]["class"]
+            # except:
+                # bc = "Error: No Class Specified!"
+        # textbutton "[bc]":
+            # align (0.42, 0.17)
+            # action NullAction()
     
     # Text:
     # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)
