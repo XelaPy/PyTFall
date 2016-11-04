@@ -130,7 +130,15 @@ label build_mc_stories:
                                                                         l1="Armor",
                                                                         l1_img="content/items/body/mail.png",
                                                                         l2="Dummy",
-                                                                        l2_img="content/items/misc/std.png")
+                                                                        l2_img="content/items/misc/std.png",
+                                                                        r="Dragon",
+                                                                        r_img="content/gfx/interface/images/mc/dragon.jpg",
+                                                                        r0="Fire",
+                                                                        r0_img="content/gfx/interface/images/mc/fire_dragon.jpg",
+                                                                        r1="Stone",
+                                                                        r1_img="content/gfx/interface/images/mc/stone_dragon.jpg",
+                                                                        r2="Defiler",
+                                                                        r2_img="content/gfx/interface/images/mc/defiler_dragon.jpg")
                                                                         
 
                                                                         
@@ -152,7 +160,22 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Dummy"]["text"] = "You inherited an old training dummy used by arena fighters"
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Dummy"]["label"] = "mc_setup_warrior_warrior_amazon_dummy"
         
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"] = {} 
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["header"] = "Dragon"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["text"] = "It was there that he met your mother, one of the last representatives of a dying race of half-dragons. Being a monster, she was supposed to fight him to the death in the Beast Fights, but her dislike for clothes changed his mind."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["label"] = "mc_setup_warrior_warrior_dragon"
         
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["label"] = "mc_setup_warrior_warrior_dragon_fire"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["label"] = "mc_setup_warrior_warrior_dragon_stone"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["label"] = "mc_setup_warrior_warrior_dragon_defiler"
         
         
         # We add the rest of the options:

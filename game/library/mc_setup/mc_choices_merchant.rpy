@@ -45,3 +45,19 @@ label mc_setup_warrior_warrior_amazon_armor:
     
 label mc_setup_warrior_warrior_amazon_dummy:
     $ hero.add_item("Simple Training Dummy")
+    
+label mc_setup_warrior_warrior_dragon:
+    $ hero.apply_trait("Dragon Blood")
+    return
+    
+label mc_setup_warrior_warrior_dragon_fire:
+    $ hero.apply_trait("Fire Dragon Scales")
+    return
+    
+label mc_setup_warrior_warrior_dragon_stone:
+    $ hero.apply_trait("Stone Dragon Scales")
+    return
+    
+label mc_setup_warrior_warrior_dragon_defiler:
+    $ hero.apply_trait("Defiler Dragon Scales")
+    return
