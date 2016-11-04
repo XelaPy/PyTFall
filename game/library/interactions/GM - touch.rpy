@@ -132,7 +132,7 @@ label interactions_grabbutt:
         $ temp = 0.6
     elif check_friends(char, hero):
         $ temp = 0.25
-    elif ct("Lesbian"): 
+    elif ct("Lesbian") and not "Yuri Expert" in hero.traits: 
         $ temp = 0
     else:
         $ temp = 0.2
@@ -247,7 +247,7 @@ label interactions_grabbreasts:
         $ temp = 0.6
     elif check_friends(char, hero):
         $ temp = 0.25
-    elif ct("Lesbian"): 
+    elif ct("Lesbian") and not "Yuri Expert" in hero.traits: 
         $ temp = 0
     else:
         $ temp = 0.2

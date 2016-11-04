@@ -72,7 +72,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ price = round(price * 0.7)
     elif char.disposition < -50:
         $ price = round(price * 1.3)
-    if ct("Lesbian"):
+    if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ price = round(price * 2.5)
     if ct("Nymphomaniac"):
         $ price = round(price * 0.9)
