@@ -329,5 +329,20 @@
     "mod": {"defence": 150, "agility": -35, "charisma": 10},
     "defence_multiplier": {"melee": 0.6, "ranged": 0.6},
     "locations": ["Exploration"]
+    },
+    {
+    "id": "Underwater Lantern",
+    "desc": "Helps to find items underwater, but useless otherwise.",
+    "icon": "content/items/sweapon/u_lantern.png",
+    "price": 500,
+    "sex": "male",
+    "chance": 30,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "smallweapon",
+    "type": "tool",
+    "locations": ["General Store"]
     }
   ]

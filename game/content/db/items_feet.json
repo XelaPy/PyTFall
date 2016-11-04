@@ -619,5 +619,21 @@
     "mod": {"defence": 10, "agility": 5},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0]},
     "locations": ["Work Shop"]
+    },
+    {
+    "id": "Flippers",
+    "desc": "Make swimming a bit easier when equipped, but useless otherwise.",
+    "icon": "content/items/feet/flippers.png",
+    "price": 250,
+    "sex": "male",
+    "chance": 30,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "feet",
+    "type": "tool",
+    "mod_skills": {"swimming": [0.02, 0.02, 0.05, 0, 0]},
+    "locations": ["General Store"]
     }
   ]
