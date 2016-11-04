@@ -179,7 +179,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
     default oxigen = o2
     default max_oxigen = max_o2
     
-    timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=[Hide('diving_progress_bar'), Hide('hidden_area'), Jump('city_beach')])
+    timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
     
     if config.debug:
         vbox:
@@ -195,8 +195,6 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         thumb None
         xysize (300, 50)
         at alpha_dissolve
-    
-    
     
 label city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
@@ -218,10 +216,20 @@ label city_beach_diving_checks:
         
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
+        if not renpy.get_screen("diving_progress_bar"):
+            hide screen hidden_area
+            "You've ran out of air!"
+            jump city_beach
+        
         $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
         show screen hidden_area(underwater_loot)
         
         $ result = ui.interact()
+        
+        if result == "All out of Air!":
+            hide screen hidden_area
+            "You've ran out of air!"
+            jump city_beach
         
         if isinstance(result, Item):
             hide screen hidden_area
@@ -234,10 +242,9 @@ label city_beach_diving_checks:
         else:
             $ hero.say("There is nothing there.")
             
-        if result == "All out of Air!":
-            "You've ran out of air!"
-            hide screen diving_progress_bar
-            jump city_beach
-            
         $ hero.vitality -= randint(10, 20) 
         
+    hide screen hidden_area
+    hide screen diving_progress_bar
+    "You're too tired to continue!"
+    jump city_beach
