@@ -1059,7 +1059,7 @@
     "icon": "content/items/cons/unus.png",
     "price": 900,
     "sex": "male",
-    "chance": 0.1,
+    "chance": 1,
     "badness": 100,
     "eqchance": 0,
     "hidden": true,
@@ -1067,7 +1067,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_slime_bottle",
-    "locations": ["Fishing"]
+    "locations": ["Diving"]
     },
     {
     "id": "Empty Extractor",
