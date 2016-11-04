@@ -125,12 +125,12 @@ label build_mc_stories:
             
         mc_stories["Warrior"]["MC"]["Warrior"]["choices"] = OrderedDict(l="Amazon",
                                                                         l_img="content/gfx/interface/images/mc/amazon.jpg",
-                                                                        l0="Axe",
-                                                                        l0_img="content/items/weapon/ga.png",
-                                                                        l1="Armor",
-                                                                        l1_img="content/items/body/mail.png",
-                                                                        l2="Dummy",
-                                                                        l2_img="content/items/misc/std.png",
+                                                                        l0="Training",
+                                                                        l0_img="content/items/misc/std.png",
+                                                                        l1="Muscle",
+                                                                        l1_img="content/gfx/interface/images/mc/amazon_const.png",
+                                                                        l2="Yuri",
+                                                                        l2_img="content/gfx/interface/images/mc/amazon_yuri.png",
                                                                         r="Dragon",
                                                                         r_img="content/gfx/interface/images/mc/dragon.jpg",
                                                                         r0="Fire",
@@ -148,17 +148,17 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["text"] = "It was there that he met your mother, an amazon from a remote tribe. After defeating her in battle, he took her body instead of taking her life."
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["label"] = "mc_setup_warrior_warrior_amazon"
 
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Axe"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Axe"]["text"] = "You inherited your mother's battle axe"
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Axe"]["label"] = "mc_setup_warrior_warrior_amazon_axe"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["text"] = "Your mother watched over your training since childhood. As a result, your body is in a great condition (+ max vitality)."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["label"] = "mc_setup_warrior_warrior_amazon_training"
         
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Armor"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Armor"]["text"] = "You inherited your father's armor"
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Armor"]["label"] = "mc_setup_warrior_warrior_amazon_armor"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["text"] = "You inherited your mother's strength. Melee weapons deal more damage than usual."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["label"] = "mc_setup_warrior_warrior_amazon_muscle"
         
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Dummy"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Dummy"]["text"] = "You inherited an old training dummy used by arena fighters"
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Dummy"]["label"] = "mc_setup_warrior_warrior_amazon_dummy"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["text"] = "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["label"] = "mc_setup_warrior_warrior_amazon_yuri"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"] = {} 
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["header"] = "Dragon"

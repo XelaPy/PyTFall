@@ -179,7 +179,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement
         jump girl_interactions
-    if ct("Lesbian") and not ct("Open Minded"):
+    if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits:
         call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
     if char.vitality < round(char.get_max("vitality")*0.25):

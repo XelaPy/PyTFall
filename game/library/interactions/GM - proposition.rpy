@@ -109,7 +109,7 @@ label interactions_girlfriend:
             $ char.joy -= randint(0,1)
         $ del m
         jump girl_interactions
-    if ct("Lesbian"):
+    if ct("Lesbian")  and not "Yuri Expert" in hero.traits:
         call interactions_lesbian_refuse_because_of_gender
         jump girl_interactions 
     $ l_ch = 0
