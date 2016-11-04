@@ -58,8 +58,7 @@ def load_schema(name):
     import os
 
     d = os.path.dirname(sys.modules['jsonschema'].__file__)
-    data = open(os.path.join('game/', d, "schemas/{0}.json".format(name)), 'rb').read()
-    #data = pkgutil.get_data('jsonschema', "schemas/{0}.json".format(name))
+    data = open(os.path.join("game", d, "schemas", "{0}.json".format(name)), 'rb').read()
     return json.loads(data.decode("utf-8"))
 
 
