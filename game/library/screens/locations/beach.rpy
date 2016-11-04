@@ -201,6 +201,15 @@ label city_beach_diving_checks:
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
         "You cannot continue if your vitality is too low. The goal is to find invisible items the screen."
+    if hero.AP <= 0:
+        "You don't have Action Points at the moment. Try again tomorrow."
+        jump city_beach
+    elif hero.vitality < 10:
+        "You're too tired at the moment."
+        jump city_beach
+    elif hero.health < hero.get_max("health")*0.5:
+        "You are too wounded at the moment."
+        jump city_beach
     play world "underwater.mp3"
     $ hero.AP -= 1
     scene bg ocean_underwater_1 with dissolve
