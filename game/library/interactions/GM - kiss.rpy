@@ -1,5 +1,5 @@
 label interactions_kiss:
-    if ct("Lesbian"): 
+    if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
         if m > 2:
             call interactions_too_many_lines
