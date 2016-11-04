@@ -373,7 +373,7 @@ init -999 python:
             
 init -100 python:
     class Snowing(renpy.Displayable, NoRollback):
-        def __init__(self, d, interval=(0.2, 0.3), start_pos=((-200, config.screen_width), 0), end_pos=({"offset": (100, 200)}, config.screen_height), speed=4.0, slow_start=False, transform=snowlike_particle, **kwargs):
+        def __init__(self, d, interval=None, start_pos=None, end_pos=None, speed=4.0, slow_start=False, transform=snowlike_particle, **kwargs):
             """Creates a 'stream' of displayable...
             
             @params:
@@ -393,9 +393,11 @@ init -100 python:
             """
             super(Snowing, self).__init__(**kwargs)
             self.d = renpy.easy.displayable(d)
-            self.interval = interval
-            self.start_pos = start_pos
-            self.end_pos = end_pos
+
+            self.interval = interval if interval is not None else (0.2, 0.3)
+            self.start_pos = start_pos if start_pos is not None else ((-200, config.screen_width), 0)
+            self.end_pos = end_pos if end_pos is not None else ({"offset": (100, 200)}, config.screen_height)
+
             self.speed = speed
             self.slow_start = slow_start
             self.transform = transform
