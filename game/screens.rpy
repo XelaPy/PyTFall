@@ -205,6 +205,7 @@ screen main_menu():
     
     # This ensures that any other menu screen is replaced.
     tag menu
+    default prereqs = exist(["content/char/", "content/rchar/"])
     
     default map_options = ["content/gfx/bg/locations/map_buttons/dark/", "content/gfx/bg/locations/map_buttons/bright/", "content/gfx/bg/locations/map_buttons/gismo/"]
     
@@ -230,7 +231,19 @@ screen main_menu():
         #idle (img)
         #hover (im.MatrixColor(img, im.matrix.brightness(0.25)))
         #action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3))
-        
+    if not prereqs:
+        frame:
+            background Frame("content/gfx/frame/FrameGP.png", 40, 40)
+            xanchor 0
+            xpos 0.50
+            xmaximum 300
+            yalign 0.5
+            text ("Resources are missing, the game won't run without. See the instructions on the "+
+                "{a=http://www.pinkpetal.org/index.php?topic=3401.0}{size=15}forum{/size}{/a}. "+
+                "At least one unique character with accompanied .json is required "+
+                "in the\n{i}game/content/char/{/i} subdirectory of PyTFall as well as "+
+                "one random character .json in the\n"+
+                "{i}game/content/{b}r{/b}char/{/i} directory.") size 15
     # ===== Animation ===== #
     
     viewport:
@@ -263,9 +276,10 @@ screen main_menu():
             style_group "mmenu"
             vbox:
                 spacing 4
-                textbutton _("New Game") action Start() xalign 0.5
+                textbutton _("New Game") action SensitiveIf(prereqs), Start() xalign 0.5
                 null height 4
-                textbutton _("Load Game") action Show("s_menu", s_menu="Load"), With(dissolve)
+                textbutton _("Load Game") action SensitiveIf(prereqs), Show("s_menu", s_menu="Load"), With(dissolve)
+
                 textbutton _("Settings") action Show("s_menu", s_menu="Settings"), With(dissolve)
                 hbox:
                     xalign 0.5

@@ -302,8 +302,8 @@ init -999 python:
     def exist(path):
         if isinstance(path, basestring):
             return os.path.exists(os.path.join(gamedir, path))
-        else:
-            return all(os.path.exists(f) for f in path)
+
+        return all(exist(x) for x in path)
 
     # Analizis of strings and turning them into int, float or bool.
     # Useful for importing data from xml.
