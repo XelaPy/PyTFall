@@ -513,5 +513,21 @@
     "mod_skills": {"exploration": [0.03, 0.03, 0.1, 0, 0], "cleaning": [0, 0, 0.1, 0, 0], "refinement": [0, 0, -0.1, 0, 0], "service": [0, 0, -0.1, 0, 0]},
     "max": {"defence": 5},
     "locations": ["Work Shop", "Fishing"]
+    },
+    {
+    "id": "Snorkel Mask",
+    "desc": "This special mask makes swimming a bit easier and increases the time you can spend underwater.",
+    "icon": "content/items/head/snorkel.png",
+    "price": 150,
+    "sex": "male",
+    "chance": 30,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "head",
+    "type": "tool",
+    "mod_skills": {"swimming": [0.02, 0.02, 0.05, 0, 0]},
+    "locations": ["General Store"]
     }
   ]

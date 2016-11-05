@@ -3,7 +3,7 @@ label build_mc_stories:
     python:
         main_story = None # Fathers occupation
         sub_story = None # Father specific occupation
-        mc_story = None # MCs occupation
+        mc_story = None # MCs mother
         mc_substory = None # MCs "Hobby"
         
     $ mc_stories = OrderedDict() # Main Dictionary
@@ -21,20 +21,10 @@ label build_mc_stories:
         mc_stories["Merchant"]["header"] = "Your father was a great merchant" # Header for the branch. Without a header, option is greyed out.
         mc_stories["Merchant"]["label"] = "mc_setup_merchant" # This decides a label to jump to in order to apply the effects.
         mc_stories["Merchant"]["class"] = "Mage" # As agreed, we will be adding a class to choices without clear descriptions.
-        
-        # We add the rest of the options:
-        mc_stories["Warrior"] = {}
-        mc_stories["Warrior"]["img"] = "content/gfx/interface/images/warriorP.png"
-        mc_stories["Warrior"]["choices"] = OrderedDict()
-        mc_stories["Warrior"]["MC"] = {}
-        mc_stories["Scholar"] = {}
-        mc_stories["Scholar"]["img"] = "content/gfx/interface/images/magicP.png"
-        mc_stories["Scholar"]["choices"] = OrderedDict()
-        mc_stories["Noble"] = {}
-        mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"
-        mc_stories["Noble"]["choices"] = OrderedDict()
-        
-        
+
+        # Each from the subchoices should have it's own branch, since (in theory) we may wish to use different choices.
+        # We simply iterate over the choices dictionary created ealier to make sure that all branches have defaults:
+
         # The following creates subchoices for Merchant such as Shopkeeper, Farm, Mone and etc:
         # This creates the buttons, they will be greyed out if no content exists for an option.
         mc_stories["Merchant"]["choices"] = OrderedDict(Caravan="content/gfx/interface/images/story/caravan/wagon35.png",
@@ -113,5 +103,89 @@ label build_mc_stories:
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Boots"]["text"] = "The driver of a caravan in sandals - definitely not about you. For your salary you bought good pair of boots {color=#1E90FF}({/color}{color=#00FA9A} +Luck{/color}{color=#1E90FF},{/color}{color=#FFD700}+ Random Boots{/color}{color=#1E90FF}){/color}"
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Bag"] = {}
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Bag"]["text"] = "In your bag is always a few bottles of wine, and you often share them on halts. For what your subordinates are always glad to see you {color=#1E90FF}({/color}{color=#FF3E96}+Charisma{/color}{color=#1E90FF},{/color}{color=#FFD700}+ Random Wine Bottles{/color}{color=#1E90FF}){/color}"
+        
+        
+        
+        mc_stories["Warrior"] = {}
+        mc_stories["Warrior"]["img"] = "content/gfx/interface/images/warriorP.png"
+        mc_stories["Warrior"]["header"] = "Your father was a skilled fighter..."
+        mc_stories["Warrior"]["label"] = "mc_setup_warrior"
+        
+        mc_stories["Warrior"]["choices"] = OrderedDict(Warrior="content/gfx/interface/images/mc/warrior_m.png",
+                                                       Defender="content/gfx/interface/images/mc/defender_m.png",
+                                                       Shooter="content/gfx/interface/images/mc/shooter_m.png",
+                                                       Assassin="content/gfx/interface/images/mc/assassin_m.png")
+        mc_stories["Warrior"]["Warrior"] = {}
+        mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon, and brought fame and wealth."
+        mc_stories["Warrior"]["Warrior"]["label"] = "mc_setup_warrior_warrior"
+        mc_stories["Warrior"]["MC"] = {}
+        for key in mc_stories["Warrior"]["choices"]:
+            mc_stories["Warrior"]["MC"][key] = {}
+            mc_stories["Warrior"]["MC"][key]["choices"] = OrderedDict()
+            
+        mc_stories["Warrior"]["MC"]["Warrior"]["choices"] = OrderedDict(l="Amazon",
+                                                                        l_img="content/gfx/interface/images/mc/amazon.jpg",
+                                                                        l0="Training",
+                                                                        l0_img="content/items/misc/std.png",
+                                                                        l1="Muscle",
+                                                                        l1_img="content/gfx/interface/images/mc/amazon_const.png",
+                                                                        l2="Yuri",
+                                                                        l2_img="content/gfx/interface/images/mc/amazon_yuri.png",
+                                                                        r="Dragon",
+                                                                        r_img="content/gfx/interface/images/mc/dragon.jpg",
+                                                                        r0="Fire",
+                                                                        r0_img="content/gfx/interface/images/mc/fire_dragon.jpg",
+                                                                        r1="Stone",
+                                                                        r1_img="content/gfx/interface/images/mc/stone_dragon.jpg",
+                                                                        r2="Defiler",
+                                                                        r2_img="content/gfx/interface/images/mc/defiler_dragon.jpg")
+                                                                        
+
+                                                                        
+                                                                        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"] = {} 
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["header"] = "Amazon"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["text"] = "It was there that he met your mother, an amazon from a remote tribe. After defeating her in battle, he took her body instead of taking her life."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["label"] = "mc_setup_warrior_warrior_amazon"
+
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["text"] = "Your mother watched over your training since childhood. As a result, your body is in a great condition (+ max vitality)."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["label"] = "mc_setup_warrior_warrior_amazon_training"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["text"] = "You inherited your mother's strength. Melee weapons deal more damage than usual."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["label"] = "mc_setup_warrior_warrior_amazon_muscle"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["text"] = "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["label"] = "mc_setup_warrior_warrior_amazon_yuri"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"] = {} 
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["header"] = "Dragon"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["text"] = "It was there that he met your mother, one of the last representatives of a dying race of half-dragons. Being a monster, she was supposed to fight him to the death in the Beast Fights, but her dislike for clothes changed his mind."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["label"] = "mc_setup_warrior_warrior_dragon"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["label"] = "mc_setup_warrior_warrior_dragon_fire"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["label"] = "mc_setup_warrior_warrior_dragon_stone"
+        
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["label"] = "mc_setup_warrior_warrior_dragon_defiler"
+        
+        
+        # We add the rest of the options:
+       
+
+        mc_stories["Scholar"] = {}
+        mc_stories["Scholar"]["img"] = "content/gfx/interface/images/magicP.png"
+        mc_stories["Scholar"]["choices"] = OrderedDict()
+        mc_stories["Noble"] = {}
+        mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"
+        mc_stories["Noble"]["choices"] = OrderedDict()
         
     return

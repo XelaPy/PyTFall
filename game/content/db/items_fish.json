@@ -224,7 +224,7 @@
     "desc": "A star-shaped creature from deep-sea floor.",
     "icon": "content/items/fish/starfish.png",
     "price": 15,
-    "chance": 100,
+    "chance": 70,
     "slot": "loot",
     "type": "fish",
     "locations": ["Diving"]

@@ -653,7 +653,7 @@ init -9 python:
             """Get the amount of clients that will visit the brothel the next day.
             """
             
-            if not self.fame and not self.rep and not self.adverts['Sign']['active']:
+            if not (self.fame or self.rep or any(a['name'] == 'Sign' and a['active'] for a in self.adverts)):
                 if write_to_nd:
                     self.log("{}".format(set_font_color("Noone came to your unknown establishment that doesn't have as much as a sign!", "red")))
                     self.flag_red = True

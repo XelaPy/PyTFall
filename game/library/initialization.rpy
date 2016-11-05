@@ -26,7 +26,6 @@ init -999 python:
     import simpy
     import cPickle as pickle
     import bisect
-    import jsonschema
                 
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according
@@ -301,6 +300,7 @@ init -999 python:
             """ load schemas from schema directory """
 
             if self.action != "skip":
+                import jsonschema
                 self._tl = timelog
                 self._validator = {}
                 self._schema = {}

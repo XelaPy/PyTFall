@@ -1,0 +1,50 @@
+[
+    {
+    "id": "Amazon Training",
+    "desc": "Your mother watched over your training since childhood. As a result, your body is in a great condition.",
+    "max": {"vitality": 25},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Amazon Musculature",
+    "desc": "You inherited your mother's strength. Melee weapons deal more damage than usual.",
+    "delivery_multiplier": {"melee": 0.2},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Yuri Expert",
+    "desc": "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good.",
+    "mod_skills": {"oral": [0, 0.1, 0.1]},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Amazon Blood",
+    "desc": "Your mother was a muscular woman with huge knockers. Fortunately, you have inherited only her muscles.",
+    "max": {"attack": 20},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Dragon Blood",
+    "desc": "Your mother was a half-dragon. The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective against you.",
+    "defence_multiplier": {"melee":0.1},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Stone Dragon Scales",
+    "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
+    "el_defence": {"physical": 0.2},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Fire Dragon Scales",
+    "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective.",
+    "el_defence": {"fire": 0.4},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Defiler Dragon Scales",
+    "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy.",
+    "mod_skills": {"vaginal": [0, 0, 0.05], "anal": [0, 0, 0.05], "sex": [0, 0, 0.05]},
+    "MC_only_trait": true
+    }
+    ]
