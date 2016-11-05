@@ -15,7 +15,7 @@ label mc_setup_merchant_mc_defender_sword:
     return
 
 label mc_setup_warrior:
-    $ hero.apply_trait("Tough")
+    $ pass
     return
     
 label mc_setup_warrior_warrior: # naturally, I dunno how to properly set base classes
@@ -36,15 +36,18 @@ label mc_setup_warrior_assassin:
     
 label mc_setup_warrior_warrior_amazon: 
     $ hero.apply_trait("Amazon Blood")
+    return
     
-label mc_setup_warrior_warrior_amazon_axe:
-    $ hero.add_item("Great Axe")
+label mc_setup_warrior_warrior_amazon_training:
+    $ hero.apply_trait("Amazon Training")
+    return
     
-label mc_setup_warrior_warrior_amazon_armor:
-    $ hero.add_item("Mail Armor")
+label mc_setup_warrior_warrior_amazon_muscle:
+    $ hero.apply_trait("Amazon Musculature")
+    return
     
-label mc_setup_warrior_warrior_amazon_dummy:
-    $ hero.add_item("Simple Training Dummy")
+label mc_setup_warrior_warrior_amazon_yuri:
+    $ hero.apply_trait("Yuri Expert")
     
 label mc_setup_warrior_warrior_dragon:
     $ hero.apply_trait("Dragon Blood")
