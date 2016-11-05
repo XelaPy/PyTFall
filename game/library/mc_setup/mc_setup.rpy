@@ -189,12 +189,13 @@ label build_mc:
     # We build the MC here. First we get the classes player picked in the choices screen and add those to MC:
     python:
         temp = set()
-        bt1 = mc_stories[main_story].get("class", None)
-        bt2 = mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
+        bt1 = mc_stories[main_story][sub_story].get("class", None) or mc_stories[main_story].get("class", None)
+        bt2 = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None) or mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
+        
         for t in [bt1, bt2]:
             if t:
                 temp.add(traits[t])
-            
+                
     $ hero.traits.basetraits = temp
     python:
         for t in temp:
@@ -392,25 +393,25 @@ screen mc_setup():
         align (0.37, 0.10)
         action Show("char_rename", char=hero)
         
-    if store.main_story:
+    if sub_story:
         python:
             try:
-                bc = mc_stories[main_story]["class"]
+                bc = mc_stories[main_story][sub_story].get("class", None) or mc_stories[main_story].get("class", None)
             except:
                 bc = "Error: No Class Specified!"
         textbutton "[bc]":
             align (0.32, 0.06)
             action NullAction()
             
-    # if store.mc_story and mc_stories[main_story]["class"] != mc_stories[main_story]["MC"][sub_story][mc_story]["class"]:
-        # python:
-            # try:
-                # bc = mc_stories[main_story]["MC"][sub_story][mc_story]["class"]
-            # except:
-                # bc = "Error: No Class Specified!"
-        # textbutton "[bc]":
-            # align (0.42, 0.17)
-            # action NullAction()
+    if mc_substory:
+        python:
+            try:
+                bc = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None) or mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
+            except:
+                bc = "Error: No Class Specified!"
+        textbutton "[bc]":
+            align (0.42, 0.17)
+            action NullAction()
     
     # Text:
     # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)
