@@ -24,6 +24,13 @@
     "MC_only_trait": true
     },
     {
+    "id": "Royal Blood",
+    "desc": "Your mother was a royalty. Her noble blood gives you certain perks.",
+    "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
+    "max": {"charisma": 15, "Intelligence": 15},
+    "MC_only_trait": true
+    },
+    {
     "id": "Dragon Blood",
     "desc": "Your mother was a half-dragon. The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective against you.",
     "defence_multiplier": {"melee":0.1},
@@ -45,6 +52,21 @@
     "id": "Defiler Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy.",
     "mod_skills": {"vaginal": [0, 0, 0.05], "anal": [0, 0, 0.05], "sex": [0, 0, 0.05]},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Knightly Stance",
+    "desc": "You learned from your mother about knightly combat style, usually available only for members of the royal families. All equipment penalties to agility are less than usual.",
+    "MC_only_trait": true
+    },
+    {
+    "id": "Sword Master",
+    "desc": "You learned from your mother about fencing style, usually available only for members of the royal families. All swords are a bit more powerful than usual.",
+    "MC_only_trait": true
+    },
+    {
+    "id": "Sister Lover",
+    "desc": "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and will have additional disposition bonus.",
     "MC_only_trait": true
     }
     ]
