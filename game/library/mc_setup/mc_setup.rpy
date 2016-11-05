@@ -187,7 +187,14 @@ label mc_setup:
                
 label build_mc:
     # We build the MC here. First we get the classes player picked in the choices screen and add those to MC:
-    $ temp = {traits[t] for t in [mc_stories[main_story]["class"],mc_stories[main_story]["MC"][sub_story][mc_story]["class"]]}
+    python:
+        temp = set()
+        bt1 = mc_stories[main_story].get("class", None)
+        bt2 = mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
+        for t in [bt1, bt2]:
+            if t:
+                temp.add(traits[t])
+            
     $ hero.traits.basetraits = temp
     python:
         for t in temp:
