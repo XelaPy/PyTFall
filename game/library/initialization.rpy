@@ -102,7 +102,24 @@ init -999 python:
             renpy.config.skipping = None
     
     renpy.choice_for_skipping = choice_for_skipping
-    
+
+    def screen_link(name):
+        from renpy.dump import screens
+
+        for scrn_n, scrn_f, scrn_l in screens:
+
+            if scrn_n == name:
+                cwdl = len(os.getcwd())
+                filename = renpy.loader.transfn(scrn_f[cwdl:-1])
+
+                def clicked(*args, **kwargs):
+                    renpy.exports.launch_editor([filename], scrn_l, transient=1)
+                    return None
+
+                return ui.textbutton("{size=10}"+name+"{/size}", clicked=clicked, xpos=10, background="#00000033")
+
+        return ui.text(name, xpos=10, size=10)
+
     # Object to specify a lack of value when None can be considered valid.
     # Use as "x is undefined".
     undefined = object()
@@ -491,7 +508,7 @@ screen debug_tools():
                 action ui.callsinnewcontext("_save_reload_game")
 
         add DynamicDisplayable(dd_cursor_position) xpos 10
-        text "[last_label]"  xpos 10 size 10
+        $ screen_link(last_label)
 
 
 init -1 python: # Constants:

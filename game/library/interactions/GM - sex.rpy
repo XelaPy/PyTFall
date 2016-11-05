@@ -72,7 +72,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ price = round(price * 0.7)
     elif char.disposition < -50:
         $ price = round(price * 1.3)
-    if ct("Lesbian"):
+    if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ price = round(price * 2.5)
     if ct("Nymphomaniac"):
         $ price = round(price * 0.9)
@@ -179,7 +179,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement
         jump girl_interactions
-    if ct("Lesbian") and not ct("Open Minded"):
+    if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits:
         call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
     if char.vitality < round(char.get_max("vitality")*0.25):
