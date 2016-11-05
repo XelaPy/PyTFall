@@ -64,3 +64,20 @@ label mc_setup_warrior_warrior_dragon_stone:
 label mc_setup_warrior_warrior_dragon_defiler:
     $ hero.apply_trait("Defiler Dragon Scales")
     return
+    
+label mc_setup_warrior_assassin_princess:
+    $ hero.apply_trait("Royal Blood")
+    return
+    
+label mc_setup_warrior_assassin_princess_knight:
+    $ hero.apply_trait("Knightly Stance")
+    return
+    
+label mc_setup_warrior_assassin_princess_fencer:
+    $ hero.apply_trait("Sword Master")
+    return
+    
+label mc_setup_warrior_assassin_princess_sister:
+    $ hero.apply_trait("Sister Lover")
+    # TODO for Xela: chars with half-sister trait should have +400 disposition instead of usual +200
+    return

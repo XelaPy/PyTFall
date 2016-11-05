@@ -53,7 +53,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ del n
         jump girl_interactions
         
-    if char.flag("quest_cannot_be_fucked") == True or ct("Half-Sister"): # cannot hire h-s for that stuff, only seduce, seems reasonable
+    if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement
         jump girl_interactions
         
@@ -163,7 +163,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         $ n += randint(1,2)
     elif check_friends(char, hero):
         $ n += randint(0,1)
-    if (ct("Half-Sister") and char.disposition < 700) or ct("Frigid"):
+    if (ct("Half-Sister") and char.disposition < 700 and not "Sister Lover" in hero.traits) or ct("Frigid"):
         $ n = -1
     elif ct("Nymphomaniac"):
         $ n += 2

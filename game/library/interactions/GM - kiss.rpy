@@ -16,7 +16,7 @@ label interactions_kiss:
     $ m = interactions_flag_count_checker(char, "flag_interactions_kiss")
     if ct("Nymphomaniac") or check_lovers(char, hero):
         $ n = 1
-    elif (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
+    elif (ct("Half-Sister") and char.disposition < 500 and "Sister Lover" not in hero.traits) or ct("Frigid"):
         $ n = -1
     else:
         $ n = 0
@@ -63,7 +63,7 @@ label interactions_kiss:
         else:
             char.say "You two kiss deeply and passionately. Her tongue dances around yours."
 
-        if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < (500+n*100):
+        if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < (500+n*100) and not "Sister Lover" in hero.traits:
             "She looks a bit uncomfortable."
             if ct("Impersonal"):
                 $ rc("It's okay for siblings to kiss, isn't it?", "Do you like your sister's kisses?")

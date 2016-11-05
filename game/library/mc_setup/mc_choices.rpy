@@ -118,10 +118,40 @@ label build_mc_stories:
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon, and brought fame and wealth."
         mc_stories["Warrior"]["Warrior"]["label"] = "mc_setup_warrior_warrior"
+        mc_stories["Warrior"]["Assassin"] = {}
+        mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade, if the price was right of course."
+        mc_stories["Warrior"]["Assassin"]["label"] = "mc_setup_warrior_assassin"
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
             mc_stories["Warrior"]["MC"][key] = {}
             mc_stories["Warrior"]["MC"][key]["choices"] = OrderedDict()
+
+                                                                        
+        mc_stories["Warrior"]["MC"]["Assassin"]["choices"] = OrderedDict(l="Princess",
+                                                                        l_img="content/gfx/interface/images/mc/princess.jpg",
+                                                                        l0="Knight",
+                                                                        l0_img="content/items/sweapon/bks.png",
+                                                                        l1="Fencer",
+                                                                        l1_img="content/items/weapon/og.png",
+                                                                        l2="Sister Lover",
+                                                                        l2_img="content/gfx/interface/images/mc/sister.png")
+                                                                        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"] = {} 
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["header"] = "Princess"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "Once someone hired him to eliminate a foreign princess visiting the city on a diplomatic mission. No one has seen her since then. Except you, her son."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
+
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All equipment penalties to agility are less than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
+        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["text"] = "You learned from your mother about fencing style, usually available only for members of the royal families. All swords are a bit more powerful than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["label"] = "mc_setup_warrior_assassin_princess_fencer"
+        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["text"] = "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and have more starting disposition."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["label"] = "mc_setup_warrior_assassin_princess_sister"
             
         mc_stories["Warrior"]["MC"]["Warrior"]["choices"] = OrderedDict(l="Amazon",
                                                                         l_img="content/gfx/interface/images/mc/amazon.jpg",
