@@ -51,5 +51,4 @@ persistent/
 orig/
 testing.rpy
 tmp/
-chars/
-rchars/
+export/
