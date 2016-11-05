@@ -116,9 +116,11 @@ label build_mc_stories:
                                                        Shooter="content/gfx/interface/images/mc/shooter_m.png",
                                                        Assassin="content/gfx/interface/images/mc/assassin_m.png")
         mc_stories["Warrior"]["Warrior"] = {}
+        mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
         mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon, and brought fame and wealth."
         mc_stories["Warrior"]["Warrior"]["label"] = "mc_setup_warrior_warrior"
         mc_stories["Warrior"]["Assassin"] = {}
+        mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
         mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade, if the price was right of course."
         mc_stories["Warrior"]["Assassin"]["label"] = "mc_setup_warrior_assassin"
         mc_stories["Warrior"]["MC"] = {}
