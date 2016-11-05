@@ -100,23 +100,43 @@ init -999 python:
     
         if renpy.config.skipping and not renpy.game.preferences.skip_after_choices:
             renpy.config.skipping = None
-    
-    renpy.choice_for_skipping = choice_for_skipping
+
+    def resolve_lib_file(badf, l=1):
+
+        m = re.match(r'^(?:.*[\\/])?(library[\\/].*\.rpy)c?$', badf)
+        if m:
+            f = m.group(1).replace('\\','/')
+            try:
+                return (renpy.loader.transfn(f), l)
+
+            except Exception: pass
+
+    def get_screen_src(name):
+
+        for n, f, l in renpy.dump.screens:
+
+            if isinstance(name, basestring) and n == name or n == name+"_screen":
+
+                return resolve_lib_file(f, l)
+
+    def get_label_src(name):
+
+        for n, r in renpy.game.script.namemap.iteritems():
+
+            if isinstance(name, basestring) and n == name or n == name+"_label":
+
+                return resolve_lib_file(r.filename, r.linenumber)
 
     def screen_link(name):
-        from renpy.dump import screens
 
-        for scrn_n, scrn_f, scrn_l in screens:
+        r = get_screen_src(name) or get_label_src(name)
 
-            if scrn_n == name:
-                cwdl = len(os.getcwd())
-                filename = renpy.loader.transfn(scrn_f[cwdl:-1])
+        if r:
+            def clicked():
+                renpy.exports.launch_editor([r[0]], r[1], transient=1)
 
-                def clicked(*args, **kwargs):
-                    renpy.exports.launch_editor([filename], scrn_l, transient=1)
-                    return None
-
-                return ui.textbutton("{size=10}"+name+"{/size}", clicked=clicked, xpos=10, background="#00000033")
+            return ui.textbutton("{size=10}"+name+"{/size}", clicked=clicked,
+                                 xpos=10, background="#00000033")
 
         return ui.text(name, xpos=10, size=10)
 
