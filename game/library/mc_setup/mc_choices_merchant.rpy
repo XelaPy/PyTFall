@@ -81,3 +81,7 @@ label mc_setup_warrior_assassin_princess_sister:
     $ hero.apply_trait("Sister Lover")
     # TODO for Xela: chars with half-sister trait should have +400 disposition instead of usual +200
     return
+    
+label mc_setup_warrior_assassin_drow:
+    $ hero.apply_trait("Drow Blood")
+    return

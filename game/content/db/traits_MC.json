@@ -68,5 +68,12 @@
     "id": "Sister Lover",
     "desc": "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and will have additional disposition bonus.",
     "MC_only_trait": true
+    },
+    {
+    "id": "Drow Blood",
+    "desc": "Your mother was an elf from the deep bowels of the earth. You have inherited her mobility and flexibility.",
+    "max": {"agility": 25, "charisma": 15, "constitution": -25},
+    "evasion_bonus": [8, 8, 1],
+    "MC_only_trait": true
     }
     ]

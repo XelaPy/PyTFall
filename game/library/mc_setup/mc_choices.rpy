@@ -136,11 +136,19 @@ label build_mc_stories:
                                                                         l1="Fencer",
                                                                         l1_img="content/items/weapon/og.png",
                                                                         l2="Sister Lover",
-                                                                        l2_img="content/gfx/interface/images/mc/sister.png")
+                                                                        l2_img="content/gfx/interface/images/mc/sister.png",
+                                                                        r="Drow",
+                                                                        r_img="content/gfx/interface/images/mc/drow.jpg",
+                                                                        r0="Fire",
+                                                                        r0_img="content/gfx/interface/images/mc/fire_dragon.jpg",
+                                                                        r1="Stone",
+                                                                        r1_img="content/gfx/interface/images/mc/stone_dragon.jpg",
+                                                                        r2="Defiler",
+                                                                        r2_img="content/gfx/interface/images/mc/defiler_dragon.jpg")
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"] = {} 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["header"] = "Princess"
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "Once someone hired him to eliminate a foreign princess visiting the city on a diplomatic mission. No one has seen her since then. Except you, her son."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "Once someone hired him to eliminate a foreign princess visiting the city on a diplomatic mission. No one has seen them since then. Except you, their son."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
@@ -154,6 +162,11 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"] = {}
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["text"] = "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and have more starting disposition."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["label"] = "mc_setup_warrior_assassin_princess_sister"
+        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"] = {} 
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["header"] = "Drow"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["text"] = "During assassinations your father often encountered competitors. Usually he eliminated them along with the target, but one particularly skilled assassin kept evading his deadly strikes. It was your future mother, alone elf from the distant underground world. Impressed by the skill of each other, they joined forces."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["label"] = "mc_setup_warrior_assassin_drow"
             
         mc_stories["Warrior"]["MC"]["Warrior"]["choices"] = OrderedDict(l="Amazon",
                                                                         l_img="content/gfx/interface/images/mc/amazon.jpg",
