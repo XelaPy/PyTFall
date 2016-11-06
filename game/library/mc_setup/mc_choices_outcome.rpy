@@ -85,3 +85,15 @@ label mc_setup_warrior_assassin_princess_sister:
 label mc_setup_warrior_assassin_drow:
     $ hero.apply_trait("Drow Blood")
     return
+    
+label mc_setup_warrior_assassin_drow_poison:
+    $ hero.apply_trait("Poison Master")
+    return
+    
+label mc_setup_warrior_assassin_drow_dagger:
+    $ hero.apply_trait("Dagger Master")
+    return
+    
+label mc_setup_warrior_assassin_drow_flex:
+    $ hero.apply_trait("Flexible")
+    return

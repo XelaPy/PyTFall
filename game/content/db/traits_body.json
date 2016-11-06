@@ -182,14 +182,15 @@
     },
    {
     "id": "Flexible",
-    "desc": "She is able to bend her body in many different ways.",
+    "desc": "An ability to bend her body in many different ways.",
     "mod_stats": {"agility": [1, 2], "defence": [-3, 1]},
     "max": {"agility": 15, "defence": -25, "vitality": -25},
-    "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]}
+    "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]},
+    "MC_trait": true
     },
    {
     "id": "Left-Handed",
-    "desc": "Items in her right hand is not very effective, but items in her left hand are more effective than usual.",
+    "desc": "Items in right hand are not very effective, but items in left hand are more effective than usual.",
     "permanent": true
     },
    {

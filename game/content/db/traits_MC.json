@@ -25,16 +25,16 @@
     },
     {
     "id": "Royal Blood",
-    "desc": "Your mother was a royalty. Her noble blood gives you certain perks.",
+    "desc": "Noble blood gives you certain perks.",
     "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
     "max": {"charisma": 15, "Intelligence": 15},
-    "MC_only_trait": true
+    "MC_trait": true
     },
     {
     "id": "Dragon Blood",
-    "desc": "Your mother was a half-dragon. The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective against you.",
-    "defence_multiplier": {"melee":0.1},
-    "MC_only_trait": true
+    "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective.",
+    "defence_multiplier": {"melee":0.2},
+    "MC_trait": true
     },
     {
     "id": "Stone Dragon Scales",
@@ -56,13 +56,13 @@
     },
     {
     "id": "Knightly Stance",
-    "desc": "You learned from your mother about knightly combat style, usually available only for members of the royal families. All equipment penalties to agility are less than usual.",
-    "MC_only_trait": true
+    "desc": "All equipment penalties to agility are less than usual.",
+    "MC_trait": true
     },
     {
     "id": "Sword Master",
-    "desc": "You learned from your mother about fencing style, usually available only for members of the royal families. All swords are a bit more powerful than usual.",
-    "MC_only_trait": true
+    "desc": "All swords are a bit more powerful than usual.",
+    "MC_trait": true
     },
     {
     "id": "Sister Lover",
@@ -73,7 +73,19 @@
     "id": "Drow Blood",
     "desc": "Your mother was an elf from the deep bowels of the earth. You have inherited her mobility and flexibility.",
     "max": {"agility": 25, "charisma": 15, "constitution": -25},
-    "evasion_bonus": [8, 8, 1],
+    "evasion_bonus": [3, 3, 1],
     "MC_only_trait": true
+    },
+    {
+    "id": "Poison Master",
+    "desc": "You know a lot about poisons from your mother. Poison are much less effective against you, and your poison attacks much are stronger.",
+    "el_defence": {"poison": 0.65},
+    "el_damage": {"poison": 0.65},
+    "MC_trait": true
+    },
+    {
+    "id": "Dagger Master",
+    "desc": "All daggers are a bit more powerful than usual.",
+    "MC_trait": true
     }
     ]

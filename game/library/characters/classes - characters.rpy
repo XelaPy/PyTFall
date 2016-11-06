@@ -2229,6 +2229,8 @@ init -9 python:
                     self.stats.max[key] += int(item.max[key]*0.5)
                 elif "Sword Master" in self.traits and item.type == "sword":
                     self.stats.max[key] += int(item.max[key]*1.5)
+                elif "Dagger Master" in self.traits and item.type == "dagger":
+                    self.stats.max[key] += int(item.max[key]*1.8)
                 else:
                     self.stats.max[key] += item.max[key]
             for key in item.min:
@@ -2241,6 +2243,8 @@ init -9 python:
                     self.stats.min[key] += int(item.min[key]*0.5)
                 elif "Sword Master" in self.traits and item.type == "sword":
                     self.stats.min[key] += int(item.min[key]*1.5)
+                elif "Dagger Master" in self.traits and item.type == "dagger":
+                    self.stats.min[key] += int(item.min[key]*1.8)
                 else:
                     self.stats.min[key] += item.min[key]
             for key in item.mod:
@@ -2267,6 +2271,8 @@ init -9 python:
                             self.stats.imod[key] += int(item.mod[key]*0.5)
                         elif "Sword Master" in self.traits and item.type == "sword":
                             self.stats.imod[key] += int(item.mod[key]*1.5)
+                        elif "Dagger Master" in self.traits and item.type == "dagger":
+                            self.stats.imod[key] += int(item.mod[key]*1.8)
                         else:
                             self.stats.imod[key] += item.mod[key]
             for key in item.mod_skills:
@@ -2374,6 +2380,8 @@ init -9 python:
                         self.stats.max[key] -= int(item.max[key]*0.5)
                     elif "Sword Master" in self.traits and item.type == "sword":
                         self.stats.max[key] -= int(item.max[key]*1.5)
+                    elif "Dagger Master" in self.traits and item.type == "dagger":
+                        self.stats.max[key] -= int(item.max[key]*1.8)
                     else:
                         self.stats.max[key] -= item.max[key]
                 else:
@@ -2390,6 +2398,8 @@ init -9 python:
                         self.stats.min[key] -= int(item.min[key]*0.5)
                     elif "Sword Master" in self.traits and item.type == "sword":
                         self.stats.min[key] -= int(item.min[key]*1.5)
+                    elif "Dagger Master" in self.traits and item.type == "dagger":
+                        self.stats.min[key] -= int(item.min[key]*1.8)
                     else:
                         self.stats.min[key] -= item.min[key]
                 else:
@@ -2415,6 +2425,8 @@ init -9 python:
                         self.stats.imod[key] -= int(item.mod[key]*0.5)
                     elif "Sword Master" in self.traits and item.type == "sword":
                         self.stats.imod[key] -= int(item.mod[key]*1.5)
+                    elif "Dagger Master" in self.traits and item.type == "dagger":
+                        self.stats.imod[key] -= int(item.mod[key]*1.8)
                     else:
                         self.stats.imod[key] -= item.mod[key]
                         

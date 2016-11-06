@@ -139,12 +139,12 @@ label build_mc_stories:
                                                                         l2_img="content/gfx/interface/images/mc/sister.png",
                                                                         r="Drow",
                                                                         r_img="content/gfx/interface/images/mc/drow.jpg",
-                                                                        r0="Fire",
-                                                                        r0_img="content/gfx/interface/images/mc/fire_dragon.jpg",
-                                                                        r1="Stone",
-                                                                        r1_img="content/gfx/interface/images/mc/stone_dragon.jpg",
-                                                                        r2="Defiler",
-                                                                        r2_img="content/gfx/interface/images/mc/defiler_dragon.jpg")
+                                                                        r0="Poison Master",
+                                                                        r0_img="content/gfx/interface/images/mc/poison.png",
+                                                                        r1="High-Speed Fencer",
+                                                                        r1_img="content/items/sweapon/cd.png",
+                                                                        r2="Inhuman Flexibility",
+                                                                        r2_img="content/gfx/interface/images/mc/flex.png")
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"] = {} 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["header"] = "Princess"
@@ -167,6 +167,18 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["header"] = "Drow"
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["text"] = "During assassinations your father often encountered competitors. Usually he eliminated them along with the target, but one particularly skilled assassin kept evading his deadly strikes. It was your future mother, alone elf from the distant underground world. Impressed by the skill of each other, they joined forces."
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["label"] = "mc_setup_warrior_assassin_drow"
+        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["Poison Master"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["Poison Master"]["text"]= "You know a lot about poisons from your mother. Poisons are much less effective against you, and your poison attacks much are stronger."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["Poison Master"]["label"] = "mc_setup_warrior_assassin_drow_poison"
+        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["High-Speed Fencer"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["High-Speed Fencer"]["text"]= "You learned from your mother about rare combat style used by drow assassins. All daggers are a bit more powerful than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["High-Speed Fencer"]["label"] = "mc_setup_warrior_assassin_drow_dagger"
+        
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["Inhuman Flexibility"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["Inhuman Flexibility"]["text"]= "You inherited all your mother's flexibility. It helps to evade attacks and also, to some extent, helps in bed."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["Inhuman Flexibility"]["label"] = "mc_setup_warrior_assassin_drow_flex"
             
         mc_stories["Warrior"]["MC"]["Warrior"]["choices"] = OrderedDict(l="Amazon",
                                                                         l_img="content/gfx/interface/images/mc/amazon.jpg",
