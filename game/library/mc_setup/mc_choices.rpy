@@ -123,11 +123,32 @@ label build_mc_stories:
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
         mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade, if the price was right of course."
         mc_stories["Warrior"]["Assassin"]["label"] = "mc_setup_warrior_assassin"
+        mc_stories["Warrior"]["Shooter"] = {}
+        mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
+        mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he together with other rangers, hunting monsters and smugglers."
+        mc_stories["Warrior"]["Shooter"]["label"] = "mc_setup_warrior_shooter"
+        
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
             mc_stories["Warrior"]["MC"][key] = {}
             mc_stories["Warrior"]["MC"][key]["choices"] = OrderedDict()
 
+        mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
+                                                                        l_img="content/gfx/interface/images/mc/forest_elf.jpg",
+                                                                        r="Summer Fay",
+                                                                        r_img="content/gfx/interface/images/mc/summer_fay.jpg"
+                                                                        )
+            
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"] = {} 
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["header"] = "Forest Elf"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["text"] = "..."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["label"] = "mc_setup_warrior_assassin_forest_elf"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "..."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_assassin_summer_fay"
+            
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["choices"] = OrderedDict(l="Princess",
                                                                         l_img="content/gfx/interface/images/mc/princess.jpg",
