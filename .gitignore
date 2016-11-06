@@ -52,6 +52,6 @@ orig/
 testing.rpy
 tmp/
 chars/
-!spec*/Soukou_Akki_Muramasa/*
+!**/Soukou_Akki_Muramasa/**
 rchars/
 
