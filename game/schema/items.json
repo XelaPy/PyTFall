@@ -1,5 +1,17 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
+  "definitions": {
+    "bonus": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": { "type": "number" },
+        "melee": { "type": "number" },
+        "ranged": { "type": "number" },
+        "status": { "type": "number" }
+      },
+      "type": "object"
+    }
+  },
   "additionalProperties": false,
   "properties": {
     "add_be_spells": {
@@ -18,7 +30,7 @@
       "items": { "type": "string" },
       "type": "array"
     },
-    "badness": { "type": "number" },
+    "badness": { "type": "number", "min": 0, "max": 100},
     "badtraits": { "type": "array" },
     "cblock": { "type": "number" },
     "ceffect": { "type": "string" },
@@ -26,43 +38,10 @@
     "chance": { "type": "number" },
     "ctemp": { "type": "number" },
     "damage_multiplier": { "type": "number" },
-    "defence_bonus": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "defence_multiplier": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "delivery_bonus": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "delivery_multiplier": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "defence_bonus": { "$ref": "#/definitions/bonus" },
+    "defence_multiplier": { "$ref": "#/definitions/bonus" },
+    "delivery_bonus": { "$ref": "#/definitions/bonus" },
+    "delivery_multiplier": { "$ref": "#/definitions/bonus" },
     "desc": { "type": "string" },
     "dismod": { "type": "number" },
     "eqchance": { "type": "number" },
@@ -258,9 +237,10 @@
       "type": "array"
     },
     "removetraits": { "type": "array" },
-    "sex": { "type": "string" },
+    "sex": { "enum": ["male", "female", "unisex"] },
     "skillmax": { "type": "number" },
-    "slot": { "type": "string" },
+    "slot": { "enum": ["body", "wrist", "weapon", "smallweapon", "resources",
+        "ring", "misc", "loot", "head", "feet", "consumable", "cape", "amulet"] },
     "statmax": { "type": "number" },
     "type": { "type": "string" }
   },

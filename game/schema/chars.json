@@ -13,7 +13,8 @@
     },
     "basetraits": {
       "items": { "type": "string" },
-      "type": "array"
+      "type": "array",
+      "maxItems": 2
     },
     "battle_skills": {
       "additionalProperties": false,
@@ -24,7 +25,10 @@
       "type": "object"
     },
     "blocked_traits": { "type": "array" },
-    "breasts": { "type": "string" },
+    "breasts": {
+        "enum": ["Abnormally Large Boobs", "Big Boobs", "Average Boobs", "Small Boobs"],
+        "default": "Average Boobs"
+    },
     "btraits": { "type": "array" },
     "color": { "type": "string" },
     "desc": { "type": "string" },
@@ -34,11 +38,14 @@
     },
     "full_race": { "type": "string" },
     "fullname": { "type": "string" },
-    "gender": { "type": "string" },
-    "gold": { "type": "number" },
-    "height": { "type": "string" },
+    "gender": { "enum": ["female"], "default": "female" },
+    "gold": { "type": "number", "default": 0 },
+    "height": {
+        "enum": ["tall", "short", "average"],
+        "default": "average"
+    },
     "id": { "type": "string" },
-    "level": { "type": "number" },
+    "level": { "type": "number", "default": 1 },
     "location": { "type": "string" },
     "magic_skills": {
       "properties": {},
@@ -48,7 +55,7 @@
     "nickname": { "type": "string" },
     "occupation": { "type": "string" },
     "origin": { "type": "string" },
-    "personality": { "type": "string" },
+    "personality": { "type": "string", "default": "Deredere"},
     "race": { "type": "string" },
     "skills": {
       "additionalProperties": false,
@@ -99,7 +106,7 @@
       ],
       "type": "object"
     },
-    "status": { "type": "string" },
+    "status": { "enum": ["free", "slave"] },
     "traits": {
       "items": { "type": "string" },
       "type": "array"
