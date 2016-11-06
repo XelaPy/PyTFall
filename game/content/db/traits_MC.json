@@ -2,13 +2,13 @@
     {
     "id": "Amazon Training",
     "desc": "Your mother watched over your training since childhood. As a result, your body is in a great condition.",
-    "max": {"vitality": 25},
+    "max": {"vitality": 25, "health": 25},
     "MC_only_trait": true
     },
     {
     "id": "Amazon Musculature",
     "desc": "You inherited your mother's strength. Melee weapons deal more damage than usual.",
-    "delivery_multiplier": {"melee": 0.2},
+    "delivery_multiplier": {"melee": 0.25},
     "MC_only_trait": true
     },
     {
@@ -20,7 +20,14 @@
     {
     "id": "Amazon Blood",
     "desc": "Your mother was a muscular woman with huge knockers. Fortunately, you have inherited only her muscles.",
-    "max": {"attack": 20},
+    "max": {"attack": 25, "constitution": 15},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Royal Blood",
+    "desc": "Your mother was a royalty. Her noble blood gives you certain perks.",
+    "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
+    "max": {"charisma": 15, "Intelligence": 15},
     "MC_only_trait": true
     },
     {
@@ -32,19 +39,41 @@
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
-    "el_defence": {"physical": 0.2},
+    "el_defence": {"physical": 0.3, "earth": 0.3},
     "MC_only_trait": true
     },
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective.",
-    "el_defence": {"fire": 0.4},
+    "el_defence": {"fire": 0.6},
     "MC_only_trait": true
     },
     {
     "id": "Defiler Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy.",
-    "mod_skills": {"vaginal": [0, 0, 0.05], "anal": [0, 0, 0.05], "sex": [0, 0, 0.05]},
+    "mod_skills": {"vaginal": [0, 0, 0.1], "anal": [0, 0, 0.03], "sex": [0, 0, 0.02]},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Knightly Stance",
+    "desc": "You learned from your mother about knightly combat style, usually available only for members of the royal families. All equipment penalties to agility are less than usual.",
+    "MC_only_trait": true
+    },
+    {
+    "id": "Sword Master",
+    "desc": "You learned from your mother about fencing style, usually available only for members of the royal families. All swords are a bit more powerful than usual.",
+    "MC_only_trait": true
+    },
+    {
+    "id": "Sister Lover",
+    "desc": "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and will have additional disposition bonus.",
+    "MC_only_trait": true
+    },
+    {
+    "id": "Drow Blood",
+    "desc": "Your mother was an elf from the deep bowels of the earth. You have inherited her mobility and flexibility.",
+    "max": {"agility": 25, "charisma": 15, "constitution": -25},
+    "evasion_bonus": [8, 8, 1],
     "MC_only_trait": true
     }
     ]

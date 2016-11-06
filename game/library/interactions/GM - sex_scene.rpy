@@ -579,7 +579,7 @@ init python:
             l = randint(3, 5)
         
         if mc:
-            if ct("Half-Sister"):
+            if ct("Half-Sister") and not "Sister Lover" in hero.traits:
                 if char.disposition >= 700:
                     l += randint(1, 2)
                 else:

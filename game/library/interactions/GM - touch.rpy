@@ -115,7 +115,7 @@ label interactions_grabbutt:
     $ m = interactions_flag_count_checker(char, "flag_interactions_slapbutt")
     if check_lovers(char, hero) or ct("Nymphomaniac"):
         $ n = 1
-    elif (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
+    elif (ct("Half-Sister") and char.disposition < 500 and not "Sister Lover" in hero.traits) or ct("Frigid"):
         $ n = -1
     else:
         $ n = 0
@@ -230,7 +230,7 @@ label interactions_grabbreasts:
     $ m = interactions_flag_count_checker(char, "flag_interactions_grabbreasts")
     if check_lovers(char, hero) or ct("Nymphomaniac"):
         $ n = 1
-    elif (ct("Half-Sister") and char.disposition < 500) or ct("Frigid"):
+    elif (ct("Half-Sister") and char.disposition < 500 and not "Sister Lover" in hero.traits) or ct("Frigid"):
         $ n = -1
     else:
         $ n = 0
