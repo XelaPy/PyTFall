@@ -5,11 +5,11 @@
     "attack_skills": {
       "additionalProperties": false,
       "properties": {
-        "Blunt Attack": { "type": "number" },
-        "Cannon Attack": { "type": "number" },
-        "Dagger Attack": { "type": "number" },
+        "Blunt Strike": { "type": "number" },
+        "Cannon Shot": { "type": "number" },
+        "Dagger Strike": { "type": "number" },
         "Fist Attack": { "type": "number" },
-        "Sword Attack": { "type": "number" }
+        "Sword Slash": { "type": "number" }
       },
       "type": "object"
     },
