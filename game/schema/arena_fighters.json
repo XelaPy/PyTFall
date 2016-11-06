@@ -1,7 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
   "properties": {
     "attack_skills": {
+      "additionalProperties": false,
       "properties": {
         "Blunt Attack": { "type": "number" },
         "Cannon Attack": { "type": "number" },
@@ -13,6 +15,7 @@
     },
     "exp": { "type": "number" },
     "magic_skills": {
+      "additionalProperties": false,
       "properties": {
         "Earth 2": { "type": "number" },
         "Earth 3": { "type": "number" },
@@ -26,6 +29,7 @@
     },
     "name": { "type": "string" },
     "stats": {
+      "additionalProperties": false,
       "properties": {
         "agility": { "type": "number" },
         "attack": { "type": "number" },
