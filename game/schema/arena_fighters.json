@@ -3,93 +3,53 @@
   "properties": {
     "attack_skills": {
       "properties": {
-        "Blunt Attack": {
-          "type": "number"
-        },
-        "Cannon Attack": {
-          "type": "number"
-        },
-        "Dagger Attack": {
-          "type": "number"
-        },
-        "Fist Attack": {
-          "type": "number"
-        },
-        "Sword Attack": {
-          "type": "number"
-        }
+        "Blunt Attack": { "type": "number" },
+        "Cannon Attack": { "type": "number" },
+        "Dagger Attack": { "type": "number" },
+        "Fist Attack": { "type": "number" },
+        "Sword Attack": { "type": "number" }
       },
       "type": "object"
     },
-    "exp": {
-      "type": "number"
-    },
+    "exp": { "type": "number" },
     "magic_skills": {
       "properties": {
-        "Earth 2": {
-          "type": "number"
-        },
-        "Earth 3": {
-          "type": "number"
-        },
-        "Fire 1": {
-          "type": "number"
-        },
-        "Fire 2": {
-          "type": "number"
-        },
-        "Fire 3": {
-          "type": "number"
-        },
-        "Fire Arrow": {
-          "type": "number"
-        },
-        "Windwhirl": {
-          "type": "number"
-        }
+        "Earth 2": { "type": "number" },
+        "Earth 3": { "type": "number" },
+        "Fire 1": { "type": "number" },
+        "Fire 2": { "type": "number" },
+        "Fire 3": { "type": "number" },
+        "Fire Arrow": { "type": "number" },
+        "Windwhirl": { "type": "number" }
       },
       "type": "object"
     },
-    "name": {
-      "type": "string"
-    },
+    "name": { "type": "string" },
     "stats": {
       "properties": {
-        "agility": {
-          "type": "number"
-        },
-        "attack": {
-          "type": "number"
-        },
-        "defence": {
-          "type": "number"
-        },
-        "luck": {
-          "type": "number"
-        },
-        "magic": {
-          "type": "number"
-        }
+        "agility": { "type": "number" },
+        "attack": { "type": "number" },
+        "defence": { "type": "number" },
+        "luck": { "type": "number" },
+        "magic": { "type": "number" }
       },
       "required": [
+        "agility",
         "attack",
         "defence",
-        "magic",
-        "agility",
-        "luck"
+        "luck",
+        "magic"
       ],
       "type": "object"
     },
-    "unique": {
-      "type": "boolean"
-    }
+    "unique": { "type": "boolean" }
   },
   "required": [
     "attack_skills",
-    "unique",
-    "stats",
+    "exp",
     "name",
-    "exp"
+    "stats",
+    "unique"
   ],
   "type": "object"
 }
