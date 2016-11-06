@@ -1,7 +1,163 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
   "additionalProperties": false,
+  "definitions": {
+
+    "stat": {
+      "additionalProperties": false,
+      "properties": {
+        "agility": {},
+        "attack": {},
+        "character": {},
+        "charisma": {},
+        "constitution": {},
+        "disposition": {},
+        "defence": {},
+        "health": {},
+        "intelligence": {},
+        "luck": {},
+        "magic": {},
+        "mp": {},
+        "upkeep": {},
+        "vitality": {}
+      },
+      "type": "object"
+    },
+    "skill": {
+      "additionalProperties": false,
+      "properties": {
+        "anal": {},
+        "bartending": {},
+        "bdsm": {},
+        "cleaning": {},
+        "dancing": {},
+        "exploration": {},
+        "group": {},
+        "management": {},
+        "oral": {},
+        "refinement": {},
+        "service": {},
+        "sex": {},
+        "strip": {},
+        "teaching": {},
+        "vaginal": {},
+        "waiting": {}
+      },
+      "type": "object"
+    },
+    "element": {
+      "additionalProperties": false,
+      "properties": {
+        "air": {},
+        "darkness": {},
+        "earth": {},
+        "electricity": {},
+        "fire": {},
+        "healing": {},
+        "ice": {},
+        "light": {},
+        "physical": {},
+        "poison": {},
+        "water": {},
+        "wind": {}
+      },
+      "type": "object"
+    },
+    "defence": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": {},
+        "melee": {},
+        "ranged": {},
+        "status": {}
+      },
+      "type": "object"
+    },
+
+    "objectWithNumericType": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": { "type": "number" }
+    },
+    "numericArrayOf3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "numericArrayOf2": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "type": "number" }
+    },
+    "objectWithNumArrayOf3": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": { "$ref": "#/definitions/numericArrayOf3" }
+    },
+    "objectWithNumArrayOf2": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": { "$ref": "#/definitions/numericArrayOf2" }
+    },
+
+    "statValue": {
+      "allOf": [
+        { "$ref": "#/definitions/stat" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "elementValue": {
+      "allOf": [
+        { "$ref": "#/definitions/element" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "defenceValue": {
+      "allOf": [
+        { "$ref": "#/definitions/defence" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    }
+  },
+
   "properties": {
+    "defence_bonus": {
+      "allOf": [
+        { "$ref": "#/definitions/defence" },
+        { "$ref": "#/definitions/objectWithNumArrayOf3" }
+      ]
+    },
+    "mod_skills": {
+      "allOf": [
+        { "$ref": "#/definitions/skill" },
+        { "$ref": "#/definitions/objectWithNumArrayOf3" }
+      ]
+    },
+    "mod_stats": {
+      "allOf": [
+        { "$ref": "#/definitions/stat" },
+        { "$ref": "#/definitions/objectWithNumArrayOf3" }
+      ]
+    },
+
+    "init_skills": {
+      "allOf": [
+        { "$ref": "#/definitions/skill" },
+        { "$ref": "#/definitions/objectWithNumArrayOf2" }
+      ]
+    },
+    "leveling_stats": {
+      "allOf": [
+        { "$ref": "#/definitions/stat" },
+        { "$ref": "#/definitions/objectWithNumArrayOf2" }
+      ]
+    },
+
     "MC_only_trait": { "type": "boolean" },
     "basetrait": { "type": "boolean" },
     "blocks": {
@@ -14,110 +170,19 @@
     "character_trait": { "type": "boolean" },
     "client": { "type": "boolean" },
     "damage_multiplier": { "type": "number" },
-    "defence_bonus": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "melee": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "ranged": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "status": {
-          "items": { "type": "number" },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "defence_multiplier": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "delivery_multiplier": {
-      "additionalProperties": false,
-      "properties": {
-        "melee": { "type": "number" }
-      },
-      "required": [
-        "melee"
-      ],
-      "type": "object"
-    },
+
+    "defence_multiplier": { "$ref": "#/definitions/defenceValue" },
+    "delivery_multiplier": { "$ref": "#/definitions/defenceValue" },
     "desc": { "type": "string" },
     "effects": {
       "items": { "type": "string" },
       "type": "array"
     },
-    "el_absorbs": {
-      "additionalProperties": false,
-      "properties": {
-        "air": { "type": "number" },
-        "darkness": { "type": "number" },
-        "earth": { "type": "number" },
-        "electricity": { "type": "number" },
-        "fire": { "type": "number" },
-        "ice": { "type": "number" },
-        "light": { "type": "number" },
-        "physical": { "type": "number" },
-        "poison": { "type": "number" },
-        "water": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "el_damage": {
-      "additionalProperties": false,
-      "properties": {
-        "air": { "type": "number" },
-        "darkness": { "type": "number" },
-        "earth": { "type": "number" },
-        "electricity": { "type": "number" },
-        "fire": { "type": "number" },
-        "healing": { "type": "number" },
-        "ice": { "type": "number" },
-        "light": { "type": "number" },
-        "physical": { "type": "number" },
-        "poison": { "type": "number" },
-        "water": { "type": "number" },
-        "wind": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "el_defence": {
-      "additionalProperties": false,
-      "properties": {
-        "air": { "type": "number" },
-        "darkness": { "type": "number" },
-        "earth": { "type": "number" },
-        "electricity": { "type": "number" },
-        "fire": { "type": "number" },
-        "healing": { "type": "number" },
-        "ice": { "type": "number" },
-        "light": { "type": "number" },
-        "physical": { "type": "number" },
-        "poison": { "type": "number" },
-        "water": { "type": "number" },
-        "wind": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "el_absorbs": { "$ref": "#/definitions/elementValue" },
+    "el_damage": { "$ref": "#/definitions/elementValue" },
+    "el_defence": { "$ref": "#/definitions/elementValue" },
     "elemental": { "type": "boolean" },
-    "evasion_bonus": {
-      "items": { "type": "number" },
-      "type": "array"
-    },
+    "evasion_bonus": { "$ref": "#/definitions/numericArrayOf3" },
     "font_color": { "type": "string" },
     "higher_tiers": {
       "items": { "type": "string" },
@@ -125,317 +190,29 @@
     },
     "icon": { "type": "string" },
     "id": { "type": "string" },
-    "init_lvlmax": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "health": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "init_max": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "health": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "init_mod": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "init_skills": {
-      "additionalProperties": false,
-      "properties": {
-        "anal": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "bartending": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "cleaning": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "dancing": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "management": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "oral": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "refinement": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "service": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "sex": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "strip": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "vaginal": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "waiting": {
-          "items": { "type": "number" },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "leveling_stats": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "attack": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "character": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "charisma": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "constitution": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "defence": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "health": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "intelligence": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "magic": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "mp": {
-          "items": { "type": "number" },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "max": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "health": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" },
-        "vitality": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "min": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "luck": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "init_lvlmax": { "$ref": "#/definitions/statValue" },
+    "init_max": { "$ref": "#/definitions/statValue" },
+    "init_mod": { "$ref": "#/definitions/statValue" },
+    "max": { "$ref": "#/definitions/statValue" },
+    "min": { "$ref": "#/definitions/statValue" },
     "mob_only": { "type": "boolean" },
-    "mod": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "upkeep": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "mod": { "$ref": "#/definitions/statValue" },
     "mod_ap": { "type": "number" },
-    "mod_skills": {
-      "additionalProperties": false,
-      "properties": {
-        "anal": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "bartending": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "bdsm": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "cleaning": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "dancing": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "exploration": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "group": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "management": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "oral": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "refinement": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "service": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "sex": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "strip": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "teaching": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "vaginal": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "waiting": {
-          "items": { "type": "number" },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "mod_stats": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "attack": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "character": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "charisma": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "constitution": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "defence": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "disposition": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "intelligence": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "magic": {
-          "items": { "type": "number" },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
     "occupations": {
-      "items": { "type": "string" },
+      "items": {
+          "enum": ["SIW", "Server", "Warrior", "Caster", "Specialist"]
+      },
       "type": "array"
     },
     "permanent": { "type": "boolean" },
     "personality": { "type": "boolean" },
     "race": { "type": "boolean" },
     "resist": {
-      "items": { "type": "string" },
+      "items": {
+          "enum": [ "air", "darkness", "earth", "electricity", "fire",
+              "healing", "ice", "light", "physical", "poison", "water",
+              "wind" ]
+      },
       "type": "array"
     },
     "sexual": { "type": "boolean" },
