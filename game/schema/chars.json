@@ -12,13 +12,8 @@
       "type": "object"
     },
     "basetraits": {
-      "anyOf": [
-        { "type": "string" },
-        {
-          "items": { "type": "string" },
-          "type": "array"
-        }
-      ]
+      "items": { "type": "string" },
+      "type": "array"
     },
     "battle_skills": {
       "additionalProperties": false,
