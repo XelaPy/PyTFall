@@ -1246,7 +1246,8 @@ init -9 python:
                 "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
                 "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
                 "Impressible": {"active": False, "desc": "Easier to decrease and increase joy."},
-                "Calm": {"active": False, "desc": "Harder to decrease and increase joy."}
+                "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
+                "Eternality Regeneration": {"active": False, "desc": "Health 1/4 of health every day, but healing items are ineffective.", "amount": 0}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2228,9 +2229,11 @@ init -9 python:
                 elif "Knightly Stance" in self.traits and key == "agility" and item.max[key] <0:
                     self.stats.max[key] += int(item.max[key]*0.5)
                 elif "Sword Master" in self.traits and item.type == "sword":
-                    self.stats.max[key] += int(item.max[key]*1.5)
+                    self.stats.max[key] += int(item.max[key]*1.3)
                 elif "Dagger Master" in self.traits and item.type == "dagger":
-                    self.stats.max[key] += int(item.max[key]*1.8)
+                    self.stats.max[key] += int(item.max[key]*1.5)
+                elif "Bow Master" in self.traits and item.type == "bow":
+                    self.stats.max[key] += int(item.max[key]*1.3)
                 else:
                     self.stats.max[key] += item.max[key]
             for key in item.min:
@@ -2242,9 +2245,11 @@ init -9 python:
                 elif "Knightly Stance" in self.traits and key == "agility" and item.min[key] <0:
                     self.stats.min[key] += int(item.min[key]*0.5)
                 elif "Sword Master" in self.traits and item.type == "sword":
-                    self.stats.min[key] += int(item.min[key]*1.5)
+                    self.stats.min[key] += int(item.min[key]*1.3)
                 elif "Dagger Master" in self.traits and item.type == "dagger":
-                    self.stats.min[key] += int(item.min[key]*1.8)
+                    self.stats.min[key] += int(item.min[key]*1.5)
+                elif "Bow Master" in self.traits and item.type == "bow":
+                    self.stats.min[key] += int(item.min[key]*1.3)
                 else:
                     self.stats.min[key] += item.min[key]
             for key in item.mod:
@@ -2260,6 +2265,8 @@ init -9 python:
                     elif key in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
                         if self.effects['Fast Metabolism']['active'] and item.type == "food":
                             self.mod_stat(key, (2*item.mod[key]))
+                        elif self.effects['Eternality Regeneration']['active'] and key == "health" and item.mod[key]>0:
+                            self.mod_stat(key, (int(0.2*item.mod[key])))
                         else:
                             self.mod_stat(key, item.mod[key])
                     else:
@@ -2270,9 +2277,11 @@ init -9 python:
                         elif "Knightly Stance" in self.traits and key == "agility" and item.mod[key] <0:
                             self.stats.imod[key] += int(item.mod[key]*0.5)
                         elif "Sword Master" in self.traits and item.type == "sword":
-                            self.stats.imod[key] += int(item.mod[key]*1.5)
+                            self.stats.imod[key] += int(item.mod[key]*1.3)
                         elif "Dagger Master" in self.traits and item.type == "dagger":
-                            self.stats.imod[key] += int(item.mod[key]*1.8)
+                            self.stats.imod[key] += int(item.mod[key]*1.5)
+                        elif "Bow Master" in self.traits and item.type == "bow":
+                            self.stats.imod[key] += int(item.mod[key]*1.3)
                         else:
                             self.stats.imod[key] += item.mod[key]
             for key in item.mod_skills:
@@ -2379,9 +2388,11 @@ init -9 python:
                     elif "Knightly Stance" in self.traits and key == "agility" and item.max[key] <0:
                         self.stats.max[key] -= int(item.max[key]*0.5)
                     elif "Sword Master" in self.traits and item.type == "sword":
-                        self.stats.max[key] -= int(item.max[key]*1.5)
+                        self.stats.max[key] -= int(item.max[key]*1.3)
                     elif "Dagger Master" in self.traits and item.type == "dagger":
-                        self.stats.max[key] -= int(item.max[key]*1.8)
+                        self.stats.max[key] -= int(item.max[key]*1.5)
+                    elif "Bow Master" in self.traits and item.type == "bow":
+                        self.stats.max[key] -= int(item.max[key]*1.3)
                     else:
                         self.stats.max[key] -= item.max[key]
                 else:
@@ -2397,9 +2408,11 @@ init -9 python:
                     elif "Knightly Stance" in self.traits and key == "agility" and item.min[key] <0:
                         self.stats.min[key] -= int(item.min[key]*0.5)
                     elif "Sword Master" in self.traits and item.type == "sword":
-                        self.stats.min[key] -= int(item.min[key]*1.5)
+                        self.stats.min[key] -= int(item.min[key]*1.3)
                     elif "Dagger Master" in self.traits and item.type == "dagger":
-                        self.stats.min[key] -= int(item.min[key]*1.8)
+                        self.stats.min[key] -= int(item.min[key]*1.5)
+                    elif "Bow Master" in self.traits and item.type == "bow":
+                        self.stats.min[key] -= int(item.min[key]*1.3)
                     else:
                         self.stats.min[key] -= item.min[key]
                 else:
@@ -2424,9 +2437,11 @@ init -9 python:
                     elif "Knightly Stance" in self.traits and key == "agility" and item.mod[key] <0:
                         self.stats.imod[key] -= int(item.mod[key]*0.5)
                     elif "Sword Master" in self.traits and item.type == "sword":
-                        self.stats.imod[key] -= int(item.mod[key]*1.5)
+                        self.stats.imod[key] -= int(item.mod[key]*1.3)
                     elif "Dagger Master" in self.traits and item.type == "dagger":
-                        self.stats.imod[key] -= int(item.mod[key]*1.8)
+                        self.stats.imod[key] -= int(item.mod[key]*1.5)
+                    elif "Bow Master" in self.traits and item.type == "bow":
+                        self.stats.imod[key] -= int(item.mod[key]*1.3)
                     else:
                         self.stats.imod[key] -= item.mod[key]
                         
@@ -2534,6 +2549,9 @@ init -9 python:
                     
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
+                
+            elif effect == "Eternality Regeneration":
+                self.effects['Eternality Regeneration']['active'] = True
                 
             elif effect == "Injured":
                 self.effects['Injured']['active'] = True
@@ -2645,6 +2663,9 @@ init -9 python:
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = False
                 
+            elif effect == "Eternality Regeneration":
+                self.effects['Eternality Regeneration']['active'] = False
+                
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = False
                 
@@ -2754,6 +2775,9 @@ init -9 python:
             elif effect == "Optimist":
                 if self.joy >= 30:
                     self.joy += 1
+                    
+            elif effect == "Eternality Regeneration":
+                self.health += int(self.get_max("health")*0.25)
                     
             elif effect == "Depression":
                 if self.joy >= 30:

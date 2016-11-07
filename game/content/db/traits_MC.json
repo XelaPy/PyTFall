@@ -28,24 +28,24 @@
     "desc": "Noble blood gives you certain perks.",
     "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
     "max": {"charisma": 15, "Intelligence": 15},
-    "MC_trait": true
+    "MC_only_trait": true
     },
     {
     "id": "Dragon Blood",
     "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective.",
     "defence_multiplier": {"melee":0.2},
-    "MC_trait": true
+    "MC_only_trait": true
     },
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
-    "el_defence": {"physical": 0.3, "earth": 0.3},
+    "el_defence": {"physical": 0.2, "earth": 0.3},
     "MC_only_trait": true
     },
     {
     "id": "Fire Dragon Scales",
-    "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective.",
-    "el_defence": {"fire": 0.6},
+    "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
+    "el_defence": {"fire": 0.6, "electricity": 0.1},
     "MC_only_trait": true
     },
     {
@@ -87,5 +87,43 @@
     "id": "Dagger Master",
     "desc": "All daggers are a bit more powerful than usual.",
     "MC_trait": true
+    },
+    {
+    "id": "Forest Elf Blood",
+    "desc": "You inherited your mother's affinity to the nature. Healing spells work better on you, while earth and wind deal less damage.",
+    "max": {"charisma": 10, "constitution": -10, "agility": 5},
+    "el_defence": {"healing": -0.25},
+    "el_damage": {"earth": 0.1, "wind": 0.1},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Bow Master",
+    "desc": "All bows are a bit more powerful than usual.",
+    "MC_trait": true
+    },
+    {
+    "id": "Ranger",
+    "desc": "You know a lot about surviving outside of the city from your parents. Your exploration skills are second to none.",
+    "mod_skills": {"exploration": [0.3, 0.2, 0.3]},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Elven Features",
+    "desc": "Due to your ancestry, the certain part of your body is a bit thinner than you would like. That makes anal sex much easier, but you have to try harder in the other hole.",
+    "mod_skills": {"vaginal": [-0.2, 0, -0.2], "anal": [0.2, 0, 0.2]},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Fae Blood",
+    "desc": "All Fae are naturally resistant to most forms of magic. Magic is not very effective against you, including healing spells.",
+    "defence_multiplier": {"magic":0.2},
+    "el_defence": {"healing": 0.25},
+    "MC_only_trait": true
+    },
+    {
+    "id": "Summer Eternality",
+    "desc": "Your body inherited some of your mother's unchangeability. You body restores some health every day, but healing items are almost ineffective.",
+    "effects": ["Eternality Regeneration"],
+    "MC_only_trait": true
     }
     ]

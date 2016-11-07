@@ -125,7 +125,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["Assassin"]["label"] = "mc_setup_warrior_assassin"
         mc_stories["Warrior"]["Shooter"] = {}
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
-        mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he together with other rangers, hunting monsters and smugglers."
+        mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he, together with other rangers, hunted monsters and smugglers."
         mc_stories["Warrior"]["Shooter"]["label"] = "mc_setup_warrior_shooter"
         
         mc_stories["Warrior"]["MC"] = {}
@@ -135,19 +135,44 @@ label build_mc_stories:
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
+                                                                        l0="Sniper",
+                                                                        l0_img="content/items/weapon/eb.png",
+                                                                        l1="Ranger",
+                                                                        l1_img="content/gfx/interface/images/mc/ranger.png",
+                                                                        l2="Elven Features",
+                                                                        l2_img="content/gfx/interface/images/mc/divider.png",
                                                                         r="Summer Fay",
-                                                                        r_img="content/gfx/interface/images/mc/summer_fay.jpg"
+                                                                        r_img="content/gfx/interface/images/mc/summer_fay.jpg",
+                                                                        r0="Eternality",
+                                                                        r0_img="content/gfx/interface/images/mc/infinity.png"
+                                                                        
                                                                         )
             
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["header"] = "Forest Elf"
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["text"] = "..."
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["label"] = "mc_setup_warrior_assassin_forest_elf"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["text"] = "Over the years he had to work together with elven rangers. In time, mistrust gave way to friendship and, eventually, to close relationships with one of them."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["label"] = "mc_setup_warrior_shooter_forest_elf"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["text"] = "Your mother taught you to use bows like forest elves do. All bows are a bit more powerful than usual."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["label"] = "mc_setup_warrior_shooter_forest_elf_sniper"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["text"] = "You know a lot about surviving outside of the city from your parents. Your exploration skills are second to none." # we don't have SE atm. When we will, it will give something special too
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex much easier, but you have to try harder in the other hole."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["label"] = "mc_setup_warrior_shooter_forest_elf_features"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "..."
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_assassin_summer_fay"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles of even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else. Your mother died in childbirth, only to be immediately reborn in her Court without memories about her previous life."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_shooter_summer_fay"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores third of max health every day, but healing items are almost ineffective."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["label"] = "mc_setup_warrior_shooter_summer_fay_eternal"
             
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["choices"] = OrderedDict(l="Princess",
