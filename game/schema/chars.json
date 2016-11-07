@@ -57,42 +57,9 @@
     "origin": { "type": "string" },
     "personality": { "type": "string", "default": "Deredere"},
     "race": { "type": "string" },
-    "skills": {
-      "additionalProperties": false,
-      "properties": {
-        "anal": { "type": "number" },
-        "bartending": { "type": "number" },
-        "cleaning": { "type": "number" },
-        "dancing": { "type": "number" },
-        "exploration": { "type": "number" },
-        "management": { "type": "number" },
-        "oral": { "type": "number" },
-        "refinement": { "type": "number" },
-        "service": { "type": "number" },
-        "sex": { "type": "number" },
-        "strip": { "type": "number" },
-        "teaching": { "type": "number" },
-        "vaginal": { "type": "number" },
-        "waiting": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "skills": { "$ref": "#/definitions/skillValue" },
     "stats": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "evasion": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" },
-        "reputation": { "type": "number" }
-      },
+      "$ref": "#/definitions/statValue",
       "required": [
         "agility",
         "attack",
@@ -103,8 +70,7 @@
         "intelligence",
         "magic",
         "luck"
-      ],
-      "type": "object"
+      ]
     },
     "status": { "enum": ["free", "slave"] },
     "traits": {

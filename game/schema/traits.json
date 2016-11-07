@@ -1,130 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema",
   "additionalProperties": false,
-  "definitions": {
-
-    "stat": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": {},
-        "attack": {},
-        "character": {},
-        "charisma": {},
-        "constitution": {},
-        "disposition": {},
-        "defence": {},
-        "health": {},
-        "intelligence": {},
-        "luck": {},
-        "magic": {},
-        "mp": {},
-        "upkeep": {},
-        "vitality": {}
-      },
-      "type": "object"
-    },
-    "skill": {
-      "additionalProperties": false,
-      "properties": {
-        "anal": {},
-        "bartending": {},
-        "bdsm": {},
-        "cleaning": {},
-        "dancing": {},
-        "exploration": {},
-        "group": {},
-        "management": {},
-        "oral": {},
-        "refinement": {},
-        "service": {},
-        "sex": {},
-        "strip": {},
-        "teaching": {},
-        "vaginal": {},
-        "waiting": {}
-      },
-      "type": "object"
-    },
-    "element": {
-      "additionalProperties": false,
-      "properties": {
-        "air": {},
-        "darkness": {},
-        "earth": {},
-        "electricity": {},
-        "fire": {},
-        "healing": {},
-        "ice": {},
-        "light": {},
-        "physical": {},
-        "poison": {},
-        "water": {},
-        "wind": {}
-      },
-      "type": "object"
-    },
-    "defence": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": {},
-        "melee": {},
-        "ranged": {},
-        "status": {}
-      },
-      "type": "object"
-    },
-
-    "objectWithNumericType": {
-      "type": "object",
-      "properties": {},
-      "additionalProperties": { "type": "number" }
-    },
-    "numericArrayOf3": {
-      "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
-      "items": { "type": "number" }
-    },
-    "numericArrayOf2": {
-      "type": "array",
-      "minItems": 2,
-      "maxItems": 2,
-      "items": { "type": "number" }
-    },
-    "objectWithNumArrayOf3": {
-      "type": "object",
-      "properties": {},
-      "additionalProperties": { "$ref": "#/definitions/numericArrayOf3" }
-    },
-    "objectWithNumArrayOf2": {
-      "type": "object",
-      "properties": {},
-      "additionalProperties": { "$ref": "#/definitions/numericArrayOf2" }
-    },
-
-    "statValue": {
-      "allOf": [
-        { "$ref": "#/definitions/stat" },
-        { "$ref": "#/definitions/objectWithNumericType" }
-      ],
-      "type": "object"
-    },
-    "elementValue": {
-      "allOf": [
-        { "$ref": "#/definitions/element" },
-        { "$ref": "#/definitions/objectWithNumericType" }
-      ],
-      "type": "object"
-    },
-    "defenceValue": {
-      "allOf": [
-        { "$ref": "#/definitions/defence" },
-        { "$ref": "#/definitions/objectWithNumericType" }
-      ],
-      "type": "object"
-    }
-  },
-
   "properties": {
     "defence_bonus": {
       "allOf": [
@@ -141,10 +16,9 @@
     "mod_stats": {
       "allOf": [
         { "$ref": "#/definitions/stat" },
-        { "$ref": "#/definitions/objectWithNumArrayOf3" }
+        { "$ref": "#/definitions/objectWithNumArrayOf2" }
       ]
     },
-
     "init_skills": {
       "allOf": [
         { "$ref": "#/definitions/skill" },

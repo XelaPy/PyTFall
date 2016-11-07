@@ -1,17 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "definitions": {
-    "bonus": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    }
-  },
   "additionalProperties": false,
   "properties": {
     "add_be_spells": {
@@ -38,10 +26,10 @@
     "chance": { "type": "number" },
     "ctemp": { "type": "number" },
     "damage_multiplier": { "type": "number" },
-    "defence_bonus": { "$ref": "#/definitions/bonus" },
-    "defence_multiplier": { "$ref": "#/definitions/bonus" },
-    "delivery_bonus": { "$ref": "#/definitions/bonus" },
-    "delivery_multiplier": { "$ref": "#/definitions/bonus" },
+    "defence_bonus": { "$ref": "#/definitions/defenceValue" },
+    "defence_multiplier": { "$ref": "#/definitions/defenceValue" },
+    "delivery_bonus": { "$ref": "#/definitions/defenceValue" },
+    "delivery_multiplier": { "$ref": "#/definitions/defenceValue" },
     "desc": { "type": "string" },
     "dismod": { "type": "number" },
     "eqchance": { "type": "number" },

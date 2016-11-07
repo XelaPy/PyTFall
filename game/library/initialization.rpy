@@ -340,21 +340,27 @@ init -999 python:
             """ load schemas from schema directory """
 
             if self.action != "skip":
-                import jsonschema
-                self._tl = timelog
-                self._validator = {}
                 self._schema = {}
-                self._err = []
 
-                for fin in listdir("schema"):
-                    filename = renpy.loader.transfn("schema"+os.path.sep+fin)
+                if self.action != "generate":
+                    import jsonschema
+                    self._err = []
+                    self._validator = {}
+                    self._tl = timelog
+                    basefilename = renpy.loader.transfn("schema"+os.path.sep+"data_types.json")
+                    with open(basefilename) as base_data_file:
+                        base = json.load(base_data_file)
 
-                    if self.action == "generate":
-                        devlog.warn("schema already exists for "+filename+" (remove beforehand to get an updated one)")
-                    else:
-                        name = fin[:-5]
-                        self._schema[name] = json.loads(open(filename, 'rb').read().decode("utf-8"))
-                        self._validator[name] = jsonschema.Draft4Validator(self._schema[name])
+                    for fin in listdir("schema"):
+                        if fin != "data_types.json":
+                            filename = renpy.loader.transfn("schema"+os.path.sep+fin)
+                            devlog.info(filename)
+
+                            name = fin[:-5]
+                            self._schema[name] = base.copy()
+                            with open(filename) as data_file:
+                                self._schema[name]['items'] = json.load(data_file)
+                            self._validator[name] = jsonschema.Draft4Validator(self._schema[name])
 
         def err(self, err, file=None):
             devlog.warn(err)
@@ -374,18 +380,18 @@ init -999 python:
                         time_msg = "Validating "+file
                         self._tl.timer(time_msg)
 
-                    for cn in content:
-                        try:
-                            self._validator[name].validate(cn)
-                        except Exception, e:
-                            self.err("Did not validate as "+name, file)
+                    try:
+                        self._validator[name].validate(content)
+                    except Exception, e:
+                        self.err("Did not validate as "+name, file)
 
-                            errors = sorted(self._validator[name].iter_errors(cn), key=lambda e: e.path)
-                            for error in errors:
-                                self.err(error.message)
+                        errors = sorted(self._validator[name].iter_errors(content), key=lambda e: e.path)
+                        for error in errors:
+                            self.err(error.message)
 
-                                for suberror in sorted(error.context, key=lambda e: e.schema_path):
-                                    self.err(filename+":"+", ".join(list(suberror.schema_path), suberror.message))
+                            for suberror in sorted(error.context, key=lambda e: e.schema_path):
+                                self.err(filename+":"+repr(suberror.schema_path)+str(suberror.message))
+                        renpy.error(os.linesep.join(self._err)+"\n"+json.dumps(self._schema[name], indent=4, sort_keys=True))
 
                     if self._tl:
                         self._tl.timer(time_msg)
