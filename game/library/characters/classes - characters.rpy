@@ -2220,19 +2220,21 @@ init -9 python:
                     devlog.warning("Unknown battle skill %s removed by character: %s (%s)!" % (spell, self.fullname, self.__class__))
             
             # Taking care of stats: -------------------------------------------------->
-            for key in item.max:
-                if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                    self.stats.max[key] += item.max[key]*2
-                elif "Left-Handed" in self.traits and item.slot == "weapon":
-                    self.stats.max[key] += int(item.max[key]*0.5)
-                elif "Knightly Stance" in self.traits and key == "agility" and item.max[key] <0:
-                    self.stats.max[key] += int(item.max[key]*0.5)
+            for key, value in item.max.iteritems():
+                temp = self.stats.max[key]
+                if "Left-Handed" in self.traits:
+                    if item.slot == "smallweapon":
+                        temp += value*2
+                    elif item.slot == "weapon":
+                        temp += int(value*.5)
+                elif "Knightly Stance" in self.traits and key == "agility" and value < 0:
+                    temp += int(value*.5)
                 elif "Sword Master" in self.traits and item.type == "sword":
-                    self.stats.max[key] += int(item.max[key]*1.5)
+                    temp += int(value*1.5)
                 elif "Dagger Master" in self.traits and item.type == "dagger":
-                    self.stats.max[key] += int(item.max[key]*1.8)
+                    temp += int(value*1.8)
                 else:
-                    self.stats.max[key] += item.max[key]
+                    temp += value
             for key in item.min:
                 self.stats.min[key] += item.min[key]
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
