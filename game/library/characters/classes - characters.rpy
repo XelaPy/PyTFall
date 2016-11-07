@@ -2225,9 +2225,11 @@ init -9 python:
                 if "Left-Handed" in self.traits:
                     if item.slot == "smallweapon":
                         temp += value*2
+                        continue
                     elif item.slot == "weapon":
                         temp += int(value*.5)
-                elif "Knightly Stance" in self.traits and key == "agility" and value < 0:
+                        continue
+                if "Knightly Stance" in self.traits and key == "agility" and value < 0:
                     temp += int(value*.5)
                 elif "Sword Master" in self.traits and item.type == "sword":
                     temp += int(value*1.5)
