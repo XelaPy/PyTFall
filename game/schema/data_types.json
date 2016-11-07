@@ -131,6 +131,21 @@
         { "$ref": "#/definitions/objectWithNumericType" }
       ],
       "type": "object"
+    },
+    "monster2": {
+      "items": [
+        { "type": "number" },
+        { "$ref": "#/definitions/numericArrayOf3" }
+      ],
+      "type": "array"
+    },
+    "monster3": {
+      "items": [
+        { "type": "number" },
+        { "$ref": "#/definitions/numericArrayOf3" },
+        { "$ref": "#/definitions/numericArrayOf3" }
+      ],
+      "type": "array"
     }
   }
 }
