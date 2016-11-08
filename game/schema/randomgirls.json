@@ -27,7 +27,7 @@
     "id": { "type": "string" },
     "magic_skills": { "type": "array" },
     "occupations": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/occupations" },
       "type": "array"
     },
     "race": { "type": "string" },
