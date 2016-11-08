@@ -205,7 +205,7 @@ screen main_menu():
     
     # This ensures that any other menu screen is replaced.
     tag menu
-    default prereqs = exist(["content/chars", "content/rchars"])
+    default prereqs = exist(["content/chars/", "content/rchars/"])
     
     default map_options = ["content/gfx/bg/locations/map_buttons/dark/", "content/gfx/bg/locations/map_buttons/bright/", "content/gfx/bg/locations/map_buttons/gismo/"]
     

@@ -85,3 +85,41 @@ label mc_setup_warrior_assassin_princess_sister:
 label mc_setup_warrior_assassin_drow:
     $ hero.apply_trait("Drow Blood")
     return
+    
+label mc_setup_warrior_assassin_drow_poison:
+    $ hero.apply_trait("Poison Master")
+    return
+    
+label mc_setup_warrior_assassin_drow_dagger:
+    $ hero.apply_trait("Dagger Master")
+    return
+    
+label mc_setup_warrior_assassin_drow_flex:
+    $ hero.apply_trait("Flexible")
+    return
+    
+label mc_setup_warrior_shooter_forest_elf:
+    $ hero.apply_trait("Forest Elf Blood")
+    return
+    
+label mc_setup_warrior_shooter_forest_elf_sniper:
+    $ hero.apply_trait("Bow Master")
+    return
+
+label mc_setup_warrior_shooter_forest_elf_ranger:
+    $ hero.apply_trait("Ranger")
+    return
+    
+label mc_setup_warrior_shooter_forest_elf_features:
+    $ hero.anal += 50
+    $ hero.ANAL += 50
+    $ hero.apply_trait("Elven Features")
+    return
+    
+label mc_setup_warrior_shooter_summer_fay:
+    $ hero.apply_trait("Fae Blood")
+    return
+    
+label mc_setup_warrior_shooter_summer_fay_eternal:
+    $ hero.apply_trait("Summer Eternality")
+    return
