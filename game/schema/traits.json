@@ -3,31 +3,31 @@
   "properties": {
     "defence_bonus": {
       "allOf": [
-        { "$ref": "#/definitions/defence" },
+        { "$ref": "#/definitions/defenceObject" },
         { "$ref": "#/definitions/objectWithNumArrayOf3" }
       ]
     },
     "mod_skills": {
       "allOf": [
-        { "$ref": "#/definitions/skill" },
+        { "$ref": "#/definitions/skillObject" },
         { "$ref": "#/definitions/objectWithNumArrayOf3" }
       ]
     },
     "mod_stats": {
       "allOf": [
-        { "$ref": "#/definitions/stat" },
+        { "$ref": "#/definitions/statObject" },
         { "$ref": "#/definitions/objectWithNumArrayOf2" }
       ]
     },
     "init_skills": {
       "allOf": [
-        { "$ref": "#/definitions/skill" },
+        { "$ref": "#/definitions/skillObject" },
         { "$ref": "#/definitions/objectWithNumArrayOf2" }
       ]
     },
     "leveling_stats": {
       "allOf": [
-        { "$ref": "#/definitions/stat" },
+        { "$ref": "#/definitions/statObject" },
         { "$ref": "#/definitions/objectWithNumArrayOf2" }
       ]
     },

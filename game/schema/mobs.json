@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "additionalProperties": false,
   "properties": {
-    "attack_skills": { "type": "array" },
+    "attack_skills": { "type": "array", "items": { "$ref": "#/definitions/attack" } },
     "basetraits": {
       "items": { "type": "string" },
       "type": "array"
@@ -11,7 +11,7 @@
     "desc": { "type": "string" },
     "front_row": { "type": "number" },
     "locations": { "type": "array" },
-    "magic_skills": { "type": "array" },
+    "magic_skills": { "type": "array", "items": { "$ref": "#/definitions/magic" }  },
     "min_lvl": { "type": "number" },
     "name": { "type": "string" },
     "portrait": { "type": "string" },
@@ -21,17 +21,7 @@
       "type": "object"
     },
     "stats": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" }
-      },
+      "$ref": "#/definitions/statValue",
       "required": [
         "agility",
         "attack",

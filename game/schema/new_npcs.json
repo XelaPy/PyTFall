@@ -4,7 +4,7 @@
   "properties": {
     "ab_traits": { "type": "array" },
     "attack_skills": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/attack" },
       "type": "array"
     },
     "base_race": { "type": "string" },
@@ -26,13 +26,7 @@
     "origin": { "type": "string" },
     "race": { "type": "string" },
     "skills": {
-      "additionalProperties": false,
-      "properties": {
-        "cleaning": { "type": "number" },
-        "exploration": { "type": "number" },
-        "management": { "type": "number" },
-        "teaching": { "type": "number" }
-      },
+      "$ref": "#/definitions/skillValue",
       "required": [
         "exploration",
         "management",
@@ -42,18 +36,8 @@
       "type": "object"
     },
     "stats": {
+      "$ref": "#/definitions/statValue",
       "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" }
-      },
       "required": [
         "agility",
         "attack",

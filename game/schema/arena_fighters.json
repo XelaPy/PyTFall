@@ -2,41 +2,12 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "additionalProperties": false,
   "properties": {
-    "attack_skills": {
-      "additionalProperties": false,
-      "properties": {
-        "Blunt Strike": { "type": "number" },
-        "Cannon Shot": { "type": "number" },
-        "Dagger Strike": { "type": "number" },
-        "Fist Attack": { "type": "number" },
-        "Sword Slash": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "attack_skills": { "$ref": "#/definitions/attackValue" },
     "exp": { "type": "number" },
-    "magic_skills": {
-      "additionalProperties": false,
-      "properties": {
-        "Earth 2": { "type": "number" },
-        "Earth 3": { "type": "number" },
-        "Fire 1": { "type": "number" },
-        "Fire 2": { "type": "number" },
-        "Fire 3": { "type": "number" },
-        "Fire Arrow": { "type": "number" },
-        "Windwhirl": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "magic_skills": { "$ref": "#/definitions/magicValue" },
     "name": { "type": "string" },
     "stats": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "defence": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" }
-      },
+      "$ref": "#/definitions/statValue",
       "required": [
         "agility",
         "attack",

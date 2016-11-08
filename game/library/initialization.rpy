@@ -351,6 +351,16 @@ init -999 python:
                     with open(basefilename) as base_data_file:
                         base = json.load(base_data_file)
 
+                    for concept in ["stat", "skill", "element", "attack", "defence", "magic"]:
+
+                        base['definitions'][concept+"Object"] = {
+                            "additionalProperties": False,
+                            "properties": {
+                                key: {} for key in base['definitions'][concept]
+                            },
+                            "type": "object"
+                        }
+
                     for fin in listdir("schema"):
                         if fin != "data_types.json":
                             filename = renpy.loader.transfn("schema"+os.path.sep+fin)
@@ -391,7 +401,7 @@ init -999 python:
 
                             for suberror in sorted(error.context, key=lambda e: e.schema_path):
                                 self.err(filename+":"+repr(suberror.schema_path)+str(suberror.message))
-                        renpy.error(os.linesep.join(self._err)+"\n"+json.dumps(self._schema[name], indent=4, sort_keys=True))
+                        #renpy.error(os.linesep.join(self._err)+"\n"+json.dumps(self._schema[name], indent=4, sort_keys=True))
 
                     if self._tl:
                         self._tl.timer(time_msg)
