@@ -127,11 +127,29 @@ label build_mc_stories:
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
         mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he, together with other rangers, hunted monsters and smugglers."
         mc_stories["Warrior"]["Shooter"]["label"] = "mc_setup_warrior_shooter"
+        mc_stories["Warrior"]["Defender"] = {}
+        mc_stories["Warrior"]["Defender"]["class"] = "Defender"
+        mc_stories["Warrior"]["Defender"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he guarded royalties."
+        mc_stories["Warrior"]["Defender"]["label"] = "mc_setup_warrior_defender"
         
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
             mc_stories["Warrior"]["MC"][key] = {}
             mc_stories["Warrior"]["MC"][key]["choices"] = OrderedDict()
+
+        mc_stories["Warrior"]["MC"]["Defender"]["choices"] = OrderedDict(l="Royal Guard",
+                                                                        l_img="content/gfx/interface/images/mc/knight.jpg",
+                                                                        r="Noble Harpy",
+                                                                        r_img="content/gfx/interface/images/mc/harpy.jpg"
+                                                                        )
+                                                                        
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["header"] = "Royal Guard"
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"] = {} 
+        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["header"] = "Noble Harpy"
+        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
@@ -144,8 +162,11 @@ label build_mc_stories:
                                                                         r="Summer Fay",
                                                                         r_img="content/gfx/interface/images/mc/summer_fay.jpg",
                                                                         r0="Eternality",
-                                                                        r0_img="content/gfx/interface/images/mc/infinity.png"
-                                                                        
+                                                                        r0_img="content/gfx/interface/images/mc/infinity.png",
+                                                                        r1="Summer Affinity",
+                                                                        r1_img="content/gfx/interface/images/mc/sun.png",
+                                                                        r2="Life Beacon",
+                                                                        r2_img="content/gfx/interface/images/mc/beacon.png"
                                                                         )
             
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"] = {} 
@@ -162,17 +183,25 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex much easier, but you have to try harder in the other hole."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex easier, but you have to try harder in the other hole."
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["label"] = "mc_setup_warrior_shooter_forest_elf_features"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles of even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else. Your mother died in childbirth, only to be immediately reborn in her Court without memories about her previous life."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles or even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_shooter_summer_fay"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"] = {}
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores third of max health every day, but healing items are almost ineffective."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["label"] = "mc_setup_warrior_shooter_summer_fay_eternal"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["text"] = "You inherited some of your mother's mystic powers. You can use Summer Arrow skill in battle, and Fire and Light are not very effective against you. On the other hand, Ice and Darkness are bad news."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["label"] = "mc_setup_warrior_shooter_summer_fay_affinity"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["text"] = "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse." # might add more if we'll have pregnancy in the future
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["label"] = "mc_setup_warrior_shooter_summer_fay_beacon"
             
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["choices"] = OrderedDict(l="Princess",

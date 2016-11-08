@@ -969,6 +969,11 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " She sits upon you knees while you prepare your dick for going inside her."
             else:
                 extend " You enter her pussy and you two begin to move."
+        if "Life Beacon" in hero.traits:
+            python:
+                char.joy += randint(1,2)
+                char.health += randint(10 ,20)
+                char.vaginal += 1
         call interaction_sex_scene_check_skill_acts
         
     elif current_action == "anal":
@@ -1362,7 +1367,7 @@ label interactions_sex_disagreement: # the character disagrees to do it
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
         if char.status == "slave":
-            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)) or ct("Open Minded"):
+            if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)) or ct("Open Minded") or "Life Beacon" in hero.traits:
                 menu:
                     "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                     "Yes":
@@ -1393,7 +1398,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         "You agreed to do something else instead. She sighs with relief."
                         jump interaction_scene_choice
         else:
-            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 250) or (ct("Open Minded") and char.disposition >= 350):
+            if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 250) or (ct("Open Minded") and char.disposition >= 350) or "Life Beacon" in hero.traits:
                 menu:
                     "Looks like this is her first time, and she does not mind. Do you want to continue?"
                     "Yes":
