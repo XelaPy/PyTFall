@@ -3,56 +3,65 @@
     "id": "Amazon Training",
     "desc": "Your mother watched over your training since childhood. As a result, your body is in a great condition.",
     "max": {"vitality": 25, "health": 25},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Amazon Musculature",
     "desc": "You inherited your mother's strength. Melee weapons deal more damage than usual.",
     "delivery_multiplier": {"melee": 0.25},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Yuri Expert",
     "desc": "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good.",
     "mod_skills": {"oral": [0, 0.1, 0.1]},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Amazon Blood",
     "desc": "Your mother was a muscular woman with huge knockers. Fortunately, you have inherited only her muscles.",
     "max": {"attack": 25, "constitution": 15},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Royal Blood",
     "desc": "Noble blood gives you certain perks.",
     "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
     "max": {"charisma": 15, "Intelligence": 15},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Dragon Blood",
     "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective.",
     "defence_multiplier": {"melee":0.2},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
     "el_defence": {"physical": 0.2, "earth": 0.3},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
-    "el_defence": {"fire": 0.6, "electricity": 0.1},
-    "MC_only_trait": true
+    "el_defence": {"fire": 0.4, "electricity": 0.1},
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Defiler Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy.",
     "mod_skills": {"vaginal": [0, 0, 0.1], "anal": [0, 0, 0.03], "sex": [0, 0, 0.02]},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Knightly Stance",
@@ -67,14 +76,16 @@
     {
     "id": "Sister Lover",
     "desc": "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and will have additional disposition bonus.",
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Drow Blood",
     "desc": "Your mother was an elf from the deep bowels of the earth. You have inherited her mobility and flexibility.",
     "max": {"agility": 25, "charisma": 15, "constitution": -25},
     "evasion_bonus": [3, 3, 1],
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Poison Master",
@@ -94,7 +105,8 @@
     "max": {"charisma": 10, "constitution": -10, "agility": 5},
     "el_defence": {"healing": -0.25},
     "el_damage": {"earth": 0.1, "wind": 0.1},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Bow Master",
@@ -111,19 +123,35 @@
     "id": "Elven Features",
     "desc": "Due to your ancestry, the certain part of your body is a bit thinner than you would like. That makes anal sex much easier, but you have to try harder in the other hole.",
     "mod_skills": {"vaginal": [-0.2, 0, -0.2], "anal": [0.2, 0, 0.2]},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Fae Blood",
     "desc": "All Fae are naturally resistant to most forms of magic. Magic is not very effective against you, including healing spells.",
     "defence_multiplier": {"magic":0.2},
     "el_defence": {"healing": 0.25},
-    "MC_only_trait": true
+    "MC_only_trait": true,
+    "permanent": true
     },
     {
     "id": "Summer Eternality",
-    "desc": "Your body inherited some of your mother's unchangeability. You body restores some health every day, but healing items are almost ineffective.",
-    "effects": ["Eternality Regeneration"],
-    "MC_only_trait": true
+    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/3 of health every day, but healing items are almost ineffective.",
+    "effects": ["Regeneration"],
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Summer Affinity",
+    "desc": "You inherited some of your mother's mystic powers. Fire and Light are not very effective against you, but Ice and Darkness are bad news.",
+    "el_defence": {"fire": 0.7, "light": 0.4, "ice": -0.7, "darkness": -0.4},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Life Beacon",
+    "desc": "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse.",
+    "MC_only_trait": true,
+    "permanent": true
     }
     ]

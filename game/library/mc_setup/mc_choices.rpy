@@ -144,8 +144,11 @@ label build_mc_stories:
                                                                         r="Summer Fay",
                                                                         r_img="content/gfx/interface/images/mc/summer_fay.jpg",
                                                                         r0="Eternality",
-                                                                        r0_img="content/gfx/interface/images/mc/infinity.png"
-                                                                        
+                                                                        r0_img="content/gfx/interface/images/mc/infinity.png",
+                                                                        r1="Summer Affinity",
+                                                                        r1_img="content/gfx/interface/images/mc/sun.png",
+                                                                        r2="Life Beacon",
+                                                                        r2_img="content/gfx/interface/images/mc/beacon.png"
                                                                         )
             
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"] = {} 
@@ -162,17 +165,25 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex much easier, but you have to try harder in the other hole."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex easier, but you have to try harder in the other hole."
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["label"] = "mc_setup_warrior_shooter_forest_elf_features"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles of even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else. Your mother died in childbirth, only to be immediately reborn in her Court without memories about her previous life."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles of even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else. Your mother died giving birth, only to be immediately reborn in her Court without memories about her previous life."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_shooter_summer_fay"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"] = {}
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores third of max health every day, but healing items are almost ineffective."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["label"] = "mc_setup_warrior_shooter_summer_fay_eternal"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["text"] = "You inherited some of your mother's mystic powers. You can use Summer Arrow skill in battle, and Fire and Light are not very effective against you. On the other hand, Ice and Darkness are bad news."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["label"] = "mc_setup_warrior_shooter_summer_fay_affinity"
+        
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["text"] = "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["label"] = "mc_setup_warrior_shooter_summer_fay_beacon"
             
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["choices"] = OrderedDict(l="Princess",

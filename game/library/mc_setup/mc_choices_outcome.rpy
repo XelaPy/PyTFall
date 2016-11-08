@@ -123,3 +123,13 @@ label mc_setup_warrior_shooter_summer_fay:
 label mc_setup_warrior_shooter_summer_fay_eternal:
     $ hero.apply_trait("Summer Eternality")
     return
+    
+label mc_setup_warrior_shooter_summer_fay_affinity:
+    $ hero.attack_skills.append("Summer Arrow")
+    $ hero.apply_trait("Summer Affinity")
+    return
+    
+label mc_setup_warrior_shooter_summer_fay_beacon:
+    $ hero.apply_trait("Life Beacon")
+    return
+    

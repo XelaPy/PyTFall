@@ -551,6 +551,17 @@ label load_battle_skills:
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
                               dodge_effect={"initial_pause": .1})
+                              
+        ArrowsSkill(u"Summer Arrow", menu_pos=1, attributes=["ranged", "fire", "light"], effect=55, multiplier=1.5, critpower=.4, health_cost=2, vitality_cost=3, range=4, piercing=True, # special MC-only skill, should always be a bit better than Fire Arrow
+                              desc="Shooting an arrow filled with mystic Fae powers.",
+                              firing_effects={"gfx": "Fire Arrow cast", "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
+                              projectile_effects={"gfx": "Fire Arrow fly", "sfx": None, "duration": 0.4},
+                              attacker_effects={"gfx": "default_1", "sfx": "default"},
+                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
+                              main_effect={"gfx": "Fire Arrow impact", "sfx": None, "duration": 0.51, "aim": {"anchor": (.5, .5)}},
+                              target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .3},
+                              target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
+                              dodge_effect={"initial_pause": .1})
         ArrowsSkill("Ice Arrow", menu_pos=1, attributes=["ranged", "ice", "water"], effect=45, multiplier=1.4, critpower=.3, mp_cost=2, vitality_cost=10, range=4, piercing=True,
                               desc="Shooting an arrow of frozen water.",
                               firing_effects={"gfx": "Ice Arrow cast", "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
