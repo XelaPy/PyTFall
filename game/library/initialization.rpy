@@ -425,7 +425,7 @@ init -999 python:
                 renpy.error(os.linesep.join(self._err))
 
     # set to False to update existing json files in schema directory, None skips validation and writing
-    jsstor = JasonSchemator("strict")
+    jsstor = JasonSchemator()
 
     # -------------------------------------------------------------------------------------------------------- Ends here
 
