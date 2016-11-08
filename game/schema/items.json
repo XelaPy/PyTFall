@@ -18,7 +18,7 @@
       "items": { "type": "string" },
       "type": "array"
     },
-    "badness": { "type": "number" },
+    "badness": { "type": "number", "min": 0, "max": 100},
     "badtraits": { "type": "array" },
     "cblock": { "type": "number" },
     "ceffect": { "type": "string" },
@@ -26,43 +26,10 @@
     "chance": { "type": "number" },
     "ctemp": { "type": "number" },
     "damage_multiplier": { "type": "number" },
-    "defence_bonus": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "defence_multiplier": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "delivery_bonus": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "delivery_multiplier": {
-      "additionalProperties": false,
-      "properties": {
-        "magic": { "type": "number" },
-        "melee": { "type": "number" },
-        "ranged": { "type": "number" },
-        "status": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "defence_bonus": { "$ref": "#/definitions/defenceValue" },
+    "defence_multiplier": { "$ref": "#/definitions/defenceValue" },
+    "delivery_bonus": { "$ref": "#/definitions/defenceValue" },
+    "delivery_multiplier": { "$ref": "#/definitions/defenceValue" },
     "desc": { "type": "string" },
     "dismod": { "type": "number" },
     "eqchance": { "type": "number" },
@@ -78,177 +45,18 @@
     "infinite": { "type": "boolean" },
     "jump_to_label": { "type": "string" },
     "locations": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/locations" },
       "type": "array"
     },
-    "max": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "health": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "joy": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" },
-        "refinement": { "type": "number" },
-        "vitality": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "max": { "$ref": "#/definitions/statValue" },
     "mdestruct": { "type": "boolean" },
-    "min": {
-      "additionalProperties": false,
-      "properties": {
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "joy": { "type": "number" },
-        "mp": { "type": "number" }
-      },
-      "type": "object"
-    },
-    "mod": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "disposition": { "type": "number" },
-        "exp": { "type": "number" },
-        "gold": { "type": "number" },
-        "health": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "joy": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" },
-        "refinement": { "type": "number" },
-        "service": { "type": "number" },
-        "vitality": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "min": { "$ref": "#/definitions/statValue" },
+    "mod": { "$ref": "#/definitions/statValue" },
     "mod_skills": {
-      "additionalProperties": false,
-      "properties": {
-        "anal": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "bartending": {
-          "items": [
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" }
-          ],
-          "type": "array"
-        },
-        "bdsm": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "cleaning": {
-          "items": [
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" }
-          ],
-          "type": "array"
-        },
-        "dancing": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "exploration": {
-          "items": [
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" }
-          ],
-          "type": "array"
-        },
-        "fishing": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "group": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "management": {
-          "items": [
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" }
-          ],
-          "type": "array"
-        },
-        "oral": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "refinement": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "service": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "sex": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "strip": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "swimming": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "teaching": {
-          "items": [
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" }
-          ],
-          "type": "array"
-        },
-        "vaginal": {
-          "items": { "type": "number" },
-          "type": "array"
-        },
-        "waiting": {
-          "items": [
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" },
-            { "type": "number" }
-          ],
-          "type": "array"
-        }
-      },
-      "type": "object"
+      "allOf": [
+        { "$ref": "#/definitions/skillObject" },
+        { "$ref": "#/definitions/objectWithNumArrayOf5" }
+      ]
     },
     "mreusable": { "type": "boolean" },
     "mtemp": { "type": "number" },
@@ -258,9 +66,10 @@
       "type": "array"
     },
     "removetraits": { "type": "array" },
-    "sex": { "type": "string" },
+    "sex": { "enum": ["male", "female", "unisex"] },
     "skillmax": { "type": "number" },
-    "slot": { "type": "string" },
+    "slot": { "enum": ["body", "wrist", "weapon", "smallweapon", "resources",
+        "ring", "misc", "loot", "head", "feet", "consumable", "cape", "amulet"] },
     "statmax": { "type": "number" },
     "type": { "type": "string" }
   },

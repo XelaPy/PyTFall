@@ -31,7 +31,7 @@
     "id": "Royal Blood",
     "desc": "Noble blood gives you certain perks.",
     "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
-    "max": {"charisma": 15, "Intelligence": 15},
+    "max": {"charisma": 15, "intelligence": 15},
     "MC_only_trait": true,
     "permanent": true
     },

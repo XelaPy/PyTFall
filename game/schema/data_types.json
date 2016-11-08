@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalItems": false,
+  "type": "array",
+  "definitions": {
+    "stat": {
+      "enum": [
+        "agility", "attack", "character", "charisma", "constitution",
+        "disposition", "defence", "evasion", "exp", "gold", "health",
+        "intelligence", "joy", "luck", "magic", "mp", "refinement",
+        "reputation", "service", "upkeep", "vitality"
+      ],
+      "type": "string"
+    },
+    "skill": {
+      "enum": [
+        "anal", "bartending", "bdsm", "cleaning", "dancing", "exploration",
+        "fishing", "group", "management", "oral", "refinement", "service",
+        "sex", "strip", "swimming", "teaching", "vaginal", "waiting"
+      ],
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "air", "darkness", "earth", "electricity", "fire", "healing",
+        "ice", "light", "physical", "poison", "water", "wind"
+      ],
+      "type": "string"
+    },
+    "defence": {
+      "enum": [
+        "magic", "melee", "ranged", "status"
+      ],
+      "type": "string"
+    },
+    "attack": {
+      "enum": [
+        "Sword Slash", "Sword Slash 2X", "Sword Slash 4X", "Sword Slash 6X", "Sword Slash 10X",
+        "Dagger Strike", "Dagger Strike 2X", "Dagger Strike 4X",
+        "Axe Strike", "Axe Strike 2X", "Axe Strike 4X",
+        "Bow Shot", "Bow Shot 2X", "Bow Shot 4X",
+        "Claw Slash", "Claw Slash 2X", "Claw Slash 4X",
+        "Fist Attack", "Fist Attack 2X", "Fist Attack 4X",
+        "Ice Slash", "Ice Slash 2X", "Ice Slash 4X",
+        "Scythe Slash", "Scythe Slash 2X",
+        "Angelic Rain",
+        "Arc Strike",
+        "Bite",
+        "Blunt Strike",
+        "Cannon Shot",
+        "Dark Shot",
+        "Fire Barrage",
+        "Ground Shockwave",
+        "Gun Shot",
+        "Ice Axe Strike",
+        "Light Slash",
+        "Midnight Arrow",
+        "Poison Arrow",
+        "Projective Slash",
+        "Rapid Strikes",
+        "Shadow Kunai",
+        "Shocker Whip",
+        "Solar Incision",
+        "Soul Blade",
+        "Spray",
+        "Steel Assault",
+        "Throw",
+        "Toxic Core",
+        "Weapon Dance",
+        "Whip Strike",
+        "Poisoned Dagger"
+      ],
+      "type": "string"
+    },
+    "magic": {
+      "enum": [
+        "Aero", "Aeroga", "Aeroja", "Aerora",
+        "Air Blast",
+        "Air Pressure",
+        "Black Hole",
+        "Blizzara", "Blizzard", "Blizzarga", "Blizzarja",
+        "Dark", "Darkga", "Darkja", "Darkra",
+        "Electromagnetism",
+        "Eternal Gluttony",
+        "Fira", "Firaga", "Firaja", "Fire",
+        "Fireball",
+        "Forced Dawn",
+        "Geyser",
+        "Hailstorm",
+        "Holy", "Holyda", "Holyja", "Holyra",
+        "Ice Blast",
+        "Ice Shards",
+        "Ice Storm",
+        "Ion Storm",
+        "Light Heal",
+        "Light Mass Heal",
+        "Mudslide",
+        "Photon Blade",
+        "Poison",
+        "Solar Flash",
+        "Star Light",
+        "Stone", "Stonega", "Stoneja", "Stonera",
+        "Thundaga", "Thundaja", "Thundara", "Thunder",
+        "Thunderstorm",
+        "Water", "Watera", "Waterga", "Waterja",
+        "Zero Prism",
+        "Earth 2", "Earth 3",
+        "Fire 1", "Fire 2", "Fire 3",
+        "Fire Arrow",
+        "Windwhirl"
+      ],
+      "type": "string"
+    },
+    "locations": {
+      "enum": [
+        "Cafe",
+        "Diving",
+        "Exploration",
+        "Fishing",
+        "General Shop",
+        "General Store",
+        "Look around",
+        "Ninja Shop",
+        "Tailor",
+        "Tailor Store",
+        "Witches Hut",
+        "Work Shop",
+        "Workshop"
+      ],
+      "type": "string"
+    },
+    "objectWithNumericType": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "numericArrayOf5": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "type": "number" }
+    },
+    "numericArrayOf3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "numericArrayOf2": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "type": "number" }
+    },
+    "numericArrayOf1": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": { "type": "number" }
+    },
+    "objectWithNumArrayOf5": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/numericArrayOf5" }
+    },
+    "objectWithNumArrayOf3": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/numericArrayOf3" }
+    },
+    "objectWithNumArrayOf2": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/numericArrayOf2" }
+    },
+
+    "attackValue": {
+      "allOf": [
+        { "$ref": "#/definitions/attackObject" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "defenceValue": {
+      "allOf": [
+        { "$ref": "#/definitions/defenceObject" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "elementValue": {
+      "allOf": [
+        { "$ref": "#/definitions/elementObject" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "magicValue": {
+      "allOf": [
+        { "$ref": "#/definitions/magicObject" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "skillValue": {
+      "allOf": [
+        { "$ref": "#/definitions/skillObject" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+    "statValue": {
+      "allOf": [
+        { "$ref": "#/definitions/statObject" },
+        { "$ref": "#/definitions/objectWithNumericType" }
+      ],
+      "type": "object"
+    },
+
+    "monster2": {
+      "items": [
+        { "type": "number" },
+        { "$ref": "#/definitions/numericArrayOf3" }
+      ],
+      "type": "array"
+    },
+    "monster3": {
+      "items": [
+        { "type": "number" },
+        { "$ref": "#/definitions/numericArrayOf3" },
+        { "$ref": "#/definitions/numericArrayOf3" }
+      ],
+      "type": "array"
+    }
+  }
+}

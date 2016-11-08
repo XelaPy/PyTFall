@@ -1,95 +1,30 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
   "properties": {
-    "attack_skills": {
-      "properties": {
-        "Blunt Attack": {
-          "type": "number"
-        },
-        "Cannon Attack": {
-          "type": "number"
-        },
-        "Dagger Attack": {
-          "type": "number"
-        },
-        "Fist Attack": {
-          "type": "number"
-        },
-        "Sword Attack": {
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "exp": {
-      "type": "number"
-    },
-    "magic_skills": {
-      "properties": {
-        "Earth 2": {
-          "type": "number"
-        },
-        "Earth 3": {
-          "type": "number"
-        },
-        "Fire 1": {
-          "type": "number"
-        },
-        "Fire 2": {
-          "type": "number"
-        },
-        "Fire 3": {
-          "type": "number"
-        },
-        "Fire Arrow": {
-          "type": "number"
-        },
-        "Windwhirl": {
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "name": {
-      "type": "string"
-    },
+    "attack_skills": { "$ref": "#/definitions/attackValue" },
+    "exp": { "type": "number" },
+    "magic_skills": { "$ref": "#/definitions/magicValue" },
+    "name": { "type": "string" },
     "stats": {
-      "properties": {
-        "agility": {
-          "type": "number"
-        },
-        "attack": {
-          "type": "number"
-        },
-        "defence": {
-          "type": "number"
-        },
-        "luck": {
-          "type": "number"
-        },
-        "magic": {
-          "type": "number"
-        }
-      },
+      "$ref": "#/definitions/statValue",
       "required": [
+        "agility",
         "attack",
         "defence",
-        "magic",
-        "agility",
-        "luck"
+        "luck",
+        "magic"
       ],
       "type": "object"
     },
-    "unique": {
-      "type": "boolean"
-    }
+    "unique": { "type": "boolean" }
   },
   "required": [
     "attack_skills",
-    "unique",
-    "stats",
+    "exp",
     "name",
-    "exp"
+    "stats",
+    "unique"
   ],
   "type": "object"
 }

@@ -241,9 +241,9 @@ screen main_menu():
             text ("Resources are missing, the game won't run without. See the instructions on the "+
                 "{a=http://www.pinkpetal.org/index.php?topic=3401.0}{size=15}forum{/size}{/a}. "+
                 "At least one unique character with accompanied .json is required "+
-                "in the\n{i}game/content/char/{/i} subdirectory of PyTFall as well as "+
+                "in the\n{i}game/content/chars/{/i} subdirectory of PyTFall as well as "+
                 "one random character .json in the\n"+
-                "{i}game/content/{b}r{/b}char/{/i} directory.") size 15
+                "{i}game/content/{b}r{/b}chars/{/i} directory.") size 15
     # ===== Animation ===== #
     
     viewport:
