@@ -479,7 +479,7 @@ init: # MC Setup Screens:
     screen mc_sub_stories(choices=OrderedDict()): # This is the MC occupation choice.
         if choices:
             hbox:
-                pos(870, 145)
+                pos 870, 50
                 spacing 10
                 for i in ["l", "r"]:
                     if choices.get(i, ""):
@@ -521,8 +521,8 @@ init: # MC Setup Screens:
         frame:
             background Frame(Transform("content/gfx/frame/MC_bg.png", alpha=1), 30, 30)
             anchor (1.0, 1.0)
-            pos (1280, 723)
-            xysize (450, 335)
+            pos (1280, 721)
+            xysize (450, 440)
             # xmargin 20
             has vbox xmaximum 430 xfill True xalign 0.5
             $ texts = mc_stories[main_story]["MC"][sub_story][mc_story]
