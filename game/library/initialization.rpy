@@ -41,8 +41,8 @@ init -999 python:
     
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
-        if "/conent/" in path:
-            renpy.error("/conent/ already in path: "+path)
+        if os.pathsep+"conent"+os.pathsep in path:
+            renpy.error("conent already in path: "+path)
         return renpy.loader.transfn('content/' + path)
     
     # enable logging via the 'logging' module
@@ -356,7 +356,7 @@ init -999 python:
                         base['definitions'][concept+"Object"] = {
                             "additionalProperties": False,
                             "properties": {
-                                key: {} for key in base['definitions'][concept]
+                                key: {} for key in base['definitions'][concept]['enum']
                             },
                             "type": "object"
                         }
@@ -425,7 +425,7 @@ init -999 python:
                 renpy.error(os.linesep.join(self._err))
 
     # set to False to update existing json files in schema directory, None skips validation and writing
-    jsstor = JasonSchemator()
+    jsstor = JasonSchemator("strict")
 
     # -------------------------------------------------------------------------------------------------------- Ends here
 
@@ -526,7 +526,8 @@ init -999 python:
             
     load_frame_by_frame_animations_from_dir("gfx/animations")
     load_frame_by_frame_animations_from_dir("gfx/be/auto-animations")
-            
+
+
 # Additional 'constant' definements
 
 # Adds a number of useful development tools to the left buttom corner
