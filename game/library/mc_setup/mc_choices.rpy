@@ -170,7 +170,7 @@ label build_mc_stories:
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles of even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else. Your mother died giving birth, only to be immediately reborn in her Court without memories about her previous life."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles or even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_shooter_summer_fay"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"] = {}
