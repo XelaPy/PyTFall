@@ -262,7 +262,7 @@
     "slot": "amulet",
     "max": {"charisma": 5},
     "mod": {"constitution": 5, "vitality": 5},
-    "locations": ["Tailor"]
+    "locations": ["Tailor Store"]
     },
     {
     "id": "Victory Charm",

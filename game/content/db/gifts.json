@@ -378,7 +378,7 @@
         "cblock": 1,
         "type": "trinket",
         "infinite": true,
-        "locations": ["General Shop", "Look around"],
+        "locations": ["General Store", "Look around"],
         "traits": {
             "Deredere": 10,
             "Impersonal": -10,
@@ -658,7 +658,7 @@
         "cblock": 1,
         "type": "tool",
         "infinite": false,
-        "locations": ["General Shop"],
+        "locations": ["General Store"],
         "traits": {
             "Impersonal": 20,
             "Deredere": -20,
@@ -694,7 +694,7 @@
         "cblock": 3,
         "infinite": false,
         "type": "tool",
-        "locations": ["General Shop"],
+        "locations": ["General Store"],
         "traits": {
             "Impersonal": 20,
             "Deredere": -20,

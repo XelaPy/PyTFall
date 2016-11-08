@@ -479,7 +479,7 @@
     "mod": {"charisma": 10, "character": 10},
     "max": {"charisma": 10, "character": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.06, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
-    "locations": ["General Shop"]
+    "locations": ["General Store"]
     },
     {
     "id": "Silver Skull",
@@ -530,7 +530,7 @@
     "slot": "ring",
     "max": {"character": -10, "charisma": 5},
     "mod": {"charisma": 5},
-    "locations": ["General Shop", "Look around"]
+    "locations": ["General Store", "Look around"]
     },
     {
     "id": "Frozen Tear",
@@ -577,7 +577,7 @@
     "slot": "ring",
     "max": {"agility": 5, "charisma": 25},
     "mod": {"luck": 5},
-    "locations": ["General Shop", "Look around", "Fishing"],
+    "locations": ["General Store", "Look around", "Fishing"],
     "goodtraits": ["Lolita"]
     },
     {
