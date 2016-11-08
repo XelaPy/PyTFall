@@ -10,7 +10,7 @@
     "id": { "type": "string" },
     "infinite": { "type": "boolean" },
     "locations": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/locations" },
       "type": "array"
     },
     "price": { "type": "number" },

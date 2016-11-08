@@ -1,13 +1,6 @@
 {
   "type": "object",
-  "definitions": {
-    "lessonObject": {
-      "properties": {
-        "desc": { "type": "string" }
-      },
-      "required": ["desc"]
-    }
-  },
+  "additionalProperties": false,
   "properties": {
     "id": { "type": "string" },
     "primary": {
@@ -19,9 +12,14 @@
     "secondary": {"type": "array"},
     "options": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "Beauty": {
-          "$ref": "#/definitions/lessonObject"
+          "additionalProperties": false,
+          "properties": {
+            "desc": { "type": "string" }
+          },
+          "required": ["desc"]
         }
       }
     }

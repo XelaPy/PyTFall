@@ -12,13 +12,9 @@
       "type": "object"
     },
     "basetraits": {
-      "anyOf": [
-        { "type": "string" },
-        {
-          "items": { "type": "string" },
-          "type": "array"
-        }
-      ]
+      "items": { "type": "string" },
+      "type": "array",
+      "maxItems": 2
     },
     "battle_skills": {
       "additionalProperties": false,
@@ -29,7 +25,10 @@
       "type": "object"
     },
     "blocked_traits": { "type": "array" },
-    "breasts": { "type": "string" },
+    "breasts": {
+        "enum": ["Abnormally Large Boobs", "Big Boobs", "Average Boobs", "Small Boobs"],
+        "default": "Average Boobs"
+    },
     "btraits": { "type": "array" },
     "color": { "type": "string" },
     "desc": { "type": "string" },
@@ -39,11 +38,14 @@
     },
     "full_race": { "type": "string" },
     "fullname": { "type": "string" },
-    "gender": { "type": "string" },
-    "gold": { "type": "number" },
-    "height": { "type": "string" },
+    "gender": { "enum": ["female"], "default": "female" },
+    "gold": { "type": "number", "default": 0 },
+    "height": {
+        "enum": ["tall", "short", "average"],
+        "default": "average"
+    },
     "id": { "type": "string" },
-    "level": { "type": "number" },
+    "level": { "type": "number", "default": 1 },
     "location": { "type": "string" },
     "magic_skills": {
       "properties": {},
@@ -53,44 +55,11 @@
     "nickname": { "type": "string" },
     "occupation": { "type": "string" },
     "origin": { "type": "string" },
-    "personality": { "type": "string" },
+    "personality": { "type": "string", "default": "Deredere"},
     "race": { "type": "string" },
-    "skills": {
-      "additionalProperties": false,
-      "properties": {
-        "anal": { "type": "number" },
-        "bartending": { "type": "number" },
-        "cleaning": { "type": "number" },
-        "dancing": { "type": "number" },
-        "exploration": { "type": "number" },
-        "management": { "type": "number" },
-        "oral": { "type": "number" },
-        "refinement": { "type": "number" },
-        "service": { "type": "number" },
-        "sex": { "type": "number" },
-        "strip": { "type": "number" },
-        "teaching": { "type": "number" },
-        "vaginal": { "type": "number" },
-        "waiting": { "type": "number" }
-      },
-      "type": "object"
-    },
+    "skills": { "$ref": "#/definitions/skillValue" },
     "stats": {
-      "additionalProperties": false,
-      "properties": {
-        "agility": { "type": "number" },
-        "attack": { "type": "number" },
-        "character": { "type": "number" },
-        "charisma": { "type": "number" },
-        "constitution": { "type": "number" },
-        "defence": { "type": "number" },
-        "evasion": { "type": "number" },
-        "intelligence": { "type": "number" },
-        "luck": { "type": "number" },
-        "magic": { "type": "number" },
-        "mp": { "type": "number" },
-        "reputation": { "type": "number" }
-      },
+      "$ref": "#/definitions/statValue",
       "required": [
         "agility",
         "attack",
@@ -101,10 +70,9 @@
         "intelligence",
         "magic",
         "luck"
-      ],
-      "type": "object"
+      ]
     },
-    "status": { "type": "string" },
+    "status": { "enum": ["free", "slave"] },
     "traits": {
       "items": { "type": "string" },
       "type": "array"
