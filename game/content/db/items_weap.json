@@ -70,7 +70,7 @@
     "infinite": false,
     "slot": "weapon",
     "type": "dagger",
-    "attacks": ["Ice Dagger Attack", "Ice Break", "Ice Dagger Attack 3X"],
+    "attacks": ["Ice Strike", "Ice Break", "Ice Strike 3X"],
     "max": {"attack": 25, "magic": 5},
     "mod": {"attack": 10, "magic": 5},
     "locations": ["Exploration"]
