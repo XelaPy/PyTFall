@@ -21,7 +21,7 @@
     "id": { "type": "string" },
     "level": { "type": "number" },
     "location": { "type": "string" },
-    "magic_skills": { "type": "array" },
+    "magic_skills": { "type": "array", "items": { "$ref": "#/definitions/magic" } },
     "name": { "type": "string" },
     "origin": { "type": "string" },
     "race": { "type": "string" },
@@ -52,7 +52,7 @@
       "type": "object"
     },
     "status": { "type": "string" },
-    "traits": { "type": "array" },
+    "traits": { "type": "array", "items": { "$ref": "#/definitions/traits" } },
     "what_color": { "type": "string" }
   },
   "required": [

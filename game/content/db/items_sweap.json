@@ -72,7 +72,7 @@
     "type": "rod",
     "max": {"magic": 80, "mp": 60},
     "mod": {"magic": 30, "character": 30, "attack": -40},
-    "add_be_spells": ["Thunder Loop"],
+    "add_be_spells": ["Thundaga"],
     "delivery_bonus": {"magic": 25},
     "delivery_multiplier": {"magic": 0.05},
     "locations": ["Witches Hut", "Exploration"]

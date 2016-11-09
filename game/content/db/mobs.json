@@ -120,7 +120,7 @@
             "Fist Attack"
         ],
         "magic_skills": [
-            "Water", "Light Heal"
+            "Water", "Cure"
         ]
     },
     {
@@ -872,7 +872,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Water", "Light Heal"
+        "magic_skills": ["Water", "Cure"
         ]
     },
     {
@@ -1202,7 +1202,7 @@
         "attack_skills": [
             "Blunt Strike"
         ],
-        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Light Heal"
+        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Cure"
         ]
     },
     {
@@ -1951,7 +1951,7 @@
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
-        "magic_skills": ["Light Heal"
+        "magic_skills": ["Cure"
         ]
     },
     {
@@ -1981,7 +1981,7 @@
         "attack_skills": [
             "Whip Strike"
         ],
-        "magic_skills": ["Light Heal", "Stonera", "Stonega"
+        "magic_skills": ["Cure", "Stonera", "Stonega"
         ]
     },
     {
@@ -2941,7 +2941,7 @@
         "attack_skills": [
             "Light Slash"
         ],
-        "magic_skills": ["Holyda", "Holyja", "Light Heal", "Light Mass Heal", "Photon Blade", "Star Light"
+        "magic_skills": ["Holyda", "Holyja", "Cure", "Curaga", "Photon Blade", "Star Light"
         ]
     },
     {
@@ -4320,7 +4320,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Mudslide", "Stoneja"
+        "magic_skills": ["Breach", "Stoneja"
         ]
     },
     {

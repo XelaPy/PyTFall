@@ -152,8 +152,8 @@
     "locations": ["Exploration"]
     },
     {
-    "id": "Mudslide Scroll",
-    "desc": "This scroll contains the arcane formula of Mudslide spell.",
+    "id": "Breach Scroll",
+    "desc": "This scroll contains the arcane formula of Breach spell.",
     "icon": "content/items/cons/scr_earth.png",
     "price": 2000,
     "sex": "unisex",
@@ -164,7 +164,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Mudslide"],
+    "add_be_spells": ["Breach"],
     "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },

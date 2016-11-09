@@ -11,7 +11,7 @@
 "exp": 10000,
 "stats": {"attack": 50, "defence": 60, "magic": 80, "agility": 50, "luck": 10},
 "attack_skills": {"Fist Attack": 1},
-"magic_skills": {"Fire 1": 1},
+"magic_skills": {"Fire": 1},
 "unique": true
 },
 {
@@ -26,7 +26,7 @@
 "exp": 10000,
 "stats": {"attack": 60, "defence": 70, "magic": 100, "agility": 60, "luck": 0},
 "attack_skills": {"Dagger Strike": 1},
-"magic_skills": {"Fire 1": 1, "Fire 2": 2, "Fire 3": 1},
+"magic_skills": {"Fire": 1, "Fira": 2, "Firaga": 1},
 "unique": true
 },
 {
@@ -41,7 +41,7 @@
 "exp": 10000,
 "stats": {"attack": 50, "defence": 60, "magic": 90, "agility": 50, "luck": 10},
 "attack_skills": {"Blunt Strike": 1},
-"magic_skills": {"Windwhirl": 2, "Fire 2": 1, "Fire 3": 1, "Earth 2": 1, "Earth 3": 1},
+"magic_skills": {"Aero": 2, "Fira": 1, "Firaga": 1, "Stonera": 1, "Stonega": 1},
 "unique": true
 },
 {
@@ -49,7 +49,7 @@
 "exp": 10000,
 "stats": {"attack": 40, "defence": 50, "magic": 60, "agility": 60, "luck": 20},
 "attack_skills": {"Fist Attack": 1},
-"magic_skills": {"Fire Arrow": 1},
+"magic_skills": {"Firaja": 1},
 "unique": true
 },
 {
@@ -57,7 +57,7 @@
 "exp": 10000,
 "stats": {"attack": 30, "defence": 45, "magic": 60, "agility": 60, "luck": 30},
 "attack_skills": {"Fist Attack": 1},
-"magic_skills": {"Fire Arrow": 1},
+"magic_skills": {"Firaja": 1},
 "unique": true
 },
 {
