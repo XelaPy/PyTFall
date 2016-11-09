@@ -2,21 +2,25 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "additionalProperties": false,
   "properties": {
-    "ab_traits": { "type": "array" },
-    "attack_skills": {
-      "items": { "$ref": "#/definitions/attack" },
+    "ab_traits": { "items": { "$ref": "#/definitions/traits" }, "type": "array" },
+    "attack_skills": { "items": { "$ref": "#/definitions/attack" }, "type": "array" },
+    "base_race": {
+      "enum": [
+        "Human"
+      ],
+      "type": "string"
+    },
+    "basetraits": { "type": "array", "items": { "$ref": "#/definitions/basetraits" } },
+    "blocked_traits": {
+      "items": { "enum": [],
+        "type": "string"
+      },
       "type": "array"
     },
-    "base_race": { "type": "string" },
-    "basetraits": {
-      "items": { "type": "string" },
-      "type": "array"
-    },
-    "blocked_traits": { "type": "array" },
     "color": { "type": "string" },
     "desc": { "type": "string" },
     "fullname": { "type": "string" },
-    "gender": { "type": "string" },
+    "gender": { "$ref": "#/definitions/gender" },
     "gold": { "type": "number" },
     "id": { "type": "string" },
     "level": { "type": "number" },
@@ -24,15 +28,10 @@
     "magic_skills": { "type": "array", "items": { "$ref": "#/definitions/magic" } },
     "name": { "type": "string" },
     "origin": { "type": "string" },
-    "race": { "type": "string" },
+    "race": { "$ref": "#/definitions/race" },
     "skills": {
       "$ref": "#/definitions/skillValue",
-      "required": [
-        "exploration",
-        "management",
-        "teaching",
-        "cleaning"
-      ],
+      "required": [ "exploration", "management", "teaching", "cleaning" ],
       "type": "object"
     },
     "stats": {

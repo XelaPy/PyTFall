@@ -12,7 +12,7 @@
       "type": "object"
     },
     "basetraits": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/basetraits" },
       "type": "array",
       "maxItems": 2
     },
@@ -24,39 +24,44 @@
       },
       "type": "object"
     },
-    "blocked_traits": { "type": "array" },
-    "breasts": {
-        "enum": ["Abnormally Large Boobs", "Big Boobs", "Average Boobs", "Small Boobs"],
-        "default": "Average Boobs"
-    },
-    "btraits": { "type": "array" },
+    "blocked_traits": { "items": { "$ref": "#/definitions/traits" }, "type": "array" },
+    "breasts": { "$ref": "#/definitions/breasts"},
+    "btraits": { "items": { "enum": [], "type": "string" }, "type": "array" },
     "color": { "type": "string" },
     "desc": { "type": "string" },
     "elements": {
-      "items": { "type": "string" },
+      "items": {
+        "enum": [
+          "Dark",
+          "Darkness Immunity",
+          "Electricity",
+          "Fire",
+          "Light",
+          "Neutral",
+          "Water"
+        ],
+        "type": "string"
+      },
       "type": "array"
     },
-    "full_race": { "type": "string" },
+    "full_race": { "items": { "enum": [], "type": "string" }, "type": "string" },
     "fullname": { "type": "string" },
-    "gender": { "enum": ["female"], "default": "female" },
+    "gender": { "$ref": "#/definitions/gender" },
     "gold": { "type": "number", "default": 0 },
-    "height": {
-        "enum": ["tall", "short", "average"],
-        "default": "average"
-    },
+    "height": { "$ref": "#/definitions/height" },
     "id": { "type": "string" },
     "level": { "type": "number", "default": 1 },
-    "location": { "type": "string" },
+    "location": { "$ref": "#/definitions/locations" },
     "magic_skills": {
       "properties": {},
       "type": "object"
     },
     "name": { "type": "string" },
     "nickname": { "type": "string" },
-    "occupation": { "type": "string" },
+    "occupation": { "$ref": "#/definitions/occupations" },
     "origin": { "type": "string" },
     "personality": { "type": "string", "default": "Deredere"},
-    "race": { "type": "string" },
+    "race": { "$ref": "#/definitions/race" },
     "skills": { "$ref": "#/definitions/skillValue" },
     "stats": {
       "$ref": "#/definitions/statValue",
@@ -72,11 +77,8 @@
         "luck"
       ]
     },
-    "status": { "enum": ["free", "slave"] },
-    "traits": {
-      "items": { "type": "string" },
-      "type": "array"
-    },
+    "status": { "$ref": "#/definitions/status" },
+    "traits": { "items": { "$ref": "#/definitions/traits" }, "type": "array" },
     "what_color": { "type": "string" }
   },
   "required": [
