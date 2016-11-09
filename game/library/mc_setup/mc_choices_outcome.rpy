@@ -138,7 +138,11 @@ label mc_setup_warrior_defender_guard_armor:
     return
     
 label mc_setup_warrior_defender_guard_left:
+    $ hero.apply_trait("Left-Handed")
+    return
+    
+label mc_setup_warrior_defender_guard_big:
     $ hero.vaginal += 50
     $ hero.VAGINAL += 50
-    $ hero.apply_trait("Big Size")
+    $ hero.apply_trait("Big Heritage")
     return

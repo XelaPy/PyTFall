@@ -158,7 +158,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["label"] = "mc_setup_warrior_defender_guard_armor"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["text"] = "You are left-handed, just like your mother. Equipment in your left hand (such as shields) is significantly more powerful, but equipment in your right hand (such as weapons) is ess effective."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["text"] = "You are left-handed, just like your mother. Equipment in your left hand (such as shields) is significantly more powerful, but equipment in your right hand (such as weapons) is less effective."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["label"] = "mc_setup_warrior_defender_guard_left"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"] = {}
