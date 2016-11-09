@@ -17,7 +17,7 @@
 
 "blocked": false,
 "fow": true,
-"bg": "content/gfx/bg/locations/forest_bg_1.jpg"
+"bg": "content/gfx/bg/locations/night_forest.jpg"
 },
 {
 "name": "Blocked Tile",
