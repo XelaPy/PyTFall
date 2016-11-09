@@ -612,7 +612,7 @@
     "mod": {"charisma": 5},
     "evasion_bonus": 2,
     "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "bartending": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0], "teaching": [0, 0, -0.1, 0, 0], "strip": [0, 0, -0.1, 0, 0]},
-    "locations": ["Tailor"],
+    "locations": ["Tailor Store"],
     "goodtraits": ["Human"],
     "badtraits": ["Not Human"]
     },
@@ -632,7 +632,7 @@
     "max": {"agility": 5, "intelligence": 20, "charisma": 20},
     "mod": {"intelligence": 10, "charisma": 20},
     "mod_skills": {"refinement": [0.01, 0.01, 0, 0, 0]},
-    "locations": ["Tailor"],
+    "locations": ["Tailor Store"],
     "goodtraits": ["Human"],
     "badtraits": ["Not Human"]
     },
@@ -652,7 +652,7 @@
     "max": {"agility": 10, "intelligence": 10, "charisma": 25},
     "mod": {"intelligence": 10, "charisma": 25},
     "mod_skills": {"refinement": [0.01, 0.01, 0, 0, 0]},
-    "locations": ["Tailor"],
+    "locations": ["Tailor Store"],
     "goodtraits": ["Not Human"],
     "badtraits": ["Human"]
     },
@@ -673,7 +673,7 @@
     "evasion_bonus": 1,
     "mod": {"charisma": 25, "agility": 5},
     "mod_skills": {"sex": [0.01, 0.01, 0.01, 0, 0], "strip": [0.01, 0.01, 0.02, 0, 0]},
-    "locations": ["Tailor"],
+    "locations": ["Tailor Store"],
     "addtraits": ["Sexy Air"],
     "goodtraits": ["Nymphomaniac", "Sexy Air", "Exhibitionist"],
     "badtraits": ["Frigid", "Shy"]
@@ -695,7 +695,7 @@
     "max": {"agility": 20, "charisma": 15, "joy": 5},
     "mod": {"charisma": 15, "agility": 10},
     "mod_skills": {"strip": [0.01, 0.01, 0.02, 0, 0]},
-    "locations": ["Tailor"],
+    "locations": ["Tailor Store"],
     "goodtraits": ["Long Legs", "Athletic", "Manly"],
     "badtraits": ["Lolita"]
     },

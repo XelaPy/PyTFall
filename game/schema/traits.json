@@ -32,6 +32,7 @@
       ]
     },
 
+    "MC_trait": { "type": "boolean" },
     "MC_only_trait": { "type": "boolean" },
     "basetrait": { "type": "boolean" },
     "blocks": {
@@ -49,7 +50,7 @@
     "delivery_multiplier": { "$ref": "#/definitions/defenceValue" },
     "desc": { "type": "string" },
     "effects": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/effects" },
       "type": "array"
     },
     "el_absorbs": { "$ref": "#/definitions/elementValue" },
@@ -73,20 +74,14 @@
     "mod": { "$ref": "#/definitions/statValue" },
     "mod_ap": { "type": "number" },
     "occupations": {
-      "items": {
-          "enum": ["SIW", "Server", "Warrior", "Caster", "Specialist"]
-      },
+      "items": { "$ref": "#/definitions/occupations" },
       "type": "array"
     },
     "permanent": { "type": "boolean" },
     "personality": { "type": "boolean" },
     "race": { "type": "boolean" },
     "resist": {
-      "items": {
-          "enum": [ "air", "darkness", "earth", "electricity", "fire",
-              "healing", "ice", "light", "physical", "poison", "water",
-              "wind" ]
-      },
+      "items": { "$ref": "#/definitions/element" },
       "type": "array"
     },
     "sexual": { "type": "boolean" },

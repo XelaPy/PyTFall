@@ -3,7 +3,7 @@
   "additionalProperties": false,
   "properties": {
     "add_be_spells": {
-      "items": { "type": "string" },
+      "items": { "$ref": "#/definitions/magic" },
       "type": "array"
     },
     "addeffects": {

@@ -136,7 +136,7 @@
     "type": "armor",
     "max": {"defence": 30, "health": 50},
     "mod": {"attack": 10, "defence": 30, "agility": -30},
-    "locations": ["Workshop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"]
     },
     {
     "id": "Officer Helmet",
@@ -153,7 +153,7 @@
     "type": "armor",
     "max": {"defence": 15, "health": 20},
     "mod": {"attack": 15, "defence": 10, "agility": -10},
-    "locations": ["Workshop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"]
     },
     {
     "id": "Private Helmet",
@@ -170,7 +170,7 @@
     "type": "armor",
     "max": {"defence": 10, "attack": 5, "agility": 10},
     "mod": {"agility": 5, "defence": 10},
-    "locations": ["Workshop"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Recon Helmet",
@@ -189,7 +189,7 @@
     "mod": {"agility": 30},
     "defence_bonus": {"ranged": 10},
     "mod_skills": {"refinement": [-0.04, 0, -0.03, 0, 0]},
-    "locations": ["Workshop"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Joy Hat",
@@ -277,7 +277,7 @@
     "slot": "head",
     "type": "dress",
     "mod_skills": {"refinement": [0.04, 0.02, 0.03, 0, 0]},
-    "locations": ["Tailor"]
+    "locations": ["Tailor Store"]
     },
     {
     "id": "Silver Barrette",
