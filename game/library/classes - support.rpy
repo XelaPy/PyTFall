@@ -1,5 +1,4 @@
-# Support classes
-
+# Support classes:
 init -9 python:
     ######## Game logic classes ########
     class PyTFallWorld(_object):
@@ -20,10 +19,6 @@ init -9 python:
             self.it = None  # Items Transfer
             self.sm = SlaveMarket()
             self.hp = GuiHeroProfile()
-            # self.gs = GuiGirlsList()
-            
-            # Teams
-            # self.pt = Team(implicit = [hero])
             
             # Exploration
             # self.tiles = load_tiles()
@@ -63,23 +58,23 @@ init -9 python:
             """
             Heals, restores AP and MP for non player characters that may have been exposed to world events.
             """
-            characters = [girl for girl in chars.itervalues() if girl not in hero.chars]
+            characters = [c for c in chars.itervalues() if c not in hero.chars]
             
-            for girl in characters:
-                girl.health = girl.get_max("health")
-                girl.mp = girl.get_max("mp")
-                girl.vitality = girl.get_max("vitality")
+            for char in characters:
+                char.health = char.get_max("health")
+                char.mp = char.get_max("mp")
+                char.vitality = char.get_max("vitality")
                 
                 # Resets and Counters
-                girl.restore_ap()
+                char.restore_ap()
                 # girl.rt_trait(traits)
-                girl.item_counter()
-                girl.img_cache = list()
-                girl.cache = list()
-                for key in girl.effects:
-                    if girl.effects[key]['active']:
-                        girl.apply_effects(key)
-                girl.effects['Food Poisoning']['activation_count'] = 0
+                char.item_counter()
+                char.img_cache = list()
+                char.cache = list()
+                for key in char.effects:
+                    if char.effects[key]['active']:
+                        char.apply_effects(key)
+                char.effects['Food Poisoning']['activation_count'] = 0
                 
             # Same for Arena Fighters:
             for fighter in pytfall.arena.arena_fighters:
