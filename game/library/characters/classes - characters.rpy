@@ -4385,7 +4385,6 @@ init -9 python:
                 # Resets and Counters:
                 self.restore_ap()
                 self.reservedAP = 0
-                # self.rt_trait(traits)
                 self.item_counter()
                 self.txt = list()
                 self.img_cache = list()
