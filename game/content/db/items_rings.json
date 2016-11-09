@@ -94,7 +94,7 @@
     "slot": "ring",
     "mod_skills": {"strip": [0.04, 0, 0.03, 0, 0], "group": [0.04, 0, 0.03, 0, 0], "service": [0.04, 0, 0.03, 0, 0]},
     "locations": ["Exploration"],
-    "goodrait": ["Curious"]
+    "goodtraits": ["Curious"]
     },
     {
     "id": "Minor Ring of Charisma",
