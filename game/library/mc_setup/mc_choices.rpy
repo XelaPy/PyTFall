@@ -139,6 +139,12 @@ label build_mc_stories:
 
         mc_stories["Warrior"]["MC"]["Defender"]["choices"] = OrderedDict(l="Royal Guard",
                                                                         l_img="content/gfx/interface/images/mc/knight.jpg",
+                                                                        l0="Armor Expert",
+                                                                        l0_img="content/items/body/mail.png",
+                                                                        l1="Left-Handed",
+                                                                        l1_img="content/gfx/interface/images/mc/left_hand.png",
+                                                                        l2="Big Heritage",
+                                                                        l2_img="content/gfx/interface/images/mc/divider.png",
                                                                         r="Noble Harpy",
                                                                         r_img="content/gfx/interface/images/mc/harpy.jpg"
                                                                         )
@@ -146,6 +152,18 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["header"] = "Royal Guard"
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["text"] = "You know a lot about armor from your parents. All armors are a bit more effective than usual."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["label"] = "mc_setup_warrior_defender_guard_armor"
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["text"] = "You are left-handed, just like your mother. Equipment in your left hand (such as shields) is significantly more powerful, but equipment in your right hand (such as weapons) is ess effective."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["label"] = "mc_setup_warrior_defender_guard_left"
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["text"] = "Your mother's family may be poor, but they have good genes. Due to your ancestry, the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["label"] = "mc_setup_warrior_defender_guard_big"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"] = {} 
         mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["header"] = "Noble Harpy"

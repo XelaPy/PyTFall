@@ -133,3 +133,12 @@ label mc_setup_warrior_shooter_summer_fay_beacon:
     $ hero.apply_trait("Life Beacon")
     return
     
+label mc_setup_warrior_defender_guard_armor:
+    $ hero.apply_trait("Armor Expert")
+    return
+    
+label mc_setup_warrior_defender_guard_left:
+    $ hero.vaginal += 50
+    $ hero.VAGINAL += 50
+    $ hero.apply_trait("Big Size")
+    return

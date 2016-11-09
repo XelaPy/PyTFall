@@ -153,5 +153,17 @@
     "desc": "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse.",
     "MC_only_trait": true,
     "permanent": true
+    },
+    {
+    "id": "Armor Expert",
+    "desc": "All armors are a bit more effective than usual.",
+    "MC_trait": true
+    },    
+    {
+    "id": "Big Heritage",
+    "desc": "the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole.",
+    "mod_skills": {"anal": [-0.2, 0, -0.2], "vaginal": [0.2, 0, 0.2]},
+    "MC_only_trait": true,
+    "permanent": true
     }
     ]
