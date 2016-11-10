@@ -895,7 +895,8 @@ init -9 python:
             client.up_counter("visited_building" + str(self.id))
             
             # Prepear data:
-            businesses = self.nd_ups[:]
+            # @Review: This is wrong as not every business deals with clients...
+            businesses = [b for b in self.nd_ups if not isinstance(b, TaskUpgrade)]
             shuffle(businesses)
             
             # TODO: Add Matron/Client likes effects here and to client classes.

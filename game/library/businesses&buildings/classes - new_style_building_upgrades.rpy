@@ -1028,7 +1028,7 @@ init -5 python:
             
             self.points = 0 # Combined exploration points from the whole team. Replaces AP.
             self.power = 0 # Power, ability might be a better name.
-            self.tp = 0 # travel point we use during traveling to offset ep sorrectly.
+            self.travel_points = 0 # travel point we use during traveling to offset ep sorrectly.
             
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
             self.captured_chars = list()
@@ -1224,8 +1224,6 @@ init -5 python:
                 tracker.log("The day has come to an end for {}.".format(tracker.team.name))
             tracker.day += 1
             
-            
-                    
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
             
@@ -1334,7 +1332,7 @@ init -5 python:
             
             # Points (ability) Convertion:
             for char in tracker.team:
-                # Set their cleaning capabilities as temp flag:
+                # Set their exploration capabilities as temp flag:
                 tracker.power += int(round(1 + w.agility * 0.1)) # Exploration Points...? How do we calculate?
             
             # AP Convertion:
