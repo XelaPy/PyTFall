@@ -65,7 +65,7 @@
     },
     {
     "id": "Knightly Stance",
-    "desc": "All equipment penalties to agility are less than usual.",
+    "desc": "All defense given by equipment is a bit higher than usual.",
     "MC_trait": true
     },
     {
@@ -156,13 +156,35 @@
     },
     {
     "id": "Armor Expert",
-    "desc": "All armors are a bit more effective than usual.",
+    "desc": "All armor bonuses to stats are a bit more effective than usual.",
     "MC_trait": true
     },    
     {
     "id": "Big Heritage",
     "desc": "the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole.",
     "mod_skills": {"anal": [-0.2, 0, -0.2], "vaginal": [0.2, 0, 0.2]},
+    "MC_only_trait": true,
+    "permanent": true
+    },    
+    {
+    "id": "Big Heritage",
+    "desc": "The certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole.",
+    "mod_skills": {"anal": [-0.2, 0, -0.2], "vaginal": [0.2, 0, 0.2]},
+    "MC_only_trait": true,
+    "permanent": true
+    },    
+    {
+    "id": "Hollow Bones",
+    "desc": "Hollow bones make you a bit weaker against physical attacks, but light body weight completely neutralizes any equipment penalties to agility.",
+    "el_defence": {"physical": -0.35},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Harpy Priestess Blood",
+    "desc": "The wind itself is your ally. It makes Air magic ineffective and weakens ranged attacks.",
+    "el_defence": {"air": 0.4},
+    "defence_multiplier": {"ranged": 0.35},
     "MC_only_trait": true,
     "permanent": true
     }

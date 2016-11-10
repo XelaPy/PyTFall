@@ -64,7 +64,8 @@ label mc_setup_warrior_warrior_dragon_stone:
 label mc_setup_warrior_warrior_dragon_defiler:
     $ hero.apply_trait("Defiler Dragon Scales")
     return
-    
+
+label mc_setup_warrior_defender_guard:
 label mc_setup_warrior_assassin_princess:
     $ hero.apply_trait("Royal Blood")
     return
@@ -145,4 +146,12 @@ label mc_setup_warrior_defender_guard_big:
     $ hero.vaginal += 50
     $ hero.VAGINAL += 50
     $ hero.apply_trait("Big Heritage")
+    return
+    
+label mc_setup_warrior_defender_harpy_bones:
+    $ hero.apply_trait("Hollow Bones")
+    return
+
+label mc_setup_warrior_defender_harpy:
+    $ hero.apply_trait("Harpy Priestess Blood")
     return

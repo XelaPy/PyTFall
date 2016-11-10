@@ -145,16 +145,19 @@ label build_mc_stories:
                                                                         l1_img="content/gfx/interface/images/mc/left_hand.png",
                                                                         l2="Big Heritage",
                                                                         l2_img="content/gfx/interface/images/mc/divider.png",
-                                                                        r="Noble Harpy",
-                                                                        r_img="content/gfx/interface/images/mc/harpy.jpg"
+                                                                        r="Harpy",
+                                                                        r_img="content/gfx/interface/images/mc/harpy.jpg",
+                                                                        r0="Hollow Bones",
+                                                                        r0_img="content/gfx/interface/images/mc/bones.png"
                                                                         )
                                                                         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["header"] = "Royal Guard"
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["label"] = "mc_setup_warrior_defender_guard"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["text"] = "You know a lot about armor from your parents. All armors are a bit more effective than usual."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["text"] = "You know a lot about armor from your parents. All armor bonuses to stats are a bit more effective than usual."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["label"] = "mc_setup_warrior_defender_guard_armor"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"] = {}
@@ -165,9 +168,14 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["text"] = "Your mother's family may be poor, but they have good genes. Due to your ancestry, the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["label"] = "mc_setup_warrior_defender_guard_big"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"] = {} 
-        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["header"] = "Noble Harpy"
-        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"] = {} 
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["header"] = "Harpy"
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["label"] = "mc_setup_warrior_defender_harpy"
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["text"] = "Evolution gave harpies hollow bones which make their bodies significantly lighter. It makes you weaker against physical attacks, but completely neutralizes any equipment penalties to agility."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["label"] = "mc_setup_warrior_defender_harpy_bones"
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
@@ -245,7 +253,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All equipment penalties to agility are less than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All defense given by equipment is a bit higher than usual."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"] = {}
