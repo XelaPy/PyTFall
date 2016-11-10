@@ -2275,6 +2275,8 @@ init -9 python:
                             self.mod_stat(key, (2*item.mod[key]))
                         elif "Summer Eternality" in self.traits and key == "health" and item.mod[key]>0:
                             self.mod_stat(key, (int(0.2*item.mod[key])))
+                        elif "Effective Metabolism" in self.traits and key == "vitality" and item.mod[key]>0:
+                            self.mod_stat(key, (int(1.5*item.mod[key])))
                         else:
                             self.mod_stat(key, item.mod[key])
                     else:

@@ -187,5 +187,11 @@
     "defence_multiplier": {"ranged": 0.35},
     "MC_only_trait": true,
     "permanent": true
+    },
+    {
+    "id": "Effective Metabolism",
+    "desc": "All consumables that restore vitality are more effective.",
+    "MC_trait": true,
+    "permanent": true
     }
     ]

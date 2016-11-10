@@ -155,3 +155,7 @@ label mc_setup_warrior_defender_harpy_bones:
 label mc_setup_warrior_defender_harpy:
     $ hero.apply_trait("Harpy Priestess Blood")
     return
+    
+label mc_setup_warrior_defender_harpy_meta:
+    $ hero.apply_trait("Effective Metabolism")
+    return

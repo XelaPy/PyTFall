@@ -148,7 +148,9 @@ label build_mc_stories:
                                                                         r="Harpy",
                                                                         r_img="content/gfx/interface/images/mc/harpy.jpg",
                                                                         r0="Hollow Bones",
-                                                                        r0_img="content/gfx/interface/images/mc/bones.png"
+                                                                        r0_img="content/gfx/interface/images/mc/bones.png",
+                                                                        r1="Effective Metabolism",
+                                                                        r1_img="content/gfx/interface/images/mc/meta.png"
                                                                         )
                                                                         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
@@ -176,6 +178,12 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"] = {}
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["text"] = "Evolution gave harpies hollow bones which make their bodies significantly lighter. It makes you weaker against physical attacks, but completely neutralizes any equipment penalties to agility."
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["label"] = "mc_setup_warrior_defender_harpy_bones"
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["text"] = "To have enough energy for flight harpies should very quickly digest food without residues. All consumables that restore vitality are more effective."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["label"] = "mc_setup_warrior_defender_harpy_meta"
+        
+        
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
