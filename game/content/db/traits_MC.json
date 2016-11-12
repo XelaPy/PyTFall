@@ -57,13 +57,6 @@
     "permanent": true
     },
     {
-    "id": "Defiler Dragon Scales",
-    "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy.",
-    "mod_skills": {"vaginal": [0, 0, 0.1], "anal": [0, 0, 0.03], "sex": [0, 0, 0.02]},
-    "MC_only_trait": true,
-    "permanent": true
-    },
-    {
     "id": "Knightly Stance",
     "desc": "All defense given by equipment is a bit higher than usual.",
     "blocks": ["Berserk", "Sword Master", "Royal Assassin", "Bow Master", "Farsightedness", "Dagger Master", "Elven Ranger"],
@@ -109,7 +102,7 @@
     },
     {
     "id": "Elven Ranger",
-    "desc": "Most ranged weapons don't give you penalties to defense.",
+    "desc": "Most ranged weapons don't give penalties to defense.",
     "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness"],
     "MC_trait": true
     },
