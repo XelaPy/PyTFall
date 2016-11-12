@@ -86,12 +86,10 @@ screen chars_list(source=None, page=0, total_pages=1):
                 gs["total_pages"] = total_pages
                 
                 # Per Dark's request, we remember the page:
-                if page < 0:
-                    gs["page"] = 0
-                if page > total_pages:
-                    gs["page"] = total_pages
-                page = gs["page"]
-                store.chars_list_last_page_viewed = page
+
+                page = max(0, min(gs["page"], total_pages - 1))
+                store.chars_list_last_page_viewed = gs["page"] = page
+
                 chars_list[0] = chars_list[0][page*page_lenght:page*page_lenght+page_lenght]
                 chars_list[1] = chars_list[1][page*page_lenght:page*page_lenght+page_lenght]
                 
