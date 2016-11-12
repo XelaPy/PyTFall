@@ -76,7 +76,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                 chars_list.append([c for ind, c in enumerate(source.sorted) if ind % 2 == 0])
                 chars_list.append([c for ind, c in enumerate(source.sorted) if ind % 2 == 1])
                 page_lenght = 5
-                total_pages = max(int(math.ceil(len(chars_list[0]) / float(page_lenght))), int(math.ceil(len(chars_list[1]) / float(page_lenght))))
+                total_pages = len(source.sorted) / (page_lenght * 2) + (len(source.sorted) % (page_lenght * 2) != 0)
                 gs = renpy.get_screen("chars_list").scope["_kwargs"]
                 gs["total_pages"] = total_pages
                 
