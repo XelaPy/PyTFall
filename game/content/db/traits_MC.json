@@ -2,7 +2,7 @@
     {
     "id": "Amazon Training",
     "desc": "Your mother watched over your training since childhood. As a result, your body is in a great condition.",
-    "max": {"vitality": 25, "health": 25},
+    "max": {"vitality": 50, "health": 50},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -10,6 +10,12 @@
     "id": "Amazon Musculature",
     "desc": "You inherited your mother's strength. Melee weapons deal more damage than usual.",
     "delivery_multiplier": {"melee": 0.25},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Berserk",
+    "desc": "All defense bonuses from equipment are lower, but all attack bonuses are higher.",
     "MC_only_trait": true,
     "permanent": true
     },
@@ -37,7 +43,7 @@
     },
     {
     "id": "Dragon Blood",
-    "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective.",
+    "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective against you.",
     "defence_multiplier": {"melee":0.2},
     "MC_only_trait": true,
     "permanent": true
@@ -45,14 +51,14 @@
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
-    "el_defence": {"physical": 0.2, "earth": 0.3},
+    "el_defence": {"physical": 0.2, "earth": 0.4},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
-    "el_defence": {"fire": 0.4, "electricity": 0.1},
+    "el_defence": {"fire": 0.5, "electricity": 0.1},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -192,6 +198,13 @@
     "id": "Effective Metabolism",
     "desc": "All consumables that restore vitality are more effective.",
     "MC_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Dragon Eyesight",
+    "desc": "Slightly increases critical damage.",
+    "ch_multiplier": 0.1,
+    "MC_only_trait": true,
     "permanent": true
     }
     ]

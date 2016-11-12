@@ -46,8 +46,9 @@ label mc_setup_warrior_warrior_amazon_muscle:
     $ hero.apply_trait("Amazon Musculature")
     return
     
-label mc_setup_warrior_warrior_amazon_yuri:
-    $ hero.apply_trait("Yuri Expert")
+label mc_setup_warrior_warrior_amazon_berserk:
+    $ hero.apply_trait("Berserk")
+    return
     
 label mc_setup_warrior_warrior_dragon:
     $ hero.apply_trait("Dragon Blood")
@@ -61,8 +62,8 @@ label mc_setup_warrior_warrior_dragon_stone:
     $ hero.apply_trait("Stone Dragon Scales")
     return
     
-label mc_setup_warrior_warrior_dragon_defiler:
-    $ hero.apply_trait("Defiler Dragon Scales")
+label mc_setup_warrior_warrior_dragon_sight:
+    $ hero.apply_trait("Dragon Eyesight")
     return
 
 label mc_setup_warrior_defender_guard:

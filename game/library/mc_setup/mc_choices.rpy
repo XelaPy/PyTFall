@@ -295,16 +295,16 @@ label build_mc_stories:
                                                                         l0_img="content/items/misc/std.png",
                                                                         l1="Muscle",
                                                                         l1_img="content/gfx/interface/images/mc/amazon_const.png",
-                                                                        l2="Yuri",
-                                                                        l2_img="content/gfx/interface/images/mc/amazon_yuri.png",
+                                                                        l2="Berserk",
+                                                                        l2_img="content/gfx/interface/images/mc/berserk.png",
                                                                         r="Dragon",
                                                                         r_img="content/gfx/interface/images/mc/dragon.jpg",
                                                                         r0="Fire",
                                                                         r0_img="content/gfx/interface/images/mc/fire_dragon.jpg",
                                                                         r1="Stone",
                                                                         r1_img="content/gfx/interface/images/mc/stone_dragon.jpg",
-                                                                        r2="Defiler",
-                                                                        r2_img="content/gfx/interface/images/mc/defiler_dragon.jpg")
+                                                                        r2="Dragon Sight",
+                                                                        r2_img="content/gfx/interface/images/mc/dragon_eye.png")
                                                                         
 
                                                                         
@@ -315,16 +315,16 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["label"] = "mc_setup_warrior_warrior_amazon"
 
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["text"] = "Your mother watched over your training since childhood. As a result, your body is in a great condition (+ max vitality)."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["text"] = "Your mother watched over your training since childhood. As a result, your body is in a great condition (+ vitality and health)."
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["label"] = "mc_setup_warrior_warrior_amazon_training"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"] = {}
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["text"] = "You inherited your mother's strength. Melee weapons deal more damage than usual."
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["label"] = "mc_setup_warrior_warrior_amazon_muscle"
         
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["text"] = "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good."
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["label"] = "mc_setup_warrior_warrior_amazon_yuri"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Berserk"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Berserk"]["text"] = "Your mother taught you here fighting style. All defense bonuses from equipment are lower, but all attack bonuses are higher."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Berserk"]["label"] = "mc_setup_warrior_warrior_amazon_berserk"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"] = {} 
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["header"] = "Dragon"
@@ -332,16 +332,17 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["label"] = "mc_setup_warrior_warrior_dragon"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["label"] = "mc_setup_warrior_warrior_dragon_fire"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow (+earth and physical resistance)."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["label"] = "mc_setup_warrior_warrior_dragon_stone"
         
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy."
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["label"] = "mc_setup_warrior_warrior_dragon_defiler"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["text"] = "Dragons have perfect distance vision, and so do you. You are competent with ranged weapons and have slightly increased critical damage."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["label"] = "mc_setup_warrior_warrior_dragon_sight"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["class"] = "Shooter"
         
         
         # We add the rest of the options:
