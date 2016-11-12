@@ -88,7 +88,7 @@ label mc_setup_warrior_shooter_forest_elf_sniper:
     return
 
 label mc_setup_warrior_shooter_forest_elf_ranger:
-    $ hero.apply_trait("Ranger")
+    $ hero.apply_trait("Elven Ranger")
     return
     
 label mc_setup_warrior_shooter_forest_elf_features:
@@ -115,17 +115,15 @@ label mc_setup_warrior_shooter_summer_fay_beacon:
     return
     
 label mc_setup_warrior_defender_guard_armor:
-    $ hero.apply_trait("Armor Expert")
+    $ hero.apply_trait("Royal Defender")
     return
     
 label mc_setup_warrior_defender_guard_left:
     $ hero.apply_trait("Left-Handed")
     return
     
-label mc_setup_warrior_defender_guard_big:
-    $ hero.vaginal += 50
-    $ hero.VAGINAL += 50
-    $ hero.apply_trait("Big Heritage")
+label mc_setup_warrior_defender_guard_shield:
+    $ hero.apply_trait("Shield Master")
     return
     
 label mc_setup_warrior_defender_harpy_bones:
@@ -138,4 +136,9 @@ label mc_setup_warrior_defender_harpy:
     
 label mc_setup_warrior_defender_harpy_meta:
     $ hero.apply_trait("Effective Metabolism")
+    return
+    
+label mc_setup_warrior_defender_harpy_sky:
+    $ hero.baseAP += 1
+    $ hero.apply_trait("Sky Ward")
     return
