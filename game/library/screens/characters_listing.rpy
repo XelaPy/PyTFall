@@ -57,15 +57,10 @@ label chars_list:
             elif result[0] == "paging":
                 gs = renpy.get_screen("chars_list").scope["_kwargs"]["source"]
                 if result[1] == "next":
-                    if gs.page + 1 > gs.total_pages - 1:
-                        gs.page = 0
-                    else:
-                        gs.page += 1
+                    gs.page += 1
                 elif result[1] == "previous":
-                    if gs.page - 1 < 0:
-                        gs.page = gs.total_pages - 1
-                    else:
-                        gs.page -= 1
+                    gs.page -= 1
+                gs.page %= gs.total_pages
 
     hide screen chars_list
     jump mainscreen
