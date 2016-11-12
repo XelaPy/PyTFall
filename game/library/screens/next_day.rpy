@@ -338,8 +338,9 @@ label next_day_controls:
 
                 elif result[1] == 'building':
                     building = result[2]
-                    order = {"buildingreport":1, "jobreport":2}
+                    order = {"buildingreport": 1, "jobreport": 2}
                     FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
+                    # TODO: There should always be the buiding report availible per design. Check NSUB to figure out what happned to default.
 
                 elif result[1] == "fighters_guild":
                     order = {"fg_report":1, "exploration_report":2, "fg_job":3}
@@ -348,15 +349,15 @@ label next_day_controls:
                 else:
                     devlog.warn("unhandled event:"+result[1])
 
-                if len(FilteredList):
+                if FilteredList:
                     event = FilteredList[0]
                     gimg = event.load_image()
                     index = 0
                 else:
                     devlog.warn("all NextDayEvents were filtered for: "+result[0]+", "+result[1])
-                    if result[1] == 'gndreports':
-                        # Preventing Index Exception on empty filter
-                        FilteredList = NextDayEvents
+                    # if result[1] == 'gndreports':
+                    # Preventing Index Exception on empty filter
+                    FilteredList = NextDayEvents
 
         if result[0] == 'control':
             if result[1] == 'left':

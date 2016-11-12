@@ -382,6 +382,7 @@ init -6 python:
             """
             items = list()
             area = tracker.area
+            team = tracker.team
             fought_mobs = 0
             encountered_opfor = 0
             
@@ -406,41 +407,44 @@ init -6 python:
                             var = max(1, int(round(value*.05)))
                             char.mod_stat(stat, -var) # TODO: Change to log + direct application.
                             
+                # This code and comment are both odd...
+                # We may have area items draw two times. Investigate later:
                 if tracker.items and dice(area.risk*0.02 + tracker.day*0.15):
-                    items.append(choice(tracker.items))
+                    item = choice(tracker.items)
+                    temp = "{color=[blue]}Found an item {}!{/color}.".format(item.name)
+                    tracker.log("Found Item", temp, ui_log=True)
+                    items.append(item)
                 
                 # Second round of items for those specifically specified for this area:
-                # This come and comment are both odd...
                 for i in area.items:
                     if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
                         temp = "{color=[blue]}Found an item {}!{/color}.".format(i.name)
                         tracker.log("Found Item", temp, ui_log=True)
-                        
                         items.append(i)
                         # break   #too hard to calculate chances for json with that
                 
-                if dice(area.risk + self.day*2):
-                    cash += randint(int(tracker.cash_limit/50*self.day), int(tracker.cash_limit/15*tracker.day))
+                if dice(area.risk*.05 + self.day*2*.05):
+                    cash += randint(int(tracker.cash_limit/50*self.day*.05), int(tracker.cash_limit/15*tracker.day*.05))
                 
                 #  =================================================>>>
                 # Girls capture (We break off exploration run in case of success):
-                if tracker.capture_chars:
-                    for g in area.girls:
-                        if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
-                            tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
-                            self.env.exit("captured char")
+                # if tracker.capture_chars:
+                    # for g in area.girls:
+                        # if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
+                            # tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
+                            # self.env.exit("captured char")
                             
                         # TODO: g in rchars looks like broken code! This also need to be updated and reviewed.
-                        elif g in rchars and dice(area.girls[g] + self.day*0.1):
-                            new_random_girl = build_rc()
-                            self.captured_girl = build_rc()
-                            self.env.exit("captured rchar")
+                        # elif g in rchars and dice(area.girls[g] + self.day*0.1):
+                            # # new_random_girl = build_rc()
+                            # self.captured_girl = build_rc()
+                            # self.env.exit("captured rchar")
                 
                 if not fought_mobs:
                     mob = None
                     
                     for key in tracker.mobs:
-                        encounter_chance = dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2)))*0.05 # Needs a rework... what is ap here?
+                        encounter_chance = True # Condition here:
                         if encounter_chance: # Needs a review, we don't have ap here anymore.
                             enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
