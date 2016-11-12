@@ -281,7 +281,7 @@ init -6 python:
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = int(round(tracker.points / 20.0)) # local variable just might do the trick...
             
-            if tracker.traveled <= tracker.distance:
+            if not tracker.traveled:
                 temp = "{} is on route to {}!".format(tracker.team.name, tracker.area.id)
                 tracker.log(temp)
             
