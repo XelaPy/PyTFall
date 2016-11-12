@@ -133,18 +133,20 @@ label build_mc_stories:
 
         mc_stories["Warrior"]["MC"]["Defender"]["choices"] = OrderedDict(l="Royal Guard",
                                                                         l_img="content/gfx/interface/images/mc/knight.jpg",
-                                                                        l0="Armor Expert",
-                                                                        l0_img="content/items/body/mail.png",
+                                                                        l0="Royal Defender",
+                                                                        l0_img="content/gfx/interface/images/mc/crown.png",
                                                                         l1="Left-Handed",
                                                                         l1_img="content/gfx/interface/images/mc/left_hand.png",
-                                                                        l2="Big Heritage",
-                                                                        l2_img="content/gfx/interface/images/mc/divider.png",
+                                                                        l2="Shield Master",
+                                                                        l2_img="content/gfx/interface/images/mc/shield.png",
                                                                         r="Harpy",
                                                                         r_img="content/gfx/interface/images/mc/harpy.jpg",
                                                                         r0="Hollow Bones",
                                                                         r0_img="content/gfx/interface/images/mc/bones.png",
                                                                         r1="Effective Metabolism",
-                                                                        r1_img="content/gfx/interface/images/mc/meta.png"
+                                                                        r1_img="content/gfx/interface/images/mc/meta.png",
+                                                                        r2="Sky Ward",
+                                                                        r2_img="content/gfx/interface/images/mc/wind.png"
                                                                         )
                                                                         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
@@ -152,17 +154,17 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["label"] = "mc_setup_warrior_defender_guard"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["text"] = "You know a lot about armor from your parents. All armor bonuses to stats are a bit more effective than usual."
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["label"] = "mc_setup_warrior_defender_guard_armor"
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Royal Defender"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Royal Defender"]["text"] = "You know a lot about armor from your parents. Equipment gives additional defense based on its price."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Royal Defender"]["label"] = "mc_setup_warrior_defender_guard_armor"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"] = {}
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["text"] = "You are left-handed, just like your mother. Equipment in your left hand (such as shields) is significantly more powerful, but equipment in your right hand (such as weapons) is less effective."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["label"] = "mc_setup_warrior_defender_guard_left"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["text"] = "Your mother's family may be poor, but they have good genes. Due to your ancestry, the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole."
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["label"] = "mc_setup_warrior_defender_guard_big"
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Shield Master"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Shield Master"]["text"] = "Your mother taught you here fighting style. All shields are a bit more powerful than usual."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Shield Master"]["label"] = "mc_setup_warrior_defender_guard_shield"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"] = {} 
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["header"] = "Harpy"
@@ -174,15 +176,18 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["label"] = "mc_setup_warrior_defender_harpy_bones"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["text"] = "To have enough energy for flight harpies should very quickly digest food without residues. All consumables that restore vitality are more effective."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["text"] = "To have enough energy for flight harpies should very quickly digest food without residues. All consumables that restore vitality are more effective, especially food."
         mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["label"] = "mc_setup_warrior_defender_harpy_meta"
         
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Sky Ward"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Sky Ward"]["text"] = "Due to their mystical connection with the sky, harpies are one of the fastest flyers in the world. You cannot be as fast without wings, but it still helps (+ 1 Action Point and additional agility)."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Sky Ward"]["label"] = "mc_setup_warrior_defender_harpy_sky"
         
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
                                                                         l0="Sniper",
-                                                                        l0_img="content/items/weapon/eb.png",
+                                                                        l0_img="content/gfx/interface/images/mc/bow.png",
                                                                         l1="Elven Farsightedness",
                                                                         l1_img="content/gfx/interface/images/mc/aim.png",
                                                                         l2="Elven Ranger",
@@ -257,7 +262,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All defense given by equipment is a bit higher than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. Defense given by armor is a bit higher than usual."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["class"] = "Defender"
         
