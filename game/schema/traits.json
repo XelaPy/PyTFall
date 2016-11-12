@@ -35,34 +35,24 @@
     "MC_trait": { "type": "boolean" },
     "MC_only_trait": { "type": "boolean" },
     "basetrait": { "type": "boolean" },
-    "blocks": {
-      "items": { "type": "string" },
-      "type": "array"
-    },
+    "blocks": { "items": { "$ref": "#/definitions/traits" }, "type": "array" },
     "body": { "type": "boolean" },
     "breasts": { "type": "boolean" },
     "ch_multiplier": { "type": "number" },
     "character_trait": { "type": "boolean" },
     "client": { "type": "boolean" },
     "damage_multiplier": { "type": "number" },
-
     "defence_multiplier": { "$ref": "#/definitions/defenceValue" },
     "delivery_multiplier": { "$ref": "#/definitions/defenceValue" },
     "desc": { "type": "string" },
-    "effects": {
-      "items": { "$ref": "#/definitions/effects" },
-      "type": "array"
-    },
+    "effects": { "items": { "$ref": "#/definitions/effects" }, "type": "array" },
     "el_absorbs": { "$ref": "#/definitions/elementValue" },
     "el_damage": { "$ref": "#/definitions/elementValue" },
     "el_defence": { "$ref": "#/definitions/elementValue" },
     "elemental": { "type": "boolean" },
     "evasion_bonus": { "$ref": "#/definitions/numericArrayOf3" },
     "font_color": { "type": "string" },
-    "higher_tiers": {
-      "items": { "type": "string" },
-      "type": "array"
-    },
+    "higher_tiers": { "items": { "$ref": "#/definitions/basetraits" }, "type": "array" },
     "icon": { "type": "string" },
     "id": { "type": "string" },
     "init_lvlmax": { "$ref": "#/definitions/statValue" },
@@ -73,20 +63,14 @@
     "mob_only": { "type": "boolean" },
     "mod": { "$ref": "#/definitions/statValue" },
     "mod_ap": { "type": "number" },
-    "occupations": {
-      "items": { "$ref": "#/definitions/occupations" },
-      "type": "array"
-    },
+    "occupations": { "items": { "$ref": "#/definitions/occupations" }, "type": "array" },
     "permanent": { "type": "boolean" },
     "personality": { "type": "boolean" },
     "race": { "type": "boolean" },
-    "resist": {
-      "items": { "$ref": "#/definitions/element" },
-      "type": "array"
-    },
+    "resist": { "items": { "$ref": "#/definitions/element" }, "type": "array" },
     "sexual": { "type": "boolean" },
     "trEffMax": { "type": "number" },
-    "type": { "type": "string" },
+    "type": { "enum": ["race"], "type": "string" },
     "virginity": { "type": "boolean" }
   },
   "required": [

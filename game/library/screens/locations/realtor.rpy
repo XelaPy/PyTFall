@@ -46,6 +46,7 @@ label realtor_agency:
     # Added the next three lines to disable this feature without crashing the game   --fenec250
     
     $ market_buildings = sorted(set(chain(businesses.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
+    $ focus = None
     
     show screen realtor_agency
     with fade
@@ -59,7 +60,8 @@ label realtor_agency:
                 if hero.take_money(result[1].price, reason="Property"):
                     $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
                     $ hero.add_building(result[1])
-                    jump realtor_exit
+                    $ market_buildings.remove(result[1])
+                    $ focus = None
                 else:
                     $ renpy.call_screen('message_screen', "You don't have enough Gold!!")
             else:
@@ -80,7 +82,6 @@ screen realtor_agency():
     zorder 1
     
     
-    default focus = None
     default tt = Tooltip("Please take a look at some of our offers!")
 
     if market_buildings:
@@ -123,7 +124,7 @@ screen realtor_agency():
                                         imagebutton:
                                             idle (img)
                                             hover (im.MatrixColor(img, im.matrix.brightness(0.25)))
-                                            action SetScreenVariable("focus", building)
+                                            action SetVariable("focus", building)
                 vbar value YScrollValue("brothelmarket_vp")
 
     if focus:
