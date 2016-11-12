@@ -51,7 +51,7 @@ init -6 python:
             self.guild = guild # Guild this tracker was initiated from...
             
             self.mobs = self.area.mobs
-            self.risk = self.area.risk
+            self.risk = self.area.risk or 50 # TODO: Remove 50 after testing and interface adjustments.
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
             self.hazard = self.area.hazard
@@ -298,7 +298,7 @@ init -6 python:
                     if tracker.day > 0:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Arrival")
-                    
+                    tracker.state = "exploring"
                     self.env.exit("arrived")
                 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
@@ -388,10 +388,7 @@ init -6 python:
             # Points (ability) Convertion:
             for char in tracker.team:
                 # Set their exploration capabilities as temp flag:
-                tracker.power += int(round(1 + w.agility * 0.1)) # Effectiveness? How do we calculate?
-            
-            # AP Convertion:
-            self.convert_AP(tracker)
+                tracker.effectiveness += int(round(1 + char.agility * 0.1) + char.get_skill("exploration")) # Effectiveness? How do we calculate?
             
             #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
             risk_a_day_multiplicator = int(round(((0.2 + (area.risk*0.008))*(1 + tracker.day*(0.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
@@ -404,15 +401,16 @@ init -6 python:
                     temp = "{color=[blue]}Hazardous area!{/color} The team has been effected."
                     tracker.log(temp)
                     for char in tracker.team:
-                        for stat in area.hazard:
+                        for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
-                            var = max(1, int(round(area.hazard[stat]*.05)))
+                            var = max(1, int(round(value*.05)))
                             char.mod_stat(stat, -var) # TODO: Change to log + direct application.
                             
-                if tracker.items and dice(area.risk*0.2 + tracker.day *3):
+                if tracker.items and dice(area.risk*0.02 + tracker.day*0.15):
                     items.append(choice(tracker.items))
                 
                 # Second round of items for those specifically specified for this area:
+                # This come and comment are both odd...
                 for i in area.items:
                     if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
                         temp = "{color=[blue]}Found an item {}!{/color}.".format(i.name)
