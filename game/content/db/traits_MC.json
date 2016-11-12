@@ -2,7 +2,7 @@
     {
     "id": "Amazon Training",
     "desc": "Your mother watched over your training since childhood. As a result, your body is in a great condition.",
-    "max": {"vitality": 25, "health": 25},
+    "max": {"vitality": 50, "health": 50},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -11,6 +11,13 @@
     "desc": "You inherited your mother's strength. Melee weapons deal more damage than usual.",
     "delivery_multiplier": {"melee": 0.25},
     "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Berserk",
+    "desc": "All defense bonuses from equipment are lower, but all attack bonuses are higher.",
+    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin"],
+    "MC_trait": true,
     "permanent": true
     },
     {
@@ -37,7 +44,7 @@
     },
     {
     "id": "Dragon Blood",
-    "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective.",
+    "desc": "The dragon blood is too thin to influence the looks, but it still makes melee weapons a bit less effective against you.",
     "defence_multiplier": {"melee":0.2},
     "MC_only_trait": true,
     "permanent": true
@@ -45,14 +52,14 @@
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
-    "el_defence": {"physical": 0.2, "earth": 0.3},
+    "el_defence": {"physical": 0.2, "earth": 0.4},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
-    "el_defence": {"fire": 0.4, "electricity": 0.1},
+    "el_defence": {"fire": 0.5, "electricity": 0.1},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -65,12 +72,20 @@
     },
     {
     "id": "Knightly Stance",
-    "desc": "All equipment penalties to agility are less than usual.",
+    "desc": "All defense given by equipment is a bit higher than usual.",
+    "blocks": ["Berserk", "Sword Master", "Royal Assassin"],
     "MC_trait": true
     },
     {
     "id": "Sword Master",
     "desc": "All swords are a bit more powerful than usual.",
+    "blocks": ["Knightly Stance", "Berserk", "Royal Assassin"],
+    "MC_trait": true
+    },
+    {
+    "id": "Royal Assassin",
+    "desc": "The more expensive equipped items, the more attack they give.",
+    "blocks": ["Knightly Stance", "Berserk", "Sword Master"],
     "MC_trait": true
     },
     {
@@ -151,6 +166,53 @@
     {
     "id": "Life Beacon",
     "desc": "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse.",
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Armor Expert",
+    "desc": "All armor bonuses to stats are a bit more effective than usual.",
+    "MC_trait": true
+    },    
+    {
+    "id": "Big Heritage",
+    "desc": "the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole.",
+    "mod_skills": {"anal": [-0.2, 0, -0.2], "vaginal": [0.2, 0, 0.2]},
+    "MC_only_trait": true,
+    "permanent": true
+    },    
+    {
+    "id": "Big Heritage",
+    "desc": "The certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole.",
+    "mod_skills": {"anal": [-0.2, 0, -0.2], "vaginal": [0.2, 0, 0.2]},
+    "MC_only_trait": true,
+    "permanent": true
+    },    
+    {
+    "id": "Hollow Bones",
+    "desc": "Hollow bones make you a bit weaker against physical attacks, but light body weight completely neutralizes any equipment penalties to agility.",
+    "el_defence": {"physical": -0.35},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Harpy Priestess Blood",
+    "desc": "The wind itself is your ally. It makes Air magic ineffective and weakens ranged attacks.",
+    "el_defence": {"air": 0.4},
+    "defence_multiplier": {"ranged": 0.35},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Effective Metabolism",
+    "desc": "All consumables that restore vitality are more effective.",
+    "MC_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Dragon Eyesight",
+    "desc": "Slightly increases critical damage.",
+    "ch_multiplier": 0.1,
     "MC_only_trait": true,
     "permanent": true
     }
