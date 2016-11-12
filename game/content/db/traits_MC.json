@@ -14,13 +14,6 @@
     "permanent": true
     },
     {
-    "id": "Berserk",
-    "desc": "All defense bonuses from equipment are lower, but all attack bonuses are higher.",
-    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin"],
-    "MC_trait": true,
-    "permanent": true
-    },
-    {
     "id": "Yuri Expert",
     "desc": "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good.",
     "mod_skills": {"oral": [0, 0.1, 0.1]},
@@ -59,7 +52,7 @@
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
-    "el_defence": {"fire": 0.5, "electricity": 0.1},
+    "el_defence": {"fire": 0.6, "electricity": 0.1},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -73,19 +66,51 @@
     {
     "id": "Knightly Stance",
     "desc": "All defense given by equipment is a bit higher than usual.",
-    "blocks": ["Berserk", "Sword Master", "Royal Assassin"],
+    "blocks": ["Berserk", "Sword Master", "Royal Assassin", "Bow Master", "Farsightedness", "Dagger Master", "Elven Ranger"],
     "MC_trait": true
     },
     {
     "id": "Sword Master",
     "desc": "All swords are a bit more powerful than usual.",
-    "blocks": ["Knightly Stance", "Berserk", "Royal Assassin"],
+    "blocks": ["Knightly Stance", "Berserk", "Royal Assassin", "Bow Master", "Farsightedness", "Dagger Master", "Elven Ranger"],
     "MC_trait": true
     },
     {
     "id": "Royal Assassin",
     "desc": "The more expensive equipped items, the more attack they give.",
-    "blocks": ["Knightly Stance", "Berserk", "Sword Master"],
+    "blocks": ["Knightly Stance", "Berserk", "Sword Master", "Bow Master", "Farsightedness", "Dagger Master", "Elven Ranger"],
+    "MC_trait": true
+    },
+    {
+    "id": "Bow Master",
+    "desc": "All bows are a bit more powerful than usual.",
+    "blocks": ["Knightly Stance", "Berserk", "Sword Master", "Royal Assassin", "Farsightedness", "Dagger Master", "Elven Ranger"],
+    "MC_trait": true
+    },
+    {
+    "id": "Farsightedness",
+    "desc": "All ranged attacks are stronger, but all melee attacks are weaker.",
+    "blocks": ["Knightly Stance", "Berserk", "Sword Master", "Royal Assassin", "Bow Master", "Dagger Master", "Elven Ranger"],
+    "delivery_multiplier": {"melee": -0.5, "ranged": 0.5},
+    "MC_trait": true
+    },
+    {
+    "id": "Dagger Master",
+    "desc": "All daggers are a bit more powerful than usual.",
+    "blocks": ["Knightly Stance", "Berserk", "Sword Master", "Royal Assassin", "Bow Master", "Farsightedness", "Elven Ranger"],
+    "MC_trait": true
+    },
+    {
+    "id": "Berserk",
+    "desc": "All defense bonuses from equipment are lower, but all attack bonuses are higher.",
+    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Elven Ranger", "Dagger Master", "Farsightedness"],
+    "MC_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Elven Ranger",
+    "desc": "Most ranged weapons don't give you penalties to defense.",
+    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness"],
     "MC_trait": true
     },
     {
@@ -110,34 +135,11 @@
     "MC_trait": true
     },
     {
-    "id": "Dagger Master",
-    "desc": "All daggers are a bit more powerful than usual.",
-    "MC_trait": true
-    },
-    {
     "id": "Forest Elf Blood",
     "desc": "You inherited your mother's affinity to the nature. Healing spells work better on you, while earth and wind deal less damage.",
     "max": {"charisma": 10, "constitution": -10, "agility": 5},
     "el_defence": {"healing": -0.25},
     "el_damage": {"earth": 0.1, "wind": 0.1},
-    "MC_only_trait": true,
-    "permanent": true
-    },
-    {
-    "id": "Bow Master",
-    "desc": "All bows are a bit more powerful than usual.",
-    "MC_trait": true
-    },
-    {
-    "id": "Ranger",
-    "desc": "You know a lot about surviving outside of the city from your parents. Your exploration skills are second to none.",
-    "mod_skills": {"exploration": [0.3, 0.2, 0.3]},
-    "MC_only_trait": true
-    },
-    {
-    "id": "Elven Features",
-    "desc": "Due to your ancestry, the certain part of your body is a bit thinner than you would like. That makes anal sex much easier, but you have to try harder in the other hole.",
-    "mod_skills": {"vaginal": [-0.2, 0, -0.2], "anal": [0.2, 0, 0.2]},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -158,14 +160,14 @@
     },
     {
     "id": "Summer Affinity",
-    "desc": "You inherited some of your mother's mystic powers. Fire and Light are not very effective against you, but Ice and Darkness are bad news.",
-    "el_defence": {"fire": 0.7, "light": 0.4, "ice": -0.7, "darkness": -0.4},
+    "desc": "You inherited some of your mother's mystic powers. Fire and Light are not very effective against you.",
+    "el_defence": {"fire": 0.25, "light": 0.25},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Life Beacon",
-    "desc": "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse.",
+    "desc": "Your Fae inheritance gives you aura of life which regenerates some health for all characters under your command every day and makes them a bit happier.",
     "MC_only_trait": true,
     "permanent": true
     },

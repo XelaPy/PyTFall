@@ -88,7 +88,7 @@ label mc_setup_warrior_shooter_forest_elf_sniper:
     return
 
 label mc_setup_warrior_shooter_forest_elf_ranger:
-    $ hero.apply_trait("Ranger")
+    $ hero.apply_trait("Elven Ranger")
     return
     
 label mc_setup_warrior_shooter_forest_elf_features:

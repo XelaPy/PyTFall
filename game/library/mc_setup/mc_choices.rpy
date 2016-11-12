@@ -183,10 +183,10 @@ label build_mc_stories:
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
                                                                         l0="Sniper",
                                                                         l0_img="content/items/weapon/eb.png",
-                                                                        l1="Ranger",
-                                                                        l1_img="content/gfx/interface/images/mc/ranger.png",
-                                                                        l2="Elven Features",
-                                                                        l2_img="content/gfx/interface/images/mc/divider.png",
+                                                                        l1="Elven Farsightedness",
+                                                                        l1_img="content/gfx/interface/images/mc/aim.png",
+                                                                        l2="Elven Ranger",
+                                                                        l2_img="content/gfx/interface/images/mc/ranger.png",
                                                                         r="Summer Fay",
                                                                         r_img="content/gfx/interface/images/mc/summer_fay.jpg",
                                                                         r0="Eternality",
@@ -206,13 +206,15 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["text"] = "Your mother taught you to use bows like forest elves do. All bows are a bit more powerful than usual."
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["label"] = "mc_setup_warrior_shooter_forest_elf_sniper"
         
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["text"] = "You know a lot about surviving outside of the city from your parents. Your exploration skills are second to none." # we don't have SE atm. When we will, it will give something special too
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Farsightedness"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Farsightedness"]["text"] = "Due to specialization in shooting, over time some forest elves lost the ability to effectively fight in close combat, but became even better shooters."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Farsightedness"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
         
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex easier, but you have to try harder in the other hole."
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["label"] = "mc_setup_warrior_shooter_forest_elf_features"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"]["text"] = "Your mother taught you the ways of elves. Most ranged weapons don't give you penalties to defense."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"]["class"] = "Assassin"
+
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
@@ -224,11 +226,11 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["label"] = "mc_setup_warrior_shooter_summer_fay_eternal"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["text"] = "You inherited some of your mother's mystic powers. You can use Summer Arrow skill in battle, and Fire and Light are not very effective against you. On the other hand, Ice and Darkness are bad news."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["text"] = "You inherited some of your mother's mystic powers. You can use Summer Arrow skill in battle, and Fire and Light are not very effective against you."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["label"] = "mc_setup_warrior_shooter_summer_fay_affinity"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["text"] = "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse." # might add more if we'll have pregnancy in the future
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["text"] = "Your Fae inheritance gives you aura of life which regenerates some health for all characters under your command every day and makes them a bit happier."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["label"] = "mc_setup_warrior_shooter_summer_fay_beacon"
             
                                                                         
@@ -265,7 +267,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["class"] = "Warrior"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["text"] = "You used to use only the best equipment. The more expensive equipped items, the more attack you get."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["text"] = "Due to your heritage, you used to use only the best equipment. The more expensive equipped items, the more attack you get."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["label"] = "mc_setup_warrior_assassin_princess_royal"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"] = {} 
