@@ -27,12 +27,7 @@
       ],
       "type": "string"
     },
-    "defence": {
-      "enum": [
-        "magic", "melee", "ranged", "status"
-      ],
-      "type": "string"
-    },
+    "defence": { "enum": [ "magic", "melee", "ranged", "status" ], "type": "string" },
     "attack": {
       "enum": [
         "Sword Slash", "Sword Slash 2X", "Sword Slash 4X", "Sword Slash 6X", "Sword Slash 10X",
@@ -228,7 +223,12 @@
             "Virgin",
             "Virtuous",
             "Well-mannered",
-            "Yandere"
+            "Yandere",
+
+        "Combat Training",
+        "Magic Gift",
+        "Magic Talent"
+
           ], "type": "string"
         }
       ]
@@ -330,11 +330,16 @@
         "Monster Girl",
         "Plant",
         "Slime",
+        "Sylph",
         "Snow Creature",
         "Stone..?",
         "Titan",
         "Undead Monster",
-        "Undine"
+        "Undine",
+        "Android",
+        "Digital Android",
+        "Elf",
+        "Half-Elf"
     ], "default": "Human" },
     "objectWithNumericType": {
       "type": "object",

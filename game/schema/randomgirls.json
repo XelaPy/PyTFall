@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "additionalProperties": false,
   "properties": {
-    "ab_traits": { "type": "array" },
-    "base_race": { "type": "string" },
-    "battle_skills": { "type": "string" },
-    "blocked_traits": { "type": "array" },
+    "ab_traits": { "items": { "$ref": "#/definitions/traits" },  "type": "array" },
+    "base_race": { "$ref": "#/definitions/race" },
+    "battle_skills": { "enum": ["FistAttack"], "type": "string" },
+    "blocked_traits": { "items": { "enum": [], "type": "string" },  "type": "array" },
     "desc": { "type": "string" },
     "elements": {
       "additionalProperties": false,
@@ -27,7 +27,7 @@
     "id": { "type": "string" },
     "magic_skills": { "type": "array" },
     "occupations": { "items": { "$ref": "#/definitions/occupations" }, "type": "array" },
-    "race": { "type": "string" },
+    "race": { "$ref": "#/definitions/race" },
     "random_stats": {
       "allOf": [
         { "$ref": "#/definitions/statObject" },
@@ -48,7 +48,7 @@
     "random_traits": {
       "items": {
         "items": [
-          { "type": "string" },
+          { "$ref": "#/definitions/traits" },
           { "type": "number" }
         ],
         "type": "array"
