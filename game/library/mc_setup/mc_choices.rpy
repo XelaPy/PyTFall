@@ -109,8 +109,6 @@ label build_mc_stories:
         mc_stories["Warrior"] = {}
         mc_stories["Warrior"]["img"] = "content/gfx/interface/images/warriorP.png"
         mc_stories["Warrior"]["header"] = "Your father was a skilled fighter..."
-        mc_stories["Warrior"]["label"] = "mc_setup_warrior"
-        
         mc_stories["Warrior"]["choices"] = OrderedDict(Warrior="content/gfx/interface/images/mc/warrior_m.png",
                                                        Defender="content/gfx/interface/images/mc/defender_m.png",
                                                        Shooter="content/gfx/interface/images/mc/shooter_m.png",
@@ -118,19 +116,15 @@ label build_mc_stories:
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
         mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon, and brought fame and wealth."
-        mc_stories["Warrior"]["Warrior"]["label"] = "mc_setup_warrior_warrior"
         mc_stories["Warrior"]["Assassin"] = {}
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
         mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade, if the price was right of course."
-        mc_stories["Warrior"]["Assassin"]["label"] = "mc_setup_warrior_assassin"
         mc_stories["Warrior"]["Shooter"] = {}
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
         mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he, together with other rangers, hunted monsters and smugglers."
-        mc_stories["Warrior"]["Shooter"]["label"] = "mc_setup_warrior_shooter"
         mc_stories["Warrior"]["Defender"] = {}
         mc_stories["Warrior"]["Defender"]["class"] = "Defender"
         mc_stories["Warrior"]["Defender"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he guarded royalties."
-        mc_stories["Warrior"]["Defender"]["label"] = "mc_setup_warrior_defender"
         
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
@@ -244,8 +238,8 @@ label build_mc_stories:
                                                                         l0_img="content/items/sweapon/bks.png",
                                                                         l1="Fencer",
                                                                         l1_img="content/items/weapon/og.png",
-                                                                        l2="Sister Lover",
-                                                                        l2_img="content/gfx/interface/images/mc/sister.png",
+                                                                        l2="Royal Assassin",
+                                                                        l2_img="content/gfx/interface/images/mc/crown.png",
                                                                         r="Drow",
                                                                         r_img="content/gfx/interface/images/mc/drow.jpg",
                                                                         r0="Poison Master",
@@ -263,14 +257,16 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All defense given by equipment is a bit higher than usual."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["class"] = "Defender"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"] = {}
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["text"] = "You learned from your mother about fencing style, usually available only for members of the royal families. All swords are a bit more powerful than usual."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["label"] = "mc_setup_warrior_assassin_princess_fencer"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["class"] = "Warrior"
         
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["text"] = "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and have more starting disposition."
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["label"] = "mc_setup_warrior_assassin_princess_sister"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["text"] = "You used to use only the best equipment. The more expensive equipped items, the more attack you get."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["label"] = "mc_setup_warrior_assassin_princess_royal"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"] = {} 
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["header"] = "Drow"

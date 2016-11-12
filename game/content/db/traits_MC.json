@@ -16,7 +16,8 @@
     {
     "id": "Berserk",
     "desc": "All defense bonuses from equipment are lower, but all attack bonuses are higher.",
-    "MC_only_trait": true,
+    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin"],
+    "MC_trait": true,
     "permanent": true
     },
     {
@@ -72,11 +73,19 @@
     {
     "id": "Knightly Stance",
     "desc": "All defense given by equipment is a bit higher than usual.",
+    "blocks": ["Berserk", "Sword Master", "Royal Assassin"],
     "MC_trait": true
     },
     {
     "id": "Sword Master",
     "desc": "All swords are a bit more powerful than usual.",
+    "blocks": ["Knightly Stance", "Berserk", "Royal Assassin"],
+    "MC_trait": true
+    },
+    {
+    "id": "Royal Assassin",
+    "desc": "The more expensive equipped items, the more attack they give.",
+    "blocks": ["Knightly Stance", "Berserk", "Sword Master"],
     "MC_trait": true
     },
     {

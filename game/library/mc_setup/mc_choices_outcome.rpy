@@ -13,26 +13,6 @@ label mc_setup_merchant_mc_defender:
 label mc_setup_merchant_mc_defender_sword:
     "MC Caravan Defender Sword Option Reporting (Finally)!"
     return
-
-label mc_setup_warrior:
-    $ pass
-    return
-    
-label mc_setup_warrior_warrior: # naturally, I dunno how to properly set base classes
-    "Warrior class"
-    return
-    
-label mc_setup_warrior_defender:
-    "Defender class"
-    return
-    
-label mc_setup_warrior_shooter:
-    "Shooter class"
-    return
-    
-label mc_setup_warrior_assassin:
-    "Assassin class"
-    return
     
 label mc_setup_warrior_warrior_amazon: 
     $ hero.apply_trait("Amazon Blood")
@@ -79,9 +59,8 @@ label mc_setup_warrior_assassin_princess_fencer:
     $ hero.apply_trait("Sword Master")
     return
     
-label mc_setup_warrior_assassin_princess_sister:
-    $ hero.apply_trait("Sister Lover")
-    # TODO for Xela: chars with half-sister trait should have +400 disposition instead of usual +200
+label mc_setup_warrior_assassin_princess_royal:
+    $ hero.apply_trait("Royal Assassin")
     return
     
 label mc_setup_warrior_assassin_drow:
