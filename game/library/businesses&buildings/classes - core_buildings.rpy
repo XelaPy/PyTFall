@@ -1,4 +1,4 @@
-init -9 python:
+init -10 python:
     #################################################################
     # CORE BUILDING CLASSES
     # BaseBuilding = Base class, needed if no other.
@@ -505,9 +505,9 @@ init -9 python:
             """Whether this building has any upgrades.
             """
             return len(self.upgrades) > 0
-        
+            
+            
     class NewStyleAdvertableBuilding(BaseBuilding):
-
         def add_adverts(self, adverts):
             self._adverts = adverts
 
@@ -636,8 +636,8 @@ init -9 python:
             for up in self._upgrades:
                 up.pre_nd()
                 
-            self.env.process(self.building_manager(end=100))
-            self.env.run(until=100)
+            self.env.process(self.building_manager(end=101))
+            self.env.run(until=101) # 101 will run events at 100 so it is more intuitive to manage.
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
             # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
@@ -767,7 +767,7 @@ init -9 python:
         def add_upgrade(self, upgrade, main_upgrade=None, normalize_jobs=True):
             """Add upgrade to the building.
             """
-            if isinstance(upgrade, MainUpgrade):
+            if isinstance(upgrade, Business):
                 upgrade.instance = self
                 self._upgrades.append(upgrade)
             elif isinstance(upgrade, SubUpgrade):
@@ -896,7 +896,7 @@ init -9 python:
             
             # Prepear data:
             # @Review: This is wrong as not every business deals with clients...
-            businesses = [b for b in self.nd_ups if not isinstance(b, TaskUpgrade)]
+            businesses = [b for b in self.nd_ups if not isinstance(b, TaskBusiness)]
             shuffle(businesses)
             
             # TODO: Add Matron/Client likes effects here and to client classes.
