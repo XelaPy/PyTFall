@@ -109,8 +109,6 @@ label build_mc_stories:
         mc_stories["Warrior"] = {}
         mc_stories["Warrior"]["img"] = "content/gfx/interface/images/warriorP.png"
         mc_stories["Warrior"]["header"] = "Your father was a skilled fighter..."
-        mc_stories["Warrior"]["label"] = "mc_setup_warrior"
-        
         mc_stories["Warrior"]["choices"] = OrderedDict(Warrior="content/gfx/interface/images/mc/warrior_m.png",
                                                        Defender="content/gfx/interface/images/mc/defender_m.png",
                                                        Shooter="content/gfx/interface/images/mc/shooter_m.png",
@@ -118,19 +116,15 @@ label build_mc_stories:
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
         mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon, and brought fame and wealth."
-        mc_stories["Warrior"]["Warrior"]["label"] = "mc_setup_warrior_warrior"
         mc_stories["Warrior"]["Assassin"] = {}
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
         mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade, if the price was right of course."
-        mc_stories["Warrior"]["Assassin"]["label"] = "mc_setup_warrior_assassin"
         mc_stories["Warrior"]["Shooter"] = {}
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
         mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he, together with other rangers, hunted monsters and smugglers."
-        mc_stories["Warrior"]["Shooter"]["label"] = "mc_setup_warrior_shooter"
         mc_stories["Warrior"]["Defender"] = {}
         mc_stories["Warrior"]["Defender"]["class"] = "Defender"
         mc_stories["Warrior"]["Defender"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he guarded royalties."
-        mc_stories["Warrior"]["Defender"]["label"] = "mc_setup_warrior_defender"
         
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
@@ -145,16 +139,21 @@ label build_mc_stories:
                                                                         l1_img="content/gfx/interface/images/mc/left_hand.png",
                                                                         l2="Big Heritage",
                                                                         l2_img="content/gfx/interface/images/mc/divider.png",
-                                                                        r="Noble Harpy",
-                                                                        r_img="content/gfx/interface/images/mc/harpy.jpg"
+                                                                        r="Harpy",
+                                                                        r_img="content/gfx/interface/images/mc/harpy.jpg",
+                                                                        r0="Hollow Bones",
+                                                                        r0_img="content/gfx/interface/images/mc/bones.png",
+                                                                        r1="Effective Metabolism",
+                                                                        r1_img="content/gfx/interface/images/mc/meta.png"
                                                                         )
                                                                         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["header"] = "Royal Guard"
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["label"] = "mc_setup_warrior_defender_guard"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["text"] = "You know a lot about armor from your parents. All armors are a bit more effective than usual."
+        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["text"] = "You know a lot about armor from your parents. All armor bonuses to stats are a bit more effective than usual."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Armor Expert"]["label"] = "mc_setup_warrior_defender_guard_armor"
         
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"] = {}
@@ -165,18 +164,29 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["text"] = "Your mother's family may be poor, but they have good genes. Due to your ancestry, the certain part of your body is a bit thicker than than that of most people. That makes anal sex much harder, but gives you unmatched performance in the other hole."
         mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Big Heritage"]["label"] = "mc_setup_warrior_defender_guard_big"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"] = {} 
-        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["header"] = "Noble Harpy"
-        mc_stories["Warrior"]["MC"]["Defender"]["Noble Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"] = {} 
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["header"] = "Harpy"
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["label"] = "mc_setup_warrior_defender_harpy"
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["text"] = "Evolution gave harpies hollow bones which make their bodies significantly lighter. It makes you weaker against physical attacks, but completely neutralizes any equipment penalties to agility."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["label"] = "mc_setup_warrior_defender_harpy_bones"
+        
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"] = {}
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["text"] = "To have enough energy for flight harpies should very quickly digest food without residues. All consumables that restore vitality are more effective."
+        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["label"] = "mc_setup_warrior_defender_harpy_meta"
+        
+        
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
                                                                         l_img="content/gfx/interface/images/mc/forest_elf.jpg",
                                                                         l0="Sniper",
                                                                         l0_img="content/items/weapon/eb.png",
-                                                                        l1="Ranger",
-                                                                        l1_img="content/gfx/interface/images/mc/ranger.png",
-                                                                        l2="Elven Features",
-                                                                        l2_img="content/gfx/interface/images/mc/divider.png",
+                                                                        l1="Elven Farsightedness",
+                                                                        l1_img="content/gfx/interface/images/mc/aim.png",
+                                                                        l2="Elven Ranger",
+                                                                        l2_img="content/gfx/interface/images/mc/ranger.png",
                                                                         r="Summer Fay",
                                                                         r_img="content/gfx/interface/images/mc/summer_fay.jpg",
                                                                         r0="Eternality",
@@ -196,13 +206,15 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["text"] = "Your mother taught you to use bows like forest elves do. All bows are a bit more powerful than usual."
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["label"] = "mc_setup_warrior_shooter_forest_elf_sniper"
         
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["text"] = "You know a lot about surviving outside of the city from your parents. Your exploration skills are second to none." # we don't have SE atm. When we will, it will give something special too
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Farsightedness"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Farsightedness"]["text"] = "Due to specialization in shooting, over time some forest elves lost the ability to effectively fight in close combat, but became even better shooters."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Farsightedness"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
         
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["text"] = "Due to your ancestry, the certain part of your body is a bit thinner than you would like. Although, not as thin as that of pureblood male elves. That makes anal sex easier, but you have to try harder in the other hole."
-        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Features"]["label"] = "mc_setup_warrior_shooter_forest_elf_features"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"] = {}
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"]["text"] = "Your mother taught you the ways of elves. Most ranged weapons don't give you penalties to defense."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"]["label"] = "mc_setup_warrior_shooter_forest_elf_ranger"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Elven Ranger"]["class"] = "Assassin"
+
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"] = {} 
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
@@ -214,11 +226,11 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["label"] = "mc_setup_warrior_shooter_summer_fay_eternal"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["text"] = "You inherited some of your mother's mystic powers. You can use Summer Arrow skill in battle, and Fire and Light are not very effective against you. On the other hand, Ice and Darkness are bad news."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["text"] = "You inherited some of your mother's mystic powers. You can use Summer Arrow skill in battle, and Fire and Light are not very effective against you."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"]["label"] = "mc_setup_warrior_shooter_summer_fay_affinity"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["text"] = "Your Fae inheritance gives you aura of life which strengthens the instinct of reproduction. Virgins will never refuse to let you in during intimacy, and all girls will be happier and healthier after intercourse." # might add more if we'll have pregnancy in the future
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["text"] = "Your Fae inheritance gives you aura of life which regenerates some health for all characters under your command every day and makes them a bit happier."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Life Beacon"]["label"] = "mc_setup_warrior_shooter_summer_fay_beacon"
             
                                                                         
@@ -228,8 +240,8 @@ label build_mc_stories:
                                                                         l0_img="content/items/sweapon/bks.png",
                                                                         l1="Fencer",
                                                                         l1_img="content/items/weapon/og.png",
-                                                                        l2="Sister Lover",
-                                                                        l2_img="content/gfx/interface/images/mc/sister.png",
+                                                                        l2="Royal Assassin",
+                                                                        l2_img="content/gfx/interface/images/mc/crown.png",
                                                                         r="Drow",
                                                                         r_img="content/gfx/interface/images/mc/drow.jpg",
                                                                         r0="Poison Master",
@@ -245,16 +257,18 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All equipment penalties to agility are less than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. All defense given by equipment is a bit higher than usual."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["class"] = "Defender"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"] = {}
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["text"] = "You learned from your mother about fencing style, usually available only for members of the royal families. All swords are a bit more powerful than usual."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["label"] = "mc_setup_warrior_assassin_princess_fencer"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"]["class"] = "Warrior"
         
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["text"] = "Incest is extremely common in royal families, and you know a lot about it from your mother stories. Characters with Half-Sister trait will not reject you due to kinship and have more starting disposition."
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Sister Lover"]["label"] = "mc_setup_warrior_assassin_princess_sister"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["text"] = "Due to your heritage, you used to use only the best equipment. The more expensive equipped items, the more attack you get."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Royal Assassin"]["label"] = "mc_setup_warrior_assassin_princess_royal"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"] = {} 
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"]["header"] = "Drow"
@@ -279,16 +293,16 @@ label build_mc_stories:
                                                                         l0_img="content/items/misc/std.png",
                                                                         l1="Muscle",
                                                                         l1_img="content/gfx/interface/images/mc/amazon_const.png",
-                                                                        l2="Yuri",
-                                                                        l2_img="content/gfx/interface/images/mc/amazon_yuri.png",
+                                                                        l2="Berserk",
+                                                                        l2_img="content/gfx/interface/images/mc/berserk.png",
                                                                         r="Dragon",
                                                                         r_img="content/gfx/interface/images/mc/dragon.jpg",
                                                                         r0="Fire",
                                                                         r0_img="content/gfx/interface/images/mc/fire_dragon.jpg",
                                                                         r1="Stone",
                                                                         r1_img="content/gfx/interface/images/mc/stone_dragon.jpg",
-                                                                        r2="Defiler",
-                                                                        r2_img="content/gfx/interface/images/mc/defiler_dragon.jpg")
+                                                                        r2="Dragon Sight",
+                                                                        r2_img="content/gfx/interface/images/mc/dragon_eye.png")
                                                                         
 
                                                                         
@@ -299,16 +313,16 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["label"] = "mc_setup_warrior_warrior_amazon"
 
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["text"] = "Your mother watched over your training since childhood. As a result, your body is in a great condition (+ max vitality)."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["text"] = "Your mother watched over your training since childhood. As a result, your body is in a great condition (+ vitality and health)."
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Training"]["label"] = "mc_setup_warrior_warrior_amazon_training"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"] = {}
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["text"] = "You inherited your mother's strength. Melee weapons deal more damage than usual."
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Muscle"]["label"] = "mc_setup_warrior_warrior_amazon_muscle"
         
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["text"] = "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good."
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri"]["label"] = "mc_setup_warrior_warrior_amazon_yuri"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Berserk"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Berserk"]["text"] = "Your mother taught you here fighting style. All defense bonuses from equipment are lower, but all attack bonuses are higher."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Berserk"]["label"] = "mc_setup_warrior_warrior_amazon_berserk"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"] = {} 
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["header"] = "Dragon"
@@ -316,16 +330,17 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["label"] = "mc_setup_warrior_warrior_dragon"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire ineffective."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["label"] = "mc_setup_warrior_warrior_dragon_fire"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow (+earth and physical resistance)."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"]["label"] = "mc_setup_warrior_warrior_dragon_stone"
         
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but they can make certain parts of your skin scabrous, which helps during intimacy."
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Defiler"]["label"] = "mc_setup_warrior_warrior_dragon_defiler"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"] = {}
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["text"] = "Dragons have perfect distance vision, and so do you. You are competent with ranged weapons and have slightly increased critical damage."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["label"] = "mc_setup_warrior_warrior_dragon_sight"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["class"] = "Shooter"
         
         
         # We add the rest of the options:

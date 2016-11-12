@@ -2226,34 +2226,53 @@ init -9 python:
                     self.stats.max[key] += item.max[key]*2
                 elif "Left-Handed" in self.traits and item.slot == "weapon":
                     self.stats.max[key] += int(item.max[key]*0.5)
-                elif "Knightly Stance" in self.traits and key == "agility" and item.max[key] <0:
-                    self.stats.max[key] += int(item.max[key]*0.5)
+                elif "Knightly Stance" in self.traits and key == "defence":
+                    self.stats.max[key] += int(item.max[key]*1.3)
+                elif "Berserk" in self.traits and key == "defence":
+                    self.stats.max[key] += int(item.max[key]*.5)
+                elif "Berserk" in self.traits and key == "attack":
+                    self.stats.max[key] += int(item.max[key]*2)
+                elif "Hollow Bones" in self.traits and key == "agility" and item.max[key] <0:
+                    pass
+                elif "Elven Ranger" in self.traits and key == "defence" and item.max[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                    pass
                 elif "Sword Master" in self.traits and item.type == "sword":
                     self.stats.max[key] += int(item.max[key]*1.3)
                 elif "Dagger Master" in self.traits and item.type == "dagger":
-                    self.stats.max[key] += int(item.max[key]*1.5)
+                    self.stats.max[key] += int(item.max[key]*1.3)
                 elif "Bow Master" in self.traits and item.type == "bow":
                     self.stats.max[key] += int(item.max[key]*1.3)
                 elif "Armor Expert" in self.traits and item.type == "armor":
-                    self.stats.max[key] += int(item.max[key]*1.2)
+                    self.stats.max[key] += int(item.max[key]*1.3)
                 else:
                     self.stats.max[key] += item.max[key]
+            if "Royal Assassin" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
+                self.stats.max["attack"] += int(item.price*0.01)
+                self.mod_stat("attack", int(item.price*0.01))
             for key in item.min:
                 self.stats.min[key] += item.min[key]
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
                     self.stats.min[key] += item.min[key]*2
                 elif "Left-Handed" in self.traits and item.slot == "weapon":
                     self.stats.min[key] += int(item.min[key]*0.5)
-                elif "Knightly Stance" in self.traits and key == "agility" and item.min[key] <0:
-                    self.stats.min[key] += int(item.min[key]*0.5)
+                elif "Knightly Stance" in self.traits and key == "defence":
+                    self.stats.min[key] += int(item.min[key]*1.3)
+                elif "Berserk" in self.traits and key == "defence":
+                    self.stats.min[key] += int(item.min[key]*.5)
+                elif "Berserk" in self.traits and key == "attack":
+                    self.stats.min[key] += int(item.min[key]*2)
+                elif "Hollow Bones" in self.traits and key == "agility" and item.min[key] <0:
+                    pass
+                elif "Elven Ranger" in self.traits and key == "defence" and item.min[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                    pass
                 elif "Sword Master" in self.traits and item.type == "sword":
                     self.stats.min[key] += int(item.min[key]*1.3)
                 elif "Dagger Master" in self.traits and item.type == "dagger":
-                    self.stats.min[key] += int(item.min[key]*1.5)
+                    self.stats.min[key] += int(item.min[key]*1.3)
                 elif "Bow Master" in self.traits and item.type == "bow":
                     self.stats.min[key] += int(item.min[key]*1.3)
                 elif "Armor Expert" in self.traits and item.type == "armor":
-                    self.stats.min[key] += int(item.min[key]*1.2)
+                    self.stats.min[key] += int(item.min[key]*1.3)
                 else:
                     self.stats.min[key] += item.min[key]
             for key in item.mod:
@@ -2270,7 +2289,9 @@ init -9 python:
                         if self.effects['Fast Metabolism']['active'] and item.type == "food":
                             self.mod_stat(key, (2*item.mod[key]))
                         elif "Summer Eternality" in self.traits and key == "health" and item.mod[key]>0:
-                            self.mod_stat(key, (int(0.2*item.mod[key])))
+                            self.mod_stat(key, (int(0.35*item.mod[key])))
+                        elif "Effective Metabolism" in self.traits and key == "vitality" and item.mod[key]>0:
+                            self.mod_stat(key, (int(1.5*item.mod[key])))
                         else:
                             self.mod_stat(key, item.mod[key])
                     else:
@@ -2278,16 +2299,24 @@ init -9 python:
                             self.stats.imod[key] += item.mod[key]*2
                         elif "Left-Handed" in self.traits and item.slot == "weapon":
                             self.stats.imod[key] += int(item.mod[key]*0.5)
-                        elif "Knightly Stance" in self.traits and key == "agility" and item.mod[key] <0:
+                        elif "Knightly Stance" in self.traits and key == "defence":
+                            self.stats.imod[key] += int(item.mod[key]*1.3)
+                        elif "Berserk" in self.traits and key == "defence":
                             self.stats.imod[key] += int(item.mod[key]*0.5)
+                        elif "Berserk" in self.traits and key == "attack":
+                            self.stats.imod[key] += int(item.mod[key]*2)
+                        elif "Hollow Bones" in self.traits and key == "agility" and item.mod[key] <0:
+                            pass
+                        elif "Elven Ranger" in self.traits and key == "defence" and item.mod[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                            pass
                         elif "Sword Master" in self.traits and item.type == "sword":
                             self.stats.imod[key] += int(item.mod[key]*1.3)
                         elif "Dagger Master" in self.traits and item.type == "dagger":
-                            self.stats.imod[key] += int(item.mod[key]*1.5)
+                            self.stats.imod[key] += int(item.mod[key]*1.3)
                         elif "Bow Master" in self.traits and item.type == "bow":
                             self.stats.imod[key] += int(item.mod[key]*1.3)
                         elif "Armor Expert" in self.traits and item.type == "armor":
-                            self.stats.imod[key] += int(item.mod[key]*1.2)
+                            self.stats.imod[key] += int(item.mod[key]*1.3)
                         else:
                             self.stats.imod[key] += item.mod[key]
             for key in item.mod_skills:
@@ -2391,21 +2420,31 @@ init -9 python:
                         self.stats.max[key] -= item.max[key]*2
                     elif "Left-Handed" in self.traits and item.slot == "weapon":
                         self.stats.max[key] -= int(item.max[key]*0.5)
-                    elif "Knightly Stance" in self.traits and key == "agility" and item.max[key] <0:
-                        self.stats.max[key] -= int(item.max[key]*0.5)
+                    elif "Knightly Stance" in self.traits and key == "defence":
+                        self.stats.max[key] -= int(item.max[key]*1.3)
+                    elif "Berserk" in self.traits and key == "defence":
+                        self.stats.max[key] -= int(item.max[key]*.5)
+                    elif "Berserk" in self.traits and key == "attack":
+                        self.stats.max[key] -= int(item.max[key]*2)
+                    elif "Hollow Bones" in self.traits and key == "agility" and item.max[key] <0:
+                        pass
+                    elif "Elven Ranger" in self.traits and key == "defence" and item.max[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                        pass
                     elif "Sword Master" in self.traits and item.type == "sword":
                         self.stats.max[key] -= int(item.max[key]*1.3)
                     elif "Dagger Master" in self.traits and item.type == "dagger":
-                        self.stats.max[key] -= int(item.max[key]*1.5)
+                        self.stats.max[key] -= int(item.max[key]*1.3)
                     elif "Bow Master" in self.traits and item.type == "bow":
                         self.stats.max[key] -= int(item.max[key]*1.3)
                     elif "Armor Expert" in self.traits and item.type == "armor":
-                        self.stats.max[key] -= int(item.max[key]*1.2)
+                        self.stats.max[key] -= int(item.max[key]*1.3)
                     else:
                         self.stats.max[key] -= item.max[key]
                 else:
                     devlog.warning(str("Failed to apply max stat %s to %s from item: %s!" % (key, self.__class__.__name__, item.id)))
-
+            if "Royal Assassin" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
+                self.stats.max["attack"] -= int(item.price*0.01)
+                self.mod_stat("attack", -int(item.price*0.01))
             for key in item.min:
                 if key in self.STATS:
                     # if (self.stats.min[key] - item.min[key]) >= 0: @Review, prolly no longer required.
@@ -2413,16 +2452,24 @@ init -9 python:
                         self.stats.min[key] -= item.min[key]*2
                     elif "Left-Handed" in self.traits and item.slot == "weapon":
                         self.stats.min[key] -= int(item.min[key]*0.5)
-                    elif "Knightly Stance" in self.traits and key == "agility" and item.min[key] <0:
-                        self.stats.min[key] -= int(item.min[key]*0.5)
+                    elif "Knightly Stance" in self.traits and key == "defence":
+                        self.stats.min[key] -= int(item.min[key]*1.3)
+                    elif "Berserk" in self.traits and key == "defence":
+                        self.stats.min[key] -= int(item.min[key]*.5)
+                    elif "Berserk" in self.traits and key == "attack":
+                        self.stats.min[key] -= int(item.min[key]*2)
+                    elif "Hollow Bones" in self.traits and key == "agility" and item.min[key] <0:
+                        pass
+                    elif "Elven Ranger" in self.traits and key == "defence" and item.min[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                        pass
                     elif "Sword Master" in self.traits and item.type == "sword":
                         self.stats.min[key] -= int(item.min[key]*1.3)
                     elif "Dagger Master" in self.traits and item.type == "dagger":
-                        self.stats.min[key] -= int(item.min[key]*1.5)
+                        self.stats.min[key] -= int(item.min[key]*1.3)
                     elif "Bow Master" in self.traits and item.type == "bow":
                         self.stats.min[key] -= int(item.min[key]*1.3)
                     elif "Armor Expert" in self.traits and item.type == "armor":
-                        self.stats.min[key] -= int(item.min[key]*1.2)
+                        self.stats.min[key] -= int(item.min[key]*1.3)
                     else:
                         self.stats.min[key] -= item.min[key]
                 else:
@@ -2444,16 +2491,25 @@ init -9 python:
                         self.stats.imod[key] -= item.mod[key]*2
                     elif "Left-Handed" in self.traits and item.slot == "weapon":
                         self.stats.imod[key] -= int(item.mod[key]*0.5)
-                    elif "Knightly Stance" in self.traits and key == "agility" and item.mod[key] <0:
+                    elif "Knightly Stance" in self.traits and key == "defence":
+                        self.stats.imod[key] -= int(item.mod[key]*1.3)
+                    elif "Berserk" in self.traits and key == "defence":
                         self.stats.imod[key] -= int(item.mod[key]*0.5)
+                    elif "Berserk" in self.traits and key == "attack":
+                        self.stats.imod[key] -= int(item.mod[key]*2)
+                    elif "Hollow Bones" in self.traits and key == "agility" and item.mod[key] <0:
+                        pass
+                    elif "Elven Ranger" in self.traits and key == "defence" and item.mod[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                        pass
                     elif "Sword Master" in self.traits and item.type == "sword":
                         self.stats.imod[key] -= int(item.mod[key]*1.3)
+                    
                     elif "Dagger Master" in self.traits and item.type == "dagger":
-                        self.stats.imod[key] -= int(item.mod[key]*1.5)
+                        self.stats.imod[key] -= int(item.mod[key]*1.3)
                     elif "Bow Master" in self.traits and item.type == "bow":
                         self.stats.imod[key] -= int(item.mod[key]*1.3)
                     elif "Armor Expert" in self.traits and item.type == "armor":
-                        self.stats.imod[key] -= int(item.mod[key]*1.2)
+                        self.stats.imod[key] -= int(item.mod[key]*1.3)
                     else:
                         self.stats.imod[key] -= item.mod[key]
                         

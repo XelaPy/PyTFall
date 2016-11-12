@@ -80,6 +80,9 @@ label next_day_effects_check:
                 i.effects['Exhausted']['activation_count'] += 1
             if i.effects['Exhausted']['activation_count'] >= 1 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
+            if "Life Beacon" in hero.traits:
+                i.health += randint(15, 30)
+                i.joy += 1
     return
         
         
