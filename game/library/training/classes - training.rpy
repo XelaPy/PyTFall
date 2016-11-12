@@ -436,6 +436,8 @@ init -9 python:
             """
             Whether this course is available for the girl.
             """
+            if isinstance(girl, list):
+                return any(self.can_train(g, hero, one_off_only) for g in girl)
             # TODO: May not be upgraded to modern code properly:
             # f self.jobs is not None and girl.occupation not in self.jobs: return False
             if self.jobs is not None and girl.occupations.intersection(self.jobs): return False
@@ -482,6 +484,9 @@ init -9 python:
             """
             The options that the girl can partake in for the class.
             """
+            if isinstance(girl, list):
+                return [i for i in self.options if any(i.can_train(g, hero) for g in girl) and (one_off_only is None or i.is_one_off_event == one_off_only)]
+
             return [i for i in self.options if i.can_train(girl, hero) and (one_off_only is None or i.is_one_off_event == one_off_only)]
         
     
@@ -610,6 +615,8 @@ init -9 python:
             """
             Whether the girl and hero/trainer meets the requirements for this method.
             """
+            if isinstance(girl, list):
+                return any(self.can_train(g, hero) for g in girl)
             # If we are a one-off training event
             if self.is_one_off_event:
                 # Check for AP as well
@@ -824,6 +831,12 @@ init -9 python:
             """
             Sets a girl and hero combo for training.
             """
+            if isinstance(girl, list):
+                for g in girl:
+                    if self.can_train(g, hero):
+                        self.set_training(g, location, hero)
+                return
+
             char_is_training(girl, self)
             girl_training_with(girl, hero)
             girl_training_left(girl, self.duration+1)
@@ -1029,6 +1042,12 @@ init -9 python:
             """
             Sets a girl and hero combo for training.
             """
+            if isinstance(girl, list):
+                for g in girl:
+                    if self.can_train(g, hero):
+                        self.set_training(g, location, hero)
+                return
+
             char_is_training(girl, self)
             girl_training_with(girl, None)
             
@@ -1044,6 +1063,10 @@ init -9 python:
             hero = The character to return the skill of.
             is_girl = Whether the character passed is the girl being trained.
             """
+            if isinstance(hero, list):
+                l = [self.trainerKnowledge(h, is_girl, **kwargs) for h in hero]
+                return sum(l) / len(l) if len(l) else 0# return the average
+
             # Are we the girl
             if is_girl:
                 s = 0

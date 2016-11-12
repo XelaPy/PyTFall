@@ -6,19 +6,31 @@ init:
     python:
         def sorting_for_chars_list():
             return hero.chars
+
+        def setSelection_for_chars_list(sel, lst, value="from_lst"):
+            for l in lst:
+                sel[l.name] = l if value == "from_lst" else None
+
+        def charlist_or_char(as_list=False):
+            if char_list_selection:
+                l = [x for x in char_list_selection.values() if x is not None]
+                if any(l):
+                    return l;
+            return [char] if as_list else char
         
 label chars_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
     if not renpy.get_screen("chars_list"):
-        $ char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
-        $ char_lists_filters.filter()
-        # We create the filters only from those that our chars actually have... not need for gibberish:
-        $ status_filters = list(set([c.status for c in hero.chars]))
-        $ location_filters = list(set([c.location for c in hero.chars]))
-        $ action_filters = list(set([c.action for c in hero.chars]))
-        # $ class_filters = set()
-        # for c in hero.chars:
+        python:
+            char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
+            char_lists_filters.filter()
+            # We create the filters only from those that our chars actually have... not need for gibberish:
+            status_filters = list(set([c.status for c in hero.chars]))
+            location_filters = list(set([c.location for c in hero.chars]))
+            action_filters = list(set([c.action for c in hero.chars]))
+            selected_filters = set(['Status', 'Site', 'Action']) #, 'Class'
+            char_list_selection = { c.name: None for c in char_lists_filters.sorted }
         
         show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)
     with dissolve
@@ -133,6 +145,13 @@ screen chars_list(source=None, page=0, total_pages=1):
                                         else:
                                             add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
                                         text "AP: [c.AP]" size 17 color ivory
+                                        button:
+                                            xysize (32, 32)
+                                            action ToggleDict(char_list_selection, c.name, true_value=c, false_value=None)
+                                            if char_list_selection[c.name] is None:
+                                                add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
+                                            else:
+                                                add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
                                     
                                     vbox:
                                         yalign 0.98
@@ -172,50 +191,105 @@ screen chars_list(source=None, page=0, total_pages=1):
         left_padding 10
         ypadding 10
         pos (1005, 47)
-        xysize (270, 668)
-        viewport:
-            draggable True
-            mousewheel True
-            has vbox xsize 253
-            null height 5
-            label "Filters:" xalign 0.5 text_size 35 text_color white
-            button:
+        xysize (270, 418)
+        vbox:
+            spacing 5
+            viewport:
+                draggable True
+                mousewheel True
+                has vbox xsize 253
+                null height 5
+                label "Filters:" xalign 0.5 text_size 35 text_color white
+                hbox:
+                    box_wrap True
+                    button:
+                        xalign 0.5
+                        style_group "basic"
+                        action ToggleSetMembership(selected_filters, 'Status')
+                        text "Status" hover_color red
+                    button:
+                        xalign 0.5
+                        style_group "basic"
+                        action ToggleSetMembership(selected_filters, 'Site')
+                        text "Site" hover_color brown
+                    button:
+                        xalign 0.5
+                        style_group "basic"
+                        action ToggleSetMembership(selected_filters, 'Action')
+                        text "Action" hover_color blue
+
+                null height 20
+                hbox:
+                    box_wrap True
+                    style_group "basic"
+                    if "Status" in selected_filters:
+                        for f in status_filters:
+                            button:
+                                action ModFilterSet(source, "status_filters", f)
+                                text "[f]" hover_color red
+                    if "Site" in selected_filters:
+                        for f in location_filters:
+                            button:
+                                action ModFilterSet(source, "location_filters", f)
+                                text "[f]" hover_color brown
+                    if "Action" in selected_filters:
+                        for f in action_filters:
+                            button:
+                                action ModFilterSet(source, "action_filters", f)
+                                text "[f]" hover_color blue
+                null height 50
+                button:
+                        xalign 0.5
+                        yalign 1.0
+                        style_group "basic"
+                        action source.clear
+                        text "Reset"
+                # for block_name, filters in source.display_filters:
+                    # label ("{=della_respira}{b}[block_name]:") xalign 0
+                    # for item_1, item_2 in izip_longest(fillvalue=None, *[iter(filters)]*2):
+                        # hbox:
+                            # style_group "basic"
+                            # for filter_item in [item_1, item_2]:
+                                # if filter_item:
+                                    # $ filter_name, filter_group, filter_key = filter_item
+                                    # $ focus = source.get_focus(filter_group, filter_key)
+                                    # button:
+                                        # action [SelectedIf(focus), Function(source.add_filter, filter_group, filter_key)]
+                                        # text "[filter_name]" size 16
+            # Mass (de)selection Buttons ====================================>
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
                 xalign 0.5
-                style_group "basic"
-                action source.clear
-                text "Reset"
-            null height 10
-            label "Status:" text_color white
-            hbox:
-                style_group "basic"
-                for f in status_filters:
-                    textbutton "[f]":
-                        action ModFilterSet(source, "status_filters", f)
-            label "Locations:" text_color white
-            hbox:
-                style_group "basic"
-                for f in location_filters:
-                    textbutton "[f]":
-                        action ModFilterSet(source, "location_filters", f)
-            label "Actions:" text_color white
-            hbox:
-                style_group "basic"
-                box_wrap True
-                for f in action_filters:
-                    textbutton "[f]":
-                        action ModFilterSet(source, "action_filters", f)
-            # for block_name, filters in source.display_filters:
-                # label ("{=della_respira}{b}[block_name]:") xalign 0
-                # for item_1, item_2 in izip_longest(fillvalue=None, *[iter(filters)]*2):
-                    # hbox:
-                        # style_group "basic"
-                        # for filter_item in [item_1, item_2]:
-                            # if filter_item:
-                                # $ filter_name, filter_group, filter_key = filter_item
-                                # $ focus = source.get_focus(filter_group, filter_key)
-                                # button:
-                                    # action [SelectedIf(focus), Function(source.add_filter, filter_group, filter_key)]
-                                    # text "[filter_name]" size 16
+                yalign 0.5
+                # ypos 5
+                xysize (250, 50)
+                has hbox style_group "basic" align .5, .5 spacing 5
+                hbox:
+                    spacing 5
+                    button: # select all on current listing, deselects them if all are selected
+                        xysize (66, 40)
+                        action Function(setSelection_for_chars_list, char_list_selection, chars_list[0] + chars_list[1], value=None if all(char_list_selection[x.name] for x in chars_list[0] + chars_list[1]) else "from_lst")
+                        text "These"
+                    button: # every of currently filtered, also in next tabs
+                        xysize (66, 40)
+                        action If(not all(char_list_selection.values()), [Function(setSelection_for_chars_list, char_list_selection, source.sorted)])
+                        text "All"
+                    button: # deselect all
+                        xysize (66, 40)
+                        action If(any(char_list_selection.values()), [Function(setSelection_for_chars_list, char_list_selection, source.sorted, None)])
+                        text "None"
+            # Mass action Buttons ====================================>
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                xalign 0.5
+                yalign 0.5
+                xysize (250, 200)
+                has vbox style_group "basic" align .5, .5 spacing 5
+                vbox:
+                    button:
+                        xysize (150, 40)
+                        action If(any(char_list_selection.values()), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
+                        text "Training"
             
     use top_stripe(True)
     
