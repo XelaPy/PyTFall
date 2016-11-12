@@ -1,4 +1,42 @@
 ﻿init -9 python:
+    def vp_or_fixed(workers, show_args, show_kwargs, xmax=820):
+        """This will create a sidescrolling displayable to show off all portraits/images in team efforts if they don't fit on the screen in a straight line.
+        
+        We will attempt to detect a size of a single image and act accordingly. Spacing is 15 pixels between the images.
+        Dimensions of the whole displayable are: 820x705, default image size is 90x90.
+        xmax is used to determine the max size of the viewport/fixed returned from here
+        """
+        # See if we can get a required image size:
+        lenw = len(workers)
+        size = show_kwargs.get("resize", (90, 90))
+        xpos_offset = size[0] + 15
+        xsize = xpos_offset * lenw
+        ysize = size[1]
+        
+        if xsize < xmax:
+            d = Fixed(xysize=(xsize, ysize))
+            xpos = 0
+            for i in workers:
+                _ = i.show(*show_args, **show_kwargs)
+                d.add(Transform(_, xpos=xpos))
+                xpos = xpos + xpos_offset
+            return d
+        else:
+            d = Fixed(xysize=(xsize, ysize))
+            xpos = 0
+            for i in workers:
+                _ = i.show(*show_args, **show_kwargs)
+                d.add(Transform(_, xpos=xpos))
+                xpos = xpos + xpos_offset
+                
+            c = Fixed(xysize=(xsize*2, ysize))
+            atd = At(d, mm_clouds(xsize, 0, 25))
+            atd2 = At(d, mm_clouds(0, -xsize, 25))
+            c.add(atd)
+            c.add(atd2)
+            vp = Viewport(child=c, xysize=(xmax, ysize))
+            return vp
+    
     def check_char(c, check_ap=True):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
         
@@ -454,44 +492,6 @@
             """
             NextDayEvents.append(self.create_event())
             self.reset()
-        
-        def vp_or_fixed(self, workers, show_args, show_kwargs, xmax=820):
-            """This will create a sidescrolling displayable to show off all portraits/images in team efforts if they don't fit on the screen in a straight line.
-            
-            We will attempt to detect a size of a single image and act accordingly. Spacing is 15 pixels between the images.
-            Dimensions of the whole displayable are: 820x705, default image size is 90x90.
-            xmax is used to determine the max size of the viewport/fixed returned from here
-            """
-            # See if we can get a required image size:
-            lenw = len(workers)
-            size = show_kwargs.get("resize", (90, 90))
-            xpos_offset = size[0] + 15
-            xsize = xpos_offset * lenw
-            ysize = size[1]
-            
-            if xsize < xmax:
-                d = Fixed(xysize=(xsize, ysize))
-                xpos = 0
-                for i in workers:
-                    _ = i.show(*show_args, **show_kwargs)
-                    d.add(Transform(_, xpos=xpos))
-                    xpos = xpos + xpos_offset
-                return d
-            else:
-                d = Fixed(xysize=(xsize, ysize))
-                xpos = 0
-                for i in workers:
-                    _ = i.show(*show_args, **show_kwargs)
-                    d.add(Transform(_, xpos=xpos))
-                    xpos = xpos + xpos_offset
-                    
-                c = Fixed(xysize=(xsize*2, ysize))
-                atd = At(d, mm_clouds(xsize, 0, 25))
-                atd2 = At(d, mm_clouds(0, -xsize, 25))
-                c.add(atd)
-                c.add(atd2)
-                vp = Viewport(child=c, xysize=(xmax, ysize))
-                return vp
             
         def apply_stats(self):
             """
@@ -2193,7 +2193,7 @@
             """
             self.img = Fixed(xysize=(820, 705))
             self.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = self.vp_or_fixed(self.all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            vp = vp_or_fixed(self.all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             self.img.add(Transform(vp, align=(.5, .9)))
             
             self.team = self.all_workers
@@ -2433,7 +2433,7 @@
             """
             self.img = Fixed(xysize=(820, 705))
             self.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            vp = vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
             self.img.add(Transform(vp, align=(.5, .9)))
             
             self.team = self.all_workers
@@ -2460,7 +2460,7 @@
             """
             self.img = Fixed(xysize=(820, 705))
             self.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = self.vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            vp = vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
             self.img.add(Transform(vp, align=(.5, .9)))
             
             self.team = self.all_workers

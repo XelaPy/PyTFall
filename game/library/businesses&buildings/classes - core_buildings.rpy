@@ -1,4 +1,4 @@
-init -9 python:
+init -10 python:
     #################################################################
     # CORE BUILDING CLASSES
     # BaseBuilding = Base class, needed if no other.
@@ -767,7 +767,7 @@ init -9 python:
         def add_upgrade(self, upgrade, main_upgrade=None, normalize_jobs=True):
             """Add upgrade to the building.
             """
-            if isinstance(upgrade, MainUpgrade):
+            if isinstance(upgrade, Business):
                 upgrade.instance = self
                 self._upgrades.append(upgrade)
             elif isinstance(upgrade, SubUpgrade):
@@ -896,7 +896,7 @@ init -9 python:
             
             # Prepear data:
             # @Review: This is wrong as not every business deals with clients...
-            businesses = [b for b in self.nd_ups if not isinstance(b, TaskUpgrade)]
+            businesses = [b for b in self.nd_ups if not isinstance(b, TaskBusiness)]
             shuffle(businesses)
             
             # TODO: Add Matron/Client likes effects here and to client classes.

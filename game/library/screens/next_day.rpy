@@ -1303,17 +1303,17 @@ screen next_day():
                         text "Previous Event" style "wood_text" xalign(0.6) size 10
                     frame:
                         align (0.5, 0.5)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
                         xysize (90, 40)
-                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (0.5, 0.5) size 16 style "stats_text"
+                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text"
                     button:
                         xysize (120, 40)
                         style "right_wood_button"
                         action Return(['control', 'right'])
                         hovered tt.action("View Next Event ==>")
-                        text "Next Event" style "wood_text" xalign(0.4) size 10
+                        text "Next Event" style "wood_text" xalign .4 size 10
                 hbox:
-                    align (0.5, 0.5)
+                    align .5, .5
                     spacing 20
                     textbutton "-Next Day-":
                         style "main_screen_4_button"
@@ -1324,7 +1324,7 @@ screen next_day():
                     
                     $ img = im.Scale("content/gfx/interface/buttons/close.png", 40, 40)
                     imagebutton:
-                        align (0.5, 0.5)
+                        align (.5, .5)
                         idle img
                         hover im.MatrixColor(img, im.matrix.brightness(0.25))
                         action Return(['control', 'return'])
