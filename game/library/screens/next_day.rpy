@@ -324,7 +324,7 @@ label next_day_controls:
                     FilteredList = [e for e in NextDayEvents if e.red_flag]
 
                 elif result[1] == 'mc':
-                    FilteredList = [e for e in NextDayEvents if event.type == 'mcndreport']
+                    FilteredList = [e for e in NextDayEvents if e.type == 'mcndreport']
 
                 elif result[1] == 'school':
                     order = {"schoolndreport":1, "schoolreport":2}
