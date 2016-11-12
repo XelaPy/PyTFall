@@ -505,9 +505,9 @@ init -10 python:
             """Whether this building has any upgrades.
             """
             return len(self.upgrades) > 0
-        
+            
+            
     class NewStyleAdvertableBuilding(BaseBuilding):
-
         def add_adverts(self, adverts):
             self._adverts = adverts
 
@@ -636,8 +636,8 @@ init -10 python:
             for up in self._upgrades:
                 up.pre_nd()
                 
-            self.env.process(self.building_manager(end=100))
-            self.env.run(until=100)
+            self.env.process(self.building_manager(end=101))
+            self.env.run(until=101) # 101 will run events at 100 so it is more intuitive to manage.
             self.log("{}".format(set_font_color("Ending the simulation:", "red")))
             # self.env.run(until=110)
             # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))

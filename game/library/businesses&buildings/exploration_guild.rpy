@@ -260,10 +260,11 @@ init -6 python:
                 if tracker.state == "traveling to":
                     yield self.env.process(self.travel_to(tracker))
                     # Testing mode, we can plainly build a report to see what's happening:
-                    tracker.build_nd_report() # Report methods needs moar luv, this is not gonna fly atm. Gonna try making it work tonight.
+                    # tracker.build_nd_report() # Report methods needs moar luv, this is not gonna fly atm. Gonna try making it work tonight.
                     
-                # elif tracker.state == "exploring":
-                    # yield self.env.process(self.explore(tracker))
+                elif tracker.state == "exploring":
+                    yield self.env.process(self.explore(tracker))
+                    tracker.build_nd_report()
                 # elif tracker.state == "camping":
                     # yield self.env.process(self.camping(tracker))
                 # elif tracker.state == "traveling back":
@@ -297,13 +298,13 @@ init -6 python:
                     if tracker.day > 0:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Arrival")
+                    
                     self.env.exit("arrived")
                 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
                     temp = "{} spent the entire day on route to {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
                     self.env.exit("not_arrived")
-                    # self.env.exit("not there yet") Not needed?
                 
         def travel_back(self, tracker):
             # Env func that handles the travel to routine.
