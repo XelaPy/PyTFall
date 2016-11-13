@@ -161,6 +161,12 @@ init -6 python:
             self.battle_won = False
             self.found_items = []
             
+        def add(self, text, newline=True):
+            # Adds a text to the log.
+            if newline:
+                text = "".join(["/n", text])
+            self.txt.appent(text)
+            
         def __call__(self):
             renpy.show_screen("...") # Whatever the pop-up screen with info in gui is gonna be.
             
@@ -445,7 +451,7 @@ init -6 python:
                     
                     for key in tracker.mobs:
                         encounter_chance = True # Condition here:
-                        if encounter_chance: # Needs a review, we don't have ap here anymore.
+                        if encounter_chance:
                             enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
                             temp = "{} were attacked by ".format(team.name)
@@ -503,12 +509,12 @@ init -6 python:
                             tracker.log(temp)
                             
             
-        def combat_mobs(self, tracker, mob, amount, log):
+        def combat_mobs(self, tracker, mob, opfor_team_size, log):
             # amount of mobs*
             # log is the exlog object we add be report to!
             
             team = tracker.team
-            opfor = Team(name="Enemy Team", max_size=amount)
+            opfor = Team(name="Enemy Team", max_size=opfor_team_size)
             
             # Get a level... for now, I am keeping it plain and simple:
             level = tracker.mobs[mob][0]
@@ -553,7 +559,8 @@ init -6 python:
                     # else:
                         # member.health -= damage
                     # member.mp -= randint(3, 7)
-            
+                return "victory"
+                
             if result[0] == "defeat": # Defeat here...
                 # self.stats["attack"] += randrange(2)
                 # self.stats["defence"] += randrange(2)
@@ -562,6 +569,7 @@ init -6 python:
                 # self.stats["exp"] += mob_power/15
                 
                 self.txt.append("{color=[red]}Exploration Party was defeated!{/color}\n")
+                return "defeat"
                 
         
         def convert_AP(self, tracker):
