@@ -63,7 +63,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
             $ char.disposition -= randint(15, 35)
             $ char.set_flag("_day_countdown_interactions_blowoff", 2)
             jump girl_interactions_end
-    elif char.vitality <= round(char.get_max("vitality")*0.25): # no sex with low vitality
+    elif char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
         call interactions_refused_because_tired
         jump girl_interactions
     $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
@@ -180,7 +180,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits:
         call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
-    if char.vitality < round(char.get_max("vitality")*0.25):
+    if char.vitality < round(char.get_max("vitality")*0.25) or char.AP <= 0:
         call interactions_refused_because_tired
         jump girl_interactions
         
@@ -286,6 +286,11 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     
     $ sex_count = guy_count = girl_count = together_count = cum_count = 0 # these variable will decide the outcome of sex scene
     $ max_sex_scene_libido = sex_scene_libido = get_character_libido(char)
+    $ char.AP -= 1
+    if not(char.flag("flag_int_had_sex_with_mc")):
+        $ char.set_flag("flag_int_had_sex_with_mc", 1)
+    else:
+        $ char.set_flag("flag_int_had_sex_with_mc", char.flag("flag_int_had_sex_with_mc")+1)
     call interactions_sex_begins
     jump interaction_scene_choice
 
@@ -341,11 +346,6 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                     jump interaction_check_for_virginity
             jump interactions_sex_scene_logic_part
 label interaction_sex_scene_choice:
-    if not(char.flag("flag_int_had_sex_with_mc")):
-        $ char.set_flag("flag_int_had_sex_with_mc", 1)
-    else:
-        $ char.set_flag("flag_int_had_sex_with_mc", char.flag("flag_int_had_sex_with_mc")+1)
-
     if sex_scene_libido>0:
         show screen int_libido_level(sex_scene_libido)
     else:
