@@ -69,7 +69,12 @@ label char_equip:
         unequip_slot = None
         item_direction = None
         dummy = None
-        
+
+        if not eqtarget:
+            came_to_equip_from = "chars_list"
+            eqtarget = charlist_or_char()
+            eqtarget = eqtarget[0] if len(eqtarget) == 1 else PytGroup(eqtarget)
+
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)
         inv_source = eqtarget
@@ -212,7 +217,7 @@ label char_equip_finish:
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
         if eqtarget.location == "After Life":
-            renpy.show_screen("message_screen", "Either your 'awesome' item handling or my 'brilliant' programming have killed %s..." % eqtarget.fullname)
+            renpy.show_screen("message_screen", "Either your 'awesome' item handling or my 'brilliant' programming killed %s..." % eqtarget.fullname)
             jump("mainscreen")
             
     if came_to_equip_from:
@@ -255,9 +260,9 @@ screen equip_for(pos=()):
                         action [Function(eqtarget.equip_for, t), Hide("equip_for")]
             textbutton "Close":
                 action Hide("equip_for")
-    
+
 screen char_equip():
-    
+
     # Useful keymappings (first time I try this in PyTFall): ====================================>
     if focusitem:
         key "mousedown_2" action Return(["item", "equip/unequip"])
@@ -301,7 +306,13 @@ screen char_equip():
                 background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
                 xysize (710, 296)
                 use char_equip_item_info(item=focusitem, size=(703, 287), tt=tt)
-        
+
+    if not isinstance(eqtarget, PytGroup):
+        use char_equip_left_frame(tt, stats_display)
+    else:
+        use group_equip_left_frame(tt)
+
+screen char_equip_left_frame(tt, stats_display):
     # Left Frame: =====================================>
     fixed:
         pos (0, 2)
@@ -437,7 +448,42 @@ screen char_equip():
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
                     pos (4, 40)
                     ymaximum 460
-    
+
+    use char_equip_right_frame(tt)
+
+screen group_equip_left_frame(tt):
+
+    # Left Frame: =====================================>
+    fixed:
+        pos (0, 2)
+        xysize (220,724)
+        style_group "content"
+        # PORTRAIT ============================>
+        frame:
+            xysize (100, 100)
+            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
+            foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
+
+        # list of names of characters in group with selection options.
+        vbox:
+            yfill True
+            yoffset 195
+            spacing 2
+            xmaximum 21
+            frame:
+                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                xsize 218
+                padding 6, 6
+                margin 0, 0
+                style_group "proper_stats"
+                has vbox spacing 1
+
+                for k in eqtarget.selection.keys():
+                    text u"[k]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+
+    use char_equip_right_frame(tt)
+
+screen char_equip_right_frame(tt):
     # Right Frame: =====================================>
     # TOOLTIP TEXT or Applied Traits and Skills ====================================>
     frame:
@@ -447,19 +493,22 @@ screen char_equip():
         xysize (345, 110)
         
         python:
-            if len(eqtarget.traits.basetraits) == 1:
-                classes = list(eqtarget.traits.basetraits)[0].id
-            elif len(eqtarget.traits.basetraits) == 2:
-                classes = list(eqtarget.traits.basetraits)
-                classes.sort()
-                classes = ", ".join([str(c) for c in classes])
-            else:
-                if eqtarget != hero:
-                    raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
+            if not isinstance(eqtarget, PytGroup):
+                if len(eqtarget.traits.basetraits) == 1:
+                    classes = list(eqtarget.traits.basetraits)[0].id
+                elif len(eqtarget.traits.basetraits) == 2:
+                    classes = list(eqtarget.traits.basetraits)
+                    classes.sort()
+                    classes = ", ".join([str(c) for c in classes])
                 else:
-                    classes = "MC baseclasses are still AFK :("
-        
-        $ t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
+                    if eqtarget != hero:
+                        raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
+                    else:
+                        classes = "MC baseclasses are still AFK :("
+
+                t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
+            else:
+                t = "{vspace=17}[eqtarget.name]{/color}"
         
         if dummy:
             # Traits and skills:

@@ -281,6 +281,10 @@ screen chars_list(source=None, page=0, total_pages=1):
                 vbox:
                     button:
                         xysize (150, 40)
+                        action If(any(char_list_selection.values()), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
+                        text "Equipment"
+                    button:
+                        xysize (150, 40)
                         action If(any(char_list_selection.values()), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
             
