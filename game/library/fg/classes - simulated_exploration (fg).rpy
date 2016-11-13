@@ -14,6 +14,7 @@ init -9 python:
             self.girls = dict()
             self.main = False
             self.area = ""
+            self.mobs = {}
             self.known_mobs = set()
             self.known_items = set()
             self.cash_earned = 0
