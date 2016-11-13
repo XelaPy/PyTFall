@@ -83,6 +83,25 @@ label next_day_effects_check:
             if "Life Beacon" in hero.traits:
                 i.health += randint(15, 30)
                 i.joy += 1
+            if i.flag("horny_done"): # flags-based chance for char to propose intimacy
+                i.del_flag("horny_done")
+            elif i.flag("horny"):
+                i.del_flag("horny")
+            else:
+                if check_lovers(i, hero):
+                    if "Nymphomaniac" in char.traits:
+                        d = 70
+                    elif "Frigid" in char.traits:
+                        d = 20
+                    else:
+                        d = 40
+                    if dice(d):
+                        i.set_flag("horny")
+                else:
+                    if "Nymphomaniac" in i.traits and i.disposition >= 600 and dice(40):
+                        i.set_flag("horny")
+                    elif not "Frigid" in i.traits and i.disposition >= 900 and dice(25):
+                        i.set_flag("horny")
     return
         
         

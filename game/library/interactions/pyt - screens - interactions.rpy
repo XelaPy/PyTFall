@@ -43,21 +43,22 @@ label girl_interactions:
     show screen girl_interactions
     with dissolve
 
-    if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # check for nonquest cases and no issues with the character
-        if dice(50): 
-            $ char.set_flag("gm_char_proposed_sex", value=day) # 50% chance to skip sex proposition and set a flag, to make it more random
-        $ sub = check_submissivity(char)*20 + 40 # another chance check from 20 to 60 based on submissiveness
-        if dice(sub) and check_lovers(char, hero) and ((day - char.flag("gm_char_proposed_sex")) > 1 or char.flag("gm_char_proposed_sex") == 0): # no matter if MC agrees or not, they will do it once per 2 days at best
+    if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # chars with flag will propose sex once per day once you try to talk to them
+        if char.flag("horny") and char.AP >= 0 and char.vitality >= char.get_max("vitality")*0.25:
             call interactions_girl_proposes_sex
             menu:
                 "Do you wish to have sex with [char.name]?"
                 "Yes":
                     $ char.set_flag("gm_char_proposed_sex", value=day)
+                    $ char.del_flag("horny")
+                    $ char.set_flag("horny_done")
                     jump interactions_sex_scene_select_place
                 "No":
                     $ char.set_flag("gm_char_proposed_sex", value=day)
                     $ char.override_portrait("portrait", "indifferent")
+                    $ char.del_flag("horny")
                     $ rc("...", "I see...", "Maybe next time then...")
+                    $ char.joy -= randint(1, 5)
                     $ char.restore_portrait()
                     jump girl_interactions_after_greetings
                     
