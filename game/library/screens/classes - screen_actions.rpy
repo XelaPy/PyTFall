@@ -388,7 +388,7 @@ init -9 python:
             name = The name of the location.
             girl = A girl to check for unique actions.
             """
-            if isinstance(index, str):
+            if isinstance(index, basestring):
                 if index in self.locations and self.locations[index]:
                     if girl is not None:
                         if hasattr(girl, "world_actions"):
