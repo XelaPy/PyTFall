@@ -100,8 +100,8 @@ init -11 python:
         if isinstance(item, basestring):
             item = items[item]
 
-        src_amount = amount if source.nickname != "group" else amount * len(source.selected)
-        tgt_amount = amount if target.nickname != "group" else amount * len(target.selected)
+        src_amount = amount * len(source.selected) if isinstance(source, PytGroup) else amount
+        tgt_amount = amount * len(target.selected) if isinstance(target, PytGroup) else amount
 
         if not can_transfer(source, target, item, amount=tgt_amount, silent=silent, force=force):
             return False
