@@ -25,8 +25,9 @@ init -9 python:
             if any(type(result[0]) != type(r) for r in result):
                 if self._strategy is not None:
                     return self._strategy(result) if callable(self._strategy) else self._strategy
+
                 if not all(isinstance(r, basestring) for r in result):
-                    raise Exception("Not all equal types, strategy required for "+name+":\n"+repr(result))
+                    raise Exception("Not all equal types, strategy required for:\n"+repr(result))
 
             if isinstance(result[0], type(self.selected[0])):
                 result = listDelegator(result)
@@ -61,9 +62,9 @@ init -9 python:
 
             return wrapper
 
-        def _delistified(self, result, name):
+        def _delistified(self, result, attr):
             """
-            Called after 'name' (whether function or attribute) was requested from individual
+            Called when 'attr' - whether function or attribute - was requested from individual
             characters in the group. Looks at the type of the first and tries to come up with
             a sensible value to return. for anything non-standard profide a stratigy on init.
             """
@@ -74,13 +75,14 @@ init -9 python:
                 return result[0]
 
             if any(type(result[0]) != type(r) for r in result):
-                if self._strategy:
-                    return self._strategy(result)
+                if self._strategy  is not None:
+                    return self._strategy(result) if callable(self._strategy) else self._strategy
+
                 if not all(isinstance(r, basestring) for r in result):
-                    raise Exception("Not all equal types, strategy required for "+name+":\n"+repr(result))
+                    raise Exception("Not all equal types, strategy required for "+attr+":\n"+repr(result))
 
             if result[0] is None:
-                return self._delistified([r for r in result if r is not None], name)
+                return self._delistified([r for r in result if r is not None], attr)
 
             if isinstance(result[0], bool):
                 return any(result)
@@ -121,6 +123,10 @@ init -9 python:
             #TODO: display occupied inventory symbol here?
             return listDelegator([getattr(c, "eqslots") for c in self.selected], strategy=False)
 
+        @property
+        def inventory(self):
+
+            return listDelegator([getattr(c, "inventory") for c in self.selected], strategy=[])
         def show(self, what, resize=(None, None), cache=True):
             if what == "portrait":
                 what = self.portrait
