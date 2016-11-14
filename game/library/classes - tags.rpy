@@ -60,7 +60,7 @@ init -9 python:
             If tags is not defined, the image will be added to the set of 
             untagged images.
             '''
-            assert isinstance(relpath, str) or isinstance(relpath, unicode)
+            assert isinstance(relpath, basestring) or isinstance(relpath, unicode)
             if tags is None:
                 self.untagged.add(relpath)
             else:
@@ -70,7 +70,7 @@ init -9 python:
         def add_tag(self, tag, relpath):
             '''Stores the tag for the image at relpath in the database.
             '''
-            assert isinstance(tag, str) or isinstance(tag, unicode)
+            assert isinstance(tag, basestring) or isinstance(tag, unicode)
             try:
                 imgpathset = self.tagmap[tag]
             except KeyError:

@@ -55,7 +55,7 @@ init -9 python:
             """
             Activates (starts) a quest.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             if quest in self.quests: self.active.append(quest)
             if quest in self.complete: self.complete.remove(quest)
             if quest in self.failed: self.failed.remove(quest)
@@ -64,7 +64,7 @@ init -9 python:
             """
             Adds a new quest.
             """
-            if isinstance(quest, str): quest = WorldQuest(quest, *args, **kwargs)
+            if isinstance(quest, basestring): quest = WorldQuest(quest, *args, **kwargs)
             self.quest.append(quest)
             if quest.auto is not None: quest.start()
         
@@ -72,7 +72,7 @@ init -9 python:
             """
             Completes a quest.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             if quest in self.quests: self.complete.append(quest)
             if quest in self.active: self.active.remove(quest)
             if quest in self.failed: self.failed.remove(quest)
@@ -81,7 +81,7 @@ init -9 python:
             """
             Fails a quest.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             if quest in self.quests: self.failed.append(quest)
             if quest in self.active: self.active.remove(quest)
             if quest in self.complete: self.complete.remove(quest)
@@ -132,31 +132,31 @@ init -9 python:
         def has_failed(self, quest):
             """Whether a quest has been failed.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             return quest in self.failed
         
         def is_active(self, quest):
             """Whether a quest is active.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             return quest in self.active
         
         def is_complete(self, quest):
             """Whether a quest is complete.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             return quest in self.complete
         
         def is_squelched(self, quest):
             """Whether a quest has been squelched.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             return quest in self.squelch
         
         def kill_quest(self, quest):
             """Removes a quest.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             if self.is_active(quest): self.active.remove(quest)
             if self.is_complete(quest): self.complete.remove(quest)
             self.quests.remove(quest)
@@ -189,13 +189,13 @@ init -9 python:
         def squelch_quest(self, quest):
             """Squelches a quest so it doesn't provide any more updates.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             if self.is_active(quest): self.squelch.append(quest)
         
         def unsquelch_quest(self, quest):
             """Unsquelches a quest so it can provide updates.
             """
-            if isinstance(quest, str): quest = self.get(quest)
+            if isinstance(quest, basestring): quest = self.get(quest)
             if self.is_squelched(quest): self.squelch.remove(quest)
         
     

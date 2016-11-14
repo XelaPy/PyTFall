@@ -100,7 +100,7 @@ init -9 python:
         elif hasattr(statement, "__call__"):
             return bool(statement())
         
-        elif isinstance(statement, str):
+        elif isinstance(statement, basestring):
             return bool(eval(statement))
         
         else:
@@ -555,7 +555,7 @@ init -9 python:
             if isinstance(mode, (list, tuple)):
                 mode = Iff(S((gm, "mode")), "in", mode)
             
-            elif isinstance(mode, str):
+            elif isinstance(mode, basestring):
                 mode = Iff(S((gm, "mode")), "==", mode)
             
             # Update the condition
@@ -749,7 +749,7 @@ init -9 python:
             """
             Whether this button contains an event trigger or a screen action.
             """
-            return isinstance(self.action, str)
+            return isinstance(self.action, basestring)
         
         @property
         def is_null(self):
