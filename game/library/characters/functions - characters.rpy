@@ -475,6 +475,9 @@ init -11 python:
         
         This func cannot be used to make a playable character that can properly interact with the game world.
         """
+        if isinstance(char, PytGroup):
+            char = char.selected[0]
+
         # new = deepcopy(char)
         # Trying to improve the performace:
         new = pickle.loads(pickle.dumps(char, -1))
