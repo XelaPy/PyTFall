@@ -83,6 +83,25 @@ label next_day_effects_check:
             if "Life Beacon" in hero.traits:
                 i.health += randint(15, 30)
                 i.joy += 1
+            if i.flag("horny_done"): # flags-based chance for char to propose intimacy
+                i.del_flag("horny_done")
+            elif i.flag("horny"):
+                i.del_flag("horny")
+            else:
+                if check_lovers(i, hero):
+                    if "Nymphomaniac" in char.traits:
+                        d = 70
+                    elif "Frigid" in char.traits:
+                        d = 20
+                    else:
+                        d = 40
+                    if dice(d):
+                        i.set_flag("horny")
+                else:
+                    if "Nymphomaniac" in i.traits and i.disposition >= 600 and dice(40):
+                        i.set_flag("horny")
+                    elif not "Frigid" in i.traits and i.disposition >= 900 and dice(25):
+                        i.set_flag("horny")
     return
         
         
@@ -338,8 +357,9 @@ label next_day_controls:
 
                 elif result[1] == 'building':
                     building = result[2]
-                    order = {"buildingreport":1, "jobreport":2}
+                    order = {"buildingreport": 1, "jobreport": 2}
                     FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
+                    # TODO: There should always be the buiding report availible per design. Check NSUB to figure out what happned to default.
 
                 elif result[1] == "fighters_guild":
                     order = {"fg_report":1, "exploration_report":2, "fg_job":3}
@@ -348,15 +368,15 @@ label next_day_controls:
                 else:
                     devlog.warn("unhandled event:"+result[1])
 
-                if len(FilteredList):
+                if FilteredList:
                     event = FilteredList[0]
                     gimg = event.load_image()
                     index = 0
                 else:
                     devlog.warn("all NextDayEvents were filtered for: "+result[0]+", "+result[1])
-                    if result[1] == 'gndreports':
-                        # Preventing Index Exception on empty filter
-                        FilteredList = NextDayEvents
+                    # if result[1] == 'gndreports':
+                    # Preventing Index Exception on empty filter
+                    FilteredList = NextDayEvents
 
         if result[0] == 'control':
             if result[1] == 'left':

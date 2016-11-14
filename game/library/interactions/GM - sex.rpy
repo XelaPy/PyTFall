@@ -63,7 +63,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
             $ char.disposition -= randint(15, 35)
             $ char.set_flag("_day_countdown_interactions_blowoff", 2)
             jump girl_interactions_end
-    elif char.vitality <= round(char.get_max("vitality")*0.25): # no sex with low vitality
+    elif char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
         call interactions_refused_because_tired
         jump girl_interactions
     $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
@@ -158,7 +158,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_sex")
-    $ n = 0
+    $ n = randint(2,3)
     if check_lovers(char, hero):
         $ n += randint(1,2)
     elif check_friends(char, hero):
@@ -168,13 +168,11 @@ label interactions_sex: # we go to this label from GM menu propose sex
     elif ct("Nymphomaniac"):
         $ n += 2
 
-    if m > (randint(2,3) + n):
+    if m > n:
         call interactions_too_many_sex_lines
         $ char.disposition -= randint(5,m+5) + randint(1,5)
         if char.joy > 50:
             $ char.joy -= randint(2,4)
-        $ del m
-        $ del n
         jump girl_interactions
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement
@@ -182,7 +180,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits:
         call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
-    if char.vitality < round(char.get_max("vitality")*0.25):
+    if char.vitality < round(char.get_max("vitality")*0.25) or char.AP <= 0:
         call interactions_refused_because_tired
         jump girl_interactions
         
@@ -211,6 +209,10 @@ label interactions_sex: # we go to this label from GM menu propose sex
             $ disposition_level_for_sex -= randint(50, 100)
         else:
             $ disposition_level_for_sex += randint(50, 100)
+            
+    if char.flag("flag_int_had_sex_with_mc"):
+        $ disposition_level_for_sex -= 50+char.flag("flag_int_had_sex_with_mc")*10 # the more char does it with MC, the less needed disposition is, despite everything else
+            
     # so normal (without flag) required level of disposition could be from 200 to 1200 for non lovers
     if ct("Open Minded"): # open minded trait greatly reduces the needed disposition level
         $ disposition_level_for_sex -= randint(400, 500)
@@ -284,6 +286,11 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     
     $ sex_count = guy_count = girl_count = together_count = cum_count = 0 # these variable will decide the outcome of sex scene
     $ max_sex_scene_libido = sex_scene_libido = get_character_libido(char)
+    $ char.AP -= 1
+    if not(char.flag("flag_int_had_sex_with_mc")):
+        $ char.set_flag("flag_int_had_sex_with_mc", 1)
+    else:
+        $ char.set_flag("flag_int_had_sex_with_mc", char.flag("flag_int_had_sex_with_mc")+1)
     call interactions_sex_begins
     jump interaction_scene_choice
 
@@ -384,7 +391,8 @@ label interaction_sex_scene_choice:
             jump interactions_sex_scene_logic_part
             
         "That's all.":
-            $ del current_action
+            if 'current_action' in locals():
+                $ del current_action
             
 label interaction_scene_finish_sex:
     hide screen int_libido_level

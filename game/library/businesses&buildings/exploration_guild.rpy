@@ -51,7 +51,7 @@ init -6 python:
             self.guild = guild # Guild this tracker was initiated from...
             
             self.mobs = self.area.mobs
-            self.risk = self.area.risk
+            self.risk = self.area.risk or 50 # TODO: Remove 50 after testing and interface adjustments.
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
             self.hazard = self.area.hazard
@@ -298,7 +298,7 @@ init -6 python:
                     if tracker.day > 0:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Arrival")
-                    
+                    tracker.state = "exploring"
                     self.env.exit("arrived")
                 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
@@ -382,16 +382,14 @@ init -6 python:
             """
             items = list()
             area = tracker.area
+            team = tracker.team
             fought_mobs = 0
             encountered_opfor = 0
             
             # Points (ability) Convertion:
             for char in tracker.team:
                 # Set their exploration capabilities as temp flag:
-                tracker.power += int(round(1 + w.agility * 0.1)) # Effectiveness? How do we calculate?
-            
-            # AP Convertion:
-            self.convert_AP(tracker)
+                tracker.effectiveness += int(round(1 + char.agility * 0.1) + char.get_skill("exploration")) # Effectiveness? How do we calculate?
             
             #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
             risk_a_day_multiplicator = int(round(((0.2 + (area.risk*0.008))*(1 + tracker.day*(0.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
@@ -404,45 +402,49 @@ init -6 python:
                     temp = "{color=[blue]}Hazardous area!{/color} The team has been effected."
                     tracker.log(temp)
                     for char in tracker.team:
-                        for stat in area.hazard:
+                        for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
-                            var = max(1, int(round(area.hazard[stat]*.05)))
+                            var = max(1, int(round(value*.05)))
                             char.mod_stat(stat, -var) # TODO: Change to log + direct application.
                             
-                if tracker.items and dice(area.risk*0.2 + tracker.day *3):
-                    items.append(choice(tracker.items))
+                # This code and comment are both odd...
+                # We may have area items draw two times. Investigate later:
+                if tracker.items and dice(area.risk*0.02 + tracker.day*0.15):
+                    item = choice(tracker.items)
+                    temp = "{color=[blue]}Found an item {}!{/color}.".format(item.name)
+                    tracker.log("Found Item", temp, ui_log=True)
+                    items.append(item)
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
                     if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
                         temp = "{color=[blue]}Found an item {}!{/color}.".format(i.name)
                         tracker.log("Found Item", temp, ui_log=True)
-                        
                         items.append(i)
                         # break   #too hard to calculate chances for json with that
                 
-                if dice(area.risk + self.day*2):
-                    cash += randint(int(tracker.cash_limit/50*self.day), int(tracker.cash_limit/15*tracker.day))
+                if dice(area.risk*.05 + self.day*2*.05):
+                    cash += randint(int(tracker.cash_limit/50*self.day*.05), int(tracker.cash_limit/15*tracker.day*.05))
                 
                 #  =================================================>>>
                 # Girls capture (We break off exploration run in case of success):
-                if tracker.capture_chars:
-                    for g in area.girls:
-                        if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
-                            tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
-                            self.env.exit("captured char")
+                # if tracker.capture_chars:
+                    # for g in area.girls:
+                        # if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
+                            # tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
+                            # self.env.exit("captured char")
                             
                         # TODO: g in rchars looks like broken code! This also need to be updated and reviewed.
-                        elif g in rchars and dice(area.girls[g] + self.day*0.1):
-                            new_random_girl = build_rc()
-                            self.captured_girl = build_rc()
-                            self.env.exit("captured rchar")
+                        # elif g in rchars and dice(area.girls[g] + self.day*0.1):
+                            # # new_random_girl = build_rc()
+                            # self.captured_girl = build_rc()
+                            # self.env.exit("captured rchar")
                 
                 if not fought_mobs:
                     mob = None
                     
                     for key in tracker.mobs:
-                        encounter_chance = dice(((tracker.mobs[key][0]*risk_a_day_multiplicator)/(ap/2)))*0.05 # Needs a rework... what is ap here?
+                        encounter_chance = True # Condition here:
                         if encounter_chance: # Needs a review, we don't have ap here anymore.
                             enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
