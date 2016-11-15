@@ -52,6 +52,11 @@ init -9 python:
         def __repr__(self):
             return repr(self.selected)
 
+        def __add__(self, other):
+            if isinstance(self.selection[0], list):
+                return other + [item for sublist in self.selection for item in sublist]
+            raise Exception("not implemented for "+type(other))
+
         def _toDelegator(self, func):
             """ delegate call to individual characters and tries to sanitise return value """
 
