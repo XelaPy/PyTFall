@@ -45,20 +45,20 @@ init -9 python:
             #    raise Exception("FIXME: disallow unselecting all characters")
 
             if callable(getattr(self.selected[0], item)):
-                return self._toDelegator(item, self.selected)
+                return self._toDelegator(item)
 
             return self._delistified([getattr(c, item) for c in self.selected], item)
 
         def __repr__(self):
             return repr(self.selected)
 
-        def _toDelegator(self, func, key):
+        def _toDelegator(self, func):
             """ delegate call to individual characters and tries to sanitise return value """
 
             devlog.warn("Called character function from group:"+repr(func))
 
             def wrapper(*args, **kwargs):
-                return self._delistified([getattr(c, func)(*args, **kwargs) for c in key], func)
+                return self._delistified([getattr(c, func)(*args, **kwargs) for c in self.selected], func)
 
             return wrapper
 
