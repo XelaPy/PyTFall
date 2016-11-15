@@ -126,6 +126,16 @@ init -9 python:
         def inventory(self):
 
             return listDelegator([getattr(c, "inventory") for c in self.selected], remedy=[])
+
+        def equipment_access(self, item=None, silent=False):
+
+            for c in self.selected:
+                if not c.equipment_access(item, True):
+                    if not silent:
+                        c = choice(self.selected)
+                        c.say(choice(["We refuse.", "Some of us disagree."]))
+                    return False
+            return True
         def show(self, what, resize=(None, None), cache=True):
             if what == "portrait":
                 what = self.portrait
