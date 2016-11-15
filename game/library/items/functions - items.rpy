@@ -100,8 +100,8 @@ init -11 python:
         if isinstance(item, basestring):
             item = items[item]
 
-        src_amount = amount if source.nickname != "group" else amount * len(source.selected)
-        tgt_amount = amount if target.nickname != "group" else amount * len(target.selected)
+        src_amount = amount * len(source.selected) if isinstance(source, PytGroup) else amount
+        tgt_amount = amount * len(target.selected) if isinstance(target, PytGroup) else amount
 
         if not can_transfer(source, target, item, amount=tgt_amount, silent=silent, force=force):
             return False
@@ -213,50 +213,7 @@ init -11 python:
                 renpy.show_screen("message_screen", "This item cannot be sold!")
             return
         return True
-    
-    def equipment_access(char, item=None, silent=False):
-        # Here we determine if a char would be willing to give MC access to her equipment:
-        # Like if MC asked this character to equip or unequip an item.
-        # We return True of access is granted!
-        if char == hero:
-            return True # Would be weird if we could not access MCs inventory....
-            
-        # Always the same here as well...
-        if char.status == "slave":
-            return True
-        
-        # Always refuse if char hates the player:
-        if char.disposition < -700:
-            if not silent:
-                interactions_girl_disp_is_too_low_to_give_money() # turns out money lines are perfect here
-            return False
-            
-        if item:
-            # Bad Traits:
-            if item.badtraits.intersection(char.traits):
-                if not silent:
-                    interactions_character_doesnt_want_bad_item()
-                return False
-            
-            # Always allow restorative items:
-            if item.type == "restore":
-                return True
-                
-            # Good traits:
-            if item.goodtraits.intersection(char.traits):
-                return True
-                
-            # Just an awesome item in general:
-            if item.eqchance >= 70:
-                return True
-            
-        if all([char.disposition < 850, not(check_lovers(char, hero))]):
-            if not silent:
-                interactions_character_doesnt_want_to_equip_item()
-            return
-            
-        return True
-        
+
 label shop_control:
     $ result = ui.interact()
     if result[0] == "item":

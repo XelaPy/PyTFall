@@ -123,7 +123,7 @@ label char_equip_loop:
                             jump("char_equip_loop")
                             
                         # See if we can access the equipment first:
-                        if equipment_access(eqtarget, focusitem):
+                        if eqtarget.equipment_access(focusitem):
                             # If we're not equipping from own inventory, check if we can transfer:
                             if eqtarget != inv_source:
                                 if not transfer_items(inv_source, eqtarget, focusitem):
@@ -135,7 +135,7 @@ label char_equip_loop:
                             
                     elif item_direction == 'unequip':
                         # Check if we are allowed to access inventory and act:
-                        if equipment_access(eqtarget):
+                        if eqtarget.equipment_access():
                             eqtarget.unequip(focusitem, unequip_slot)
                             
                             # We should try to transfer items in case of:
@@ -151,7 +151,7 @@ label char_equip_loop:
             elif result[1] == "discard":
                 python:
                     # Check if we can access the inventory:
-                    if equipment_access(inv_source):
+                    if inv_source.equipment_access():
                         renpy.call_screen("discard_item", inv_source, focusitem)
                             
                     focusitem = None
@@ -465,21 +465,43 @@ screen group_equip_left_frame(tt):
             foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
 
         # list of names of characters in group with selection options.
-        vbox:
-            yfill True
-            yoffset 195
-            spacing 2
-            xmaximum 21
+        viewport:
+            ymaximum 590
+            pos (4, 120)
+            style_group "proper_stats"
             frame:
+                padding 4, 4
+                ymaximum 590
                 background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
                 xsize 218
-                padding 6, 6
-                margin 0, 0
-                style_group "proper_stats"
-                has vbox spacing 1
+                has hbox
+                hbox:
+                    vbox:
+                        yfill True
+                        #yoffset 195
+                        spacing 5
+                        frame:
+                            xsize 104
+                            ymaximum 585
+                            padding 6, 6
+                            margin 0, 0
+                            has vbox spacing 1
+                            # character togglebuttons:
+                            for k in eqtarget.selection.keys()[:min(26,int(len(eqtarget.selection)/2))]:
+                                text u"[k]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                    vbox:
+                        yfill True
+                        #yoffset 195
+                        spacing 5
+                        frame:
+                            xsize 104
+                            ymaximum 585
+                            padding 6, 6
+                            margin 0, 0
+                            has vbox spacing 1
+                            for k in eqtarget.selection.keys()[min(26,int(len(eqtarget.selection)/2)):len(eqtarget.selection)]:
+                                text u"[k]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
 
-                for k in eqtarget.selection.keys():
-                    text u"[k]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
 
     use char_equip_right_frame(tt)
 
