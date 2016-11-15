@@ -220,9 +220,43 @@
     },
     {
     "id": "Sky Ward",
-    "desc": "Harpies are one of the fastest flyers in the world. You inherited some of your mother's speed.",
+    "desc": "Harpies are one of the fastest fliers in the world. You inherited some of your mother's speed.",
     "mod_stats": {"agility": [1, 1]},
     "max": {"agility": 10},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Ghost Blood",
+    "desc": "You are immune to poisons, but light damages you more than others.",
+    "el_defence": {"light": -0.4},
+    "resist": ["poison"],
+    "MC_only_trait": true,
+    "blocks": ["Poison Immunity", "Poison Resistance"],
+    "permanent": true
+    },
+    {
+    "id": "Incorporeal",
+    "desc": "All attacks and magic are less effective against you, but all your attacks and magic are less effective too.",
+    "defence_multiplier": {"ranged": 0.2, "melee": 0.2, "ranged": 0.2, "status": 0.2},
+    "delivery_multiplier": {"ranged": -0.2, "melee": -0.2, "ranged": -0.2, "status": -0.2},
+    "el_defence": {"healing": 0.1},
+    "el_damage": {"healing": -0.1},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Illusive",
+    "desc": "Physical damage is less effective against you, but you cannot take virginity during intimacy due to your illusive state.",
+    "el_defence": {"physical": 0.35},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Light Weaving",
+    "desc": "Despite your ghost nature, light is not your enemy. Weakness to light is reduced, and light magic damage is a bit higher.",
+    "el_damage": {"light": 0.3, "darkness": -0.1},
+    "el_defence": {"darkness": -0.1, "light": 0.3},
     "MC_only_trait": true,
     "permanent": true
     }
