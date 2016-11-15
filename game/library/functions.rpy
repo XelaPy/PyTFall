@@ -22,7 +22,7 @@ init -11 python:
         string = The word to pluralise.
         amount = The amount of the 'word' as either a number or a string.
         """
-        if isinstance(amount, str):
+        if isinstance(amount, basestring):
             try:
                 if int(amount) == 1: return string
                 elif string[-1:] == "x" or string[-2:] in ("ch", "sh", "ss"): return string + "es"

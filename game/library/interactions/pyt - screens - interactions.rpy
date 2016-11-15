@@ -172,22 +172,15 @@ label girl_interactions_after_greetings: # when character wants to say something
             flag_value = int(char.flag(flag_name))
             pytfall.world_actions.add(m, "Give Gift", Return(["gift", True]), condition="flag_value < 3")
             
-            # SPEND TIME TOGETHER
-            m = 6
-            pytfall.world_actions.menu(m, "Go Out")
-            pytfall.world_actions.gm_choice("Eat Together", index=(m, 0))
-            pytfall.world_actions.gm_choice("Help With Something", index=(m, 1))
-            # pytfall.world_actions.gm_choice("Shopping", index=(m, 1)) # In shopping file instead of go out
-            
             # PROPOSITION
-            m = 7
+            m = 6
             pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.chars) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
             pytfall.world_actions.gm_choice("Friends", condition="not check_friends(char, hero)", index=(m, 0))
             pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 1))
             pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.chars) and not char.flag('quest_cannot_be_hired')", index=(m, 2))
             
             # INTIMACY
-            m = 8
+            m = 7
             pytfall.world_actions.menu(m, "Intimacy")
             pytfall.world_actions.gm_choice("Hug", index=(m, 0))
             pytfall.world_actions.gm_choice("Grab Butt", index=(m, 1))
@@ -203,7 +196,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             Expects a dictionary with the following k/v pairs to be set as a flag that starts with :
             event_to_interactions_  as a flag and {"label": "some_label", "button_name='Some Name'", "condition": "True"}
             """
-            m = 9
+            m = 8
             # First add the Menu:
             for f in char.flags:
                 if f.startswith("event_to_interactions_") and renpy.has_label(char.flag(f)["label"]):
@@ -216,7 +209,7 @@ label girl_interactions_after_greetings: # when character wants to say something
                     if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
                         pytfall.world_actions.gm_choice(char.flag(f)["button_name"], label=char.flag(f)["label"], index=(m, i))
                         i = i + 1
-            m = 10
+            m = 9
             pytfall.world_actions.menu(m, "Harassment", condition="not(char in hero.team) and char in hero.chars") # no fights between team members
             pytfall.world_actions.gm_choice("Insult", index=(m, 0))
             pytfall.world_actions.gm_choice("Escalation", index=(m, 1))

@@ -743,7 +743,7 @@ init -9 python:
             if self.scale == PytTrainingLesson.NO_EFFECT:
                 return 1.0
             
-            if isinstance(self.based, str):
+            if isinstance(self.based, basestring):
                 if hasattr(store, self.based): f = getattr(store, self.based)(girl)
                 else:
                     devlog.error("No scaling function found for PytTrainingScaling \"%s\"."%self.based)
@@ -769,7 +769,7 @@ init -9 python:
             if self.scale == PytTrainingLesson.POS_EFFECT: return f
             elif self.scale == PytTrainingLesson.NEG_EFFECT: return 1-f
             elif self.scale == PytTrainingLesson.POS_TILL_CHECK:
-                if isinstance(self.check, str):
+                if isinstance(self.check, basestring):
                     if hasattr(store, self.check):
                         if getattr(store, self.check)(girl): return f
                         else: return 0
@@ -783,7 +783,7 @@ init -9 python:
                     else: return 0
             
             elif self.scale == PytTrainingLesson.NEG_TILL_CHECK:
-                if isinstance(self.check, str):
+                if isinstance(self.check, basestring):
                     if hasattr(store, self.check):
                         if getattr(store, self.check)(girl): return 1-f
                         else: return 0

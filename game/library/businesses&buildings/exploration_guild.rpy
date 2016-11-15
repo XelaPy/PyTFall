@@ -59,6 +59,10 @@ init -6 python:
             # Is this it? We should have area items???
             self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit)
             
+            # Shit we found!
+            self.found_items = []
+            self.cash = []
+            
             # Traveling to and from + Status flags:
             self.distance = self.area.travel_time * 25 # We may be setting this directly in the future. Distance in KM as units. 25 is what we expect the team to be able to travel in a day. This may be offset through traits and stats/skills.
             # We assume that it's never right outside of the freaking city walls, so we do this:
@@ -80,8 +84,8 @@ init -6 python:
             self.found_items = list()
             self.cash = list()
             
-            self.day = 0 # Day since start.
-            self.total_days = 0 # Total days, travel times included!
+            self.day = 1 # Day since start.
+            self.total_days = 0 # Total days, travel times excluded!
             self.days = self.area.days # Days team is expected to be exploring (without travel times)!
             
             # TODO: Stats here need to be personal for each of the team members.
@@ -160,6 +164,10 @@ init -6 python:
             self.battle_log = [] # Used to log the event.
             self.battle_won = False
             self.found_items = []
+            
+        def add(self, text, newline=True):
+            # Adds a text to the log.
+            self.txt.append(text)
             
         def __call__(self):
             renpy.show_screen("...") # Whatever the pop-up screen with info in gui is gonna be.
@@ -261,17 +269,18 @@ init -6 python:
                     yield self.env.process(self.travel_to(tracker))
                     # Testing mode, we can plainly build a report to see what's happening:
                     # tracker.build_nd_report() # Report methods needs moar luv, this is not gonna fly atm. Gonna try making it work tonight.
-                    
+                    # self.env.exit()
                 elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
                     tracker.build_nd_report()
+                    self.env.exit()
                 # elif tracker.state == "camping":
                     # yield self.env.process(self.camping(tracker))
                 # elif tracker.state == "traveling back":
                     # yield self.env.process(self.travel_back(tracker))
                 
-            if config.debug:
-                tracker.log("The day has come to an end for {}.".format(tracker.team.name))
+            # if config.debug:
+                # tracker.log("The day has come to an end for {}.".format(tracker.team.name))
             tracker.day += 1
             
         def travel_to(self, tracker):
@@ -385,14 +394,15 @@ init -6 python:
             team = tracker.team
             fought_mobs = 0
             encountered_opfor = 0
+            cash = 0
             
             # Points (ability) Convertion:
-            for char in tracker.team:
+            for char in team:
                 # Set their exploration capabilities as temp flag:
-                tracker.effectiveness += int(round(1 + char.agility * 0.1) + char.get_skill("exploration")) # Effectiveness? How do we calculate?
+                tracker.effectiveness += int(round(1 + char.agility*.1) + char.get_skill("exploration")) # Effectiveness? How do we calculate?
             
             #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
-            risk_a_day_multiplicator = int(round(((0.2 + (area.risk*0.008))*(1 + tracker.day*(0.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
+            risk_a_day_multiplicator = 50 # int(round(((.2 + (area.risk*.008))*(1 + tracker.day*(.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
             
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
@@ -401,7 +411,7 @@ init -6 python:
                 if area.hazard:
                     temp = "{color=[blue]}Hazardous area!{/color} The team has been effected."
                     tracker.log(temp)
-                    for char in tracker.team:
+                    for char in team:
                         for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, int(round(value*.05)))
@@ -409,22 +419,24 @@ init -6 python:
                             
                 # This code and comment are both odd...
                 # We may have area items draw two times. Investigate later:
-                if tracker.items and dice(area.risk*0.02 + tracker.day*0.15):
+                if tracker.items and dice(area.risk*.02 + tracker.day*.15):
                     item = choice(tracker.items)
-                    temp = "{color=[blue]}Found an item {}!{/color}.".format(item.name)
-                    tracker.log("Found Item", temp, ui_log=True)
+                    temp = "{color=[blue]}Found an item %s!{/color}"%item
+                    tracker.log(temp, "Found Item", ui_log=True)
                     items.append(item)
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
                     if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
-                        temp = "{color=[blue]}Found an item {}!{/color}.".format(i.name)
-                        tracker.log("Found Item", temp, ui_log=True)
+                        temp = "{color=[blue]}Found an item %s!{/color}"%i
+                        tracker.log(temp, "Found Item", ui_log=True)
                         items.append(i)
-                        # break   #too hard to calculate chances for json with that
+                        break
                 
-                if dice(area.risk*.05 + self.day*2*.05):
-                    cash += randint(int(tracker.cash_limit/50*self.day*.05), int(tracker.cash_limit/15*tracker.day*.05))
+                if dice(area.risk*.05 + tracker.day*2*.05):
+                    if not tracker.day:
+                        raise Exception("tracker.day == 0!")
+                    cash += 100 # randint(int(tracker.cash_limit/50*tracker.day*.05), int(tracker.cash_limit/15*tracker.day*.05))
                 
                 #  =================================================>>>
                 # Girls capture (We break off exploration run in case of success):
@@ -445,89 +457,101 @@ init -6 python:
                     
                     for key in tracker.mobs:
                         encounter_chance = True # Condition here:
-                        if encounter_chance: # Needs a review, we don't have ap here anymore.
+                        if encounter_chance:
                             enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
                             mob = key
-                            temp = "{} were attacked by ".format(team.name)
+                            temp = "\n{} were attacked by ".format(team.name)
                             temp = temp + "%d %s!" % (enemies, plural(mob, enemies))
-                            log = tracker.log("Engagement", temp, ui_log=True)
+                            log = tracker.log(temp, "Combat!", ui_log=True)
                             break
                             
                     if mob:
                         self.combat_mobs(tracker, mob, enemies, log)
-        
+                        
+                # This needs to be moved so it reports once.
                 if items and cash:
-                    self.txt.append("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
-                    self.found_items.extend(items)
-                    self.txt.append(" and {color=[gold]}%d Gold{/color} in loot" % cash)
-                    self.cash.append(cash)
+                    tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                    tracker.found_items.extend(items)
+                    tracker.log(" and {color=[gold]}%d Gold{/color} in loot!" % cash)
+                    tracker.cash.append(cash)
                 
                 if cash and not items:
-                    self.txt.append("The team has found: {color=[gold]}%d Gold{/color} in loot" % cash)
-                    self.cash.append(cash)
+                    tracker.log("The team has found: {color=[gold]}%d Gold{/color} in loot." % cash)
+                    tracker.cash.append(cash)
                 
-                if items or cash:
-                    self.txt.append("!\n")
+                if items and not cash:
+                    tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                    tracker.found_items.extend(items)
                 
                 if not items and not cash:
-                    self.txt.append("It was a quite day of exploration, nothing of interest happened...")
+                    tracker.log("Your team has not found anything of interest...")
                 
-                self.stats["agility"] += randrange(2)
-                self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
+                if self.env.now >= 99:
+                    self.env.exit()
                 
-                inv = list(g.inventory for g in self.team)
+                # self.stats["agility"] += randrange(2)
+                # self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
                 
-                for g in self.team:
-                    l = list()
-                    
-                    if g.health < 75:
-                        l.extend(g.auto_equip(["health"], source=inv))
-                    
-                    if g.vitality < 100:
-                        l.extend(g.auto_equip(["vitality"], source=inv))
-                    
-                    if g.mp < 30:
-                        l.extend(g.auto_equip(["mp"], source=inv))
-                    
-                    if l:
-                        self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
+                # TODO: This should be a part of camping method.
+                # inv = list(g.inventory for g in self.team)
+                # for g in self.team:
+                    # l = list()
+                    # if g.health < 75:
+                        # l.extend(g.auto_equip(["health"], source=inv))
+                    # if g.vitality < 100:
+                        # l.extend(g.auto_equip(["vitality"], source=inv))
+                    # if g.mp < 30:
+                        # l.extend(g.auto_equip(["mp"], source=inv))
+                    # if l:
+                        # self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
                 
-                if not stop and self.day == self.days:
-                    self.txt.append("\n\n {color=[green]}The party has finished their exploration run!{/color}")
-                    stop = True
+                # TODO: Both of these do no longer belong here:
+                # if not stop and self.day == self.days:
+                    # self.txt.append("\n\n {color=[green]}The party has finished their exploration run!{/color}")
+                    # stop = True
                 
-                if not stop:
-                    for member in self.team:
-                        if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
-                            temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
-                            tracker.log(temp)
+                # if not stop:
+                    # for member in self.team:
+                        # if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
+                            # temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
+                            # tracker.log(temp)
                             
             
-        def combat_mobs(self, tracker, mob, amount, log):
-            # amount of mobs*
-            # log is the exlog object we add be report to!
+        def combat_mobs(self, tracker, mob, opfor_team_size, log):
+            # log is the exlog object we add be reports to!
+            # Do we really need to pass team size to this method instead of figuring everything out here?
             
             team = tracker.team
-            opfor = Team(name="Enemy Team", max_size=amount)
+            # area = tracker.area
+            opfor = Team(name="Enemy Team", max_size=opfor_team_size)
             
-            # Get a level... for now, I am keeping it plain and simple:
+            # Get a level we'll set the mobs to:
             level = tracker.mobs[mob][0]
-            mob_id = mob
+            minl = max(1, level-3)
+            maxl = level+3+tracker.day
+            level = randint(minl, maxl)
             
-            for i in xrange(amount):
-                mob = build_mob(id=mob, level=level)
-                mob.controller = BE_AI(mob)
-                opfor.add(mob)
+            # raise Exception(mob, tracker.area.mobs)
+            for i in xrange(opfor_team_size):
+                temp = build_mob(id=mob, level=level)
+                temp.controller = BE_AI(temp)
+                opfor.add(temp)
+                
+            for i in team:
+                i.controller = BE_AI(i)
             
             # Logical battle scenario:
             battle = BE_Core(logical=1)
-            store.battle = battle # Making it global... I need to make sure this is not needed.
+            store.battle = battle # Making battle global... I need to make sure this is not needed.
             battle.teams.append(team)
             battle.teams.append(opfor)
             battle.start_battle()
             
             # Add the battle report to log!:
             log.battle_log = reversed(battle.combat_log)
+            
+            for i in team:
+                i.controller = "player"
             
             if battle.winner == team:
                 log.battle_won = True
@@ -537,31 +561,27 @@ init -6 python:
                     member.agility += randrange(3)
                     member.magic += randrange(3)
                     member.exp += level*10 # Adjust for levels? ! TODO:
+                    
+                temp = "{} have won the battle!".format(team.name)
+                tracker.log(temp)
                 
                 # Death needs to be handled based off risk factor: TODO:
-                # for member in self.team:
-                    # damage = randint(3, 10)
-                    # if member.health - damage <= 0:
-                        # if self.risk > 75:
-                            # self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-                            # stop = True
-                            # member.health -= damage
-                        # else:
-                            # self.txt.append("\n{color=[red]}%s nearly died during this skirmish... it's time for the party to fall back!{/color}\n")
-                            # stop = True
-                            # member.health = 1
-                    # else:
-                        # member.health -= damage
-                    # member.mp -= randint(3, 7)
-            
-            if result[0] == "defeat": # Defeat here...
+                # self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
+
+                temp = "{color=[lawngreen]}Your team won!!{/color}\n"
+                log.add(temp)
+                return "victory"
+                
+            else: # Defeat here...
                 # self.stats["attack"] += randrange(2)
                 # self.stats["defence"] += randrange(2)
                 # self.stats["agility"] += randrange(2)
                 # self.stats["magic"] += randrange(2)
                 # self.stats["exp"] += mob_power/15
                 
-                self.txt.append("{color=[red]}Exploration Party was defeated!{/color}\n")
+                temp = "{color=[red]}Your team got their asses kicked!!{/color}\n"
+                log.add(temp)
+                return "defeat"
                 
         
         def convert_AP(self, tracker):
