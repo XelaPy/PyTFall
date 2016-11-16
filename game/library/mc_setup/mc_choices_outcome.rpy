@@ -142,3 +142,35 @@ label mc_setup_warrior_defender_harpy_sky:
     $ hero.baseAP += 1
     $ hero.apply_trait("Sky Ward")
     return
+    
+label mc_setup_mage_darkness:
+    $ hero.apply_trait("Darkness")
+    return
+    
+label mc_setup_mage_darkness_ghost:
+    $ hero.apply_trait("Ghostly")
+    return
+    
+label mc_setup_mage_darkness_ghost_intangible:
+    $ hero.apply_trait("Incorporeal")
+    return
+    
+label mc_setup_mage_darkness_ghost_illusive:
+    $ hero.apply_trait("Illusive")
+    return
+    
+label mc_setup_mage_darkness_ghost_weaving:
+    $ hero.apply_trait("Light Weaving")
+    return
+    
+label mc_setup_mage_darkness_vampire:
+    $ hero.apply_trait("Vampiric Blood")
+    return
+    
+label mc_setup_mage_darkness_vampire_night:
+    $ hero.apply_trait("Creature of Night")
+    return
+    
+label mc_setup_mage_darkness_vampire_blood:
+    $ hero.apply_trait("Blood Master")
+    return
