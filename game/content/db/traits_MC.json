@@ -280,5 +280,13 @@
     "desc": "Girls whose virginity was taken by you are more obedient.",
     "MC_only_trait": true,
     "permanent": true
+    },
+    {
+    "id": "Perfect Reflexes",
+    "desc": "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health.",
+    "max": {"health": -50, "vitality": -25},
+    "evasion_bonus": [20, 30, 50],
+    "MC_only_trait": true,
+    "permanent": true
     }
     ]

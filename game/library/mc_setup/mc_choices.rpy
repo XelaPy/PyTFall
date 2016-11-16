@@ -375,7 +375,9 @@ label build_mc_stories:
                                                                       r0="Creature of Night",
                                                                       r0_img="content/gfx/interface/images/mc/night.png",
                                                                       r1="Blood Master",
-                                                                      r1_img="content/gfx/interface/images/mc/blood.png"
+                                                                      r1_img="content/gfx/interface/images/mc/blood.png",
+                                                                      r2="Perfect Reflexes",
+                                                                      r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
                                                                       
         mc_stories["Mage"]["MC"]["Darkness"]["Ghost"] = {} 
@@ -408,6 +410,10 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"] = {}
         mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["text"] = "Only pure vampires have access to blood magic, but your heritage still gives a few perks when blood is involved. Girls whose virginity was taken by you are more obedient."
         mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["label"] = "mc_setup_mage_darkness_vampire_blood"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["text"] = "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["label"] = "mc_setup_mage_darkness_vampire_reflex"
                                                        
         mc_stories["Noble"] = {}
         mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"

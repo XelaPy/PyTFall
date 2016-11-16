@@ -494,7 +494,6 @@ init: # MC Setup Screens:
                                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                                 idle_foreground img
                                 hover_foreground im.MatrixColor(img, im.matrix.brightness(0.10), align=(0.5, 0.5))
-                                activate_sound "content/sfx/sound/sys/hooah.ogg"
                                 action Hide("mc_sub_texts"), SetVariable("mc_story", choices[i]), SetVariable("mc_substory", None), Show("mc_sub_texts", transition=dissolve)
                             hbox:
                                 xalign 0.5

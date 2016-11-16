@@ -174,3 +174,7 @@ label mc_setup_mage_darkness_vampire_night:
 label mc_setup_mage_darkness_vampire_blood:
     $ hero.apply_trait("Blood Master")
     return
+    
+label mc_setup_mage_darkness_vampire_reflex:
+    $ hero.apply_trait("Perfect Reflexes")
+    return
