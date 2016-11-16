@@ -452,7 +452,8 @@ init -6 python:
                             # self.captured_girl = build_rc()
                             # self.env.exit("captured rchar")
                 
-                if not fought_mobs:
+                # if not fought_mobs:
+                if 1:
                     mob = None
                     
                     for key in tracker.mobs:
