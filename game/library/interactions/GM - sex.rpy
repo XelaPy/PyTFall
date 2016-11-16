@@ -1419,6 +1419,8 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                 jump interaction_scene_choice
         $ char.disposition += 50
         $ char.remove_trait(traits["Virgin"])
+        if "Blood Master" in hero.traits:
+            $ char.enable_effect("Blood Connection")
         if char.health >=15:
             $ char.health -= 10
         else:

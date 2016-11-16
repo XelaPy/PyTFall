@@ -1247,7 +1247,8 @@ init -9 python:
                 "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
                 "Impressible": {"active": False, "desc": "Easier to decrease and increase joy."},
                 "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
-                "Regeneration": {"active": False, "desc": "Restores some health every day."}
+                "Regeneration": {"active": False, "desc": "Restores some health every day."},
+                "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2626,6 +2627,9 @@ init -9 python:
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
                 
+            elif effect == "Blood Connection":
+                self.effects['Blood Connection']['active'] = True
+                
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
                 
@@ -2739,6 +2743,9 @@ init -9 python:
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = False
                 
+            elif effect == "Blood Connection":
+                self.effects['Blood Connection']['active'] = False
+                
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
                 
@@ -2851,6 +2858,10 @@ init -9 python:
             elif effect == "Optimist":
                 if self.joy >= 30:
                     self.joy += 1
+                    
+            elif effect == "Blood Connection":
+                self.disposition += randint(1, 3)
+                self.character -=1
                     
             elif effect == "Regeneration":
                 h = 0
