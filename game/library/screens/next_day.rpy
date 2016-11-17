@@ -88,14 +88,18 @@ label next_day_effects_check:
             elif i.effects['Icy']['active']:
                 i.disable_effect("Icy")
             else:
-                if "Nymphomaniac" in i.traits and dice(40):
-                    i.enable_effect("Horny")
-                elif "Frigid" in i.traits and dice(50):
-                    i.enable_effect("Icy")
-                else:
-                    if dice(20) and i.joy > 50:
+                if i.vitality >= i.get_max("vitality")*0.3 and i.health >= i.get_max("health")*0.3:
+                    if "Nymphomaniac" in i.traits and dice(40):
                         i.enable_effect("Horny")
-                    elif dice(20) and i.joy > 50:
+                    elif "Frigid" in i.traits and dice(50):
+                        i.enable_effect("Icy")
+                    else:
+                        if dice(20) and i.joy > 50:
+                            i.enable_effect("Horny")
+                        elif dice(20) and i.joy > 50:
+                            i.enable_effect("Icy")
+                else:
+                    if dice(50):
                         i.enable_effect("Icy")
     return
         
