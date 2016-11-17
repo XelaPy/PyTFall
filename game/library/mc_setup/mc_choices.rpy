@@ -369,7 +369,7 @@ label build_mc_stories:
                                                                       l1="Illusive",
                                                                       l1_img="content/gfx/interface/images/mc/illusion.png",
                                                                       l2="Light Weaving",
-                                                                      l2_img="content/gfx/interface/images/elements/light.png",
+                                                                      l2_img="content/gfx/interface/images/elements/small_light.png",
                                                                       r="Vampire",
                                                                       r_img="content/gfx/interface/images/mc/vampire.jpg",
                                                                       r0="Creature of Night",
