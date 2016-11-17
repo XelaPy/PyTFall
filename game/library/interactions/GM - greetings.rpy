@@ -696,6 +696,35 @@ label interactions_too_many_sex_lines: # overused sexual line
         $ rc("You are too persistent. I don't feel like it.", "Give it a rest. We already did it.")
     else:
         $ rc("Aren't you tired of it? I am.", "How many times are you going to do it?")
+    $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
+    return
+    
+label interactions_frigid_sex_refuse:
+    $ char.override_portrait("portrait", "indifferent")
+    $ char.show_portrait_overlay("sweat", "reset")
+    if ct("Impersonal"):
+        $ rc("I don't feel the need to do it right now.")
+    elif ct("Shy") and dice(50):
+        $ rc("S-sorry, let's do it later m-maybe..?")
+    elif ct("Imouto"):
+        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, doing it again and again?") 
+    elif ct("Dandere"):
+        $ rc("I don't want to.")
+    elif ct("Tsundere"):
+        $ rc("Geez, give me a break, ok?"),
+    elif ct("Kuudere"):
+        $ rc("I think I need a break today.")
+    elif ct("Kamidere"):
+        $ rc("Unfortunately, I have no intentions to do it.")
+    elif ct("Bokukko"):
+        $ rc("Nah, don't wanna. Don't you want to do something else?")
+    elif ct("Ane"):
+        $ rc("Apologies, I'm not in the mood today.")
+    elif ct("Yandere"):
+        $ rc("I don't feel like it.")
+    else:
+        $ rc("I'm not in the mood, sorry.")
     "Maybe you should try something else."
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()

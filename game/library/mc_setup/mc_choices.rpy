@@ -369,7 +369,15 @@ label build_mc_stories:
                                                                       l1="Illusive",
                                                                       l1_img="content/gfx/interface/images/mc/illusion.png",
                                                                       l2="Light Weaving",
-                                                                      l2_img="content/gfx/interface/images/elements/light.png"
+                                                                      l2_img="content/gfx/interface/images/elements/small_light.png",
+                                                                      r="Vampire",
+                                                                      r_img="content/gfx/interface/images/mc/vampire.jpg",
+                                                                      r0="Creature of Night",
+                                                                      r0_img="content/gfx/interface/images/mc/night.png",
+                                                                      r1="Blood Master",
+                                                                      r1_img="content/gfx/interface/images/mc/blood.png",
+                                                                      r2="Perfect Reflexes",
+                                                                      r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
                                                                       
         mc_stories["Mage"]["MC"]["Darkness"]["Ghost"] = {} 
@@ -388,6 +396,24 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"] = {}
         mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"]["text"] = "Despite your ghost nature, light is not your enemy. Weakness to light is reduced, and light magic damage is a bit higher."
         mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"]["label"] = "mc_setup_mage_darkness_ghost_weaving"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"] = {} 
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["header"] = "Vampire"
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["text"] = "For decades he studied vampires and their unnatural longevity. Eventually he captured the local vampire queen, but her seductiveness quickly turned his magical experiments into sexual ones."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["label"] = "mc_setup_mage_darkness_vampire"
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["class"] = "Assassin"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells now heal you instead of hurting, but your Fire and Electricity spells are a bit less effective."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"]["label"] = "mc_setup_mage_darkness_vampire_night"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["text"] = "Only pure vampires have access to blood magic, but your heritage still gives a few perks when blood is involved. Girls whose virginity was taken by you are more obedient."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["label"] = "mc_setup_mage_darkness_vampire_blood"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["text"] = "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["label"] = "mc_setup_mage_darkness_vampire_reflex"
                                                        
         mc_stories["Noble"] = {}
         mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"

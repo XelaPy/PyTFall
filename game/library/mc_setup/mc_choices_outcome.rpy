@@ -148,7 +148,7 @@ label mc_setup_mage_darkness:
     return
     
 label mc_setup_mage_darkness_ghost:
-    $ hero.apply_trait("Ghost Blood")
+    $ hero.apply_trait("Ghostly")
     return
     
 label mc_setup_mage_darkness_ghost_intangible:
@@ -161,4 +161,20 @@ label mc_setup_mage_darkness_ghost_illusive:
     
 label mc_setup_mage_darkness_ghost_weaving:
     $ hero.apply_trait("Light Weaving")
+    return
+    
+label mc_setup_mage_darkness_vampire:
+    $ hero.apply_trait("Vampiric Blood")
+    return
+    
+label mc_setup_mage_darkness_vampire_night:
+    $ hero.apply_trait("Creature of Night")
+    return
+    
+label mc_setup_mage_darkness_vampire_blood:
+    $ hero.apply_trait("Blood Master")
+    return
+    
+label mc_setup_mage_darkness_vampire_reflex:
+    $ hero.apply_trait("Perfect Reflexes")
     return

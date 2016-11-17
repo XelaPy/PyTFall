@@ -81,27 +81,26 @@ label next_day_effects_check:
             if i.effects['Exhausted']['activation_count'] >= 1 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
             if "Life Beacon" in hero.traits:
-                i.health += randint(15, 30)
+                i.health += randint(10, 20)
                 i.joy += 1
-            if i.flag("horny_done"): # flags-based chance for char to propose intimacy
-                i.del_flag("horny_done")
-            elif i.flag("horny"):
-                i.del_flag("horny")
+            if i.effects['Horny']['active']:
+                i.disable_effect("Horny")
+            elif i.effects['Icy']['active']:
+                i.disable_effect("Icy")
             else:
-                if check_lovers(i, hero):
-                    if "Nymphomaniac" in char.traits:
-                        d = 70
-                    elif "Frigid" in char.traits:
-                        d = 20
+                if i.vitality >= i.get_max("vitality")*0.3 and i.health >= i.get_max("health")*0.3:
+                    if "Nymphomaniac" in i.traits and dice(40):
+                        i.enable_effect("Horny")
+                    elif "Frigid" in i.traits and dice(50):
+                        i.enable_effect("Icy")
                     else:
-                        d = 40
-                    if dice(d):
-                        i.set_flag("horny")
+                        if dice(20) and i.joy > 50:
+                            i.enable_effect("Horny")
+                        elif dice(20) and i.joy > 50:
+                            i.enable_effect("Icy")
                 else:
-                    if "Nymphomaniac" in i.traits and i.disposition >= 600 and dice(40):
-                        i.set_flag("horny")
-                    elif not "Frigid" in i.traits and i.disposition >= 900 and dice(25):
-                        i.set_flag("horny")
+                    if dice(50):
+                        i.enable_effect("Icy")
     return
         
         
