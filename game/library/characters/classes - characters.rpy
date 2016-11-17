@@ -1248,7 +1248,9 @@ init -9 python:
                 "Impressible": {"active": False, "desc": "Easier to decrease and increase joy."},
                 "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
                 "Regeneration": {"active": False, "desc": "Restores some health every day."},
-                "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."}
+                "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
+                "Horny": {"active": False, "desc": "She's in the mood for sex."},
+                "Icy": {"active": False, "desc": "She's really not in the mood for sex."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2673,6 +2675,12 @@ init -9 python:
             elif effect == "Blood Connection":
                 self.effects['Blood Connection']['active'] = True
                 
+            elif effect == "Horny":
+                self.effects['Horny']['active'] = True
+                
+            elif effect == "Icy":
+                self.effects['Icy']['active'] = True
+                
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
                 
@@ -2789,6 +2797,12 @@ init -9 python:
             elif effect == "Blood Connection":
                 self.effects['Blood Connection']['active'] = False
                 
+            elif effect == "Horny":
+                self.effects['Horny']['active'] = False
+                
+            elif effect == "Icy":
+                self.effects['Icy']['active'] = False
+                
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
                 
@@ -2903,7 +2917,7 @@ init -9 python:
                     self.joy += 1
                     
             elif effect == "Blood Connection":
-                self.disposition += randint(1, 3)
+                self.disposition += 1
                 self.character -=1
                     
             elif effect == "Regeneration":

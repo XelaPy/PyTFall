@@ -52,6 +52,10 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ del m
         $ del n
         jump girl_interactions
+
+    if char.effects['Icy']['active']:
+        call interactions_frigid_sex_refuse
+        jump girl_interactions
         
     if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement
@@ -158,6 +162,9 @@ label interactions_sex: # we go to this label from GM menu propose sex
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_sex")
+    if char.effects['Icy']['active']:
+        call interactions_frigid_sex_refuse
+        jump girl_interactions
     $ n = randint(2,3)
     if check_lovers(char, hero):
         $ n += randint(1,2)
@@ -190,10 +197,8 @@ label interactions_sex: # we go to this label from GM menu propose sex
     else:
         $ disposition_level_for_sex = randint(600, 700) + sub*100 # thus weak willed characters will need from 500 to 600 disposition, strong willed ones from 700 to 800, if there are no other traits that change it
         
-    if ct("Frigid"):
-        $ disposition_level_for_sex += randint(100, 200) # and it's totally possible that with some traits and high character stat the character will never agree, unless lover status is involved
-    elif ct("Nymphomaniac"):
-        $ disposition_level_for_sex -= randint(100, 300)
+    if char.effects['Horny']['active']:
+        $ disposition_level_for_sex -= randint(200, 300)
     
     if char.status == "slave":
         $ disposition_level_for_sex -= randint(50, 100)
@@ -352,6 +357,8 @@ label interaction_sex_scene_choice:
         hide screen int_libido_level
         show screen int_libido_level_zero
     $ scene_picked_by_character = False
+    if char.effects['Horny']['active']:
+        $ char.disable_effect("Horny")
     menu:
         "What would you like to do now?"
         
