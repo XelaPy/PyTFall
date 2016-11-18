@@ -145,9 +145,9 @@ screen items_transfer(it_members):
                 idle_background img
                 hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
                 insensitive_background im.Sepia(img, align=(.5, .5))
-                action SensitiveIf(source.inventory[focused_item]), Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == rc and target == lc and focused_item)
-                if source and target and focused_item:
-                    hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
+                action SensitiveIf(rc.inventory[focused_item]), Return(["transfer", rc, lc, focused_item, transfer_amount]), SensitiveIf(focused_item)
+                if lc and rc and focused_item:
+                    hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, rc.nickname, lc.nickname))
                     
             # hbox:
                 # align .5, .5
@@ -163,9 +163,9 @@ screen items_transfer(it_members):
                 idle_background img
                 hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
                 insensitive_background im.Sepia(img, align=(0.5, 0.5))
-                action Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == lc and target == rc and focused_item)
-                if source and target and focused_item:
-                    hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
+                action SensitiveIf(lc.inventory[focused_item]), Return(["transfer", lc, rc, focused_item, transfer_amount]), SensitiveIf(focused_item)
+                if lc and rc and focused_item:
+                    hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, lc.nickname, rc.nickname))
                      
         null height 1
         frame:
