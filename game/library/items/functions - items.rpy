@@ -100,19 +100,20 @@ init -11 python:
         if isinstance(item, basestring):
             item = items[item]
 
-        src_amount = amount * len(source.selected) if isinstance(source, PytGroup) else amount
-        tgt_amount = amount * len(target.selected) if isinstance(target, PytGroup) else amount
+        given = amount * len(target.selected) if isinstance(target, PytGroup) else amount
 
-        if not can_transfer(source, target, item, amount=tgt_amount, silent=silent, force=force):
+        if not can_transfer(source, target, item, amount=given, silent=silent, force=force):
             return False
+
+        received = amount * len(source.selected) if isinstance(source, PytGroup) else amount
             
         cond = any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)])
-        if source.inventory.remove(item, tgt_amount):
+        if source.inventory.remove(item, given):
             if all([isinstance(source, Char), source.status != "slave"]) and not cond:
-                source.given_items[item.id] = source.given_items.get(item.id, 0) - tgt_amount
+                source.given_items[item.id] = source.given_items.get(item.id, 0) - given
             if all([isinstance(target, Char), target.status != "slave"]) and not cond:
-                target.given_items[item.id] = target.given_items.get(item.id, 0) + src_amount
-            target.inventory.append(item, src_amount)
+                target.given_items[item.id] = target.given_items.get(item.id, 0) + received
+            target.inventory.append(item, received)
             return True
                     
         return False
