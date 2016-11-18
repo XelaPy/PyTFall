@@ -487,8 +487,8 @@ screen group_equip_left_frame(tt):
                             margin 0, 0
                             has vbox spacing 1
                             # character togglebuttons:
-                            for k in eqtarget.selection.keys()[:min(26,int(len(eqtarget.selection)/2))]:
-                                text u"[k]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                            for k in eqtarget.selected[:min(26,int(len(eqtarget)/2))]:
+                                text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
                     vbox:
                         yfill True
                         #yoffset 195
@@ -499,8 +499,9 @@ screen group_equip_left_frame(tt):
                             padding 6, 6
                             margin 0, 0
                             has vbox spacing 1
-                            for k in eqtarget.selection.keys()[min(26,int(len(eqtarget.selection)/2)):len(eqtarget.selection)]:
-                                text u"[k]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                            for k in eqtarget.selected[min(26,int(len(eqtarget)/2)):len(eqtarget)]:
+                                text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+
 
 
     use char_equip_right_frame(tt)
@@ -754,7 +755,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
     
     # One of the most difficult code rewrites I've ever done (How Gismo aligned everything in the first place is a work of (weird and clumsy) art...):
     # Recoding this as three vertically aligned HBoxes...
-    if item:
+    if item and not isinstance(inv_source, PytGroup) or inv_source.inventory[item] > 0:
         $ xs = size[0]
         $ ys = size[1]
         fixed:
