@@ -738,6 +738,8 @@ init -1 python: # Core classes:
                             if hasattr(i, "evasion_bonus"):
                                 # Reference: (minv, maxv, lvl)
                                 minv, maxv, lvl = i.evasion_bonus
+                                if lvl <= 0:
+                                    lvl = 1
                                 if lvl >= t.level:
                                     temp += maxv
                                 else:
@@ -853,11 +855,14 @@ init -1 python: # Core classes:
             for i in a.traits:
                 if hasattr(i, "delivery_bonus"):
                     # Reference: (minv, maxv, lvl)
-                    minv, maxv, lvl = i.delivery_bonus.get(self.delivery, (0, 0, 0))
-                    if lvl >= a.level:
-                        attack += maxv
-                    else:
-                        attack += max(minv, float(a.level)*maxv/lvl)
+                    if self.delivery in i.delivery_bonus:
+                        minv, maxv, lvl = i.delivery_bonus[self.delivery]
+                        if lvl <= 0:
+                            lvl = 1
+                        if lvl >= a.level:
+                            attack += maxv
+                        else:
+                            attack += max(minv, float(a.level)*maxv/lvl)
                 if hasattr(i, "delivery_multiplier"):
                     m = m + i.delivery_multiplier.get(self.delivery, 0)
             attack *= m
@@ -899,11 +904,14 @@ init -1 python: # Core classes:
             for i in target.traits:
                 if hasattr(i, "defence_bonus"):
                     # Reference: (minv, maxv, lvl)
-                    minv, maxv, lvl = i.defence_bonus.get(self.delivery, (0, 0, 0))
-                    if lvl >= target.level:
-                        defense += maxv
-                    else:
-                        defense += max(minv, float(target.level)*maxv/lvl)
+                    if self.delivery in i.defence_bonus:
+                        minv, maxv, lvl = i.defence_bonus[self.delivery]
+                        if lvl <= 0:
+                            lvl = 1
+                        if lvl >= target.level:
+                            defense += maxv
+                        else:
+                            defense += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
                     m = m + i.defence_multiplier.get(self.delivery, 0)
             defense *= m

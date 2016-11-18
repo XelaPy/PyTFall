@@ -4,21 +4,21 @@ label build_mc_stories:
         main_story = None # Fathers occupation
         sub_story = None # Father specific occupation
         mc_story = None # MCs mother
-        mc_substory = None # MCs "Hobby"
+        mc_substory = None # MCs heritage
         
     $ mc_stories = OrderedDict() # Main Dictionary
     
     python:
         """
         MC Screens are built from this dictionaries and we expect them to have some values, 
-        even if those values are just the empty dicts and/or images to be greyed out by the screen.
+        even if those values are just the empty dicts and/or images to be grayed out by the screen.
         
         OrderedDict() is a variation of dictionary that keeps the order of it's members.
         {} or dict() we use when we don't care about the order.
         """
         mc_stories["Merchant"] = {} # Merchant! This is the main branch displayed as the very first thing (four choices).
         mc_stories["Merchant"]["img"] = "content/gfx/interface/images/merchant.png" # Path to the icon representing the branch onscreen.
-        mc_stories["Merchant"]["header"] = "Your father was a great merchant" # Header for the branch. Without a header, option is greyed out.
+        mc_stories["Merchant"]["header"] = "Your father was a great merchant" # Header for the branch. Without a header, option is grayed out.
         mc_stories["Merchant"]["label"] = "mc_setup_merchant" # This decides a label to jump to in order to apply the effects.
         mc_stories["Merchant"]["class"] = "Mage" # As agreed, we will be adding a class to choices without clear descriptions.
 
@@ -103,9 +103,7 @@ label build_mc_stories:
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Boots"]["text"] = "The driver of a caravan in sandals - definitely not about you. For your salary you bought good pair of boots {color=#1E90FF}({/color}{color=#00FA9A} +Luck{/color}{color=#1E90FF},{/color}{color=#FFD700}+ Random Boots{/color}{color=#1E90FF}){/color}"
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Bag"] = {}
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"]["Bag"]["text"] = "In your bag is always a few bottles of wine, and you often share them on halts. For what your subordinates are always glad to see you {color=#1E90FF}({/color}{color=#FF3E96}+Charisma{/color}{color=#1E90FF},{/color}{color=#FFD700}+ Random Wine Bottles{/color}{color=#1E90FF}){/color}"
-        
-        
-        
+
         mc_stories["Warrior"] = {}
         mc_stories["Warrior"]["img"] = "content/gfx/interface/images/warriorP.png"
         mc_stories["Warrior"]["header"] = "Your father was a skilled fighter..."
@@ -349,11 +347,74 @@ label build_mc_stories:
         
         
         # We add the rest of the options:
-       
-
-        mc_stories["Scholar"] = {}
-        mc_stories["Scholar"]["img"] = "content/gfx/interface/images/magicP.png"
-        mc_stories["Scholar"]["choices"] = OrderedDict()
+        mc_stories["Mage"] = {}
+        mc_stories["Mage"]["img"] = "content/gfx/interface/images/magicP.png"
+        mc_stories["Mage"]["header"] = "Your father was a powerful mage..."
+        mc_stories["Mage"]["choices"] = OrderedDict(Darkness="content/gfx/interface/images/elements/darkness.png")
+                                                       
+        mc_stories["Mage"]["Darkness"] = {}
+        mc_stories["Mage"]["Darkness"]["class"] = "Mage"
+        mc_stories["Mage"]["Darkness"]["text"] = "In his pursuit to obtain immortality he chose to learn the secrets of the darkness."
+        mc_stories["Mage"]["Darkness"]["label"] = "mc_setup_mage_darkness"
+                                                       
+        mc_stories["Mage"]["MC"] = {}
+        for key in mc_stories["Mage"]["choices"]:
+            mc_stories["Mage"]["MC"][key] = {}
+            mc_stories["Mage"]["MC"][key]["choices"] = OrderedDict()
+            
+        mc_stories["Mage"]["MC"]["Darkness"]["choices"] = OrderedDict(l="Ghost",
+                                                                      l_img="content/gfx/interface/images/mc/ghost.jpg",
+                                                                      l0="Intangible",
+                                                                      l0_img="content/gfx/interface/images/mc/illusion_1.png",
+                                                                      l1="Illusive",
+                                                                      l1_img="content/gfx/interface/images/mc/illusion.png",
+                                                                      l2="Light Weaving",
+                                                                      l2_img="content/gfx/interface/images/elements/small_light.png",
+                                                                      r="Vampire",
+                                                                      r_img="content/gfx/interface/images/mc/vampire.jpg",
+                                                                      r0="Creature of Night",
+                                                                      r0_img="content/gfx/interface/images/mc/night.png",
+                                                                      r1="Blood Master",
+                                                                      r1_img="content/gfx/interface/images/mc/blood.png",
+                                                                      r2="Perfect Reflexes",
+                                                                      r2_img="content/gfx/interface/images/mc/reflexes.png"
+                                                                      )
+                                                                      
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"] = {} 
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["header"] = "Ghost"
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["text"] = "Necromancy is not forbidden in the city, but your father's experiments probably gone too far once he began to prefer female ghosts over alive girls."
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["label"] = "mc_setup_mage_darkness_ghost"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Intangible"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Intangible"]["text"] = "You are not entirely real compared to physical world, just like your mother. All attacks and magic are less effective against you, but all your attacks and magic are less effective too."
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Intangible"]["label"] = "mc_setup_mage_darkness_ghost_intangible"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Illusive"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Illusive"]["text"] = "Due to your heritage, you exist between illusion and reality. Physical damage is not a big problem for you, but it leads to unusual results during intimacy."
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Illusive"]["label"] = "mc_setup_mage_darkness_ghost_illusive"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"]["text"] = "Despite your ghost nature, light is not your enemy. Weakness to light is reduced, and light magic damage is a bit higher."
+        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"]["label"] = "mc_setup_mage_darkness_ghost_weaving"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"] = {} 
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["header"] = "Vampire"
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["text"] = "For decades he studied vampires and their unnatural longevity. Eventually he captured the local vampire queen, but her seductiveness quickly turned his magical experiments into sexual ones."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["label"] = "mc_setup_mage_darkness_vampire"
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["class"] = "Assassin"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells now heal you instead of hurting, but your Fire and Electricity spells are a bit less effective."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"]["label"] = "mc_setup_mage_darkness_vampire_night"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["text"] = "Only pure vampires have access to blood magic, but your heritage still gives a few perks when blood is involved. Girls whose virginity was taken by you are more obedient."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["label"] = "mc_setup_mage_darkness_vampire_blood"
+        
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"] = {}
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["text"] = "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health."
+        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["label"] = "mc_setup_mage_darkness_vampire_reflex"
+                                                       
         mc_stories["Noble"] = {}
         mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"
         mc_stories["Noble"]["choices"] = OrderedDict()
