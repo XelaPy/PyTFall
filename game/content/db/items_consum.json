@@ -12,7 +12,7 @@
     "slot": "consumable",
     "type": "restore",
     "cblock": 1,
-    "mod": {"mp": 25},
+    "mod": {"mp": 50},
     "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {
@@ -28,8 +28,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "cblock": 2,
-    "mod": {"mp": 50},
+    "cblock": 1,
+    "mod": {"mp": 100},
     "locations": ["Witches Hut", "Look around"]
     },
     {
@@ -45,8 +45,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "cblock": 3,
-    "mod": {"mp": 100},
+    "cblock": 2,
+    "mod": {"mp": 200},
     "locations": ["Witches Hut", "Exploration"]
     },
     {
@@ -63,7 +63,7 @@
     "slot": "consumable",
     "type": "restore",
     "ctemp": 1,
-    "cblock": 5,
+    "cblock": 2,
     "max": {"mp": 200, "magic": 100},
     "mod": {"mp": 10000, "constitution": -35, "vitality": -60, "defence": -25, "magic": 100},
     "locations": ["Exploration"]
@@ -82,7 +82,7 @@
     "slot": "consumable",
     "type": "restore",
     "cblock": 1,
-    "mod": {"health": 25},
+    "mod": {"health": 50},
     "locations": ["Witches Hut", "Look around", "Fishing"]
     },
     {
@@ -98,8 +98,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "cblock": 2,
-    "mod": {"health": 50},
+    "cblock": 1,
+    "mod": {"health": 100},
     "locations": ["Witches Hut", "Look around"]
     },
     {
@@ -115,8 +115,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "cblock": 3,
-    "mod": {"health": 100},
+    "cblock": 2,
+    "mod": {"health": 200},
     "locations": ["Witches Hut", "Exploration"]
     },
     {
@@ -133,7 +133,7 @@
     "slot": "consumable",
     "type": "restore",
     "ctemp": 1,
-    "cblock": 5,
+    "cblock": 2,
     "max": {"health": 50},
     "mod": {"health": 10000, "constitution": 50, "vitality": 200, "defence": 10},
     "removeeffects": ["Injured"],
@@ -169,7 +169,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "cblock": 4,
+    "cblock": 2,
     "mod": {"vitality": 50, "mp": 10},
     "locations": ["Witches Hut", "Look around"]
     },
@@ -186,7 +186,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "cblock": 6,
+    "cblock": 3,
     "mod": {"vitality": 100, "mp": 20},
     "removeeffects": ["Exhausted"],
     "locations": ["Witches Hut", "Exploration"]
@@ -216,7 +216,7 @@
     "id": "Healing Mist",
     "desc": "Being open, this ancient vial releases a cloud of miniature devices quickly healing superficial wounds of everyone within a certain radius.",
     "icon": "content/items/cons/hm.png",
-    "price": 1500,
+    "price": 800,
     "sex": "female",
     "chance": 20,
     "badness": 70,
@@ -226,14 +226,14 @@
     "slot": "consumable",
     "type": "restore",
     "ceffect": "alllocal",
-    "mod": {"health": 150},
+    "mod": {"health": 100},
     "locations": ["Fishing", "Exploration"]
     },
     {
     "id": "Mana Powder",
     "desc": "This ancient vial contains ground Mana Crystal. It has power to quickly restore a small amount of mana for several people at once, but a magic seal on the vial prevents it from being used on slaves.",
     "icon": "content/items/cons/mpow.png",
-    "price": 1500,
+    "price": 800,
     "sex": "female",
     "chance": 20,
     "badness": 70,
@@ -243,14 +243,14 @@
     "slot": "consumable",
     "type": "restore",
     "ceffect": "freelocal",
-    "mod": {"mp": 100},
+    "mod": {"mp": 90},
     "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Aromatic Dust",
     "desc": "This ancient vial contains volatile, mildly fruity suspension of unknown substances with a small tonic effect on the body. Works within a certain radius.",
     "icon": "content/items/cons/ad.png",
-    "price": 1500,
+    "price": 800,
     "sex": "female",
     "chance": 15,
     "badness": 70,
@@ -260,14 +260,14 @@
     "slot": "consumable",
     "type": "restore",
     "ceffect": "alllocal",
-    "mod": {"vitality": 100},
+    "mod": {"vitality": 80},
     "locations": ["Exploration", "Fishing"]
     },
     {
     "id": "Succubus Flour",
     "desc": "This ancient vial contains ground succubus horns, nails and hairs. Keep in mind that it's not powerful enough to work properly without the reinforcing properties of magic seals applied to slaves.",
     "icon": "content/items/cons/sf.png",
-    "price": 1500,
+    "price": 800,
     "sex": "female",
     "chance": 15,
     "badness": 100,
@@ -314,6 +314,7 @@
     "ctemp": 7,
     "cblock": 7,
     "mod": {"charisma": 10, "character": 5},
+    "max": {"charisma": 5},
     "locations": ["Witches Hut", "Look around"],
     "badtraits": ["Bokukko", "Impersonal"]
     },
@@ -352,6 +353,7 @@
     "ctemp": 9,
     "cblock": 10,
     "mod": {"charisma": 90, "character": 20, "joy": 15},
+    "max": {"charisma": 40},
     "locations": ["General Store"],
     "badtraits": ["Bokukko", "Impersonal"]
     },
@@ -432,6 +434,7 @@
     "ctemp": 14,
     "cblock": 14,
     "mod": {"charisma": 15},
+    "max": {"charisma": 5},
     "skillmax": 300,
     "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "anal": [0.01, 0, 0.01, 0, 0], "oral": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "bdsm": [0.01, 0, 0.01, 0, 0], "sex": [0.01, 0, 0.01, 0, 0]},
     "locations": ["General Store"],
@@ -454,6 +457,7 @@
     "ctemp": 5,
     "cblock": 5,
     "mod": {"charisma": 20, "refinement": 50},
+    "max": {"charisma": 10},
     "skillmax": 150,
     "mod_skills": {"refinement": [0.02, 0, 0.03, 0, 0]},
     "locations": ["General Store", "Look around"]
@@ -471,8 +475,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "upgrade",
-    "cblock": 1,
-    "mod": {"charisma": 1, "joy": 5},
+    "cblock": 2,
+    "mod": {"charisma": 1, "joy": 1},
     "locations": ["Cafe", "Look around"]
     },
     {
@@ -511,11 +515,9 @@
     "type": "upgrade",
     "ctemp": 2,
     "cblock": 2,
-    "max": {"defence": 40},
+    "max": {"defence": 60},
     "mod": {"defence": 40, "attack": -30, "agility": -10},
-    "locations": ["Witches Hut", "Ninja Shop"],
-    "goodtraits": [],
-    "badtraits": []
+    "locations": ["Witches Hut", "Ninja Shop"]
     },
     {
     "id": "Potion of Lightning Speed",
@@ -532,17 +534,15 @@
     "type": "upgrade",
     "ctemp": 2,
     "cblock": 2,
-    "max": {"attack": 40},
+    "max": {"attack": 60},
     "mod": {"defence": -15, "attack": 40, "agility": 20, "constitution": -20},
-    "locations": ["Witches Hut", "Ninja Shop"],
-    "goodtraits": [],
-    "badtraits": ["Manly"]
+    "locations": ["Witches Hut", "Ninja Shop"]
     },
     {
     "id": "Chatty Flowers",
-    "desc": "This is a bouquet of colorful flowers... that talk.  They're decent conversationalists, quite knowledgeable, and they usually know a song or two! Even better, they don't mind when they're told to shut up and be pretty for a while.",
+    "desc": "A bouquet of colorful flowers with weak hallucinogenic effect.",
     "icon": "content/items/cons/cf.png",
-    "price": 900,
+    "price": 200,
     "sex": "female",
     "chance": 20,
     "badness": 100,
@@ -551,8 +551,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "permanent",
-    "removetraits": ["Pessimist"],
-    "mod": {"joy": 30},
+    "mod": {"joy": 20},
+    "cblock": 5,
     "locations": ["Witches Hut"]
     },
     {
@@ -576,9 +576,9 @@
     "id": "Leprechaun Pills",
     "desc": "Eating these sweet green pills causes good things to happen to you! You can't get a straight answer as to whether it's made by or with real leprechauns, though.",
     "icon": "content/items/cons/lp.png",
-    "price": 2000,
+    "price": 700,
     "sex": "female",
-    "chance": 18,
+    "chance": 10,
     "badness": 0,
     "eqchance": 100,
     "hidden": true,
@@ -592,7 +592,7 @@
     "id": "Lolita Wand",
     "desc": "One zap from this glowing pink wand will make any woman feel like she never had any kind of sex before.",
     "icon": "content/items/cons/lw.png",
-    "price": 3000,
+    "price": 1000,
     "sex": "female",
     "chance": 20,
     "badness": 40,
@@ -627,7 +627,7 @@
     "id": "Potion of Redemption",
     "desc": "This is a vial of rare liquid, shining with tremendous holy power. When consumed, it forever changes the moral principles of the drinker by shifting them in the direction of what is usually considered to be a virtue. The process is horribly painful for both body and mind, so don't expect gratitude.",
     "icon": "content/items/cons/pr.png",
-    "price": 4000,
+    "price": 1000,
     "sex": "female",
     "chance": 5,
     "badness": 90,
@@ -645,7 +645,7 @@
     "id": "Potion of the Fallen",
     "desc": "When consumed, this dark potion forever changes the moral principles of the drinker by shifting them in the direction of what is usually considered to be a vice. The process is horribly painful for both body and mind, so beware of revenge.",
     "icon": "content/items/cons/pf.png",
-    "price": 4000,
+    "price": 1000,
     "sex": "female",
     "chance": 5,
     "badness": 90,
@@ -661,7 +661,7 @@
     },
     {
     "id": "Potion of the Sex Elemental",
-    "desc": "This dangerous and rare substance is rumored to be created by an alchemist-succubus for a demonologists cult several centuries ago. Any woman who drinks it forever becomes obsessed with intense thoughts of sex, mentally and physically. However, at the same time it damages most of the brain's areas responsible for rational thinking.",
+    "desc": "This dangerous and rare substance is rumored to be created by an alchemist-succubus for a demonologists cult several centuries ago. Any woman who drinks it becomes obsessed with intense thoughts of sex, mentally and physically. However, at the same time it damages most of the brain's areas responsible for rational thinking.",
     "icon": "content/items/cons/pse.png",
     "price": 5000,
     "sex": "female",
@@ -679,7 +679,7 @@
     },
     {
     "id": "Berserker Potion",
-    "desc": "This bitter liquid is popular among gladiators as it increases muscle mass and aggressiveness. Not the best traits for brothel workers, but they could be useful in a fight.",
+    "desc": "This bitter liquid is popular among gladiators as it increases muscle mass and aggressiveness.",
     "icon": "content/items/cons/bp.png",
     "price": 600,
     "sex": "female",
@@ -698,7 +698,7 @@
     "id": "Elixir of Abstinence",
     "desc": "This vial contains an extract of rare herbs, seriously decreasing the body's need for sex.",
     "icon": "content/items/cons/es.png",
-    "price": 700,
+    "price": 500,
     "sex": "female",
     "chance": 40,
     "badness": 90,
@@ -715,7 +715,7 @@
     "id": "Brainwashing Oil",
     "desc": "When slipped into a person's food, this oil makes that person more susceptible to suggestion.",
     "icon": "content/items/cons/bo.png",
-    "price": 800,
+    "price": 500,
     "sex": "female",
     "chance": 35,
     "badness": 100,
@@ -741,13 +741,13 @@
     "infinite": false,
     "slot": "consumable",
     "type": "permanent",
-    "mod": {"disposition": 200, "intelligence": -80, "constitution": -50, "character": -25},
+    "mod": {"disposition": 200, "intelligence": -50, "constitution": -25, "character": -25},
     "addeffects": ["Food Poisoning"],
     "locations": ["Exploration", "Witches Hut"]
     },
     {
     "id": "Virus of Telepathy",
-    "desc": "This syringe contains a rare form of a virus. Being inject into the body, it creates a colony in the brain giving the ability to read others' thoughts. Although keep in mind that the process is far from harmless.",
+    "desc": "This syringe contains a rare form of a virus. Being inject into the body, it creates a colony in the brain giving the ability to read others' thoughts. Although the process is far from harmless...",
     "icon": "content/items/cons/vt.png",
     "price": 1000,
     "sex": "female",
@@ -766,7 +766,7 @@
     },
     {
     "id": "Liquid Magic",
-    "desc": "They say only those who are born with a spark of magic within their soul are able to use real magic. While this is partly true, there are other ways to acquire this power, and one of them is this sparkling potion.",
+    "desc": "They say only those who are born with a spark of magic within their soul are able to use real magic. However, there are other ways to acquire this power, and one of them is this sparkling potion.",
     "icon": "content/items/cons/lm.png",
     "price": 1500,
     "sex": "female",
@@ -777,7 +777,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "permanent",
-    "max": {"health": -50, "mp": 150, "magic": 100, "constitution": -50, "vitality": -30},
+    "max": {"health": -50, "mp": 50, "magic": 50, "constitution": -50, "vitality": -50},
     "locations": ["Exploration"]
     },
     {
