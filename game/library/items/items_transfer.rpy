@@ -86,13 +86,13 @@ screen items_transfer(it_members):
                                     idle img
                                     hover img
                                     selected_idle Transform(img, alpha=1.05)
-                                    action SetScreenVariable(scr_var, c), SelectedIf(c == fc), SensitiveIf(c not in [i for i in (rc, lc) if i != fc])
+                                    action SetScreenVariable(scr_var, c), SelectedIf(c == fc), SensitiveIf(c != (rc if fc == lc else lc))
                                 frame:
                                     xalign 0.5
                                     background Frame("content/gfx/frame/Mc_bg3.png", 5, 5)
                                     xysize(150, 22)
                                     ypadding 0
-                                    if len(fc.name) > 10: # Gismo: For buildings???
+                                    if len(c.name) > 10:
                                         text "{color=[gold]}[c.name]" style "interactions_text" selected_color red size 14 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
                                     else:
                                         text "{color=[gold]}[c.name]" style "interactions_text" selected_color red size 20 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
@@ -102,11 +102,10 @@ screen items_transfer(it_members):
                 style_group "dropdown_gm2"
                 xysize 341, 375
                 has vbox
-                $ temp = [i for i in (rc, lc) if i != fc][0] # Weird way to get target...
                 for item, amount in [(item, fc.inventory[item]) for item in fc.inventory.page_content]:
                     button:
                         xysize (330, 26)
-                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SetScreenVariable("target", temp), SelectedIf(focused_item == item and source == fc) # Set Source and Target!!!!!
+                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SetScreenVariable("target", rc if fc != rc else lc), SelectedIf(focused_item == item and source == fc) # Should be fine..
                         text "[item.id]" align .0, .5 style "dropdown_gm2_button_text"
                         text "[amount]" align 1.0, .7 style "dropdown_gm2_button_value_text"
                                    
