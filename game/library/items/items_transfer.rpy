@@ -103,12 +103,11 @@ screen items_transfer(it_members):
                 xysize 341, 375
                 has vbox
                 $ temp = [i for i in (rc, lc) if i != fc][0] # Weird way to get target...
-                for item in fc.inventory.page_content:
+                for item, amount in [(item, fc.inventory[item]) for item in fc.inventory.page_content]:
                     button:
                         xysize (330, 26)
-                        action SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SetScreenVariable("target", temp), SelectedIf(focused_item == item and source == fc) # Set Source and Target!!!!!
+                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SetScreenVariable("target", temp), SelectedIf(focused_item == item and source == fc) # Set Source and Target!!!!!
                         text "[item.id]" align .0, .5 style "dropdown_gm2_button_text"
-                        $ amount = fc.inventory[item]
                         text "[amount]" align 1.0, .7 style "dropdown_gm2_button_value_text"
                                    
         # RC and LC Portraits:
@@ -147,7 +146,7 @@ screen items_transfer(it_members):
                     idle_background img
                     hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
                     insensitive_background im.Sepia(img, align=(.5, .5))
-                    action Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == rc and target == lc and focused_item)
+                    action SensitiveIf(source.inventory[focused_item]), Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == rc and target == lc and focused_item)
                     if source and target and focused_item:
                         hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
                         

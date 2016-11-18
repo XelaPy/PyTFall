@@ -1,131 +1,114 @@
 # classes and methods for groups of Characters:
-init -9 python:
-
+init -8 python:
     class listDelegator(_object):
+        """ only provides obvious solutions, everything else needs a remedy """
 
-        def __init__(self, l, remedy=None):
-            self.selection = l
-            self._remedy = remedy
+        def __init__(self, l, flatten=None, remedy=None):
 
-        @property
-        def selected(self):
-
-            if not isinstance(self.selection, dict):
-                return self.selection
-
-            return [c for c in self.selection.values() if c is not None]
+            self.lst = l
+            self._flatten = flatten or []
+            self.remedy = remedy if remedy is not None else {}
 
         def __getitem__(self, item):
-
-            result = [c[item] for c in self.selected if item in c]
-
-            if len(result) == 1 or not any(cmp(result[0], r) for r in result):
-                return result[0]
-
-            if any(type(result[0]) != type(r) for r in result):
-                if self._remedy is not None:
-                    return self._remedy(result) if callable(self._remedy) else self._remedy
-
-                if not all(isinstance(r, basestring) for r in result):
-                    raise Exception("Not all equal types, remedy required for:\n"+repr(result))
-
-            if isinstance(result[0], type(self.selected[0])):
-                result = listDelegator(result)
-
-            devlog.warn("One item ("+str(item)+") randomly picked")
-            return choice(result)
+            return self.unlist([c[item] for c in self.lst], at="["+self._type(item)+"]")
 
         def __getattr__(self, item):
-            """ an undefined attribute was requested from characters in the group """
+            """ an undefined attribute was requested from the group """
             # required for pickle
             if item.startswith('__') and item.endswith('__'):
                 return super(listDelegator, self).__getattr__(item)
 
-            #if len(self.selected) == 0:
-            #    raise Exception("FIXME: disallow unselecting all characters")
+            if callable(getattr(self.lst[0], item)):
 
-            if callable(getattr(self.selected[0], item)):
-                return self._toDelegator(item)
+                def wrapper(*args, **kwargs):
+                    return self.unlist([getattr(c, item)(*args, **kwargs) for c in self.lst], at=item+"()")
 
-            return self._delistified([getattr(c, item) for c in self.selected], item)
+                return wrapper
+
+            return self.unlist([getattr(c, item) for c in self.lst], at=item)
 
         def __repr__(self):
-            return repr(self.selected)
+            return repr(self)
 
-        def _toDelegator(self, func):
-            """ delegate call to individual characters and tries to sanitise return value """
+        def _type(self, var):
+            """ generalizations """
+            if isinstance(var, basestring): return "<str>"
+            if isinstance(var, (list, renpy.python.RevertableList)): return '<list>'
+            if isinstance(var, (dict, renpy.python.RevertableDict)): return '<dict>'
+            return str(type(var))
 
-            devlog.warn("Called character function from group:"+repr(func))
+        def unlist(self, lst, at="", remedy=None):
+            """ try to get a single value for a list """
+            if not isinstance(lst, list):
+                raise Exception("expected list "+at+"")
 
-            def wrapper(*args, **kwargs):
-                return self._delistified([getattr(c, func)(*args, **kwargs) for c in self.selected], func)
+            if len(lst) == 0:
+                return False
 
-            return wrapper
+            if len(lst) == 1:
+                return lst[0]
 
-        def _delistified(self, result, attr):
-            """
-            Called when 'attr' - whether function or attribute - was requested from individual
-            characters in the group. Looks at the type of the first and tries to come up with
-            a sensible value to return. for anything non-standard profide a stratigy on init.
-            """
-            if not isinstance(result, list) or len(result) == 0:
-                return None
+            tp = self._type(lst[0])
 
-            if len(result) == 1 or all(cmp(result[0], r) == 0 for r in result):
-                return result[0]
+            if all(self._type(r) == tp for r in lst[1:]):
+                if all(cmp(lst[0], r) == 0 for r in lst[1:]):
+                    return lst[0]
+            else:
+                tp = '*'
 
-            if any(type(result[0]) != type(r) for r in result):
-                if self._remedy  is not None:
-                    return self._remedy(result) if callable(self._remedy) else self._remedy
+            if at in self._flatten:
+                return list(set([item for sublist in lst for item in sublist]))
 
-                if not all(isinstance(r, basestring) for r in result):
-                    raise Exception("Not all equal types, remedy required for "+attr+":\n"+repr(result))
+            if remedy is None:
+                remedy = self.remedy
 
-            if result[0] is None:
-                return self._delistified([r for r in result if r is not None], attr)
+            if isinstance(remedy, dict):
+                remedy = remedy[at+":"+tp]
 
-            if isinstance(result[0], bool):
-                return any(result)
+            """ In case of an error here: define a remedy for the unlisting"""
+            return remedy(lst) if callable(remedy) else remedy
 
-            if isinstance(result[0], (int, float)):
-                return sum(result) / len(result)
 
-            if isinstance(result[0], basestring):
-                result = [x+"("+str(result.count(x))+")" for x in set(result)]
+    class PytGInv(listDelegator):
 
-                # XXX 3 is just random
-                return "multiple" if len(result) > 3 else ", ".join(result)
+        def __init__(self, inv):
+            super(PytGInv, self).__init__(inv, flatten=['filters', 'page_content', 'slot_filter'])
 
-            return listDelegator(result)
+        def __getitem__(self, item):
+            return min([x[item] for x in self.lst])
+
+        @property
+        def max_page(self):
+            return min([x.max_page for x in self.lst])
+
+        def remove(self, item, amount=1):
+            """ see Inventory.remove(): False means not enough items """
+            return all([x.remove(item,amount) for x in self.lst])
 
 
     class PytGroup(listDelegator):
 
         def __init__(self, characters):
 
-            # The selection provided may have characters as None to be excluded
-            selection = { c.name: c for c in characters if c is not None}
+            super(PytGroup, self).__init__(characters, flatten=['traits', 'attack_skills', 'magic_skills'])
 
-            super(PytGroup, self).__init__(selection)
+            self.status = listDelegator([c.status for c in self.selected], remedy="Various")
+
+            # determines what to show as a count for items, if not equal
+            self.inventory = PytGInv([c.inventory for c in self.selected])
+
+            self.eqslots = listDelegator([c.eqslots for c in self.selected], remedy=False)
 
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
+            self.entire_group_len = len(characters)
 
-            self.name = "A group of "+str(len(self.selection))
+            self.name = "A group of "+str(self.entire_group_len)
             self.nickname = "group"
 
         @property
-        def chars(self):
-            return self.selection.values()
-
-        @property
-        def eqslots(self):
-            return listDelegator([getattr(c, "eqslots") for c in self.selected], remedy=False)
-
-        @property
-        def inventory(self):
-
-            return listDelegator([getattr(c, "inventory") for c in self.selected], remedy=[])
+        def selected(self):
+            return self.lst
 
         def equipment_access(self, item=None, silent=False):
 
@@ -136,6 +119,7 @@ init -9 python:
                         c.say(choice(["We refuse.", "Some of us disagree."]))
                     return False
             return True
+
         def show(self, what, resize=(None, None), cache=True):
             if what == "portrait":
                 what = self.portrait
@@ -144,9 +128,8 @@ init -9 python:
 
             return ProportionalScale(what, resize[0], resize[1])
 
-        def get_max(self, key):
-            return max(c.get_max(key) for c in self.selected)
+        def __len__(self):
+            return self.entire_group_len
 
-        def anyone_left(self):
-            return len(self.selected)
+
 

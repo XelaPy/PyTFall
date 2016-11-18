@@ -276,8 +276,8 @@ init -6 python:
                     self.env.exit()
                 # elif tracker.state == "camping":
                     # yield self.env.process(self.camping(tracker))
-                # elif tracker.state == "traveling back":
-                    # yield self.env.process(self.travel_back(tracker))
+                elif tracker.state == "traveling back":
+                    yield self.env.process(self.travel_back(tracker))
                 
             # if config.debug:
                 # tracker.log("The day has come to an end for {}.".format(tracker.team.name))
@@ -308,6 +308,7 @@ init -6 python:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Arrival")
                     tracker.state = "exploring"
+                    tracker.traveled = 0 # Reset for traveling back.
                     self.env.exit("arrived")
                 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
@@ -320,12 +321,17 @@ init -6 python:
             
             # Figure out how far we can travel in 5 du:
             # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
-            tacker.tp = int(round(tracker.points / 20.0))
+            # tacker.tp = int(round(tracker.points / 20.0))
+            travel_points = int(round(tracker.points / 20.0)) # local variable just might do the trick...
+            
+            if not tracker.traveled:
+                temp = "{} is traveling back home from {}!".format(tracker.team.name, tracker.area.id)
+                tracker.log(temp)
             
             while 1:
                 yield self.env.timeout(5) # We travel...
                 
-                tracker.points -= tracker.tp
+                tracker.points -= tracker.travel_points
                 tracker.traveled += 1.25
                 
                 # Team arrived:
@@ -334,10 +340,12 @@ init -6 python:
                     if tracker.day > 0:
                         temp = temp + " It took {} {} to get back.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Return")
-                    # Leads to building a report
+                    # tracker.state = "exploring"
+                    # tracker.traveled = 0 # Reset for traveling back.
+                    self.env.exit("back2guild")
                 
-                if self.evn.now == 99: # We couldn't make it there before the days end...
-                    temp = "{} spent the entire day going back to the guild from {}! ".format(tracker.team.name, tracker.area.id)
+                if self.evn.now >= 99: # We couldn't make it there before the days end...
+                    temp = "{} spent the entire day traveling back to the guild from {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
                     self.env.exit("on the way back")
                     
@@ -452,8 +460,7 @@ init -6 python:
                             # self.captured_girl = build_rc()
                             # self.env.exit("captured rchar")
                 
-                # if not fought_mobs:
-                if 1:
+                if not fought_mobs:
                     mob = None
                     
                     for key in tracker.mobs:

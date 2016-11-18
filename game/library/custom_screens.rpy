@@ -8,17 +8,21 @@ init: # Items:
             has hbox box_wrap True
             for item in char.inventory.page_content:
                 frame:
-                    if item.bg_color == "dark":
-                        background Frame("content/gfx/frame/frame_it2.png", -1, -1)
-                    else:
-                        background Frame("content/gfx/frame/frame_it2.png", -1, -1)
                     xysize frame_size
-                    use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
-                    label (u"{color=#ecc88a}%d" % char.inventory[item]):
-                        align (0.995, 0.995)
-                        style "stats_label_text"
-                        text_size 18
-                        text_outlines [(2, "#9c8975", 0, 0), (1, "#000000", 0, 0)]
+                    if char.inventory[item]:
+                        background Frame("content/gfx/frame/frame_it2.png", -1, -1)
+                        use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
+                        label (u"{color=#ecc88a}%d" % char.inventory[item]):
+                            align (0.995, 0.995)
+                            style "stats_label_text"
+                            text_size 18
+                            text_outlines [(2, "#9c8975", 0, 0), (1, "#000000", 0, 0)]
+                    else:
+                        # in groups indicate some have the item
+                        background Frame("content/gfx/frame/frame_it1.png", -1, -1)
+                        add ProportionalScale(im.Sepia(item.icon), frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
+                        # or allow transfer of some?
+                        #use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
     
     screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).

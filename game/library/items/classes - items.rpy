@@ -233,7 +233,7 @@ init -9 python:
         # Add/Remove/Clear:
         def append(self, item, amount=1):
             """
-            Add and item to inv and recalc max page.
+            Add an item to inv and recalc max page.
             After rescaling, both remove and append methods are overkill.
             In case of game code review, one should prolly be removed.
             """
