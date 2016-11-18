@@ -33,7 +33,6 @@ screen items_transfer(it_members):
     default lc = it_members[0]
     default source = it_members[0]
     default rc = it_members[1]
-    default target = it_members[1]
     default focused_item = None
     default transfer_amount = 1
     default slot_filter = it_members[0].inventory.slot_filter
@@ -105,7 +104,7 @@ screen items_transfer(it_members):
                 for item, amount in [(item, fc.inventory[item]) for item in fc.inventory.page_content]:
                     button:
                         xysize (330, 26)
-                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SetScreenVariable("target", rc if fc != rc else lc), SelectedIf(focused_item == item and source == fc) # Should be fine..
+                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SelectedIf(focused_item == item and source == fc) # Should be fine..
                         text "[item.id]" align .0, .5 style "dropdown_gm2_button_text"
                         text "[amount]" align 1.0, .7 style "dropdown_gm2_button_value_text"
                                    
