@@ -123,6 +123,11 @@ init -11 python:
         
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
+        if isinstance(char, PytGroup):
+            for c in char.lst:
+                if not can_equip(item, c, silent):
+                    return
+            return True
         if item.unique and item.unique != char.id:
             if not silent:
                 renpy.show_screen("message_screen", "This unique item cannot be equipped on {}!".format(char.name))
@@ -160,6 +165,17 @@ init -11 python:
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         @param: force: Option to forcibly take an item from a character.
         """
+        if isinstance(source, PytGroup):
+            for c in source.lst:
+                if not can_transfer(c, target, item, amount, silent, force):
+                    return
+            return True
+        if isinstance(target, PytGroup):
+            for t in target.lst:
+                if not can_transfer(source, t, item, amount, silent, force):
+                    return
+            return True
+
         if all([item.unique, isinstance(target, Player), item.unique != "mc"]) or all([item.unique, item.unique != target.id]):
             if not silent:
                 renpy.show_screen("message_screen", "This unique item cannot be given to {}!".format(char.name))
