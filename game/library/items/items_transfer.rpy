@@ -110,122 +110,122 @@ screen items_transfer(it_members):
                         text "[amount]" align 1.0, .7 style "dropdown_gm2_button_value_text"
                                    
         # RC and LC Portraits:
-        for fc, pos, xanchor in [(lc, (360, 43), 0), (rc, (920, 43), 1.0)]:
-            frame:
-                pos pos
-                xanchor xanchor
-                background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
-                padding 1, 1
-                add fc.show("portrait", resize=(150, 150), cache=True) align .5, .5
-                
+    for fc, pos, xanchor in [(lc, (360, 43), 0), (rc, (920, 43), 1.0)]:
         frame:
-            ypos 643
-            xalign 0.5
-            xysize (600, 80)
-            background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-            hbox:
-                yalign  0.5
-                spacing 210
-                use paging(xysize=(190, 50), ref=lc.inventory, use_filter=False)
-                use paging(xysize=(190, 50), ref=rc.inventory, use_filter=False)
-                
-        # Transfer Buttons:
-        vbox:
-            xalign .5
-            ypos 653
-            style_group "dropdown_gm"
-            frame:
-                xalign .5
-                xysize 200, 30
-                $ img = ProportionalScale('content/gfx/interface/buttons/left.png', 25, 25, align=(0.5, 0.5))
-                button:
-                    xysize (40, 30)
-                    style "default"
-                    align (0, 0.5)
-                    idle_background img
-                    hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
-                    insensitive_background im.Sepia(img, align=(.5, .5))
-                    action SensitiveIf(source.inventory[focused_item]), Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == rc and target == lc and focused_item)
-                    if source and target and focused_item:
-                        hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
-                        
-                # hbox:
-                    # align .5, .5
-                    # spacing 5
-                    # text 'Transfer' align .5, .5 size 15 color ivory style "garamond"
-                    # text '[transfer_amount]' align .5, .5 size 15 color ivory style "garamond"
-                    
-                $ img = ProportionalScale('content/gfx/interface/buttons/right.png', 25, 25, align=(0.5, 0.5))
-                button:
-                    xysize 40, 30
-                    style "default"
-                    align 1.0, .5
-                    idle_background img
-                    hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
-                    insensitive_background im.Sepia(img, align=(0.5, 0.5))
-                    action Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == lc and target == rc and focused_item)
-                    if source and target and focused_item:
-                        hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
-                         
-            null height 1
-            frame:
-                xalign .5
-                xysize 200, 30
-                $ img = ProportionalScale('content/gfx/interface/buttons/blue_arrow_left.png', 25, 25, align=(0.5, 0.5))
-                button:
-                    xysize (40, 30)
-                    style "default"
-                    align 0, .5
-                    idle_background img
-                    hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
-                    insensitive_background im.Sepia(img, align=(0.5, 0.5))
-                    action SetScreenVariable("transfer_amount", 1 if transfer_amount - 5 < 1 else transfer_amount - 5)
-                    hovered tt.action('Decrease transfer amount by 5!')
-                 
-                hbox:
-                    yalign .5
-                    spacing 5
-                    text 'Amount:' yalign 0.5 xpos 46 size 20 color ivory style "garamond"
-                    text '[transfer_amount]' yalign .5 xpos 60 size 18 color ivory style "proper_stats_value_text" yoffset -1
- 
-                $ img = ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 25, 25, align=(0.5, 0.5))
-                button:
-                    xysize 40, 30
-                    style "default"
-                    align 1.0, .5
-                    idle_background img
-                    hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(.5, .5))
-                    insensitive_background im.Sepia(img, align=(.5, .5))
-                    action SetScreenVariable("transfer_amount", transfer_amount + 5)
-                    hovered tt.action('Increase transfer amount by 5!')
-                    
-        # Filters Buttons:
-        frame:
-            style_group "dropdown_gm"
+            pos pos
+            xanchor xanchor
             background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
-            ypos 200
-            padding 3, 3
-            xalign 0.5
-            has hbox spacing 1
-           
-            for filter in list(sorted(set(rc.inventory.filters + lc.inventory.filters))):
-                $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 40, 40)
-                $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 40, 40)
-                $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 40, 40)
-                imagebutton:
-                    idle img
-                    hover im.MatrixColor(img_hover, im.matrix.brightness(0.10))
-                    selected_idle img_selected
-                    selected_hover im.MatrixColor(img_selected, im.matrix.brightness(0.10))
-                    action SetScreenVariable("slot_filter", filter), Function(rc.inventory.apply_filter, filter), Function(lc.inventory.apply_filter, filter), SelectedIf(filter == slot_filter)
-                    focus_mask True
+            padding 1, 1
+            add fc.show("portrait", resize=(150, 150), cache=True) align .5, .5
+            
+    frame:
+        ypos 643
+        xalign 0.5
+        xysize (600, 80)
+        background Frame("content/gfx/frame/p_frame5.png", 10, 10)
+        hbox:
+            yalign  0.5
+            spacing 210
+            use paging(xysize=(190, 50), ref=lc.inventory, use_filter=False)
+            use paging(xysize=(190, 50), ref=rc.inventory, use_filter=False)
+            
+    # Transfer Buttons:
+    vbox:
+        xalign .5
+        ypos 653
+        style_group "dropdown_gm"
+        frame:
+            xalign .5
+            xysize 200, 30
+            $ img = ProportionalScale('content/gfx/interface/buttons/left.png', 25, 25, align=(0.5, 0.5))
+            button:
+                xysize (40, 30)
+                style "default"
+                align (0, 0.5)
+                idle_background img
+                hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
+                insensitive_background im.Sepia(img, align=(.5, .5))
+                action SensitiveIf(source.inventory[focused_item]), Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == rc and target == lc and focused_item)
+                if source and target and focused_item:
+                    hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
                     
-        # Focused Item:
-        if focused_item:
-            frame:
-                ypos 247
-                xalign .5
-                background Frame("content/gfx/frame/frame_dec_1.png", 10, 10)
-                padding 30, 34
-                use itemstats(item=focused_item, size=(540, 330))
+            # hbox:
+                # align .5, .5
+                # spacing 5
+                # text 'Transfer' align .5, .5 size 15 color ivory style "garamond"
+                # text '[transfer_amount]' align .5, .5 size 15 color ivory style "garamond"
+                
+            $ img = ProportionalScale('content/gfx/interface/buttons/right.png', 25, 25, align=(0.5, 0.5))
+            button:
+                xysize 40, 30
+                style "default"
+                align 1.0, .5
+                idle_background img
+                hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
+                insensitive_background im.Sepia(img, align=(0.5, 0.5))
+                action Return(["transfer", source, target, focused_item, transfer_amount]), SensitiveIf(source == lc and target == rc and focused_item)
+                if source and target and focused_item:
+                    hovered tt.action("Transfer %s from %s to %s!" % (focused_item.id, source.nickname, target.nickname))
+                     
+        null height 1
+        frame:
+            xalign .5
+            xysize 200, 30
+            $ img = ProportionalScale('content/gfx/interface/buttons/blue_arrow_left.png', 25, 25, align=(0.5, 0.5))
+            button:
+                xysize (40, 30)
+                style "default"
+                align 0, .5
+                idle_background img
+                hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, 0.5))
+                insensitive_background im.Sepia(img, align=(0.5, 0.5))
+                action SetScreenVariable("transfer_amount", 1 if transfer_amount - 5 < 1 else transfer_amount - 5)
+                hovered tt.action('Decrease transfer amount by 5!')
+             
+            hbox:
+                yalign .5
+                spacing 5
+                text 'Amount:' yalign 0.5 xpos 46 size 20 color ivory style "garamond"
+                text '[transfer_amount]' yalign .5 xpos 60 size 18 color ivory style "proper_stats_value_text" yoffset -1
+
+            $ img = ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 25, 25, align=(0.5, 0.5))
+            button:
+                xysize 40, 30
+                style "default"
+                align 1.0, .5
+                idle_background img
+                hover_background im.MatrixColor(img, im.matrix.brightness(0.15), align=(.5, .5))
+                insensitive_background im.Sepia(img, align=(.5, .5))
+                action SetScreenVariable("transfer_amount", transfer_amount + 5)
+                hovered tt.action('Increase transfer amount by 5!')
+                
+    # Filters Buttons:
+    frame:
+        style_group "dropdown_gm"
+        background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
+        ypos 200
+        padding 3, 3
+        xalign 0.5
+        has hbox spacing 1
+       
+        for filter in list(sorted(set(rc.inventory.filters + lc.inventory.filters))):
+            $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 40, 40)
+            $ img_hover = ProportionalScale("content/gfx/interface/buttons/filters/%s hover.png" % filter, 40, 40)
+            $ img_selected = ProportionalScale("content/gfx/interface/buttons/filters/%s selected.png" % filter, 40, 40)
+            imagebutton:
+                idle img
+                hover im.MatrixColor(img_hover, im.matrix.brightness(0.10))
+                selected_idle img_selected
+                selected_hover im.MatrixColor(img_selected, im.matrix.brightness(0.10))
+                action SetScreenVariable("slot_filter", filter), Function(rc.inventory.apply_filter, filter), Function(lc.inventory.apply_filter, filter), SelectedIf(filter == slot_filter)
+                focus_mask True
+                
+    # Focused Item:
+    if focused_item:
+        frame:
+            ypos 247
+            xalign .5
+            background Frame("content/gfx/frame/frame_dec_1.png", 10, 10)
+            padding 30, 34
+            use itemstats(item=focused_item, size=(540, 330))
 
