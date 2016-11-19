@@ -142,7 +142,11 @@ screen chars_list(source=None, page=0, total_pages=1):
                                             add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
                                         text "AP: [c.AP]" size 17 color ivory
                                         button:
-                                            xysize (32, 32)
+                                            style_group "basic"
+                                            xysize (25, 25)
+                                            xpos 30
+                                            if c.status == "slave":
+                                                ypos 11
                                             action ToggleDict(char_list_selection, c.name, true_value=c, false_value=None)
                                             if char_list_selection[c.name] is None:
                                                 add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
@@ -187,10 +191,11 @@ screen chars_list(source=None, page=0, total_pages=1):
         left_padding 10
         ypadding 10
         pos (1005, 47)
-        xysize (270, 418)
+        xysize (270, 468)
         vbox:
-            spacing 5
+            spacing 3
             viewport:
+                xsize 250
                 draggable True
                 mousewheel True
                 has vbox xsize 253
@@ -233,13 +238,13 @@ screen chars_list(source=None, page=0, total_pages=1):
                             button:
                                 action ModFilterSet(source, "action_filters", f)
                                 text "[f]" hover_color blue
-                null height 50
+                null height 20
                 button:
-                        xalign 0.5
-                        yalign 1.0
-                        style_group "basic"
-                        action source.clear
-                        text "Reset"
+                    xalign 0.5
+                    yalign 1.0
+                    style_group "basic"
+                    action source.clear
+                    text "Reset"
                 # for block_name, filters in source.display_filters:
                     # label ("{=della_respira}{b}[block_name]:") xalign 0
                     # for item_1, item_2 in izip_longest(fillvalue=None, *[iter(filters)]*2):
@@ -253,6 +258,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                         # action [SelectedIf(focus), Function(source.add_filter, filter_group, filter_key)]
                                         # text "[filter_name]" size 16
             # Mass (de)selection Buttons ====================================>
+            null height 3
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
                 xalign 0.5
@@ -261,7 +267,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                 xysize (250, 50)
                 has hbox style_group "basic" align .5, .5 spacing 5
                 hbox:
-                    spacing 5
+                    spacing 3
                     button: # select all on current listing, deselects them if all are selected
                         xysize (66, 40)
                         action Function(setSelection_for_chars_list, char_list_selection, chars_list[0] + chars_list[1], value=None if all(char_list_selection[x.name] for x in chars_list[0] + chars_list[1]) else "from_lst")
@@ -279,10 +285,10 @@ screen chars_list(source=None, page=0, total_pages=1):
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
                 xalign 0.5
                 yalign 0.5
-                xysize (250, 200)
-                has vbox style_group "basic" align .5, .5 spacing 5
+                xysize (250, 145)
+                has vbox style_group "basic" align .5, .5 spacing 3
                 vbox:
-                    spacing 5
+                    spacing 3
                     button:
                         xysize (150, 40)
                         action If(any(char_list_selection.values()), [Show("girl_control")])
