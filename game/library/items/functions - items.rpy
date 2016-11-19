@@ -25,6 +25,7 @@ init -11 python:
                 char.equip(item)
                 return
                 
+            # potentially not one and the same for group.
             loc = char.location
             targets = [chars[key] for key in chars if chars[key].location == loc]
             if hero.location == loc:
@@ -139,9 +140,9 @@ init -11 python:
         """
         if isinstance(character, PytGroup):
             if item.jump_to_label:
-                return False
+                return
 
-            """ downstream function can trigger a response assuming char is a character """
+            # downstream function can trigger a response assuming char is a character
             global char
             for char in character.shuffled:
                 if not can_equip(item, char, silent):
@@ -263,12 +264,15 @@ init -11 python:
         # Like if MC asked this character to equip or unequip an item.
         # We return True of access is granted!
         if isinstance(character, PytGroup):
-            """ get a response from one single individual """
+            if item.jump_to_label:
+                return
+
+            # get a response from one single individual
             global char
             for char in character.shuffled:
                 if not equipment_access(char, item, silent):
                     char = character
-                    return None
+                    return
             char = character
             return True
 
