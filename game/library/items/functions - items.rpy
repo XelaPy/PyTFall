@@ -106,17 +106,31 @@ init -11 python:
             return False
 
         received = amount * len(source.selected) if isinstance(source, PytGroup) else amount
-            
-        cond = any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)])
-        if source.inventory.remove(item, given):
-            if all([isinstance(source, Char), source.status != "slave"]) and not cond:
+
+        if not source.inventory.remove(item, given):
+            return False
+
+        if not any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)]):
+
+            if isinstance(source, Char) and source.status != "slave":
                 source.given_items[item.id] = source.given_items.get(item.id, 0) - given
-            if all([isinstance(target, Char), target.status != "slave"]) and not cond:
+
+            elif isinstance(source, PytGroup):
+                for c in source.selected:
+                    if c.status != "slave":
+                        c.given_items[item.id] = c.given_items.get(item.id, 0) - given
+
+            if isinstance(target, Char) and target.status != "slave":
                 target.given_items[item.id] = target.given_items.get(item.id, 0) + received
-            target.inventory.append(item, received)
-            return True
-                    
-        return False
+
+            elif isinstance(target, PytGroup):
+                for c in target.selected:
+                    if c.status != "slave":
+                        c.given_items[item.id] = c.given_items.get(item.id, 0) + received
+
+        target.inventory.append(item, received)
+        return True
+
                 
     def can_equip(item, character, silent=True):
         """Checks if it is legal for a character to use/equip the item.
