@@ -105,10 +105,10 @@ init -11 python:
         if not can_transfer(source, target, item, amount=given, silent=silent, force=force):
             return False
 
-        received = amount * len(source.selected) if isinstance(source, PytGroup) else amount
-
         if not source.inventory.remove(item, given):
             return False
+
+        received = amount * len(source.selected) if isinstance(source, PytGroup) else amount
 
         if not any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct)]):
 
@@ -138,6 +138,9 @@ init -11 python:
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
         if isinstance(character, PytGroup):
+            if item.jump_to_label:
+                return False
+
             """ downstream function can trigger a response assuming char is a character """
             global char
             for char in character.shuffled:
@@ -184,11 +187,17 @@ init -11 python:
         @param: force: Option to forcibly take an item from a character.
         """
         if isinstance(source, PytGroup):
+            if item.jump_to_label:
+                return
+
             for c in source.shuffled:
                 if not can_transfer(c, target, item, amount, silent, force):
                     return
             return True
         if isinstance(target, PytGroup):
+            if item.jump_to_label:
+                return
+
             for c in target.shuffled:
                 if not can_transfer(source, c, item, amount, silent, force):
                     return
