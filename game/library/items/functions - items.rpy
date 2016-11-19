@@ -170,19 +170,19 @@ init -11 python:
         @param: force: Option to forcibly take an item from a character.
         """
         if isinstance(source, PytGroup):
-            for c in source.lst:
+            for c in source.shuffled:
                 if not can_transfer(c, target, item, amount, silent, force):
                     return
             return True
         if isinstance(target, PytGroup):
-            for t in target.lst:
-                if not can_transfer(source, t, item, amount, silent, force):
+            for c in target.shuffled:
+                if not can_transfer(source, c, item, amount, silent, force):
                     return
             return True
 
         if all([item.unique, isinstance(target, Player), item.unique != "mc"]) or all([item.unique, item.unique != target.id]):
             if not silent:
-                renpy.show_screen("message_screen", "This unique item cannot be given to {}!".format(char.name))
+                renpy.show_screen("message_screen", "This unique item cannot be given to {}!".format(target.name))
             return
         if not item.transferable:
             if not silent:
