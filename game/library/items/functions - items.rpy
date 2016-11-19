@@ -118,33 +118,37 @@ init -11 python:
                     
         return False
                 
-    def can_equip(item, char, silent=True):
+    def can_equip(item, character, silent=True):
         """Checks if it is legal for a character to use/equip the item.
         
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
-        if isinstance(char, PytGroup):
-            for c in char.lst:
-                if not can_equip(item, c, silent):
+        if isinstance(character, PytGroup):
+            """ downstream function can trigger a response assuming char is a character """
+            global char
+            for char in character.shuffled:
+                if not can_equip(item, char, silent):
+                    char = character
                     return
+            char = character
             return True
-        if item.unique and item.unique != char.id:
+        if item.unique and item.unique != character.id:
             if not silent:
-                renpy.show_screen("message_screen", "This unique item cannot be equipped on {}!".format(char.name))
+                renpy.show_screen("message_screen", "This unique item cannot be equipped on {}!".format(character.name))
             return
-        elif item.sex not in ["unisex", char.gender]:
+        elif item.sex not in ["unisex", character.gender]:
             if not silent:
-                renpy.show_screen('message_screen', "{} item cannot be equipped on a character of {} gender!".format(item.id, char.gender))
+                renpy.show_screen('message_screen', "{} item cannot be equipped on a character of {} gender!".format(item.id, character.gender))
             return
         elif not item.usable:
             if not silent:
                 renpy.show_screen("message_screen", "This item cannot be used or equipped!")
             return
-        elif item.type in ["food"] and char.effects['Food Poisoning']['active']:
+        elif item.type in ["food"] and character.effects['Food Poisoning']['active']:
             if not silent:
                 renpy.show_screen('message_screen', "She's already suffering from food poisoning. More food won't do any good.")
             return
-        elif char.status == "slave":
+        elif character.status == "slave":
             if item.slot in ["weapon"] and not item.type.lower().startswith("tool"):
                 if not silent:
                     renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law!")
