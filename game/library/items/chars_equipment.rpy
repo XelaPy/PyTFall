@@ -123,7 +123,7 @@ label char_equip_loop:
                             jump("char_equip_loop")
                             
                         # See if we can access the equipment first:
-                        if eqtarget.equipment_access(focusitem):
+                        if equipment_access(eqtarget, focusitem):
                             # If we're not equipping from own inventory, check if we can transfer:
                             if eqtarget != inv_source:
                                 if not transfer_items(inv_source, eqtarget, focusitem):
@@ -135,7 +135,7 @@ label char_equip_loop:
                             
                     elif item_direction == 'unequip':
                         # Check if we are allowed to access inventory and act:
-                        if eqtarget.equipment_access():
+                        if equipment_access(eqtarget):
                             eqtarget.unequip(focusitem, unequip_slot)
                             
                             # We should try to transfer items in case of:
@@ -151,7 +151,7 @@ label char_equip_loop:
             elif result[1] == "discard":
                 python:
                     # Check if we can access the inventory:
-                    if inv_source.equipment_access():
+                    if equipment_access(inv_source):
                         renpy.call_screen("discard_item", inv_source, focusitem)
                             
                     focusitem = None

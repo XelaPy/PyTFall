@@ -231,6 +231,59 @@ init -11 python:
             return
         return True
 
+    def equipment_access(character, item=None, silent=False):
+        # Here we determine if a character would be willing to give MC access to her equipment:
+        # Like if MC asked this character to equip or unequip an item.
+        # We return True of access is granted!
+        if isinstance(character, PytGroup):
+            """ get a response from one single individual """
+            global char
+            for char in character.shuffled:
+                if not equipment_access(char, item, silent):
+                    char = character
+                    return None
+            char = character
+            return True
+
+        if character == hero:
+            return True # Would be weird if we could not access MCs inventory....
+
+        # Always the same here as well...
+        if character.status == "slave":
+            return True
+
+        # Always refuse if character hates the player:
+        if character.disposition < -700:
+            if not silent:
+                interactions_girl_disp_is_too_low_to_give_money() # turns out money lines are perfect here
+            return False
+
+        if item:
+            # Bad Traits:
+            if item.badtraits.intersection(character.traits):
+                if not silent:
+                    interactions_character_doesnt_want_bad_item()
+                return False
+
+            # Always allow restorative items:
+            if item.type == "restore":
+                return True
+
+            # Good traits:
+            if item.goodtraits.intersection(character.traits):
+                return True
+
+            # Just an awesome item in general:
+            if item.eqchance >= 70:
+                return True
+
+        if all([character.disposition < 850, not(check_lovers(character, hero))]):
+            if not silent:
+                interactions_character_doesnt_want_to_equip_item()
+            return
+
+        return True
+
 label shop_control:
     $ result = ui.interact()
     if result[0] == "item":

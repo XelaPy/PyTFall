@@ -2194,49 +2194,6 @@ init -9 python:
             
             return returns
 
-        def equipment_access(self, item=None, silent=False):
-            # Here we determine if a char would be willing to give MC access to her equipment:
-            # Like if MC asked this character to equip or unequip an item.
-            # We return True of access is granted!
-            if self == hero:
-                return True # Would be weird if we could not access MCs inventory....
-
-            # Always the same here as well...
-            if self.status == "slave":
-                return True
-
-            # Always refuse if char hates the player:
-            if self.disposition < -700:
-                if not silent:
-                    interactions_girl_disp_is_too_low_to_give_money() # turns out money lines are perfect here
-                return False
-
-            if item:
-                # Bad Traits:
-                if item.badtraits.intersection(self.traits):
-                    if not silent:
-                        interactions_character_doesnt_want_bad_item()
-                    return False
-
-                # Always allow restorative items:
-                if item.type == "restore":
-                    return True
-
-                # Good traits:
-                if item.goodtraits.intersection(self.traits):
-                    return True
-
-                # Just an awesome item in general:
-                if item.eqchance >= 70:
-                    return True
-
-            if all([self.disposition < 850, not(check_lovers(self, hero))]):
-                if not silent:
-                    interactions_character_doesnt_want_to_equip_item()
-                return
-
-            return True
-
         # Applies Item Effects:
         def apply_item_effects(self, item):
             # Attacks/Magic

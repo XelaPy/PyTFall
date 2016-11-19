@@ -107,6 +107,10 @@ init -8 python:
             self.nickname = "group"
 
         @property
+        def shuffled(self):
+            return random.sample(self.selected, self.entire_group_len)
+
+        @property
         def selected(self):
             return self.lst
 
