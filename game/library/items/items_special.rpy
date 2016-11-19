@@ -241,3 +241,16 @@ label special_items_emerald_tincture:
     $ eqtarget.mp = 0
     $ eqtarget.remove_item("Emerald Tincture")
     jump char_equip
+    
+label special_items_flashing_extract:
+    if eqtarget.flag("drunk_flashing_extract"):
+        scene bg h_profile with dissolve
+        "[eqtarget.name] already used it before, it can be used only once."
+        jump char_equip
+    else:
+        $ eqtarget.set_flag("drunk_flashing_extract")
+        scene bg h_profile with dissolve
+        "[eqtarget.name] becomes a bit faster (+1 AP)."
+        $ eqtarget.baseAP += 1
+        $ eqtarget.remove_item("Flashing Extract")
+        jump char_equip
