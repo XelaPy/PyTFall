@@ -459,7 +459,7 @@ init: # MC Setup Screens:
                     else:
                         # greycolor = True
                         sepia = True
-                    img = im.Scale(im.Sepia(img_choices[key]) if sepia else img_choices[key], 40, 40)
+                    img = im.Scale(im.Sepia(img_choices[key]) if sepia else img_choices[key], 39, 39)
                 button:
                     if img_choices.keys().index(key) % 2:
                         text key align (1.0, 0.52)

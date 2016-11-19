@@ -350,25 +350,24 @@ label build_mc_stories:
         mc_stories["Mage"] = {}
         mc_stories["Mage"]["img"] = "content/gfx/interface/images/magicP.png"
         mc_stories["Mage"]["header"] = "Your father was a powerful mage..."
-        mc_stories["Mage"]["choices"] = OrderedDict(Darkness="content/gfx/interface/images/elements/darkness.png")
+        mc_stories["Mage"]["choices"] = OrderedDict(Shadow="content/gfx/interface/images/mc/ld.png")
                                                        
-        mc_stories["Mage"]["Darkness"] = {}
-        mc_stories["Mage"]["Darkness"]["class"] = "Mage"
-        mc_stories["Mage"]["Darkness"]["text"] = "In his pursuit to obtain immortality he chose to learn the secrets of the darkness."
-        mc_stories["Mage"]["Darkness"]["label"] = "mc_setup_mage_darkness"
+        mc_stories["Mage"]["Shadow"] = {}
+        mc_stories["Mage"]["Shadow"]["class"] = "Mage"
+        mc_stories["Mage"]["Shadow"]["text"] = "He chose to learn the secrets of light and darkness."
                                                        
         mc_stories["Mage"]["MC"] = {}
         for key in mc_stories["Mage"]["choices"]:
             mc_stories["Mage"]["MC"][key] = {}
             mc_stories["Mage"]["MC"][key]["choices"] = OrderedDict()
             
-        mc_stories["Mage"]["MC"]["Darkness"]["choices"] = OrderedDict(l="Ghost",
-                                                                      l_img="content/gfx/interface/images/mc/ghost.jpg",
+        mc_stories["Mage"]["MC"]["Shadow"]["choices"] = OrderedDict(l="Angel",
+                                                                      l_img="content/gfx/interface/images/mc/angel.jpg",
                                                                       l0="Intangible",
                                                                       l0_img="content/gfx/interface/images/mc/illusion_1.png",
                                                                       l1="Illusive",
                                                                       l1_img="content/gfx/interface/images/mc/illusion.png",
-                                                                      l2="Light Weaving",
+                                                                      l2="Creature of Light",
                                                                       l2_img="content/gfx/interface/images/elements/small_light.png",
                                                                       r="Vampire",
                                                                       r_img="content/gfx/interface/images/mc/vampire.jpg",
@@ -380,40 +379,40 @@ label build_mc_stories:
                                                                       r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
                                                                       
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"] = {} 
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["header"] = "Ghost"
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["text"] = "Necromancy is not forbidden in the city, but your father's experiments probably gone too far once he began to prefer female ghosts over alive girls."
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["label"] = "mc_setup_mage_darkness_ghost"
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"] = {} 
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["header"] = "Angel"
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["text"] = "Most high angels don't care about mortals and their carnal pleasures. Your mother was the same until she was summoned by your father's magic to share the secrets of Light. In exchange he taught her the ways of mortals."
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["label"] = "mc_setup_mage_shadow_angel"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Intangible"] = {}
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Intangible"]["text"] = "You are not entirely real compared to physical world, just like your mother. All attacks and magic are less effective against you, but all your attacks and magic are less effective too."
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Intangible"]["label"] = "mc_setup_mage_darkness_ghost_intangible"
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Intangible"] = {}
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Intangible"]["text"] = "You are not entirely suitable for the world of mortals, just like your mother. All attacks and magic are less effective against you, but all your attacks and magic are less effective too."
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Intangible"]["label"] = "mc_setup_mage_shadow_angel_intangible"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Illusive"] = {}
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Illusive"]["text"] = "Due to your heritage, you exist between illusion and reality. Physical damage is not a big problem for you, but it leads to unusual results during intimacy."
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Illusive"]["label"] = "mc_setup_mage_darkness_ghost_illusive"
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Illusive"] = {}
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Illusive"]["text"] = "Due to your heritage, you exist between the realm of light and mortal reality. Physical damage is not a big problem for you, but it leads to unusual results during intimacy."
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Illusive"]["label"] = "mc_setup_mage_shadow_angel_illusive"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"] = {}
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"]["text"] = "Despite your ghost nature, light is not your enemy. Weakness to light is reduced, and light magic damage is a bit higher."
-        mc_stories["Mage"]["MC"]["Darkness"]["Ghost"]["Light Weaving"]["label"] = "mc_setup_mage_darkness_ghost_weaving"
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Creature of Light"] = {}
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Creature of Light"]["text"] = "Light spells now heal you instead of hurting, but your Water and Ice spells are a bit less effective."
+        mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["Creature of Light"]["label"] = "mc_setup_mage_shadow_angel_light"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"] = {} 
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["header"] = "Vampire"
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["text"] = "For decades he studied vampires and their unnatural longevity. Eventually he captured the local vampire queen, but her seductiveness quickly turned his magical experiments into sexual ones."
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["label"] = "mc_setup_mage_darkness_vampire"
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["class"] = "Assassin"
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"] = {} 
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["header"] = "Vampire"
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["text"] = "For decades he studied vampires and their unnatural longevity. Eventually he captured the local vampire queen, but her seductiveness quickly turned his magical experiments into sexual ones."
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["label"] = "mc_setup_mage_shadow_vampire"
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["class"] = "Assassin"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"] = {}
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells now heal you instead of hurting, but your Fire and Electricity spells are a bit less effective."
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Creature of Night"]["label"] = "mc_setup_mage_darkness_vampire_night"
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Creature of Night"] = {}
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells now heal you instead of hurting, but your Fire and Electricity spells are a bit less effective."
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Creature of Night"]["label"] = "mc_setup_mage_shadow_vampire_night"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"] = {}
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["text"] = "Only pure vampires have access to blood magic, but your heritage still gives a few perks when blood is involved. Girls whose virginity was taken by you are more obedient."
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Blood Master"]["label"] = "mc_setup_mage_darkness_vampire_blood"
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Blood Master"] = {}
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Blood Master"]["text"] = "Only pure vampires have access to blood magic, but your heritage still gives a few perks when blood is involved. Girls whose virginity was taken by you are more obedient."
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Blood Master"]["label"] = "mc_setup_mage_shadow_vampire_blood"
         
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"] = {}
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["text"] = "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health."
-        mc_stories["Mage"]["MC"]["Darkness"]["Vampire"]["Perfect Reflexes"]["label"] = "mc_setup_mage_darkness_vampire_reflex"
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Perfect Reflexes"] = {}
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Perfect Reflexes"]["text"] = "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health."
+        mc_stories["Mage"]["MC"]["Shadow"]["Vampire"]["Perfect Reflexes"]["label"] = "mc_setup_mage_shadow_vampire_reflex"
                                                        
         mc_stories["Noble"] = {}
         mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"
