@@ -143,38 +143,36 @@ label mc_setup_warrior_defender_harpy_sky:
     $ hero.apply_trait("Sky Ward")
     return
     
-label mc_setup_mage_darkness:
-    $ hero.apply_trait("Darkness")
+label mc_setup_mage_shadow_angel:
+    $ hero.apply_trait("Heaven Health")
+    $ hero.apply_trait("Light")
     return
     
-label mc_setup_mage_darkness_ghost:
-    $ hero.apply_trait("Ghostly")
-    return
-    
-label mc_setup_mage_darkness_ghost_intangible:
+label mc_setup_mage_shadow_angel_intangible:
     $ hero.apply_trait("Incorporeal")
     return
     
-label mc_setup_mage_darkness_ghost_illusive:
+label mc_setup_mage_shadow_angel_illusive:
     $ hero.apply_trait("Illusive")
     return
     
-label mc_setup_mage_darkness_ghost_weaving:
-    $ hero.apply_trait("Light Weaving")
+label mc_setup_mage_shadow_angel_light:
+    $ hero.apply_trait("Master of Light")
     return
     
-label mc_setup_mage_darkness_vampire:
+label mc_setup_mage_shadow_vampire:
     $ hero.apply_trait("Vampiric Blood")
+    $ hero.apply_trait("Darkness")
     return
     
-label mc_setup_mage_darkness_vampire_night:
+label mc_setup_mage_shadow_vampire_night:
     $ hero.apply_trait("Creature of Night")
     return
     
-label mc_setup_mage_darkness_vampire_blood:
+label mc_setup_mage_shadow_vampire_blood:
     $ hero.apply_trait("Blood Master")
     return
     
-label mc_setup_mage_darkness_vampire_reflex:
+label mc_setup_mage_shadow_vampire_reflex:
     $ hero.apply_trait("Perfect Reflexes")
     return

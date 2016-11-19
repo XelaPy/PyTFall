@@ -1248,6 +1248,7 @@ init -9 python:
                 "Impressible": {"active": False, "desc": "Easier to decrease and increase joy."},
                 "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
                 "Regeneration": {"active": False, "desc": "Restores some health every day."},
+                "Small Regeneration": {"active": False, "desc": "Restores 10 health every day for 20 days."},
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
                 "Horny": {"active": False, "desc": "She's in the mood for sex."},
                 "Icy": {"active": False, "desc": "She's really not in the mood for sex."}
@@ -2641,6 +2642,9 @@ init -9 python:
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
                 
+            elif effect == "Small Regeneration":
+                self.effects['Small Regeneration']['active'] = True
+                
             elif effect == "Injured":
                 self.effects['Injured']['active'] = True
                 
@@ -2763,6 +2767,9 @@ init -9 python:
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
                 
+            elif effect == "Small Regeneration":
+                self.effects['Small Regeneration']['active'] = False
+                
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = False
                 
@@ -2884,6 +2891,9 @@ init -9 python:
                 if h <= 0:
                     h = 1
                 self.health += h
+                
+            elif effect == "Small Regeneration":
+                self.health += 10
                     
             elif effect == "Depression":
                 if self.joy >= 30:
@@ -2895,8 +2905,7 @@ init -9 python:
                 if self.joy < 95:
                     self.disable_effect('Elation')
                 else:
-                    self.vitality += randint(10, 15)
-                    self.mp += randint(10, 15)
+                    self.AP += 1
                     
             elif effect == "Pessimist":
                 if self.joy > 80:
