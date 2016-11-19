@@ -27,8 +27,9 @@ init -8 python:
 
             return self.unlist([getattr(c, item) for c in self.lst], at=item)
 
-        def __repr__(self):
-            return repr(self)
+        def __isub__(self, other):
+            for x in self.lst: x -= other
+            return self.unlist(self.lst)
 
         def _type(self, var):
             """ generalizations """
@@ -37,27 +38,33 @@ init -8 python:
             if isinstance(var, (dict, renpy.python.RevertableDict)): return '<dict>'
             return str(type(var))
 
-        def unlist(self, lst, at="", remedy=None):
+        def unlist(self, arr, at="", remedy=None):
             """ try to get a single value for a list """
-            if not isinstance(lst, list):
+            if not isinstance(arr, list):
                 raise Exception("expected list "+at+"")
 
-            if len(lst) == 0:
+            if len(arr) == 0:
                 return False
 
-            if len(lst) == 1:
-                return lst[0]
+            if len(arr) == 1:
+                return arr[0]
 
-            tp = self._type(lst[0])
+            tp = self._type(arr[0])
 
-            if all(self._type(r) == tp for r in lst[1:]):
-                if all(cmp(lst[0], r) == 0 for r in lst[1:]):
-                    return lst[0]
+            if all(self._type(r) == tp for r in arr[1:]):
+
+                if all(cmp(arr[0], r) == 0 for r in arr[1:]):
+                    return arr[0]
+
+                #if remedy is None and self.remedy is None and isinstance(arr[0], dict):
+                #    ks = set(arr[0].keys())
+                #    if all(cmp(ks, set(r.keys())) == 0 for r in arr[1:]):
+                #        return listDelegator([listDelegator([c[k] for c in arr]) for k in list(ks)])
             else:
                 tp = '*'
 
             if at in self._flatten:
-                return list(set([item for sublist in lst for item in sublist]))
+                return list(set([item for sublist in arr for item in sublist]))
 
             if remedy is None:
                 remedy = self.remedy
@@ -66,7 +73,7 @@ init -8 python:
                 remedy = remedy[at+":"+tp]
 
             """ In case of an error here: define a remedy for the unlisting"""
-            return remedy(lst) if callable(remedy) else remedy
+            return remedy(arr) if callable(remedy) else remedy
 
 
     class PytGInv(listDelegator):
@@ -85,6 +92,8 @@ init -8 python:
             """ see Inventory.remove(): False means not enough items """
             return all([x.remove(item,amount) for x in self.lst])
 
+        def append(self, item, amount=1):
+            all([x.append(item,amount) for x in self.lst])
 
     class PytGroup(listDelegator):
 
@@ -93,11 +102,13 @@ init -8 python:
             super(PytGroup, self).__init__(characters, flatten=['traits', 'attack_skills', 'magic_skills'])
 
             self.status = listDelegator([c.status for c in self.selected], remedy="Various")
+            self.autobuy = listDelegator([c.autobuy for c in self.selected], remedy=False)
 
             # determines what to show as a count for items, if not equal
             self.inventory = PytGInv([c.inventory for c in self.selected])
 
             self.eqslots = listDelegator([c.eqslots for c in self.selected], remedy=False)
+            self.autocontrol = listDelegator([c.autocontrol for c in self.selected], remedy=False)
 
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
@@ -114,15 +125,16 @@ init -8 python:
         def selected(self):
             return self.lst
 
-        def equipment_access(self, item=None, silent=False):
-
+        @property
+        def given_items(self):
+            return {k:min([c.given_items[k] for c in self.lst]) for k in self.lst[0].given_items.keys()}
+        @property
+        def wagemod(self):
+            return float(sum([c.wagemod for c in self.selected])) / max(self.entire_group_len, 1)
+        @wagemod.setter
+        def wagemod(self, v):
             for c in self.selected:
-                if not c.equipment_access(item, True):
-                    if not silent:
-                        c = choice(self.selected)
-                        c.say(choice(["We refuse.", "Some of us disagree."]))
-                    return False
-            return True
+                c.wagemod = v
 
         def show(self, what, resize=(None, None), cache=True):
             if what == "portrait":
