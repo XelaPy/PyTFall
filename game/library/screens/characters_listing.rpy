@@ -15,8 +15,11 @@ init:
             if char_list_selection:
                 l = [x for x in char_list_selection.values() if x is not None]
                 if any(l):
-                    return l;
-            return [char] if as_list else char
+                    if len(l) == 1:
+                        return l if as_list == True else l[0]
+                    return l if isinstance(as_list, bool) else PytGroup(l);
+            if char:
+                return [char] if as_list == True else char
         
 label chars_list:
     scene bg gallery
@@ -279,6 +282,11 @@ screen chars_list(source=None, page=0, total_pages=1):
                 xysize (250, 200)
                 has vbox style_group "basic" align .5, .5 spacing 5
                 vbox:
+                    spacing 5
+                    button:
+                        xysize (150, 40)
+                        action If(any(char_list_selection.values()), [Show("girl_control")])
+                        text "Girl Control"
                     button:
                         xysize (150, 40)
                         action If(any(char_list_selection.values()), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])

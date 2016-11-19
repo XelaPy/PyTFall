@@ -3,14 +3,17 @@ init -8 python:
     class listDelegator(_object):
         """ only provides obvious solutions, everything else needs a remedy """
 
-        def __init__(self, l, flatten=None, remedy=None):
-
+        def __init__(self, l, flatten=None, remedy=None, at="?"):
             self.lst = l
             self._flatten = flatten or []
             self.remedy = remedy if remedy is not None else {}
 
         def __getitem__(self, item):
-            return self.unlist([c[item] for c in self.lst], at="["+self._type(item)+"]")
+
+            if not isinstance(self.lst, (list, renpy.python.RevertableList)):
+                renpy.error(self._at+"["+self._type(item)+"("+str(item)+")]")
+
+            return self.unlist([d[item] for d in self.lst], at="["+self._type(item)+"("+str(item)+")]")
 
         def __getattr__(self, item):
             """ an undefined attribute was requested from the group """
@@ -41,7 +44,7 @@ init -8 python:
         def unlist(self, arr, at="", remedy=None):
             """ try to get a single value for a list """
             if not isinstance(arr, list):
-                raise Exception("expected list "+at+"")
+                raise Exception("expected list "+self._at+at+"")
 
             if len(arr) == 0:
                 return False
@@ -79,7 +82,7 @@ init -8 python:
     class PytGInv(listDelegator):
 
         def __init__(self, inv):
-            super(PytGInv, self).__init__(inv, flatten=['filters', 'page_content', 'slot_filter'])
+            super(PytGInv, self).__init__(inv, flatten=['filters', 'page_content', 'slot_filter'], at="PytGInv")
 
         def __getitem__(self, item):
             return min([x[item] for x in self.lst])
@@ -99,16 +102,18 @@ init -8 python:
 
         def __init__(self, characters):
 
-            super(PytGroup, self).__init__(characters, flatten=['traits', 'attack_skills', 'magic_skills'])
+            super(PytGroup, self).__init__(characters, flatten=['traits', 'attack_skills', 'magic_skills'], at="PytGroup")
 
-            self.status = listDelegator([c.status for c in self.selected], remedy="Various")
-            self.autobuy = listDelegator([c.autobuy for c in self.selected], remedy=False)
+            self.status = listDelegator([c.status for c in self.selected], at="status", remedy="Various")
+            self.autobuy = listDelegator([c.autobuy for c in self.selected], at="autobuy", remedy=False)
 
             # determines what to show as a count for items, if not equal
             self.inventory = PytGInv([c.inventory for c in self.selected])
 
-            self.eqslots = listDelegator([c.eqslots for c in self.selected], remedy=False)
-            self.autocontrol = listDelegator([c.autocontrol for c in self.selected], remedy=False)
+            self.eqslots = listDelegator([c.eqslots for c in self.selected], remedy=False, at="eqslots")
+            self.front_row = listDelegator([c.front_row for c in self.selected], remedy=False, at="front_row")
+            self.autoequip = listDelegator([c.autoequip for c in self.selected], remedy=False, at="autoequip")
+            self.action = listDelegator([c.action for c in self.selected], remedy=renpy.error, at="action")
 
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
@@ -117,6 +122,8 @@ init -8 python:
             self.name = "A group of "+str(self.entire_group_len)
             self.nickname = "group"
 
+        def __getitem__(self, item):
+            return self.unlist([c[item] for c in self.lst], at="["+self._type(item)+"]")
         @property
         def shuffled(self):
             return random.sample(self.selected, self.entire_group_len)
@@ -126,11 +133,26 @@ init -8 python:
             return self.lst
 
         @property
+        def autocontrol(self):
+            # for some reason have to determine this on the fly for every access.
+            ret = {}
+            for k in self.lst[0].autocontrol:
+                ret[k] = listDelegator([c.autocontrol[k] for c in self.lst], remedy=False)
+            return ret
+
+        @autocontrol.setter
+        def autocontrol(self, v):
+            ret = {}
+            for k in self.lst[0].autocontrol:
+                for c in self.lst:
+                    c.autocontrol[k] = v;
+
+        @property
         def given_items(self):
             return {k:min([c.given_items[k] for c in self.lst]) for k in self.lst[0].given_items.keys()}
         @property
         def wagemod(self):
-            return float(sum([c.wagemod for c in self.selected])) / max(self.entire_group_len, 1)
+            return round(float(sum([c.wagemod for c in self.selected])) / max(self.entire_group_len, 1), 1)
         @wagemod.setter
         def wagemod(self, v):
             for c in self.selected:
