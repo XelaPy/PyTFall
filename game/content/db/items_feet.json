@@ -81,7 +81,7 @@
     "type": "dress",
     "evasion_bonus": 1,
     "max": {"vitality": 15},
-    "mod": {"agility": 10, "refinement": -20},
+    "mod": {"agility": 10},
     "mod_skills": {"refinement": [0, 0, -0.08, 0, 0]},
     "locations": ["Tailor Store", "Ninja Shop"],
     "goodtraits": ["Athletic"]

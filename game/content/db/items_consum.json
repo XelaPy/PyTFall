@@ -456,7 +456,7 @@
     "type": "upgrade",
     "ctemp": 5,
     "cblock": 5,
-    "mod": {"charisma": 20, "refinement": 50},
+    "mod": {"charisma": 20},
     "max": {"charisma": 10},
     "skillmax": 150,
     "mod_skills": {"refinement": [0.02, 0, 0.03, 0, 0]},

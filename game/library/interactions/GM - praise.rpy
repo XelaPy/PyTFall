@@ -41,14 +41,14 @@ label interactions_clever:
             call praise_nope
             jump girl_interactions
         if char.disposition < 250:
-            if char.character*2 > hero.refinement: # refinement tries to overcome character's stubbornness
+            if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
                 $ char.joy += randint (10, 20)
             else:
                 $ char.disposition += (randint (10, 15))*inter_praise
                 $ char.joy += randint (15, 20)
         else:
-            if char.character*2 > hero.refinement:
+            if char.character*2 > hero.get_skill("refinement"):
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
@@ -104,14 +104,14 @@ label interactions_strong:
             jump girl_interactions
             
         if char.disposition < 250:
-            if char.character*2 > hero.refinement: # refinement tries to overcome character's stubbornness
+            if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
                 $ char.joy += randint (10, 20)
             else:
                 $ char.disposition += (randint (10, 15))*inter_praise
                 $ char.joy += randint (15, 20)
         else:
-            if char.character*2 > hero.refinement:
+            if char.character*2 > hero.get_skill("refinement"):
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
@@ -165,14 +165,14 @@ label interactions_cute:
             jump praise_nope
 
         if char.disposition < 250:
-            if char.character*2 > hero.refinement: # refinement tries to overcome character's stubbornness
+            if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
                 $ char.joy += randint (10, 20)
             else:
                 $ char.disposition += (randint (10, 15))*inter_praise
                 $ char.joy += randint (15, 20)
         else:
-            if char.character*2 > hero.refinement:
+            if char.character*2 > hero.get_skill("refinement"):
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)

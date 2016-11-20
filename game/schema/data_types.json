@@ -7,7 +7,7 @@
       "enum": [
         "agility", "attack", "character", "charisma", "constitution",
         "disposition", "defence", "evasion", "exp", "gold", "health",
-        "intelligence", "joy", "luck", "magic", "mp", "refinement",
+        "intelligence", "joy", "luck", "magic", "mp",
         "reputation", "service", "upkeep", "vitality"
       ],
       "type": "string"
