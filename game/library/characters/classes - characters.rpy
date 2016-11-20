@@ -419,7 +419,7 @@ init -9 python:
         """
         WhRANKS = OrderedDict()
         WhRANKS["0"]=dict(name=('No Rank: Kirimise', '(Almost beggar)'), price=0)
-        WhRANKS["1"]=dict(name=("Rank 1: Heya-Mochi", "(Low-class prostitute)"), skills={"oral": 10, "vaginal": 10, "anal": 5}, total_skill=100, price=1000, exp=10000)
+        WhRANKS["1"]=dict(name=("Rank 1: Heya-Mochi", "(Low-class prostitute)"), skills={"oral": 10, "vaginal": 10, "anal": 5}, total_skill=100, price=1000, exp=10000) # note: refinement is not a stat anymore!
         WhRANKS["2"]=dict(name=("Rank 2: Zashiki-Mochi", "(Middle-class Prostitute"), skills={"oral": 25, "vaginal": 15, "anal": 15}, total_skill=300, price=3000, exp=25000)
         WhRANKS["3"]=dict(name=("Rank 3: Tsuke-Mawashi", "(Courtesan)"), skills={"oral": 55, "vaginal": 40, "anal": 25}, total_skill=600, price=5000, exp=50000)
         WhRANKS["4"]=dict(name=("Rank 4: Chûsan", "(Famous)"), skills={"oral": 100, "vaginal": 80, "anal": 50}, total_skill=1000, stats={"refinement": 100}, price=7500, exp=100000)
