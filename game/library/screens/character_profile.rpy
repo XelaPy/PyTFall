@@ -745,6 +745,7 @@ screen char_profile():
     use top_stripe(True)
     
 screen girl_control():
+    default char = charlist_or_char(as_list=2)
     modal True
     zorder 1
     
