@@ -350,16 +350,25 @@ label build_mc_stories:
         mc_stories["Mage"] = {}
         mc_stories["Mage"]["img"] = "content/gfx/interface/images/magicP.png"
         mc_stories["Mage"]["header"] = "Your father was a powerful mage..."
-        mc_stories["Mage"]["choices"] = OrderedDict(Shadow="content/gfx/interface/images/mc/ld.png")
+        mc_stories["Mage"]["choices"] = OrderedDict(Shadow="content/gfx/interface/images/mc/ld.png",
+                                                    Steam="content/gfx/interface/images/mc/fi.png")
                                                        
         mc_stories["Mage"]["Shadow"] = {}
         mc_stories["Mage"]["Shadow"]["class"] = "Mage"
         mc_stories["Mage"]["Shadow"]["text"] = "He chose to learn the secrets of light and darkness."
+        
+        mc_stories["Mage"]["Steam"] = {}
+        mc_stories["Mage"]["Steam"]["class"] = "Mage"
+        mc_stories["Mage"]["Steam"]["text"] = "He chose to learn the secrets of fire and ice."
                                                        
         mc_stories["Mage"]["MC"] = {}
         for key in mc_stories["Mage"]["choices"]:
             mc_stories["Mage"]["MC"][key] = {}
             mc_stories["Mage"]["MC"][key]["choices"] = OrderedDict()
+            
+        mc_stories["Mage"]["MC"]["Steam"]["choices"] = OrderedDict(l="Lampad",
+                                                                   l_img="content/gfx/interface/images/mc/fire.jpg"
+                                                                      )
             
         mc_stories["Mage"]["MC"]["Shadow"]["choices"] = OrderedDict(l="Angel",
                                                                       l_img="content/gfx/interface/images/mc/angel.jpg",
@@ -378,6 +387,11 @@ label build_mc_stories:
                                                                       r2="Perfect Reflexes",
                                                                       r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
+                                                                      
+        mc_stories["Mage"]["MC"]["Steam"]["Lampad"] = {} 
+        mc_stories["Mage"]["MC"]["Steam"]["Lampad"]["header"] = "Lampad"
+        mc_stories["Mage"]["MC"]["Steam"]["Lampad"]["text"] = "Lampads are immortal nymphs from the elemental plane of Fire. Friendly and flirty, they like to travel between worlds in search of entertainment, rarely staying in one place for more than one year."
+        mc_stories["Mage"]["MC"]["Steam"]["Lampad"]["label"] = "mc_setup_mage_steam_lampad"
                                                                       
         mc_stories["Mage"]["MC"]["Shadow"]["Angel"] = {} 
         mc_stories["Mage"]["MC"]["Shadow"]["Angel"]["header"] = "Angel"
