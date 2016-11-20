@@ -597,7 +597,7 @@ init -6 python:
             battle.start_battle()
             
             # Add the battle report to log!:
-            log.battle_log = reversed(battle.combat_log)
+            log.battle_log = list(reversed(battle.combat_log))
             
             for i in team:
                 i.controller = "player"

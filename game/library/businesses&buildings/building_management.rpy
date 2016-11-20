@@ -658,22 +658,20 @@ init: # Screens:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
             style_group "proper_stats"
-            xsize 300
-            xpadding 12
-            ypadding 12
-            xmargin 0
-            ymargin 0
+            xsize 310
+            padding 12, 12
+            margin 0, 0
             has vbox spacing 1
                 
             # Slots:
             frame:
-                xysize (290, 27)
-                xalign 0.5
+                xysize (280, 27)
+                xalign .5
                 text "In Slots:" xalign 0.02 color ivory
                 text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
             frame:
-                xysize (290, 27)
-                xalign 0.5
+                xysize (280, 27)
+                xalign .5
                 text "Ext Slots:" xalign 0.02 color ivory
                 text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
                 
