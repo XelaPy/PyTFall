@@ -87,6 +87,7 @@ init -6 python:
             self.day = 1 # Day since start.
             self.total_days = 0 # Total days, travel times excluded!
             self.days = self.area.days # Days team is expected to be exploring (without travel times)!
+            self.days_in_camp = 0 # Simple counter for the amount of days team is spending at camp. This is set back to 0 when team recovers inside of the camping method.
             
             # TODO: Stats here need to be personal for each of the team members.
             self.unlocks = dict()
@@ -260,27 +261,32 @@ init -6 python:
             # Convert AP to exploration points:
             self.convert_AP(tracker)
             
+            # Log the day:
+            temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} is exploring %s!\n"%(tracker.day, tracker.team.name, tracker.area.name)
+            if tracker.day != 1:
+                temp = "\n" + temp
+            tracker.log(temp)
+            
             # Set the state to traveling back if we're done:
             if tracker.day > tracker.days:
                 tracker.state = "traveling back"
-            
+                
             while self.env.now < 99:
                 if tracker.state == "traveling to":
                     yield self.env.process(self.travel_to(tracker))
-                    # Testing mode, we can plainly build a report to see what's happening:
-                    # tracker.build_nd_report() # Report methods needs moar luv, this is not gonna fly atm. Gonna try making it work tonight.
-                    # self.env.exit()
                 elif tracker.state == "exploring":
                     yield self.env.process(self.explore(tracker))
-                    tracker.build_nd_report()
-                    self.env.exit()
-                # elif tracker.state == "camping":
-                    # yield self.env.process(self.camping(tracker))
+                elif tracker.state == "camping":
+                    yield self.env.process(self.camping(tracker))
                 elif tracker.state == "traveling back":
-                    yield self.env.process(self.travel_back(tracker))
-                
+                    result = yield self.env.process(self.travel_back(tracker))
+                    if result == "back2guild":
+                        tracker.build_nd_report() # Build the ND report!
+                        self.env.exit() # We're done...
+                        
             # if config.debug:
-                # tracker.log("The day has come to an end for {}.".format(tracker.team.name))
+                # tracker.log("Debug: The day has come to an end for {}.".format(tracker.team.name))
+            self.overnight(tracker)
             tracker.day += 1
             
         def travel_to(self, tracker):
@@ -325,7 +331,7 @@ init -6 python:
             travel_points = int(round(tracker.points / 20.0)) # local variable just might do the trick...
             
             if not tracker.traveled:
-                temp = "{} is traveling back home from {}!".format(tracker.team.name, tracker.area.id)
+                temp = "{} is traveling back home!".format(tracker.team.name)
                 tracker.log(temp)
             
             while 1:
@@ -336,9 +342,7 @@ init -6 python:
                 
                 # Team arrived:
                 if tracker.traveled <= tracker.distance:
-                    temp = "{} came back to the guild from {}!".format(tracker.team.name, tracker.area.id)
-                    if tracker.day > 0:
-                        temp = temp + " It took {} {} to get back.".format(tracker.day, plural("day", tracker.day))
+                    temp = "{} came back to the guild!".format(tracker.team.name)
                     tracker.log(temp, name="Return")
                     # tracker.state = "exploring"
                     # tracker.traveled = 0 # Reset for traveling back.
@@ -353,30 +357,63 @@ init -6 python:
             """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
             """
             team = tracker.team
-            keep_camping = True
+            area = tracker.area
+            auto_equip_counter = 0 # We don't want to run over autoequip on every iteration, two times is enough.
             
-            temp = "{} (in {}) setup a camp to get some rest and recover!".format(tracker.team.name, tracker.area.id)
-            tracker.log(temp)
-            
-            while keep_camping:
+            if not tracker.days_in_camp:
+                temp = "{} setup a camp to get some rest and recover!".format(team.name)
+                tracker.log(temp)
+                
+            while 1:
                 yield self.env.timeout(5) # We camp...
                 
+                # Base stats:
                 for c in team:
-                    c.health += randint(5, 6)
-                    c.mp += randint(5, 6)
-                    c.vitality += randint(8, 12)
+                    c.health += randint(8, 12)
+                    c.mp += randint(8, 12)
+                    c.vitality += randint(20, 50)
+                    
+                # Apply items:
+                if auto_equip_counter < 2:
+                    inv = list(c.inventory for c in team)
+                    for explorer in team:
+                        l = list()
+                        if explorer.health <= explorer.get_max("health")*.8:
+                            l.extend(explorer.auto_equip(["health"], source=inv))
+                        if explorer.vitality <= explorer.get_max("vitality")*.8:
+                            l.extend(explorer.auto_equip(["vitality"], source=inv))
+                        if explorer.mp <= explorer.get_max("mp")*.8:
+                            l.extend(explorer.auto_equip(["mp"], source=inv))
+                        if l:
+                            temp = "%s used: {color=[lawngreen]}%s %s{/color} to recover!\n" % (explorer.nickname, ", ".join(l), plural("item", len(l)))
+                            self.log(temp)
+                    auto_equip_counter += 1
                     
                 for c in team:
                     if c.health <= c.get_max("health")*.9:
                         break
                     if c.mp <= c.get_max("mp")*.9:
                         break
-                    if c.vitality <= c.get_max("vitality"):
+                    if c.vitality <= c.get_max("vitality")*.8:
                         break
                 else:
-                    temp = "{} are now ready for more action in {}! ".format(tracker.team.name, tracker.area.id)
+                    tracker.days_in_camp = 0
+                    temp = "{} are now ready for more action in {}! ".format(team.name, area.id)
                     tracker.log(temp)
+                    tracker.state = "exploring"
                     self.env.exit("restored after camping")
+                    
+                if self.env.now >= 99:
+                    tracker.days_in_camp += 1
+                    # if config.debug:
+                        # tracker.log("Debug: Still Camping!")
+                    self.env.exit("still camping")
+                    
+                # if not stop:
+                    # for member in self.team:
+                        # if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
+                            # temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
+                            # tracker.log(temp)
                     
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
@@ -384,13 +421,17 @@ init -6 python:
             
             team = tracker.team
             
-            temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name)
-            tracker.log(temp)
-            
+            if tracker.state == "exploring":
+                temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name)
+                tracker.log(temp)
+            elif tracker.state == "camping":
+                temp = "{} cozied up in their camp for the night! ".format(tracker.team.name)
+                tracker.log(temp)
+                
             for c in team:
-                c.health += randint(60, 70)
-                c.mp += randint(60, 70)
-                c.vitality += randint(8, 12)
+                c.health += randint(30, 40)
+                c.mp += randint(30, 40)
+                c.vitality += randint(100, 120)
         
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
@@ -417,7 +458,7 @@ init -6 python:
                 
                 # Hazzard:
                 if area.hazard:
-                    temp = "{color=[blue]}Hazardous area!{/color} The team has been effected."
+                    temp = "{color=[yellow]}Hazardous area!{/color} The team has been effected."
                     tracker.log(temp)
                     for char in team:
                         for stat, value in area.hazard:
@@ -429,14 +470,14 @@ init -6 python:
                 # We may have area items draw two times. Investigate later:
                 if tracker.items and dice(area.risk*.02 + tracker.day*.15):
                     item = choice(tracker.items)
-                    temp = "{color=[blue]}Found an item %s!{/color}"%item
+                    temp = "{color=[lawngreen]}Found an item %s!{/color}"%item
                     tracker.log(temp, "Found Item", ui_log=True)
                     items.append(item)
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
                     if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
-                        temp = "{color=[blue]}Found an item %s!{/color}"%i
+                        temp = "{color=[lawngreen]}Found an item %s!{/color}"%i
                         tracker.log(temp, "Found Item", ui_log=True)
                         items.append(i)
                         break
@@ -461,6 +502,7 @@ init -6 python:
                             # self.env.exit("captured rchar")
                 
                 if not fought_mobs:
+                    
                     mob = None
                     
                     for key in tracker.mobs:
@@ -474,27 +516,31 @@ init -6 python:
                             break
                             
                     if mob:
-                        self.combat_mobs(tracker, mob, enemies, log)
+                        fought_mobs = 1
+                        result = self.combat_mobs(tracker, mob, enemies, log)
+                        if result == "defeat":
+                            tracker.state = "camping"
+                            self.env.exit()
                         
-                # This needs to be moved so it reports once.
-                if items and cash:
-                    tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
-                    tracker.found_items.extend(items)
-                    tracker.log(" and {color=[gold]}%d Gold{/color} in loot!" % cash)
-                    tracker.cash.append(cash)
-                
-                if cash and not items:
-                    tracker.log("The team has found: {color=[gold]}%d Gold{/color} in loot." % cash)
-                    tracker.cash.append(cash)
-                
-                if items and not cash:
-                    tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
-                    tracker.found_items.extend(items)
-                
-                if not items and not cash:
-                    tracker.log("Your team has not found anything of interest...")
-                
+                        
+                # This basically means that team spent the day exploring and ready to go to rest.
                 if self.env.now >= 99:
+                    if items and cash:
+                        tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                        tracker.found_items.extend(items)
+                        tracker.log(" and {color=[gold]}%d Gold{/color} in loot!" % cash)
+                        tracker.cash.append(cash)
+                    
+                    if cash and not items:
+                        tracker.log("The team has found: {color=[gold]}%d Gold{/color} in loot." % cash)
+                        tracker.cash.append(cash)
+                    
+                    if items and not cash:
+                        tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                        tracker.found_items.extend(items)
+                    
+                    if not items and not cash:
+                        tracker.log("Your team has not found anything of interest...")
                     self.env.exit()
                 
                 # self.stats["agility"] += randrange(2)
@@ -512,11 +558,6 @@ init -6 python:
                         # l.extend(g.auto_equip(["mp"], source=inv))
                     # if l:
                         # self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
-                
-                # TODO: Both of these do no longer belong here:
-                # if not stop and self.day == self.days:
-                    # self.txt.append("\n\n {color=[green]}The party has finished their exploration run!{/color}")
-                    # stop = True
                 
                 # if not stop:
                     # for member in self.team:
@@ -570,9 +611,6 @@ init -6 python:
                     member.magic += randrange(3)
                     member.exp += level*10 # Adjust for levels? ! TODO:
                     
-                temp = "{} have won the battle!".format(team.name)
-                tracker.log(temp)
-                
                 # Death needs to be handled based off risk factor: TODO:
                 # self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
 
