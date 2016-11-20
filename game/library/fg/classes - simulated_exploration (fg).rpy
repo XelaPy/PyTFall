@@ -3,9 +3,10 @@ init -9 python:
     class FG_Area(_object):
         """Dummy class for areas (for now).
         
-        Tracks the progess in SE areas as well as storing their data. This can prolly remain the same or similar to this plain design.
+        Tracks the progess in SE areas as well as storing their data.
         """
         def __init__(self):
+            self.stage = 0 # For Sorting.
             self.days = 3
             self.max_days = 15
             self.risk = 50
@@ -20,6 +21,9 @@ init -9 python:
             self.cash_earned = 0
             self.travel_time = 0
             self.hazard = dict()
+            
+            # Generated Content:
+            self.logs = collections.deque(maxlen=10)
             
         @property
         def explored(self):

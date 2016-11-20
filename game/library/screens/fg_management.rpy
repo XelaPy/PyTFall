@@ -561,7 +561,7 @@ screen fg_management():
         xpos 1
         ypos 30
         vbox:
-            style_group "stats"
+            style_group "proper_stats"
             xalign 0.5
             if stats_display == "Building":
                 # Upgrades:

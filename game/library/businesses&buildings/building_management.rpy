@@ -131,6 +131,7 @@ label building_management:
             bm_mid_frame_mode = "building"
             bm_mid_frame_focus = None
             bm_exploration_view_mode = "explore"
+            selected_log_area = None
             
     
     python:
@@ -312,7 +313,7 @@ init: # Screens:
             if bm_mid_frame_mode == "building":
                 use building_management_midframe_building_mode
             else: # Upgrade mode:
-                use building_management_midframe_upgrades_mode
+                use building_management_midframe_businesses_mode
             
             ## Stats/Upgrades - Left Frame
             frame:
@@ -325,7 +326,7 @@ init: # Screens:
                 if bm_mid_frame_mode == "building":
                     use building_management_leftframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_leftframe_upgrades_mode
+                    use building_management_leftframe_businesses_mode
             
             ## Right frame:
             frame:
@@ -337,7 +338,7 @@ init: # Screens:
                 if bm_mid_frame_mode == "building":
                     use building_management_rightframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_rightframe_upgrades_mode
+                    use building_management_rightframe_businesses_mode
                                 
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
@@ -460,7 +461,7 @@ init: # Screens:
                 else:
                     add Solid(black, xysize=(190, 190)) align .5, .5
         
-    screen building_management_rightframe_upgrades_mode:
+    screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
         $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 315, 600, align=(.5, 1.0)))
@@ -654,73 +655,146 @@ init: # Screens:
                                 # xysize (305, 27)
                                 # text (u"%s" % advert['name']) size 16 xalign (0.02)
         
-    screen building_management_leftframe_upgrades_mode:
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-            style_group "proper_stats"
-            xsize 310
-            padding 12, 12
-            margin 0, 0
-            has vbox spacing 1
-                
-            # Slots:
-            frame:
-                xysize (280, 27)
-                xalign .5
-                text "In Slots:" xalign 0.02 color ivory
-                text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-            frame:
-                xysize (280, 27)
-                xalign .5
-                text "Ext Slots:" xalign 0.02 color ivory
-                text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-                
-        if isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "team":
+    screen building_management_leftframe_businesses_mode:
+        $ show_slots = not any([(isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "log")])
+        if show_slots:
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                 style_group "proper_stats"
-                xsize 300
-                xalign .5
-                xpadding 12
-                ypadding 12
-                xmargin 0
-                ymargin 0
+                xsize 310
+                padding 12, 12
+                margin 0, 0
                 has vbox spacing 1
-                label "Filters:" xalign .5
-                
-                vbox:
-                    style_prefix "basic"
+                    
+                # Slots:
+                frame:
+                    xysize (290, 27)
                     xalign .5
-                    textbutton "Reset":
-                        action Function(fg_filters.clear)
-                    textbutton "Warriors":
-                        action ModFilterSet(fg_filters, "occ_filters", "Warrior")
-                    textbutton "Free":
-                        action ModFilterSet(fg_filters, "status_filters", "free")
-                    textbutton "Slaves":
-                        action ModFilterSet(fg_filters, "status_filters", "slave")
+                    text "In Slots:" xalign .02 color ivory
+                    text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                frame:
+                    xysize (290, 27)
+                    xalign .5
+                    text "Ext Slots:" xalign .02 color ivory
+                    text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                
+        if isinstance(bm_mid_frame_mode, ExplorationGuild):
+            if bm_exploration_view_mode == "log":
+                default focused_area_index = 0
+                $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+                vbox:
+                    xsize 310 spacing 1
+                    
+                    # Maps sign:
+                    frame: 
+                        style_group "content"
+                        xalign .5
+                        xysize (200, 50)
+                        background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                        label (u"Maps") text_size 23 text_color ivory align (.5, .8)
                         
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                style_group "proper_stats"
-                xsize 300
-                xalign .5
-                xpadding 12
-                ypadding 12
-                xmargin 0
-                ymargin 0
-                has vbox spacing 1
-                label "Sort:" xalign .5
-                
-                vbox:
-                    style_prefix "basic"
+                    # Main Area
+                    # We assume that there is always at least one area!
+                    $ area = temp[focused_area_index]
+                    $ img = im.Scale(area.img, 200, 130)
+                    frame:
+                        xalign .5
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                        padding 5, 6
+                        margin 0, 0
+                        xysize 200, 130
+                        button:
+                            align .5, .5
+                            xysize 200, 130
+                            background Frame(img)
+                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
+                            action NullAction()
+                            frame:
+                                align .5, .0
+                                xysize 180, 30
+                                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
+                                text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+                                
+                    # Paging for Main Area:
+                    hbox:
+                        xalign .5
+                        textbutton "<==":
+                            action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
+                        textbutton "==>":
+                            action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp))
+                    
+                    # Sub Areas:
+                    null height 5
+                    $ areas = sorted([a for a in fg_areas.values() if a.area == area.name], key=attrgetter("stage"))
+                    fixed:
+                        xalign .5
+                        xysize 310, 190
+                        vbox:
+                            xalign .5
+                            style_prefix "dropdown_gm2"
+                            for area in areas:
+                                button:
+                                    xysize (180, 18)
+                                    action Show("fg_log", None, area), SetVariable("selected_log_area", area)
+                                    text str(area.stage) size 12 xalign .02
+                                    label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
+                                
+                    # Total Main Area Stats (Data Does Not Exist Yet):
+                    frame: 
+                        style_group "content"
+                        xalign .5
+                        xysize (200, 50)
+                        background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                        label (u"Total") text_size 23 text_color ivory align (.5, .8)
+                        
+                    text "No Data Yet!" xalign .5
+                    
+                    
+            if bm_exploration_view_mode == "team":
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    style_group "proper_stats"
+                    xsize 300
                     xalign .5
-                    textbutton "Name":
-                        action SetFilter(fg_filters, "alphabetical")
-                    textbutton "Level":
-                        action SetFilter(fg_filters, "level")
+                    xpadding 12
+                    ypadding 12
+                    xmargin 0
+                    ymargin 0
+                    has vbox spacing 1
+                    label "Filters:" xalign .5
+                    
+                    vbox:
+                        style_prefix "basic"
+                        xalign .5
+                        textbutton "Reset":
+                            action Function(fg_filters.clear)
+                        textbutton "Warriors":
+                            action ModFilterSet(fg_filters, "occ_filters", "Warrior")
+                        textbutton "Free":
+                            action ModFilterSet(fg_filters, "status_filters", "free")
+                        textbutton "Slaves":
+                            action ModFilterSet(fg_filters, "status_filters", "slave")
+                            
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    style_group "proper_stats"
+                    xsize 300
+                    xalign .5
+                    xpadding 12
+                    ypadding 12
+                    xmargin 0
+                    ymargin 0
+                    has vbox spacing 1
+                    label "Sort:" xalign .5
+                    
+                    vbox:
+                        style_prefix "basic"
+                        xalign .5
+                        textbutton "Name":
+                            action SetFilter(fg_filters, "alphabetical")
+                        textbutton "Level":
+                            action SetFilter(fg_filters, "level")
                 
-        if isinstance(bm_mid_frame_mode, ExplorationGuild): # Only for FG.
             if bm_exploration_view_mode == "explore":
                 frame: 
                     style_group "content"
@@ -742,21 +816,19 @@ init: # Screens:
                         $ img = im.Scale(area.img, 200, 130)
                         frame:
                             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
-                            xpadding 5
-                            ypadding 6
-                            xmargin 0
-                            ymargin 0
+                            padding 5, 6
+                            margin 0, 0
                             xysize 200, 130
                             button:
                                 align .5, .5
                                 xysize 200, 130
                                 background Frame(img)
-                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
+                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
                                 action SetVariable("bm_mid_frame_focus", area)
                                 frame:
                                     align .5, .0
                                     xysize 180, 30
-                                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
+                                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
                                     text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
     
                 # hbox:
@@ -848,29 +920,39 @@ init: # Screens:
                         xsize 170
                         thumb 'content/gfx/interface/icons/move15.png'
             
-    screen building_management_midframe_upgrades_mode:
+    screen building_management_midframe_businesses_mode:
         frame:
             background Frame("content/gfx/frame/p_frame6.png", 10, 10)
             style_prefix "content"
             xysize (630, 685)
+            xpadding 0
             xalign .5
             ypos 40
             
             # Fighter Guild, team launch and area info:
             if isinstance(bm_mid_frame_mode, ExplorationGuild):
+                if bm_exploration_view_mode == "log":
+                    has vbox xsize 630
+                    frame: # Image
+                        xalign .5
+                        padding 5, 5
+                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                        add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
+                    
                 if bm_exploration_view_mode == "explore":
                     has vbox xsize 630
                     frame: # Image
-                        xalign 0.5
+                        xalign .5
+                        padding 5, 5
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
+                        add im.Scale("content/gfx/bg/buildings/Exploration.png", 600, 390)
                     
                     hbox:
                         box_wrap 1
                         spacing 2
                         xalign .5
                         if isinstance(bm_mid_frame_focus, FG_Area):
-                            $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name])
+                            $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
                             for area in temp:
                                 $ fbg = "content/gfx/frame/mes12.jpg"
                                 $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
@@ -1436,6 +1518,45 @@ init: # Screens:
                     
                     
     # Customized screens for specific businesses:
+    screen fg_log(area):
+        on "hide":
+            action SetVariable("selected_log_area", None)
+        
+        modal True
+        zorder 1
+        
+        key "mousedown_3" action Hide("fg_log")
+        
+        frame:
+            ypos 40
+            xalign .5
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            style_prefix "content"
+            xysize (630, 680)
+            
+            $ fbg = "content/gfx/frame/mes11.jpg"
+            frame:
+                background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                xysize (620, 90)
+                ymargin 1
+                ypadding 1
+                $ temp = area.name
+                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.3)
+                hbox:
+                    align (0.5, 0.9)
+                    # Get the correct stars:
+                    python:
+                        temp = []
+                        for i in range(area.explored//20):
+                            temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                        if len(temp) != 5:
+                            if area.explored%20 >= 10:
+                                temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                        while len(temp) != 5:
+                            temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                    for i in temp:
+                        add i
+    
     screen fg_area(area):
         modal True
         zorder 1

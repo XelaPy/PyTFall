@@ -46,6 +46,7 @@ init -6 python:
             # We do this because this data needs to be tracked separately and area object can only be updated once team has returned.
             # There is a good chance that some of these data must be updated in real time.
             # TODO: Keep this confined to copy of an area? Feels weird and useless to copy all of these properties.
+            self.obj_area = area # Original Area Object so we don't have to go looking for it :)
             self.area = deepcopy(area)
             self.team = team
             self.guild = guild # Guild this tracker was initiated from...
@@ -120,6 +121,12 @@ init -6 python:
             
         def build_nd_report(self):
             # Build one major report for next day!
+            # ALSO: Log all the crap to Area and Main Area!
+            
+            # Main and Sub Area Stuff:
+            self.obj_area.logs.extend([l for l in self.logs if l.ui_log])
+            
+            # Next Day Stuff:
             txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
             event_type = "jobreport"
             
@@ -133,8 +140,7 @@ init -6 python:
             for log in self.logs:
                 if log.nd_log:
                     txt.append("\n".join(log.txt))
-            
-            
+                    
             evt = NDEvent(type=event_type,
                                       img=img,
                                       txt=txt,
