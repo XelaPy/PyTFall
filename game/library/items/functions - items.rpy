@@ -263,15 +263,15 @@ init -11 python:
         # Here we determine if a character would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
         # We return True of access is granted!
+        char = character
         if isinstance(character, PytGroup):
-            if item.jump_to_label:
+            if item and item.jump_to_label:
                 return
 
             # get a response from one single individual
             global char
             for char in character.shuffled:
                 if not equipment_access(char, item, silent):
-                    char = character
                     return
             char = character
             return True
