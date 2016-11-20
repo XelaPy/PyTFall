@@ -152,8 +152,8 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "dagger",
-    "max": {"attack": 20, "charisma": 15, "refinement": 15},
-    "mod": {"attack": 10, "character": 10, "charisma": 5, "refinement": 5},
+    "max": {"attack": 20, "charisma": 15},
+    "mod": {"attack": 10, "character": 10, "charisma": 5},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.02, 0, 0]},
     "locations": ["Work Shop"]
     },

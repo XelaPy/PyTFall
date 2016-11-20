@@ -98,7 +98,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"charisma": 15},
-    "mod": {"character": -15, "refinement": -20},
+    "mod": {"character": -15},
     "locations": ["General Store", "Look around"],
     "mod_skills": {"refinement": [-0.01, 0, -0.02, 0, 0], "bdsm": [0.01, 0, 0.02, 0, 0]},
     "goodtraits": ["Masochist"]
