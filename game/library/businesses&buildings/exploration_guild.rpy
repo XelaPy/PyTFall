@@ -31,7 +31,7 @@ init -6 python:
                                 t.remove(char)
     
     class ExplorationTracker(Job):
-        # Added inheritance for Job so we can use the required methods,
+        # Added inheritance for Job so we can use the required methods.
         """The class that stores data for an exploration job.
         
         *Not really a Job, it stores data and doesn't write any reports to ND. **Maybe it should create ND report once the run is done!
@@ -126,6 +126,9 @@ init -6 python:
             # Main and Sub Area Stuff:
             self.obj_area.logs.extend([l for l in self.logs if l.ui_log])
             
+            # Remove from guild:
+            self.guild.explorers.remove(self)
+            
             # Next Day Stuff:
             txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
             event_type = "jobreport"
@@ -158,19 +161,22 @@ init -6 python:
         
         Also functions as a screen action for future buttons. Maybe...
         """
-        def __init__(self, name="", txt="", nd_log=True, ui_log=False):
+        def __init__(self, name="", txt="", nd_log=True, ui_log=False, item=None):
             """
             nd_log: Printed in next day report upon arrival.
             ui_log: Only reports worth of ui interface in FG.
             """
             self.name = name # Name of the event, to be used as a name of a button in gui. (maybe...)
             self.nd_log = nd_log
+            self.ui_log = ui_log
             self.txt = [] # I figure we use list to store text.
             if txt:
                 self.txt.append(txt)
             self.battle_log = [] # Used to log the event.
             self.battle_won = False
             self.found_items = []
+            
+            self.item = item # Item object for the UI log if one was found!
             
         def add(self, text, newline=True):
             # Adds a text to the log.

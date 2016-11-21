@@ -735,7 +735,7 @@ init: # Screens:
                             for area in areas:
                                 button:
                                     xysize (180, 18)
-                                    action Show("fg_log", None, area), SetVariable("selected_log_area", area)
+                                    action SetVariable("selected_log_area", area), Show("fg_log", None, area, tt), SelectedIf(selected_log_area == area)
                                     text str(area.stage) size 12 xalign .02
                                     label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
                                 
@@ -1518,7 +1518,7 @@ init: # Screens:
                     
                     
     # Customized screens for specific businesses:
-    screen fg_log(area):
+    screen fg_log(area, tt):
         on "hide":
             action SetVariable("selected_log_area", None)
         
@@ -1526,6 +1526,8 @@ init: # Screens:
         zorder 1
         
         key "mousedown_3" action Hide("fg_log")
+        
+        default focused_log = None
         
         frame:
             ypos 40
@@ -1557,6 +1559,30 @@ init: # Screens:
                     for i in temp:
                         add i
     
+            frame:
+                style_prefix "dropdown_gm2"
+                xysize 200, 200
+                ypos 100
+                xalign .05
+                has vbox
+                
+                for l in area.logs:
+                    button:
+                        xysize (180, 18)
+                        action SetScreenVariable("focused_log", l)
+                        text str(l.name) size 12 xalign .02
+                        label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
+                        
+                        
+            frame:
+                xysize 340, 300
+                ypos 100 xalign .95
+                has viewport xysize 330, 290 draggable 1 mousewheel 1
+                if focused_log:
+                    if focused_log.battle_log:
+                        text "\n".join(focused_log.battle_log)
+                
+                        
     screen fg_area(area):
         modal True
         zorder 1
