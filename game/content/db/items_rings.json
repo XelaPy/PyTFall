@@ -601,5 +601,37 @@
     "locations": ["Exploration", "Fishing"],
     "goodtraits": ["Indifferent"],
     "removetraits": ["Pessimist", "Optimist", "Serious"]
+    },
+    {
+    "id": "Flame Ring",
+    "desc": "The ring shimmers with red light, but in fact it is only slightly warm.",
+    "icon": "content/items/ring/fire.png",
+    "price": 800,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "ring",
+    "max": {"attack": 15, "mp": 5},
+    "locations": ["Exploration"],
+    "addtraits": ["Fire Focus"]
+    },
+    {
+    "id": "Aqua Ring",
+    "desc": "The patterns on the ring look a bit different every time one looks at them.",
+    "icon": "content/items/ring/aqua.png",
+    "price": 800,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "ring",
+    "max": {"mp": 25},
+    "locations": ["Exploration"],
+    "addtraits": ["Water Focus"]
     }
   ]

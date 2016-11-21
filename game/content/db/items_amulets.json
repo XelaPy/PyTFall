@@ -365,5 +365,37 @@
     "evasion_bonus": 1,
     "removetraits": ["Bad Eyesight"],
     "goodtraits": ["Bad Eyesight"]
+    },
+    {
+    "id": "Hurricane Charm",
+    "desc": "You see vague movements behind the thick glass, but the air around it is perfectly calm.",
+    "icon": "content/items/amulet/wind.png",
+    "price": 750,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "max": {"mp": 10, "magic": 5},
+    "locations": ["Exploration"],
+    "addtraits": ["Air Focus"]
+    },
+    {
+    "id": "Earthquake Charm",
+    "desc": "The charm slightly trembles in hands, as though pulsing to the beat of something distant.",
+    "icon": "content/items/amulet/earth.png",
+    "price": 750,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "max": {"defence": 10, "magic": 5},
+    "locations": ["Exploration"],
+    "addtraits": ["Earth Focus"]
     }
   ]

@@ -562,7 +562,7 @@ screen char_equip_right_frame(tt):
                         for skill in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#43CD80}%s'%skill.capitalize() size 16 yalign 0.5
+                                text u'{color=#43CD80}%s'%skill size 16 yalign 0.5
                                     
                     python:
                         t_old = set(t.id for t in dummy.traits)
@@ -573,7 +573,7 @@ screen char_equip_right_frame(tt):
                         for skill in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
+                                text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
                                 
             vbox:
                 xoffset 165
@@ -594,7 +594,7 @@ screen char_equip_right_frame(tt):
                         for skill in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#43CD80}%s'%skill.capitalize() size 16 
+                                text u'{color=#43CD80}%s'%skill size 16 
                                     
                     python:
                         s_old = set(s.name for s in list(dummy.attack_skills) + list(dummy.magic_skills))
@@ -606,7 +606,7 @@ screen char_equip_right_frame(tt):
                             frame:
                                 xalign 0.98
                                 xpadding 3
-                                text u'{color=#CD4F39}%s'%skill.capitalize() size 16 yalign 0.5
+                                text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
                     
                     
         elif not tt.value and eqtarget.status == "slave":
@@ -951,12 +951,12 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 frame:
                                     xalign .1
                                     xpadding 2
-                                    text (u'{color=#43CD80}%s'%trait.capitalize()) size 15 align .5, .5
+                                    text (u'{color=#43CD80}%s'%trait) size 15 align .5, .5
                             for trait in item.removetraits:
                                 frame:
                                     xalign 0.9
                                     xpadding 2
-                                    text (u'{color=#CD4F39}%s'%trait.capitalize()) size 15 align .5, .5
+                                    text (u'{color=#CD4F39}%s'%trait) size 15 align .5, .5
                                 
                         # Effects:
                         if item.addeffects or item.removeeffects:
@@ -974,12 +974,12 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 frame:
                                     xalign .1
                                     xpadding 2
-                                    text (u'{color=#43CD80}%s'%effect.capitalize()) size 15 align .5, .5
+                                    text (u'{color=#43CD80}%s'%effect) size 15 align .5, .5
                             for effect in item.removeeffects:
                                 frame:
                                     xalign 0.9
                                     xpadding 2
-                                    text (u'{color=#CD4F39}%s'%effect.capitalize()) size 15 align .5, .5
+                                    text (u'{color=#CD4F39}%s'%effect) size 15 align .5, .5
                 
                 frame:
                     xysize 382, 104
@@ -1010,12 +1010,12 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 frame:
                                     xalign .1
                                     xpadding 2
-                                    text (u'{color=#43CD80}%s'%skill.capitalize()) size 15 align .5, .5
+                                    text (u'{color=#43CD80}%s'%skill) size 15 align .5, .5
                             for skill in item.remove_be_spells:
                                 frame:
                                     xalign 0.9
                                     xpadding 2
-                                    text (u'{color=#CD4F39}%s'%skill.capitalize()) size 15 align .5, .5
+                                    text (u'{color=#CD4F39}%s'%skill) size 15 align .5, .5
                                                         
                                                         
 screen diff_item_effects(char, dummy):
