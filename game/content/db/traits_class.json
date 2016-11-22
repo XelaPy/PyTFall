@@ -396,18 +396,13 @@
         "basetrait": true,
         "mod_stats": {"magic": [1, 1], "intelligence": [1, 1]
         },
-        "max": {
-            "magic": 25,
-            "intelligence": 25,
-            "mp": 50
-        },
         "init_lvlmax": {
             "magic": 50,
             "intelligence": 50,
             "mp": 75
         },
         "init_max": {
-            "magic": 20,
+            "magic": 25,
             "mp": 50
         },
         "init_mod": {
@@ -416,10 +411,6 @@
         "init_skills": {},
         "leveling_stats": {
             "attack": [
-                -2,
-                -1
-            ],
-            "defence": [
                 -1,
                 -1
             ],
@@ -428,8 +419,8 @@
                 3
             ],
             "mp": [
-                4,
-                4
+                3,
+                3
             ]
         }
     },
@@ -444,40 +435,31 @@
         "el_damage": {"healing": 1.0},
         "mod_stats": {"magic": [1, 2], "intelligence": [1, 2]
         },
-        "max": {
-            "magic": 15,
-            "intelligence": 15,
-            "mp": 60
-        },
         "init_lvlmax": {
-            "magic": 40,
-            "intelligence": 40,
-            "mp": 80
+            "magic": 25,
+            "intelligence": 25,
+            "mp": 100
         },
         "init_max": {
             "magic": 15,
-            "mp": 40
+            "mp": 50
         },
         "init_mod": {
-            "magic": 10
+            "magic": 5
         },
         "init_skills": {},
         "leveling_stats": {
             "attack": [
-                -2,
-                -1
-            ],
-            "defence": [
                 -1,
                 -1
             ],
             "magic": [
-                1,
-                1
+                2,
+                2
             ],
             "mp": [
-                5,
-                5
+                4,
+                4
             ]
         }
     },
@@ -488,26 +470,21 @@
         ],
         "desc": "Has been trained to fight with a weapon of some sort.",
         "basetrait": true,
-        "mod_stats": {"defence": [2, 1], "agility": [1, 1], "attack": [2, 1]
+        "mod_stats": {"defence": [1, 1], "attack": [1, 1]
         },
-        "max": {
-            "attack": 30,
-            "defence": 30
-        },
-        "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
         "init_lvlmax": {
             "attack": 50,
             "defence": 50,
-            "health": 100
+            "health": 50
         },
         "init_max": {
-            "attack": 30,
-            "defence": 30,
-            "health": 80
+            "attack": 50,
+            "defence": 50,
+            "health": 25
         },
         "init_mod": {
-            "attack": 25,
-            "defence": 25
+            "attack": 20,
+            "defence": 20
         },
         "init_skills": {},
         "leveling_stats": {
@@ -533,21 +510,16 @@
         "desc": "Specializes in close combat.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
-        "mod_stats": {"defence": [3, 1], "agility": [1, 2], "attack": [1, 3]
+        "mod_stats": {"defence": [2, 1], "agility": [1, 2], "attack": [1, 2]
         },
-        "max": {
-            "attack": 10,
-            "defence": 50
-        },
-        "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
         "init_lvlmax": {
-            "defence": 70,
-            "health": 150,
-            "attack": 10
+            "defence": 100,
+            "health": 100,
+            "attack": 20
         },
         "init_max": {
-            "defence": 40,
-            "health": 100,
+            "defence": 80,
+            "health": 50,
             "attack": 10
         },
         "init_mod": {
@@ -578,21 +550,21 @@
         "desc": "Specializes in ranged combat.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
-        "mod_stats": {"attack": [3, 1], "agility": [1, 1], "defence": [1, 3]
+        "mod_stats": {"attack": [2, 1], "agility": [1, 2], "defence": [1, 2]
         },
         "max": {
-            "attack": 40,
-            "defence": 10,
-            "agility": 5
+            "attack": 75,
+            "defence": 20,
+            "agility": 15
         },
-        "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
         "init_lvlmax": {
-            "attack": 50,
-            "health": 50
+            "attack": 75,
+            "defence": 20,
+            "health": 25
         },
         "init_max": {
             "attack": 30,
-            "health": 50
+            "health": 25
         },
         "init_mod": {
             "attack": 20
@@ -612,8 +584,8 @@
                 1
             ],
             "agility": [
-                1,
-                1
+                2,
+                2
             ]
         }
     },
@@ -629,28 +601,22 @@
         },
         "evasion_bonus": [5, 10, 50],
         "ch_multiplier": 0.5,
-        "max": {
-            "attack": 15,
-            "defence": 15,
-            "agility": 15
-        },
-        "mod_skills": {"exploration": [0.05, 0.05, 0.05]},
         "init_lvlmax": {
             "attack": 25,
             "defence": 25,
-            "health": 50,
-            "agility": 50
+            "health": 25,
+            "agility": 75
         },
         "init_max": {
             "attack": 15,
             "defence": 15,
-            "health": 50,
-            "agility": 25
+            "health": 25,
+            "agility": 75
         },
         "init_mod": {
             "attack": 10,
             "defence": 10,
-            "agility": 15
+            "agility": 25
             
         },
         "init_skills": {},

@@ -389,5 +389,21 @@
     "type": "armor",
     "locations": ["Exploration"],
     "addtraits": ["Darkness Resistance"]
+    },
+    {
+    "id": "Ashen Cape",
+    "desc": "The heavy, dense cloth effectively wards off both magic and natural fire.",
+    "icon": "content/items/cape/fire.png",
+    "price": 900,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "cape",
+    "type": "armor",
+    "locations": ["Exploration"],
+    "addtraits": ["Fire Resistance"]
     }
   ]
