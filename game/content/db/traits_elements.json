@@ -254,5 +254,45 @@
     "id": "Darkness Resistance",
     "desc": "Darkness is not very effective.",
     "el_defence": {"darkness": 0.4}
+    },
+    {
+    "id": "Fire Focus",
+    "desc": "Fire damage is increased.",
+    "el_damage": {"fire": 0.2}
+    },
+    {
+    "id": "Water Focus",
+    "desc": "Water damage is increased.",
+    "el_damage": {"water": 0.2}
+    },
+    {
+    "id": "Air Focus",
+    "desc": "Air damage is increased.",
+    "el_damage": {"air": 0.2}
+    },
+    {
+    "id": "Earth Focus",
+    "desc": "Earth damage is increased.",
+    "el_damage": {"earth": 0.2}
+    },
+    {
+    "id": "Electricity Focus",
+    "desc": "Electricity damage is increased.",
+    "el_damage": {"electricity": 0.2}
+    },
+    {
+    "id": "Ice Focus",
+    "desc": "Ice damage is increased.",
+    "el_damage": {"ice": 0.2}
+    },
+    {
+    "id": "Darkness Focus",
+    "desc": "Darkness damage is increased.",
+    "el_damage": {"darkness": 0.2}
+    },
+    {
+    "id": "Light Focus",
+    "desc": "Light damage is increased.",
+    "el_damage": {"light": 0.2}
     }
     ]
