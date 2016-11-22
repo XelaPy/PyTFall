@@ -529,39 +529,5 @@
     "type": "tool",
     "mod_skills": {"swimming": [0.02, 0.02, 0.05, 0, 0]},
     "locations": ["General Store"]
-    },
-    {
-    "id": "Thunderous Helmet",
-    "desc": "Blue discharges run across the surface of the helmet, and the air around it feels very fresh and clean.",
-    "icon": "content/items/head/electricity.png",
-    "price": 900,
-    "sex": "unisex",
-    "chance": 10,
-    "badness": 15,
-    "eqchance": 70,
-    "hidden": false,
-    "infinite": false,
-    "slot": "head",
-    "type": "armor",
-    "max": {"defence": 25},
-    "locations": ["Exploration"],
-    "addtraits": ["Electricity Focus"]
-    },
-    {
-    "id": "Daylight Tiara",
-    "desc": "The gem atop gently glows in the dark, lighting the way.",
-    "icon": "content/items/head/light.png",
-    "price": 900,
-    "sex": "unisex",
-    "chance": 10,
-    "badness": 15,
-    "eqchance": 70,
-    "hidden": false,
-    "infinite": false,
-    "slot": "head",
-    "type": "armor",
-    "max": {"magic": 25},
-    "locations": ["Exploration"],
-    "addtraits": ["Light Focus"]
     }
   ]

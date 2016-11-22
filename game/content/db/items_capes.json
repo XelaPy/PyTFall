@@ -362,7 +362,7 @@
     "id": "Frost Cape",
     "desc": "The cape glitters and softly crunches, as if it was frozen, but at the same time feels pretty warm.",
     "icon": "content/items/cape/frost.png",
-    "price": 800,
+    "price": 900,
     "sex": "unisex",
     "chance": 20,
     "badness": 15,
@@ -371,9 +371,8 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "max": {"defence": 10, "magic": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Ice Focus"]
+    "addtraits": ["Ice Resistance"]
     },
     {
     "id": "Vampire Cape",
@@ -388,8 +387,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "max": {"agility": 15, "magic": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Darkness Focus"]
+    "addtraits": ["Darkness Resistance"]
     }
   ]
