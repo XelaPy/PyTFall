@@ -1336,7 +1336,7 @@ screen log1: ### Gismo: Just example ###
                                 align (0.5, 0.98)
                                 text("10:  Stage 1 {color=#66CD00}Completed!{/color}") size 16 xpos -2
                 frame:
-                    background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                     xysize (320, 320)
                     yalign 1.0
                     vbox:

@@ -1400,10 +1400,10 @@ init -9 python:
               
         @property
         def is_available(self):
-            # So we already have this property!
-            # This needs to be expanded to cover the guild.
             # Is this enought or should there be separate tracker properties for gameworld and player actions? This will prolly do for now.
             if not self.alive:
+                return False
+            if self.action == "Exploring":
                 return False
             return self._available
         

@@ -5,7 +5,7 @@ init:
     default occ_filters = list()
     python:
         def sorting_for_chars_list():
-            return hero.chars
+            return [c for c in hero.chars if c.is_available]
 
         def setSelection_for_chars_list(sel, lst, value="from_lst"):
             for l in lst:

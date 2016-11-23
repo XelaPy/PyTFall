@@ -67,7 +67,18 @@ init python:
     # For now a dedicated sorting funcs, maybe this should be turned into something more generic in the future?
     def all_chars_for_se():
         # We expect a global var building to be set for this!
-        return building.get_workers()
+        return [w for w in building.get_workers() if w not in all_idle_explorers()]
+        
+    def all_idle_explorers():
+        # returns a list of all idle characters that are set exploration teams but not exploring:
+        # This may be an overkill cause we should really remove workers from teams when we change their locations!
+        idle_explorers = set()
+        for building in hero.buildings:
+            if isinstance(building, NewStyleUpgradableBuilding):
+                fg = building.get_business("fg")
+                if fg:
+                    idle_explorers = idle_explorers.union(fg.idle_explorers())
+        return idle_explorers
         
     class CharsSortingForGui(_object):
         """Class we use to sort and filter character for the GUI.
@@ -148,15 +159,15 @@ label building_management:
             # Looks pretty ugly... this might be worth improving upon just for the sake of estetics.
             building = hero.upgradable_buildings[index]
             char = None
-            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
+            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
             fg_filters = CharsSortingForGui(all_chars_for_se)
             fg_filters.status_filters.add("free")
             fg_filters.target_container = [workers, "content"]
             fg_filters.filter()
             
             try:
-                temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0]
-                guild_teams = CoordsForPaging(temp.teams_for_setup(), columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
+                temp = building.get_business("fg")
+                guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
             except:
                 pass
     
@@ -638,7 +649,7 @@ init: # Screens:
                                 xysize 150, 60
                                 text "[u.name]" xalign .5 style "proper_stats_text" size 20
                                 null height 2
-                                textbutton "{size=15}Upgrade" xalign .5 action SetVariable("bm_mid_frame_mode", u)
+                                textbutton "{size=15}Details" xalign .5 action SetVariable("bm_mid_frame_mode", u)
                                             
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -1558,29 +1569,68 @@ init: # Screens:
                             temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
                     for i in temp:
                         add i
-    
+            
+            # Buttons with logs (Events):
             frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                 style_prefix "dropdown_gm2"
-                xysize 200, 200
                 ypos 100
-                xalign .05
-                has vbox
+                ysize 240
+                xalign .0
+                padding 10, 10
+                has vbox xsize 220
                 
+                frame:
+                    style_group "content"
+                    align (0.5, 0.015)
+                    padding 15, 5
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    label "Events" text_size 20 text_color ivory align .5, .5
+                
+                null height 2
+                    
                 for l in area.logs:
                     button:
-                        xysize (180, 18)
+                        xalign .5
+                        ysize 18
                         action SetScreenVariable("focused_log", l)
-                        text str(l.name) size 12 xalign .02
-                        label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
+                        text str(l.name) size 12 xalign .02 yoffset 1
+                        # Resolve the suffix:
+                        if l.item:
+                            text "[l.item.type]" size 12 align (1.0, .5)
+                        else: # Suffix:
+                            text str(l.suffix) size 12 align (1.0, .5)
                         
-                        
+            # Information (Story)       
             frame:
-                xysize 340, 300
-                ypos 100 xalign .95
-                has viewport xysize 330, 290 draggable 1 mousewheel 1
-                if focused_log:
-                    if focused_log.battle_log:
-                        text "\n".join(focused_log.battle_log)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                ysize 297
+                padding 10, 10
+                ypos 100 xalign 1.0
+                has vbox xsize 350
+                
+                frame:
+                    style_group "content"
+                    align (.5, .015)
+                    padding 15, 5
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    label "Story" text_size 20 text_color ivory align .5, .5
+                
+                null height 2
+                
+                frame:
+                    background Frame("content/gfx/frame/ink_box.png", 10, 10)
+                    has viewport draggable 1 mousewheel 1
+                    
+                    if focused_log:
+                        if focused_log.battle_log:
+                            text "\n".join(focused_log.battle_log) color white
+                        elif focused_log.item:
+                            $ item = focused_log.item
+                            vbox:
+                                spacing 10 xfill 1
+                                add ProportionalScale(item.icon, 100, 100) xalign .5
+                                text item.desc xalign .5 color white
                 
                         
     screen fg_area(area):
@@ -1892,7 +1942,7 @@ init: # Screens:
                 align .5, .9
                 
                 python:
-                    temp = building.get_upgrade("fg")
+                    temp = building.get_business("fg")
                     teams = temp.teams_to_launch() if temp else []
                     if teams:
                         if not temp.focus_team:
@@ -1916,7 +1966,7 @@ init: # Screens:
                         action temp.prev_team_to_launch, renpy.restart_interaction
                     textbutton "Launch \n[temp.focus_team.name]":
                         xsize 300
-                        action Function(temp.launch_team, area)
+                        action Function(temp.launch_team, area), Jump("building_management")
                     textbutton "==>":
                         yalign .5
                         action temp.next_team_to_launch, renpy.restart_interaction

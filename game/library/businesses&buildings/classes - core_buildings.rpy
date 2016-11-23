@@ -185,7 +185,7 @@ init -10 python:
         def get_workers(self):
             # I may want better handing for this...
             # Returns a list of all chars in heros service that have their workplaces set to this building.
-            return [c for c in hero.chars if c.workplace==self]
+            return [c for c in hero.chars if c.workplace==self and c.is_available]
         
         def get_girls(self, action=undefined, occupation=undefined, nott=False):
             """
@@ -788,7 +788,7 @@ init -10 python:
                     
             return False
             
-        def get_upgrade(self, up):
+        def get_business(self, up):
             # Takes a string as an argument 
             if up == "fg":
                 temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild]

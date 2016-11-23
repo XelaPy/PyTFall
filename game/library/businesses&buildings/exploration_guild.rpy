@@ -1,20 +1,15 @@
 init -6 python:
     # Temporary I'll Put Exploration code here:
-    def launch_exploration_run(team, area):
+    def launch_exploration_run(team, area, guild):
+        #### NO LONGER IN USE ####
         # Making sure that the team can explore the area.
         # Ask if player wants to send the team exploring:
         # I think this needs to be moved somewhere... it's a good fit for the class:
         if not renpy.call_screen("yesno_prompt",
-                                 message="Are you sure that you wish to send %s exploring?" % team.name,
+                                 message="Are you sure that you wish to send %s exploring %s?" % (team.name, area.name),
                                  yes_action=Return(True),
                                  no_action=Return(False)):
             return
-        
-        # I think that the game should be rigged in such a way that this is impossible:
-        # for char in team:
-            # if char.action == "Exploring":
-                # renpy.show_screen("message_screen", "Team Member: %s is already on exploration run!" % char.name)
-                # return
         
         for char in team:
             char.action = "Exploring" # We effectively remove char from the game so this is prolly ok.
@@ -22,8 +17,8 @@ init -6 python:
             if char in hero.team:
                 hero.team.remove(char)
                 
-            # TODO: Remove char from every possible team setup in any of the buildings?
-            for t in fg.teams:
+            # TODO: Remove char from every possible team setup in any of the buildings?!?
+            for t in guild.teams:
                 if t != team:
                     for char in team:
                         for c in t:
@@ -114,8 +109,8 @@ init -6 python:
             renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
             # jump("fg_management")
             
-        def log(self, txt, name="", nd_log=True, ui_log=False):
-            obj = ExLog(name, txt, nd_log, ui_log)
+        def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
+            obj = ExLog(name, txt, nd_log, ui_log, **kwargs)
             self.logs.append(obj)
             return obj
             
@@ -126,8 +121,11 @@ init -6 python:
             # Main and Sub Area Stuff:
             self.obj_area.logs.extend([l for l in self.logs if l.ui_log])
             
-            # Remove from guild:
+            # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
+            for char in self.team:
+                char.action = char.flag("loc_backup")
+                char.del_flag("loc_backup")
             
             # Next Day Stuff:
             txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
@@ -167,15 +165,16 @@ init -6 python:
             ui_log: Only reports worth of ui interface in FG.
             """
             self.name = name # Name of the event, to be used as a name of a button in gui. (maybe...)
+            self.suffix = "" # If there is no special condition in the screen, we add this to the right side of the event button!
+            
             self.nd_log = nd_log
             self.ui_log = ui_log
             self.txt = [] # I figure we use list to store text.
             if txt:
                 self.txt.append(txt)
+                
             self.battle_log = [] # Used to log the event.
-            self.battle_won = False
             self.found_items = []
-            
             self.item = item # Item object for the UI log if one was found!
             
         def add(self, text, newline=True):
@@ -213,11 +212,11 @@ init -6 python:
             self.team_to_launch_index = 0
             self.capture_chars = False # Do we capture chars during exploration in this building. # Move to Areas?
             
-        # Teams control methods:
+        # Teams control/sorting/grouping methods:
         def teams_to_launch(self):
             # Returns a list of teams that can be launched on an exploration run.
             # Must have at least one member and NOT already running exploration!
-            return [t for t in self.teams_for_setup() if t]
+            return [t for t in self.idle_teams() if t]
             
         def prev_team_to_launch(self):
             teams = self.teams_to_launch()
@@ -241,9 +240,40 @@ init -6 python:
             # Teams that are busy with exploration runs.
             return [tracker.team for tracker in self.explorers]
         
-        def teams_for_setup(self):
+        def idle_teams(self):
             # Teams avalible for setup in order to set them on exploration runs.
             return [t for t in self.teams if t not in self.exploring_teams()]
+            
+        def idle_explorers(self):
+            # Returns a list of idle explorers:
+            return list(chain.from_iterable(t.members for t in self.idle_teams()))
+            
+        def launch_team(self, area, _team=None):
+            # Moves the team to appropriate list, removes from main one and makes sure everything is setup right from there on out:
+            team = self.focus_team if not _team else _team
+            # self.teams.remove(team) # We prolly do not do this?
+            
+            # Setup Explorers:
+            for char in team:
+                char.action = "Exploring" # We effectively remove char from the game so this is prolly ok.
+                char.set_flag("loc_backup", char.location)
+                if char in hero.team:
+                    hero.team.remove(char)
+                    
+            # Remove Explorers from other teams:
+            for t in self.teams:
+                if t != team:
+                    for char in team:
+                        for c in t:
+                            if c == char:
+                                t.remove(char)
+            
+            tracker = ExplorationTracker(team, area, self)
+            self.explorers.append(tracker)
+            
+            if not _team:
+                self.focus_team = None
+                self.team_to_launch_index = 0
             
         # SimPy methods:
         def business_control(self):
@@ -255,18 +285,6 @@ init -6 python:
             while 1:
                 yield self.env.timeout(100)
                 
-        def launch_team(self, area, _team=None):
-            # Moves the team to appropriate list, removes from main one and makes sure everything is setup right from there on out:
-            team = self.focus_team if not _team else _team
-            # self.teams.remove(team) # We prolly do not do this?
-            
-            tracker = ExplorationTracker(team, area, self)
-            self.explorers.append(tracker)
-            
-            if not _team:
-                self.focus_team = None
-                self.team_to_launch_index = 0
-            
         def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
             
@@ -483,14 +501,14 @@ init -6 python:
                 if tracker.items and dice(area.risk*.02 + tracker.day*.15):
                     item = choice(tracker.items)
                     temp = "{color=[lawngreen]}Found an item %s!{/color}"%item
-                    tracker.log(temp, "Found Item", ui_log=True)
+                    tracker.log(temp, "Item", ui_log=True, item=store.items[item])
                     items.append(item)
                 
                 # Second round of items for those specifically specified for this area:
                 for i in area.items:
                     if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
                         temp = "{color=[lawngreen]}Found an item %s!{/color}"%i
-                        tracker.log(temp, "Found Item", ui_log=True)
+                        tracker.log(temp, "Item", ui_log=True, item=store.items[i])
                         items.append(i)
                         break
                 
@@ -615,7 +633,7 @@ init -6 python:
                 i.controller = "player"
             
             if battle.winner == team:
-                log.battle_won = True
+                log.suffix = "{color=[lawngreen]}Victory{/color}"
                 for member in team:
                     member.attack += randrange(3)
                     member.defence + randrange(3)
@@ -637,6 +655,7 @@ init -6 python:
                 # self.stats["magic"] += randrange(2)
                 # self.stats["exp"] += mob_power/15
                 
+                log.suffix = "{color=[red]}Defeat{/color}"
                 temp = "{color=[red]}Your team got their asses kicked!!{/color}\n"
                 log.add(temp)
                 return "defeat"
