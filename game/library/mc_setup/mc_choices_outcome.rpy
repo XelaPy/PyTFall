@@ -166,7 +166,7 @@ label mc_setup_mage_shadow_vampire:
     return
     
 label mc_setup_mage_shadow_vampire_night:
-    $ hero.apply_trait("Creature of Night")
+    $ hero.apply_trait("Master of Darkness")
     return
     
 label mc_setup_mage_shadow_vampire_blood:
