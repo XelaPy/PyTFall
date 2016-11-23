@@ -71,7 +71,7 @@ screen items_transfer(it_members):
                 hbox:
                     spacing 1
                     box_wrap True
-                    for c in it_members:
+                    for c in it_members[0 if scr_var == "lc" else 1::2]:
                         $ img = c.show("portrait", resize=(70, 70), cache=True)
                         vbox:
                             spacing 1
@@ -104,7 +104,7 @@ screen items_transfer(it_members):
                 for item, amount in [(item, fc.inventory[item]) for item in fc.inventory.page_content]:
                     button:
                         xysize (330, 26)
-                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SelectedIf(focused_item == item and source == fc) # Should be fine..
+                        action SensitiveIf(amount), SetScreenVariable("focused_item", item), SetScreenVariable("source", fc), SelectedIf(focused_item == item and source == fc)
                         text "[item.id]" align .0, .5 style "dropdown_gm2_button_text"
                         text "[amount]" align 1.0, .7 style "dropdown_gm2_button_value_text"
                                    
@@ -116,6 +116,13 @@ screen items_transfer(it_members):
             background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
             padding 1, 1
             add fc.show("portrait", resize=(150, 150), cache=True) align .5, .5
+    # Swap left and right characters
+    frame:
+        pos (640, 36)
+        xanchor 0.5
+        style_group "basic"
+        background None
+        textbutton "<->" action SetScreenVariable("lc", rc), SetScreenVariable("rc", lc)
             
     frame:
         ypos 643

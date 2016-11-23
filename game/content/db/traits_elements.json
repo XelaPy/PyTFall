@@ -254,5 +254,85 @@
     "id": "Darkness Resistance",
     "desc": "Darkness is not very effective.",
     "el_defence": {"darkness": 0.4}
+    },
+    {
+    "id": "Fire Focus",
+    "desc": "Fire damage is increased.",
+    "el_damage": {"fire": 0.25}
+    },
+    {
+    "id": "Water Focus",
+    "desc": "Water damage is increased.",
+    "el_damage": {"water": 0.25}
+    },
+    {
+    "id": "Air Focus",
+    "desc": "Air damage is increased.",
+    "el_damage": {"air": 0.25}
+    },
+    {
+    "id": "Earth Focus",
+    "desc": "Earth damage is increased.",
+    "el_damage": {"earth": 0.25}
+    },
+    {
+    "id": "Electricity Focus",
+    "desc": "Electricity damage is increased.",
+    "el_damage": {"electricity": 0.25}
+    },
+    {
+    "id": "Ice Focus",
+    "desc": "Ice damage is increased.",
+    "el_damage": {"ice": 0.25}
+    },
+    {
+    "id": "Darkness Focus",
+    "desc": "Darkness damage is increased.",
+    "el_damage": {"darkness": 0.25}
+    },
+    {
+    "id": "Light Focus",
+    "desc": "Light damage is increased.",
+    "el_damage": {"light": 0.25}
+    },
+    {
+    "id": "Minor Fire Focus",
+    "desc": "Fire damage is slightly increased.",
+    "el_damage": {"fire": 0.1}
+    },
+    {
+    "id": "Minor Water Focus",
+    "desc": "Water damage is slightly increased.",
+    "el_damage": {"water": 0.1}
+    },
+    {
+    "id": "Minor Air Focus",
+    "desc": "Air damage is slightly increased.",
+    "el_damage": {"air": 0.1}
+    },
+    {
+    "id": "Minor Earth Focus",
+    "desc": "Earth damage is slightly increased.",
+    "el_damage": {"earth": 0.1}
+    },
+    {
+    "id": "Minor Electricity Focus",
+    "desc": "Electricity damage is slightly increased.",
+    "el_damage": {"electricity": 0.1}
+    },
+    {
+    "id": "Minor Ice Focus",
+    "desc": "Ice damage is slightly increased.",
+    "el_damage": {"ice": 0.1}
+    },
+    {
+    "id": "Minor Darkness Focus",
+    "desc": "Darkness damage is slightly increased.",
+    "el_damage": {"darkness": 0.1}
+    },
+    {
+    "id": "Minor Light Focus",
+    "desc": "Light damage is slightly increased.",
+    "el_damage": {"light": 0.1}
     }
     ]

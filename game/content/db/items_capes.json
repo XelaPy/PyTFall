@@ -357,5 +357,53 @@
     "locations": ["Exploration", "Ninja Shop"],
     "defence_multiplier": {"status": 0.1},
     "delivery_multiplier": {"status": 0.1}
+    },
+    {
+    "id": "Frost Cape",
+    "desc": "The cape glitters and softly crunches, as if it was frozen, but at the same time feels pretty warm.",
+    "icon": "content/items/cape/frost.png",
+    "price": 900,
+    "sex": "unisex",
+    "chance": 20,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "cape",
+    "type": "armor",
+    "locations": ["Exploration"],
+    "addtraits": ["Ice Resistance"]
+    },
+    {
+    "id": "Vampire Cape",
+    "desc": "The thin and noiseless black velvet cape causes a pleasant tingling sensation when touched.",
+    "icon": "content/items/cape/dark.png",
+    "price": 900,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "cape",
+    "type": "armor",
+    "locations": ["Exploration"],
+    "addtraits": ["Darkness Resistance"]
+    },
+    {
+    "id": "Ashen Cape",
+    "desc": "The heavy, dense cloth effectively wards off both magic and natural fire.",
+    "icon": "content/items/cape/fire.png",
+    "price": 900,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "cape",
+    "type": "armor",
+    "locations": ["Exploration"],
+    "addtraits": ["Fire Resistance"]
     }
   ]

@@ -308,7 +308,7 @@ init:
                                     background Null()
                                     xysize (147, 25)
                                     action NullAction()
-                                    text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                    text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
         
@@ -330,7 +330,7 @@ init:
                                     background Null()
                                     xysize (147, 25)
                                     action NullAction()
-                                    text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                    text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
         

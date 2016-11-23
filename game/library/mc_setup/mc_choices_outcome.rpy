@@ -166,7 +166,7 @@ label mc_setup_mage_shadow_vampire:
     return
     
 label mc_setup_mage_shadow_vampire_night:
-    $ hero.apply_trait("Creature of Night")
+    $ hero.apply_trait("Master of Darkness")
     return
     
 label mc_setup_mage_shadow_vampire_blood:
@@ -176,3 +176,9 @@ label mc_setup_mage_shadow_vampire_blood:
 label mc_setup_mage_shadow_vampire_reflex:
     $ hero.apply_trait("Perfect Reflexes")
     return
+    
+label mc_setup_mage_steam_lampad:
+    $ hero.apply_trait("Fiery Blood")
+    $ hero.apply_trait("Fire")
+    return
+    
