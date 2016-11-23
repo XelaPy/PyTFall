@@ -464,7 +464,7 @@
     },
     {
     "id": "Ice Charm",
-    "desc": "Miniature snow storm rages inside the charm. From time to time a few snowflakes",
+    "desc": "Miniature snow storm rages inside the charm. From time to time a few snowflakes overcome the barrier, quickly melting in the air.",
     "icon": "content/items/amulet/ice.png",
     "price": 750,
     "sex": "unisex",
