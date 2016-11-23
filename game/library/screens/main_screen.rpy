@@ -98,30 +98,26 @@ screen mainscreen():
             xalign 0.5
             ypos 305
             spacing 15
-            textbutton "Girls":
+            textbutton "Chars":
                 action Stop("world"), Hide("mainscreen"), Jump("chars_list")
-                hovered tt.Action('Here you can see a list of all girls you possess, their stats and characteristics.\nIt is also here you can change their equipment and sell them.')
+                hovered tt.Action("A list of all of your workers!")
             textbutton "Buildings":
                 action Return(["building_management"])
-                hovered tt.Action('Here you can see a list of all your buildings. \nIt is also here you can you can upgrade your building and advertice them.')
-            if config.developer:
-                textbutton "Fighters Guild":
-                    action Return(["fg_management"])
-                    hovered tt.Action('Fighters Guild can be managed from here!')
+                hovered tt.Action("Manage your Properties and Businesses!")
             textbutton "Go to the City":
                 action Return(["city"])
-                hovered tt.Action('Explore the city.\nIf you are lucky, you may even find something interesting to do there...')
+                hovered tt.Action('Explore the city.\nIf you are lucky, you may even find something interesting to do there!')
     
-            null height 10
+            null height 50
             
             textbutton "-Next Day-":
                 style "main_screen_4_button"
                 if day > 1:
-                    hovered tt.action("Begin New day and watch the results. Click RMB to review reports")
+                    hovered tt.action("Advance to next day!\nClick RMB to review reports!")
                     action [Hide("mainscreen"), Jump("next_day")]
                     alternate SetVariable("just_view_next_day", True), Hide("mainscreen"), Jump("next_day")
                 else:
-                    hovered tt.action("Begin New day and watch the results.")
+                    hovered tt.action("Advance to next day!")
                     action [Hide("mainscreen"), Jump("next_day")]
            
     if config.developer:
