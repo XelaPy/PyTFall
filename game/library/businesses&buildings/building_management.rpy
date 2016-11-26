@@ -194,7 +194,10 @@ label building_management_loop:
         if not result or not isinstance(result, (list, tuple)):
             jump building_management_loop
         
-        if result[0] == "building":
+        if result[0] == "rename_team":
+            $ result[1].name = renpy.call_screen("pyt_input", result[1].name, "Enter Name", 20)
+            
+        elif result[0] == "building":
             if result[1] == 'buyroom':
                 python:
                     if building.rooms < building.maxrooms:
@@ -1090,7 +1093,15 @@ init: # Screens:
                                 frame:
                                     xysize (310, 83)
                                     background gfxframes + "team_frame_2.png"
-                                    text t.name xpos 50 xanchor .5 yalign .5
+                                    button:
+                                        background Null()
+                                        padding 0, 0
+                                        margin 0, 0
+                                        xpos 49 xanchor .5 yalign .5
+                                        xysize 78, 61
+                                        action Return(["rename_team", t])
+                                        hovered tt.action("Rename %s Team!"%t.name)
+                                        text t.name align .5, .5 hover_color red text_align .5
                                     
                         for w, pos in workers:
                             drag:
