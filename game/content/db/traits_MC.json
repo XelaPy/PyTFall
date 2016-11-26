@@ -227,8 +227,8 @@
     "permanent": true
     },
     {
-    "id": "Heaven Health",
-    "desc": "You are immune to poisons, but darkness damages you more than others.",
+    "id": "Ghostly Structure",
+    "desc": "You are immune to poisons, but darkness damages you a but more than others.",
     "el_defence": {"darkness": -0.2},
     "resist": ["poison"],
     "MC_only_trait": true,
