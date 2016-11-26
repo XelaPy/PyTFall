@@ -1736,19 +1736,19 @@ init: # Screens:
                                 frame:
                                     yalign 0.5
                                     xanchor 1.0
-                                    ysize 40
+                                    ysize 44
                                     xpadding 4
-                                    xminimum 25
+                                    xminimum 28
                                     xpos 233
                                     $ temp = m["min_lvl"]
-                                    text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
+                                    text ("Lvl\n[temp]+") style "TisaOTM" size 17 text_align .5 line_spacing -6
                                 frame:
                                     background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
-                                    xpadding 3
-                                    ypadding 3
+                                    padding 3, 3
+                                    margin 0, 0
                                     xysize 60, 60
                                     align .99, .5
-                                    add ProportionalScale(m["portrait"], 60, 60)
+                                    add ProportionalScale(m["portrait"], 57, 57) align .5, .5
                                     
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -1788,11 +1788,10 @@ init: # Screens:
                                     #text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
                                 frame:
                                     background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
-                                    xpadding 3
-                                    ypadding 3
+                                    padding 3, 3
                                     xysize 60, 60
                                     align .99, .5
-                                    add ProportionalScale(i.icon, 60, 60)
+                                    add ProportionalScale(i.icon, 57, 57) align .5, .5
                     # frame:
                         # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         # xysize (390, 380)
