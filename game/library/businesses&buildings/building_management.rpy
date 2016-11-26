@@ -194,8 +194,14 @@ label building_management_loop:
         if not result or not isinstance(result, (list, tuple)):
             jump building_management_loop
         
-        if result[0] == "rename_team":
-            $ result[1].name = renpy.call_screen("pyt_input", result[1].name, "Enter Name", 20)
+        if result[0] == "fg_team":
+            if result[1] == "rename":
+                $ result[2].name = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 20)
+            elif result[1] == "clear":
+                python:
+                    for i in result[2]._members[:]:
+                        workers.add(i)
+                        result[2]._members.remove(i)
             
         elif result[0] == "building":
             if result[1] == 'buyroom':
@@ -1099,10 +1105,23 @@ init: # Screens:
                                         margin 0, 0
                                         xpos 49 xanchor .5 yalign .5
                                         xysize 78, 61
-                                        action Return(["rename_team", t])
+                                        action Return(["fg_team", "rename", t])
                                         hovered tt.action("Rename %s Team!"%t.name)
                                         text t.name align .5, .5 hover_color red text_align .5
-                                    
+                                    # Remove all teammembers:
+                                    $ img = im.Scale("content/gfx/interface/buttons/shape69.png", 20, 20)
+                                    button:
+                                        background img
+                                        hover_background im.MatrixColor(img, im.matrix.brightness(0.15))
+                                        insensitive_background  im.Sepia(img)
+                                        padding 0, 0
+                                        margin 0, 0
+                                        align 1.0, 1.0
+                                        xysize 20, 20
+                                        sensitive t
+                                        action Return(["fg_team", "clear", t])
+                                        hovered tt.action("Rename all explorers from Team %s!"%t.name)
+                                        
                         for w, pos in workers:
                             drag:
                                 dragged dragged
