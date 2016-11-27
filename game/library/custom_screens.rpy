@@ -1085,7 +1085,7 @@ init: # PyTFall:
                 action Return(item)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
                 unhovered SetField(config, "mouse", None)
-            
+        key "mousedown_3" action (Hide("fishing_area"), Return("Stop Fishing"))
     ##############################################################################
     screen notify:
         zorder 500
