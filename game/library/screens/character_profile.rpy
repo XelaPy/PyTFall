@@ -751,6 +751,7 @@ screen girl_control():
     
     default cb_checked = im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)
     default cd_unchecked = im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)
+    default cb_some_checked = im.Scale('content/gfx/interface/icons/checkbox_some_checked.png', 25, 25)
     
     frame:
         style_group "content"
@@ -784,7 +785,9 @@ screen girl_control():
                 action ToggleDict(char.autocontrol, "Tips")
                 hovered tt.action("Allow workers to keep their tips!")
                 text "Tips:" align (0.0, 0.5)
-                if char.autocontrol['Tips']:
+                if isinstance(char.autocontrol['Tips'], (list, renpy.python.RevertableList)):
+                    add cb_some_checked align (1.0, 0.5)
+                elif char.autocontrol['Tips']:
                     add cb_checked align (1.0, 0.5)
                 else:
                     add cd_unchecked align (1.0, 0.5)
@@ -814,7 +817,9 @@ screen girl_control():
                 action If(char.status != "slave", true=ToggleField(char, "front_row"))
                 xysize (200, 32)
                 text "Front Row" align (0.0, 0.5)
-                if char.front_row:
+                if isinstance(char.front_row, (list, renpy.python.RevertableList)):
+                    add cb_some_checked align (1.0, 0.5)
+                elif char.front_row:
                     add cb_checked align (1.0, 0.5)
                 elif not char.front_row:
                     add cd_unchecked align (1.0, 0.5)
@@ -823,7 +828,9 @@ screen girl_control():
                 action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
                 text "Auto Rest" align (0.0, 0.5)
-                if char.autocontrol['Rest']:
+                if isinstance(char.autocontrol['Rest'], (list, renpy.python.RevertableList)):
+                    add cb_some_checked align (1.0, 0.5)
+                elif char.autocontrol['Rest']:
                     add cb_checked align (1.0, 0.5)
                 elif not char.autocontrol['Rest']:
                     add cd_unchecked align (1.0, 0.5)
@@ -833,7 +840,9 @@ screen girl_control():
                 action  If(char.status != "slave" and char.disposition > 950, true=ToggleField(char, "autobuy"))
                 xysize (200, 32)
                 text "Auto Buy" align (0.0, 0.5)
-                if char.autobuy:
+                if isinstance(char.autobuy, (list, renpy.python.RevertableList)):
+                    add cb_some_checked align (1.0, 0.5)
+                elif char.autobuy:
                     add cb_checked align (1.0, 0.5)
                 else:
                     add cd_unchecked align (1.0, 0.5)
@@ -843,7 +852,9 @@ screen girl_control():
                 xysize (200, 32)
                 action If(char.status == "slave" or (char.status != "slave" and char.disposition > 850), true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (0.0, 0.5)
-                if char.autoequip:
+                if isinstance(char.autoequip, (list, renpy.python.RevertableList)):
+                    add cb_some_checked align (1.0, 0.5)
+                elif char.autoequip:
                     add cb_checked align (1.0, 0.5)
                 else:
                     add cd_unchecked align (1.0, 0.5)
