@@ -1,10 +1,7 @@
 # classes and methods for groups of Characters:
 init -8 python:
-    class listDelegator(_object):
-        """ only provides obvious solutions, everything else needs a remedy """
-
-        def __init__(self, l, remedy=None):
-            self.lst = l
+    class Delegator(_object):
+        def __init__(self, remedy=None):
             self._remedy = {} if remedy is None else remedy
 
         def _defer(self, arr, at):
@@ -23,71 +20,104 @@ init -8 python:
                     totype.append(str(type(var)))
             totype = list(set(totype))
 
+            remedy = self._remedy
             # multiple types or not?
             if len(totype) == 1:
                 if totype[0][0:5] == "<list":
-                    return [self._defer(arr=[x[i] for x in arr], at=at+"[]") for i in range(len(arr[0]))]
+                    return deList(arr, remedy=remedy if at+"[]" in remedy else None, at=at+"[]")
                 if totype[0][0:5] == "<dict":
-                    return {k: self._defer(arr=[x[k] for x in arr], at=at+"{}") for k in arr[0]}
+                    return deDict(arr, remedy=remedy if at+"{}" in remedy else None, at=at+"{}")
                 if all(cmp(arr[0], r) == 0 for r in arr[1:]):
                     return arr[0]
 
-            return self._unlist(arr=arr, at=at)
+            # else try to get a single value for a list
 
-        def __getattr__(self, item):
-            """ an undefined attribute was requested from the group """
-            # required for pickle
-            if item.startswith('__') and item.endswith('__'):
-                return super(listDelegator, self).__getattr__(item)
+            if 'flatten' in self._remedy and at in self._remedy['flatten']:
+                return list(set([item for sublist in arr for item in sublist]))
 
-            if callable(getattr(self.lst[0], item)):
+            if not at in remedy:
+                renpy.error(at) #+"\n"+str(list(set(arr)))
 
-                def wrapper(*args, **kwargs):
-                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=item+"()")
+            # In case of an error here: define a remedy for the unlisting
+            return remedy[at](arr) if callable(remedy[at]) else remedy[at]
 
-                attr = wrapper
-            else:
-                attr = self._defer(arr=[getattr(c, item) for c in self.lst], at=item)
+    class deList(Delegator):
+        def __init__(self, l, at, remedy=None):
+            super(deList, self).__init__(remedy=remedy)
+            self._at = at
+            self.lst = l
 
-            return attr
+        def __getitem__(self, i):
+            return self._defer(arr=[x[i] for x in self.lst], at=self._at)
+
+        def __setitem__(self, i, v):
+            for c in self.lst:
+                c[i] = v
+        def __len__(self):
+            return len(self.lst[0])
+
+    class deDict(Delegator):
+
+        def __init__(self, l, at, remedy=None, *args, **kwargs):
+            self._data = l
+            super(deDict, self).__init__(remedy=remedy)
+            self._at = at
+
+        def __getitem__(self, k):
+            return self._defer(arr=[d[k] for d in self._data], at=self._at)
+
+        def __setitem__(self, k, v):
+            for d in self._data:
+                d[k] = v
+        def __delitem__(self, k):
+            for d in self._data:
+                del(d[k])
+        def __iter__(self): return iter({k: self._defer(arr=[x[k] for x in self._data], at=self._at) for k in self._data[0]})
+        def __len__(self): return len(self._data[0])
+
+
+    class deAttr(Delegator):
+        """ only provides obvious solutions, everything else needs a remedy """
+
+        def __init__(self, l, remedy=None):
+            self.lst = l
+            self._remedy = {} if remedy is None else remedy
 
         def __setattr__(self, k, v):
              if k not in ('lst', '_remedy'):
                  for c in self.lst:
                      setattr(c, k, v)
              else:
-                 super(listDelegator, self).__setattr__(k, v)
+                 super(deAttr, self).__setattr__(k, v)
 
-        def _type(self, var):
-            """ generalizations """
-            if isinstance(var, basestring): return "<str>"
-            if isinstance(var, (list, renpy.python.RevertableList)): return '<list>'
-            if isinstance(var, (dict, renpy.python.RevertableDict)): return '<dict>'
-            return str(type(var))
+        def __getattr__(self, item):
+            """ an undefined attribute was requested from the group """
+            # required for pickle
+            if item.startswith('__') and item.endswith('__'):
+                return super(deAttr, self).__getattr__(item)
 
-        def _unlist(self, arr, at=""):
-            """ try to get a single value for a list """
+            if callable(getattr(self.lst[0], item)):
 
-            if all(self._type(r) == self._type(arr[0]) for r in arr[1:]):
+                def wrapper(*args, **kwargs):
+                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=item+"()")
 
-                if all(cmp(arr[0], r) == 0 for r in arr[1:]):
-                    return arr[0]
+                return wrapper
 
-            if 'flatten' in self._remedy and at in self._remedy['flatten']:
-                return list(set([item for sublist in arr for item in sublist]))
+            return self._defer(arr=[getattr(c, item) for c in self.lst], at=item)
 
-            """ In case of an error here: define a remedy for the unlisting"""
-            remedy = self._remedy[at]
-            return remedy(arr) if callable(remedy) else remedy
-
+        # helper functions as remedies
         def most_abundant_not_False(self, arr):
             return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
 
         def order_abundance(self, arr):
             return sorted(((arr.count(e), e) for e in set(arr)), reverse=True)
 
+        def bool_dict(self, arr):
+            if any(not x for x in arr):
+                return False
+            return {k: self.bool_dict(k in x and x[k] for x in arr) for k in list(set(x.keys() for x in arr))}
 
-    class PytGInv(listDelegator):
+    class PytGInv(deAttr):
 
         def __init__(self, inv):
             remedy={
@@ -114,15 +144,17 @@ init -8 python:
         def append(self, item, amount=1):
             all([x.append(item,amount) for x in self.lst])
 
-    class PytGroup(listDelegator):
+
+    class PytGroup(deAttr):
 
         def __init__(self, characters):
             remedy={
                 "eqslots{}": self.most_abundant_not_False,
                 "status": "Various",
-                "autobuy": self.order_abundance,
-                "autoequip": self.order_abundance,
-                "autocontrol{}": self.order_abundance,
+                "autobuy": [],
+                "front_row": [],
+                "autoequip": [],
+                "autocontrol{}": [],
                 "flatten": ["traits", "attack_skills", "magic_skills"]
             }
             super(PytGroup, self).__init__(characters, remedy=remedy)
@@ -135,7 +167,8 @@ init -8 python:
         def portrait(self): return "content/gfx/interface/images/group_portrait.png"
         @property
         def nickname(self): return "group"
-
+        @property
+        def effects(self): return {}
         @property
         def inventory(self): return PytGInv([c.inventory for c in self.selected])
 
