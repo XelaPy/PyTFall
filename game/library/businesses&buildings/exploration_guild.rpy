@@ -1,4 +1,49 @@
+init -9 python:
+    # ======================= (Simulated) Exploration code =====================>>>
+    class FG_Area(_object):
+        """Dummy class for areas (for now).
+        
+        Tracks the progess in SE areas as well as storing their data.
+        """
+        def __init__(self):
+            self.stage = 0 # For Sorting.
+            self.days = 3
+            self.max_days = 15
+            self.risk = 50
+            self._explored = 0
+            self.items = dict()
+            self.girls = dict()
+            self.main = False
+            self.area = ""
+            self.mobs = {}
+            self.known_mobs = set()
+            self.known_items = set()
+            self.cash_earned = 0
+            self.travel_time = 0
+            self.hazard = dict()
+            
+            # Generated Content:
+            self.logs = collections.deque(maxlen=10)
+            
+            # Teams exploring the area at any given time, this can be used for easy access!
+            self.teams = set()
+            
+            # Flags for exploration tasks on "area" scope.
+            self.building_camp = False
+            
+        @property
+        def explored(self):
+            return self._explored
+            
+        @explored.setter
+        def explored(self, value):
+            if value >= 100:
+                self._explored = 100
+            else:
+                self._explored = value
+                
 init -6 python:
+    # ======================= (Simulated) Exploration code =====================>>>
     # Temporary I'll Put Exploration code here:
     def launch_exploration_run(team, area, guild):
         #### NO LONGER IN USE ####
@@ -42,6 +87,7 @@ init -6 python:
             # There is a good chance that some of these data must be updated in real time.
             # TODO: Keep this confined to copy of an area? Feels weird and useless to copy all of these properties.
             self.obj_area = area # Original Area Object so we don't have to go looking for it :)
+            # And we add team to the true area object so we can have access to all teams in the area!
             self.area = deepcopy(area)
             self.team = team
             self.guild = guild # Guild this tracker was initiated from...
@@ -51,6 +97,10 @@ init -6 python:
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
             self.hazard = self.area.hazard
+            
+            # Features:
+            self.basecamp = False
+            self.base_camp_health = 0 # We call it health in case we allow it to be attacked at some point...
             
             # Is this it? We should have area items???
             self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit)
@@ -660,7 +710,31 @@ init -6 python:
                 log.add(temp)
                 return "defeat"
                 
-        
+        def setup_basecamp(self, tracker):
+            team = tracker.team
+            
+            # Since we only have one basecamp, we want all teams sent to this location to cooperate setting it up.
+            # Code presently is a bit clumsy but it should get the job done.
+            if self.obj_area.building_camp: # Process has started and this team just waits for it's process to idlely pass by:
+                while 1:
+                    yield self.env.timeout(5)
+                    
+            team = tracker.team
+            self.base_camp_health
+            
+            build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in team)) # We should have building skill in the future whihc could be used here instead.
+            
+            temp = "{} is setting up basecamp!".format(tracker.team.name)
+            tracker.log(temp)
+            
+            while 1:
+                yield self.env.timeout(5) # We build...
+                
+                if not self.env.now % 25:
+                    temp = "Basecamp is ".format(tracker.team.name)
+                    tracker.log(temp)
+            
+        # AP:
         def convert_AP(self, tracker):
             # Convert teams AP to Job points:
             # The idea here is that teammates will help each other to carry out any task and act as a unit, so we don't bother tracking individual AP.

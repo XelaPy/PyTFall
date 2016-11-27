@@ -1,4 +1,5 @@
 init python:
+    # OLD CLASSES!
     # Fighters Guild Jobs =========================================>>>
     # Note that simpler jobs are part of the FG classes next day method itself!
     
