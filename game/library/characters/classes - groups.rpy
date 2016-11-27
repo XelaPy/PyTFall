@@ -1,7 +1,8 @@
 # classes and methods for groups of Characters:
 init -8 python:
     class Delegator(_object):
-        def __init__(self, remedy=None):
+        def __init__(self, l, remedy=None):
+            self.lst = l
             self._remedy = {} if remedy is None else remedy
 
         def _defer(self, arr, at):
@@ -24,28 +25,28 @@ init -8 python:
             # multiple types or not?
             if len(totype) == 1:
                 if totype[0][0:5] == "<list":
-                    return deList(arr, remedy=remedy if at+"[]" in remedy else None, at=at+"[]")
+                    return deList(arr, remedy=remedy, at=at+"[]")
                 if totype[0][0:5] == "<dict":
-                    return deDict(arr, remedy=remedy if at+"{}" in remedy else None, at=at+"{}")
+                    return deDict(arr, remedy=remedy, at=at+"{}")
                 if all(cmp(arr[0], r) == 0 for r in arr[1:]):
                     return arr[0]
+                #return deAttr(arr, remedy=remedy if at+"." in remedy else None, at=at+".")
 
             # else try to get a single value for a list
 
             if 'flatten' in self._remedy and at in self._remedy['flatten']:
-                return list(set([item for sublist in arr for item in sublist]))
+                return list(frozenset([item for sublist in arr for item in sublist]))
 
-            if not at in remedy:
-                renpy.error(at) #+"\n"+str(list(set(arr)))
+            #if not at in remedy:
+            #    renpy.error(at) #+"\n"+str(list(set(arr)))
 
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
 
     class deList(Delegator):
         def __init__(self, l, at, remedy=None):
-            super(deList, self).__init__(remedy=remedy)
+            super(deList, self).__init__(l, remedy=remedy)
             self._at = at
-            self.lst = l
 
         def __getitem__(self, i):
             return self._defer(arr=[x[i] for x in self.lst], at=self._at)
@@ -59,32 +60,32 @@ init -8 python:
     class deDict(Delegator):
 
         def __init__(self, l, at, remedy=None, *args, **kwargs):
-            self._data = l
-            super(deDict, self).__init__(remedy=remedy)
+            super(deDict, self).__init__(l, remedy=remedy)
             self._at = at
 
         def __getitem__(self, k):
-            return self._defer(arr=[d[k] for d in self._data], at=self._at)
+            return self._defer(arr=[d[k] for d in self.lst], at=self._at)
 
         def __setitem__(self, k, v):
-            for d in self._data:
+            for d in self.lst:
                 d[k] = v
         def __delitem__(self, k):
-            for d in self._data:
+            for d in self.lst:
                 del(d[k])
-        def __iter__(self): return iter({k: self._defer(arr=[x[k] for x in self._data], at=self._at) for k in self._data[0]})
-        def __len__(self): return len(self._data[0])
+        def __iter__(self): return iter({k: self._defer(arr=[x[k] for x in self.lst], at=self._at) for k in self.lst[0]})
+        def __len__(self): return len(self.lst[0])
 
 
     class deAttr(Delegator):
         """ only provides obvious solutions, everything else needs a remedy """
 
-        def __init__(self, l, remedy=None):
-            self.lst = l
+        def __init__(self, l, at=None, remedy=None):
+            super(deAttr, self).__init__(l, remedy=remedy)
             self._remedy = {} if remedy is None else remedy
+            self._at = at if at is not None else ""
 
         def __setattr__(self, k, v):
-             if k not in ('lst', '_remedy'):
+             if k not in ('lst', '_remedy', '_at'):
                  for c in self.lst:
                      setattr(c, k, v)
              else:
@@ -99,32 +100,32 @@ init -8 python:
             if callable(getattr(self.lst[0], item)):
 
                 def wrapper(*args, **kwargs):
-                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=item+"()")
+                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=self._at+item+"()")
 
                 return wrapper
 
-            return self._defer(arr=[getattr(c, item) for c in self.lst], at=item)
+            return self._defer(arr=[getattr(c, item) for c in self.lst], at=self._at+item)
 
-        # helper functions as remedies
+        # remedy functions below
         def most_abundant_not_False(self, arr):
             return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
 
-        def order_abundance(self, arr):
-            return sorted(((arr.count(e), e) for e in set(arr)), reverse=True)
+        def list_not_False(self, arr):
+            return [e for e in list(frozenset(arr)) if e]
 
-        def bool_dict(self, arr):
-            if any(not x for x in arr):
-                return False
-            return {k: self.bool_dict(k in x and x[k] for x in arr) for k in list(set(x.keys() for x in arr))}
+        def flatten_not_False(self, arr):
+            return list(frozenset([item for sublist in arr if sublist for item in sublist if item]))
+            #return {k:v k,v in d.items() if v}
 
     class PytGInv(deAttr):
 
         def __init__(self, inv):
             remedy={
-                "filters[]": self.most_abundant_not_False,
-                "page_content[]": self.most_abundant_not_False,
-                "slot_filter[]": self.most_abundant_not_False,
-                "flatten": ["filters", "page_content", "slot_filter"]
+                "filters": self.flatten_not_False,
+                "filters[]": self.list_not_False,
+                "page_content": self.flatten_not_False,
+                "page_content[]": self.list_not_False,
+                "slot_filter": self.list_not_False#,
             }
             super(PytGInv, self).__init__(inv, remedy=remedy)
 
