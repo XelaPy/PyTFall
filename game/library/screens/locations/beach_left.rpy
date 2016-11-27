@@ -138,7 +138,7 @@ label fishing_logic:
         $ global_flags.set_flag('fish_city_beach')
         "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items."
         "You can increase your chances to catch something good by using baits which could be bought or found in various places. However, they cannot be used if your fishing skill is too low, so make sure you practice a lot."
-        "Bites also increase the amount of attempts you can make for every Action Point."
+        "Bites also increase the amount of attempts you can make for every Action Point. You can stop fishing anytime by pressing right mouse button, but it won't return the Action Point you spent."
     menu:
         "Try out fishing?"
         "Yes":
@@ -184,10 +184,13 @@ label fishing_logic:
             if not fish:
                 $ hero.say("There is no suitable fish at the moment.")
             else:
-                python:
-                    item = renpy.call_screen("fishing_area", fish_list)
-                    hero.add_item(item)
-                    our_image = ProportionalScale(item.icon, 150, 150)
+                $ item = renpy.call_screen("fishing_area", fish_list)
+                if item == "Stop Fishing":
+                    "You got tired of fishing and returned to the beach."
+                    jump city_beach_left
+                else:
+                    $ hero.add_item(item)
+                    $ our_image = ProportionalScale(item.icon, 150, 150)
                 
                 show expression our_image at truecenter with dissolve
                 $ hero.say("I caught %s!" % item.id)

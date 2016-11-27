@@ -67,7 +67,18 @@ init python:
     # For now a dedicated sorting funcs, maybe this should be turned into something more generic in the future?
     def all_chars_for_se():
         # We expect a global var building to be set for this!
-        return building.get_workers()
+        return [w for w in building.get_workers() if w not in all_idle_explorers()]
+        
+    def all_idle_explorers():
+        # returns a list of all idle characters that are set exploration teams but not exploring:
+        # This may be an overkill cause we should really remove workers from teams when we change their locations!
+        idle_explorers = set()
+        for building in hero.buildings:
+            if isinstance(building, NewStyleUpgradableBuilding):
+                fg = building.get_business("fg")
+                if fg:
+                    idle_explorers = idle_explorers.union(fg.idle_explorers())
+        return idle_explorers
         
     class CharsSortingForGui(_object):
         """Class we use to sort and filter character for the GUI.
@@ -131,6 +142,7 @@ label building_management:
             bm_mid_frame_mode = "building"
             bm_mid_frame_focus = None
             bm_exploration_view_mode = "explore"
+            selected_log_area = None
             
     
     python:
@@ -147,15 +159,15 @@ label building_management:
             # Looks pretty ugly... this might be worth improving upon just for the sake of estetics.
             building = hero.upgradable_buildings[index]
             char = None
-            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(47, 15))
+            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
             fg_filters = CharsSortingForGui(all_chars_for_se)
             fg_filters.status_filters.add("free")
             fg_filters.target_container = [workers, "content"]
             fg_filters.filter()
             
             try:
-                temp = [u for u in building._upgrades if u.__class__ == ExplorationGuild][0]
-                guild_teams = CoordsForPaging(temp.teams_for_setup(), columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
+                temp = building.get_business("fg")
+                guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
             except:
                 pass
     
@@ -182,7 +194,16 @@ label building_management_loop:
         if not result or not isinstance(result, (list, tuple)):
             jump building_management_loop
         
-        if result[0] == "building":
+        if result[0] == "fg_team":
+            if result[1] == "rename":
+                $ result[2].name = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 20)
+            elif result[1] == "clear":
+                python:
+                    for i in result[2]._members[:]:
+                        workers.add(i)
+                        result[2]._members.remove(i)
+            
+        elif result[0] == "building":
             if result[1] == 'buyroom':
                 python:
                     if building.rooms < building.maxrooms:
@@ -312,7 +333,7 @@ init: # Screens:
             if bm_mid_frame_mode == "building":
                 use building_management_midframe_building_mode
             else: # Upgrade mode:
-                use building_management_midframe_upgrades_mode
+                use building_management_midframe_businesses_mode
             
             ## Stats/Upgrades - Left Frame
             frame:
@@ -325,7 +346,7 @@ init: # Screens:
                 if bm_mid_frame_mode == "building":
                     use building_management_leftframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_leftframe_upgrades_mode
+                    use building_management_leftframe_businesses_mode
             
             ## Right frame:
             frame:
@@ -337,7 +358,7 @@ init: # Screens:
                 if bm_mid_frame_mode == "building":
                     use building_management_rightframe_building_mode
                 else: # Upgrade mode:
-                    use building_management_rightframe_upgrades_mode
+                    use building_management_rightframe_businesses_mode
                                 
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
@@ -460,7 +481,7 @@ init: # Screens:
                 else:
                     add Solid(black, xysize=(190, 190)) align .5, .5
         
-    screen building_management_rightframe_upgrades_mode:
+    screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
         $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 315, 600, align=(.5, 1.0)))
@@ -637,7 +658,7 @@ init: # Screens:
                                 xysize 150, 60
                                 text "[u.name]" xalign .5 style "proper_stats_text" size 20
                                 null height 2
-                                textbutton "{size=15}Upgrade" xalign .5 action SetVariable("bm_mid_frame_mode", u)
+                                textbutton "{size=15}Details" xalign .5 action SetVariable("bm_mid_frame_mode", u)
                                             
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -654,75 +675,146 @@ init: # Screens:
                                 # xysize (305, 27)
                                 # text (u"%s" % advert['name']) size 16 xalign (0.02)
         
-    screen building_management_leftframe_upgrades_mode:
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-            style_group "proper_stats"
-            xsize 300
-            xpadding 12
-            ypadding 12
-            xmargin 0
-            ymargin 0
-            has vbox spacing 1
-                
-            # Slots:
-            frame:
-                xysize (290, 27)
-                xalign 0.5
-                text "In Slots:" xalign 0.02 color ivory
-                text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-            frame:
-                xysize (290, 27)
-                xalign 0.5
-                text "Ext Slots:" xalign 0.02 color ivory
-                text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-                
-        if isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "team":
+    screen building_management_leftframe_businesses_mode:
+        $ show_slots = not any([(isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "log")])
+        if show_slots:
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                 style_group "proper_stats"
-                xsize 300
-                xalign .5
-                xpadding 12
-                ypadding 12
-                xmargin 0
-                ymargin 0
+                xsize 310
+                padding 12, 12
+                margin 0, 0
                 has vbox spacing 1
-                label "Filters:" xalign .5
-                
-                vbox:
-                    style_prefix "basic"
+                    
+                # Slots:
+                frame:
+                    xysize (290, 27)
                     xalign .5
-                    textbutton "Reset":
-                        action Function(fg_filters.clear)
-                    textbutton "Warriors":
-                        action ModFilterSet(fg_filters, "occ_filters", "Warrior")
-                    textbutton "Free":
-                        action ModFilterSet(fg_filters, "status_filters", "free")
-                    textbutton "Slaves":
-                        action ModFilterSet(fg_filters, "status_filters", "slave")
+                    text "In Slots:" xalign .02 color ivory
+                    text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                frame:
+                    xysize (290, 27)
+                    xalign .5
+                    text "Ext Slots:" xalign .02 color ivory
+                    text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                
+        if isinstance(bm_mid_frame_mode, ExplorationGuild):
+            if bm_exploration_view_mode == "log":
+                default focused_area_index = 0
+                $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+                vbox:
+                    xsize 310 spacing 1
+                    
+                    # Maps sign:
+                    frame: 
+                        style_group "content"
+                        xalign .5
+                        xysize (200, 50)
+                        background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                        label (u"Maps") text_size 23 text_color ivory align (.5, .8)
                         
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                style_group "proper_stats"
-                xsize 300
-                xalign .5
-                xpadding 12
-                ypadding 12
-                xmargin 0
-                ymargin 0
-                has vbox spacing 1
-                label "Sort:" xalign .5
-                
-                vbox:
-                    style_prefix "basic"
+                    # Main Area
+                    # We assume that there is always at least one area!
+                    $ area = temp[focused_area_index]
+                    $ img = im.Scale(area.img, 200, 130)
+                    frame:
+                        xalign .5
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                        padding 5, 6
+                        margin 0, 0
+                        xysize 200, 130
+                        button:
+                            align .5, .5
+                            xysize 200, 130
+                            background Frame(img)
+                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
+                            action NullAction()
+                            frame:
+                                align .5, .0
+                                xysize 180, 30
+                                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
+                                text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+                                
+                    # Paging for Main Area:
+                    hbox:
+                        xalign .5
+                        textbutton "<==":
+                            action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
+                        textbutton "==>":
+                            action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp))
+                    
+                    # Sub Areas:
+                    null height 5
+                    $ areas = sorted([a for a in fg_areas.values() if a.area == area.name], key=attrgetter("stage"))
+                    fixed:
+                        xalign .5
+                        xysize 310, 190
+                        vbox:
+                            xalign .5
+                            style_prefix "dropdown_gm2"
+                            for area in areas:
+                                button:
+                                    xysize (180, 18)
+                                    action SetVariable("selected_log_area", area), Show("fg_log", None, area, tt), SelectedIf(selected_log_area == area)
+                                    text str(area.stage) size 12 xalign .02
+                                    label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
+                                
+                    # Total Main Area Stats (Data Does Not Exist Yet):
+                    frame: 
+                        style_group "content"
+                        xalign .5
+                        xysize (200, 50)
+                        background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                        label (u"Total") text_size 23 text_color ivory align (.5, .8)
+                        
+                    text "No Data Yet!" xalign .5
+                    
+                    
+            if bm_exploration_view_mode == "team":
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    style_group "proper_stats"
+                    xsize 300
                     xalign .5
-                    textbutton "Name":
-                        action SetFilter(fg_filters, "alphabetical")
-                    textbutton "Level":
-                        action SetFilter(fg_filters, "level")
+                    xpadding 12
+                    ypadding 12
+                    xmargin 0
+                    ymargin 0
+                    has vbox spacing 1
+                    label "Filters:" xalign .5
+                    
+                    vbox:
+                        style_prefix "basic"
+                        xalign .5
+                        textbutton "Reset":
+                            action Function(fg_filters.clear)
+                        textbutton "Warriors":
+                            action ModFilterSet(fg_filters, "occ_filters", "Warrior")
+                        textbutton "Free":
+                            action ModFilterSet(fg_filters, "status_filters", "free")
+                        textbutton "Slaves":
+                            action ModFilterSet(fg_filters, "status_filters", "slave")
+                            
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    style_group "proper_stats"
+                    xsize 300
+                    xalign .5
+                    xpadding 12
+                    ypadding 12
+                    xmargin 0
+                    ymargin 0
+                    has vbox spacing 1
+                    label "Sort:" xalign .5
+                    
+                    vbox:
+                        style_prefix "basic"
+                        xalign .5
+                        textbutton "Name":
+                            action SetFilter(fg_filters, "alphabetical")
+                        textbutton "Level":
+                            action SetFilter(fg_filters, "level")
                 
-        if isinstance(bm_mid_frame_mode, ExplorationGuild): # Only for FG.
             if bm_exploration_view_mode == "explore":
                 frame: 
                     style_group "content"
@@ -744,21 +836,19 @@ init: # Screens:
                         $ img = im.Scale(area.img, 200, 130)
                         frame:
                             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
-                            xpadding 5
-                            ypadding 6
-                            xmargin 0
-                            ymargin 0
+                            padding 5, 6
+                            margin 0, 0
                             xysize 200, 130
                             button:
                                 align .5, .5
                                 xysize 200, 130
                                 background Frame(img)
-                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(0.10)))
+                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
                                 action SetVariable("bm_mid_frame_focus", area)
                                 frame:
                                     align .5, .0
                                     xysize 180, 30
-                                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 5, 5)
+                                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
                                     text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
     
                 # hbox:
@@ -850,29 +940,39 @@ init: # Screens:
                         xsize 170
                         thumb 'content/gfx/interface/icons/move15.png'
             
-    screen building_management_midframe_upgrades_mode:
+    screen building_management_midframe_businesses_mode:
         frame:
             background Frame("content/gfx/frame/p_frame6.png", 10, 10)
             style_prefix "content"
             xysize (630, 685)
+            xpadding 0
             xalign .5
             ypos 40
             
             # Fighter Guild, team launch and area info:
             if isinstance(bm_mid_frame_mode, ExplorationGuild):
+                if bm_exploration_view_mode == "log":
+                    has vbox xsize 630
+                    frame: # Image
+                        xalign .5
+                        padding 5, 5
+                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                        add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
+                    
                 if bm_exploration_view_mode == "explore":
                     has vbox xsize 630
                     frame: # Image
-                        xalign 0.5
+                        xalign .5
+                        padding 5, 5
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add im.Scale("content/gfx/bg/buildings/Exploration.png", 615, 390)
+                        add im.Scale("content/gfx/bg/buildings/Exploration.png", 600, 390)
                     
                     hbox:
                         box_wrap 1
                         spacing 2
                         xalign .5
                         if isinstance(bm_mid_frame_focus, FG_Area):
-                            $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name])
+                            $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
                             for area in temp:
                                 $ fbg = "content/gfx/frame/mes12.jpg"
                                 $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
@@ -999,8 +1099,29 @@ init: # Screens:
                                 frame:
                                     xysize (310, 83)
                                     background gfxframes + "team_frame_2.png"
-                                    text t.name xpos 50 xanchor .5 yalign .5
-                                    
+                                    button:
+                                        background Null()
+                                        padding 0, 0
+                                        margin 0, 0
+                                        xpos 49 xanchor .5 yalign .5
+                                        xysize 78, 61
+                                        action Return(["fg_team", "rename", t])
+                                        hovered tt.action("Rename %s Team!"%t.name)
+                                        text t.name align .5, .5 hover_color red text_align .5
+                                    # Remove all teammembers:
+                                    $ img = im.Scale("content/gfx/interface/buttons/shape69.png", 20, 20)
+                                    button:
+                                        background img
+                                        hover_background im.MatrixColor(img, im.matrix.brightness(0.15))
+                                        insensitive_background  im.Sepia(img)
+                                        padding 0, 0
+                                        margin 0, 0
+                                        align 1.0, 1.0
+                                        xysize 20, 20
+                                        sensitive t
+                                        action Return(["fg_team", "clear", t])
+                                        hovered tt.action("Rename all explorers from Team %s!"%t.name)
+                                        
                         for w, pos in workers:
                             drag:
                                 dragged dragged
@@ -1438,6 +1559,110 @@ init: # Screens:
                     
                     
     # Customized screens for specific businesses:
+    screen fg_log(area, tt):
+        on "hide":
+            action SetVariable("selected_log_area", None)
+        
+        modal True
+        zorder 1
+        
+        key "mousedown_3" action Hide("fg_log")
+        
+        default focused_log = None
+        
+        frame:
+            ypos 40
+            xalign .5
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            style_prefix "content"
+            xysize (630, 680)
+            
+            $ fbg = "content/gfx/frame/mes11.jpg"
+            frame:
+                background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                xysize (620, 90)
+                ymargin 1
+                ypadding 1
+                $ temp = area.name
+                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.3)
+                hbox:
+                    align (0.5, 0.9)
+                    # Get the correct stars:
+                    python:
+                        temp = []
+                        for i in range(area.explored//20):
+                            temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                        if len(temp) != 5:
+                            if area.explored%20 >= 10:
+                                temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                        while len(temp) != 5:
+                            temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                    for i in temp:
+                        add i
+            
+            # Buttons with logs (Events):
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                style_prefix "dropdown_gm2"
+                ypos 100
+                ysize 240
+                xalign .0
+                padding 10, 10
+                has vbox xsize 220
+                
+                frame:
+                    style_group "content"
+                    align (0.5, 0.015)
+                    padding 15, 5
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    label "Events" text_size 20 text_color ivory align .5, .5
+                
+                null height 2
+                    
+                for l in area.logs:
+                    button:
+                        xalign .5
+                        ysize 18
+                        action SetScreenVariable("focused_log", l)
+                        text str(l.name) size 12 xalign .02 yoffset 1
+                        # Resolve the suffix:
+                        if l.item:
+                            text "[l.item.type]" size 12 align (1.0, .5)
+                        else: # Suffix:
+                            text str(l.suffix) size 12 align (1.0, .5)
+                        
+            # Information (Story)       
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                ysize 297
+                padding 10, 10
+                ypos 100 xalign 1.0
+                has vbox xsize 350
+                
+                frame:
+                    style_group "content"
+                    align (.5, .015)
+                    padding 15, 5
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    label "Story" text_size 20 text_color ivory align .5, .5
+                
+                null height 2
+                
+                frame:
+                    background Frame("content/gfx/frame/ink_box.png", 10, 10)
+                    has viewport draggable 1 mousewheel 1
+                    
+                    if focused_log:
+                        if focused_log.battle_log:
+                            text "\n".join(focused_log.battle_log) color white
+                        elif focused_log.item:
+                            $ item = focused_log.item
+                            vbox:
+                                spacing 10 xfill 1
+                                add ProportionalScale(item.icon, 100, 100) xalign .5
+                                text item.desc xalign .5 color white
+                
+                        
     screen fg_area(area):
         modal True
         zorder 1
@@ -1530,19 +1755,19 @@ init: # Screens:
                                 frame:
                                     yalign 0.5
                                     xanchor 1.0
-                                    ysize 40
+                                    ysize 44
                                     xpadding 4
-                                    xminimum 25
+                                    xminimum 28
                                     xpos 233
                                     $ temp = m["min_lvl"]
-                                    text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
+                                    text ("Lvl\n[temp]+") style "TisaOTM" size 17 text_align .5 line_spacing -6
                                 frame:
                                     background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
-                                    xpadding 3
-                                    ypadding 3
+                                    padding 3, 3
+                                    margin 0, 0
                                     xysize 60, 60
                                     align .99, .5
-                                    add ProportionalScale(m["portrait"], 60, 60)
+                                    add ProportionalScale(m["portrait"], 57, 57) align .5, .5
                                     
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -1582,11 +1807,10 @@ init: # Screens:
                                     #text ("Lvl\n[temp]+") align (0.5, 0.5) style "TisaOTM" size 18
                                 frame:
                                     background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
-                                    xpadding 3
-                                    ypadding 3
+                                    padding 3, 3
                                     xysize 60, 60
                                     align .99, .5
-                                    add ProportionalScale(i.icon, 60, 60)
+                                    add ProportionalScale(i.icon, 57, 57) align .5, .5
                     # frame:
                         # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         # xysize (390, 380)
@@ -1747,7 +1971,7 @@ init: # Screens:
                 align .5, .9
                 
                 python:
-                    temp = building.get_upgrade("fg")
+                    temp = building.get_business("fg")
                     teams = temp.teams_to_launch() if temp else []
                     if teams:
                         if not temp.focus_team:
@@ -1771,7 +1995,7 @@ init: # Screens:
                         action temp.prev_team_to_launch, renpy.restart_interaction
                     textbutton "Launch \n[temp.focus_team.name]":
                         xsize 300
-                        action Function(temp.launch_team, area)
+                        action Function(temp.launch_team, area), Jump("building_management")
                     textbutton "==>":
                         yalign .5
                         action temp.next_team_to_launch, renpy.restart_interaction
@@ -1817,7 +2041,7 @@ init: # Screens:
             textbutton "Profile":
                 action [SetVariable("char_profile", last_label), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_profile")]
             textbutton "Equipment":
-                action [SetVariable("came_to_equip_from", "building_management"), SetVariable("eqtarget", char), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
+                action [SetVariable("came_to_equip_from", "building_management"), SetVariable("eqtarget", char), SetVariable("char", char), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
             if remove: # and team[0] != girl:
                 textbutton "Remove from the Team":
                     action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown")]

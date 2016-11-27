@@ -58,6 +58,7 @@ init -1 python: # Core classes:
             self.terminate = False
             
             self.logical = logical
+            self.logical_counter = 0
             self.quotes = quotes # Decide if we run quotes at the start of the battle.
             
             self.start_sfx = start_sfx
@@ -129,7 +130,13 @@ init -1 python: # Core classes:
                 for event in self.end_turn_events[:]:
                     if event():
                         self.end_turn_events.remove(event)
+                        
+                self.logical_counter += 1
                 
+                if config.debug and self.logical:
+                    temp = "Debug: Loop: %d, TLeft: %d, TRight: %d"%(self.logical_counter, len(self.get_fighters(state="dead", rows=(0, 1))),  len(self.get_fighters(state="dead", rows=(2, 3))))
+                    temp += ", ".join([str(i.health) for i in self.teams[0]])
+                    self.log(temp)
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)       
                 if self.check_break_conditions():
                     break
@@ -381,11 +388,17 @@ init -1 python: # Core classes:
             # For now this assumes that team indexed 0 is player team.
             if self.terminate:
                 return True
+            if self.logical and self.logical_counter >= 1000:
+                self.winner = self.teams[1]
+                self.log("Battle went on for far too long! %s is concidered the winner!" % self.winner.name)
+                return True
             if len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
                 self.winner = self.teams[1]
+                self.log("%s is victorious!" % self.winner.name)
                 return True
             if len(self.teams[1]) == len(self.get_fighters(state="dead", rows=(2, 3))):
                 self.winner = self.teams[0]
+                self.log("%s is victorious!" % self.winner.name)
                 return True
                 
         def get_all_events(self):

@@ -180,7 +180,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
     default max_oxigen = max_o2
     
     timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
-    
+    key "mousedown_3" action (Hide("diving_progress_bar"), Return("Swim Out"))
     if config.debug:
         vbox:
             xalign .5
@@ -201,6 +201,7 @@ label city_beach_diving_checks:
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
         "You cannot continue if your vitality is too low. The goal is to find invisible items the screen."
+        "You can leave the water anytime by pressing right mouse button, and you will lose 10 health point if you don't leave before the oxygen is over."
     if hero.AP <= 0:
         "You don't have Action Points at the moment. Try again tomorrow."
         jump city_beach
@@ -227,7 +228,8 @@ label city_beach_diving_checks:
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
             hide screen hidden_area
-            "You've ran out of air!"
+            "You've ran out of air! (health -10)"
+            $ hero.health -= 10
             jump city_beach
         
         $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
@@ -237,7 +239,12 @@ label city_beach_diving_checks:
         
         if result == "All out of Air!":
             hide screen hidden_area
-            "You've ran out of air!"
+            "You've ran out of air! {color=[red]}(health -10)"
+            $ hero.health -= 10
+            jump city_beach
+        elif result == "Swim Out":
+            hide screen hidden_area
+            "You return to the surface before you run our of air."
             jump city_beach
         
         if isinstance(result, Item):

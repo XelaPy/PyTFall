@@ -518,7 +518,7 @@ init: # PyTFall:
                 unhovered SetField(pytfall, "city_dropdown", False)
     
         # Hotkeys:
-        if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_upgrades_mode"):
+        if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_businesses_mode"):
             key "mousedown_3" action Return(['control', 'return'])
         if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log"]:
             if global_flags.flag("visited_arena"):
@@ -1091,7 +1091,7 @@ init: # PyTFall:
                 action Return(item)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
                 unhovered SetField(config, "mouse", None)
-            
+        key "mousedown_3" action (Hide("fishing_area"), Return("Stop Fishing"))
     ##############################################################################
     screen notify:
         zorder 500

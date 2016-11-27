@@ -1195,7 +1195,7 @@ init -9 python:
                 'joy': [0, 0, 100, 200],
                 'character': [0, 0, 100, 60],
                 'reputation': [0, 0, 100, 100],
-                'health': [200, 50, 200, 400],
+                'health': [200, 0, 200, 400],
                 'fame': [0, 0, 100, 60],
                 'mood': [0, 0, 1000, 1000],
                 'disposition': [0, -1000, 1000, 1000],
@@ -1400,10 +1400,10 @@ init -9 python:
               
         @property
         def is_available(self):
-            # So we already have this property!
-            # This needs to be expanded to cover the guild.
             # Is this enought or should there be separate tracker properties for gameworld and player actions? This will prolly do for now.
             if not self.alive:
+                return False
+            if self.action == "Exploring":
                 return False
             return self._available
         
@@ -2973,6 +2973,8 @@ init -9 python:
                             hero.add_item("Bottle of Milk", randint(2, 3))
                         else:
                             hero.add_item("Bottle of Milk", randint(2, 5))
+                    elif not(has_items("Bottle of Milk", [self])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
+                        self.add_item("Bottle of Milk")
                             
             elif effect == "Silly":
                 if self.intelligence >= 200:

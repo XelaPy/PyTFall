@@ -435,7 +435,7 @@ init -1 python:
         *Adaptation of Roman's Inv code!
         """
         def __init__(self, content, columns=2, rows=6, size=(100, 100), xspacing=10, yspacing=10, init_pos=(0, 0)):
-            # Should be changes to location in the future:    
+            # Should be changed to location in the future:    
             self.content = content
             self.page = 0
             self.page_size = columns*rows

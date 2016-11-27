@@ -221,6 +221,15 @@ label char_equip_finish:
             renpy.show_screen("message_screen", "Either your 'awesome' item handling or my 'brilliant' programming killed %s..." % eqtarget.fullname)
             jump("mainscreen")
             
+    python:
+        # Reset all globals so screens that lead here don't get thrown off:
+        focusitem = None
+        selectedslot = None
+        unequip_slot = None
+        item_direction = None
+        dummy = None
+        eqtarget = None
+            
     if came_to_equip_from:
         $ last_label, came_to_equip_from = came_to_equip_from, None
         jump expression last_label

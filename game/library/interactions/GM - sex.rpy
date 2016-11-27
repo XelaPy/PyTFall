@@ -1377,8 +1377,8 @@ label interactions_sex_disagreement: # the character disagrees to do it
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
         if "Illusive" in hero.traits:
-            "She's still a virgin, but you cannot take her virginity on your own due to your illusive state."
-            jump interaction_scene_choice
+            $ current_action = "vag"
+            jump interactions_sex_scene_logic_part
         else:
             if char.status == "slave":
                 if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)) or ct("Open Minded"):
