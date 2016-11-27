@@ -2973,6 +2973,8 @@ init -9 python:
                             hero.add_item("Bottle of Milk", randint(2, 3))
                         else:
                             hero.add_item("Bottle of Milk", randint(2, 5))
+                    elif not(has_items("Bottle of Milk", [self])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
+                        self.add_item("Bottle of Milk")
                             
             elif effect == "Silly":
                 if self.intelligence >= 200:
