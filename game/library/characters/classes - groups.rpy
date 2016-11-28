@@ -120,19 +120,22 @@ init -8 python:
     class PytGInv(deAttr):
 
         def __init__(self, inv):
-            remedy={
-                "filters": self.flatten_not_False,
-                "filters[]": self.listset,
-                "page_content": self.flatten_not_False,
-                "page_content[]": self.listset,
-                "slot_filter": self.listset_not_False#,
-            }
-            super(PytGInv, self).__init__(inv, remedy=remedy)
+            super(PytGInv, self).__init__(inv)
+            self._attrs.append('slot_filter')
+            self.slot_filter = False
 
         def __getitem__(self, item):
             if isinstance(item, (list, renpy.python.RevertableList)):
                 return 0
             return min([x[item] for x in self.lst])
+
+        @property
+        def filters(self):
+            return list(frozenset([item for sublist in self.lst for item in sublist.filters]))
+
+        @property
+        def page_content(self):
+            return list(frozenset([item for sublist in self.lst for item in sublist.page_content]))
 
         @property
         def max_page(self):
@@ -141,6 +144,12 @@ init -8 python:
         def remove(self, item, amount=1):
             """ see Inventory.remove(): False means not enough items """
             return all([x.remove(item,amount) for x in self.lst])
+
+        def apply_filter(self, filter):
+            self.slot_filter = filter
+            for x in self.lst:
+                if filter in x.filters:
+                    x.apply_filter(filter)
 
         def append(self, item, amount=1):
             all([x.append(item,amount) for x in self.lst])
