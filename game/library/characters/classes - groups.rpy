@@ -150,6 +150,8 @@ init -8 python:
             for x in self.lst:
                 if filter in x.filters:
                     x.apply_filter(filter)
+                else:
+                    x.filtered_items = []
 
         def append(self, item, amount=1):
             all([x.append(item,amount) for x in self.lst])
