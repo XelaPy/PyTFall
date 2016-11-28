@@ -160,7 +160,7 @@ init -8 python:
         def __init__(self, characters):
             remedy={
                 "eqslots{}": self.most_abundant_not_False,
-                "status": "Various",
+                "status": "various",
                 "autobuy": [],
                 "front_row": [],
                 "autoequip": [],
