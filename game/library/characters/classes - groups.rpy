@@ -37,9 +37,6 @@ init -8 python:
             if 'flatten' in self._remedy and at in self._remedy['flatten']:
                 return list(frozenset([item for sublist in arr for item in sublist]))
 
-            #if not at in remedy:
-            #    renpy.error(at) #+"\n"+str(list(set(arr)))
-
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
 
@@ -98,25 +95,7 @@ init -8 python:
 
             return self._defer(arr=[getattr(c, item) for c in self.lst], at=self._at+item)
 
-        # remedy functions below
-        def most_abundant_not_False(self, arr):
-            return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
 
-        def listset_not_False(self, arr):
-            return [e for e in list(set(arr)) if e]
-
-        def flatten_not_False(self, arr):
-            return list(frozenset([item for sublist in arr if sublist for item in sublist]))
-            #return {k:v k,v in d.items() if v}
-
-        def flatten(self, arr):
-            return list([item for sublist in arr for item in sublist])
-
-        def list_not_False(self, arr):
-            return [e for e in arr if e]
-
-        def listset(self, arr):
-            return list(frozenset(arr))
     class PytGInv(deAttr):
 
         def __init__(self, inv):
@@ -214,5 +193,8 @@ init -8 python:
         def __len__(self):
             return len(self.selected)
 
+        # remedy functions below
+        def most_abundant_not_False(self, arr):
+            return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
 
 
