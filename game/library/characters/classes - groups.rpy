@@ -110,22 +110,30 @@ init -8 python:
         def most_abundant_not_False(self, arr):
             return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
 
-        def list_not_False(self, arr):
-            return [e for e in list(frozenset(arr)) if e]
+        def listset_not_False(self, arr):
+            return [e for e in list(set(arr)) if e]
 
         def flatten_not_False(self, arr):
-            return list(frozenset([item for sublist in arr if sublist for item in sublist if item]))
+            return list(frozenset([item for sublist in arr if sublist for item in sublist]))
             #return {k:v k,v in d.items() if v}
 
+        def flatten(self, arr):
+            return list([item for sublist in arr for item in sublist])
+
+        def list_not_False(self, arr):
+            return [e for e in arr if e]
+
+        def listset(self, arr):
+            return list(frozenset(arr))
     class PytGInv(deAttr):
 
         def __init__(self, inv):
             remedy={
                 "filters": self.flatten_not_False,
-                "filters[]": self.list_not_False,
+                "filters[]": self.listset,
                 "page_content": self.flatten_not_False,
-                "page_content[]": self.list_not_False,
-                "slot_filter": self.list_not_False#,
+                "page_content[]": self.listset,
+                "slot_filter": self.listset_not_False#,
             }
             super(PytGInv, self).__init__(inv, remedy=remedy)
 
