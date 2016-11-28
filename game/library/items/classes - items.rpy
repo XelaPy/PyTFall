@@ -178,7 +178,7 @@ init -9 python:
                     self.filter_index = self.filters.index(direction)
                 except:
                     # Explicitly silenced Exception. We set the index to "all" (0) which is always availible!
-                    self.index = 0
+                    self.filter_index = 0
                     
             self.slot_filter = self.filters[self.filter_index]
             
