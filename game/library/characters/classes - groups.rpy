@@ -25,9 +25,9 @@ init -8 python:
             # multiple types or not?
             if len(totype) == 1:
                 if totype[0][0:5] == "<list":
-                    return deList(arr, remedy=remedy, at=at+"[]")
+                    return deDist(arr, remedy=remedy, at=at+"[]")
                 if totype[0][0:5] == "<dict":
-                    return deDict(arr, remedy=remedy, at=at+"{}")
+                    return deDist(arr, remedy=remedy, at=at+"{}")
                 if all(cmp(arr[0], r) == 0 for r in arr[1:]):
                     return arr[0]
                 #return deAttr(arr, remedy=remedy if at+"." in remedy else None, at=at+".")
@@ -43,24 +43,10 @@ init -8 python:
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
 
-    class deList(Delegator):
-        def __init__(self, l, at, remedy=None):
-            super(deList, self).__init__(l, remedy=remedy)
-            self._at = at
-
-        def __getitem__(self, i):
-            return self._defer(arr=[x[i] for x in self.lst], at=self._at)
-
-        def __setitem__(self, i, v):
-            for c in self.lst:
-                c[i] = v
-        def __len__(self):
-            return len(self.lst[0])
-
-    class deDict(Delegator):
+    class deDist(Delegator):
 
         def __init__(self, l, at, remedy=None, *args, **kwargs):
-            super(deDict, self).__init__(l, remedy=remedy)
+            super(deDist, self).__init__(l, remedy=remedy)
             self._at = at
 
         def __getitem__(self, k):
@@ -72,7 +58,12 @@ init -8 python:
         def __delitem__(self, k):
             for d in self.lst:
                 del(d[k])
-        def __iter__(self): return iter({k: self._defer(arr=[x[k] for x in self.lst], at=self._at) for k in self.lst[0]})
+        def __iter__(self):
+            if isinstance(self.lst[0], dict):
+                return iter({k: self._defer(arr=[x[k] for x in self.lst], at=self._at) for k in self.lst[0]})
+
+            return iter(self._defer(arr=[x[i] for x in self.lst], at=self._at) for i in range(len(self.lst[0])))
+
         def __len__(self): return len(self.lst[0])
 
 
@@ -80,12 +71,13 @@ init -8 python:
         """ only provides obvious solutions, everything else needs a remedy """
 
         def __init__(self, l, at=None, remedy=None):
+            self._attrs = ['lst', '_remedy', '_at']
             super(deAttr, self).__init__(l, remedy=remedy)
             self._remedy = {} if remedy is None else remedy
             self._at = at if at is not None else ""
 
         def __setattr__(self, k, v):
-             if k not in ('lst', '_remedy', '_at'):
+             if k != '_attrs' and k not in self._attrs:
                  for c in self.lst:
                      setattr(c, k, v)
              else:
@@ -167,6 +159,8 @@ init -8 python:
                 "flatten": ["traits", "attack_skills", "magic_skills"]
             }
             super(PytGroup, self).__init__(characters, remedy=remedy)
+            self._attrs.append('inventory')
+            self.inventory = PytGInv([c.inventory for c in self.selected])
 
         @property
         def name(self): return "A group of "+str(len(self.selected))
@@ -178,8 +172,6 @@ init -8 python:
         def nickname(self): return "group"
         @property
         def effects(self): return {}
-        @property
-        def inventory(self): return PytGInv([c.inventory for c in self.selected])
 
         @property
         def shuffled(self):
