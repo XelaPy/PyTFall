@@ -63,6 +63,7 @@ init: # Items:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         img = blank
                 frame:
+                    
                     background bg
                     pos (equipSlotsPositions[key][1], equipSlotsPositions[key][2]-0.1)
                     xysize (frame_size[0], frame_size[1])
@@ -71,7 +72,7 @@ init: # Items:
                     elif char.eqslots[key]:
                         add ProportionalScale(img, frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
                     else:
-                        text (u"{color=#CDCDC1}%s"%equipSlotsPositions[key][0]) align (0.5, 0.5) size txt_size
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
                         
         vbox:
             spacing 4
@@ -98,7 +99,7 @@ init: # Items:
                     elif char.eqslots[key]:
                         add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
                     else:
-                        text (u"{color=#CDCDC1}Ring") align (0.5, 0.5) size 14
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/ring_bg.png", frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
     
     screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
