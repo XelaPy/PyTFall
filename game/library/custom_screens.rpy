@@ -66,7 +66,7 @@ init: # Items:
                     elif char.eqslots[key]:
                         add ProportionalScale(img, frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
                     else:
-                        add (ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]-20, frame_size[1]-20)) align (0.5, 0.5)
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
                         
         vbox:
             spacing 4
@@ -93,7 +93,7 @@ init: # Items:
                     elif char.eqslots[key]:
                         add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
                     else:
-                        add (ProportionalScale("content/gfx/interface/buttons/filters/ring_bg.png", frame_size[0]-20, frame_size[1]-20)) align (0.5, 0.5)
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/ring_bg.png", frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
     
     screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
