@@ -125,12 +125,16 @@ init -8 python:
             return all([x.remove(item,amount) for x in self.lst])
 
         def apply_filter(self, filter):
-            self.slot_filter = filter
-            for x in self.lst:
-                if filter in x.filters:
+            if filter in ('next', 'prev'):
+                for x in self.lst:
                     x.apply_filter(filter)
-                else:
-                    x.filtered_items = []
+            else:
+                self.slot_filter = filter
+                for x in self.lst:
+                    if filter in x.filters:
+                        x.apply_filter(filter)
+                    else:
+                        x.filtered_items = []
 
         def append(self, item, amount=1):
             all([x.append(item,amount) for x in self.lst])
