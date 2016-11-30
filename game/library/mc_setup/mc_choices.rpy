@@ -373,9 +373,9 @@ label build_mc_stories:
                                                                       l0="Fire Fox",
                                                                       l0_img="content/gfx/interface/images/mc/fire.png",
                                                                       l1="Mana Source",
-                                                                      l1_img="content/gfx/interface/images/mc/mana.png",
+                                                                      l1_img="content/gfx/interface/images/mc/flow.png",
                                                                       l2="Magical Kin",
-                                                                      l2_img="content/gfx/interface/images/mc/flow.png"
+                                                                      l2_img="content/gfx/interface/images/mc/mana.png"
                                                                       )
             
         mc_stories["Mage"]["MC"]["Arcane Knight"]["choices"] = OrderedDict(l="Ghost",
