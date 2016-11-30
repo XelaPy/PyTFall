@@ -11,11 +11,11 @@ init -8 python:
             for var in arr:
                 if isinstance(var, basestring):
                     totype.append("<str>")
-                elif isinstance(var, (list, tuple, renpy.python.RevertableList)):
+                elif isinstance(var, (list, tuple)):
                     totype.append("<list("+str(len(var))+")>")
-                elif isinstance(var, (dict, renpy.python.RevertableDict)):
+                elif isinstance(var, dict):
                     totype.append("<dict("+",".join(sorted(var.keys()))+")>")
-                elif isinstance(var, (Char, rChar)):
+                elif isinstance(var, Char):
                     totype.append("<char>")
                 else:
                     totype.append(str(type(var)))
@@ -104,7 +104,7 @@ init -8 python:
             self.slot_filter = False
 
         def __getitem__(self, item):
-            if isinstance(item, (list, renpy.python.RevertableList)):
+            if isinstance(item, list):
                 return 0
             return min([x[item] for x in self.lst])
 

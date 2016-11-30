@@ -20,7 +20,7 @@ init: # Items:
                     else:
                         # in groups indicate some have the item
                         background Frame("content/gfx/frame/frame_it1.png", -1, -1)
-                        add ProportionalScale(im.Sepia(item[0].icon if isinstance(item, (list, renpy.python.RevertableList)) else item.icon), frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
+                        add ProportionalScale(im.Sepia(item[0].icon if isinstance(item, list) else item.icon), frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
                         # or allow transfer of some?
                         #use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
     
@@ -47,7 +47,7 @@ init: # Items:
                 python:
                     equipment = char.eqslots[key]
                     if equipment:
-                        multiple_items = isinstance(equipment, (list, renpy.python.RevertableList))
+                        multiple_items = isinstance(equipment, list)
                         if multiple_items:
                             img = im.Sepia(equipment[0].icon)
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
