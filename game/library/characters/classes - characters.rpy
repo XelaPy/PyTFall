@@ -2302,6 +2302,11 @@ init -9 python:
                                 self.mod_stat(key, (int(2*item.mod[key])))
                             else:
                                 self.mod_stat(key, (int(1.5*item.mod[key])))
+                        elif "Magical Kin" in self.traits and key == "mp" and item.mod[key]>0:
+                            if item.type == "alcohol":
+                                self.mod_stat(key, (int(2*item.mod[key])))
+                            else:
+                                self.mod_stat(key, (int(1.5*item.mod[key])))
                         else:
                             self.mod_stat(key, item.mod[key])
                     else:

@@ -691,6 +691,8 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if char.vitality <= 15 and char.health >= 50:
         $ char.health -= 2
     $ sex_count += 1
+    if current_action in ["blow", "tits", "hand", "foot", "vag", "anal"] and "Mana Source" in hero.traits:
+        $ char.mp += int(char.get_max("mp")*0.2)
     if current_action == "mast":
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
         if sub > 0:

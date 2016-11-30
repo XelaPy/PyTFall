@@ -353,29 +353,35 @@ label build_mc_stories:
         mc_stories["Mage"]["choices"] = OrderedDict()
         
         mc_stories["Mage"]["choices"]["Arcane Knight"] = "content/gfx/interface/images/mc/arc.png"
-        mc_stories["Mage"]["choices"]["Steam"] = "content/gfx/interface/images/mc/fi.png"
+        mc_stories["Mage"]["choices"]["Sorcerer"] = "content/gfx/interface/images/mc/sorc.png"
                                                        
         mc_stories["Mage"]["Arcane Knight"] = {}
         mc_stories["Mage"]["Arcane Knight"]["class"] = "Mage"
         mc_stories["Mage"]["Arcane Knight"]["text"] = "As an Arcane Knight, he specialized in extermination of dangerous magical creatures which constantly threaten the city."
         
-        mc_stories["Mage"]["Steam"] = {}
-        mc_stories["Mage"]["Steam"]["class"] = "Mage"
-        mc_stories["Mage"]["Steam"]["text"] = "He chose to learn the secrets of fire and ice."
+        mc_stories["Mage"]["Sorcerer"] = {}
+        mc_stories["Mage"]["Sorcerer"]["class"] = "Mage"
+        mc_stories["Mage"]["Sorcerer"]["text"] = "As a Sorcerer, he has dedicated his life to the study of magic."
                                                        
         mc_stories["Mage"]["MC"] = {}
         for key in mc_stories["Mage"]["choices"]:
             mc_stories["Mage"]["MC"][key] = {}
             mc_stories["Mage"]["MC"][key]["choices"] = OrderedDict()
             
-        mc_stories["Mage"]["MC"]["Steam"]["choices"] = OrderedDict(l="Lampad",
-                                                                   l_img="content/gfx/interface/images/mc/fire.jpg"
+        mc_stories["Mage"]["MC"]["Sorcerer"]["choices"] = OrderedDict(l="Kitsune",
+                                                                      l_img="content/gfx/interface/images/mc/kitsune.jpg",
+                                                                      l0="Fire Fox",
+                                                                      l0_img="content/gfx/interface/images/mc/fire.png",
+                                                                      l1="Mana Source",
+                                                                      l1_img="content/gfx/interface/images/mc/flow.png",
+                                                                      l2="Magical Kin",
+                                                                      l2_img="content/gfx/interface/images/mc/mana.png"
                                                                       )
             
         mc_stories["Mage"]["MC"]["Arcane Knight"]["choices"] = OrderedDict(l="Ghost",
                                                                       l_img="content/gfx/interface/images/mc/ghost.jpg",
                                                                       l0="Intangible",
-                                                                      l0_img="content/gfx/interface/images/mc/illusion_1.png",
+                                                                      l0_img="content/gfx/interface/images/mc/ill.png",
                                                                       l1="Illusive",
                                                                       l1_img="content/gfx/interface/images/mc/illusion.png",
                                                                       l2="Creature of Light",
@@ -390,10 +396,22 @@ label build_mc_stories:
                                                                       r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
                                                                       
-        mc_stories["Mage"]["MC"]["Steam"]["Lampad"] = {} 
-        mc_stories["Mage"]["MC"]["Steam"]["Lampad"]["header"] = "Lampad"
-        mc_stories["Mage"]["MC"]["Steam"]["Lampad"]["text"] = "Lampads are immortal nymphs from the elemental plane of Fire. Friendly and flirty, they like to travel between worlds in search of entertainment, rarely staying in one place for more than one year."
-        mc_stories["Mage"]["MC"]["Steam"]["Lampad"]["label"] = "mc_setup_mage_steam_lampad"
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"] = {} 
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["header"] = "Kitsune"
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["text"] = "Kitsunes are intelligent beings from a distant land possessing significant magical abilities that increase with their age and wisdom. Your mother however was very young and inexperienced when her clan sent her to study arcane arts under the guidance of your father."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["label"] = "mc_setup_mage_sorcerer_kitsune"
+        
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Fire Fox"] = {}
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Fire Fox"]["text"] = "Fire spells heal you instead of hurting, but your Ice spells are almost ineffective."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Fire Fox"]["label"] = "mc_setup_mage_sorcerer_kitsune_fire"
+        
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Mana Source"] = {}
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Mana Source"]["text"] = "You are not just fill of magic energy, you can also share it with others. Most intimacy actions restore a great deal of magic energy for your partner."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Mana Source"]["label"] = "mc_setup_mage_sorcerer_kitsune_mana"
+        
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Magical Kin"] = {}
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Magical Kin"]["text"] = "Due to your heritage consumables that restore mp work much better on you, especially alcohol."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["Magical Kin"]["label"] = "mc_setup_mage_sorcerer_kitsune_flow"
                                                                       
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"] = {} 
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"]["header"] = "Ghost"
@@ -410,7 +428,7 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"]["Illusive"]["label"] = "mc_setup_mage_arc_ghost_illusive"
         
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"]["Creature of Light"] = {}
-        mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"]["Creature of Light"]["text"] = "Light spells now heal you instead of hurting, but your Water and Ice spells are a bit less effective."
+        mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"]["Creature of Light"]["text"] = "Light spells heal you instead of hurting, but your Darkness spells are almost ineffective."
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Ghost"]["Creature of Light"]["label"] = "mc_setup_mage_arc_ghost_light"
         
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"] = {} 
@@ -420,7 +438,7 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["class"] = "Defender"
         
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"] = {}
-        mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells now heal you instead of hurting, but your Fire and Electricity spells are a bit less effective."
+        mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells heal you instead of hurting, but your Light spells are almost ineffective."
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"]["label"] = "mc_setup_mage_arc_vampire_night"
         
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Blood Master"] = {}
