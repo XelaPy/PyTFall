@@ -6,16 +6,6 @@ init:
     python:
         def sorting_for_chars_list():
             return [c for c in hero.chars if c.is_available]
-
-        def charlist_or_char(as_list=False):
-            if char_list_selection:
-                l = list(char_list_selection)
-                if any(l):
-                    if len(l) == 1:
-                        return l if as_list == True else l[0]
-                    return l if isinstance(as_list, bool) else PytGroup(l);
-            if char:
-                return [char] if as_list == True else char
         
 label chars_list:
     scene bg gallery
@@ -29,7 +19,7 @@ label chars_list:
             location_filters = list(set([c.location for c in hero.chars]))
             action_filters = list(set([c.action for c in hero.chars]))
             selected_filters = set(['Status', 'Site', 'Action']) #, 'Class'
-            char_list_selection = set()
+            the_chosen = set()
         
         show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)
     with dissolve
@@ -143,8 +133,8 @@ screen chars_list(source=None, page=0, total_pages=1):
                                             xpos 30
                                             if c.status == "slave":
                                                 ypos 11
-                                            action ToggleSetMembership(char_list_selection, c)
-                                            if c in char_list_selection:
+                                            action ToggleSetMembership(the_chosen, c)
+                                            if c in the_chosen:
                                                 add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
                                             else:
                                                 add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
@@ -267,18 +257,18 @@ screen chars_list(source=None, page=0, total_pages=1):
                     $ chars_on_page = set(chars_list[0] + chars_list[1])
                     button: # select all on current listing, deselects them if all are selected
                         xysize (66, 40)
-                        if char_list_selection.issuperset(chars_on_page):
-                            action SetVariable("char_list_selection", char_list_selection.difference(chars_on_page))
+                        if the_chosen.issuperset(chars_on_page):
+                            action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
                         else:
-                            action SetVariable("char_list_selection", char_list_selection.union(chars_on_page))
+                            action SetVariable("the_chosen", the_chosen.union(chars_on_page))
                         text "These"
                     button: # every of currently filtered, also in next tabs
                         xysize (66, 40)
-                        action If(set(source.sorted).difference(char_list_selection), [SetVariable("char_list_selection", set(source.sorted))])
+                        action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
                         text "All"
                     button: # deselect all
                         xysize (66, 40)
-                        action If(len(char_list_selection), [SetVariable("char_list_selection", set())])
+                        action If(len(the_chosen), [SetVariable("the_chosen", set())])
                         text "None"
             # Mass action Buttons ====================================>
             frame:
@@ -291,15 +281,15 @@ screen chars_list(source=None, page=0, total_pages=1):
                     spacing 3
                     button:
                         xysize (150, 40)
-                        action If(len(char_list_selection), [Show("girl_control")])
+                        action If(len(the_chosen), [Show("girl_control")])
                         text "Girl Control"
                     button:
                         xysize (150, 40)
-                        action If(len(char_list_selection), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
+                        action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
                         text "Equipment"
                     button:
                         xysize (150, 40)
-                        action If(len(char_list_selection), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
+                        action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
                     #button:
             

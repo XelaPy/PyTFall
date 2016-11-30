@@ -72,9 +72,7 @@ label char_equip:
 
         if not eqtarget:
             came_to_equip_from = "chars_list"
-            eqtarget = charlist_or_char()
-            if isinstance(eqtarget, list):
-                eqtarget = eqtarget[0] if len(eqtarget) == 1 else PytGroup(eqtarget)
+            eqtarget = PytGroup(list(the_chosen)) if the_chosen else char
 
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)

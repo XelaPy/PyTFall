@@ -30,7 +30,6 @@ init -8 python:
                     return deDist(arr, remedy=remedy, at=at+"{}")
                 if all(cmp(arr[0], r) == 0 for r in arr[1:]):
                     return arr[0]
-                #return deAttr(arr, remedy=remedy if at+"." in remedy else None, at=at+".")
 
             # else try to get a single value for a list
 
@@ -142,30 +141,31 @@ init -8 python:
 
     class PytGroup(deAttr):
 
-        def __init__(self, characters):
+        def __init__(self, chars):
             remedy={
                 "eqslots{}": self.most_abundant_not_False,
                 "status": "various",
-                "autobuy": [],
-                "front_row": [],
-                "autoequip": [],
-                "autocontrol{}": [],
+                "autobuy": [], "front_row": [], "autoequip": [], "autocontrol{}": [],
                 "flatten": ["traits", "attack_skills", "magic_skills"]
             }
-            super(PytGroup, self).__init__(characters, remedy=remedy)
-            self._attrs.append('inventory')
-            self.inventory = PytGInv([c.inventory for c in self.selected])
+            super(PytGroup, self).__init__(chars, remedy=remedy)
+            self._attrs.extend(['inventory', 'name', 'img', 'portrait', 'nickname', 'effects', 'stats'])
 
-        @property
-        def name(self): return "A group of "+str(len(self.selected))
-        @property
-        def img(self): return "content/gfx/interface/images/group.png"
-        @property
-        def portrait(self): return "content/gfx/interface/images/group_portrait.png"
-        @property
-        def nickname(self): return "group"
-        @property
-        def effects(self): return {}
+            self.inventory = PytGInv([c.inventory for c in self.selected])
+            self.name = "A group of "+str(len(self.selected));
+            self.img = "content/gfx/interface/images/group.png"
+            self.portrait = "content/gfx/interface/images/group_portrait.png"
+            self.nickname = "group"
+            self.effects = {}
+            stat_remedy = {'_get_stat()': self._average, '_raw_skill()': self._average}
+            self.stats = deAttr([c.stats for c in self.selected], remedy=stat_remedy)
+
+        def __new__(cls, chars):
+            return chars[0] if len(chars) == 1 else super(Delegator, cls).__new__(cls, chars)
+
+        # for pickle & __new__
+        def __getnewargs__(self): return (PytGroup.__repr__(self),)
+        def __repr__(self): return '<PytGroup %r>' % self.lst
 
         @property
         def shuffled(self):
@@ -177,10 +177,10 @@ init -8 python:
 
         @property
         def given_items(self):
-            return {k:min([c.given_items[k] for c in self.lst]) for k in self.lst[0].given_items.keys()}
+            return {k:min([c.given_items[k] for c in self.lst]) for k in self.lst[0].given_items}
         @property
         def wagemod(self):
-            return round(float(sum([c.wagemod for c in self.selected])) / max(len(self.selected), 1), 1)
+            return self._average([c.wagemod for c in self.selected])
         @wagemod.setter
         def wagemod(self, v):
             for c in self.selected:
@@ -201,4 +201,6 @@ init -8 python:
         def most_abundant_not_False(self, arr):
             return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
 
+        def _average(self, arr):
+            return round(float(sum(arr)) / max(len(arr), 1), 1)
 
