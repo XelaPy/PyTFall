@@ -177,8 +177,19 @@ label mc_setup_mage_arc_vampire_reflex:
     $ hero.apply_trait("Perfect Reflexes")
     return
     
-label mc_setup_mage_steam_lampad:
-    $ hero.apply_trait("Fiery Blood")
+label mc_setup_mage_sorcerer_kitsune:
+    $ hero.apply_trait("Kitsune Blood")
     $ hero.apply_trait("Fire")
     return
     
+label mc_setup_mage_sorcerer_kitsune_fire:
+    $ hero.apply_trait("Master of Fire")
+    return
+    
+label mc_setup_mage_sorcerer_kitsune_mana:
+    $ hero.apply_trait("Mana Source")
+    return
+    
+label mc_setup_mage_sorcerer_kitsune_flow:
+    $ hero.apply_trait("Magical Kin")
+    return

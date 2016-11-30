@@ -212,6 +212,12 @@
     "permanent": true
     },
     {
+    "id": "Magical Kin",
+    "desc": "All consumables that restore mp are more effective, especially alcohol.",
+    "MC_trait": true,
+    "permanent": true
+    },
+    {
     "id": "Dragon Eyesight",
     "desc": "Dragons have perfect distance vision, and so do you. Slightly increases critical damage.",
     "ch_multiplier": 0.1,
@@ -262,17 +268,25 @@
     },
     {
     "id": "Master of Darkness",
-    "desc": "Darkness spells now heal you instead of hurting, but your Fire and Electricity spells are less effective.",
-    "el_damage": {"fire": -0.5, "electricity": -0.5},
-    "el_absorbs": {"darkness": 0.35},
+    "desc": "Darkness spells heal you instead of hurting, but your Light spells are almost ineffective.",
+    "el_damage": {"light": -0.9},
+    "el_absorbs": {"darkness": 0.15},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Master of Light",
-    "desc": "Light spells now heal you instead of hurting, but your Water and Ice spells are less effective.",
-    "el_damage": {"water": -0.5, "ice": -0.5},
-    "el_absorbs": {"light": 0.35},
+    "desc": "Light spells heal you instead of hurting, but your Darkness spells are almost ineffective.",
+    "el_damage": {"darkness": -0.9},
+    "el_absorbs": {"light": 0.15},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Master of Fire",
+    "desc": "Fire spells heal you instead of hurting, but your Ice spells are almost ineffective.",
+    "el_damage": {"ice": -0.9},
+    "el_absorbs": {"fire": 0.15},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -287,6 +301,20 @@
     "desc": "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected you health.",
     "max": {"health": -100, "vitality": -25},
     "evasion_bonus": [20, 30, 50],
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Kitsune Blood",
+    "desc": "Due to your foxy heritage you possess more magical energy than others and cannot have less than 5 mp.",
+    "max": {"mp": 50},
+    "min": {"mp": 5},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Mana Source",
+    "desc": "You are not just fill of magic energy, you can also share it with others. Most intimacy actions restore a great deal of magic energy for your partner.",
     "MC_only_trait": true,
     "permanent": true
     }
