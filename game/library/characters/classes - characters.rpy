@@ -1248,6 +1248,7 @@ init -9 python:
                 "Impressible": {"active": False, "desc": "Easier to decrease and increase joy."},
                 "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
                 "Regeneration": {"active": False, "desc": "Restores some health every day."},
+                "MP Regeneration": {"active": False, "desc": "Restores some mp every day."},
                 "Small Regeneration": {"active": False, "desc": "Restores 10 health every day for 20 days."},
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
                 "Horny": {"active": False, "desc": "She's in the mood for sex."},
@@ -2297,6 +2298,8 @@ init -9 python:
                             self.mod_stat(key, (2*item.mod[key]))
                         elif "Summer Eternality" in self.traits and key == "health" and item.mod[key]>0:
                             self.mod_stat(key, (int(0.35*item.mod[key])))
+                        elif "Winter Eternality" in self.traits and key == "mp" and item.mod[key]>0:
+                            self.mod_stat(key, (int(0.35*item.mod[key])))
                         elif "Effective Metabolism" in self.traits and key == "vitality" and item.mod[key]>0:
                             if item.type == "food":
                                 self.mod_stat(key, (int(2*item.mod[key])))
@@ -2647,6 +2650,9 @@ init -9 python:
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
                 
+            elif effect == "MP Regeneration":
+                self.effects['MP Regeneration']['active'] = True
+                
             elif effect == "Small Regeneration":
                 self.effects['Small Regeneration']['active'] = True
                 
@@ -2772,6 +2778,9 @@ init -9 python:
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
                 
+            elif effect == "MP Regeneration":
+                self.effects['MP Regeneration']['active'] = False
+                
             elif effect == "Small Regeneration":
                 self.effects['Small Regeneration']['active'] = False
                 
@@ -2896,6 +2905,14 @@ init -9 python:
                 if h <= 0:
                     h = 1
                 self.health += h
+                
+            elif effect == "MP Regeneration":
+                h = 0
+                if "Winter Eternality" in self.traits:
+                    h += int(self.get_max("mp")*0.33)
+                if h <= 0:
+                    h = 1
+                self.mp += h
                 
             elif effect == "Small Regeneration":
                 self.health += 10

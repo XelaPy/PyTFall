@@ -225,7 +225,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_shooter_summer_fay"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"] = {}
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores third of max health every day, but healing items are almost ineffective."
+        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores 1/3 of max health every day, but healing items are less effective."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["label"] = "mc_setup_warrior_shooter_summer_fay_eternal"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Summer Affinity"] = {}
@@ -375,7 +375,15 @@ label build_mc_stories:
                                                                       l1="Mana Source",
                                                                       l1_img="content/gfx/interface/images/mc/flow.png",
                                                                       l2="Magical Kin",
-                                                                      l2_img="content/gfx/interface/images/mc/mana.png"
+                                                                      l2_img="content/gfx/interface/images/mc/mana.png",
+                                                                      r="Winter Fay",
+                                                                      r_img="content/gfx/interface/images/mc/winter.jpg",
+                                                                      r0="Creature of Ice",
+                                                                      r0_img="content/gfx/interface/images/mc/ice.png",
+                                                                      r1="Immutability",
+                                                                      r1_img="content/gfx/interface/images/mc/infinity_1.png",
+                                                                      r2="Winter Magician",
+                                                                      r2_img="content/gfx/interface/images/mc/winter_m.png",
                                                                       )
             
         mc_stories["Mage"]["MC"]["Arcane Knight"]["choices"] = OrderedDict(l="Ghost",
@@ -395,6 +403,23 @@ label build_mc_stories:
                                                                       r2="Perfect Reflexes",
                                                                       r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
+                                                                      
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"] = {} 
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["header"] = "Winter Fay"
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["text"] = "Winter Fae are known to be harsh and unyielding, representing the entropy and death in the circle of Nature. Therefore the reason behind your birth is unclear. Perhaps it remains to be seen."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["label"] = "mc_setup_mage_sorcerer_winter"
+        
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Creature of Ice"] = {}
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Creature of Ice"]["text"] = "Ice spells heal you instead of hurting, but your Fire spells are almost ineffective."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Creature of Ice"]["label"] = "mc_setup_mage_sorcerer_winter_ice"
+                                                                      
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Immutability"] = {}
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Immutability"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores 1/3 of max mp every day, but items that restore it are less effective."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Immutability"]["label"] = "mc_setup_mage_sorcerer_winter_imm"
+        
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Winter Magician"] = {}
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Winter Magician"]["text"] = "The winter itself gives you powers. You may have less mp than others, but it cannot become zero no matter what."
+        mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["Winter Magician"]["label"] = "mc_setup_mage_sorcerer_winter_win"
                                                                       
         mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"] = {} 
         mc_stories["Mage"]["MC"]["Sorcerer"]["Kitsune"]["header"] = "Kitsune"
