@@ -495,7 +495,7 @@ screen group_equip_left_frame(tt):
                             margin 0, 0
                             has vbox spacing 1
                             # character togglebuttons:
-                            for k in eqtarget.selected[:min(26,int(len(eqtarget)/2))]:
+                            for k in eqtarget.selected[0::2]:
                                 text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
                     vbox:
                         yfill True
@@ -507,7 +507,7 @@ screen group_equip_left_frame(tt):
                             padding 6, 6
                             margin 0, 0
                             has vbox spacing 1
-                            for k in eqtarget.selected[min(26,int(len(eqtarget)/2)):len(eqtarget)]:
+                            for k in eqtarget.selected[1::2]:
                                 text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
 
 
