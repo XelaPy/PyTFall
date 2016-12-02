@@ -476,7 +476,7 @@ init -11 python:
         This func cannot be used to make a playable character that can properly interact with the game world.
         """
         if isinstance(char, PytGroup):
-            char = char.selected[0]
+            char = char._first
 
         # new = deepcopy(char)
         # Trying to improve the performace:

@@ -745,7 +745,7 @@ screen char_profile():
     use top_stripe(True)
     
 screen girl_control():
-    default char = PytGroup(list(the_chosen)) if the_chosen else char
+    default char = PytGroup(the_chosen) if the_chosen else char
     modal True
     zorder 1
     

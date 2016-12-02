@@ -27,7 +27,7 @@ label girl_training:
     with dissolve
     
     python:
-        char = PytGroup(list(the_chosen)) if the_chosen else char
+        char = PytGroup(the_chosen) if the_chosen else char
         # Ensure valid school
         if training_screen_current is None:
             for i in schools:
@@ -77,7 +77,6 @@ label girl_training:
     if the_chosen == None:
         jump char_profile
     else:
-        $ the_chosen = None
         jump chars_list
 
     

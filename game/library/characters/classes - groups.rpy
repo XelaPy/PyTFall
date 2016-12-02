@@ -5,6 +5,10 @@ init -8 python:
             self.lst = l
             self._remedy = {} if remedy is None else remedy
 
+        @property
+        def _first(self):
+            return next(iter(self.lst))
+
         def _defer(self, arr, at):
             # get unique types:
             totype = []
@@ -28,13 +32,17 @@ init -8 python:
                     return deDist(arr, remedy=remedy, at=at+"[]")
                 if totype[0][0:5] == "<dict":
                     return deDist(arr, remedy=remedy, at=at+"{}")
-                if all(cmp(arr[0], r) == 0 for r in arr[1:]):
-                    return arr[0]
+                first = next(iter(arr))
+                if all(cmp(first, r) == 0 for r in arr):
+                    return first
 
             # else try to get a single value for a list
 
             if 'flatten' in self._remedy and at in self._remedy['flatten']:
                 return list(frozenset([item for sublist in arr for item in sublist]))
+
+            if not at in remedy:
+                renpy.error(at+"\n"+str(totype)+"\n"+str(arr))
 
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
@@ -55,18 +63,19 @@ init -8 python:
             for d in self.lst:
                 del(d[k])
         def __iter__(self):
-            if isinstance(self.lst[0], dict):
-                return iter({k: self._defer(arr=[x[k] for x in self.lst], at=self._at) for k in self.lst[0]})
+            if isinstance(self._first, dict):
+                return iter({k: self._defer(arr=[x[k] for x in self.lst], at=self._at) for k in self._first})
 
-            return iter(self._defer(arr=[x[i] for x in self.lst], at=self._at) for i in range(len(self.lst[0])))
+            return iter(self._defer(arr=[x[i] for x in self.lst], at=self._at) for i in range(len(self._first)))
 
-        def __len__(self): return len(self.lst[0])
+        def __len__(self): return len(self._first)
 
 
     class deAttr(Delegator):
         """ only provides obvious solutions, everything else needs a remedy """
 
         def __init__(self, l, at=None, remedy=None):
+            # attributes of this class are added here to prevent infinite __setattr__ recursion
             self._attrs = ['lst', '_remedy', '_at']
             super(deAttr, self).__init__(l, remedy=remedy)
             self._remedy = {} if remedy is None else remedy
@@ -85,7 +94,7 @@ init -8 python:
             if item.startswith('__') and item.endswith('__'):
                 return super(deAttr, self).__getattr__(item)
 
-            if callable(getattr(self.lst[0], item)):
+            if callable(getattr(self._first, item)):
 
                 def wrapper(*args, **kwargs):
                     return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=self._at+item+"()")
@@ -136,7 +145,7 @@ init -8 python:
                         x.filtered_items = []
 
         def append(self, item, amount=1):
-            all([x.append(item,amount) for x in self.lst])
+            all([x.append(item, amount) for x in self.lst])
 
 
     class PytGroup(deAttr):
@@ -149,41 +158,43 @@ init -8 python:
                 "flatten": ["traits", "attack_skills", "magic_skills"]
             }
             super(PytGroup, self).__init__(chars, remedy=remedy)
-            self._attrs.extend(['inventory', 'name', 'img', 'portrait', 'nickname', 'effects', 'stats'])
+            self._attrs.extend(['inventory', 'img', 'portrait', 'nickname', 'effects', 'stats', 'unselected'])
 
-            self.inventory = PytGInv([c.inventory for c in self.selected])
-            self.name = "A group of "+str(len(self.selected));
+            self.inventory = PytGInv([c.inventory for c in self.lst])
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
             self.nickname = "group"
             self.effects = {}
             stat_remedy = {'_get_stat()': self._average, '_raw_skill()': self._average}
-            self.stats = deAttr([c.stats for c in self.selected], remedy=stat_remedy)
+            self.stats = deAttr([c.stats for c in self.lst], remedy=stat_remedy)
+            self.unselected = set()
 
         def __new__(cls, chars):
-            return chars[0] if len(chars) == 1 else super(Delegator, cls).__new__(cls, chars)
+            return next(iter(chars)) if len(chars) == 1 else super(Delegator, cls).__new__(cls, chars)
 
         # for pickle & __new__
         def __getnewargs__(self): return (PytGroup.__repr__(self),)
         def __repr__(self): return '<PytGroup %r>' % self.lst
 
-        @property
-        def shuffled(self):
-            return random.sample(self.selected, len(self.selected))
+        def __len__(self): return len(self.lst)
 
         @property
-        def selected(self):
-            return self.lst
+        def name(self): return "A group of "+str(len(self));
+
+        @property
+        def all(self): return sorted(list(self.lst) + list(self.unselected));
+
+        @property
+        def shuffled(self): return random.sample(self.lst, len(self))
 
         @property
         def given_items(self):
-            return {k:min([c.given_items[k] for c in self.lst]) for k in self.lst[0].given_items}
+            return {k:min([c.given_items[k] for c in self.lst]) for k in self._first.given_items}
         @property
-        def wagemod(self):
-            return self._average([c.wagemod for c in self.selected])
+        def wagemod(self): return self._average([c.wagemod for c in self.lst])
         @wagemod.setter
         def wagemod(self, v):
-            for c in self.selected:
+            for c in self.lst:
                 c.wagemod = v
 
         def show(self, what, resize=(None, None), cache=True):
@@ -193,9 +204,6 @@ init -8 python:
                 what = self.img
 
             return ProportionalScale(what, resize[0], resize[1])
-
-        def __len__(self):
-            return len(self.selected)
 
         # remedy functions below
         def most_abundant_not_False(self, arr):

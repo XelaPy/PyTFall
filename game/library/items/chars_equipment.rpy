@@ -72,7 +72,7 @@ label char_equip:
 
         if not eqtarget:
             came_to_equip_from = "chars_list"
-            eqtarget = PytGroup(list(the_chosen)) if the_chosen else char
+            eqtarget = PytGroup(the_chosen) if the_chosen else char
 
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)
@@ -88,8 +88,8 @@ label char_equip:
     
 label char_equip_loop:
     while 1:
-        
         $ result = ui.interact()
+        #$ char = eqtarget
         
         if not result:
             jump char_equip_loop
@@ -97,7 +97,7 @@ label char_equip_loop:
         if result[0] == "jump":
             if result[1] == "item_transfer":
                 hide screen char_equip
-                $ items_transfer([hero] + (eqtarget.selected if isinstance(eqtarget,PytGroup) else [eqtarget]))
+                $ items_transfer([hero] + list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget])
                 $ eqtarget.inventory.set_page_size(16)
                 $ hero.inventory.set_page_size(16)
                 show screen char_equip
@@ -495,11 +495,17 @@ screen group_equip_left_frame(tt):
                                 margin 0, 0
                                 has vbox spacing 1
                                 # character togglebuttons:
-                                for k in eqtarget.lst[offs::2]:
-                                    if k in eqtarget.selected:
-                                        text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
-                                    else:
-                                        text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#75755C"
+                                for k in eqtarget.all[offs::2]:
+                                    button:
+                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k)
+                                        background Null()
+                                        if k in eqtarget.lst:
+                                            if len(eqtarget) == 1:
+                                                sensitive False
+                                            text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                                        else:
+                                            text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#75755C"
+                                        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 0, 0)
 
 
 
