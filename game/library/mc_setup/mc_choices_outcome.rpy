@@ -193,3 +193,20 @@ label mc_setup_mage_sorcerer_kitsune_mana:
 label mc_setup_mage_sorcerer_kitsune_flow:
     $ hero.apply_trait("Magical Kin")
     return
+    
+label mc_setup_mage_sorcerer_winter:
+    $ hero.apply_trait("Fae Blood")
+    $ hero.apply_trait("Ice")
+    return
+    
+label mc_setup_mage_sorcerer_winter_ice:
+    $ hero.apply_trait("Master of Ice")
+    return
+    
+label mc_setup_mage_sorcerer_winter_imm:
+    $ hero.apply_trait("Winter Eternality")
+    return
+    
+label mc_setup_mage_sorcerer_winter_win:
+    $ hero.apply_trait("Winter Magician")
+    return
