@@ -484,31 +484,22 @@ screen group_equip_left_frame(tt):
                 xsize 218
                 has hbox
                 hbox:
-                    vbox:
-                        yfill True
-                        #yoffset 195
-                        spacing 5
-                        frame:
-                            xsize 104
-                            ymaximum 585
-                            padding 6, 6
-                            margin 0, 0
-                            has vbox spacing 1
-                            # character togglebuttons:
-                            for k in eqtarget.selected[0::2]:
-                                text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
-                    vbox:
-                        yfill True
-                        #yoffset 195
-                        spacing 5
-                        frame:
-                            xsize 104
-                            ymaximum 585
-                            padding 6, 6
-                            margin 0, 0
-                            has vbox spacing 1
-                            for k in eqtarget.selected[1::2]:
-                                text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                    for offs in [0, 1]:
+                        vbox:
+                            yfill True
+                            spacing 5
+                            frame:
+                                xsize 104
+                                ymaximum 585
+                                padding 6, 6
+                                margin 0, 0
+                                has vbox spacing 1
+                                # character togglebuttons:
+                                for k in eqtarget.lst[offs::2]:
+                                    if k in eqtarget.selected:
+                                        text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                                    else:
+                                        text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#75755C"
 
 
 
