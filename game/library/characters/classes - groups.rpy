@@ -1,16 +1,19 @@
 # classes and methods for groups of Characters:
 init -8 python:
     class Delegator(_object):
-        def __init__(self, l, remedy=None):
+        def __init__(self, l, at, remedy=None, *args, **kwargs):
             self.lst = l
+            self._at = at
             self._remedy = {} if remedy is None else remedy
 
         @property
         def _first(self):
             return next(iter(self.lst))
 
-        def _defer(self, arr, at):
+        def _defer(self, arr, at=""):
+            import inspect
             # get unique types:
+            at = self._at + at
             totype = []
             for var in arr:
                 if isinstance(var, basestring):
@@ -44,17 +47,19 @@ init -8 python:
             if not at in remedy:
                 renpy.error(at+"\n"+str(totype)+"\n"+str(arr))
 
+            if inspect.isclass(remedy[at]) and issubclass(remedy[at], Delegator):
+                return remedy[at](l=arr, at=at, remedy=remedy)
+
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
 
     class deDist(Delegator):
 
-        def __init__(self, l, at, remedy=None, *args, **kwargs):
-            super(deDist, self).__init__(l, remedy=remedy)
-            self._at = at
+        def __init__(self, *args, **kwargs):
+            super(deDist, self).__init__(*args, **kwargs)
 
         def __getitem__(self, k):
-            return self._defer(arr=[d[k] for d in self.lst], at=self._at)
+            return self._defer(arr=[d[k] for d in self.lst])
 
         def __setitem__(self, k, v):
             for d in self.lst:
@@ -64,9 +69,9 @@ init -8 python:
                 del(d[k])
         def __iter__(self):
             if isinstance(self._first, dict):
-                return iter({k: self._defer(arr=[x[k] for x in self.lst], at=self._at) for k in self._first})
+                return iter({k: self._defer(arr=[x[k] for x in self.lst]) for k in self._first})
 
-            return iter(self._defer(arr=[x[i] for x in self.lst], at=self._at) for i in range(len(self._first)))
+            return iter(self._defer(arr=[x[i] for x in self.lst]) for i in range(len(self._first)))
 
         def __len__(self): return len(self._first)
 
@@ -74,12 +79,10 @@ init -8 python:
     class deAttr(Delegator):
         """ only provides obvious solutions, everything else needs a remedy """
 
-        def __init__(self, l, at=None, remedy=None):
+        def __init__(self, *args, **kwargs):
             # attributes of this class are added here to prevent infinite __setattr__ recursion
             self._attrs = ['lst', '_remedy', '_at']
-            super(deAttr, self).__init__(l, remedy=remedy)
-            self._remedy = {} if remedy is None else remedy
-            self._at = at if at is not None else ""
+            super(deAttr, self).__init__(*args, **kwargs)
 
         def __setattr__(self, k, v):
              if k != '_attrs' and k not in self._attrs:
@@ -97,17 +100,17 @@ init -8 python:
             if callable(getattr(self._first, item)):
 
                 def wrapper(*args, **kwargs):
-                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=self._at+item+"()")
+                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at="."+item+"()")
 
                 return wrapper
 
-            return self._defer(arr=[getattr(c, item) for c in self.lst], at=self._at+item)
+            return self._defer(arr=[getattr(c, item) for c in self.lst], at="."+item)
 
 
     class PytGInv(deAttr):
 
         def __init__(self, inv):
-            super(PytGInv, self).__init__(inv)
+            super(PytGInv, self).__init__(l=inv, at="inventory")
             self._attrs.append('slot_filter')
             self.slot_filter = False
 
@@ -152,12 +155,12 @@ init -8 python:
 
         def __init__(self, chars):
             remedy={
-                "eqslots{}": self.most_abundant_not_False,
-                "status": "various",
-                "autobuy": [], "front_row": [], "autoequip": [], "autocontrol{}": [],
-                "flatten": ["traits", "attack_skills", "magic_skills"]
+                ".eqslots{}": self._abundant_not_False,
+                ".status": ".various",
+                ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [],
+                "flatten": [".traits", ".attack_skills", ".magic_skills"]
             }
-            super(PytGroup, self).__init__(chars, remedy=remedy)
+            super(PytGroup, self).__init__(l=chars, remedy=remedy, at="")
             self._attrs.extend(['_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats', 'unselected'])
 
             self._inventory = PytGInv([c.inventory for c in self.lst])
@@ -165,8 +168,8 @@ init -8 python:
             self.portrait = "content/gfx/interface/images/group_portrait.png"
             self.nickname = "group"
             self.effects = {}
-            stat_remedy = {'_get_stat()': self._average, '_raw_skill()': self._average}
-            self._stats = deAttr([c.stats for c in self.lst], remedy=stat_remedy)
+            stat_remedy = {'.stats._get_stat()': self._average, '.stats._raw_skill()': self._average}
+            self._stats = deAttr(l=[c.stats for c in self.lst], remedy=stat_remedy,at=".stats")
             self.unselected = set()
 
         def __new__(cls, chars):
@@ -216,7 +219,7 @@ init -8 python:
             return ProportionalScale(what, resize[0], resize[1])
 
         # remedy functions below
-        def most_abundant_not_False(self, arr):
+        def _abundant_not_False(self, arr):
             return [x[1] for x in sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)]
 
         def _average(self, arr):
