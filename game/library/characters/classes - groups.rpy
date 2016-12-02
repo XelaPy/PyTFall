@@ -158,15 +158,15 @@ init -8 python:
                 "flatten": ["traits", "attack_skills", "magic_skills"]
             }
             super(PytGroup, self).__init__(chars, remedy=remedy)
-            self._attrs.extend(['inventory', 'img', 'portrait', 'nickname', 'effects', 'stats', 'unselected'])
+            self._attrs.extend(['_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats', 'unselected'])
 
-            self.inventory = PytGInv([c.inventory for c in self.lst])
+            self._inventory = PytGInv([c.inventory for c in self.lst])
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
             self.nickname = "group"
             self.effects = {}
             stat_remedy = {'_get_stat()': self._average, '_raw_skill()': self._average}
-            self.stats = deAttr([c.stats for c in self.lst], remedy=stat_remedy)
+            self._stats = deAttr([c.stats for c in self.lst], remedy=stat_remedy)
             self.unselected = set()
 
         def __new__(cls, chars):
@@ -186,6 +186,16 @@ init -8 python:
 
         @property
         def shuffled(self): return random.sample(self.lst, len(self))
+
+        @property
+        def inventory(self):
+            self._inventory.lst = [c.inventory for c in self.lst]
+            return self._inventory
+
+        @property
+        def stats(self):
+            self._stats.lst = [c.stats for c in self.lst]
+            return self._stats
 
         @property
         def given_items(self):
