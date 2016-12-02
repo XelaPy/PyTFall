@@ -217,7 +217,7 @@ init -8 python:
 
         # remedy functions below
         def most_abundant_not_False(self, arr):
-            return [sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)[0][1]]
+            return [x[1] for x in sorted(((arr.count(e), e) for e in set(arr) if e is not False), reverse=True)]
 
         def _average(self, arr):
             return round(float(sum(arr)) / max(len(arr), 1), 1)

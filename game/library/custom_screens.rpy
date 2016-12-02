@@ -20,9 +20,7 @@ init: # Items:
                     else:
                         # in groups indicate some have the item
                         background Frame("content/gfx/frame/frame_it1.png", -1, -1)
-                        add ProportionalScale(im.Sepia(item.icon), frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
-                        # or allow transfer of some?
-                        #use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
+                        use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
     
     screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).

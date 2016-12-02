@@ -169,6 +169,11 @@ label char_equip_loop:
             elif result[1] == 'equip':
                 python:
                     focusitem = result[2]
+                    if isinstance(inv_source, PytGroup) and inv_source.inventory[focusitem] == 0:
+                        selected_chars = inv_source.all
+                        inv_source.lst = set([c for c in selected_chars if c.inventory[focusitem]])
+                        inv_source.unselected = set([c for c in selected_chars if not c.inventory[focusitem]])
+
                     selectedslot = focusitem.slot
                     item_direction = 'equip'
                     
