@@ -613,10 +613,13 @@ screen char_equip_right_frame(tt):
                                 text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
                     
                     
-        elif not tt.value and eqtarget.status == "slave":
-            text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
-        elif not tt.value and eqtarget.status == "free":
-            text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+        elif not tt.value:
+            if isinstance(eqtarget, PytGroup):
+                text (u"{color=#ecc88a}%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+            elif eqtarget.status == "slave":
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+            elif eqtarget.status == "free":
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
         
         #if isinstance(tt.value, BE_Action):
             #$ element = tt.value.get_element()
