@@ -187,13 +187,23 @@ label char_equip_loop:
                     if len(result) == 4:
                         unequip_slot = result[3]
                         
+                    if isinstance(result[2], list):
+                        group = eqtarget if isinstance(eqtarget, PytGroup) else inv_source
+                        first_item = result[2][0]
+                        selected_chars = group.all
+                        group.lst = set([c for c in selected_chars if c.eqslots[first_item.slot]])
+                        group.unselected = set([c for c in selected_chars if not c.eqslots[first_item.slot]])
+                        result[2] = first_item
+                        dummy = copy_char(group._first)
+                    else:
+                        dummy = copy_char(eqtarget)
+
                     selectedslot = result[2].slot
                     if selectedslot:
                         focusitem = result[2]
                         item_direction = 'unequip'
                         
                     # To Calc the effects:
-                    dummy = copy_char(eqtarget)
                     dummy.eqslots[selectedslot] = focusitem
                     dummy.unequip(focusitem, unequip_slot)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
