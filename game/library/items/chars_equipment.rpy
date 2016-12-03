@@ -187,13 +187,26 @@ label char_equip_loop:
                     if len(result) == 4:
                         unequip_slot = result[3]
                         
-                    if isinstance(result[2], list):
+                    if isinstance(eqtarget, PytGroup) or isinstance(inv_source, PytGroup):
+
                         group = eqtarget if isinstance(eqtarget, PytGroup) else inv_source
-                        first_item = result[2][0]
-                        selected_chars = group.all
-                        group.lst = set([c for c in selected_chars if c.eqslots[first_item.slot]])
-                        group.unselected = set([c for c in selected_chars if not c.eqslots[first_item.slot]])
-                        result[2] = first_item
+
+                        if isinstance(result[2], list):
+                            chosen_item = result[2][0]
+                        else:
+                            chosen_item = result[2]
+                            group.lst = set(group.all)
+                            group.unselected = set()
+                            all_slotequip = group.eqslots[chosen_item.slot]
+                            if isinstance(all_slotequip, list):
+                                chosen_item = all_slotequip[(all_slotequip.index(chosen_item) + 1) % len(all_slotequip)]
+
+                        subgroup_equipped = set([c for c in group.all if c.eqslots[chosen_item.slot] == chosen_item])
+
+                        group.unselected = set(group.all).difference(subgroup_equipped)
+                        group.lst = subgroup_equipped
+
+                        result[2] = chosen_item
                         dummy = copy_char(group._first)
                     else:
                         dummy = copy_char(eqtarget)
