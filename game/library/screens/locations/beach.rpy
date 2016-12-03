@@ -114,8 +114,10 @@ screen city_beach_swim():
                 text "Leave" size 15
                 
 label city_beach_swimming_checks:   
+    jump city_beach_monsters_fight
     if not global_flags.flag('swam_city_beach'):
         $ global_flags.set_flag('swam_city_beach')
+        $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=0)
         "The city is washed by the ocean. The water is quite warm all year round, but it can be pretty dangerous for a novice swimmers due to big waves and sea monsters."
         "Those who are not confident in their abilities prefer the local swimming pool, although it's not free unlike the sea."
         "In general, the swimming skill will increase faster in the ocean, unless you drown immediately due to low skill."
@@ -134,6 +136,7 @@ label city_beach_swimming_checks:
     jump city_beach
     
 label hero_ocean_skill_checks:
+    
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 50:
         if dice(50):
@@ -167,8 +170,32 @@ label hero_ocean_skill_checks:
         "You take your time enjoying the water. Even big ocean waves are no match for your swimming skill."
         $ hero.swimming += randint(6, 10)
         $ hero.vitality -= randint (20, 30)
+    if dice(hero.get_skill("swimming")) and hero.flag("constitution_bonus_from_swimming_at_beach") <= 30:
+        $ hero.stats.lvl_max["constitution"] += 1
+        $ hero.stats.max["constitution"] += 1
+        $ hero.mod_stat("constitution", 1)
+        $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=hero.flag("constitution_bonus_from_swimming_at_beach")+1)
+        $ narrator ("You feel more endurant than before {color=[green]}(max constitution +1){/color}.")
     return
-    
+
+label city_beach_monsters_fight:
+    python:
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        mob = build_mob(id="Skyfish", level=randint(5, 15))
+        mob.front_row = True
+        mob.controller = BE_AI(mob)
+        while len(enemy_team) < 3:
+            enemy_team.add(mob)
+        back = interactions_pick_background_for_fight("beach")
+        result = run_default_be(enemy_team, background=back)
+    if result == True:
+        python:
+            for member in hero.team:
+                member.exp += 150
+    else:
+        jump game_over
+    jump city_beach
+        
 transform alpha_dissolve:
     alpha 0.0
     linear 0.5 alpha 1.0
