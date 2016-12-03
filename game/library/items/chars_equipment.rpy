@@ -486,6 +486,12 @@ screen group_equip_left_frame(tt):
             xysize (100, 100)
             background Frame("content/gfx/frame/mes12.jpg", 5, 5)
             foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
+        button:
+            xysize (32, 32)
+            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set())
+            background Null()
+            foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
+            hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
 
         # list of names of characters in group with selection options.
         viewport:
