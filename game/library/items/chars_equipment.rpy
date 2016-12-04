@@ -186,40 +186,43 @@ label char_equip_loop:
                 python:
                     if len(result) == 4:
                         unequip_slot = result[3]
-                        
-                    if isinstance(eqtarget, PytGroup) or isinstance(inv_source, PytGroup):
 
-                        group = eqtarget if isinstance(eqtarget, PytGroup) else inv_source
+                    if isinstance(eqtarget, PytGroup):
 
                         if isinstance(result[2], list):
                             chosen_item = result[2][0]
+                            slot = chosen_item.slot if chosen_item else None
+
                         else:
                             chosen_item = result[2]
-                            group.lst = set(group.all)
-                            group.unselected = set()
-                            all_slotequip = group.eqslots[chosen_item.slot]
-                            if isinstance(all_slotequip, list):
+                            eqtarget.lst = set(eqtarget.all)
+                            eqtarget.unselected = set()
+                            slot = chosen_item.slot
+                            all_slotequip = eqtarget.eqslots[slot]
+                            if isinstance(all_slotequip, list) and focusitem == chosen_item:
                                 chosen_item = all_slotequip[(all_slotequip.index(chosen_item) + 1) % len(all_slotequip)]
 
-                        subgroup_equipped = set([c for c in group.all if c.eqslots[chosen_item.slot] == chosen_item])
+                        subgroup_equipped = set([c for c in eqtarget.all if c.eqslots[slot] == chosen_item])
 
-                        group.unselected = set(group.all).difference(subgroup_equipped)
-                        group.lst = subgroup_equipped
+                        eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
+                        eqtarget.lst = subgroup_equipped
 
                         result[2] = chosen_item
-                        dummy = copy_char(group._first)
+                        dummy = copy_char(eqtarget._first)
                     else:
                         dummy = copy_char(eqtarget)
+                        slot = result[2].slot
 
-                    selectedslot = result[2].slot
+                    selectedslot = slot
                     if selectedslot:
                         focusitem = result[2]
                         item_direction = 'unequip'
                         
-                    # To Calc the effects:
-                    dummy.eqslots[selectedslot] = focusitem
-                    dummy.unequip(focusitem, unequip_slot)
-                    # renpy.show_screen("diff_item_effects", eqtarget, dummy)
+                    if focusitem:
+                        # To Calc the effects:
+                        dummy.eqslots[selectedslot] = focusitem
+                        dummy.unequip(focusitem, unequip_slot)
+                        # renpy.show_screen("diff_item_effects", eqtarget, dummy)
         
         elif result[0] == 'con':
             if result[1] == 'return':

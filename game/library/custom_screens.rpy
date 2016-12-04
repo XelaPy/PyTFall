@@ -47,8 +47,12 @@ init: # Items:
                     if equipment:
                         multiple_items = isinstance(equipment, list)
                         if multiple_items:
-                            img = im.Sepia(equipment[0].icon)
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            if equipment[0]:
+                                img = im.Sepia(equipment[0].icon)
+                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            else:
+                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                                img = blank
                         else:
                             img = equipment.icon
                             # Frame background:
@@ -80,8 +84,12 @@ init: # Items:
                     if ring:
                         multiple_items = isinstance(ring, list)
                         if multiple_items:
-                            img = im.Sepia(ring[0].icon)
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            if ring[0]:
+                                img = im.Sepia(ring[0].icon)
+                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            else:
+                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                                img = blank
                         else:
                             img = ring.icon
                             # Frame background:
