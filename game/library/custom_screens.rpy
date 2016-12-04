@@ -76,13 +76,19 @@ init: # Items:
             xoffset 150
             for key in ['ring', 'ring2',  'ring1']:
                 python:
-                    if char.eqslots[key]:
-                        img = char.eqslots[key].icon
-                        # Frame background:
-                        if char.eqslots[key].bg_color == "dark":
+                    ring = char.eqslots[key]
+                    if ring:
+                        multiple_items = isinstance(ring, list)
+                        if multiple_items:
+                            img = im.Sepia(ring[0].icon)
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            img = ring.icon
+                            # Frame background:
+                            if ring.bg_color == "dark":
+                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            else:
+                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                     else:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         img = blank
