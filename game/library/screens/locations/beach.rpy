@@ -181,14 +181,14 @@ label hero_ocean_skill_checks:
 label city_beach_monsters_fight:
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Skyfish", level=randint(5, 15))
-        mob.front_row = True
-        mob.controller = BE_AI(mob)
-        while len(enemy_team) < 3:
+        for i in range(3):
+            mob = build_mob(id="Skyfish", level=randint(5, 15))
+            mob.front_row = True
+            mob.controller = BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
         result = run_default_be(enemy_team, background=back)
-    if result == True:
+    if result is True:
         python:
             for member in hero.team:
                 member.exp += 150
