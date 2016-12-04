@@ -190,19 +190,23 @@ label char_equip_loop:
                     if isinstance(eqtarget, PytGroup):
 
                         if isinstance(result[2], list):
+                            # chars have different items in the equipslots. Will show the most abundant in sepia
                             chosen_item = result[2][0]
-                            slot = chosen_item.slot if chosen_item else None
+                            selectedslot = chosen_item.slot
 
                         else:
+                            # This (sub)group has only one item. show in color.
                             chosen_item = result[2]
                             eqtarget.lst = set(eqtarget.all)
                             eqtarget.unselected = set()
-                            slot = chosen_item.slot
-                            all_slotequip = eqtarget.eqslots[slot]
+                            selectedslot = chosen_item.slot
+                            all_slotequip = eqtarget.eqslots[selectedslot]
+
                             if isinstance(all_slotequip, list) and focusitem == chosen_item:
+                                # The focusitem was already shown and clicked a 2nd time => next item and chars subgroup.
                                 chosen_item = all_slotequip[(all_slotequip.index(chosen_item) + 1) % len(all_slotequip)]
 
-                        subgroup_equipped = set([c for c in eqtarget.all if c.eqslots[slot] == chosen_item])
+                        subgroup_equipped = set([c for c in eqtarget.all if c.eqslots[selectedslot] == chosen_item])
 
                         eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
                         eqtarget.lst = subgroup_equipped
@@ -211,9 +215,8 @@ label char_equip_loop:
                         dummy = copy_char(eqtarget._first)
                     else:
                         dummy = copy_char(eqtarget)
-                        slot = result[2].slot
+                        selectedslot = result[2].slot
 
-                    selectedslot = slot
                     if selectedslot:
                         focusitem = result[2]
                         item_direction = 'unequip'
