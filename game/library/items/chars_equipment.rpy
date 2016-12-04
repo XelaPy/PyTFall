@@ -797,7 +797,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
     
     # One of the most difficult code rewrites I've ever done (How Gismo aligned everything in the first place is a work of (weird and clumsy) art...):
     # Recoding this as three vertically aligned HBoxes...
-    if item and not isinstance(inv_source, PytGroup) or inv_source.inventory[item] > 0:
+    if item:
         $ xs = size[0]
         $ ys = size[1]
         fixed:
