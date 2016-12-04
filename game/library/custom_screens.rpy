@@ -44,24 +44,17 @@ init: # Items:
             for key in equipSlotsPositions:
                 python:
                     equipment = char.eqslots[key]
+                    if isinstance(equipment, list):
+                        equipment = equipment[0]
+
                     if equipment:
-                        multiple_items = isinstance(equipment, list)
-                        if multiple_items:
-                            if equipment[0]:
-                                img = im.Sepia(equipment[0].icon)
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                            else:
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                                equipment = False
-                                img = blank
+                        img = im.Sepia(equipment.icon) if isinstance(char.eqslots[key], list) else equipment.icon
+                        # Frame background:
+                        # Old dark/light frame codes, to be removed at review.
+                        if equipment.bg_color == "dark":
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
-                            img = equipment.icon
-                            # Frame background:
-                            # Old dark/light frame codes, to be removed at review.
-                            if equipment.bg_color == "dark":
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                            else:
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                     else:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         img = blank
@@ -82,23 +75,17 @@ init: # Items:
             for key in ['ring', 'ring2',  'ring1']:
                 python:
                     ring = char.eqslots[key]
+                    if isinstance(ring, list):
+                        ring = ring[0]
+
                     if ring:
-                        multiple_items = isinstance(ring, list)
-                        if multiple_items:
-                            if ring[0]:
-                                img = im.Sepia(ring[0].icon)
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                            else:
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                                ring = False
-                                img = blank
+                        img = im.Sepia(ring.icon) if isinstance(char.eqslots[key], list) else ring.icon
+
+                        # Frame background:
+                        if ring.bg_color == "dark":
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
-                            img = ring.icon
-                            # Frame background:
-                            if ring.bg_color == "dark":
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                            else:
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                     else:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         img = blank
