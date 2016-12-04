@@ -52,6 +52,7 @@ init: # Items:
                                 bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                             else:
                                 bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                                equipment = False
                                 img = blank
                         else:
                             img = equipment.icon
@@ -69,8 +70,8 @@ init: # Items:
                     background bg
                     pos (equipSlotsPositions[key][1], equipSlotsPositions[key][2]-0.1)
                     xysize (frame_size[0], frame_size[1])
-                    if active_mode and char.eqslots[key]:
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
+                    if active_mode and equipment:
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[equipment])
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
                         
@@ -89,6 +90,7 @@ init: # Items:
                                 bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                             else:
                                 bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                                ring = False
                                 img = blank
                         else:
                             img = ring.icon
@@ -103,11 +105,11 @@ init: # Items:
                 frame:
                     background bg
                     xysize (frame_size[0], frame_size[1])
-                    if active_mode and char.eqslots[key]:
+                    if active_mode and ring:
                         # We add extra return to return value to control which ring exactly is removed...
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key], key])
-                    elif char.eqslots[key]:
-                        add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[ring, key])
+                    elif ring:
+                        add (ProportionalScale(ring.icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/ring_bg.png", frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
     
