@@ -1426,22 +1426,22 @@ init: # Settings:
                                     xysize (184, 32)
                                     action ToggleField(jsstor, "action", true_value="validate", false_value="skip")
                                     text "Validation:" align (0.0, 0.5) style "TisaOTMol" size 14
-                                    if jsstor.action == "validate":
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                                    else:
+                                    if jsstor.action == "skip":
                                         add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                                    else:
+                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
                                 button:
                                     #align (0, 1)
                                     xysize (184, 32)
-                                    text "Generation:" align (0.0, 0.5) style "TisaOTMol" size 14
-                                    if jsstor.action == "generate":
-                                        action ToggleField(jsstor, "action", true_value="generate", false_value="skip")
+                                    text "Strict:" align (0.0, 0.5) style "TisaOTMol" size 14
+                                    action ToggleField(jsstor, "action", true_value="strict", false_value="validate")
+                                    if jsstor.action == "strict":
                                         add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                                    elif jsstor.action == "skip":
-                                        action ToggleField(jsstor, "action", true_value="generate", false_value="skip")
+                                    elif jsstor.action == "validate":
                                         add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
                                     else:
                                         add (im.Scale('content/gfx/interface/icons/checkbox_inactive.png', 25, 25)) align (1.0, 0.5)
+                                        sensitive False
                     frame:
                         style_group "smenu"
                         align (0.5, 0.5)
