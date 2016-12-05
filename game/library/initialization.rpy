@@ -399,7 +399,7 @@ init -999 python:
                             self.err(error.message)
 
                             for suberror in sorted(error.context, key=lambda e: e.schema_path):
-                                self.err(filename+":"+repr(suberror.schema_path)+str(suberror.message))
+                                self.err(filename+":"+str(suberror.message))
                         #renpy.error(os.linesep.join(self._err)+"\n"+json.dumps(self._schema[name], indent=4, sort_keys=True))
 
                     if self._tl:
