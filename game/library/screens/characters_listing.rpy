@@ -1,8 +1,8 @@
 init:
-    default status_filters = list()
-    default location_filters = list()
-    default action_filters = list()
-    default class_filters = list()
+    default status_filters = set()
+    default location_filters = set()
+    default action_filters = set()
+    default class_filters = set()
     python:
         def sorting_for_chars_list():
             return [c for c in hero.chars if c.is_available]
@@ -15,11 +15,11 @@ label chars_list:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
             char_lists_filters.filter()
             # We create the filters only from those that our chars actually have... not need for gibberish:
-            status_filters = list(set([c.status for c in hero.chars]))
-            location_filters = list(set([c.location for c in hero.chars]))
-            action_filters = list(set([c.action for c in hero.chars]))
-            selected_filters = set(['Status', 'Site', 'Action', 'Class'])
-            class_filters = list(set([bt for c in hero.chars for bt in c.traits.basetraits]))
+            status_filters = set([c.status for c in hero.chars])
+            location_filters = set([c.location for c in hero.chars])
+            action_filters = set([c.action for c in hero.chars])
+            class_filters = set([bt for c in hero.chars for bt in c.traits.basetraits])
+            selected_filters = set()
             the_chosen = set()
         
         show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)

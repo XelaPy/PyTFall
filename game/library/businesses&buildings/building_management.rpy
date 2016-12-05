@@ -46,10 +46,7 @@ init python:
             if self.value in self.set:
                 self.set.remove(self.value)
             else:
-                if isinstance(self.set, list):
-                    self.set.append(self.value)
-                else:
-                    self.set.add(self.value)
+                self.set.add(self.value)
             self.filters.filter()
             renpy.restart_interaction()
             
