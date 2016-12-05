@@ -27,6 +27,7 @@ label girl_training:
     with dissolve
     
     python:
+        char = PytGroup(the_chosen) if the_chosen else char
         # Ensure valid school
         if training_screen_current is None:
             for i in schools:
@@ -40,7 +41,7 @@ label girl_training:
         
         # Ensure valid course if selected
         if training_screen_course is not None:
-            if not training_screen_course.can_train(charlist_or_char(), training_screen_trainer):
+            if not training_screen_course.can_train(char, training_screen_trainer):
                 training_screen_course = None
         
         while True:
@@ -56,15 +57,15 @@ label girl_training:
                 # Schooling
                 if training_screen_current.is_school:
                     # Slave and combat incompatibility
-                    if any(c.status == "slave" for c in charlist_or_char(as_list=True)) and result[1].type == "Combat":
+                    if result[1].type == "Combat" and (char.status == "slave" if isinstance(char, Char) else any(c.status == "slave" for c in char)):
                         renpy.call_screen("message_screen", "Slaves cannot be trained as Warriors!")
                     
                     else:
-                        result[1].set_training(charlist_or_char(), training_screen_current)
+                        result[1].set_training(char, training_screen_current)
                 
                 # Normal training
                 else:
-                    result[1].set_training(charlist_or_char(), training_screen_current, training_screen_trainer)
+                    result[1].set_training(char, training_screen_current, training_screen_trainer)
                 
                 break
             
@@ -73,10 +74,9 @@ label girl_training:
                 break
     
     hide screen girl_training
-    if char_list_selection == None:
+    if the_chosen == None:
         jump char_profile
     else:
-        $ char_list_selection = None
         jump chars_list
 
     
@@ -190,7 +190,7 @@ screen girl_training_trainer:
                     box_wrap True
                     spacing 5
                     for course in sorted(training_screen_current.courses):
-                        if course.can_train(charlist_or_char(), hero, one_off_only=False):
+                        if course.can_train(char, hero, one_off_only=False):
                             frame:
                                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                                 xysize (190, 190)
@@ -232,7 +232,7 @@ screen girl_training_trainer:
                         xsize 440
                         box_wrap True
                         spacing 7
-                        for course in training_screen_course.get_options(charlist_or_char(), training_screen_trainer, one_off_only=False):
+                        for course in training_screen_course.get_options(char, training_screen_trainer, one_off_only=False):
                             frame:
                                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                                 xysize (210, 145)
@@ -323,7 +323,7 @@ screen girl_training_lesson(course, tt, show_image):
                     
                     text (u"%s"%(course.gold))
             
-            text (u"%s"%(course.trainerStatus(charlist_or_char(), training_screen_trainer)))
+            text (u"%s"%(course.trainerStatus(char, training_screen_trainer)))
     
 
 # Schools sub-screen

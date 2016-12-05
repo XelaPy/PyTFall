@@ -72,9 +72,7 @@ label char_equip:
 
         if not eqtarget:
             came_to_equip_from = "chars_list"
-            eqtarget = charlist_or_char()
-            if isinstance(eqtarget, list):
-                eqtarget = eqtarget[0] if len(eqtarget) == 1 else PytGroup(eqtarget)
+            eqtarget = PytGroup(the_chosen) if the_chosen else char
 
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)
@@ -90,8 +88,8 @@ label char_equip:
     
 label char_equip_loop:
     while 1:
-        
         $ result = ui.interact()
+        #$ char = eqtarget
         
         if not result:
             jump char_equip_loop
@@ -99,7 +97,7 @@ label char_equip_loop:
         if result[0] == "jump":
             if result[1] == "item_transfer":
                 hide screen char_equip
-                $ items_transfer([hero] + (eqtarget.selected if isinstance(eqtarget,PytGroup) else [eqtarget]))
+                $ items_transfer([hero] + list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget])
                 $ eqtarget.inventory.set_page_size(16)
                 $ hero.inventory.set_page_size(16)
                 show screen char_equip
@@ -171,6 +169,11 @@ label char_equip_loop:
             elif result[1] == 'equip':
                 python:
                     focusitem = result[2]
+                    if isinstance(inv_source, PytGroup) and inv_source.inventory[focusitem] == 0:
+                        selected_chars = inv_source.all
+                        inv_source.lst = set([c for c in selected_chars if c.inventory[focusitem]])
+                        inv_source.unselected = set([c for c in selected_chars if not c.inventory[focusitem]])
+
                     selectedslot = focusitem.slot
                     item_direction = 'equip'
                     
@@ -183,17 +186,50 @@ label char_equip_loop:
                 python:
                     if len(result) == 4:
                         unequip_slot = result[3]
-                        
-                    selectedslot = result[2].slot
+
+                    if isinstance(eqtarget, PytGroup):
+
+                        if isinstance(result[2], list):
+                            # chars have different items in the equipslots. Will show the most abundant in sepia
+                            chosen_item = result[2][0]
+                            selectedslot = chosen_item.slot
+                        else:
+                            # This (sub)group has only one item. shown in color.
+                            chosen_item = result[2]
+                            selectedslot = chosen_item.slot # set early: later chosen_item can become False
+
+                            if focusitem == chosen_item:
+                                # The focusitem was clicked a 2nd time, so determine next item and subgroup from all chars.
+                                eqtarget.lst = set(eqtarget.all)
+                                eqtarget.unselected = set()
+
+                                all_slotequip = eqtarget.eqslots[selectedslot]
+
+                                if isinstance(all_slotequip, list):
+                                    # a list, so there is a next subgroup
+                                    chosen_item = all_slotequip[(all_slotequip.index(chosen_item) + 1) % len(all_slotequip)]
+                                    eqtarget.lst = set(eqtarget.all)
+
+                        if focusitem != chosen_item:
+                            subgroup_equipped = set([c for c in eqtarget.lst if c.eqslots[selectedslot] == chosen_item])
+                            eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
+                            eqtarget.lst = subgroup_equipped
+
+                        result[2] = chosen_item
+                        dummy = copy_char(eqtarget._first)
+                    else:
+                        dummy = copy_char(eqtarget)
+                        selectedslot = result[2].slot
+
                     if selectedslot:
                         focusitem = result[2]
                         item_direction = 'unequip'
                         
-                    # To Calc the effects:
-                    dummy = copy_char(eqtarget)
-                    dummy.eqslots[selectedslot] = focusitem
-                    dummy.unequip(focusitem, unequip_slot)
-                    # renpy.show_screen("diff_item_effects", eqtarget, dummy)
+                    if focusitem:
+                        # To Calc the effects:
+                        dummy.eqslots[selectedslot] = focusitem
+                        dummy.unequip(focusitem, unequip_slot)
+                        # renpy.show_screen("diff_item_effects", eqtarget, dummy)
         
         elif result[0] == 'con':
             if result[1] == 'return':
@@ -473,6 +509,12 @@ screen group_equip_left_frame(tt):
             xysize (100, 100)
             background Frame("content/gfx/frame/mes12.jpg", 5, 5)
             foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
+        button:
+            xysize (32, 32)
+            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None)
+            background Null()
+            foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
+            hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
 
         # list of names of characters in group with selection options.
         viewport:
@@ -486,31 +528,28 @@ screen group_equip_left_frame(tt):
                 xsize 218
                 has hbox
                 hbox:
-                    vbox:
-                        yfill True
-                        #yoffset 195
-                        spacing 5
-                        frame:
-                            xsize 104
-                            ymaximum 585
-                            padding 6, 6
-                            margin 0, 0
-                            has vbox spacing 1
-                            # character togglebuttons:
-                            for k in eqtarget.selected[:min(26,int(len(eqtarget)/2))]:
-                                text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
-                    vbox:
-                        yfill True
-                        #yoffset 195
-                        spacing 5
-                        frame:
-                            xsize 104
-                            ymaximum 585
-                            padding 6, 6
-                            margin 0, 0
-                            has vbox spacing 1
-                            for k in eqtarget.selected[min(26,int(len(eqtarget)/2)):len(eqtarget)]:
-                                text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                    for offs in [0, 1]:
+                        vbox:
+                            yfill True
+                            spacing 5
+                            frame:
+                                xsize 104
+                                ymaximum 585
+                                padding 6, 6
+                                margin 0, 0
+                                has vbox spacing 1
+                                # character togglebuttons:
+                                for k in eqtarget.all[offs::2]:
+                                    button:
+                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k), SetVariable("focusitem", None)
+                                        background Null()
+                                        if k in eqtarget.lst:
+                                            if len(eqtarget) == 1:
+                                                sensitive False
+                                            text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
+                                        else:
+                                            text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#75755C"
+                                        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 0, 0)
 
 
 
@@ -618,10 +657,13 @@ screen char_equip_right_frame(tt):
                                 text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
                     
                     
-        elif not tt.value and eqtarget.status == "slave":
-            text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
-        elif not tt.value and eqtarget.status == "free":
-            text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+        elif not tt.value:
+            if isinstance(eqtarget, PytGroup):
+                text (u"{color=#ecc88a}%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+            elif eqtarget.status == "slave":
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+            elif eqtarget.status == "free":
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
         
         #if isinstance(tt.value, BE_Action):
             #$ element = tt.value.get_element()
@@ -765,7 +807,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
     
     # One of the most difficult code rewrites I've ever done (How Gismo aligned everything in the first place is a work of (weird and clumsy) art...):
     # Recoding this as three vertically aligned HBoxes...
-    if item and not isinstance(inv_source, PytGroup) or inv_source.inventory[item] > 0:
+    if item:
         $ xs = size[0]
         $ ys = size[1]
         fixed:

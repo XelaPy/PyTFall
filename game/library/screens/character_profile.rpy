@@ -745,7 +745,7 @@ screen char_profile():
     use top_stripe(True)
     
 screen girl_control():
-    default char = charlist_or_char(as_list=2)
+    default char = PytGroup(the_chosen) if the_chosen else char
     modal True
     zorder 1
     
@@ -785,7 +785,7 @@ screen girl_control():
                 action ToggleDict(char.autocontrol, "Tips")
                 hovered tt.action("Allow workers to keep their tips!")
                 text "Tips:" align (0.0, 0.5)
-                if isinstance(char.autocontrol['Tips'], (list, renpy.python.RevertableList)):
+                if isinstance(char.autocontrol["Tips"], list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autocontrol['Tips']:
                     add cb_checked align (1.0, 0.5)
@@ -817,7 +817,7 @@ screen girl_control():
                 action If(char.status != "slave" and char.status != "various", true=ToggleField(char, "front_row"))
                 xysize (200, 32)
                 text "Front Row" align (0.0, 0.5)
-                if isinstance(char.front_row, (list, renpy.python.RevertableList)):
+                if isinstance(char.front_row, list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.front_row:
                     add cb_checked align (1.0, 0.5)
@@ -828,7 +828,7 @@ screen girl_control():
                 action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
                 text "Auto Rest" align (0.0, 0.5)
-                if isinstance(char.autocontrol['Rest'], (list, renpy.python.RevertableList)):
+                if isinstance(char.autocontrol['Rest'], list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autocontrol['Rest']:
                     add cb_checked align (1.0, 0.5)
@@ -840,7 +840,7 @@ screen girl_control():
                 action  If(char.status != "slave" and char.status != "various" and char.disposition > 950, true=ToggleField(char, "autobuy"))
                 xysize (200, 32)
                 text "Auto Buy" align (0.0, 0.5)
-                if isinstance(char.autobuy, (list, renpy.python.RevertableList)):
+                if isinstance(char.autobuy, list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autobuy:
                     add cb_checked align (1.0, 0.5)
@@ -852,7 +852,7 @@ screen girl_control():
                 xysize (200, 32)
                 action If(char.status == "slave" or (char.status != "slave" and char.status != "various" and char.disposition > 850), true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (0.0, 0.5)
-                if isinstance(char.autoequip, (list, renpy.python.RevertableList)):
+                if isinstance(char.autoequip, list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autoequip:
                     add cb_checked align (1.0, 0.5)
@@ -900,11 +900,12 @@ screen girl_control():
             
             if char.action == "ServiceGirl":
                 for key in char.autocontrol['S_Tasks']:
+                    $ devlog.warn("key:"+key)
                     button:
                         action ToggleDict(char.autocontrol['S_Tasks'], key)
                         xysize (200, 30)
                         text (key.capitalize()) align (0.0, 0.5)
-                        if isinstance(char.autocontrol['S_Tasks'][key], (list, renpy.python.RevertableList)):
+                        if isinstance(char.autocontrol['S_Tasks'][key], list):
                             add cb_some_checked align (1.0, 0.5)
                         elif char.autocontrol['S_Tasks'][key]:
                             add cb_checked align (1.0, 0.5)

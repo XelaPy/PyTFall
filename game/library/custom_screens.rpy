@@ -20,9 +20,7 @@ init: # Items:
                     else:
                         # in groups indicate some have the item
                         background Frame("content/gfx/frame/frame_it1.png", -1, -1)
-                        add ProportionalScale(im.Sepia(item[0].icon if isinstance(item, (list, renpy.python.RevertableList)) else item.icon), frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
-                        # or allow transfer of some?
-                        #use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
+                        use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
     
     screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
@@ -46,19 +44,17 @@ init: # Items:
             for key in equipSlotsPositions:
                 python:
                     equipment = char.eqslots[key]
+                    if isinstance(equipment, list):
+                        equipment = equipment[0]
+
                     if equipment:
-                        multiple_items = isinstance(equipment, (list, renpy.python.RevertableList))
-                        if multiple_items:
-                            img = im.Sepia(equipment[0].icon)
+                        img = im.Sepia(equipment.icon) if isinstance(char.eqslots[key], list) else equipment.icon
+                        # Frame background:
+                        # Old dark/light frame codes, to be removed at review.
+                        if equipment.bg_color == "dark":
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
-                            img = equipment.icon
-                            # Frame background:
-                            # Old dark/light frame codes, to be removed at review.
-                            if equipment.bg_color == "dark":
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                            else:
-                                bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                     else:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         img = blank
@@ -67,10 +63,8 @@ init: # Items:
                     background bg
                     pos (equipSlotsPositions[key][1], equipSlotsPositions[key][2]-0.1)
                     xysize (frame_size[0], frame_size[1])
-                    if active_mode and char.eqslots[key] and not multiple_items:
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key]])
-                    elif char.eqslots[key]:
-                        add ProportionalScale(img, frame_size[0]-10, frame_size[1]-10) align (0.5, 0.5)
+                    if active_mode and equipment:
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[equipment])
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
                         
@@ -80,10 +74,15 @@ init: # Items:
             xoffset 150
             for key in ['ring', 'ring2',  'ring1']:
                 python:
-                    if char.eqslots[key]:
-                        img = char.eqslots[key].icon
+                    ring = char.eqslots[key]
+                    if isinstance(ring, list):
+                        ring = ring[0]
+
+                    if ring:
+                        img = im.Sepia(ring.icon) if isinstance(char.eqslots[key], list) else ring.icon
+
                         # Frame background:
-                        if char.eqslots[key].bg_color == "dark":
+                        if ring.bg_color == "dark":
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
@@ -93,11 +92,11 @@ init: # Items:
                 frame:
                     background bg
                     xysize (frame_size[0], frame_size[1])
-                    if active_mode and char.eqslots[key]:
+                    if active_mode and ring:
                         # We add extra return to return value to control which ring exactly is removed...
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[char.eqslots[key], key])
-                    elif char.eqslots[key]:
-                        add (ProportionalScale(hero.eqslots[key].icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
+                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[ring, key])
+                    elif ring:
+                        add (ProportionalScale(ring.icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/ring_bg.png", frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
     
