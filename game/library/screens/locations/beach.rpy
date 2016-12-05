@@ -73,6 +73,7 @@ screen city_beach():
         idle (img_beach_swim)
         hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
         action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
+
         
     if gm.show_girls:
     
@@ -84,6 +85,7 @@ screen city_beach():
             
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+
                 
 screen city_beach_swim():
     frame:
@@ -114,11 +116,11 @@ screen city_beach_swim():
                 text "Leave" size 15
                 
 label city_beach_swimming_checks:   
-    jump city_beach_monsters_fight
+    
     if not global_flags.flag('swam_city_beach'):
         $ global_flags.set_flag('swam_city_beach')
         $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=0)
-        "The city is washed by the ocean. The water is quite warm all year round, but it can be pretty dangerous for a novice swimmers due to big waves and sea monsters."
+        "The water is quite warm all year round, but it can be pretty dangerous for a novice swimmers due to big waves and sea monsters."
         "Those who are not confident in their abilities prefer the local swimming pool, although it's not free unlike the sea."
         "In general, the swimming skill will increase faster in the ocean, unless you drown immediately due to low skill."
         scene bg open_sea
@@ -136,8 +138,25 @@ label city_beach_swimming_checks:
     jump city_beach
     
 label hero_ocean_skill_checks:
-    
     $ hero.AP -= 1
+    if dice(20):
+        $ narrator ("A group of sea monsters surrounded you!")
+        if hero.get_skill("swimming") < 50:
+            if hero.health > 30 and dice(75):
+                $ narrator ("They managed to attack you a few times before you got a chance to react.")
+                $ hero.health -= randint(15, 30)
+            jump city_beach_monsters_fight
+        elif hero.get_skill("swimming") < 100:
+            jump city_beach_monsters_fight
+        else:
+            menu:
+                "You are fast enough to avoid the fight."
+                "Swim away":
+                    $ narrator ("You quickly increase the distance between you and the monsters {color=[green]}(agility +1){/color}.")
+                    $ hero.swimming += randint(2, 4)
+                    $ hero.agility += 1
+                "Fight":
+                    jump city_beach_monsters_fight
     if hero.get_skill("swimming") < 50:
         if dice(50):
             $ narrator ("You trying to swim, but strong tide keeps you away {color=[red]}(no bonus to swimming skill this time){/color}.")
@@ -181,7 +200,7 @@ label hero_ocean_skill_checks:
 label city_beach_monsters_fight:
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        for i in range(3):
+        for i in range(randint(2, 3)):
             mob = build_mob(id="Skyfish", level=randint(5, 15))
             mob.front_row = True
             mob.controller = BE_AI(mob)
@@ -227,8 +246,8 @@ label city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
-        "You cannot continue if your vitality is too low. The goal is to find invisible items the screen."
-        "You can leave the water anytime by pressing right mouse button, and you will lose 10 health point if you don't leave before the oxygen is over."
+        "You cannot continue if your vitality is too low. The goal is to find invisible items hidden on the seabed."
+        "You can leave the sea anytime by pressing right mouse button, and you will lose some health if you don't leave before the oxygen is over."
     if hero.AP <= 0:
         "You don't have Action Points at the moment. Try again tomorrow."
         jump city_beach
