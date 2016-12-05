@@ -73,6 +73,7 @@ screen city_beach():
         idle (img_beach_swim)
         hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
         action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
+
         
     if gm.show_girls:
     
@@ -84,6 +85,7 @@ screen city_beach():
             
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+
                 
 screen city_beach_swim():
     frame:
@@ -244,8 +246,8 @@ label city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
-        "You cannot continue if your vitality is too low. The goal is to find invisible items the screen."
-        "You can leave the water anytime by pressing right mouse button, and you will lose 10 health point if you don't leave before the oxygen is over."
+        "You cannot continue if your vitality is too low. The goal is to find invisible items hidden on the seabed."
+        "You can leave the sea anytime by pressing right mouse button, and you will lose some health if you don't leave before the oxygen is over."
     if hero.AP <= 0:
         "You don't have Action Points at the moment. Try again tomorrow."
         jump city_beach

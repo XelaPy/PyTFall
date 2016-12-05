@@ -61,6 +61,14 @@ screen city_beach_left():
         idle (img_beach_fish)
         hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(0.15)))
         action [Hide("city_beach_left"), Jump("fishing_logic"), With(dissolve)]
+        
+        
+    $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/beach_resting.png", 90, 90)
+    imagebutton:
+        pos(400, 545)
+        idle (img_beach_swim)
+        hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
+        action [Hide("city_beach_left"), Jump("city_beach_rest")]
     
     use location_actions("city_beach_left")
     
@@ -129,6 +137,13 @@ screen city_beach_fishing():
                 yalign 0.5
                 action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
+                
+                
+label city_beach_rest:
+    show bg beach_rest with dissolve
+    "Text for resting at the beach"
+    $ hero.vitality += randint(1, 5)
+    jump city_beach_left
                 
 label fishing_logic:
     # during fishing itself only practical part of skill could be improved; theoretical part will be available via items and asking fishermen in tavern
