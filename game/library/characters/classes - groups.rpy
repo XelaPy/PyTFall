@@ -156,7 +156,7 @@ init -8 python:
         def __init__(self, chars):
             remedy={
                 ".eqslots{}": self._ordered_on_abundance,
-                ".status": ".various",
+                ".status": ".various", ".action": "various", ".location": "various",
                 ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [],
                 "flatten": [".traits", ".attack_skills", ".magic_skills"]
             }
