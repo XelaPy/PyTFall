@@ -193,23 +193,27 @@ label char_equip_loop:
                             # chars have different items in the equipslots. Will show the most abundant in sepia
                             chosen_item = result[2][0]
                             selectedslot = chosen_item.slot
-
                         else:
-                            # This (sub)group has only one item. show in color.
+                            # This (sub)group has only one item. shown in color.
                             chosen_item = result[2]
-                            eqtarget.lst = set(eqtarget.all)
-                            eqtarget.unselected = set()
-                            selectedslot = chosen_item.slot
-                            all_slotequip = eqtarget.eqslots[selectedslot]
+                            selectedslot = chosen_item.slot # set early: later chosen_item can become False
 
-                            if isinstance(all_slotequip, list) and focusitem == chosen_item:
-                                # The focusitem was already shown and clicked a 2nd time => next item and chars subgroup.
-                                chosen_item = all_slotequip[(all_slotequip.index(chosen_item) + 1) % len(all_slotequip)]
+                            if focusitem == chosen_item:
+                                # The focusitem was clicked a 2nd time, so determine next item and subgroup from all chars.
+                                eqtarget.lst = set(eqtarget.all)
+                                eqtarget.unselected = set()
 
-                        subgroup_equipped = set([c for c in eqtarget.all if c.eqslots[selectedslot] == chosen_item])
+                                all_slotequip = eqtarget.eqslots[selectedslot]
 
-                        eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
-                        eqtarget.lst = subgroup_equipped
+                                if isinstance(all_slotequip, list):
+                                    # a list, so there is a next subgroup
+                                    chosen_item = all_slotequip[(all_slotequip.index(chosen_item) + 1) % len(all_slotequip)]
+                                    eqtarget.lst = set(eqtarget.all)
+
+                        if focusitem != chosen_item:
+                            subgroup_equipped = set([c for c in eqtarget.lst if c.eqslots[selectedslot] == chosen_item])
+                            eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
+                            eqtarget.lst = subgroup_equipped
 
                         result[2] = chosen_item
                         dummy = copy_char(eqtarget._first)
@@ -507,7 +511,7 @@ screen group_equip_left_frame(tt):
             foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
         button:
             xysize (32, 32)
-            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set())
+            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None)
             background Null()
             foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
             hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
@@ -537,7 +541,7 @@ screen group_equip_left_frame(tt):
                                 # character togglebuttons:
                                 for k in eqtarget.all[offs::2]:
                                     button:
-                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k)
+                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k), SetVariable("focusitem", None)
                                         background Null()
                                         if k in eqtarget.lst:
                                             if len(eqtarget) == 1:
