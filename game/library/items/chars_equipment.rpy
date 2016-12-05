@@ -511,7 +511,7 @@ screen group_equip_left_frame(tt):
             foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
         button:
             xysize (32, 32)
-            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None)
+            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
             background Null()
             foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
             hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
@@ -541,7 +541,7 @@ screen group_equip_left_frame(tt):
                                 # character togglebuttons:
                                 for k in eqtarget.all[offs::2]:
                                     button:
-                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k), SetVariable("focusitem", None)
+                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k), SetVariable("focusitem", None), SetVariable("dummy", None)
                                         background Null()
                                         if k in eqtarget.lst:
                                             if len(eqtarget) == 1:
