@@ -274,9 +274,9 @@ init -999 python:
             return flag in self.flags
             
         
-    def dice(value):
-        """Randomly generated percentage chance to return a bool"""
-        return (value / 100.0) > random.random()
+    def dice(percent_chance):
+        """ returns randomly True with given % chance, or False """
+        return random.random() * 100 <= percent_chance
     
     # "wrapper" around the notify
     def notify(message, style=False):
