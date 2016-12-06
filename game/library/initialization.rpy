@@ -340,37 +340,36 @@ init -999 python:
             """ load schemas from schema directory """
 
             if self.action != "skip":
+
+                import jsonschema
+                self._err = []
+                self._validator = {}
                 self._schema = {}
+                self._tl = timelog
+                basefilename = renpy.loader.transfn("schema"+os.path.sep+"data_types.json")
+                with open(basefilename) as base_data_file:
+                    base = json.load(base_data_file)
 
-                if self.action != "generate":
-                    import jsonschema
-                    self._err = []
-                    self._validator = {}
-                    self._tl = timelog
-                    basefilename = renpy.loader.transfn("schema"+os.path.sep+"data_types.json")
-                    with open(basefilename) as base_data_file:
-                        base = json.load(base_data_file)
+                for concept in ["stat", "skill", "element", "attack", "defence", "magic"]:
 
-                    for concept in ["stat", "skill", "element", "attack", "defence", "magic"]:
+                    base['definitions'][concept+"Object"] = {
+                        "additionalProperties": False,
+                        "properties": {
+                            key: {} for key in base['definitions'][concept]['enum']
+                        },
+                        "type": "object"
+                    }
 
-                        base['definitions'][concept+"Object"] = {
-                            "additionalProperties": False,
-                            "properties": {
-                                key: {} for key in base['definitions'][concept]['enum']
-                            },
-                            "type": "object"
-                        }
+                for fin in listdir("schema"):
+                    if fin != "data_types.json":
+                        filename = renpy.loader.transfn("schema"+os.path.sep+fin)
+                        devlog.info(filename)
 
-                    for fin in listdir("schema"):
-                        if fin != "data_types.json":
-                            filename = renpy.loader.transfn("schema"+os.path.sep+fin)
-                            devlog.info(filename)
-
-                            name = fin[:-5]
-                            self._schema[name] = base.copy()
-                            with open(filename) as data_file:
-                                self._schema[name]['items'] = json.load(data_file)
-                            self._validator[name] = jsonschema.Draft4Validator(self._schema[name])
+                        name = fin[:-5]
+                        self._schema[name] = base.copy()
+                        with open(filename) as data_file:
+                            self._schema[name]['items'] = json.load(data_file)
+                        self._validator[name] = jsonschema.Draft4Validator(self._schema[name])
 
         def err(self, err, file=None):
             devlog.warn(err)
@@ -406,22 +405,8 @@ init -999 python:
                     if self._tl:
                         self._tl.timer(time_msg)
 
-            elif self.action == "generate":
-                import skinfer
-                if name in self._schema:
-                    self._schema[name] = skinfer.merge_schema(self._schema[name], skinfer.infer_schema(content))
-                else:
-                    self._schema[name] = skinfer.infer_schema(content)
-
         def finish(self):
-            if self.action == "generate":
-                for name in self._schema.keys():
-                    file = renpy.loader.transfn("schema")+os.path.sep+"{0}.json".format(name)
-                    if not os.path.isfile(file):
-                        with open(file, 'w') as outfile:
-                            json.dump(self._schema[name], outfile, sort_keys=True, indent=2,
-                                      ensure_ascii=False, separators=(',', ': '))
-            elif self.action == "strict" and len(self._err) > 0:
+            if self.action == "strict" and len(self._err) > 0:
                 renpy.error(os.linesep.join(self._err))
 
     # set to False to update existing json files in schema directory, None skips validation and writing

@@ -178,7 +178,7 @@ label char_equip_loop:
                     item_direction = 'equip'
                     
                     # # To Calc the effects:
-                    dummy = copy_char(eqtarget)
+                    dummy = copy_char(eqtarget._first if isinstance(eqtarget, PytGroup) else eqtarget)
                     equip_item(focusitem, dummy, silent=True)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
                     
@@ -511,7 +511,7 @@ screen group_equip_left_frame(tt):
             foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
         button:
             xysize (32, 32)
-            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None)
+            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
             background Null()
             foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
             hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
@@ -541,7 +541,7 @@ screen group_equip_left_frame(tt):
                                 # character togglebuttons:
                                 for k in eqtarget.all[offs::2]:
                                     button:
-                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k), SetVariable("focusitem", None)
+                                        action ToggleSetMembership(eqtarget.lst, k), ToggleSetMembership(eqtarget.unselected, k), SetVariable("focusitem", None), SetVariable("dummy", None)
                                         background Null()
                                         if k in eqtarget.lst:
                                             if len(eqtarget) == 1:
@@ -594,13 +594,14 @@ screen char_equip_right_frame(tt):
                     has vbox
                     style_group "proper_stats"
                     python:
-                        t_old = set(t.id for t in eqtarget.traits)
-                        if hasattr(eqtarget, "effects"):
-                            for effect in eqtarget.effects:
-                                if eqtarget.effects[effect]['active']:
+                        eqt = eqtarget._first if isinstance(eqtarget, PytGroup) else eqtarget
+                        t_old = set(t.id for t in eqt.traits)
+                        if hasattr(eqt, "effects"):
+                            for effect in eqt.effects:
+                                if eqt.effects[effect]['active']:
                                     t_old.add(effect)
                         t_new = set(t.id for t in dummy.traits)
-                        if hasattr(eqtarget, "effects"):
+                        if hasattr(eqt, "effects"):
                             for effect in dummy.effects:
                                 if dummy.effects[effect]['active']:
                                     t_new.add(effect)
@@ -614,7 +615,7 @@ screen char_equip_right_frame(tt):
                                     
                     python:
                         t_old = set(t.id for t in dummy.traits)
-                        t_new = set(t.id for t in eqtarget.traits)
+                        t_new = set(t.id for t in eqt.traits)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
                     if temp:
@@ -634,7 +635,7 @@ screen char_equip_right_frame(tt):
                     has vbox
                     style_group "proper_stats"
                     python:
-                        s_old = set(s.name for s in list(eqtarget.attack_skills) + list(eqtarget.magic_skills))
+                        s_old = set(s.name for s in list(eqt.attack_skills) + list(eqt.magic_skills))
                         s_new = set(s.name for s in list(dummy.attack_skills) + list(dummy.magic_skills))
                         temp = s_new.difference(s_old)
                         temp = sorted(list(temp)) 
@@ -646,7 +647,7 @@ screen char_equip_right_frame(tt):
                                     
                     python:
                         s_old = set(s.name for s in list(dummy.attack_skills) + list(dummy.magic_skills))
-                        s_new = set(s.name for s in list(eqtarget.attack_skills) + list(eqtarget.magic_skills))
+                        s_new = set(s.name for s in list(eqt.attack_skills) + list(eqt.magic_skills))
                         temp = s_new.difference(s_old)
                         temp = sorted(list(temp))
                     if temp:

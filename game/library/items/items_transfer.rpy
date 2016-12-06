@@ -71,7 +71,7 @@ screen items_transfer(it_members):
                 hbox:
                     spacing 1
                     box_wrap True
-                    for c in it_members[0 if scr_var == "lc" else 1::2]:
+                    for c in it_members:
                         $ img = c.show("portrait", resize=(70, 70), cache=True)
                         vbox:
                             spacing 1
@@ -116,13 +116,6 @@ screen items_transfer(it_members):
             background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
             padding 1, 1
             add fc.show("portrait", resize=(150, 150), cache=True) align .5, .5
-    # Swap left and right characters
-    frame:
-        pos (640, 36)
-        xanchor 0.5
-        style_group "basic"
-        background None
-        textbutton "<->" action SetScreenVariable("lc", rc), SetScreenVariable("rc", lc)
             
     frame:
         ypos 643
