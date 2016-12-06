@@ -1313,7 +1313,7 @@ init -9 python:
                 
         # Money:
         def take_money(self, amount, reason="Other"):
-            if amount < self.gold:
+            if amount <= self.gold:
                 self.gold -= amount
                 return True
             else:
