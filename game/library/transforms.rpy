@@ -7,6 +7,12 @@ init -997: # Transforms:
         
     transform mid_left:
         align (0.25, 1.0)
+        
+    transform center_right:
+        align (0.95, 0.5)
+        
+    transform center_left:
+        align (0.05, 0.5)
     
     # Other Transforms:
     transform move_to_pos_with_offset(pos, t):

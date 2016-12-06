@@ -141,8 +141,52 @@ screen city_beach_fishing():
                 
 label city_beach_rest:
     show bg beach_rest with dissolve
-    "Text for resting at the beach"
-    $ hero.vitality += randint(1, 5)
+    if not global_flags.flag('rest_at_beach'):
+        $ global_flags.set_flag('rest_at_beach')
+        "Once per day you can relax at the beach, either alone or together with your team. It's free, restores some vitality and increases disposition."
+    if hero.flag("rest_at_beach") == day:
+        "You already relaxed at the beach today. Doing it again will lead to sunburns."
+        jump city_beach_left
+    $ hero.set_flag("rest_at_beach", value=day)
+    python:
+        picture = []
+        if len(hero.team) > 1:
+            for member in hero.team:
+                if member != hero:
+                    if member.has_image("rest", "beach", exclude=["sex", "stripping"]) and member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
+                        if dice(50):
+                            picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        else:
+                            picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                    elif member.has_image("rest", "beach", exclude=["sex", "stripping"]):
+                        picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                    elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
+                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                    elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
+                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                    elif member.has_image("beach", exclude=["sex", "stripping"]):
+                        picture.append(member.show("beach", "sfw", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                    elif member.has_image("swimsuit", "simple bg", exclude=["sex", "stripping"]):
+                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                    elif member.has_image("swimsuit", "no bg", exclude=["sex", "stripping"]):
+                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+    if len(picture) == 1:
+        show expression picture[0] at center with dissolve
+    elif len(picture) == 2:
+        show expression picture[0] at center_left
+        show expression picture[1] at center_right
+        with dissolve
+    if len(hero.team) > 1:
+        "You're relaxing at the beach with your team."
+    else:
+        "You're relaxing at the beach."
+    python:
+        for member in hero.team:        
+            member.vitality += randint(10, 15)
+            if dice(75):
+                member.charisma += randint(1, 2)
+            if member != hero:
+                member.disposition += 1
     jump city_beach_left
                 
 label fishing_logic:
