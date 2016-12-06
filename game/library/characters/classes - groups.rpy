@@ -111,7 +111,7 @@ init -8 python:
 
         def __init__(self, inv):
             super(PytGInv, self).__init__(l=inv, at="inventory")
-            self._attrs.append('slot_filter')
+            self._attrs.extend(('slot_filter', 'page'))
             self.slot_filter = False
 
         def __getitem__(self, item):
@@ -124,12 +124,28 @@ init -8 python:
             return list(frozenset([item for sublist in self.lst for item in sublist.filters]))
 
         @property
+        def filtered_items(self):
+            return set([item for sublist in self.lst for item in sublist.filtered_items])
+
+        @property
         def page_content(self):
-            return list(frozenset([item for sublist in self.lst for item in sublist.page_content]))
+            ps = self.page_size
+            start = self.page*ps
+            return list(self.filtered_items)[start : (start+ps)]
+            #return list(frozenset([item for sublist in self.lst for item in sublist.page_content]))
 
         @property
         def max_page(self):
-            return min([x.max_page for x in self.lst])
+            ps = self.page_size
+            l = len(self.filtered_items)
+            return int(l / ps) + (l % ps > 0)
+
+        def next(self):
+            if self.page + 1 < self.max_page:
+                self.page += 1
+        def prev(self): self.page = max(self.page - 1, 0)
+        def first(self): self.page = 0
+        def last(self): self.page = max(self.max_page - 1, 0)
 
         def remove(self, item, amount=1):
             """ see Inventory.remove(): False means not enough items """
@@ -146,6 +162,7 @@ init -8 python:
                         x.apply_filter(filter)
                     else:
                         x.filtered_items = []
+            self.page = 0
 
         def append(self, item, amount=1):
             all([x.append(item, amount) for x in self.lst])
