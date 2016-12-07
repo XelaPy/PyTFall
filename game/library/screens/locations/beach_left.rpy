@@ -148,6 +148,7 @@ label city_beach_rest:
         "You already relaxed at the beach today. Doing it again will lead to sunburns."
         jump city_beach_left
     $ hero.set_flag("rest_at_beach", value=day)
+    
     python:
         picture = []
         if len(hero.team) > 1:
@@ -171,7 +172,7 @@ label city_beach_rest:
                     elif member.has_image("swimsuit", "no bg", exclude=["sex", "stripping"]):
                         picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
     if len(picture) == 1:
-        show expression picture[0] at center with dissolve
+        show expression picture[0] at truecenter with dissolve
     elif len(picture) == 2:
         show expression picture[0] at center_left
         show expression picture[1] at center_right
@@ -180,11 +181,21 @@ label city_beach_rest:
         "You're relaxing at the beach with your team."
     else:
         "You're relaxing at the beach."
+        
+    $ members = list(x for x in hero.team if (x != hero and x.effects['Horny']['active'] and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
+    if members:
+        $ member = random.choice(members)
+        hide expression picture[0]
+        hide expression picture[1]
+        with dissolve
+        show expression member.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
+        "Unfortunately [member.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
+        $ member.sex += 1
+        $ hero.sex += 1
+        $ member.disposition += 3
     python:
         for member in hero.team:        
             member.vitality += randint(10, 15)
-            if dice(75):
-                member.charisma += randint(1, 2)
             if member != hero:
                 member.disposition += 1
     jump city_beach_left
