@@ -426,7 +426,7 @@ init -1 python:
             renpy.with_statement(dissolve)
 
 
-    class CoordsForPaging(_object):
+    class CoordsForPaging(object):
         """ This class setups up x, y coordinates for items in content list.
 
         We use this in DragAndDrop.
@@ -434,7 +434,6 @@ init -1 python:
         For now, this will be used in combination with screen language.
         """
         def __init__(self, content, columns=2, rows=6, size=(100, 100), xspacing=10, yspacing=10, init_pos=(0, 0)):
-            # Should be changed to location in the future:
             self.content = content
             self.page = 0
             self.page_size = columns*rows
@@ -452,7 +451,7 @@ init -1 python:
             return len(self.content)
 
         def __iter__(self):
-            # We return a list of tuples of [(item, pos), (item, pos), ...] for self.page
+            """We return a list of tuples of [(item, pos), (item, pos), ...]"""
             page = self.page_content
             pos = self.pos[:len(page)]
             return iter(zip(page, pos))
@@ -464,9 +463,8 @@ init -1 python:
         def __nonzero__(self):
             return bool(self.content)
 
-
         def get_pos(self, item):
-            # retruns a pos of an item on current page.
+            """Retruns a pos of an item on current page"""
             return self.pos[self.page_content.index(item)]
 
         # Paging:
@@ -516,53 +514,30 @@ init -1 python:
             if item in self.content:
                 self.content.remove(item)
 
+
     def dragged(drags, drop):
         # Simple func we use to manage drag and drop in team setups and maybe moar in the future.
         drag = drags[0]
-        char = drags[0].drag_name
+        char = drag.drag_name
         x, y = workers.get_pos(char)
 
         if not drop:
-            drags[0].snap(x, y, delay=0.2)
-            renpy.restart_interaction()
+            drag.snap(x, y, delay=.2)
             return
 
         team = drop.drag_name
 
         if char.status == "slave":
-            drags[0].snap(x, y, delay=0.2)
+            drag.snap(x, y, delay=.4)
             renpy.show_screen("message_screen", "Slaves are not allowed to participate in combat!")
             renpy.restart_interaction()
             return
 
-        # for t in fg.teams:
-            # if t and t[0] == char:
-                # drags[0].snap(x, y, delay=0.2)
-                # renpy.show_screen("message_screen", "%s is already a leader of %s!" % (char.nickname, t.name))
-                # renpy.restart_interaction()
-                # return
-            # if not team:
-                # for girl in t:
-                    # if girl == char:
-                        # drags[0].snap(x, y, delay=0.2)
-                        # renpy.show_screen("message_screen", "%s cannot lead %s as she's already on %s!" % (char.nickname, team.name, t.name))
-                        # renpy.restart_interaction()
-                        # return
-
-        # for girl in team:
-            # if girl == char:
-                # drags[0].snap(x, y, delay=0.2)
-                # renpy.show_screen("message_screen", "%s is already on %s!" % (char.nickname, team.name))
-                # renpy.restart_interaction()
-                # return
-
         if len(team) == 3:
-            drags[0].snap(x, y, delay=0.2)
-            renpy.restart_interaction()
+            drag.snap(x, y, delay=.2)
             return
         else:
             team.add(char)
             workers.remove(char)
-            drags[0].snap(x, y)
-
-        return True
+            drag.snap(x, y)
+            return True
