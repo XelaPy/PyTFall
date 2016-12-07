@@ -41,19 +41,18 @@ label girl_interactions:
     scene expression gm.bg_cache
 
     if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # chars with flag will propose sex once per day once you try to talk to them
-        if char.effects['Horny']['active'] and char.AP >= 0 and char.vitality >= char.get_max("vitality")*0.25 and check_lovers(char, hero):
+        if char.effects['Horny']['active'] and interactions_silent_check_for_bad_stuff(char) and check_lovers(char, hero):
             call interactions_girl_proposes_sex
             menu:
                 "Do you wish to have sex with [char.name]?"
                 "Yes":
                     $ char.set_flag("gm_char_proposed_sex", value=day)
-                    $ char.del_flag("horny")
-                    $ char.set_flag("horny_done")
+                    if char.effects['Horny']['active']:
+                        $ char.disable_effect("Horny")
                     jump interactions_sex_scene_select_place
                 "No":
                     $ char.set_flag("gm_char_proposed_sex", value=day)
                     $ char.override_portrait("portrait", "indifferent")
-                    $ char.del_flag("horny")
                     $ rc("...", "I see...", "Maybe next time then...")
                     $ char.joy -= randint(1, 5)
                     $ char.restore_portrait()

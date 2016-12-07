@@ -31,6 +31,8 @@ init -11 python:
             return False
         elif (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
             return False
+        elif char_name.AP <= 0:
+            return False
         else:
             return True
 
