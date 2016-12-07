@@ -7,13 +7,13 @@ init -11 python:
             patience = 1
         else:
             patience = 0
-            
+
         if "Well-mannered" in c.traits:
             patience += randint(0,1)
         elif "Ill-mannered" in c.traits:
             patience -= randint(0,1)
         return patience
-        
+
     def interactions_flag_count_checker(char_name, char_flag): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
         global day
         if not(char_name.flag(char_flag)) or char_name.flag(char_flag)["day"] != day:
@@ -21,7 +21,7 @@ init -11 python:
         else:
             char_name.set_flag(char_flag, {"day": day, "times": char_name.flag(char_flag)["times"] + 1})
         return char_name.flag(char_flag)["times"]
-        
+
     def interactions_silent_check_for_bad_stuff(char_name): # we check issues without outputting any lines or doing something else, and just return True/False
         if char_name.effects["Food Poisoning"]['active']:
             return False
@@ -33,7 +33,7 @@ init -11 python:
             return False
         else:
             return True
-            
+
     def interactions_check_for_bad_stuff(char_name): # we check major issues when the character will refuse almost anything
         if char_name.effects["Food Poisoning"]['active']:
             char_name.override_portrait("portrait", "indifferent")
@@ -55,7 +55,7 @@ init -11 python:
             char_name.disposition -= randint(5, 15)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
-    
+
     def interactions_check_for_minor_bad_stuff(char_name): # we check minor issues when character might refuse to do something based on dice
         if (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
             if dice(hero.charisma-char.character) and dice(80):
@@ -80,7 +80,7 @@ init -11 python:
             elif ct("Shy") and dice(50):
                 rc("W-well, I'm a bit tired right now... Maybe some other time...", "Um, I-I don't think I can do it, I'm exhausted. Sorry...")
             elif ct("Imouto"):
-                rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*") 
+                rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*")
             elif ct("Dandere"):
                 rc("No. Too tired.", "Not enough strength. I need to rest.")
             elif ct("Tsundere"):
@@ -101,7 +101,7 @@ init -11 python:
             char_name.disposition -= randint(0, 1)
             char_name.vitality -= randint(1, 2)
             renpy.jump("girl_interactions")
-            
+
     def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
         if char_name.effects["Food Poisoning"]['active']:
             char_name.override_portrait("portrait", "indifferent")
@@ -130,7 +130,7 @@ init -11 python:
             return False
         else:
             return False
-            
+
     def rc(*args):
         """
         random choice function
@@ -138,7 +138,7 @@ init -11 python:
         """
         # https://github.com/Xela00/PyTFall/issues/37
         return char.say(choice(list(args)))
-        
+
     def rts(girl, options):
         """
         Get a random string from a random trait that a girl has.
@@ -147,19 +147,19 @@ init -11 python:
         """
         default = options.pop("default", None)
         available = list()
-        
+
         for trait in options.iterkeys():
             if trait in traits:
                 if traits[trait] in girl.traits: available.append(options[trait])
             else:
                 if eval(trait, globals(), locals()): available.append(options[trait])
-        
+
         if not available: trait = default
         else: trait = choice(available)
-        
+
         if isinstance(trait, (list, tuple)): return choice(trait)
         else: return trait
-        
+
     def ec(d):
         # Not used atm.
         """
@@ -181,7 +181,7 @@ init -11 python:
             return True
         else:
             return False
-        
+
     def ct(*args):
         """
         Check traits function.
@@ -189,14 +189,14 @@ init -11 python:
         """
         l = list(traits[i] for i in list(args))
         return any(i in l for i in char.traits)
-        
+
     def co(*args):
         """
         Check occupation
         Checks if any of the occupations belong to the character.
         """
         return ct(*args)
-        
+
     def cgo(*args):
         """
         Checks for General Occupation strings, such as "SIW", "Warrior", "Server", etc.
@@ -206,7 +206,7 @@ init -11 python:
             if hasattr(occ, "occupations"):
                 gen_occs = gen_occs.union(set(occ.occupations))
         return any(i for i in list(args) if i in gen_occs)
-        
+
     def cgochar(char, *args):
         """
         Checks for General Occupation strings, such as "SIW", "Warrior", "Server", etc. Goes with char argument, thus can be used where the game doesn't recognize default "char"
@@ -216,7 +216,7 @@ init -11 python:
             if hasattr(occ, "occupations"):
                 gen_occs = gen_occs.union(set(occ.occupations))
         return any(i for i in list(args) if i in gen_occs)
-        
+
     # Relationships:
     def check_friends(*args):
         friends = list()
@@ -225,7 +225,7 @@ init -11 python:
                 if i != z:
                     friends.append(i.is_friend(z))
         return all(friends)
-        
+
     def set_friends(*args):
         for i in args:
             for z in args:
@@ -237,7 +237,7 @@ init -11 python:
             for z in args:
                 if i != z and z in i.friends:
                     i.friends.remove(z)
-        
+
     def check_lovers(*args):
         lovers = list()
         for i in args:
@@ -257,7 +257,7 @@ init -11 python:
             for z in args:
                 if i != z and z in i.lovers:
                     i.lovers.remove(z)
-                    
+
     # Other:
     def find_les_partners():
         """
@@ -270,7 +270,7 @@ init -11 python:
         for i in chars.values():
             if i.location == char.location:
                 partners.add(i)
-                
+
         # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of char.
         willing_partners = set()
         for i in partners:
@@ -280,19 +280,24 @@ init -11 python:
                     willing_partners.add(i)
         # @review: (Alex) renamed the function. We are returning all choices, nit just the one partner.
         return willing_partners
-        
-    def interactions_run_gm_anywhere(char, place, background):
-        """           
-        Runs (or doesn't) gm or interactions with the char based on her status; place is where we jump after gm is over
+
+    def interactions_run_gm_anywhere(char, exit, background, custom=False):
         """
-        if chars[char].status == "slave" or not(chars[char].is_available):
+        Runs (or doesn't) gm or interactions with the char based on her status; place is where we jump after gm is over.
+
+        Keyword arguments:
+        custom -- Will not jump to any label internally (default False)
+        """
+        if custom:
+            gm.start("custom", chars[char], chars[char].get_vnsprite(), exit, background)
+        elif chars[char].status == "slave" or not(chars[char].is_available):
             narrator("Nobody's here...")
             renpy.jump(place)
         elif chars[char] in hero.chars:
-            gm.start("girl_interactions", chars[char], chars[char].get_vnsprite(), place, background)
+            gm.start("girl_interactions", chars[char], chars[char].get_vnsprite(), exit, background)
         else:
-            gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), place, background)
-            
+            gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), exit, background)
+
     def interactions_prebattle_line(characters):
         """
         Outputs nonrepeatable prebattle lines for provided characters, except hero if s/he was provided.
@@ -327,7 +332,7 @@ init -11 python:
                 character.override_portrait("portrait", "confident")
                 character.say(result)
                 character.restore_portrait()
-                
+
     def interactions_eating_line(characters):
         """
         Outputs nonrepeatable lines during eating for provided characters, except hero if s/he was provided.
@@ -423,7 +428,7 @@ init -11 python:
             n = randint(1,6)
             back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
         return back
-        
+
     def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.jpg", track="random", prebattle=True, death=False):
         """
         Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
@@ -435,7 +440,7 @@ init -11 python:
         """
         for member in enemy_team:
             member.controller = BE_AI(member)
-        
+
         your_team = Team(name="Your Team")
         if slaves:
             for member in hero.team:
@@ -449,7 +454,7 @@ init -11 python:
                 if member.status != "slave" or member == hero:
                     your_team.add(member)
             your_team.reset_controller()
-            
+
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle)
         store.battle = battle
         battle.teams.append(your_team)
@@ -465,7 +470,7 @@ init -11 python:
                     member.health = 1
                     if member <> hero:
                         member.joy -= randint(5, 15)
-                        
+
         if battle.winner != your_team:
             return False
         else:
