@@ -182,22 +182,26 @@ label city_beach_rest:
     else:
         "You're relaxing at the beach."
         
-    $ members = list(x for x in hero.team if (x != hero and x.effects['Horny']['active'] and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
+    # $ members = list(x for x in hero.team if (x != hero and x.effects['Horny']['active'] and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
+    $ members = list(x for x in hero.team if (x != hero))
     if members:
-        $ member = random.choice(members)
-        hide expression picture[0]
-        hide expression picture[1]
-        with dissolve
-        show expression member.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
-        "Unfortunately [member.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
-        $ member.sex += 1
-        $ hero.sex += 1
-        $ member.disposition += 3
-    python:
-        for member in hero.team:        
-            member.vitality += randint(10, 15)
-            if member != hero:
-                member.disposition += 1
+        $ char = member = random.choice(members)
+        $ sex_scene_location="beach"
+        $ interactions_run_gm_anywhere(member, exit="city_beach_left", background="beach_rest", custom="interactions_sex_scene_begins")
+        # hide expression picture[0]
+        # hide expression picture[1]
+        # with dissolve
+        # show expression member.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
+        # "Unfortunately [member.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
+        # $ member.sex += 1
+        # $ hero.sex += 1
+        # $ member.disposition += 3
+    
+    # python:
+        # for member in hero.team:        
+            # member.vitality += randint(10, 15)
+            # if member != hero:
+                # member.disposition += 1
     jump city_beach_left
                 
 label fishing_logic:

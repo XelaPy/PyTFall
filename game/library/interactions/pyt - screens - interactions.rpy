@@ -61,13 +61,13 @@ label girl_interactions:
     # Show greeting:
     if gm.see_greeting:
         $ gm.see_greeting = False
-
+        show screen girl_interactions
+        with dissolve
         if renpy.has_label("%s_greeting"%gm.mode):
             call expression ("%s_greeting"%gm.mode) from _call_expression
 
 
-    show screen girl_interactions
-    with dissolve
+
 
 label girl_interactions_after_greetings: # when character wants to say something in the start of interactions, we need to skip greetings and go here
     python:
