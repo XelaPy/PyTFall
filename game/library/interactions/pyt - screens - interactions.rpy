@@ -39,6 +39,8 @@ label girl_interactions:
         gm.show_menu_givegift = False
 
     scene expression gm.bg_cache
+    show screen girl_interactions
+    with dissolve
 
     if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # chars with flag will propose sex once per day once you try to talk to them
         if char.effects['Horny']['active'] and interactions_silent_check_for_bad_stuff(char) and check_lovers(char, hero):
@@ -61,14 +63,10 @@ label girl_interactions:
     # Show greeting:
     if gm.see_greeting:
         $ gm.see_greeting = False
-        show screen girl_interactions
-        with dissolve
+
         if renpy.has_label("%s_greeting"%gm.mode):
             call expression ("%s_greeting"%gm.mode) from _call_expression
-
-
-
-
+            
 label girl_interactions_after_greetings: # when character wants to say something in the start of interactions, we need to skip greetings and go here
     python:
         # Show menu

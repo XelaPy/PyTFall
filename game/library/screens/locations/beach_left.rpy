@@ -171,12 +171,14 @@ label city_beach_rest:
                         picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
                     elif member.has_image("swimsuit", "no bg", exclude=["sex", "stripping"]):
                         picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        
     if len(picture) == 1:
         show expression picture[0] at truecenter with dissolve
     elif len(picture) == 2:
-        show expression picture[0] at center_left
-        show expression picture[1] at center_right
+        show expression picture[0] at center_left as temp1
+        show expression picture[1] at center_right as temp2
         with dissolve
+        
     if len(hero.team) > 1:
         "You're relaxing at the beach with your team."
     else:
@@ -185,12 +187,22 @@ label city_beach_rest:
     # $ members = list(x for x in hero.team if (x != hero and x.effects['Horny']['active'] and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
     $ members = list(x for x in hero.team if (x != hero))
     if members:
-        $ char = member = random.choice(members)
-        $ sex_scene_location="beach"
-        $ interactions_run_gm_anywhere(member, exit="city_beach_left", background="beach_rest", custom=True)
-        # hide expression picture[0]
-        # hide expression picture[1]
-        # with dissolve
+        $ char = choice(members)
+        $ sex_scene_location = "beach"
+        $ interactions_run_gm_anywhere(char, exit="city_beach_left", background="beach_rest", custom=True)
+        
+        # Setup all the required globals:
+        python:
+            picture_before_sex = False
+            sex_scene_location = "beach"
+        
+        hide temp1
+        hide temp2
+        show screen girl_interactions
+        with dissolve
+        
+        jump interactions_sex_scene_begins
+
         # show expression member.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
         # "Unfortunately [member.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
         # $ member.sex += 1

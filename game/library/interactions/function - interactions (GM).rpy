@@ -290,15 +290,18 @@ init -11 python:
         Keyword arguments:
         custom -- Will not jump to any label internally (default False)
         """
+        if not isinstance(char, Char):
+            char = chars[char]
+        
         if custom:
-            gm.start("custom", chars[char], chars[char].get_vnsprite(), exit, background)
-        elif chars[char].status == "slave" or not(chars[char].is_available):
+            gm.start("custom", char, char.get_vnsprite(), exit, background)
+        elif chars[char].status == "slave" or not char.is_available:
             narrator("Nobody's here...")
             renpy.jump(place)
-        elif chars[char] in hero.chars:
-            gm.start("girl_interactions", chars[char], chars[char].get_vnsprite(), exit, background)
+        elif char in hero.chars:
+            gm.start("girl_interactions", char, char.get_vnsprite(), exit, background)
         else:
-            gm.start("girl_meets", chars[char], chars[char].get_vnsprite(), exit, background)
+            gm.start("girl_meets", char, char.get_vnsprite(), exit, background)
 
     def interactions_prebattle_line(characters):
         """
