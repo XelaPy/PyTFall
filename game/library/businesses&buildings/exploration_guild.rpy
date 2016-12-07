@@ -374,6 +374,8 @@ init -6 python:
                     if result == "back2guild":
                         tracker.finish_exploring() # Build the ND report!
                         self.env.exit() # We're done...
+                elif tracker.state == "setting_up_basecamp":
+                    pass
 
             # if config.debug:
                 # tracker.log("Debug: The day has come to an end for {}.".format(tracker.team.name))
@@ -730,12 +732,16 @@ init -6 python:
                     yield self.env.timeout(5)
             self.obj_area.building_camp = True
 
-            team = tracker.team
-            self.base_camp_health
+            # From here in out we work with all teams in the area that are setting up the camp:
+            teams = [t.team for t in self.obj_area.trackers if t.state == "setting_up_basecamp"]
 
-            build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in team)) # We should have building skill in the future whihc could be used here instead.
+            # TODO: Make sure this is adapted to building skills once we have it!
+            build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in chain.from_iterable(teams))) # We should have building skill in the future which could be used here instead.
 
-            temp = "{} is setting up basecamp!".format(tracker.team.name)
+            if len(teams) > 1:
+                temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
+            else:
+                temp = "Team {} is setting up basecamp!".format(teams[0].name)
             tracker.log(temp)
 
             while 1:
