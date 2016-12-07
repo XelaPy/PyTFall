@@ -187,7 +187,7 @@ label city_beach_rest:
     if members:
         $ char = member = random.choice(members)
         $ sex_scene_location="beach"
-        $ interactions_run_gm_anywhere(member, exit="city_beach_left", background="beach_rest", custom="interactions_sex_scene_begins")
+        $ interactions_run_gm_anywhere(member, exit="city_beach_left", background="beach_rest", custom=True)
         # hide expression picture[0]
         # hide expression picture[1]
         # with dissolve
