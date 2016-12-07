@@ -359,7 +359,7 @@ init -1 python:
                 global_flags.set_flag("keep_playing_music")
 
             # Reset GM counters
-            gm_disp_mult = 1
+            store.gm_disp_mult = 1
 
             # Reset scene
             renpy.scene()
