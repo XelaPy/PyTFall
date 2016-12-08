@@ -1215,7 +1215,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"mp": 5, "health": 5, "vitality": 5},
-    "goodtraits": ["Open Minded", "Curious"]
+    "goodtraits": ["Open Minded", "Curious"],
+    "locations": ["Cafe"]
     },
     {
     "id": "Red Wine",
@@ -1231,7 +1232,7 @@
     "slot": "consumable",
     "type": "alcohol",
     "mod": {"mp": 10, "joy": 10},
-    "locations": ["Cafe"]
+    "locations": ["Tavern"]
     },
     {
     "id": "White Wine",
@@ -1247,7 +1248,7 @@
     "slot": "consumable",
     "type": "alcohol",
     "mod": {"mp": 8, "joy": 8},
-    "locations": ["Cafe"]
+    "locations": ["Tavern"]
     },
     {
     "id": "Champagne",
@@ -1263,7 +1264,7 @@
     "slot": "consumable",
     "type": "alcohol",
     "mod": {"mp": 5, "joy": 5},
-    "locations": ["Cafe"]
+    "locations": ["Tavern"]
     },
     {
     "id": "Beer",
@@ -1279,7 +1280,7 @@
     "slot": "consumable",
     "type": "alcohol",
     "mod": {"joy": 3},
-    "locations": ["Cafe"]
+    "locations": ["Tavern"]
     },
     {
     "id": "Whiskey",
@@ -1295,7 +1296,7 @@
     "slot": "consumable",
     "type": "alcohol",
     "mod": {"mp": 25, "joy": 25},
-    "locations": ["Cafe"]
+    "locations": ["Tavern"]
     },
     {
     "id": "Sake",
@@ -1311,6 +1312,6 @@
     "slot": "consumable",
     "type": "alcohol",
     "mod": {"mp": 15, "joy": 15},
-    "locations": ["Cafe"]
+    "locations": ["Tavern"]
     }
   ]
