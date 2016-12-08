@@ -80,6 +80,7 @@ label city_tavern_menu:
             # pytfall.world_actions.finish()
 
 screen city_tavern_inside():
+    use top_stripe(True)
     frame:
         xalign 0.95
         ypos 50
