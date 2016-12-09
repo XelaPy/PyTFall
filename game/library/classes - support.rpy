@@ -44,9 +44,10 @@ init -9 python:
             
         def init_shops(self):
             # Shops:
-            self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store']
+            self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store', 'Tavern']
             self.general_store = GeneralStore('General Store', 18, ['General Store'])
             self.cafe = ItemShop('Cafe', 18, ['Cafe'], sells=["food"])
+            self.tavern = ItemShop('Tavern', 18, ['Tavern'], sells=["alcohol"])
             self.workshop = ItemShop('Work Shop', 18, ['Work Shop'], sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow"])
             self.witches_hut = ItemShop('Witches Hut', 18, ['Witches Hut'], sells=["amulet", "restore", "smallweapon"])
             self.tailor_store = ItemShop('Tailor Store', 18, ['Tailor Store'], sells=["dress"])

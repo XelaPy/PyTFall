@@ -69,7 +69,7 @@ init python:
                                 
         return actions, rest, events
         
-label next_day_effects_check: 
+label next_day_effects_check:  # all traits and effects which require some unusual checks every turn do it here
     python:
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
             if not "Pessimist" in i.traits and i.joy <= 15 and not i.effects['Depression']['active']:
@@ -80,27 +80,17 @@ label next_day_effects_check:
                 i.effects['Exhausted']['activation_count'] += 1
             if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
-            if "Life Beacon" in hero.traits:
+            if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
                 i.health += randint(10, 20)
                 i.joy += 1
-            if i.effects['Horny']['active']:
+            if i.effects['Horny']['active']: # horny effect which affects various sex-related things and scenes
                 i.disable_effect("Horny")
-            elif i.effects['Icy']['active']:
-                i.disable_effect("Icy")
             else:
-                if i.vitality >= i.get_max("vitality")*0.3 and i.health >= i.get_max("health")*0.3:
-                    if "Nymphomaniac" in i.traits and dice(40):
+                if interactions_silent_check_for_bad_stuff(i):
+                    if "Nymphomaniac" in i.traits and dice(60):
                         i.enable_effect("Horny")
-                    elif "Frigid" in i.traits and dice(50):
-                        i.enable_effect("Icy")
-                    else:
-                        if dice(20) and i.joy > 50:
-                            i.enable_effect("Horny")
-                        elif dice(20) and i.joy > 50:
-                            i.enable_effect("Icy")
-                else:
-                    if dice(50):
-                        i.enable_effect("Icy")
+                    elif not ("Frigid" in i.traits) and dice(30) and i.joy > 50:
+                        i.enable_effect("Horny")
     return
         
         

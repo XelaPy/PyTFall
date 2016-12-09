@@ -1241,7 +1241,7 @@ init -9 python:
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
                 "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (restores some vitality and mp every day)."},
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP)."},
                 "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
                 "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
                 "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
@@ -1251,8 +1251,7 @@ init -9 python:
                 "MP Regeneration": {"active": False, "desc": "Restores some mp every day."},
                 "Small Regeneration": {"active": False, "desc": "Restores 10 health every day for 20 days."},
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
-                "Horny": {"active": False, "desc": "She's in the mood for sex."},
-                "Icy": {"active": False, "desc": "She's really not in the mood for sex."}
+                "Horny": {"active": False, "desc": "She's in the mood for sex."}
                 }
             
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2637,9 +2636,6 @@ init -9 python:
             elif effect == "Horny":
                 self.effects['Horny']['active'] = True
                 
-            elif effect == "Icy":
-                self.effects['Icy']['active'] = True
-                
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
                 
@@ -2764,9 +2760,6 @@ init -9 python:
                 
             elif effect == "Horny":
                 self.effects['Horny']['active'] = False
-                
-            elif effect == "Icy":
-                self.effects['Icy']['active'] = False
                 
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False

@@ -2,7 +2,6 @@ init:
     image libido_hearth = "content/gfx/interface/icons/heartbeat.png"
 
 init python:
-
     def get_act(character, tags): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
             acts = list()
             for t in tags:
@@ -19,6 +18,7 @@ init python:
                 act = None
                 
             return act
+            
 # lines for the future male libido
 # You're a little out of juice at the moment, you might want to wait a bit.
 # The spirit is willing, but the flesh is spongy and bruised.
@@ -281,36 +281,43 @@ label interactions_sex: # we go to this label from GM menu propose sex
     else:
         "She wants to do it in her room."
         show bg girl_room with fade
-        $ sex_scene_location="room"
+        $ sex_scene_location = "room"
     $ picture_before_sex = True
+    
 label interactions_sex_scene_begins: # here we set initial picture before the scene and set local variables
     $ scene_picked_by_character = True # when it's false, there is a chance that the character might wish to do something on her own
     $ sub = check_submissivity(char)
+    
     if picture_before_sex:
         $ get_picture_before_sex(char, location=sex_scene_location)
     
     $ sex_count = guy_count = girl_count = together_count = cum_count = 0 # these variable will decide the outcome of sex scene
     $ max_sex_scene_libido = sex_scene_libido = get_character_libido(char)
     $ char.AP -= 1
+    
     if not(char.flag("flag_int_had_sex_with_mc")):
         $ char.set_flag("flag_int_had_sex_with_mc", 1)
     else:
         $ char.set_flag("flag_int_had_sex_with_mc", char.flag("flag_int_had_sex_with_mc")+1)
+        
     call interactions_sex_begins
+    
     jump interaction_scene_choice
 
     
 label interaction_scene_choice: # here we select specific scene, show needed image, jump to scene logic and return here after every scene
-    if sex_scene_libido>0:
+    if sex_scene_libido > 0:
         show screen int_libido_level(sex_scene_libido)
     else:
         hide screen int_libido_level
         show screen int_libido_level_zero
+        
     if char.vitality <=10:
         jump interaction_scene_finish_sex
-    if hero.vitality <= 30:
+    elif hero.vitality <= 30:
         "You are too tired to continue."
         jump interaction_scene_finish_sex
+        
     if char.status == "slave":
         if sex_scene_libido == 0:
             "[char.name] doesn't want to do it any longer. You can force her, but it will not be without consequences."
@@ -328,6 +335,7 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         if char.vitality < 30:
             "[char.name] is too tired to continue."
             jump interaction_scene_finish_sex
+            
     if not(scene_picked_by_character):
         $ scene_picked_by_character = True
         if dice(sex_scene_libido*10 + 20*sub) and sex_scene_libido > 1: # strong willed and/or very horny characters may pick action on their own from time to time
@@ -350,13 +358,16 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
                 if ct("Virgin"):
                     jump interaction_check_for_virginity
             jump interactions_sex_scene_logic_part
+            
 label interaction_sex_scene_choice:
     if sex_scene_libido>0:
         show screen int_libido_level(sex_scene_libido)
     else:
         hide screen int_libido_level
         show screen int_libido_level_zero
+        
     $ scene_picked_by_character = False
+    
     if char.effects['Horny']['active']:
         $ char.disable_effect("Horny")
     menu:
@@ -404,10 +415,12 @@ label interaction_sex_scene_choice:
 label interaction_scene_finish_sex:
     hide screen int_libido_level
     hide screen int_libido_level_zero
+    
     if sex_scene_libido > 3 and char.vitality >= 50 and ct("Nymphomaniac"):
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
         "[char.name] is not satisfied yet, so she quickly masturbates right in front of you."
         $ char.disposition -= round(sex_scene_libido*3)
+        
     if (together_count > 0 and sex_count >1) or (sex_count >2 and girl_count >=1 and guy_count >= 1):
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=["angry", "sad", "scared", "in pain"]):
@@ -548,6 +561,7 @@ label interaction_scene_finish_sex:
         call interactions_after_normal_sex
         $ char.disposition += randint(10, 20)
         $ char.vitality -= randint(5, 10)
+        
     $ gm.restore_img()
     jump girl_interactions_end
             
