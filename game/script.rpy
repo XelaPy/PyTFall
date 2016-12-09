@@ -276,22 +276,13 @@ label dev_testing_menu:
     python:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
 
-        auto_buy_items = {
-            'slave': {}, # 'slave' adn 'free' should contain any goodtraits in existence
-            'free': {},
-            'goodtrait': {
-                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
-                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
-            },
-            'badtrait': {
-                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
-                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
-            },
-            'notrait': {
-                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
-                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
-            }
-        }
+        auto_buy_items = { 'slave': {}, 'free': {} }
+
+        for traitstr in ('goodtrait', 'badtrait', 'notrait'):
+            for k in ("trait", "body", "restore", "food", "dress", "rest"):
+                auto_buy_items[traitstr]["slave"][k] = []
+            for k in ("trait", "body", "restore", "food", "dress", "rest", "warrior", "scroll"):
+                auto_buy_items[traitstr]["free"][k] = []
 
         for item in [item for item in shop_items if item.usable and not item.jump_to_label]:
 
