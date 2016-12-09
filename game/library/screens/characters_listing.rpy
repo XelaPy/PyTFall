@@ -1,8 +1,8 @@
 init:
-    default status_filters = list()
-    default location_filters = list()
-    default action_filters = list()
-    default occ_filters = list()
+    default status_filters = set()
+    default location_filters = set()
+    default action_filters = set()
+    default class_filters = set()
     python:
         def sorting_for_chars_list():
             return [c for c in hero.chars if c.is_available]
@@ -15,10 +15,11 @@ label chars_list:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
             char_lists_filters.filter()
             # We create the filters only from those that our chars actually have... not need for gibberish:
-            status_filters = list(set([c.status for c in hero.chars]))
-            location_filters = list(set([c.location for c in hero.chars]))
-            action_filters = list(set([c.action for c in hero.chars]))
-            selected_filters = set(['Status', 'Site', 'Action']) #, 'Class'
+            status_filters = set([c.status for c in hero.chars])
+            location_filters = set([c.location for c in hero.chars])
+            action_filters = set([c.action for c in hero.chars])
+            class_filters = set([bt for c in hero.chars for bt in c.traits.basetraits])
+            selected_filters = set()
             the_chosen = set()
         
         show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)
@@ -204,6 +205,11 @@ screen chars_list(source=None, page=0, total_pages=1):
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Action')
                         text "Action" hover_color blue
+                    button:
+                        xalign 0.5
+                        style_group "basic"
+                        action ToggleSetMembership(selected_filters, 'Class')
+                        text "Class" hover_color purple
 
                 null height 20
                 hbox:
@@ -224,6 +230,11 @@ screen chars_list(source=None, page=0, total_pages=1):
                             button:
                                 action ModFilterSet(source, "action_filters", f)
                                 text "[f]" hover_color blue
+                    if "Class" in selected_filters:
+                        for f in class_filters:
+                            button:
+                                action ModFilterSet(source, "class_filters", f)
+                                text "[f]" hover_color purple
                 null height 20
                 button:
                     xalign 0.5

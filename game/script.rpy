@@ -273,8 +273,55 @@ label dev_testing_menu:
     if "testBrothel" in store.__dict__:
         $ del store.__dict__["testBrothel"]
     
-    $ shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
-    $ auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
+    python:
+        shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
+
+        auto_buy_items = {
+            'slave': {}, # 'slave' adn 'free' should contain any goodtraits in existence
+            'free': {},
+            'goodtrait': {
+                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
+                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
+            },
+            'badtrait': {
+                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
+                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
+            },
+            'notrait': {
+                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
+                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
+            }
+        }
+
+        for item in [item for item in shop_items if item.usable and not item.jump_to_label]:
+
+            status = "free" if item.slot in ("weapon", "smallweapon") or item.type in ("armor", "scroll") else "slave"
+            if item.goodtraits:
+
+                for trait in item.goodtraits:
+                    # same item may occur multiple times for different traits.
+                    auto_buy_items[status].setdefault(trait, []).append(item)
+
+                traitstr = 'goodtrait'
+
+            elif item.badtraits:
+                traitstr = 'badtrait'
+            else:
+                traitstr = 'notrait'
+
+            if item.type != "permanent":
+
+                if item.type == "armor" or item.slot == "weapon":
+                    auto_buy_items[traitstr][status]["warrior"].append(item)
+
+                else:
+                    if item.slot == "body":
+                        auto_buy_items[traitstr][status]["body"].append(item)
+
+                    if item.type in ("restore", "food", "scroll", "dress"):
+                        auto_buy_items[traitstr][status][item.type].append(item)
+                    else:
+                        auto_buy_items[traitstr][status]["rest"].append(item)
     
     #  --------------------------------------
     # Put here to facilitate testing:
