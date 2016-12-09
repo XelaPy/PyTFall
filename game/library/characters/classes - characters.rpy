@@ -8,22 +8,22 @@ init -9 python:
             self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             self.list = _list()
-    
+
         def __len__(self): return len(self.list)
-    
+
         def __getitem__(self, i): return self.list[i]
-    
+
         def __delitem__(self, i): del self.list[i]
-    
+
         def __setitem__(self, i, v):
             self.list[i] = v
-    
+
         def insert(self, i, v):
             self.list.insert(i, v)
-    
+
         def __str__(self):
             return str(self.list)
-            
+
         def append(self, item, normal=True):
             # Overwriting default list method, always assumed normal game operations and never adding through items.
             # ==> For battle & magic skills:
@@ -34,17 +34,17 @@ init -9 python:
                     else:
                         devlog.warning("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
                         return
-            if normal: #  Item applied by anything other than that 
+            if normal: #  Item applied by anything other than that
                 self.normal.add(item)
             else:
                 self.items[item] = self.items.get(item, 0) + 1
-                
+
             # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
             if item in self.normal or self.items.get(item, 0) > 0:
                 if not item in self.list:
                     self.list.append(item)
                     return True
-        
+
         def remove(self, item, normal=True):
             # Overwriting default list method.
             # ==> For battle & magic skills:
@@ -60,14 +60,14 @@ init -9 python:
                     self.normal.remove(item)
             else:
                 self.items[item] = self.items.get(item, 0) - 1
-                
+
             # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
             if not item in self.normal and self.items.get(item, 0) <= 0:
                 if item in self.list:
                     self.list.remove(item)
                     return True
-                    
-        
+
+
     class SmartTrackerOld(_list):
         """
         Basically a smart list that tracks anything that can be added by items and events/game.
@@ -80,14 +80,14 @@ init -9 python:
             self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             # raise Exception("zzzz", self.instance)
-            
+
         def __getattr__(self, item):
             raise AttributeError("%s object has no attribute named %r, __dict__: %s" %
                                  (self.__class__.__name__, item, self.__dict__))
-            
+
         def set_instance(self, instance):
             self.instance = instance
-            
+
         def append(self, item, normal=True):
             # Overwriting default list method, always assumed normal game operations and never adding through items.
             # ==> For battle & magic skills:
@@ -98,17 +98,17 @@ init -9 python:
                     else:
                         devlog.warning("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
                         return
-            if normal: #  Item applied by anything other than that 
+            if normal: #  Item applied by anything other than that
                 self.normal.add(item)
             else:
                 self.items[item] = self.items.get(item, 0) + 1
-                
+
             # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
             if item in self.normal or self.items.get(item, 0) > 0:
                 if not item in self:
                     super(SmartTracker, self).append(item)
                     return True
-        
+
         def remove(self, item, normal=True):
             # Overwriting default list method.
             # ==> For battle & magic skills:
@@ -124,14 +124,14 @@ init -9 python:
                     self.normal.remove(item)
             else:
                 self.items[item] = self.items.get(item, 0) - 1
-                
+
             # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
             if not item in self.normal and self.items.get(item, 0) <= 0:
                 if item in self:
                     super(SmartTracker, self).remove(item)
                     return True
-    
-    
+
+
     class Traits(SmartTracker):
         def __init__(self, *args, **kwargs):
             """
@@ -141,30 +141,30 @@ init -9 python:
             # SmartTracker.__init__(self, args[0])
             super(Traits, self).__init__(args[0])
             # self.instance = args[0]
-            
+
             self.ab_traits = set()  # Permenatly blocked traits (Absolute Block Traits)
             self.blocked_traits = set()  # Blocked traits
-            
+
             self.basetraits = set() # A set with basetraits (2 maximum)
-            
+
             # if not hasattr(self, "be_skills"):
                 # raise Exception("Meow~")
-            
+
         def __getattr__(self, item):
             raise AttributeError("%s object has no attribute named %r" %
                                  (self.__class__.__name__, item))
-                
+
         def __contains__(self, item):
             if isinstance(item, basestring):
                 if item in store.traits: item = store.traits[item]
                 else: return False
-            
+
             return super(Traits, self).__contains__(item)
-            
+
         @property
         def base_to_string(self):
             return ", ".join(sorted(list(str(t) for t in self.basetraits)))
-            
+
         def apply(self, trait, truetrait=True):
             """
             Activates trait and applies it's effects all the way up to a current level of the characters.
@@ -174,20 +174,20 @@ init -9 python:
             if not isinstance(trait, Trait):
                 trait = store.traits[trait]
             char = self.instance
-            
+
             # All the checks required to make sure we can even apply this fucking trait: ======================>>
             if trait.sex not in ["unisex", char.gender]:
                 return
-            
+
             # We cannot allow "Neutral" element to be applied if there is at least one element present already:
             if trait.elemental and trait.id == "Neutral":
                 if self.instance.elements:
                     return
-            
+
             # Blocked traits:
             if trait in self.ab_traits | self.blocked_traits:
                 return
-                
+
             # Unique Traits:
             if trait.personality and list(t for t in self if t.personality):
                 return
@@ -196,7 +196,7 @@ init -9 python:
             if trait.breasts and list(t for t in self if t.breasts):
                 return
             if trait.body and list(t for t in self if t.body):
-                return  
+                return
             if trait.personality:
                 char.personality = trait
             if trait.race:
@@ -205,7 +205,7 @@ init -9 python:
                 char.breasts = trait
             if trait.body:
                 char.body = trait
-                
+
             # We need to make sure that no more than x + len(basetraits) of basetraits can be applied, atm x is 4:
             if trait.basetrait:
                 if trait not in self.basetraits:
@@ -217,12 +217,12 @@ init -9 python:
                         elif bt > allowed:
                             devlog.warning("BASE TRAITS OVER THE ALLOWED MAX! CHECK Traits.apply method!")
                             return
-                    
+
             if not super(Traits, self).append(trait, truetrait):
                 return
-            
+
             # If we got here... we can apply the effect? Maybe? Please? Just maybe? I am seriouslly pissed at this system right now... ===========>>>
-                
+
             stats = self.instance.stats
             # If the trait is a basetrait:
             if trait in self.basetraits:
@@ -233,21 +233,21 @@ init -9 python:
                     else:
                         msg = "'%s' trait tried to apply unknown init lvl max stat: %s!"
                         devlog.warning(str(msg % (trait.id, stat)))
-                        
+
                 for stat in trait.init_max: # Mod value setting
                     if stat in stats:
                         stats.max[stat] += trait.init_max[stat] * multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init max stat: %s!"
                         devlog.warning(str(msg % (trait.id, stat)))
-                        
+
                 for stat in trait.init_mod: # Mod value setting
                     if stat in stats:
                         stats.stats[stat] += trait.init_mod[stat] * multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init max stat: %s!"
                         devlog.warning(str(msg % (trait.id, stat)))
-                        
+
                 for skill in trait.init_skills: # Mod value setting
                     if skill in stats.skills:
                         stats.skills[skill][0] += trait.init_skills[skill][0] * multiplier
@@ -255,12 +255,12 @@ init -9 python:
                     else:
                         msg = "'%s' trait tried to apply unknown init skillt: %s!"
                         devlog.warning(str(msg % (trait.id, skill)))
-                
+
             # Only for body traits:
             if trait.body:
                 if trait.mod_ap:
                     self.instance.baseAP += trait.mod_ap
-                        
+
             for key in trait.max:
                 if key in stats.max:
                    stats.max[key] += trait.max[key]
@@ -281,12 +281,12 @@ init -9 python:
                     self.blocked_traits.add(traits[entry])
                 else:
                     devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
-                
+
             # For now just the girls get effects...
             if hasattr(char, "effects"):
                 for entry in trait.effects:
                     char.enable_effect(entry)
-                    
+
             if trait.mod_stats:
                 if hasattr(char, "upkeep"):
                     char.upkeep += trait.mod_stats.get("upkeep", [0, 0])[0]
@@ -294,7 +294,7 @@ init -9 python:
                     char.disposition += trait.mod_stats.get("disposition", [0, 0])[0]
                 for level in xrange(char.level+1):
                     char.stats.apply_trait_statsmod(trait)
-                    
+
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
                     if key in char.SKILLS:
@@ -310,15 +310,15 @@ init -9 python:
             # Adding resisting elements and attacks:
             for i in trait.resist:
                 self.instance.resist.append(i)
-            
+
             # NEVER ALLOW NEUTRAL ELEMENT WITH ANOTHER ELEMENT!
             if trait.elemental:
                 if trait.id != "Neutral" and traits["Neutral"] in self:
                     self.remove(traits["Neutral"])
-                    
+
             # Finally, make sure stats are working:
             char.stats.normalize_stats()
-                        
+
         def remove(self, trait, truetrait=True):
             """
             Removes trait and removes it's effects gained up to a current level of the characters.
@@ -328,21 +328,21 @@ init -9 python:
             if not isinstance(trait, Trait):
                 trait = store.traits[trait]
             char = self.instance
-            
+
             if trait.sex not in ["unisex", char.gender]:
                 return
-            
+
             # We Never want to remove a base trait:
             if trait in self.basetraits:
                 return
-                
+
             # WE NEVER REMOVE PERMANENT TRAITS FAMILY:
             if any([trait.personality, trait.race, trait.breasts, trait.body]):
                 return
-                    
+
             if not super(Traits, self).remove(trait, truetrait):
                 return
-                
+
             stats = char.stats
             for key in trait.max:
                 if key in stats.max:
@@ -376,7 +376,7 @@ init -9 python:
             if isinstance(char, Char):
                 for entry in trait.effects:
                     self.intance.disable_effect(entry)
-                    
+
             if trait.mod_stats:
                 if hasattr(char, "upkeep"):
                     char.upkeep -= trait.mod_stats.get("upkeep", [0, 0])[0]
@@ -396,7 +396,7 @@ init -9 python:
                     else:
                         msg = "'%s' trait tried to apply unknown skill: %s!"
                         devlog.warning(str(msg % (trait.id, key)))
-            
+
             # Remove resisting elements and attacks:
             for i in trait.resist:
                 self.instance.resist.remove(i)
@@ -405,14 +405,15 @@ init -9 python:
                     # if i in t.resist:
                         # self.instance.resist.append(i)
                         # break
-                        
+
             # We add the Neutral element if there are no elements left at all...
             if not self.instance.elements:
                 self.apply("Neutral")
-                
+
             # Finally, make sure stats are working:
             char.stats.normalize_stats()
-    
+
+
     class Rank(_object): # Will not be used for the next release...
         """
         Ranks, currently not in use in the game.
@@ -426,7 +427,7 @@ init -9 python:
         WhRANKS["5"]=dict(name=("Rank 5: Yobidashi", "(High-Class Courtesan)"), skills={"oral": 250, "vaginal": 150, "anal": 130}, total_skill=1250, stats={"refinement": 150}, price=10000, exp=250000)
         WhRANKS["6"]=dict(name=("Rank 6: Koshi", "(Nation famous)"), skills={"oral": 500, "vaginal": 500, "anal": 500}, total_skill=2500, stats={"refinement": 500}, price=25000, exp=400000)
         WhRANKS["7"]=dict(name=("Rank 7: Tayu", "(Legendary)"), skills={"oral": 1500, "vaginal": 1500, "anal": 1500}, total_skill=5000, stats={"refinement": 800}, price=50000, exp=800000)
-        
+
         WaRANKS = OrderedDict()
         WaRANKS["0"]=dict(name=('No Rank', 'Nub with a stick...'), price=0)
         WaRANKS["1"]=dict(name=("Rank 1", "Thug"), skills={}, total_skill=100, stats={}, price=1000, exp=10000)
@@ -436,7 +437,7 @@ init -9 python:
         WaRANKS["5"]=dict(name=("Rank 5", "War Maiden"), skills={}, total_skill=1250, stats={}, price=10000, exp=250000)
         WaRANKS["6"]=dict(name=("Rank 6", "Valkyrie"), skills={}, total_skill=2500, stats={}, price=25000, exp=400000)
         WaRANKS["7"]=dict(name=("Rank 7", "Legendary"), skills={}, total_skill=5000, stats={}, price=50000, exp=800000)
-        
+
         StRANKS = OrderedDict()
         StRANKS["0"]=dict(name=('No Rank', 'Nub wiggling her ass...'), price=0)
         StRANKS["1"]=dict(name=("Rank 1", "Stripper"), skills={"strip": 50}, total_skill=100, price=1000, exp=10000)
@@ -446,7 +447,7 @@ init -9 python:
         StRANKS["5"]=dict(name=("Rank 5", "Ecdysiastn"), skills={"strip": 1000}, total_skill=1250, stats={}, price=10000, exp=250000)
         StRANKS["6"]=dict(name=("Rank 6", "Temptress"), skills={"strip": 2500}, total_skill=2500, stats={}, price=25000, exp=400000)
         StRANKS["7"]=dict(name=("Rank 7", "Legendary"), skills={"strip": 5000}, total_skill=5000, stats={}, price=50000, exp=800000)
-        
+
         SgRANKS = OrderedDict()
         SgRANKS["0"]=dict(name=('No Rank', 'Nub breaking the china...'), price=0)
         SgRANKS["1"]=dict(name=("Rank 1", "Wench"), skills={"service": 50}, total_skill=100, price=1000, exp=10000)
@@ -462,11 +463,11 @@ init -9 python:
         def __init__(self):
             self.current_rank = None
             self.n = None
-        
-    
+
+
     class Finances(_object):
         """Helper class that handles finance related matters in order to reduce the size of Characters/Buildings classes.
-        
+
         TODO: This is fairly old, I should be able to do better now.
         TODO: Naming of methods could be better.
         """
@@ -475,7 +476,7 @@ init -9 python:
             instance = reference to Character object
             """
             self.instance = args[0]
-            
+
             """
             Income/expense log consists of personal, wages and tips dicts.
             Private = Private (logs with acutal gold increases/decreases).
@@ -488,36 +489,36 @@ init -9 python:
             self.daily_expense_log = dict(work=dict(), private=dict(), cost=dict())
             self.income_tax_debt = 0
             self.property_tax_debt = 0
-            
+
         # Logging data:
         def log_work_income(self, value, kind):
             """This is for Buildings.
             """
             self.daily_income_log["work"][kind] = self.daily_income_log["work"].get(kind, 0) + int(round(value))
-         
+
         def log_work_expense(self, value, kind):
             """This is for Buildings.
             """
             self.daily_expense_log["work"][kind] = self.daily_expense_log["work"].get(kind, 0) + int(round(value))
-        
+
         def log_wage(self, value, kind):
             self.daily_income_log["work"][kind] = self.daily_income_log["work"].get(kind, 0) + int(round(value))
-         
+
         def log_tips(self, value, kind):
             if not "tips" in self.daily_income_log:
                 self.daily_income_log["tips"] = dict()
             self.daily_income_log["tips"][kind] = self.daily_income_log["tips"].get(kind, 0) + int(round(value))
-            
+
         def log_income(self, value, kind):
             """Logs private Income.
             """
             self.daily_income_log["private"][kind] = self.daily_income_log["private"].get(kind, 0) + int(round(value))
-            
+
         def log_expense(self, value, kind):
             """Logs private expence.
             """
             self.daily_expense_log["private"][kind] = self.daily_expense_log["private"].get(kind, 0) + int(round(value))
-            
+
         def log_cost(self, value, kind):
             """
             This logs how much an object (usually a character) has cost the player over the day.
@@ -525,7 +526,7 @@ init -9 python:
             While not technically an expence to a character, it is being recorded to that dict.
             """
             self.daily_expense_log["cost"][kind] = self.daily_expense_log["cost"].get(kind, 0) + int(round(value))
-            
+
         def take_money(self, value, reason="Other"):
             value = int(round(value))
             if value <= self.instance.gold:
@@ -539,28 +540,28 @@ init -9 python:
             value = int(round(value))
             self.log_income(value, reason)
             self.instance.gold += value
-        
+
         # Retrieving data:
         def get_work_income(self, kind="all", day=None):
             """Retrieve work income (for buildings/chars?)
-            
+
             kind = "all" means any income earned on the day.
             """
             if day and day >= store.day:
                 raise Exception("Day on income retrieval must be lower than the current day!")
-                
+
             if not day:
                 d = self.daily_income_log["work"]
             else:
                 d = self.game_fin_log[str(day)][0]["work"]
-                
+
             if kind == "all":
                 return sum(val for val in d.values())
             elif kind in d:
                 return d[kind]
             else:
                 raise Exception("Income kind: {} is not valid!".format(kind))
-        
+
         def get_total_taxes(self, days):
             char = self.instance
             income = dict()
@@ -572,9 +573,9 @@ init -9 python:
                             income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["private"][key]
                         for key in b.fin.game_fin_log[_day][0]["work"]:
                             income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
-                             
+
             income = sum(income.values())
- 
+
             if income <= 5000:
                 tax = 0
             elif income <= 25000:
@@ -587,13 +588,13 @@ init -9 python:
                 tax = int(round(income*0.4))
             else:
                 tax = int(round(income*0.45))
-                 
+
             for b in businesses:
                 tax += int(b.price*0.04)
             for ch in char.chars:
                 if ch.status == "slave":
                     tax += int(ch.fin.get_price()*0.05)
-                
+
             return tax
         # ================================>
         # Rest
@@ -603,53 +604,53 @@ init -9 python:
             """
             # TODO: To be revised after SKILLS!
             char = self.instance
-            
+
             wage = 100
             if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
                 wage = int(wage*0.65)
-             
+
             # if traits['Prostitute'] in char.occupations:
                 # bw = 5 # Base wage
                 # sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
                 # osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
- 
+
                 # wage =  (sm*osm)/5 + bw
- 
+
             # elif traits['Stripper'] in char.occupations:
                 # bw = 2
                 # sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
                 # osm = char.strip*char.agility/100
- 
+
                 # wage = (sm+osm)/5 + bw
- 
+
             # elif 'Server' in char.occupations:
                 # bw = 10
                 # sm = char.charisma/5 + char.agility/2 + char.refinement/4
                 # osm = char.service*bw
- 
+
                 # wage = sm/2+osm/100
- 
+
             # elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
                 # # Here we include MC for the attack event as well.
                 # bw = 15
                 # sm = char.agility/100+char.fame/4 + char.reputation/3
                 # osm = (char.attack + char.defence + char.magic/2)/100 + bw
- 
+
                 # wage = bw+sm*osm
- 
+
             # else:
                 # for stat in char.stats:
                     # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                         # wage += getattr(char, stat)
                 # wage = wage/2
- 
-            # # Normalize:    
+
+            # # Normalize:
             # wage = int(wage)
             # if wage < 20:
                 # wage = 20
-                
+
             return wage
-            
+
         def settle_wage(self):
             """
             Settle wages between girls and player.
@@ -657,11 +658,11 @@ init -9 python:
             Right now being used for Businesses only, all FG profit goes directly into MC's pockets.
             """
             char = self.instance
-            
+
             if self.wage_conditions():
                 total_wage = sum(self.daily_income_log["work"].values())
                 hero.add_money(total_wage, reason="Businesses")
-                
+
                 if char.status != "slave":
                     if char.wagemod >= 100:
                         amount = int(self.expects_wage() + int(round(self.expects_wage()*0.01*(char.wagemod-100))))
@@ -673,7 +674,7 @@ init -9 python:
                             if char.disposition < 700:
                                 char.disposition += int(round((char.wagemod-100)*0.1))
                             char.joy += int(round((char.wagemod-100)*0.1))
-        
+
                     elif char.wagemod< 100:
                         amount = int(self.expects_wage() - int(round(self.expects_wage()*0.01*(100-char.wagemod))))
                         if hero.take_money(amount, reason="Wages"):
@@ -681,7 +682,7 @@ init -9 python:
                             self.add_money(amount, reason="Wages")
                             if isinstance(char.location, Building):
                                 char.location.fin.log_work_expense(amount, "Wages")
-                                
+
                 else:
                     amount = int(self.expects_wage()*0.01*(char.wagemod))
                     if hero.take_money(amount, reason="Wages"):
@@ -692,11 +693,11 @@ init -9 python:
                         if char.disposition < 700:
                             char.disposition += int(round((char.wagemod)*0.2))
                         char.joy += int(round((char.wagemod)*0.2))
-                                     
+
         def wage_conditions(self):
             char = self.instance
             return char.action not in ["Rest", "AutoRest"] or (char.location != "Streets" and not in_training_location(char))
-        
+
         def get_price(self):
             # TODO: To be revised after skills are added!
             char = self.instance
@@ -737,22 +738,22 @@ init -9 python:
                     # for stat in char.stats:
                         # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                             # sp += getattr(char, stat)
-                     
+
                     # if sp > 1200:
                         # sp = sp * 1.2
- 
+
                     # price = bp + sp
                     # return int(price)
-                     
+
             # else:
                 # devlog.warning("get_price for {} was ran even though character is free !".format(char.id))
             return 1000
-                
+
 
         def get_upkeep(self):
             # TODO: To be revised after skills are added!
             char = self.instance
-            
+
             if char.status == 'slave':
                 return 50
             else:
@@ -762,40 +763,40 @@ init -9 python:
                     # bu = 20 * char.rank
                     # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
                     # ssu = char.anal/8 + char.normalsex/8 + char.blowjob/8 + char.lesbian/8
-                     
+
                     # return int(bu + su + ssu + char.upkeep)
- 
+
                 # elif traits['Stripper'] in char.occupations:
                     # bu = 3 * char.strip
                     # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
- 
+
                     # return int(bu + su + char.upkeep)
- 
+
                 # elif 'Server' in char.occupations:
                     # bu = 3 * char.service
                     # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
- 
+
                     # return int(bu + su + char.upkeep)
- 
+
                 # else:
                     # bu = 20
                     # su = 0 # Stats Upkeep
                     # for stat in char.stats:
                         # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                             # su += getattr(char, stat)
- 
+
                     # return int(bu + su + char.upkeep)
- 
+
             # elif char.status == 'free':
                 # return char.upkeep
- 
+
             # else: # This is for any unknown types
                 # bu = 50
                 # su = 0 # Stats Upkeep
                 # for stat in char.stats:
                     # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
                         # su += getattr(char, stat)
- 
+
                 # return int(bu + su + char.upkeep)
 
         def get_whore_price(self):
@@ -804,7 +805,7 @@ init -9 python:
             """
             # TODO: To be revised after skills are added!
             char = self.instance
-            
+
             # if char.rank < 4:
                 # bp = 10 * char.rank # Base Price
             # elif char.rank < 7 :
@@ -815,13 +816,13 @@ init -9 python:
             # ssp = (char.anal + char.normalsex + char.blowjob + char.lesbian)/4*(1+(char.rank*0.1)) # Sex Stats Price
 
             return 100 # int(bp + sp + ssp)
-            
+
         def next_day(self):
             self.game_fin_log[str(day)] = (self.daily_income_log, self.daily_expense_log)
             self.daily_income_log = dict(work=dict(), tips=dict(), private=dict())
             self.daily_expense_log = dict(work=dict(), private=dict(), cost=dict())
-            
-            
+
+
     class Stats(_object):
         """Holds and manages stats for PytCharacter Classes.
         DEVNOTE: Be VERY careful when accesing this class directly!
@@ -838,7 +839,7 @@ init -9 python:
             """
             self.instance = args[0]
             self.stats, self.imod, self.min, self.max, self.lvl_max = dict(), dict(), dict(), dict(), dict()
-            
+
             # Load the stat values:
             for stat, values in kwargs.get("stats", {}).iteritems():
                 self.stats[stat] = values[0]
@@ -846,62 +847,62 @@ init -9 python:
                 self.min[stat] = values[1]
                 self.max[stat] = values[2]
                 self.lvl_max[stat] = values[3]
-                
+
             # [action_value, training_value]
             self.skills = {k: [0, 0] for k in self.instance.SKILLS}
             # [actions_multi, training_multi, value_multi]
             self.skills_multipliers = {k: [1, 1, 1] for k in self.skills}
-            
+
             # Leveling system assets:
             self.goal = 1000
             self.goal_increase = 1000
             self.level = 1
             self.exp = 0
-            
+
             # Statslog:
             self.log = dict()
-            
+
         def _raw_skill(self, key):
             """Raw Skills:
             [action_value, training_value]
             """
             if key.islower(): return self.skills[key][0]
             else: return self.skills[key.lower()][1]
-            
+
         def _get_stat(self, key):
             maxval = self.get_max(key)
             minval = self.min[key]
             val = self.stats[key] + self.imod[key]
-            
+
             # Normalization:
             if val > maxval:
                 if self.stats[key] > maxval:
                     self.stats[key] = maxval
                 val = maxval
-                
+
             elif val < minval:
                 if self.stats[key] < minval:
                     self.stats[key] = minval
                 val = minval
-                
+
             if key not in ["disposition", "luck"] and val < 0:
                 val = 0
-                
+
             return val
-                
+
         def is_skill(self, key):
             # Easy check for skills.
             return key.lower() in self.skills
-            
+
         def is_stat(self, key):
             # Easy check for stats.
             return key.lower() in self.stats
-            
+
         def normalize_stats(self):
             # Makes sure main stats dict is properly aligned to max/min values
             for stat in self.stats:
                 self.normalize_stat(stat)
-                    
+
         def normalize_stat(self, stat):
             val = self.stats[stat]
             minval = self.min[stat]
@@ -910,33 +911,33 @@ init -9 python:
                 self.stats[stat] = maxval
             if val < minval:
                 self.stats[stat] = minval
-            
+
         def __getitem__(self, key):
             return self._get_stat(key)
-            
+
         def __iter__(self):
             return iter(self.stats)
-            
+
         def get_max(self, key):
             val = min(self.max[key], self.lvl_max[key])
             if key not in ["disposition"]:
                 if val < 0:
                     val = 0
             return val
-        
+
         def mod_item_stat(self, key, value):
             if key in self.stats:
                 self.imod[key] = self.imod[key] + value
-        
+
         def _mod_base_stats_from__setattr__(self, key, value):
             # Primary stat dict modifier...
             value = value - self._get_stat(key)
             self._mod_base_stat(key, int(round(value)))
-            
+
         def settle_effects(self, key, value):
             if hasattr(self.instance, "effects"):
                 effects = self.instance.effects
-                
+
                 if key == 'disposition':
                     if effects['Insecure']['active']:
                         if value >= 5:
@@ -949,7 +950,7 @@ init -9 python:
                         value = int(value*1.2)
                     if effects['Loyal']['active'] and value < 0: # works together with other traits
                         value = int(value*.8)
-                        
+
                     if last_label.startswith("interactions_"):
                         tag = str(random.random())
                         renpy.show_screen("display_disposition", tag, value, 40, 530, 400, 1)
@@ -959,7 +960,7 @@ init -9 python:
                     elif effects['Calm']['active']:
                         value = int(value*0.5)
             return value
-            
+
         def _mod_exp(self, value):
             # Assumes input from setattr of self.instance:
             if hasattr(self.instance, "effects"):
@@ -970,24 +971,24 @@ init -9 python:
                 if effects["Fast Learner"]["active"]:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
-            
+
             self.exp = value
-            
+
             while self.exp >= self.goal:
                 self.goal_increase += 1000
                 self.goal += self.goal_increase
                 self.level += 1
-                
+
                 # Bonuses from traits:
                 for trait in self.instance.traits:
                     self.apply_trait_statsmod(trait)
-                
+
                 # Normal Max stat Bonuses:
                 for stat in self.stats:
                     if stat not in self.FIXED_MAX:
                         self.lvl_max[stat] += 5
                         self.max[stat] += 2
-                        
+
                         # Chance to increase max stats permanently based on level
                         if self.level >= 20:
                             val = self.level / 20.0
@@ -1008,7 +1009,7 @@ init -9 python:
                             else:
                                 msg = "'%s' stat applied on leveling up (max mods) to %s (%s)!"
                                 devlog.warning(str(msg % (stat, self.instance.__class__, trait.id)))
-                              
+
                         # Super Skill Bonuses:
                         for skill in trait.init_skills:
                             if self.is_skill(skill):
@@ -1019,11 +1020,11 @@ init -9 python:
                             else:
                                 msg = "'{}' skill applied on leveling up to {} ({})!"
                                 devlog.warning(str(msg.format(stat, self.instance.__class__, trait.id)))
-                                
+
                 self.stats["health"] = self.get_max("health")
                 self.stats["mp"] = self.get_max("mp")
                 self.stats["vitality"] = self.get_max("vitality")
-                
+
         def apply_trait_statsmod(self, trait, reverse=False):
             """Applies "stats_mod" field on characters.
             """
@@ -1031,14 +1032,14 @@ init -9 python:
                 if key not in ["disposition", "upkeep"]:
                     if not self.level%trait.mod_stats[key][1]:
                         self._mod_base_stat(key, trait.mod_stats[key][0]) if not reverse else self._mod_base_stat(key, -trait.mod_stats[key][0])
-                
+
         def _mod_base_stat(self, key, value):
             # Modifies the first layer of stats (self.stats)
             if key in self.stats: # As different character types may come with different stats.
                 value = self.settle_effects(key, value)
-                
+
                 val = self.stats[key] + value
-                
+
                 if key == 'health' and val <= 0:
                     if isinstance(self.instance, Player):
                         jump("game_over")
@@ -1046,24 +1047,24 @@ init -9 python:
                         char = self.instance
                         kill_char(char)
                         return
-                        
+
                 maxval = self.get_max(key)
                 minval = self.min[key]
-                
+
                 if val >= maxval:
                     self.stats[key] = maxval
                     return
                 elif val <= minval:
                     self.stats[key] = minval
                     return
-    
+
                 self.stats[key] = val
-                
+
         def _mod_raw_skill(self, key, value):
             """Modifies a skill.
-            
+
             # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharcter.__setattr__
-            
+
             Do we get the most needlessly complicated skills system award? :)
             Maybe we'll simplify this greatly in the future...
             """
@@ -1071,7 +1072,7 @@ init -9 python:
             current_full_value = self.instance.get_skill(skill_name)
             threshold = SKILLS_THRESHOLD[skill_name]
             skill_max = SKILLS_MAX[skill_name]
-            
+
             if key.islower(): # Action Skill...
                 value = value - self.skills[key][0]
                 value = value * max(0.5, min(self.skills_multipliers[key][0], 1.5))
@@ -1079,12 +1080,12 @@ init -9 python:
                     return
                 elif current_full_value <= threshold: # Too low... so we add the full value.
                     self.skills[key][0] += value
-                else: 
+                else:
                     at_zero = skill_max - threshold
                     at_zero_current = current_full_value - threshold
                     mod = max(0.1, 1 - float(at_zero_current)/at_zero)
                     self.skills[key][0] += value*mod
-                    
+
             else: # Assumes that we're modding a training (knowledge part) skill...
                 key = key.lower()
                 value = value - self.skills[key][1]
@@ -1098,8 +1099,8 @@ init -9 python:
                     at_zero_current = current_full_value - threshold
                     mod = max(0.1, 1 - float(at_zero_current)/at_zero)
                     self.skills[key][1] += value*mod
-        
-                
+
+
     ###### Character Classes ######
     class PytCharacter(Flags):
         STATS = set()
@@ -1127,31 +1128,31 @@ init -9 python:
             self.height = "average"
             self.full_race = ""
             self.gender = "female"
-            
+
             self.AP = 3
             self.baseAP = 3
             self.reservedAP = 0
-            
+
             # Locations and actions, most are properties with setters and getters.
             self._location = None # Present Location.
             self._workplace = None  # Place of work.
             self._home = None # Living location.
             self._action = None
-            
+
             # Traits:
             self.upkeep = 0 # Required for some traits...
-            
+
             self.traits = Traits(self)
             self.resist = SmartTracker(self, be_skill=False)  # A set of any effects this character resists. Usually it's stuff like poison and other status effects.
-            
+
             # Relationships:
             self.friends = set()
             self.lovers = set()
-            
+
             # Preferences:
             self.likes = set() # These are simple sets containing objects and possibly strings of what this character likes or dislikes...
             self.dislikes = set() # ... more often than not, this is used to compliment same params based of traits. Also (for example) to set up client preferences.
-            
+
             # Arena relared:
             if arena:
                 self.fighting_days = list() # Days of fights taking place
@@ -1161,7 +1162,7 @@ init -9 python:
                 self._arena_rep = 0 # Arena reputation
                 self.arena_stats = dict()
                 self.combat_stats = dict()
-            
+
             # Items
             if inventory:
                 self.inventory = Inventory(15)
@@ -1187,7 +1188,7 @@ init -9 python:
                 # List to keep track of temporary effect
                 # consumables that failed to activate on cmax **We are not using this or at least I can't find this in code!
                 # self.maxouts = list()
-                
+
             # Stat support Dicts:
             stats = {
                 'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
@@ -1212,7 +1213,7 @@ init -9 python:
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
-            
+
             if effects:
                 # Effects assets:
                 self.effects = {
@@ -1253,7 +1254,7 @@ init -9 python:
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
                 "Horny": {"active": False, "desc": "She's in the mood for sex."}
                 }
-            
+
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
             self.besprite = None # Used to keep track of sprite displayable in the BE.
             self.beinx = 0 # Passes index from logical execution to SFX setup.
@@ -1272,23 +1273,23 @@ init -9 python:
             self.can_die = False
             self.dmg_font = "red"
             self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
-            
+
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
             self.default_attack_skill = battle_skills["Fist Attack"] # This can be overwritten on character creation!
-            
+
             # Game world status:
             self.alive = True
             self._available = True
-            
+
             # Say style properties:
             self.say_style = {"color": ivory}
-            
+
             # We add Neutral element here to all classes to be replaced later:
             self.apply_trait(traits["Neutral"])
-            
+
             self.say = None # Speaker...
-            
+
         def __getattr__(self, key):
             stats = self.__dict__.get("stats", {})
             if key in self.STATS:
@@ -1309,7 +1310,7 @@ init -9 python:
                 # self.__dict__["stats"]._mod_exp(value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
-                
+
         # Money:
         def take_money(self, amount, reason="Other"):
             if amount <= self.gold:
@@ -1320,13 +1321,13 @@ init -9 python:
 
         def add_money(self, amount, reason="Other"):
             self.gold += amount
-            
+
         # Game assist methods:
         def set_status(self, s):
             if s not in ["slave", "free"]:
                 raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
             self.status = s
-            
+
         # Properties:
         @property
         def mc_ref(self):
@@ -1337,7 +1338,7 @@ init -9 python:
                     return hero.name
             else:
                 return self._mc_ref
-                
+
         @property
         def p(self):
             # Subject pronoun (he/she/it): (prolly most used so we don't call it 'sp'):
@@ -1347,12 +1348,12 @@ init -9 python:
                 return "he"
             else:
                 return "it"
-                
+
         @property
         def pC(self):
             # Subject pronoun (he/she/it) capitalized:
             return self.p.capitalize()
-                
+
         @property
         def op(self):
             # Object pronoun (him, her, it):
@@ -1362,12 +1363,12 @@ init -9 python:
                 return "him"
             else:
                 return "it"
-                
+
         @property
         def opC(self):
             # Object pronoun (him, her, it) capitalized:
             return self.op.capitalize()
-            
+
         @property
         def pp(self):
             # Possessive pronoun (his, hers, its):
@@ -1378,26 +1379,26 @@ init -9 python:
                 return "his"
             else:
                 return "its"
-                
+
         @property
         def ppC(self):
             # Possessive pronoun (his, hers, its) capitalized::
             return self.pp.capitalize()
-            
+
         @property
         def hs(self):
             if self.gender == "female":
                 return "sister"
             else:
                 return "brother"
-                
+
         @property
         def hss(self):
             if self.gender == "female":
                 return "sis"
             else:
                 return "bro"
-              
+
         @property
         def is_available(self):
             # Is this enought or should there be separate tracker properties for gameworld and player actions? This will prolly do for now.
@@ -1406,7 +1407,7 @@ init -9 python:
             if self.action == "Exploring":
                 return False
             return self._available
-        
+
         @property
         def occupations(self):
             """
@@ -1414,31 +1415,31 @@ init -9 python:
             Not decided if this should be strings, Trait objects of a combination of both.
             """
             allowed = set()
-             
+
             for t in self.traits:
                 if t.basetrait:
                     allowed.add(t)
                     allowed = allowed.union(t.occupations)
-                    
+
             return allowed
-            
+
         @property
         def action(self):
             return self._action
         @action.setter
         def action(self, value):
             self._action = value
+
         @property
         def arena_rep(self):
             return self._arena_rep
-    
         @arena_rep.setter
         def arena_rep(self, value):
             if value <= -500:
                 self._arena_rep = - 500
             else:
                 self._arena_rep = value
-        
+
         # Locations related ====================>
         @property
         def location(self):
@@ -1448,8 +1449,7 @@ init -9 python:
             # elif self._location == hero: # We set location to MC in most cases, this may be changed soon?
                 # return "Streets"
             # else:
-            return self._location # Otherwise we use the 
-         
+            return self._location # Otherwise we use the
         # Not sure we require a setter here now that I've added home and workplaces.
         @location.setter
         def location(self, value):
@@ -1458,42 +1458,40 @@ init -9 python:
                 # self.status = "slave"
                 # self.home = "slavemarket"
             self._location = value
-        
+
         @property
         def workplace(self):
             return self._workplace
-        
         @workplace.setter
         def workplace(self, value):
             self._workplace = value
-        
+
         @property
         def home(self):
             return self._home
-            
         @home.setter
         def home(self, value):
             self._home = value
-            
+
         # Alternative Method for modding first layer of stats:
         def add_exp(self, value, adjust=True):
             # Adds experience, adjusts it by default...
             if adjust:
                 value = adjust_exp(self, value)
             self.exp += value
-            
+
         def mod_stat(self, stat, value):
             self.stats._mod_base_stat(stat, value)
-                
+
         def get_max(self, stat):
             return self.stats.get_max(stat)
-            
+
         def adjust_exp(self, exp):
             '''
             Temporary measure to handle experience...
             '''
             return adjust_exp(self, exp)
-         
+
         def get_skill(self, skill):
             """
             Returns adjusted skill.
@@ -1510,26 +1508,25 @@ init -9 python:
             else:
                 points = training + action
             return points * max(min(self.stats.skills_multipliers[skill][2], 1.5), 0.5)
-            
+
         @property
         def elements(self):
             return _list(e for e in self.traits if e.elemental)
-            
+
         @property
         def exp(self): # This is already handled in __setattr__ ????
             return self.stats.exp
-            
         @exp.setter
         def exp(self, value):
             self.stats._mod_exp(value)
-            
+
         @property
         def level(self):
             return self.stats.level
         @property
         def goal(self):
             return self.stats.goal
-            
+
         # -------------------------------------------------------------------------------->
         # Show to mimic girls method behaviour:
         def get_sprite_size(self, tag="vnsprite"):
@@ -1557,23 +1554,23 @@ init -9 python:
             else:
                 raise Exception("get_sprite_size got unknown type for resizing!")
             return resize
-            
+
         def has_image(self, *tags):
             """
             Returns True if image is found.
             """
             return True
-        
+
         def show(self, what, resize=(None, None), cache=True):
             if what != self.img:
                 what = self.img
-                
+
             return ProportionalScale(what, resize[0], resize[1])
-        
+
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
             self.AP = self.get_free_ap()
-            
+
         def get_ap(self):
             ap = 0
             base = 35
@@ -1585,21 +1582,21 @@ init -9 python:
                     base = 100
                 else:
                     base = base * 2
-                    
+
             if isinstance(self.location, Apartment):
                 ap = ap + 1
-            
+
             if isinstance(self.location, TrainingDungeon):
                 ap = ap + (self.location.mod_housing() * 3)
-            
+
             return self.baseAP + ap
-            
+
         def get_free_ap(self):
             """
             For next day calculations only! This is not useful for the game events.
             """
             return self.get_ap() - self.reservedAP
-        
+
         def take_ap(self, value):
             """
             Removes AP of the amount of value and returns True.
@@ -1610,7 +1607,7 @@ init -9 python:
                 self.AP -= value
                 return True
             return False
-                
+
         def auto_training(self, kind):
             """
             Training, right now by NPCs.
@@ -1618,15 +1615,15 @@ init -9 python:
             """
             # Any training:
             char.exp += self.adjust_exp(randint(20, max(25, self.luck)))
-            
+
             if kind == "train_with_witch":
                 self.magic += randint(1, 2)
                 self.intelligence += randint(1, 2)
                 self.mp += randint(7, 15)
-                
+
                 if dice(50):
                     self.agility += 1
-                
+
             if kind == "train_with_aine":
                 self.charisma += randint(1, 2)
                 self.vitality += randint(40, 100)
@@ -1635,7 +1632,7 @@ init -9 python:
                     self.fame += 1
                 if dice(0.5 + self.luck*0.05):
                     self.luck += randint(1, 2)
-                    
+
             if kind == "train_with_xeona":
                 self.attack += 1
                 self.defence += 1
@@ -1644,16 +1641,16 @@ init -9 python:
                     self.health += randint(10, 20)
                 if dice(25 + max(5, int(self.luck/3))):
                     self.constitution += randint(1, 2)
-                    
+
         def get_training_price(self):
             return 1000 + 1000 * (self.level/5)
-            
+
         # Logging and updating daily stats change on next day:
         def log_stats(self):
             self.stats.log = copy.copy(self.stats.stats)
             self.stats.log["exp"] = self.exp
             self.stats.log["level"] = self.level
-            
+
         # -------------------------------------------------------------------------------->
         # Equipment Methods (They often assume a character has an inventory)
         def eq_items(self):
@@ -1662,13 +1659,13 @@ init -9 python:
                 return self.eqslots.values()
             else:
                 return []
-            
+
         def add_item(self, item, amount=1):
             self.inventory.append(item, amount=amount)
-        
+
         def remove_item(self, item, amount=1):
             self.inventory.remove(item, amount=amount)
-        
+
         def auto_buy(self, item=None, amount=1, equip=False):
             # NOTE: There is a need to adapt this to skills since it works off baddness.
 
@@ -1735,7 +1732,7 @@ init -9 python:
                     selected_item = random.choice(ware)
 
                 # make sure that girl will never buy more than 5 of any item!
-                count = self.inventory[selected_item] + 1 if self.eqslots[selected_item.slot] == selected_item else 0
+                count = self.inventory[selected_item] + self.eqslots.values().count(selected_item)
                 if dice(100 - selected_item.badness - count * 20) and self.take_money(selected_item.price, "Items"):
 
                     self.inventory.append(selected_item)
@@ -1778,7 +1775,6 @@ init -9 python:
                     amount -= 1
                     if amount == 0:
                         return returns
-
 
             return returns
 
@@ -1823,7 +1819,7 @@ init -9 python:
             else:
                 devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose, self.name, self.__class__.__name__))
             return returns
-                    
+
         def equip(self, item, remove=True): # Equips the item
             """
             Equips an item to a corresponding slot or consumes it.
@@ -1833,7 +1829,7 @@ init -9 python:
             if item.slot not in self.eqslots:
                 devlog.warning(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
                 return
-                
+
             # This is a temporary check, to make sure nothing goes wrong:
             # Code checks during the equip method should make sure that the unique items never make it this far:
             if item.unique and item.unique != item.id:
@@ -1846,13 +1842,13 @@ init -9 python:
             if item.slot == 'consumable':
                 if item.id in self.consblock:
                     return
-                    
+
                 if item.cblock:
                     self.consblock[item.id] = item.cblock
                 if item.ctemp:
                     self.constemp[item.id] = item.ctemp
                 self.apply_item_effects(item)
-                
+
                 # To prevent game trying to remove item on area effect.
                 if item.ceffect:
                     pass
@@ -1862,7 +1858,7 @@ init -9 python:
             elif item.slot == 'misc':
                 if item.id in self.miscblock:
                     return
-                    
+
                 if self.eqslots['misc']: # Unequip if equipped.
                     self.inventory.append(self.eqslots['misc'])
                     del(self.miscitems[self.eqslots['misc'].id])
@@ -1902,7 +1898,7 @@ init -9 python:
                     self.eqslots['ring2'] = item
                 self.apply_item_effects(item)
                 self.inventory.remove(item)
-                
+
             else:
                 # Any other slot:
                 if self.eqslots[item.slot]: # If there is any item equipped:
@@ -1911,7 +1907,6 @@ init -9 python:
                 self.eqslots[item.slot] = item # Assign new item to the slot
                 self.apply_item_effects(item) # Apply item effects
                 self.inventory.remove(item) # Remove item from the inventory
-
 
         def unequip(self, item, slot=None):
             if item.slot == 'misc':
@@ -1957,7 +1952,7 @@ init -9 python:
             *Check the above statement to be True in the future?
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             """
-            
+
             # Prepear data:
             if not source:
                 source = [self.inventory]
@@ -1969,7 +1964,7 @@ init -9 python:
                 exclude_on_skills = list()
             items = store.items
             returns = list() # We return this list with all items used during the method.
-            
+
             # The idea is to attempt finding the best item for the slot.
             # ------------->
             # Get all items available for the task, we bind them to a dict as keys, later set their usefulness as values.
@@ -1978,12 +1973,12 @@ init -9 python:
                 # Get a dict of all useful items:
                 d = dict()
                 content = inv.items
-                
+
                 for item in content:
                     # Note: We check for gender in can_equip function, no need to do it again!
                     if item.slot != slot or item.badtraits.intersection(self.traits) or not can_equip(item, self) or not item.eqchance or item.type == "permanent":
                         continue
-                    
+
                     # Check SLOTS and their conditioning:
                     if slot == "consumable":
                         if any([item.ceffect,
@@ -1991,14 +1986,14 @@ init -9 python:
                                   item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
                                   item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                             continue
-                            
+
                     elif slot == "misc":
                         # If item that self-destructs or will be blocked after one use is equipped, there is no reason to equip another:
                         # This will end the method, not just move to a different item!!!
                         if item.id in self.miscitems:
                             if item.mdestruct or not item.mreusable:
                                 return returns
-                                
+
                         # Get rid of blocked misc items:
                         if item.id in self.miscblock:
                             continue
@@ -2023,12 +2018,12 @@ init -9 python:
                                         break
                         if not l:
                             continue
-                            
+
                     else: # All other slots:
                         # For weapons check if we want to equip one. if type starts with "nw" (none weapon), we go ahead.
                         if item.slot == "weapon" and not real_weapons and not item.type.lower().startswith("nw"):
                             continue
-                        
+
                     # We finally check if there is at least one matching stat and if so, add the item at 0 priority
                     for stat in item.mod:
                         if stat in target_stats and item.mod[stat] > 0:
@@ -2043,7 +2038,7 @@ init -9 python:
                                         break
                         else:
                             continue
-                            
+
                     # Wasteful items, we reduce the desirability by 100.
                     bonus = 0 # Actual bonus
                     possible_bonus = 0 # Total possible bonus
@@ -2060,7 +2055,7 @@ init -9 python:
                                         # bonus += max(0, self.get_max(stat) - self.stats[stat])
                                     # else:
                                         # bonus += max(0, item.mod[stat])
-                                        
+
                                     # Instead of beating around the bush, we just do the real calculation:
                                     temp = item.get_stat_eq_bonus(self, stat)
                                     if temp > 0:
@@ -2069,7 +2064,7 @@ init -9 python:
                                         penalty = penalty + temp + temp
                             elif stat in exclude_on_stats and value < 0:
                                 penalty = penalty + value
-                                    
+
                     # We do the same thing for max stats:
                     for stat in item.max:
                         if stat in self.stats: # Not useful?
@@ -2078,7 +2073,7 @@ init -9 python:
                                 possible_bonus = possible_bonus + value
                                 if stat in target_stats:
                                     possible_bonus = possible_bonus + value # We could double if target stats match...
-                                    # Code below is no longer useful because we checked the total possible bonus when checking for stats above! 
+                                    # Code below is no longer useful because we checked the total possible bonus when checking for stats above!
                                     # This is not perfect, but it shouldn't matter (max at the game start issue)
                                     # if self.stats.max[stat] + item.max[stat] < self.stats.lvl_max[stat]:
                                         # bonus += max(0, item.max[stat])
@@ -2089,8 +2084,8 @@ init -9 python:
                                         # bonus += max(0, self.stats.max[stat] - self.stats.lvl_max[stat])
                             elif stat in exclude_on_stats and value < 0:
                                 penalty = penalty + item.max[stat]
-                                    
-                    # And for skills:                
+
+                    # And for skills:
                     for skill, effect in item.mod_skills.iteritems():
                         if skill in self.SKILLS: # Not useful after we finish stats/skills?
                             # First three (multipliers):
@@ -2110,64 +2105,64 @@ init -9 python:
                                     bonus = bonus + i
                                 elif skill in exclude_on_skills and i < 0:
                                     penalty = penalty + i
-                                    
+
                     # Last, we multiply bonus by 2 if item in in good traits:
                     if item.goodtraits.intersection(self.traits):
                         bonus = bonus + bonus
-                                    
+
                     # Normalize the three:
                     # bonus = min(400, bonus)
                     possible_bonus = min(100, possible_bonus)
                     penalty = min(150, -penalty)
-                    
+
                     # and finally set the priority, getting this right is possibly the most important thing in this method:
                     if config.debug:
                         devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus: {} and Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus, penalty))
                     d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus - penalty
-                    
+
                 # If there are no items, we go on with the next inventory:
                 if not d:
                     continue
                 # Now that we have a dict of item ids vs priorities:
                 # Sort by highest priority:
                 l = sorted(d, key=d.get, reverse=True)
-                
+
                 # For consumables we add extra logic:
                 if slot == "consumable":
-                    l = list(items[i] for i in l) # Get a list of item instances. 
+                    l = list(items[i] for i in l) # Get a list of item instances.
                     for stat in target_stats:
                         for item in l:
                             while self.get_max(stat) - self.stats._get_stat(stat) > 0:
                                 # apply the actual item effects, do checks and repeat until stat is close to it's max.
-                                
+
                                 # Break out immediately if item is not capable of increasing this stat:
                                 if stat not in item.mod or item.mod[stat] < 0:
                                     break
-                                
+
                                 # Since we do not want to waste items we:
                                 if self.stats._get_stat(stat) > self.get_max(stat)*0.40: # If stat is below 40% of it's max, we most likely want to use the item anyhow... so we don't run the code.
                                     bonus = item.get_stat_eq_bonus(self, stat)
                                     if self.get_max(stat) - self.stats._get_stat(stat) > bonus and item.price > 100: # if bonus is smaller than 50 and item is expensive, we break the loop.
                                         break
-                                
+
                                 inv.remove(item)
                                 self.equip(item, remove=False)
                                 returns.append(item.id)
-                                
+
                                 # Check is there any new conditions preventing repeating the process:
-                                if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
+                                if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
                                            item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
                                            item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                                     break
-                                    
+
                     for skill in target_skills:
                         for item in l:
                             # Check is there any conditions preventing repeating the process:
-                            if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp, 
+                            if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
                                        item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
                                        item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                                 continue
-                            
+
                             # continue if item is not capable of increasing this skill:
                             if skill not in item.mod_skills:
                                 continue
@@ -2176,7 +2171,7 @@ init -9 python:
                                 continue
                             if any(list(s < 0 for s in item.mod_skills[skill])):
                                continue
-                            
+
                             inv.remove(item)
                             self.equip(item, remove=False)
                             returns.append(item.id)
@@ -2185,7 +2180,7 @@ init -9 python:
                         item = items[l[0]]
                         self.equip(item)
                         returns.append(item.id)
-            
+
             return returns
 
         # Applies Item Effects:
@@ -2202,21 +2197,21 @@ init -9 python:
                         self.attack_skills.append(attack, False)
                     else:
                         devlog.warning("Unknown battle skill %s applied by character: %s (%s)!" % (attack, self.fullname, self.__class__))
-                      
+
             for spell in item.add_be_spells:
                 if spell in store.battle_skills:
                     spell = store.battle_skills[spell]
                     self.magic_skills.append(spell, False)
                 else:
                     devlog.warning("Unknown battle skill %s applied by character: %s (%s)!" % (spell, self.fullname, self.__class__))
-                    
+
             for spell in item.remove_be_spells:
                 if spell in store.battle_skills:
                     spell = store.battle_skills[spell]
                     self.magic_skills.remove(spell, False)
                 else:
                     devlog.warning("Unknown battle skill %s removed by character: %s (%s)!" % (spell, self.fullname, self.__class__))
-            
+
             # Taking care of stats: -------------------------------------------------->
             for key in item.max:
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
@@ -2279,7 +2274,7 @@ init -9 python:
                 if key == "health" and self.health + item.mod[key] <= 0:
                     self.health = 1 # prevents death by accident...
                     continue
-                
+
                 if not item.statmax or getattr(self, key) >= item.statmax:
                     if key == 'gold':
                         self.gold += item.mod[key]
@@ -2343,7 +2338,7 @@ init -9 python:
                 else:
                     msg = "'%s' item tried to apply unknown skill: %s!"
                     devlog.warning(str(msg % (item.id, key)))
-                
+
             # Traits:
             if hasattr(self, "traits"):
                 for entry in item.removetraits:
@@ -2354,7 +2349,7 @@ init -9 python:
                             self.remove_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: {} has tried to remove an invalid trait: {}!".format(item.id, entry)))
-                    
+
                 for entry in item.addtraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
@@ -2363,29 +2358,29 @@ init -9 python:
                             self.apply_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to apply an invalid trait: %s!" % (item.id, entry)))
-                        
+
             # Effects:
             if hasattr(self, "effects"):
                 if item.slot == 'consumable' and item.type == 'food':
                     self.effects['Food Poisoning']['activation_count'] += 1
                     if self.effects['Food Poisoning']['activation_count'] == 7:
                         self.enable_effect('Food Poisoning')
-                    
+
                 if item.slot == 'consumable' and item.type == 'alcohol':
                     self.effects['Drunk']['activation_count'] += item.mod["joy"]
                     if self.effects['Drunk']['activation_count'] >= 35 and not self.effects['Drunk']['active']:
                         self.enable_effect('Drunk')
                     elif self.effects['Drunk']['active'] and self.AP > 0 and not self.effects['Drinker']['active']:
                         self.AP -=1
-                    
+
                 for entry in item.addeffects:
                     if not self.effects[entry]['active']:
                         self.enable_effect(entry)
-                    
+
                 for entry in item.removeeffects:
                     if self.effects[entry]['active']:
                         self.disable_effect(entry)
-                        
+
             # Jump away from equipment screen if appropriate:
             if hasattr(store, "dummy") and not dummy:
                 if item.jump_to_label:
@@ -2393,9 +2388,9 @@ init -9 python:
                     global_flags.del_flag("hero_equip")
                     eqtarget.inventory.set_page_size(15)
                     hero.inventory.set_page_size(15)
-                    
+
                     jump(item.jump_to_label)
-                
+
         def remove_item_effects(self, item):
             # Attacks/Magic:
             if hasattr(item, "attacks"):
@@ -2408,21 +2403,21 @@ init -9 python:
                 if not self.attack_skills:
                     default = self.default_attack_skill
                     self.attack_skills.append(default)
-                      
+
             for spell in item.add_be_spells:
                 if spell in store.battle_skills:
                     spell = store.battle_skills[spell]
                     self.magic_skills.remove(spell, False)
                 else:
                     devlog.warning("Unknown battle skill %s applied by character: %s (%s)!" % (spell, self.fullname, self.__class__))
-                    
+
             for spell in item.remove_be_spells:
                 if spell in store.battle_skills:
                     spell = store.battle_skills[spell]
                     self.magic_skills.append(spell, False)
                 else:
                     devlog.warning("Unknown battle skill %s removed by character: %s (%s)!" % (spell, self.fullname, self.__class__))
-            
+
             # Taking care of stats:
             for key in item.max:
                 if key in self.STATS:
@@ -2492,7 +2487,7 @@ init -9 python:
                 if key == "health" and self.health - item.mod[key] <= 0:
                     self.health = 1 # prevents death by accident...
                     continue
-                    
+
                 if key == 'gold':
                     self.gold -= item.mod[key]
                 elif key == "exp":
@@ -2524,7 +2519,7 @@ init -9 python:
                         self.stats.imod[key] -= int(item.mod[key]*1.3)
                     else:
                         self.stats.imod[key] -= item.mod[key]
-                        
+
             for key in item.mod_skills:
                 if key in self.SKILLS:
                     s = self.stats.skills[key] # skillz
@@ -2538,7 +2533,7 @@ init -9 python:
                 else:
                     msg = "'%s' item tried to apply unknown skill: %s!"
                     devlog.warning(str(msg % (item.id, key)))
-                            
+
             # Taking care of traits/effect (for girls):
             if hasattr(self, "traits"):
                 for entry in item.addtraits:
@@ -2549,7 +2544,7 @@ init -9 python:
                             self.remove_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to remove an invalid trait: %s!" % (item.id, entry)))
-    
+
                 for entry in item.removetraits:
                     if entry in traits:
                         if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
@@ -2558,16 +2553,16 @@ init -9 python:
                             self.apply_trait(traits[entry])
                     else:
                         devlog.warning(str("Item: %s has tried to apply an invalid trait: %s!" % (item.id, entry)))
-                        
+
             if hasattr(self, "effects"):
                 for entry in item.addeffects:
                     if self.effects[entry]['active']:
                         self.disable_effect(entry)
-                        
+
                 for entry in item.removeeffects:
                     if not self.effects[entry]['active']:
                         self.enable_effect(entry)
-                    
+
         def item_counter(self):
             # Timer to clear consumable blocks
             for key in self.consblock.keys():
@@ -2610,7 +2605,7 @@ init -9 python:
 
         def remove_trait(self, trait, truetrait=True):  # Removes trait effects
             self.traits.remove(trait, truetrait=truetrait)
-            
+
         # Effects:
         ### Effects Methods
         def enable_effect(self, effect):
@@ -2618,7 +2613,7 @@ init -9 python:
                 self.effects['Poisoned']['active'] = True
                 self.effects['Poisoned']['duration'] = 0
                 self.effects['Poisoned']['penalty'] = randint(1, 3)
-                
+
             elif effect == "Unstable":
                 self.effects['Unstable']['active'] = True
                 self.effects['Unstable']['day_log'] = day
@@ -2626,55 +2621,55 @@ init -9 python:
                 self.effects['Unstable']['joy_mod'] = randint(20, 30)
                 if dice(50):
                     self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
-                    
+
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True
-                
+
             elif effect == "Blood Connection":
                 self.effects['Blood Connection']['active'] = True
-                
+
             elif effect == "Horny":
                 self.effects['Horny']['active'] = True
-                
+
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
-                
+
             elif effect == "MP Regeneration":
                 self.effects['MP Regeneration']['active'] = True
-                
+
             elif effect == "Small Regeneration":
                 self.effects['Small Regeneration']['active'] = True
-                
+
             elif effect == "Injured":
                 self.effects['Injured']['active'] = True
-                
+
             elif effect == "Exhausted":
                 self.effects['Exhausted']['active'] = True
-                
+
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = True
-                
+
             elif effect == "Silly":
                 self.effects['Silly']['active'] = True
-                
+
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = True
-                
+
             elif effect == "Depression":
                 self.effects['Depression']['active'] = True
-                
+
             elif effect == "Elation":
                 self.effects['Elation']['active'] = True
-                
+
             elif effect == "Pessimist":
                 self.effects["Pessimist"]["active"] = True
-                
+
             elif effect == "Vigorous":
                 self.effects["Vigorous"]["active"] = True
-                
+
             elif effect == "Composure":
                 self.effects['Composure']['active'] = True
-                
+
             elif effect == "Down with Cold":
                 self.effects['Down with Cold']['active'] = True
                 self.effects['Down with Cold']['count'] = day
@@ -2686,52 +2681,52 @@ init -9 python:
 
             elif effect == "Kleptomaniac":
                 self.effects["Kleptomaniac"]['active'] = True
-                
+
             elif effect == "Slow Learner":
                 self.effects["Slow Learner"]['active'] = True
-                
+
             elif effect == "Fast Learner":
                 self.effects["Fast Learner"]['active'] = True
-                
+
             elif effect == "Drowsy":
                 self.effects["Drowsy"]['active'] = True
-                
+
             elif effect == "Fast Metabolism":
                 self.effects["Fast Metabolism"]["active"] = True
-                
+
             elif effect == "Drunk":
                 self.effects["Drunk"]["active"] = True
-                
+
             elif effect == "Lactation":
                 self.effects["Lactation"]['active'] = True
-                
+
             elif effect == "Loyal":
                 self.effects["Loyal"]['active'] = True
-                
+
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = True
-                
+
             elif effect == "Impressible":
                 self.effects['Impressible']['active'] = True
-                
+
             elif effect == "Calm":
                 self.effects['Calm']['active'] = True
-                
+
             elif effect == "Insecure":
                 self.effects['Insecure']['active'] = True
-                
+
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = True
 
             elif effect == "Sibling":
                 self.effects['Sibling']['active'] = True
-                
+
             elif effect == "Assertive":
                 self.effects['Assertive']['active'] = True
-                
+
             elif effect == "Diffident":
                 self.effects['Diffident']['active'] = True
-                
+
             elif effect == "Food Poisoning":
                 self.effects['Food Poisoning']['active'] = True
                 self.effects['Food Poisoning']['count'] = day
@@ -2739,67 +2734,66 @@ init -9 python:
                 self.effects['Food Poisoning']['vitality'] = randint(40, 100)
                 self.effects['Food Poisoning']['joy'] = randint(8, 12)
                 self.effects['Food Poisoning']['healthy_again'] = day + 2
-                
 
         def disable_effect(self, effect):
             if effect == "Poisoned":
                 for key in self.effects["Poisoned"]:
                     if key != "desc":
                         self.effects["Poisoned"][key] = False
-                
+
             elif effect == "Unstable":
                 for key in self.effects["Unstable"]:
                     if key != "desc":
                         self.effects["Unstable"][key] = False
-                    
+
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = False
-                
+
             elif effect == "Blood Connection":
                 self.effects['Blood Connection']['active'] = False
-                
+
             elif effect == "Horny":
                 self.effects['Horny']['active'] = False
-                
+
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
-                
+
             elif effect == "MP Regeneration":
                 self.effects['MP Regeneration']['active'] = False
-                
+
             elif effect == "Small Regeneration":
                 self.effects['Small Regeneration']['active'] = False
-                
+
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = False
-                
+
             elif effect == "Injured":
                 self.effects['Injured']['active'] = False
-                
+
             elif effect == "Exhausted":
                 self.effects['Exhausted']['active'] = False
-                
+
             elif effect == "Silly":
                 self.effects['Silly']['active'] = False
-                
+
             elif effect == "Depression":
                 self.effects['Depression']['active'] = False
-                
+
             elif effect == "Elation":
                 self.effects['Elation']['active'] = False
-                
+
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = False
-                
+
             elif effect == "Vigorous":
                 self.effects['Vigorous']['active'] = False
 
             elif effect == "Pessimist":
                 self.effects["Pessimist"]["active"] = False
-                
+
             elif effect == "Fast Metabolism":
                 self.effects["Fast Metabolism"]["active"] = False
-                
+
             elif effect == "Drunk":
                 for key in self.effects["Drunk"]:
                     if key != "desc":
@@ -2807,66 +2801,66 @@ init -9 python:
 
             elif effect == "Composure":
                 self.effects['Composure']['active'] = False
-                
+
             elif effect == "Down with Cold":
                 for key in self.effects["Down with Cold"]:
                     if key != "desc":
                         self.effects["Down with Cold"][key] = False
-                
+
             elif effect == "Kleptomaniac":
                 self.effects["Kleptomaniac "]['active'] = False
-                
+
             elif effect == "Slow Learner":
                 self.effects["Slow Learner"]['active'] = False
-                
+
             elif effect == "Fast Learner":
                 self.effects["Fast Learner"]['active'] = False
-                
+
             elif effect == "Introvert":
                 self.effects['Introvert']['active'] = False
-                
+
             elif effect == "Impressible":
                 self.effects['Impressible']['active'] = False
-                
+
             elif effect == "Calm":
                 self.effects['Calm']['active'] = False
-                
+
             elif effect == "Drowsy":
                 self.effects['Drowsy']['active'] = False
-                
+
             elif effect == "Lactation":
                 self.effects['Lactation']['active'] = False
-                
+
             elif effect == "Loyal":
                 self.effects['Loyal']['active'] = False
-                
+
             elif effect == "Extrovert":
                 self.effects['Extrovert']['active'] = False
-                
+
             elif effect == "Insecure":
                 self.effects['Insecure']['active'] = False
 
             elif effect == "Sibling":
                 self.effects['Sibling']['active'] = False
-                
+
             elif effect == "Assertive":
                 self.effects['Assertive']['active'] = False
-                
+
             elif effect == "Diffident":
                 self.effects['Diffident']['active'] = False
-                
+
             elif effect == "Food Poisoning":
                 for key in self.effects["Food Poisoning"]:
                     if key != "desc":
                         self.effects["Food Poisoning"][key] = False
-                
+
         def apply_effects(self, effect):
             '''Called on next day, applies effects'''
             if effect == "Poisoned":
                 self.effects['Poisoned']['duration'] += 1
                 self.effects['Poisoned']['penalty'] += self.effects['Poisoned']['duration'] * 5
                 self.health -= self.effects['Poisoned']['penalty']
-                
+
             elif effect == "Unstable":
                 unstable = self.effects['Unstable']
                 unstable['day_log'] += 1
@@ -2875,15 +2869,15 @@ init -9 python:
                     unstable['day_log'] = day
                     unstable['day_target'] = day + randint(2, 4)
                     unstable['joy_mod'] = randint(20, 30) if randrange(2) else -randint(20, 30)
-                    
+
             elif effect == "Optimist":
                 if self.joy >= 30:
                     self.joy += 1
-                    
+
             elif effect == "Blood Connection":
                 self.disposition += 1
                 self.character -=1
-                    
+
             elif effect == "Regeneration":
                 h = 0
                 if "Summer Eternality" in self.traits:
@@ -2891,7 +2885,7 @@ init -9 python:
                 if h <= 0:
                     h = 1
                 self.health += h
-                
+
             elif effect == "MP Regeneration":
                 h = 0
                 if "Winter Eternality" in self.traits:
@@ -2899,48 +2893,48 @@ init -9 python:
                 if h <= 0:
                     h = 1
                 self.mp += h
-                
+
             elif effect == "Small Regeneration":
                 self.health += 10
-                    
+
             elif effect == "Depression":
                 if self.joy >= 30:
                     self.disable_effect('Depression')
                 else:
                     self.AP -= 1
-                    
+
             elif effect == "Elation":
                 if self.joy < 95:
                     self.disable_effect('Elation')
                 else:
                     self.AP += 1
-                    
+
             elif effect == "Pessimist":
                 if self.joy > 80:
                     self.joy -= 2
                 elif self.joy > 10:
                     self.joy -= 1
-                        
+
             elif effect == "Assertive":
                 if self.character < self.get_max("character")*0.5:
                     self.character += 2
-                    
+
             elif effect == "Diffident":
                 if self.character > self.get_max("character")*0.6:
                     self.character -= 1
-                        
+
             elif effect == "Composure":
                 if self.joy < 50:
                     self.joy += 1
                 elif self.joy > 70:
                     self.joy -= 1
-                    
+
             elif effect == "Vigorous":
                 if self.vitality < self.get_max("vitality")*0.25:
                     self.vitality += randint(2, 3)
                 elif self.vitality < self.get_max("vitality")*0.5:
                     self.vitality += randint(1, 2)
-                    
+
             elif effect == "Down with Cold":
                 if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
                     self.disable_effect('Down with Cold')
@@ -2952,11 +2946,11 @@ init -9 python:
                 self.effects['Down with Cold']['count'] += 1
                 if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
                     self.disable_effect('Down with Cold')
-                
+
             elif effect == "Kleptomaniac":
                 if dice(75):
                     self.gold += max(1, randint(1, self.luck+50))
-                    
+
             elif effect == "Injured":
                 if self.health > int(self.get_max("health")*0.35):
                     self.health = int(self.get_max("health")*0.35)
@@ -2964,12 +2958,12 @@ init -9 python:
                     self.vitality = int(self.get_max("vitality")*0.5)
                 self.AP -= 1
                 self.joy -= 10
-                
+
             elif effect == "Exhausted":
                 if self.vitality > 5:
                     self.vitality = 5
                 self.AP -= 1
-                
+
             elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
                 if self.health >= 30 and self.vitality >= 30:
                     if self.status == "slave" or check_lovers(self, hero):
@@ -2983,7 +2977,7 @@ init -9 python:
                             hero.add_item("Bottle of Milk", randint(2, 5))
                     elif not(has_items("Bottle of Milk", [self])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
                         self.add_item("Bottle of Milk")
-                            
+
             elif effect == "Silly":
                 if self.intelligence >= 200:
                     self.intelligence -= 20
@@ -2993,18 +2987,18 @@ init -9 python:
                     self.intelligence -= 5
                 else:
                     self.intelligence = 20
-                    
+
             elif effect == "Intelligent":
                 if self.joy >= 75 and self.vitality >= self.get_max("vitality")*0.75 and self.health >= self.get_max("health")*0.75:
                     self.intelligence += 1
-                
+
             elif effect == "Sibling":
                 if self.disposition < 100:
                     self.disposition += 2
                 elif self.disposition < 200:
                     self.disposition += 1
-                    
-                    
+
+
             elif effect == "Drunk":
                 self.vitality -= self.effects['Drunk']['activation_count']
                 if self.health > 50:
@@ -3012,7 +3006,7 @@ init -9 python:
                 self.joy -= 5
                 self.mp -= 20
                 self.disable_effect('Drunk')
-                    
+
             elif effect == "Food Poisoning":
                 if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
                     self.disable_effect('Food Poisoning')
@@ -3024,14 +3018,14 @@ init -9 python:
                 self.effects['Food Poisoning']['count'] += 1
                 if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
                     self.disable_effect('Food Poisoning')
-            
+
         # Relationships:
         def is_friend(self, char):
             return char in self.friends
-            
+
         def is_lover(self, char):
             return char in self.lovers
-                    
+
         # Post init and ND.
         def init(self):
             # Normalize character
@@ -3043,11 +3037,11 @@ init -9 python:
             # add Character:
             if not self.say:
                 self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
-                
+
             # Stats log:
             self.log_stats()
             self.restore_ap()
-            
+
         def next_day(self):
             # We assume this to be safe for any character...
             # Day counter flags:
@@ -3057,31 +3051,32 @@ init -9 python:
                 # Deleting _jobs flags once all jobs are complete.
                 elif flag.startswith("_jobs"):
                     self.del_flag(flag)
-            
+
             # Run the effects if they are availible:
             if hasattr(self, "effects"):
                 for key in self.effects:
                     if self.effects[key]['active']:
                         self.apply_effects(key)
-                    
+
             # Log stats to display changes on the next day (Only for chars to whom it's useful):
             if self in hero.chars:
                 self.log_stats()
-            
+
+
     class ArenaFighter(PytCharacter):
         """
         Base class for Custom Arena fighters.
         """
         def __init__(self):
             super(ArenaFighter, self).__init__(arena=True)
-            
+
             # Basic Images:
             self.img_db = dict()
             self.cache = list()
-            
+
             self.unique = True
 
-            
+
         def show(self, tag, resize=(None, None), cache=True):
             if tag == "battle":
                 tag = "combat"
@@ -3091,29 +3086,29 @@ init -9 python:
                 for entry in self.cache:
                     if entry[0] == tag:
                         return ProportionalScale(entry[1], resize[0], resize[1])
-            
+
             if tag in self.img_db:
                 path = choice(self.img_db[tag])
             else:
                 path = choice(self.img_db["battle_sprite"])
-                
+
             if cache:
                 self.cache.append([tag, path])
-                
+
             img = ProportionalScale(path, resize[0], resize[1])
-                
+
             return img
-            
+
         def restore_ap(self):
             self.AP = self.baseAP + int(self.constitution / 20)
-            
+
         def init(self):
             # Normalize character
             if not self.fullname:
                 self.fullname = self.name
             if not self.nickname:
                 self.nickname = self.name
-                
+
 
             self.arena_willing = True # Indicates the desire to fight in the Arena
             self.arena_permit = True # Has a permit to fight in main events of the arena.
@@ -3123,27 +3118,27 @@ init -9 python:
 
             # add Character:
             super(ArenaFighter, self).init()
-            
-            
+
+
     class Mob(PytCharacter):
         """
         I will use ArenaFighter for this until there is a reason not to...
         """
         def __init__(self):
             super(Mob, self).__init__(arena=True)
-            
+
             # Basic Images:
             self.portrait = ""
             self.battle_sprite = ""
             self.combat_img = ""
-            
+
             self.controller = BE_AI(self)
-   
+
         def show(self, what, resize=(None, None), cache=True):
             if what == "battle":
                 what = "combat"
             if what == "fighting":
-                what = "combat"    
+                what = "combat"
             if what == "portrait":
                 what = self.portrait
             elif what == "battle_sprite":
@@ -3152,38 +3147,38 @@ init -9 python:
                 what = self.combat_img
             else:
                 what = self.battle_sprite
-                
+
             return ProportionalScale(what, resize[0], resize[1])
-            
+
         def restore_ap(self):
             self.AP = self.baseAP + int(self.constitution / 20)
-            
+
         def init(self):
             # Normalize character
             if not self.fullname:
                 self.fullname = self.name
             if not self.nickname:
                 self.nickname = self.name
-                
+
             # If there are no basetraits, we add Warrior by default:
             if not self.traits.basetraits:
                 self.traits.basetraits.add(traits["Warrior"])
                 self.apply_trait(traits["Warrior"])
-                    
+
             self.arena_willing = True # Indicates the desire to fight in the Arena
             self.arena_permit = True # Has a permit to fight in main events of the arena.
             self.arena_active = True # Indicates that girl fights at Arena at the time.
-            
+
             if not self.portrait:
                 self.portrait = self.battle_sprite
-                
+
             super(Mob, self).init()
-        
-            
+
+
     class Player(PytCharacter):
         def __init__(self):
             super(Player, self).__init__(arena=True, inventory=True, effects=True)
-            
+
             self.img_db = None
             self.id = "mc" # Added for unique items methods.
             self.cache = list()
@@ -3194,34 +3189,34 @@ init -9 python:
             self._location = locations["Streets"]
             self.status = "free"
             self.gender = "male"
-            
+
             # Player only...
             self.corpses = list() # Dead bodies go here until disposed off. Why the fuck here??? There gotta be a better place for dead chars than MC's class. We're not really using this atm anyway....
-            
+
             self._buildings = list()
             self._chars = list()
-            
+
             self.guard_relay = {"bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0}
                                            }
-            
+
             for p in pytRelayProxyStore:
                 p.reset(self)
-            
+
             self.fin = Finances(self)
-            
+
             # Team:
             self.team = Team(implicit=[self])
             self.team.name = "Player Team"
-            
+
         # Fin Methods:
         def take_money(self, value, reason="Other"):
             return self.fin.take_money(value, reason)
 
         def add_money(self, value, reason="Other"):
             self.fin.add_money(value, reason)
-        
+
         # Girls/Borthels/Buildings Ownership
         @property
         def buildings(self):
@@ -3229,38 +3224,38 @@ init -9 python:
             Returns a list of all buildings in heros ownership.
             """
             return self._buildings
-        
+
         @property
         def dirty_buildings(self):
             """
             The buildings that can be cleaned.
             """
             return [building for building in self.buildings if isinstance(building, DirtyBuilding)]
-        
+
         @property
         def famous_buildings(self):
             """
             The buildings that have reputation.
             """
             return [building for building in self.buildings if isinstance(building, FamousBuilding)]
-        
+
         @property
         def upgradable_buildings(self):
             """
             The buildings that can be upgraded.
             """
             return [building for building in self.buildings if isinstance(building, NewStyleUpgradableBuilding) or isinstance(building, UpgradableBuilding)]
-        
+
         def add_building(self, building):
             if building not in self._buildings:
                 self._buildings.append(building)
-        
+
         def remove_building(self, building):
             if building in self._buildings:
                 self._buildings.remove(building)
             else:
                 raise Exception, "This building does not belong to the player!!!"
-            
+
         @property
         def chars(self):
             """List of owned girls
@@ -3277,7 +3272,7 @@ init -9 python:
                 self._chars.remove(char)
             else:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
-                
+
         # ----------------------------------------------------------------------------------
         # Show to mimic girls method behaviour:
         def has_image(self, *tags):
@@ -3285,7 +3280,7 @@ init -9 python:
             Returns True if image is found.
             """
             return True
-        
+
         def show(self, tag, resize=(None, None), cache=True):
             if tag == "battle":
                 tag = "combat"
@@ -3299,19 +3294,19 @@ init -9 python:
                 for entry in self.cache:
                     if entry[0] == tag:
                         return ProportionalScale(entry[1], resize[0], resize[1])
-            
+
             if tag in self.img_db:
                 path = choice(self.img_db[tag])
             else:
                 path = choice(self.img_db["battle_sprite"])
-                
+
             if cache:
                 self.cache.append([tag, path])
-                
+
             img = ProportionalScale(path, resize[0], resize[1])
-                
+
             return img
-        
+
         # ----------------------------------------------------------------------------------
         # Next Day:
         def nd_auto_train(self):
@@ -3326,7 +3321,7 @@ init -9 python:
                        self.del_flag("train_with_witch")
                 else:
                     txt += "\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-                    
+
             if self.flag("train_with_aine"):
                 if self.get_free_ap():
                     if self.take_money(self.get_training_price(), "Training"):
@@ -3338,7 +3333,7 @@ init -9 python:
                        self.del_flag("train_with_aine")
                 else:
                     txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-                    
+
             if self.flag("train_with_xeona"):
                 if self.get_free_ap():
                     if self.take_money(self.get_training_price(), "Training"):
@@ -3350,7 +3345,7 @@ init -9 python:
                        self.del_flag("train_with_xeona")
                 else:
                     txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-                    
+
         def nd_pay_taxes(self):
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
                 txt += "\nIt's time to pay taxes!\n"
@@ -3363,7 +3358,7 @@ init -9 python:
                                 income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["private"][key]
                             for key in b.fin.game_fin_log[_day][0]["work"]:
                                 income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
-                                
+
                 income = sum(income.values())
                 txt += "Over the past week your taxable income accounted for: {color=[gold]}%d Gold{/color}. " % income
                 if self.fin.income_tax_debt:
@@ -3436,7 +3431,7 @@ init -9 python:
                         self.fin.income_tax_debt = 0
                     else:
                         txt += "\nYou've did not have enough money... Be advised that if your debt to the government reaches 50000, they will start indiscriminately confiscate your property. (meaning that you will loose everything that you own at repo prices).\n"
-                
+
                 txt += choice(["\nWe're not done yet...\n", "\nProperty tax:\n", "\nProperty taxes next!\n"])
                 b_tax = 0
                 s_tax = 0
@@ -3445,7 +3440,7 @@ init -9 python:
                 for char in self.chars:
                     if char.status == "slave":
                         s_tax += int(char.fin.get_price()*0.05)
-                if b_tax:        
+                if b_tax:
                     txt += "Your property taxes for your real estate are: %d Gold. " % b_tax
                 if s_tax:
                     txt += "For Slaves that you own, property tax is: %d Gold." % s_tax
@@ -3464,13 +3459,13 @@ init -9 python:
                         txt += "\nYour payment failed...\n"
                 else:
                     txt += "\nHowever, you do not own much...\n"
-                    
+
                 total_debt = self.fin.income_tax_debt + self.fin.property_tax_debt
                 if total_debt:
                     txt += "\n\nYour current total debt to the govenment is {color=[gold]}%d Gold{/color}!" % total_debt
                 if total_debt > 50000:
                     txt += " {color=[red]}... And... your're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated :("
-                    all_properties = list()    
+                    all_properties = list()
                     for char in hero.chars:
                         if char.status == "slave":
                             all_properties.append(char)
@@ -3495,7 +3490,7 @@ init -9 python:
                             confiscate.location = 'slavemarket'
                             if confiscate in self.team:
                                 self.team.remove(confiscate)
-                                 
+
                         txt += choice(["\n%s has been confiscated for a price of %s of the original value. " % (confiscate.name, multiplier),
                                                "\nThose sobs took %s from you! " % confiscate.name,
                                                "\nYou've lost %s! If only you were better at managing your business... " % confiscate.name])
@@ -3514,34 +3509,34 @@ init -9 python:
                             txt += " You've been declared bankrupt and your debt is now Null and Void!"
                         self.fin.income_tax_debt = 0
                         self.fin.property_tax_debt = 0
-                    
+
         def next_day(self):
             # ND Logic....
             # Relay from GuardJob:
-            
+
             img = 'profile'
             txt = "" # For future reports...
             flag_red = False
-            
+
             for event in self.guard_relay:
                 for stat in self.guard_relay[event]["stats"]:
                     if stat == "exp":
                         self.exp += self.guard_relay[event]["stats"][stat]
                     elif stat in self.STATS:
                         self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
-                        
+
             # -------------------->
             txt += "MC Report:\n\n"
-                        
+
             if self.location == "Streets":
                 self.health -= randint(1, 2)
                 flag_red = True
                 txt += "{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n"
-            
+
             # If in own dungeon
             elif self.location == TrainingDungeon.NAME:
                 txt += "You've spent a night at your training dungeon."
-                
+
                 if self.AP > 0:
                     txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
                     for ap in xrange(self.AP):
@@ -3552,7 +3547,7 @@ init -9 python:
                             if stat not in ["luck", "alignment", "vitality"]:
                                 if dice(1 + int(round(self.luck/20.0))):
                                         self.mod_stat(stat, 1)
-            
+
             else:
                 txt += "You've comfortably spent a night under the roof of your dwelling."
 
@@ -3566,17 +3561,17 @@ init -9 python:
                             if stat not in ["luck", "alignment", "vitality"]:
                                 if dice(1 + int(round(self.luck/20.0))):
                                         self.mod_stat(stat, 1)
-                                
+
             # Training with NPCs --------------------------------------->
             self.nd_auto_train()
 
             # -------------
             # Finances related
             self.fin.next_day()
-            
+
             # Taxes:
             self.nd_pay_taxes()
-            
+
             # ------------
             # Stats log:
             statmod = dict()
@@ -3587,9 +3582,9 @@ init -9 python:
                     statmod[stat] = self.level - self.stats.log[stat]
                 else:
                     statmod[stat] = self.stats[stat] - self.stats.log[stat]
-                    
+
             # ------------
-            # Create the event:        
+            # Create the event:
             evt = NDEvent()
             evt.red_flag = flag_red
             evt.charmod = statmod
@@ -3598,7 +3593,7 @@ init -9 python:
             evt.img = img
             evt.txt = txt
             NextDayEvents.append(evt)
-            
+
             # -------------
             self.cache = list()
             self.item_counter()
@@ -3610,15 +3605,15 @@ init -9 python:
                                 "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                 "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                 }
-            
+
             for p in pytRelayProxyStore:
                 p.reset(self)
-            
+
             self.arena_stats = dict()
-            
+
             super(Player, self).next_day()
-            
-                
+
+
     class Char(PytCharacter):
         # wranks = {
                 # 'r1': dict(id=1, name=('Rank 1: Kirimise', '(Almost beggar)'), price=0),
@@ -3642,14 +3637,14 @@ init -9 python:
             self.desc = ""
             self.status = "slave"
             self._location = "slavemarket"
-            
+
             self.rank = 1
 
             self.baseAP = 2
-            
+
             # Can set character specific event for recapture
             self.runaway_look_event = "escaped_girl_recapture"
-            
+
             self.nd_ap = 0 # next day action points
             self.gold = 0
             self.price = 500
@@ -3668,25 +3663,25 @@ init -9 python:
             # courseid = specific course id girl is currently taking -- DEPRECATED: Training now uses flags
             # wagemod = Percentage to change wage payout
             self.wagemod = 100
-            
+
             # Guard job relay:
             self.guard_relay = {
                 "bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                 "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                 "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
             }
-            
+
             # Set relays that use the RelayProxy:
             for p in pytRelayProxyStore:
                 p.reset(self)
-            
+
             # Unhappy/Depressed counters:
             self.days_unhappy = 0
             self.days_depressed = 0
-            
+
             # Trait assets
             self.init_traits = list() # List of traits to be enabled on game startup (should be deleted in init method)
-                     
+
             # Autocontrol of girls action (during the next day mostly)
             # TODO: Enable/Fix (to work with new skills/traits) this!
             # TODO: (Move to a separate instance???)
@@ -3697,18 +3692,18 @@ init -9 python:
             "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
             "S_Tasks": {"clean": True, "bar": True, "waitress": True},
             }
-            
+
             # Auto-equip/buy:
             self.autobuy = False
             self.autoequip = False
             self.given_items = dict()
-            
+
             # Actions:
             self.previousaction = ''
-            
+
             self.txt = list()
             self.fin = Finances(self)
-            
+
         def init(self):
             # Normalize girls
             # Names:
@@ -3718,7 +3713,7 @@ init -9 python:
                 self.fullname = self.name
             if not self.nickname:
                 self.nickname = self.name
-                
+
             # Class | Status normalization:
             # TODO: REMOVE CLASSES FROM HERE!
             if not self.traits.basetraits: # TODO: Just until all chars have proper jsons...
@@ -3726,18 +3721,18 @@ init -9 python:
                 for i in pattern:
                     self.traits.basetraits.add(i)
                     self.apply_trait(i)
-                
+
             if self.status not in self.STATUS:
                 if "Warrior" in self.occupations:
                     self.status = "free"
                 else:
                     self.status = random.sample(self.STATUS, 1).pop()
-            
+
             # Locations + Home + Status:
             # SM string --> object
             if self.location == "slavemarket":
                 set_location(self, pytfall.sm)
-            """    
+            """
             # Slaves cannot be Warriors? # This is not reasonable... Slaves are just not allowed to do combat...
             # if self.status == "slave" and "Warrior" in self.occupations:
                 # self.status = "free"
@@ -3749,25 +3744,25 @@ init -9 python:
             # TODO: Fix city string to be an object.
             if self.status == "free" and self.location == pytfall.sm:
                 set_location(self, "city")
-                
+
             # Home settings:
             if self.status == "slave" and self.location == pytfall.sm:
                 self.home = pytfall.sm
             if self.status == "free":
                 if not self.home:
                     self.home = locations["City Apartment"]
-            
+
             # Wagemod:
             if self.status == 'slave':
                 self.wagemod = 0
             else:
                 self.wagemod = 100
-                
+
             # Battle and Magic skills:
             if not self.attack_skills:
                 default = store.battle_skills["Fist Attack"]
                 self.attack_skills.append(default)
-                
+
             # FOUR BASE TRAITS THAT EVERY GIRL SHOULD HAVE AT LEAST ONE OF:
             if not list(t for t in self.traits if t.personality):
                 self.apply_trait(traits["Deredere"])
@@ -3777,19 +3772,19 @@ init -9 python:
                 self.apply_trait(traits["Average Boobs"])
             if not list(t for t in self.traits if t.body):
                 self.apply_trait(traits["Slim"])
-                
+
             # Dark's Full Race Flag:
             if not self.full_race:
                 self.full_race = str(self.race)
-            
+
             # Second round of stats normalization:
             for stat in ["health", "joy", "mp", "vitality"]:
                 setattr(self, stat, self.get_max(stat))
-            
+
             # Arena:
             if "Warrior" in self.occupations and self not in hero.chars and self.arena_willing is not False:
                 self.arena_willing = True
-            
+
             # Settle auto-equip + auto-buy:
             if self.status != "slave":
                 self.autobuy = True
@@ -3797,15 +3792,15 @@ init -9 python:
             else:
                 self.autoequip = True
             self.set_flag("day_since_shopping", 1)
-            
+
             # add Character:
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
-                
+
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
-            
+
             super(Char, self).init()
-        
+
         def get_availible_pics(self):
             """
             Determines (per category) what pictures are availible for the fixed events (like during the jobs).
@@ -3817,7 +3812,7 @@ init -9 python:
             if self.has_image("sex"):
                 self.picture_base["sex"] = dict(sex=True)
             else: self.picture_base["sex"] = dict(sex=False) # This is not really required as this should be  taken care of by the show method, maybe for the fututre.
-            
+
             # Lets check for the more specific tags:
             if self.build_image_base["sex"]["sex"]:
                 if self.has_image("sex", "doggy"):
@@ -3828,13 +3823,14 @@ init -9 python:
                     self.picture_base["sex"]["missionary"] = True
                 else:
                     self.picture_base["sex"]["missionary"] = False
-                    
+
         ### Girls fin methods
         def take_money(self, value, reason="Other"):
             return self.fin.take_money(value, reason)
 
         def add_money(self, value, reason="Other"):
             self.fin.add_money(value, reason)
+
         ### Displaying images
         @property
         def path_to_imgfolder(self):
@@ -3842,13 +3838,13 @@ init -9 python:
                 return rchars[self.id]["_path_to_imgfolder"]
             else:
                 return self._path_to_imgfolder
-        
+
         def _portrait(self, st, at):
             if self.flag("fixed_portrait"):
                 return self.flag("fixed_portrait"), None
             else:
                 return self.show("portrait", self.get_mood_tag(), type="first_default", add_mood=False, cache=True, resize=(120, 120)), None
-                
+
         def override_portrait(self, *args, **kwargs):
             kwargs["resize"] = kwargs.get("resize", (120, 120))
             kwargs["cache"] = kwargs.get("cache", True)
@@ -3878,21 +3874,21 @@ init -9 python:
             else: # most portraits will be replaced by indifferent
                 if self.has_image("portrait", "indifferent"):
                     self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
-            
+
         def show_portrait_overlay(self, s, mode="normal"):
             self.say_screen_portrait_overlay_mode = s
-            
+
             if not s in self.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
                 interactions_portraits_overlay.change(s, mode)
-            
+
         def hide_portrait_overlay(self):
             interactions_portraits_overlay.change("default")
             self.say_screen_portrait_overlay_mode = None
-                    
+
         def restore_portrait(self):
             self.say_screen_portrait_overlay_mode = None
             self.del_flag("fixed_portrait")
-                
+
         def get_mood_tag(self):
             """
             This should return a tag that describe characters mood.
@@ -3910,24 +3906,24 @@ init -9 python:
                 return "indifferent"
             else:
                 return "sad"
-            
+
         def select_image(self, *tags, **kwargs):
             '''Returns the path to an image with the supplied tags or "".
             '''
             tagset = set(tags)
             exclude = kwargs.get("exclude", None)
-            
+
             # search for images
             imgset = tagdb.get_imgset_with_all_tags(tagset)
             if exclude:
                 imgset = tagdb.remove_excluded_images(imgset, exclude)
-                
+
             # randomly select an image
             if imgset:
                 return random.sample(imgset, 1)[0]
             else:
                 return ""
-            
+
         def has_image(self, *tags, **kwargs):
             """
             Returns True if image is found.
@@ -3936,24 +3932,24 @@ init -9 python:
             tags = list(tags)
             tags.append(self.id)
             exclude = kwargs.get("exclude", None)
-            
+
             # search for images
             if exclude:
                 imgset = tagdb.get_imgset_with_all_tags(tags)
                 imgset = tagdb.remove_excluded_images(imgset, exclude)
             else:
                 imgset = tagdb.get_imgset_with_all_tags(tags)
-            
+
             return bool(imgset)
-            
+
         def show(self, *tags, **kwargs):
             '''Returns an image with the supplied tags.
-            
+
             Under normal type of images lookup (default):
             First tag is considered to be most important.
             If no image with all tags is found,
             game will look for a combination of first and any other tag from second to last.
-            
+
             Valid keyword arguments:
                 resize = (maxwidth, maxheight)
                     Both dimensions are required
@@ -3976,7 +3972,7 @@ init -9 python:
             exclude = kwargs.get("exclude", None)
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
-            
+
             if "-" in tags[0]:
                 _path = "/".join([self.path_to_imgfolder, tags[0]])
                 if renpy.loadable(_path):
@@ -3987,7 +3983,7 @@ init -9 python:
             add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
             if set(tags).intersection(self.MOOD_TAGS):
                 add_mood = False
-            
+
             pure_tags = list(tags)
             tags = list(tags)
             if add_mood:
@@ -3995,20 +3991,20 @@ init -9 python:
                 tags.append(mood_tag)
             original_tags = tags[:]
             imgpath = ""
-            
+
             if not any([maxw, maxh]):
                 raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
-            
+
             if label_cache:
                 for entry in self.img_cache:
                     if entry[0] == tags and entry[1] == last_label:
                         return ProportionalScale(entry[2], maxw, maxh)
-                        
+
             if cache:
                 for entry in self.cache:
                     if entry[0] == tags:
                          return ProportionalScale(entry[1], maxw, maxh)
-            
+
             # Select Image (set imgpath)
             if type in ["normal", "first_default", "reduce"]:
                 if add_mood:
@@ -4022,20 +4018,20 @@ init -9 python:
                         main_tag = tags.pop(0)
                         while tags and not imgpath:
                             descriptor_tag = tags.pop()
-                            
+
                             # We will try mood tag on the last lookup as well, it can do no harm here:
                             if not imgpath and add_mood:
                                 imgpath = self.select_image(main_tag, descriptor_tag, self.id, mood_tag, exclude=exclude)
                             if not imgpath:
                                 imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
                         tags = original_tags[:]
-                        
+
                         if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
                             if add_mood:
                                 imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
                             else:
                                 imgpath = self.select_image(main_tag, self.id, exclude=exclude)
-                            
+
                 elif type == "reduce":
                     if not imgpath:
                         tags = pure_tags[:]
@@ -4045,9 +4041,9 @@ init -9 python:
                             if not imgpath:
                                 imgpath = self.select_image(self.id, *tags, exclude=exclude)
                             tags.pop()
-                            
+
                         tags = original_tags[:]
-                        
+
             elif type == "any":
                 tags = pure_tags[:]
                 shuffle(tags)
@@ -4080,24 +4076,24 @@ init -9 python:
                 else:
                     devlog.warning(str(msg % sorted(tags)))
                     return default
-            
+
             # If we got here without being able to find an image ("profile" lookup failed is the only option):
             if "force_battle_sprite" in locals(): # New rule (Default Battle Sprites):
-                imgpath = "content/gfx/images/" + "default_{}_battle_sprite.png".format(self.gender) 
+                imgpath = "content/gfx/images/" + "default_{}_battle_sprite.png".format(self.gender)
             elif not imgpath:
                 devlog.warning(str("Total failure while looking for image with %s tags!!!" % tags))
                 imgpath = "content/gfx/interface/images/no_image.png"
             else: # We have an image, time to convert it to full path.
                 imgpath = "/".join([self.path_to_imgfolder, imgpath])
-                
+
             if label_cache:
                 self.img_cache.append([tags, last_label, imgpath])
-                 
+
             if cache:
                 self.cache.append([tags, imgpath])
-                
+
             return ProportionalScale(imgpath, maxw, maxh)
-            
+
         def get_img_from_cache(self, label):
             """
             Returns imgpath!!! from cache based on the label provided.
@@ -4105,9 +4101,9 @@ init -9 python:
             for entry in self.img_cache:
                 if entry[1] == label:
                     return entry[2]
-            
+
             return ""
-            
+
         def get_vnsprite(self, mood=("indifferent")):
             """
             Returns VN sprite based on characters height.
@@ -4115,7 +4111,7 @@ init -9 python:
             ***This is mirrored in galleries testmode, this method is not acutally used.
             """
             return self.show("vnsprite", resize=self.get_sprite_size())
-            
+
         ### Next Day Methods
         def restore(self):
             # Called whenever character needs to have on of the main stats restored.
@@ -4132,7 +4128,7 @@ init -9 python:
             if l:
                 self.txt.append("She used: %s %s during the day!" % (", ".join(l), plural("item", len(l))))
             return l
-       
+
         def auto_rest(self):
             # Auto-Rest should return a well rested girl back to work (or send them auto-resting!):
             txt = ""
@@ -4149,7 +4145,7 @@ init -9 python:
                 self.action = 'AutoRest'
                 txt = "\n\n{color=[blue]}She's going to take few days off to recover her health and stamina!{/color}\n\n"
             return txt
-            
+
         def next_day(self):
             if self in hero.chars:
                 # Local vars
@@ -4157,266 +4153,266 @@ init -9 python:
                 txt = ''
                 flag_red = False
                 flag_green = False
-                
+
                 # Settle wages:
                 self.fin.settle_wage()
-                
+
                 # If escaped
                 if self in pytfall.ra:
                     self.health -= randint(3, 5)
                     txt += "\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n"
                     flag_red = True
-                
+
                 else:
                     # Front text
                     if not self.flag("daysemployed"):
                         txt += "{} has started working for you today! ".format(self.fullname)
-                    
+
                     else:
                         txt += "{} has been working for you for {} {}. ".format(self.nickname, self.flag("daysemployed"), plural("day", self.flag("daysemployed")))
-                    
+
                     self.up_counter("daysemployed")
-                    
+
                     if self.location == "Streets" and self.status == "slave":
                         self.health -= randint(3, 5)
                         txt += "\n{color=[red]}This girl is a slave and curretly has no shelter! Find a place for her to live.{/color}\n\n"
                         flag_red = True
-                    
+
                     elif self.location == "Own Dwelling":
                         flag_red = True
                         txt += "\nShe is taking a day off on your pay. She may manage to gain some skills and a bit of experience but it's not the right way to handle your business.\n\n"
-                        
+
                         for stat in self.STATS: # --- Resources hungry?
                             if stat != "luck":
                                 if dice(7):
                                     self.mod_stat(stat, 1)
-                        
+
                         self.exp += self.adjust_exp(randint(10, 50))
                         self.health += randint(1, 5)
                         self.vitality += randint(5, 50)
                         self.mp += randint(1, 7)
-                    
+
                     elif self.action == "Exploring":
                         txt += "\n{color=[green]}She is currently on the exploration run!{/color}\n"
-                    
+
                     else:
                         self.health += randint(1, 3)
                         self.vitality += randint(5, 10)
                         self.mp += randint(1, 3)
-                    
+
                     # Finances:
                     # Upkeep:
                     if in_training_location(self):
                         txt += "Upkeep is included in price of the class your girl's taking. \n"
-                    
+
                     elif self.action == "Exploring":
                         pass
-                    
+
                     else:
                         amount = self.fin.get_upkeep()
-                        
+
                         if amount < 0:
                             txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
                             hero.add_money(-amount, reason="Girls Upkeep")
-                        
+
                         elif hero.take_money(amount, reason="Girls Upkeep"):
                             self.fin.log_cost(amount, "Upkeep")
-                            
+
                             if hasattr(self.location, "fin"):
                                 self.location.fin.log_work_expense(amount, "Girls Upkeep")
-                            
+
                             txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount
-                        
+
                         else:
                             if self.status != "slave":
                                 self.joy -= randint(3, 5)
                                 self.disposition -= randint(5, 10)
                                 txt += "\nYou failed to pay her upkeep, she's a bit cross with your because of that... \n"
-                            
+
                             else:
                                 self.joy -= 20
                                 self.disposition -= 50
                                 self.health -= 10
                                 self.vitality -= 100
                                 txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
-                    
+
                     # Wages and tips:
                     if self.status != 'slave':
                         wage = self.fin.expects_wage()
                         got_paid = self.fin.daily_income_log["private"].get("Wages", 0) + self.fin.daily_income_log["private"].get("Arena", 0)
                         income = sum(val for val in self.fin.daily_income_log["work"].values())
                         tips = sum(val for val in self.fin.daily_income_log["tips"].values())
-                        
+
                         # Wages:
                         if self.fin.wage_conditions():
                             txt += choice(["She expects to be compensated for her services ( %d Gold). "%wage, "She expects to be payed a wage of %d Gold. "%wage])
-                            
+
                             if got_paid == wage:
                                 txt += "And she got exactly that in wages! "
                                 img = "profile"
-                            
+
                             elif got_paid > wage:
                                 txt += choice(["You've payed her more than that (%d Gold)! "%got_paid, "She got %d Gold for her services. "%got_paid])
                                 img = self.show("profile", "happy", resize=(500, 600))
-                            
+
                             elif got_paid < wage:
                                 txt += choice(["She has received less than expected... (%d Gold) You should really pay your girls a fair wage if you expect them to be happy and loyal."%got_paid,
                                                "She got less than that in wages! (%d Gold)"%got_paid])
                                 img = self.show("profile", "angry", resize=(500, 600))
                                 self.disposition -= int(round((wage - got_paid)*0.1))
                                 self.joy -= int(round((wage - got_paid)*0.05))
-                            
+
                             txt += "\n"
-                            
+
                             # Tips:
                             if tips:
                                 txt += choice(["Total tips earned: %d Gold. " % tips, "%s got %d Gold in tips. " % (self.nickname, tips)])
-                                
+
                                 if self.autocontrol["Tips"]:
                                     txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
                                     self.add_money(tips, reason="Tips")
                                     self.fin.log_cost(tips, "Tips")
                                     factor = float(tips) / wage
-                                    
+
                                     self.disposition += int(round(factor * 5))
                                     self.joy += int(round(factor * 2))
-                                    
+
                                     if got_paid < wage and got_paid + tips >= wage:
                                         txt += "That made up for the difference between the wage she expected and what she's received, so you can expect her not to be cross with you. "
                                         # Recover from disposition/joy hits from paying to little:
                                         self.disposition += int(round((wage - got_paid)*0.1))
                                         self.joy += int(round((wage - got_paid)*0.05))
-                                
+
                                 else:
                                     txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
                                     hero.add_money(tips, reason="Girls Tips")
-                    
+
                     else:
                         wage = self.fin.expects_wage()
                         got_paid = self.fin.daily_income_log["private"].get("Wages", 0)
                         income = sum(val for val in self.fin.daily_income_log["work"].values())
                         tips = sum(val for val in self.fin.daily_income_log["tips"].values())
-                        
+
                         # Wages:
                         if self.fin.wage_conditions():
                             txt += choice(["Being a slave, she doesn't expect to get paid. ", "Slaves don't get paid. "])
-                            
+
                             if got_paid:
                                 txt += "Yet, you've paid her and she's very grateful! "
                                 img = self.show("profile", "happy", resize=(500, 600))
-                                
+
                                 factor = float(got_paid) / wage
                                 self.disposition += int(round(factor * 10))
                                 self.joy += int(round(factor * 3))
-                            
+
                             txt += "\n"
-                            
+
                             # Tips:
                             if tips:
                                 txt += choice(["Total tips earned: %d Gold! " % tips, "%s got %d Gold in tips! " % (self.nickname, tips)])
-                                
+
                                 if self.autocontrol["Tips"]:
                                     txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
                                     self.add_money(tips, reason="Tips")
                                     factor = float(tips) / wage
-                                    
+
                                     self.disposition += int(round(factor * 5))
                                     self.joy += int(round(factor * 2))
-                                
+
                                 else:
                                     txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
                                     hero.add_money(tips, reason="Girls Tips")
-                    
+
                     # ----------------------------------------------------------------->
-                    
+
                     # The bit from here on will be disabled during exploration and other multi-day activities:
-                    
+
                     # Training with NPCs ---------------------------------------------->
                     if not self.action == "Exploring":
-                        
+
                         if self.flag("train_with_witch"):
                             if self.get_free_ap():
                                 if hero.take_money(self.get_training_price(), "Training"):
                                     self.auto_training("train_with_witch")
                                     self.reservedAP += 1
                                     txt += "\nSuccessfully completed scheduled training with Abby the Witch!"
-                                
+
                                 else:
                                     txt +=  "\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!"
                                     self.del_flag("train_with_witch")
-                            
+
                             else:
                                 txt += "\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-                        
+
                         if self.flag("train_with_aine"):
                             if self.get_free_ap():
                                 if hero.take_money(self.get_training_price(), "Training"):
                                     self.auto_training("train_with_aine")
                                     self.reservedAP += 1
                                     txt += "\nSuccessfully completed scheduled training with Aine!"
-                                
+
                                 else:
                                     txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
                                     self.del_flag("train_with_aine")
-                            
+
                             else:
                                 txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-                        
+
                         if self.flag("train_with_xeona"):
                             if self.get_free_ap():
                                 if hero.take_money(self.get_training_price(), "Training"):
                                     self.auto_training("train_with_xeona")
                                     self.reservedAP += 1
                                     txt += "\nSuccessfully completed scheduled combat training with Xeona!"
-                                
+
                                 else:
                                     txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
                                     self.del_flag("train_with_xeona")
-                            
+
                             else:
                                 txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-                        
+
                         # Shopping (For now will not cost AP):
                         if all([self.action in [None, "AutoRest", "Rest"], self.autobuy, self.flag("day_since_shopping") > 5, self.gold > 1000, self.status != "slave"]):
                             self.set_flag("day_since_shopping", 1)
-                            
+
                             txt += choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
                                            "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
-                            
+
                             result = self.auto_buy(amount=randint(3, 7))
-                            
+
                             if result:
                                 txt += choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightend her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
                                                "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definetly in better mood because of that!{/color}\n\n"%(", ".join(result),
                                                                                                                                                                                plural("item", len(result)))])
-                                
-                                flag_green = True 
+
+                                flag_green = True
                                 self.joy += 5 * len(result)
-                            
+
                             else:
-                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])                        
-                        
+                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
+
                         # --------------------------------->>>
-                        
+
                         self.restore()
                         self.auto_rest()
-                        
+
                         # Unhappiness and related:
                         if self.joy <= 30:
                             txt += "\n\nThis girl is unhappy :( "
                             self.img = self.show("profile", "sad", resize=(500, 600))
                             self.days_unhappy += 1
-                        
+
                         else:
                             if self.days_unhappy - 1 >= 0:
                                 self.days_unhappy -= 1
-                        
+
                         if self.days_unhappy > 7 and self.status != "slave":
                             txt += "{color=[red]}She has left your employment cause you do not give a rats ass about how she feels!{/color}"
                             flag_red = True
                             hero.remove_char(self)
                             self.location = "city"
-                        
+
                         if self.disposition < -500:
                             if self.status != "slave":
                                 txt += "{color=[red]}She has left your employment cause she no longer trusts or respects you!{/color}"
@@ -4424,7 +4420,7 @@ init -9 python:
                                 self.img = self.show("profile", "sad", resize=(500, 600))
                                 hero.remove_char(self)
                                 self.location = "city"
-                            
+
                             else:
                                 if self.days_unhappy > 7:
                                     if dice(50):
@@ -4432,39 +4428,39 @@ init -9 python:
                                         self.img = self.show("profile", "sad", resize=(500, 600))
                                         flag_red = True
                                         self.health = 0
-                                    
+
                                     else:
                                         txt += "\n\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}"
                                         self.img = self.show("profile", "sad", resize=(500, 600))
                                         flag_red = True
                                         self.health = 1
-                
+
                 # Effects
                 if self.effects['Poisoned']['active']:
                     txt += "\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n"
                     flag_red = True
-                
+
                 if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
                     self.autobuy = True
                     txt += "She will go shopping whenever it may please here from now on!\n"
-                
+
                 if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
                     self.autoequip = True
                     txt += "She will be handling her own equipment from now on!\n"
-                
+
                 # Here we change girl mod from local stat gathering to total daily change:
                 girlmod = dict()
                 for stat in self.stats.log:
                     if stat == "exp": girlmod[stat] = self.exp - self.stats.log[stat]
                     elif stat == "level": girlmod[stat] = self.level - self.stats.log[stat]
                     else: girlmod[stat] = self.stats[stat] - self.stats.log[stat]
-                
+
                 # Prolly a good idea to throw a red flag if she is not doing anything:
                 # I've added another check to make sure this doesn't happen if a girl is in FG as there is always something to do there:
                 if not self.action:
                     flag_red = True
                     txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
-                
+
                 # TODO:
                 # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
                 # For now, Girls will simply remove MC from their sets:
@@ -4474,9 +4470,9 @@ init -9 python:
                 if self.disposition < -500 and hero in self.lovers:
                     txt += "\n {} and you are no longer lovers...".format(self.nickname)
                     end_lovers(self, hero)
-                    
+
                 txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
-                
+
                 # Create the event:
                 evt = NDEvent()
                 evt.red_flag = flag_red
@@ -4486,10 +4482,10 @@ init -9 python:
                 evt.img = img
                 evt.txt = txt
                 NextDayEvents.append(evt)
-                
+
                 # Finances related:
                 self.fin.next_day()
-                
+
                 # Resets and Counters:
                 self.restore_ap()
                 self.reservedAP = 0
@@ -4498,50 +4494,51 @@ init -9 python:
                 self.img_cache = list()
                 self.cache = list()
                 self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
-                
+
                 self.effects['Food Poisoning']['activation_count'] = 0
                 self.guard_relay = {
                                     "bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                     "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                     "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                     }
-                
+
                 # Reset relays that use the RelayProxy.
                 for p in pytRelayProxyStore:
                     p.reset(self)
-                    
+
                 # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
                 super(Char, self).next_day()
             else:
                 super(Char, self).next_day()
-        
-    
+
+
     class rChar(Char):
         '''Randomised girls (WM Style)
         Basically means that there can be a lot more than one of them in the game
         Different from clones we discussed with Dark, because clones should not be able to use magic
         But random girls should be as good as any of the unique girls in all aspects
-        It will most likely not be possible to write unique scripts for random girlz 
+        It will most likely not be possible to write unique scripts for random girlz
         '''
         def __init__(self):
             super(rChar, self).__init__()
-            
+
+
     class Customer(PytCharacter):
         def __init__(self, gender="male", caste="Peasant"):
             super(Customer, self).__init__()
-            
+
             self.gender = gender
             self.caste = caste
             self.rank = ilists.clientCastes.index(caste)
             self.regular = False # Regular clients do not get removed from building lists as those are updated.
-            
+
             # Traits activation:
             if dice(2):
                 self.apply_trait(traits['Aggressive'])
-            
+
             # self.seenstrip = False  # Seen striptease at least once
             # self.stripsatisfaction = 0  # Range from 0 to 100, extra bonus of goes above
-            
+
             # self.traitmatched = False  # Sets to true if checks on next day to avoid another loop during the job.
             # self.favtraits = set()
             # self.favgirls = set()
@@ -4551,35 +4548,35 @@ init -9 python:
             self.questpic = "" # path to picture used in quests
             self.act = ""
             self.pronoun = ""
-            
+
             # Should we use money? @ presently not...
             self.cash = 0 # carried cash
             self.cashtospend = 0 # cash the customer is willing to spend
-            
+
             # class battle stats
             # self.attack = randint(5, 40)
             # self.magic = randint(5, 40)
             # self.defence = randint(5, 40)
             # self.mp = randint(5, 40)
             # self.agility = randint(5, 40)
-            
+
             # if "Aggressive" in self.traits:
                 # self.attack += randint(5,20)
                 # self.defence += randint(5,20)
                 # self.magic += randint(5,20)
                 # self.agility += randint(5,20)
                 # self.mp += randint(5,20)
-            
+
             # determine act and pronoun
             if self.gender == 'male':
                 self.act = choice(["sex", "anal", "blowjob"])
                 self.pronoun = 'He'
-            
+
             elif self.gender == 'female':
                 # self.act = choice(pytWhoringActs.female.keys())
                 self.act = "lesbian"
                 self.pronoun = 'She'
-            
+
             # @Review: Temporary disabled (until we are ready to do complex client modeling, all clients assumed to have infinite money)
             # if caste in ('Beggar'):
                 # self.cash = randint(30, 50)
@@ -4629,7 +4626,7 @@ init -9 python:
             # elif caste in ('Royal'):
                 # self.cash = randint(200, 250)
                 # self.fame = randint(120, 200)
-                 
+
                 # self.attack += randint(25, 40)
                 # self.magic += randint(25, 40)
                 # self.defence += randint(25, 40)
@@ -4637,13 +4634,13 @@ init -9 python:
                 # self.agility += randint(25, 40)
             # else:
                 # self.cash = 100
-                # notify(u">>Warning<< Unknown caste: '%s'" % caste)  
+                # notify(u">>Warning<< Unknown caste: '%s'" % caste)
             # determine cash the customer is willing to spend
-            # poor customers should be willing to spend all of it, or not go 
+            # poor customers should be willing to spend all of it, or not go
             # into a brothel in the first place
             # self.cashtospend = min((self.cash/2 + 30), self.cash)
-            
-        # Want to see striptease method:    
+
+        # Want to see striptease method:
         def wts_strip(self, girl):
             # Just in the mood for striptease / Overlapping traits / Fame:
             if self.wtsstrip or self.favtraits.intersection(girl.traits) or girl.fame >= self.fame:
@@ -4651,13 +4648,15 @@ init -9 python:
                 return True
             else:
                 return False
-            
+
+
     class NPC(Char):
         """There is no point in this other than an ability to check for instances of NPCs
         """
         def __init__(self):
             super(NPC, self).__init__()
-            
+
+
     ### ==>> Rest:
     class Trait(_object):
         def __init__(self):
@@ -4671,13 +4670,13 @@ init -9 python:
             self.min = dict()
             self.blocks = list()
             self.effects = list()
-            
+
             # Occupations related:
             self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
             self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
-            
+
             self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
-            
+
             # Types:
             self.type = "" # Specific type if specified.
             self.basetrait = False
@@ -4686,14 +4685,14 @@ init -9 python:
             self.breasts = False
             self.body = False
             self.elemental = False
-            
+
             self.mod_ap = 0 # Will only work on body traits!
-            
+
             self.mob_only = False
             self.character_trait = False
             self.sexual = False
             self.client = False
-            
+
             # Elemental:
             self.font_color = None
             self.resist = list()
@@ -4702,33 +4701,33 @@ init -9 python:
             self.el_damage = dict()
             self.el_defence = dict()
             self.el_special = dict()
-            
+
             # Weaponfocus:
             self.we_damage = dict()
             self.we_defence = dict()
             self.we_special = dict()
-            
+
             # Base mods on init:
             self.init_mod = dict() # Mod value setting
             self.init_lvlmax = dict() # Mod value setting
             self.init_max = dict() # Mod value setting
             self.init_skills = dict() # {skill: [actions, training]}
-            
+
             # Special BE Fields:
             # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
             # self.ch_multiplier = 0 # Critical hit multi...
             # self.damage_multiplier = 0
-            
+
             # self.defence_bonus = {} # Delivery! Not damage types!
             # self.defence_multiplier = {}
             # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
             # self.delivery_multiplier = {}
-            
+
             self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
-            
+
         def __str__(self):
             return str(self.id)
-            
+
 
     class Team(_object):
         def __init__(self, name="", implicit=None, free=False, max_size=3):
@@ -4740,41 +4739,41 @@ init -9 python:
             self._members = list()
             self._leader = None
             self.free = free # Free teams do not have any implicit members.
-            
+
             # BE Assests:
             self.position = None # BE will set it to "r" or "l" short for left/right on the screen.
 
             if self.implicit:
                 for member in self.implicit:
                     self.add(member)
-            
+
         def __len__(self):
             return len(self._members)
-            
+
         def __iter__(self):
             return iter(self._members)
-            
+
         def __getitem__(self, index):
             return self._members[index]
-            
+
         def __nonzero__(self):
             return bool(self._members)
-            
+
         @property
         def members(self):
             return self._members
-            
+
         @property
         def leader(self):
             try:
                 return self.members[0]
             except:
                 return self._leader
-            
+
         def add(self, member):
             if member in self:
                 notify("Impossible to join the same team twice")
-            
+
             if len(self._members) >= self.max_size:
                 notify("This team cannot have more than %d teammembers!"%self.max_size)
             else:
@@ -4783,7 +4782,7 @@ init -9 python:
                     if member not in self.implicit:
                         self.implicit.append(member)
                     self._members.append(member)
-                else:    
+                else:
                     self._members.append(member)
 
         def remove(self, member):
@@ -4791,7 +4790,7 @@ init -9 python:
                 notify("%s is not a member of this team or an implicit member of this team!"%member.name)
             else:
                 self._members.remove(member)
-                 
+
         def set_leader(self, member):
             if member not in self._members:
                 notify("%s is not a member of this team!"%member.name)
@@ -4800,7 +4799,7 @@ init -9 python:
                 self.implicit.remove(self.leader)
             self._leader = member
             self.implicit.insert(0, member)
-                
+
         def get_level(self):
             """
             Returns an average level of the team as an integer.
@@ -4809,7 +4808,7 @@ init -9 python:
             for member in self._members:
                 av_level += member.level
             return int(math.ceil(av_level/len(self._members)))
-            
+
         def get_rep(self):
             """
             Returns average of arena reputation of a team as an interger.
@@ -4818,11 +4817,9 @@ init -9 python:
             for member in self._members:
                 arena_rep += member.arena_rep
             return int(math.ceil(arena_rep/len(self._members)))
-            
+
         # BE Related:
         def reset_controller(self):
             # Resets combat controller
             for m in self.members:
                 m.controller = "player"
-            
- 
