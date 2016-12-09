@@ -111,7 +111,7 @@ label city_tavern_brawl_fight:
             "You were beaten..."
         jump city
     $ i = 1
-    while i < randint(3, 5):
+    while i < 2:
         if hero.flag("fought_in_tavern") == day:
             if hero.take_money(randint(150, 250)):
                 "You were beaten and robbed..."
@@ -143,7 +143,7 @@ label city_tavern_thugs_fight:
     python:
         enemies = ["Thug", "Assassin", "Barbarian"]
         enemy_team = Team(name="Enemy Team", max_size=3)
-        for i in range(randint(2, 3)):
+        for j in range(randint(2, 3)):
             mob = build_mob(id=random.choice(enemies), level=randint(5, 25))
             mob.front_row = True
             mob.controller = BE_AI(mob)
