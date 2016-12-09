@@ -1216,7 +1216,7 @@
     "type": "food",
     "mod": {"mp": 5, "health": 5, "vitality": 5},
     "goodtraits": ["Open Minded", "Curious"],
-    "locations": ["Cafe"]
+    "locations": ["Cafe", "Tavern"]
     },
     {
     "id": "Red Wine",
@@ -1288,7 +1288,7 @@
     "icon": "content/items/cons/whiskey.png",
     "price": 35,
     "sex": "unisex",
-    "chance": 100,
+    "chance": 70,
     "badness": 80,
     "eqchance": 30,
     "hidden": false,
@@ -1304,7 +1304,7 @@
     "icon": "content/items/cons/sake.png",
     "price": 25,
     "sex": "unisex",
-    "chance": 100,
+    "chance": 70,
     "badness": 80,
     "eqchance": 30,
     "hidden": false,
