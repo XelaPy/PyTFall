@@ -608,14 +608,14 @@ init -9 python:
             if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
                 wage = int(wage*0.65)
              
-            # if traits['Prostitute'] in char.occupations:
+            # if 'Prostitute' in char.basetraits:
                 # bw = 5 # Base wage
                 # sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
                 # osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
  
                 # wage =  (sm*osm)/5 + bw
  
-            # elif traits['Stripper'] in char.occupations:
+            # elif 'Stripper' in char.basetraits:
                 # bw = 2
                 # sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
                 # osm = char.strip*char.agility/100
@@ -629,7 +629,7 @@ init -9 python:
  
                 # wage = sm/2+osm/100
  
-            # elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
+            # elif 'Warrior' in char.basetraits or isinstance(self.instance, Player):
                 # # Here we include MC for the attack event as well.
                 # bw = 15
                 # sm = char.agility/100+char.fame/4 + char.reputation/3
@@ -639,7 +639,7 @@ init -9 python:
  
             # else:
                 # for stat in char.stats:
-                    # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
+                    # if stat not in ["disposition", "joy", "health", "vitality"]: #, "mood"
                         # wage += getattr(char, stat)
                 # wage = wage/2
  
@@ -701,7 +701,7 @@ init -9 python:
             # TODO: To be revised after skills are added!
             char = self.instance
             # if char.status == 'slave':
-                # if traits['Prostitute'] in char.occupations:
+                # if 'Prostitute' in char.basetraits:
                     # bp = 3000 # Base Price
                     # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
                     # ssp = 2 * (char.anal + char.normalsex + char.blowjob + char.lesbian) # Sex Price
@@ -711,7 +711,7 @@ init -9 python:
                         # ssp = ssp * 1.4
                     # price = bp + sp + ssp
                     # return int(price)
-                # elif traits['Stripper'] in char.occupations:
+                # elif 'Stripper' in char.basetraits:
                     # bp = 3900 # Base Price
                     # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
                     # ssp = 2 * 4 * (char.strip) # Sex Price
@@ -735,7 +735,7 @@ init -9 python:
                     # bp = 3000 # Base Price
                     # sp = 0
                     # for stat in char.stats:
-                        # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
+                        # if stat not in ["disposition", "joy", "health", "vitality"]: #, "mood"
                             # sp += getattr(char, stat)
                      
                     # if sp > 1200:
@@ -758,14 +758,14 @@ init -9 python:
             else:
                 return 0
             # if char.status == 'slave':
-                # if traits['Prostitute'] in char.occupations:
+                # if 'Prostitute' in char.basetraits:
                     # bu = 20 * char.rank
                     # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
                     # ssu = char.anal/8 + char.normalsex/8 + char.blowjob/8 + char.lesbian/8
                      
                     # return int(bu + su + ssu + char.upkeep)
  
-                # elif traits['Stripper'] in char.occupations:
+                # elif 'Stripper' in char.basetraits:
                     # bu = 3 * char.strip
                     # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
  
@@ -1442,7 +1442,7 @@ init -9 python:
         # Locations related ====================>
         @property
         def location(self):
-            # Physical locaiton at the moment, this is not used a lot right now.
+            # Physical location at the moment, this is not used a lot right now.
             # if all([self._location == hero, isinstance(self, Char), self.status == "free"]):
                 # return "Own Dwelling"
             # elif self._location == hero: # We set location to MC in most cases, this may be changed soon?
