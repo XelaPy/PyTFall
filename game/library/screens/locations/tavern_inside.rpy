@@ -105,26 +105,34 @@ label city_tavern_brawl_fight:
         "You nod to your teammates and go inside. A few thugs immediately notice you."
     call city_tavern_thugs_fight
     if hero.flag("fought_in_tavern") == day:
-        if hero.take_money(randint(150, 500)):
+        if hero.take_money(randint(50, 250)):
             "You were beaten and robbed..."
         else:
             "You were beaten..."
         jump city
     $ i = 1
-    while i < 2:
+    while i < randint(3, 5):
         if hero.flag("fought_in_tavern") == day:
-            if hero.take_money(randint(150, 500)):
+            if hero.take_money(randint(150, 250)):
                 "You were beaten and robbed..."
             else:
                 "You were beaten..."
                 jump city
-        $ i += 1
+
         scene bg tavern_inside   
         with dissolve
         "Another group is approaching you!"
+        menu:
+            "Fight!":
+                $ pass
+            "Run away":
+                "You quickly leave the tavern."
+                $ hero.set_flag("fought_in_tavern", value = day)
+                jump city
         call city_tavern_thugs_fight
+        $ i += 1
     "The fight is finally over. You found a few coins in thugs pockets."
-    $ hero.give_money(randint(50, 150)*i)
+    $ hero.add_money(randint(50, 150)*i)
     $ hero.set_flag("fought_in_tavern", value = day)
     jump city
 label tavern_look_around:
@@ -136,7 +144,7 @@ label city_tavern_thugs_fight:
         enemies = ["Thug", "Assassin", "Barbarian"]
         enemy_team = Team(name="Enemy Team", max_size=3)
         for i in range(randint(2, 3)):
-            mob = build_mob(id=random.choice(enemies), level=randint(1, 2))
+            mob = build_mob(id=random.choice(enemies), level=randint(5, 25))
             mob.front_row = True
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
