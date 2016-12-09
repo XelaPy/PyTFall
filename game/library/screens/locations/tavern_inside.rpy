@@ -111,7 +111,7 @@ label city_tavern_brawl_fight:
             "You were beaten..."
         jump city
     $ i = 1
-    while i < 2:
+    while i < randint(2, 5):
         if hero.flag("fought_in_tavern") == day:
             if hero.take_money(randint(150, 250)):
                 "You were beaten and robbed..."
