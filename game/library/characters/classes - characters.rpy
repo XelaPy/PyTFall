@@ -1672,110 +1672,117 @@ init -9 python:
         
         def auto_buy(self, item=None, amount=1, equip=False):
             # NOTE: There is a need to adapt this to skills since it works off baddness.
-            items = store.items
-            returns = list()
-            if isinstance(item, basestring):
-                item = items[item]
-            # we handle request to auto-buy a particular item!
-            # it won't filter out forbidden for slaves items, since it might be useful to do so
-            if item and item in auto_buy_items:
-                while self.take_money(item.price) and len(returns) < amount:
-                    self.inventory.append(item)
-                    returns.append(item.id)
-                    if equip:
-                        self.equip(item)
-                return returns
+
+            # handle request to auto-buy a particular item!
+            # including forbidden for slaves items - it might be useful
+            if item:
+                if isinstance(item, basestring):
+                    item = store.items[item]
+
+                if item in all_auto_buy_items:
+                    amount = min(amount, int(self.gold / item.price))
+
+                    if amount != 0:
+                        self.take_money(item.price * amount)
+                        self.inventory.append(item, amount)
+                        if equip:
+                            self.equip(item)
+
+                        return [item.id] * amount
+
+                return []
 
             # otherwise if it's just a request to buy an item randomly
-            # make sure that she'll NEVER buy an items that is in badtraits, and also filter out too expensive ones
-            pool = set(item for item in auto_buy_items if not(item.badtraits.intersection(self.traits)) and (item.price <= self.gold))
 
-            if self.status == "slave": # for slaves we exclude all weapons, spells and armor immediately
-                pool = pool.difference(item for item in pool if item.slot in ("weapon", "smallweapon") or item.type in ("armor", "scroll"))
-            
-            # we form inventory set anyway
-            hasitems = set([i for i in self.inventory]) if self.inventory else set()
-            for key in self.eqslots:
-                if self.eqslots[key]:
-                    hasitems.add(self.eqslots[key])
+            # filter out too expensive ones and make sure that she'll NEVER buy an items that is in badtraits
+            traititems = []
+            for i in set([item for t in self.traits for item in auto_buy_items[self.status].setdefault(t, [])]):
+                if i.price <= self.gold and not i.badtraits.intersection(self.traits):
+                    traititems.append(i)
 
-            # Now lets see if a girl can buy one item that she really likes based on traits
-            newpool = set(item for item in pool if item.goodtraits.intersection(self.traits))
-            if dice(80) and newpool:
-                selected_item = random.choice(tuple(newpool))
-                if selected_item not in hasitems:
-                    if self.take_money(selected_item.price, "Items"):
-                        self.inventory.append(selected_item)
-                        returns.append(selected_item.id)
-                        if len(returns) >= amount:
-                            return returns
-                
-            # Ok, so if we made it here, we cannot buy any of the trait items...
-            # Or the dice has failed, we remove all trait items either way:
-            pool = set(i for i in pool.difference(newpool) if i.type != "permanent") # also we remove all all permanent type items. the only way to autobuy them is to have a suitable goodtrait
-            
-            if not any(i for i in hasitems if i.slot == "body"): # if she has zero body slot items, she will try to buy one dress
-                newpool = set(item for item in pool if ((item.type != "armor") and (item.slot == "body")))
-                if newpool:
-                    selected_item = random.choice(tuple(newpool))
-                    if dice(100 - selected_item.badness) and self.take_money(selected_item.price, "Items"):
-                        self.inventory.append(selected_item)
-                        returns.append(selected_item.id)
-                        if len(returns) >= amount:
-                            return returns
-                        
-            if dice(30):
-                # 30% chance for her to buy any good restore item.
-                newpool = set(item for item in pool if item.type == "restore")
-                if newpool:
-                    selected_item = random.choice(tuple(newpool))
-                    if dice(100 - selected_item.badness) and self.take_money(selected_item.price, "Items"):
-                        self.inventory.append(selected_item)
-                        returns.append(selected_item.id)
-                        if len(returns) >= amount:
-                            return returns
-                        
-            # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
-            if ("Always Hungry" in self.traits and dice(80)) or dice(200 - self.vitality):
-                newpool = set(item for item in pool if item.type == "food")
-                if newpool:
-                    selected_item = random.choice(tuple(newpool))
-                    if dice(100 - selected_item.badness) and self.take_money(selected_item.price, "Items"):
-                        self.inventory.append(selected_item)
-                        returns.append(selected_item.id)
-                        if len(returns) >= amount:
-                            return returns
-            # and it doesn't count as +1 to requested amount of purchases, since it's not a big deal
-            
-            if not("Warrior" in self.occupations):
-                pool = set(i for i in pool if ((i.slot != "weapon") and (i.type != "armor"))) # non-warriors will never attempt to buy a big weapon or an armor
-            elif ("SIW" in self.occupations) or ("Server" in self.occupations) or ("Specialist" in self.occupations): # if the character has Warrior occupation, yet has other occupations too
-                if dice(40):
-                    pool = set(i for i in pool if i.type != "dress") # then sometimes she ignores non armors
-            else:
-                if dice(75):
-                    pool = set(i for i in pool if i.type != "dress") # and pure warriors ignore non armors quite often
-            if ("Caster" in self.occupations) and dice(25): # mages have a small chance to try to buy a scroll. why small? because we don't want them to quickly get all sellable spells in the game without MC's help
-                pass
-            else:
-                pool = set(i for i in pool if i.type != "scroll")
+            notrait = auto_buy_items['notrait'][self.status]
+            goodtrait = auto_buy_items['goodtrait'][self.status]
 
-            # Items that remain is what a girl got to choose from.
-            while pool and len(returns) < amount:
-                i = random.choice(tuple(pool))
-                # This will make sure that girl will never buy more than 5 of any item!
-                if i.id in self.inventory:
-                    mod = self.inventory[i.id] * 20
+            returns = []
+            for t in ("trait", "body", "restore", "food"):
+                if t == "trait":
+                    # high chance to try to buy an item she really likes based on traits
+                    if not traititems or dice(20):
+                        continue
+                    selected_item = random.choice(traititems)
+
                 else:
-                    mod = 0
-                     
-                if dice(100 - i.badness - mod) and self.take_money(i.price, "Items"):
-                    self.inventory.append(i)
-                    returns.append(i.id)
-                    pool.remove(i)
-                    
+                    # if she has no body slot items, she will try to buy a dress
+                    if t == "body":
+                        if self.eqslots["body"] or any(i.slot == "body" for i in self.inventory):
+                            continue
+
+                    elif t == "restore":
+                        # 30% (of the remaining) chance for her to buy any good restore item.
+                        if dice(70):
+                            continue
+
+                    else: # t == "food":
+                        # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
+                        if not ("Always Hungry" in self.traits and dice(80)) or not dice(200 - self.vitality):
+                            continue
+
+                    ware = []
+                    for item in notrait[t] + [i for i in goodtrait[t] if i not in traititems]:
+                        if item.price <= self.gold and not item.badtraits.intersection(self.traits):
+                            ware.append(item)
+                    if not ware:
+                        continue
+                    selected_item = random.choice(ware)
+
+                # make sure that girl will never buy more than 5 of any item!
+                count = self.inventory[selected_item] + 1 if self.eqslots[selected_item.slot] == selected_item else 0
+                if dice(100 - selected_item.badness - count * 20) and self.take_money(selected_item.price, "Items"):
+
+                    self.inventory.append(selected_item)
+                    returns.append(selected_item.id)
+
+                    if t != "food": # food doesn't count as +1 to requested amount of purchases, since it's not a big deal
+                        amount -= 1
+                        if amount == 0:
+                            return returns
+
+            # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
+            rest = notrait["rest"] + [i for i in goodtrait["rest"] if i not in traititems]
+
+            badtrait = auto_buy_items['badtrait'][self.status]
+            do_get_dress = True
+            # for slaves exclude all weapons, spells and armor
+            if self.status != "slave":
+                if "Warrior" in self.occupations:
+                    rest.extend(notrait["warrior"] + [i for i in goodtrait["warrior"] if i not in traititems] + [i for i in badtrait["warrior"] if not i.badtraits.intersection(self.traits)])
+
+                    if dice(40 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 75):
+                        do_get_dress = False
+                else:
+                    if ("Caster" in self.occupations) and dice(25):
+                        rest.extend(notrait["scroll"] + [i for i in goodtrait["scroll"] if i not in traititems]+ [i for i in badtrait["scroll"] if not i.badtraits.intersection(self.traits)])
+
+            if do_get_dress:
+                rest.extend(notrait["dress"] + [i for i in goodtrait["dress"] if i not in traititems]+ [i for i in badtrait["dress"] if not i.badtraits.intersection(self.traits)])
+
+            rest = [i for i in rest if i.price <= self.gold]
+
+            while amount:
+                selected_item = random.choice(rest)
+
+                # make sure that girl will never buy more than 5 of any item!
+                if self.take_money(selected_item.price, "Items") and dice(100 - selected_item.badness - (self.inventory[selected_item] + 1 if self.eqslots[selected_item.slot] == selected_item else 0) * 20):
+
+                    self.inventory.append(selected_item)
+                    returns.append(selected_item.id)
+                    amount -= 1
+                    if amount == 0:
+                        return returns
+
+
             return returns
-            
+
         def equip_for(self, purpose):
             """
             This method will auto-equip slot items on per purpose basis!
