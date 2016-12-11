@@ -1710,7 +1710,6 @@ init -9 python:
                     wares = assorted["goodtraits"]
 
                 else:
-                    selection = [article]
                     # if she has no body slot items, she will try to buy a dress
                     if article == "body":
                         if self.eqslots["body"] or any(i.slot == "body" for i in self.inventory):
@@ -1724,35 +1723,42 @@ init -9 python:
                     elif article == "food":
                         # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
                         if not ("Always Hungry" in self.traits and dice(80)) or not dice(200 - self.vitality):
-                            continue
-                        amount += 1 # food doesn't count to requested amount of purchases, since it's not a big meal
+                            article = "rest"
+                        else:
+                            amount += 1 # food doesn't count to requested amount of purchases, since it's not a big meal
+
+                    if article != "rest":
+
+                        wares = auto_buy_items[self.status][article]
+
                     else:
-                        do_get_dress = True
                         # for slaves exclude all weapons, spells and armor
+                        selection = [article]
                         if self.status != "slave":
                             selection.append("warrior")
                             if "Warrior" in self.occupations:
                                 # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
                                 if dice(40 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 75):
-                                    do_get_dress = False
-                            elif ("Caster" in self.occupations) and dice(25):
+                                    selection.append("dress")
+                            else:
+                                selection.append("dress")
+                            if ("Caster" in self.occupations) and dice(25):
                                 selection.append("scroll")
-                        if do_get_dress:
+                        else:
                             selection.append("dress")
 
-                    wares = []
-                    for traitstr in ("goodtraits", "badtraits", "notraits"):
+                        wares = []
                         for t in selection:
                             # add goodtraits items not in article == "trait" set, badtrait items if not badtrait for this person.
-                            wares.extend(auto_buy_items[self.status][traitstr][t])
+                            wares.extend(auto_buy_items[self.status][t])
 
-                    wares = sorted(wares, key=lambda i: i.price)
+                        wares = sorted(wares, key=lambda i: i.price)
 
                 hi = len(wares) - 1
                 while hi > 0:
                     i = random.randint(0, hi)
                     selected_item = wares[i]
-                    if wares[hi].price <= self.gold:
+                    if selected_item.price <= self.gold:
                         if selected_item in assorted["badtraits"] or (article != "trait" and selected_item in assorted["goodtraits"]):
                             continue
                         # make sure that girl will never buy more than 5 of any item!
