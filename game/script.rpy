@@ -275,6 +275,7 @@ label dev_testing_menu:
     
     python:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
+        all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
 
         auto_buy_items = {'slave': {}, 'free': {}}
 
@@ -289,7 +290,7 @@ label dev_testing_menu:
                 for k in ("trait", "body", "restore", "food", "dress", "rest") + (("warrior", "scroll") if status == 'free' else ()):
                     auto_buy_items[traitstr][status][k] = []
 
-        for item in [item for item in shop_items if item.usable and not item.jump_to_label]:
+        for item in all_auto_buy_items:
 
             for status in ["free"] if item.slot in ("weapon", "smallweapon") or item.type in ("armor", "scroll") else ["free", "slave"]:
                 if item.goodtraits:
