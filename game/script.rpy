@@ -317,7 +317,8 @@ label dev_testing_menu:
                     v = sorted(v, key=lambda i: i.price)
 
             for k in ("trait", "body", "restore", "food", "dress", "rest") + (("warrior", "scroll") if status == 'free' else ()):
-                auto_buy_items[status][k] = sorted(auto_buy_items[status][k], key=lambda i: i.price)
+                auto_buy_items[status][k] = [(i.price, i) for i in auto_buy_items[status][k]]
+                auto_buy_items[status][k].sort()
     
     #  --------------------------------------
     # Put here to facilitate testing:

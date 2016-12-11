@@ -1693,73 +1693,25 @@ init -9 python:
 
             # otherwise if it's just a request to buy an item randomly
 
-            assorted = {}
-
-            # filter out too expensive ones and make sure that she'll NEVER buy an items that is in badtraits
-            assorted["badtraits"] = [i for t in self.traits for i in trait_selections[self.status]["badtraits"].setdefault(t, [])]
-            assorted["goodtraits"] = [i for t in self.traits for i in trait_selections[self.status]["goodtraits"].setdefault(t, []) if i not in assorted["badtraits"]]
+            # make sure that she'll NEVER buy an items that is in badtraits
+            skip = set()
+            goodtraits = []
+            for t in self.traits:
+                if t in trait_selections[self.status]["badtraits"]:
+                    skip.union(trait_selections[self.status]["badtraits"][t])
+                if t in trait_selections[self.status]["goodtraits"]:
+                    goodtraits.extend(trait_selections[self.status]["goodtraits"][t])
 
             returns = []
-
-            for article in ("trait", "body", "restore", "food", "rest"):
-                if article == "trait":
-                    # high chance to try to buy an item she really likes based on traits
-                    if not assorted["goodtraits"] or dice(20):
-                        continue
-                    # first we pick from this list, later we exclude from it - to allow other choices
-                    wares = assorted["goodtraits"]
-
-                else:
-                    # if she has no body slot items, she will try to buy a dress
-                    if article == "body":
-                        if self.eqslots["body"] or any(i.slot == "body" for i in self.inventory):
-                            continue
-
-                    elif article == "restore":
-                        # 30% (of the remaining) chance for her to buy any good restore item.
-                        if dice(70):
-                            continue
-
-                    elif article == "food":
-                        # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
-                        if not ("Always Hungry" in self.traits and dice(80)) or not dice(200 - self.vitality):
-                            article = "rest"
-                        else:
-                            amount += 1 # food doesn't count to requested amount of purchases, since it's not a big meal
-
-                    if article != "rest":
-
-                        wares = auto_buy_items[self.status][article]
-
-                    else:
-                        # for slaves exclude all weapons, spells and armor
-                        selection = [article]
-                        if self.status != "slave":
-                            selection.append("warrior")
-                            if "Warrior" in self.occupations:
-                                # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
-                                if dice(40 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 75):
-                                    selection.append("dress")
-                            else:
-                                selection.append("dress")
-                            if ("Caster" in self.occupations) and dice(25):
-                                selection.append("scroll")
-                        else:
-                            selection.append("dress")
-
-                        wares = []
-                        for t in selection:
-                            # add goodtraits items not in article == "trait" set, badtrait items if not badtrait for this person.
-                            wares.extend(auto_buy_items[self.status][t])
-
-                        wares = sorted(wares, key=lambda i: i.price)
-
-                hi = len(wares) - 1
+            # high chance to try to buy an item she really likes based on traits
+            if dice(80):
+                hi = len(goodtraits) - 1
                 while hi > 0:
                     i = random.randint(0, hi)
-                    selected_item = wares[i]
+                    selected_item = goodtraits[i]
+                    # filter out too expensive ones
                     if selected_item.price <= self.gold:
-                        if selected_item in assorted["badtraits"] or (article != "trait" and selected_item in assorted["goodtraits"]):
+                        if selected_item in skip:
                             continue
                         # make sure that girl will never buy more than 5 of any item!
                         count = self.inventory[selected_item] + self.eqslots.values().count(selected_item)
@@ -1771,10 +1723,80 @@ init -9 python:
                             amount -= 1
                             if amount == 0:
                                 return returns
-                            if article != "rest":
-                                break
+                            break
                     else:
                         hi = i - 1
+
+            skip.union(goodtraits) # the goodtrait items were only available in the 1st selection round
+
+            # define selections
+            articles = []
+            # if she has no body slot items, she will try to buy a dress
+            if not self.eqslots["body"] or all(i.slot != "body" for i in self.inventory):
+                articles.append("body")
+
+            # 30% (of the remaining) chance for her to buy any good restore item.
+            if dice(30):
+                articles.append("restore")
+
+            # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
+            if ("Always Hungry" in self.traits and dice(80)) or dice(200 - self.vitality):
+                articles.append("food")
+
+            if amount >= 2: #food doesn't count, it's not a big meal
+
+                # define weighted choice for remaining articles - based on status and class
+                choices = [("rest", 100)]
+                dress_weight = 100
+
+                # for slaves exclude all weapons, spells and armor
+                if self.status != "slave":
+                    if "Warrior" in self.occupations:
+                        choices.append(("warrior", 100))
+
+                        # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
+                        dress_weight = 60 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 25
+
+                    if "Caster" in self.occupations:
+                        choices.append(("scroll", 25))
+
+                choices.append(("dress", dress_weight))
+                choice_sum = sum(w for c, w in choices)
+
+                # and add remaining choices, weighted chances are normalized
+                while amount > 2:
+                    r = random.randint(0, choice_sum)
+                    for c, w in choices:
+                        r -= w
+                        if r <= 0:
+                            articles.append(c)
+                            break
+                    amount -= 1
+            else:
+                # oopsie, selected too many already, fixing that here
+                articles = articles[:amount]
+
+            for article in articles:
+                wares = auto_buy_items[self.status][article]
+
+                hi = len(wares) - 1
+                while hi > 0:
+                    i = random.randint(0, hi)
+                    price, selected_item = wares[i]
+                    if price <= self.gold:
+                        if selected_item in skip:
+                            continue
+                        # make sure that girl will never buy more than 5 of any item!
+                        count = self.inventory[selected_item] + self.eqslots.values().count(selected_item)
+                        if dice(100 - selected_item.badness - count * 20) and self.take_money(selected_item.price, "Items"):
+
+                            self.inventory.append(selected_item)
+                            returns.append(selected_item.id)
+                            break
+                    else:
+                        hi = i - 1
+
+            return returns
 
         def equip_for(self, purpose):
             """
