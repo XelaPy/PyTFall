@@ -1740,7 +1740,7 @@ init -9 python:
             if ("Always Hungry" in self.traits and dice(80)) or dice(200 - self.vitality):
                 articles.append("food")
 
-            if amount >= 2: #food doesn't count, it's not a big meal
+            if amount > 2: #food doesn't count, it's not a big meal
 
                 # define weighted choice for remaining articles - based on status and class
                 choices = [("rest", 100)]
