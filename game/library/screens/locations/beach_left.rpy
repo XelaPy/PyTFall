@@ -137,7 +137,7 @@ screen city_beach_fishing():
                 yalign 0.5
                 action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
-                
+
                 
 label city_beach_rest:
     show bg beach_rest with dissolve

@@ -10,74 +10,64 @@ label tavern_town:
     with dissolve
     
     $ pytfall.world_quests.run_quests("auto")
-    $ pytfall.world_events.run_events("auto")
+    $ pytfall.world_events.run_events("auto") 
     
-    show npc tavern_rita_novel
-    with dissolve
+
     define tavern_rita = Character('Rita', color=honeydew, show_two_window=True)
-    
+    $ tavern_event_list = []
+    if hero.flag("fought_in_tavern") == day:
+        show npc tavern_rita_novel
+        with dissolve
+        tavern_rita "I'm sorry, we are closed for maintenance. Please come tomorrow."
+        jump city
+        
     if not global_flags.flag('visited_tavern'):
         $ global_flags.set_flag('visited_tavern')
-        tavern_rita "Oh, hello! Welcome to our tavern! Enjoy your stay!"
+        show npc tavern_rita_novel
+        with dissolve
+        tavern_rita "Oh, hello! Welcome to our tavern! We will always have a seat for you! *wink*"
+        hide npc
+        with dissolve
+        $ global_flags.set_flag("tavern_status", value=[day, "cozy"])
     else:
-        tavern_rita "Oh, [hero.nickname]! How you been?"
-        tavern_rita "We will always have a free seat for you *wink*"
-    hide npc
-    with dissolve
+        if global_flags.flag("tavern_status")[0] != day:
+            $ tavern_status = weighted_choice([["cozy", 40], ["lively", 40], ["brawl", 20]])
+            $ global_flags.set_flag("tavern_status", value=[day, tavern_status])
+    if global_flags.flag("tavern_status")[1] == "cozy":
+        python:
+            for file in os.listdir(content_path("events/tavern_entry/cozy/")):
+                tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
+            img = ProportionalScale(choice(tavern_event_list), 1000, 600)
+            renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+            renpy.with_statement(dissolve)
+            narrator ("The tavern is warm and cozy with only a handful of drunkards enjoying the stay.") 
+    elif global_flags.flag("tavern_status")[1] == "lively":
+        python:
+            for file in os.listdir(content_path("events/tavern_entry/lively/")):
+                    tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
+            img = ProportionalScale(choice(tavern_event_list), 1000, 600)
+            renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+            renpy.with_statement(dissolve)
+            narrator ("The place is loud and lively today, with townsmen drinking and talking at every table.") 
+    else:
+        python:
+            for file in os.listdir(content_path("events/tavern_entry/brawl/")):
+                    tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
+            img = ProportionalScale(choice(tavern_event_list), 1000, 600)
+            renpy.show("event", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+            renpy.with_statement(dissolve)
+            renpy.music.stop(channel="world")
+            renpy.music.play("brawl.mp3",channel="world") 
+            narrator ("You step into the room... right into a fierce tavern brawl!")
+        menu:
+            "Join it!":
+                jump city_tavern_brawl_fight
+            "Leave while you can":
+                jump city
 label city_tavern_menu:
     show screen city_tavern_inside
     while 1:
         $ result = ui.interact()
-    # if not global_flags.has_flag("still_in_tavern"):    
-        # $ global_flags.set_flag("still_in_tavern", value=False) 
-    
-
-    # python:
-        # if global_flags.flag("tavern_entry_event") != (day + hero.AP) and global_flags.flag("still_in_tavern") == False:
-            # global_flags.set_flag("tavern_entry_event", value=(day + hero.AP))
-            # tavern_event_list = []
-            # if "tavern_entry" in os.listdir(content_path('events')):
-                # if dice(40):
-                    # for file in os.listdir(content_path("events/tavern_entry/cozy/")):
-                            # tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
-                    # img = ProportionalScale(choice(tavern_event_list), 1000, 600)
-                    # renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
-                    # renpy.with_statement(dissolve)
-                    # renpy.say("","The tavern in warm and cozy with only a handfull of drunkards enjoying the stay.")       
-                # elif dice(65):
-                # else:
-                    # for file in os.listdir(content_path("events/tavern_entry/lively/")):
-                            # tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
-                    # img = ProportionalScale(choice(tavern_event_list), 1000, 600)
-                    # renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
-                    # renpy.with_statement(dissolve)
-                    # renpy.say("","The place is lound and lively today, with townsmen drinking and talking at every table.")        
-                # else:
-                    # global_flags.set_flag("tavern_entry_brawl", value=(day + hero.AP))
-                    # for file in os.listdir(content_path("events/tavern_entry/brawl/")):
-                            # tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
-                    # img = ProportionalScale(choice(tavern_event_list), 1000, 600)
-                    # renpy.show("event", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
-                    # renpy.with_statement(dissolve)
-                    # renpy.music.stop(channel="world")
-                    # renpy.music.play("brawl.mp3",channel="world") 
-                    # n(choice(["You step into the room... right into a fierce tavern brawl!"]))        
-        # else:
-            # renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
-            # renpy.with_statement(dissolve)
-            # if global_flags.flag("tavern_entry_brawl") == (day + hero.AP): 
-                # renpy.music.stop(channel="world")
-                # renpy.music.play("brawl.mp3",channel="world")
-        # global_flags.set_flag("still_in_tavern", value=True)
-    
-
-        # if pytfall.world_actions.location("tavern_inside"):
-            # pytfall.world_actions.add("brawl_join", "Join in!", Show("wip_screen"),
-                                      # condition=Iff(global_flag_complex("tavern_entry_brawl"), "==", S(renpy_store_complex("day"), "+", (hero, "AP"))))
-            
-            # pytfall.world_actions.add("brawl_stay", "Stay", Show("wip_screen"),
-                                      # condition=Iff(global_flag_complex("tavern_entry_brawl"), "!=", S(renpy_store_complex("day"), "+", (hero, "AP"))))
-            # pytfall.world_actions.finish()
 
 screen city_tavern_inside():
     use top_stripe(True)
@@ -96,14 +86,88 @@ screen city_tavern_inside():
                 yalign 0.5
                 action [Hide("city_tavern_inside"), Jump("tavern_shopping")]
                 text "Buy a drink" size 15
+            if hero.AP > 0:
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("city_tavern_inside"), Jump("tavern_look_around")]
+                    text "Look around" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
                 action [Hide("city_tavern_inside"), Jump("city")]
                 text "Leave" size 15
                 
-label tavern_shopping:
+label city_tavern_brawl_fight:
+    if len(hero.team) == 1:
+        "You go inside, and a few thugs immediately notice you."
+    else:
+        "You nod to your teammates and go inside. A few thugs immediately notice you."
+    call city_tavern_thugs_fight
+    if hero.flag("fought_in_tavern") == day:
+        if hero.take_money(randint(50, 250)):
+            "You were beaten and robbed..."
+        else:
+            "You were beaten..."
+        jump city
+    $ i = 1
+    while i < randint(2, 5):
+        if hero.flag("fought_in_tavern") == day:
+            if hero.take_money(randint(150, 250)):
+                "You were beaten and robbed..."
+            else:
+                "You were beaten..."
+                jump city
 
+        scene bg tavern_inside   
+        with dissolve
+        "Another group is approaching you!"
+        menu:
+            "Fight!":
+                $ pass
+            "Run away":
+                "You quickly leave the tavern."
+                $ hero.set_flag("fought_in_tavern", value = day)
+                jump city
+        call city_tavern_thugs_fight
+        $ i += 1
+    "The fight is finally over. You found a few coins in thugs pockets."
+    $ hero.add_money(randint(50, 150)*i)
+    $ hero.set_flag("fought_in_tavern", value = day)
+    jump city
+label tavern_look_around:
+    $ pass
+    jump city_tavern_menu
+                
+label city_tavern_thugs_fight:
+    python:
+        enemies = ["Thug", "Assassin", "Barbarian"]
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        for j in range(randint(2, 3)):
+            mob = build_mob(id=random.choice(enemies), level=randint(5, 25))
+            mob.front_row = True
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+        back = interactions_pick_background_for_fight("tavern")
+        result = run_default_be(enemy_team, background=back)
+        
+    scene bg tavern_inside   
+    with dissolve
+
+    if result is True:
+        python:
+            for member in hero.team:
+                member.exp += adjust_exp(member, 250)
+
+    else:
+        $ hero.set_flag("fought_in_tavern", value = day)
+    return
+    
+                
+label tavern_shopping:
+    show npc tavern_rita_novel
+    with dissolve
+    tavern_rita "Do you want something?"
     python:
         focus = None
         item_price = 0
@@ -122,31 +186,11 @@ label tavern_shopping:
                     
     $ global_flags.del_flag("keep_playing_music")      
     hide screen shopping
+    hide npc tavern_rita_novel
     with dissolve
     jump city_tavern_menu
                 
-#to be deleted later    
-screen wip_screen(size=(500, 300), use_return=False):
-    modal True
-    zorder 10
-    
-    fixed:
-        align(0.5, 0.5)
-        xysize(size[0], size[1])
-        xfill True
-        yfill True
-        
-        add im.Scale("content/gfx/frame/frame_bg.png", size[0], size[1])
-        add "content/gfx/interface/icons/wip.png" xalign 0.9 yalign 0.5
-        
-        vbox:
-            spacing 30
-            align(0.2, 0.5)
-            vbox:
-                xmaximum (size[0] - 50) 
-                text "Sorry! Not ready yet!" xalign 0.5 yalign 0.4
-                
-            textbutton "Ok" action If(use_return, true=Return(), false=Hide("wip_screen")) minimum(150, 30) xalign 0.3
+
 
     
 screen tavern_inside():
