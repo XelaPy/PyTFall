@@ -13,7 +13,15 @@ init -11 python:
         elif "Ill-mannered" in c.traits:
             patience -= randint(0,1)
         return patience
-
+        
+    def interactions_drinking_outside_of_inventory(character, count): # allows to raise activation count and become drunk without using real items
+        character.effects['Drunk']['activation_count'] += count
+        if character.effects['Drunk']['activation_count'] >= 35 and not character.effects['Drunk']['active']:
+            character.enable_effect('Drunk')
+        elif character.effects['Drunk']['active'] and character.AP > 0 and not character.effects['Drinker']['active']:
+            character.AP -= 1
+        return
+        
     def interactions_flag_count_checker(char_name, char_flag): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
         global day
         if not(char_name.flag(char_flag)) or char_name.flag(char_flag)["day"] != day:
