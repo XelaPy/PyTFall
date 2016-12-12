@@ -8,6 +8,7 @@ label tavern_town:
     
     scene bg tavern_inside   
     with dissolve
+    $ tavern_dizzy = False
     
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto") 
@@ -28,7 +29,7 @@ label tavern_town:
         tavern_rita "Oh, hello! Welcome to our tavern! We will always have a seat for you! *wink*"
         hide npc
         with dissolve
-        $ global_flags.set_flag("tavern_status", value=[day, "cozy"])
+        $ global_flags.set_flag("tavern_status", value=[day, "lively"])
     else:
         if global_flags.flag("tavern_status")[0] != day:
             $ tavern_status = weighted_choice([["cozy", 40], ["lively", 40], ["brawl", 20]])
@@ -44,6 +45,7 @@ label tavern_town:
     elif global_flags.flag("tavern_status")[1] == "lively":
         python:
             for file in os.listdir(content_path("events/tavern_entry/lively/")):
+                if not file.endswith("db"):
                     tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
@@ -65,6 +67,11 @@ label tavern_town:
             "Leave while you can":
                 jump city
 label city_tavern_menu:
+    if hero.effects['Drunk']['active'] and not(tavern_dizzy):
+        $ tavern_dizzy = True
+        "You feel a little dizzy..."
+        $ double_vision_on("bg tavern_inside")
+        $ renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
     show screen city_tavern_inside
     while 1:
         $ result = ui.interact()
@@ -111,7 +118,8 @@ label city_tavern_brawl_fight:
             "You were beaten..."
         jump city
     $ i = 1
-    while i < randint(2, 5):
+    $ N = randint(2, 5)
+    while i < N:
         if hero.flag("fought_in_tavern") == day:
             if hero.take_money(randint(150, 250)):
                 "You were beaten and robbed..."
@@ -135,8 +143,30 @@ label city_tavern_brawl_fight:
     $ hero.add_money(randint(50, 150)*i)
     $ hero.set_flag("fought_in_tavern", value = day)
     jump city
+    
+    
 label tavern_look_around:
-    $ pass
+    if hero.take_money(randint(10, 20)):
+        $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
+        if global_flags.flag("tavern_status")[1] == "lively":
+            $ N = random.choice(["fishing", "sex", "exp"])
+        if N == "fishing":
+            show expression "content/gfx/images/tavern/fish.png" as sign at truecenter with dissolve
+            "A group of local fishermen celebrating a good catch in the corner. You join them, and they share a few secrets about fishing with you."
+            $ hero.FISHING += randint(2, 5)
+            hide sign with dissolve
+        elif N == "sex":
+            show expression "content/gfx/images/tavern/sex.png" as sign at truecenter with dissolve
+            "A group of drunk young men boasting about their feats in the bed. Most of the feats never happened, but you still got a few interesting ideas."
+            $ hero.SEX += randint(1, 3)
+            hide sign with dissolve
+        elif N == "exp":
+            show expression "content/gfx/images/tavern/exp.png" as sign at truecenter with dissolve
+            "You are sharing fresh rumors with patrons over a beer."
+            $ hero.adjust_exp(randint(10, 30))
+            hide sign with dissolve
+    else:
+        "You don't have enough money to join others, so there is nothing interesting for you at the moment."
     jump city_tavern_menu
                 
 label city_tavern_thugs_fight:

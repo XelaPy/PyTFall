@@ -797,7 +797,7 @@ init python:
             renpy.scene()
         renpy.show(img)
         renpy.show(img, at_list=[Transform(alpha=alpha), gen_randmotion(count, dist, delay)], tag="blur_image")
-        renpy.with_statement(dissolve)
+
 
     def double_vision_off():
         renpy.hide("blur_image")
