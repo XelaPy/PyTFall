@@ -275,53 +275,50 @@ label dev_testing_menu:
     
     python:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
+        all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
 
-        auto_buy_items = {
-            'slave': {}, # 'slave' adn 'free' should contain any goodtraits in existence
-            'free': {},
-            'goodtrait': {
-                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
-                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
-            },
-            'badtrait': {
-                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
-                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
-            },
-            'notrait': {
-                'slave': {k: [] for k in ("trait", "body", "restore", "food", "dress", "rest")},
-                'free': {k: [] for k in ("trait", "body", "restore", "food", "dress", "warrior", "scroll", "rest")}
-            }
-        }
+        auto_buy_items = {'slave': {}, 'free': {}}
+        trait_selections = {'slave': {}, 'free': {}}
 
-        for item in [item for item in shop_items if item.usable and not item.jump_to_label]:
+        for status in ('slave', 'free'):
+            for traitstr in ("goodtraits", "badtraits"):
 
-            status = "free" if item.slot in ("weapon", "smallweapon") or item.type in ("armor", "scroll") else "slave"
-            if item.goodtraits:
+                trait_selections[status][traitstr] = {}
 
-                for trait in item.goodtraits:
-                    # same item may occur multiple times for different traits.
-                    auto_buy_items[status].setdefault(trait, []).append(item)
+                for k in ("trait", "body", "restore", "food", "dress", "rest") + (("warrior", "scroll") if status == 'free' else ()):
+                    auto_buy_items[status][k] = []
 
-                traitstr = 'goodtrait'
+        for item in all_auto_buy_items:
 
-            elif item.badtraits:
-                traitstr = 'badtrait'
-            else:
-                traitstr = 'notrait'
+            for status in ["free"] if item.slot in ("weapon", "smallweapon") or item.type in ("armor", "scroll") else ["free", "slave"]:
+                for k in ("goodtraits", "badtraits"):
+                    if hasattr(item, k):
+                        for t in getattr(item, k):
+                            # same item may occur multiple times for different traits.
+                            trait_selections[status][k].setdefault(t, []).append(item)
 
-            if item.type != "permanent":
+                if item.type != "permanent":
 
-                if item.type == "armor" or item.slot == "weapon":
-                    auto_buy_items[traitstr][status]["warrior"].append(item)
+                    if item.type == "armor" or item.slot == "weapon":
+                        auto_buy_items[status]["warrior"].append(item)
 
-                else:
-                    if item.slot == "body":
-                        auto_buy_items[traitstr][status]["body"].append(item)
-
-                    if item.type in ("restore", "food", "scroll", "dress"):
-                        auto_buy_items[traitstr][status][item.type].append(item)
                     else:
-                        auto_buy_items[traitstr][status]["rest"].append(item)
+                        if item.slot == "body":
+                            auto_buy_items[status]["body"].append(item)
+
+                        if item.type in ("restore", "food", "scroll", "dress"):
+                            auto_buy_items[status][item.type].append(item)
+                        else:
+                            auto_buy_items[status]["rest"].append(item)
+
+        for status in ('slave', 'free'):
+            for k in trait_selections[status]:
+                for v in trait_selections[status][k].values():
+                    v = sorted(v, key=lambda i: i.price)
+
+            for k in ("trait", "body", "restore", "food", "dress", "rest") + (("warrior", "scroll") if status == 'free' else ()):
+                auto_buy_items[status][k] = [(i.price, i) for i in auto_buy_items[status][k]]
+                auto_buy_items[status][k].sort()
     
     #  --------------------------------------
     # Put here to facilitate testing:
