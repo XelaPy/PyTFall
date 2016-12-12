@@ -172,7 +172,7 @@ init -8 python:
 
         def __init__(self, chars):
             remedy={
-                ".eqslots{}": self._ordered_on_abundance,
+                ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller,
                 ".status": ".various", ".action": "various", ".location": "various",
                 ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [],
                 "flatten": [".traits", ".attack_skills", ".magic_skills"]
@@ -236,6 +236,9 @@ init -8 python:
             return ProportionalScale(what, resize[0], resize[1])
 
         # remedy functions below
+        def _list_for_caller(self, arr):
+            return arr
+
         def _ordered_on_abundance(self, arr):
             return [x[1] for x in sorted(((arr.count(e) if e else -1, e) for e in set(arr)), reverse=True)]
 
