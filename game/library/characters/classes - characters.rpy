@@ -1694,10 +1694,10 @@ init -9 python:
             skip = set()
             goodtraits = []
             for t in self.traits:
-                if t in trait_selections[self.status]["badtraits"]:
-                    skip.union(trait_selections[self.status]["badtraits"][t])
-                if t in trait_selections[self.status]["goodtraits"]:
-                    goodtraits.extend(trait_selections[self.status]["goodtraits"][t])
+                if t in trait_selections["badtraits"]:
+                    skip.union(trait_selections["badtraits"][t])
+                if t in trait_selections["goodtraits"]:
+                    goodtraits.extend(trait_selections["goodtraits"][t])
 
             returns = []
             # high chance to try to buy an item she really likes based on traits
@@ -1708,6 +1708,11 @@ init -9 python:
                     selected_item = goodtraits[i]
                     # filter out too expensive ones
                     if selected_item.price <= self.gold:
+                        if self.status == "slave":
+                            if selected_item.slot in ("weapon", "smallweapon"):
+                                continue
+                            if selected_item.type in ("armor", "scroll"):
+                                continue
                         if selected_item in skip:
                             continue
                         # make sure that girl will never buy more than 5 of any item!
@@ -1774,7 +1779,7 @@ init -9 python:
                 articles = articles[:amount]
 
             for article in articles:
-                wares = auto_buy_items[self.status][article]
+                wares = auto_buy_items[article]
 
                 hi = len(wares) - 1
                 while hi > 0:
