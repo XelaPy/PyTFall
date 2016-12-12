@@ -8,6 +8,7 @@ label tavern_town:
     
     scene bg tavern_inside   
     with dissolve
+    $ tavern_dizzy = False
     
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto") 
@@ -66,7 +67,8 @@ label tavern_town:
             "Leave while you can":
                 jump city
 label city_tavern_menu:
-    if hero.effects['Drunk']['active']:
+    if hero.effects['Drunk']['active'] and not(tavern_dizzy):
+        $ tavern_dizzy = True
         "You feel a little dizzy..."
         $ double_vision_on("bg tavern_inside")
         $ renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
