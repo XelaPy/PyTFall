@@ -1975,7 +1975,7 @@ init -9 python:
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             """
 
-            # Prepear data:
+            # Prepair data:
             if not source:
                 source = [self.inventory]
             if not target_skills:
@@ -1987,6 +1987,13 @@ init -9 python:
             items = store.items
             returns = list() # We return this list with all items used during the method.
 
+            skip = set()
+            goodtraits = set()
+            for t in self.traits:
+                if t in trait_selections["badtraits"]:
+                    skip.union(trait_selections["badtraits"][t])
+                if t in trait_selections["goodtraits"]:
+                    goodtraits.union(trait_selections["goodtraits"][t])
             # The idea is to attempt finding the best item for the slot.
             # ------------->
             # Get all items available for the task, we bind them to a dict as keys, later set their usefulness as values.
@@ -1998,7 +2005,7 @@ init -9 python:
 
                 for item in content:
                     # Note: We check for gender in can_equip function, no need to do it again!
-                    if item.slot != slot or item.badtraits.intersection(self.traits) or not can_equip(item, self) or not item.eqchance or item.type == "permanent":
+                    if item.slot != slot or not item.eqchance or item.type == "permanent" or item in skip or not can_equip(item, self):
                         continue
 
                     # Check SLOTS and their conditioning:
@@ -2129,7 +2136,7 @@ init -9 python:
                                     penalty = penalty + i
 
                     # Last, we multiply bonus by 2 if item in in good traits:
-                    if item.goodtraits.intersection(self.traits):
+                    if item in goodtraits:
                         bonus = bonus + bonus
 
                     # Normalize the three:
