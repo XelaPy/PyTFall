@@ -1,5 +1,7 @@
 # classes and methods for groups of Characters:
 init -8 python:
+    from inspect import isclass
+
     class Delegator(_object):
         def __init__(self, l, at, remedy=None, *args, **kwargs):
             self.lst = l
@@ -11,33 +13,49 @@ init -8 python:
             return next(iter(self.lst))
 
         def _defer(self, arr, at=""):
-            import inspect
             # get unique types:
             at = self._at + at
-            totype = []
-            for var in arr:
-                if isinstance(var, basestring):
-                    totype.append("<str>")
-                elif isinstance(var, (list, tuple)):
-                    totype.append("<list("+str(len(var))+")>")
-                elif isinstance(var, dict):
-                    totype.append("<dict("+",".join(sorted(var.keys()))+")>")
-                elif isinstance(var, Char):
-                    totype.append("<char>")
-                else:
-                    totype.append(str(type(var)))
-            totype = list(set(totype))
-
             remedy = self._remedy
-            # multiple types or not?
-            if len(totype) == 1:
-                if totype[0][0:5] == "<list":
-                    return deDist(arr, remedy=remedy, at=at+"[]")
-                if totype[0][0:5] == "<dict":
-                    return deDist(arr, remedy=remedy, at=at+"{}")
-                first = next(iter(arr))
-                if all(cmp(first, r) == 0 for r in arr):
+
+            first = next(iter(arr))
+
+            if isinstance(first, (list, tuple)):
+                typical = len(first)
+
+            elif isinstance(first, (dict, set)):
+                typical = set(first)
+
+            elif isinstance(first, Char): # also includes rChar
+                typical = Char
+
+            elif isinstance(first, basestring): # also includes unicode
+                typical = basestring
+
+            else:
+                typical = type(first)
+
+            for var in arr:
+
+                if isinstance(typical, type):
+
+                    if not isinstance(var, typical) or cmp(first, var) != 0:
+                        break
+
+                elif isinstance(var, (list, tuple)):
+
+                    if not isinstance(typical, int) or typical != len(var):
+                        break
+
+                elif isinstance(var, (dict, set)):
+
+                    if not isinstance(typical, set) or any(k not in typical for k in var):
+                        break
+            else:
+                # all equal
+                if isinstance(typical, type):
                     return first
+
+                return deDist(arr, remedy=remedy, at="%s%s" % (at, "{}" if isinstance(typical, set) else "[]"))
 
             # else try to get a single value for a list
 
@@ -45,9 +63,9 @@ init -8 python:
                 return list(frozenset([item for sublist in arr for item in sublist]))
 
             if not at in remedy:
-                renpy.error(at+"\n"+str(totype)+"\n"+str(arr))
+                renpy.error("%s\n%d\n%s" % (at, typical, str(arr)))
 
-            if inspect.isclass(remedy[at]) and issubclass(remedy[at], Delegator):
+            if isclass(remedy[at]) and issubclass(remedy[at], Delegator):
                 return remedy[at](l=arr, at=at, remedy=remedy)
 
             # In case of an error here: define a remedy for the unlisting
@@ -64,9 +82,11 @@ init -8 python:
         def __setitem__(self, k, v):
             for d in self.lst:
                 d[k] = v
+
         def __delitem__(self, k):
             for d in self.lst:
                 del(d[k])
+
         def __iter__(self):
             if isinstance(self._first, dict):
                 return iter({k: self._defer(arr=[x[k] for x in self.lst]) for k in self._first})
@@ -100,11 +120,11 @@ init -8 python:
             if callable(getattr(self._first, item)):
 
                 def wrapper(*args, **kwargs):
-                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at="."+item+"()")
+                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=".%s()" % item)
 
                 return wrapper
 
-            return self._defer(arr=[getattr(c, item) for c in self.lst], at="."+item)
+            return self._defer(arr=[getattr(c, item) for c in self.lst], at=".%s" % item)
 
 
     class PytGInv(deAttr):
@@ -132,7 +152,6 @@ init -8 python:
             ps = self.page_size
             start = self.page*ps
             return list(self.filtered_items)[start : (start+ps)]
-            #return list(frozenset([item for sublist in self.lst for item in sublist.page_content]))
 
         @property
         def max_page(self):
@@ -143,6 +162,7 @@ init -8 python:
         def next(self):
             if self.page + 1 < self.max_page:
                 self.page += 1
+
         def prev(self): self.page = max(self.page - 1, 0)
         def first(self): self.page = 0
         def last(self): self.page = max(self.max_page - 1, 0)
@@ -173,7 +193,7 @@ init -8 python:
         def __init__(self, chars):
             remedy={
                 ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller,
-                ".status": ".various", ".action": "various", ".location": "various",
+                ".status": "various", ".action": "various", ".location": "various",
                 ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [],
                 "flatten": [".traits", ".attack_skills", ".magic_skills"]
             }
@@ -186,7 +206,7 @@ init -8 python:
             self.nickname = "group"
             self.effects = {}
             stat_remedy = {'.stats._get_stat()': self._average, '.stats._raw_skill()': self._average}
-            self._stats = deAttr(l=[c.stats for c in self.lst], remedy=stat_remedy,at=".stats")
+            self._stats = deAttr(l=[c.stats for c in self.lst], remedy=stat_remedy, at=".stats")
             self.unselected = set()
 
         def __new__(cls, chars):
@@ -199,7 +219,7 @@ init -8 python:
         def __len__(self): return len(self.lst)
 
         @property
-        def name(self): return "A group of "+str(len(self));
+        def name(self): return "A group of %d" % len(self);
 
         @property
         def all(self): return sorted(list(self.lst) + list(self.unselected));
@@ -220,8 +240,10 @@ init -8 python:
         @property
         def given_items(self):
             return {k:min([c.given_items[k] for c in self.lst]) for k in self._first.given_items}
+
         @property
         def wagemod(self): return self._average([c.wagemod for c in self.lst])
+
         @wagemod.setter
         def wagemod(self, v):
             for c in self.lst:
@@ -235,7 +257,7 @@ init -8 python:
 
             return ProportionalScale(what, resize[0], resize[1])
 
-        # remedy functions below
+        # remedy functions below here
         def _list_for_caller(self, arr):
             return arr
 
