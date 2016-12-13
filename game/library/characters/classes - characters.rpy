@@ -1711,7 +1711,7 @@ init -9 python:
                     # filter out too expensive ones
                     if pick.price <= self.gold:
 
-                        # badtraits and weapons not accepted for status
+                        # weapons not accepted for status
                         if self.status != "slave" or not (pick.slot in ("weapon", "smallweapon") or pick.type in ("armor", "scroll")):
 
                             # make sure that girl will never buy more than 5 of any item!
@@ -1723,6 +1723,7 @@ init -9 python:
                                 count += self.eqslots.values().count(pick)
 
                             penalty = pick.badness + count * 20
+                            # badtraits skipped here (late test because the search takes time)
                             if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
 
                                 self.inventory.append(pick)
@@ -1737,7 +1738,7 @@ init -9 python:
                         # if the pick is more than she can afford, next pick will be half as pricy
                         i = i // 2 # ..break if if this is floors to 0
 
-            skip = skip.union(goodtraits) # the goodtrait items were only available in the 1st selection round
+            skip = skip.union(goodtraits) # the goodtrait items are only available in the 1st selection round
 
             # define selections
             articles = []
@@ -1773,15 +1774,13 @@ init -9 python:
                 choices.append(("dress", dress_weight))
                 choice_sum = sum(w for c, w in choices)
 
-                # and add remaining choices, weighted chances are normalized
-                while amount > 2:
-                    r = random.randint(0, choice_sum)
+                # add remaining choices, based on (normalized) weighted chances
+                for r in random.sample(xrange(choice_sum), amount - 2):
                     for c, w in choices:
                         r -= w
                         if r <= 0:
                             articles.append(c)
                             break
-                    amount -= 1
             else:
                 # oopsie, selected too many already, fixing that here
                 articles = articles[:amount]
