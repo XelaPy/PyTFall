@@ -1694,37 +1694,51 @@ init -9 python:
             skip = set()
             goodtraits = []
             for t in self.traits:
-                if t in trait_selections[self.status]["badtraits"]:
-                    skip.union(trait_selections[self.status]["badtraits"][t])
-                if t in trait_selections[self.status]["goodtraits"]:
-                    goodtraits.extend(trait_selections[self.status]["goodtraits"][t])
+                if t in trait_selections["badtraits"]:
+                    # why the #*!:-@ is extend() in place and union not??
+                    skip = skip.union(trait_selections["badtraits"][t])
+                if t in trait_selections["goodtraits"]:
+                    goodtraits.extend(trait_selections["goodtraits"][t])
 
             returns = []
             # high chance to try to buy an item she really likes based on traits
-            if dice(80):
-                hi = len(goodtraits) - 1
-                while hi > 0:
-                    i = random.randint(0, hi)
-                    selected_item = goodtraits[i]
+            if goodtraits and dice(80):
+
+                i = random.randint(1, len(goodtraits))
+                while i > 0:
+                    pick = goodtraits[i-1]
+
                     # filter out too expensive ones
-                    if selected_item.price <= self.gold:
-                        if selected_item in skip:
-                            continue
-                        # make sure that girl will never buy more than 5 of any item!
-                        count = self.inventory[selected_item] + self.eqslots.values().count(selected_item)
-                        if dice(100 - selected_item.badness - count * 20) and self.take_money(selected_item.price, "Items"):
+                    if pick.price <= self.gold:
 
-                            self.inventory.append(selected_item)
-                            returns.append(selected_item.id)
+                        # weapons not accepted for status
+                        if self.status != "slave" or not (pick.slot in ("weapon", "smallweapon") or pick.type in ("armor", "scroll")):
 
-                            amount -= 1
-                            if amount == 0:
-                                return returns
-                            break
+                            # make sure that girl will never buy more than 5 of any item!
+                            count = self.inventory[pick] if self.eqslots[pick.slot] != pick else self.inventory[pick] + 1
+                            if pick.slot == "ring":
+                                if self.eqslots["ring1"] == pick: count += 1
+                                if self.eqslots["ring2"] == pick: count += 1
+
+                                count += self.eqslots.values().count(pick)
+
+                            penalty = pick.badness + count * 20
+                            # badtraits skipped here (late test because the search takes time)
+                            if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
+
+                                self.inventory.append(pick)
+                                returns.append(pick.id)
+
+                                amount -= 1
+                                if amount == 0:
+                                    return returns
+                                break
+                        i -= 1 # enough money, but not a lucky pick, just try next
                     else:
-                        hi = i - 1
+                        # if the pick is more than she can afford, next pick will be half as pricy
+                        i = i // 2 # ..break if if this is floors to 0
 
-            skip.union(goodtraits) # the goodtrait items were only available in the 1st selection round
+            skip = skip.union(goodtraits) # the goodtrait items are only available in the 1st selection round
 
             # define selections
             articles = []
@@ -1737,10 +1751,10 @@ init -9 python:
                 articles.append("restore")
 
             # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
-            if ("Always Hungry" in self.traits and dice(80)) or dice(200 - self.vitality):
+            if ("Always Hungry" in self.traits and dice(80)) or self.vitality > 100 and dice(200 - self.vitality):
                 articles.append("food")
 
-            if amount >= 2: #food doesn't count, it's not a big meal
+            if amount > 2: #food doesn't count, it's not a big meal
 
                 # define weighted choice for remaining articles - based on status and class
                 choices = [("rest", 100)]
@@ -1754,44 +1768,44 @@ init -9 python:
                         # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
                         dress_weight = 60 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 25
 
-                    if "Caster" in self.occupations:
+                    if "Caster" in self.occupations and auto_buy_items["scroll"]: # FIXME: remove 2nd part when we have scrolls.
                         choices.append(("scroll", 25))
 
                 choices.append(("dress", dress_weight))
                 choice_sum = sum(w for c, w in choices)
 
-                # and add remaining choices, weighted chances are normalized
-                while amount > 2:
-                    r = random.randint(0, choice_sum)
+                # add remaining choices, based on (normalized) weighted chances
+                for r in random.sample(xrange(choice_sum), amount - 2):
                     for c, w in choices:
                         r -= w
                         if r <= 0:
                             articles.append(c)
                             break
-                    amount -= 1
             else:
                 # oopsie, selected too many already, fixing that here
                 articles = articles[:amount]
 
             for article in articles:
-                wares = auto_buy_items[self.status][article]
+                wares = auto_buy_items[article]
 
-                hi = len(wares) - 1
-                while hi > 0:
-                    i = random.randint(0, hi)
-                    price, selected_item = wares[i]
+                i = random.randint(1, len(wares))
+                while i > 0:
+                    price, pick = wares[i-1]
                     if price <= self.gold:
-                        if selected_item in skip:
-                            continue
-                        # make sure that girl will never buy more than 5 of any item!
-                        count = self.inventory[selected_item] + self.eqslots.values().count(selected_item)
-                        if dice(100 - selected_item.badness - count * 20) and self.take_money(selected_item.price, "Items"):
 
-                            self.inventory.append(selected_item)
-                            returns.append(selected_item.id)
+                        count = self.inventory[pick] if self.eqslots[pick.slot] != pick else self.inventory[pick] + 1
+                        if pick.slot == "ring":
+                            if self.eqslots["ring1"] == pick: count += 1
+                            if self.eqslots["ring2"] == pick: count += 1
+
+                        penalty = pick.badness + count * 20
+                        if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
+                            self.inventory.append(pick)
+                            returns.append(pick.id)
                             break
+                        i -= 1
                     else:
-                        hi = i - 1
+                        i = i // 2
 
             return returns
 
@@ -1970,7 +1984,7 @@ init -9 python:
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             """
 
-            # Prepear data:
+            # Prepair data:
             if not source:
                 source = [self.inventory]
             if not target_skills:
@@ -1982,6 +1996,13 @@ init -9 python:
             items = store.items
             returns = list() # We return this list with all items used during the method.
 
+            skip = set()
+            goodtraits = set()
+            for t in self.traits:
+                if t in trait_selections["badtraits"]:
+                    skip = skip.union(trait_selections["badtraits"][t])
+                if t in trait_selections["goodtraits"]:
+                    goodtraits = goodtraits.union(trait_selections["goodtraits"][t])
             # The idea is to attempt finding the best item for the slot.
             # ------------->
             # Get all items available for the task, we bind them to a dict as keys, later set their usefulness as values.
@@ -1993,7 +2014,7 @@ init -9 python:
 
                 for item in content:
                     # Note: We check for gender in can_equip function, no need to do it again!
-                    if item.slot != slot or item.badtraits.intersection(self.traits) or not can_equip(item, self) or not item.eqchance or item.type == "permanent":
+                    if item.slot != slot or not item.eqchance or item.type == "permanent" or item in skip or not can_equip(item, self):
                         continue
 
                     # Check SLOTS and their conditioning:
@@ -2124,7 +2145,7 @@ init -9 python:
                                     penalty = penalty + i
 
                     # Last, we multiply bonus by 2 if item in in good traits:
-                    if item.goodtraits.intersection(self.traits):
+                    if item in goodtraits:
                         bonus = bonus + bonus
 
                     # Normalize the three:
