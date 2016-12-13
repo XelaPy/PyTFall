@@ -69,7 +69,7 @@ label tavern_town:
 label city_tavern_menu:
     if hero.effects['Drunk']['active'] and not(tavern_dizzy):
         $ tavern_dizzy = True
-        "You feel a little dizzy..."
+        "You feel a little dizzy... Perhaps you should go easy on drinks."
         $ double_vision_on("bg tavern_inside")
         $ renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
     show screen city_tavern_inside
@@ -93,17 +93,54 @@ screen city_tavern_inside():
                 yalign 0.5
                 action [Hide("city_tavern_inside"), Jump("tavern_shopping")]
                 text "Buy a drink" size 15
-            if hero.AP > 0:
+            if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "lively":
                 button:
                     xysize (120, 40)
                     yalign 0.5
                     action [Hide("city_tavern_inside"), Jump("tavern_look_around")]
                     text "Look around" size 15
+            if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy" and hero.flag("rest_in_tavern") != day:
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("city_tavern_inside"), Jump("tavern_relax")]
+                    text "Relax" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
                 action [Hide("city_tavern_inside"), Jump("city")]
                 text "Leave" size 15
+                
+label tavern_relax:
+    hide drunkards with dissolve
+    if len(hero.team) < 2:
+        $ hero.set_flag("rest_in_tavern", value = day)
+        "You relax for awhile, but there is not much to do here. Perhaps if would be less boring if you wouldn't be alone..."
+        $ hero.vitality += 5
+    else:
+        if hero.take_money(randint(30, 50)):
+            $ hero.set_flag("rest_in_tavern", value = day)
+            $ members = list(x for x in hero.team if (x != hero))
+            if len(members) == 1:
+                show expression members[0].get_vnsprite() at center as temp1
+                with dissolve
+            else:
+                show expression members[0].get_vnsprite() at center_left as temp1
+                show expression members[1].get_vnsprite() at center_right as temp2
+                with dissolve
+            "You ordered a few drinks and spent some time together."
+            python:
+                for member in members:
+                    member.joy += randint(2, 4)
+                    member.disposition += randint(3, 5)
+                    interactions_drinking_outside_of_inventory(character=member, count=randint(15, 40))
+                interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
+            hide temp1
+            hide temp2
+            with dissolve
+        else:
+            "You could spend time with your team, but sadly you are too poor to afford it at the moment."
+    jump city_tavern_menu
                 
 label city_tavern_brawl_fight:
     if len(hero.team) == 1:
