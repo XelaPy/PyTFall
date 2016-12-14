@@ -814,7 +814,7 @@ screen girl_control():
             style_group "basic"
             align (0.55, 0.5)
             button:
-                action If(char.status != "slave" and char.status != "various", true=ToggleField(char, "front_row"))
+                action If(char.status not in ("slave", "various"), true=ToggleField(char, "front_row"))
                 xysize (200, 32)
                 text "Front Row" align (0.0, 0.5)
                 if isinstance(char.front_row, list):
@@ -837,7 +837,7 @@ screen girl_control():
              
             # Autobuy: 
             button:
-                action  If(char.status != "slave" and char.status != "various" and char.disposition > 950, true=ToggleField(char, "autobuy"))
+                action  If(char.status not in ("slave", "various") and char.disposition > 950, true=ToggleField(char, "autobuy"))
                 xysize (200, 32)
                 text "Auto Buy" align (0.0, 0.5)
                 if isinstance(char.autobuy, list):
@@ -850,7 +850,7 @@ screen girl_control():
             # Autoequip
             button:
                 xysize (200, 32)
-                action If(char.status == "slave" or (char.status != "slave" and char.status != "various" and char.disposition > 850), true=ToggleField(char, "autoequip"))
+                action If(char.status == "slave" or char.disposition > 850, true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (0.0, 0.5)
                 if isinstance(char.autoequip, list):
                     add cb_some_checked align (1.0, 0.5)

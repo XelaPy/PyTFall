@@ -375,7 +375,7 @@ init -9 python:
             # For now just the girls get effects...
             if isinstance(char, Char):
                 for entry in trait.effects:
-                    self.intance.disable_effect(entry)
+                    self.instance.disable_effect(entry)
 
             if trait.mod_stats:
                 if hasattr(char, "upkeep"):
