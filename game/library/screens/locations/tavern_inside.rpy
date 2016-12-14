@@ -37,7 +37,8 @@ label tavern_town:
     if global_flags.flag("tavern_status")[1] == "cozy":
         python:
             for file in os.listdir(content_path("events/tavern_entry/cozy/")):
-                tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
+                if not file.endswith("db"):
+                    tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
             renpy.with_statement(dissolve)
@@ -54,6 +55,7 @@ label tavern_town:
     else:
         python:
             for file in os.listdir(content_path("events/tavern_entry/brawl/")):
+                if not file.endswith("db"):
                     tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("event", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
@@ -292,32 +294,46 @@ screen city_tavern_dicing():
 
                 
 screen tavern_show_status():
-    vbox:
-        xalign 0.5
-        yalign 0.5
-        spacing 50
-        hbox:
-            vbox:
-                hbox:
-                    text str(sum(dice_1)) xalign 0.98 style "stats_value_text" color "#79CDCD"
-                hbox:
-                    if ai_passed and sum(dice_1) < 21:
-                        text ("Pass") xalign 0.98 style "stats_value_text" color "#79CDCD"
-                    elif sum(dice_1) > 21:
-                        text ("Lost") xalign 0.98 style "stats_value_text" color "#79CDCD"
-                    elif sum(dice_1) == 21:
-                        text ("Score!") xalign 0.98 style "stats_value_text" color "#79CDCD"
-        hbox:
-            vbox:
-                hbox:
-                    text str(sum(dice_2)) xalign 0.98 style "stats_value_text" color "#79CDCD"
-                hbox:
-                    if player_passed and sum(dice_2) < 21:
-                        text ("Pass") xalign 0.98 style "stats_value_text" color "#79CDCD"
-                    elif sum(dice_2) > 21:
-                        text ("Lost") xalign 0.98 style "stats_value_text" color "#79CDCD"
-                    elif sum(dice_2) == 21:
-                        text ("Score!") xalign 0.98 style "stats_value_text" color "#79CDCD"
+    frame:
+        xalign 0.05
+        ypos 50
+        xysize (90, 90)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            xalign 0.5
+            hbox:
+                text str(sum(dice_1)) xalign 0.98 style "stats_value_text" color gold
+                xalign 0.5
+            hbox:
+                if ai_passed and sum(dice_1) < 21:
+                    text ("Pass") xalign 0.98 style "stats_value_text" color gold
+                elif sum(dice_1) > 21:
+                    text ("Lost") xalign 0.98 style "stats_value_text" color gold
+                elif sum(dice_1) == 21:
+                    text ("Score!") xalign 0.98 style "stats_value_text" color gold
+                xalign 0.5
+    frame:
+        xalign 0.05
+        ypos 550
+        xysize (90, 90)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            xalign 0.5
+            hbox:
+                text str(sum(dice_2)) xalign 0.98 style "stats_value_text" color gold
+                xalign 0.5
+            hbox:
+                if player_passed and sum(dice_2) < 21:
+                    text ("Pass") xalign 0.98 style "stats_value_text" color gold
+                elif sum(dice_2) > 21:
+                    text ("Lost") xalign 0.98 style "stats_value_text" color gold
+                elif sum(dice_2) == 21:
+                    text ("Score!") xalign 0.98 style "stats_value_text" color gold
+                xalign 0.5
                         
 screen tavern_show_dices(dice_1, dice_2):
     vbox:
@@ -350,6 +366,7 @@ label tavern_play_dice:
             dice_2.append(throw_a_normal_dice())
 label tavern_play_show_dice:
     show screen tavern_show_dices(dice_1, dice_2) 
+    play events "events/dice_" + str(randint(1, 3)) +".mp3"
     show screen tavern_show_status
     with dissolve
     if sum(dice_1) == 21:
