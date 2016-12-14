@@ -1,3 +1,5 @@
+define tavern_rita = Character('Rita', color=honeydew, show_two_window=True)
+
 label tavern_town:
     if not "tavern_inside" in ilists.world_music:
         $ ilists.world_music["tavern_inside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("tavern")]
@@ -5,23 +7,23 @@ label tavern_town:
         play world choice(ilists.world_music["tavern_inside"])
     $ global_flags.del_flag("keep_playing_music")
 
-    
-    scene bg tavern_inside   
-    with dissolve
-    $ tavern_dizzy = False
-    
-    $ pytfall.world_quests.run_quests("auto")
-    $ pytfall.world_events.run_events("auto") 
-    
 
-    define tavern_rita = Character('Rita', color=honeydew, show_two_window=True)
+    scene bg tavern_inside
+    with dissolve
+
+    $ tavern_dizzy = False
+
+    $ pytfall.world_quests.run_quests("auto")
+    $ pytfall.world_events.run_events("auto")
+
+
     $ tavern_event_list = []
     if hero.flag("fought_in_tavern") == day:
         show npc tavern_rita_novel
         with dissolve
         tavern_rita "I'm sorry, we are closed for maintenance. Please come tomorrow."
         jump city
-        
+
     if not global_flags.flag('visited_tavern'):
         $ global_flags.set_flag('visited_tavern')
         show npc tavern_rita_novel
@@ -42,7 +44,7 @@ label tavern_town:
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
             renpy.with_statement(dissolve)
-            narrator ("The tavern is warm and cozy with only a handful of drunkards enjoying the stay.") 
+            narrator ("The tavern is warm and cozy with only a handful of drunkards enjoying the stay.")
     elif global_flags.flag("tavern_status")[1] == "lively":
         python:
             for file in os.listdir(content_path("events/tavern_entry/lively/")):
@@ -51,7 +53,7 @@ label tavern_town:
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
             renpy.with_statement(dissolve)
-            narrator ("The place is loud and lively today, with townsmen drinking and talking at every table.") 
+            narrator ("The place is loud and lively today, with townsmen drinking and talking at every table.")
     else:
         python:
             for file in os.listdir(content_path("events/tavern_entry/brawl/")):
@@ -61,13 +63,14 @@ label tavern_town:
             renpy.show("event", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
             renpy.with_statement(dissolve)
             renpy.music.stop(channel="world")
-            renpy.music.play("brawl.mp3",channel="world") 
+            renpy.music.play("brawl.mp3",channel="world")
             narrator ("You step into the room... right into a fierce tavern brawl!")
         menu:
             "Join it!":
                 jump city_tavern_brawl_fight
             "Leave while you can":
                 jump city
+
 label city_tavern_menu:
     if hero.effects['Drunk']['active'] and not(tavern_dizzy):
         $ tavern_dizzy = True
@@ -87,7 +90,7 @@ screen city_tavern_inside():
         xpadding 10
         ypadding 10
         vbox:
-            style_group "wood"
+            style_prefix "wood"
             align (0.5, 0.5)
             spacing 10
             button:
@@ -118,7 +121,7 @@ screen city_tavern_inside():
                 yalign 0.5
                 action [Hide("city_tavern_inside"), Jump("city")]
                 text "Leave" size 15
-                
+
 label tavern_relax:
     hide drunkards with dissolve
     if len(hero.team) < 2:
@@ -149,12 +152,13 @@ label tavern_relax:
         else:
             "You could spend time with your team, but sadly you are too poor to afford it at the moment."
     jump city_tavern_menu
-                
+
 label city_tavern_brawl_fight:
     if len(hero.team) == 1:
         "You go inside, and a few thugs immediately notice you."
     else:
         "You nod to your teammates and go inside. A few thugs immediately notice you."
+
     call city_tavern_thugs_fight
     if hero.flag("fought_in_tavern") == day:
         if hero.take_money(randint(50, 250)):
@@ -162,6 +166,7 @@ label city_tavern_brawl_fight:
         else:
             "You were beaten..."
         jump city
+
     $ i = 1
     $ N = randint(2, 5)
     while i < N:
@@ -172,7 +177,7 @@ label city_tavern_brawl_fight:
                 "You were beaten..."
                 jump city
 
-        scene bg tavern_inside   
+        scene bg tavern_inside
         with dissolve
         "Another group is approaching you!"
         menu:
@@ -184,12 +189,13 @@ label city_tavern_brawl_fight:
                 jump city
         call city_tavern_thugs_fight
         $ i += 1
+
     "The fight is finally over. You found a few coins in thugs pockets."
     $ hero.add_money(randint(50, 150)*i)
     $ hero.set_flag("fought_in_tavern", value = day)
     jump city
-    
-    
+
+
 label tavern_look_around:
     if hero.take_money(randint(10, 20)):
         $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
@@ -213,7 +219,7 @@ label tavern_look_around:
     else:
         "You don't have enough money to join others, so there is nothing interesting for you at the moment."
     jump city_tavern_menu
-                
+
 label city_tavern_thugs_fight:
     python:
         enemies = ["Thug", "Assassin", "Barbarian"]
@@ -225,8 +231,8 @@ label city_tavern_thugs_fight:
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("tavern")
         result = run_default_be(enemy_team, background=back)
-        
-    scene bg tavern_inside   
+
+    scene bg tavern_inside
     with dissolve
 
     if result is True:
@@ -237,8 +243,8 @@ label city_tavern_thugs_fight:
     else:
         $ hero.set_flag("fought_in_tavern", value = day)
     return
-    
-                
+
+
 label tavern_shopping:
     show npc tavern_rita_novel
     with dissolve
@@ -256,15 +262,15 @@ label tavern_shopping:
 
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
-    
+
     call shop_control from _call_shop_control_6
-                    
-    $ global_flags.del_flag("keep_playing_music")      
+
+    $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
     hide npc tavern_rita_novel
     with dissolve
     jump city_tavern_menu
-                
+
 screen city_tavern_dicing():
     frame:
         xalign 0.95
@@ -292,7 +298,7 @@ screen city_tavern_dicing():
                 action [Hide("city_tavern_dicing"), Hide("tavern_show_dices"), Jump("city_tavern_menu")]
                 text "Give up" size 15
 
-                
+
 screen tavern_show_status():
     frame:
         xalign 0.05
@@ -334,25 +340,37 @@ screen tavern_show_status():
                 elif sum(dice_2) == 21:
                     text ("Score!") xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
-                        
+
 screen tavern_show_dices(dice_1, dice_2):
-    vbox:
-        xalign 0.5
-        yalign 0.5
-        hbox:
-            for i in dice_1:
-                add "content/events/tavern_dice/"+str(i)+".png"
-            spacing 5
-        spacing 50
-        hbox:
-            for i in dice_2:
-                add "content/events/tavern_dice/"+str(i)+".png"
-            spacing 5
-                
+    on "show":
+        action Show("tavern_show_status", dissolve)
+    on "hide":
+        action Hide("tavern_show_status")
+
+    hbox:
+        align .5, .4
+        spacing 5
+        box_reverse True
+        for i in dice_1:
+            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_left()
+    hbox:
+        align .5, .6
+        spacing 5
+        for i in dice_2:
+            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_right()
+
+transform dice_roll_from_right():
+    xoffset 1000
+    easeout_bounce .5 xoffset 0
+
+transform dice_roll_from_left():
+    xoffset -1000
+    easeout_bounce .5 xoffset 0
+
 label tavern_dice_pass:
     $ player_passed = True
     jump tavern_throw_dice
-    
+
 label tavern_play_dice:
     hide drunkards with dissolve
     $ player_passed = False # becomes true once player passed, after that he cannot trrow dices any longer
@@ -364,10 +382,11 @@ label tavern_play_dice:
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 2:
             dice_2.append(throw_a_normal_dice())
+
 label tavern_play_show_dice:
-    show screen tavern_show_dices(dice_1, dice_2) 
+    show screen tavern_show_dices(dice_1, dice_2)
     play events "events/dice_" + str(randint(1, 3)) +".mp3"
-    show screen tavern_show_status
+    # show screen tavern_show_status
     with dissolve
     if sum(dice_1) == 21:
         $ ai_passed = True
@@ -392,7 +411,7 @@ label tavern_play_show_dice:
             $ narrator ("You lost!")
         hide screen city_tavern_dicing
         hide screen tavern_show_dices
-        hide screen tavern_show_status
+        # hide screen tavern_show_status
         with dissolve
         jump city_tavern_menu
     elif sum(dice_2) == 21:
@@ -401,7 +420,7 @@ label tavern_play_show_dice:
         show screen city_tavern_dicing()
         while 1:
             $ result = ui.interact()
-        
+
 label tavern_throw_dice:
     if not(player_passed):
         $ dice_2.append(throw_a_normal_dice())
@@ -414,9 +433,9 @@ label tavern_throw_dice:
             $ dice_1.append(throw_a_normal_dice())
         $ ai_passed = True
     jump tavern_play_show_dice
-    
+
 screen tavern_inside():
 
     use top_stripe(True)
-    
+
     use location_actions("tavern_inside")
