@@ -55,7 +55,8 @@ init -8 python:
                 if isinstance(typical, type):
                     return first
 
-                return deDist(arr, remedy=remedy, at="%s%s" % (at, "{}" if isinstance(typical, set) else "[]"))
+                bracket = "{}" if isinstance(typical, set) else "[]"
+                return DeDist(arr, remedy=remedy, at="%s%s" % (at, bracket))
 
             # else try to get a single value for a list
 
@@ -71,10 +72,10 @@ init -8 python:
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
 
-    class deDist(Delegator):
+    class DeDist(Delegator):
 
         def __init__(self, *args, **kwargs):
-            super(deDist, self).__init__(*args, **kwargs)
+            super(DeDist, self).__init__(*args, **kwargs)
 
         def __getitem__(self, k):
             return self._defer(arr=[d[k] for d in self.lst])
@@ -85,7 +86,7 @@ init -8 python:
 
         def __delitem__(self, k):
             for d in self.lst:
-                del(d[k])
+                del d[k]
 
         def __iter__(self):
             if isinstance(self._first, dict):
@@ -93,46 +94,49 @@ init -8 python:
 
             return iter(self._defer(arr=[x[i] for x in self.lst]) for i in range(len(self._first)))
 
-        def __len__(self): return len(self._first)
+        def __len__(self):
+            return len(self._first)
 
 
-    class deAttr(Delegator):
+    class DeAttr(Delegator):
         """ only provides obvious solutions, everything else needs a remedy """
 
         def __init__(self, *args, **kwargs):
             # attributes of this class are added here to prevent infinite __setattr__ recursion
             self._attrs = ['lst', '_remedy', '_at']
-            super(deAttr, self).__init__(*args, **kwargs)
+            super(DeAttr, self).__init__(*args, **kwargs)
 
         def __setattr__(self, k, v):
-             if k != '_attrs' and k not in self._attrs:
-                 for c in self.lst:
-                     setattr(c, k, v)
-             else:
-                 super(deAttr, self).__setattr__(k, v)
+            if k != '_attrs' and k not in self._attrs:
+                for c in self.lst:
+                    setattr(c, k, v)
+            else:
+                super(DeAttr, self).__setattr__(k, v)
 
         def __getattr__(self, item):
             """ an undefined attribute was requested from the group """
             # required for pickle
             if item.startswith('__') and item.endswith('__'):
-                return super(deAttr, self).__getattr__(item)
+                return super(DeAttr, self).__getattr__(item)
 
             if callable(getattr(self._first, item)):
 
                 def wrapper(*args, **kwargs):
-                    return self._defer(arr=[getattr(c, item)(*args, **kwargs) for c in self.lst], at=".%s()" % item)
+                    arr = [getattr(c, item)(*args, **kwargs) for c in self.lst]
+                    return self._defer(arr=arr, at=".%s()" % item)
 
                 return wrapper
 
             return self._defer(arr=[getattr(c, item) for c in self.lst], at=".%s" % item)
 
 
-    class PytGInv(deAttr):
+    class PytGInv(DeAttr):
 
         def __init__(self, inv):
             super(PytGInv, self).__init__(l=inv, at="inventory")
             self._attrs.extend(('slot_filter', 'page'))
             self.slot_filter = False
+            self.page = 0
 
         def __getitem__(self, item):
             if isinstance(item, list):
@@ -163,23 +167,28 @@ init -8 python:
             if self.page + 1 < self.max_page:
                 self.page += 1
 
-        def prev(self): self.page = max(self.page - 1, 0)
-        def first(self): self.page = 0
-        def last(self): self.page = max(self.max_page - 1, 0)
+        def prev(self):
+            self.page = max(self.page - 1, 0)
+
+        def first(self):
+            self.page = 0
+
+        def last(self):
+            self.page = max(self.max_page - 1, 0)
 
         def remove(self, item, amount=1):
             """ see Inventory.remove(): False means not enough items """
-            return all([x.remove(item,amount) for x in self.lst])
+            return all([x.remove(item, amount) for x in self.lst])
 
-        def apply_filter(self, filter):
-            if filter in ('next', 'prev'):
+        def apply_filter(self, filt):
+            if filt in ('next', 'prev'):
                 for x in self.lst:
-                    x.apply_filter(filter)
+                    x.apply_filter(filt)
             else:
-                self.slot_filter = filter
+                self.slot_filter = filt
                 for x in self.lst:
-                    if filter in x.filters:
-                        x.apply_filter(filter)
+                    if filt in x.filters:
+                        x.apply_filter(filt)
                     else:
                         x.filtered_items = []
             self.page = 0
@@ -188,17 +197,18 @@ init -8 python:
             all([x.append(item, amount) for x in self.lst])
 
 
-    class PytGroup(deAttr):
+    class PytGroup(DeAttr):
 
         def __init__(self, chars):
-            remedy={
+            remedy = {
                 ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller,
                 ".status": "various", ".action": "various", ".location": "various",
                 ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [],
                 "flatten": [".traits", ".attack_skills", ".magic_skills"]
             }
             super(PytGroup, self).__init__(l=chars, remedy=remedy, at="")
-            self._attrs.extend(['_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats', 'unselected'])
+            self._attrs.extend(['_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats',
+                                'unselected'])
 
             self._inventory = PytGInv([c.inventory for c in self.lst])
             self.img = "content/gfx/interface/images/group.png"
@@ -206,26 +216,33 @@ init -8 python:
             self.nickname = "group"
             self.effects = {}
             stat_remedy = {'.stats._get_stat()': self._average, '.stats._raw_skill()': self._average}
-            self._stats = deAttr(l=[c.stats for c in self.lst], remedy=stat_remedy, at=".stats")
+            self._stats = DeAttr(l=[c.stats for c in self.lst], remedy=stat_remedy, at=".stats")
             self.unselected = set()
 
         def __new__(cls, chars):
-            return next(iter(chars)) if len(chars) == 1 else super(Delegator, cls).__new__(cls, chars)
+            return next(iter(chars)) if len(chars) == 1 else super(PytGroup, cls).__new__(cls, chars)
 
-        # for pickle & __new__
-        def __getnewargs__(self): return (PytGroup.__repr__(self),)
-        def __repr__(self): return '<PytGroup %r>' % self.lst
+        # for pickle & __new__ (__getnewargs__ and __repr__)
+        def __getnewargs__(self):
+            return (PytGroup.__repr__(self),)
 
-        def __len__(self): return len(self.lst)
+        def __repr__(self):
+            return '<PytGroup %r>' % self.lst
 
-        @property
-        def name(self): return "A group of %d" % len(self);
-
-        @property
-        def all(self): return sorted(list(self.lst) + list(self.unselected));
+        def __len__(self):
+            return len(self.lst)
 
         @property
-        def shuffled(self): return random.sample(self.lst, len(self))
+        def name(self):
+            return "A group of %d" % len(self)
+
+        @property
+        def all(self):
+            return sorted(list(self.lst) + list(self.unselected))
+
+        @property
+        def shuffled(self):
+            return random.sample(self.lst, len(self))
 
         @property
         def inventory(self):
@@ -242,7 +259,8 @@ init -8 python:
             return {k:min([c.given_items[k] for c in self.lst]) for k in self._first.given_items}
 
         @property
-        def wagemod(self): return self._average([c.wagemod for c in self.lst])
+        def wagemod(self):
+            return self._average([c.wagemod for c in self.lst])
 
         @wagemod.setter
         def wagemod(self, v):
@@ -262,8 +280,7 @@ init -8 python:
             return arr
 
         def _ordered_on_abundance(self, arr):
-            return [x[1] for x in sorted(((arr.count(e) if e else -1, e) for e in set(arr)), reverse=True)]
+            return sorted(set(arr), reverse=True, key=lambda e: arr.count(e) if e else -1)
 
         def _average(self, arr):
             return round(float(sum(arr)) / max(len(arr), 1), 1)
-
