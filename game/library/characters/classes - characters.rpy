@@ -2003,6 +2003,158 @@ init -9 python:
                     skip = skip.union(trait_selections["badtraits"][t])
                 if t in trait_selections["goodtraits"]:
                     goodtraits = goodtraits.union(trait_selections["goodtraits"][t])
+
+
+            if slot == "consumable":
+                for item in [item for inv in source for item in inv.items]:
+                    # Note: We check for gender in can_equip function, no need to do it again!
+                    if item.slot != slot or not item.eqchance or item.type == "permanent":
+                        continue
+                    if item in skip or not can_equip(item, self):
+                        continue
+                    if item.ceffect or
+                              item.id in self.consblock, item.id in self.constemp or
+                              item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6 or
+                              item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30:
+                        continue
+                    # Wasteful items, we reduce the desirability by 100.
+                    bonus = 0 # Actual bonus
+                    possible_bonus = 0 # Total possible bonus
+                    penalty = 0 # Total penalty
+                    # Normal stats:
+                    for stat in item.mod:
+                        if stat in self.stats: # Not useful?
+                            value = item.mod[stat]
+                            if value > 0:
+                                possible_bonus = possible_bonus + value
+                                if stat in target_stats:
+                                    # # This is not perfect, but it shouldn't matter (max at the game start issue)
+                                    # if self.stats[stat] + item.mod[stat] > self.get_max(stat) + 5:
+                                        # bonus += max(0, self.get_max(stat) - self.stats[stat])
+                                    # else:
+                                        # bonus += max(0, item.mod[stat])
+
+                                    # Instead of beating around the bush, we just do the real calculation:
+                                    temp = item.get_stat_eq_bonus(self, stat)
+                                    if temp > 0:
+                                        bonus = bonus + temp
+                                    elif temp < 0:
+                                        penalty = penalty + temp + temp
+                            elif stat in exclude_on_stats and value < 0:
+                                penalty = penalty + value
+
+                    # We do the same thing for max stats:
+                    for stat in item.max:
+                        if stat in self.stats: # Not useful?
+                            value = item.max[stat]
+                            if value > 0:
+                                possible_bonus = possible_bonus + value
+                                if stat in target_stats:
+                                    possible_bonus = possible_bonus + value # We could double if target stats match...
+                                    # Code below is no longer useful because we checked the total possible bonus when checking for stats above!
+                                    # This is not perfect, but it shouldn't matter (max at the game start issue)
+                                    # if self.stats.max[stat] + item.max[stat] < self.stats.lvl_max[stat]:
+                                        # bonus += max(0, item.max[stat])
+                                        # For equippables, we want this to triple as being extra useful!
+                                        # if slot not in ["misc", "consumable"]:
+                                            # bonus = bonus + item.max[stat] * 2
+                                    # else:
+                                        # bonus += max(0, self.stats.max[stat] - self.stats.lvl_max[stat])
+                            elif stat in exclude_on_stats and value < 0:
+                                penalty = penalty + item.max[stat]
+
+                    # And for skills:
+                    for skill, effect in item.mod_skills.iteritems():
+                        if skill in self.SKILLS: # Not useful after we finish stats/skills?
+                            # First three (multipliers):
+                            for i in effect[:3]:
+                                if i > 0:
+                                    temp = i*50 # Not sure if 50 is a good number here...
+                                    possible_bonus = possible_bonus + temp
+                                    if skill in target_skills:
+                                        bonus = bonus + temp
+                                elif skill in exclude_on_skills and i < 0:
+                                    penalty = penalty + i*100
+                            for i in effect[3:]:
+                                if i > 0:
+                                    possible_bonus = possible_bonus + temp
+                                    if skill in target_skills:
+                                        bonus = bonus + temp
+                                    bonus = bonus + i
+                                elif skill in exclude_on_skills and i < 0:
+                                    penalty = penalty + i
+
+                    # Last, we multiply bonus by 2 if item in in good traits:
+                    if item in goodtraits:
+                        bonus = bonus + bonus
+
+                    # Normalize the three:
+                    # bonus = min(400, bonus)
+                    possible_bonus = min(100, possible_bonus)
+                    penalty = min(150, -penalty)
+
+                    # and finally set the priority, getting this right is possibly the most important thing in this method:
+                    if config.debug:
+                        devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus: {} and Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus, penalty))
+                    d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus - penalty
+
+                # If there are no items, we go on with the next inventory:
+                if not d:
+                    continue
+                # Now that we have a dict of item ids vs priorities:
+                # Sort by highest priority:
+                l = sorted(d, key=d.get, reverse=True)
+
+                # For consumables we add extra logic:
+                l = list(items[i] for i in l) # Get a list of item instances.
+
+                for stat in target_stats:
+                    for item in l:
+                        while self.get_max(stat) - self.stats._get_stat(stat) > 0:
+                            # apply the actual item effects, do checks and repeat until stat is close to it's max.
+
+                            # Break out immediately if item is not capable of increasing this stat:
+                            if stat not in item.mod or item.mod[stat] < 0:
+                                break
+
+                            # Since we do not want to waste items we:
+                            if self.stats._get_stat(stat) > self.get_max(stat)*0.40: # If stat is below 40% of it's max, we most likely want to use the item anyhow... so we don't run the code.
+                                bonus = item.get_stat_eq_bonus(self, stat)
+                                if self.get_max(stat) - self.stats._get_stat(stat) > bonus and item.price > 100: # if bonus is smaller than 50 and item is expensive, we break the loop.
+                                    break
+
+                            inv.remove(item)
+                            self.equip(item, remove=False)
+                            returns.append(item.id)
+
+                            # Check is there any new conditions preventing repeating the process:
+                            if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
+                                       item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
+                                       item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
+                                break
+
+                for skill in target_skills:
+                    for item in l:
+                        # Check is there any conditions preventing repeating the process:
+                        if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
+                                   item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
+                                   item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
+                            continue
+
+                        # continue if item is not capable of increasing this skill:
+                        if skill not in item.mod_skills:
+                            continue
+                        # Bad items we don't use at all.
+                        if any(list(item.mod[stat] < 0 for stat in item.mod)):
+                            continue
+                        if any(list(s < 0 for s in item.mod_skills[skill])):
+                           continue
+
+                        inv.remove(item)
+                        self.equip(item, remove=False)
+                        returns.append(item.id)
+                return returns
+
             # The idea is to attempt finding the best item for the slot.
             # ------------->
             # Get all items available for the task, we bind them to a dict as keys, later set their usefulness as values.
@@ -2010,22 +2162,16 @@ init -9 python:
             for inv in source:
                 # Get a dict of all useful items:
                 d = dict()
-                content = inv.items
 
-                for item in content:
+                for item in inv.items:
                     # Note: We check for gender in can_equip function, no need to do it again!
-                    if item.slot != slot or not item.eqchance or item.type == "permanent" or item in skip or not can_equip(item, self):
+                    if item.slot != slot or not item.eqchance or item.type == "permanent":
+                        continue
+                    if item in skip or not can_equip(item, self):
                         continue
 
                     # Check SLOTS and their conditioning:
-                    if slot == "consumable":
-                        if any([item.ceffect,
-                                  item.id in self.consblock, item.id in self.constemp,
-                                  item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                  item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
-                            continue
-
-                    elif slot == "misc":
+                    if slot == "misc":
                         # If item that self-destructs or will be blocked after one use is equipped, there is no reason to equip another:
                         # This will end the method, not just move to a different item!!!
                         if item.id in self.miscitems:
@@ -2165,59 +2311,10 @@ init -9 python:
                 # Sort by highest priority:
                 l = sorted(d, key=d.get, reverse=True)
 
-                # For consumables we add extra logic:
-                if slot == "consumable":
-                    l = list(items[i] for i in l) # Get a list of item instances.
-                    for stat in target_stats:
-                        for item in l:
-                            while self.get_max(stat) - self.stats._get_stat(stat) > 0:
-                                # apply the actual item effects, do checks and repeat until stat is close to it's max.
-
-                                # Break out immediately if item is not capable of increasing this stat:
-                                if stat not in item.mod or item.mod[stat] < 0:
-                                    break
-
-                                # Since we do not want to waste items we:
-                                if self.stats._get_stat(stat) > self.get_max(stat)*0.40: # If stat is below 40% of it's max, we most likely want to use the item anyhow... so we don't run the code.
-                                    bonus = item.get_stat_eq_bonus(self, stat)
-                                    if self.get_max(stat) - self.stats._get_stat(stat) > bonus and item.price > 100: # if bonus is smaller than 50 and item is expensive, we break the loop.
-                                        break
-
-                                inv.remove(item)
-                                self.equip(item, remove=False)
-                                returns.append(item.id)
-
-                                # Check is there any new conditions preventing repeating the process:
-                                if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
-                                           item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                           item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
-                                    break
-
-                    for skill in target_skills:
-                        for item in l:
-                            # Check is there any conditions preventing repeating the process:
-                            if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
-                                       item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                       item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
-                                continue
-
-                            # continue if item is not capable of increasing this skill:
-                            if skill not in item.mod_skills:
-                                continue
-                            # Bad items we don't use at all.
-                            if any(list(item.mod[stat] < 0 for stat in item.mod)):
-                                continue
-                            if any(list(s < 0 for s in item.mod_skills[skill])):
-                               continue
-
-                            inv.remove(item)
-                            self.equip(item, remove=False)
-                            returns.append(item.id)
-                else:
-                        # We do not need a complicated loop as with consumables, plainly get the best item and equip it:
-                        item = items[l[0]]
-                        self.equip(item)
-                        returns.append(item.id)
+                # We do not need a complicated loop as with consumables, plainly get the best item and equip it:
+                item = items[l[0]]
+                self.equip(item)
+                returns.append(item.id)
 
             return returns
 
