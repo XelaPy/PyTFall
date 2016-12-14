@@ -2004,7 +2004,6 @@ init -9 python:
                 if t in trait_selections["goodtraits"]:
                     goodtraits = goodtraits.union(trait_selections["goodtraits"][t])
 
-
             if slot == "consumable":
 
                 for inv in source:
@@ -2027,29 +2026,27 @@ init -9 python:
                         penalty = 0 # Total penalty
                         # Normal stats:
                         for stat in item.mod:
-                            if stat in self.stats: # Not useful?
-                                value = item.mod[stat]
-                                if value > 0:
-                                    possible_bonus += value
-                                    if stat in target_stats:
-                                        temp = item.get_stat_eq_bonus(self, stat)
-                                        if temp > 0:
-                                            bonus += temp
-                                        elif temp < 0:
-                                            penalty += temp*2
-                                elif stat in exclude_on_stats and value < 0:
-                                    penalty += value
+                            value = item.mod[stat]
+                            if value > 0:
+                                possible_bonus += value
+                                if stat in target_stats:
+                                    temp = item.get_stat_eq_bonus(self, stat)
+                                    if temp > 0:
+                                        bonus += temp
+                                    elif temp < 0:
+                                        penalty += temp*2
+                            elif stat in exclude_on_stats and value < 0:
+                                penalty += value
 
                         # We do the same thing for max stats:
                         for stat in item.max:
-                            if stat in self.stats: # Not useful?
-                                value = item.max[stat]
-                                if value > 0:
-                                    possible_bonus += value
-                                    if stat in target_stats:
-                                        possible_bonus += value # We could double if target stats match...
-                                elif stat in exclude_on_stats and value < 0:
-                                    penalty += item.max[stat]
+                            value = item.max[stat]
+                            if value > 0:
+                                possible_bonus += value
+                                if stat in target_stats:
+                                    possible_bonus += value # We could double if target stats match...
+                            elif stat in exclude_on_stats and value < 0:
+                                penalty += item.max[stat]
 
                         # And for skills:
                         for skill, effect in item.mod_skills.iteritems():
@@ -2215,29 +2212,27 @@ init -9 python:
                     penalty = 0 # Total penalty
                     # Normal stats:
                     for stat in item.mod:
-                        if stat in self.stats: # Not useful?
-                            value = item.mod[stat]
-                            if value > 0:
-                                possible_bonus += value
-                                if stat in target_stats:
-                                    temp = item.get_stat_eq_bonus(self, stat)
-                                    if temp > 0:
-                                        bonus += temp
-                                    elif temp < 0:
-                                        penalty += temp + temp
-                            elif stat in exclude_on_stats and value < 0:
-                                penalty += value
+                        value = item.mod[stat]
+                        if value > 0:
+                            possible_bonus += value
+                            if stat in target_stats:
+                                temp = item.get_stat_eq_bonus(self, stat)
+                                if temp > 0:
+                                    bonus += temp
+                                elif temp < 0:
+                                    penalty += temp + temp
+                        elif stat in exclude_on_stats and value < 0:
+                            penalty += value
 
                     # We do the same thing for max stats:
                     for stat in item.max:
-                        if stat in self.stats: # Not useful?
-                            value = item.max[stat]
-                            if value > 0:
-                                possible_bonus += value
-                                if stat in target_stats:
-                                    possible_bonus += value # We could double if target stats match...
-                            elif stat in exclude_on_stats and value < 0:
-                                penalty += item.max[stat]
+                        value = item.max[stat]
+                        if value > 0:
+                            possible_bonus += value
+                            if stat in target_stats:
+                                possible_bonus += value # We could double if target stats match...
+                        elif stat in exclude_on_stats and value < 0:
+                            penalty += item.max[stat]
 
                     # And for skills:
                     for skill, effect in item.mod_skills.iteritems():
