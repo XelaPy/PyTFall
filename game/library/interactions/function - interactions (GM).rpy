@@ -1,4 +1,31 @@
 init -11 python:
+    def throw_a_normal_dice(): # throwing a classic dice
+        i = randint(1, 6)
+        return i
+        
+    def check_if_should_throw_dice(own_dice, other_dice, other_passed): # check how close an enemy to the victory, and based on it either throw (true) or don't (false) dice
+        if own_dice >= 21 or other_dice > 21:
+            return False
+        elif other_passed:
+            if own_dice > other_dice:
+                return False
+            elif own_dice == other_dice:
+                if dice((21-own_dice)*10):
+                    return True
+                else:
+                    return False
+            else:
+                return True
+        elif (21-own_dice) >= 6:
+            return True
+        elif other_dice == 21 and own_dice < 21:
+            return True
+        else:
+            if dice((21-own_dice)*10):
+                return True
+            else:
+                return False
+                
     # Interactions (Girlsmeets Helper Functions):
     def interactions_set_repeating_lines_limit(c): # returns the number of character "patience", ie how many repeating lines she's willing to listen in addition to default value
         if check_lovers(c, hero):

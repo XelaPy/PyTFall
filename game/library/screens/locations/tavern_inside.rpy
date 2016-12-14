@@ -29,7 +29,7 @@ label tavern_town:
         tavern_rita "Oh, hello! Welcome to our tavern! We will always have a seat for you! *wink*"
         hide npc
         with dissolve
-        $ global_flags.set_flag("tavern_status", value=[day, "lively"])
+        $ global_flags.set_flag("tavern_status", value=[day, "cozy"])
     else:
         if global_flags.flag("tavern_status")[0] != day:
             $ tavern_status = weighted_choice([["cozy", 40], ["lively", 40], ["brawl", 20]])
@@ -105,6 +105,12 @@ screen city_tavern_inside():
                     yalign 0.5
                     action [Hide("city_tavern_inside"), Jump("tavern_relax")]
                     text "Relax" size 15
+            if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy":
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("city_tavern_inside"), Jump("tavern_play_dice")]
+                    text "Play a game" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
@@ -257,8 +263,140 @@ label tavern_shopping:
     with dissolve
     jump city_tavern_menu
                 
+screen city_tavern_dicing():
+    frame:
+        xalign 0.95
+        ypos 50
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            style_group "wood"
+            align (0.5, 0.5)
+            spacing 10
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Jump("tavern_throw_dice")]
+                text "Throw dice" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Jump("tavern_dice_pass")]
+                text "Pass" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("city_tavern_dicing"), Hide("tavern_show_dices"), Jump("city_tavern_menu")]
+                text "Give up" size 15
 
-
+                
+screen tavern_show_status():
+    vbox:
+        xalign 0.5
+        yalign 0.5
+        spacing 50
+        hbox:
+            vbox:
+                hbox:
+                    text str(sum(dice_1)) xalign 0.98 style "stats_value_text" color "#79CDCD"
+                hbox:
+                    if ai_passed and sum(dice_1) < 21:
+                        text ("Pass") xalign 0.98 style "stats_value_text" color "#79CDCD"
+                    elif sum(dice_1) > 21:
+                        text ("Lost") xalign 0.98 style "stats_value_text" color "#79CDCD"
+                    elif sum(dice_1) == 21:
+                        text ("Score!") xalign 0.98 style "stats_value_text" color "#79CDCD"
+        hbox:
+            vbox:
+                hbox:
+                    text str(sum(dice_2)) xalign 0.98 style "stats_value_text" color "#79CDCD"
+                hbox:
+                    if player_passed and sum(dice_2) < 21:
+                        text ("Pass") xalign 0.98 style "stats_value_text" color "#79CDCD"
+                    elif sum(dice_2) > 21:
+                        text ("Lost") xalign 0.98 style "stats_value_text" color "#79CDCD"
+                    elif sum(dice_2) == 21:
+                        text ("Score!") xalign 0.98 style "stats_value_text" color "#79CDCD"
+                        
+screen tavern_show_dices(dice_1, dice_2):
+    vbox:
+        xalign 0.5
+        yalign 0.5
+        hbox:
+            for i in dice_1:
+                add "content/events/tavern_dice/"+str(i)+".png"
+            spacing 5
+        spacing 50
+        hbox:
+            for i in dice_2:
+                add "content/events/tavern_dice/"+str(i)+".png"
+            spacing 5
+                
+label tavern_dice_pass:
+    $ player_passed = True
+    jump tavern_throw_dice
+    
+label tavern_play_dice:
+    hide drunkards with dissolve
+    $ player_passed = False # becomes true once player passed, after that he cannot trrow dices any longer
+    $ ai_passed = False
+    python:
+        dice_1 = []
+        dice_2 = []
+        while len(dice_1) < 2:
+            dice_1.append(throw_a_normal_dice())
+        while len(dice_2) < 2:
+            dice_2.append(throw_a_normal_dice())
+label tavern_play_show_dice:
+    show screen tavern_show_dices(dice_1, dice_2) 
+    show screen tavern_show_status
+    with dissolve
+    if sum(dice_1) == 21:
+        $ ai_passed = True
+    if sum(dice_2) == 21:
+        $ player_passed = True
+    if sum(dice_2) > 21 or sum(dice_1) > 21:
+        $ ai_passed = player_passed = True
+    if ai_passed and player_passed:
+        if sum(dice_1) > 21 and sum(dice_2) <= 21:
+            $ narrator ("You won!")
+        elif sum(dice_2) > 21 and sum(dice_1) <= 21:
+            $ narrator ("You lost!")
+        elif sum(dice_2) > 21 and sum(dice_1) > 21:
+            $ narrator ("Draw!")
+        elif sum(dice_2) == 21 and sum(dice_1) == 21:
+            $ narrator ("Draw!")
+        elif sum(dice_2) == sum(dice_1):
+            $ narrator ("Draw!")
+        elif sum(dice_2) > sum(dice_1):
+            $ narrator ("You won!")
+        else:
+            $ narrator ("You lost!")
+        hide screen city_tavern_dicing
+        hide screen tavern_show_dices
+        hide screen tavern_show_status
+        with dissolve
+        jump city_tavern_menu
+    elif sum(dice_2) == 21:
+        jump tavern_throw_dice
+    else:
+        show screen city_tavern_dicing()
+        while 1:
+            $ result = ui.interact()
+        
+label tavern_throw_dice:
+    if not(player_passed):
+        $ dice_2.append(throw_a_normal_dice())
+        if check_if_should_throw_dice(sum(dice_1), sum(dice_2), player_passed) and not(ai_passed):
+            $ dice_1.append(throw_a_normal_dice())
+        else:
+            $ ai_passed = True
+    else:
+        while (check_if_should_throw_dice(sum(dice_1), sum(dice_2), player_passed) and not(ai_passed)):
+            $ dice_1.append(throw_a_normal_dice())
+        $ ai_passed = True
+    jump tavern_play_show_dice
     
 screen tavern_inside():
 
