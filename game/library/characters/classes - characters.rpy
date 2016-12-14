@@ -2006,16 +2006,16 @@ init -9 python:
 
 
             if slot == "consumable":
+
+                is_drunk = False if self.effects['Drunk']['activation_count'] < 30 else True
+                has_food_poisoning = False if self.effects['Food Poisoning']['activation_count'] < 6 else True
+
                 for item in [item for inv in source for item in inv.items]:
                     # Note: We check for gender in can_equip function, no need to do it again!
-                    if item.slot != slot or not item.eqchance or item.type == "permanent":
-                        continue
-                    if item in skip or not can_equip(item, self):
-                        continue
-                    if item.ceffect or
-                              item.id in self.consblock, item.id in self.constemp or
-                              item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6 or
-                              item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30:
+                    if item.slot != slot or not item.eqchance or item.type == "permanent" or item.ceffect
+                              or has_food_poisoning and item.type == "food" or is_drunk and item.type == "alcohol"
+                              or item in skip or item.id in self.consblock or item.id in self.constemp
+                              or not can_equip(item, self):
                         continue
                     # Wasteful items, we reduce the desirability by 100.
                     bonus = 0 # Actual bonus
@@ -2028,13 +2028,6 @@ init -9 python:
                             if value > 0:
                                 possible_bonus = possible_bonus + value
                                 if stat in target_stats:
-                                    # # This is not perfect, but it shouldn't matter (max at the game start issue)
-                                    # if self.stats[stat] + item.mod[stat] > self.get_max(stat) + 5:
-                                        # bonus += max(0, self.get_max(stat) - self.stats[stat])
-                                    # else:
-                                        # bonus += max(0, item.mod[stat])
-
-                                    # Instead of beating around the bush, we just do the real calculation:
                                     temp = item.get_stat_eq_bonus(self, stat)
                                     if temp > 0:
                                         bonus = bonus + temp
@@ -2051,15 +2044,6 @@ init -9 python:
                                 possible_bonus = possible_bonus + value
                                 if stat in target_stats:
                                     possible_bonus = possible_bonus + value # We could double if target stats match...
-                                    # Code below is no longer useful because we checked the total possible bonus when checking for stats above!
-                                    # This is not perfect, but it shouldn't matter (max at the game start issue)
-                                    # if self.stats.max[stat] + item.max[stat] < self.stats.lvl_max[stat]:
-                                        # bonus += max(0, item.max[stat])
-                                        # For equippables, we want this to triple as being extra useful!
-                                        # if slot not in ["misc", "consumable"]:
-                                            # bonus = bonus + item.max[stat] * 2
-                                    # else:
-                                        # bonus += max(0, self.stats.max[stat] - self.stats.lvl_max[stat])
                             elif stat in exclude_on_stats and value < 0:
                                 penalty = penalty + item.max[stat]
 
@@ -2106,10 +2090,9 @@ init -9 python:
                 l = sorted(d, key=d.get, reverse=True)
 
                 # For consumables we add extra logic:
-                l = list(items[i] for i in l) # Get a list of item instances.
-
-                for stat in target_stats:
-                    for item in l:
+                # Get a list of item instances.
+                for item in [items[i] for i in l]:
+                    for stat in target_stats:
                         while self.get_max(stat) - self.stats._get_stat(stat) > 0:
                             # apply the actual item effects, do checks and repeat until stat is close to it's max.
 
@@ -2133,8 +2116,7 @@ init -9 python:
                                        item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
                                 break
 
-                for skill in target_skills:
-                    for item in l:
+                    for skill in target_skills:
                         # Check is there any conditions preventing repeating the process:
                         if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
                                    item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
