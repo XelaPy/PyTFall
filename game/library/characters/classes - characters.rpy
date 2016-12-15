@@ -2062,9 +2062,9 @@ init -9 python:
                                         penalty += i*100
                                 for i in effect[3:]:
                                     if i > 0:
-                                        possible_bonus += temp
+                                        possible_bonus += i
                                         if skill in target_skills:
-                                            bonus +=  temp
+                                            bonus += i
                                         bonus += i
                                     elif skill in exclude_on_skills and i < 0:
                                         penalty += i
@@ -2250,9 +2250,9 @@ init -9 python:
                                     penalty += i*100
                             for i in effect[3:]:
                                 if i > 0:
-                                    possible_bonus += temp
+                                    possible_bonus += i
                                     if skill in target_skills:
-                                        bonus += temp
+                                        bonus += i
                                     bonus += i
                                 elif skill in exclude_on_skills and i < 0:
                                     penalty += i
