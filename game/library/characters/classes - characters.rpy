@@ -2024,27 +2024,22 @@ init -9 python:
                         bonus = 0 # Actual bonus
                         possible_bonus = 0 # Total possible bonus
                         penalty = 0 # Total penalty
-                        # Normal stats:
-                        for stat, value in item.mod.iteritems():
-                            if value > 0:
-                                possible_bonus += value
-                                if stat in target_stats:
-                                    temp = item.get_stat_eq_bonus(self, stat)
-                                    if temp > 0:
-                                        bonus += temp
-                                    elif temp < 0:
-                                        penalty += temp*2
-                            elif stat in exclude_on_stats and value < 0:
-                                penalty += value
-
-                        # We do the same thing for max stats:
-                        for stat, value in item.max.iteritems():
-                            if value > 0:
-                                possible_bonus += value
-                                if stat in target_stats:
-                                    possible_bonus += value # We could double if target stats match...
-                            elif stat in exclude_on_stats and value < 0:
-                                penalty += value
+                        # Normal and max stats:
+                        for m in ["mod", "max"]:
+                            for stat, value in getattr(item, m).iteritems():
+                                if value > 0:
+                                    possible_bonus += value
+                                    if stat in target_stats:
+                                        if m == "mod":
+                                            temp = item.get_stat_eq_bonus(self, stat)
+                                            if temp > 0:
+                                                bonus += temp
+                                            elif temp < 0:
+                                                penalty += temp*2
+                                        else:
+                                            possible_bonus += value # We could double if target stats match...
+                                elif stat in exclude_on_stats and value < 0:
+                                    penalty += value
 
                         # And for skills:
                         for skill, effect in item.mod_skills.iteritems():
@@ -2210,27 +2205,22 @@ init -9 python:
                     bonus = 0 # Actual bonus
                     possible_bonus = 0 # Total possible bonus
                     penalty = 0 # Total penalty
-                    # Normal stats:
-                    for stat, value in item.mod.iteritems():
-                        if value > 0:
-                            possible_bonus += value
-                            if stat in target_stats:
-                                temp = item.get_stat_eq_bonus(self, stat)
-                                if temp > 0:
-                                    bonus += temp
-                                elif temp < 0:
-                                    penalty += temp*2
-                        elif stat in exclude_on_stats and value < 0:
-                            penalty += value
-
-                    # We do the same thing for max stats:
-                    for stat, value in item.max.iteritems():
-                        if value > 0:
-                            possible_bonus += value
-                            if stat in target_stats:
-                                possible_bonus += value # We could double if target stats match...
-                        elif stat in exclude_on_stats and value < 0:
-                            penalty += value
+                    # Normal and max stats:
+                    for m in ["mod", "max"]:
+                        for stat, value in getattr(item, m).iteritems():
+                            if value > 0:
+                                possible_bonus += value
+                                if stat in target_stats:
+                                    if m == "mod":
+                                        temp = item.get_stat_eq_bonus(self, stat)
+                                        if temp > 0:
+                                            bonus += temp
+                                        elif temp < 0:
+                                            penalty += temp*2
+                                    else:
+                                        possible_bonus += value # We could double if target stats match...
+                            elif stat in exclude_on_stats and value < 0:
+                                penalty += value
 
                     # And for skills:
                     for skill, effect in item.mod_skills.iteritems():
