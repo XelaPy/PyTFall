@@ -2043,24 +2043,23 @@ init -9 python:
 
                         # And for skills:
                         for skill, effect in item.mod_skills.iteritems():
-                            if skill in self.SKILLS: # Not useful after we finish stats/skills?
-                                # First three (multipliers):
-                                for i in effect[:3]:
-                                    if i > 0:
-                                        temp = i*50 # Not sure if 50 is a good number here...
-                                        possible_bonus += temp
-                                        if skill in target_skills:
-                                            bonus += temp
-                                    elif skill in exclude_on_skills and i < 0:
-                                        penalty += i*100
-                                for i in effect[3:]:
-                                    if i > 0:
-                                        possible_bonus += i
-                                        if skill in target_skills:
-                                            bonus += i
+                            # First three (multipliers):
+                            for i in effect[:3]:
+                                if i > 0:
+                                    temp = i*50 # Not sure if 50 is a good number here...
+                                    possible_bonus += temp
+                                    if skill in target_skills:
+                                        bonus += temp
+                                elif skill in exclude_on_skills and i < 0:
+                                    penalty += i*100
+                            for i in effect[3:]:
+                                if i > 0:
+                                    possible_bonus += i
+                                    if skill in target_skills:
                                         bonus += i
-                                    elif skill in exclude_on_skills and i < 0:
-                                        penalty += i
+                                    bonus += i
+                                elif skill in exclude_on_skills and i < 0:
+                                    penalty += i
 
                         # Last, we multiply bonus by 2 if item in in good traits:
                         if item in goodtraits:
@@ -2224,24 +2223,23 @@ init -9 python:
 
                     # And for skills:
                     for skill, effect in item.mod_skills.iteritems():
-                        if skill in self.SKILLS: # Not useful after we finish stats/skills?
-                            # First three (multipliers):
-                            for i in effect[:3]:
-                                if i > 0:
-                                    temp = i*50 # Not sure if 50 is a good number here...
-                                    possible_bonus += temp
-                                    if skill in target_skills:
-                                        bonus += temp
-                                elif skill in exclude_on_skills and i < 0:
-                                    penalty += i*100
-                            for i in effect[3:]:
-                                if i > 0:
-                                    possible_bonus += i
-                                    if skill in target_skills:
-                                        bonus += i
+                        # First three (multipliers):
+                        for i in effect[:3]:
+                            if i > 0:
+                                temp = i*50 # Not sure if 50 is a good number here...
+                                possible_bonus += temp
+                                if skill in target_skills:
+                                    bonus += temp
+                            elif skill in exclude_on_skills and i < 0:
+                                penalty += i*100
+                        for i in effect[3:]:
+                            if i > 0:
+                                possible_bonus += i
+                                if skill in target_skills:
                                     bonus += i
-                                elif skill in exclude_on_skills and i < 0:
-                                    penalty += i
+                                bonus += i
+                            elif skill in exclude_on_skills and i < 0:
+                                penalty += i
 
                     # Last, we multiply bonus by 2 if item in good traits:
                     if item in goodtraits:
