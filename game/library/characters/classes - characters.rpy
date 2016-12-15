@@ -2093,49 +2093,51 @@ init -9 python:
                     # For consumables we add extra logic:
                     # Get a list of item instances.
                     for item in [items[i] for i in l]:
-                        for stat in target_stats:
-                            while self.get_max(stat) - self.stats._get_stat(stat) > 0:
-                                # apply the actual item effects, do checks and repeat until stat is close to it's max.
 
-                                # Break out immediately if item is not capable of increasing this stat:
-                                if stat not in item.mod or item.mod[stat] < 0:
+                        # filter bad effect on target skill or stat, or no positive effect on either
+
+                        wanted = collections.deque()
+
+                        # skip bad items.
+                        for stat in [stat for stat in item.mod if stat in target_stats]:
+
+                            if item.mod[stat] >= 0:
+                                wanted.push((True, stat))
+                            else:
+                                wanted = None
+                                break
+                        else:
+                            for skill in [skill for skill in item.mod_skills if skill in target_skills]:
+                                if item.mod_skills[skill] >= 0:
+                                    wanted.push((False, skill))
+                                else:
+                                    wanted = None
                                     break
 
-                                # Since we do not want to waste items we:
-                                if self.stats._get_stat(stat) > self.get_max(stat)*0.40: # If stat is below 40% of it's max, we most likely want to use the item anyhow... so we don't run the code.
-                                    bonus = item.get_stat_eq_bonus(self, stat)
-                                    if self.get_max(stat) - self.stats._get_stat(stat) > bonus and item.price > 100: # if bonus is smaller than 50 and item is expensive, we break the loop.
-                                        break
+                        # Check is there any conditions preventing repeating the process:
+                        while wanted and item.id in inv.items and (item.type != "alcohol" \
+                                                       or self.effects['Drunk']['activation_count'] < 30) \
+                              and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
+                              and item.id not in self.consblock and item.id not in self.constemp:
 
-                                inv.remove(item)
-                                self.equip(item, remove=False)
-                                returns.append(item.id)
+                            (is_stat, s) = wanted[-1]
+                            if not is_stat: # then it is for a skill, apply once per skill
+                                wanted.pop()
 
-                                # Check is there any new conditions preventing repeating the process:
-                                if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
-                                           item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                           item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
-                                    break
+                            elif self.stats._get_stat(stat) >= self.get_max(stat)*0.40:
+                                # If stat is above 40% of max, behave more selective, to prevent wasting items.
 
-                        for skill in target_skills:
-                            # Check is there any conditions preventing repeating the process:
-                            if any([item.id not in inv.items, item.id in self.consblock, item.id in self.constemp,
-                                       item.type == "food" and self.effects['Food Poisoning']['activation_count'] >= 6,
-                                       item.type == "alcohol" and self.effects['Drunk']['activation_count'] >= 30]):
-                                continue
+                                remains = self.get_max(stat) - self.stats._get_stat(stat)
 
-                            # continue if item is not capable of increasing this skill:
-                            if skill not in item.mod_skills:
-                                continue
-                            # Bad items we don't use at all.
-                            if any(list(item.mod[stat] < 0 for stat in item.mod)):
-                                continue
-                            if any(list(s < 0 for s in item.mod_skills[skill])):
-                               continue
+                                # if bonus is larger than remaining and item is expensive, we don't select it.
+                                if remains > 0 or (item.price > 100 and remains > item.get_stat_eq_bonus(self, stat)):
+                                    wanted.pop()
+                                    continue
 
                             inv.remove(item)
                             self.equip(item, remove=False)
                             returns.append(item.id)
+
                 return returns
 
             # The idea is to attempt finding the best item for the slot.
