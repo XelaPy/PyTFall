@@ -468,15 +468,19 @@ init -6 python:
 
                 # Apply items:
                 if auto_equip_counter < 2:
-                    inv = list(c.inventory for c in team)
+                    invlist = list(c.inventory for c in team)
+                    random.shuffle(invlist)
                     for explorer in team:
                         l = list()
                         if explorer.health <= explorer.get_max("health")*.8:
-                            l.extend(explorer.auto_equip(["health"], source=inv))
+                            for inv in invlist:
+                                l.extend(explorer.auto_equip(["health"], inv=inv))
                         if explorer.vitality <= explorer.get_max("vitality")*.8:
-                            l.extend(explorer.auto_equip(["vitality"], source=inv))
+                            for inv in invlist:
+                                l.extend(explorer.auto_equip(["vitality"], inv=inv))
                         if explorer.mp <= explorer.get_max("mp")*.8:
-                            l.extend(explorer.auto_equip(["mp"], source=inv))
+                            for inv in invlist:
+                                l.extend(explorer.auto_equip(["mp"], inv=inv))
                         if l:
                             temp = "%s used: {color=[lawngreen]}%s %s{/color} to recover!\n" % (explorer.nickname, ", ".join(l), plural("item", len(l)))
                             self.log(temp)
