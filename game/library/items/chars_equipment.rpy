@@ -196,7 +196,8 @@ label char_equip_loop:
                         else:
                             # This (sub)group has only one item. shown in color.
                             chosen_item = result[2]
-                            selectedslot = chosen_item.slot # set early: later chosen_item can become False
+                            # ring itemslot can be ring while actual slot is ring1 or ring2
+                            selectedslot = chosen_item.slot if chosen_item.slot != "ring" else result[3]
 
                             if focusitem == chosen_item:
                                 # The focusitem was clicked a 2nd time, so determine next item and subgroup from all chars.
