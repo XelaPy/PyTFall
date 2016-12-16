@@ -2087,42 +2087,37 @@ init -9 python:
                         # skip bad items.
                         for stat in [stat for stat in item.mod if stat in target_stats]:
 
-                            if item.mod[stat] >= 0:
-                                wanted.push((True, stat))
-                            else:
-                                wanted = None
+                            if item.mod[stat] < 0:
+                                wanted = []
                                 break
+                            wanted.push((True, stat))
                         else:
                             for skill in [skill for skill in item.mod_skills if skill in target_skills]:
-                                if item.mod_skills[skill] >= 0:
-                                    wanted.push((False, skill))
-                                else:
-                                    wanted = None
+                                if item.mod_skills[skill] < 0:
+                                    wanted = []
                                     break
+                                wanted.push((False, skill))
 
                         # Check is there any conditions preventing repeating the process:
-                        while wanted and item.id in inv.items and (item.type != "alcohol" \
-                                                       or self.effects['Drunk']['activation_count'] < 30) \
+                        for is_stat, s in wanted:
+                            while item.type != "alcohol" or self.effects['Drunk']['activation_count'] < 30) \
                               and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
                               and item.id not in self.consblock and item.id not in self.constemp:
 
-                            (is_stat, s) = wanted[-1]
-                            if not is_stat: # then it is for a skill, apply once per skill
-                                wanted.pop()
+                                inv.remove(item)
+                                self.equip(item, remove=False)
+                                returns.append(item.id)
 
-                            elif self.stats._get_stat(stat) >= self.get_max(stat)*0.40:
-                                # If stat is above 40% of max, behave more selective, to prevent wasting items.
+                                if not is_stat: # skills are applied only once
+                                    break
+                                if self.stats._get_stat(stat) >= self.get_max(stat)*0.40:
+                                    # If stat is above 40% of max, behave more selective, to prevent wasting items.
 
-                                remains = self.get_max(stat) - self.stats._get_stat(stat)
+                                    remains = self.get_max(stat) - self.stats._get_stat(stat)
 
-                                # if bonus is larger than remaining and item is expensive, we don't select it.
-                                if remains > 0 or (item.price > 100 and remains > item.get_stat_eq_bonus(self, stat)):
-                                    wanted.pop()
-                                    continue
-
-                            inv.remove(item)
-                            self.equip(item, remove=False)
-                            returns.append(item.id)
+                                    # if bonus is larger than remaining and item is expensive, we don't select it.
+                                    if remains > 0 or (item.price > 100 and remains > item.get_stat_eq_bonus(self, stat)):
+                                        break
 
                 return returns
 
@@ -2145,9 +2140,8 @@ init -9 python:
                     if slot == "misc":
                         # If item that self-destructs or will be blocked after one use is equipped, there is no reason to equip another:
                         # This will end the method, not just move to a different item!!!
-                        if item.id in self.miscitems:
-                            if item.mdestruct or not item.mreusable:
-                                return returns
+                        if item.id in self.miscitems and (item.mdestruct or not item.mreusable):
+                            return returns
 
                         # Get rid of blocked misc items:
                         if item.id in self.miscblock:
