@@ -2075,58 +2075,57 @@ init -9 python:
 
                     # and finally set the priority, getting this right is possibly the most important thing in this method:
                     if config.debug:
-                        devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus: {} and Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus, penalty))
+                        devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus or Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus))
                     d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus
 
                 # If there are no items, we go on with the next inventory:
-                if not d:
-                    continue
-                # Now that we have a dict of item ids vs priorities:
-                # Sort by highest priority:
-                l = sorted(d, key=d.get, reverse=True)
+                if  d:
+                    # Now that we have a dict of item ids vs priorities:
+                    # Sort by highest priority:
+                    l = sorted(d, key=d.get, reverse=True)
 
-                # For consumables we add extra logic:
-                # Get a list of item instances.
-                for item in [items[i] for i in l]:
+                    # For consumables we add extra logic:
+                    # Get a list of item instances.
+                    for item in [items[i] for i in l]:
 
-                    # filter bad effect on target skill or stat, or no positive effect on either
+                        # filter bad effect on target skill or stat, or no positive effect on either
 
-                    wanted = collections.deque()
+                        wanted = collections.deque()
 
-                    # skip bad items.
-                    for stat in [stat for stat in item.mod if stat in target_stats]:
+                        # skip bad items.
+                        for stat in [stat for stat in item.mod if stat in target_stats]:
 
-                        if item.mod[stat] < 0:
-                            wanted = []
-                            break
-                        wanted.push((True, stat))
-                    else:
-                        for skill in [skill for skill in item.mod_skills if skill in target_skills]:
-                            if item.mod_skills[skill] < 0:
+                            if item.mod[stat] < 0:
                                 wanted = []
                                 break
-                            wanted.push((False, skill))
-
-                    # Check is there any conditions preventing repeating the process:
-                    for is_stat, s in wanted:
-                        while item.type != "alcohol" or self.effects['Drunk']['activation_count'] < 30) \
-                          and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
-                          and item.id not in self.consblock and item.id not in self.constemp:
-
-                            inv.remove(item)
-                            self.equip(item, remove=False)
-                            returns.append(item.id)
-
-                            if not is_stat: # skills are applied only once
-                                break
-                            if self.stats._get_stat(stat) >= self.get_max(stat)*0.40:
-                                # If stat is above 40% of max, behave more selective, to prevent wasting items.
-
-                                remains = self.get_max(stat) - self.stats._get_stat(stat)
-
-                                # if bonus is larger than remaining and item is expensive, we don't select it.
-                                if remains > 0 or (item.price > 100 and remains > item.get_stat_eq_bonus(self, stat)):
+                            wanted.push((True, stat))
+                        else:
+                            for skill in [skill for skill in item.mod_skills if skill in target_skills]:
+                                if item.mod_skills[skill] < 0:
+                                    wanted = []
                                     break
+                                wanted.push((False, skill))
+
+                        # Check is there any conditions preventing repeating the process:
+                        for is_stat, s in wanted:
+                            while (item.type != "alcohol" or self.effects['Drunk']['activation_count'] < 30) \
+                              and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
+                              and item.id not in self.consblock and item.id not in self.constemp:
+
+                                inv.remove(item)
+                                self.equip(item, remove=False)
+                                returns.append(item.id)
+
+                                if not is_stat: # skills are applied only once
+                                    break
+                                if self.stats._get_stat(stat) >= self.get_max(stat)*0.40:
+                                    # If stat is above 40% of max, behave more selective, to prevent wasting items.
+
+                                    remains = self.get_max(stat) - self.stats._get_stat(stat)
+
+                                    # if bonus is larger than remaining and item is expensive, we don't select it.
+                                    if remains > 0 or (item.price > 100 and remains > item.get_stat_eq_bonus(self, stat)):
+                                        break
 
                 return returns
 
@@ -2242,20 +2241,19 @@ init -9 python:
 
                 # and finally set the priority, getting this right is possibly the most important thing in this method:
                 if config.debug:
-                    devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus: {} and Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus, penalty))
+                    devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus or Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus))
                 d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus
 
             # If there are no items, we go on with the next inventory:
-            if not d:
-                continue
-            # Now that we have a dict of item ids vs priorities:
-            # Sort by highest priority:
-            l = sorted(d, key=d.get, reverse=True)
+            if d:
+                # Now that we have a dict of item ids vs priorities:
+                # Sort by highest priority:
+                l = sorted(d, key=d.get, reverse=True)
 
-            # We do not need a complicated loop as with consumables, plainly get the best item and equip it:
-            item = items[l[0]]
-            self.equip(item)
-            returns.append(item.id)
+                # We do not need a complicated loop as with consumables, plainly get the best item and equip it:
+                item = items[l[0]]
+                self.equip(item)
+                returns.append(item.id)
 
             return returns
 

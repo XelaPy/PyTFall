@@ -552,19 +552,23 @@ init python:
             self.stats["agility"] += randrange(2)
             self.stats["exp"] += randint(5, max(15, self.risk/4))
             
-            inv = list(g.inventory for g in self.team)
+            invlist = list(g.inventory for g in self.team)
+            random.shuffle(invlist)
             
             for g in self.team:
                 l = list()
                 
                 if g.health < 75:
-                    l.extend(g.auto_equip(["health"], source=inv))
+                    for inv in invlist:
+                        l.extend(g.auto_equip(["health"], inv=inv))
                 
                 if g.vitality < 100:
-                    l.extend(g.auto_equip(["vitality"], source=inv))
+                    for inv in invlist:
+                        l.extend(g.auto_equip(["vitality"], inv=inv))
                 
                 if g.mp < 30:
-                    l.extend(g.auto_equip(["mp"], source=inv))
+                    for inv in invlist:
+                        l.extend(g.auto_equip(["mp"], inv=inv))
                 
                 if l:
                     self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
