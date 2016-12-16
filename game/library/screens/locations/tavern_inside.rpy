@@ -89,12 +89,12 @@ label city_tavern_choose_label:
         "How much do you wish to bet?"
         "50 G":
             $ city_tavern_dice_bet = 50
+        "100 G":
+            $ city_tavern_dice_bet = 100
         "200 G":
             $ city_tavern_dice_bet = 200
         "500 G":
             $ city_tavern_dice_bet = 500
-        "1000 G":
-            $ city_tavern_dice_bet = 1000
     jump city_tavern_menu
         
 screen city_tavern_inside():
@@ -317,20 +317,27 @@ screen city_tavern_dicing(): # dice game controls menu
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_tavern_dicing"), Hide("city_tavern_show_dices"), Jump("city_tavern_menu")]
+                action [Jump("city_tavern_dices_give_up")]
                 text "Give up" size 15
-
+                
+label city_tavern_dices_give_up:
+    $ hero.take_money(city_tavern_current_dice_bet)
+    hide screen city_tavern_dicing
+    hide screen city_tavern_show_dices
+    with dissolve
+    jump city_tavern_menu
 
 screen city_tavern_show_status(): # additional screen, shows all info related to the dice game
     frame:
         xalign 0.05
-        ypos 50
+        yalign 0.05
         xysize (90, 90)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             xalign 0.5
+            yalign 0.5
             hbox:
                 text str(sum(dice_1)) xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
@@ -341,16 +348,19 @@ screen city_tavern_show_status(): # additional screen, shows all info related to
                     text ("Lost") xalign 0.98 style "stats_value_text" color gold
                 elif sum(dice_1) == 21:
                     text ("Score!") xalign 0.98 style "stats_value_text" color gold
+                else:
+                    text (" ") xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
     frame:
         xalign 0.05
-        ypos 550
+        yalign 0.95
         xysize (90, 90)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             xalign 0.5
+            yalign 0.5
             hbox:
                 text str(sum(dice_2)) xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
@@ -361,7 +371,21 @@ screen city_tavern_show_status(): # additional screen, shows all info related to
                     text ("Lost") xalign 0.98 style "stats_value_text" color gold
                 elif sum(dice_2) == 21:
                     text ("Score!") xalign 0.98 style "stats_value_text" color gold
+                else:
+                    text (" ") xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
+                
+    frame:
+        xalign 0.5
+        yalign 0.05
+        xysize (120, 120)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 1
+        ypadding 1
+        vbox:
+            xalign 0.5
+            add "content/gfx/interface/images/tavern_gold.png"
+            text str(city_tavern_current_dice_bet) xalign 0.5 style "stats_value_text" color gold
 
 screen city_tavern_show_dices(dice_1, dice_2): # main dice screen, shows dices themselves
     on "show":
@@ -394,12 +418,24 @@ label tavern_dice_pass: # player passes, and cannot throw dices anymore
     jump city_tavern_throw_dice
 
 label city_tavern_play_dice: # starting the dice game
+    if not global_flags.flag('played_dice_in_tavern'):
+        $ global_flags.set_flag('played_dice_in_tavern')
+        "The goal of the game is to reach a final score higher than the opponent without exceeding 21, or let the opponent throw dices until his score exceeds 21."
     if hero.effects['Drunk']['active']: # dizzy screen does not look good with dices animation...
         "You are too drunk for games at the moment."
         jump city_tavern_menu
+    elif hero.gold < city_tavern_dice_bet:
+        "Sadly, you don't have enough money to make a bet."
+        jump city_tavern_menu
+        
     hide drunkards with dissolve
+    $ city_tavern_current_dice_bet = city_tavern_dice_bet # current bet may increase after every victory
+    
+label city_tavern_play_dice_another_round: # additional rounds continue from here
     $ player_passed = False # becomes true once player passed, after that he cannot throw dices any longer
     $ ai_passed = False # same for the opponent
+    # technically, they also become true once score is 21 or higher since it's useless to continue; but we don't show it in gui
+
     python:
         dice_1 = []
         dice_2 = []
@@ -420,22 +456,40 @@ label city_tavern_play_show_dice:
         $ ai_passed = player_passed = True
     if ai_passed and player_passed:
         if sum(dice_1) > 21 and sum(dice_2) <= 21:
-            $ narrator ("You won!")
+            $ game_outcome = 1
         elif sum(dice_2) > 21 and sum(dice_1) <= 21:
-            $ narrator ("You lost!")
+            $ game_outcome = -1
         elif sum(dice_2) > 21 and sum(dice_1) > 21:
-            $ narrator ("Draw!")
+            $ game_outcome = 0
         elif sum(dice_2) == 21 and sum(dice_1) == 21:
-            $ narrator ("Draw!")
+            $ game_outcome = 0
         elif sum(dice_2) == sum(dice_1):
-            $ narrator ("Draw!")
+            $ game_outcome = 0
         elif sum(dice_2) > sum(dice_1):
-            $ narrator ("You won!")
+            $ game_outcome = 1
         else:
+            $ game_outcome = -1
+        if game_outcome == -1:
+            $ hero.take_money(city_tavern_current_dice_bet)
             $ narrator ("You lost!")
+        elif game_outcome == 0:
+            $ narrator ("It's a draw! You break even.")
+        else:
+            if hero.gold >= city_tavern_current_dice_bet*2:
+                menu:
+                    "You won! You can take your money right now or double your bet if you feeling lucky."
+                    "Take the money":
+                        $ hero.add_money(city_tavern_current_dice_bet)
+                    "Double the bet":
+                        $ city_tavern_current_dice_bet *= 2
+                        hide screen city_tavern_show_dices
+                        jump city_tavern_play_dice_another_round
+            else:
+                "You won!"
+                $ hero.add_money(city_tavern_current_dice_bet)
+        
         hide screen city_tavern_dicing
         hide screen city_tavern_show_dices
-        # hide screen city_tavern_show_status
         with dissolve
         jump city_tavern_menu
     elif sum(dice_2) == 21:
@@ -444,7 +498,7 @@ label city_tavern_play_show_dice:
         show screen city_tavern_dicing()
         while 1:
             $ result = ui.interact()
-
+            
 label city_tavern_throw_dice:
     if not(player_passed):
         $ dice_2.append(throw_a_normal_dice())
