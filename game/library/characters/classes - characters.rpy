@@ -2022,8 +2022,7 @@ init -9 python:
                             continue
                         # Wasteful items, we reduce the desirability by 100.
                         bonus = 0 # Actual bonus
-                        possible_bonus = 0 # Total possible bonus
-                        penalty = 0 # Total penalty
+                        possible_bonus = 0 # Total possible bonus or penalty
                         # Normal and max stats:
                         for m in ["mod", "max"]:
                             for stat, value in getattr(item, m).iteritems():
@@ -2035,11 +2034,11 @@ init -9 python:
                                             if temp > 0:
                                                 bonus += temp
                                             elif temp < 0:
-                                                penalty += temp*2
+                                                possible_bonus += temp*2
                                         else:
                                             possible_bonus += value # We could double if target stats match...
                                 elif stat in exclude_on_stats and value < 0:
-                                    penalty += value
+                                    possible_bonus += value
 
                         # And for skills:
                         for skill, effect in item.mod_skills.iteritems():
@@ -2051,7 +2050,7 @@ init -9 python:
                                     if skill in target_skills:
                                         bonus += temp
                                 elif skill in exclude_on_skills and i < 0:
-                                    penalty += i*100
+                                    possible_bonus += i*100
                             for i in effect[3:]:
                                 if i > 0:
                                     possible_bonus += i
@@ -2059,21 +2058,16 @@ init -9 python:
                                         bonus += i
                                     bonus += i
                                 elif skill in exclude_on_skills and i < 0:
-                                    penalty += i
+                                    possible_bonus += i
 
                         # Last, we multiply bonus by 2 if item in in good traits:
                         if item in goodtraits:
                             bonus *= 2
 
-                        # Normalize the three:
-                        # bonus = min(400, bonus)
-                        possible_bonus = min(100, possible_bonus)
-                        penalty = min(150, -penalty)
-
                         # and finally set the priority, getting this right is possibly the most important thing in this method:
                         if config.debug:
                             devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus: {} and Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus, penalty))
-                        d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus - penalty
+                        d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus
 
                     # If there are no items, we go on with the next inventory:
                     if not d:
@@ -2202,8 +2196,7 @@ init -9 python:
 
                     # Wasteful items, we reduce the desirability by 100.
                     bonus = 0 # Actual bonus
-                    possible_bonus = 0 # Total possible bonus
-                    penalty = 0 # Total penalty
+                    possible_bonus = 0 # Total possible bonus or penalty
                     # Normal and max stats:
                     for m in ["mod", "max"]:
                         for stat, value in getattr(item, m).iteritems():
@@ -2215,11 +2208,11 @@ init -9 python:
                                         if temp > 0:
                                             bonus += temp
                                         elif temp < 0:
-                                            penalty += temp*2
+                                            possible_bonus += temp*2
                                     else:
                                         possible_bonus += value # We could double if target stats match...
                             elif stat in exclude_on_stats and value < 0:
-                                penalty += value
+                                possible_bonus += value
 
                     # And for skills:
                     for skill, effect in item.mod_skills.iteritems():
@@ -2231,7 +2224,7 @@ init -9 python:
                                 if skill in target_skills:
                                     bonus += temp
                             elif skill in exclude_on_skills and i < 0:
-                                penalty += i*100
+                                possible_bonus += i*100
                         for i in effect[3:]:
                             if i > 0:
                                 possible_bonus += i
@@ -2239,21 +2232,16 @@ init -9 python:
                                     bonus += i
                                 bonus += i
                             elif skill in exclude_on_skills and i < 0:
-                                penalty += i
+                                possible_bonus += i
 
                     # Last, we multiply bonus by 2 if item in good traits:
                     if item in goodtraits:
                         bonus *= 2
 
-                    # Normalize the three:
-                    # bonus = min(400, bonus)
-                    possible_bonus = min(100, possible_bonus)
-                    penalty = min(150, -penalty)
-
                     # and finally set the priority, getting this right is possibly the most important thing in this method:
                     if config.debug:
                         devlog.info("During Auto-Equip we got: Bonus: {}, Eq Chance: {}, Possible Bonus: {} and Penalty: {}".format(bonus, item.eqchance+item.eqchance, possible_bonus, penalty))
-                    d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus - penalty
+                    d[item.id] = bonus + item.eqchance + item.eqchance + possible_bonus
 
                 # If there are no items, we go on with the next inventory:
                 if not d:
