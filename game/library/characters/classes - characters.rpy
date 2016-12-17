@@ -1068,37 +1068,27 @@ init -9 python:
             Do we get the most needlessly complicated skills system award? :)
             Maybe we'll simplify this greatly in the future...
             """
-            skill_name = key.lower()
-            current_full_value = self.instance.get_skill(skill_name)
-            threshold = SKILLS_THRESHOLD[skill_name]
-            skill_max = SKILLS_MAX[skill_name]
+            if key.islower():
+                at = 0 # Action Skill...
+            else:
+                key = key.lower()
+                at = 1 # Training (knowledge part) skill...
 
-            if key.islower(): # Action Skill...
-                value -= self.skills[key][0]
-                value *= max(0.5, min(self.skills_multipliers[key][0], 1.5))
-                if current_full_value >= skill_max: # Maxed out...
-                    return
-                elif current_full_value <= threshold: # Too low... so we add the full value.
-                    self.skills[key][0] += value
-                else:
-                    at_zero = skill_max - threshold
-                    at_zero_current = current_full_value - threshold
-                    mod = max(0.1, 1 - float(at_zero_current)/at_zero)
-                    self.skills[key][0] += value*mod
+            current_full_value = self.instance.get_skill(key)
+            threshold = SKILLS_THRESHOLD[key]
+            skill_max = SKILLS_MAX[key]
 
-            else: # Assumes that we're modding a training (knowledge part) skill...
-                key = skill_name
-                value -= self.skills[key][1]
-                value *= max(0.5, min(self.skills_multipliers[key][1], 1.5))
-                if current_full_value >= skill_max: # Maxed out...
-                    return
-                elif current_full_value <= threshold: # Too low... so we add the full value.
-                    self.skills[key][1] += value
-                else:
-                    at_zero = skill_max - threshold
-                    at_zero_current = current_full_value - threshold
-                    mod = max(0.1, 1 - float(at_zero_current)/at_zero)
-                    self.skills[key][1] += value*mod
+            value -= self.skills[key][at]
+            value *= max(0.5, min(self.skills_multipliers[key][at], 1.5))
+            if current_full_value >= skill_max: # Maxed out...
+                return
+            elif current_full_value <= threshold: # Too low... so we add the full value.
+                self.skills[key][at] += value
+            else:
+                at_zero = skill_max - threshold
+                at_zero_current = current_full_value - threshold
+                mod = max(0.1, 1 - float(at_zero_current)/at_zero)
+                self.skills[key][at] += value*mod
 
 
     ###### Character Classes ######
