@@ -929,11 +929,6 @@ init -9 python:
             if key in self.stats:
                 self.imod[key] = self.imod[key] + value
 
-        def _mod_base_stats_from__setattr__(self, key, value):
-            # Primary stat dict modifier...
-            value = value - self._get_stat(key)
-            self._mod_base_stat(key, int(round(value)))
-
         def settle_effects(self, key, value):
             if hasattr(self.instance, "effects"):
                 effects = self.instance.effects
@@ -1294,7 +1289,9 @@ init -9 python:
 
         def __setattr__(self, key, value):
             if key in self.STATS:
-                self.__dict__["stats"]._mod_base_stats_from__setattr__(key, value)
+                # Primary stat dict modifier...
+                value = value - self._get_stat(key)
+                self._mod_base_stat(key, int(round(value)))
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
             # elif key == 'exp': # We handle this through properties...
