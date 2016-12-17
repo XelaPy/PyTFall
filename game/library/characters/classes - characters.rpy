@@ -1078,13 +1078,12 @@ init -9 python:
 
             value -= self.skills[key][at]
             value *= max(0.5, min(self.skills_multipliers[key][at], 1.5))
-            if current_full_value <= threshold: # Sufficient training... so we add the full value.
-                self.skills[key][at] += value
-            else:
+            if current_full_value > threshold: # insufficient training... lessened increase beyond
                 at_zero = skill_max - threshold
                 at_zero_current = current_full_value - threshold
-                mod = max(0.1, 1 - float(at_zero_current)/at_zero)
-                self.skills[key][at] += value*mod
+                value *= max(0.1, 1 - float(at_zero_current)/at_zero)
+
+            self.skills[key][at] += value
 
 
     ###### Character Classes ######
