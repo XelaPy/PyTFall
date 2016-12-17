@@ -1075,14 +1075,15 @@ init -9 python:
                 at = 1 # Training (knowledge part) skill...
 
             current_full_value = self.instance.get_skill(key)
-            threshold = SKILLS_THRESHOLD[key]
             skill_max = SKILLS_MAX[key]
+            if current_full_value >= skill_max: # Maxed out...
+                return
+
+            threshold = SKILLS_THRESHOLD[key]
 
             value -= self.skills[key][at]
             value *= max(0.5, min(self.skills_multipliers[key][at], 1.5))
-            if current_full_value >= skill_max: # Maxed out...
-                return
-            elif current_full_value <= threshold: # Too low... so we add the full value.
+            if current_full_value <= threshold: # Sufficient training... so we add the full value.
                 self.skills[key][at] += value
             else:
                 at_zero = skill_max - threshold
