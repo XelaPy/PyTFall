@@ -1501,13 +1501,12 @@ init -9 python:
             action = self.stats._raw_skill(skill.lower())
             training = self.stats._raw_skill(skill.capitalize())
 
-            points = training
-            full_action_points = training * 3
-            if action >= full_action_points:
-                points += full_action_points + (action - full_action_points) / 3.0
+            training_range = training * 3
+            if action >= training_range:
+                training += training_range + (action - training_range) / 3.0
             else:
-                points += action
-            return points * max(min(self.stats.skills_multipliers[skill][2], 1.5), 0.5)
+                training += action
+            return training * max(min(self.stats.skills_multipliers[skill][2], 1.5), 0.5)
 
         @property
         def elements(self):
