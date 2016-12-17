@@ -1485,12 +1485,14 @@ init -9 python:
             Action points become less useful as they exceed training points * 3.
             """
             skill = skill.lower()
-            action = self.stats._raw_skill(skill.lower())
+            action = self.stats._raw_skill(skill)
             training = self.stats._raw_skill(skill.capitalize())
 
             training_range = training * 3
-            if action >= training_range:
-                training += training_range + (action - training_range) / 3.0
+            beyond_training = action - training_range
+
+            if beyond_training >= 0:
+                training += training_range + beyond_training / 3.0
             else:
                 training += action
             return training * max(min(self.stats.skills_multipliers[skill][2], 1.5), 0.5)
