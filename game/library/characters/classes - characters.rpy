@@ -898,19 +898,20 @@ init -9 python:
             # Easy check for stats.
             return key.lower() in self.stats
 
-        def normalize_stats(self):
+        def normalize_stats(self, stats=None):
             # Makes sure main stats dict is properly aligned to max/min values
-            for stat in self.stats:
-                self.normalize_stat(stat)
 
-        def normalize_stat(self, stat):
-            val = self.stats[stat]
-            minval = self.min[stat]
-            maxval = self.get_max(stat)
-            if val > maxval:
-                self.stats[stat] = maxval
-            if val < minval:
-                self.stats[stat] = minval
+            if not stats:
+                stats = self.stats
+
+            for stat in stats:
+                val = self.stats[stat]
+                minval = self.min[stat]
+                maxval = self.get_max(stat)
+                if val > maxval:
+                    self.stats[stat] = maxval
+                if val < minval:
+                    self.stats[stat] = minval
 
         def __getitem__(self, key):
             return self._get_stat(key)
