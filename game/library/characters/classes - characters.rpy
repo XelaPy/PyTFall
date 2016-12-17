@@ -1074,8 +1074,8 @@ init -9 python:
             skill_max = SKILLS_MAX[skill_name]
 
             if key.islower(): # Action Skill...
-                value = value - self.skills[key][0]
-                value = value * max(0.5, min(self.skills_multipliers[key][0], 1.5))
+                value -= self.skills[key][0]
+                value *= max(0.5, min(self.skills_multipliers[key][0], 1.5))
                 if current_full_value >= skill_max: # Maxed out...
                     return
                 elif current_full_value <= threshold: # Too low... so we add the full value.
@@ -1087,9 +1087,9 @@ init -9 python:
                     self.skills[key][0] += value*mod
 
             else: # Assumes that we're modding a training (knowledge part) skill...
-                key = key.lower()
-                value = value - self.skills[key][1]
-                value = value * max(0.5, min(self.skills_multipliers[key][1], 1.5))
+                key = skill_name
+                value -= self.skills[key][1]
+                value *= max(0.5, min(self.skills_multipliers[key][1], 1.5))
                 if current_full_value >= skill_max: # Maxed out...
                     return
                 elif current_full_value <= threshold: # Too low... so we add the full value.
