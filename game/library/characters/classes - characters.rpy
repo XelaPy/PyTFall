@@ -1075,14 +1075,15 @@ init -9 python:
             if current_full_value >= skill_max: # Maxed out...
                 return
 
-            threshold = SKILLS_THRESHOLD[key]
-
             value -= self.skills[key][at]
             value *= max(0.5, min(self.skills_multipliers[key][at], 1.5))
-            if current_full_value > threshold: # insufficient training... lessened increase beyond
+
+            threshold = SKILLS_THRESHOLD[key]
+            beyond_training = current_full_value - threshold
+
+            if beyond_training > 0: # insufficient training... lessened increase beyond
                 at_zero = skill_max - threshold
-                at_zero_current = current_full_value - threshold
-                value *= max(0.1, 1 - float(at_zero_current)/at_zero)
+                value *= max(0.1, 1 - float(beyond_training)/at_zero)
 
             self.skills[key][at] += value
 
