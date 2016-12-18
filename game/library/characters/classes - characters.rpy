@@ -2105,7 +2105,7 @@ init -9 python:
 
                             # if training doesn't shift max, at least give a weight up to 1 for the increased max.
                             # if max decreases, give a penalty, more severe if there is little stat remaining.
-                            weight = value / (stat_remaining + min(value, 1)) # stat_remaining is >= 0
+                            weight += value / (stat_remaining + min(value, 1)) # stat_remaining is >= 0
 
                             # if stat increases due to shifted max, weight accordingly
                             weight += item.get_stat_eq_bonus(self, stat)
