@@ -1290,8 +1290,8 @@ init -9 python:
         def __setattr__(self, key, value):
             if key in self.STATS:
                 # Primary stat dict modifier...
-                value = value - self._get_stat(key)
-                self._mod_base_stat(key, int(round(value)))
+                value = value - self.stats._get_stat(key)
+                self.stats._mod_base_stat(key, int(round(value)))
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
             # elif key == 'exp': # We handle this through properties...
