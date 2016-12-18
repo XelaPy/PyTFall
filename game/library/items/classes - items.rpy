@@ -119,7 +119,7 @@ init -9 python:
                 new_max = min(new_max, stats.lvl_max[stat])
             else:
                 new_max = char.get_max(stat)
-            new_stat = stats.stats[stat] + stats.imod[stat] + self.mod[stat]
+            new_stat = stats.stats[stat] + stats.imod[stat] + (self.mod[stat] if stat in self.mod else 0)
             if new_stat > new_max:
                 new_stat = new_max
             return new_stat - stats._get_stat(stat)
