@@ -70,6 +70,8 @@ init python:
         return actions, rest, events
         
 label next_day_effects_check:  # all traits and effects which require some unusual checks every turn do it here
+    if "Life Beacon" in hero.traits:
+        $ hero.health += randint(10, 20)
     python:
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
             if not "Pessimist" in i.traits and i.joy <= 15 and not i.effects['Depression']['active']:

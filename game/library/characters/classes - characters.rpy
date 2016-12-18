@@ -2932,7 +2932,7 @@ init -9 python:
             elif effect == "Regeneration":
                 h = 0
                 if "Summer Eternality" in self.traits:
-                    h += int(self.get_max("health")*0.33)
+                    h += int(self.get_max("health")*0.5)
                 if h <= 0:
                     h = 1
                 self.health += h
@@ -2940,7 +2940,7 @@ init -9 python:
             elif effect == "MP Regeneration":
                 h = 0
                 if "Winter Eternality" in self.traits:
-                    h += int(self.get_max("mp")*0.33)
+                    h += int(self.get_max("mp")*0.5)
                 if h <= 0:
                     h = 1
                 self.mp += h

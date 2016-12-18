@@ -18,8 +18,8 @@ label mc_setup_warrior_warrior_amazon:
     $ hero.apply_trait("Amazon Blood")
     return
     
-label mc_setup_warrior_warrior_amazon_training:
-    $ hero.apply_trait("Amazon Training")
+label mc_setup_warrior_warrior_amazon_yuri:
+    $ hero.apply_trait("Yuri Expert")
     return
     
 label mc_setup_warrior_warrior_amazon_muscle:
@@ -75,8 +75,8 @@ label mc_setup_warrior_assassin_drow_dagger:
     $ hero.apply_trait("Dagger Master")
     return
     
-label mc_setup_warrior_assassin_drow_flex:
-    $ hero.apply_trait("Flexible")
+label mc_setup_warrior_assassin_drow_sister:
+    $ hero.apply_trait("Sister Lover")
     return
     
 label mc_setup_warrior_shooter_forest_elf:
@@ -87,14 +87,12 @@ label mc_setup_warrior_shooter_forest_elf_sniper:
     $ hero.apply_trait("Bow Master")
     return
 
-label mc_setup_warrior_shooter_forest_elf_ranger:
-    $ hero.apply_trait("Elven Ranger")
+label mc_setup_warrior_shooter_forest_elf_farsight:
+    $ hero.apply_trait("Farsightedness")
     return
     
-label mc_setup_warrior_shooter_forest_elf_features:
-    $ hero.anal += 50
-    $ hero.ANAL += 50
-    $ hero.apply_trait("Elven Features")
+label mc_setup_warrior_shooter_forest_elf_ranger:
+    $ hero.apply_trait("Elven Ranger")
     return
     
 label mc_setup_warrior_shooter_summer_fay:
@@ -106,7 +104,6 @@ label mc_setup_warrior_shooter_summer_fay_eternal:
     return
     
 label mc_setup_warrior_shooter_summer_fay_affinity:
-    $ hero.attack_skills.append("Summer Arrow")
     $ hero.apply_trait("Summer Affinity")
     return
     
