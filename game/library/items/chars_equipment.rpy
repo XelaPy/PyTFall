@@ -231,7 +231,19 @@ label char_equip_loop:
                         dummy.eqslots[selectedslot] = focusitem
                         dummy.unequip(focusitem, unequip_slot)
                         # renpy.show_screen("diff_item_effects", eqtarget, dummy)
-        
+        elif result[0] == "unequip_all":
+            python:
+                for c in eqtarget.lst if isinstance(eqtarget, PytGroup) else [eqtarget]:
+                    # Check if we are allowed to access inventory and act:
+                    if equipment_access(c, silent=True):
+                        for slot in c.eqslots.values():
+                            if slot:
+                                c.unequip(slot)
+
+                focusitem = None
+                selectedslot = None
+                unequip_slot = None
+                item_direction = None
         elif result[0] == 'con':
             if result[1] == 'return':
                 python:
@@ -714,13 +726,17 @@ screen char_equip_right_frame(tt):
         has vbox spacing 1 xalign 0.5
         hbox:
             button:
-                xysize (140, 30)
+                xysize (110, 30)
                 action Return(["equip_for"])
-                text "Auto Equip" style "pb_button_text"
+                text "Auto equip" style "pb_button_text"
             button:
-                xysize (140, 30)
+                xysize (110, 30)
+                action Return(["unequip_all"])
+                text "Unequip all" style "pb_button_text"
+            button:
+                xysize (110, 30)
                 action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
-                text "Items Transfer" style "pb_button_text"
+                text "Exchange" style "pb_button_text"
         use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(0.5, 0.5))
         
     # Filters: ====================================>
