@@ -51,8 +51,8 @@ init -8 python:
                     if not isinstance(typical, set) or any(k not in typical for k in var):
                         break
             else:
-                # all equal
-                if isinstance(typical, type):
+                # when reached, identical: keys(dict), elements(set), en(list/tuple) => delegated
+                if isinstance(typical, type): # ..or both type and value => returned
                     return first
 
                 bracket = "{}" if isinstance(typical, set) else "[]"
@@ -64,13 +64,30 @@ init -8 python:
                 return list(frozenset([item for sublist in arr for item in sublist]))
 
             if not at in remedy:
-                renpy.error("%s\n%d\n%s" % (at, typical, str(arr)))
+                renpy.error("%s\n%s\n%s" % (at, str(typical), str(arr)))
 
             if isclass(remedy[at]) and issubclass(remedy[at], Delegator):
                 return remedy[at](l=arr, at=at, remedy=remedy)
 
             # In case of an error here: define a remedy for the unlisting
             return remedy[at](arr) if callable(remedy[at]) else remedy[at]
+
+        def __getattr__(self, item):
+            """ an undefined attribute was requested from the group """
+            # required for pickle
+            if item.startswith('__') and item.endswith('__'):
+                return super(Delegator, self).__getattr__(item)
+
+            if callable(getattr(self._first, item)):
+
+                def wrapper(*args, **kwargs):
+                    arr = [getattr(c, item)(*args, **kwargs) for c in self.lst]
+                    return self._defer(arr=arr, at=".%s()" % item)
+
+                return wrapper
+
+            return self._defer(arr=[getattr(c, item) for c in self.lst], at=".%s" % item)
+
 
     class DeDist(Delegator):
 
@@ -112,22 +129,6 @@ init -8 python:
                     setattr(c, k, v)
             else:
                 super(DeAttr, self).__setattr__(k, v)
-
-        def __getattr__(self, item):
-            """ an undefined attribute was requested from the group """
-            # required for pickle
-            if item.startswith('__') and item.endswith('__'):
-                return super(DeAttr, self).__getattr__(item)
-
-            if callable(getattr(self._first, item)):
-
-                def wrapper(*args, **kwargs):
-                    arr = [getattr(c, item)(*args, **kwargs) for c in self.lst]
-                    return self._defer(arr=arr, at=".%s()" % item)
-
-                return wrapper
-
-            return self._defer(arr=[getattr(c, item) for c in self.lst], at=".%s" % item)
 
 
     class PytGInv(DeAttr):
