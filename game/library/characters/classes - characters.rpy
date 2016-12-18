@@ -1836,7 +1836,7 @@ init -9 python:
                     if slot.startswith("ring"):
                         slot = "ring"
                     if slot not in ["consumable"]:
-                        returns.extend(self.auto_equip(["service"], ["charisma"], exclude_on_stats=["charisma", "health", "vitality", "mp", "joy"], exclude_on_skills=["service"], slot=slot))
+                        returns.extend(self.auto_equip(["charisma"], ["service"], exclude_on_stats=["charisma", "health", "vitality", "mp", "joy"], exclude_on_skills=["service"], slot=slot))
             else:
                 devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose, self.name, self.__class__.__name__))
             return returns
