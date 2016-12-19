@@ -1805,39 +1805,23 @@ init -9 python:
             This method will auto-equip slot items on per purpose basis!
             """
             returns = list()
+            if self.eqslots["weapon"]:
+                self.unequip(self.eqslots["weapon"])
+
+            slots = [slot for slot in self.eqslots if slot not in ("ring1", "ring2", "consumable")]
+
             if purpose == "Combat":
-                if self.eqslots["weapon"]:
-                    self.unequip(self.eqslots["weapon"])
-                for slot in self.eqslots:
-                    if slot.startswith("ring"):
-                        slot = "ring"
-                    if slot != "consumable":
-                        returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], [],
-                                                                          exclude_on_stats=['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], slot=slot, real_weapons=True))
+                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], slots=slots, real_weapons=True))
+
             elif purpose == "Striptease":
-                if self.eqslots["weapon"]:
-                    self.unequip(self.eqslots["weapon"])
-                for slot in self.eqslots:
-                    if slot.startswith("ring"):
-                        slot = "ring"
-                    if slot not in ["consumable"]:
-                        returns.extend(self.auto_equip(["charisma"], ["strip"], exclude_on_stats=["charisma", "health", "vitality", "mp", "joy"], exclude_on_skills=["strip"], slot=slot))
+                returns.extend(self.auto_equip(["charisma"], ["strip"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
+
             elif purpose == "Sex":
-                if self.eqslots["weapon"]:
-                    self.unequip(self.eqslots["weapon"])
-                for slot in self.eqslots:
-                    if slot.startswith("ring"):
-                        slot = "ring"
-                    if slot not in ["consumable"]:
-                        returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"], exclude_on_stats=["charisma", "health", "vitality", "mp"], exclude_on_skills=["vaginal", "anal", "oral"], slot=slot))
+                returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"], exclude_on_stats=["health", "vitality", "mp"], slots=slots))
+
             elif purpose == "Service":
-                if self.eqslots["weapon"]:
-                    self.unequip(self.eqslots["weapon"])
-                for slot in self.eqslots:
-                    if slot.startswith("ring"):
-                        slot = "ring"
-                    if slot not in ["consumable"]:
-                        returns.extend(self.auto_equip(["charisma"], ["service"], exclude_on_stats=["charisma", "health", "vitality", "mp", "joy"], exclude_on_skills=["service"], slot=slot))
+                returns.extend(self.auto_equip(["charisma"], ["service"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
+
             else:
                 devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose, self.name, self.__class__.__name__))
             return returns
@@ -1967,7 +1951,7 @@ init -9 python:
                 self.remove_item_effects(item)
                 self.eqslots[item.slot] = None
 
-        def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None, exclude_on_stats=None, slot="consumable", inv=None, real_weapons=False):
+        def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None, exclude_on_stats=None, slots=None, inv=None, real_weapons=False):
             """
             targetstats: expects a list of stats to pick the item
             targetskills: expects a list of skills to pick the item
@@ -1975,7 +1959,7 @@ init -9 python:
             exclude_on_skills: items will not be used if stats in this list are being diminished by use of the item *Decreased the chance of picking this item
             ==>   do not put stats/skills both in target* and in exclude_on_* !
             *default: All Stats - targetstats
-            slot: slot
+            slots: a list of slots, contains just consumables by default
             inv: nventory to draw from.
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             """
@@ -1989,6 +1973,10 @@ init -9 python:
                 exclude_on_stats = list()
             if not exclude_on_skills:
                 exclude_on_skills = list()
+            if not slots:
+                slots = ["consumable"]
+
+            slots = set(slots)
 
             # traits that may influence the item selection process
             traits = {t: False for t in ("Bad Eyesight", "Stupid", "Messy", "Clumsy", "Heavy Drinker", "Athletic", "Nerd",
@@ -2028,15 +2016,18 @@ init -9 python:
             if traits["Nerd"]:
                 stat_vs_skill *= 2 # preference for stats over skills
 
-            picks = []
+            weights = {k:[] for k in slots}
             for item in inv.items:
 
-                if item.slot != slot or not item.eqchance or item.type == "permanent":
+                if item.slot not in slots or not item.eqchance or item.type == "permanent":
+                    continue
+
+                if item in skip or item.id in self.consblock or item.id in self.constemp or not can_equip(item, self):
                     continue
 
                 weight = 10
                 # Check SLOTS and their conditioning:
-                if slot == "consumable":
+                if item.slot == "consumable":
                     if item.type == "alcohol":
                         if self.effects['Drunk']['activation_count'] >= is_drunk:
                             continue
@@ -2057,7 +2048,7 @@ init -9 python:
                         if traits["Slim"]:
                             weight /= 2
 
-                elif slot == "misc":
+                elif item.slot == "misc":
                     # If item that self-destructs or will be blocked after one use is equipped, there is no reason to equip another:
                     # This will end the method, not just move to a different item!!!
                     if (item.mdestruct or not item.mreusable) and item.id in self.miscitems:
@@ -2067,13 +2058,10 @@ init -9 python:
                     if item.id in self.miscblock:
                         continue
 
-                elif slot == "weapon":
+                elif item.slot == "weapon":
                     # For weapons check if we want to equip one. if type starts with "nw" (none weapon), we go ahead.
                     if not real_weapons and not item.type.lower().startswith("nw"):
                         continue
-
-                if item in skip or item.id in self.consblock or item.id in self.constemp or not can_equip(item, self):
-                    continue
 
                 # for normalisation
                 (stat_max_avg, stat_ct) = (0, 0)
@@ -2179,71 +2167,84 @@ init -9 python:
 
                             weight *= item.eqchance
 
-                            picks.append((weight, item))
+                            weights[item.slot].append((weight, item))
 
-            if not picks:
-                return []
-
-            picks[:] = [item for wt, item in sorted(picks, key=lambda x: x[0], reverse=True)]
-
-            if slot != "consumable":
-                selectivity = 1 if traits["Messy"] or traits["Clumsy"] else 1.5
-
-                if traits["Smart"] or traits["Psychic"]:
-                    selectivity *= 2
-
-                last = max(int(len(picks) / selectivity), 1)
-
-                # add randomness
-                pick = int(math.log(random.randint(1, last), 2))
-
-
-                item = picks[pick]
-                inv.remove(item)
-                self.equip(item, remove=False)
-                return [item.id]
-
-            # multiple consumables can be taken.
-            # consumables not filtered will be iterated over multiple times
             returns = list() # We return this list with all items used during the method.
+            for picks in weights.values():
+                if not picks:
+                    continue
 
-            for item in picks:
+                picks[:] = [item for wt, item in sorted(picks, key=lambda x: x[0], reverse=True)]
 
-                while (item.type != "alcohol" or self.effects['Drunk']['activation_count'] < is_drunk) \
-                  and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
-                  and not item.ceffect and item.id not in self.consblock and item.id not in self.constemp:
+                if item.slot != "consumable" and item.slot != "ring":
+                    selectivity = 1 if traits["Messy"] or traits["Clumsy"] else 1.5
 
+                    if traits["Smart"] or traits["Psychic"]:
+                        selectivity *= 2
+
+                    last = max(int(len(picks) / selectivity), 1)
+
+                    # add randomness
+                    pick = int(math.log(random.randint(1, last), 2))
+
+
+                    item = picks[pick]
                     inv.remove(item)
                     self.equip(item, remove=False)
+
                     returns.append(item.id)
+                    continue
+
+                elif item.slot == "ring":
+                    rings_left = 3
+
+                # multiple consumables/rings can be taken.
+                # consumables not filtered will be iterated over multiple times
+
+                for item in picks:
+
+                    while (item.type != "alcohol" or self.effects['Drunk']['activation_count'] < is_drunk) \
+                      and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
+                      and (item.slot != "cosumable" or not item.ceffect) and item.id not in self.consblock \
+                      and item.id not in self.constemp:
+
+                        inv.remove(item)
+                        self.equip(item, remove=False)
+                        returns.append(item.id)
+
+                        if not item.id in inv.items:
+                            break
+
+                        for stat in item.mod:
+                            if not stat in target_stats:
+                                continue
+
+                            if item.slot == "ring" or self.stats._get_stat(stat) < self.get_max(stat)*0.40:
+                                break # may select it a 2nd time
+
+                            # If stat is above 40% of max, behave more selective, to prevent wasting items.
+
+                            remains = self.get_max(stat) - self.stats._get_stat(stat)
+
+                            # if effect is larger than remaining required and item is expensive, we don't select it.
+                            if remains > 0 or (item.price <= 100 or remains > item.get_stat_eq_bonus(self, stat)):
+                                break
+                        else:
+                            # item gives no stat benefit anymore. Also apply it once for each skill benefit
+                            for skill in item.mod_skills:
+                                if skill in target_skills:
+                                    inv.remove(item)
+                                    self.equip(item, remove=False)
+                                    returns.append(item.id)
+                            break # outer for loop
 
                     if not item.id in inv.items:
                         break
 
-                    for stat in item.mod:
-                        if not stat in target_stats:
-                            continue
-
-                        if self.stats._get_stat(stat) < self.get_max(stat)*0.40:
-                            break # may select it a 2nd time
-
-                        # If stat is above 40% of max, behave more selective, to prevent wasting items.
-
-                        remains = self.get_max(stat) - self.stats._get_stat(stat)
-
-                        # if effect is larger than remaining required and item is expensive, we don't select it.
-                        if remains > 0 or (item.price <= 100 or remains > item.get_stat_eq_bonus(self, stat)):
+                    if item.slot == "ring":
+                        rings_left -= 1
+                        if rings_left == 0:
                             break
-                    else:
-                        # item gives no stat benefit anymore. Also apply it once for each skill benefit
-                        for skill in item.mod_skills:
-                            if skill in target_skills:
-                                inv.remove(item)
-                                self.equip(item, remove=False)
-                                returns.append(item.id)
-                        break # outer for loop
-                if not item.id in inv.items:
-                    break
             return returns
 
         # Applies Item Effects:
