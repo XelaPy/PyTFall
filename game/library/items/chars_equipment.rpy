@@ -98,7 +98,7 @@ label char_equip_loop:
         if result[0] == "jump":
             if result[1] == "item_transfer":
                 hide screen char_equip
-                $ items_transfer([hero] + list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget])
+                $ items_transfer([hero] + (list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget]))
                 $ eqtarget.inventory.set_page_size(16)
                 $ hero.inventory.set_page_size(16)
                 show screen char_equip
