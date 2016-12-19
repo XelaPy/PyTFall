@@ -1172,6 +1172,7 @@ init -9 python:
                 self.constemp = dict()  # Dict of consumables with temp effects.
                 self.miscitems = dict()  # Counter for misc items.
                 self.miscblock = list()  # List of blocked misc items.
+                self.eqsave = [self.eqslots.copy(), self.eqslots.copy(), self.eqslots.copy()] # saved equipment states
                 # List to keep track of temporary effect
                 # consumables that failed to activate on cmax **We are not using this or at least I can't find this in code!
                 # self.maxouts = list()

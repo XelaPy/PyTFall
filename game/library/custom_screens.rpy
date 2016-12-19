@@ -29,7 +29,7 @@ init: # Items:
         if char == hero:
             # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(0.5, 1.0)
             add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (0.5, 0.5)
-        else:
+        elif not isinstance(char, dict):
             #f rame:
                 # align (0.5, 0.5)
                 # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
@@ -44,13 +44,22 @@ init: # Items:
             for slot in equipSlotsPositions:
                 python:
                     key = "ring" if slot.startswith("ring") else slot
-                    equipment = char.eqslots[slot]
-                    if isinstance(equipment, list):
-                        equipment = equipment[0]
+                    is_multiple_pytgroup = False
+
+                    if isinstance(char, dict):
+
+                        equipment = char[slot]
+
+                    elif isinstance(char.eqslots[slot], list):
+
+                        equipment = char.eqslots[slot][0]
+                        is_multiple_pytgroup = True
+                    else:
+                        equipment = char.eqslots[slot]
 
                     if equipment:
-                        img = im.Sepia(equipment.icon) if isinstance(char.eqslots[slot], list) else equipment.icon
                         # Frame background:
+                        img = im.Sepia(equipment.icon) if is_multiple_pytgroup else equipment.icon
                         # Old dark/light frame codes, to be removed at review.
                         if equipment.bg_color == "dark":
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
@@ -62,10 +71,13 @@ init: # Items:
                 frame:
                     
                     background bg
-                    pos (equipSlotsPositions[slot][1], equipSlotsPositions[slot][2])
+                    pos (equipSlotsPositions[slot][1]+ (0 if not isinstance(char, dict) or equipSlotsPositions[slot][1] < 0.5 else -0.619), equipSlotsPositions[slot][2])
                     xysize (frame_size[0], frame_size[1])
                     if active_mode and equipment:
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]*0.78, frame_size[1]*0.78), return_value=return_value+[equipment])
+                        if not isinstance(char, dict):
+                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]*0.78, frame_size[1]*0.78), return_value=return_value+[equipment])
+                        else:
+                            add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (0.5, 0.5)
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=0.35) align (0.5, 0.5)
                         

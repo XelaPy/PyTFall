@@ -69,6 +69,7 @@ label char_equip:
         unequip_slot = None
         item_direction = None
         dummy = None
+        eqsave = [False, False, False]
 
         if not eqtarget:
             came_to_equip_from = "chars_list"
@@ -158,6 +159,7 @@ label char_equip_loop:
                     unequip_slot = None
                     item_direction = None
                     dummy = None
+                    eqsave = {0:False, 1:False, 2:False}
                 
             elif result[1] == "transfer":
                 python:
@@ -170,6 +172,7 @@ label char_equip_loop:
                 python:
                     focusitem = result[2]
                     if isinstance(inv_source, PytGroup) and inv_source.inventory[focusitem] == 0:
+
                         selected_chars = inv_source.all
                         inv_source.lst = set([c for c in selected_chars if c.inventory[focusitem]])
                         inv_source.unselected = set([c for c in selected_chars if not c.inventory[focusitem]])
@@ -252,6 +255,7 @@ label char_equip_loop:
                     unequip_slot = None
                     item_direction = None
                     dummy = None
+                    eqsave = {0:False, 1:False, 2:False}
                     
         elif result[0] == 'control':
             if result[1] == 'return':
@@ -264,6 +268,7 @@ label char_equip_finish:
     python:
         eqtarget.inventory.set_page_size(15)
         hero.inventory.set_page_size(15)
+
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
         if eqtarget.location == "After Life":
@@ -278,6 +283,7 @@ label char_equip_finish:
         item_direction = None
         dummy = None
         eqtarget = None
+        eqsave = None
             
     if came_to_equip_from:
         $ last_label, came_to_equip_from = came_to_equip_from, None
@@ -358,13 +364,12 @@ screen char_equip():
         style_group "content"
         
         # Item Desciption:
-        showif focusitem:
-            frame:
-                xalign 0.6
-                at fade_in_out()
-                background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
-                xysize (710, 296)
-                use char_equip_item_info(item=focusitem, size=(703, 287), tt=tt)
+        frame:
+            xalign 0.6
+            at fade_in_out()
+            background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
+            xysize (710, 296)
+            use char_equip_item_info(item=focusitem, size=(703, 287), tt=tt)
 
     if not isinstance(eqtarget, PytGroup):
         use char_equip_left_frame(tt, stats_display)
@@ -563,7 +568,6 @@ screen group_equip_left_frame(tt):
                                         else:
                                             text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#75755C"
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 0, 0)
-
 
 
     use char_equip_right_frame(tt)
@@ -1085,8 +1089,54 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     xalign 0.9
                                     xpadding 2
                                     text (u'{color=#CD4F39}%s'%skill) size 15 align .5, .5
-                                                        
-                                                        
+
+    elif not isinstance(eqtarget, PytGroup): # equipment saves
+        frame:
+            style_prefix "proper_stats"
+            background Null()
+            left_padding 66
+            hbox:
+                for i in range(0, 3):
+                    vbox:
+                        frame:
+                            xpadding -50
+                            background Null()
+                            hbox:
+                                button:
+                                    xysize (90, 30)
+                                    action SelectedIf(eqsave[i] and any(eqtarget.eqsave[i].values())), ToggleDict(eqsave, i), With(dissolve)
+                                    hovered tt.Action("Save [eqtarget.nickname]'s equipment state")
+                                    text "Outfit %d" % (i + 1) style "pb_button_text"
+                                button:
+                                    align (0.5, 0.5)
+                                    xysize (30, 30)
+                                    action Function(eqtarget.eqsave.__setitem__, i, eqtarget.eqslots.copy()), SetDict(eqsave, i, True), With(dissolve)
+                                    text u"\u2193"
+                                    padding (9, 1)
+                                    if tt:
+                                        hovered tt.Action("Save equipment state")
+                                if any(eqtarget.eqsave[i].values()):
+                                    button:
+                                        align (0.5, 0.5)
+                                        xysize (30, 30)
+                                        action Function(eqtarget.equip, [item for item in eqtarget.eqsave[i].values() if item]), With(dissolve)
+                                        text u"\u2191"
+                                        padding (9, 1)
+                                        if tt:
+                                            hovered tt.Action("Load equipment state")
+                                    button:
+                                        align (0.5, 0.5)
+                                        xysize (30, 30)
+                                        action Function(eqtarget.eqsave.__setitem__, i, {k: False for k in eqtarget.eqslots}), SetDict(eqsave, i, False), With(dissolve)
+                                        text u"\u00D7"
+                                        padding (8, 1)
+                                        if tt:
+                                            hovered tt.Action("Discard equipment state")
+                        frame:
+                            xysize (234, 246)
+                            background Null()
+                            if eqsave[i] and any(eqtarget.eqsave[i].values()):
+                                use eqdoll(active_mode=True, char=eqtarget.eqsave[i], scr_align=(0.98, 1.0), return_value=['item', "save"], txt_size=17, fx_size=(304, 266))
 screen diff_item_effects(char, dummy):
     zorder 10
     textbutton "X":
