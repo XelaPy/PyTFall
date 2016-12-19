@@ -2028,9 +2028,6 @@ init -9 python:
                 if item.slot != slot or not item.eqchance or item.type == "permanent":
                     continue
 
-                #if not hasattr(item, 'ceffect') or item.ceffect:
-                #    continue
-
                 weight = 10
                 # Check SLOTS and their conditioning:
                 if slot == "consumable":
@@ -2113,7 +2110,7 @@ init -9 python:
                             # if stat increases due to shifted max, weight accordingly
                             max_weight += item.get_stat_eq_bonus(self, stat)
                     else:
-                        if max_weight < -2: # allow some max decrease, as long as the stat isn't affected
+                        if max_weight < -2: # allow some max decrease, as long as the stat isn't severely affected
                             break
 
                         weight += max_weight
@@ -2184,7 +2181,7 @@ init -9 python:
             picks[:] = [item for wt, item in sorted(picks, key=lambda x: x[0], reverse=True)]
 
             if slot != "consumable":
-                selectivity = 1 if traits["Messy"] or traits["Clumsy"] else 2
+                selectivity = 1 if traits["Messy"] or traits["Clumsy"] else 1.5
 
                 if traits["Smart"] or traits["Psychic"]:
                     selectivity *= 2
@@ -2194,9 +2191,6 @@ init -9 python:
                 # add randomness
                 pick = int(math.log(random.randint(1, last), 2))
 
-                if pick >= len(picks):
-                    renpy.error(str((pick, last, len(picks))))
-                devlog.warn(slot+"\n"+str(pick)+"\n"+str(picks))
 
                 item = picks[pick]
                 inv.remove(item)
@@ -2211,7 +2205,7 @@ init -9 python:
 
                 while (item.type != "alcohol" or self.effects['Drunk']['activation_count'] < is_drunk) \
                   and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
-                  and item.id not in self.consblock and item.id not in self.constemp:
+                  and not item.ceffect and item.id not in self.consblock and item.id not in self.constemp:
 
                     inv.remove(item)
                     self.equip(item, remove=False)
