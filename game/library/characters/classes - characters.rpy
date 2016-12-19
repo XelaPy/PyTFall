@@ -1920,6 +1920,12 @@ init -9 python:
                 self.inventory.remove(item) # Remove item from the inventory
 
         def unequip(self, item, slot=None):
+
+            if isinstance(item, list):
+                for it in item:
+                    self.unequip(it, slot)
+                return
+
             if item.slot == 'misc':
                 self.eqslots['misc'] = None
                 del(self.miscitems[item.id])
