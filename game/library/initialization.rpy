@@ -542,18 +542,18 @@ init -1 python: # Constants:
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)))
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand", "amulet": "Neck", "feet": "Legs", "quest": "Special"}
     equipSlotsPositions = dict()
-    equipSlotsPositions['head'] = [u'Head', 0.2, 0.2]
-    equipSlotsPositions['body'] = [u'Body', 0.2, 0.4]
-    equipSlotsPositions['amulet'] = [u'Amulet', 1.0, 0.4]
-    equipSlotsPositions['cape'] = [u'Cape', 1.0, 0.2]
-    equipSlotsPositions['weapon'] = [u'Weapon', 0.2, 0.6]
-    equipSlotsPositions['smallweapon'] = [u'Small Weapon', 1.0, 0.6]
-    equipSlotsPositions['feet'] = [u'Feet', 1.0, 0.8]
-    equipSlotsPositions['misc'] = [u'Misc', 0.025, 0.51]
-    equipSlotsPositions['wrist'] = [u'Wrist', 0.2, 0.8]
-    equipSlotsPositions['ring'] = [u'Ring', 1.18, 0.3]
-    equipSlotsPositions['ring1'] = [u'Ring', 1.18, 0.5]
-    equipSlotsPositions['ring2'] = [u'Ring', 1.18, 0.7]
+    equipSlotsPositions['head'] = [u'Head', 0.2, 0.1]
+    equipSlotsPositions['body'] = [u'Body', 0.2, 0.3]
+    equipSlotsPositions['amulet'] = [u'Amulet', 1.0, 0.3]
+    equipSlotsPositions['cape'] = [u'Cape', 1.0, 0.1]
+    equipSlotsPositions['weapon'] = [u'Weapon', 0.2, 0.5]
+    equipSlotsPositions['smallweapon'] = [u'Small Weapon', 1.0, 0.5]
+    equipSlotsPositions['feet'] = [u'Feet', 1.0, 0.7]
+    equipSlotsPositions['misc'] = [u'Misc', 0.025, 0.41]
+    equipSlotsPositions['wrist'] = [u'Wrist', 0.2, 0.7]
+    equipSlotsPositions['ring'] = [u'Ring', 1.18, 0.2]
+    equipSlotsPositions['ring1'] = [u'Ring', 1.18, 0.4]
+    equipSlotsPositions['ring2'] = [u'Ring', 1.18, 0.6]
     
 init:
     default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}
