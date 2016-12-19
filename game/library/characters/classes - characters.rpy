@@ -1847,6 +1847,11 @@ init -9 python:
             remove: Removes from the inventory (Should be False if item is equipped from directly from a foreign inventory)
             **Note that the remove is only applicable when dealing with consumables, game will not expect any other kind of an item.
             """
+            if isinstance(item, list):
+                for it in item:
+                    self.equip(it, remove)
+                return
+
             if item.slot not in self.eqslots:
                 devlog.warning(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
                 return
