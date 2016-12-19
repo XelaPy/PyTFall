@@ -259,20 +259,23 @@ init -11 python:
             return
         return True
 
-    def equipment_access(character, item=None, silent=False):
+    def equipment_access(character, item=None, silent=False, allowed_to_equip=True):
         # Here we determine if a character would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
         # We return True of access is granted!
+        #
+        # with allowed_to_equip=True (default) check whether we are allowed to equip the item,
+        # with allowed_to_equip=False, check whether we are allowed to *un*equip
         char = character
         if isinstance(character, PytGroup):
             if item and item.jump_to_label:
-                return
+                return False
 
             # get a response from one single individual
             global char
             for char in character.shuffled:
-                if not equipment_access(char, item, silent):
-                    return
+                if not equipment_access(char, item, silent, allowed_to_equip):
+                    return False
             char = character
             return True
 
@@ -294,7 +297,7 @@ init -11 python:
             if item.badtraits.intersection(character.traits):
                 if not silent:
                     interactions_character_doesnt_want_bad_item()
-                return False
+                return not allowed_to_equip
 
             # Always allow restorative items:
             if item.type == "restore":
@@ -302,16 +305,16 @@ init -11 python:
 
             # Good traits:
             if item.goodtraits.intersection(character.traits):
-                return True
+                return allowed_to_equip
 
             # Just an awesome item in general:
             if item.eqchance >= 70:
-                return True
+                return allowed_to_equip
 
-        if all([character.disposition < 850, not(check_lovers(character, hero))]):
+        if character.disposition < 850 and not check_lovers(character, hero):
             if not silent:
                 interactions_character_doesnt_want_to_equip_item()
-            return
+            return False
 
         return True
 
