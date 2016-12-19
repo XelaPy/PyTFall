@@ -41,14 +41,15 @@ init: # Items:
             align scr_align
             xysize fx_size
             
-            for key in equipSlotsPositions:
+            for slot in equipSlotsPositions:
                 python:
-                    equipment = char.eqslots[key]
+                    key = "ring" if slot.startswith("ring") else slot
+                    equipment = char.eqslots[slot]
                     if isinstance(equipment, list):
                         equipment = equipment[0]
 
                     if equipment:
-                        img = im.Sepia(equipment.icon) if isinstance(char.eqslots[key], list) else equipment.icon
+                        img = im.Sepia(equipment.icon) if isinstance(char.eqslots[slot], list) else equipment.icon
                         # Frame background:
                         # Old dark/light frame codes, to be removed at review.
                         if equipment.bg_color == "dark":
@@ -61,44 +62,13 @@ init: # Items:
                 frame:
                     
                     background bg
-                    pos (equipSlotsPositions[key][1], equipSlotsPositions[key][2]-0.1)
+                    pos (equipSlotsPositions[slot][1], equipSlotsPositions[slot][2]-0.1)
                     xysize (frame_size[0], frame_size[1])
                     if active_mode and equipment:
                         use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[equipment])
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
                         
-        vbox:
-            spacing 4
-            align(1.0, 0.5)
-            xoffset 150
-            for key in ['ring', 'ring2',  'ring1']:
-                python:
-                    ring = char.eqslots[key]
-                    if isinstance(ring, list):
-                        ring = ring[0]
-
-                    if ring:
-                        img = im.Sepia(ring.icon) if isinstance(char.eqslots[key], list) else ring.icon
-
-                        # Frame background:
-                        if ring.bg_color == "dark":
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                        else:
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                    else:
-                        bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                        img = blank
-                frame:
-                    background bg
-                    xysize (frame_size[0], frame_size[1])
-                    if active_mode and ring:
-                        # We add extra return to return value to control which ring exactly is removed...
-                        use r_lightbutton(img=ProportionalScale(img, frame_size[0]-15, frame_size[1]-15), return_value=return_value+[ring, key])
-                    elif ring:
-                        add (ProportionalScale(ring.icon, frame_size[0]-15, frame_size[1]-15)) align (0.5, 0.5)
-                    else:
-                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/ring_bg.png", frame_size[0]-20, frame_size[1]-20), alpha=0.35) align (0.5, 0.5)
     
     screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
