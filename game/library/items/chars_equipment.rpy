@@ -1119,7 +1119,9 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     button:
                                         align (0.5, 0.5)
                                         xysize (30, 30)
-                                        action Function(eqtarget.unequip, [eqtarget.eqslots[slot] for slot in ('ring', 'ring1', 'ring2') if eqtarget.eqslots[slot]]), Function(eqtarget.equip, [item for item in eqtarget.eqsave[i].values() if item]), With(dissolve)
+                                        action Function(eqtarget.unequip, [eqtarget.eqslots[slot] for slot in ('ring', 'ring1', 'ring2') if eqtarget.eqslots[slot]]),
+                                               Function(eqtarget.equip, [item for slot, item in eqtarget.eqsave[i].iteritems() if item and eqtarget.eqslots[slot] != item and item in eqtarget.inventory]),
+                                               With(dissolve)
                                         text u"\u2191"
                                         padding (9, 1)
                                         if tt:
