@@ -185,6 +185,9 @@ label instructor_swimming_pool_skill_checks:
     return
 
 label work_swim_pool: # here we could use an option to meet characters with a certain probability
+    if hero.vitality < 50 or hero.AP <= 0 or  hero.health < hero.get_max("health")*0.5:
+        jump swimming_pool
+
     $ result = randint(5, round(hero.get_skill("swimming")*0.1))
     if result > 200:
         $ result = randint (190, 220)
