@@ -93,7 +93,7 @@ init -1 python:
                             self.girls.append(i)
                             choices.remove(i)
                             break
-                    if len(self.girls) < 3:
+                    if len(self.girls) < 3 and choices:
                         self.girls.append(choices.pop())
 
             if len(self) > 3:
