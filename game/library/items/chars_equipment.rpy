@@ -98,7 +98,7 @@ label char_equip_loop:
         if result[0] == "jump":
             if result[1] == "item_transfer":
                 hide screen char_equip
-                $ items_transfer([hero] + list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget])
+                $ items_transfer([hero] + (list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget]))
                 $ eqtarget.inventory.set_page_size(16)
                 $ hero.inventory.set_page_size(16)
                 show screen char_equip
@@ -1119,7 +1119,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     button:
                                         align (0.5, 0.5)
                                         xysize (30, 30)
-                                        action Function(eqtarget.unequip, [eqtarget.eqslots[slot] for slot in ('ring', 'ring1', 'ring2') if eqtarget.eqslots[slot]]), Function(eqtarget.equip, [item for item in eqtarget.eqsave[i].values() if item]), With(dissolve)
+                                        action Function(eqtarget.load_equip, eqtarget.eqsave[i]), With(dissolve)
                                         text u"\u2191"
                                         padding (9, 1)
                                         if tt:
