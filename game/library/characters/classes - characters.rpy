@@ -890,6 +890,24 @@ init -9 python:
 
             return val
 
+        def get_skill(self, skill):
+            """
+            Returns adjusted skill.
+            Action points become less useful as they exceed training points * 3.
+            """
+            skill = skill.lower()
+            action = self._raw_skill(skill)
+            training = self._raw_skill(skill.capitalize())
+
+            training_range = training * 3
+            beyond_training = action - training_range
+
+            if beyond_training >= 0:
+                training += training_range + beyond_training / 3.0
+            else:
+                training += action
+            return training * max(min(self.skills_multipliers[skill][2], 1.5), 0.5)
+
         def is_skill(self, key):
             # Easy check for skills.
             return key.lower() in self.skills
@@ -1070,7 +1088,7 @@ init -9 python:
                 key = key.lower()
                 at = 1 # Training (knowledge part) skill...
 
-            current_full_value = self.instance.get_skill(key)
+            current_full_value = self.get_skill(key)
             skill_max = SKILLS_MAX[key]
             if current_full_value >= skill_max: # Maxed out...
                 return
@@ -1285,7 +1303,7 @@ init -9 python:
             elif key.lower() in self.SKILLS:
                 return stats._raw_skill(key)
             elif key in self.FULLSKILLS:
-                return self.get_skill(key)
+                return self.stats.get_skill(key)
             raise AttributeError("%r object has no attribute %r" %
                                           (self.__class__, key))
 
@@ -1483,22 +1501,7 @@ init -9 python:
             return adjust_exp(self, exp)
 
         def get_skill(self, skill):
-            """
-            Returns adjusted skill.
-            Action points become less useful as they exceed training points * 3.
-            """
-            skill = skill.lower()
-            action = self.stats._raw_skill(skill)
-            training = self.stats._raw_skill(skill.capitalize())
-
-            training_range = training * 3
-            beyond_training = action - training_range
-
-            if beyond_training >= 0:
-                training += training_range + beyond_training / 3.0
-            else:
-                training += action
-            return training * max(min(self.stats.skills_multipliers[skill][2], 1.5), 0.5)
+            return self.stats.get_skill(skill)
 
         @property
         def elements(self):
