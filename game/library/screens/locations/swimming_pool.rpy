@@ -32,8 +32,8 @@ label swimming_pool:
         
         if result[0] == 'control':
             if result[1] == 'return':
-                hide screen city_beach
-                jump city
+                hide screen swimming_pool
+                jump city_beach
                 
                 
 screen swimming_pool():
