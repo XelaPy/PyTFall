@@ -207,3 +207,7 @@ label mc_setup_mage_sorcerer_winter_imm:
 label mc_setup_mage_sorcerer_winter_win:
     $ hero.apply_trait("Winter Magician")
     return
+    
+label mc_setup_mage_researcher_android:
+    $ pass
+    return

@@ -356,6 +356,7 @@ label build_mc_stories:
         
         mc_stories["Mage"]["choices"]["Arcane Knight"] = "content/gfx/interface/images/mc/arc.png"
         mc_stories["Mage"]["choices"]["Sorcerer"] = "content/gfx/interface/images/mc/sorc.png"
+        mc_stories["Mage"]["choices"]["Researcher"] = "content/gfx/interface/images/mc/researcher.png"
                                                        
         mc_stories["Mage"]["Arcane Knight"] = {}
         mc_stories["Mage"]["Arcane Knight"]["class"] = "Mage"
@@ -364,6 +365,10 @@ label build_mc_stories:
         mc_stories["Mage"]["Sorcerer"] = {}
         mc_stories["Mage"]["Sorcerer"]["class"] = "Mage"
         mc_stories["Mage"]["Sorcerer"]["text"] = "As a Sorcerer, he has dedicated his life to the study of magic."
+        
+        mc_stories["Mage"]["Researcher"] = {}
+        mc_stories["Mage"]["Researcher"]["class"] = "Mage"
+        mc_stories["Mage"]["Researcher"]["text"] = "As a Researcher, he studied the ruins left by ancient civilizations in search of forgotten technologies and enchantments."
                                                        
         mc_stories["Mage"]["MC"] = {}
         for key in mc_stories["Mage"]["choices"]:
@@ -405,6 +410,16 @@ label build_mc_stories:
                                                                       r2="Perfect Reflexes",
                                                                       r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
+                                                                      
+        mc_stories["Mage"]["MC"]["Researcher"]["choices"] = OrderedDict(l="Android",
+                                                                      l_img="content/gfx/interface/images/mc/android.jpg"
+                                                                      )
+                                                                      
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"] = {} 
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["header"] = "Android"
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["text"] = "During one of his expeditions he found an ancient faulty android. Eventually he managed to repair her and reprogram to be his personal assistant. Very personal."
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["label"] = "mc_setup_mage_researcher_android"
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["class"] = "Assassin"
                                                                       
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"] = {} 
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["header"] = "Winter Fay"
