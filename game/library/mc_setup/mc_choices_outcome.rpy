@@ -112,7 +112,7 @@ label mc_setup_warrior_shooter_summer_fay_beacon:
     return
     
 label mc_setup_warrior_defender_guard_armor:
-    $ hero.apply_trait("Royal Defender")
+    $ hero.apply_trait("Armor Expert")
     return
     
 label mc_setup_warrior_defender_guard_left:

@@ -23,7 +23,7 @@
     {
     "id": "Amazon Blood",
     "desc": "Your mother was a muscular woman with huge knockers. Fortunately, you have inherited only her muscles.",
-    "max": {"attack": 25, "constitution": 15},
+    "max": {"attack": 15, "constitution": 15, "vitality": 15},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -32,6 +32,7 @@
     "desc": "Noble blood gives you certain perks.",
     "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
     "max": {"charisma": 15, "intelligence": 15},
+    "mod_stats": {"charisma": [1, 1]},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -45,14 +46,14 @@
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but upon impact they become solid as stone, softening the blow.",
-    "el_defence": {"physical": 0.25, "earth": 0.8},
+    "el_defence": {"physical": 0.25, "earth": 0.9},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
-    "el_defence": {"fire": 0.8, "electricity": 0.5},
+    "el_defence": {"fire": 0.9, "electricity": 0.5},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -107,7 +108,7 @@
     "MC_trait": true
     },
     {
-    "id": "Royal Defender",
+    "id": "Armor Expert",
     "desc": "Equipment gives additional defense based on its price.",
     "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness", "Elven Ranger", "Shield Master"],
     "MC_trait": true
@@ -115,7 +116,7 @@
     {
     "id": "Shield Master",
     "desc": "All shields are a bit more powerful than usual.",
-    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness", "Elven Ranger", "Royal Defender"],
+    "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness", "Elven Ranger", "Armor Expert"],
     "MC_trait": true
     },   
     {
