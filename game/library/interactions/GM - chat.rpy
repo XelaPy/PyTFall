@@ -504,7 +504,7 @@ label interactions_aboutoccupation:
     if char.disposition > -250:
         if cgo("Warrior") and not(cgo("Caster")):
             $ rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
-            if co("Defender"):
+            if co("Knight"):
                 $ rc("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
             if co("Shooter"):
                 $ rc("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")

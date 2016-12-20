@@ -121,7 +121,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
         mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he, together with other rangers, hunted monsters and smugglers."
         mc_stories["Warrior"]["Defender"] = {}
-        mc_stories["Warrior"]["Defender"]["class"] = "Defender"
+        mc_stories["Warrior"]["Defender"]["class"] = "Knight"
         mc_stories["Warrior"]["Defender"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he guarded royalties."
         
         mc_stories["Warrior"]["MC"] = {}
@@ -259,7 +259,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["header"] = "Princess"
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "Once someone hired him to eliminate a foreign princess visiting the city on a diplomatic mission. No one has seen them since then. Except you, their son."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["class"] = "Defender"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["class"] = "Knight"
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. Defense given by armor is a bit higher than usual."
@@ -462,7 +462,7 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["header"] = "Vampire"
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["text"] = "For decades he with other knights hunted vampires, protecting citizens from the nocturnal predators. Eventually he even captured the local vampire queen, but her seductiveness kept her alive and even gave birth to you."
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["label"] = "mc_setup_mage_arc_vampire"
-        mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["class"] = "Defender"
+        mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["class"] = "Knight"
         
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"] = {}
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells heal you instead of hurting, but your Light spells are almost ineffective."
