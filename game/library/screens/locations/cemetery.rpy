@@ -7,6 +7,7 @@ label graveyard_town:
         play world choice(ilists.world_music["cemetery"]) fadein 0.5
     $ global_flags.del_flag("keep_playing_music")
     
+
     python:
         # Build the actions
         if pytfall.world_actions.location("graveyard_town"):
@@ -16,6 +17,13 @@ label graveyard_town:
     scene bg graveyard_town
     with dissolve
     show screen graveyard_town
+    $ number=0
+        
+        
+label show_dead_list:
+    $ dead_list = list(i for i in chars.values() if i.location == "After Life") # list of dead characters
+    if dead_list:
+        show screen cemetry_list_of_dead_chars (dead_list, number)
         
     while 1:
 
@@ -30,7 +38,70 @@ label graveyard_town:
                 hide screen graveyard_town
                 jump city
 
-
+screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be empty!
+    on "show":
+        action Hide("graveyard_town", dissolve)
+    # on "hide":
+        # action Show("graveyard_town", dissolve)
+    frame:
+        align (0.5, 0.5)
+        xysize (234, 420)
+        background Frame("content/gfx/frame/tombstone.png", 234, 420)
+        vbox:
+            align (0.5, 0.65)
+            $ character = dead_list[number]
+            if character.has_image('portrait', 'indifferent'):
+                $ char_profile_img = character.show('portrait', 'indifferent', resize=(99, 99), cache=True)
+            else:
+                $ char_profile_img = character.show('portrait', 'happy', resize=(99, 99), cache=True, type="reduce")
+            frame:
+                background Frame("content/gfx/frame/MC_bg.png")
+                add(char_profile_img) align .5, .5
+                xalign 0.5
+                xysize (102, 102)
+            spacing 5
+            frame:
+                background Frame("content/gfx/frame/namebox3.png")
+                xalign 0.5
+                xsize 160
+                text ([character.name]) xalign 0.5 style "stats_value_text" color silver
+            frame:
+                background Frame("content/gfx/frame/namebox3.png")
+                xalign 0.5
+                xsize 160
+                text ("[character.level] lvl") xalign 0.5 style "stats_value_text" color silver
+                
+    $ img = "content/gfx/interface/buttons/next.png"
+    $ img1 = im.Flip("content/gfx/interface/buttons/next.png", horizontal=True)
+    imagebutton:
+        align (0.415, 0.62)
+        idle (img1)
+        hover (im.MatrixColor(img1, im.matrix.brightness(0.15)))
+        action [Jump("cemetery_prev_char")]
+    imagebutton:
+        align (0.59, 0.62)
+        idle (img)
+        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+        action [Jump("cemetery_next_char")]
+        
+    frame:
+        style_group "wood"
+        align (0.9, 0.9)
+        button:
+            xysize (120, 40)
+            yalign 0.5
+            action [Hide("cemetry_list_of_dead_chars")]
+            text "Exit" size 15
+            
+label cemetery_prev_char:
+    if number > 0:
+        $ number -= 1
+    jump show_dead_list
+        
+label cemetery_next_char:
+    if number < len(dead_list)-1:
+        $ number += 1
+    jump show_dead_list
     
 screen graveyard_town():
 
