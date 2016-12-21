@@ -1121,10 +1121,10 @@ init -9 python:
             """
 
             # call the functions for these only once
-            stats = {'mod': {}, 'max': {}, 'skill': {}}
+            stats = {'current_stat': {}, 'current_max': {}, 'skill': {}}
             for stat in target_stats:
-                stats['mod'][stat] = self._get_stat(stat) # current stat value (reasonably safe, this one)
-                stats['max'][stat] = self.get_max(stat)   # current stat max
+                stats['current_stat'][stat] = self._get_stat(stat) # current stat value
+                stats['current_max'][stat] = self.get_max(stat)   # current stat max
 
             for skill in self.skills:
                 stats['skill'][skill] = self.get_skill(skill)
@@ -1147,36 +1147,39 @@ init -9 python:
                         if value < min_value and stat in exclude_on_stats:
                             break # break (in any case below) will cause 0 weights to be added for this item
 
-                        if stat in stats['mod']:
+                        if stat in stats['current_stat']:
+
+                            # a new max may have to be considered
+                            new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
+
                             # what the new value would be:
-                            value = max(min(stats['mod'][stat] + value, stats['max'][stat]), self.min[stat])
-                            if value > stats['max'][stat]:
-                                renpy.error("new value (after mod) gt stat max??")
+                            new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
 
                             # add the fraction  increace / decrease
-                            weights.append(50 + 100*(value - stats['mod'][stat])/stats['max'][stat])
+                            weights.append(50 + 100*(new_stat - stats['current_stat'][stat])/new_max)
                     else:
                         for stat, value in item.max.iteritems():
 
                             if not stat in exclude_on_stats:
                                 continue
 
-                            if stat in stats['max']:
-                                stat_remaining = stats['max'][stat] - stats['mod'][stat]
+                            if stat in stats['current_max']:
 
-                                # if training doesn't shift max, at least give a weight up to 1 for the increased max.
-                                # if max decreases, give a penalty, more severe if there is little stat remaining.
-                                weights.append(max(50 + value / (stat_remaining + max(value, 1)), 0)) # stat_remaining is >= 0
+                                new_max = min(self.max[stat] + value, self.lvl_max[stat])
 
-                                # if stat increases due to shifted max, weight accordingly
-                                value_change = item.get_stat_eq_bonus(self, stat)
-                                if value_change > stats['max'][stat]:
-                                    renpy.error("new value (after max increase) gt stat max?? value_change:%d, max:%d" % (value_change, stats['max'][stat]))
+                                new_stat = self.stats[stat] + self.imod[stat] + (item.mod[stat] if stat in item.mod else 0)
 
-                                if value_change < min_value:
-                                    break
-
-                                weights.append(50 + 100*value_change/stats['max'][stat])
+                                # if the stat does change, give weight for this
+                                stat_change = new_stat - stats['current_stat'][stat]
+                                if stat_change:
+                                    if stat_change < min_value:
+                                        break
+                                    weights.append(50 + 100*stat_change/stats['current_max'][stat])
+                                else:
+                                    stat_remaining = new_max - stats['current_stat'][stat]
+                                    # if training doesn't shift max, at least give a weight up to 1 for the increased max.
+                                    # if max decreases, give a penalty, more severe if there is little stat remaining.
+                                    weights.append(max(50 + value / (stat_remaining + max(value, 1)), 0)) # stat_remaining is >= 0
                         else:
                             for skill, effect in item.mod_skills.iteritems():
 
@@ -1184,7 +1187,6 @@ init -9 python:
                                     break
 
                                 if skill in target_skills:
-
 
                                     skill_remaining = SKILLS_MAX[skill] - stats['skill'][skill]
                                     if skill_remaining > 0:
