@@ -1105,6 +1105,106 @@ init -9 python:
 
             self.skills[key][at] += value
 
+        def eval_inventory(self, inventory, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
+                           equip_chance=None, min_value=-5, upto_skill_limit=False):
+            """
+            weigh items in inventory based on stats. weights per item will be added to weighted.
+
+            inventory: the inventory to evaluate items from
+            target_stats: a list of stats to consider for items
+            target_skills: similarly, a list of skills
+            exclude_on_stats: items will be excluded if stats in this list are negatively affected
+            exclude_on_skills: similarly, a list of skills
+            equip_chance(): function that takes the item and returns a chance, between 0 and 100
+            min_value: at what (negative) value the weight will become zero
+            upto_skill_limit: whether or not to calculate bonus beyond training exactly
+            """
+
+            # call the functions for these only once
+            stats = {'mod': {}, 'max': {}, 'skill': {}}
+            for stat in target_stats:
+                stats['mod'][stat] = self._get_stat(stat) # current stat value (reasonably safe, this one)
+                stats['max'][stat] = self.get_max(stat)   # current stat max
+
+            for skill in self.skills:
+                stats['skill'][skill] = self.get_skill(skill)
+
+            for item in inventory:
+
+                if item.slot not in weighted:
+                    continue
+
+                # weights is a list of 0 to 100 values that will be averaged for the final weight, unless we break
+                weights = equip_chance(item) if equip_chance else [50]
+                if weights is None:
+                    weighted[item.slot].append((0, item))
+                    continue
+
+                average_weight = 0
+                for stat, value in item.mod.iteritems():
+
+                    if value < min_value and stat in exclude_on_stats:
+                        break # break (in any case below) will cause 0 weights to be added for this item
+
+                    if stat in stats['mod']:
+                        # what the new value would be:
+                        value = min(max(self.stats[stat] + value, stats['max'][stat]), self.min[stat])
+
+                        # add the fraction  increace / decrease
+                        weights.append(50 + 100*(value - stats['mod'][stat])/stats['max'][stat])
+                else:
+                    for stat, value in item.max.iteritems():
+
+                        if not stat in exclude_on_stats:
+                            continue
+
+                        if stat in stats['max']:
+                            stat_remaining = stats['max'][stat] - stats['mod'][stat]
+
+                            # if training doesn't shift max, at least give a weight up to 1 for the increased max.
+                            # if max decreases, give a penalty, more severe if there is little stat remaining.
+                            value /= (stat_remaining + max(value, 1)) # stat_remaining is >= 0
+
+                            # if stat increases due to shifted max, weight accordingly
+                            value += item.get_stat_eq_bonus(self, stat)
+
+                            weights.append(50 + 100*(value - stats['mod'][stat])/stats['max'][stat])
+                    else:
+                        for skill, effect in item.mod_skills.iteritems():
+
+                            if all(i <= 0 for i in effect) and skill in exclude_on_skills:
+                                break
+
+                            if skill in target_skills:
+
+                                skill_max = SKILLS_MAX[skill]
+
+                                skill_remaining = skill_max - stats['skill'][skill]
+                                if skill_remaining > 0:
+                                    # calculate skill with mods applied, as in apply_item_effects() and get_skill()
+
+                                    mod_action = self.skills[skill][0] + effect[3]
+                                    mod_training = self.skills[skill][1] + effect[4]
+                                    mod_skill_multiplier = self.skills_multipliers[skill][2] + effect[2]
+
+                                    if upto_skill_limit: # more precise calculation of skill limits
+                                        training_range = mod_training * 3
+                                        beyond_training = mod_action - training_range
+
+                                        if beyond_training >= 0:
+                                            mod_training += training_range - mod_action + beyond_training/3.0
+
+                                    mod_training += mod_action
+                                    new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), 0.5)
+                                    if new_skill < min_value:
+                                        break
+
+                                    weights.append(50 + 100*(new_skill - stats['skill'][skill]) / skill_max)
+                        else:
+                            average_weight = sum(weights)/len(weights) if len(weights) else 0.0001
+
+                weighted[item.slot].append((average_weight, item))
+
 
     ###### Character Classes ######
     class PytCharacter(Flags):
@@ -1955,7 +2055,93 @@ init -9 python:
                 self.remove_item_effects(item)
                 self.eqslots[item.slot] = None
 
-        def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None, exclude_on_stats=None, slots=None, inv=None, real_weapons=False):
+        def equip_chance(self, item):
+            """
+            return a list of chances, between 0 and 100 if the person has a preference to equip this item.
+            If None is returned the item should not be used. This only includes personal preferences,
+            Other factors, like stat bonuses may also have to be taken into account.
+            """
+
+            # if return is 0 the item should be skipped
+
+            if not item.eqchance or not can_equip(item, self):
+                return None
+
+            chance = []
+            when_drunk = 30
+            appetite = 50
+
+            for trait in self.traits:
+
+                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
+                    return None
+
+                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
+                    return [100]
+
+                if trait == "Kamidere": # Vanity: wants pricy uncommon items
+                    chance.append(100 - item.chance)
+                    chance.append(min(item.price/10, 100))
+
+                elif trait == "Serious": # stubborn: what s|he won't buy, s|he won't wear.
+                    chance.append(100 - item.badness)
+
+                elif trait == "Dandere": # what the farmer don't know, s|he won't eat.
+                    chance.append(item.chance)
+
+                elif trait == "Heavy Drinker":
+                    when_drunk = 45
+
+                elif trait == "Always Hungry":
+                    appetite += 20
+
+                elif trait == "Slim":
+                    appetite -= 10
+
+            if len(chance) > 1: # mood is but one factor
+                chance = [sum(chance) / len(chance)]
+
+            if item.type == "permanent": # only allowed if also in goodtraits. but then we already returned 100
+                return None
+
+            if item.slot == "consumable":
+
+                if item.ceffect or item.id in self.consblock or item.id in self.constemp:
+                    return None
+
+                if item.type == "alcohol":
+
+                    if self.effects['Drunk']['activation_count'] >= when_drunk:
+                        return None
+
+                    if self.effects['Depression']['active']:
+                        chance.append(30 + when_drunk)
+
+                elif item.type == "food":
+
+                    food_poisoning = self.effects['Food Poisoning']['activation_count']
+
+                    if not food_poisoning:
+                        chance.append(appetite)
+
+                    else:
+                        if food_poisoning >= 6:
+                            return None
+
+                        chance.append((6-food_poisoning) * 9)
+
+            elif item.slot == "misc":
+                # If the item self-destructs or will be blocked after one use,
+                # it's now up to the caller to stop after the first item of this kind that is picked.
+
+                # no blocked misc items:
+                if item.id in self.miscblock:
+                    return None
+
+            return chance
+
+        def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None, exclude_on_stats=None, slots=None,
+                       inv=None, real_weapons=False):
             """
             targetstats: expects a list of stats to pick the item
             targetskills: expects a list of skills to pick the item
@@ -1972,43 +2158,25 @@ init -9 python:
             if not inv:
                 inv = self.inventory
             if not target_skills:
-                target_skills = list()
+                target_skills = set()
             if not exclude_on_stats:
-                exclude_on_stats = list()
+                exclude_on_stats = set()
             if not exclude_on_skills:
-                exclude_on_skills = list()
+                exclude_on_skills = set()
             if not slots:
                 slots = ["consumable"]
 
-            slots = set(slots)
+            weighted = {k: [] for k in slots}
 
             # traits that may influence the item selection process
-            traits = {t: False for t in ("Bad Eyesight", "Stupid", "Messy", "Clumsy", "Heavy Drinker", "Athletic", "Nerd",
-                                         "Psychic", "Smart",  "Kamidere", "Serious", "Dandere", "Slim", "Always Hungry")}
-            skip = set()
-            goodtraits = set()
+            traits = {t: False for t in ("Bad Eyesight", "Stupid", "Messy", "Clumsy", "Athletic", "Nerd", "Psychic", "Smart")}
             for t in self.traits:
-                if t in trait_selections["badtraits"]:
-                    skip = skip.union(trait_selections["badtraits"][t])
-
-                if t in trait_selections["goodtraits"]:
-                    goodtraits = goodtraits.union(trait_selections["goodtraits"][t])
-
                 if t in traits:
                     traits[t] = True
-
-            stats = {'mod': {}, 'max': {}}
-            for stat in target_stats if not traits["Stupid"] else self.stats:
-                stats['mod'][stat] = self.stats._get_stat(stat)
-                stats['max'][stat] = self.get_max(stat)
-
-            skills = {}
 
             # allow a little penalty, just make sure the net weight is positive.
             # bad eyesightedness may cause inclusion of items with more penalty
             min_value = -10 if traits["Bad Eyesight"] else -5
-
-            is_drunk = is_drunk = 45 if traits["Heavy Drinker"] else 30
 
             # how much stats weigh vs skills. To compare weight will be normalised to their max values.
             # skills have a overly high max (5000), so the ratio is tipped towards stats.
@@ -2020,197 +2188,53 @@ init -9 python:
             if traits["Nerd"]:
                 stat_vs_skill *= 2 # preference for stats over skills
 
-            weights = {k:[] for k in slots}
-            for item in inv.items:
+            # a clumsy person may also select items not in target skill
+            if traits["Clumsy"]:
+                target_skills = set(self.stats.skills.keys())
 
-                if item.slot not in slots or not item.eqchance or item.type == "permanent":
-                    continue
+            # a stupid person may also select items not in target stat
+            if traits["Stupid"]:
+                target_stats = set(self.stats)
 
-                if item in skip or item.id in self.consblock or item.id in self.constemp or not can_equip(item, self):
-                    continue
+            upto_skill_limit = True if traits["Smart"] else False
 
-                weight = 10
-                # Check SLOTS and their conditioning:
-                if item.slot == "consumable":
-                    if item.type == "alcohol":
-                        if self.effects['Drunk']['activation_count'] >= is_drunk:
-                            continue
-
-                        if self.effects['Depression']['active']:
-                            weight += 20
-
-                    if item.type == "food":
-
-                        if self.effects['Food Poisoning']['activation_count'] >= 6:
-                            continue
-
-                        weight -= self.effects['Food Poisoning']['activation_count']
-
-                        if traits["Always Hungry"]:
-                            weight += 10 # in effect adds also to physical weight, but that's not what I meant here.
-
-                        if traits["Slim"]:
-                            weight /= 2
-
-                elif item.slot == "misc":
-                    # If item that self-destructs or will be blocked after one use is equipped, there is no reason to equip another:
-                    # This will end the method, not just move to a different item!!!
-                    if (item.mdestruct or not item.mreusable) and item.id in self.miscitems:
-                        return returns
-
-                    # Get rid of blocked misc items:
-                    if item.id in self.miscblock:
-                        continue
-
-                elif item.slot == "weapon":
-                    # For weapons check if we want to equip one. if type starts with "nw" (none weapon), we go ahead.
-                    if not real_weapons and not item.type.lower().startswith("nw"):
-                        continue
-
-                # for normalisation
-                (stat_max_avg, stat_ct) = (0, 0)
-                for stat, value in item.mod.iteritems():
-
-                    in_target_stats = True if stat in target_stats else False
-
-                    if value < min_value and (in_target_stats or stat in exclude_on_stats):
-                        break
-
-                    # a stupid person may also select items not in target stat
-                    if in_target_stats or traits["Stupid"]:
-                        stat_max_avg += stats['max'][stat]
-                        stat_ct += 1
-                        # limit to remaining applicable for stat
-                        weight += min(value, stats['max'][stat] - stats['mod'][stat])
-                else:
-                    if weight < 0:
-                        break
-
-                    max_weight = 0
-
-                    for stat, value in item.max.iteritems():
-
-                        in_target_stats = True if stat in target_stats else False
-
-                        if not (in_target_stats or stat in exclude_on_stats):
-                            continue
-
-                        if in_target_stats or traits["Stupid"]:
-                            stat_max_avg += stats['max'][stat]
-                            stat_ct += 1
-
-                            stat_remaining = stats['max'][stat] - stats['mod'][stat]
-
-                            # if training doesn't shift max, at least give a weight up to 1 for the increased max.
-                            # if max decreases, give a penalty, more severe if there is little stat remaining.
-                            max_weight += value / (stat_remaining + max(value, 1)) # stat_remaining is >= 0
-
-                            # if stat increases due to shifted max, weight accordingly
-                            max_weight += item.get_stat_eq_bonus(self, stat)
-                    else:
-                        if max_weight < -2: # allow some max decrease, as long as the stat isn't severely affected
-                            break
-
-                        weight += max_weight
-                        stat_max_avg = stat_vs_skill * stat_max_avg / (stat_ct if stat_ct else 1)
-
-                        skill_weight = 0
-                        for skill, effect in item.mod_skills.iteritems():
-
-                            in_target_skills = True if skill in target_skills else False
-
-                            if all(i <= 0 for i in effect) and (in_target_skills or skill in exclude_on_skills):
-                                break
-
-                            # a clumsy person may also select items not in target skill
-                            if in_target_skills or traits["Clumsy"]:
-
-                                skill_max = SKILLS_MAX[skill]
-
-                                skill_remaining = skill_max - skills.setdefault(skill, self.get_skill(skill))
-                                if skill_remaining <= 0:
-                                    # calculate skill with mods applied, as in apply_item_effects() and get_skill()
-
-                                    mod_action = self.stats.skills[skill][0] + effect[3]
-                                    mod_training = self.stats.skills[skill][1] + effect[4]
-                                    mod_skill_multiplier = self.stats.skills_multipliers[2] + effect[2]
-
-                                    # the smart know their skill training limits, others are overconfident.
-                                    if traits["Smart"]:
-                                        training_range = mod_training * 3
-                                        beyond_training = mod_action - training_range
-
-                                        if beyond_training >= 0:
-                                            mod_training += training_range - mod_action + beyond_training / 3.0
-
-                                    mod_training += mod_action
-                                    new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), 0.5)
-                                    if new_skill < min_value:
-                                        break
-
-                                    stat_scale = stat_max_avg / skill_max
-                                    if in_target_skills:
-                                        # limit to remaining applicable for skill
-                                        skill_weight += min(new_skill, skill_remaining) * stat_scale
-                                    else:
-                                        skill_weight += new_skill * stat_scale
-                        else:
-                            if skill_weight < 0:
-                                break
-
-                            weight += skill_weight
-
-                            if traits["Kamidere"]: # Vanity: wants pricy uncommon items
-                                weight *= item.price / max(item.chance, 1)
-
-                            if traits["Serious"]: # stubborn: what s|he won't buy, s|he won't wear.
-                                weight /= (101 - item.badness)
-
-                            if traits["Dandere"]: # what the farmer don't know, s|he won't eat.
-                                weight /= (101 - item.chance)
-
-                            weight *= item.eqchance
-
-                            weights[item.slot].append((weight, item))
+            self.stats.eval_inventory(inv, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
+                                      equip_chance=self.equip_chance, min_value=min_value, upto_skill_limit=upto_skill_limit)
 
             returns = list() # We return this list with all items used during the method.
-            for picks in weights.values():
+            for slot, picks in weighted.iteritems():
                 if not picks:
                     continue
 
-                picks[:] = [item for wt, item in sorted(picks, key=lambda x: x[0], reverse=True)]
-
-                if item.slot != "consumable" and item.slot != "ring":
-                    selectivity = 1 if traits["Messy"] or traits["Clumsy"] else 1.5
-
-                    if traits["Smart"] or traits["Psychic"]:
-                        selectivity *= 2
-
-                    last = max(int(len(picks) / selectivity), 1)
-
-                    # add randomness
-                    pick = int(math.log(random.randint(1, last), 2))
-
-
-                    item = picks[pick]
-                    inv.remove(item)
-                    self.equip(item, remove=False)
-
-                    returns.append(item.id)
-                    continue
-
-                elif item.slot == "ring":
+                # multiple consumables/rings can be taken.
+                # consumables not filtered will also be iterated over multiple times
+                if slot == "ring":
                     rings_left = 3
 
-                # multiple consumables/rings can be taken.
-                # consumables not filtered will be iterated over multiple times
+                for weight, item in sorted(picks, key=lambda x: x[0], reverse=True):
 
-                for item in picks:
+                    if weight <= 0:
+                        break
 
-                    while (item.type != "alcohol" or self.effects['Drunk']['activation_count'] < is_drunk) \
-                      and (item.type != "food" or self.effects['Food Poisoning']['activation_count'] < 6) \
-                      and (item.slot != "cosumable" or not item.ceffect) and item.id not in self.consblock \
-                      and item.id not in self.constemp:
+                    if slot != "consumable" and slot != "ring":
+
+                        if slot == "weapon" and not real_weapons and not item.type.lower().startswith("nw"):
+                            continue
+
+                        selectivity = 1 if traits["Messy"] or traits["Clumsy"] else 1.5
+
+                        if traits["Smart"] or traits["Psychic"]:
+                            selectivity *= 2
+
+
+
+                        inv.remove(item)
+                        self.equip(item, remove=False)
+
+                        returns.append(item.id)
+                        break
+
+                    while self.equip_chance(item) != None:
 
                         inv.remove(item)
                         self.equip(item, remove=False)
@@ -2231,7 +2255,7 @@ init -9 python:
                             remains = self.get_max(stat) - self.stats._get_stat(stat)
 
                             # if effect is larger than remaining required and item is expensive, we don't select it.
-                            if remains > 0 or (item.price <= 100 or remains > item.get_stat_eq_bonus(self, stat)):
+                            if remains > 0 or (item.price <= 100 or remains > item.get_stat_eq_bonus(self.stats, stat)):
                                 break
                         else:
                             # item gives no stat benefit anymore. Also apply it once for each skill benefit
@@ -2242,13 +2266,13 @@ init -9 python:
                                     returns.append(item.id)
                             break # outer for loop
 
-                    if not item.id in inv.items:
-                        break
-
-                    if item.slot == "ring":
-                        rings_left -= 1
-                        if rings_left == 0:
+                        if not item.id in inv.items:
                             break
+
+                        if slot == "ring":
+                            rings_left -= 1
+                            if rings_left == 0:
+                                break
             return returns
 
         def load_equip(self, eqsave):
