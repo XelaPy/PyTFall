@@ -1928,32 +1928,6 @@ init -9 python:
 
             return returns
 
-        def equip_for(self, purpose):
-            """
-            This method will auto-equip slot items on per purpose basis!
-            """
-            returns = list()
-            if self.eqslots["weapon"]:
-                self.unequip(self.eqslots["weapon"])
-
-            slots = [slot for slot in self.eqslots if slot not in ("ring1", "ring2", "consumable")]
-
-            if purpose == "Combat":
-                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], slots=slots, real_weapons=True))
-
-            elif purpose == "Striptease":
-                returns.extend(self.auto_equip(["charisma"], ["strip"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
-
-            elif purpose == "Sex":
-                returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"], exclude_on_stats=["health", "vitality", "mp"], slots=slots))
-
-            elif purpose == "Service":
-                returns.extend(self.auto_equip(["charisma"], ["service"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
-
-            else:
-                devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose, self.name, self.__class__.__name__))
-            return returns
-
         def equip(self, item, remove=True): # Equips the item
             """
             Equips an item to a corresponding slot or consumes it.
@@ -2161,6 +2135,32 @@ init -9 python:
 
             chance.append(item.eqchance)
             return chance
+
+        def equip_for(self, purpose):
+            """
+            This method will auto-equip slot items on per purpose basis!
+            """
+            returns = list()
+            if self.eqslots["weapon"]:
+                self.unequip(self.eqslots["weapon"])
+
+            slots = [slot for slot in self.eqslots if slot not in ("ring1", "ring2", "consumable")]
+
+            if purpose == "Combat":
+                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], slots=slots, real_weapons=True))
+
+            elif purpose == "Striptease":
+                returns.extend(self.auto_equip(["charisma"], ["strip"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
+
+            elif purpose == "Sex":
+                returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"], exclude_on_stats=["health", "vitality", "mp"], slots=slots))
+
+            elif purpose == "Service":
+                returns.extend(self.auto_equip(["charisma"], ["service"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
+
+            else:
+                devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose, self.name, self.__class__.__name__))
+            return returns
 
         def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None, exclude_on_stats=None, slots=None,
                        inv=None, real_weapons=False):
