@@ -311,7 +311,7 @@ screen equip_for(pos=()):
             text "Equip For:" xalign 0 style "della_respira" color ivory
             null height 5
             for t in ["Combat", "Sex", "Service", "Striptease"]:
-                if t == "Combat" and eqtarget.status == "slave":
+                if t == "Combat" and (eqtarget.status == "slave" or eqtarget.status == "various"):
                     pass
                 else:
                     textbutton "[t]":
