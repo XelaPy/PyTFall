@@ -53,7 +53,7 @@ label build_mc_stories:
         This is the dict with all of the options for MC for Merchant/Caravan branch!
         This also decided if the said options are shown or not, for example Commenting out:
         
-        # l="Defender",
+        # l="Knight",
         
         Will remove defender MC choice and commenting out:
         
@@ -61,7 +61,7 @@ label build_mc_stories:
         
         Will remove book option from Caravan MC choice.
         """
-        mc_stories["Merchant"]["MC"]["Caravan"]["choices"] = OrderedDict(l="Defender",
+        mc_stories["Merchant"]["MC"]["Caravan"]["choices"] = OrderedDict(l="Knight",
                                                                                                                    l_img="content/gfx/interface/images/story/caravan/Warrior2.png",
                                                                                                                    l0="Sword",
                                                                                                                    l0_img="content/gfx/interface/images/story/caravan/sword1.bmp",
@@ -79,18 +79,18 @@ label build_mc_stories:
                                                                                                                    r2_img="content/gfx/interface/images/story/caravan/bag2.png")
         
         # Texts for the said options:
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"] = {} 
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["header"] = "Defender of the caravan"
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["text"] = "Acting as a security guard at the father's caravan, you have gained some experience in the weapons handling. You become a little bit stronger and hardier {color=#1E90FF}({/color}{color=#E9967A}+Defence{/color}{color=#1E90FF},{/color}{color=#DEB887} + Constitution{/color}{color=#1E90FF}){/color}"
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["label"] = "mc_setup_merchant_mc_defender"
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["class"] = "Warrior" # As agreed, we will be adding a class to choices without clear descriptions.
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Sword"] = {}
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Sword"]["text"] = "You cut down many heads with your favourite sword 'Bettie' {color=#1E90FF}({/color}{color=#FFD700}+Sword{/color}{color=#1E90FF},{/color} {color=#CD5C5C}+Attack{/color}{color=#1E90FF}){/color}"
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Sword"]["label"] = "mc_setup_merchant_mc_defender_sword"
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Woman"] = {}
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Woman"]["text"] = "During his travels, you become skilled in love games, when staying in various taverns {color=#1E90FF}({/color} {color=#FFAEB9}+Sex{/color}{color=#1E90FF},{/color}{color=#FF3E96}+Charisma{/color}{color=#1E90FF}){/color}"
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Money Bag"] = {}
-        mc_stories["Merchant"]["MC"]["Caravan"]["Defender"]["Money Bag"]["text"] = "You didn't spend on drink the honestly earned money after each campaign, unlike the subordinates {color=#1E90FF}({/color}{color=#8470FF}+Intelligence{/color}{color=#1E90FF},{/color}{color=#FFD700}+1500 Gold{/color}{color=#1E90FF}){/color}"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"] = {} 
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["header"] = "Defender of the caravan"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["text"] = "Acting as a security guard at the father's caravan, you have gained some experience in the weapons handling. You become a little bit stronger and hardier {color=#1E90FF}({/color}{color=#E9967A}+Defence{/color}{color=#1E90FF},{/color}{color=#DEB887} + Constitution{/color}{color=#1E90FF}){/color}"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["label"] = "mc_setup_merchant_mc_defender"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["class"] = "Warrior" # As agreed, we will be adding a class to choices without clear descriptions.
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Sword"] = {}
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Sword"]["text"] = "You cut down many heads with your favourite sword 'Bettie' {color=#1E90FF}({/color}{color=#FFD700}+Sword{/color}{color=#1E90FF},{/color} {color=#CD5C5C}+Attack{/color}{color=#1E90FF}){/color}"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Sword"]["label"] = "mc_setup_merchant_mc_defender_sword"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Woman"] = {}
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Woman"]["text"] = "During his travels, you become skilled in love games, when staying in various taverns {color=#1E90FF}({/color} {color=#FFAEB9}+Sex{/color}{color=#1E90FF},{/color}{color=#FF3E96}+Charisma{/color}{color=#1E90FF}){/color}"
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Money Bag"] = {}
+        mc_stories["Merchant"]["MC"]["Caravan"]["Knight"]["Money Bag"]["text"] = "You didn't spend on drink the honestly earned money after each campaign, unlike the subordinates {color=#1E90FF}({/color}{color=#8470FF}+Intelligence{/color}{color=#1E90FF},{/color}{color=#FFD700}+1500 Gold{/color}{color=#1E90FF}){/color}"
         
         # Second part of the same:
         mc_stories["Merchant"]["MC"]["Caravan"]["Muleteer"] = {} 
@@ -108,7 +108,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["img"] = "content/gfx/interface/images/warriorP.png"
         mc_stories["Warrior"]["header"] = "Your father was a skilled fighter..."
         mc_stories["Warrior"]["choices"] = OrderedDict(Warrior="content/gfx/interface/images/mc/warrior_m.png",
-                                                       Defender="content/gfx/interface/images/mc/defender_m.png",
+                                                       Knight="content/gfx/interface/images/mc/defender_m.png",
                                                        Shooter="content/gfx/interface/images/mc/shooter_m.png",
                                                        Assassin="content/gfx/interface/images/mc/assassin_m.png")
         mc_stories["Warrior"]["Warrior"] = {}
@@ -120,16 +120,16 @@ label build_mc_stories:
         mc_stories["Warrior"]["Shooter"] = {}
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
         mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years he, together with other rangers, hunted monsters and smugglers."
-        mc_stories["Warrior"]["Defender"] = {}
-        mc_stories["Warrior"]["Defender"]["class"] = "Defender"
-        mc_stories["Warrior"]["Defender"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he guarded royalties."
+        mc_stories["Warrior"]["Knight"] = {}
+        mc_stories["Warrior"]["Knight"]["class"] = "Knight"
+        mc_stories["Warrior"]["Knight"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he guarded royalties."
         
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
             mc_stories["Warrior"]["MC"][key] = {}
             mc_stories["Warrior"]["MC"][key]["choices"] = OrderedDict()
 
-        mc_stories["Warrior"]["MC"]["Defender"]["choices"] = OrderedDict(l="Royal Guard",
+        mc_stories["Warrior"]["MC"]["Knight"]["choices"] = OrderedDict(l="Royal Guard",
                                                                         l_img="content/gfx/interface/images/mc/knight.jpg",
                                                                         l0="Royal Defender",
                                                                         l0_img="content/gfx/interface/images/mc/crown.png",
@@ -147,40 +147,40 @@ label build_mc_stories:
                                                                         r2_img="content/gfx/interface/images/mc/wind.png"
                                                                         )
                                                                         
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"] = {} 
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["header"] = "Royal Guard"
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["label"] = "mc_setup_warrior_defender_guard"
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"] = {} 
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["header"] = "Royal Guard"
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["text"] = "Many years of exemplary service made him the captain of the palace guards. It was then that he met your future mother, a young novice knight from a poor, but noble family."
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["label"] = "mc_setup_warrior_defender_guard"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Royal Defender"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Royal Defender"]["text"] = "You know a lot about armor from your parents. Equipment gives additional defense based on its price."
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Royal Defender"]["label"] = "mc_setup_warrior_defender_guard_armor"
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Royal Defender"] = {}
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Royal Defender"]["text"] = "You know a lot about armor from your parents. Equipment gives additional defense based on its price."
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Royal Defender"]["label"] = "mc_setup_warrior_defender_guard_armor"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["text"] = "You are left-handed, just like your mother. Equipment in your left hand (such as shields) is significantly more powerful, but equipment in your right hand (such as weapons) is less effective."
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Left-Handed"]["label"] = "mc_setup_warrior_defender_guard_left"
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Left-Handed"] = {}
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Left-Handed"]["text"] = "You are left-handed, just like your mother. Equipment in your left hand (such as shields) is significantly more powerful, but equipment in your right hand (such as weapons) is less effective."
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Left-Handed"]["label"] = "mc_setup_warrior_defender_guard_left"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Shield Master"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Shield Master"]["text"] = "Your mother taught you here fighting style. All shields are a bit more powerful than usual."
-        mc_stories["Warrior"]["MC"]["Defender"]["Royal Guard"]["Shield Master"]["label"] = "mc_setup_warrior_defender_guard_shield"
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Shield Master"] = {}
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Shield Master"]["text"] = "Your mother taught you here fighting style. All shields are a bit more powerful than usual."
+        mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"]["Shield Master"]["label"] = "mc_setup_warrior_defender_guard_shield"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"] = {} 
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["header"] = "Harpy"
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["label"] = "mc_setup_warrior_defender_harpy"
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["class"] = "Healer"
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"] = {} 
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["header"] = "Harpy"
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["text"] = "Eventually he was given the task to guard a harpy priestess who was also the ambassador of her race at that time. Unable to move freely around the city due to her status, she gladly accepted him as the main source of entertainment, what led to your birth."
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["label"] = "mc_setup_warrior_defender_harpy"
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["class"] = "Shooter"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["text"] = "Evolution gave harpies hollow bones to make their bodies significantly lighter. It makes you weaker against physical attacks, but completely neutralizes any equipment penalties to agility."
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Hollow Bones"]["label"] = "mc_setup_warrior_defender_harpy_bones"
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Hollow Bones"] = {}
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Hollow Bones"]["text"] = "Evolution gave harpies hollow bones to make their bodies significantly lighter. It makes you weaker against physical attacks, but completely neutralizes any equipment penalties to agility."
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Hollow Bones"]["label"] = "mc_setup_warrior_defender_harpy_bones"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["text"] = "To have enough energy for flight harpies should very quickly digest food without residues. All consumables that restore vitality are more effective, especially food."
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Effective Metabolism"]["label"] = "mc_setup_warrior_defender_harpy_meta"
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Effective Metabolism"] = {}
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Effective Metabolism"]["text"] = "To have enough energy for flight harpies should very quickly digest food without residues. All consumables that restore vitality are more effective, especially food."
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Effective Metabolism"]["label"] = "mc_setup_warrior_defender_harpy_meta"
         
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Sky Ward"] = {}
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Sky Ward"]["text"] = "Due to their mystical connection with the sky, harpies are one of the fastest flyers in the world. You cannot be as fast without wings, but it still helps (+ 1 Action Point and additional agility)."
-        mc_stories["Warrior"]["MC"]["Defender"]["Harpy"]["Sky Ward"]["label"] = "mc_setup_warrior_defender_harpy_sky"
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Sky Ward"] = {}
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Sky Ward"]["text"] = "Due to their mystical connection with the sky, harpies are one of the fastest flyers in the world. You cannot be as fast without wings, but it still helps (+ 1 Action Point and additional agility)."
+        mc_stories["Warrior"]["MC"]["Knight"]["Harpy"]["Sky Ward"]["label"] = "mc_setup_warrior_defender_harpy_sky"
         
 
         mc_stories["Warrior"]["MC"]["Shooter"]["choices"] = OrderedDict(l="Forest Elf",
@@ -205,6 +205,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["header"] = "Forest Elf"
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["text"] = "Over the years he had to work together with elven rangers. In time, mistrust gave way to friendship and, eventually, to close relationships with one of them."
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["label"] = "mc_setup_warrior_shooter_forest_elf"
+        mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["class"] = "Warrior"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"] = {}
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"]["Sniper"]["text"] = "Your mother taught you to use bows like forest elves do. All bows are a bit more powerful than usual."
@@ -223,7 +224,6 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["header"] = "Summer Fay"
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["text"] = "Century after century Fae fulfill the same functions in their forest Courts, unable to change their roles or even die once and for all. Summer Fae represent growth and the emergence of life, and making children with other races proves it like nothing else."
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["label"] = "mc_setup_warrior_shooter_summer_fay"
-        mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["class"] = "Mage"
         
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"] = {}
         mc_stories["Warrior"]["MC"]["Shooter"]["Summer Fay"]["Eternality"]["text"] = "Your body inherited some of your mother's unchangeability. You body restores 1/2 of max health every day, but healing items are less effective."
@@ -240,7 +240,7 @@ label build_mc_stories:
                                                                         
         mc_stories["Warrior"]["MC"]["Assassin"]["choices"] = OrderedDict(l="Princess",
                                                                         l_img="content/gfx/interface/images/mc/princess.jpg",
-                                                                        l0="Knight",
+                                                                        l0="Heavy Knight",
                                                                         l0_img="content/items/sweapon/bks.png",
                                                                         l1="Fencer",
                                                                         l1_img="content/items/weapon/og.png",
@@ -259,11 +259,11 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["header"] = "Princess"
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "Once someone hired him to eliminate a foreign princess visiting the city on a diplomatic mission. No one has seen them since then. Except you, their son."
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["class"] = "Defender"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["class"] = "Knight"
         
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"] = {}
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. Defense given by armor is a bit higher than usual."
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Heavy Knight"] = {}
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Heavy Knight"]["text"] = "You learned from your mother about knightly combat style, usually available only for members of the royal families. Defense given by armor is a bit higher than usual."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Heavy Knight"]["label"] = "mc_setup_warrior_assassin_princess_knight"
         
         
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["Fencer"] = {}
@@ -332,10 +332,10 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["header"] = "Dragon"
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["text"] = "It was there that he met your mother, one of the last representatives of a dying race of half-dragons. Being a monster, she was supposed to fight him to the death in the Beast Fights, but her dislike for clothes changed his mind."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["label"] = "mc_setup_warrior_warrior_dragon"
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["class"] = "Mage"
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["class"] = "Assassin"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"] = {}
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["text"] = "Your body is covered with tiny flakes. They are almost inconspicuous, but at extreme temperatures temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Fire"]["label"] = "mc_setup_warrior_warrior_dragon_fire"
         
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Stone"] = {}
@@ -345,7 +345,7 @@ label build_mc_stories:
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"] = {}
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["text"] = "Dragons have perfect distance vision, and so do you. You are competent with ranged weapons and have slightly increased critical damage."
         mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["label"] = "mc_setup_warrior_warrior_dragon_sight"
-        mc_stories["Warrior"]["MC"]["Warrior"]["Dragon"]["Dragon Sight"]["class"] = "Shooter"
+
         
         
         # We add the rest of the options:
@@ -356,6 +356,7 @@ label build_mc_stories:
         
         mc_stories["Mage"]["choices"]["Arcane Knight"] = "content/gfx/interface/images/mc/arc.png"
         mc_stories["Mage"]["choices"]["Sorcerer"] = "content/gfx/interface/images/mc/sorc.png"
+        mc_stories["Mage"]["choices"]["Researcher"] = "content/gfx/interface/images/mc/researcher.png"
                                                        
         mc_stories["Mage"]["Arcane Knight"] = {}
         mc_stories["Mage"]["Arcane Knight"]["class"] = "Mage"
@@ -364,6 +365,10 @@ label build_mc_stories:
         mc_stories["Mage"]["Sorcerer"] = {}
         mc_stories["Mage"]["Sorcerer"]["class"] = "Mage"
         mc_stories["Mage"]["Sorcerer"]["text"] = "As a Sorcerer, he has dedicated his life to the study of magic."
+        
+        mc_stories["Mage"]["Researcher"] = {}
+        mc_stories["Mage"]["Researcher"]["class"] = "Mage"
+        mc_stories["Mage"]["Researcher"]["text"] = "As a Researcher, he studied the ruins left by ancient civilizations in search of forgotten technologies and enchantments."
                                                        
         mc_stories["Mage"]["MC"] = {}
         for key in mc_stories["Mage"]["choices"]:
@@ -405,6 +410,16 @@ label build_mc_stories:
                                                                       r2="Perfect Reflexes",
                                                                       r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
+                                                                      
+        mc_stories["Mage"]["MC"]["Researcher"]["choices"] = OrderedDict(l="Android",
+                                                                      l_img="content/gfx/interface/images/mc/android.jpg"
+                                                                      )
+                                                                      
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"] = {} 
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["header"] = "Android"
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["text"] = "During one of his expeditions he found an ancient faulty android. Eventually he managed to repair her and reprogram to be his personal assistant. Very personal."
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["label"] = "mc_setup_mage_researcher_android"
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["class"] = "Assassin"
                                                                       
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"] = {} 
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["header"] = "Winter Fay"
@@ -462,7 +477,7 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["header"] = "Vampire"
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["text"] = "For decades he with other knights hunted vampires, protecting citizens from the nocturnal predators. Eventually he even captured the local vampire queen, but her seductiveness kept her alive and even gave birth to you."
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["label"] = "mc_setup_mage_arc_vampire"
-        mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["class"] = "Defender"
+        mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["class"] = "Knight"
         
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"] = {}
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Creature of Night"]["text"] = "Darkness spells heal you instead of hurting, but your Light spells are almost ineffective."

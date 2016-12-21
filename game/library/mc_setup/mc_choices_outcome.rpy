@@ -112,7 +112,7 @@ label mc_setup_warrior_shooter_summer_fay_beacon:
     return
     
 label mc_setup_warrior_defender_guard_armor:
-    $ hero.apply_trait("Royal Defender")
+    $ hero.apply_trait("Armor Expert")
     return
     
 label mc_setup_warrior_defender_guard_left:
@@ -206,4 +206,8 @@ label mc_setup_mage_sorcerer_winter_imm:
     
 label mc_setup_mage_sorcerer_winter_win:
     $ hero.apply_trait("Winter Magician")
+    return
+    
+label mc_setup_mage_researcher_android:
+    $ pass
     return

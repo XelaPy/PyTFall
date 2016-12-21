@@ -468,7 +468,7 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "Has been trained to fight with a weapon of some sort.",
+        "desc": "Has been trained to fight with a weapon of any kind. Doesn't have notable strengths and weaknesses due to balanced combat style.",
         "basetrait": true,
         "mod_stats": {"defence": [1, 1], "attack": [1, 1]
         },
@@ -503,11 +503,11 @@
         }
     },
     {
-        "id": "Defender",
+        "id": "Knight",
         "occupations": [
             "Warrior"
         ],
-        "desc": "Specializes in close combat.",
+        "desc": "Specializes in heavy armored combat. Agility and attack are not high, but health and defense compensate it.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
         "mod_stats": {"defence": [2, 1], "agility": [1, 2], "attack": [1, 2]
@@ -547,7 +547,7 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "Specializes in ranged combat.",
+        "desc": "Specializes in ranged combat. Has high attack, but low defence is unsuitable for close combat.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
         "mod_stats": {"attack": [2, 1], "agility": [1, 2], "defence": [1, 2]
