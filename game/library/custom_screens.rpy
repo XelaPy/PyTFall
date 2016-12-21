@@ -43,21 +43,20 @@ init: # Items:
             
             for slot in equipSlotsPositions:
                 python:
-                    key = "ring" if slot.startswith("ring") else slot
                     is_multiple_pytgroup = False
 
                     if isinstance(char, dict):
-
+                        # saved equipment state
                         equipment = char[slot]
 
                     elif isinstance(char.eqslots[slot], list):
 
-                        equipment = char.eqslots[slot][0]
                         is_multiple_pytgroup = True
+                        equipment = char.eqslots[slot][0]
                     else:
                         equipment = char.eqslots[slot]
 
-                    if equipment:
+                    if equipment and active_mode:
                         # Frame background:
                         img = im.Sepia(equipment.icon) if is_multiple_pytgroup else equipment.icon
                         # Old dark/light frame codes, to be removed at review.
@@ -65,8 +64,10 @@ init: # Items:
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         else:
                             bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                        equipment = [equipment, slot]
                     else:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                        key = "ring" if slot.startswith("ring") else slot
                         img = blank
                 frame:
                     
@@ -75,7 +76,7 @@ init: # Items:
                     xysize (frame_size[0], frame_size[1])
                     if active_mode and equipment:
                         if not isinstance(char, dict):
-                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]*0.78, frame_size[1]*0.78), return_value=return_value+[equipment])
+                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]*0.78, frame_size[1]*0.78), return_value=return_value+equipment)
                         else:
                             add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (0.5, 0.5)
                     else:

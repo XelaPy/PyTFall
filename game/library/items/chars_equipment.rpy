@@ -187,27 +187,24 @@ label char_equip_loop:
                     
             elif result[1] == 'unequip':
                 python:
-                    if len(result) == 4:
-                        unequip_slot = result[3]
+                    unequip_slot = result[3]
 
                     if isinstance(eqtarget, PytGroup):
 
                         if isinstance(result[2], list):
                             # chars have different items in the equipslots. Will show the most abundant in sepia
                             chosen_item = result[2][0]
-                            selectedslot = chosen_item.slot
                         else:
                             # This (sub)group has only one item. shown in color.
                             chosen_item = result[2]
                             # ring itemslot can be ring while actual slot is ring1 or ring2
-                            selectedslot = chosen_item.slot if chosen_item.slot != "ring" else result[3]
 
                             if focusitem == chosen_item:
                                 # The focusitem was clicked a 2nd time, so determine next item and subgroup from all chars.
                                 eqtarget.lst = set(eqtarget.all)
                                 eqtarget.unselected = set()
 
-                                all_slotequip = eqtarget.eqslots[selectedslot]
+                                all_slotequip = eqtarget.eqslots[unequip_slot]
 
                                 if isinstance(all_slotequip, list):
                                     # a list, so there is a next subgroup
@@ -215,7 +212,7 @@ label char_equip_loop:
                                     eqtarget.lst = set(eqtarget.all)
 
                         if focusitem != chosen_item:
-                            subgroup_equipped = set([c for c in eqtarget.lst if c.eqslots[selectedslot] == chosen_item])
+                            subgroup_equipped = set([c for c in eqtarget.lst if c.eqslots[unequip_slot] == chosen_item])
                             eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
                             eqtarget.lst = subgroup_equipped
 
@@ -223,17 +220,15 @@ label char_equip_loop:
                         dummy = copy_char(eqtarget._first)
                     else:
                         dummy = copy_char(eqtarget)
-                        selectedslot = result[2].slot
 
-                    if selectedslot:
-                        focusitem = result[2]
-                        item_direction = 'unequip'
-                        
+                    focusitem = result[2]
+                    item_direction = 'unequip'
+
                     if focusitem:
                         # To Calc the effects:
-                        dummy.eqslots[selectedslot] = focusitem
+                        dummy.eqslots[unequip_slot] = focusitem
                         dummy.unequip(focusitem, unequip_slot)
-                        # renpy.show_screen("diff_item_effects", eqtarget, dummy)
+                        #renpy.show_screen("diff_item_effects", eqtarget, dummy)
         elif result[0] == "unequip_all":
             python:
                 for c in eqtarget.lst if isinstance(eqtarget, PytGroup) else [eqtarget]:
