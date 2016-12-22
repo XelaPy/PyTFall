@@ -1221,20 +1221,7 @@ init -9 python:
                                     most_weights[item.slot] = l
 
                                 weighted[item.slot].append([weights, item])
-
-            # all items done. create averages
-            for slot, item_weights in weighted.iteritems():
-                for r in item_weights:
-
-                    devlog.warn("[%s/%s]: %s" % (r[1].slot, r[1].id, str(r[0])))
-
-                    som = sum(r[0])
-
-                    # impute with weights of 50 for items that have less weights
-                    som += 50 * (len(r[0]) - most_weights[slot])
-
-                    r[0] = som/most_weights[slot]
-
+            return most_weights
 
 
     ###### Character Classes ######
@@ -2246,42 +2233,54 @@ init -9 python:
             exclude_on_stats = exclude_on_stats.union(target_stats)
             exclude_on_skills = exclude_on_skills.union(target_skills)
 
-            self.stats.eval_inventory(inv, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
-                                      equip_chance=self.equip_chance, min_value=min_value, upto_skill_limit=upto_skill_limit)
+            most_weights = self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
+                                                     exclude_on_skills, exclude_on_stats,
+                                                     equip_chance=self.equip_chance, min_value=min_value,
+                                                     upto_skill_limit=upto_skill_limit)
 
             returns = list() # We return this list with all items used during the method.
             for slot, picks in weighted.iteritems():
+
                 if not picks:
+                    continue
+
+                # if we need only one pick, store max and item in selected, otherwise prefilter items
+                selected = [0, None] if slot != "consumable" and slot != "ring" else []
+
+                # create averages for items
+                for r in picks:
+                    # devlog.warn("[%s/%s]: %s" % (r[1].slot, r[1].id, str(r[0])))
+
+                    som = sum(r[0])
+
+                    # impute with weights of 50 for items that have less weights
+                    som += 50 * (len(r[0]) - most_weights[slot])
+
+                    r[0] = som/most_weights[slot]
+                    if r[0] > 0:
+                        if slot != "consumable" and slot != "ring":
+                            if slot == "weapon" and not real_weapons and not r[1].type.lower().startswith("nw"):
+                                continue
+
+                            if r[0] > selected[0]:
+                                selected = r # store weight and item for the highest weight
+                        else:
+                            selected.append(r)
+
+                if slot != "consumable" and slot != "ring":
+
+                    item = selected[1]
+
+                    if item:
+                        inv.remove(item)
+                        self.equip(item, remove=False)
+                        returns.append(item.id)
                     continue
 
                 # multiple consumables/rings can be taken.
                 # consumables not filtered will also be iterated over multiple times
 
-                for weight, item in sorted(picks, key=lambda x: x[0], reverse=True):
-
-                    if weight <= 0:
-                        break
-
-                    if slot != "consumable" and item.slot != "ring":
-
-                        if slot == "weapon" and not real_weapons and not item.type.lower().startswith("nw"):
-                            continue
-
-                        # maybe add randomness like so:
-
-                        # add randomness
-                        #pick = int(math.log(random.randint(1, last), 2))
-
-                        #if pick >= len(picks):
-                        #    renpy.error(str((pick, last, len(picks))))
-                        #devlog.warn(item.slot+"\n"+str(pick)+"\n"+str(picks))
-
-                        #item = picks[pick]
-                        inv.remove(item)
-                        self.equip(item, remove=False)
-
-                        returns.append(item.id)
-                        break
+                for weight, item in sorted(selected, key=lambda x: x[0], reverse=True):
 
                     while self.equip_chance(item) != None:
 
