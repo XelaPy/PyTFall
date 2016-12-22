@@ -75,6 +75,9 @@ label char_equip:
             came_to_equip_from = "chars_list"
             eqtarget = PytGroup(the_chosen) if the_chosen else char
 
+        if not isinstance(eqtarget, PytGroup) and not hasattr(store, "girls") or girls is None or char not in girls:
+            girls = list(girl for girl in hero.chars if girl.action != "Exploring")
+
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)
         inv_source = eqtarget
@@ -255,6 +258,23 @@ label char_equip_loop:
         elif result[0] == 'control':
             if result[1] == 'return':
                 jump char_equip_finish
+            elif not isinstance(eqtarget, PytGroup):
+                python:
+
+                    focusitem = None
+                    selectedslot = None
+                    unequip_slot = None
+                    item_direction = None
+
+                    index = girls.index(char)
+                    if result[1] == 'left':
+                        char = girls[ (index - 1) % len(girls)]
+                    elif result[1] == 'right':
+                        char = girls[(index + 1) % len(girls)]
+
+                    if inv_source == eqtarget:
+                        inv_source = char
+                    eqtarget = char
     
 label char_equip_finish:
     hide screen char_equip
@@ -279,6 +299,7 @@ label char_equip_finish:
         dummy = None
         eqtarget = None
         eqsave = None
+        girls = None
             
     if came_to_equip_from:
         $ last_label, came_to_equip_from = came_to_equip_from, None
@@ -382,12 +403,25 @@ screen char_equip_left_frame(tt, stats_display):
         
         # NAME =====================================>
         text (u"{color=#ecc88a}[eqtarget.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.53 ypos 126
-        
-        # PORTRAIT ============================>
-        frame:
-            xysize (100, 100)
-            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
-            foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
+        hbox:
+            button:
+                xysize (32, 32)
+                action Return(['control', 'left'])
+                background Null()
+                foreground "content/gfx/interface/buttons/small_button_wood_left_idle.png" pos (10, 14)
+                hover_foreground "content/gfx/interface/buttons/small_button_wood_left_hover.png"
+            # PORTRAIT ============================>
+            frame:
+                xysize (100, 100)
+                background Frame("content/gfx/frame/mes12.jpg", 5, 5)
+                foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (32, 11)
+            button:
+                xysize (32, 32)
+                action Return(['control', 'right'])
+                background Null()
+                foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
+                hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"
+
             
         # LVL ============================>
         hbox:
@@ -519,17 +553,18 @@ screen group_equip_left_frame(tt):
         pos (0, 2)
         xysize (220,724)
         style_group "content"
-        # PORTRAIT ============================>
-        frame:
-            xysize (100, 100)
-            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
-            foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
-        button:
-            xysize (32, 32)
-            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
-            background Null()
-            foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
-            hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
+        hbox:
+            button:
+                xysize (32, 32)
+                action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
+                background Null()
+                foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
+                hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
+            # PORTRAIT ============================>
+            frame:
+                xysize (100, 100)
+                background Frame("content/gfx/frame/mes12.jpg", 5, 5)
+                foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (32, 11)
 
         # list of names of characters in group with selection options.
         viewport:
