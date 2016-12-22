@@ -75,6 +75,12 @@ label char_equip:
             came_to_equip_from = "chars_list"
             eqtarget = PytGroup(the_chosen) if the_chosen else char
 
+        if not hasattr(store, "equip_girls") or equip_girls is None or char not in equip_girls:
+            if isinstance(eqtarget, PytGroup) or eqtarget == hero:
+                equip_girls = []
+            else:
+                equip_girls = list(girl for girl in hero.chars if girl.action != "Exploring")
+
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)
         inv_source = eqtarget
@@ -187,27 +193,24 @@ label char_equip_loop:
                     
             elif result[1] == 'unequip':
                 python:
-                    if len(result) == 4:
-                        unequip_slot = result[3]
+                    unequip_slot = result[3]
 
                     if isinstance(eqtarget, PytGroup):
 
                         if isinstance(result[2], list):
                             # chars have different items in the equipslots. Will show the most abundant in sepia
                             chosen_item = result[2][0]
-                            selectedslot = chosen_item.slot
                         else:
                             # This (sub)group has only one item. shown in color.
                             chosen_item = result[2]
                             # ring itemslot can be ring while actual slot is ring1 or ring2
-                            selectedslot = chosen_item.slot if chosen_item.slot != "ring" else result[3]
 
                             if focusitem == chosen_item:
                                 # The focusitem was clicked a 2nd time, so determine next item and subgroup from all chars.
                                 eqtarget.lst = set(eqtarget.all)
                                 eqtarget.unselected = set()
 
-                                all_slotequip = eqtarget.eqslots[selectedslot]
+                                all_slotequip = eqtarget.eqslots[unequip_slot]
 
                                 if isinstance(all_slotequip, list):
                                     # a list, so there is a next subgroup
@@ -215,7 +218,7 @@ label char_equip_loop:
                                     eqtarget.lst = set(eqtarget.all)
 
                         if focusitem != chosen_item:
-                            subgroup_equipped = set([c for c in eqtarget.lst if c.eqslots[selectedslot] == chosen_item])
+                            subgroup_equipped = set([c for c in eqtarget.lst if c.eqslots[unequip_slot] == chosen_item])
                             eqtarget.unselected = set(eqtarget.all).difference(subgroup_equipped)
                             eqtarget.lst = subgroup_equipped
 
@@ -223,17 +226,15 @@ label char_equip_loop:
                         dummy = copy_char(eqtarget._first)
                     else:
                         dummy = copy_char(eqtarget)
-                        selectedslot = result[2].slot
 
-                    if selectedslot:
-                        focusitem = result[2]
-                        item_direction = 'unequip'
-                        
+                    focusitem = result[2]
+                    item_direction = 'unequip'
+
                     if focusitem:
                         # To Calc the effects:
-                        dummy.eqslots[selectedslot] = focusitem
+                        dummy.eqslots[unequip_slot] = focusitem
                         dummy.unequip(focusitem, unequip_slot)
-                        # renpy.show_screen("diff_item_effects", eqtarget, dummy)
+                        #renpy.show_screen("diff_item_effects", eqtarget, dummy)
         elif result[0] == "unequip_all":
             python:
                 for c in eqtarget.lst if isinstance(eqtarget, PytGroup) else [eqtarget]:
@@ -260,6 +261,24 @@ label char_equip_loop:
         elif result[0] == 'control':
             if result[1] == 'return':
                 jump char_equip_finish
+            elif equip_girls:
+                python:
+
+                    focusitem = None
+                    selectedslot = None
+                    unequip_slot = None
+                    item_direction = None
+
+                    index = equip_girls.index(char)
+                    if result[1] == 'left':
+                        char = equip_girls[ (index - 1) % len(equip_girls)]
+                    elif result[1] == 'right':
+                        char = equip_girls[(index + 1) % len(equip_girls)]
+
+                    if inv_source == eqtarget:
+                        inv_source = char
+                    eqtarget = char
+
     
 label char_equip_finish:
     hide screen char_equip
@@ -284,6 +303,7 @@ label char_equip_finish:
         dummy = None
         eqtarget = None
         eqsave = None
+        equip_girls = None
             
     if came_to_equip_from:
         $ last_label, came_to_equip_from = came_to_equip_from, None
@@ -308,6 +328,11 @@ screen equip_for(pos=()):
             yval = 1.0
         else:
             yval = 0.0
+
+        specializations = ["Sex", "Service", "Striptease"]
+
+        if eqtarget.status != "slave" and eqtarget.status != "various":
+            specializations = ["Battle Mage", "Barbarian", "Wizard"] + specializations
     frame:
         style_group "dropdown_gm"
         pos (x, y)
@@ -315,14 +340,11 @@ screen equip_for(pos=()):
         vbox:
             text "Equip For:" xalign 0 style "della_respira" color ivory
             null height 5
-            for t in ["Combat", "Sex", "Service", "Striptease"]:
-                if t == "Combat" and eqtarget.status == "slave":
-                    pass
-                else:
-                    textbutton "[t]":
-                        xminimum 200
-                        # action NullAction()
-                        action [Function(eqtarget.equip_for, t), Hide("equip_for")]
+            for t in specializations:
+                textbutton "[t]":
+                    xminimum 200
+                    # action NullAction()
+                    action [Function(eqtarget.equip_for, t), Hide("equip_for")]
             textbutton "Close":
                 action Hide("equip_for")
 
@@ -385,12 +407,27 @@ screen char_equip_left_frame(tt, stats_display):
         
         # NAME =====================================>
         text (u"{color=#ecc88a}[eqtarget.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.53 ypos 126
-        
-        # PORTRAIT ============================>
-        frame:
-            xysize (100, 100)
-            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
-            foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
+        hbox:
+            button:
+                xysize (32, 32)
+                background Null()
+                if equip_girls:
+                    action Return(['control', 'left'])
+                    foreground "content/gfx/interface/buttons/small_button_wood_left_idle.png" pos (10, 14)
+                    hover_foreground "content/gfx/interface/buttons/small_button_wood_left_hover.png"
+            # PORTRAIT ============================>
+            frame:
+                xysize (100, 100)
+                background Frame("content/gfx/frame/mes12.jpg", 5, 5)
+                foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (32, 11)
+            button:
+                xysize (32, 32)
+                background Null()
+                if equip_girls:
+                    action Return(['control', 'right'])
+                    foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
+                    hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"
+
             
         # LVL ============================>
         hbox:
@@ -522,17 +559,18 @@ screen group_equip_left_frame(tt):
         pos (0, 2)
         xysize (220,724)
         style_group "content"
-        # PORTRAIT ============================>
-        frame:
-            xysize (100, 100)
-            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
-            foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (64, 11)
-        button:
-            xysize (32, 32)
-            action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
-            background Null()
-            foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
-            hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
+        hbox:
+            button:
+                xysize (32, 32)
+                action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
+                background Null()
+                foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
+                hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
+            # PORTRAIT ============================>
+            frame:
+                xysize (100, 100)
+                background Frame("content/gfx/frame/mes12.jpg", 5, 5)
+                foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (32, 11)
 
         # list of names of characters in group with selection options.
         viewport:
