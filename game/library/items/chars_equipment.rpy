@@ -303,6 +303,11 @@ screen equip_for(pos=()):
             yval = 1.0
         else:
             yval = 0.0
+
+        specializations = ["Sex", "Service", "Striptease"]
+
+        if eqtarget.status != "slave" and eqtarget.status != "various":
+            specializations = ["Battle Mage", "Barbarian", "Wizard"] + specializations
     frame:
         style_group "dropdown_gm"
         pos (x, y)
@@ -310,14 +315,11 @@ screen equip_for(pos=()):
         vbox:
             text "Equip For:" xalign 0 style "della_respira" color ivory
             null height 5
-            for t in ["Combat", "Sex", "Service", "Striptease"]:
-                if t == "Combat" and (eqtarget.status == "slave" or eqtarget.status == "various"):
-                    pass
-                else:
-                    textbutton "[t]":
-                        xminimum 200
-                        # action NullAction()
-                        action [Function(eqtarget.equip_for, t), Hide("equip_for")]
+            for t in specializations:
+                textbutton "[t]":
+                    xminimum 200
+                    # action NullAction()
+                    action [Function(eqtarget.equip_for, t), Hide("equip_for")]
             textbutton "Close":
                 action Hide("equip_for")
 
