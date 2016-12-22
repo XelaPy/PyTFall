@@ -1152,6 +1152,9 @@ init -9 python:
                             # a new max may have to be considered
                             new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
 
+                            if not new_max:
+                                break
+
                             # what the new value would be:
                             new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
 
