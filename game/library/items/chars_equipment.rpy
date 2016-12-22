@@ -75,8 +75,11 @@ label char_equip:
             came_to_equip_from = "chars_list"
             eqtarget = PytGroup(the_chosen) if the_chosen else char
 
-        if not isinstance(eqtarget, PytGroup) and not hasattr(store, "girls") or girls is None or char not in girls:
-            girls = list(girl for girl in hero.chars if girl.action != "Exploring")
+        if not hasattr(store, "equip_girls") or equip_girls is None or char not in equip_girls:
+            if isinstance(eqtarget, PytGroup) or eqtarget == hero:
+                equip_girls = []
+            else:
+                equip_girls = list(girl for girl in hero.chars if girl.action != "Exploring")
 
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)
@@ -258,7 +261,7 @@ label char_equip_loop:
         elif result[0] == 'control':
             if result[1] == 'return':
                 jump char_equip_finish
-            elif not isinstance(eqtarget, PytGroup):
+            elif equip_girls:
                 python:
 
                     focusitem = None
@@ -266,15 +269,16 @@ label char_equip_loop:
                     unequip_slot = None
                     item_direction = None
 
-                    index = girls.index(char)
+                    index = equip_girls.index(char)
                     if result[1] == 'left':
-                        char = girls[ (index - 1) % len(girls)]
+                        char = equip_girls[ (index - 1) % len(equip_girls)]
                     elif result[1] == 'right':
-                        char = girls[(index + 1) % len(girls)]
+                        char = equip_girls[(index + 1) % len(equip_girls)]
 
                     if inv_source == eqtarget:
                         inv_source = char
                     eqtarget = char
+
     
 label char_equip_finish:
     hide screen char_equip
@@ -299,7 +303,7 @@ label char_equip_finish:
         dummy = None
         eqtarget = None
         eqsave = None
-        girls = None
+        equip_girls = None
             
     if came_to_equip_from:
         $ last_label, came_to_equip_from = came_to_equip_from, None
@@ -406,10 +410,11 @@ screen char_equip_left_frame(tt, stats_display):
         hbox:
             button:
                 xysize (32, 32)
-                action Return(['control', 'left'])
                 background Null()
-                foreground "content/gfx/interface/buttons/small_button_wood_left_idle.png" pos (10, 14)
-                hover_foreground "content/gfx/interface/buttons/small_button_wood_left_hover.png"
+                if equip_girls:
+                    action Return(['control', 'left'])
+                    foreground "content/gfx/interface/buttons/small_button_wood_left_idle.png" pos (10, 14)
+                    hover_foreground "content/gfx/interface/buttons/small_button_wood_left_hover.png"
             # PORTRAIT ============================>
             frame:
                 xysize (100, 100)
@@ -417,10 +422,11 @@ screen char_equip_left_frame(tt, stats_display):
                 foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (32, 11)
             button:
                 xysize (32, 32)
-                action Return(['control', 'right'])
                 background Null()
-                foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
-                hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"
+                if equip_girls:
+                    action Return(['control', 'right'])
+                    foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
+                    hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"
 
             
         # LVL ============================>
