@@ -273,7 +273,7 @@ label next_day_calculations:
                 tl.timer("TrainingDungeon.next_day", nested=False)
                 school.next_day()
         
-        tl.timer("Training", nested=False)
+        tl.timer("Training")
         ################## Training events End ##################
         #
         #
