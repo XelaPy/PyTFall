@@ -2138,8 +2138,14 @@ init -9 python:
 
             slots = [slot for slot in self.eqslots if slot not in ("ring1", "ring2", "consumable")]
 
-            if purpose == "Combat":
-                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], slots=slots, real_weapons=True))
+            if purpose == "Battle Mage":
+                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic'], exclude_on_stats=["agility", "luck", 'defence', 'intelligence'], slots=slots, real_weapons=True))
+
+            elif purpose == "Barbarian":
+                returns.extend(self.auto_equip(['health', 'attack', 'defence', 'constitution'], exclude_on_stats=["luck", 'agility'], slots=slots, real_weapons=True))
+
+            elif purpose == "Wizard":
+                returns.extend(self.auto_equip(['mp', 'magic', "luck", 'intelligence'], exclude_on_stats=["health", 'defence'], slots=slots, real_weapons=True))
 
             elif purpose == "Striptease":
                 returns.extend(self.auto_equip(["charisma"], ["strip"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
