@@ -26,13 +26,11 @@
         randomTeamNames = file.readlines()
         shuffle(randomTeamNames)
         file.close()
-        tl.timer("Loading: Random Name Files")
         
-        tl.timer("Loading: PyTFallWorld")
+        tl.timer("Loading: PyTFallWorld", nested=False)
         pytfall = PyTFallWorld()
-        tl.timer("Loading: PyTFallWorld")
         
-        tl.timer("Loading: Menu Extensions")
+        tl.timer("Loading: Menu Extensions", nested=False)
         menu_extensions = MenuExtension()
         menu_extensions["Abby The Witch Main"] = []
         menu_extensions["Xeona Main"] = []
@@ -61,14 +59,12 @@
         tgs.sexual = [i for i in traits.values() if i.sexual] # This is a subset of character traits!
         tgs.race = [i for i in traits.values() if i.race]
         tgs.client = [i for i in traits.values() if i.client]
-        tl.timer("Loading: Traits")
         
-        tl.timer("Loading: Items")
+        tl.timer("Loading: Items", nested=False)
         items = load_items()
         items.update(load_gifts())
-        tl.timer("Loading: Items")
         
-    $ tl.timer("Loading: Battle Skills")
+    $ tl.timer("Loading: Battle Skills", nested=False)
     $ battle_skills = dict()
     call load_battle_skills
     $ tl.timer("Loading: Battle Skills")
@@ -84,14 +80,12 @@
         temp = [TestingJob(), WhoreJob(), StripJob(), ServiceJob(), BarJob(), Manager(), CleaningJob(), GuardJob()]
         simple_jobs = {j.id: j for j in temp}
         del temp
-        tl.timer("Loading: SimpleJobs")
         
-        tl.timer("Loading: Businesses")
+        tl.timer("Loading: Businesses", nested=False)
         adverts = load_json("buildings/adverts.json")
         businesses = load_businesses(adverts)
-        tl.timer("Loading: Businesses")
         
-        tl.timer("Loading: Training")
+        tl.timer("Loading: Training", nested=False)
         schools = load_schools()
         pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
         pytRelayProxyStore = shallowcopy(pytRelayProxyStore)
@@ -134,16 +128,14 @@
         
         tl.timer("Loading: Mobs")
         mobs = load_mobs()
-        tl.timer("Loading: Mobs")     
         
-        tl.timer("Loading: Exploration")
+        tl.timer("Loading: Exploration", nested=False)
         # pytfall.forest_1 = Exploration()
         fg_areas = load_fg_areas()
-        tl.timer("Loading: Exploration")  
         
         # ---------------------------------------
         # Temporary code
-        tl.timer("Loading: Generating Random girls")
+        tl.timer("Loading: Generating Random girls", nested=False)
         
         # Some random girls (if there are any):
         if rchars:
@@ -162,13 +154,11 @@
             del new_random_girl
                 
             create_arena_girls()
-        tl.timer("Loading: Generating Random girls")
 
-        tl.timer("Loading: GirlsMeets")
+        tl.timer("Loading: GirlsMeets", nested=False)
         gm = GirlsMeets()
-        tl.timer("Loading: GirlsMeets")
         
-        tl.timer("Loading: Populating SlaveMarket")
+        tl.timer("Loading: Populating SlaveMarket", nested=False)
         pytfall.sm.populate_chars_list()
         tl.timer("Loading: Populating SlaveMarket")
         

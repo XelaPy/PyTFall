@@ -63,16 +63,22 @@ init -999 python:
         Failed to use RenPy log, switching to dev.
         '''
         def __init__(self):
-            self.log = dict()
-            
-        def timer(self, msg="default"):
+            self._log = []
+
+        def timer(self, msg="default", nested=True):
             if config.developer:
-                if msg in self.log:
-                    devlog.info("%s took %s secs to run!"%(msg, time.time() - self.log[msg]))
-                    del(self.log[msg])
+                if not nested or self._log and msg == self._log[-1][0]:
+                    (old_msg, timed) = self._log.pop()
+                    devlog.info("%s took %s secs to run!"%(old_msg, time.time() - timed))
+                    if old_msg == msg:
+                        return
                 else:
-                    self.log[msg] = time.time()
-                    devlog.info("Starting timer: %s"%msg)
+                    found = [i for i in range(0, len(self._log)) if self._log[i][0] == msg]
+                    if found:
+                        renpy.error("timing of %s wasn't last on the stack, later timings were:\n%s"%(msg, str(logs[found[0]:])))
+
+                self._log.append((msg, time.time()))
+                devlog.info("Starting timer: %s"%msg)
 
     tl = TimeLog()
     tl.timer("Ren'Py User Init!")
@@ -332,7 +338,7 @@ init -999 python:
         x, y = renpy.get_mouse_pos()
         return Text("{size=-5}%d - %d"%(x, y)), .1
 
-    class JasonSchemator(object):
+    class JsonSchemator(object):
         def __init__(self, action=None):
             self.action = action if action is not None else "skip" # the default: no validation.
 
@@ -410,7 +416,7 @@ init -999 python:
                 renpy.error(os.linesep.join(self._err))
 
     # set to False to update existing json files in schema directory, None skips validation and writing
-    jsstor = JasonSchemator()
+    jsstor = JsonSchemator()
 
     # -------------------------------------------------------------------------------------------------------- Ends here
 

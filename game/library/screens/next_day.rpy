@@ -181,19 +181,15 @@ label next_day_calculations:
                     girl = choice(strippers)
                     StripJob(girl, building, strippers, clients)
                 
-                tl.timer("StripJob")
-                
                 ##### First round of Service Girls is next #####
-                tl.timer("ServiceJob(1)")
+                tl.timer("ServiceJob(1)", nested=False)
                 girls = service_girls
                 while service_girls:
                     girl = choice(service_girls)
                     ServiceJob(girl, building, service_girls, clients)
                 
-                tl.timer("ServiceJob(1)")
-                
                 ###### Whores do their thing! #######
-                tl.timer("WhoreJob")
+                tl.timer("WhoreJob", nested=False)
                 girls = whores
                 while whores and clients and not stop_whore_job:
                     client = clients.pop()
@@ -209,10 +205,8 @@ label next_day_calculations:
                     
                     WhoreJob(whore, client, building, whores, clients)
                 
-                tl.timer("WhoreJob")
-                
                 ##### Second round for Service Girls (Just cleaning this time) #####
-                tl.timer("ServiceJob(2)")
+                tl.timer("ServiceJob(2)", nested=False)
                 service_girls = list(girl for girl in hero.chars if girl.location == building and girl.action == 'ServiceGirl')
                 girls = service_girls
                 building.servicer['second_round'] = True
@@ -220,35 +214,28 @@ label next_day_calculations:
                     girl = choice(service_girls)
                     ServiceJob(girl, building, service_girls, clients)
                 
-                tl.timer("ServiceJob(2)")
-                
                 ##### Guard Job events and reports #####
-                tl.timer("GuardJob")
+                tl.timer("GuardJob", nested=False)
                 guards = list(girl for girl in hero.chars if girl.location == building and girl.action == 'Guard')
                 girls = guards
                 while guards:
                     girl = choice(guards)
                     GuardJob(girl, building, guards)
                 
-                tl.timer("GuardJob")
-                
                 ###### Rest job in buildings #######
-                tl.timer("RestJob")
+                tl.timer("RestJob", nested=False)
                 resting = list(girl for girl in hero.chars if girl.location == building and girl.action in ['Rest', 'AutoRest'])
                 girls = resting
                 for girl in resting:
                     Rest(girl, building, resting)
                 
-                tl.timer("RestJob")
-                
     python:
         # Append building report to the list
-        tl.timer("Building.next_day")
+        tl.timer("Building.next_day", nested=False)
         if len(nd_buildings):
             building.next_day()
-        tl.timer("Building.next_day")
             
-    $ tl.timer("Buildings")
+    $ tl.timer("Buildings", nested=False)
         ################## Building events END ##################
         #   
         #
@@ -267,31 +254,26 @@ label next_day_calculations:
             tl.timer("TrainingJob")
             while girls:
                 TrainingJob(choice(girls), school, girls)
-            tl.timer("TrainingJob")
             
             # Guards go next for runaway events
-            tl.timer("SchoolGuardJob")
+            tl.timer("SchoolGuardJob", nested=False)
             while guards:
                 SchoolGuardJob(choice(guards), school, guards)
-            tl.timer("SchoolGuardJob")
             
             # Trainers last for disobey events
-            tl.timer("TrainerJob")
+            tl.timer("TrainerJob", nested=False)
             while trainers:
                 TrainerJob(choice(trainers), school, trainers)
-            tl.timer("TrainerJob")
             
             if school.is_school:
-                tl.timer("School.next_day")
+                tl.timer("School.next_day", nested=False)
                 school.next_day()
-                tl.timer("School.next_day")
             
             else:
-                tl.timer("TrainingDungeon.next_day")
+                tl.timer("TrainingDungeon.next_day", nested=False)
                 school.next_day()
-                tl.timer("TrainingDungeon.next_day")
         
-        tl.timer("Training")
+        tl.timer("Training", nested=False)
         ################## Training events End ##################
         #
         #
@@ -302,17 +284,15 @@ label next_day_calculations:
             while girls:
                 EscapeeSearchJob(choice(girls), building, girls)
         
-        tl.timer("Searching")
         ################## Searching events End ####################
         #
         #
         ################## Exploration ########################
-        # tl.timer("Fighers Guild")
+        # tl.timer("Fighers Guild", nested=False)
         # if fg in hero.buildings:
             # fg.next_day()
-        # tl.timer("Fighers Guild")    
         ################## Logic #############################
-        tl.timer("pytfall + calender.next_day")
+        tl.timer("pytfall + calender.next_day", nested=False)
         pytfall.next_day()
         calendar.next() # day + 1 is here.
         tl.timer("pytfall + calender.next_day")

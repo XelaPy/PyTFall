@@ -2250,29 +2250,23 @@
             self.check_life()
             if not self.finished: self.check_injury()
             if not self.finished: self.check_vitality()
-            # tl.timer("Life/Injury/Vitality")
             
-            # tl.timer("Occupation")
+            # tl.timer("Occupation", nested=False)
             if not self.finished: self.check_occupation()
-            # tl.timer("Occupation")
             
-            # tl.timer("Client Relay")
+            # tl.timer("Client Relay", nested=False)
             if not self.finished: self.client_relay()
-            # tl.timer("Client Relay")
             
-            # tl.timer("Setting task")
+            # tl.timer("Setting task", nested=False)
             if not self.finished: self.set_task()
-            # tl.timer("Setting task")
             
-            # tl.timer("Bar")
+            # tl.timer("Bar", nested=False)
             if self.task == "Bar" and not self.finished: self.bar_task()
-            # tl.timer("Bar")
             
-            # tl.timer("Club")
+            # tl.timer("Club", nested=False)
             if self.task == 'Club' and not self.finished: self.club_task()
-            # tl.timer("Club")
             
-            # tl.timer("Clean")
+            # tl.timer("Clean", nested=False)
             if not self.finished: self.cleaning_task()
             # tl.timer("Clean")
         
