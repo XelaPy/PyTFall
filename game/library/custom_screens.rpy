@@ -861,37 +861,12 @@ init: # PyTFall:
             pos (x, y)
             anchor (xval, yval)
             has vbox
-            # Updating to new code: *Ugly code atm, TODO: Fix IT!
             for building in hero.buildings:
-                if isinstance(building, NewStyleUpgradableBuilding):
-                    if char.action in building.jobs:
-                        $ can_keep_action = True
-                    else:
-                        $ can_keep_action = False
-                    if can_keep_action:
-                        textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                    else:
-                        textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                elif building.free_rooms():
-                    $ can_keep_action = False
-                    if isinstance(building, Building):
-                        if char.action in Building.ACTIONS:
-                            $ can_keep_action = True
-                    elif isinstance(building, FighterGuild):
-                        if char.action in FighterGuild.ACTIONS:
-                            $ can_keep_action = True
-                    elif hasattr(building, "actions"):
-                        if char.action in building.actions:
-                            $ can_keep_action = True
-                    if can_keep_action:
-                        textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                    else:
-                        textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-            
+                if isinstance(building, NewStyleUpgradableBuilding) or building.free_rooms():
+                    textbutton "[building.name]":
+                        action [SelectedIf(char.location==building)] + ([] if char.action in building.jobs else [SetField(char, "action", None)])
+                             + [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+
             textbutton "Home":
                 action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]
             
