@@ -209,5 +209,17 @@ label mc_setup_mage_sorcerer_winter_win:
     return
     
 label mc_setup_mage_researcher_android:
-    $ pass
+    $ hero.apply_trait("Artificial Body Structure")
+    return
+    
+label mc_setup_mage_researcher_android_ele:
+    $ hero.apply_trait("Master of Electricity")
+    return
+    
+label mc_setup_mage_researcher_android_loop:
+    $ hero.apply_trait("Looped Physiology")
+    return
+    
+label mc_setup_mage_researcher_android_recharge:
+    $ hero.apply_trait("Recharging")
     return

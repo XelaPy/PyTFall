@@ -568,7 +568,7 @@
     "slot": "consumable",
     "type": "permanent",
     "mod": {"health": 10000, "joy": -50, "vitality": -400},
-    "removeeffects": ["Poison", "Down with Cold"],
+    "removeeffects": ["Poisoned", "Down with Cold"],
     "locations": ["Exploration"]
     },
     {

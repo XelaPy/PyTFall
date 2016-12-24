@@ -2462,6 +2462,8 @@ init -9 python:
                     self.stats.min[key] += int(item.min[key]*1.3)
                 else:
                     self.stats.min[key] += item.min[key]
+            if "Recharging" in self.traits and item.slot == 'consumable' and not (item.slot == 'consumable' and item.ctemp) and not("mp" in item.mod):
+                self.mod_stat("mp", 10)
             for key in item.mod:
                 if key == "health" and self.health + item.mod[key] <= 0:
                     self.health = 1 # prevents death by accident...
