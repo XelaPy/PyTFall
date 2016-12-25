@@ -4,6 +4,7 @@ init -8 python:
 
     class Delegator(_object):
         def __init__(self, l, at, remedy=None, *args, **kwargs):
+            self._attrs = ['lst', '_remedy', '_at']
             self.lst = l
             self._at = at
             self._remedy = {} if remedy is None else remedy
@@ -88,6 +89,13 @@ init -8 python:
 
             return self._defer(arr=[getattr(c, item) for c in self.lst], at=".%s" % item)
 
+        def __setattr__(self, k, v):
+            if k != '_attrs' and k not in self._attrs:
+                for c in self.lst:
+                    setattr(c, k, v)
+            else:
+                super(Delegator, self).__setattr__(k, v)
+
 
     class DeDist(Delegator):
 
@@ -115,23 +123,7 @@ init -8 python:
             return len(self._first)
 
 
-    class DeAttr(Delegator):
-        """ only provides obvious solutions, everything else needs a remedy """
-
-        def __init__(self, *args, **kwargs):
-            # attributes of this class are added here to prevent infinite __setattr__ recursion
-            self._attrs = ['lst', '_remedy', '_at']
-            super(DeAttr, self).__init__(*args, **kwargs)
-
-        def __setattr__(self, k, v):
-            if k != '_attrs' and k not in self._attrs:
-                for c in self.lst:
-                    setattr(c, k, v)
-            else:
-                super(DeAttr, self).__setattr__(k, v)
-
-
-    class PytGInv(DeAttr):
+    class PytGInv(Delegator):
 
         def __init__(self, inv):
             super(PytGInv, self).__init__(l=inv, at="inventory")
@@ -198,7 +190,7 @@ init -8 python:
             all([x.append(item, amount) for x in self.lst])
 
 
-    class PytGroup(DeAttr):
+    class PytGroup(Delegator):
 
         def __init__(self, chars):
             remedy = {
@@ -217,7 +209,7 @@ init -8 python:
             self.nickname = "group"
             self.effects = {}
             stat_remedy = {'.stats._get_stat()': self._average, '.stats._raw_skill()': self._average}
-            self._stats = DeAttr(l=[c.stats for c in self.lst], remedy=stat_remedy, at=".stats")
+            self._stats = Delegator(l=[c.stats for c in self.lst], remedy=stat_remedy, at=".stats")
             self.unselected = set()
 
         def __new__(cls, chars):
