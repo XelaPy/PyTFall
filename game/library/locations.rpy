@@ -23,11 +23,11 @@ init -20 python:
 
         if isinstance(actor.location, basestring):
             devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
-        else:
+        elif actor.location:
             try:
                 actor.location.remove(actor)
             except KeyError, e:
-                renpy.error("%s is not in %s (but has it as its location)"%(actor.name, actor.location.name))
+                devlog.warn("%s is not in %s (but has it as its location)"%(actor.name, str(actor.location)))
 
         actor.location = loc
         if isinstance(loc, Location):
