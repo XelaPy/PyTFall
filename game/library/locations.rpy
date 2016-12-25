@@ -63,7 +63,7 @@ init -20 python:
     class Apartments(Location):
         """
         Another Dummy Location, this one is used for free characters that have a place to live of their own.
-        This maybe replaced later by actually apartments for every character.
+        This maybe replaced later by actual apartments for every character.
         """
         def __init__(self):
             super(Apartments, self).__init__()

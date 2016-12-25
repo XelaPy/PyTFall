@@ -302,7 +302,6 @@ screen chars_list(source=None, page=0, total_pages=1):
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
-                    #button:
             
     use top_stripe(True)
     
