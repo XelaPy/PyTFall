@@ -1104,8 +1104,22 @@ label load_battle_skills:
                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
     # Buffs:
-        DefenceBuffSpell("Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": .5}, mp_cost=100, range=4, type="sa",
-                                     desc="Sets up a force field around the target, partly shielding from magical damage.",
+        DefenceBuffSpell("Fragile Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": .2}, mp_cost=0.1, range=4, type="sa",
+                                     desc="Sets up a frail force field around the target, partly shielding from magical damage.",
+                                     attacker_effects={"gfx": "dark_1", "sfx": "default"},
+                                     main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                                     target_sprite_damage_effect={"gfx": None},
+                                     target_damage_effect={"gfx": None},
+                                     target_death_effect={"gfx": None})
+        DefenceBuffSpell("Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": .5}, mp_cost=0.3, range=4, type="sa",
+                                     desc="Sets up a force field around the target, shielding from magical damage.",
+                                     attacker_effects={"gfx": "dark_1", "sfx": "default"},
+                                     main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                                     target_sprite_damage_effect={"gfx": None},
+                                     target_damage_effect={"gfx": None},
+                                     target_death_effect={"gfx": None})
+        DefenceBuffSpell("Perfect Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": 2.0}, mp_cost=0.5, range=4, type="sa",
+                                     desc="Sets up a perfectly built force field around the target, completely shielding from magical damage.",
                                      attacker_effects={"gfx": "dark_1", "sfx": "default"},
                                      main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                                      target_sprite_damage_effect={"gfx": None},

@@ -412,7 +412,13 @@ label build_mc_stories:
                                                                       )
                                                                       
         mc_stories["Mage"]["MC"]["Researcher"]["choices"] = OrderedDict(l="Android",
-                                                                      l_img="content/gfx/interface/images/mc/android.jpg"
+                                                                      l_img="content/gfx/interface/images/mc/android.jpg",
+                                                                      l0="Creature of Electricity",
+                                                                      l0_img="content/gfx/interface/images/mc/ele.png",
+                                                                      l1="Looped Physiology",
+                                                                      l1_img="content/gfx/interface/images/mc/loop.png",
+                                                                      l2="Recharge",
+                                                                      l2_img="content/gfx/interface/images/mc/recharge.png"
                                                                       )
                                                                       
         mc_stories["Mage"]["MC"]["Researcher"]["Android"] = {} 
@@ -420,6 +426,18 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Researcher"]["Android"]["text"] = "During one of his expeditions he found an ancient faulty android. Eventually he managed to repair her and reprogram to be his personal assistant. Very personal."
         mc_stories["Mage"]["MC"]["Researcher"]["Android"]["label"] = "mc_setup_mage_researcher_android"
         mc_stories["Mage"]["MC"]["Researcher"]["Android"]["class"] = "Assassin"
+        
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Creature of Electricity"] = {}
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Creature of Electricity"]["text"] = "Electricity spells heal you instead of hurting, but your Water spells are almost ineffective."
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Creature of Electricity"]["label"] = "mc_setup_mage_researcher_android_ele"
+        
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Looped Physiology"] = {}
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Looped Physiology"]["text"] = "Healing spells don't affect you, but your vitality cannot become zero no matter what."
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Looped Physiology"]["label"] = "mc_setup_mage_researcher_android_loop"
+        
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Recharge"] = {}
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Recharge"]["text"] = "Most consumables that usually don't restore mp do it for you when you consume them."
+        mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Recharge"]["label"] = "mc_setup_mage_researcher_android_recharge"
                                                                       
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"] = {} 
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["header"] = "Winter Fay"

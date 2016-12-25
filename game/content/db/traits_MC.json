@@ -14,6 +14,13 @@
     "permanent": true
     },
     {
+    "id": "Artificial Body Structure",
+    "desc": "Due to your unusual heritage you have additional supply of health, vitality and mp.",
+    "max": {"mp": 50, "health": 50, "vitality": 50},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
     "id": "Yuri Expert",
     "desc": "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good.",
     "mod_skills": {"oral": [0, 0.1, 0.1]},
@@ -292,6 +299,29 @@
     "desc": "Ice spells heal you instead of hurting, but your Fire spells are almost ineffective.",
     "el_damage": {"fire": -0.9},
     "el_absorbs": {"ice": 0.15},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Master of Electricity",
+    "desc": "Electricity spells heal you instead of hurting, but your Water spells are almost ineffective.",
+    "el_damage": {"water": -0.9},
+    "el_absorbs": {"electricity": 0.15},
+    "MC_only_trait": true,
+    "permanent": true
+    },
+    {
+    "id": "Looped Physiology",
+    "desc": "Healing spells don't affect you, but your vitality cannot become zero no matter what.",
+    "min": {"vitality": 5},
+    "resist": ["healing"],
+    "MC_only_trait": true,
+    "permanent": true,
+    "blocks": ["Healing Immunity"]
+    },
+    {
+    "id": "Recharging",
+    "desc": "Most consumables that usually don't restore mp do it for you when you consume them.",
     "MC_only_trait": true,
     "permanent": true
     },
