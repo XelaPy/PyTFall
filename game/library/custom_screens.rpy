@@ -816,7 +816,7 @@ init: # PyTFall:
             elif hasattr(char.location, "actions"):
                 for entry in char.location.actions:
                     if entry == "Guard":
-                        if char.status != "slave" and ("Warrior" in char.occupations or char.disposition <= 950):
+                        if char.status not in ("slave", "various") and ("Warrior" in char.occupations or char.disposition <= 950):
                             textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                     

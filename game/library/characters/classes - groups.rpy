@@ -194,9 +194,9 @@ init -8 python:
 
         def __init__(self, chars):
             remedy = {
-                ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller,
-                ".status": "various", ".action": "various", ".location": "various",
-                ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [],
+                ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller, ".home": ".home",
+                ".status": "various", ".location": "various", ".action": "Several jobs", ".disposition": min,
+                ".autobuy": [], ".front_row": [], ".autoequip": [], ".autocontrol{}": [], ".sex_acts{}": [],
                 "flatten": [".traits", ".attack_skills", ".magic_skills"]
             }
             super(PytGroup, self).__init__(l=chars, remedy=remedy, at="")
@@ -224,6 +224,16 @@ init -8 python:
 
         def __len__(self):
             return len(self.lst)
+
+        @property
+        def action(self):
+            return self._defer(arr=[c.action for c in self.lst], at=".action")
+
+
+        @action.setter
+        def name(self, v):
+            for c in self.lst:
+                c.action = v
 
         @property
         def name(self):

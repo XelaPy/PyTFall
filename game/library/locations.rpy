@@ -11,15 +11,28 @@ init -20 python:
         All actors have (or should have) a location property.
         This functions attempts to remove them from their present location and put them in a new one.
         """
-        try:
-            actor.location.remove(actor)
-            actor.location = loc
-            if isinstance(loc, Location):
-                loc.add(actor)
-        except:
-            devlog.warning("Could not properly relocate actor: {} to from location: {} to location: {}".format(actor.id, actor.location, loc))
-            actor.location = loc
-            
+        # should probably move to character class, so this can be done in PytGroup.change_location()
+        if isinstance(actor, PytGroup):
+            if loc == ".home":
+                for c in actor.lst:
+                    change_location(c, c.home)
+            else:
+                for c in actor.lst:
+                    change_location(c, loc)
+            return
+
+        if isinstance(actor.location, basestring):
+            devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
+        else:
+            try:
+                actor.location.remove(actor)
+            except KeyError, e:
+                renpy.error("%s is not in %s (but has it as its location)"%(actor.name, actor.location.name))
+
+        actor.location = loc
+        if isinstance(loc, Location):
+            loc.add(actor)
+
     def set_location(actor, loc):
         """
         This plainy forces a location on an actor.

@@ -526,6 +526,10 @@ init -11 python:
         
         Note: Due to older logic, this function expects job argument to be None when a character is made jobless by player input or game logic!
         """
+        if isinstance(char, PytGroup):
+            for c in char.lst:
+                set_char_to_work(c, building, job)
+            return
         if job is False:
             available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
             job = choice(available_jobs) if available_jobs else None

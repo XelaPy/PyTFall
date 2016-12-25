@@ -813,6 +813,40 @@ screen girl_control():
         vbox:
             style_group "basic"
             align (0.55, 0.5)
+            if isinstance(char, PytGroup):
+                if char not in pytfall.ra:
+                    button:
+                        xysize (200, 32)
+                        style_group "basic"
+                        action Return(["dropdown", "loc", char])
+                        hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
+
+                        if len(str(char.location)) > 18:
+                            text "[char.location]" size 15
+
+                        elif len(str(char.location)) > 10:
+                            text "[char.location]" size 18
+
+                        else:
+                            text "Location: [char.location]" size 18
+                    button:
+                        xysize (200, 32)
+                        style_group "basic"
+                        action Return(["dropdown", "action", char])
+                        hovered tt.Action("Choose a task for %s to do!" % char.nickname)
+                        if len(str(char.action)) > 18:
+                            text "[char.action]" size 15
+
+                        elif len(str(char.action)) > 12:
+                            text "[char.action]" size 18
+
+                        else:
+                            text "Action: [char.action]" size 18
+
+                else:
+                    text "{size=15}Location: Unknown"
+                    text "{size=15}Action: Hiding"
+            null height 30
             button:
                 action If(char.status not in ("slave", "various"), true=ToggleField(char, "front_row"))
                 xysize (200, 32)
