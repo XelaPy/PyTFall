@@ -206,7 +206,7 @@ init -10 python:
             
             # Only get girls that are training
             elif action == "Course":
-                g = [girl for girl in hero.chars if girl.location is self and girl.action is not None and girl.action.endswith("Course") != nott]
+                g = [girl for girl in hero.chars if girl.location is self and isinstance(girl.action, basestring) and girl.action.endswith("Course") != nott]
             
             # Only get girls with specific action
             else:
