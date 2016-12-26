@@ -23,7 +23,7 @@ init -20 python:
 
         if isinstance(actor.location, basestring):
             devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
-        elif actor.location:
+        elif actor.location and hasattr(actor.location, "remove"):
             try:
                 actor.location.remove(actor)
             except KeyError, e:
