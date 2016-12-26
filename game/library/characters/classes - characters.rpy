@@ -1726,7 +1726,7 @@ init -9 python:
             *kind = is a string refering to the NPC
             """
             # Any training:
-            char.exp += self.adjust_exp(randint(20, max(25, self.luck)))
+            self.exp += self.adjust_exp(randint(20, max(25, self.luck)))
 
             if kind == "train_with_witch":
                 self.magic += randint(1, 2)
