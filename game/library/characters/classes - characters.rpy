@@ -3507,6 +3507,7 @@ init -9 python:
         # ----------------------------------------------------------------------------------
         # Next Day:
         def nd_auto_train(self):
+            txt = ""
             if self.flag("train_with_witch"):
                 if self.get_free_ap():
                     if self.take_money(self.get_training_price(), "Training"):
@@ -3542,8 +3543,10 @@ init -9 python:
                        self.del_flag("train_with_xeona")
                 else:
                     txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+            return txt
 
         def nd_pay_taxes(self):
+            txt = ""
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
                 txt += "\nIt's time to pay taxes!\n"
                 income = dict()
@@ -3706,6 +3709,7 @@ init -9 python:
                             txt += " You've been declared bankrupt and your debt is now Null and Void!"
                         self.fin.income_tax_debt = 0
                         self.fin.property_tax_debt = 0
+            return txt
 
         def next_day(self):
             # ND Logic....
@@ -3760,14 +3764,14 @@ init -9 python:
                                         self.mod_stat(stat, 1)
 
             # Training with NPCs --------------------------------------->
-            self.nd_auto_train()
+            txt += self.nd_auto_train()
 
             # -------------
             # Finances related
             self.fin.next_day()
 
             # Taxes:
-            self.nd_pay_taxes()
+            txt += self.nd_pay_taxes()
 
             # ------------
             # Stats log:
