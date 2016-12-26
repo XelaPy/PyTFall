@@ -439,7 +439,7 @@
                 # Get all jobs that are not a match to the character basetraits and are below disposition treshold:
                 if char.disposition > self.disposition_threshold:
                     return True
-                else:
+                elif not isinstance(char, PytGroup):
                     if [t for t in self.all_occs if t in char.occupations]:
                         return True
                             

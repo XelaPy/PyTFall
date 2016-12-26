@@ -57,7 +57,7 @@ label girl_training:
                 # Schooling
                 if training_screen_current.is_school:
                     # Slave and combat incompatibility
-                    if result[1].type == "Combat" and (char.status == "slave" if isinstance(char, Char) else any(c.status == "slave" for c in char)):
+                    if result[1].type == "Combat" and char.status in ("slave", "various"):
                         renpy.call_screen("message_screen", "Slaves cannot be trained as Warriors!")
                     
                     else:
