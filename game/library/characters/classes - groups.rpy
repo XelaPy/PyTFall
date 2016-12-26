@@ -117,7 +117,7 @@ init -8 python:
             if isinstance(self._first, dict):
                 return iter({k: self._defer(arr=[x[k] for x in self.lst]) for k in self._first})
 
-            return iter(self._defer(arr=[x[i] for x in self.lst]) for i in range(len(self._first)))
+            return iter(self._defer(arr=[list(x)[i] for x in self.lst]) for i in range(len(self._first)))
 
         def __len__(self):
             return len(self._first)
